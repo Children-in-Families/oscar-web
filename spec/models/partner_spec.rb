@@ -22,6 +22,8 @@ describe Partner, 'scopes' do
   let!(:ngo_partner){ create(:partner, organization_type_id: ngo.id) }
   let!(:local_goverment_partner){ create(:partner, organization_type_id: local_goverment.id) }
   let!(:church_partner){ create(:partner, organization_type_id: church.id) }
+  let!(:agency_partner){ create(:partner, partner_type: ['agency']) }
+  let!(:referral_source_partner){ create(:partner, partner_type: ['referral source']) }
   context 'name like' do
     let!(:partners){ Partner.name_like(partner.name.downcase) }
     it 'should include partner name like' do
@@ -126,6 +128,20 @@ describe Partner, 'scopes' do
     it 'should not include not ngo' do
       is_expected.not_to include(local_goverment_partner)
       is_expected.not_to include(ngo_partner)
+    end
+  end
+
+  context 'type is' do
+    context 'agency' do
+      subject{ Partner.type_is('agency') }
+      it { is_expected.to include(agency_partner) }
+      it { is_expected.not_to include(referral_source_partner) }
+    end
+
+    context 'referral source' do
+      subject{ Partner.type_is('referral source') }
+      it { is_expected.to include(referral_source_partner) }
+      it { is_expected.not_to include(agency_partner) }
     end
   end
 end

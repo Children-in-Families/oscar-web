@@ -54,6 +54,10 @@ class PartnerGrid
 
   filter(:start_date, :date, range: true, header: -> { I18n.t('datagrid.columns.partners.start_date') })
 
+  filter(:partner_type, :enum, select: ['', 'Agency', 'Referral Source'], header: -> { I18n.t('datagrid.columns.partners.partner_type') }) do |value, scope|
+    scope.type_is(value.downcase)
+  end
+
   column(:id, header: -> { I18n.t('datagrid.columns.partners.id') })
 
   column(:name, html: true, order: 'LOWER(partners.name)', header: -> { I18n.t('datagrid.columns.partners.name') }) do |object|
@@ -87,6 +91,10 @@ class PartnerGrid
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.partners.province') }) do |object|
     object.province.try(:name)
+  end
+
+  column(:partner_type, order: 'partners.partner_type', header: -> { I18n.t('datagrid.columns.partners.partner_type') }) do |object|
+    object.try(:partner_type).join(',').titleize
   end
 
   dynamic do

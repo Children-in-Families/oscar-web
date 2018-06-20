@@ -420,7 +420,7 @@ class ClientGrid
   end
 
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
-    object.agencies.pluck(:name).join(', ')
+    object.partners.pluck(:name).join(', ')
   end
 
   column(:date_of_birth, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })

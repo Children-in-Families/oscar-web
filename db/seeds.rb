@@ -59,5 +59,5 @@ Setting.first_or_create(country_name: 'cambodia', assessment_frequency: 'month',
 User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', password: ENV['OSCAR_TEAM_PASSWORD']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
 
 Organization.oscar.pluck(:full_name).each do |ngo|
-  Partner.find_or_create_by(name: "#{ngo} - OSCaR Referral")
+  Partner.create_with(partner_type: ['referral source']).find_or_create_by(name: "#{ngo} - OSCaR Referral")
 end

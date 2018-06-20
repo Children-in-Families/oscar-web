@@ -78,10 +78,11 @@ class PartnersController < AdminController
   private
 
   def partner_params
+    params.dig(:partner, :partner_type).reject!(&:blank?)
     params.require(:partner).permit(:name, :contact_person_name, :engagement,
                                     :contact_person_email, :contact_person_mobile, :affiliation,
                                     :background, :start_date, :address, :organization_type_id,
-                                    :province_id, custom_field_ids: [])
+                                    :province_id, custom_field_ids: [], partner_type: [])
   end
 
   def find_partner

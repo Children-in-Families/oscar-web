@@ -71,8 +71,6 @@
                     = link_to t('.csi_tools'), settings_path
                   %li{ class: settings_menu_active('settings', 'default_columns') }
                     = link_to t('.default_columns'), default_columns_settings_path
-            %li{ class: active_menu('agencies') }
-              = link_to t('.agencies'), agencies_path
             - if can? :read, :all
               %li{ class: active_menu('departments') }
                 = link_to t('.departments'), departments_path
@@ -92,8 +90,6 @@
               -#   = link_to t('.provinces'), provinces_path
               -# %li{ class: active_menu('districts') }
               -#   = link_to t('.districts'), districts_path
-              %li{ class: active_menu('referral_sources') }
-                = link_to t('.referral_sources'), referral_sources_path
               %li{ class: active_menu('quantitative_types') }
                 = link_to t('.quantitative_types'), quantitative_types_path
               %li{ class: active_menu('custom_fields') }
@@ -115,9 +111,6 @@
                     = link_to t('.program_streams'), program_streams_path
                   - else
                     %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
-              - if can? :read, ReferralSource
-                %li{ class: active_menu('referral_sources') }
-                  = link_to t('.referral_sources'), referral_sources_path
         - if can? :read, DataTracker
           %li{ class: active_menu('data_trackers') }
             = link_to data_trackers_path do

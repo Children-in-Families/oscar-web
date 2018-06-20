@@ -105,7 +105,7 @@ class Client < ActiveRecord::Base
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,                       ->        { joins(:partners).where("'referral source' = ANY (partners.partner_type)").pluck('partners.name', 'partners.id').uniq }
+  scope :referral_source_is,                       ->        { joins(:referral_source).where("'referral source' = ANY (partners.partner_type)").pluck('partners.name', 'partners.id').uniq }
   scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }

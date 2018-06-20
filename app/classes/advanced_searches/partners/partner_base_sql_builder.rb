@@ -4,6 +4,7 @@ module AdvancedSearches
       ASSOCIATION_FIELDS = ['form_title']
       BLANK_FIELDS = ['start_date', 'organization_type_id']
       SENSITIVITY_FIELDS = %w(name contact_person_name address email contact_person_mobile engagement affiliation background)
+      ARRAY_FIELDS = %w(partner_type)
 
       def initialize(partners, rules)
         @partners     = partners
@@ -54,6 +55,9 @@ module AdvancedSearches
           if SENSITIVITY_FIELDS.include?(field)
             @sql_string << "lower(partners.#{field}) = ?"
             @values << value.downcase
+          elsif ARRAY_FIELDS.include?(field)
+            @sql_string << "? = ANY (partners.#{field})"
+            @values << value.downcase
           else
             @sql_string << "partners.#{field} = ?"
             @values << value
@@ -62,6 +66,9 @@ module AdvancedSearches
         when 'not_equal'
           if SENSITIVITY_FIELDS.include?(field)
             @sql_string << "lower(partners.#{field}) != ?"
+            @values << value.downcase
+          elsif ARRAY_FIELDS.include?(field)
+            @sql_string << "? != ANY (#{field})"
             @values << value.downcase
           else
             @sql_string << "partners.#{field} != ?"
@@ -95,6 +102,8 @@ module AdvancedSearches
         when 'is_empty'
           if BLANK_FIELDS.include? field
             @sql_string << "partners.#{field} IS NULL"
+          elsif ARRAY_FIELDS.include?(field)
+            @sql_string << "partners.#{field} = '{}'"
           else
             @sql_string << "(partners.#{field} IS NULL OR partners.#{field} = '')"
           end
@@ -102,6 +111,8 @@ module AdvancedSearches
         when 'is_not_empty'
           if BLANK_FIELDS.include? field
             @sql_string << "partners.#{field} IS NOT NULL"
+          elsif ARRAY_FIELDS.include?(field)
+            @sql_string << "partners.#{field} != '{}'"
           else
             @sql_string << "(partners.#{field} IS NOT NULL AND partners.#{field} != '')"
           end

@@ -33,7 +33,8 @@ module AdvancedSearches
         [
           ['province_id', provinces],
           ['form_title', partner_custom_form_options],
-          ['organization_type_id', organization_types]
+          ['organization_type_id', organization_types],
+          ['partner_type', { agency: 'Agency', 'referral source': 'Referral Source' }]
         ]
       end
 

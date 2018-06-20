@@ -152,7 +152,8 @@ module AdvancedSearchHelper
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
       background:                               I18n.t('datagrid.columns.partners.background'),
       start_date:                               I18n.t('datagrid.columns.partners.start_date'),
-      form_title:                               I18n.t('datagrid.columns.partners.form_title')
+      form_title:                               I18n.t('datagrid.columns.partners.form_title'),
+      partner_type:                             I18n.t('datagrid.columns.partners.partner_type')
     }
     translations[key.to_sym] || ''
   end

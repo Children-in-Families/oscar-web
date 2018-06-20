@@ -29,6 +29,5 @@ class Partner < ActiveRecord::Base
   scope :NGO,                        ->        { joins(:organization_type).where(organization_types: { name: 'NGO' }) }
   scope :local_goverment,            ->        { joins(:organization_type).where(organization_types: { name: 'Local Goverment' }) }
   scope :church,                     ->        { joins(:organization_type).where(organization_types: { name: 'Church' }) }
-  scope :is_agencies,                ->        { where("'agency' = ANY (partner_type)") }
-  scope :is_referral_sources,        ->        { where("'referral source' = ANY (partner_type)") }
+  scope :type_is,                    ->(value) { where("? = ANY (partner_type)", value) }
 end

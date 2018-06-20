@@ -160,7 +160,7 @@ class ClientsController < AdminController
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
-            agency_ids: [],
+            partner_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
@@ -175,8 +175,8 @@ class ClientsController < AdminController
   end
 
   def set_association
-    @agencies        = Partner.is_agencies.order(:name)
-    @referral_source = Partner.is_referral_sources.order(:name)
+    @agencies        = Partner.type_is('agency').order(:name)
+    @referral_source = Partner.type_is('referral source').order(:name)
     @donors          = Donor.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
