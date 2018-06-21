@@ -3390,7 +3390,7 @@ en:
       engagement: Engagement
       id: ID
       name: Name
-      organisztion_type: Organisation Type
+      organization_type: Organisation Type
       partner_type: Partner Type
       province: Province
       start_date: Start Date
