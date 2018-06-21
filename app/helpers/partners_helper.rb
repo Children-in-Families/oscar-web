@@ -7,7 +7,7 @@ module PartnersHelper
       contact_person_email:                     t('datagrid.columns.partners.contact_email'),
       contact_person_mobile:                    t('datagrid.columns.partners.contact_mobile'),
       address:                                  t('datagrid.columns.partners.address'),
-      organization_type:                        t('datagrid.columns.partners.organisation_type'),
+      organization_type:                        t('datagrid.columns.partners.organization_type'),
       affiliation:                              t('datagrid.columns.partners.affiliation'),
       province_id:                              t('datagrid.columns.partners.province'),
       engagement:                               t('datagrid.columns.partners.engagement'),
@@ -32,7 +32,7 @@ module PartnersHelper
       id_:                           t('datagrid.columns.partners.id'),
       manage_:                       t('datagrid.columns.clients.manage'),
       name_:                         t('datagrid.columns.partners.name'),
-      organization_type_:            t('datagrid.columns.partners.organisation_type'),
+      organization_type_:            t('datagrid.columns.partners.organization_type'),
       province_id_:                  t('datagrid.columns.partners.province'),
       start_date_:                   t('datagrid.columns.partners.start_date'),
     }

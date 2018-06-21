@@ -1646,7 +1646,7 @@ en:
       interventions: Interventions
       locations: Locations
       materials: Equipment/Materials
-      organisation_types: Organisation Types
+      organization_types: Organisation Types
       partner_custom_fields: Partner Custom Forms
       partners: Partners
       program_streams: Program Streams
@@ -1867,7 +1867,7 @@ en:
         id: ID
         manage: Manage
         name: Name
-        organisation_type: Organisation Type
+        organization_type: Organisation Type
         partner: Partner
         partner_type: Partner Type
         province: Province
@@ -2217,7 +2217,7 @@ en:
     engagement: Engagement
     id: ID
     name: Name
-    organisation_type: Organisation Type
+    organization_type: Organisation Type
     province: Province
     start_date: Start Date
   default_placement_fields:
@@ -3177,8 +3177,8 @@ en:
       log_out: Log out
       manage: Manage
       materials: Equipment/Materials
-      organisation_type: Organisation Type
-      organisation_types: Organisation Types
+      organization_type: Organisation Type
+      organization_types: Organisation Types
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
@@ -3350,16 +3350,16 @@ en:
     form:
       cancel: Cancel
       name: Name
-      organisation_type: Organisation Type
+      organization_type: Organisation Type
       province: Province
       save: Save
     index:
-      add_new_organisation_type: Add New Organisation Type
+      add_new_organization_type: Add New Organisation Type
       are_you_sure: Are you sure you want to delete?
       changelogs: Changelog
       manage: Manage
-      organisation_type_names: Name
-      organisation_types: Organisation Types
+      organization_type_names: Name
+      organization_types: Organisation Types
       view: View
     new:
       title: New Organisation Type
@@ -3390,7 +3390,7 @@ en:
       engagement: Engagement
       id: ID
       name: Name
-      organisation_type: Organisation Type
+      organisztion_type: Organisation Type
       partner_type: Partner Type
       province: Province
       start_date: Start Date
@@ -3432,7 +3432,7 @@ en:
       general_info: About Partner
       id: ID
       name: Name
-      organisation_type: Organisation Type
+      organization_type: Organisation Type
       province: Province
       start_date: Start Date
     update:
@@ -4006,7 +4006,7 @@ en:
         material: Equipment/Material
         no_modification: There are no any changelog.
         'on': 'on'
-        organisation_type: Organisation Type
+        organization_type: Organisation Type
         partner: Partner
         partner_custom_field: Partner Custom Forms
         progress_note: Progress Note

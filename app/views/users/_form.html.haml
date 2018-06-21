@@ -18,7 +18,7 @@
           .col-xs-12.col-sm-6.col-md-4= f.input :password_confirmation, required: true, label: t('.password_confirmation')
         .col-xs-12.col-sm-6.col-md-4= f.input :mobile, label: t('.mobile')
         .col-xs-12.col-sm-6.col-md-4= f.input :roles, collection: User::ROLES, label_method: lambda { |val| val.titleize }, label: t('.roles')
-        .col-xs-12.col-sm-6.col-md-4= f.input :manager_id, collection: @managers.map{ |u| [u.name, u.id] }
+        .col-xs-12.col-sm-6.col-md-4= f.input :manager_id, collection: @managers.map{ |u| [u.name, u.id] }, label: t('.manager')
         .col-xs-12.col-sm-6.col-md-4= f.input :job_title, label: t('.job_title')
         .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.province')
         .col-xs-12.col-sm-6.col-md-4= f.association :department, collection: @department, label: t('.department')
