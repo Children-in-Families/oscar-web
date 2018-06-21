@@ -339,16 +339,16 @@ CIF.ClientsIndex = do ->
     self = @
     $('th[data-header]').each (index) ->
       klass = $(@).data('header')
-      header = $('th.' + klass).attr('title') + " " + "<span class= 'label label-info'>" + _iterateOverElement('ul[data-' + klass + ']') + "</span>"
+      return if $('ul[data-' + klass + ']').length == 0
+      header = $('th.' + klass).attr('title') + " " + "<span class= 'label label-info'>" + _iterateOverElement('ul[data-' + klass + ']')
       $("th." + klass).html(header)
 
   _iterateOverElement = (attr) ->
     total = 0
     $(attr).each (index) ->
-      total += $(this).data(attr.slice(8, -1))
-    if total == 0
-      return ''
-    else
-      return total
+      $(this).children().each (index) ->
+        return if $(this).hasClass 'hide'
+        total += 1
+    total = if total != 0 then total else ''
 
   { init: _init }

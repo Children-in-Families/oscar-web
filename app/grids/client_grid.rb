@@ -623,6 +623,7 @@ class ClientGrid
     next unless dynamic_columns.present?
     data = param_data.presence
     dynamic_columns.each do |column_builder|
+
       fields = column_builder[:id].gsub('&qoute;', '"').split('_')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
@@ -671,7 +672,7 @@ class ClientGrid
           end
         end
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
-          render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties }
+          render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('_').split(' ').first }
         else
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
         end

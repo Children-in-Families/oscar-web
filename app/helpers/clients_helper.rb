@@ -364,4 +364,10 @@ module ClientsHelper
     return false if current_user.admin?
     return true if @quantitative_type_editable_ids.exclude?(quantitative_type_id)
   end
+
+  def header_classes(grid, column)
+    klasses = datagrid_column_classes(grid, column).split(' ')
+    return klasses.first if klasses.include?('form-builder')
+    klasses.last
+  end
 end
