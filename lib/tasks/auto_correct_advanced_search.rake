@@ -1,7 +1,7 @@
 namespace :auto_correct_advanced_search do
   desc 'Auto correct existing advanced search records with id program_stream'
   task start: :environment do
-    Organization.where(short_name: 'cif').each do |org|
+    Organization.all.each do |org|
       Organization.switch_to org.short_name
       AdvancedSearch.all.each do |search|
         next if search.queries['rules'].empty?
