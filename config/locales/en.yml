@@ -1869,6 +1869,7 @@ en:
         name: Name
         organisation_type: Organisation Type
         partner: Partner
+        partner_type: Partner Type
         province: Province
         start_date: Start Date
         type: Type
@@ -3390,6 +3391,7 @@ en:
       id: ID
       name: Name
       organisation_type: Organisation Type
+      partner_type: Partner Type
       province: Province
       start_date: Start Date
     index:

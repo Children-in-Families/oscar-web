@@ -1870,6 +1870,7 @@ km:
         name: ឈ្មោះដៃគូ
         organisation_type: ប្រភេទឣង្គភាព
         partner: ដៃគូ
+        partner_type: ប្រភេទដៃគូ
         province: ខេត្ត/ក្រុង
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
         type: ប្រភេទ
@@ -3391,6 +3392,7 @@ km:
       id: លេខសំគាល់
       name: ឈ្មោះដៃគូ
       organisation_type: ប្រភេទឣង្គភាព
+      partner_type: ប្រភេទដៃគូ
       province: ខេត្ត/ក្រុង
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
     index:

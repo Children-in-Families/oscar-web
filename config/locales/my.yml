@@ -1877,6 +1877,7 @@ my:
         name: နာမည္
         organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
         partner: မိတ္ဖက္
+        partner_type: မိတ်ဖက်အမျိုးအစား
         province: ခ႐ိုင္
         start_date: စတင္သည့္ ရက္စြဲ
         type: အမ်ိဳးအစား
@@ -3418,6 +3419,7 @@ my:
       id: မွတ္ပံုတင္
       name: နာမည္
       organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      partner_type: မိတ်ဖက်အမျိုးအစား
       province: ခ႐ိုင္
       start_date: စတင္သည့္ ရက္စြဲ
     index:
