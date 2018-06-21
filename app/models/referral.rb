@@ -18,7 +18,7 @@ class Referral < ActiveRecord::Base
   before_validation :set_referred_from
 
   after_create :email_referrral_client
-  after_save :make_a_copy_to_target_ngo
+  after_save :make_a_copy_to_target_ngo, :create_referral_history
 
   scope :received, -> { where(referred_to: Organization.current.short_name) }
   scope :delivered, -> { where(referred_from: Organization.current.short_name) }
@@ -78,5 +78,9 @@ class Referral < ActiveRecord::Base
     current_org = Organization.current
     return if current_org.short_name == referred_to || referred_to == "external referral"
     EmailReferralClientWorker.perform_async(current_org.full_name, referred_to, slug)
+  end
+
+  def create_referral_history
+    ReferralHistory.initial(self)
   end
 end
