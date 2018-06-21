@@ -1647,7 +1647,7 @@ km:
       interventions: ចំនុចដែលត្រូវធ្វើ
       locations: កន្លែង
       materials: របស់របរ/សំភារៈ
-      organisation_types: ប្រភេទឣង្គភាព
+      organization_types: ប្រភេទឣង្គភាព
       partner_custom_fields: ទម្រង់បែបបទរបស់ដៃគូដែលកំពុងប្រើ
       partners: ដៃគូ
       program_streams: កម្មវិធីចម្បង
@@ -1868,7 +1868,7 @@ km:
         id: លេខសំគាល់
         manage: សកម្មភាព
         name: ឈ្មោះដៃគូ
-        organisation_type: ប្រភេទឣង្គភាព
+        organization_type: ប្រភេទឣង្គភាព
         partner: ដៃគូ
         partner_type: ប្រភេទដៃគូ
         province: ខេត្ត/ក្រុង
@@ -2218,7 +2218,7 @@ km:
     engagement: ការចូលរួម
     id: លេខសំគាល់
     name: ឈ្មោះដៃគូ
-    organisation_type: ប្រភេទឣង្គភាព
+    organization_type: ប្រភេទឣង្គភាព
     province: ខេត្ត/ក្រុង
     start_date: កាលបរិច្ឆេទចាប់ផ្តើម
   default_placement_fields:
@@ -3178,8 +3178,8 @@ km:
       log_out: ចាកចេញ
       manage: គ្រប់គ្រង
       materials: របស់របរ/សំភារៈ
-      organisation_type: ប្រភេទឣង្គភាព
-      organisation_types: ប្រភេទឣង្គភាព
+      organization_type: ប្រភេទឣង្គភាព
+      organization_types: ប្រភេទឣង្គភាព
       partners: ដៃគូ
       program_streams: កម្មវិធីចម្បង
       progress_note: កត់សំគាល់ការរីកចំរើន
@@ -3351,16 +3351,16 @@ km:
     form:
       cancel: ទុកជាមោឃៈ
       name: ឈ្មោះប្រភេទឣង្គភាព
-      organisation_type: ប្រភេទឣង្គភាព
+      organization_type: ប្រភេទឣង្គភាព
       province: ប្រភេទឣង្គភាព
       save: រក្សាទុក
     index:
-      add_new_organisation_type: បន្ថែមប្រភេទឣង្គភាពថ្មី
+      add_new_organization_type: បន្ថែមប្រភេទឣង្គភាពថ្មី
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
       changelogs: ប្រវត្តិនៃកំណែ
       manage: សកម្មភាព
-      organisation_type_names: ឈ្មោះប្រភេទឣង្គភាព
-      organisation_types: ប្រភេទឣង្គភាព
+      organization_type_names: ឈ្មោះប្រភេទឣង្គភាព
+      organization_types: ប្រភេទឣង្គភាព
       view: មើល
     new:
       title: ប្រភេទឣង្គភាពថ្មី
@@ -3391,7 +3391,7 @@ km:
       engagement: ការចូលរួម
       id: លេខសំគាល់
       name: ឈ្មោះដៃគូ
-      organisation_type: ប្រភេទឣង្គភាព
+      organization_type: ប្រភេទឣង្គភាព
       partner_type: ប្រភេទដៃគូ
       province: ខេត្ត/ក្រុង
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
@@ -3433,7 +3433,7 @@ km:
       general_info: អំពីដៃគូ
       id: លេខសំគាល់
       name: ឈ្មោះដៃគូ
-      organisation_type: ប្រភេទឣង្គភាព
+      organization_type: ប្រភេទឣង្គភាព
       province: ខេត្ត
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
     update:
@@ -4007,7 +4007,7 @@ km:
         material: របស់របរ/សំភារៈ
         no_modification: មិនមានប្រវត្តិកំណែ
         'on': របស់
-        organisation_type: ប្រភេទឣង្គភាព
+        organization_type: ប្រភេទឣង្គភាព
         partner: ដៃគូ
         partner_custom_field: ទម្រង់បែបបទរបស់ដៃគូ
         progress_note: កំណត់សំគាល់ការរីកចំរើន
