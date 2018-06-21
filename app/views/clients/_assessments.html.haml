@@ -6,10 +6,10 @@
 - if params[:data] == 'recent'
   - recent_record = object.assessments.latest_record.try(:created_at)
   - if recent_record.present?
-    %ul{'data-date_of_assessments': object.assessments.count }
+    %ul{'data-date_of_assessments': '' }
       %li= date_format(recent_record)
 - else
   - if object.assessments.most_recents.any?
-    %ul{'data-date_of_assessments': object.assessments.count }
+    %ul{'data-date_of_assessments': '' }
       - object.assessments.most_recents.each do |assessment|
         %li= date_format(assessment.created_at)
