@@ -340,8 +340,8 @@ CIF.ClientsIndex = do ->
     $('th[data-header]').each (index) ->
       klass = $(@).data('header')
       return if $('ul[data-' + klass + ']').length == 0
-      header = $('th.' + klass).attr('title') + " " + "<span class= 'label label-info'>" + _iterateOverElement('ul[data-' + klass + ']')
-      $("th." + klass).html(header)
+      header = $(@).attr('title') + " " + "<span class= 'label label-info'>" + _iterateOverElement('ul[data-' + klass + ']')
+      $(@).html(header)
 
   _iterateOverElement = (attr) ->
     total = 0

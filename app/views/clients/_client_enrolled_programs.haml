@@ -6,6 +6,6 @@
 - else
   - all_programs = enrolled_programs.map{ |c| c.program_stream.name }.uniq
   - if all_programs.any?
-    %ul{'data-program_streams': enrolled_programs.count }
+    %ul{'data-program_streams': '' }
       - all_programs.each do |program_name|
         %li= program_name

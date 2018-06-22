@@ -11,5 +11,5 @@
 - else
   - if object.assessments.most_recents.any?
     %ul{'data-date_of_assessments': '' }
-      - object.assessments.most_recents.each do |assessment|
+      - date_filter(object.assessments.most_recents, 'date_of_assessments').each do |assessment|
         %li= date_format(assessment.created_at)

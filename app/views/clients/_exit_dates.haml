@@ -5,6 +5,6 @@
       %li= date_format(recent_record)
 - else
   %ul{'data-exit_date': '' }
-    - object.exit_ngos.most_recents.each do |exit_ngo|
+    - date_filter(object.exit_ngos.most_recents, 'exit_date').each do |exit_ngo|
       - if exit_ngo.exit_date.present?
         %li= date_format(exit_ngo.exit_date)

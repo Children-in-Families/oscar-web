@@ -3,9 +3,8 @@
   - if recent_record.present?
     %ul{'data-case_note_date': '' }
       %li= date_format(recent_record)
-    }
 - else
   %ul{'data-case_note_date': '' }
-    - object.case_notes.most_recents.each do |case_note|
+    - date_filter(object.case_notes.most_recents, 'case_note_date').each do |case_note|
       - if case_note.meeting_date.present?
         %li= date_format(case_note.meeting_date)

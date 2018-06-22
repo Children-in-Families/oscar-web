@@ -5,6 +5,6 @@
       %li= date_format(recent_record)
 - else
   %ul{'data-accepted_date': '' }
-    - object.enter_ngos.most_recents.each do |enter_ngo|
+    - date_filter(object.enter_ngos.most_recents, 'accepted_date').each do |enter_ngo|
       - if enter_ngo.accepted_date.present?
         %li= date_format(enter_ngo.accepted_date)

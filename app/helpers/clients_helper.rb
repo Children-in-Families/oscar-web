@@ -370,4 +370,102 @@ module ClientsHelper
     return klasses.first if klasses.include?('form-builder')
     klasses.last
   end
+
+  def client_advanced_search_data(object, rule)
+    return object unless params.has_key?(:client_advanced_search)
+    data    = eval params[:client_advanced_search][:basic_rules]
+    results = data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+  end
+
+  def case_note_types(object, rule)
+    results    = client_advanced_search_data(object, rule)
+    types      = []
+    hashes     = Hash.new { |h,k| h[k] = []}
+    results.each {|k, o, v| hashes[k] << {o => v} }
+
+    hashes[rule].each do |rule|
+      rule.keys.each do |key|
+        type = rule[key]
+        case key
+        when 'equal'
+          types += object.where(interaction_type.to_sym => values)
+        when 'not_equal'
+          types += object.where.not(interaction_type.to_sym => values)
+        when 'is_empty'
+          types += object.where("case_notes.interaction_type IS NULL")
+        when 'is_not_empty'
+          types += object.where("case_notes.interaction_type IS NOT NULL")
+        else
+          object
+        end
+      end
+    end
+    return types.uniq if types.uniq.present?
+    object
+  end
+
+  def date_filter(object, rule)
+    date_range = []
+    field_name = ''
+    results    = client_advanced_search_data(object, rule)
+    hashes     = values = Hash.new { |h,k| h[k] = []}
+
+    results.each do |k, o, v|
+      values[o] << v
+      hashes[k] << values
+    end
+
+    hashes.keys.each do |value|
+      arr = hashes[value]
+      hashes.delete(value)
+      hashes[value] << arr.uniq
+    end
+
+    klass_name = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
+
+    if rule == 'case_note_date'
+      field_name = 'meeting_date'
+    elsif rule == 'date_of_assessments'
+      field_name = 'created_at'
+    elsif rule[/^(programexitdate)/i].present?
+      klass_name.merge!(rule => 'program_streams')
+      field_name = 'exit_date'
+    elsif rule[/^(enrollmentdate)/i].present?
+      klass_name.merge!(rule => 'client_enrollments')
+      field_name = 'enrollment_date'
+    else
+      field_name = rule
+    end
+
+    hashes.keys.each do |key|
+      values = hashes[key].flatten
+
+      relation = rule[/^(enrollmentdate)|^(enrollmentdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
+      case key
+      when 'between'
+        date_range += object.where("#{relation} BETWEEN ? AND ?", values.first, values.last)
+      when 'greater_or_equal'
+        date_range += object.where("#{relation} >= ?", values.last)
+      when 'greater'
+        date_range += object.where("#{relation} > ?", values.last)
+      when 'less'
+        date_range += object.where("#{relation} < ?", values.last)
+      when 'less_or_equal'
+        date_range += object.where("#{relation} <= ?", values.last)
+      when 'not_equal'
+        date_range += object.where.not(field_name.to_sym => values)
+      when 'equal'
+        date_range += object.where(field_name.to_sym => values)
+      when 'is_empty'
+        date_range += object.where("#{relation} IS NULL")
+      when 'is_not_empty'
+        date_range += object.where("#{relation} IS NOT NULL")
+      else
+        object
+      end
+    end
+
+    return date_range.uniq if date_range.uniq.present?
+    object
+  end
 end
