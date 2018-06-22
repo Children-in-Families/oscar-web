@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180507051830) do
+ActiveRecord::Schema.define(version: 20180622081906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -319,7 +319,7 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.string   "code",                             default: ""
     t.string   "given_name",                       default: ""
     t.string   "family_name",                      default: ""
-    t.string   "gender",                           default: "Male"
+    t.string   "gender",                           default: ""
     t.date     "date_of_birth"
     t.string   "status",                           default: "Referred"
     t.date     "initial_referral_date"
@@ -567,6 +567,7 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
     t.integer  "children",                        default: [],        array: true
+    t.string   "status",                          default: ""
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|
