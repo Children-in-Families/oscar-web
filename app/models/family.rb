@@ -31,6 +31,7 @@ class Family < ActiveRecord::Base
   scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
   scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :as_non_cases,               ->        { where.not(family_type: ['Short Term / Emergency Foster Care', 'Long Term Foster Care', 'Extended Family / Kinship Care']) }
+  scope :by_status, -> (value) { where(status: value) }
 
   def member_count
     male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i

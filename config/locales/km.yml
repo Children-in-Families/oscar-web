@@ -1840,6 +1840,7 @@ km:
         'no': ទេ
         province: ខេត្ត/ក្រុង
         significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
+        status: ស្ថានភាព
         total: សរុប
         view: មើល
         'yes': បាទ/ចាស

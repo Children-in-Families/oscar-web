@@ -1839,6 +1839,7 @@ en:
         'no': 'No'
         province: Province
         significant_family_member_count: Significant Family Member Count
+        status: Status
         total: Total
         view: View
         'yes': 'Yes'
