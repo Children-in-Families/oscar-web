@@ -67,7 +67,7 @@ class Referral < ActiveRecord::Base
     current_org = Organization.current
     return if current_org.short_name == referred_to || referred_to == "external referral"
     Organization.switch_to referred_to
-    referral = Referral.find_or_initialize_by(slug: attributes['slug'], date_of_referral: attributes['date_of_referral'], saved: false)
+    referral = Referral.find_or_initialize_by(slug: attributes['slug'], saved: false)
     referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({client_id: nil})
     referral.consent_form = consent_form
     referral.save
