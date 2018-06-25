@@ -10,7 +10,7 @@ describe 'Quantitative Type' do
     before do
       visit quantitative_types_path
     end
-    scenario 'list all Specific Referral Data' do
+    scenario 'list all Custom Referral Data' do
       expect(page).to have_content(quantitative_type.name)
     end
     scenario 'link to edit' do
@@ -22,12 +22,12 @@ describe 'Quantitative Type' do
   end
 
   feature 'Create', js: true do
-    let!(:another_quantitative_type) { create(:quantitative_type, name: 'Another Specific Referral Data') }
+    let!(:another_quantitative_type) { create(:quantitative_type, name: 'Another Custom Referral Data') }
     before do
       visit quantitative_types_path
     end
     scenario 'valid' do
-      click_link('Add New Specific Referral Data')
+      click_link('Add New Custom Referral Data')
       within('#new_quantitative_type') do
         fill_in 'Name', with: 'Test'
         click_button 'Save'
@@ -36,13 +36,13 @@ describe 'Quantitative Type' do
       expect(page).to have_content('Test')
     end
     scenario 'invalid' do
-      click_link('Add New Specific Referral Data')
+      click_link('Add New Custom Referral Data')
       within('#new_quantitative_type') do
-        fill_in 'Name', with: 'Another Specific Referral Data'
+        fill_in 'Name', with: 'Another Custom Referral Data'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Another Specific Referral Data', count: 1)
+      expect(page).to have_content('Another Custom Referral Data', count: 1)
     end
   end
 
@@ -57,7 +57,7 @@ describe 'Quantitative Type' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Specific Referral Data has been successfully updated')
+      expect(page).to have_content('Custom Referral Data has been successfully updated')
     end
     scenario 'invalid' do
       find("a[data-target='#quantitative_typeModal-#{quantitative_type.id}']").click
