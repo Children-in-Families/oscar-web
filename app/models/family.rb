@@ -33,6 +33,7 @@ class Family < ActiveRecord::Base
   scope :child_headed_household,     ->        { where(family_type: 'Child-Headed Household') }
   scope :no_family,                  ->        { where(family_type: 'No Family') }
   scope :other,                      ->        { where(family_type: 'Other') }
+  scope :active,                     ->        { where(status: 'Active') }
   scope :inactive,                   ->        { where(status: 'Inactive') }
   scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
   scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }

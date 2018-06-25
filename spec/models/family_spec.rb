@@ -20,6 +20,7 @@ describe Family, 'scopes' do
   let!(:kc_family){ create(:family, :kinship, province: province)}
   let!(:fc_family){ create(:family, :foster)}
   let!(:ec_family){ create(:family, :emergency)}
+  let!(:active_family){ create(:family, :active)}
   let!(:inactive_family){ create(:family, :inactive, :other)}
   let!(:birth_family){ create(:family, :birth_family_both_parents)}
 
@@ -97,6 +98,15 @@ describe Family, 'scopes' do
     end
     it 'should not include not inactive type' do
       expect(Family.inactive).not_to include(kc_family)
+    end
+  end
+
+  context '.active' do
+    it 'should include active status' do
+      expect(Family.active).to include(active_family)
+    end
+    it 'should not include inactive status' do
+      expect(Family.active).not_to include(inactive_family)
     end
   end
 
