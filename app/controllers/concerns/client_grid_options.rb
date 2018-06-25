@@ -254,7 +254,7 @@ module ClientGridOptions
           if data == 'recent'
             properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
           else
-            properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).pluck(:enrollment_date).join(' | ')
+            properties = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('_')).map(&:enrollment_date).join(' | ')
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -278,7 +278,7 @@ module ClientGridOptions
           if data == 'recent'
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
           else
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).pluck(:exit_date).join(' | ')
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map(&:exit_date).join(' | ')
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids

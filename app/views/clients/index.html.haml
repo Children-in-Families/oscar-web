@@ -64,6 +64,7 @@
       .ibox-content
         .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
           %table.table.table-bordered.table-striped.table-hover.clients
+            = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
             %thead
               = datagrid_header(@client_grid)
             %tbody.page

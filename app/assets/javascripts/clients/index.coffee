@@ -337,11 +337,13 @@ CIF.ClientsIndex = do ->
 
   _setHeaderCount = ->
     self = @
+    hiddenParam = $('#hidden-param').data('hidden-param')
     $('th[data-header]').each (index) ->
       klass = $(@).data('header')
-      return if $('ul[data-' + klass + ']').length == 0
-      header = $(@).attr('title') + " " + "<span class= 'label label-info'>" + _iterateOverElement('ul[data-' + klass + ']')
+      return if $('ul[data-' + klass + ']').children().length == 0
+      header = $(@).attr('title') + " " + "<span class= 'label label-info'>" + _iterateOverElement('ul[data-' + klass + ']') + "</span>"
       $(@).html(header)
+      $(@).append('<br><a class="all-values "' + klass + '" href="' + hiddenParam + '&all_values=' +  klass + '">All</a>')
 
   _iterateOverElement = (attr) ->
     total = 0

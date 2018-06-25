@@ -373,6 +373,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     return object unless params.has_key?(:client_advanced_search)
+    return object if rule[/^(#{params['all_values']})/i]
     data    = eval params[:client_advanced_search][:basic_rules]
     results = data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
@@ -385,12 +386,12 @@ module ClientsHelper
 
     hashes[rule].each do |rule|
       rule.keys.each do |key|
-        type = rule[key]
+        values = rule[key]
         case key
         when 'equal'
-          types += object.where(interaction_type.to_sym => values)
+          types += object.where(interaction_type: values)
         when 'not_equal'
-          types += object.where.not(interaction_type.to_sym => values)
+          types += object.where.not(interaction_type: values)
         when 'is_empty'
           types += object.where("case_notes.interaction_type IS NULL")
         when 'is_not_empty'
@@ -421,14 +422,17 @@ module ClientsHelper
       hashes[value] << arr.uniq
     end
 
-    klass_name = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
+    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
     elsif rule == 'date_of_assessments'
       field_name = 'created_at'
-    elsif rule[/^(programexitdate)/i].present?
-      klass_name.merge!(rule => 'program_streams')
+    elsif rule[/^(programexitdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
+      klass_name.merge!(rule => 'leave_programs')
+      field_name = 'exit_date'
+    elsif object.class.to_s[/^(leaveProgram)/i]
+      klass_name.merge!(rule => 'leave_programs')
       field_name = 'exit_date'
     elsif rule[/^(enrollmentdate)/i].present?
       klass_name.merge!(rule => 'client_enrollments')
@@ -438,9 +442,8 @@ module ClientsHelper
     end
 
     hashes.keys.each do |key|
-      values = hashes[key].flatten
-
-      relation = rule[/^(enrollmentdate)|^(enrollmentdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
+      values   = hashes[key].flatten
+      relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
       case key
       when 'between'
         date_range += object.where("#{relation} BETWEEN ? AND ?", values.first, values.last)
