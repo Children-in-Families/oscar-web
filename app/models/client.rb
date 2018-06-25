@@ -14,6 +14,8 @@ class Client < ActiveRecord::Base
 
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
+  GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4'].freeze
+
   delegate :name, to: :donor, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
   delegate :name, to: :province, prefix: true, allow_nil: true

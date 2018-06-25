@@ -442,7 +442,8 @@ class CIF.ClientAdvanceSearch
 
   preventOptionDomainScores: (element) ->
     self = @
-    if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+    rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
+    if rule.split('_')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
@@ -457,9 +458,19 @@ class CIF.ClientAdvanceSearch
       else
         $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
         $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
-      setTimeout( ->
-        self.initSelect2()
-      )
+    else if rule == 'school_grade'
+      select = $(element).parent().siblings('.rule-value-container')
+      disableValue = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4']
+      if $(element).val() == 'between'
+        setTimeout( ->
+          for value in disableValue
+            $(select).find("option[value='#{value}']").attr('disabled', 'true')
+          $(select).find('select').val('1').trigger('change')
+        , 100)
+
+    setTimeout( ->
+      self.initSelect2()
+    )
 
   disableOptionDomainScores: ->
     self = @

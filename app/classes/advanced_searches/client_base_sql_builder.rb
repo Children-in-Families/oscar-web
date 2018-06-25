@@ -152,9 +152,14 @@ module AdvancedSearches
         end
 
       when 'between'
-        @sql_string << "clients.#{field} BETWEEN ? AND ?"
-        @values << value.first
-        @values << value.last
+        if field == 'school_grade'
+          @sql_string << "clients.#{field} in (?)"
+          @values << [value.first, value.last]
+        else
+          @sql_string << "clients.#{field} BETWEEN ? AND ?"
+          @values << value.first
+          @values << value.last
+        end
       end
     end
 
