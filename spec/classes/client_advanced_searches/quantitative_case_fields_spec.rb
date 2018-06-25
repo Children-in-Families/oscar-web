@@ -23,7 +23,7 @@ describe AdvancedSearches::QuantitativeCaseFields, 'Method' do
     end
 
     it 'return field with optGroup' do
-      expect(@fields[:optgroup]).to include 'Specific Referral Data'
+      expect(@fields[:optgroup]).to include 'Custom Referral Data'
     end
 
     it 'return field with label' do
