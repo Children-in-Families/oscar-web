@@ -47,11 +47,11 @@ class Referral < ActiveRecord::Base
   private
 
   def check_saved_referral_in_target_ngo
-    org = Organization.current
-    return if self.non_oscar_ngo? || org.short_name == referred_to
+    current_org = Organization.current
+    return if self.non_oscar_ngo? || current_org.short_name == referred_to
     Organization.switch_to referred_to
     is_saved = Referral.find_by(slug: slug, date_of_referral: date_of_referral).try(:saved)
-    Organization.switch_to org.short_name
+    Organization.switch_to current_org.short_name
     is_saved ? errors.add(:base, 'You cannot edit this referral because the target NGO already accepted the referral') : true
   end
 
@@ -65,9 +65,9 @@ class Referral < ActiveRecord::Base
 
   def make_a_copy_to_target_ngo
     current_org = Organization.current
-    return if current_org.short_name == referred_to || referred_to == "external referral"
+    return if self.non_oscar_ngo? || current_org.short_name == referred_to
     Organization.switch_to referred_to
-    referral = Referral.find_or_initialize_by(slug: attributes['slug'], date_of_referral: attributes['date_of_referral'], saved: false)
+    referral = Referral.find_or_initialize_by(slug: attributes['slug'], saved: false)
     referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({client_id: nil})
     referral.consent_form = consent_form
     referral.save
@@ -76,7 +76,7 @@ class Referral < ActiveRecord::Base
 
   def email_referrral_client
     current_org = Organization.current
-    return if current_org.short_name == referred_to || referred_to == "external referral"
+    return if self.non_oscar_ngo? || current_org.short_name == referred_to
     EmailReferralClientWorker.perform_async(current_org.full_name, referred_to, slug)
   end
 
