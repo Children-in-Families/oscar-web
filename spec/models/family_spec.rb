@@ -20,16 +20,16 @@ describe Family, 'scopes' do
   let!(:kc_family){ create(:family, :kinship, province: province)}
   let!(:fc_family){ create(:family, :foster)}
   let!(:ec_family){ create(:family, :emergency)}
-  let!(:inactive_family){ create(:family, :foster)}
-  let!(:birth_family){ create(:family, :birth_family)}
+  let!(:inactive_family){ create(:family, :inactive, :other)}
+  let!(:birth_family){ create(:family, :birth_family_both_parents)}
 
   context '.as_non_cases' do
     it 'include inactive and birth_family' do
-      expect(Family.as_non_cases).to include(birth_family)
+      expect(Family.as_non_cases).to include(inactive_family, birth_family)
     end
 
     it 'exclude emergency foster and kinship family' do
-      expect(Family.as_non_cases).not_to include(kc_family, fc_family, inactive_family, ec_family)
+      expect(Family.as_non_cases).not_to include(kc_family, fc_family, ec_family)
     end
   end
 
@@ -102,11 +102,11 @@ describe Family, 'scopes' do
 
   context '.birth_family' do
     it 'should include birth_family type' do
-      expect(Family.birth_family).to include(birth_family)
+      expect(Family.birth_family_both_parents).to include(birth_family)
     end
     it 'should not include not birth_family type' do
-      expect(Family.birth_family).not_to include(kc_family)
-      expect(Family.birth_family).not_to include(fc_family)
+      expect(Family.birth_family_both_parents).not_to include(kc_family)
+      expect(Family.birth_family_both_parents).not_to include(fc_family)
     end
   end
 
@@ -121,8 +121,8 @@ describe Family, 'scopes' do
 end
 
 describe Family, 'instance methods' do
-  let!(:inactive_family){ create(:family, :foster) }
-  let!(:birth_family){ create(:family, :birth_family) }
+  let!(:inactive_family){ create(:family, :inactive) }
+  let!(:birth_family){ create(:family, :birth_family_both_parents) }
   let!(:ec_family){ create(:family, :emergency) }
   let!(:fc_family){ create(:family, :foster) }
   let!(:kc_family){ create(:family, :kinship) }
@@ -140,8 +140,8 @@ describe Family, 'instance methods' do
     it { expect(inactive_family.inactive?).to be_truthy }
   end
 
-  context '#birth_family?' do
-    it { expect(birth_family.birth_family?).to be_truthy }
+  context '#birth_family_both_parents?' do
+    it { expect(birth_family.birth_family_both_parents?).to be_truthy }
   end
 
   context '#emergency?' do

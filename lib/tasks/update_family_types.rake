@@ -10,6 +10,7 @@ namespace :update_family_types do
                     when 'kinship' then 'Extended Family / Kinship Care'
                     when 'foster', 'inactive' then 'Long Term Foster Care'
                     when 'birth_family' then 'Birth Family (Both Parents)'
+                    else family_type
                     end
         family.family_type = new_type
         family.status = 'Active'

@@ -34,16 +34,23 @@ class Case < ActiveRecord::Base
   after_save :create_client_history
 
   def set_attributes
-    if family.inactive? || family.birth_family?
+    if ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
+      'Birth Family (Only Father)', 'Domestically Adopted',
+      'Child-Headed Household', 'No Family', 'Other'].include?(family.family_type)
       self.exited    = true
       self.exit_date = Date.today
       self.exit_note = family.family_type
     end
     self.case_type =  case family.family_type
-                      when 'emergency' then 'EC'
-                      when 'foster' then 'FC'
-                      when 'kinship' then 'KC'
-                      when 'inactive', 'birth_family' then 'Referred'
+                      when 'Short Term / Emergency Foster Care' then 'EC'
+                      when 'Long Term Foster Care' then 'FC'
+                      when 'Extended Family / Kinship Care' then 'KC'
+                      when 'Birth Family (Both Parents)',
+                        'Birth Family (Only Mother)',
+                        'Birth Family (Only Father)',
+                        'Domestically Adopted',
+                        'Child-Headed Household',
+                        'No Family', 'Other' then 'Referred'
                       end
     self.start_date = Date.today
   end

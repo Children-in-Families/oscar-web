@@ -25,12 +25,20 @@ FactoryGirl.define do
       family_type 'Extended Family / Kinship Care'
     end
 
-    trait :birth_family do
+    trait :birth_family_both_parents do
       family_type 'Birth Family (Both Parents)'
     end
 
+    trait :other do
+      family_type 'Other'
+    end
+
+    trait :active do
+      status 'Active'
+    end
+
     trait :inactive do
-      family_type 'Long Term Foster Care'
+      status 'Inactive'
     end
   end
 end

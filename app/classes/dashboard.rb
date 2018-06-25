@@ -80,9 +80,18 @@ class Dashboard
 
   def family_type_statistic
     [
-      { name: 'Foster', y: foster_count, url: families_path('family_grid[family_type]': 'foster') },
-      { name: 'Kinship', y: kinship_count, url: families_path('family_grid[family_type]': 'kinship') },
-      { name: 'Emergency', y: emergency_count, url: families_path('family_grid[family_type]': 'emergency') }
+      { name: 'Long Term Foster Care', y: foster_count, url: families_path('family_grid[family_type]': 'Long Term Foster Care') },
+      { name: 'Extended Family / Kinship Care', y: kinship_count, url: families_path('family_grid[family_type]': 'Extended Family / Kinship Care') },
+      { name: 'Short Term / Emergency Foster Care', y: emergency_count, url: families_path('family_grid[family_type]': 'Short Term / Emergency Foster Care') },
+      { name: 'Birth Family (Both Parents)', y: birth_family_both_parents_count, url: families_path('family_grid[family_type]': 'Birth Family (Both Parents)') },
+      { name: 'Birth Family (Only Mother)', y: birth_family_only_mother_count, url: families_path('family_grid[family_type]': 'Birth Family (Only Mother)') },
+      { name: 'Birth Family (Only Father)', y: birth_family_only_father_count, url: families_path('family_grid[family_type]': 'Birth Family (Only Father)') },
+      { name: 'Domestically Adopted', y: domestically_adopted_count, url: families_path('family_grid[family_type]': 'Domestically Adopted') },
+      { name: 'Child-Headed Household', y: child_headed_household_count, url: families_path('family_grid[family_type]': 'Child-Headed Household') },
+      { name: 'No Family', y: no_family_count, url: families_path('family_grid[family_type]': 'No Family') },
+      { name: 'Other', y: other_count, url: families_path('family_grid[family_type]': 'Other') }
+
+
     ]
   end
 
@@ -124,7 +133,35 @@ class Dashboard
     @families.emergency.size
   end
 
-    def referral_source_count
+  def birth_family_both_parents_count
+    @families.birth_family_both_parents.size
+  end
+
+  def birth_family_only_mother_count
+    @families.birth_family_only_mother.size
+  end
+
+  def birth_family_only_father_count
+    @families.birth_family_only_father.size
+  end
+
+  def domestically_adopted_count
+    @families.domestically_adopted.size
+  end
+
+  def child_headed_household_count
+    @families.child_headed_household.size
+  end
+
+  def no_family_count
+    @families.no_family.size
+  end
+
+  def other_count
+    @families.other.size
+  end
+
+  def referral_source_count
     @referral_sources.size
   end
 
