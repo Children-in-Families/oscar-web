@@ -21,7 +21,7 @@ class DataTrackersController < AdminController
   private
 
   def exclude_item_type
-    %w(AssessmentDomain CaseNoteDomainGroup CaseNote AgencyClient ClientQuantitativeCase ClientCustomField FamilyCustomField PartnerCustomField UserCustomField)
+    %w(AdvancedSearch AssessmentDomain CaseNoteDomainGroup CaseNote AgencyClient ClientQuantitativeCase ClientCustomField FamilyCustomField PartnerCustomField UserCustomField)
   end
 
   def find_form_type
