@@ -1,10 +1,10 @@
 - if params[:data].presence == 'recent'
   - recent_record = object.enter_ngos.most_recents.first.try(:accepted_date)
   - if recent_record.present?
-    %ul
+    %ul{'data-accepted_date': '' }
       %li= date_format(recent_record)
 - else
-  %ul
-    - object.enter_ngos.most_recents.each do |enter_ngo|
+  %ul{'data-accepted_date': '' }
+    - date_filter(object.enter_ngos.most_recents, 'accepted_date').each do |enter_ngo|
       - if enter_ngo.accepted_date.present?
         %li= date_format(enter_ngo.accepted_date)

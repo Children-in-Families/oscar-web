@@ -637,7 +637,7 @@ class ClientGrid
           if data == 'recent'
             properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
           else
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).pluck(:enrollment_date)
+            properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('_')).map(&:enrollment_date)
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -659,7 +659,7 @@ class ClientGrid
           if data == 'recent'
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
           else
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).pluck(:exit_date)
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map(&:exit_date)
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids
@@ -671,7 +671,7 @@ class ClientGrid
           end
         end
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
-          render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties }
+          render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('_').split(' ').first }
         else
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
         end

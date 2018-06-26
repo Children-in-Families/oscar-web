@@ -1,4 +1,4 @@
-%ul
+%ul{"data-#{klass.parameterize}": ''}
   - if params[:data] == 'recent'
     - return if properties.blank?
     %li= properties
