@@ -4,8 +4,8 @@
       .col-xs-6
         %h5= t('.duetoday_tasks')
   .panel-body
-    - @client_tasks.each do |client, overdue_forms|
-      - today_tasks = overdue_forms[:today_tasks]
+    - @client_tasks.each do |client, today_forms|
+      - today_tasks = today_forms[:today_tasks]
       - next if skipped_duetoday_tasks?(today_tasks)
       .ibox.border-left-right.border-bottom
         .ibox-title
