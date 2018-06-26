@@ -373,7 +373,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     return object unless params.has_key?(:client_advanced_search)
-    return object if rule[/^(#{params['all_values']})/i]
+    return object if rule[/^(#{params['all_values']})/i].present?
     data    = eval params[:client_advanced_search][:basic_rules]
     results = data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
@@ -467,5 +467,50 @@ module ClientsHelper
 
     return date_range.uniq if date_range.uniq.present?
     object
+  end
+
+  def header_counter(grid, column)
+    count = 0
+    class_name  = header_classes(grid, column)
+
+    if grid.class.to_s == 'ClientGrid' && @clients.present? && (Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i])
+      association = "#{class_name}_count"
+      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments' }
+
+      if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
+        klass     = 'leave_programs'
+      elsif class_name[/^(enrollmentdate)/i].present?
+        klass     = 'client_enrollments'
+      else
+        klass       = klass_name[class_name.to_sym]
+      end
+
+      if class_name[/^(programexitdate)/i].present?
+        ids = @clients.map{ |client| client.client_enrollments.inactive.ids }.flatten.uniq
+        object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
+        count += date_filter(object, class_name).flatten.count
+      else
+        @clients.each do |client|
+          if class_name == 'case_note_type'
+            count += case_note_types(client.send(klass.to_sym), class_name).count
+          elsif class_name[/^(enrollmentdate)/i].present?
+            count += date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), class_name).map(&:enrollment_date).flatten.count
+          else
+            count += date_filter(client.send(klass.to_sym), class_name).flatten.count
+          end
+        end
+      end
+
+      if count > 0
+        [column.header.truncate(65),
+          content_tag(:span, count, class: 'label label-info'),
+          content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}")
+        ].join(' ').html_safe
+      else
+        column.header.truncate(65)
+      end
+    else
+      column.header.truncate(65)
+    end
   end
 end

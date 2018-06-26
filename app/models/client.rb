@@ -9,8 +9,9 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  EXIT_REASONS = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
+  EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
+  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments program_streams programexitdate enrollmentdate).freeze
 
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
@@ -117,7 +118,14 @@ class Client < ActiveRecord::Base
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
-  scope :active_accepted_status,                    ->        { where(status: ['Active', 'Accepted']) }
+  scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
+  scope :case_notes,                               ->        { joins(:case_notes) }
+  scope :case_note_date_count,                     ->        { case_notes }
+  scope :case_note_type_count,                     ->        { case_notes }
+  scope :accepted_date_count,                      ->        { joins(:enter_ngos) }
+  scope :exit_date_count,                          ->        { joins(:exit_ngos) }
+  scope :date_of_assessments_count,                ->        { joins(:assessments) }
+  scope :program_streams_count,                    ->        { joins(:program_streams) }
 
   def self.filter(options)
     query = all
