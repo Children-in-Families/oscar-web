@@ -27,46 +27,47 @@ namespace :school_grade do
 
       Client.all.each do |client|
         if client.school_grade.in? kindergarten_1
-          client.save(school_grade: 'kindergarten 1', validate: false)
+          client.school_grade = 'Kindergarten 1'
         elsif client.school_grade.in? kindergarten_2
-          client.save(school_grade: 'kindergarten 2', validate: false)
+          client.school_grade = 'Kindergarten 2'
         elsif client.school_grade.in? kindergarten_3
-          client.save(school_grade: 'kindergarten 3', validate: false)
+          client.school_grade = 'Kindergarten 3'
         elsif client.school_grade.in? kindergarten_4
-          client.save(school_grade: 'kindergarten 4', validate: false)
+          client.school_grade = 'Kindergarten 4'
         elsif client.school_grade.in? grade_1
-          client.save(school_grade: '1', validate: false)
+          client.school_grade = '1'
         elsif client.school_grade.in? grade_2
-          client.save(school_grade: '2', validate: false)
+          client.school_grade = '2'
         elsif client.school_grade.in? grade_3
-          client.save(school_grade: '3', validate: false)
+          client.school_grade = '3'
         elsif client.school_grade.in? grade_4
-          client.save(school_grade: '4', validate: false)
+          client.school_grade = '4'
         elsif client.school_grade.in? grade_5
-          client.save(school_grade: '5', validate: false)
+          client.school_grade = '5'
         elsif client.school_grade.in? grade_6
-          client.save(school_grade: '6', validate: false)
+          client.school_grade = '6'
         elsif client.school_grade.in? grade_7
-          client.save(school_grade: '7', validate: false)
+          client.school_grade = '7'
         elsif client.school_grade.in? grade_8
-          client.save(school_grade: '8', validate: false)
+          client.school_grade = '8'
         elsif client.school_grade.in? grade_9
-          client.save(school_grade: '9', validate: false)
+          client.school_grade = '9'
         elsif client.school_grade.in? grade_10
-          client.save(school_grade: '10', validate: false)
+          client.school_grade = '10'
         elsif client.school_grade.in? grade_11
-          client.save(school_grade: '11', validate: false)
+          client.school_grade = '11'
         elsif client.school_grade.in? grade_12
-          client.save(school_grade: '12', validate: false)
+          client.school_grade = '12'
         elsif client.school_grade.in? year_1
-          client.save(school_grade: 'Year 1', validate: false)
+          client.school_grade = 'Year 1'
         elsif client.school_grade.in? year_2
-          client.save(school_grade: 'Year 2', validate: false)
+          client.school_grade = 'Year 1'
         elsif client.school_grade.in? year_3
-          client.save(school_grade: 'Year 3', validate: false)
+          client.school_grade = 'Year 1'
         elsif client.school_grade.in? year_4
-          client.save(school_grade: 'Year 4', validate: false)
+          client.school_grade = 'Year 1'
         end
+        client.save(validate: false)
       end
     end
   end

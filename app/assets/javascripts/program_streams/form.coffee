@@ -195,11 +195,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         setTimeout (->
           _handleSelectTab()
           $('#rule-tab select').select2(width: '250px')
-          _preventDomainScore()
+          _opertatorSelecting()
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()
-        _disableOptionDomainScores()
+        _checkingForDisableOptions()
 
   _handleAddCocoon = ->
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
@@ -533,23 +533,25 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       'bPaginate': false
     )
 
-  _disableOptionDomainScores = ->
-    for domain in $('.rule-operator-container select')
-      _preventOptionDomainScores(domain)
+  _checkingForDisableOptions = ->
+    for element in $('.rule-operator-container select')
+      _disableOptions(element)
 
   _filterSelecting = ->
     $('.rule-filter-container select').on 'select2-selecting', ->
       self = @
       setTimeout ( ->
-        _preventDomainScore()
+        _opertatorSelecting()
       )
 
-  _preventDomainScore = ->
+  _opertatorSelecting = ->
     $('.rule-operator-container select').on 'select2-selected', ->
-      _preventOptionDomainScores(@)
+      _disableOptions(@)
 
-  _preventOptionDomainScores = (element) ->
-    if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+  _disableOptions = (element) ->
+    self = @
+    rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
+    if rule.split('_')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
@@ -564,8 +566,18 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       else
         $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
         $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
-      setTimeout( ->
-        _initSelect2()
-      )
+    else if rule == 'school_grade'
+      select = $(element).parent().siblings('.rule-value-container')
+      disableValue = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4']
+      if $(element).val() == 'between'
+        setTimeout( ->
+          for value in disableValue
+            $(select).find("option[value='#{value}']").attr('disabled', 'true')
+          $(select).find('select').val('1').trigger('change')
+        , 100)
+
+    setTimeout( ->
+      self.initSelect2()
+    )
 
   { init: _init }

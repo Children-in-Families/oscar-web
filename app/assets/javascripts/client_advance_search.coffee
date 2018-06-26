@@ -432,15 +432,15 @@ class CIF.ClientAdvanceSearch
     self = @
     $('.rule-filter-container select').on 'select2-selecting', ->
       setTimeout ( ->
-        self.preventDomainScore()
+        self.opertatorSelecting()
       )
 
-  preventDomainScore: ->
+  opertatorSelecting: ->
     self = @
     $('.rule-operator-container select').on 'select2-selected', ->
-      self.preventOptionDomainScores(@)
+      self.disableOptions(@)
 
-  preventOptionDomainScores: (element) ->
+  disableOptions: (element) ->
     self = @
     rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
     if rule.split('_')[0] == 'domainscore'
@@ -472,10 +472,10 @@ class CIF.ClientAdvanceSearch
       self.initSelect2()
     )
 
-  disableOptionDomainScores: ->
+  checkingForDisableOptions: ->
     self = @
-    for domain in $('.rule-operator-container select')
-      self.preventOptionDomainScores(domain)
+    for element in $('.rule-operator-container select')
+      self.disableOptions(element)
 
   ######################################################################################################################
 
