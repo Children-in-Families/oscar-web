@@ -438,7 +438,10 @@ class Client < ActiveRecord::Base
   def create_or_update_shared_client
     current_org = Organization.current
     client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
+    suburb = self.suburb
+    state_name = self.state_name
     Organization.switch_to 'shared'
+
     if suburb.present?
       province = Province.find_or_create_by(name: suburb, country: 'lesotho')
       client['birth_province_id'] = province.id
