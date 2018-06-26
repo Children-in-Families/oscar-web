@@ -61,11 +61,13 @@ namespace :school_grade do
         elsif client.school_grade.in? year_1
           client.school_grade = 'Year 1'
         elsif client.school_grade.in? year_2
-          client.school_grade = 'Year 1'
+          client.school_grade = 'Year 2'
         elsif client.school_grade.in? year_3
-          client.school_grade = 'Year 1'
+          client.school_grade = 'Year 3'
         elsif client.school_grade.in? year_4
-          client.school_grade = 'Year 1'
+          client.school_grade = 'Year 4'
+        else
+          client.school_grade = ''
         end
         client.save(validate: false)
       end
