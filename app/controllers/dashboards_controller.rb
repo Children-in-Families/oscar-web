@@ -20,7 +20,7 @@ class DashboardsController < AdminController
 
   def find_tasks
     @clients = find_clients
-    @client_tasks = find_client_tasks if @task_params
+    @client_tasks = find_client_tasks
     @users = find_users.order(:first_name, :last_name) unless current_user.case_worker?
   end
 
@@ -77,17 +77,19 @@ class DashboardsController < AdminController
 
   def find_client_tasks
     client_tasks = []
-    client_ids = @user.tasks.pluck(:client_id).uniq
-    Client.active_accepted_status.where(id: client_ids).each do |client|
-      overdue_tasks = []
-      today_tasks = []
-      upcoming_tasks = []
+    if @task_params
+      client_ids = @user.tasks.pluck(:client_id).uniq
+      Client.active_accepted_status.where(id: client_ids).each do |client|
+        overdue_tasks = []
+        today_tasks = []
+        upcoming_tasks = []
 
-      overdue_tasks << @user.tasks.overdue_incomplete.where(client_id: client.id)
-      today_tasks << @user.tasks.today_incomplete.where(client_id: client.id)
-      upcoming_tasks << @user.tasks.incomplete.upcoming_within_three_months.where(client_id: client.id)
+        overdue_tasks << @user.tasks.overdue_incomplete.where(client_id: client.id)
+        today_tasks << @user.tasks.today_incomplete.where(client_id: client.id)
+        upcoming_tasks << @user.tasks.incomplete.upcoming_within_three_months.where(client_id: client.id)
 
-      client_tasks << [ client, { overdue_tasks: overdue_tasks.flatten.uniq, today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq } ]
+        client_tasks << [ client, { overdue_tasks: overdue_tasks.flatten.uniq, today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq } ]
+      end
     end
     client_tasks
   end
