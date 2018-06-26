@@ -431,9 +431,6 @@ module ClientsHelper
     elsif rule[/^(programexitdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')
       field_name = 'exit_date'
-    elsif object.class.to_s[/^(leaveProgram)/i]
-      klass_name.merge!(rule => 'leave_programs')
-      field_name = 'exit_date'
     elsif rule[/^(enrollmentdate)/i].present?
       klass_name.merge!(rule => 'client_enrollments')
       field_name = 'enrollment_date'
