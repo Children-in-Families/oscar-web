@@ -4,9 +4,9 @@
       .col-xs-6
         %h5= t('.overdue_tasks')
   .panel-body
-    - @clients.each do |client, overdue_forms|
+    - @client_tasks.each do |client, overdue_forms|
       - overdue_tasks = overdue_forms[:overdue_tasks]
-      - next if skipped_overdue_tasks?(overdue_tasks) && skipped_overdue_forms?(overdue_forms, client) && skipped_overdue_assessments?(client)
+      - next if skipped_overdue_tasks?(overdue_tasks)
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
@@ -20,6 +20,14 @@
                     %td.col-xs-3{ rowspan: overdue_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+    - @clients.each do |client, overdue_forms|
+      - next if skipped_overdue_forms?(overdue_forms, client) && skipped_overdue_assessments?(client)
+      .ibox.border-left-right.border-bottom
+        .ibox-title
+          %h5
+            = link_to client.name, client_path(client), target: :_blank
+        .ibox-content.no-padding
+          %table.table.table-striped.active_tasks
             - if @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && !client.age_over_18?
               - assessment = client.assessments.latest_record
               - if assessment.present?

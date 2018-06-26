@@ -20,6 +20,7 @@ class DashboardsController < AdminController
 
   def find_tasks
     @clients = find_clients
+    @client_tasks = find_client_tasks if @task_params
     @users = find_users.order(:first_name, :last_name) unless current_user.case_worker?
   end
 
@@ -33,20 +34,12 @@ class DashboardsController < AdminController
     clients_upcoming = []
     clients = []
     @user.clients.active_accepted_status.each do |client|
-      overdue_tasks = []
-      today_tasks = []
-      upcoming_tasks = []
       overdue_trackings = []
       today_trackings = []
       upcoming_trackings = []
       overdue_forms = []
       today_forms = []
       upcoming_forms = []
-      if @task_params
-        overdue_tasks << client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).overdue_incomplete
-        today_tasks << client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).today_incomplete
-        upcoming_tasks << client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).upcoming_within_three_months
-      end
 
       if @form_params
         custom_fields = client.custom_fields.where.not(frequency: '')
@@ -77,9 +70,25 @@ class DashboardsController < AdminController
           end
         end
       end
-      clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq, overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq, upcoming_trackings: upcoming_trackings.uniq,
-        overdue_tasks: overdue_tasks.flatten.uniq, today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq }]
+      clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq, overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq, upcoming_trackings: upcoming_trackings.uniq }]
     end
     clients
+  end
+
+  def find_client_tasks
+    client_tasks = []
+    client_ids = @user.tasks.pluck(:client_id).uniq
+    Client.active_accepted_status.where(id: client_ids).each do |client|
+      overdue_tasks = []
+      today_tasks = []
+      upcoming_tasks = []
+
+      overdue_tasks << @user.tasks.overdue_incomplete.where(client_id: client.id)
+      today_tasks << @user.tasks.today_incomplete.where(client_id: client.id)
+      upcoming_tasks << @user.tasks.incomplete.upcoming_within_three_months.where(client_id: client.id)
+
+      client_tasks << [ client, { overdue_tasks: overdue_tasks.flatten.uniq, today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq } ]
+    end
+    client_tasks
   end
 end
