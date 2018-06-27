@@ -67,12 +67,14 @@ class User < ActiveRecord::Base
   scope :staff_performances,        -> { where(staff_performance_notification: true) }
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
   scope :non_locked,                -> { where(disable: false) }
-  scope :notify_email,             -> { where(task_notify: true) }
+  scope :notify_email,              -> { where(task_notify: true) }
+  scope :referral_notification_email,    -> { where(referral_notification: true) }
 
   before_save :assign_as_admin
 
   before_save  :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
+  after_save :toggle_referral_notification
   after_create :build_permission
 
   def build_permission
@@ -264,4 +266,11 @@ class User < ActiveRecord::Base
   #   # as the user is unable to access their device/token
   #   false
   # end
+
+  private
+
+  def toggle_referral_notification
+    return unless roles_changed? && roles == 'admin'
+    self.update_columns(referral_notification: true)
+  end
 end

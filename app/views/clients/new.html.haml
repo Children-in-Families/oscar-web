@@ -4,6 +4,12 @@
       .ibox-title
         %h5.client-form-title= t('.new_client_title')
         .pull-right
-          %h5= "Client ID - #{current_organization.short_name} ###"
+          - if @client.slug.present?
+            %h5= "Client ID - #{@client.slug}"
+          - else
+            %h5= "Client ID - #{current_organization.short_name} ###"
+        .consent-forms
+          - if @referral.present?
+            = link_to t('.download_supporting_document'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
       .ibox-content
         = render 'form'

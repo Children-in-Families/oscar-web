@@ -6,9 +6,9 @@
 
     %legend= t('.other_information')
     .row
-      - if selected_country.in?(['cambodia', 'thailand'])
+      - if selected_country.in?(['cambodia', 'thailand']) || international_referred_client
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: t('.province')
+          = f.input :birth_province_id, collection: @birth_provinces, as: :grouped_select, group_label_method: :first, group_method: :last,  label: t(".province.#{@client.country_origin_label}")
       .col-xs-12.col-sm-6.col-md-4
         = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
       .col-xs-12.col-sm-6.col-md-4

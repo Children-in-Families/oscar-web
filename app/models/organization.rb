@@ -5,7 +5,9 @@ class Organization < ActiveRecord::Base
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }
   scope :without_cwd, -> { where.not(short_name: 'cwd') }
-  scope :without_demo_and_cwd, -> { where.not(short_name: ['demo', 'cwd', 'myan', 'rok', 'mhc']) }
+  scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
+  scope :oscar, -> { visible.where.not(short_name: 'demo') }
+  scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared']) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
@@ -44,5 +46,13 @@ class Organization < ActiveRecord::Base
 
   def cwd?
     short_name == 'cwd'
+  end
+
+  def available_for_referral?
+    if Rails.env.production?
+      Organization.oscar.pluck(:short_name).include?(self.short_name)
+    else
+      Organization.visible.pluck(:short_name).include?(self.short_name)
+    end
   end
 end
