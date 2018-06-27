@@ -200,6 +200,8 @@ en:
           attributes:
             family_type:
               blank: can't be blank
+            status:
+              blank: can't be blank
         government_report:
           attributes:
             code:
@@ -1596,7 +1598,7 @@ en:
       forms: Forms
       tasks: Tasks
     family:
-      families: Families
+      families: Active Families
       foster: Foster
       kinship: Kinship
     overdue:
@@ -1843,6 +1845,7 @@ en:
         'no': 'No'
         province: Province
         significant_family_member_count: Significant Family Member Count
+        status: Status
         total: Total
         view: View
         'yes': 'Yes'
@@ -2627,6 +2630,7 @@ en:
       'no': 'No'
       province: Province
       significant_family_member_count: Significant Family Member Count
+      status: Status
       'yes': 'Yes'
     index:
       add_new_family: Add New Family
@@ -2662,6 +2666,7 @@ en:
       read_less: read less
       read_more: read more
       significant_family_member_count: Significant Family Member Count
+      status: Status
       'yes': 'Yes'
     update:
       not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!

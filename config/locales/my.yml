@@ -198,6 +198,8 @@ my:
           attributes:
             family_type:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            status:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         government_report:
           attributes:
             code:
@@ -1851,6 +1853,7 @@ my:
         'no': မဟုတ္ပါ
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
+        status: အေနအထား
         total: စုစုေပါင္း
         view: ျမင္ကြင္း
         'yes': ဟုတ္ပါသည္
@@ -2636,6 +2639,7 @@ my:
       'no': မဟုတ္ပါ
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
+      status: အေျခအေန
       'yes': မွန္ပါသည္
     index:
       add_new_family: မိသားစုအသစ္ ထည့္သြင္းရန္
@@ -2671,6 +2675,7 @@ my:
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
+      status: အေျခအေန
       'yes': မွန္ပါသည္
     update:
       not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ

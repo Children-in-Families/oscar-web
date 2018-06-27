@@ -200,6 +200,8 @@ km:
           attributes:
             family_type:
               blank: មិនអាចរំលង
+            status:
+              blank: មិនអាចរំលង
         government_report:
           attributes:
             code:
@@ -1844,6 +1846,7 @@ km:
         'no': ទេ
         province: ខេត្ត/ក្រុង
         significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
+        status: ស្ថានភាព
         total: សរុប
         view: មើល
         'yes': បាទ/ចាស
@@ -2628,6 +2631,7 @@ km:
       'no': ទេ
       province: ខេត្ត
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
+      status: ស្ថានភាព
       'yes': បាទ/ចាស
     index:
       add_new_family: បន្ថែមគ្រួសារថ្មី
@@ -2663,6 +2667,7 @@ km:
       read_less: អានតិច
       read_more: អានបន្ថែម
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
+      status: ស្ថានភាព
       'yes': បាទ/ចាស
     update:
       not_allowed_to_detach_clients: អ្នកមិនអាចយកអតិថិជនចេញពីគ្រួសារតាមទម្រង់នេះបានទេ

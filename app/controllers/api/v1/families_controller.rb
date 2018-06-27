@@ -32,7 +32,7 @@ module Api
                                 :significant_family_member_count, :household_income,
                                 :dependable_income, :female_children_count,
                                 :male_children_count, :female_adult_count,
-                                :male_adult_count, :family_type, :contract_date,
+                                :male_adult_count, :family_type, :status, :contract_date,
                                 :address, :province_id, children: []
                                 )
       end
