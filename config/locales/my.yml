@@ -1494,7 +1494,11 @@ my:
       primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
       program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
       progress_note: ေဆာင္ရြက္ဆဲမွတ္စု
-      province: ေမြးဖြားရာခ႐ိုင္
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: Birth Province
       received_by: မွ လက္ခံသည္
       refer_client: ရည်ညွှန်း
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို

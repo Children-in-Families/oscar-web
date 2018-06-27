@@ -233,7 +233,7 @@
                       = image_tag 'what3words.png', class: 'what3words'
               %tr
                 %td.spacing-first-col
-                  = t('.birth_province')
+                  = t(".province.#{@client.country_origin_label}")
                 %td
                   %strong
                     = @client.birth_province
