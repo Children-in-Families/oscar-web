@@ -1,0 +1,103 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "case_history_#{index}"}
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = case_history_label(object)
+
+      .modal-body
+        %table.table.table-bordered
+          %tbody
+            - case_history = object.class.table_name
+            - case case_history
+            - when 'enter_ngos'
+              %tr
+                %td= t('.accepted_date')
+                %td= date_format(object.accepted_date)
+            - when 'exit_ngos'
+              %tr
+                %td= t('.exit_date')
+                %td= date_format(object.exit_date)
+              %tr
+                %td= t('.exit_circumstance')
+                %td= object.exit_circumstance
+              %tr
+                %td= t('.other_info_of_exit')
+                %td= object.other_info_of_exit
+              %tr
+                %td= t('.exit_reasons')
+                %td= object.exit_reasons if object.exit_reasons.any?
+              %tr
+                %td= t('.exit_note')
+                %td= object.exit_note
+            - when 'client_enrollments'
+              %tr
+                %td= t('.enrollment_date')
+                %td= date_format(object.enrollment_date)
+              - object.program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+                - unless type == 'separateLine'
+                  - if type == 'paragraph'
+                    %tr
+                      %td{colspan: '2'}
+                        = key.html_safe
+                  - else
+                    %tr
+                      %td
+                        = key.html_safe
+                      %td
+                        - key = convert_bracket(key)
+                        - if type == 'file'
+                          = render 'shared/form_builder/list_attachment', label: key, resource: object
+                        - else
+                          = display_custom_properties(object.properties[key])
+            - when 'leave_programs'
+              %tr
+                %td= t('.exit_program_date')
+                %td= date_format(object.exit_date)
+              - object.program_stream.exit_program.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+                - unless type == 'separateLine'
+                  - if type == 'paragraph'
+                    %tr
+                      %td{colspan: '2'}
+                        = key.html_safe
+                  - else
+                    %tr
+                      %td
+                        = key.html_safe
+                      %td
+                        - key = convert_bracket(key)
+                        - if type == 'file'
+                          = render 'shared/form_builder/list_attachment', label: key, resource: object
+                        - else
+                          = display_custom_properties(object.properties[key])
+            - when 'referrals'
+              %tr
+                %td= t('.client_id')
+                %td= object.slug
+              %tr
+                %td= t('.client')
+                %td= object.client_name
+              %tr
+                %td= t('.date_of_referral')
+                %td= date_format(object.date_of_referral)
+              %tr
+                %td= t('.referred_from')
+                %td= object.referred_from_ngo
+              %tr
+                %td= t('.referred_to')
+                %td= object.referred_to_ngo
+              %tr
+                %td= t('.name_of_referee')
+                %td= object.name_of_referee
+              %tr
+                %td= t('.referee_phone_number')
+                %td= object.referral_phone
+              %tr
+                %td= t('.referral_reasons')
+                %td= object.referral_reason
+              %tr
+                %td= t('.consent_form')
+                %td
+                  = link_to t('.preview_download'), object.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank

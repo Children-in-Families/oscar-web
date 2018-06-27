@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   def index
-    @organizations = Organization.where.not(short_name: 'cwd').order(:created_at)
+    @organizations = Organization.visible.order(:created_at)
     if user_signed_in?
       redirect_to dashboards_path(subdomain: Organization.current.short_name)
     else

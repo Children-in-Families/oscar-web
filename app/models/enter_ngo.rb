@@ -1,6 +1,8 @@
 class EnterNgo < ActiveRecord::Base
   belongs_to :client
 
+  alias_attribute :new_date, :accepted_date
+
   has_many :enter_ngo_users, dependent: :destroy
   has_many :users, through: :enter_ngo_users
 
