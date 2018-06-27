@@ -373,7 +373,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     return object unless params.has_key?(:client_advanced_search)
-    return object if rule[/^(#{params['all_values']})/i].present?
+    return object if rule[/^(#{params['all_values']})/i].present? || object.blank?
     data    = eval params[:client_advanced_search][:basic_rules]
     results = data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
@@ -403,6 +403,34 @@ module ClientsHelper
     end
     return types.uniq if types.uniq.present?
     object
+  end
+
+  def program_stream_name(object, rule)
+    results    = client_advanced_search_data(object, rule)
+    return object if rule[/^(#{params['all_values']})/i].present? || object.blank?
+
+    types      = []
+    hashes     = Hash.new { |h,k| h[k] = []}
+    results.each {|k, o, v| hashes[k] << {o => v} }
+
+    hashes[rule].each do |rule|
+      rule.keys.each do |key|
+        values = rule[key].is_a?(Array) ? rule[key].map(&:to_i) : rule[key].to_i
+        case key
+        when 'equal'
+          types += object.where(client_enrollments: { program_stream_id: values}).select("DISTINCT(program_stream_id)")
+        when 'not_equal'
+          types += object.where.not(client_enrollments: { program_stream_id: values}).select("DISTINCT(program_stream_id)")
+        when 'is_empty'
+          types += object.where("client_enrollments.program_stream_id IS NULL")
+        when 'is_not_empty'
+          types += object.where("client_enrollments.program_stream_id IS NOT NULL")
+        else
+          object
+        end
+      end
+    end
+    types.present? ? types.uniq : []
   end
 
   def date_filter(object, rule)
@@ -482,6 +510,8 @@ module ClientsHelper
         klass     = 'leave_programs'
       elsif class_name[/^(enrollmentdate)/i].present?
         klass     = 'client_enrollments'
+      elsif column.header == 'Program Streams'
+        klass     = 'client_enrollments'
       else
         klass       = klass_name[class_name.to_sym]
       end
@@ -494,6 +524,9 @@ module ClientsHelper
         @clients.each do |client|
           if class_name == 'case_note_type'
             count += case_note_types(client.send(klass.to_sym), class_name).count
+          elsif column.header == 'Program Streams'
+            class_name = 'active_program_stream'
+            count += program_stream_name(client.send(klass.to_sym), class_name).count
           elsif class_name[/^(enrollmentdate)/i].present?
             count += date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), class_name).map(&:enrollment_date).flatten.count
           else
