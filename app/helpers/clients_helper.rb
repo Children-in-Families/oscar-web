@@ -510,7 +510,7 @@ module ClientsHelper
         klass     = 'leave_programs'
       elsif class_name[/^(enrollmentdate)/i].present?
         klass     = 'client_enrollments'
-      elsif column.header == 'Program Streams'
+      elsif column.header == 'Program Streams' || column.header == 'ឈ្មោះកម្មវិធី' || column.header == 'အစီအစဥ္ စီးဆင္းမႈမ်ား'
         klass     = 'client_enrollments'
       else
         klass       = klass_name[class_name.to_sym]
@@ -524,7 +524,7 @@ module ClientsHelper
         @clients.each do |client|
           if class_name == 'case_note_type'
             count += case_note_types(client.send(klass.to_sym), class_name).count
-          elsif column.header == 'Program Streams'
+          elsif column.header == 'Program Streams' || column.header == 'ឈ្មោះកម្មវិធី' || column.header == 'အစီအစဥ္ စီးဆင္းမႈမ်ား'
             class_name = 'active_program_stream'
             count += program_stream_name(client.send(klass.to_sym), class_name).count
           elsif class_name[/^(enrollmentdate)/i].present?
