@@ -5,6 +5,7 @@ class Client::ExitNgosController < AdminController
   def create
     @exit_ngo = @client.exit_ngos.new(exit_ngo_params)
     if @exit_ngo.save
+      send_reject_referral_client_email
       redirect_to @client, notice: t('.successfully_created')
     else
       redirect_to @client, alert: t('.failed_create')
@@ -35,5 +36,12 @@ class Client::ExitNgosController < AdminController
   def remove_blank_exit_reasons
     return if params[:exit_ngo][:exit_reasons].blank?
     params[:exit_ngo][:exit_reasons].reject!(&:blank?)
+  end
+
+  def send_reject_referral_client_email
+    return unless @client.referrals.received.present? && @exit_ngo.exit_circumstance == 'Rejected Referral'
+    referral = @client.referrals.received.last
+    current_org = current_organization.full_name
+    RejectReferralClientWorker.perform_async(current_user.name, current_org, referral.id)
   end
 end

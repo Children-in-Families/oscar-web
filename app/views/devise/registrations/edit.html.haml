@@ -38,16 +38,21 @@
               .col-xs-12.col-md-4= f.input :password_confirmation, required: false, label: t('.password_confirmation')
               .col-xs-12.col-md-4= f.input :current_password, hint: t('.we_need_your_current_password_to_confirm_your_changes'), required: true, label: t('.current_password')
             .row
+              - if current_user.admin? || current_user.manager?
+                .col-xs-12.col-sm-6.col-md-4
+                  .i-checks.referral_notification
+                    %label= t('.referral_notification')
+                    = f.input :referral_notification, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
               - if policy(resource).task_notify?
                 .col-xs-12.col-sm-6.col-md-4
                   .i-checks.overdue_task_summary_notify
                     %label= t('.overdue_task_summary_notify')
                     = f.input :task_notify, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
-              - if policy(resource).staff_performance_notification?
-                .col-xs-12.col-sm-6.col-md-4.performance_report
-                  .i-checks
-                    %label= t('.staff_performance_notification')
-                    = f.input :staff_performance_notification, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+              -# - if policy(resource).staff_performance_notification?
+              -#   .col-xs-12.col-sm-6.col-md-4.performance_report
+              -#     .i-checks
+              -#       %label= t('.staff_performance_notification')
+              -#       = f.input :staff_performance_notification, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
               .col-xs-12.col-sm-6.col-md-4
                 .i-checks.calendar-integration
                   %label= t('.calendar_integration')

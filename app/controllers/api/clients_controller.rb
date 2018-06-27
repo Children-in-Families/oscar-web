@@ -9,7 +9,7 @@ module Api
 
     def find_client_in_organization
       results = []
-      Organization.without_demo.each do |org|
+      Organization.oscar.each do |org|
         Organization.switch_to(org.short_name)
         clients = find_client_by(params)
         set_organization_to_client(clients, org.full_name)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180507051830) do
+ActiveRecord::Schema.define(version: 20180620023347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -319,7 +319,7 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.string   "code",                             default: ""
     t.string   "given_name",                       default: ""
     t.string   "family_name",                      default: ""
-    t.string   "gender",                           default: "Male"
+    t.string   "gender",                           default: ""
     t.date     "date_of_birth"
     t.string   "status",                           default: "Referred"
     t.date     "initial_referral_date"
@@ -410,6 +410,7 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.integer  "subdistrict_id"
     t.integer  "township_id"
     t.integer  "state_id"
+    t.string   "country_origin",                   default: ""
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
@@ -823,6 +824,7 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.integer  "families_count", default: 0
     t.integer  "partners_count", default: 0
     t.integer  "users_count",    default: 0
+    t.string   "country"
   end
 
   create_table "quantitative_cases", force: :cascade do |t|
@@ -890,6 +892,25 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.integer  "clients_count", default: 0
   end
 
+  create_table "referrals", force: :cascade do |t|
+    t.string   "slug",             default: ""
+    t.date     "date_of_referral"
+    t.string   "referred_to",      default: ""
+    t.string   "referred_from",    default: ""
+    t.text     "referral_reason",  default: ""
+    t.string   "name_of_referee",  default: ""
+    t.string   "referral_phone",   default: ""
+    t.integer  "referee_id"
+    t.string   "client_name",      default: ""
+    t.string   "consent_form",     default: [],                 array: true
+    t.boolean  "saved",            default: false
+    t.integer  "client_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
+
   create_table "settings", force: :cascade do |t|
     t.string   "assessment_frequency"
     t.integer  "min_assessment"
@@ -905,6 +926,24 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "shared_clients", force: :cascade do |t|
+    t.string   "slug",              default: ""
+    t.string   "given_name",        default: ""
+    t.string   "family_name",       default: ""
+    t.string   "local_given_name",  default: ""
+    t.string   "local_family_name", default: ""
+    t.string   "gender",            default: ""
+    t.date     "date_of_birth"
+    t.string   "live_with",         default: ""
+    t.string   "telephone_number",  default: ""
+    t.integer  "birth_province_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "country_origin",    default: ""
+  end
+
+  add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "stages", force: :cascade do |t|
     t.float    "from_age"
@@ -1236,6 +1275,7 @@ ActiveRecord::Schema.define(version: 20180507051830) do
     t.boolean  "staff_performance_notification", default: true
     t.string   "pin_code",                       default: ""
     t.boolean  "domain_warning",                 default: false
+    t.boolean  "referral_notification",          default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -1339,6 +1379,7 @@ ActiveRecord::Schema.define(version: 20180507051830) do
   add_foreign_key "quantitative_type_permissions", "quantitative_types"
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
+  add_foreign_key "referrals", "clients"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
