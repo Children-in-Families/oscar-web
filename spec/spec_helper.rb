@@ -98,8 +98,12 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
     Apartment::Tenant.drop('demo') rescue nil
     Apartment::Tenant.drop('app') rescue nil
+    Apartment::Tenant.drop('shared') rescue nil
+    Apartment::Tenant.drop('mtp') rescue nil
+    Organization.create_and_build_tanent(full_name: 'Shared', short_name: 'shared')
     Organization.create_and_build_tanent(full_name: 'Demo', short_name: 'demo')
     Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
+    Organization.create_and_build_tanent(full_name: 'MTP', short_name: 'mtp')
   end
 
   config.before(:each, js: true) do

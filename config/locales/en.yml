@@ -1489,7 +1489,11 @@ en:
       primary_carer_phone_number: Primary Carer Phone Number
       program_streams: Enroll Client to Program Streams
       progress_note: Progress Note
-      province: Birth Province
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: Birth State
+        thailand: Birth Province
       received_by: Referral Received By
       refer_client: Refer Client
       referee_phone_number: Referee Phone Number

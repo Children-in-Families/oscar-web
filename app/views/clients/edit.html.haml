@@ -3,5 +3,8 @@
     .ibox
       .ibox-title.edit-form
         %h5= t('.edit_client_title')
+        .consent-forms
+          - if @referral.present?
+            = link_to t('.download_supporting_document'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
       .ibox-content
         = render 'form'
