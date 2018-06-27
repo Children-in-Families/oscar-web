@@ -1,11 +1,12 @@
 = simple_form_for(@family) do |f|
   .ibox-content
-    = f.error_notification
+    = error_notification(f)
     .form-inputs
       .row
         .col-xs-12.col-sm-6.col-md-4= f.input :name, label: t('.name')
         .col-xs-12.col-sm-6.col-md-4= f.input :code, label: t('.code')
-        .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: [['Birth Family', 'birth_family'], %w(Emergency emergency), %w(Foster foster), %w(Inactive inactive), %w(Kinship kinship)], label: t('.family_type'), input_html: { class: 'select2' }
+        .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: Family::TYPES, label: t('.family_type')
+        .col-xs-12.col-sm-6.col-md-4= f.input :status, collection: Family::STATUSES, label: t('.status')
         .col-xs-12.col-sm-6.col-md-4= f.input :case_history, label: t('.case_history')
         .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address')
         .col-xs-12.col-sm-6.col-md-4= f.input :significant_family_member_count, label: t('.significant_family_member_count')

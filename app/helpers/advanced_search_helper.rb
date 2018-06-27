@@ -116,6 +116,7 @@ module AdvancedSearchHelper
       id:                                       I18n.t('datagrid.columns.families.id'),
       code:                                     I18n.t('datagrid.columns.families.code'),
       family_type:                              I18n.t('datagrid.columns.families.family_type'),
+      status:                                   I18n.t('datagrid.columns.families.status'),
       case_history:                             I18n.t('datagrid.columns.families.case_history'),
       address:                                  I18n.t('datagrid.columns.families.address'),
       significant_family_member_count:          I18n.t('datagrid.columns.families.significant_family_member_count'),
