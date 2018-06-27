@@ -255,4 +255,9 @@ module ApplicationHelper
       I18n.t('layouts.notification.due_today_forms_count', count: @notification.client_enrollment_tracking_frequency_due_today_count)
     end
   end
+
+  def whodunnit(event, type, id)
+    user_id = PaperTrail::Version.where(event: event, item_type: type, item_id: id).first.whodunnit
+    user_id.present? ? User.find(user_id).name : ''
+  end
 end

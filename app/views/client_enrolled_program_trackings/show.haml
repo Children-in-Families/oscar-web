@@ -16,6 +16,7 @@
             .btn.btn-default.btn-back-default
               = t('.back')
       .ibox-content
+        %h5= "Created by #{whodunnit('create', 'ClientEnrollmentTracking', @client_enrollment_tracking.id)} on #{@client_enrollment_tracking.created_at.strftime("%B %d, %Y")} "
         .table-responsive
           %table.table.table-bordered
             - @client_enrollment_tracking.tracking.fields.map{|field| [field['type'], field['label']]}.each do |type, key|
@@ -34,4 +35,3 @@
                         = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment_tracking
                       - else
                         = display_custom_properties(@client_enrollment_tracking.properties[key])
-

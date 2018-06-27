@@ -13,9 +13,11 @@
         %table.table.small.m-b-xs
           %tbody
             %tr
-              %td{ colspan: 2 }
+              %td
                 = "#{t('.date_of_birth')} :"
                 %strong= @client.date_of_birth_format
+              %td
+                = "Created by #{whodunnit('create', 'Client', @client.id)} on #{@client.created_at.strftime("%B %d, %Y")}"
             %tr
               %td
                 = "#{t('.age')} :"
