@@ -8,5 +8,17 @@ end
 
 describe Province, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
+  it { is_expected.to validate_uniqueness_of(:name).case_insensitive.scoped_to(:country) }
+end
+
+describe Province, '.scopes' do
+  let!(:phnom_penh){ create(:province, country: 'cambodia') }
+  let!(:bangkok){ create(:province, country: 'thailand') }
+  context '.country_is(...)' do
+    it { expect(Province.country_is('cambodia').ids).to include(phnom_penh.id) }
+    it { expect(Province.country_is('cambodia').ids).not_to include(bangkok.id) }
+
+    it { expect(Province.country_is('thailand').ids).to include(bangkok.id) }
+    it { expect(Province.country_is('thailand').ids).not_to include(phnom_penh.id) }
+  end
 end

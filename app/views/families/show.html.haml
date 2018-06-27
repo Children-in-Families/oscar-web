@@ -137,7 +137,13 @@
                   = t('.family_type')
                 %td
                   %strong
-                    = @family.family_type.titleize
+                    = @family.family_type
+              %tr
+                %td.spacing-first-col
+                  = t('.status')
+                %td
+                  %strong
+                    = @family.status
 .row
   .col-xs-12.clients
     .ibox

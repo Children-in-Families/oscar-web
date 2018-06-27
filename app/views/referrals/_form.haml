@@ -1,0 +1,43 @@
+- ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name, disabled: @referral.referred_to != org.short_name] }
+- ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral.referred_to != 'external referral']
+= simple_form_for [@client, @referral || @client.referrals.build] do |f|
+  .row
+    .col-xs-12.col-sm-8.col-sm-offset-2
+      %p.text-danger.external-referral-warning.text-hide
+        = t('.external_referral_warning')
+      .row
+        .col-xs-12
+          .form-group.date.optional{ class: ('has-error' if f.error :date_of_referral) }
+            %label.date.control-label{ for: 'date_of_referral' }
+              %abbr{ title: 'required' } *
+              = t('.date_of_referral')
+            .input-group.date
+              = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', value: referral_date(f.object)
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+            = f.error :date_of_referral
+      .row
+        .col-xs-12
+          = f.input :client_name, readonly: true, input_html: { value: @client.name }, label: t('.client_name')
+        .col-xs-12
+          = f.input :slug, readonly: true, input_html: { value: @client.slug }, label: t('.client_id')
+        .col-xs-12
+          = f.input :referred_from, readonly: true, input_html: { value: Organization.current.full_name }, label: t('.referred_from')
+        .col-xs-12
+          = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to'), disabled: f.object.persisted?
+        .col-xs-12
+          = f.input :name_of_referee, input_html: { value: referee_name(f.object) }, label: t('.name_of_referee')
+        .col-xs-12
+          = f.input :referee_id, as: :hidden, input_html: { value: referee_id(f.object) }
+        .col-xs-12
+          = f.input :referral_phone, input_html: { value: referee_phone(f.object) }, label: t('.referral_phone')
+        .col-xs-12
+          = f.input :referral_reason, as: :text, label: t('.referral_reason')
+        .col-xs-12
+          = render 'referrals/consent_form_fields', f: f
+        .col-xs-12
+          = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
+          - if @referral.persisted?
+            = link_to t('cancel'), client_referral_path(@client, @referral), class: 'btn btn-default form-btn'
+          - else
+            = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn'

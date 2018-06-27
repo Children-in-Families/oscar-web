@@ -87,7 +87,7 @@ my:
           general_question: အေထြေထြေမးခြန္း
           new_general_question: အေထြေထြေမးခြန္းအသစ္
           new_stage_question: အဆင့္ေမးခြန္းအသစ္
-          question:
+          question: ေမးခြန္း
           stage: အဆင့္
           stage_question: အဆင့္ေမးခြန္း
           to: သို႔
@@ -146,6 +146,16 @@ my:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         client:
           attributes:
+            client_users:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            initial_referral_date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            name_of_referee:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            received_by_id:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            referral_source:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
             user_ids:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         client_enrollment:
@@ -187,6 +197,8 @@ my:
         family:
           attributes:
             family_type:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            status:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         government_report:
           attributes:
@@ -362,6 +374,7 @@ my:
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       plot: Plot
       postal_code: Postal Code
+      program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
@@ -444,7 +457,7 @@ my:
     form_builder_attachments:
       destroy:
         successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ။
-        successfully_updated:
+        successfully_updated: Remove this key
   are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
   assessments:
     add_task_form:
@@ -703,6 +716,8 @@ my:
       client_amount: အမႈသည္ပမာဏ
     dashboard:
       due_today_assessments_count:
+        one: You have 1 assessment due today.
+        other: You have %{count} assessments due today.
       emergency_cares_html: အေရးေပၚ <br/> ေစာင့္ေရွာက္မႈမ်ား
       female_emergency_cares: အမ်ိဳးသမီးမ်ား <br/> EC
       female_foster_cares: အမ်ိဳးသမီးမ်ား <br/> FC
@@ -751,6 +766,7 @@ my:
         exit_status: အေနအထား
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         reject_client: client ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       form:
         case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         exit_btn: ထြက္ရန္
@@ -762,6 +778,7 @@ my:
         exit_status: အေနအထား
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         reject_client: client ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       update:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
@@ -1017,6 +1034,27 @@ my:
     answer_fields:
       answer: အေျဖ
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+    case_history_detail:
+      accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+      client_id: မွတ္ပံုတင္
+      client: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_date: ထြက္သည့္မွတ္စု
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_program_date: အဆိုပါအစီအစဉ်ကိုစွန့်ခွာတွင်
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
+      internal_referral: ကနေပြောင်းရွှေ့
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
       advanced_search:
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
@@ -1081,7 +1119,9 @@ my:
     destroy:
       successfully_deleted: အမႈသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
+      download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       edit_client_title: အမႈသည္ကို ျပင္ဆင္ရန္
+      referral_has_already_been_saved: ရည်ညွန်းပြီးသားကိုသိမ်းပြီးပါပြီ
     emergency_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူအမည္
@@ -1127,6 +1167,7 @@ my:
       exit_status: အေနအထား
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       reject_client: client ကိုငြင်းပယ်
+      rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
       able: Able
       able_state: Able State
@@ -1134,8 +1175,8 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_names: ေအဂ်င္စီနာမည္
       answer: အေျဖ
-      blank: အလွတ်မဖွစျနိုငျ
       birth_province: ေမြးဖြားသည့္ ခ႐ိုင္
+      blank: အလွတ်မဖွစျနိုငျ
       cambodia: ကေမာၻဒီးယား
       case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
@@ -1160,6 +1201,7 @@ my:
       from: မွ
       gender: က်ား မ
       general_question: အေထြေထြ ေမးခြန္း
+      getting_started: Remove this key
       given_name: ေမြးနာမည္
       gov_caseworker_comment: အမႈကိုကူညီေပးသူ၏ မွတ္ခ်က္
       gov_caseworker_comment_section: အမႈသည္၏ လိုအပ္ခ်က္ႏွင့္ စိန္ေခၚမႈမ်ားအေပၚ အမႈကိုကူညီေပးသူ၏ မွတ္ခ်က္
@@ -1194,6 +1236,7 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲမွတ္ပံုတင္
       initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
+      is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       kid_id: ကေလးမွတ္ပံုတင္
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအလိုက္)
@@ -1240,7 +1283,6 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
-
     getting_started:
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
@@ -1262,7 +1304,6 @@ my:
       referral_source: လႊဲရမည့္ ရင္းျမစ္
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
-
     index:
       active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
@@ -1287,7 +1328,7 @@ my:
       sInfoTo: သို႔
       sInfoTotal: "၏"
       save_search_settings: ရွာေဖြမႈ အျပင္အဆင္မ်ားကို သိမ္းဆည္းပါ။
-      show_all:
+      show_all: အားလံုးကို ျပပါ
       view_all_active_tasks: အသက္၀င္ေသာ လုပ္ငန္းမ်ားအားလံုးကို ၾကည့္ရန္
     kinship_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
@@ -1309,7 +1350,6 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
-
     living_detail:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       contact_details: အဆက်အသွယ်အသေးစိတ်
@@ -1322,10 +1362,10 @@ my:
       school_name: ေက်ာင္းနာမည္
       schooling: သင်ကြားခြင်း
       what3words: What3words
-
     new:
+      download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       new_client_title: အမႈသည္အသစ္
-
+      referral_has_already_been_saved: ရည်ညွန်းပြီးသားကိုသိမ်းပြီးပါပြီ
     other_detail:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
@@ -1337,11 +1377,18 @@ my:
       is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       other_detail: အခြားအသေးစိတျ
       other_information: အခြားအချက်အလက်
-      province: ခ႐ိုင္
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: Birth Province
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
-
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
+    referral_form:
+      incomplete_fields_warning: သင်ဤ client ကိုလွှဲပြောင်းနိုင်အလုံးစုံတို့ကိုရှေ့တော်၌လိုအပ်သော client ကိုသတင်းအချက်အလက်ဖြည့်စွက်ပေးပါ။
+      referral_form: OSCaR Inter-Organisation Referral Form
+      title: သတိေပးခ်က္
     remaining_programs:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
@@ -1366,6 +1413,7 @@ my:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       birth_province: ေမြးရာ ခ႐ိုင္
       cambodia: ကေမာၻဒီးယား
+      case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
@@ -1377,7 +1425,9 @@ my:
       current_province: လက္ရွိ ေနထုိင္ရာ ခ႐ိုင္
       custom_id_number1: Custom ID Number1
       custom_id_number2: Custom ID Number2
+      date: နေ့စှဲ
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       edit_exit_information: Edit Exit Information
@@ -1392,6 +1442,7 @@ my:
       exit_ngo_information: ထွက်ပေါက်အန်ဂျီအိုသတင်းအချက်အလက်များ
       exit_note: ထြက္သည့္ မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
       families: မိသားစုမ်ား
       family_name: မိသားစုနာမည္
       follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
@@ -1413,6 +1464,7 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
       initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      internal_referral: ကနေပြောင်းရွှေ့
       is_the_client_rated_for_id_poor: အဆိုပါလိုင်း ID ကိုညံ့ဖျင်းသည်အဆင့်သတ်မှတ်ထားသည်ထားသည်
       kid_id: ကေလး မွတ္ပံုတင္
       live_with: အတူေနသူ
@@ -1444,14 +1496,23 @@ my:
       primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
       program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
       progress_note: ေဆာင္ရြက္ဆဲမွတ္စု
-      province: ေမြးဖြားရာခ႐ိုင္
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: Birth Province
       received_by: မွ လက္ခံသည္
+      refer_client: ရည်ညွှန်း
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_forms: ရည်ညွန်းပုံစံများ
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲရမည့္ ရင္းျမစ္
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရန်ရည်ညွှန်း
       reject: ျငင္းပယ္သည္
       reject_client: ျငင္းပယ္သည္
       reject_note: ျငင္းပယ္သည့္ မွတ္စု
+      rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       relevant_referral_information: သက္ဆုိင္ေသာ လႊဲေျပာင္းျခင္း အခ်က္အလက္
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
@@ -1475,11 +1536,9 @@ my:
       view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
       village: ေက်းရြာ
       what3words: What3words
-
     specific_point:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
-
     state:
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       state: လက္ခံသည္/ ျငင္းပယ္သည္
@@ -1541,7 +1600,7 @@ my:
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
     duetoday:
-      assessment:
+      assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       duetoday_tasks: ကြောင့်ယနေ့တာဝန်များကို
       forms: ရက်လွန်ပုံစံ
@@ -1551,7 +1610,7 @@ my:
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
     overdue:
-      assessment:
+      assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
@@ -1565,7 +1624,7 @@ my:
       referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
       staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
     upcoming:
-      assessment:
+      assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       tasks: ရက်လွန်အလုပ်တခုကို
@@ -1601,7 +1660,7 @@ my:
       interventions: ၾကား၀င္ေဆာင္ရြက္ျခင္းမ်ား
       locations: တည္ေနရာမ်ား
       materials: ကိရိယာ/ ပစၥည္းမ်ား
-      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partner_custom_fields: မိတ္ဖက္၏ သတ္မွတ္ပံုစံမ်ား
       partners: မိတ္ဖက္မ်ား
       program_streams: အစီအစဥ္စီးဆင္းမႈမ်ား
@@ -1794,6 +1853,7 @@ my:
         'no': မဟုတ္ပါ
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
+        status: အေနအထား
         total: စုစုေပါင္း
         view: ျမင္ကြင္း
         'yes': ဟုတ္ပါသည္
@@ -1822,8 +1882,9 @@ my:
         id: မွတ္ပံုတင္
         manage: စီမံသည္
         name: နာမည္
-        organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+        organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
         partner: မိတ္ဖက္
+        partner_type: မိတ်ဖက်အမျိုးအစား
         province: ခ႐ိုင္
         start_date: စတင္သည့္ ရက္စြဲ
         type: အမ်ိဳးအစား
@@ -1926,6 +1987,7 @@ my:
         asc: "↑"
         desc: "↓"
     to: သို႔
+    what3words: what3words
   date:
     formats:
       long: '""'
@@ -2170,7 +2232,7 @@ my:
     engagement: ေစ့စပ္ျခင္း
     id: မွတ္ပံုတင္
     name: နာမည္
-    organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+    organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
     province: ခ႐ိုင္
     start_date: စတင္သည့္ ရက္စြဲ
   default_placement_fields:
@@ -2341,6 +2403,7 @@ my:
         password: စကား၀ွက္
         password_confirmation: စကား၀ွက္အတည္ျပဳရန္
         province: ခ႐ိုင္
+        referral_notification: လွှဲပြောင်းသတိပေးချက်
         save: သိမ္းဆည္းရန္
         staff_performance_notification: ၀န္ထမ္းမ်ား၏စြမ္းေဆာင္ရည္အစီရင္ခံစာကို ပို႔ေပးပါ
         start_date: စတင္သည့္ရက္စြဲ
@@ -2576,6 +2639,7 @@ my:
       'no': မဟုတ္ပါ
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
+      status: အေျခအေန
       'yes': မွန္ပါသည္
     index:
       add_new_family: မိသားစုအသစ္ ထည့္သြင္းရန္
@@ -2611,6 +2675,7 @@ my:
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
+      status: အေျခအေန
       'yes': မွန္ပါသည္
     update:
       not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ
@@ -3077,10 +3142,13 @@ my:
         few: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ျပဳလုပ္ရန္ ရွိပါသည္။
         one: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ျပဳလုပ္ရန္ ရွိပါသည္။
         other: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ%{count} ျပဳလုပ္ရန္ ရွိပါသည္။
+      new_referral_client:
+        one: သငျသညျသစ် 1 ဖောက်သည်ရည်ညွှန်းပြီ
+        other: သငျသညျသစ်တစ်ခုဖောက်သည်ရည်ညွှန်းပြီ%{count}
       no_task: အသိေပးစရာမရွိပါ
       overdue_and_due_today_count:
-        one: ယနေ့ကြောင့်နဲ့ 1.
-        other: ယနေ့ကြောင့်နဲ့ #{count}.
+        one: and 1 due today
+        other: and %{count} due today
       overdue_assessments_count:
         few: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕ ရွိေနပါသည္။
         one: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ ၁ ခု ရွိေနပါသည္။
@@ -3113,6 +3181,9 @@ my:
         few: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ရွိေနပါသည္။
         one: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ရွိေနပါသည္။
         other: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
+      repeat_referral_client:
+        one: သငျသညျ 1 နောက်တဖန်ဖောက်သည်တစ်ဦးပေးပို့ခဲ့ကြ
+        other: သင်တစ်ဦးထပ်ဖောက်သည်ရည်ညွှန်းပြီ%{count}
       review_client: သင္၏ အမႈသည္စာရင္းေပးသြင္းမႈကို ျပန္လည္ ၾကည့္႐ႈရန္
       upcoming_assessments_count:
         one: သင့်အနေဖြင့်လာမည့် CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
@@ -3143,7 +3214,8 @@ my:
       log_out: ထြက္
       manage: စီမံသည္
       materials: ကိရိယာ/ပစၥည္းမ်ား
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partners: လက္တြဲေဖာ္မ်ား
       program_streams: အစီအစဥ္မ်ား စီးဆင္းမႈ
       progress_note: တိုးတက္မႈ မွတ္စု
@@ -3293,6 +3365,10 @@ my:
       users: အသံုးျပဳသူ
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
+    referrals:
+      referral_clients:  ရည်ညွန်းဖောက်သည်
+    repeat_referrals:
+      referral_clients:  ရည်ညွန်းဖောက်သည်
     upcoming_assessment:
       client: အမႈသည္
       most_recent_assessment: အများစုမှာလတ်တလောအကဲဖြတ်
@@ -3311,15 +3387,16 @@ my:
     form:
       cancel: ပယ္ဖ်က္ရန္
       name: နာမည္
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      province: ခ႐ိုင္
       save: သိမ္းဆည္းရန္
     index:
-      add_new_organisation_type: နယူးအဖွဲ့အစည်းအမျိုးအစား
+      add_new_organization_type: နယူးအဖွဲ့အစည်းအမျိုးအစား
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       changelogs: ေျပာင္းလဲမႈမွတ္တမ္း
       manage: စီမံသည္
-      organisation_type_names: နာမည္
-      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type_names: နာမည္
+      organization_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       view: ျမင္ကြင္း
     new:
       title: နယူးအဖွဲ့အစည်းအမျိုးအစား
@@ -3350,7 +3427,8 @@ my:
       engagement: ေစ့စပ္ျခင္း
       id: မွတ္ပံုတင္
       name: နာမည္
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      partner_type: မိတ်ဖက်အမျိုးအစား
       province: ခ႐ိုင္
       start_date: စတင္သည့္ ရက္စြဲ
     index:
@@ -3365,10 +3443,10 @@ my:
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
         add_new_group: အဖြဲ႕ထပ္ထည့္ရန္
         advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
-        partner_column: တည္ေဆာက္သည့္ေနရာ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
         custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
         delete_group: ဖ်က္ရန္
         no_results: မည္သည့္ရလဒ္မွ မေတြ႕ပါ။
+        partner_column: တည္ေဆာက္သည့္ေနရာ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
         reset: အားလံုးကို မူလအတိုင္း ျပန္ျပင္ရန္။
         results: ရလဒ္မ်ား
         search: ရွာေဖြရန္
@@ -3391,7 +3469,7 @@ my:
       general_info: လက္တြဲေဖာ္အေၾကာင္း
       id: မွတ္ပံုတင္
       name: နာမည္
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
       province: ခ႐ိုင္
       start_date: စတင္သည့္ ရက္စြဲ
     update:
@@ -3406,7 +3484,7 @@ my:
       warning_message: သငျသညျ client ကိုဒေတာသည်ကယ်တင်ခြင်းသို့ရောက်သောအစီအစဉ် Stream ကိုဖျက်ဖို့အကြောင်းရှိပါသည်။ သငျသညျဆက်လက်ဆောင်ရွက်ရန်ဆန္ဒရှိပါသလား
     all_ngos_custom_fields:
       next: ေနာက္သို႔
-      preview:
+      preview: အစမ္းၾကည့္ရန္
       previous: ခ႐ိုင္
     all_ngos_program_streams_tab:
       actions: လုပ္ေဆာင္မႈ
@@ -3512,6 +3590,17 @@ my:
       program_exclusive: သီးသန္႔ အစီအစဥ္
       quantity: ပမာဏ
       rule: စည္းမ်ဥ္းမ်ား
+    search:
+      actions: လုပ်ရပ်များ
+      back: ပြန်
+      copy: မိတ္တူ
+      domain: ဒိုမိန်း
+      maximum: အများဆုံး
+      name: နာမတျောကို
+      no_results: အဘယ်သူမျှမရလဒ်
+      organization: အဖှဲ့အစညျး
+      preview: အသေးစိတ်
+      status: အဆင့်အတန်း
     show:
       back: ေနာက္သို႔
       copy: ေကာ္ပီကူးသည္
@@ -3761,6 +3850,79 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
+  referrals:
+    confirm_referral:
+      body_second: သငျသညျ alreay ရည်ညွှန်းချင်သော client ကိုပစ်မှတ်အန်ဂျီအိုနေပါသည်။
+      body_third: သငျသညျပြီးသားဒီ client ကို, ထိုတုံ့ပြန်မှုကိုစောင့်ဆိုင်းကျေးဇူးပြုပြီးရည်ညွှန်းကြသည်။
+      title: သတိပေးခြင်း
+    confirm_repeat_referral:
+      body_first: ပစ်မှတ်အန်ဂျီအိုပြီးသား <<date>> ပေါ်မှာဤ client ကိုများအတွက်လွှဲပြောင်းငြင်းဆန်ခဲ့သည်။ သငျသညျကိုသူတို့ပြန်လွှဲပြောင်းလက်ခံရရှိရန်ဆန္ဒရှိဖြစ်ကြောင်းအတည်ပြုခဲ့သည်ရှိပါသလား? မရလျှင်, အခွအေနေဆှေးနှေးဖို့ကိုတိုက်ရိုက်သူတို့ကိုဆက်သွယ်ပါ။
+      cancel: ငါမတိုင်မီလွှဲပြောင်းအောင်သူတို့ကိုဆက်သွယ်ပါလိမ့်မည်
+      confirm_box: သူတို့ကိုငါနှင့်အတူအခွအေနကေိုဆွေးနွေးတင်ပြကြသည်။
+      title: သတိပေးခြင်း
+    consent_form_fields:
+      consent_form: သဘောတူညီချက်ပုံစံ
+    create:
+      failed_create: တစ်ဦးလွှဲပြောင်းဖန်တီးရန်မအောင်မြင်ခဲ့ပါ။
+      successfully_created: ရည်ညွန်းအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ။
+    edit:
+      edit_referral: ပြင်ဆင်ရန်လွှဲပြောင်း
+    form:
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      save: ကယ်ဆယ်
+      save_and_download: ကယ်တင် & Download
+    index:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      detail: အသေးစိတ်
+      edit_btn: ပြင်ဆင်ရန်
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referral_forms: ဂီယာ
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    new:
+      new_referral: ဂီယာ Add
+    update:
+      successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
+    show:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
+      external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      pdf:
+        haml:
+          client_id: မွတ္ပံုတင္
+          client_name: ကေလးနာမည္
+          date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+          name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+          referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+          referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+          referred_from: ကနေရည်ညွှန်း
+          referred_to: ရည်ညွှန်း
+      preview_download: အစမ္းၾကည့္႐ႈရန္ႏွင့္ ေဒါင္းလုတ္
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
   reports:
     form:
       case_statistic: အမႈကိန္းဂဏန္း
@@ -3778,8 +3940,8 @@ my:
   save: သိမ္းဆည္းရန္
   sessions:
     create:
-      your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
+      your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
     assessment:
       assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
@@ -3791,6 +3953,7 @@ my:
       max_case_note: အများဆုံး
     country:
       country: ႏုိင္ငံ
+      settings: အျပင္အဆင္မ်ား
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
@@ -3804,6 +3967,8 @@ my:
       partner_default_columns: လက္တြဲေဖာ္
     index:
       csi_tools: CSI ကိရိယာတခု
+    navigation:
+      country: ႏုိင္ငံ
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
@@ -3878,7 +4043,7 @@ my:
         material: ကိရိယာ/ပစၥည္း
         no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
         'on': ေပၚတြင္
-        organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+        organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
         partner: လက္တြဲေဖာ္
         partner_custom_field: လက္တြဲေဖာ္အေကာက္ခြန္ပံုစံမ်ား
         progress_note: တိုးတက္မႈမွတ္တမ္း
@@ -4284,12 +4449,12 @@ my:
       export_xls: XLS အျဖစ္ ထုတ္ရန္
       results: ရလဒ္မ်ား
     multi_factor_authentication:
-      verify_enable:
-        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
-        two_factor_authentication_enabled: Two Factor Authentication Enabled
       verify_disabled:
         two_factor_authentication_could_not_be_disabled: Two Factor Authentication could not be disabled
         two_factor_authentication_disabled: Two Factor Authentication Disabled
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
+        two_factor_authentication_enabled: Two Factor Authentication Enabled
     new:
       clients: အမႈသည္မ်ား
       current_password: လက္ရွိ စကား၀ွက္
@@ -4314,6 +4479,7 @@ my:
       start_date: စတင္သည့္ ရက္စြဲ
     permissions:
       assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      assessmets: CSI စိစစ္အကဲျဖတ္မႈမ်ား
       case_notes: အမႈမွတ္စုမ်ား
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား

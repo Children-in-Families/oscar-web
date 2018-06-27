@@ -64,7 +64,8 @@ describe 'Family' do
       fill_in 'Address', with: 'Family Address'
       fill_in 'Caregiver Information', with: 'Caregiver info'
       find(".family_children select option[value='#{client.id}']", visible: false).select_option
-      find('.family_family_type select option[value="emergency"]', visible: false).select_option
+      find(".family_family_type select option[value='Short Term / Emergency Foster Care']", visible: false).select_option
+      find(".family_status select option[value='Active']", visible: false).select_option
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Family Name')
@@ -84,7 +85,7 @@ describe 'Family' do
   feature 'Update', js: true do
     let!(:pirunseng){ create(:client, :accepted, given_name: 'Pirun', family_name: 'Seng') }
     let!(:ec_family){ create(:family, :emergency, name: 'Emergency Family') }
-    let!(:non_case_family){ create(:family, family_type: ['birth_family', 'inactive'].sample) }
+    let!(:non_case_family){ create(:family, family_type: ['Other', 'Birth Family (Both Parents)'].sample) }
     let!(:non_case){ create(:case, case_type: 'Referred', client: pirunseng, family: non_case_family) }
     let!(:ec_case){ create(:case, :emergency, client: pirunseng, family: ec_family) }
 
@@ -150,7 +151,7 @@ describe 'Family' do
       find('button.family-search').click
     end
     scenario 'filter by family type' do
-      page.find("#family-search-form select#family_grid_family_type option[value='emergency']", visible: false).select_option
+      page.find("#family-search-form select#family_grid_family_type option[value='Short Term / Emergency Foster Care']", visible: false).select_option
       click_button 'Search'
       expect(page).to have_content(family.name)
       expect(page).not_to have_content(other_family)

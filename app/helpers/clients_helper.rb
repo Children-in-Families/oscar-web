@@ -547,4 +547,24 @@ module ClientsHelper
       column.header.truncate(65)
     end
   end
+
+  def case_history_label(value)
+    label = case value.class.table_name
+    when 'enter_ngos' then t('.accepted_date')
+    when 'exit_ngos' then t('.exit_date')
+    when 'client_enrollments' then "#{value.program_stream.name} Entry"
+    when 'leave_programs' then "#{value.program_stream.name} Exit"
+    when 'referrals'
+      if value.referred_to == current_organization.short_name
+        "#{t('.internal_referral')}: #{value.referred_from_ngo}"
+      else
+        "#{t('.external_referral')}: #{value.referred_to_ngo}"
+      end
+    end
+    label
+  end
+
+  def international_referred_client
+    params[:referral_id].present? && @client.country_origin != selected_country
+  end
 end
