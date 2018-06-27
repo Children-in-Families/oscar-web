@@ -470,10 +470,11 @@ module ClientsHelper
   end
 
   def header_counter(grid, column)
+    return if grid.class.to_s != 'ClientGrid'
     count = 0
     class_name  = header_classes(grid, column)
 
-    if grid.class.to_s == 'ClientGrid' && @clients.present? && (Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i])
+    if @clients.present? && (Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i])
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments' }
 
