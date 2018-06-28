@@ -91,13 +91,15 @@ class ProgramStreamsController < AdminController
     params[:program_stream][:exit_program] = strip_tags(exit_program)
 
     trackings = params[:program_stream][:trackings_attributes]
-    trackings.values.each do |value|
-      value['fields'] = strip_tags(value['fields'])
+    if trackings.present?
+      trackings.values.each do |value|
+        value['fields'] = strip_tags(value['fields'])
+      end
     end
   end
 
   def strip_tags(value)
-    ActionController::Base.helpers.strip_tags(value)
+    ActionController::Base.helpers.strip_tags(value).gsub(/(\\n)|(\\t)/, "")
   end
 
   def program_stream_params
@@ -134,7 +136,7 @@ class ProgramStreamsController < AdminController
 
   def find_program_stream_organizations(org = '')
     current_org_name = current_organization.short_name
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo_and_cwd.order(:full_name)
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.oscar.order(:full_name)
     program_streams = organizations.map do |org|
       Organization.switch_to org.short_name
       ProgramStream.all.reload

@@ -12,11 +12,13 @@ class ClientsController < AdminController
   before_action :fetch_advanced_search_queries, only: [:index]
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
+  before_action :assign_client_attributes, only: [:show, :edit]
   before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
+  before_action :validate_referral, only: [:new, :edit]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -56,8 +58,14 @@ class ClientsController < AdminController
         @free_client_forms          = available_editable_forms.client_forms.not_used_forms(custom_field_ids).order_by_form_title
         @group_client_custom_fields = readable_forms.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
         initial_visit_client
-        @enter_ngos = @client.enter_ngos.order(:accepted_date)
-        @exit_ngos  = @client.exit_ngos.order(:exit_date)
+        # @enter_ngos = @client.enter_ngos.order(:accepted_date)
+        # @exit_ngos  = @client.exit_ngos.order(:exit_date)
+        enter_ngos = @client.enter_ngos
+        exit_ngos  = @client.exit_ngos
+        cps_enrollments = @client.client_enrollments
+        cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
+        referrals = @client.referrals
+        @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
         # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
       end
       format.pdf do
@@ -81,7 +89,20 @@ class ClientsController < AdminController
   end
 
   def new
-    @client = Client.new
+    if params[:referral_id].present?
+      current_org = Organization.current
+      find_referral_by_params
+      referral_source_id = find_referral_source_by_referral
+
+      Organization.switch_to 'shared'
+      attributes = SharedClient.find_by(slug: @referral.slug).attributes
+      attributes = fetch_referral_attibutes(attributes, referral_source_id)
+
+      Organization.switch_to current_org.short_name
+      @client = Client.new(attributes)
+    else
+      @client = Client.new
+    end
     @client.populate_needs
     @client.populate_problems
   end
@@ -89,6 +110,14 @@ class ClientsController < AdminController
   def edit
     @client.populate_needs unless @client.needs.any?
     @client.populate_problems unless @client.problems.any?
+    attributes = @client.attributes
+    if params[:referral_id].present?
+      find_referral_by_params
+      referral_source_id = find_referral_source_by_referral
+      attributes = fetch_referral_attibutes(attributes, referral_source_id)
+      attributes.merge!({ status: 'Referred' })
+      @client.attributes = attributes
+    end
   end
 
   def create
@@ -139,11 +168,29 @@ class ClientsController < AdminController
     @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate
   end
 
+  def assign_client_attributes
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    client_record = SharedClient.find_by(slug: @client.slug)
+    if client_record.present?
+      @client.given_name = client_record.given_name
+      @client.family_name = client_record.family_name
+      @client.local_given_name = client_record.local_given_name
+      @client.local_family_name = client_record.local_family_name
+      @client.gender = client_record.gender
+      @client.date_of_birth = client_record.date_of_birth
+      @client.telephone_number = client_record.telephone_number
+      @client.live_with = client_record.live_with
+      @client.birth_province_id = client_record.birth_province_id
+    end
+    Organization.switch_to current_org.short_name
+  end
+
   def client_params
     remove_blank_exit_reasons
     params.require(:client)
           .permit(
-            :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
+            :slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,
@@ -189,18 +236,16 @@ class ClientsController < AdminController
 
   def country_address_fields
     selected_country = Setting.first.try(:country_name) || params[:country]
-    case selected_country
-    when 'cambodia'
-      @province        = Province.order(:name)
-      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
-    when 'myanmar'
-      @states          = State.order(:name)
-      @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
-    when 'thailand'
-      @province        = Province.order(:name)
-      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
-      @subdistricts    = @client.district.present? ? @client.district.subdistricts.order(:name) : []
-    end
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    @birth_provinces = []
+    ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
+    Organization.switch_to current_org
+    @current_provinces        = Province.order(:name)
+    @states                   = State.order(:name)
+    @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
+    @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+    @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
   end
 
   def initial_visit_client
@@ -223,5 +268,31 @@ class ClientsController < AdminController
 
   def quantitative_type_readable
     @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+  end
+
+  def find_referral_by_params
+    @referral = Referral.find_by(id: params[:referral_id])
+    raise ActiveRecord::RecordNotFound if @referral.nil?
+  end
+
+  def find_referral_source_by_referral
+    referral_source_org = Organization.find_by(short_name: @referral.referred_from).full_name
+    ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+  end
+
+  def fetch_referral_attibutes(attributes, referral_source_id)
+    attributes.merge!({
+      initial_referral_date: @referral.date_of_referral,
+      referral_phone: @referral.referral_phone,
+      relevant_referral_information: @referral.referral_reason,
+      name_of_referee: @referral.name_of_referee,
+      referral_source_id: referral_source_id
+    })
+  end
+
+  def validate_referral
+    return if params[:referral_id].blank?
+    find_referral_by_params
+    redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
   end
 end

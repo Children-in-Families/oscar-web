@@ -9,16 +9,32 @@ class ClientGrid
     Client.includes(:donor, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
-  filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) { |value, scope| scope.given_name_like(value) }
+  filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
+    filter_shared_fileds('given_name', value, scope)
+  end
 
-  filter(:family_name, :string, header: -> { I18n.t('datagrid.columns.clients.family_name') }) { |value, scope| scope.family_name_like(value) }
+  filter(:family_name, :string, header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |value, scope|
+    filter_shared_fileds('family_name', value, scope)
+  end
 
-  filter(:local_given_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) { |value, scope| scope.local_given_name_like(value) }
+  filter(:local_given_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) do |value, scope|
+    filter_shared_fileds('local_given_name', value, scope)
+  end
 
-  filter(:local_family_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) { |value, scope| scope.local_family_name_like(value) }
+  filter(:local_family_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) do |value, scope|
+    filter_shared_fileds('local_family_name', value, scope)
+  end
 
   filter(:gender, :enum, select: %w(Male Female), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
-    value == 'Male' ? scope.male : scope.female
+    filter_shared_fileds('gender', value, scope)
+  end
+
+  def self.filter_shared_fileds(field, value, scope)
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value).pluck(:slug)
+    Organization.switch_to current_org.short_name
+    scope.where(slug: slugs)
   end
 
   filter(:slug, :string, header: -> { I18n.t('datagrid.columns.clients.id')})  { |value, scope| scope.slug_like(value) }
@@ -359,19 +375,51 @@ class ClientGrid
   column(:kid_id, order:'clients.kid_id', header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   column(:given_name, order: 'clients.given_name', header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: true) do |object|
-    link_to object.given_name, client_path(object), target: '_blank'
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    given_name = SharedClient.find_by(slug: object.slug).given_name
+    Organization.switch_to current_org.short_name
+    link_to given_name, client_path(object), target: '_blank'
   end
 
-  column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false)
+  column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    given_name = SharedClient.find_by(slug: object.slug).given_name
+    Organization.switch_to current_org.short_name
+    given_name
+  end
 
-  column(:family_name, order: 'clients.family_name', header: -> { I18n.t('datagrid.columns.clients.family_name') })
+  column(:family_name, order: 'clients.family_name', header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    family_name = SharedClient.find_by(slug: object.slug).family_name
+    Organization.switch_to current_org.short_name
+    family_name
+  end
 
-  column(:local_given_name, order: 'clients.local_given_name', header: -> { I18n.t('datagrid.columns.clients.local_given_name') })
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
+    Organization.switch_to current_org.short_name
+    local_given_name
+  end
 
-  column(:local_family_name, order: 'clients.local_family_name', header: -> { I18n.t('datagrid.columns.clients.local_family_name') })
+  column(:local_family_name, order: 'clients.local_family_name', header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
+    Organization.switch_to current_org.short_name
+    local_family_name
+  end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
-    object.gender.try(:titleize)
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    gender = SharedClient.find_by(slug: object.slug).gender.try(:titleize)
+    Organization.switch_to current_org.short_name
+    gender
   end
 
   column(:status, header: -> { I18n.t('datagrid.columns.clients.status') }) do |object|
@@ -380,9 +428,21 @@ class ClientGrid
     end
   end
 
-  column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') })
+  column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    telephone_number = SharedClient.find_by(slug: object.slug).telephone_number
+    Organization.switch_to current_org.short_name
+    telephone_number
+  end
 
-  column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
+  column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    live_with = SharedClient.find_by(slug: object.slug).live_with
+    Organization.switch_to current_org.short_name
+    live_with
+  end
 
   # column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
@@ -423,7 +483,13 @@ class ClientGrid
     object.partners.pluck(:name).join(', ')
   end
 
-  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
+  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
+    Organization.switch_to current_org.short_name
+    date_of_birth
+  end
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
@@ -452,7 +518,11 @@ class ClientGrid
       end
 
       column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
-        object.birth_province_name
+        current_org = Organization.current
+        Organization.switch_to 'shared'
+        birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+        Organization.switch_to current_org.short_name
+        birth_province
       end
     when 'thailand'
       column(:plot, header: -> { I18n.t('datagrid.columns.clients.plot') })
@@ -474,7 +544,11 @@ class ClientGrid
       end
 
       column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
-        object.birth_province_name
+        current_org = Organization.current
+        Organization.switch_to 'shared'
+        birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+        Organization.switch_to current_org.short_name
+        birth_province
       end
     when 'lesotho'
       column(:suburb, header: -> { I18n.t('datagrid.columns.clients.suburb') })

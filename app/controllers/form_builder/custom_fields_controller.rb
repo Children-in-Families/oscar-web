@@ -77,7 +77,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def find_custom_field_in_organization(org = '')
     current_org_name = current_organization.short_name
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo_and_cwd.order(:full_name)
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.oscar.order(:full_name)
     custom_fields = organizations.map do |org|
       Organization.switch_to org.short_name
       CustomField.order(:entity_type, :form_title).reload
@@ -133,7 +133,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def remove_html_tags
     fields = params[:custom_field][:fields]
-    params[:custom_field][:fields] = ActionController::Base.helpers.strip_tags(fields)
+    params[:custom_field][:fields] = ActionController::Base.helpers.strip_tags(fields).gsub(/(\\n)|(\\t)/, "")
   end
 
   def set_custom_field

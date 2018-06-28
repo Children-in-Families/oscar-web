@@ -1,0 +1,13 @@
+#confirm-referral-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog' }
+  = hidden_field(:hidden, :title, value: t('.title'))
+  = hidden_field(:hidden, :body_second, value: t('.body_second') )
+  = hidden_field(:hidden, :body_third, value: t('.body_third') )
+  .modal-dialog
+    .modal-content.panel-warning
+      .modal-header.panel-heading
+        %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+        %h4.modal-title
+      .modal-body.text-center
+      .modal-footer
+        %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
+          = t('cancel')

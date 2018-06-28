@@ -22,7 +22,8 @@ class ClientDecorator < Draper::Decorator
   end
 
   def birth_province
-    model.birth_province.name if model.birth_province
+    Province.find_by_sql("select * from shared.provinces where shared.provinces.id = #{model.birth_province_id} LIMIT 1").first.try(:name) if model.birth_province_id
+    # model.birth_province.name if model.birth_province
   end
 
   def time_in_care

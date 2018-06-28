@@ -3,18 +3,18 @@
     .ibox
       .ibox-title
         %h5= @results
-        %span.label.label-info= t('.organisation_types')
+        %span.label.label-info= t('.organization_types')
         .ibox-tools
           - if can? :manage, OrganizationType
             = link_to '#', {"data-target" => "#organization_typeModal-", "data-toggle" => "modal", :type => "button"} do
               .btn.btn-primary.btn-add
-                = t('.add_new_organisation_type')
+                = t('.add_new_organization_type')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
-                %th= t('.organisation_type_names')
+                %th= t('.organization_type_names')
                 - if can? :manage, OrganizationType
                   %th.text-center.custom_column_manage{:colspan => "2"}
                     = t('.manage')

@@ -3,7 +3,7 @@ module AdvancedSearches
     class FamilyBaseSqlBuilder
       ASSOCIATION_FIELDS = ['client_id', 'form_title', 'case_workers']
       BLANK_FIELDS = %w(contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count)
-      SENSITIVITY_FIELDS = %w(name code address case_history caregiver_information family_type)
+      SENSITIVITY_FIELDS = %w(name code address case_history caregiver_information family_type status)
 
       def initialize(families, rules)
         @families = families

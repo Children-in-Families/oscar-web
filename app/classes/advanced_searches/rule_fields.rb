@@ -74,6 +74,15 @@ module AdvancedSearches
       Province.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
+    def birth_provinces
+      current_org = Organization.current.short_name
+      provinces = []
+      Organization.switch_to 'shared'
+      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      Organization.switch_to current_org
+      provinces.flatten
+    end
+
     def districts
       District.order(:name).map { |s| { s.id.to_s => s.name } }
     end
@@ -112,7 +121,7 @@ module AdvancedSearches
       when 'cambodia'
         {
           text_fields: ['house_number', 'street_number', 'village', 'commune'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', provinces]]
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces]]
         }
       when 'lesotho'
         {
@@ -122,7 +131,7 @@ module AdvancedSearches
       when 'thailand'
         {
           text_fields: ['plot', 'road', 'postal_code'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['subdistrict_id', subdistricts], ['birth_province_id', provinces]]
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['subdistrict_id', subdistricts], ['birth_province_id', birth_provinces]]
         }
       when 'myanmar'
         {
