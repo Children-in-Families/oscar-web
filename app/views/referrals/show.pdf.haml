@@ -1,0 +1,46 @@
+%h4.text-center{style: 'margin-bottom: 30px;'}
+  %strong OSCaR Inter-Organization Referral Form
+.row{style: 'margin-top: 10px; margin-left: 5px; margin-right: 5px'}
+  .col-xs-12
+    .ibox
+      .ibox-content
+        %section.overflow-case
+          %table.table.table-bordered
+            %tr
+              %td= t('.date_of_referral')
+              %td
+                %strong= date_format(@referral.date_of_referral)
+            %tr
+              %td= t('.client_name')
+              %td
+                %strong= @referral.client_name
+
+            %tr
+              %td= t('.client_id')
+              %td
+                %strong= @referral.slug
+
+            %tr
+              %td= t('.referred_from')
+              %td
+                %strong= @referral.referred_from_ngo
+
+            %tr
+              %td= t('.referred_to')
+              %td
+                %strong= @referral.referred_to_ngo
+
+            %tr
+              %td= t('.name_of_referee')
+              %td
+                %strong= @referral.name_of_referee
+
+            %tr
+              %td= t('.referral_phone')
+              %td
+                %strong= @referral.referral_phone
+
+            %tr
+              %td= t('.referral_reason')
+              %td
+                %strong= @referral.referral_reason

@@ -198,6 +198,8 @@ my:
           attributes:
             family_type:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            status:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         government_report:
           attributes:
             code:
@@ -1494,7 +1496,11 @@ my:
       primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
       program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
       progress_note: ေဆာင္ရြက္ဆဲမွတ္စု
-      province: ေမြးဖြားရာခ႐ိုင္
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: Birth Province
       received_by: မွ လက္ခံသည္
       refer_client: ရည်ညွှန်း
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
@@ -1654,7 +1660,7 @@ my:
       interventions: ၾကား၀င္ေဆာင္ရြက္ျခင္းမ်ား
       locations: တည္ေနရာမ်ား
       materials: ကိရိယာ/ ပစၥည္းမ်ား
-      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partner_custom_fields: မိတ္ဖက္၏ သတ္မွတ္ပံုစံမ်ား
       partners: မိတ္ဖက္မ်ား
       program_streams: အစီအစဥ္စီးဆင္းမႈမ်ား
@@ -1847,6 +1853,7 @@ my:
         'no': မဟုတ္ပါ
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
+        status: အေနအထား
         total: စုစုေပါင္း
         view: ျမင္ကြင္း
         'yes': ဟုတ္ပါသည္
@@ -1875,7 +1882,7 @@ my:
         id: မွတ္ပံုတင္
         manage: စီမံသည္
         name: နာမည္
-        organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+        organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
         partner: မိတ္ဖက္
         partner_type: မိတ်ဖက်အမျိုးအစား
         province: ခ႐ိုင္
@@ -2225,7 +2232,7 @@ my:
     engagement: ေစ့စပ္ျခင္း
     id: မွတ္ပံုတင္
     name: နာမည္
-    organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+    organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
     province: ခ႐ိုင္
     start_date: စတင္သည့္ ရက္စြဲ
   default_placement_fields:
@@ -2632,6 +2639,7 @@ my:
       'no': မဟုတ္ပါ
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
+      status: အေျခအေန
       'yes': မွန္ပါသည္
     index:
       add_new_family: မိသားစုအသစ္ ထည့္သြင္းရန္
@@ -2667,6 +2675,7 @@ my:
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
+      status: အေျခအေန
       'yes': မွန္ပါသည္
     update:
       not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ
@@ -3205,8 +3214,8 @@ my:
       log_out: ထြက္
       manage: စီမံသည္
       materials: ကိရိယာ/ပစၥည္းမ်ား
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
-      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partners: လက္တြဲေဖာ္မ်ား
       program_streams: အစီအစဥ္မ်ား စီးဆင္းမႈ
       progress_note: တိုးတက္မႈ မွတ္စု
@@ -3378,16 +3387,16 @@ my:
     form:
       cancel: ပယ္ဖ်က္ရန္
       name: နာမည္
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
       province: ခ႐ိုင္
       save: သိမ္းဆည္းရန္
     index:
-      add_new_organisation_type: နယူးအဖွဲ့အစည်းအမျိုးအစား
+      add_new_organization_type: နယူးအဖွဲ့အစည်းအမျိုးအစား
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       changelogs: ေျပာင္းလဲမႈမွတ္တမ္း
       manage: စီမံသည္
-      organisation_type_names: နာမည္
-      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type_names: နာမည္
+      organization_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       view: ျမင္ကြင္း
     new:
       title: နယူးအဖွဲ့အစည်းအမျိုးအစား
@@ -3418,7 +3427,7 @@ my:
       engagement: ေစ့စပ္ျခင္း
       id: မွတ္ပံုတင္
       name: နာမည္
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partner_type: မိတ်ဖက်အမျိုးအစား
       province: ခ႐ိုင္
       start_date: စတင္သည့္ ရက္စြဲ
@@ -3460,7 +3469,7 @@ my:
       general_info: လက္တြဲေဖာ္အေၾကာင္း
       id: မွတ္ပံုတင္
       name: နာမည္
-      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
       province: ခ႐ိုင္
       start_date: စတင္သည့္ ရက္စြဲ
     update:
@@ -4034,7 +4043,7 @@ my:
         material: ကိရိယာ/ပစၥည္း
         no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
         'on': ေပၚတြင္
-        organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+        organization_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
         partner: လက္တြဲေဖာ္
         partner_custom_field: လက္တြဲေဖာ္အေကာက္ခြန္ပံုစံမ်ား
         progress_note: တိုးတက္မႈမွတ္တမ္း

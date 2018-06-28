@@ -200,6 +200,8 @@ en:
           attributes:
             family_type:
               blank: can't be blank
+            status:
+              blank: can't be blank
         government_report:
           attributes:
             code:
@@ -1487,7 +1489,11 @@ en:
       primary_carer_phone_number: Primary Carer Phone Number
       program_streams: Enroll Client to Program Streams
       progress_note: Progress Note
-      province: Birth Province
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: Birth State
+        thailand: Birth Province
       received_by: Referral Received By
       refer_client: Refer Client
       referee_phone_number: Referee Phone Number
@@ -1592,7 +1598,7 @@ en:
       forms: Forms
       tasks: Tasks
     family:
-      families: Families
+      families: Active Families
       foster: Foster
       kinship: Kinship
     overdue:
@@ -1646,7 +1652,7 @@ en:
       interventions: Interventions
       locations: Locations
       materials: Equipment/Materials
-      organisation_types: Organisation Types
+      organization_types: Organisation Types
       partner_custom_fields: Partner Custom Forms
       partners: Partners
       program_streams: Program Streams
@@ -1839,6 +1845,7 @@ en:
         'no': 'No'
         province: Province
         significant_family_member_count: Significant Family Member Count
+        status: Status
         total: Total
         view: View
         'yes': 'Yes'
@@ -1867,7 +1874,7 @@ en:
         id: ID
         manage: Manage
         name: Name
-        organisation_type: Organisation Type
+        organization_type: Organisation Type
         partner: Partner
         partner_type: Partner Type
         province: Province
@@ -2217,7 +2224,7 @@ en:
     engagement: Engagement
     id: ID
     name: Name
-    organisation_type: Organisation Type
+    organization_type: Organisation Type
     province: Province
     start_date: Start Date
   default_placement_fields:
@@ -2623,6 +2630,7 @@ en:
       'no': 'No'
       province: Province
       significant_family_member_count: Significant Family Member Count
+      status: Status
       'yes': 'Yes'
     index:
       add_new_family: Add New Family
@@ -2658,6 +2666,7 @@ en:
       read_less: read less
       read_more: read more
       significant_family_member_count: Significant Family Member Count
+      status: Status
       'yes': 'Yes'
     update:
       not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
@@ -3177,8 +3186,8 @@ en:
       log_out: Log out
       manage: Manage
       materials: Equipment/Materials
-      organisation_type: Organisation Type
-      organisation_types: Organisation Types
+      organization_type: Organisation Type
+      organization_types: Organisation Types
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
@@ -3350,16 +3359,16 @@ en:
     form:
       cancel: Cancel
       name: Name
-      organisation_type: Organisation Type
+      organization_type: Organisation Type
       province: Province
       save: Save
     index:
-      add_new_organisation_type: Add New Organisation Type
+      add_new_organization_type: Add New Organisation Type
       are_you_sure: Are you sure you want to delete?
       changelogs: Changelog
       manage: Manage
-      organisation_type_names: Name
-      organisation_types: Organisation Types
+      organization_type_names: Name
+      organization_types: Organisation Types
       view: View
     new:
       title: New Organisation Type
@@ -3390,7 +3399,7 @@ en:
       engagement: Engagement
       id: ID
       name: Name
-      organisation_type: Organisation Type
+      organization_type: Organisation Type
       partner_type: Partner Type
       province: Province
       start_date: Start Date
@@ -3432,7 +3441,7 @@ en:
       general_info: About Partner
       id: ID
       name: Name
-      organisation_type: Organisation Type
+      organization_type: Organisation Type
       province: Province
       start_date: Start Date
     update:
@@ -4006,7 +4015,7 @@ en:
         material: Equipment/Material
         no_modification: There are no any changelog.
         'on': 'on'
-        organisation_type: Organisation Type
+        organization_type: Organisation Type
         partner: Partner
         partner_custom_field: Partner Custom Forms
         progress_note: Progress Note

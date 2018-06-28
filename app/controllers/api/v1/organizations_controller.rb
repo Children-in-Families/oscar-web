@@ -2,7 +2,7 @@ module Api
   module V1
     class OrganizationsController < ApplicationController
       def index
-        render json: Organization.order(:created_at)
+        render json: Organization.visible.order(:created_at)
       end
     end
   end

@@ -3,7 +3,6 @@
     .organizations
       .row
         - @organizations.each do |org|
-          - next if ['mhc', 'rok', 'myan'].include?(org.short_name)
           .col-xs-6.col-sm-4
             = link_to dashboards_url(subdomain: org.short_name), class: 'org-link' do
               .organization

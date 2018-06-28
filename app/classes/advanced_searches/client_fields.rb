@@ -86,7 +86,12 @@ module AdvancedSearches
     end
 
     def birth_provinces
-      Client.birth_province_is.sort.map{|s| {s[1].to_s => s[0]}}
+      current_org = Organization.current.short_name
+      provinces = []
+      Organization.switch_to 'shared'
+      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      Organization.switch_to current_org
+      provinces.flatten
     end
 
     def districts

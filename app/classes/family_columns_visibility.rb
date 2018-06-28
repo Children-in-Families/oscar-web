@@ -10,6 +10,7 @@ class FamilyColumnsVisibility
       code_: :code,
       id_: :id,
       family_type_: :family_type,
+      status_: :status,
       case_history_: :case_history,
       address_: :address,
       member_count_: :member_count,

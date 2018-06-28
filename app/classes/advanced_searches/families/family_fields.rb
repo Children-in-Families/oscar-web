@@ -32,6 +32,7 @@ module AdvancedSearches
       def drop_down_type_list
         [
           ['family_type', family_type_options],
+          ['status', status_options],
           ['province_id', provinces],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
@@ -40,7 +41,11 @@ module AdvancedSearches
       end
 
       def family_type_options
-        { birth_family: 'Birth Family', emergency: 'Emergency', foster: 'Foster', inactive: 'Inactive', kinship: 'Kinship'}
+        Family::TYPES
+      end
+
+      def status_options
+        Family::STATUSES
       end
 
       def provinces
