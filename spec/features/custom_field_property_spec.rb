@@ -25,6 +25,12 @@ feature 'custom_field_property' do
       scenario 'Caseworker name' do
         expect(page).to have_content('John Doe')
       end
+
+      scenario 'Created by .. on ..' do
+        user = custom_field_property.user.try(&:name)
+        date = custom_field_property.created_at.strftime('%d %B, %Y')
+        expect(page).to have_content("Created by #{user} on #{date}")
+      end
     end
   end
 

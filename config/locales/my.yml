@@ -519,6 +519,7 @@ my:
       three_month_assessment_report: သုံးလစဉ်အကဲဖြတ်အစီရင်ခံစာ
     update:
       successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
+  at: အပေါ်
   back: ေနာက္သို႔
   calendars:
     index:
@@ -1548,6 +1549,7 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  created_by: တည်ထောင်ထားတဲ့
   custom_field_properties:
     attachment:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား

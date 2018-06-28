@@ -104,8 +104,15 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
   feature 'Show' do
     before do
+      PaperTrail::Version.where(event: 'create', item_type: 'ClientEnrollmentTracking', item_id: client_enrollment_tracking.id).update_all(whodunnit: admin.id)
       login_as admin
       visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
+    end
+
+    scenario 'Created by .. on ..' do
+      user = whodunnit(client_enrollment_tracking.id)
+      date = client_enrollment_tracking.created_at.strftime("%B %d, %Y")
+      expect(page).to have_content("Created by #{user} on #{date}")
     end
 
     scenario 'Age' do
@@ -215,4 +222,9 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       end
     end
   end
+end
+
+def whodunnit(id)
+  user_id = PaperTrail::Version.where(event: 'create', item_type: 'ClientEnrollmentTracking', item_id: id).first.whodunnit
+  user_id.present? ? User.find(user_id).name : ''
 end

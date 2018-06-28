@@ -14,7 +14,7 @@
               .row
                 .col-xs-8
                   %h3= display_case_note_attendee(case_note)
-                  %p= "Created by #{whodunnit('create', 'CaseNote', case_note.id)} on #{case_note.created_at.strftime('%B %d, %Y')}"
+                  %p= "#{t('created_by')} #{whodunnit('create', 'CaseNote', case_note.id)} #{t('at')} #{case_note.created_at.strftime('%B %d, %Y')}"
                 .col-xs-4.text-right
                   %h4
                     = t('.case_note_on')
