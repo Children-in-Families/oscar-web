@@ -5,6 +5,7 @@ class RejectReferralClientMailer < ApplicationMailer
     @client_name = referral.client_name
     @name_of_referee = referral.name_of_referee
     referee_email = User.find(referral.referee_id).email
-    mail(to: referee_email, subject: 'Referral Client Rejection')
+    dev_email = ENV['DEV_EMAIL']
+    mail(to: referee_email, subject: 'Referral Client Rejection', bcc: dev_email)
   end
 end
