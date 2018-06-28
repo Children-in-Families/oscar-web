@@ -152,7 +152,7 @@ describe "Assessment" do
     end
   end
 
-  feature 'Update ability of caseworker/manager', js: true do
+  feature 'Update ability of admin/caseworker/manager', js: true do
     let!(:client_4){ create(:client, :accepted, users: [user, caseworker, manager]) }
     let!(:assessment_4){ create(:assessment, client: client_4, created_at: Time.now - 3.months) }
     let!(:assessment_5){ create(:assessment, client: client_4) }
@@ -162,7 +162,7 @@ describe "Assessment" do
       find("a[href='#{destroy_user_session_path}']").click
     end
 
-    scenario 'user can edit assessment forever' do
+    scenario 'admin can edit assessment forever' do
       login_as(admin)
       visit edit_client_assessment_path(client_4, assessment_4)
       expect(edit_client_assessment_path(client_4, assessment_4)).to have_content(current_path)
