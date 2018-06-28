@@ -4,7 +4,7 @@ class Dashboard
 
   def initialize(clients)
     @clients  = clients
-    @families = Family.all
+    @families = Family.active
     @partners = Partner.all
     @agencies = Agency.all
     @staff    = User.all
@@ -79,11 +79,18 @@ class Dashboard
   # end
 
   def family_type_statistic
-    [
-      { name: 'Foster', y: foster_count, url: families_path('family_grid[family_type]': 'foster') },
-      { name: 'Kinship', y: kinship_count, url: families_path('family_grid[family_type]': 'kinship') },
-      { name: 'Emergency', y: emergency_count, url: families_path('family_grid[family_type]': 'emergency') }
-    ]
+    arr = []
+    arr << { name: 'Long Term Foster Care', y: foster_count, url: families_path('family_grid[family_type]': 'Long Term Foster Care', 'family_grid[status]': 'Active') } if foster_count > 0
+    arr << { name: 'Extended Family / Kinship Care', y: kinship_count, url: families_path('family_grid[family_type]': 'Extended Family / Kinship Care', 'family_grid[status]': 'Active') } if kinship_count > 0
+    arr << { name: 'Short Term / Emergency Foster Care', y: emergency_count, url: families_path('family_grid[family_type]': 'Short Term / Emergency Foster Care', 'family_grid[status]': 'Active') } if emergency_count > 0
+    arr << { name: 'Birth Family (Both Parents)', y: birth_family_both_parents_count, url: families_path('family_grid[family_type]': 'Birth Family (Both Parents)', 'family_grid[status]': 'Active') } if birth_family_both_parents_count > 0
+    arr << { name: 'Birth Family (Only Mother)', y: birth_family_only_mother_count, url: families_path('family_grid[family_type]': 'Birth Family (Only Mother)', 'family_grid[status]': 'Active') } if birth_family_only_mother_count > 0
+    arr << { name: 'Birth Family (Only Father)', y: birth_family_only_father_count, url: families_path('family_grid[family_type]': 'Birth Family (Only Father)', 'family_grid[status]': 'Active') } if birth_family_only_father_count > 0
+    arr << { name: 'Domestically Adopted', y: domestically_adopted_count, url: families_path('family_grid[family_type]': 'Domestically Adopted', 'family_grid[status]': 'Active') } if domestically_adopted_count > 0
+    arr << { name: 'Child-Headed Household', y: child_headed_household_count, url: families_path('family_grid[family_type]': 'Child-Headed Household', 'family_grid[status]': 'Active') } if child_headed_household_count > 0
+    arr << { name: 'No Family', y: no_family_count, url: families_path('family_grid[family_type]': 'No Family', 'family_grid[status]': 'Active') } if no_family_count > 0
+    arr << { name: 'Other', y: other_count, url: families_path('family_grid[family_type]': 'Other', 'family_grid[status]': 'Active') } if other_count > 0
+    arr
   end
 
   def program_stream_report_gender
@@ -124,7 +131,35 @@ class Dashboard
     @families.emergency.size
   end
 
-    def referral_source_count
+  def birth_family_both_parents_count
+    @families.birth_family_both_parents.size
+  end
+
+  def birth_family_only_mother_count
+    @families.birth_family_only_mother.size
+  end
+
+  def birth_family_only_father_count
+    @families.birth_family_only_father.size
+  end
+
+  def domestically_adopted_count
+    @families.domestically_adopted.size
+  end
+
+  def child_headed_household_count
+    @families.child_headed_household.size
+  end
+
+  def no_family_count
+    @families.no_family.size
+  end
+
+  def other_count
+    @families.other.size
+  end
+
+  def referral_source_count
     @referral_sources.size
   end
 

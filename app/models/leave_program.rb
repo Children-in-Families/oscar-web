@@ -3,6 +3,8 @@ class LeaveProgram < ActiveRecord::Base
   belongs_to :program_stream
   has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
 
+  alias_attribute :new_date, :exit_date
+
   validates :exit_date, presence: true
   validate :exit_date_value, if: 'exit_date.present?'
 
