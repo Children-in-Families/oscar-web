@@ -22,9 +22,8 @@
             %strong
               %u= @assessment.created_at.strftime("%B %d, %Y")
             %span.pull-right.margin-asse
-              - if @assessment.latest_record?
-                - if can? :update, @assessment
-                  = assessment_edit_link(@assessment.client, @assessment)
+              - if can? :update, @assessment
+                = assessment_edit_link(@assessment.client, @assessment)
       .ibox-content
         .table-responsive
           %table.table.table-bordered
