@@ -153,7 +153,7 @@ describe "Assessment" do
   end
 
   feature 'Update ability of admin/caseworker/manager', js: true do
-    let!(:client_4){ create(:client, :accepted, users: [user, caseworker, manager]) }
+    let!(:client_4){ create(:client, :accepted, users: [admin, caseworker, manager]) }
     let!(:assessment_4){ create(:assessment, client: client_4, created_at: Time.now - 3.months) }
     let!(:assessment_5){ create(:assessment, client: client_4) }
 
