@@ -124,8 +124,7 @@ feature 'custom_field_property' do
   end
 end
 
-
 def whodunnit(id)
   user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'CustomFieldProperty', item_id: id).whodunnit
-  user_id.present? ? User.find(user_id).name : ''
+  User.find_by(id: user_id).try(:name) || ''
 end

@@ -258,7 +258,6 @@ module ApplicationHelper
 
   def whodunnit(type, id)
     user_id = PaperTrail::Version.find_by(event: 'create', item_type: type, item_id: id).whodunnit
-    name = User.find(user_id).try(:name) if user_id.present?
-    name
+    User.find_by(id: user_id).try(:name) || ''
   end
 end
