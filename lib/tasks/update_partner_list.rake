@@ -23,8 +23,8 @@ namespace 'partner_list' do
         if client.referral_source_id.present?
           referral_id = client.referral_source_id
           referral_name = ReferralSource.find_by(id: referral_id).try(:name)
-          partner_id = Partner.find_by(name: referral_name).id
-          client.update_columns(referral_source_id: partner_id)
+          partner_id = Partner.find_by(name: referral_name).try(:id)
+          client.update_columns(referral_source_id: partner_id) if partner_id.present?
         end
 
         if client.agency_clients.present?
