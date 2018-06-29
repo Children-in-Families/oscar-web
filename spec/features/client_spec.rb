@@ -82,7 +82,7 @@ describe 'Client' do
 
     scenario 'Created by .. on ..' do
       user = whodunnit(client.id)
-      date = client.created_at.strftime("%B %d, %Y")
+      date = client.created_at.strftime('%d %B, %Y')
       expect(page).to have_content("Created by #{user} on #{date}")
     end
 

@@ -17,7 +17,7 @@
                 = "#{t('.date_of_birth')} :"
                 %strong= @client.date_of_birth_format
               %td
-                = "#{t('created_by')} #{whodunnit('create', 'Client', @client.id)} #{t('at')} #{@client.created_at.strftime("%B %d, %Y")}"
+                = "#{t('created_by')} #{whodunnit('Client', @client.id)} #{t('at')} #{ date_format @client.created_at }"
             %tr
               %td
                 = "#{t('.age')} :"

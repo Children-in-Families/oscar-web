@@ -111,7 +111,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
     scenario 'Created by .. on ..' do
       user = whodunnit(client_enrollment_tracking.id)
-      date = client_enrollment_tracking.created_at.strftime("%B %d, %Y")
+      date = client_enrollment_tracking.created_at.strftime('%d %B, %Y')
       expect(page).to have_content("Created by #{user} on #{date}")
     end
 
