@@ -4,10 +4,10 @@ namespace :school_grade do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
 
-      kindergarten_1 = ['មត្តេយ្យថ្នាក់១']
-      kindergarten_2 = ['']
-      kindergarten_3 = ['']
-      kindergarten_4 = ['មត្យេយ', 'មត្តេយ្យ', '0 (មតេយ្យ)', 'មត្តេយ្យជាន់ខ្ពស់', 'kindergarten', 'មតេ្តយ្យ', 'KG', 'មតេយ្យកម្រិតខ្ពស់', 'មតេ្តយ្យកម្រិតខ្ពស់', 'មតេ្តយ្យកម្រិតទាប', 'មតេយ្យកម្រិតទាប', 'មត្តេយ្យកម្រិតខ្ពស់']
+      kindergarten_1 = ['មត្តេយ្យថ្នាក់១', 'Kindergarten 1']
+      kindergarten_2 = ['មត្តេយ្យថ្នាក់២', 'Kindergarten 2']
+      kindergarten_3 = ['មត្តេយ្យថ្នាក់៣', 'Kindergarten 3']
+      kindergarten_4 = ['មត្យេយ', 'មត្តេយ្យ', '0 (មតេយ្យ)', 'មត្តេយ្យជាន់ខ្ពស់', 'kindergarten', 'មតេ្តយ្យ', 'KG', 'មតេយ្យកម្រិតខ្ពស់', 'មតេ្តយ្យកម្រិតខ្ពស់', 'មតេ្តយ្យកម្រិតទាប', 'មតេយ្យកម្រិតទាប', 'មត្តេយ្យកម្រិតខ្ពស់', 'Kindergarten 4']
       grade_1 = ['1', 'ទី1', '01', 'Grade 1', 'ថា្នក់ទី១', 'ថ្នាក់ទី១', '1 (ខ២)', '1(ខ1)', '1 (ខ1)', '1 (ខ១)', '1 (ក១)\n']
       grade_2 = ['2', '២', 'Grade 2', 'ទី2', "ថ្នាក់ទី២ (គ)", '2 \"ក\"', 'ថ្នាក់ទី២', 'Level2', 'grade 2', 'Grade  2', '២ឃ២', '2(ក២)', '2 (ក២)', '2(ខ១)']
       grade_3 = ['3', '៣', 'Grade 3', 'ថ្នាក់ទី៣', 'Grade 3 ', '៣ង២', '3 (គ១)', '3 (គ2)', '3(ខ១)']
@@ -21,9 +21,9 @@ namespace :school_grade do
       grade_11 = ['11', '១១', '11 (no schooling now)']
       grade_12 = ['12', '១២', 'ទី១២']
       year_1 = ["ឆ្នាំទី១ ផ្នែក  Nurse", 'Year 1', '1st year', 'U1', 'University 1', 'year 1']
-      year_2 = ['2nd year', 'Second year in Bible school (B.Th)', 'U2']
-      year_3 = ['University 3 year', 'U3', 'University 3']
-      year_4 = ['University last year', '4th year', 'Gth. (Bible school), final year']
+      year_2 = ['2nd year', 'Second year in Bible school (B.Th)', 'U2', 'Year 2']
+      year_3 = ['University 3 year', 'U3', 'University 3', 'Year 3']
+      year_4 = ['University last year', '4th year', 'Gth. (Bible school), final year', 'Year 4']
 
       Client.all.each do |client|
         if client.school_grade.in? kindergarten_1
