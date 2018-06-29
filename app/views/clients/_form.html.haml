@@ -1,6 +1,9 @@
 = simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
   = hidden_field_tag :client_id, @client.id
   = hidden_field_tag :client_status, @client.status
+  = f.hidden_field :slug, input_html: { value: @client.slug }
+  = f.hidden_field :status, input_html: { value: @client.status }
+  = f.hidden_field :country_origin, input_html: { value: @client.country_origin }
 
   .client-steps{ data: {blank: t('.blank'), next: t('.next'), previous: t('.previous'), done: t('.done')} }
     = render 'getting_started', f: f

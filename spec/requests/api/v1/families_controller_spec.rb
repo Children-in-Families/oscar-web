@@ -50,7 +50,7 @@ RSpec.describe Api::V1::FamiliesController, type: :request do
       context 'when try to create family' do
         let!(:name) { FFaker::Name.name }
         before do
-          family_params = { format: 'json', family: { name: name, code: "fam-001" } }
+          family_params = { format: 'json', family: { name: name, code: "fam-001", status: 'Active', family_type: 'Other' } }
           post "/api/v1/families", family_params, @auth_headers
         end
 

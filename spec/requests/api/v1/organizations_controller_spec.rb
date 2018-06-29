@@ -13,7 +13,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
     end
 
     it 'should be returns the organizations with the correct data' do
-      expect(json['organizations'].size).to eq 3
+      expect(json['organizations'].size).to eq 4
     end
   end
 end

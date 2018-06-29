@@ -3,7 +3,7 @@
 .col-xs-12.col-sm-6.col-md-4
   = f.input :road, label: t('.road')
 .col-xs-12.col-sm-6.col-md-4
-  = f.association :province, collection: @province, label: t('.province')
+  = f.association :province, collection: @current_provinces, label: t('.province')
 .col-xs-12.col-sm-6.col-md-4
   = f.association :district, collection: @districts, label: t('.district')
 .col-xs-12.col-sm-6.col-md-4

@@ -1,0 +1,12 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.referral_clients')
+      .ibox-content
+        .row
+          .col-xs-12.mini-margin
+            %ul.list-group
+              - @unsaved_referrals.each do |referral|
+                %li.list-group-item
+                  = link_to "#{referral.client_name} #{referral.slug}", new_client_path(referral_id: referral.id), target: '_blank'
