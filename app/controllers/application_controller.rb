@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
+  before_action :set_current_user
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -81,5 +82,9 @@ class ApplicationController < ActionController::Base
     if browser.firefox? && browser.platform.mac? && lang == 'km'
       "Khmer fonts for Firefox do not render correctly. Please use Google Chrome browser instead if you intend to use OSCaR in Khmer language."
     end
+  end
+
+  def set_current_user
+    User.current_user = current_user
   end
 end

@@ -95,7 +95,8 @@ class AssessmentsController < AdminController
   end
 
   def restrict_update_assessment
-    redirect_to client_assessments_path(@client) unless @assessment.latest_record?
+    return unless current_user.case_worker? || current_user.manager?
+    redirect_to client_assessments_path(@client) if Date.today - 2.weeks > @assessment.created_at
   end
 
   def remove_attachment_at_index(index)

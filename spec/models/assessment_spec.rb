@@ -11,21 +11,6 @@ describe Assessment, 'validations' do
   let!(:client){ create(:client) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 7.month, client: client) }
 
-  context 'update?' do
-    let!(:last_assessment){ create(:assessment, client: client) }
-
-    it 'should updatable if latest' do
-      expect(last_assessment).to be_valid
-    end
-    it 'should not update if not latest' do
-      expect(assessment).not_to be_valid
-    end
-    it 'should have message Assessment cannot be updated' do
-      assessment.save
-      expect(assessment.errors.full_messages).to include('Assessment cannot be updated')
-    end
-  end
-
   context 'create?' do
     let!(:other_client){ create(:client) }
     let!(:other_assessment){ create(:assessment, client: other_client) }
@@ -176,6 +161,7 @@ describe Assessment, 'callbacks' do
     let!(:client) { create(:client, date_of_birth: 18.years.ago.to_date) }
     let!(:client_1) { create(:client, date_of_birth: 11.years.ago.to_date) }
     let!(:existing_assessment) { create(:assessment, client: client_1)}
+    let!(:case_worker){ create(:user, :case_worker) }
 
     it 'return error message if new record' do
       assessment = Assessment.create(client: client)
@@ -183,9 +169,30 @@ describe Assessment, 'callbacks' do
     end
 
     it 'not return error message if existing record' do
+      User.current_user = case_worker
       client_1.update(date_of_birth: 18.years.ago.to_date)
       existing_assessment.update(client: client_1)
       expect(existing_assessment.errors.full_messages).not_to include('Assessment cannot be created for client who is over 18.')
+    end
+  end
+
+  context 'restrict_update_assessment' do
+    let!(:admin){ create(:user, :admin) }
+    let!(:case_worker){ create(:user, :case_worker) }
+    let!(:client){ create(:client) }
+    let(:assessment){ create(:assessment, created_at: 3.weeks.ago, client: client) }
+
+
+    it 'return error message' do
+      User.current_user = case_worker
+      assessment.update(updated_at: Date.today)
+      expect(assessment.errors.full_messages).to include('Assessment cannot be updated after two weeks of creation')
+    end
+
+    it 'does not return error message when admin edits record' do
+      User.current_user = admin
+      assessment.update(updated_at: Date.today)
+      expect(assessment.errors.full_messages).not_to include('Assessment cannot be updated after two weeks of creation')
     end
   end
 

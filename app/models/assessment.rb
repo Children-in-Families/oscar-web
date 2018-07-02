@@ -10,8 +10,8 @@ class Assessment < ActiveRecord::Base
   validates :client, presence: true
   validate :must_be_enable_assessment
   validate :must_be_min_assessment_period, if: :new_record?
-  validate :only_latest_record_can_be_updated
   validate :client_must_not_over_18, if: :new_record?
+  validate :restrict_update_assessment, on: :update
 
   before_save :set_previous_score
 
@@ -59,14 +59,15 @@ class Assessment < ActiveRecord::Base
 
   private
 
+  def restrict_update_assessment
+    return unless User.current_user.case_worker? || User.current_user.manager?
+    errors.add(:base, "Assessment cannot be updated after two weeks of creation") if Date.today - 2.weeks > self.created_at
+  end
+
   def must_be_min_assessment_period
     # period = Setting.first.try(:min_assessment) || 3
     period = 3
     errors.add(:base, "Assessment cannot be created before #{period} months") if new_record? && client.present? && !client.can_create_assessment?
-  end
-
-  def only_latest_record_can_be_updated
-    errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
   end
 
   def must_be_enable_assessment
