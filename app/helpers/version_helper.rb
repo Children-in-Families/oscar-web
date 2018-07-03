@@ -26,7 +26,13 @@ module VersionHelper
       val
     end
 
-    if version_values[:titleizeTexts].include?(k)
+    if k == 'birth_province_id'
+      current_org = Organization.current
+      Organization.switch_to 'shared'
+      name = Province.find_by(id: val).try(:name)
+      Organization.switch_to current_org.short_name
+      val = name
+    elsif version_values[:titleizeTexts].include?(k)
       val = val.try(:titleize)
     elsif val.class == Date
       val = date_format(val)
@@ -178,7 +184,7 @@ module VersionHelper
   def version_values_regular
     {
       families:             ['family_id'],
-      provinces:            ['birth_province_id', 'province_id'],
+      provinces:            ['province_id'],
       referral_sources:     ['referral_source_id'],
       users:                ['received_by_id', 'followed_up_by_id', 'user_id'],
       donors:               ['donor_id'],
