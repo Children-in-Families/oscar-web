@@ -24,6 +24,6 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.input :school_name, label: t('.school_name')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :school_grade, label: t('.school_grade')
+        = f.input :school_grade, label: t('.school_grade'), collection: Client::GRADES
       .col-xs-12.col-sm-6.col-md-4
         = f.input :main_school_contact, label: t('.main_school_contact')
