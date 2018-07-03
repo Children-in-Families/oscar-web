@@ -374,8 +374,8 @@ module ClientsHelper
   def client_advanced_search_data(object, rule)
     return object unless params.has_key?(:client_advanced_search)
     return object if rule[/^(#{params['all_values']})/i].present? || object.blank?
-    data    = eval params[:client_advanced_search][:basic_rules]
-    results = data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+    @data    = eval params[:client_advanced_search][:basic_rules]
+    results = @data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
 
   def case_note_types(object, rule)
@@ -434,10 +434,14 @@ module ClientsHelper
   end
 
   def date_filter(object, rule)
-    date_range = []
-    field_name = ''
-    results    = client_advanced_search_data(object, rule)
-    hashes     = values = Hash.new { |h,k| h[k] = []}
+    param_values = []
+    sql_string   = []
+    query_array  = []
+    field_name   = ''
+    results      = client_advanced_search_data(object, rule)
+    hashes       = values = Hash.new { |h,k| h[k] = []}
+
+    # results[:rules].index {|param| param.has_key?(:condition)}
 
     results.each do |k, o, v|
       values[o] << v
@@ -465,35 +469,52 @@ module ClientsHelper
     else
       field_name = rule
     end
+    relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
 
     hashes.keys.each do |key|
       values   = hashes[key].flatten
-      relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
       case key
       when 'between'
-        date_range += object.where("#{relation} BETWEEN ? AND ?", values.first, values.last)
+        sql_string << "#{relation} BETWEEN ? AND ?"
+        param_values << values.first
+        param_values << values.last
       when 'greater_or_equal'
-        date_range += object.where("#{relation} >= ?", values.last)
+        sql_string << "#{relation} >= ?"
+        param_values << values
       when 'greater'
-        date_range += object.where("#{relation} > ?", values.last)
+        sql_string << "#{relation} > ?"
+        param_values << values
       when 'less'
-        date_range += object.where("#{relation} < ?", values.last)
+        sql_string << "#{relation} < ?"
+        param_values << values
       when 'less_or_equal'
-        date_range += object.where("#{relation} <= ?", values.last)
+        sql_string << "#{relation} <= ?"
+        param_values << values
       when 'not_equal'
-        date_range += object.where.not(field_name.to_sym => values)
+        sql_string << "#{relation} NOT IN (?)"
+        param_values << values
       when 'equal'
-        date_range += object.where(field_name.to_sym => values)
+        sql_string << "#{relation} IN (?)"
+        param_values << values
       when 'is_empty'
-        date_range += object.where("#{relation} IS NULL")
+        sql_string << "#{relation} IS NULL"
+
       when 'is_not_empty'
-        date_range += object.where("#{relation} IS NOT NULL")
+        sql_string << "#{relation} IS NOT NULL"
       else
         object
       end
     end
 
-    return date_range.uniq if date_range.uniq.present?
+    return object if sql_string.blank?
+
+    sql_hash = { sql_string: sql_string, values: param_values }
+    query_array << sql_hash[:sql_string].join(" AND ")
+
+    client_base_values  = sql_hash[:values].map{ |v| query_array << v }
+    sql_string = object.where(query_array)
+
+    return sql_string if sql_string.present?
     object
   end
 
