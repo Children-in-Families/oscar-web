@@ -520,6 +520,7 @@ km:
       three_month_assessment_report: របាយការណ៍ការប៉ាន់ប្រមាណទៀងទាត់
     update:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
+  at: នៅថ្ងៃ
   back: ត្រលប់ក្រោយ
   calendars:
     index:
@@ -1541,6 +1542,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  created_by: បង្កើត​ឡើង​ដោយ
   custom_field_properties:
     attachment:
       are_you_sure: តើអ្នកប្រាកដហើយ?

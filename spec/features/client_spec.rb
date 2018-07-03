@@ -60,6 +60,7 @@ describe 'Client' do
     let!(:setting){ create(:setting) }
 
     before do
+      PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
       login_as(admin)
       visit client_path(client)
     end
@@ -77,6 +78,12 @@ describe 'Client' do
       scenario 'Cambodia' do
         expect(page).to have_css('.address', text: 'Cambodia')
       end
+    end
+
+    scenario 'Created by .. on ..' do
+      user = whodunnit(client.id)
+      date = client.created_at.strftime('%d %B, %Y')
+      expect(page).to have_content("Created by #{user} on #{date}")
     end
 
     scenario 'information' do
@@ -658,4 +665,9 @@ def exit_client_from_ngo
     find("input.confirm-exit").click
   end
   expect(client.reload.status).to eq('Exited')
+end
+
+def whodunnit(id)
+  user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: id).whodunnit
+  User.find_by(id: user_id).try(:name) || ''
 end
