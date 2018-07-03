@@ -519,7 +519,7 @@ module ClientsHelper
   end
 
   def header_counter(grid, column)
-    return if grid.class.to_s != 'ClientGrid'
+    return column.header.truncate(65) if grid.class.to_s != 'ClientGrid'
     count = 0
     class_name  = header_classes(grid, column)
 
