@@ -25,7 +25,7 @@ describe 'Referral' do
         find('#referral_consent_form', visible: false).set('spec/supports/file.docx')
         click_button 'Save'
         sleep 1
-        expect(page).to have_content(client_2.name)
+        expect(page).to have_content(client_2.en_and_local_name)
       end
 
       scenario 'invalid' do

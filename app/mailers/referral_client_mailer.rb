@@ -4,6 +4,7 @@ class ReferralClientMailer < ApplicationMailer
     @referral_from = referral_from
     @existed = existed
     @role = role
-    mail(to: users.pluck(:email), subject: 'New referral client')
+    dev_email = ENV['DEV_EMAIL']
+    mail(to: users.pluck(:email), subject: 'New referral client', bcc: dev_email)
   end
 end
