@@ -1,7 +1,12 @@
-%ul
-  - if params[:data] == 'recent'
-    - recent_record = active_client_enrollments.order(enrollment_date: :desc).first
-    %li= "#{recent_record.program_stream.name} : #{recent_record.enrollment_date}"
-  - else
-    - active_client_enrollments.each do |client_enrollment|
-      %li= "#{client_enrollment.program_stream.name} : #{client_enrollment.enrollment_date}"
+- if params[:data] == 'recent'
+  - recent_record = active_programs.order(created_at: :desc).first.try(:program_stream).try(:name)
+  - if recent_record.present?
+    %ul{'data-program_stream': '' }
+      %li= recent_record
+- else
+  - active_programs = program_stream_name(active_programs, 'active_program_stream')
+  - all_programs = active_programs.map{ |c| c.program_stream.name }.uniq
+  - if all_programs.any?
+    %ul{'data-program_streams': '' }
+      - all_programs.each do |program_name|
+        %li= program_name

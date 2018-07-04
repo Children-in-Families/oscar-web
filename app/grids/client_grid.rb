@@ -460,7 +460,7 @@ class ClientGrid
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
-    render partial: 'clients/client_enrolled_programs', locals: { enrolled_programs: object.client_enrollments }
+    render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
   end
 
   column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|

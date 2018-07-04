@@ -372,87 +372,93 @@ module ClientsHelper
   end
 
   def client_advanced_search_data(object, rule)
+    @data = {}
     return object unless params.has_key?(:client_advanced_search)
     return object if rule[/^(#{params['all_values']})/i].present? || object.blank?
-    @data    = eval params[:client_advanced_search][:basic_rules]
+    @data   = eval params[:client_advanced_search][:basic_rules]
     results = @data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
 
   def case_note_types(object, rule)
-    results    = client_advanced_search_data(object, rule)
-    types      = []
-    hashes     = Hash.new { |h,k| h[k] = []}
-    results.each {|k, o, v| hashes[k] << {o => v} }
+    results         = client_advanced_search_data(object, rule)
+    query_array     = []
+    sub_query_array = []
+    hashes          = Hash.new { |h,k| h[k] = []}
 
+    results.each {|k, o, v| hashes[k] << {o => v} }
+    sql_hash        = mapping_squery_string(object, hashes, 'case_notes.interaction_type', rule)
+    query_array     = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
+    sub_query_array = mapping_sub_query_array(object, 'case_notes.interaction_type', rule)
+
+    sql_string      = object.where(query_array).where(sub_query_array)
+    sql_string.present? ? sql_string : object
+  end
+
+  def mapping_squery_string(object, hashes, association, rule)
+    param_values = []
+    sql_string   = []
     hashes[rule].each do |rule|
       rule.keys.each do |key|
         values = rule[key]
         case key
         when 'equal'
-          types += object.where(interaction_type: values)
+          sql_string << "#{association} = ?"
+          param_values << values
         when 'not_equal'
-          types += object.where.not(interaction_type: values)
+          sql_string << "#{association} != ?"
+          param_values << values
         when 'is_empty'
-          types += object.where("case_notes.interaction_type IS NULL")
+          sql_string << "#{association} IS NULL"
         when 'is_not_empty'
-          types += object.where("case_notes.interaction_type IS NOT NULL")
+          sql_string << "#{association} IS NOT NULL"
         else
           object
         end
       end
     end
-    return types.uniq if types.uniq.present?
-    object
+    sql_hash = { sql_string: sql_string, values: param_values }
   end
 
   def program_stream_name(object, rule)
-    results    = client_advanced_search_data(object, rule)
+    query_array     = []
+    sub_query_array = []
+    param_values    = []
+    sql_string      = []
+    hashes          = Hash.new { |h,k| h[k] = []}
+
+    results         = client_advanced_search_data(object, rule)
     return object if rule[/^(#{params['all_values']})/i].present? || object.blank?
-
-    types      = []
-    hashes     = Hash.new { |h,k| h[k] = []}
     results.each {|k, o, v| hashes[k] << {o => v} }
+    sql_hash        = mapping_squery_string(object, hashes, 'client_enrollments.program_stream_id', rule)
 
-    hashes[rule].each do |rule|
-      rule.keys.each do |key|
-        values = rule[key].is_a?(Array) ? rule[key].map(&:to_i) : rule[key].to_i
-        case key
-        when 'equal'
-          types += object.where(client_enrollments: { program_stream_id: values}).select("DISTINCT(program_stream_id)")
-        when 'not_equal'
-          types += object.where.not(client_enrollments: { program_stream_id: values}).select("DISTINCT(program_stream_id)")
-        when 'is_empty'
-          types += object.where("client_enrollments.program_stream_id IS NULL")
-        when 'is_not_empty'
-          types += object.where("client_enrollments.program_stream_id IS NOT NULL")
-        else
-          object
-        end
+    sub_query_array = mapping_sub_query_array(object, 'client_enrollments.program_stream_id', rule)
+    query_array     = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
+    sql_string      = object.where(query_array).where(sub_query_array)
+
+    sql_string.present? ? sql_string : object
+  end
+
+  def mapping_sub_query_array(object, association, rule)
+    sub_query_array = []
+    if @data[:rules]
+      sub_rule_index  = @data[:rules].index {|param| param.has_key?(:condition)}
+      if sub_rule_index.present?
+        sub_hashes      = Hash.new { |h,k| h[k] = []}
+        sub_results     = @data[:rules][sub_rule_index]
+        sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+        sub_result_hash.each {|k, o, v| sub_hashes[k] << {o => v} }
+        sub_sql_hash    = mapping_squery_string(object, sub_hashes, association, rule)
+        sub_query_array = mapping_query_string_with_query_value(sub_query_array, sub_sql_hash, sub_results[:condition])
       end
     end
-    types.present? ? types.uniq : []
+    sub_query_array
   end
 
   def date_filter(object, rule)
-    param_values = []
-    sql_string   = []
-    query_array  = []
-    field_name   = ''
-    results      = client_advanced_search_data(object, rule)
-    hashes       = values = Hash.new { |h,k| h[k] = []}
-
-    # results[:rules].index {|param| param.has_key?(:condition)}
-
-    results.each do |k, o, v|
-      values[o] << v
-      hashes[k] << values
-    end
-
-    hashes.keys.each do |value|
-      arr = hashes[value]
-      hashes.delete(value)
-      hashes[value] << arr.uniq
-    end
+    query_array      = []
+    sub_query_array  = []
+    field_name       = ''
+    results          = client_advanced_search_data(object, rule)
 
     klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
 
@@ -469,53 +475,26 @@ module ClientsHelper
     else
       field_name = rule
     end
+
     relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
 
-    hashes.keys.each do |key|
-      values   = hashes[key].flatten
-      case key
-      when 'between'
-        sql_string << "#{relation} BETWEEN ? AND ?"
-        param_values << values.first
-        param_values << values.last
-      when 'greater_or_equal'
-        sql_string << "#{relation} >= ?"
-        param_values << values
-      when 'greater'
-        sql_string << "#{relation} > ?"
-        param_values << values
-      when 'less'
-        sql_string << "#{relation} < ?"
-        param_values << values
-      when 'less_or_equal'
-        sql_string << "#{relation} <= ?"
-        param_values << values
-      when 'not_equal'
-        sql_string << "#{relation} NOT IN (?)"
-        param_values << values
-      when 'equal'
-        sql_string << "#{relation} IN (?)"
-        param_values << values
-      when 'is_empty'
-        sql_string << "#{relation} IS NULL"
+    hashes   = mapping_query_result(results)
+    sql_hash = mapping_query_string(object, hashes, relation)
 
-      when 'is_not_empty'
-        sql_string << "#{relation} IS NOT NULL"
-      else
-        object
+    if @data[:rules]
+      sub_rule_index  = @data[:rules].index {|param| param.has_key?(:condition)}
+      if sub_rule_index.present?
+        sub_results     = @data[:rules][sub_rule_index]
+        sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+        sub_hashes      = mapping_query_result(sub_result_hash)
+        sub_sql_hash    = mapping_query_string(object, sub_hashes, sub_results[:condition])
+        sub_query_array = mapping_query_string_with_query_value(sub_query_array, sub_sql_hash, sub_results[:condition])
       end
     end
 
-    return object if sql_string.blank?
-
-    sql_hash = { sql_string: sql_string, values: param_values }
-    query_array << sql_hash[:sql_string].join(" AND ")
-
-    client_base_values  = sql_hash[:values].map{ |v| query_array << v }
+    query_array = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
     sql_string = object.where(query_array)
-
-    return sql_string if sql_string.present?
-    object
+    sql_string.present? && sql_hash[:sql_string].blank? ? sql_string : object
   end
 
   def header_counter(grid, column)
@@ -534,7 +513,7 @@ module ClientsHelper
       elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
         klass     = 'client_enrollments'
       else
-        klass       = klass_name[class_name.to_sym]
+        klass     = klass_name[class_name.to_sym]
       end
 
       if class_name[/^(programexitdate)/i].present?
@@ -547,7 +526,7 @@ module ClientsHelper
             count += case_note_types(client.send(klass.to_sym), class_name).count
           elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
             class_name = 'active_program_stream'
-            count += program_stream_name(client.send(klass.to_sym), class_name).count
+            count += program_stream_name(client.send(klass.to_sym).active, class_name).count
           elsif class_name[/^(enrollmentdate)/i].present?
             count += date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), class_name).map(&:enrollment_date).flatten.count
           else
@@ -587,5 +566,66 @@ module ClientsHelper
 
   def international_referred_client
     params[:referral_id].present? && @client.country_origin != selected_country
+  end
+
+  def mapping_query_result(results)
+    hashes  = values = Hash.new { |h,k| h[k] = []}
+    results.each do |k, o, v|
+      values[o] << v
+      hashes[k] << values
+    end
+
+    hashes.keys.each do |value|
+      arr = hashes[value]
+      hashes.delete(value)
+      hashes[value] << arr.uniq
+    end
+    hashes
+  end
+
+  def mapping_query_string(object, hashes, relation)
+    sql_string    = []
+    param_values  = []
+    hashes.keys.each do |key|
+      values   = hashes[key].flatten
+      case key
+      when 'between'
+        sql_string << "#{relation} BETWEEN ? AND ?"
+        param_values << values.first
+        param_values << values.last
+      when 'greater_or_equal'
+        sql_string << "#{relation} >= ?"
+        param_values << values
+      when 'greater'
+        sql_string << "#{relation} > ?"
+        param_values << values
+      when 'less'
+        sql_string << "#{relation} < ?"
+        param_values << values
+      when 'less_or_equal'
+        sql_string << "#{relation} <= ?"
+        param_values << values
+      when 'not_equal'
+        sql_string << "#{relation} NOT IN (?)"
+        param_values << values
+      when 'equal'
+        sql_string << "#{relation} IN (?)"
+        param_values << values
+      when 'is_empty'
+        sql_string << "#{relation} IS NULL"
+
+      when 'is_not_empty'
+        sql_string << "#{relation} IS NOT NULL"
+      else
+        object
+      end
+    end
+    { sql_string: sql_string, values: param_values }
+  end
+
+  def mapping_query_string_with_query_value(query_array, sql_hash, condition)
+    query_array << sql_hash[:sql_string].join(" #{condition} ")
+    sql_hash[:values].map{ |v| query_array << v }
+    query_array
   end
 end
