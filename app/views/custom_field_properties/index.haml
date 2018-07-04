@@ -15,10 +15,8 @@
             .col-xs-12
               .ibox.border-left-right.border-bottom{ id: "custom_field_property_#{custom_field_property.id}" }
                 .ibox-title
-                  %span.label.label-info
-                    = date_format custom_field_property.created_at
-                  - if custom_field_property.user.present?
-                    %h5= custom_field_property.user.try(&:name)
+                  %h5= "#{t('created_by')} #{whodunnit('CustomFieldProperty', custom_field_property.id)} #{t('at')}"
+                  %span.label.label-info= "#{date_format custom_field_property.created_at}"
                   .ibox-tools
                     - if can? :manage, CustomFieldProperty
                       %small

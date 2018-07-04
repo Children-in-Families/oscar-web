@@ -145,8 +145,8 @@ CIF.ClientsIndex = do ->
     advanceFilter.addRuleCallback()
     advanceFilter.filterSelectChange()
     advanceFilter.filterSelecting()
-    advanceFilter.preventDomainScore()
-    advanceFilter.disableOptionDomainScores()
+    advanceFilter.opertatorSelecting()
+    advanceFilter.checkingForDisableOptions()
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
