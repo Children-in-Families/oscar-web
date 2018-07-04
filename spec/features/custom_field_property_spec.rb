@@ -25,6 +25,12 @@ feature 'custom_field_property' do
       scenario 'Caseworker name' do
         expect(page).to have_content('John Doe')
       end
+
+      scenario 'Created by .. on ..' do
+        user = whodunnit(custom_field_property.id)
+        date = custom_field_property.created_at.strftime('%d %B, %Y')
+        expect(page).to have_content("Created by #{user} on #{date}")
+      end
     end
   end
 
@@ -67,6 +73,7 @@ feature 'custom_field_property' do
     let!(:custom_field_property){ create(:custom_field_property, custom_formable_type: 'Client', custom_field: custom_field, custom_formable_id: custom_formable.id, user_id: user_1.id) }
 
     before do
+      PaperTrail::Version.where(event: 'create', item_type: 'CustomFieldProperty', item_id: custom_field_property.id).update_all(whodunnit: user_1.id)
       login_as(admin)
       visit polymorphic_path([custom_formable, CustomFieldProperty], custom_field_id: custom_field.id)
     end
@@ -80,6 +87,7 @@ feature 'custom_field_property' do
     let!(:custom_field_property){ create(:custom_field_property, custom_formable_type: 'Family', custom_field: custom_field, custom_formable_id: custom_formable.id, user_id: user_1.id) }
 
     before do
+      PaperTrail::Version.where(event: 'create', item_type: 'CustomFieldProperty', item_id: custom_field_property.id).update_all(whodunnit: user_1.id)
       login_as(admin)
       visit polymorphic_path([custom_formable, CustomFieldProperty], custom_field_id: custom_field.id)
     end
@@ -93,6 +101,7 @@ feature 'custom_field_property' do
     let!(:custom_field_property){ create(:custom_field_property, custom_formable_type: 'Partner', custom_field: custom_field, custom_formable_id: custom_formable.id, user_id: user_1.id) }
 
     before do
+      PaperTrail::Version.where(event: 'create', item_type: 'CustomFieldProperty', item_id: custom_field_property.id).update_all(whodunnit: user_1.id)
       login_as(admin)
       visit polymorphic_path([custom_formable, CustomFieldProperty], custom_field_id: custom_field.id)
     end
@@ -106,10 +115,16 @@ feature 'custom_field_property' do
     let!(:custom_field_property){ create(:custom_field_property, custom_formable_type: 'User', custom_field: custom_field, custom_formable_id: custom_formable.id, user_id: user_1.id) }
 
     before do
+      PaperTrail::Version.where(event: 'create', item_type: 'CustomFieldProperty', item_id: custom_field_property.id).update_all(whodunnit: user_1.id)
       login_as(admin)
       visit polymorphic_path([custom_formable, CustomFieldProperty], custom_field_id: custom_field.id)
     end
 
     it_behaves_like 'crud'
   end
+end
+
+def whodunnit(id)
+  user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'CustomFieldProperty', item_id: id).whodunnit
+  User.find_by(id: user_id).try(:name) || ''
 end

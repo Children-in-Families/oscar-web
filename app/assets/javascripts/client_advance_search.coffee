@@ -432,17 +432,18 @@ class CIF.ClientAdvanceSearch
     self = @
     $('.rule-filter-container select').on 'select2-selecting', ->
       setTimeout ( ->
-        self.preventDomainScore()
+        self.opertatorSelecting()
       )
 
-  preventDomainScore: ->
+  opertatorSelecting: ->
     self = @
     $('.rule-operator-container select').on 'select2-selected', ->
-      self.preventOptionDomainScores(@)
+      self.disableOptions(@)
 
-  preventOptionDomainScores: (element) ->
+  disableOptions: (element) ->
     self = @
-    if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+    rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
+    if rule.split('_')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
@@ -457,14 +458,24 @@ class CIF.ClientAdvanceSearch
       else
         $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
         $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
-      setTimeout( ->
-        self.initSelect2()
-      )
+    else if rule == 'school_grade'
+      select = $(element).parent().siblings('.rule-value-container')
+      disableValue = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4']
+      if $(element).val() == 'between'
+        setTimeout( ->
+          for value in disableValue
+            $(select).find("option[value='#{value}']").attr('disabled', 'true')
+          $(select).find('select').val('1').trigger('change')
+        , 100)
 
-  disableOptionDomainScores: ->
+    setTimeout( ->
+      self.initSelect2()
+    )
+
+  checkingForDisableOptions: ->
     self = @
-    for domain in $('.rule-operator-container select')
-      self.preventOptionDomainScores(domain)
+    for element in $('.rule-operator-container select')
+      self.disableOptions(element)
 
   ######################################################################################################################
 
