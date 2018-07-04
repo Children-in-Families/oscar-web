@@ -58,7 +58,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def is_created_within_two_weeks?
-    Date.today - 2.weeks > self.created_at
+    Date.today > self.created_at + 2.weeks
   end
 
   private
