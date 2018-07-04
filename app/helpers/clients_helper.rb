@@ -493,8 +493,9 @@ module ClientsHelper
     end
 
     query_array = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
-    sql_string = object.where(query_array)
-    sql_string.present? && sql_hash[:sql_string].blank? ? sql_string : object
+    sql_string = object.where(query_array).where(sub_query_array)
+
+    sql_string.present? && sql_hash[:sql_string].present? ? sql_string : object
   end
 
   def header_counter(grid, column)
