@@ -487,7 +487,7 @@ module ClientsHelper
         sub_results     = @data[:rules][sub_rule_index]
         sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
         sub_hashes      = mapping_query_result(sub_result_hash)
-        sub_sql_hash    = mapping_query_string(object, sub_hashes, sub_results[:condition])
+        sub_sql_hash    = mapping_query_string(object, sub_hashes, relation)
         sub_query_array = mapping_query_string_with_query_value(sub_query_array, sub_sql_hash, sub_results[:condition])
       end
     end
@@ -529,7 +529,7 @@ module ClientsHelper
             class_name = 'active_program_stream'
             count += program_stream_name(client.send(klass.to_sym).active, class_name).count
           elsif class_name[/^(enrollmentdate)/i].present?
-            count += date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), class_name).map(&:enrollment_date).flatten.count
+            count += date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date").distinct(:program_stream_id).map(&:enrollment_date).flatten.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
           end
@@ -621,6 +621,7 @@ module ClientsHelper
         object
       end
     end
+
     { sql_string: sql_string, values: param_values }
   end
 
