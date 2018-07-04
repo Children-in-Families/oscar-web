@@ -97,8 +97,13 @@ class FamiliesController < AdminController
   end
 
   def find_association
-    @clients  = Client.accessible_by(current_ability).order(:given_name, :family_name)
     @province = Province.order(:name)
+    if action_name.in?(['edit', 'update'])
+      client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
+    else
+      client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
+    end
+    @clients  = Client.accessible_by(current_ability).where.not(id: client_ids).order(:given_name, :family_name)
   end
 
   def find_family
