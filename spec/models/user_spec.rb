@@ -390,4 +390,12 @@ describe User, 'methods' do
       expect(User.self_and_subordinates(manager)).to include(manager, subordinate)
     end
   end
+
+  context 'expect to have method current user' do
+    let!(:user){ create(:user, :admin) }
+    it 'current user is user' do
+      User.current_user= user
+      expect(User.current_user).to eq(user)
+    end
+  end
 end

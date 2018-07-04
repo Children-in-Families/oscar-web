@@ -57,11 +57,15 @@ class Assessment < ActiveRecord::Base
     adult ? errors.add(:base, 'Assessment cannot be created for client who is over 18.') : true
   end
 
+  def is_created_within_two_weeks?
+    Date.today - 2.weeks > self.created_at
+  end
+
   private
 
   def restrict_update_assessment
     return unless User.current_user.case_worker? || User.current_user.manager?
-    errors.add(:base, "Assessment cannot be updated after two weeks of creation") if Date.today - 2.weeks > self.created_at
+    errors.add(:base, "Assessment cannot be updated after two weeks of creation") if is_created_within_two_weeks?
   end
 
   def must_be_min_assessment_period
