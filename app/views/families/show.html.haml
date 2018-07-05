@@ -54,8 +54,7 @@
                   = t('.address')
                 %td
                   %strong
-                    = @family.address
-
+                    = merged_address(@family)
               %tr
                 %td.spacing-first-col
                   = t('.member_count')
@@ -125,12 +124,12 @@
                   %strong
                     = date_format(@family.contract_date)
 
-              %tr
-                %td.spacing-first-col
-                  = t('.province')
-                %td
-                  %strong
-                    = @family.province.try(:name)
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = t('.province')
+              -#   %td
+              -#     %strong
+              -#       = @family.province.try(:name)
 
               %tr
                 %td.spacing-first-col

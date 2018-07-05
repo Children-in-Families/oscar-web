@@ -6,12 +6,17 @@ class Family < ActiveRecord::Base
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
   STATUSES = ['Active', 'Inactive']
 
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+
   belongs_to :province, counter_cache: true
+  belongs_to :district
 
   has_many :cases, dependent: :restrict_with_error
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+
 
   has_paper_trail
 

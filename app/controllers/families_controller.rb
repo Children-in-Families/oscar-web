@@ -90,7 +90,7 @@ class FamiliesController < AdminController
                             :dependable_income, :female_children_count,
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :status, :contract_date,
-                            :address, :province_id,
+                            :address, :province_id, :district_id, :commune, :village,
                             custom_field_ids: [],
                             children: []
                             )
@@ -98,7 +98,8 @@ class FamiliesController < AdminController
 
   def find_association
     @clients  = Client.accessible_by(current_ability).order(:given_name, :family_name)
-    @province = Province.order(:name)
+    @provinces = Province.order(:name)
+    @districts = District.order(:name)
   end
 
   def find_family

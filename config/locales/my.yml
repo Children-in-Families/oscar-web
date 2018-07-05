@@ -1835,8 +1835,10 @@ my:
         client: အမႈသည္မ်ား
         clients: အမႈသည္မ်ား
         code: မိသားစု မွတ္ပံုတင္
+        commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
         contract_date: စာခ်ဳပ္ရက္စြဲ
         dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+        district: ခ႐ိုင္
         family: မိသားစု
         family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈ ရွိပါသလား
         family_type: မိသားစုအမ်ိဳးအစား
@@ -1858,6 +1860,7 @@ my:
         status: အေနအထား
         total: စုစုေပါင္း
         view: ျမင္ကြင္း
+        village: ေက်းရြာ
         'yes': ဟုတ္ပါသည္
       family: မိသားစု
       family_id: မိသားစု မွတ္ပံုတင္
@@ -2625,9 +2628,11 @@ my:
       case_history: အမႈသမိုင္း
       clients: အမႈသည္မ်ား
       code: မိသားစု မွတ္ပံုတင္
+      commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       contract_date: ဆက္သြယ္ရန္ ရက္စြဲ
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+      district: ခ႐ိုင္
       family_type: မိသားစု အမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
@@ -2642,6 +2647,7 @@ my:
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
       status: အေျခအေန
+      village: ေက်းရြာ
       'yes': မွန္ပါသည္
     index:
       add_new_family: မိသားစုအသစ္ ထည့္သြင္းရန္
