@@ -226,5 +226,6 @@ end
 
 def whodunnit(id)
   user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'ClientEnrollmentTracking', item_id: id).whodunnit
+  return 'OSCaR Team' if user_id.present? && user_id.include?('@rotati')
   User.find_by(id: user_id).try(:name) || ''
 end
