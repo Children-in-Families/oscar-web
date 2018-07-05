@@ -41,8 +41,8 @@ module IsfImporter
         birth_province_id = Province.find_by(name: workbook.row(row)[headers['Client Birth Province']]).try(:id)
         Organization.switch_to current_org.short_name
 
-        user_ids = User.where(email: ['sm@indochinastarfish.org', 'lv@indochinastarfish.org', 'ss@indochinastarfish.org', 'chorn@indochinastarfish.org', 'sunhong@indochinastarfish.org', 'sp@indochinastarfish.org', 'bp@indochinastarfish.org', 'cs@indochinastarfish.org']).pluck(:id)
-
+        case_workers = workbook.row(row)[headers['Case Workers']].split(', ')
+        user_ids = User.where(email: case_workers).pluck(:id)
         client = Client.new(
           user_ids: user_ids,
           given_name: given_name,
