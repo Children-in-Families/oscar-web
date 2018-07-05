@@ -3179,6 +3179,7 @@ km:
       domain_groups: ការប្រមូលបណ្ដុំកត្តា
       domains: កត្តា
       donors: ម្ចាស់ជំនួយ
+      edit_org_setting: កែសម្រួលពត៌មានអង្គការ
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
       en: English
       families: គ្រួសារ
@@ -3349,6 +3350,13 @@ km:
       most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ
       upcoming_assessment: ការប៉ាន់ប្រមាណបន្ទាប់
   ok: យល់ព្រម
+  organizations:
+    edit:
+      commune: ឃុំ
+      district: ខ័ណ្ឌ
+      edit_org_setting: កែសម្រួលពត៌មានអង្គការ
+      name: ឈ្មោះអង្គភាព
+      province: ខេត្ត
   organization_types:
     create:
       failed_create: ប្រភេទឣង្គភាពមិនត្រូវបានបង្កើតដោយជោគជ័យ

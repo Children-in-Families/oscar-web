@@ -5,6 +5,7 @@ class Province < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_many :cases, dependent: :restrict_with_error
   has_many :districts, dependent: :restrict_with_error
+  has_many :settings, dependent: :restrict_with_error
 
   has_paper_trail
 

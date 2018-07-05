@@ -3206,6 +3206,7 @@ my:
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       domains: ဒိုမိန္းမ်ား
       donors: အလွဴရွင္မ်ား
+      edit_org_setting: ပြင်ဆင်ရန်အဖွဲ့ပြင်ဆင်မှုအား
       edit_profile: ပ႐ိုဖုိင္ ျပင္ဆင္ရန္
       en: အဂၤလိပ္
       families: မိသားစုမ်ား
@@ -3376,6 +3377,13 @@ my:
       most_recent_assessment: အများစုမှာလတ်တလောအကဲဖြတ်
       upcoming_assessment: လာမည့်အကဲဖြတ်
   ok: အဆင္ေျပပါသည္
+  organizations:
+    edit:
+      commune: ကွန်မြူ
+      district: နယ်
+      edit_org_setting: ပြင်ဆင်ရန်အဖှဲ့အစညျး
+      name: အဖွဲ့အစည်းအမည်
+      province: နယ်ပယ်
   organization_types:
     create:
       failed_create: အဖြဲ႕အစည္းအမ်ိဳးအစား ဖန္တီးျခင္း မေအာင္ျမင္ပါ
