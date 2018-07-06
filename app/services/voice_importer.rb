@@ -110,7 +110,7 @@ module VoiceImporter
         province_name     = workbook.row(row)[headers['Client Birth Province']] || ''
         birth_province_id = Province.where("name ilike ?", "%#{province_name}%").first.try(:id)
         code              = workbook.row(row)[headers['Custom ID Number 1']] || ''
-        user_hash         = {"CK": "chenda@voice.org.au", "TC": "theany@voice.org.au", "RK": "ravon@voice.org.au", "GL": "guechhong@voice.org.au", "KS": "kristy@voice.org.au", "SF": "sarah@voice.org.au"}
+        user_hash         = {"CK": "", "TC": "", "RK": "", "GL": "", "KS": "", "SF": ""}
         case_workers      = workbook.row(row)[headers['* Case Worker / Staff']].split(',')
 
         case_workers.each do |case_worker|
