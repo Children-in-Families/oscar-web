@@ -81,7 +81,7 @@ describe 'Family' do
       expect(page).to have_select('Clients', options: [another_client.en_and_local_name, other_client.en_and_local_name])
     end
 
-    xscenario 'invalid' do
+    scenario 'invalid' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
