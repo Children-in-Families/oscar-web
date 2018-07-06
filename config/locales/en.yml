@@ -2763,6 +2763,10 @@ en:
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
+  government_forms:
+    index:
+      back: Back
+      add_form: Add New Form
   government_reports:
     create:
       successfully_created: Government Report has been successfully created.

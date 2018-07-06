@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622081906) do
+ActiveRecord::Schema.define(version: 20180705093607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -592,6 +592,45 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "government_form_interviewees", force: :cascade do |t|
+    t.integer  "government_form_id"
+    t.integer  "interviewee_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_interviewees", ["government_form_id"], name: "index_government_form_interviewees_on_government_form_id", using: :btree
+  add_index "government_form_interviewees", ["interviewee_id"], name: "index_government_form_interviewees_on_interviewee_id", using: :btree
+
+  create_table "government_forms", force: :cascade do |t|
+    t.string   "name",                       default: ""
+    t.date     "date"
+    t.string   "village_code",               default: ""
+    t.string   "client_code",                default: ""
+    t.string   "interview_village",          default: ""
+    t.string   "interview_commune",          default: ""
+    t.integer  "interview_district_id"
+    t.integer  "interview_province_id"
+    t.integer  "case_worker_id"
+    t.string   "case_worker_phone",          default: ""
+    t.integer  "client_id"
+    t.string   "primary_carer_relationship", default: ""
+    t.string   "primary_carer_house",        default: ""
+    t.string   "primary_carer_street",       default: ""
+    t.string   "primary_carer_village",      default: ""
+    t.string   "primary_carer_commune",      default: ""
+    t.integer  "primary_carer_district_id"
+    t.integer  "primary_carer_province_id"
+    t.string   "source_info",                default: ""
+    t.string   "summary_info_of_referral",   default: ""
+    t.string   "guardian_comment",           default: ""
+    t.string   "case_worker_comment",        default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
 
   create_table "government_reports", force: :cascade do |t|
     t.string   "code",                          default: ""
@@ -1366,6 +1405,9 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "government_form_interviewees", "government_forms"
+  add_foreign_key "government_form_interviewees", "interviewees"
+  add_foreign_key "government_forms", "clients"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"

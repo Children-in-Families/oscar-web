@@ -183,9 +183,8 @@ module ApplicationHelper
     end
   end
 
-  def government_reports_visible?
-    # current_organization.cwd? || current_organization.cif?
-    false
+  def government_forms_visible?
+    selected_country == 'cambodia'
   end
 
   def program_stream_readable?(value)

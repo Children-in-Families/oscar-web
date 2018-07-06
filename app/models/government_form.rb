@@ -1,9 +1,13 @@
 # Client asked to hide it for now
-class GovernmentReport < ActiveRecord::Base
-#   belongs_to :client
+class GovernmentForm < ActiveRecord::Base
+  has_paper_trail
 
-#   validates :client, presence: true
-#   validates :code, presence: true, uniqueness: true
+  belongs_to :client
+
+  has_many :government_form_interviewees, dependent: :destroy
+  has_many :interviewees, through: :government_form_interviewees
+
+  # validates :client, presence: true
 
 #   delegate :name, :slug, :gender, :date_of_birth, :initial_referral_date, to: :client, prefix: true
 
@@ -22,4 +26,8 @@ class GovernmentReport < ActiveRecord::Base
 #   def referral_name
 #     client.referral_source.try(:name)
 #   end
+  def self.filter(options)
+    records = all
+    records.where(name: options[:name]) if options[:name].present?
+  end
 end

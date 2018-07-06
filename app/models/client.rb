@@ -47,6 +47,7 @@ class Client < ActiveRecord::Base
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
   has_many :referrals, dependent: :destroy
+  has_many :government_forms, dependent: :destroy
 
   accepts_nested_attributes_for :tasks
 

@@ -102,30 +102,6 @@
           - if can? :manage, CaseNote
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?) }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
-          - if government_reports_visible?
-            .btn-group.small-btn-margin
-              %button.btn.btn-sm.btn-success.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
-                = t('.government_report')
-                %span.caret
-              %ul.dropdown-menu.btn-fit
-                %li
-                  = link_to client_path(@client, format: 'pdf', form: 'one'), target: :_blank do
-                    %span.text-success= t('.government_form_one')
-                %li
-                  = link_to client_path(@client, format: 'pdf', form: 'two'), target: :_blank do
-                    %span.text-success= t('.government_form_two')
-                %li
-                  = link_to client_path(@client, format: 'pdf', form: 'three'), target: :_blank do
-                    %span.text-success= t('.government_form_three')
-                %li
-                  = link_to client_path(@client, format: 'pdf', form: 'four'), target: :_blank do
-                    %span.text-success= t('.government_form_four')
-                %li
-                  = link_to client_path(@client, format: 'pdf', form: 'five'), target: :_blank do
-                    %span.text-success= t('.government_form_five')
-                %li
-                  = link_to client_path(@client, format: 'pdf', form: 'six'), target: :_blank do
-                    %span.text-success= t('.government_form_six')
 
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
@@ -177,6 +153,31 @@
 
           = link_to client_client_enrollments_path(@client) do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+
+          - if government_forms_visible?
+            .btn-group.small-btn-margin
+              %button.btn.btn-sm.btn-success.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
+                = t('.government_report')
+                %span.caret
+              %ul.dropdown-menu.btn-fit
+                %li
+                  = link_to client_government_forms_path(@client, form: 'one') do
+                    %span.text-success= t('.government_form_one')
+                %li
+                  = link_to client_government_forms_path(@client, form: 'two') do
+                    %span.text-success= t('.government_form_two')
+                %li
+                  = link_to client_government_forms_path(@client, form: 'three') do
+                    %span.text-success= t('.government_form_three')
+                %li
+                  = link_to client_government_forms_path(@client, form: 'four') do
+                    %span.text-success= t('.government_form_four')
+                %li
+                  = link_to client_government_forms_path(@client, form: 'five') do
+                    %span.text-success= t('.government_form_five')
+                %li
+                  = link_to client_government_forms_path(@client, form: 'six') do
+                    %span.text-success= t('.government_form_six')
 
 .row.mini-margin
   .col-xs-12
