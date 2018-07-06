@@ -21,10 +21,12 @@ class SettingsController < AdminController
   end
 
   def edit
+    authorize @current_setting
     render template: 'organizations/edit', locals: { current_setting: @current_setting }
   end
 
   def update
+    authorize @current_setting
     @setting = @current_setting
     if params[:setting].has_key?(:org_form)
       if @setting.update_attributes(setting_params)

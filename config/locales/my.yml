@@ -3411,11 +3411,11 @@ my:
       modification_of: "၏ ေျပာင္းလဲမႈ"
   organizations:
     edit:
-      commune: ကွန်မြူ
+      commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       district: နယ်
       edit_org_setting: ပြင်ဆင်ရန်အဖှဲ့အစညျး
       name: အဖွဲ့အစည်းအမည်
-      province: နယ်ပယ်
+      province: ေမြးရာျပည္နယ္
   partners:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား

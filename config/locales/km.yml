@@ -3384,11 +3384,11 @@ km:
       modification_of: ប្រវត្តិកំណែរបស់
   organizations:
     edit:
-      commune: ឃុំ
-      district: ខ័ណ្ឌ
+      commune: ឃុំ/សង្កាត់
+      district: ស្រុក/ខណ្ឌ
       edit_org_setting: កែសម្រួលពត៌មានអង្គការ
       name: ឈ្មោះអង្គភាព
-      province: ខេត្ត
+      province: ខេត្ត/ក្រុង
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
