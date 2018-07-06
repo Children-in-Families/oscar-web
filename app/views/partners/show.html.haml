@@ -93,3 +93,10 @@
                 %td
                   %strong
                     = @partner.province.try(:name)
+
+              %tr
+                %td.spacing-first-col
+                  = t('.partner_type')
+                %td
+                  %strong
+                    = @partner.partner_type.join(', ').titleize

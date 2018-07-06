@@ -291,6 +291,16 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_index "client_needs", ["client_id"], name: "index_client_needs_on_client_id", using: :btree
   add_index "client_needs", ["need_id"], name: "index_client_needs_on_need_id", using: :btree
 
+  create_table "client_partners", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "client_partners", ["client_id"], name: "index_client_partners_on_client_id", using: :btree
+  add_index "client_partners", ["partner_id"], name: "index_client_partners_on_partner_id", using: :btree
+
   create_table "client_problems", force: :cascade do |t|
     t.integer  "rank"
     t.integer  "client_id"
@@ -739,6 +749,7 @@ ActiveRecord::Schema.define(version: 20180622081906) do
     t.datetime "updated_at"
     t.integer  "cases_count",               default: 0
     t.integer  "organization_type_id"
+    t.string   "partner_type",              default: [], array: true
   end
 
   add_index "partners", ["organization_type_id"], name: "index_partners_on_organization_type_id", using: :btree
@@ -1350,6 +1361,8 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"
   add_foreign_key "client_needs", "needs"
+  add_foreign_key "client_partners", "clients"
+  add_foreign_key "client_partners", "partners"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
   add_foreign_key "clients", "districts"

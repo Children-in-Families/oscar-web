@@ -269,12 +269,12 @@ module AdvancedSearches
     end
 
     def agency_name_field_query
-      clients = @clients.joins(:agencies)
+      clients = @clients.joins(:partners).where("'agency' = ANY (partners.partner_type)")
       case @operator
       when 'equal'
-        clients.where('agencies.id = ?', @value ).ids
+        clients.where('partners.id = ?', @value ).ids
       when 'not_equal'
-        clients.where.not('agencies.id = ?', @value ).ids
+        clients.where.not('partners.id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'

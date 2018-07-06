@@ -9,6 +9,7 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :contact_person_mobile, label: t('.contact_mobile')
         .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.province')
         .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address')
+        .col-xs-12.col-sm-6.col-md-4= f.input :partner_type, collection: [['Agency', 'agency'], ['Referral Source', 'referral source']], label: t('.partner_type'), input_html: { multiple: true }
         .col-xs-12.col-sm-6.col-md-4
           .form-group.date.optional.partner_start_date
             %label.date.optional.control-label{ for: 'partner_start_date' } #{t('.start_date')}

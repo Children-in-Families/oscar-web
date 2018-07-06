@@ -18,6 +18,7 @@ class PartnerColumnsVisibility
       engagement_:                               :engagement,
       background_:                               :background,
       start_date_:                               :start_date,
+      partner_type_:                             :partner_type,
       changelog_:                                :changelog,
       manage_:                                   :manage,
     }
