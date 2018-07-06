@@ -3349,13 +3349,6 @@ en:
       most_recent_assessment: Most Recent Assessment
       upcoming_assessment: Upcoming Assessment
   ok: OK
-  organizations:
-    edit:
-      commune: Commune
-      district: District
-      edit_org_setting: Edit Organization Setting
-      name: Name
-      province: Province
   organization_types:
     create:
       failed_create: Failed to create a Organisation Type.
@@ -3388,6 +3381,13 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  organizations:
+    edit:
+      commune: Commune
+      district: District
+      edit_org_setting: Edit Organization Setting
+      name: Name
+      province: Province
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?

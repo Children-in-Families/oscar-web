@@ -3350,13 +3350,6 @@ km:
       most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ
       upcoming_assessment: ការប៉ាន់ប្រមាណបន្ទាប់
   ok: យល់ព្រម
-  organizations:
-    edit:
-      commune: ឃុំ
-      district: ខ័ណ្ឌ
-      edit_org_setting: កែសម្រួលពត៌មានអង្គការ
-      name: ឈ្មោះអង្គភាព
-      province: ខេត្ត
   organization_types:
     create:
       failed_create: ប្រភេទឣង្គភាពមិនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -3389,6 +3382,13 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  organizations:
+    edit:
+      commune: ឃុំ
+      district: ខ័ណ្ឌ
+      edit_org_setting: កែសម្រួលពត៌មានអង្គការ
+      name: ឈ្មោះអង្គភាព
+      province: ខេត្ត
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
