@@ -1,4 +1,3 @@
-# Client asked to hide it for now
 class GovernmentForm < ActiveRecord::Base
   has_paper_trail
 
@@ -6,6 +5,27 @@ class GovernmentForm < ActiveRecord::Base
 
   has_many :government_form_interviewees, dependent: :destroy
   has_many :interviewees, through: :government_form_interviewees
+  has_many :client_type_government_forms, dependent: :restrict_with_error
+  has_many :client_types, through: :client_type_government_forms
+  has_many :government_form_needs, dependent: :restrict_with_error
+  has_many :needs, through: :government_form_needs
+  has_many :government_form_problems, dependent: :restrict_with_error
+  has_many :problems, through: :government_form_problems
+
+  accepts_nested_attributes_for :government_form_needs
+  accepts_nested_attributes_for :government_form_problems
+
+  def populate_needs
+    Need.all.each do |need|
+      government_form_needs.build(need: need)
+    end
+  end
+
+  def populate_problems
+    Problem.all.each do |problem|
+      government_form_problems.build(problem: problem)
+    end
+  end
 
   # validates :client, presence: true
 

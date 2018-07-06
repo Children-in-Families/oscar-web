@@ -1,0 +1,12 @@
+-# .nested-fields
+-#   .row
+-#     - @problems.each do |problem|
+-#       .field.col-xs-12.col-sm-4
+-#         = f.input :rank, as: :select, collection: ['១','២','៣','៤','៥','៦','៧','៨', '៩', '១០', '១១', '១២', '១៣', '១៤', '១៥', '១៦'], label: problem.name
+-#         = f.input :problem_id, label: false, input_html: { value: problem.id }
+
+.nested-fields
+  .row
+    .field.col-xs-12.col-sm-4
+      -# = f.input :rank, as: :select, collection: ['១','២','៣','៤','៥','៦','៧','៨', '៩', '១០', '១១', '១២', '១៣', '១៤', '១៥', '១៦'], label: problem.name
+      = f.input :problem_id, label: false

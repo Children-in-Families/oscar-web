@@ -10,10 +10,12 @@ class GovernmentFormsController < AdminController
 
   def new
     @government_form = @client.government_forms.new(name: params[:name])
+    @government_form.populate_needs
+    @government_form.populate_problems
   end
 
   def create
-    @government_form = @client.create_government_form(government_form_params)
+    @government_form = @client.government_forms.new(government_form_params)
     if @government_form.save
       redirect_to client_government_forms_path, notice: t('.successfully_created')
     else
@@ -36,6 +38,8 @@ class GovernmentFormsController < AdminController
   end
 
   def edit
+    @government_form.populate_needs unless @government_form.needs.any?
+    @government_form.populate_problems unless @government_form.problems.any?
   end
 
   def update
@@ -55,15 +59,31 @@ class GovernmentFormsController < AdminController
 
   def find_association
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
-    @interviewees = Interviewee.order(:name)
+    @interviewees = Interviewee.order(:created_at)
+    @client_types = ClientType.order(:created_at)
+    @users = @client.users.order(:first_name, :last_name)
+    @provinces = Province.order(:name)
+    @districts = District.order(:name)
+    @needs = Need.order(:created_at)
+    @problems = Problem.order(:created_at)
   end
 
   def find_government_form
-    @government_form = @client.government_form.decorate
+    @government_form = @client.government_forms.find(params[:id])
   end
 
   def government_form_params
-    params.require(:government_form).permit(:code, :initial_capital, :initial_city, :initial_commune, :initial_date, :commune, :city, :capital, :organisation_name, :organisation_phone_number, :found_client_at, :found_client_village, :education, :client_contact, :carer_house_number, :carer_street_number, :carer_village, :carer_commune, :carer_city, :referral_position, :anonymous, :anonymous_description, :client_living_with_guardian, :present_physical_health, :physical_health_need, :physical_health_plan, :present_supplies, :supplies_need, :supplies_plan, :present_education, :education_need, :education_plan, :present_family_communication, :family_communication_need, :family_communication_plan, :present_society_communication, :society_communication_need, :society_communication_plan, :present_emotional_health, :emotional_health_need, :emotional_health_plan, :mission_obtainable, :first_mission, :second_mission, :third_mission, :fourth_mission)
+    params.require(:government_form).permit(
+      :name, :date, :village_code, :client_code, :interview_village,
+      :interview_commune, :interview_district_id, :interview_province_id,
+      :case_worker_id, :case_worker_phone, :primary_carer_relationship,
+      :primary_carer_house, :primary_carer_street, :primary_carer_village,
+      :primary_carer_commune, :primary_carer_district_id, :primary_carer_province_id,
+      :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
+      interviewee_ids: [], client_type_ids: [],
+      government_form_needs_attributes: [:id, :rank, :need_id],
+      government_form_problems_attributes: [:id, :rank, :problem_id]
+    )
   end
 
   def find_form_name

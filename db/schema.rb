@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180705093607) do
+ActiveRecord::Schema.define(version: 20180706092421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,16 @@ ActiveRecord::Schema.define(version: 20180705093607) do
     t.datetime "updated_at"
   end
 
+  create_table "client_type_government_forms", force: :cascade do |t|
+    t.integer  "client_type_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_type_government_forms", ["client_type_id"], name: "index_client_type_government_forms_on_client_type_id", using: :btree
+  add_index "client_type_government_forms", ["government_form_id"], name: "index_client_type_government_forms_on_government_form_id", using: :btree
+
   create_table "client_types", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at"
@@ -602,6 +612,26 @@ ActiveRecord::Schema.define(version: 20180705093607) do
 
   add_index "government_form_interviewees", ["government_form_id"], name: "index_government_form_interviewees_on_government_form_id", using: :btree
   add_index "government_form_interviewees", ["interviewee_id"], name: "index_government_form_interviewees_on_interviewee_id", using: :btree
+
+  create_table "government_form_needs", force: :cascade do |t|
+    t.integer  "need_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_needs", ["government_form_id"], name: "index_government_form_needs_on_government_form_id", using: :btree
+  add_index "government_form_needs", ["need_id"], name: "index_government_form_needs_on_need_id", using: :btree
+
+  create_table "government_form_problems", force: :cascade do |t|
+    t.integer  "problem_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_problems", ["government_form_id"], name: "index_government_form_problems_on_government_form_id", using: :btree
+  add_index "government_form_problems", ["problem_id"], name: "index_government_form_problems_on_problem_id", using: :btree
 
   create_table "government_forms", force: :cascade do |t|
     t.string   "name",                       default: ""
@@ -1391,6 +1421,8 @@ ActiveRecord::Schema.define(version: 20180705093607) do
   add_foreign_key "client_needs", "needs"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
+  add_foreign_key "client_type_government_forms", "client_types"
+  add_foreign_key "client_type_government_forms", "government_forms"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
   add_foreign_key "clients", "states"
@@ -1407,6 +1439,10 @@ ActiveRecord::Schema.define(version: 20180705093607) do
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "government_form_interviewees", "government_forms"
   add_foreign_key "government_form_interviewees", "interviewees"
+  add_foreign_key "government_form_needs", "government_forms"
+  add_foreign_key "government_form_needs", "needs"
+  add_foreign_key "government_form_problems", "government_forms"
+  add_foreign_key "government_form_problems", "problems"
   add_foreign_key "government_forms", "clients"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
