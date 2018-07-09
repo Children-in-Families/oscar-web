@@ -2611,8 +2611,15 @@ km:
         basic_fields: ពត៌មានទូទៅរបសគ្រួសារ
         custom_form: ទម្រង់បែបបទ
         filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+    family_member_fields:
+      date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
+      name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
+      occupation: មុខរបរ
+      relation: ទំនាក់ទំនងជាមួយកុមារ
+      remove_member: ដកចេញ
     form:
       address: ឣាសយដ្ឋាន
+      add_new_member: បន្ថែមសមាជិកថ្មី
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
       case_history: ប្រវត្តិគ្រួសារ
       clients: អតិថិជន
@@ -2620,6 +2627,7 @@ km:
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
       custom_forms: ទម្រង់បែបបទ
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
+      family_members: សមាជិក​គ្រួសារ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី

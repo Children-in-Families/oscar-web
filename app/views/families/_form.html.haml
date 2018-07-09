@@ -27,9 +27,21 @@
           .i-checks.dependable-income
             %label= t('.dependable_income')
             = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
-
         .col-xs-12.col-sm-6.col-md-4
           = f.input :caregiver_information, input_html: { rows: 5 }, label: t('.caregiver_information')
+
+      .row
+        .col-xs-12
+          #family-members
+            .panel.panel-default
+              .panel-heading
+                %h5= t('.family_members')
+              .panel-body
+                = f.simple_fields_for :family_members do |member|
+                  = render 'family_member_fields', f: member
+                .links
+                  = link_to_add_association t('.add_new_member'), f, :family_members, class: 'btn btn-primary'
+
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'

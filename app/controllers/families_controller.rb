@@ -92,7 +92,8 @@ class FamiliesController < AdminController
                             :male_adult_count, :family_type, :status, :contract_date,
                             :address, :province_id,
                             custom_field_ids: [],
-                            children: []
+                            children: [],
+                            family_members_attributes: [:id, :name_of_adult_member, :date_of_birth, :occupation, :relationship_with_children, :_destroy]
                             )
   end
 

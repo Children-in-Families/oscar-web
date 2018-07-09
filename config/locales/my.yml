@@ -2619,8 +2619,15 @@ my:
         basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
         custom_form: အေကာက္ခြန္ ပံုစံ
         filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
+    family_member_fields:
+      date_of_birth: မွေးရက်
+      name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
+      occupation: အလုပ်အကိုင်
+      relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
+      remove_member: ဖယ်ထုတ်ထား
     form:
       address: လိပ္စာ
+      add_new_member: နယူးအဖွဲ့ဝင်များ Add
       caregiver_information: ေစာင့္ေရွာက္သူ သတင္းအခ်က္အလက္
       case_history: အမႈသမိုင္း
       clients: အမႈသည္မ်ား
@@ -2628,6 +2635,7 @@ my:
       contract_date: ဆက္သြယ္ရန္ ရက္စြဲ
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+      family_members: မိသားစုဝင်တွေ
       family_type: မိသားစု အမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္

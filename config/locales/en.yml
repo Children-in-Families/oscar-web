@@ -2610,8 +2610,15 @@ en:
         basic_fields: Basic Fields
         custom_form: Custom Form
         filter_option: Please choose your query options below
+    family_member_fields:
+      date_of_birth: Date of Birth
+      name: Name of Adult Member
+      occupation: Occupation
+      relation: Relationship with Children
+      remove_member: Remove Member
     form:
       address: Address
+      add_new_member: Add New Member
       caregiver_information: Caregiver Information
       case_history: Case History
       clients: Clients
@@ -2619,6 +2626,7 @@ en:
       contract_date: Contract Date
       custom_forms: Custom Forms
       dependable_income: Dependable Income
+      family_members: Family Members
       family_type: Family Type
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
