@@ -391,7 +391,7 @@ module ClientsHelper
     sub_query_array = mapping_sub_query_array(object, 'case_notes.interaction_type', rule)
 
     sql_string      = object.where(query_array).where(sub_query_array)
-    sql_string.present? ? sql_string : object
+    sql_string.present? ? sql_string : []
   end
 
   def mapping_squery_string(object, hashes, association, rule)
@@ -435,7 +435,7 @@ module ClientsHelper
     query_array     = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
     sql_string      = object.where(query_array).where(sub_query_array)
 
-    sql_string.present? ? sql_string : object
+    sql_string.present? ? sql_string : []
   end
 
   def mapping_sub_query_array(object, association, rule)
@@ -495,7 +495,7 @@ module ClientsHelper
     query_array = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
     sql_string = object.where(query_array).where(sub_query_array)
 
-    sql_string.present? && sql_hash[:sql_string].present? ? sql_string : object
+    sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []
   end
 
   def header_counter(grid, column)
@@ -529,7 +529,12 @@ module ClientsHelper
             class_name = 'active_program_stream'
             count += program_stream_name(client.send(klass.to_sym).active, class_name).count
           elsif class_name[/^(enrollmentdate)/i].present?
-            count += date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date").distinct(:program_stream_id).map(&:enrollment_date).flatten.count
+            data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
+            if data_filter.present?
+              count += data_filter.map(&:enrollment_date).flatten.count
+            else
+              count += 0
+            end
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
           end
