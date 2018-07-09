@@ -2,7 +2,7 @@ class AdminController < ApplicationController
   protect_from_forgery with: :exception
 
   before_action :remove_remember_me, :authenticate_user!
-  before_action :notify_user, :set_sidebar_basic_info, :current_setting
+  before_action :notify_user, :set_sidebar_basic_info
 
   protected
 
@@ -25,9 +25,5 @@ class AdminController < ApplicationController
     @partner_count = Partner.count
     @agency_count  = Agency.count
     @referral_source_count = ReferralSource.count
-  end
-
-  def current_setting
-    @current_setting = Setting.first
   end
 end

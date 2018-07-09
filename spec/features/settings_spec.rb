@@ -1,6 +1,6 @@
 describe 'Settings' do
-  let!(:setting) {create(:setting) }
   let!(:admin) { create(:user, :admin) }
+  let!(:setting) { Setting.first }
 
   before do
     login_as(admin)
