@@ -2,6 +2,7 @@ describe 'Referral Sources' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:referral_source){ create(:referral_source) }
   let!(:other_referral_source){ create(:referral_source) }
+  let!(:referral_source_1){ create(:referral_source, name: 'អង្គការមិនមែនរដ្ឋាភិបាល') }
   let!(:client){ create(:client, referral_source: other_referral_source) }
   before do
     login_as(admin)
@@ -69,6 +70,10 @@ describe 'Referral Sources' do
       wait_for_ajax
       expect(page).to have_content(referral_source.name)
     end
+
+    scenario 'cannot be updated' do
+      expect(page).to have_css("a[class='btn btn-outline btn-success btn-xs disabled'][data-target='#referral_sourceModal-#{referral_source_1.id}']")
+    end
   end
   feature 'Delete' do
     before do
@@ -80,7 +85,7 @@ describe 'Referral Sources' do
       expect(page).not_to have_content(referral_source.name)
     end
     scenario 'disable delete' do
-      expect(page).to have_css("a[href='#{referral_source_path(other_referral_source)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{referral_source_path(referral_source_1)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end
