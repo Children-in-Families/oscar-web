@@ -2771,8 +2771,10 @@ en:
     edit:
       edit_report: Edit Form
     index:
-      back: Back
+      action: Action
       add_form: Add New Form
+      back: Back
+      date: Date
     new:
       new_form: New Form
     update:

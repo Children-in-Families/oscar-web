@@ -32,7 +32,7 @@
         %hr
         %h3= 'អ្នកផ្ដល់បទសម្ភាសន៍'
       .col-xs-12
-        = f.association :interviewees, collection: @interviewees, as: :check_boxes, label: false
+        = f.association :interviewees, collection: @interviewees, as: :check_boxes, input_html: { class: 'i-checks' }, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4', label: false
       .col-xs-12
         %hr
         %h3= 'ឈ្មោះអ្នកកាន់ករណី'
@@ -68,7 +68,7 @@
         %hr
         %h3= 'ប្រភេទកុមារ'
       .col-xs-12
-        = f.association :client_types, collection: @client_types, as: :check_boxes, label: false
+        = f.association :client_types, collection: @client_types, as: :check_boxes, input_html: { class: 'i-checks' }, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4', label: false
       .col-xs-12
         %hr
         %h3= 'មូលហេតុនៃការបញ្ជូន និង តម្រូវការ'
@@ -81,12 +81,16 @@
         %h3= 'យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ'
       .col-xs-12
         %h4= 'សូមបញ្ជាក់ពីប្រភេទតម្រូវការចាំបាច់ (បង់លេខតាមអាទិភាព)'
-        = f.simple_fields_for :government_form_needs do |f_need|
-          = render 'government_form_need_fields', f: f_need
+        .row
+          = f.simple_fields_for :government_form_needs do |f_need|
+            .col-xs-12.col-sm-4
+              = render 'need_fields', f: f_need
       .col-xs-12
         %h4= 'សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ (បង់លេខតាមអាទិភាព)'
-        = f.simple_fields_for :government_form_problems do |f_problem|
-          = render 'problem_fields', f: f_problem
+        .row
+          = f.simple_fields_for :government_form_problems do |f_problem|
+            .col-xs-12.col-sm-4
+              = render 'problem_fields', f: f_problem
       .col-xs-12
         %hr
         %h3= 'មតិយោបល់អ្នកកាន់ករណី'

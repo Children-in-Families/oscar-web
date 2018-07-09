@@ -1,0 +1,16 @@
+body[id=government_forms-new],
+body[id=government_forms-create],
+body[id=government_forms-edit],
+body[id=government_forms-update] {
+  .government_form_interviewees .checkbox, .government_form_client_types .checkbox {
+    margin-top: 10px;
+  }
+  .government_form_interviewees, .government_form_client_types {
+    .checkbox {
+      padding-left: 0;
+      label {
+        padding-left: 0;
+      }
+    }
+  }
+}

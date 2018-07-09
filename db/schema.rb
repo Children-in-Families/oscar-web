@@ -614,6 +614,7 @@ ActiveRecord::Schema.define(version: 20180706092421) do
   add_index "government_form_interviewees", ["interviewee_id"], name: "index_government_form_interviewees_on_interviewee_id", using: :btree
 
   create_table "government_form_needs", force: :cascade do |t|
+    t.integer  "rank"
     t.integer  "need_id"
     t.integer  "government_form_id"
     t.datetime "created_at"
@@ -624,6 +625,7 @@ ActiveRecord::Schema.define(version: 20180706092421) do
   add_index "government_form_needs", ["need_id"], name: "index_government_form_needs_on_need_id", using: :btree
 
   create_table "government_form_problems", force: :cascade do |t|
+    t.integer  "rank"
     t.integer  "problem_id"
     t.integer  "government_form_id"
     t.datetime "created_at"

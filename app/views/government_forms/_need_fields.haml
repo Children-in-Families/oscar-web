@@ -1,0 +1,4 @@
+.nested-fields
+  .field
+    = f.input :rank, as: :select, collection: GovernmentFormNeed::RANKS, label: f.object.need_name
+    = f.input :need_id, as: :hidden, label: false
