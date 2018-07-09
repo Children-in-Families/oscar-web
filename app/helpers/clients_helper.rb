@@ -530,11 +530,7 @@ module ClientsHelper
             count += program_stream_name(client.send(klass.to_sym).active, class_name).count
           elsif class_name[/^(enrollmentdate)/i].present?
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
-            if data_filter.present?
-              count += data_filter.map(&:enrollment_date).flatten.count
-            else
-              count += 0
-            end
+            count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
           end
