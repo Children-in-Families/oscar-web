@@ -25,7 +25,7 @@ describe 'Referral' do
         find('#referral_consent_form', visible: false).set('spec/supports/file.docx')
         click_button 'Save'
         sleep 1
-        expect(page).to have_content(client_2.name)
+        expect(page).to have_content(client_2.en_and_local_name)
       end
 
       scenario 'invalid' do
@@ -98,6 +98,50 @@ describe 'Referral' do
     scenario 'cannot edit referral', js: true do
       visit edit_client_referral_path(client_1, referral_1)
       expect(page).to have_content('You are not authorized to access this page.')
+    end
+  end
+
+  feature 'show' do
+    before do
+      visit client_referral_path(client, referral)
+    end
+
+    scenario 'Created by .. on ..' do
+      user = referral.name_of_referee
+      date = referral.created_at.strftime("%B %d, %Y")
+      expect(page).to have_content("Created by #{user} on #{date}")
+    end
+
+    scenario 'Date of referral' do
+      expect(page).to have_content(referral.date_of_referral.strftime('%d %B, %Y'))
+    end
+
+    scenario 'Client Name' do
+      expect(page).to have_content(referral.client_name)
+    end
+
+    scenario 'Client ID' do
+      expect(page).to have_content(referral.slug)
+    end
+
+    scenario 'Referred From' do
+      expect(page).to have_content(referral.referred_from_ngo)
+    end
+
+    scenario 'Referred To' do
+      expect(page).to have_content(referral.referred_to_ngo)
+    end
+
+    scenario 'Case Worker' do
+      expect(page).to have_content(referral.name_of_referee)
+    end
+
+    scenario 'Referee Phone' do
+      expect(page).to have_content(referral.referral_phone)
+    end
+
+    scenario 'Referral Reason' do
+      expect(page).to have_content(referral.referral_reason)
     end
   end
 end

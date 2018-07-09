@@ -18,7 +18,7 @@
             = f.error :date_of_referral
       .row
         .col-xs-12
-          = f.input :client_name, readonly: true, input_html: { value: @client.name }, label: t('.client_name')
+          = f.input :client_name, readonly: true, input_html: { value: @client.en_and_local_name }, label: t('.client_name')
         .col-xs-12
           = f.input :slug, readonly: true, input_html: { value: @client.slug }, label: t('.client_id')
         .col-xs-12

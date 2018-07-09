@@ -1,8 +1,6 @@
 namespace :basic_data do
   desc 'Import all basic data task'
   task import: :environment do
-    Organization.switch_to 'my'
-
     Rake::Task['agencies:import'].invoke
     Rake::Task['departments:import'].invoke
     Rake::Task['provinces:import'].invoke

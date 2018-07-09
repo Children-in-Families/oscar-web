@@ -520,6 +520,7 @@ en:
       three_month_assessment_report: 3 Monthly Assessment Report
     update:
       successfully_updated: Assessment has been successfully updated.
+  at: 'on'
   back: Back
   calendars:
     index:
@@ -1540,6 +1541,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  created_by: Created by
   custom_field_properties:
     attachment:
       are_you_sure: Are you sure you want to delete?

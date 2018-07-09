@@ -254,4 +254,10 @@ module ApplicationHelper
       I18n.t('layouts.notification.due_today_forms_count', count: @notification.client_enrollment_tracking_frequency_due_today_count)
     end
   end
+
+  def whodunnit(type, id)
+    user_id = PaperTrail::Version.find_by(event: 'create', item_type: type, item_id: id).try(:whodunnit)
+    return 'OSCaR Team' if user_id.present? && user_id.include?('@rotati')
+    User.find_by(id: user_id).try(:name) || ''
+  end
 end
