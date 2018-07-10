@@ -17,7 +17,6 @@ class Family < ActiveRecord::Base
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
-
   has_paper_trail
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
@@ -28,6 +27,8 @@ class Family < ActiveRecord::Base
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
   scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value}%") }
   scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value}%") }
+  scope :village_like,               ->(value) { where('village iLIKE ?', "%#{value}%") }
+  scope :commune_like,               ->(value) { where('commune iLIKE ?', "%#{value}%") }
   scope :emergency,                  ->        { where(family_type: 'Short Term / Emergency Foster Care') }
   scope :foster,                     ->        { where(family_type: 'Long Term Foster Care') }
   scope :kinship,                    ->        { where(family_type: 'Extended Family / Kinship Care') }

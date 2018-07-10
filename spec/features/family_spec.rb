@@ -13,7 +13,7 @@ describe 'Family' do
   let!(:case_b){ create(:case, :foster, client: client_b, family: foster_family) }
 
   let!(:family){ create(:family, :emergency, name: 'EC Family', province_id: province.id, district_id: district.id, commune: 'Beoung Kak 2', village: 'Wat Neak Kwan') }
-  let!(:other_family){ create(:family, name: 'Unknown') }
+  let!(:other_family){ create(:family, name: 'Unknown', dependable_income: true) }
   let!(:case){ create(:case, family: other_family) }
   let!(:client){ create(:client, :accepted) }
   let!(:other_client){ create(:client) }
@@ -183,38 +183,43 @@ describe 'Family' do
     scenario 'filter by family province' do
       province_id = Province.find_by(name: 'Phnom Penh').id
       page.find("#family-search-form select#family_grid_province_id option[value='#{province_id}']", visible: false).select_option
+      sleep 1
       click_button 'Search'
       expect(page).to have_content(family.name)
-      expect(page).not_to have_content(other_family)
+      expect(page).not_to have_content(other_family.name)
     end
 
     scenario 'filter by family district' do
       district_id = District.find_by(name: 'Toul Kork').id
       page.find("#family-search-form select#family_grid_district_id option[value='#{district_id}']", visible: false).select_option
+      sleep 1
       click_button 'Search'
       expect(page).to have_content(family.name)
-      expect(page).not_to have_content(other_family)
+      expect(page).not_to have_content(other_family.name)
     end
 
     scenario 'filter by family commune' do
       fill_in('family_grid_commune',with: 'Beoung Kak 2')
+      sleep 1
       click_button 'Search'
       expect(page).to have_content(family.name)
-      expect(page).not_to have_content(other_family)
+      expect(page).not_to have_content(other_family.name)
     end
 
     scenario 'filter by family village' do
       fill_in('family_grid_village',with: 'Wat Neak Kwan')
+      sleep 1
       click_button 'Search'
       expect(page).to have_content(family.name)
-      expect(page).not_to have_content(other_family)
+      expect(page).not_to have_content(other_family.name)
     end
 
     scenario 'filter by family dependable income' do
       page.find("#family-search-form select#family_grid_dependable_income option[value='NO']", visible: false).select_option
+      sleep 1
       click_button 'Search'
       expect(page).to have_content(family.name)
-      expect(page).not_to have_content(other_family)
+      expect(page).not_to have_content(other_family.name)
     end
   end
 end

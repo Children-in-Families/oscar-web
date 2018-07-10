@@ -1829,8 +1829,8 @@ en:
         code: Family ID
         commune: Commune
         contract_date: Contract Date
-        district: District
         dependable_income: Dependable Income
+        district: District
         family: Family
         family_preservation: Family Preservation?
         family_type: Family Type
