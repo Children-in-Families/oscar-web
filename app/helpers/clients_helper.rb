@@ -592,32 +592,32 @@ module ClientsHelper
       values   = hashes[key].flatten
       case key
       when 'between'
-        sql_string << "#{relation} BETWEEN ? AND ?"
+        sql_string << "date(#{relation}) BETWEEN ? AND ?"
         param_values << values.first
         param_values << values.last
       when 'greater_or_equal'
-        sql_string << "#{relation} >= ?"
+        sql_string << "date(#{relation}) >= ?"
         param_values << values
       when 'greater'
-        sql_string << "#{relation} > ?"
+        sql_string << "date(#{relation}) > ?"
         param_values << values
       when 'less'
-        sql_string << "#{relation} < ?"
+        sql_string << "date(#{relation}) < ?"
         param_values << values
       when 'less_or_equal'
-        sql_string << "#{relation} <= ?"
+        sql_string << "date(#{relation}) <= ?"
         param_values << values
       when 'not_equal'
-        sql_string << "#{relation} NOT IN (?)"
+        sql_string << "date(#{relation}) NOT IN (?)"
         param_values << values
       when 'equal'
-        sql_string << "#{relation} IN (?)"
+        sql_string << "date(#{relation}) IN (?)"
         param_values << values
       when 'is_empty'
-        sql_string << "#{relation} IS NULL"
+        sql_string << "date(#{relation}) IS NULL"
 
       when 'is_not_empty'
-        sql_string << "#{relation} IS NOT NULL"
+        sql_string << "date(#{relation}) IS NOT NULL"
       else
         object
       end
