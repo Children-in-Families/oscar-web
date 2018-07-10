@@ -373,14 +373,17 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
+
     return object unless params.has_key?(:client_advanced_search)
-    return object if rule[/^(#{params['all_values']})/i].present? || object.blank?
+
     @data   = eval params[:client_advanced_search][:basic_rules]
     results = @data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
 
   def case_note_types(object, rule)
     results         = client_advanced_search_data(object, rule)
+    return object if return_default_filter(object, rule, results)
+
     query_array     = []
     sub_query_array = []
     hashes          = Hash.new { |h,k| h[k] = []}
@@ -427,7 +430,7 @@ module ClientsHelper
     hashes          = Hash.new { |h,k| h[k] = []}
 
     results         = client_advanced_search_data(object, rule)
-    return object if rule[/^(#{params['all_values']})/i].present? || object.blank?
+    return object if return_default_filter(object, rule, results)
     results.each {|k, o, v| hashes[k] << {o => v} }
     sql_hash        = mapping_squery_string(object, hashes, 'client_enrollments.program_stream_id', rule)
 
@@ -459,6 +462,8 @@ module ClientsHelper
     sub_query_array  = []
     field_name       = ''
     results          = client_advanced_search_data(object, rule)
+
+    return object if return_default_filter(object, rule, results)
 
     klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
 
@@ -630,5 +635,9 @@ module ClientsHelper
     query_array << sql_hash[:sql_string].join(" #{condition} ")
     sql_hash[:values].map{ |v| query_array << v }
     query_array
+  end
+
+  def return_default_filter(object, rule, results)
+    rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank?
   end
 end
