@@ -2611,8 +2611,8 @@ en:
         custom_form: Custom Form
         filter_option: Please choose your query options below
     family_member_fields:
+      adult_name: Name of Adult Member
       date_of_birth: Date of Birth
-      name: Name of Adult Member
       occupation: Occupation
       relation: Relationship with Children
       remove_member: Remove Member
@@ -2655,11 +2655,13 @@ en:
       additional_forms: Family's Active Forms
       additional_info: Additional Information
       address: Address
+      adult_name: Name of Adult Member
       are_you_sure: Are you sure you want to delete?
       caregiver_information: Caregiver Information
       case_history: Case History
       code: Family ID
       contract_date: Contract Date
+      date_of_birth: Date of Birth
       dependable_income: Dependable Income
       family_type: Family Type
       female_adult_count: Female Adult Count
@@ -2672,9 +2674,11 @@ en:
       member_count: Member Count
       name: Name
       'no': 'No'
+      occupation: Occupation
       province: Province
       read_less: read less
       read_more: read more
+      relation: Relationship with Children
       significant_family_member_count: Significant Family Member Count
       status: Status
       'yes': 'Yes'

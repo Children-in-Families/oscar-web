@@ -93,7 +93,7 @@ class FamiliesController < AdminController
                             :address, :province_id,
                             custom_field_ids: [],
                             children: [],
-                            family_members_attributes: [:id, :name_of_adult_member, :date_of_birth, :occupation, :relationship_with_children, :_destroy]
+                            family_members_attributes: [:id, :adult_name, :date_of_birth, :occupation, :relation, :_destroy]
                             )
   end
 

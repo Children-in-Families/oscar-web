@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :family_member do
-    name_of_adult_member "MyString"
+    adult_name { FFaker::Name.name }
     date_of_birth "2018-07-09"
-    occupation "MyString"
-    relationship_with_children "MyString"
-    family nil
+    occupation { FFaker::Job.title }
+    relation { FFaker::Name.name }
+    association :family
   end
 end

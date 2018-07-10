@@ -144,6 +144,36 @@
                 %td
                   %strong
                     = @family.status
+
+        .row.family-summary
+          - @family.family_members.each do |member|
+            .col-sm-4
+              %table.table.table-bordered
+                %tr
+                  %td.spacing-first-col
+                    = t('.adult_name')
+                  %td
+                    %strong
+                      = member.adult_name
+                %tr
+                  %td.spacing-first-col
+                    = t('.date_of_birth')
+                  %td
+                    %strong
+                      = date_format member.date_of_birth
+                %tr
+                  %td.spacing-first-col
+                    = t('.occupation')
+                  %td
+                    %strong
+                      = member.occupation
+                %tr
+                  %td.spacing-first-col
+                    = t('.relation')
+                  %td
+                    %strong
+                      = member.relation
+
 .row
   .col-xs-12.clients
     .ibox

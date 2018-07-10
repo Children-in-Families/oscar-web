@@ -582,7 +582,7 @@ ActiveRecord::Schema.define(version: 20180709021636) do
   end
 
   create_table "family_members", force: :cascade do |t|
-    t.string   "name",          default: ""
+    t.string   "adult_name",    default: ""
     t.date     "date_of_birth"
     t.string   "occupation",    default: ""
     t.string   "relation",      default: ""

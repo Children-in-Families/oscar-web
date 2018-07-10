@@ -2620,8 +2620,8 @@ my:
         custom_form: အေကာက္ခြန္ ပံုစံ
         filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
     family_member_fields:
+      adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
-      name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       occupation: အလုပ်အကိုင်
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       remove_member: ဖယ်ထုတ်ထား
@@ -2660,15 +2660,18 @@ my:
     new:
       new_family_title: မိသားစုအသစ္
     show:
+      remove_member: ဖယ်ထုတ်ထား
       add_form: ပံုစံအသစ္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
       additional_info: ထပ္ေဆာင္းသတင္းအခ်က္အလက္မ်ား
       address: လိပ္စာ
+      adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       caregiver_information: ေစာင့္ေရွာက္သူအခ်က္အလက္
       case_history: အမႈသမုိင္း
       code: မိသားစုမွတ္ပံုတင္
       contract_date: စာခ်ဳပ္ရက္စြဲ
+      date_of_birth: မွေးရက်
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
       family_type: မိသားစုအမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
@@ -2681,9 +2684,11 @@ my:
       member_count: အဖြဲ႕၀င္အေရအတြက္
       name: နာမည္
       'no': မဟုတ္ပါ
+      occupation: အလုပ်အကိုင်
       province: ခ႐ိုင္
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
+      relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
       status: အေျခအေန
       'yes': မွန္ပါသည္

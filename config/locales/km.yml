@@ -2612,8 +2612,8 @@ km:
         custom_form: ទម្រង់បែបបទ
         filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
     family_member_fields:
+      adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
-      name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       occupation: មុខរបរ
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: ដកចេញ
@@ -2656,11 +2656,13 @@ km:
       additional_forms: ទម្រង់បែបបទរបស់គ្រួសារដែលកំពុងប្រើ
       additional_info: ពត៌មានលំអិតបន្ថែម
       address: ឣាសយដ្ឋាន
+      adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
       case_history: ប្រវត្តិគ្រួសារ
       code: លេខសំគាល់គ្រួសារ
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+      date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
@@ -2673,9 +2675,11 @@ km:
       member_count: ចំនួនសមាជិកគ្រួសារ
       name: ឈ្មោះអ្នកថែទាំកុមារ
       'no': ទេ
+      occupation: មុខរបរ
       province: ខេត្ត
       read_less: អានតិច
       read_more: អានបន្ថែម
+      relation: ទំនាក់ទំនងជាមួយកុមារ
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
       'yes': បាទ/ចាស

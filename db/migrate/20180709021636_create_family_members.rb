@@ -1,7 +1,7 @@
 class CreateFamilyMembers < ActiveRecord::Migration
   def change
     create_table :family_members do |t|
-      t.string :name, default: ''
+      t.string :adult_name, default: ''
       t.date :date_of_birth
       t.string :occupation, default: ''
       t.string :relation, default: ''
