@@ -2617,8 +2617,8 @@ en:
       relation: Relationship with Children
       remove_member: Remove Member
     form:
-      address: Address
       add_new_member: Add New Member
+      address: Address
       caregiver_information: Caregiver Information
       case_history: Case History
       clients: Clients

@@ -2626,8 +2626,8 @@ my:
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       remove_member: ဖယ်ထုတ်ထား
     form:
-      address: လိပ္စာ
       add_new_member: နယူးအဖွဲ့ဝင်များ Add
+      address: လိပ္စာ
       caregiver_information: ေစာင့္ေရွာက္သူ သတင္းအခ်က္အလက္
       case_history: အမႈသမိုင္း
       clients: အမႈသည္မ်ား

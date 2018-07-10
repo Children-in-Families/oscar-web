@@ -2618,8 +2618,8 @@ km:
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: ដកចេញ
     form:
-      address: ឣាសយដ្ឋាន
       add_new_member: បន្ថែមសមាជិកថ្មី
+      address: ឣាសយដ្ឋាន
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
       case_history: ប្រវត្តិគ្រួសារ
       clients: អតិថិជន

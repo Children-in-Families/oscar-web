@@ -40,7 +40,7 @@
                 = f.simple_fields_for :family_members do |member|
                   = render 'family_member_fields', f: member
                 .links
-                  = link_to_add_association t('.add_new_member'), f, :family_members, class: 'btn btn-primary'
+                  = link_to_add_association t('.add_new_member'), f, :family_members, class: 'btn btn-primary add_new_member'
 
 
   .ibox-footer
