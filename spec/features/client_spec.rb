@@ -668,6 +668,6 @@ def exit_client_from_ngo
 end
 
 def whodunnit(id)
-  user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: id).whodunnit
+  user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: id).try(:whodunnit)
   User.find_by(id: user_id).try(:name) || ''
 end

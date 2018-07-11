@@ -110,17 +110,17 @@ module FamiliesHelper
   end
 
 
-  def merged_address(family)
+  def merged_address_family(object)
     current_address = []
-    current_address << "#{I18n.t('datagrid.columns.families.village')} #{family.village}" if family.village.present?
-    current_address << "#{I18n.t('datagrid.columns.families.commune')} #{family.commune}" if family.commune.present?
+    current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village}" if object.village.present?
+    current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune}" if object.commune.present?
     if locale == :km
-      current_address << family.district_name.split(' / ').first if family.district.present?
-      current_address << family.province_name.split(' / ').first if family.province.present?
+      current_address << object.district_name.split(' / ').first if object.district.present?
+      current_address << object.province_name.split(' / ').first if object.province.present?
       current_address << 'កម្ពុជា'
     else
-      current_address << family.district_name.split(' / ').last if family.district.present?
-      current_address << family.province_name.split(' / ').last if family.province.present?
+      current_address << object.district_name.split(' / ').last if object.district.present?
+      current_address << object.province_name.split(' / ').last if object.province.present?
       current_address << 'Cambodia'
     end
     current_address.join(', ')

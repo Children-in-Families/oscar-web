@@ -225,6 +225,6 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 end
 
 def whodunnit(id)
-  user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'ClientEnrollmentTracking', item_id: id).whodunnit
+  user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'ClientEnrollmentTracking', item_id: id).try(:whodunnit)
   User.find_by(id: user_id).try(:name) || ''
 end
