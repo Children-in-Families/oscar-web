@@ -160,13 +160,13 @@ module TapangImporter
 
         user_emails = Array.new
         user_ids    = Array.new
-        user_hash         = { "ORCO01": "dolin@mloptapang.org",
-                              "ORCO02": "thim@mloptapang.org",
-                              "CP01": "ti@mloptapang.org",
-                              "CP02": "sophearoth@mlopapang.org",
-                              "CP03": "moinsima@mloptapang.org",
-                              "CP04": "piseth@mloptapang.org",
-                              "CP05": "sophal@mloptapang.org"
+        user_hash         = { "ORCO01": "",
+                              "ORCO02": "",
+                              "CP01": "",
+                              "CP02": "",
+                              "CP03": "",
+                              "CP04": "",
+                              "CP05": ""
                             }
 
         case_workers      = workbook.row(row)[headers['*Case Worker ID']]
