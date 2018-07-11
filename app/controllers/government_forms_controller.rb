@@ -80,6 +80,7 @@ class GovernmentFormsController < AdminController
       :primary_carer_house, :primary_carer_street, :primary_carer_village,
       :primary_carer_commune, :primary_carer_district_id, :primary_carer_province_id,
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
+      :other_interviewee, :other_need, :other_problem, :other_client_type,
       interviewee_ids: [], client_type_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id]

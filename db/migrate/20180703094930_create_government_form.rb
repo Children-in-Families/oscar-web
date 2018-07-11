@@ -23,6 +23,10 @@ class CreateGovernmentForm < ActiveRecord::Migration
       t.string :summary_info_of_referral, default: ''
       t.string :guardian_comment, default: ''
       t.string :case_worker_comment, default: ''
+      t.string :other_interviewee, default: ''
+      t.string :other_client_type, default: ''
+      t.string :other_need, default: ''
+      t.string :other_problem, default: ''
 
       t.timestamps
     end
