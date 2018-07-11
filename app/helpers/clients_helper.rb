@@ -373,31 +373,12 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-
     return object unless params.has_key?(:client_advanced_search)
-
     @data   = eval params[:client_advanced_search][:basic_rules]
     results = @data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
 
-  def case_note_types(object, rule)
-    results         = client_advanced_search_data(object, rule)
-    return object if return_default_filter(object, rule, results)
-
-    query_array     = []
-    sub_query_array = []
-    hashes          = Hash.new { |h,k| h[k] = []}
-
-    results.each {|k, o, v| hashes[k] << {o => v} }
-    sql_hash        = mapping_squery_string(object, hashes, 'case_notes.interaction_type', rule)
-    query_array     = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
-    sub_query_array = mapping_sub_query_array(object, 'case_notes.interaction_type', rule)
-
-    sql_string      = object.where(query_array).where(sub_query_array)
-    sql_string.present? ? sql_string : []
-  end
-
-  def mapping_squery_string(object, hashes, association, rule)
+  def mapping_query_string(object, hashes, association, rule)
     param_values = []
     sql_string   = []
     hashes[rule].each do |rule|
@@ -432,10 +413,10 @@ module ClientsHelper
     results         = client_advanced_search_data(object, rule)
     return object if return_default_filter(object, rule, results)
     results.each {|k, o, v| hashes[k] << {o => v} }
-    sql_hash        = mapping_squery_string(object, hashes, 'client_enrollments.program_stream_id', rule)
+    sql_hash        = mapping_query_string(object, hashes, 'client_enrollments.program_stream_id', rule)
 
     sub_query_array = mapping_sub_query_array(object, 'client_enrollments.program_stream_id', rule)
-    query_array     = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
+    query_array     = mapping_query_string_with_query_value(sql_hash, @data[:condition])
     sql_string      = object.where(query_array).where(sub_query_array)
 
     sql_string.present? ? sql_string : []
@@ -450,11 +431,77 @@ module ClientsHelper
         sub_results     = @data[:rules][sub_rule_index]
         sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
         sub_result_hash.each {|k, o, v| sub_hashes[k] << {o => v} }
-        sub_sql_hash    = mapping_squery_string(object, sub_hashes, association, rule)
-        sub_query_array = mapping_query_string_with_query_value(sub_query_array, sub_sql_hash, sub_results[:condition])
+        sub_sql_hash    = mapping_query_string(object, sub_hashes, association, rule)
+        sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
       end
     end
     sub_query_array
+  end
+
+  def case_note_types(object, rule)
+    results         = client_advanced_search_data(object, rule)
+    return object if return_default_filter(object, rule, results)
+
+    query_array     = []
+    sub_query_array = []
+    sub_sql_hash    = {}
+    hashes          = Hash.new { |h,k| h[k] = []}
+
+    results.each {|k, o, v| hashes[k] << {o => v} }
+    sql_hash        = mapping_query_string(object, hashes, 'case_notes.interaction_type', rule)
+    # query_array     = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
+
+    if @data[:rules]
+      sub_rule_index  = @data[:rules].index {|param| param.has_key?(:condition)}
+      if sub_rule_index.present?
+        sub_hashes      = Hash.new { |h,k| h[k] = []}
+        sub_results     = @data[:rules][sub_rule_index]
+        sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+        sub_result_hash.each {|k, o, v| sub_hashes[k] << {o => v} }
+        sub_sql_hash    = mapping_query_string(object, sub_hashes, 'case_notes.interaction_type', rule)
+      end
+    end
+
+    if sub_sql_hash.present?
+      object = object.where(case_notes: {interaction_type: sql_hash[:values]}).where(case_notes: {interaction_type: sub_sql_hash[:values]})
+    else
+      object = object.where(case_notes: {interaction_type: sql_hash[:values]})
+    end
+    object.present? ? object : []
+  end
+
+  def case_note_query(object, rule)
+    return object if !params.has_key?(:client_advanced_search)
+
+    data    = {}
+    rules   = %w( case_note_date case_note_type )
+    data    = eval params[:client_advanced_search][:basic_rules]
+    # results = client_advanced_search_data(object, rule)
+    result1                = mapping_param_value(data, 'case_note_date')
+    result2                = mapping_param_value(data, 'case_note_type')
+
+    return object if return_default_filter(object, 'case_note_date', result1)
+    return object if return_default_filter(object, 'case_note_type', result2)
+
+
+    case_note_date_hashes  = mapping_query_result(result1)
+    case_note_type_hashes  = Hash.new { |h,k| h[k] = []}
+    result2.each {|k, o, v| case_note_type_hashes[k] << {o => v} }
+
+    sql_case_note_date_hash = mapping_query_date(object, case_note_date_hashes, 'case_notes.meeting_date')
+    sql_case_note_type_hash = mapping_query_string(object, case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
+
+    query_array = []
+    case_note_date_query    = mapping_query_string_with_query_value(sql_case_note_date_hash, data[:condition])
+    case_note_type_query    = mapping_query_string_with_query_value(sql_case_note_type_hash, data[:condition])
+
+    binding.pry if
+    object = object.where(case_note_date_query).where(case_note_type_query)
+    object.present? ? object : []
+  end
+
+  def mapping_param_value(data, rule)
+    data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
   end
 
   def date_filter(object, rule)
@@ -484,7 +531,7 @@ module ClientsHelper
     relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
 
     hashes   = mapping_query_result(results)
-    sql_hash = mapping_query_string(object, hashes, relation)
+    sql_hash = mapping_query_date(object, hashes, relation)
 
     if @data[:rules]
       sub_rule_index  = @data[:rules].index {|param| param.has_key?(:condition)}
@@ -492,12 +539,12 @@ module ClientsHelper
         sub_results     = @data[:rules][sub_rule_index]
         sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
         sub_hashes      = mapping_query_result(sub_result_hash)
-        sub_sql_hash    = mapping_query_string(object, sub_hashes, relation)
-        sub_query_array = mapping_query_string_with_query_value(sub_query_array, sub_sql_hash, sub_results[:condition])
+        sub_sql_hash    = mapping_query_date(object, sub_hashes, relation)
+        sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
       end
     end
 
-    query_array = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
+    query_array = mapping_query_string_with_query_value(sql_hash, @data[:condition])
     sql_string = object.where(query_array).where(sub_query_array)
 
     sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []
@@ -529,7 +576,9 @@ module ClientsHelper
       else
         @clients.each do |client|
           if class_name == 'case_note_type'
-            count += case_note_types(client.send(klass.to_sym), class_name).count
+            count += case_note_query(client.send(klass.to_sym), class_name).count
+          elsif class_name == 'case_note_date'
+            count += case_note_query(client.send(klass.to_sym), class_name).count
           elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
             class_name = 'active_program_stream'
             count += program_stream_name(client.send(klass.to_sym).active, class_name).count
@@ -590,7 +639,7 @@ module ClientsHelper
     hashes
   end
 
-  def mapping_query_string(object, hashes, relation)
+  def mapping_query_date(object, hashes, relation)
     sql_string    = []
     param_values  = []
     hashes.keys.each do |key|
@@ -631,13 +680,14 @@ module ClientsHelper
     { sql_string: sql_string, values: param_values }
   end
 
-  def mapping_query_string_with_query_value(query_array, sql_hash, condition)
+  def mapping_query_string_with_query_value(sql_hash, condition)
+    query_array = []
     query_array << sql_hash[:sql_string].join(" #{condition} ")
     sql_hash[:values].map{ |v| query_array << v }
     query_array
   end
 
   def return_default_filter(object, rule, results)
-    rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank?
+    rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 end
