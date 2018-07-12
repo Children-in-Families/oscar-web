@@ -2612,7 +2612,7 @@ km:
         custom_form: ទម្រង់បែបបទ
         filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
     family_member_fields:
-      adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
+      adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
       occupation: មុខរបរ
       relation: ទំនាក់ទំនងជាមួយកុមារ
