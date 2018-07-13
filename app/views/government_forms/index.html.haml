@@ -8,7 +8,7 @@
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
           -# - if can? :manage, GovernmentForm
             = link_to t('.add_report'), new_client_government_form_path(@client), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
-          = link_to t('.add_form'), new_client_government_form_path(@client, name: 'ទម្រង់ទី១: ព័ត៌មានបឋម'), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
+          = link_to t('.add_form'), new_client_government_form_path(@client, name: @form_name), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
         %table.table.table-bordered
           %thead
             %tr

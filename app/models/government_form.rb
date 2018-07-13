@@ -11,9 +11,12 @@ class GovernmentForm < ActiveRecord::Base
   has_many :needs, through: :government_form_needs
   has_many :government_form_problems, dependent: :restrict_with_error
   has_many :problems, through: :government_form_problems
+  has_many :government_form_plans, dependent: :restrict_with_error
+  has_many :plans, through: :government_form_plans
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
+  accepts_nested_attributes_for :government_form_plans
 
   def populate_needs
     Need.all.each do |need|
@@ -24,6 +27,12 @@ class GovernmentForm < ActiveRecord::Base
   def populate_problems
     Problem.all.each do |problem|
       government_form_problems.build(problem: problem)
+    end
+  end
+
+  def populate_plans
+    Plan.all.each do |plan|
+      government_form_plans.build(plan: plan)
     end
   end
 

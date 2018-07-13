@@ -3,4 +3,7 @@
     .ibox
       .ibox-title
         %h5= t('.new_form')
-      = render 'form'
+      - if params[:name] == 'ទម្រង់ទី១: ព័ត៌មានបឋម'
+        = render 'form'
+      - else params[:name] == 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
+        = render 'form_three'

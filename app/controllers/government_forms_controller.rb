@@ -12,6 +12,7 @@ class GovernmentFormsController < AdminController
     @government_form = @client.government_forms.new(name: params[:name])
     @government_form.populate_needs
     @government_form.populate_problems
+    @government_form.populate_plans
   end
 
   def create
@@ -90,7 +91,7 @@ class GovernmentFormsController < AdminController
     @form_name = case params[:form]
             when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
             when 'two' then ''
-            when 'three' then ''
+            when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
             when 'four' then ''
             when 'five' then ''
             when 'sixe' then ''

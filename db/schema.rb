@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180706092421) do
+ActiveRecord::Schema.define(version: 20180712045031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -624,6 +624,19 @@ ActiveRecord::Schema.define(version: 20180706092421) do
   add_index "government_form_needs", ["government_form_id"], name: "index_government_form_needs_on_government_form_id", using: :btree
   add_index "government_form_needs", ["need_id"], name: "index_government_form_needs_on_need_id", using: :btree
 
+  create_table "government_form_plans", force: :cascade do |t|
+    t.string   "goal"
+    t.string   "action"
+    t.string   "result"
+    t.integer  "government_form_id"
+    t.integer  "plan_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "government_form_plans", ["government_form_id"], name: "index_government_form_plans_on_government_form_id", using: :btree
+  add_index "government_form_plans", ["plan_id"], name: "index_government_form_plans_on_plan_id", using: :btree
+
   create_table "government_form_problems", force: :cascade do |t|
     t.integer  "rank"
     t.integer  "problem_id"
@@ -825,6 +838,13 @@ ActiveRecord::Schema.define(version: 20180706092421) do
   end
 
   add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree
+
+  create_table "plans", force: :cascade do |t|
+    t.string   "name"
+    t.string   "plan_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "problems", force: :cascade do |t|
     t.string   "name",       default: ""
@@ -1443,6 +1463,8 @@ ActiveRecord::Schema.define(version: 20180706092421) do
   add_foreign_key "government_form_interviewees", "interviewees"
   add_foreign_key "government_form_needs", "government_forms"
   add_foreign_key "government_form_needs", "needs"
+  add_foreign_key "government_form_plans", "government_forms"
+  add_foreign_key "government_form_plans", "plans"
   add_foreign_key "government_form_problems", "government_forms"
   add_foreign_key "government_form_problems", "problems"
   add_foreign_key "government_forms", "clients"
