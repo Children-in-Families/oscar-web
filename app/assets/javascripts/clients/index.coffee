@@ -342,4 +342,5 @@ CIF.ClientsIndex = do ->
         total += 1
     total = if total != 0 then total else ''
 
+
   { init: _init }

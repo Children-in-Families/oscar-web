@@ -180,7 +180,7 @@ module ClientGridOptions
       end
     else
       @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
-        date_filter(client.case_notes.most_recents, 'case_note_date').map(&:meeting_date).select(&:present?).join(' | ') if client.case_notes.any?
+        case_note_query(client.case_notes.most_recents, 'case_note_date').map(&:meeting_date).select(&:present?).join(' | ') if client.case_notes.any?
       end
     end
   end
@@ -193,7 +193,7 @@ module ClientGridOptions
       end
     else
       @client_grid.column(:case_note_type, header: I18n.t('datagrid.columns.clients.case_note_type')) do |client|
-        case_note_types(client.case_notes.most_recents, 'case_note_type').map(&:interaction_type).select(&:present?).join(' | ') if client.case_notes.any?
+        case_note_query(client.case_notes.most_recents, 'case_note_type').map(&:interaction_type).select(&:present?).join(' | ') if client.case_notes.any?
       end
     end
   end
