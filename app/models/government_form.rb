@@ -2,6 +2,10 @@ class GovernmentForm < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :client
+  belongs_to :province
+  belongs_to :district
+  belongs_to :commune
+  belongs_to :village
 
   has_many :government_form_interviewees, dependent: :destroy
   has_many :interviewees, through: :government_form_interviewees
@@ -15,6 +19,9 @@ class GovernmentForm < ActiveRecord::Base
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
 
+  # pending
+  # before_validation :concat_client_code_with_village_code
+
   def populate_needs
     Need.all.each do |need|
       government_form_needs.build(need: need)
@@ -27,27 +34,14 @@ class GovernmentForm < ActiveRecord::Base
     end
   end
 
-  # validates :client, presence: true
-
-#   delegate :name, :slug, :gender, :date_of_birth, :initial_referral_date, to: :client, prefix: true
-
-#   def carer_name
-#     client.cases.current.try(:carer_names)
-#   end
-
-#   def carer_capital
-#     client.cases.current.try(:province).try(:name)
-#   end
-
-#   def carer_phone_number
-#     client.cases.current.try(:carer_phone_number)
-#   end
-
-#   def referral_name
-#     client.referral_source.try(:name)
-#   end
   def self.filter(options)
     records = all
     records.where(name: options[:name]) if options[:name].present?
   end
+
+  # private
+
+  # def concat_client_code_with_village_code
+  #   self.client_code
+  # end
 end

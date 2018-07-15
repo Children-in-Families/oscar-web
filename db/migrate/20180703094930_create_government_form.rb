@@ -3,7 +3,6 @@ class CreateGovernmentForm < ActiveRecord::Migration
     create_table :government_forms do |t|
       t.string :name, default: ''
       t.date :date
-      t.string :village_code, default: ''
       t.string :client_code, default: ''
       t.string :interview_village, default: ''
       t.string :interview_commune, default: ''

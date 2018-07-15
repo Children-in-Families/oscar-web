@@ -62,8 +62,10 @@ class GovernmentFormsController < AdminController
     @interviewees = Interviewee.order(:created_at)
     @client_types = ClientType.order(:created_at)
     @users = @client.users.order(:first_name, :last_name)
-    @provinces = Province.order(:name)
-    @districts = District.order(:name)
+    @provinces = Province.official.order(:name)
+    @districts = []
+    @communes = []
+    @villages = []
     @needs = Need.order(:created_at)
     @problems = Problem.order(:created_at)
   end
@@ -74,7 +76,7 @@ class GovernmentFormsController < AdminController
 
   def government_form_params
     params.require(:government_form).permit(
-      :name, :date, :village_code, :client_code, :interview_village,
+      :name, :date, :province_id, :district_id, :commune_id, :village_id, :client_code, :interview_village,
       :interview_commune, :interview_district_id, :interview_province_id,
       :case_worker_id, :case_worker_phone, :primary_carer_relationship,
       :primary_carer_house, :primary_carer_street, :primary_carer_village,

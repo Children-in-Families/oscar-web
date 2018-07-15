@@ -4,6 +4,47 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _enableOtherOption()
     _enableOtherNeedOption()
     _enableOtherProblemdOption()
+    _autoFillClientCode()
+    _ajaxChangeDistrict()
+
+  _ajaxChangeDistrict = ->
+    mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id')
+    mainAddress.on 'change', ->
+      type = $(@).data('type')
+      typeId = $(@).val()
+
+      if type == 'provinces'
+        subResources = 'districts'
+        subAddress = $('#government_form_district_id')
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'districts'
+        subResources = 'communes'
+        subAddress = $('#government_form_commune_id')
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'communes'
+        subResources = 'villages'
+        subAddress = $('#government_form_village_id')
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+
+      if typeId != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/#{type}/#{typeId}/#{subResources}"
+          dataType: 'JSON'
+          success: (response) ->
+            for address in response.data
+              label = if subResources == 'villages' then address.code_format else address.name
+              subAddress.append("<option value='#{address.id}' data-code=#{address.code}>#{label}</option>")
+
+  _autoFillClientCode = ->
+    $('#government_form_village_id').change ->
+      if $(@).val() == ''
+        $('#government_form_client_code_prefixed').text('')
+      $('#government_form_client_code_prefixed').text($(@).find('option:selected').data('code'))
+    .change()
 
   _removeReadOnlyAttr = (element) ->
     $(element).removeAttr('readonly')
