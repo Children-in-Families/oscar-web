@@ -9,11 +9,11 @@ class GovernmentForm < ActiveRecord::Base
 
   has_many :government_form_interviewees, dependent: :destroy
   has_many :interviewees, through: :government_form_interviewees
-  has_many :client_type_government_forms, dependent: :restrict_with_error
+  has_many :client_type_government_forms, dependent: :destroy
   has_many :client_types, through: :client_type_government_forms
-  has_many :government_form_needs, dependent: :restrict_with_error
+  has_many :government_form_needs, dependent: :destroy
   has_many :needs, through: :government_form_needs
-  has_many :government_form_problems, dependent: :restrict_with_error
+  has_many :government_form_problems, dependent: :destroy
   has_many :problems, through: :government_form_problems
 
   accepts_nested_attributes_for :government_form_needs
