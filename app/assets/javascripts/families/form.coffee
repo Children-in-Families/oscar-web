@@ -9,6 +9,6 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
-    $('#family_family_type').val('') unless formAction.includes('edit')
+    $('#family_family_type').val('') unless formAction.includes('edit') || formAction.includes('update')
 
   { init: _init }
