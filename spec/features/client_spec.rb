@@ -57,7 +57,7 @@ describe 'Client' do
 
   feature 'Show' do
     let!(:client){ create(:client, :accepted, current_address: '') }
-    let!(:setting){ create(:setting) }
+    let!(:setting){ Setting.first }
 
     before do
       PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)

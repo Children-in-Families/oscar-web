@@ -3197,6 +3197,7 @@ km:
       domain_groups: ការប្រមូលបណ្ដុំកត្តា
       domains: កត្តា
       donors: ម្ចាស់ជំនួយ
+      edit_org_setting: កែសម្រួលពត៌មានអង្គការ
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
       en: English
       families: គ្រួសារ
@@ -3399,6 +3400,13 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  organizations:
+    edit:
+      commune: ឃុំ/សង្កាត់
+      district: ស្រុក/ខណ្ឌ
+      edit_org_setting: កែសម្រួលពត៌មានអង្គការ
+      name: ឈ្មោះអង្គភាព
+      province: ខេត្ត/ក្រុង
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?

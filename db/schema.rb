@@ -943,7 +943,14 @@ ActiveRecord::Schema.define(version: 20180709021636) do
     t.string   "user_default_columns",    default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "org_name",                default: ""
+    t.string   "org_commune",             default: ""
+    t.integer  "province_id"
+    t.integer  "district_id"
   end
+
+  add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
+  add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
 
   create_table "shared_clients", force: :cascade do |t|
     t.string   "slug",              default: ""
@@ -1400,6 +1407,8 @@ ActiveRecord::Schema.define(version: 20180709021636) do
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "settings", "districts"
+  add_foreign_key "settings", "provinces"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"

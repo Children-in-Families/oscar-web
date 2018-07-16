@@ -18,6 +18,10 @@
             %li
               = link_to t('.edit_profile'), edit_user_registration_path
             %li.divider
+            - if policy(current_setting).edit? && current_setting.country_name == 'cambodia'
+              %li
+                = link_to t('.edit_org_setting'), edit_setting_path(current_setting)
+              %li.divider
             %li
               = link_to t('.log_out'), destroy_user_session_path, method: :delete
         .logo-element.custom

@@ -1,6 +1,6 @@
 describe 'Settings' do
-  let(:admin) { create(:user, :admin) }
-  # let(:setting) {create(:setting) }
+  let!(:admin) { create(:user, :admin) }
+  let!(:setting) { Setting.first }
 
   before do
     login_as(admin)
@@ -26,4 +26,31 @@ describe 'Settings' do
       expect(page).to have_css('.setting_case_note_frequency select option[selected="selected"]', text: 'Week', visible: false)
     end
   end
+
+  feature 'Cambodian NGO information', js: true do
+    let(:case_worker) { create(:user, :case_worker) }
+
+    scenario 'only admin can edit' do
+      visit edit_setting_path(setting)
+      fill_in 'setting_org_name', with: 'Demo'
+      fill_in 'setting_org_commune', with: 'ABC'
+      click_button 'Save'
+      sleep 1
+      expect(page).to have_content('Setting have been successfully updated.')
+    end
+
+    scenario 'cannot edit if none-admin' do
+      login_as(case_worker)
+      visit edit_setting_path(setting)
+      expect(page).to have_content('You are not authorized to access this page.')
+    end
+
+    scenario 'cannot edit if non-cambodian NGO' do
+      setting.update(country_name: 'thailand')
+      visit root_path
+      find('.profile-element').click
+      expect(page).to_not have_content('Edit Organization Profile')
+    end
+  end
+
 end

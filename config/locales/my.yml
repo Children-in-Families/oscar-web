@@ -3225,6 +3225,7 @@ my:
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       domains: ဒိုမိန္းမ်ား
       donors: အလွဴရွင္မ်ား
+      edit_org_setting: ပြင်ဆင်ရန်အဖွဲ့ပြင်ဆင်မှုအား
       edit_profile: ပ႐ိုဖုိင္ ျပင္ဆင္ရန္
       en: အဂၤလိပ္
       families: မိသားစုမ်ား
@@ -3427,6 +3428,13 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
+  organizations:
+    edit:
+      commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+      district: နယ်
+      edit_org_setting: ပြင်ဆင်ရန်အဖှဲ့အစညျး
+      name: အဖွဲ့အစည်းအမည်
+      province: ေမြးရာျပည္နယ္
   partners:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
