@@ -6,6 +6,8 @@ class GovernmentForm < ActiveRecord::Base
   belongs_to :district
   belongs_to :commune
   belongs_to :village
+  belongs_to :interview_province, class_name: 'Province', foreign_key: 'interview_province_id'
+  belongs_to :primary_carer_province, class_name: 'Province', foreign_key: 'primary_carer_province_id'
 
   has_many :government_form_interviewees, dependent: :destroy
   has_many :interviewees, through: :government_form_interviewees
@@ -19,8 +21,7 @@ class GovernmentForm < ActiveRecord::Base
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
 
-  # pending
-  # before_validation :concat_client_code_with_village_code
+  before_save :concat_client_code_with_village_code
 
   def populate_needs
     Need.all.each do |need|
@@ -39,9 +40,9 @@ class GovernmentForm < ActiveRecord::Base
     records.where(name: options[:name]) if options[:name].present?
   end
 
-  # private
+  private
 
-  # def concat_client_code_with_village_code
-  #   self.client_code
-  # end
+  def concat_client_code_with_village_code
+    self.client_code = "#{village.try(:code)}#{client_code}"
+  end
 end

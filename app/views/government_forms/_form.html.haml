@@ -14,27 +14,27 @@
             %i.fa.fa-calendar-check-o
         = f.error :date
       .col-xs-12.col-sm-4
-        = f.association :province, collection: @provinces, label: 'ខេត្ត/ក្រុង', input_html: { data: { type: 'provinces' } }
+        = f.association :province, collection: @provinces, label: 'ខេត្ត/ក្រុង', input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
       .col-xs-12.col-sm-4
         = f.association :district, collection: @districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts' } }
       .col-xs-12.col-sm-4
-        = f.association :commune, collection: @communes.map{|c| [c.id, c.name]}, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes' } }
+        = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes' } }
       .col-xs-12.col-sm-4
-        = f.association :village, collection: @villages, label: 'លេខកូដភូមិ', input_html: { data: { type: 'villages' } }
+        = f.association :village, collection: @villages.map{|v| [v.code_format, v.id, { data: { code: v.code } }] }, label: 'លេខកូដភូមិ', input_html: { data: { type: 'villages' } }
       .col-xs-12.col-sm-4.form-group
         -# = f.input :client_code, label: 'លេខកូដកុមារ'
         %label.control-label{:for => "government_form_client_code"}= 'លេខកូដកុមារ'
         .input-group
           .input-group-addon#government_form_client_code_prefixed
-          = f.text_field :client_code, type: 'text', class: 'form-control', name: 'government_form[client_code]', id: 'government_form_client_code', maxlength: 2
+          = f.text_field :client_code, type: 'text', class: 'form-control', name: 'government_form[client_code]', id: 'government_form_client_code', maxlength: 2, value: @government_form.client_code.last(2)
 
       .col-xs-12
         %hr
         %h3= 'ទីកន្លែងទទួលសម្ភាសន៍កុមារ'
       .col-xs-12.col-sm-4
-        = f.input :interview_province_id, as: :select, collection: @provinces, label: 'រាជធានី/ខេត្ត'
+        = f.input :interview_province_id, as: :select, collection: @provinces, label: 'រាជធានី/ខេត្ត', input_html: { data: { type: 'provinces', 'subaddress' => 'intervieweeDistrict' } }
       .col-xs-12.col-sm-4
-        = f.input :interview_district_id, as: :select, collection: @districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ'
+        = f.input :interview_district_id, as: :select, collection: @interviewee_districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ'
       .col-xs-12.col-sm-4
         = f.input :interview_commune, label: 'ឃុំ/សង្កាត់'
       .col-xs-12.col-sm-4
@@ -61,9 +61,9 @@
       .col-xs-12.col-sm-4
         = f.input :primary_carer_relationship, label: 'ទំនាក់ទំនងជាមួយកុមារ'
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_province_id, as: :select, collection: @provinces, label: 'ខេត្ត/រាជធានី'
+        = f.input :primary_carer_province_id, as: :select, collection: @provinces, label: 'ខេត្ត/រាជធានី', input_html: { data: { type: 'provinces', 'subaddress' => 'primaryCarerDistrict' } }
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_district_id, as: :select, collection: @districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ'
+        = f.input :primary_carer_district_id, as: :select, collection: @primary_carer_districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ'
       .col-xs-12.col-sm-4
         = f.input :primary_carer_commune, label: 'ឃុំ/សង្កាត់'
       .col-xs-12.col-sm-4

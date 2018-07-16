@@ -6,4 +6,8 @@ class Village < ActiveRecord::Base
 
   validates :commune, :name_kh, :name_en, presence: true
   validates :code, presence: true, uniqueness: true
+
+  def code_format
+    "#{name_kh} / #{name_en} (#{code})"
+  end
 end

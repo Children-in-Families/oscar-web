@@ -8,14 +8,20 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _ajaxChangeDistrict()
 
   _ajaxChangeDistrict = ->
-    mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id')
+    mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id,
+                  #government_form_interview_province_id, #government_form_primary_carer_province_id')
     mainAddress.on 'change', ->
-      type = $(@).data('type')
-      typeId = $(@).val()
+      type       = $(@).data('type')
+      typeId     = $(@).val()
+      subAddress = $(@).data('subaddress')
 
       if type == 'provinces'
         subResources = 'districts'
-        subAddress = $('#government_form_district_id')
+        subAddress =  switch subAddress
+                      when 'district' then $('#government_form_district_id')
+                      when 'intervieweeDistrict' then $('#government_form_interview_district_id')
+                      when 'primaryCarerDistrict' then $('#government_form_primary_carer_district_id')
+
         $(subAddress).val(null).trigger('change')
         $(subAddress).find('option[value!=""]').remove()
       else if type == 'districts'
