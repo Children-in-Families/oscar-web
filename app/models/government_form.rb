@@ -11,12 +11,15 @@ class GovernmentForm < ActiveRecord::Base
   has_many :needs, through: :government_form_needs
   has_many :government_form_problems, dependent: :restrict_with_error
   has_many :problems, through: :government_form_problems
-  has_many :government_form_plans, dependent: :restrict_with_error
-  has_many :plans, through: :government_form_plans
+  has_many :government_form_children_plans, dependent: :restrict_with_error
+  has_many :children_plans, through: :government_form_children_plans
+  has_many :government_form_family_plans, dependent: :restrict_with_error
+  has_many :family_plans, through: :government_form_family_plans
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
-  accepts_nested_attributes_for :government_form_plans
+  accepts_nested_attributes_for :government_form_children_plans
+  accepts_nested_attributes_for :government_form_family_plans
 
   def populate_needs
     Need.all.each do |need|
@@ -30,9 +33,15 @@ class GovernmentForm < ActiveRecord::Base
     end
   end
 
-  def populate_plans
-    Plan.all.each do |plan|
-      government_form_plans.build(plan: plan)
+  def populate_children_plans
+    ChildrenPlan.all.each do |plan|
+      government_form_children_plans.build(children_plan: plan)
+    end
+  end
+
+  def populate_family_plans
+    FamilyPlan.all.each do |plan|
+      government_form_family_plans.build(family_plan: plan)
     end
   end
 
@@ -58,5 +67,9 @@ class GovernmentForm < ActiveRecord::Base
   def self.filter(options)
     records = all
     records.where(name: options[:name]) if options[:name].present?
+  end
+
+  def case_worker_name
+    User.find_by(id: case_worker_id).try(:name)
   end
 end
