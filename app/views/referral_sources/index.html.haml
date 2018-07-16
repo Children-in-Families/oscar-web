@@ -26,15 +26,10 @@
                 %tr
                   %td= referral_source.name
                   %td= referral_source.description
-                  - if can? :manage, ReferralSource
-                    %td.text-center
-                      = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#referral_sourceModal-#{referral_source.id}", "data-toggle" => "modal", :type => "button"} do
-                        = fa_icon('pencil')
-                    %td.text-center
-                      = remove_link(referral_source, { referral_source_client: referral_source.clients.count})
-                  - if can? :version, ReferralSource
-                    %td.text-center
-                      = link_to t('.view'), referral_source_version_path(referral_source)
+                  %td.text-center= edit_referral(referral_source)
+                  %td.text-center= remove_referral(referral_source)
+                  %td.text-center= view_referral_change_log(referral_source)
+
                   = render 'form', referral_source: referral_source
       .ibox-footer.text-center
         = paginate @referral_sources
