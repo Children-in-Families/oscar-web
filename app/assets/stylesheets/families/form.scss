@@ -25,6 +25,10 @@ body[id='families-update'] {
     }
   }
 
+  a.btn-remove {
+    margin-top: 25px;
+  }
+
   @media screen and (max-width: 991px) {
     .family_dependable_income {
       padding-top: 0;

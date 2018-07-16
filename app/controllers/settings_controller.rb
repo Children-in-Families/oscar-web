@@ -1,5 +1,6 @@
 class SettingsController < AdminController
   before_action :find_setting, only: [:index, :default_columns]
+  before_action :country_address_fields, only: [:edit, :update]
 
   def index
     authorize @setting
@@ -19,13 +20,27 @@ class SettingsController < AdminController
     redirect_to settings_path
   end
 
+  def edit
+    authorize @current_setting
+    render template: 'organizations/edit', locals: { current_setting: @current_setting }
+  end
+
   def update
-    @setting = Setting.first
-    if @setting.update_attributes(setting_params)
-      url = params[:default_columns].present? ? default_columns_settings_path : settings_path
-      redirect_to url, notice: t('.successfully_updated')
+    authorize @current_setting
+    @setting = @current_setting
+    if params[:setting].has_key?(:org_form)
+      if @setting.update_attributes(setting_params)
+        redirect_to root_path, notice: t('.successfully_updated')
+      else
+        render :edit
+      end
     else
-      render :index
+      if @setting.update_attributes(setting_params)
+        url = params[:default_columns].present? ? default_columns_settings_path : settings_path
+        redirect_to url, notice: t('.successfully_updated')
+      else
+        render :index
+      end
     end
   end
 
@@ -38,9 +53,14 @@ class SettingsController < AdminController
 
   private
 
+  def country_address_fields
+    @provinces = Province.order(:name)
+    @districts = Setting.first.province.present? ? Setting.first.province.districts.order(:name) : []
+  end
+
   def setting_params
     # params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
-    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :org_commune, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def find_setting
