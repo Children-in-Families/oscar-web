@@ -1,6 +1,8 @@
 CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = do ->
   _init = ->
     _initSelect2()
+    _cocoonCallback()
+    _initDatePicker()
 
   _initSelect2 = ->
     $('select').select2
@@ -9,6 +11,17 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
-    $('#family_family_type').val('') unless formAction.includes('edit')
+    $('#family_family_type').val('') unless formAction.includes('edit') || formAction.includes('update')
+
+  _cocoonCallback = ->
+    $('#family-members').on 'cocoon:after-insert', ->
+      _initDatePicker()
+
+  _initDatePicker = ->
+    $('.date-picker').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      disableTouchKeyboard: true
 
   { init: _init }

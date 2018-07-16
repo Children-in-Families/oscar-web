@@ -1,0 +1,17 @@
+.nested-fields
+  .row
+    .col-xs-12.col-sm-6.col-md-3
+      = f.input :adult_name, label: t('.adult_name')
+    .col-xs-12.col-sm-6.col-md-2
+      .form-group.date.optional.family_family_members_date_of_birth
+        %label.date.optional.control-label= t('.date_of_birth')
+        .input-group.date
+          = f.input_field :date_of_birth, class: 'date optional form-control date-picker', as: :string
+          %span.input-group-addon
+            %i.fa.fa-calendar-check-o
+    .col-xs-12.col-sm-6.col-md-2
+      = f.input :occupation, label: t('.occupation')
+    .col-xs-12.col-sm-6.col-md-3
+      = f.input :relation, label: t('.relation')
+    .col-xs-12.col-sm-6.col-md-2
+      = link_to_remove_association t('.remove_member'), f, class: 'btn btn-danger btn-remove remove_member'
