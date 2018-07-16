@@ -16,12 +16,17 @@ class Family < ActiveRecord::Base
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :family_members, dependent: :destroy
+
+  accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
   has_paper_trail
 
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, presence: true, inclusion: { in: STATUSES }
+
+  validate :client_must_only_belong_to_a_family
 
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
@@ -73,5 +78,15 @@ class Family < ActiveRecord::Base
 
   def is_case?
     emergency? || foster? || kinship?
+  end
+
+  private
+
+  def client_must_only_belong_to_a_family
+    clients = Family.where.not(id: self).pluck(:children).flatten.uniq
+    existed_clients = children & clients
+    existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
+    error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"
+    errors.add(:children, error_message) if existed_clients.present?
   end
 end

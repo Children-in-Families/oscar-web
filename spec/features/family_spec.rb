@@ -3,7 +3,7 @@ describe 'Family' do
   let!(:province){create(:province,name:"Phnom Penh")}
   let!(:district){ create(:district, name: 'Toul Kork', province_id: province.id) }
 
-  let(:foster_family){ create(:family, :foster, name: 'A') }
+  let!(:foster_family){ create(:family, :foster, name: 'A') }
   let!(:case_worker_a){ create(:user, first_name: 'CW A') }
   let!(:case_worker_b){ create(:user, first_name: 'CW B') }
   let!(:case_worker_c){ create(:user, first_name: 'CW C') }
@@ -12,10 +12,11 @@ describe 'Family' do
   let!(:case_a){ create(:case, :foster, client: client_a, family: foster_family) }
   let!(:case_b){ create(:case, :foster, client: client_b, family: foster_family) }
 
-  let!(:family){ create(:family, :emergency, name: 'EC Family', province_id: province.id, district_id: district.id, commune: 'Beoung Kak 2', village: 'Wat Neak Kwan') }
+  let!(:family){ create(:family, :emergency, name: 'EC Family', province_id: province.id, district_id: district.id, commune: 'Beoung Kak 2', village: 'Wat Neak Kwan', children: [client.id]) }
   let!(:other_family){ create(:family, name: 'Unknown', dependable_income: true) }
-  let!(:case){ create(:case, family: other_family) }
   let!(:client){ create(:client, :accepted) }
+  let!(:case){ create(:case, family: other_family) }
+  let!(:another_client){ create(:client, :accepted) }
   let!(:other_client){ create(:client) }
 
   before do
@@ -65,7 +66,7 @@ describe 'Family' do
       sleep 1
       find(".family_district select option[value='#{district.id}']", visible: false).select_option
       fill_in 'Caregiver Information', with: 'Caregiver info'
-      find(".family_children select option[value='#{client.id}']", visible: false).select_option
+      find(".family_children select option[value='#{another_client.id}']", visible: false).select_option
       find(".family_family_type select option[value='Short Term / Emergency Foster Care']", visible: false).select_option
       find(".family_status select option[value='Active']", visible: false).select_option
       click_button 'Save'
@@ -74,11 +75,17 @@ describe 'Family' do
       expect(page).to have_content("#{district.name}, #{province.name}")
       expect(page).to have_content('Caregiver info')
       expect(page).to have_content('Family has been successfully created')
-      expect(page).to have_content(client.given_name)
+      expect(page).to have_content(another_client.given_name)
       expect(page).not_to have_content(other_client.given_name)
     end
 
-    xscenario 'invalid' do
+    scenario 'client must belong to only a family' do
+      find('.family_children').click
+      expect(page).not_to have_content(client.given_name)
+      expect(page).to have_select('Clients', options: [another_client.en_and_local_name, other_client.en_and_local_name])
+    end
+
+    scenario 'invalid' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
@@ -86,14 +93,16 @@ describe 'Family' do
 
   feature 'Update', js: true do
     let!(:pirunseng){ create(:client, :accepted, given_name: 'Pirun', family_name: 'Seng') }
-    let!(:ec_family){ create(:family, :emergency, name: 'Emergency Family') }
+    # let!(:ec_family){ create(:family, :emergency, name: 'Emergency Family') }
     let!(:non_case_family){ create(:family, family_type: ['Other', 'Birth Family (Both Parents)'].sample) }
     let!(:non_case){ create(:case, case_type: 'Referred', client: pirunseng, family: non_case_family) }
-    let!(:ec_case){ create(:case, :emergency, client: pirunseng, family: ec_family) }
+    # let!(:ec_case){ create(:case, :emergency, client: pirunseng, family: ec_family) }
+    let!(:another_family){ create(:family, :emergency) }
+    let!(:another_client){ create(:client, :accepted) }
 
     feature 'valid' do
       before do
-        visit edit_family_path(ec_family)
+        visit edit_family_path(non_case_family)
       end
       scenario 'name' do
         fill_in 'Name', with: 'Family Name'
@@ -111,6 +120,12 @@ describe 'Family' do
         sleep 1
         expect(page).to have_content('Family has been successfully updated')
       end
+    end
+
+    scenario 'client must belong to only a family' do
+      visit edit_family_path(another_family)
+      find('.family_children').click
+      expect(page).not_to have_select('Clients', options: [pirunseng.en_and_local_name])
     end
   end
 

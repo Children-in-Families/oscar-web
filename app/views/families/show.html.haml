@@ -136,6 +136,23 @@
                 %td
                   %strong
                     = @family.status
+        - if @family.family_members.present?
+          .row.family-summary
+            .col-sm-12
+              %table.table.table-bordered
+                %thead
+                  %th= t('.adult_name')
+                  %th= t('.date_of_birth')
+                  %th= t('.occupation')
+                  %th= t('.relation')
+                %tbody
+                - @family.family_members.each do |member|
+                  %tr
+                    %td= member.adult_name
+                    %td= date_format member.date_of_birth
+                    %td= member.occupation
+                    %td= member.relation
+
 .row
   .col-xs-12.clients
     .ibox
