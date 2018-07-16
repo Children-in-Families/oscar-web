@@ -55,7 +55,7 @@ class SettingsController < AdminController
 
   def country_address_fields
     @provinces = Province.order(:name)
-    @districts = District.joins(:province).where(provinces: { id: @provinces.ids })
+    @districts = Setting.first.province.present? ? Setting.first.province.districts.order(:name) : []
   end
 
   def setting_params
