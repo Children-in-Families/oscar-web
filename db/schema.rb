@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622081906) do
+ActiveRecord::Schema.define(version: 20180709021636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -570,6 +570,18 @@ ActiveRecord::Schema.define(version: 20180622081906) do
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
   end
+
+  create_table "family_members", force: :cascade do |t|
+    t.string   "adult_name",    default: ""
+    t.date     "date_of_birth"
+    t.string   "occupation",    default: ""
+    t.string   "relation",      default: ""
+    t.integer  "family_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree
 
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
@@ -1366,6 +1378,7 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "family_members", "families"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
