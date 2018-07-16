@@ -12,9 +12,9 @@ describe 'Family' do
   let!(:case_a){ create(:case, :foster, client: client_a, family: foster_family) }
   let!(:case_b){ create(:case, :foster, client: client_b, family: foster_family) }
 
+  let!(:client){ create(:client, :accepted) }
   let!(:family){ create(:family, :emergency, name: 'EC Family', province_id: province.id, district_id: district.id, commune: 'Beoung Kak 2', village: 'Wat Neak Kwan', children: [client.id]) }
   let!(:other_family){ create(:family, name: 'Unknown', dependable_income: true) }
-  let!(:client){ create(:client, :accepted) }
   let!(:case){ create(:case, family: other_family) }
   let!(:another_client){ create(:client, :accepted) }
   let!(:other_client){ create(:client) }
