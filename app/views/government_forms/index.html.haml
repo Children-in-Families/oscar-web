@@ -8,7 +8,7 @@
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
           -# - if can? :manage, GovernmentForm
             = link_to t('.add_report'), new_client_government_form_path(@client), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
-          = link_to t('.add_form'), new_client_government_form_path(@client, name: @form_name), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
+          = link_to t('.add_form'), new_client_government_form_path(@client, form: params[:form]), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
         %table.table.table-bordered
           %thead
             %tr
@@ -25,7 +25,9 @@
                 %td.action.text-center
                   -# = link_to client_government_form_path(form.client, form, format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do
                   -#   = fa_icon('download')
-                  = link_to edit_client_government_form_path(@client, form), class: 'btn btn-outline btn-success btn-xs margin-left' do
+                  = link_to client_government_form_path(@client, form, form: params[:form], format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do
+                    = fa_icon('eye')
+                  = link_to edit_client_government_form_path(@client, form, form: params[:form]), class: 'btn btn-outline btn-success btn-xs margin-left' do
                     = fa_icon('pencil')
                   = link_to client_government_form_path(@client, form), method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs margin-left' do
                     = fa_icon('trash')
