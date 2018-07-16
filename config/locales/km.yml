@@ -1828,8 +1828,10 @@ km:
         client: ឣតិថិជន
         clients: ឣតិថិជន
         code: លេខសំគាល់គ្រួសារ
+        commune: ឃុំ/សង្កាត់
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
         dependable_income: ប្រាក់ចំណូលទៀងទាត់
+        district: ស្រុក/ខណ្ឌ
         family: គ្រួសារ
         family_preservation: ករណីអភិរក្សគ្រួសារ?
         family_type: ប្រភេទគ្រួសារ
@@ -1851,6 +1853,7 @@ km:
         status: ស្ថានភាព
         total: សរុប
         view: មើល
+        village: ភូមិ
         'yes': បាទ/ចាស
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
@@ -2624,9 +2627,11 @@ km:
       case_history: ប្រវត្តិគ្រួសារ
       clients: អតិថិជន
       code: លេខសំគាល់គ្រួសារ
+      commune: ឃុំ/សង្កាត់
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
       custom_forms: ទម្រង់បែបបទ
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
+      district: ស្រុក/ខណ្ឌ
       family_members: សមាជិក​គ្រួសារ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
@@ -2642,6 +2647,7 @@ km:
       province: ខេត្ត
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
+      village: ភូមិ
       'yes': បាទ/ចាស
     index:
       add_new_family: បន្ថែមគ្រួសារថ្មី

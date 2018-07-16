@@ -569,7 +569,12 @@ ActiveRecord::Schema.define(version: 20180709021636) do
     t.string   "case_history",                    default: ""
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
+    t.integer  "district_id"
+    t.string   "commune",                         default: ""
+    t.string   "village",                         default: ""
   end
+
+  add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
 
   create_table "family_members", force: :cascade do |t|
     t.string   "adult_name",    default: ""
@@ -1378,6 +1383,7 @@ ActiveRecord::Schema.define(version: 20180709021636) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "families", "districts"
   add_foreign_key "family_members", "families"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
