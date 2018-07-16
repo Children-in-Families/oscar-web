@@ -477,22 +477,66 @@ module ClientsHelper
     rules   = %w( case_note_date case_note_type )
     data    = eval params[:client_advanced_search][:basic_rules]
 
-    sub_case_note_date_query = ['']
-    sub_case_note_type_query = ['']
-
     result1                = mapping_param_value(data, 'case_note_date')
     result2                = mapping_param_value(data, 'case_note_type')
 
-    default_value_param    = params['all_values'] == 'case_note_date' ? params['all_values'] : ''
-    default_value_param    = result1.blank? ? params['all_values'] || '' : default_value_param
+    default_value_param    = params['all_values']
 
-    return object if return_default_filter(object, default_value_param, result1) && return_default_filter(object, default_value_param, result2)
+    if default_value_param == 'case_note_date'
+      return case_note_date_all_value(object, data, result2, rule, default_value_param)
+    elsif default_value_param == 'case_note_type'
+      return case_note_type_all_value(object, data, result1, rule, default_value_param)
+    end
 
     case_note_date_hashes  = mapping_query_result(result1)
     case_note_type_hashes  = Hash.new { |h,k| h[k] = []}
     result2.each {|k, o, v| case_note_type_hashes[k] << {o => v} }
 
+    sub_case_note_date_query, sub_case_note_type_query = sub_query_results(object, data)
 
+    sql_case_note_date_hash = mapping_query_date(object, case_note_date_hashes, 'case_notes.meeting_date')
+    sql_case_note_type_hash = mapping_query_string(object, case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
+
+    case_note_date_query    = mapping_query_string_with_query_value(sql_case_note_date_hash, data[:condition])
+    case_note_type_query    = mapping_query_string_with_query_value(sql_case_note_type_hash, data[:condition])
+
+    if case_note_date_query.present? && case_note_type_query.blank?
+      object = object.where(case_note_date_query).where(sub_case_note_date_query)
+    elsif case_note_type_query.present? && case_note_date_query.blank?
+      object = object.where(case_note_type_query).where(sub_case_note_type_query)
+    else
+      if data[:condition] == 'AND'
+        object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query).where(sub_case_note_date_query)
+      else
+        if sub_case_note_type_query.first.blank? && sub_case_note_date_query.first.blank?
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query)
+        elsif sub_case_note_date_query.first.present? && sub_case_note_type_query.first.blank?
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_date_query))
+        elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
+        else
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query_array))
+        end
+      end
+    end
+    object.present? ? object : []
+  end
+
+  def case_note_query_results(object, case_note_date_query, case_note_type_query)
+    results = []
+    if case_note_date_query.first.present? && case_note_type_query.first.blank?
+      results = object.where(case_note_date_query)
+    elsif case_note_date_query.first.blank? && case_note_type_query.first.present?
+      results = object.where(case_note_type_query)
+    else
+      results = object.where(case_note_date_query).or(object.where(case_note_type_query))
+    end
+    results
+  end
+
+  def sub_query_results(object, data)
+    sub_case_note_date_query = ['']
+    sub_case_note_type_query = ['']
     if data[:rules]
       sub_rule_index  = data[:rules].index {|param| param.has_key?(:condition)}
       if sub_rule_index.present?
@@ -510,34 +554,59 @@ module ClientsHelper
         sub_case_note_type_query       = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, data[:condition])
       end
     end
+    [sub_case_note_date_query, sub_case_note_type_query]
+  end
 
-    sql_case_note_date_hash = mapping_query_date(object, case_note_date_hashes, 'case_notes.meeting_date')
-    sql_case_note_type_hash = mapping_query_string(object, case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
-
-    case_note_date_query    = mapping_query_string_with_query_value(sql_case_note_date_hash, data[:condition])
-    case_note_type_query    = mapping_query_string_with_query_value(sql_case_note_type_hash, data[:condition])
-
-    if case_note_date_query.present? && case_note_type_query.blank?
-      object = object.where(case_note_date_query).where(sub_case_note_date_query)
-    elsif case_note_type_query.present? && case_note_date_query.blank?
-      # if sub_case_note_type_sql_hash.present?
-      #   # object = object.where(case_notes: {interaction_type: sql_case_note_type_hash[:values]}).where(case_notes: {interaction_type: sub_case_note_type_sql_hash[:values]})
-      # else
-      #   # object = object.where(case_notes: {interaction_type: sql_case_note_type_hash[:values]})
-      # end
-      object = object.where(case_note_type_query).where(sub_case_note_type_query)
+  def case_note_date_all_value(object, data, results, rule, default_value_param)
+    return if default_value_param.blank?
+    if rule == default_value_param
+      return object
     else
-      # if sub_case_note_date_query.reject(&:blank?).present?
-      #   object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_date_query)
-      # elsif sub_case_note_type_query.reject(&:blank?).present?
-      #   object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query)
-      # else
-      #   object = object.where(case_note_date_query).where(case_note_type_query)
-      # end
-      # binding.pry
-      object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query).where(sub_case_note_date_query)
+      sub_case_note_type_query = ['']
+      case_note_type_hashes    = Hash.new { |h,k| h[k] = []}
+      results.each {|k, o, v| case_note_type_hashes[k] << {o => v} }
+      sql_case_note_type_hash  = mapping_query_string(object, case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
+      case_note_type_query     = mapping_query_string_with_query_value(sql_case_note_type_hash, data[:condition])
+      sub_case_note_type_query = sub_query_results(object, data).last
+      if data[:condition] == 'AND'
+        if sub_case_note_type_query.first.blank?
+          object = object.where(case_note_type_query)
+        else
+          object = object.where(case_note_type_query).where(sub_case_note_type_query)
+        end
+      else
+        if sub_case_note_type_query.first.blank?
+          object = object.where(case_note_type_query)
+        else
+          object = object.where(case_note_type_query).or(object.where(sub_case_note_type_query))
+        end
+      end
+      return object
     end
-    object.present? ? object : []
+  end
+
+  def case_note_type_all_value(object, data, results, rule, default_value_param)
+    return if default_value_param.blank?
+
+    sub_case_note_date_query = ['']
+    case_note_date_hashes    = mapping_query_result(results)
+    sql_case_note_date_hash  = mapping_query_date(object, case_note_date_hashes, 'case_notes.meeting_date')
+    case_note_date_query     = mapping_query_string_with_query_value(sql_case_note_date_hash, data[:condition])
+    sub_case_note_date_query = sub_query_results(object, data).first
+    if data[:condition] == 'AND'
+      if sub_case_note_date_query.first.blank?
+        object = object.where(case_note_date_query)
+      else
+        object = object.where(case_note_date_query).where(sub_case_note_date_query)
+      end
+    else
+      if sub_case_note_date_query.first.blank?
+        object = object.where(case_note_date_query)
+      else
+        object = object.where(case_note_date_query).or(object.where(sub_case_note_date_query))
+      end
+    end
+    return object
   end
 
   def mapping_param_value(data, rule)
