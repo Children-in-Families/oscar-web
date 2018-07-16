@@ -2765,6 +2765,22 @@ en:
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
+  government_forms:
+    create:
+      successfully_created: Form has been successfully created.
+    destroy:
+      successfully_deleted: Form has been successfully deleted.
+    edit:
+      edit_report: Edit Form
+    index:
+      action: Action
+      add_form: Add New Form
+      back: Back
+      date: Date
+    new:
+      new_form: New Form
+    update:
+      successfully_updated: Form has been successfully updated.
   government_reports:
     create:
       successfully_created: Government Report has been successfully created.

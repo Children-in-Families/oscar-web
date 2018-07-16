@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622081906) do
+ActiveRecord::Schema.define(version: 20180715022824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,16 @@ ActiveRecord::Schema.define(version: 20180622081906) do
     t.datetime "updated_at"
   end
 
+  create_table "client_type_government_forms", force: :cascade do |t|
+    t.integer  "client_type_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_type_government_forms", ["client_type_id"], name: "index_client_type_government_forms_on_client_type_id", using: :btree
+  add_index "client_type_government_forms", ["government_form_id"], name: "index_client_type_government_forms_on_government_form_id", using: :btree
+
   create_table "client_types", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at"
@@ -427,6 +437,17 @@ ActiveRecord::Schema.define(version: 20180622081906) do
     t.datetime "updated_at"
   end
 
+  create_table "communes", force: :cascade do |t|
+    t.string   "code",        default: ""
+    t.string   "name_kh",     default: ""
+    t.string   "name_en",     default: ""
+    t.integer  "district_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "communes", ["district_id"], name: "index_communes_on_district_id", using: :btree
+
   create_table "custom_field_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "custom_field_id"
@@ -473,8 +494,11 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   end
 
   create_table "districts", force: :cascade do |t|
-    t.string  "name"
-    t.integer "province_id"
+    t.string   "name"
+    t.integer  "province_id"
+    t.string   "code",        default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "districts", ["province_id"], name: "index_districts_on_province_id", using: :btree
@@ -592,6 +616,78 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "government_form_interviewees", force: :cascade do |t|
+    t.integer  "government_form_id"
+    t.integer  "interviewee_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_interviewees", ["government_form_id"], name: "index_government_form_interviewees_on_government_form_id", using: :btree
+  add_index "government_form_interviewees", ["interviewee_id"], name: "index_government_form_interviewees_on_interviewee_id", using: :btree
+
+  create_table "government_form_needs", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "need_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_needs", ["government_form_id"], name: "index_government_form_needs_on_government_form_id", using: :btree
+  add_index "government_form_needs", ["need_id"], name: "index_government_form_needs_on_need_id", using: :btree
+
+  create_table "government_form_problems", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "problem_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_problems", ["government_form_id"], name: "index_government_form_problems_on_government_form_id", using: :btree
+  add_index "government_form_problems", ["problem_id"], name: "index_government_form_problems_on_problem_id", using: :btree
+
+  create_table "government_forms", force: :cascade do |t|
+    t.string   "name",                       default: ""
+    t.date     "date"
+    t.string   "client_code",                default: ""
+    t.string   "interview_village",          default: ""
+    t.string   "interview_commune",          default: ""
+    t.integer  "interview_district_id"
+    t.integer  "interview_province_id"
+    t.integer  "case_worker_id"
+    t.string   "case_worker_phone",          default: ""
+    t.integer  "client_id"
+    t.string   "primary_carer_relationship", default: ""
+    t.string   "primary_carer_house",        default: ""
+    t.string   "primary_carer_street",       default: ""
+    t.string   "primary_carer_village",      default: ""
+    t.string   "primary_carer_commune",      default: ""
+    t.integer  "primary_carer_district_id"
+    t.integer  "primary_carer_province_id"
+    t.string   "source_info",                default: ""
+    t.string   "summary_info_of_referral",   default: ""
+    t.string   "guardian_comment",           default: ""
+    t.string   "case_worker_comment",        default: ""
+    t.string   "other_interviewee",          default: ""
+    t.string   "other_client_type",          default: ""
+    t.string   "other_need",                 default: ""
+    t.string   "other_problem",              default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
+  end
+
+  add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
+  add_index "government_forms", ["commune_id"], name: "index_government_forms_on_commune_id", using: :btree
+  add_index "government_forms", ["district_id"], name: "index_government_forms_on_district_id", using: :btree
+  add_index "government_forms", ["province_id"], name: "index_government_forms_on_province_id", using: :btree
+  add_index "government_forms", ["village_id"], name: "index_government_forms_on_village_id", using: :btree
 
   create_table "government_reports", force: :cascade do |t|
     t.string   "code",                          default: ""
@@ -1306,6 +1402,17 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
 
+  create_table "villages", force: :cascade do |t|
+    t.string   "code",       default: ""
+    t.string   "name_kh",    default: ""
+    t.string   "name_en",    default: ""
+    t.integer  "commune_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "villages", ["commune_id"], name: "index_villages_on_commune_id", using: :btree
+
   create_table "visit_clients", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "created_at"
@@ -1352,11 +1459,14 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "client_needs", "needs"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
+  add_foreign_key "client_type_government_forms", "client_types"
+  add_foreign_key "client_type_government_forms", "government_forms"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
+  add_foreign_key "communes", "districts"
   add_foreign_key "custom_field_permissions", "custom_fields"
   add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"
@@ -1366,6 +1476,17 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "government_form_interviewees", "government_forms"
+  add_foreign_key "government_form_interviewees", "interviewees"
+  add_foreign_key "government_form_needs", "government_forms"
+  add_foreign_key "government_form_needs", "needs"
+  add_foreign_key "government_form_problems", "government_forms"
+  add_foreign_key "government_form_problems", "problems"
+  add_foreign_key "government_forms", "clients"
+  add_foreign_key "government_forms", "communes"
+  add_foreign_key "government_forms", "districts"
+  add_foreign_key "government_forms", "provinces"
+  add_foreign_key "government_forms", "villages"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
@@ -1389,6 +1510,7 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
+  add_foreign_key "villages", "communes"
   add_foreign_key "visit_clients", "users"
   add_foreign_key "visits", "users"
 end

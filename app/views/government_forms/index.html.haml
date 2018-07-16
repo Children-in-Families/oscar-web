@@ -1,0 +1,31 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @client.name
+      .ibox-content
+        %p
+          = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
+          -# - if can? :manage, GovernmentForm
+            = link_to t('.add_report'), new_client_government_form_path(@client), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
+          = link_to t('.add_form'), new_client_government_form_path(@client, name: 'ទម្រង់ទី១: ព័ត៌មានបឋម'), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
+        %table.table.table-bordered
+          %thead
+            %tr
+              %th= 'ID'
+              %th= t('.created_by')
+              %th= t('.at')
+              %th.text-center= t('.action')
+          %tbody
+            - @government_forms.each do |form|
+              %tr
+                %td= form.id
+                %td= ''
+                %td= date_format(form.created_at)
+                %td.action.text-center
+                  -# = link_to client_government_form_path(form.client, form, format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do
+                  -#   = fa_icon('download')
+                  = link_to edit_client_government_form_path(@client, form), class: 'btn btn-outline btn-success btn-xs margin-left' do
+                    = fa_icon('pencil')
+                  = link_to client_government_form_path(@client, form), method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs margin-left' do
+                    = fa_icon('trash')
