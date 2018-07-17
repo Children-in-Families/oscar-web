@@ -32,6 +32,28 @@ describe User, 'validations' do
 end
 
 describe User, 'callbacks' do
+  context 'before_save' do
+    let!(:manager_1){ create(:user, :manager) }
+    let!(:manager_2){ create(:user, :manager, manager_id: manager_1.id) }
+    let(:case_worker){ create(:user, manager_id: manager_2.id) }
+
+    context 'detach_manager' do
+      context 'reset manager_id to nil' do
+        it 'if roles_changed to admin' do
+          case_worker.update(roles: 'admin')
+          expect(case_worker.manager_id).to be_nil
+          expect(case_worker.manager_ids).to eq([])
+        end
+
+        it 'if roles_changed to strategic_overviewer' do
+          case_worker.update(roles: 'strategic overviewer')
+          expect(case_worker.manager_id).to be_nil
+          expect(case_worker.manager_ids).to eq([])
+        end
+      end
+    end
+  end
+
   context 'assign as admin' do
     let!(:user){ create(:user, roles: 'admin', first_name: 'Coca', last_name: 'Cola') }
     before do
