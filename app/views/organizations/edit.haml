@@ -1,0 +1,24 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title.edit-form
+        %h5= t('.edit_org_setting')
+        = simple_form_for(@current_setting) do |f|
+          .ibox-content
+            = error_notification(f)
+            = f.input :org_form, as: :hidden, input_html: { value: 'from_org_form' }
+            .form-inputs
+              .row
+                .col-xs-12.col-sm-6.col-md-4
+                  = f.input :org_name, label: t('.name')
+                .col-xs-12.col-sm-6.col-md-4
+                  = f.input :province_id, collection: @provinces, label: t('.province'), input_html: { class: 'select2' }
+                .col-xs-12.col-sm-6.col-md-4
+                  = f.input :district_id, collection: @districts, label: t('.district'), input_html: { class: 'select2' }
+                .col-xs-12.col-sm-6.col-md-4
+                  = f.input :org_commune, label: t('.commune')
+              .row
+                .col-xs-12.col-sm-6.col-md-4
+                  = f.submit t('save'), class: 'btn btn-primary'
+                  = link_to t('cancel'), root_path, class: 'btn btn-default'
+

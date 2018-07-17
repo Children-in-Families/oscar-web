@@ -6,12 +6,19 @@ class Family < ActiveRecord::Base
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
   STATUSES = ['Active', 'Inactive']
 
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+
   belongs_to :province, counter_cache: true
+  belongs_to :district
 
   has_many :cases, dependent: :restrict_with_error
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :family_members, dependent: :destroy
+
+  accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
   has_paper_trail
 
@@ -19,10 +26,14 @@ class Family < ActiveRecord::Base
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, presence: true, inclusion: { in: STATUSES }
 
+  validate :client_must_only_belong_to_a_family
+
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
   scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value}%") }
   scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value}%") }
+  scope :village_like,               ->(value) { where('village iLIKE ?', "%#{value}%") }
+  scope :commune_like,               ->(value) { where('commune iLIKE ?', "%#{value}%") }
   scope :emergency,                  ->        { where(family_type: 'Short Term / Emergency Foster Care') }
   scope :foster,                     ->        { where(family_type: 'Long Term Foster Care') }
   scope :kinship,                    ->        { where(family_type: 'Extended Family / Kinship Care') }
@@ -67,5 +78,15 @@ class Family < ActiveRecord::Base
 
   def is_case?
     emergency? || foster? || kinship?
+  end
+
+  private
+
+  def client_must_only_belong_to_a_family
+    clients = Family.where.not(id: self).pluck(:children).flatten.uniq
+    existed_clients = children & clients
+    existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
+    error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"
+    errors.add(:children, error_message) if existed_clients.present?
   end
 end

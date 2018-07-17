@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622081906) do
+ActiveRecord::Schema.define(version: 20180709021636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -569,7 +569,24 @@ ActiveRecord::Schema.define(version: 20180622081906) do
     t.string   "case_history",                    default: ""
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
+    t.integer  "district_id"
+    t.string   "commune",                         default: ""
+    t.string   "village",                         default: ""
   end
+
+  add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
+
+  create_table "family_members", force: :cascade do |t|
+    t.string   "adult_name",    default: ""
+    t.date     "date_of_birth"
+    t.string   "occupation",    default: ""
+    t.string   "relation",      default: ""
+    t.integer  "family_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree
 
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
@@ -926,7 +943,14 @@ ActiveRecord::Schema.define(version: 20180622081906) do
     t.string   "user_default_columns",    default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "org_name",                default: ""
+    t.string   "org_commune",             default: ""
+    t.integer  "province_id"
+    t.integer  "district_id"
   end
+
+  add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
+  add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
 
   create_table "shared_clients", force: :cascade do |t|
     t.string   "slug",              default: ""
@@ -1366,6 +1390,8 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "families", "districts"
+  add_foreign_key "family_members", "families"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
@@ -1381,6 +1407,8 @@ ActiveRecord::Schema.define(version: 20180622081906) do
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "settings", "districts"
+  add_foreign_key "settings", "provinces"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"

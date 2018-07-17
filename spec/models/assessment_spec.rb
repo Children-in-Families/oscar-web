@@ -164,9 +164,10 @@ describe Assessment, 'callbacks' do
 
   context 'must_be_enable_assessment' do
     let!(:client) { create(:client) }
-    let!(:setting) { create(:setting, disable_assessment: true) }
+    let!(:setting) { Setting.first }
 
     it 'should return error message' do
+      setting.update(disable_assessment: true)
       assessment = Assessment.create(client: client)
       expect(assessment.errors.full_messages).to include('Assessment tool must be enable in setting')
     end
