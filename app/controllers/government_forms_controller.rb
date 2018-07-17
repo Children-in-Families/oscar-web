@@ -3,22 +3,24 @@ class GovernmentFormsController < AdminController
   before_action :find_client
   before_action :find_association, only: [:new, :create, :edit, :update]
   before_action :find_government_form, only: [:edit, :update, :destroy]
-  before_action :find_form_name, only: :index
+  before_action :find_form_name
 
   def index
     @government_forms = @client.government_forms.filter({ name: @form_name})
   end
 
   def new
-    @government_form = @client.government_forms.new(name: params[:name])
+    @government_form = @client.government_forms.new(name: @form_name)
     @government_form.populate_needs
     @government_form.populate_problems
+    @government_form.populate_children_plans
+    @government_form.populate_family_plans
   end
 
   def create
     @government_form = @client.government_forms.new(government_form_params)
     if @government_form.save
-      redirect_to client_government_forms_path, notice: t('.successfully_created')
+      redirect_to client_government_forms_path(@client, form: params[:form_num]), notice: t('.successfully_created')
     else
       render :new
     end
@@ -41,11 +43,13 @@ class GovernmentFormsController < AdminController
   def edit
     @government_form.populate_needs unless @government_form.needs.any?
     @government_form.populate_problems unless @government_form.problems.any?
+    @government_form.populate_children_plans unless @government_form.children_plans.any?
+    @government_form.populate_family_plans unless @government_form.family_plans.any?
   end
 
   def update
     if @government_form.update_attributes(government_form_params)
-      redirect_to client_government_forms_path(@client), notice: t('.successfully_updated')
+      redirect_to client_government_forms_path(@client, form: params[:form_num]), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -91,7 +95,9 @@ class GovernmentFormsController < AdminController
       :other_interviewee, :other_need, :other_problem, :other_client_type,
       interviewee_ids: [], client_type_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
-      government_form_problems_attributes: [:id, :rank, :problem_id]
+      government_form_problems_attributes: [:id, :rank, :problem_id],
+      government_form_children_plans_attributes: [:id, :goal, :action, :who, :when, :children_plan_id],
+      government_form_family_plans_attributes: [:id, :goal, :action, :result, :family_plan_id]
     )
   end
 
@@ -99,7 +105,7 @@ class GovernmentFormsController < AdminController
     @form_name = case params[:form]
             when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
             when 'two' then ''
-            when 'three' then ''
+            when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
             when 'four' then ''
             when 'five' then ''
             when 'sixe' then ''

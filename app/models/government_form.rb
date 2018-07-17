@@ -1,6 +1,11 @@
 class GovernmentForm < ActiveRecord::Base
   has_paper_trail
 
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :commune, prefix: true, allow_nil: true
+  delegate :code, to: :village, prefix: true, allow_nil: true
+
   belongs_to :client
   belongs_to :province
   belongs_to :district
@@ -17,9 +22,15 @@ class GovernmentForm < ActiveRecord::Base
   has_many :needs, through: :government_form_needs
   has_many :government_form_problems, dependent: :destroy
   has_many :problems, through: :government_form_problems
+  has_many :government_form_children_plans, dependent: :destroy
+  has_many :children_plans, through: :government_form_children_plans
+  has_many :government_form_family_plans, dependent: :destroy
+  has_many :family_plans, through: :government_form_family_plans
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
+  accepts_nested_attributes_for :government_form_children_plans
+  accepts_nested_attributes_for :government_form_family_plans
 
   before_save :concat_client_code_with_village_code
 
@@ -35,9 +46,25 @@ class GovernmentForm < ActiveRecord::Base
     end
   end
 
+  def populate_children_plans
+    ChildrenPlan.all.each do |plan|
+      government_form_children_plans.build(children_plan: plan)
+    end
+  end
+
+  def populate_family_plans
+    FamilyPlan.all.each do |plan|
+      government_form_family_plans.build(family_plan: plan)
+    end
+  end
+
   def self.filter(options)
     records = all
     records.where(name: options[:name]) if options[:name].present?
+  end
+
+  def case_worker_name
+    User.find_by(id: case_worker_id).try(:name)
   end
 
   private

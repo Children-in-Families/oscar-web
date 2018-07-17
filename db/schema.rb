@@ -237,6 +237,12 @@ ActiveRecord::Schema.define(version: 20180715022824) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "children_plans", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "client_client_types", force: :cascade do |t|
     t.integer  "client_id"
     t.integer  "client_type_id"
@@ -595,6 +601,12 @@ ActiveRecord::Schema.define(version: 20180715022824) do
     t.string   "status",                          default: ""
   end
 
+  create_table "family_plans", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
     t.jsonb    "file",                default: []
@@ -616,6 +628,33 @@ ActiveRecord::Schema.define(version: 20180715022824) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "government_form_children_plans", force: :cascade do |t|
+    t.string   "goal",               default: ""
+    t.string   "action",             default: ""
+    t.string   "who",                default: ""
+    t.string   "when",               default: ""
+    t.integer  "government_form_id"
+    t.integer  "children_plan_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "government_form_children_plans", ["children_plan_id"], name: "index_government_form_children_plans_on_children_plan_id", using: :btree
+  add_index "government_form_children_plans", ["government_form_id"], name: "index_government_form_children_plans_on_government_form_id", using: :btree
+
+  create_table "government_form_family_plans", force: :cascade do |t|
+    t.string   "goal",               default: ""
+    t.string   "action",             default: ""
+    t.string   "result",             default: ""
+    t.integer  "government_form_id"
+    t.integer  "family_plan_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "government_form_family_plans", ["family_plan_id"], name: "index_government_form_family_plans_on_family_plan_id", using: :btree
+  add_index "government_form_family_plans", ["government_form_id"], name: "index_government_form_family_plans_on_government_form_id", using: :btree
 
   create_table "government_form_interviewees", force: :cascade do |t|
     t.integer  "government_form_id"
@@ -1476,6 +1515,10 @@ ActiveRecord::Schema.define(version: 20180715022824) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "government_form_children_plans", "children_plans"
+  add_foreign_key "government_form_children_plans", "government_forms"
+  add_foreign_key "government_form_family_plans", "family_plans"
+  add_foreign_key "government_form_family_plans", "government_forms"
   add_foreign_key "government_form_interviewees", "government_forms"
   add_foreign_key "government_form_interviewees", "interviewees"
   add_foreign_key "government_form_needs", "government_forms"

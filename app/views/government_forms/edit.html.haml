@@ -3,4 +3,4 @@
     .ibox
       .ibox-title
         %h5=  t('.edit_report')
-      = render 'form'
+      = render "form_#{params[:form]}"
