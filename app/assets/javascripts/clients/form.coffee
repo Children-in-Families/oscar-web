@@ -33,7 +33,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           url: "/api/provinces/#{province_id}/districts"
           dataType: 'JSON'
           success: (response) ->
-            districts = response.districts
+            districts = response.data
             for district in districts
               $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
 

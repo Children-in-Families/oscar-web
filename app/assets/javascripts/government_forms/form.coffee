@@ -1,28 +1,122 @@
 CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit = CIF.Government_formsUpdate = do ->
   _init = ->
     _select2()
+    _enableOtherOption()
+    _enableOtherNeedOption()
+    _enableOtherProblemdOption()
+    _autoFillClientCode()
+    _ajaxChangeDistrict()
+
+  _ajaxChangeDistrict = ->
+    mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id,
+                  #government_form_interview_province_id, #government_form_primary_carer_province_id')
+    mainAddress.on 'change', ->
+      type       = $(@).data('type')
+      typeId     = $(@).val()
+      subAddress = $(@).data('subaddress')
+
+      if type == 'provinces'
+        subResources = 'districts'
+        subAddress =  switch subAddress
+                      when 'district' then $('#government_form_district_id')
+                      when 'intervieweeDistrict' then $('#government_form_interview_district_id')
+                      when 'primaryCarerDistrict' then $('#government_form_primary_carer_district_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'districts'
+        subResources = 'communes'
+        subAddress = $('#government_form_commune_id')
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'communes'
+        subResources = 'villages'
+        subAddress = $('#government_form_village_id')
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+
+      if typeId != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/#{type}/#{typeId}/#{subResources}"
+          dataType: 'JSON'
+          success: (response) ->
+            for address in response.data
+              label = if subResources == 'villages' then address.code_format else address.name
+              subAddress.append("<option value='#{address.id}' data-code=#{address.code}>#{label}</option>")
+
+  _autoFillClientCode = ->
+    $('#government_form_village_id').change ->
+      if $(@).val() == ''
+        $('#government_form_client_code_prefixed').text('')
+      $('#government_form_client_code_prefixed').text($(@).find('option:selected').data('code'))
+    .change()
+
+  _removeReadOnlyAttr = (element) ->
+    $(element).removeAttr('readonly')
+
+  _addReadOnlyAttr = (element) ->
+    $(element).attr('readonly', 'readonly').val('')
+
+  _enableOtherNeedOption = ->
+    $('.government_form_government_form_needs_rank').last().find('select').change ->
+      if $(this).val() != ''
+        _removeReadOnlyAttr('#government_form_other_need')
+      else
+        _addReadOnlyAttr('#government_form_other_need')
+    .change()
+
+  _enableOtherProblemdOption = ->
+    $('.government_form_government_form_problems_rank').last().find('select').change ->
+      if $(this).val() != ''
+        _removeReadOnlyAttr('#government_form_other_problem')
+      else
+        _addReadOnlyAttr('#government_form_other_problem')
+    .change()
+
+  _changeMockOption = ->
+    $('#mock_government_form_interviewee').change ->
+      $('#government_form_other_interviewee').val($(this).val())
+
+    $('#mock_government_form_client_type').change ->
+      $('#government_form_other_client_type').val($(this).val())
+
+  _enableOtherOption = ->
+    otherIntervieweeOption = $('.government_form_interviewees').children('span').last()
+    otherIntervieweeVal    = $('#government_form_other_interviewee').val()
+    otherClientTypeOption  = $('.government_form_client_types').children('span').last()
+    otherClientTypeVal     = $('#government_form_other_client_type').val()
+
+    $(otherIntervieweeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ (សូមបញ្ជាក់)' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherIntervieweeVal}' id='mock_government_form_interviewee'>")
+    $(otherClientTypeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherClientTypeVal}' id='mock_government_form_client_type'>")
+
+    if otherIntervieweeVal != ''
+      _removeReadOnlyAttr('#mock_government_form_interviewee')
+
+    if otherClientTypeVal != ''
+      _removeReadOnlyAttr('#mock_government_form_client_type')
+
+    _changeMockOption()
+
+    otherIntervieweeOption.on 'ifChecked', ->
+      _removeReadOnlyAttr('#mock_government_form_interviewee')
+      _changeMockOption()
+
+    otherClientTypeOption.on 'ifChecked', ->
+      _removeReadOnlyAttr('#mock_government_form_client_type')
+      _changeMockOption()
+
+    otherIntervieweeOption.on 'ifUnchecked', ->
+      _addReadOnlyAttr('#mock_government_form_interviewee')
+      $('#government_form_other_interviewee').val('')
+
+    otherClientTypeOption.on 'ifUnchecked', ->
+      _addReadOnlyAttr('#mock_government_form_client_type')
+      $('#government_form_other_client_type').val('')
 
   _select2 = ->
     $('select').select2
       minimumInputLength: 0
       allowClear: true
-  #   _missionCheckable()
-  #   _removeDisabledClass()
-  #
-  # _missionCheckable = ->
-  #   noneObtainable = $('#government_form_mission_obtainable_false')
-  #   obtainable = $('#government_form_mission_obtainable_true')
-  #   missions   = $('#government_form_first_mission, #government_form_second_mission, #government_form_third_mission, #government_form_fourth_mission')
-  #   obtainable.on 'ifChecked', ->
-  #     missions.prop('disabled', false)
-  #     $('#mission-checked').find('.disabled').removeClass('disabled')
-  #     $('#mission-checked').find("input[type='hidden']").removeAttr('disabled')
-  #   noneObtainable.on 'ifChecked', ->
-  #     missions.prop('disabled', true)
-  #     missions.prop('checked', false)
-  #     $('#mission-checked').find('div').addClass('disabled')
-  #     $('#mission-checked').find('div').removeClass('checked')
-  # _removeDisabledClass = ->
-  #   $('.missions input.disabled').removeClass('disabled')
 
   { init: _init }

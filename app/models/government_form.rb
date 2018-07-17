@@ -2,24 +2,32 @@ class GovernmentForm < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :client
+  belongs_to :province
+  belongs_to :district
+  belongs_to :commune
+  belongs_to :village
+  belongs_to :interview_province, class_name: 'Province', foreign_key: 'interview_province_id'
+  belongs_to :primary_carer_province, class_name: 'Province', foreign_key: 'primary_carer_province_id'
 
   has_many :government_form_interviewees, dependent: :destroy
   has_many :interviewees, through: :government_form_interviewees
-  has_many :client_type_government_forms, dependent: :restrict_with_error
+  has_many :client_type_government_forms, dependent: :destroy
   has_many :client_types, through: :client_type_government_forms
-  has_many :government_form_needs, dependent: :restrict_with_error
+  has_many :government_form_needs, dependent: :destroy
   has_many :needs, through: :government_form_needs
-  has_many :government_form_problems, dependent: :restrict_with_error
+  has_many :government_form_problems, dependent: :destroy
   has_many :problems, through: :government_form_problems
-  has_many :government_form_children_plans, dependent: :restrict_with_error
+  has_many :government_form_children_plans, dependent: :destroy
   has_many :children_plans, through: :government_form_children_plans
-  has_many :government_form_family_plans, dependent: :restrict_with_error
+  has_many :government_form_family_plans, dependent: :destroy
   has_many :family_plans, through: :government_form_family_plans
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
   accepts_nested_attributes_for :government_form_children_plans
   accepts_nested_attributes_for :government_form_family_plans
+
+  before_save :concat_client_code_with_village_code
 
   def populate_needs
     Need.all.each do |need|
@@ -45,25 +53,6 @@ class GovernmentForm < ActiveRecord::Base
     end
   end
 
-  # validates :client, presence: true
-
-#   delegate :name, :slug, :gender, :date_of_birth, :initial_referral_date, to: :client, prefix: true
-
-#   def carer_name
-#     client.cases.current.try(:carer_names)
-#   end
-
-#   def carer_capital
-#     client.cases.current.try(:province).try(:name)
-#   end
-
-#   def carer_phone_number
-#     client.cases.current.try(:carer_phone_number)
-#   end
-
-#   def referral_name
-#     client.referral_source.try(:name)
-#   end
   def self.filter(options)
     records = all
     records.where(name: options[:name]) if options[:name].present?
@@ -71,5 +60,11 @@ class GovernmentForm < ActiveRecord::Base
 
   def case_worker_name
     User.find_by(id: case_worker_id).try(:name)
+  end
+
+  private
+
+  def concat_client_code_with_village_code
+    self.client_code = "#{village.try(:code)}#{client_code}"
   end
 end

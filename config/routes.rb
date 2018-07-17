@@ -172,6 +172,14 @@ Rails.application.routes.draw do
       resources :districts, only: :index
     end
 
+    resources :districts, only: [] do
+      resources :communes, only: :index
+    end
+
+    resources :communes, only: [] do
+      resources :villages, only: :index
+    end
+
     resources :districts, only: :index do
       resources :subdistricts, only: :index
     end

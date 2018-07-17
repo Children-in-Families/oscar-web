@@ -14,7 +14,7 @@
         %tr
           %td
             កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
-            - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+            - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
             - gov_date.split('').each_with_index do |code, index|
               - if index == 0
                 %span.first= code
@@ -30,7 +30,7 @@
                 %span= code
           %td
             លេខកូដកុមារ:
-            - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '0000'
+            - gov_client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
             - gov_client_code.split('').each_with_index do |code, index|
               - if index == 0
                 %span.first= code

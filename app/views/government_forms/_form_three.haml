@@ -15,7 +15,7 @@
             %i.fa.fa-calendar-check-o
         = f.error :date
       .col-xs-12.col-sm-4
-        = f.input :village_code, collection: ['11111111', '22222222', '33333333'], label: 'លេខកូដភូមិ'
+        = f.association :village, collection: @villages.map{|v| [v.code_format, v.id, { data: { code: v.code } }] }, label: 'លេខកូដភូមិ', input_html: { data: { type: 'villages' } }
       .col-xs-12.col-sm-4
         = f.input :client_code, label: 'លេខកូដកុមារ'
       .col-xs-12.col-sm-4.clearfix
