@@ -631,7 +631,7 @@ module ClientsHelper
         end
       end
 
-      if count > 0
+      if count > 0 && class_name != 'case_note_type'
         link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
