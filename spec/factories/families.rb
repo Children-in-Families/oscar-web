@@ -10,8 +10,11 @@ FactoryGirl.define do
     male_adult_count 1
     contract_date { FFaker::Time.date }
     association :province
+    association :district
     family_type 'Extended Family / Kinship Care'
     status 'Active'
+    commune { FFaker::Name.name }
+    village { FFaker::Name.name }
 
     trait :emergency do
       family_type 'Short Term / Emergency Foster Care'
