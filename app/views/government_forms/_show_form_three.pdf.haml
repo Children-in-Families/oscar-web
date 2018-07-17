@@ -3,12 +3,13 @@
 .text-center
   = wicked_pdf_image_tag 'logo.png', width: 120
 
-.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+= render 'head_section'
+.panel.panel-no-margin.panel-borderless
   .panel-heading.panel-no-padding.panel-borderless
     .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ
 
-.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
-  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-top: 1px solid black'}
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr
@@ -22,7 +23,7 @@
                 %span= code
           %td
             លេខកូដភូមិ:
-            - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
+            - gov_village_code = @government_form.village.present? ? @government_form.village_code : '00000000'
             - gov_village_code.split('').each_with_index do |code, index|
               - if index == 0
                 %span.first= code

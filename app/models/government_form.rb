@@ -1,6 +1,11 @@
 class GovernmentForm < ActiveRecord::Base
   has_paper_trail
 
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :commune, prefix: true, allow_nil: true
+  delegate :code, to: :village, prefix: true, allow_nil: true
+
   belongs_to :client
   belongs_to :province
   belongs_to :district
