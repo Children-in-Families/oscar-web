@@ -52,6 +52,10 @@ problems.each do |problem|
   Problem.find_or_create_by(name: problem)
 end
 
+ProgramStream.all.each do |program_stream|
+  program_stream.update(name: program_stream.name.squish)
+end
+
 # END OF FORM 1
 
 setting = Setting.first_or_create(country_name: 'cambodia', assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
