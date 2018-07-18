@@ -123,13 +123,6 @@ class Client < ActiveRecord::Base
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
-  scope :case_notes,                               ->        { joins(:case_notes) }
-  scope :case_note_date_count,                     ->        { case_notes }
-  scope :case_note_type_count,                     ->        { case_notes }
-  scope :accepted_date_count,                      ->        { joins(:enter_ngos) }
-  scope :exit_date_count,                          ->        { joins(:exit_ngos) }
-  scope :date_of_assessments_count,                ->        { joins(:assessments) }
-  scope :program_streams_count,                    ->        { joins(:program_streams) }
 
   def self.filter(options)
     query = all

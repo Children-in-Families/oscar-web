@@ -438,38 +438,6 @@ module ClientsHelper
     sub_query_array
   end
 
-  def case_note_types(object, rule)
-    results         = client_advanced_search_data(object, rule)
-    return object if return_default_filter(object, rule, results)
-
-    query_array     = []
-    sub_query_array = []
-    sub_sql_hash    = {}
-    hashes          = Hash.new { |h,k| h[k] = []}
-
-    results.each {|k, o, v| hashes[k] << {o => v} }
-    sql_hash        = mapping_query_string(object, hashes, 'case_notes.interaction_type', rule)
-    # query_array     = mapping_query_string_with_query_value(query_array, sql_hash, @data[:condition])
-
-    if @data[:rules]
-      sub_rule_index  = @data[:rules].index {|param| param.has_key?(:condition)}
-      if sub_rule_index.present?
-        sub_hashes      = Hash.new { |h,k| h[k] = []}
-        sub_results     = @data[:rules][sub_rule_index]
-        sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
-        sub_result_hash.each {|k, o, v| sub_hashes[k] << {o => v} }
-        sub_sql_hash    = mapping_query_string(object, sub_hashes, 'case_notes.interaction_type', rule)
-      end
-    end
-
-    if sub_sql_hash.present?
-      object = object.where(case_notes: {interaction_type: sql_hash[:values]}).where(case_notes: {interaction_type: sub_sql_hash[:values]})
-    else
-      object = object.where(case_notes: {interaction_type: sql_hash[:values]})
-    end
-    object.present? ? object : []
-  end
-
   def case_note_query(object, rule)
     return object if !params.has_key?(:client_advanced_search)
 
