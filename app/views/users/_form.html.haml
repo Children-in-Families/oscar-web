@@ -12,6 +12,8 @@
             = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'user[date_of_birth]', id: 'user_date_of_birth'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :gender, collection: [['Male', 'male'], ['Female', 'female']], label: t('.gender')
         .col-xs-12.col-sm-6.col-md-4= f.input :email, required: true, label: t('.email')
         - unless @user.persisted?
           .col-xs-12.col-sm-6.col-md-4= f.input :password, required: true, label: t('.password')
