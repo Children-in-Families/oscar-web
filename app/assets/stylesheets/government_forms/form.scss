@@ -6,7 +6,7 @@ body[id=government_forms-update] {
     margin-top: 10px;
   }
 
-  .government_form_interviewees, .government_form_client_types {
+  .government_form_interviewees, .government_form_client_types, .government_form_service_types, .government_form_client_rights {
     .checkbox {
       padding-left: 0;
       label {
@@ -21,5 +21,18 @@ body[id=government_forms-update] {
 
   .icheckbox_square-green {
     margin-right: 5px;
+  }
+  .government_form_caseworker_assumption, .government_form_contact_type, .government_form_client_decision {
+    .radio:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+  .iradio_square-green {
+    margin-right: 5px;
+  }
+  .government_form_service_types {
+    .checkbox:not(:first-child) {
+      margin-top: 10px;
+    }
   }
 }

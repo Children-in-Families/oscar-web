@@ -44,7 +44,7 @@
         %h3= 'អ្នកផ្ដល់បទសម្ភាសន៍'
       .col-xs-12
         = f.association :interviewees, collection: @interviewees, as: :check_boxes, input_html: { class: 'i-checks' }, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4', label: false
-        = f.input :other_interviewee, label: false, input_html: { placeholder: 'Ohter' }, as: :hidden
+        = f.input :other_interviewee, label: false, input_html: { placeholder: 'Other' }, as: :hidden
 
       .col-xs-12
         %hr

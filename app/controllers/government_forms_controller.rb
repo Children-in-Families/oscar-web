@@ -13,8 +13,13 @@ class GovernmentFormsController < AdminController
     @government_form = @client.government_forms.new(name: @form_name)
     @government_form.populate_needs
     @government_form.populate_problems
-    @government_form.populate_children_plans
-    @government_form.populate_family_plans
+    if params[:form] == 'two'
+      @government_form.populate_children_status
+      @government_form.populate_family_status
+    elsif params[:form] == 'three'
+      @government_form.populate_children_plans
+      @government_form.populate_family_plans
+    end
   end
 
   def create
@@ -67,17 +72,19 @@ class GovernmentFormsController < AdminController
   end
 
   def find_association
-    @interviewees = Interviewee.order(:created_at)
-    @client_types = ClientType.order(:created_at)
-    @users        = @client.users.order(:first_name, :last_name)
-    @provinces    = Province.official.order(:name)
-    @districts    = @government_form.province.present? ? @government_form.province.districts.order(:code) : []
+    @interviewees   = Interviewee.order(:created_at)
+    @client_types   = ClientType.order(:created_at)
+    @users          = @client.users.order(:first_name, :last_name)
+    @provinces      = Province.official.order(:name)
+    @districts      = @government_form.province.present? ? @government_form.province.districts.order(:code) : []
     @interviewee_districts   = @government_form.interview_province.present? ? @government_form.interview_province.districts.order(:code) : []
     @primary_carer_districts = @government_form.primary_carer_province.present? ? @government_form.primary_carer_province.districts.order(:code) : []
-    @communes     = @government_form.district.present? ? @government_form.district.communes.order(:code) : []
-    @villages     = @government_form.commune.present? ? @government_form.commune.villages.order(:code) : []
-    @needs        = Need.order(:created_at)
-    @problems     = Problem.order(:created_at)
+    @communes       = @government_form.district.present? ? @government_form.district.communes.order(:code) : []
+    @villages       = @government_form.commune.present? ? @government_form.commune.villages.order(:code) : []
+    @needs          = Need.order(:created_at)
+    @problems       = Problem.order(:created_at)
+    @service_types  = ServiceType.order(:created_at)
+    @client_rights  = ClientRight.order(:created_at)
   end
 
   def find_government_form
@@ -104,7 +111,7 @@ class GovernmentFormsController < AdminController
   def find_form_name
     @form_name = case params[:form]
             when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
-            when 'two' then ''
+            when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ'
             when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
             when 'four' then ''
             when 'five' then ''

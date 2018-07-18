@@ -81,20 +81,29 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     $('#mock_government_form_client_type').change ->
       $('#government_form_other_client_type').val($(this).val())
 
+    $('#mock_government_form_service_type').change ->
+      $('#government_form_other_service_type').val($(this).val())
+
   _enableOtherOption = ->
     otherIntervieweeOption = $('.government_form_interviewees').children('span').last()
     otherIntervieweeVal    = $('#government_form_other_interviewee').val()
     otherClientTypeOption  = $('.government_form_client_types').children('span').last()
     otherClientTypeVal     = $('#government_form_other_client_type').val()
+    otherServiceTypeOption = $('.government_form_service_types').children('span').last()
+    otherServiceTypeVal    = $('#government_form_other_service_type').val()
 
     $(otherIntervieweeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ (សូមបញ្ជាក់)' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherIntervieweeVal}' id='mock_government_form_interviewee'>")
     $(otherClientTypeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherClientTypeVal}' id='mock_government_form_client_type'>")
+    $(otherServiceTypeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherServiceTypeVal}' id='mock_government_form_service_type'>")
 
     if otherIntervieweeVal != ''
       _removeReadOnlyAttr('#mock_government_form_interviewee')
 
     if otherClientTypeVal != ''
       _removeReadOnlyAttr('#mock_government_form_client_type')
+
+    if otherServiceTypeVal != ''
+      _removeReadOnlyAttr('#mock_government_form_service_type')
 
     _changeMockOption()
 
@@ -106,6 +115,10 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
       _removeReadOnlyAttr('#mock_government_form_client_type')
       _changeMockOption()
 
+    otherServiceTypeOption.on 'ifChecked', ->
+      _removeReadOnlyAttr('#mock_government_form_service_type')
+      _changeMockOption()
+
     otherIntervieweeOption.on 'ifUnchecked', ->
       _addReadOnlyAttr('#mock_government_form_interviewee')
       $('#government_form_other_interviewee').val('')
@@ -113,6 +126,10 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     otherClientTypeOption.on 'ifUnchecked', ->
       _addReadOnlyAttr('#mock_government_form_client_type')
       $('#government_form_other_client_type').val('')
+
+    otherServiceTypeOption.on 'ifUnchecked', ->
+      _addReadOnlyAttr('#mock_government_form_service_type')
+      $('#government_form_other_service_type').val('')
 
   _select2 = ->
     $('select').select2

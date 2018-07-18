@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180715022824) do
+ActiveRecord::Schema.define(version: 20180718081031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -313,6 +313,22 @@ ActiveRecord::Schema.define(version: 20180715022824) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "client_right_government_forms", force: :cascade do |t|
+    t.integer  "government_form_id"
+    t.integer  "client_right_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "client_right_government_forms", ["client_right_id"], name: "index_client_right_government_forms_on_client_right_id", using: :btree
+  add_index "client_right_government_forms", ["government_form_id"], name: "index_client_right_government_forms_on_government_form_id", using: :btree
+
+  create_table "client_rights", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "client_type_government_forms", force: :cascade do |t|
@@ -638,6 +654,8 @@ ActiveRecord::Schema.define(version: 20180715022824) do
     t.integer  "children_plan_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "score"
+    t.text     "comment",            default: ""
   end
 
   add_index "government_form_children_plans", ["children_plan_id"], name: "index_government_form_children_plans_on_children_plan_id", using: :btree
@@ -651,6 +669,8 @@ ActiveRecord::Schema.define(version: 20180715022824) do
     t.integer  "family_plan_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "score"
+    t.text     "comment",            default: ""
   end
 
   add_index "government_form_family_plans", ["family_plan_id"], name: "index_government_form_family_plans_on_family_plan_id", using: :btree
@@ -688,6 +708,16 @@ ActiveRecord::Schema.define(version: 20180715022824) do
   add_index "government_form_problems", ["government_form_id"], name: "index_government_form_problems_on_government_form_id", using: :btree
   add_index "government_form_problems", ["problem_id"], name: "index_government_form_problems_on_problem_id", using: :btree
 
+  create_table "government_form_service_types", force: :cascade do |t|
+    t.integer  "government_form_id"
+    t.integer  "service_type_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "government_form_service_types", ["government_form_id"], name: "index_government_form_service_types_on_government_form_id", using: :btree
+  add_index "government_form_service_types", ["service_type_id"], name: "index_government_form_service_types_on_service_type_id", using: :btree
+
   create_table "government_forms", force: :cascade do |t|
     t.string   "name",                       default: ""
     t.date     "date"
@@ -720,6 +750,12 @@ ActiveRecord::Schema.define(version: 20180715022824) do
     t.integer  "district_id"
     t.integer  "commune_id"
     t.integer  "village_id"
+    t.string   "caseworker_assumption",      default: ""
+    t.text     "assumption_description",     default: ""
+    t.date     "assumption_date"
+    t.string   "contact_type",               default: ""
+    t.string   "client_decision",            default: ""
+    t.string   "other_service_type",         default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1046,6 +1082,12 @@ ActiveRecord::Schema.define(version: 20180715022824) do
   end
 
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
+
+  create_table "service_types", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "settings", force: :cascade do |t|
     t.string   "assessment_frequency"
@@ -1498,6 +1540,8 @@ ActiveRecord::Schema.define(version: 20180715022824) do
   add_foreign_key "client_needs", "needs"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
+  add_foreign_key "client_right_government_forms", "client_rights"
+  add_foreign_key "client_right_government_forms", "government_forms"
   add_foreign_key "client_type_government_forms", "client_types"
   add_foreign_key "client_type_government_forms", "government_forms"
   add_foreign_key "clients", "districts"
@@ -1525,6 +1569,8 @@ ActiveRecord::Schema.define(version: 20180715022824) do
   add_foreign_key "government_form_needs", "needs"
   add_foreign_key "government_form_problems", "government_forms"
   add_foreign_key "government_form_problems", "problems"
+  add_foreign_key "government_form_service_types", "government_forms"
+  add_foreign_key "government_form_service_types", "service_types"
   add_foreign_key "government_forms", "clients"
   add_foreign_key "government_forms", "communes"
   add_foreign_key "government_forms", "districts"

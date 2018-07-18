@@ -1,6 +1,10 @@
 class GovernmentForm < ActiveRecord::Base
   has_paper_trail
 
+  CASEWORKER_ASSUMPTIONS = ['អាចធ្វើសមាហរណកម្មបាន', 'មិនអាចធ្វើសមាហរណកម្មបានទេ', 'បន្តករណី', 'បិទករណី']
+  CONTACT_TYPES          = ['ជួបផ្ទាល់', 'តាមទូរសព្ទ', 'សរសេរ']
+  CLIENT_DECISIONS       = ['ទទួលយកសេវា', 'មិនទទួលយកសេវា']
+
   belongs_to :client
   belongs_to :province
   belongs_to :district
@@ -19,8 +23,14 @@ class GovernmentForm < ActiveRecord::Base
   has_many :problems, through: :government_form_problems
   has_many :government_form_children_plans, dependent: :destroy
   has_many :children_plans, through: :government_form_children_plans
+  has_many :children_statuses, class_name: 'ChildrenPlan', through: :government_form_children_plans
+  has_many :family_statuses, class_name: 'FamilyPlan', through: :government_form_family_plans
   has_many :government_form_family_plans, dependent: :destroy
   has_many :family_plans, through: :government_form_family_plans
+  has_many :government_form_service_types, dependent: :destroy
+  has_many :service_types, through: :government_form_service_types
+  has_many :client_right_government_forms, dependent: :destroy
+  has_many :client_rights, through: :client_right_government_forms
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
@@ -43,13 +53,28 @@ class GovernmentForm < ActiveRecord::Base
 
   def populate_children_plans
     ChildrenPlan.all.each do |plan|
+      next if plan.name == "តម្រូវការជំនួយផ្នែកច្បាប់"
       government_form_children_plans.build(children_plan: plan)
+    end
+  end
+
+  def populate_children_status
+    ChildrenPlan.all.each do |status|
+      government_form_children_plans.build(children_status: status)
     end
   end
 
   def populate_family_plans
     FamilyPlan.all.each do |plan|
+      next if plan.name == "កម្រិតសិក្សាអប់រំ"
       government_form_family_plans.build(family_plan: plan)
+    end
+  end
+
+  def populate_family_status
+    FamilyPlan.all.each do |status|
+      next if status.name == "ចំណេះដឹងទូទៅក្នុងសង្គម"
+      government_form_family_plans.build(family_status: status)
     end
   end
 
