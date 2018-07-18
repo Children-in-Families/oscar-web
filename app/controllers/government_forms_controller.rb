@@ -100,11 +100,15 @@ class GovernmentFormsController < AdminController
       :primary_carer_commune, :primary_carer_district_id, :primary_carer_province_id,
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
       :other_interviewee, :other_need, :other_problem, :other_client_type,
+      :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
+      :client_decision, :other_service_type,
       interviewee_ids: [], client_type_ids: [],
+      client_right_government_forms: [:id, :name, :client_right_id],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
-      government_form_children_plans_attributes: [:id, :goal, :action, :who, :when, :children_plan_id],
-      government_form_family_plans_attributes: [:id, :goal, :action, :result, :family_plan_id]
+      government_form_children_plans_attributes: [:id, :goal, :action, :who, :when, :score, :comment, :children_plan_id],
+      government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id],
+      government_form_service_types_attributes: [:id, :name, :service_type_id]
     )
   end
 
