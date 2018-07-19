@@ -1,5 +1,8 @@
 .col-xs-12.col-sm-6.col-md-4
   = f.association :province, collection: @current_provinces, label: t('.current_province')
+- if current_organization.cif?
+  .col-xs-12.col-sm-6.col-md-4
+    = f.input :archive_district, label: 'Archived District', disabled: true
 .col-xs-12.col-sm-6.col-md-4
   = f.association :district, collection: @districts, label: t('.district')
 .col-xs-12.col-sm-6.col-md-4
