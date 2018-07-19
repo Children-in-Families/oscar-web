@@ -34,6 +34,10 @@ class ProgramStream < ActiveRecord::Base
   scope  :name_like,      ->(value)  { where(name: value) }
   scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value}%") }
 
+  def name=(name)
+    write_attribute(:name, name.try(:strip))
+  end
+
   def build_permission
     User.all.each do |user|
       next if user.admin? || user.strategic_overviewer?

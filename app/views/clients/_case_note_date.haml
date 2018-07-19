@@ -1,10 +1,10 @@
 - if params[:data].presence == 'recent'
   - recent_record = object.case_notes.most_recents.order(meeting_date: :desc).first.try(:meeting_date)
   - if recent_record.present?
-    %ul
+    %ul{'data-case_note_date': '' }
       %li= date_format(recent_record)
 - else
-  %ul
-    - object.case_notes.most_recents.each do |case_note|
+  %ul{'data-case_note_date': '' }
+    - case_note_query(object.case_notes.most_recents, 'case_note_date').each do |case_note|
       - if case_note.meeting_date.present?
         %li= date_format(case_note.meeting_date)

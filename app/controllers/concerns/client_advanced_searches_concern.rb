@@ -1,20 +1,25 @@
 module ClientAdvancedSearchesConcern
   def advanced_search
-    basic_rules          = JSON.parse @basic_filter_params
+    basic_rules  = JSON.parse @basic_filter_params
     # overdue_assessment   = @advanced_search_params[:overdue_assessment]
     # clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), overdue_assessment)
-    clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+    $param_rules        = find_params_advanced_search
+
+    clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+
     @clients_by_user     = clients.filter
 
     columns_visibility
-
     custom_form_column
     program_stream_column
+
     respond_to do |f|
       f.html do
         @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
         @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
-        @results                = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets.size
+        clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
+        @clients                = clients
+        @results                = clients.size
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do

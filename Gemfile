@@ -60,6 +60,7 @@ gem 'bourbon',                '~> 4.2'
 gem 'neat',                   '~> 1.8'
 gem 'sidekiq',                '~> 4.1.0'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
+gem 'where-or',               '~> 0.1.6'
 
 group :development, :test do
   gem 'pry'
