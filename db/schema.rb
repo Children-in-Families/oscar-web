@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180715022824) do
+ActiveRecord::Schema.define(version: 20180719035029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -720,6 +720,11 @@ ActiveRecord::Schema.define(version: 20180715022824) do
     t.integer  "district_id"
     t.integer  "commune_id"
     t.integer  "village_id"
+    t.date     "gov_placement_date"
+    t.string   "care_type",                  default: ""
+    t.string   "primary_carer",              default: ""
+    t.string   "secondary_carer",            default: ""
+    t.string   "carer_contact_info",         default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree

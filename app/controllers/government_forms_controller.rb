@@ -28,6 +28,7 @@ class GovernmentFormsController < AdminController
 
   def show
     respond_to do |format|
+      @user = @government_form.case_worker_info
       format.pdf do
         render  pdf:      'show',
                 template: 'government_forms/show.pdf.haml',
@@ -92,7 +93,8 @@ class GovernmentFormsController < AdminController
       :primary_carer_house, :primary_carer_street, :primary_carer_village,
       :primary_carer_commune, :primary_carer_district_id, :primary_carer_province_id,
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
-      :other_interviewee, :other_need, :other_problem, :other_client_type,
+      :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
+      :care_type, :primary_carer, :secondary_carer, :carer_contact_info,
       interviewee_ids: [], client_type_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
@@ -106,7 +108,7 @@ class GovernmentFormsController < AdminController
             when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
             when 'two' then ''
             when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
-            when 'four' then ''
+            when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
             when 'five' then ''
             when 'sixe' then ''
             else nil
