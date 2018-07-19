@@ -102,13 +102,11 @@ class GovernmentFormsController < AdminController
       :other_interviewee, :other_need, :other_problem, :other_client_type,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
       :client_decision, :other_service_type,
-      interviewee_ids: [], client_type_ids: [],
-      client_right_government_forms: [:id, :name, :client_right_id],
+      interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
       government_form_children_plans_attributes: [:id, :goal, :action, :who, :when, :score, :comment, :children_plan_id],
-      government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id],
-      government_form_service_types_attributes: [:id, :name, :service_type_id]
+      government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id]
     )
   end
 
