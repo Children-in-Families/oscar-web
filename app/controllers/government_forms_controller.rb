@@ -33,6 +33,7 @@ class GovernmentFormsController < AdminController
 
   def show
     respond_to do |format|
+      @user = @government_form.case_worker_info
       format.pdf do
         render  pdf:      'show',
                 template: 'government_forms/show.pdf.haml',
@@ -99,9 +100,16 @@ class GovernmentFormsController < AdminController
       :primary_carer_house, :primary_carer_street, :primary_carer_village,
       :primary_carer_commune, :primary_carer_district_id, :primary_carer_province_id,
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
+<<<<<<< HEAD
       :other_interviewee, :other_need, :other_problem, :other_client_type,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
       :client_decision, :other_service_type,
+=======
+      :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
+      :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
+      :client_decision, :other_service_type,
+      :care_type, :primary_carer, :secondary_carer, :carer_contact_info,
+>>>>>>> c0b29dbc4a097d5f9464dbcaf9685fe5d62ac014
       interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
@@ -115,7 +123,11 @@ class GovernmentFormsController < AdminController
             when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
             when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ'
             when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
+<<<<<<< HEAD
             when 'four' then ''
+=======
+            when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
+>>>>>>> c0b29dbc4a097d5f9464dbcaf9685fe5d62ac014
             when 'five' then ''
             when 'sixe' then ''
             else nil

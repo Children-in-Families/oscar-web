@@ -11,12 +11,12 @@ feature 'Case' do
   end
 
   feature 'History List' do
-    let!(:active_ec){ create(:case, carer_names: 'EC Carer Name', case_type: 'EC', client: client) }
-    let!(:active_fc){ create(:case, carer_names: 'FC Carer Name', case_type: 'FC', client: client) }
-    let!(:active_kc){ create(:case, carer_names: 'KC Carer Name', case_type: 'KC', client: client) }
-    let!(:inactive_ec){ create(:case, :inactive, carer_names: 'EC Inactive Carer Name', case_type: 'EC', client: client) }
-    let!(:inactive_fc){ create(:case, :inactive, carer_names: 'FC Inactive Carer Name', case_type: 'FC', client: client) }
-    let!(:inactive_kc){ create(:case, :inactive, carer_names: 'KC Inactive Carer Name', case_type: 'KC', client: client) }
+    let!(:active_ec){ create(:case, carer_names: 'EC Carer Name', case_type: 'EC', client: client, family: family) }
+    let!(:active_fc){ create(:case, carer_names: 'FC Carer Name', case_type: 'FC', client: client, family: family) }
+    let!(:active_kc){ create(:case, carer_names: 'KC Carer Name', case_type: 'KC', client: client, family: family) }
+    let!(:inactive_ec){ create(:case, :inactive, carer_names: 'EC Inactive Carer Name', case_type: 'EC', client: client, family: family) }
+    let!(:inactive_fc){ create(:case, :inactive, carer_names: 'FC Inactive Carer Name', case_type: 'FC', client: client, family: family) }
+    let!(:inactive_kc){ create(:case, :inactive, carer_names: 'KC Inactive Carer Name', case_type: 'KC', client: client, family: family) }
 
     scenario 'EC' do
       visit client_cases_path(client, case_type: 'EC')

@@ -1,11 +1,12 @@
 - if params[:data] == 'recent'
   - recent_record = enrolled_programs.order(created_at: :desc).first.try(:program_stream).try(:name)
   - if recent_record.present?
-    %ul
+    %ul{'data-program_stream': '' }
       %li= recent_record
 - else
+  - enrolled_programs = program_stream_name(enrolled_programs, 'enrolled_program_stream')
   - all_programs = enrolled_programs.map{ |c| c.program_stream.name }.uniq
   - if all_programs.any?
-    %ul
+    %ul{'data-program_streams': '' }
       - all_programs.each do |program_name|
         %li= program_name

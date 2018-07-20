@@ -37,6 +37,9 @@
         border-left: 1px;
         margin-left: -4px !important;
       }
+      span.no-border {
+        border-style: none;
+      }
       span.first {
         margin-left: 3px !important;
         border-left: 1px solid black;
@@ -127,16 +130,19 @@
       .bottom-radius {
         border-top: 0;
         border-radius: 0;
-        border-bottom-left-radius: 3px; 
+        border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
       }
       .top-radius {
         border-bottom: 0;
         border-radius: 0;
-        border-top-left-radius: 3px; 
+        border-top-left-radius: 3px;
         border-top-right-radius: 3px;
       }
-      
+      .dot-row {
+        border-bottom: 1px dashed black !important;
+      }
+
 
   %body{ style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'pageNumber()' }
     = yield

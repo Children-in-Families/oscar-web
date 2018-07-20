@@ -7,6 +7,7 @@ class Province < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_many :cases, dependent: :restrict_with_error
   has_many :districts, dependent: :restrict_with_error
+  has_many :settings, dependent: :restrict_with_error
   has_many :government_forms, dependent: :restrict_with_error
 
   scope :has_clients,  -> { joins(:clients).uniq }

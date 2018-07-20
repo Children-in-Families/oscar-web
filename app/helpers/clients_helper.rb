@@ -365,6 +365,323 @@ module ClientsHelper
     return true if @quantitative_type_editable_ids.exclude?(quantitative_type_id)
   end
 
+  def header_classes(grid, column)
+    klasses = datagrid_column_classes(grid, column).split(' ')
+    return klasses.first if klasses.include?('form-builder')
+    klasses.last
+  end
+
+  def client_advanced_search_data(object, rule)
+    @data = {}
+    return object unless params.has_key?(:client_advanced_search)
+    @data   = eval params[:client_advanced_search][:basic_rules]
+    results = @data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+  end
+
+  def mapping_query_string(object, hashes, association, rule)
+    param_values = []
+    sql_string   = []
+    hashes[rule].each do |rule|
+      rule.keys.each do |key|
+        values = rule[key]
+        case key
+        when 'equal'
+          sql_string << "#{association} = ?"
+          param_values << values
+        when 'not_equal'
+          sql_string << "#{association} != ?"
+          param_values << values
+        when 'is_empty'
+          sql_string << "#{association} IS NULL"
+        when 'is_not_empty'
+          sql_string << "#{association} IS NOT NULL"
+        else
+          object
+        end
+      end
+    end
+    sql_hash = { sql_string: sql_string, values: param_values }
+  end
+
+  def program_stream_name(object, rule)
+    query_array     = []
+    sub_query_array = []
+    param_values    = []
+    sql_string      = []
+    hashes          = Hash.new { |h,k| h[k] = []}
+
+    results         = client_advanced_search_data(object, rule)
+    return object if return_default_filter(object, rule, results)
+    results.each {|k, o, v| hashes[k] << {o => v} }
+    sql_hash        = mapping_query_string(object, hashes, 'client_enrollments.program_stream_id', rule)
+
+    sub_query_array = mapping_sub_query_array(object, 'client_enrollments.program_stream_id', rule)
+    query_array     = mapping_query_string_with_query_value(sql_hash, @data[:condition])
+    sql_string      = object.where(query_array).where(sub_query_array)
+
+    sql_string.present? ? sql_string : []
+  end
+
+  def mapping_sub_query_array(object, association, rule)
+    sub_query_array = []
+    if @data[:rules]
+      sub_rule_index  = @data[:rules].index {|param| param.has_key?(:condition)}
+      if sub_rule_index.present?
+        sub_hashes      = Hash.new { |h,k| h[k] = []}
+        sub_results     = @data[:rules][sub_rule_index]
+        sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+        sub_result_hash.each {|k, o, v| sub_hashes[k] << {o => v} }
+        sub_sql_hash    = mapping_query_string(object, sub_hashes, association, rule)
+        sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
+      end
+    end
+    sub_query_array
+  end
+
+  def case_note_query(object, rule)
+    return object if !params.has_key?(:client_advanced_search)
+
+    data    = {}
+    rules   = %w( case_note_date case_note_type )
+    data    = eval params[:client_advanced_search][:basic_rules]
+
+    result1                = mapping_param_value(data, 'case_note_date')
+    result2                = mapping_param_value(data, 'case_note_type')
+
+    default_value_param    = params['all_values']
+
+    if default_value_param == 'case_note_date'
+      return case_note_date_all_value(object, data, result2, rule, default_value_param)
+    elsif default_value_param == 'case_note_type'
+      return case_note_type_all_value(object, data, result1, rule, default_value_param)
+    end
+
+    case_note_date_hashes  = mapping_query_result(result1)
+    case_note_type_hashes  = Hash.new { |h,k| h[k] = []}
+    result2.each {|k, o, v| case_note_type_hashes[k] << {o => v} }
+
+    sub_case_note_date_query, sub_case_note_type_query = sub_query_results(object, data)
+
+    sql_case_note_date_hash = mapping_query_date(object, case_note_date_hashes, 'case_notes.meeting_date')
+    sql_case_note_type_hash = mapping_query_string(object, case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
+
+    case_note_date_query    = mapping_query_string_with_query_value(sql_case_note_date_hash, data[:condition])
+    case_note_type_query    = mapping_query_string_with_query_value(sql_case_note_type_hash, data[:condition])
+
+    if case_note_date_query.present? && case_note_type_query.blank?
+      object = object.where(case_note_date_query).where(sub_case_note_date_query)
+    elsif case_note_type_query.present? && case_note_date_query.blank?
+      object = object.where(case_note_type_query).where(sub_case_note_type_query)
+    else
+      if data[:condition] == 'AND'
+        object = object.where(case_note_date_query).where(case_note_type_query).where(sub_case_note_type_query).where(sub_case_note_date_query)
+      else
+        if sub_case_note_type_query.first.blank? && sub_case_note_date_query.first.blank?
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query)
+        elsif sub_case_note_date_query.first.present? && sub_case_note_type_query.first.blank?
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_date_query))
+        elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
+        else
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query_array))
+        end
+      end
+    end
+    object.present? ? object : []
+  end
+
+  def case_note_query_results(object, case_note_date_query, case_note_type_query)
+    results = []
+    if case_note_date_query.first.present? && case_note_type_query.first.blank?
+      results = object.where(case_note_date_query)
+    elsif case_note_date_query.first.blank? && case_note_type_query.first.present?
+      results = object.where(case_note_type_query)
+    else
+      results = object.where(case_note_date_query).or(object.where(case_note_type_query))
+    end
+    results
+  end
+
+  def sub_query_results(object, data)
+    sub_case_note_date_query = ['']
+    sub_case_note_type_query = ['']
+    if data[:rules]
+      sub_rule_index  = data[:rules].index {|param| param.has_key?(:condition)}
+      if sub_rule_index.present?
+        sub_case_note_date_results     = data[:rules][sub_rule_index]
+        sub_case_note_date_result_hash = mapping_param_value(sub_case_note_date_results, 'case_note_date')
+        sub_case_note_date_hashes      = mapping_query_result(sub_case_note_date_result_hash)
+        sub_case_note_date_sql_hash    = mapping_query_date(object, sub_case_note_date_hashes, 'case_notes.meeting_date')
+        sub_case_note_date_query       = mapping_query_string_with_query_value(sub_case_note_date_sql_hash, sub_case_note_date_results[:condition])
+
+        sub_case_note_type_hashes      = Hash.new { |h,k| h[k] = []}
+        sub_case_note_type_results     = data[:rules][sub_rule_index]
+        sub_case_note_type_result_hash = mapping_param_value(sub_case_note_type_results, 'case_note_type')
+        sub_case_note_type_result_hash.each {|k, o, v| sub_case_note_type_hashes[k] << {o => v} }
+        sub_case_note_type_sql_hash    = mapping_query_string(object, sub_case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
+        sub_case_note_type_query       = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, data[:condition])
+      end
+    end
+    [sub_case_note_date_query, sub_case_note_type_query]
+  end
+
+  def case_note_date_all_value(object, data, results, rule, default_value_param)
+    return if default_value_param.blank?
+    if rule == default_value_param
+      return object
+    else
+      sub_case_note_type_query = ['']
+      case_note_type_hashes    = Hash.new { |h,k| h[k] = []}
+      results.each {|k, o, v| case_note_type_hashes[k] << {o => v} }
+      sql_case_note_type_hash  = mapping_query_string(object, case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
+      case_note_type_query     = mapping_query_string_with_query_value(sql_case_note_type_hash, data[:condition])
+      sub_case_note_type_query = sub_query_results(object, data).last
+      if data[:condition] == 'AND'
+        if sub_case_note_type_query.first.blank?
+          object = object.where(case_note_type_query)
+        else
+          object = object.where(case_note_type_query).where(sub_case_note_type_query)
+        end
+      else
+        if sub_case_note_type_query.first.blank?
+          object = object.where(case_note_type_query)
+        else
+          object = object.where(case_note_type_query).or(object.where(sub_case_note_type_query))
+        end
+      end
+      return object
+    end
+  end
+
+  def case_note_type_all_value(object, data, results, rule, default_value_param)
+    return if default_value_param.blank?
+
+    sub_case_note_date_query = ['']
+    case_note_date_hashes    = mapping_query_result(results)
+    sql_case_note_date_hash  = mapping_query_date(object, case_note_date_hashes, 'case_notes.meeting_date')
+    case_note_date_query     = mapping_query_string_with_query_value(sql_case_note_date_hash, data[:condition])
+    sub_case_note_date_query = sub_query_results(object, data).first
+    if data[:condition] == 'AND'
+      if sub_case_note_date_query.first.blank?
+        object = object.where(case_note_date_query)
+      else
+        object = object.where(case_note_date_query).where(sub_case_note_date_query)
+      end
+    else
+      if sub_case_note_date_query.first.blank?
+        object = object.where(case_note_date_query)
+      else
+        object = object.where(case_note_date_query).or(object.where(sub_case_note_date_query))
+      end
+    end
+    return object
+  end
+
+  def mapping_param_value(data, rule)
+    data[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+  end
+
+  def date_filter(object, rule)
+    query_array      = []
+    sub_query_array  = []
+    field_name       = ''
+    results          = client_advanced_search_data(object, rule)
+
+    return object if return_default_filter(object, rule, results)
+
+    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
+
+    if rule == 'case_note_date'
+      field_name = 'meeting_date'
+    elsif rule == 'date_of_assessments'
+      field_name = 'created_at'
+    elsif rule[/^(programexitdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
+      klass_name.merge!(rule => 'leave_programs')
+      field_name = 'exit_date'
+    elsif rule[/^(enrollmentdate)/i].present?
+      klass_name.merge!(rule => 'client_enrollments')
+      field_name = 'enrollment_date'
+    else
+      field_name = rule
+    end
+
+    relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
+
+    hashes   = mapping_query_result(results)
+    sql_hash = mapping_query_date(object, hashes, relation)
+
+    if @data[:rules]
+      sub_rule_index  = @data[:rules].index {|param| param.has_key?(:condition)}
+      if sub_rule_index.present?
+        sub_results     = @data[:rules][sub_rule_index]
+        sub_result_hash = sub_results[:rules].reject{|h| h[:id] != rule }.map {|value| [value[:id], value[:operator], value[:value]] }
+        sub_hashes      = mapping_query_result(sub_result_hash)
+        sub_sql_hash    = mapping_query_date(object, sub_hashes, relation)
+        sub_query_array = mapping_query_string_with_query_value(sub_sql_hash, sub_results[:condition])
+      end
+    end
+
+    query_array = mapping_query_string_with_query_value(sql_hash, @data[:condition])
+    sql_string = object.where(query_array).where(sub_query_array)
+
+    sql_string.present? && sql_hash[:sql_string].present? ? sql_string : []
+  end
+
+  def header_counter(grid, column)
+    return column.header.truncate(65) if grid.class.to_s != 'ClientGrid'
+    count = 0
+    class_name  = header_classes(grid, column)
+
+    if @clients.present? && (Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i])
+      association = "#{class_name}_count"
+      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments' }
+
+      if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
+        klass     = 'leave_programs'
+      elsif class_name[/^(enrollmentdate)/i].present?
+        klass     = 'client_enrollments'
+      elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
+        klass     = 'client_enrollments'
+      else
+        klass     = klass_name[class_name.to_sym]
+      end
+
+      if class_name[/^(programexitdate)/i].present?
+        ids = @clients.map{ |client| client.client_enrollments.inactive.ids }.flatten.uniq
+        object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
+        count += date_filter(object, class_name).flatten.count
+      else
+        @clients.each do |client|
+          if class_name == 'case_note_type'
+            count += case_note_query(client.send(klass.to_sym), class_name).count
+          elsif class_name == 'case_note_date'
+            count += case_note_query(client.send(klass.to_sym), class_name).count
+          elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
+            class_name = 'active_program_stream'
+            count += program_stream_name(client.send(klass.to_sym).active, class_name).count
+          elsif class_name[/^(enrollmentdate)/i].present?
+            data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
+            count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
+          else
+            count += date_filter(client.send(klass.to_sym), class_name).flatten.count
+          end
+        end
+      end
+
+      if count > 0 && class_name != 'case_note_type'
+        link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        [column.header.truncate(65),
+          content_tag(:span, count, class: 'label label-info'),
+          link_all
+        ].join(' ').html_safe
+      else
+        column.header.truncate(65)
+      end
+    else
+      column.header.truncate(65)
+    end
+  end
+
   def case_history_label(value)
     label = case value.class.table_name
     when 'enter_ngos' then t('.accepted_date')
@@ -383,5 +700,72 @@ module ClientsHelper
 
   def international_referred_client
     params[:referral_id].present? && @client.country_origin != selected_country
+  end
+
+  def mapping_query_result(results)
+    hashes  = values = Hash.new { |h,k| h[k] = []}
+    results.each do |k, o, v|
+      values[o] << v
+      hashes[k] << values
+    end
+
+    hashes.keys.each do |value|
+      arr = hashes[value]
+      hashes.delete(value)
+      hashes[value] << arr.uniq
+    end
+    hashes
+  end
+
+  def mapping_query_date(object, hashes, relation)
+    sql_string    = []
+    param_values  = []
+    hashes.keys.each do |key|
+      values   = hashes[key].flatten
+      case key
+      when 'between'
+        sql_string << "date(#{relation}) BETWEEN ? AND ?"
+        param_values << values.first
+        param_values << values.last
+      when 'greater_or_equal'
+        sql_string << "date(#{relation}) >= ?"
+        param_values << values
+      when 'greater'
+        sql_string << "date(#{relation}) > ?"
+        param_values << values
+      when 'less'
+        sql_string << "date(#{relation}) < ?"
+        param_values << values
+      when 'less_or_equal'
+        sql_string << "date(#{relation}) <= ?"
+        param_values << values
+      when 'not_equal'
+        sql_string << "date(#{relation}) NOT IN (?)"
+        param_values << values
+      when 'equal'
+        sql_string << "date(#{relation}) IN (?)"
+        param_values << values
+      when 'is_empty'
+        sql_string << "date(#{relation}) IS NULL"
+
+      when 'is_not_empty'
+        sql_string << "date(#{relation}) IS NOT NULL"
+      else
+        object
+      end
+    end
+
+    { sql_string: sql_string, values: param_values }
+  end
+
+  def mapping_query_string_with_query_value(sql_hash, condition)
+    query_array = []
+    query_array << sql_hash[:sql_string].join(" #{condition} ")
+    sql_hash[:values].map{ |v| query_array << v }
+    query_array
+  end
+
+  def return_default_filter(object, rule, results)
+    rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 end

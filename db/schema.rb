@@ -615,6 +615,29 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "case_history",                    default: ""
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
+    t.integer  "district_id"
+    t.string   "commune",                         default: ""
+    t.string   "village",                         default: ""
+  end
+
+  add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
+
+  create_table "family_members", force: :cascade do |t|
+    t.string   "adult_name",    default: ""
+    t.date     "date_of_birth"
+    t.string   "occupation",    default: ""
+    t.string   "relation",      default: ""
+    t.integer  "family_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree
+
+  create_table "family_plans", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "family_plans", force: :cascade do |t|
@@ -756,6 +779,14 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "contact_type",               default: ""
     t.string   "client_decision",            default: ""
     t.string   "other_service_type",         default: ""
+<<<<<<< HEAD
+=======
+    t.date     "gov_placement_date"
+    t.string   "care_type",                  default: ""
+    t.string   "primary_carer",              default: ""
+    t.string   "secondary_carer",            default: ""
+    t.string   "carer_contact_info",         default: ""
+>>>>>>> c0b29dbc4a097d5f9464dbcaf9685fe5d62ac014
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1103,7 +1134,14 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "user_default_columns",    default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "org_name",                default: ""
+    t.string   "org_commune",             default: ""
+    t.integer  "province_id"
+    t.integer  "district_id"
   end
+
+  add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
+  add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
 
   create_table "shared_clients", force: :cascade do |t|
     t.string   "slug",              default: ""
@@ -1559,6 +1597,8 @@ ActiveRecord::Schema.define(version: 20180718081031) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "families", "districts"
+  add_foreign_key "family_members", "families"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"
@@ -1591,6 +1631,8 @@ ActiveRecord::Schema.define(version: 20180718081031) do
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "settings", "districts"
+  add_foreign_key "settings", "provinces"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"

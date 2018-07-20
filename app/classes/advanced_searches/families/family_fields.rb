@@ -22,7 +22,7 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['code', 'name', 'address', 'caregiver_information', 'case_history']
+        ['code', 'name', 'caregiver_information', 'case_history', 'commune', 'village']
       end
 
       def date_type_list
@@ -34,6 +34,7 @@ module AdvancedSearches
           ['family_type', family_type_options],
           ['status', status_options],
           ['province_id', provinces],
+          ['district_id', districts],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
           ['form_title', family_custom_form_options]
@@ -50,6 +51,10 @@ module AdvancedSearches
 
       def provinces
         Family.joins(:province).pluck('provinces.name', 'provinces.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
+      end
+
+      def districts
+        Family.joins(:district).pluck('districts.name', 'districts.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
       end
 
       def clients

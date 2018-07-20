@@ -10,12 +10,12 @@ module AdvancedSearches
     SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words)
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
 
-    def initialize(clients, rules)
+    def initialize(clients, basic_rules)
       @clients     = clients
       @values      = []
       @sql_string  = []
-      @condition    = rules['condition']
-      @basic_rules  = rules['rules'] || []
+      @condition   = basic_rules['condition']
+      @basic_rules = basic_rules['rules'] || []
 
       @columns_visibility = []
     end

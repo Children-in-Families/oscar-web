@@ -334,4 +334,13 @@ CIF.ClientsIndex = do ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).is('a')
       window.open($(@).data('href'), '_blank')
 
+  _iterateOverElement = (attr) ->
+    total = 0
+    $(attr).each (index) ->
+      $(this).children().each (index) ->
+        return if $(this).hasClass 'hide'
+        total += 1
+    total = if total != 0 then total else ''
+
+
   { init: _init }
