@@ -62,10 +62,10 @@
         %tr{ style: 'border-top: 1px dotted black;' }
           %td{ colspan: '2', style: 'padding-left: 10px;' }
             ឈ្មោះអ្នកកាន់ករណី:
-            %input{ style: 'width: 280px; margin-left: 2px;', value: " #{@government_form.case_worker.try(:name)}" }
+            %input{ style: 'width: 280px; margin-left: 2px;', value: " #{@government_form.case_worker_info.try(:name)}" }
           %td{ style: 'padding-left: 10px;' }
             លេខទូរសព្ទ:
-            %input{ style: 'width: 200px; margin-left: 2px;', value:  @government_form.case_worker.try(:mobile) }
+            %input{ style: 'width: 200px; margin-left: 2px;', value:  @government_form.case_worker_info.try(:mobile) }
 
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #4a80ce; padding: 5px; color: #ffffff; border-bottom: 0px solid black;' }
@@ -211,7 +211,7 @@
       .col-xs-12{ style: 'padding-left: 27px;' }
         %p{ style: 'margin-top: 5px' }
           ឈ្មោះអ្នកកាន់ករណី:
-          = @government_form.case_worker.try(:name)
+          = @government_form.case_worker_info.try(:name)
 
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #ffb802; padding: 5px; color: #000; border-bottom: 0px solid black;' }

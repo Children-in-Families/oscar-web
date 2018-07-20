@@ -5,14 +5,11 @@ class GovernmentForm < ActiveRecord::Base
   CONTACT_TYPES          = ['ជួបផ្ទាល់', 'តាមទូរសព្ទ', 'សរសេរ']
   CLIENT_DECISIONS       = ['ទទួលយកសេវា', 'មិនទទួលយកសេវា']
 
-<<<<<<< HEAD
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
   delegate :name, to: :commune, prefix: true, allow_nil: true
   delegate :code, to: :village, prefix: true, allow_nil: true
 
-=======
->>>>>>> c0b29dbc4a097d5f9464dbcaf9685fe5d62ac014
   belongs_to :client
   belongs_to :province
   belongs_to :district
