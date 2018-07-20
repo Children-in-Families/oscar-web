@@ -1,0 +1,252 @@
+%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'logo.png', width: 120
+
+= render 'head_section'
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-center{ style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;' } ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី​​​ និងគ្រួសារ
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{ style: 'border-bottom: 0px solid black' }
+    %p
+      ទម្រង់នេះត្រូវបំពេញដោយអ្នកកាន់ករណី។​ ពួកគេត្រូវត្រួតពិនិត្យគ្រប់ព័ត៌មាន​​​ទាំងអស់នៅក្នុង​ទម្រង់ព័ត៌មាន​បឋមមុន​ ពេល​​បំពេញចូលក្នុងទម្រង់នេះ។​ ពួកគេត្រូវតែទទួលបានការយល់ព្រមជាមុនពីកុមារ​ ពន្យល់អំពីការរក្សាការសម្ងាត់​ និងកន្លែងដែលមានសុវត្ថិភាព។
+.panel.panel-borderless.panel-no-margin
+  .panel-body.panel-border{ style: 'border-bottom: 1px solid black; border-top: 1px solid black' }
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td
+            កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+            - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដភូមិ:
+            - gov_village_code = @government_form.village.present? ? @government_form.village_code : '00000000'
+            - gov_village_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដកុមារ:
+            - gov_client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
+            - gov_client_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+.panel.panel-borderless.panel-no-margin
+  .panel-body.panel-border
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
+      %tbody
+        %u{ style: 'font-size: 14px; font-weight: bold;' } ទីកន្លែងប៉ាន់ប្រមាណ៖
+        %tr
+          %td
+            ឃុំ/សង្កាត់:
+            %input{ style: 'width: 110px;', value: @client.gov_commune }
+          %td
+            ក្រុង/ស្រុក/ខណ្ឌ:
+            %input{ style: 'width: 120px;', value: @client.gov_district }
+          %td
+            ខេត្ត/រាជធានី:
+            %input{ style: 'width: 199px;', value: @client.gov_city }
+        %tr
+          %td{ colspan: '2' }
+            ឈ្មោះអ្នកកាន់ករណី:
+            %input{ style: 'width: 280px; margin-left: 2px;', value: " #{@government_form.case_worker.try(:name)}" }
+          %td
+            លេខទូរសព្ទ:
+            %input{ style: 'width: 200px; margin-left: 2px;', value:  @government_form.case_worker.try(:mobile) }
+
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #ffd966; padding: 5px; color: #000; border-bottom: 0px solid black;' }
+    %u I- ស្ថានភាពកុមារ​ និងតម្រូវការ:
+
+  .panel-body.panel-border.no-margin-bottom
+    .row
+      .col-xs-7
+        %p{ style: 'font-size: 14px; font-weight: bold;' }
+          សូមដាក់ចំណាត់ថ្នាក់ក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
+      .col-xs-5
+        = wicked_pdf_image_tag 'score.png', class: 'img-responsive'
+    .row
+      .col-xs-12
+        %table.table.table-bordered.no-margin-bottom{ style: 'table-layout: fixed; border-collapse:collapse;' }
+          %colgroup
+            %col{ style: 'width: 200px' }
+            %col{ style: 'width: 50px' }
+            %col{ style: 'width: 420px' }
+          %tr
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              ស្ថានភាពរបស់កុមារ និងតម្រូវការបច្ចុប្បន្ន
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              ចំណាត់
+              %br
+              ថ្នាក់
+            %th{ style: 'border:1px solid black; text-align: center;' } មតិយោបល់
+
+          - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each do |status|
+            %tr
+              %td{ style: 'border:1px solid black;' }
+                = status.children_status_name
+              %td{ style: 'border:1px solid black; text-align: center;' }
+                = status.score
+              %td{ style: 'border:1px solid black;' }
+                = status.comment
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #ffd966; padding: 5px; color: #000; border-bottom: 0px solid black;' }
+    %p អាសយដ្ឋានអ្នកថែទាំ:
+  .panel-body.panel-border.no-margin-bottom
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
+      %tbody
+        %tr
+          %td
+            ផ្ទះលេខ:
+            %input{ style: 'width: 48px;', value: @client.house_number }
+          %td
+            ផ្លូវលេខ:
+            %input{ style: 'width: 43px;', value: @client.street_number }
+          %td{ colspan: '1' }
+            ភូមិ:
+            %input{ style: 'width: 128px;', value: @client.village }
+          %td
+            ឃុំ/សង្កាត់:
+            %input{ style: 'width: 222px;', value: @client.commune }
+        %tr
+          %td{ colspan: '3' }
+            ក្រុង/ស្រុក/ខណ្ឌ:
+            %input{ style: 'width: 275px; margin-left: 2px;', value: " #{@government_form.case_worker.try(:name)}" }
+          %td{ colspan: '2' }
+            ខេត្ត/រាជធានី:
+            %input{ style: 'width: 209px; margin-left: 2px;', value:  @government_form.case_worker.try(:mobile) }
+        %tr
+          %td{ colspan: '5' }
+            លេខទូរស័ព្ទ:
+            %input{ style: 'width: 590px; margin-left: 3px;', value: " #{@government_form.case_worker.try(:name)}" }
+
+  .panel-body.panel-border.no-margin-bottom
+    .row
+      .col-xs-7
+        %p{ style: 'font-size: 14px; font-weight: bold;' }
+          សូមដាក់ចំណាត់ថ្នាក់ក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
+      .col-xs-5
+        = wicked_pdf_image_tag 'score.png', class: 'img-responsive'
+    .row
+      .col-xs-12
+        %table.table.table-bordered.no-margin-bottom{ style: 'table-layout: fixed; border-collapse:collapse;' }
+          %colgroup
+            %col{ style: 'width: 210px' }
+            %col{ style: 'width: 50px' }
+            %col{ style: 'width: 420px' }
+          %tr
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              ស្ថានភាពរបស់គ្រួសារ និងតម្រូវការបច្ចុប្បន្ន
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              ចំណាត់
+              %br
+              ថ្នាក់
+            %th{ style: 'border:1px solid black; text-align: center;' } មតិយោបល់
+
+          - @government_form.government_form_family_plans.select(:id, :score, :comment, :family_plan_id, :government_form_id).each do |status|
+            %tr
+              %td{ style: 'border:1px solid black;' }
+                = status.family_status_name == 'ផ្សេងៗ' ? "#{status.family_status_name}......................................": status.family_status_name
+              %td{ style: 'border:1px solid black; text-align: center;' }
+                = status.score
+              %td{ style: 'border:1px solid black;' }
+                = status.comment
+
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #ffd966; padding: 5px; color: #000; border-bottom: 0px solid black;' }
+    %p សេចក្តីសន្និដ្ឋានរបស់អ្នកកាន់ករណី:
+  .panel-body.panel-border.no-margin-bottom
+    %table
+      %colgroup
+        %col{ style: 'width: 210px' }
+        %col{ style: 'width: 200px' }
+        %col{ style: 'width: 110px' }
+        %col{ style: 'width: 110px' }
+      %tr
+        - GovernmentForm::CASEWORKER_ASSUMPTIONS.each_with_index do |assumption, index|
+          - if @government_form.caseworker_assumption == assumption
+            %td
+              %img.img-responsive{ src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEcSURBVGhD7dlNSsNQGIXhKE6cCLoEB53Vga5I9+WK1JVIixvw57y2gXBt0Nwbv3sbzguHpi00eSYptJ1zzrkWO9fuGhnXkt1a+2xkXEt2i4R8aNvgcc7ZIW+8EBznNGSYITNlSJohEzrVrneHPzoaCIhHbaPd8kLSUUB6RP/5fAHeaMOah6QI9qJdasOahvwVQc1CpiAoFHK2f/ytqQgKg1xpz9r997PxchAUAgHBxfDeuzaGyUVQCIRbJff//v1DmBIEhUCIL7ExzIlWgqAwCB3CPGilCAqFUIpJl4OgcAiNYXIRVAVCKaYEQdUgBOZVe9JKEFQVQivtYndYVHXIXBmSZshMGZI2hCzmR+zaM4QW89ebc865f6jrvgCzudkjAOa2SgAAAABJRU5ErkJggg==", style: 'height: 30px; display: inline-block;' }
+              = assumption
+          - else
+            %td
+              %img.img-responsive{src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB+SURBVGhD7dkxDoAgEERRWg9j5f2vZDyButuZKcmAG/JfMo0N/FYaAKCiLXYUWd6l2x57iizv0m3JkDt2Tl6eaQ+58sNkeSYhX4SYEKIIMSFEEWJCiCLEhBBFiAkhihATQhQhJoQoQkwIUYSYDAlZ5if23yMkLfP0BgAYoLUXo7aFPAK8De8AAAAASUVORK5CYII=", style: 'height: 30px; display: inline-block;' }
+              = assumption
+
+    %div{ style: 'padding-left: 6px; line-height: 2;'}
+      %p{ style: 'text-decoration: underline; text-underline-position: under; -webkit-text-underline-position: under; -ms-text-underline-position: below;' }
+        = @government_form.assumption_description
+    .row
+      .col-xs-12
+        កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+        - gov_date = @government_form.assumption_date.present? ? @government_form.assumption_date.strftime('%d%m%y') : '000000'
+        - gov_date.split('').each_with_index do |code, index|
+          - if index == 0
+            %span.first= code
+          - else
+            %span= code
+    .row
+      .col-xs-12
+        %p{ style: 'margin-top: 5px' }
+          ឈ្មោះអ្នកកាន់ករណី:
+          = @government_form.case_worker.try(:name)
+
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #ffd966; padding: 5px; color: #000; border-bottom: 0px solid black;' }
+    %p III- កិច្ចពិភាក្សាអំពីសេវា
+  .panel-body.panel-border.no-margin-bottom
+    %p ១. ទំនាក់ទំនងអតិថិជនលើកដំបូង​ ពន្យល់អំពីសេវា​ និងកម្មវិធី
+    %table.table.no-margin-bottom.table-borderless
+      %colgroup
+        %col{ style: 'width: 155px' }
+        %col{ style: 'width: 110px' }
+        %col{ style: 'width: 300px' }
+
+      %tr
+        %td
+          កាលបរិច្ឆេទ ទំនាក់ទំនងអតិថិជនដំបូង:
+          %p
+          - gov_date = @client.follow_up_date.present? ? @client.follow_up_date.strftime('%d%m%y') : '000000'
+          - gov_date.split('').each_with_index do |code, index|
+            - if index == 0
+              %span.first= code
+            - else
+              %span= code
+        %td
+          ប្រភេទទំនាក់ទំនង:
+          - GovernmentForm::CONTACT_TYPES.each_with_index do |contact_type, index|
+            - if @government_form.contact_type == contact_type
+              .row
+                .col-xs-12
+                  %img.img-responsive{ src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEcSURBVGhD7dlNSsNQGIXhKE6cCLoEB53Vga5I9+WK1JVIixvw57y2gXBt0Nwbv3sbzguHpi00eSYptJ1zzrkWO9fuGhnXkt1a+2xkXEt2i4R8aNvgcc7ZIW+8EBznNGSYITNlSJohEzrVrneHPzoaCIhHbaPd8kLSUUB6RP/5fAHeaMOah6QI9qJdasOahvwVQc1CpiAoFHK2f/ytqQgKg1xpz9r997PxchAUAgHBxfDeuzaGyUVQCIRbJff//v1DmBIEhUCIL7ExzIlWgqAwCB3CPGilCAqFUIpJl4OgcAiNYXIRVAVCKaYEQdUgBOZVe9JKEFQVQivtYndYVHXIXBmSZshMGZI2hCzmR+zaM4QW89ebc865f6jrvgCzudkjAOa2SgAAAABJRU5ErkJggg==", style: 'height: 30px; display: inline-block;' }
+                  = contact_type
+            - else
+              .row
+                .col-xs-12
+                  %img.img-responsive{src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB+SURBVGhD7dkxDoAgEERRWg9j5f2vZDyButuZKcmAG/JfMo0N/FYaAKCiLXYUWd6l2x57iizv0m3JkDt2Tl6eaQ+58sNkeSYhX4SYEKIIMSFEEWJCiCLEhBBFiAkhihATQhQhJoQoQkwIUYSYDAlZ5if23yMkLfP0BgAYoLUXo7aFPAK8De8AAAAASUVORK5CYII=", style: 'height: 30px; display: inline-block;' }
+                  = contact_type
+        %td
+          ប្រភេទសេវា:
+          - ServiceType.all.in_groups_of(4)
+          .row
+            - ServiceType.all.each_with_index do |service_type, index|
+              - if index <= 3
+                .col-xs-6
+                  %img.img-responsive{src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB+SURBVGhD7dkxDoAgEERRWg9j5f2vZDyButuZKcmAG/JfMo0N/FYaAKCiLXYUWd6l2x57iizv0m3JkDt2Tl6eaQ+58sNkeSYhX4SYEKIIMSFEEWJCiCLEhBBFiAkhihATQhQhJoQoQkwIUYSYDAlZ5if23yMkLfP0BgAYoLUXo7aFPAK8De8AAAAASUVORK5CYII=", style: 'height: 30px; display: inline-block;' }
+                  = service_type.name
+              - else
+                .col-xs-6
+                  %img.img-responsive{src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB+SURBVGhD7dkxDoAgEERRWg9j5f2vZDyButuZKcmAG/JfMo0N/FYaAKCiLXYUWd6l2x57iizv0m3JkDt2Tl6eaQ+58sNkeSYhX4SYEKIIMSFEEWJCiCLEhBBFiAkhihATQhQhJoQoQkwIUYSYDAlZ5if23yMkLfP0BgAYoLUXo7aFPAK8De8AAAAASUVORK5CYII=", style: 'height: 30px; display: inline-block;' }
+                  = service_type.name
+
+
