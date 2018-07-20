@@ -21,6 +21,11 @@ class GovernmentForm < ActiveRecord::Base
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
 
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :interview_district, prefix: true, allow_nil: true
+  delegate :name, to: :commune, prefix: true, allow_nil: true
+
   before_save :concat_client_code_with_village_code
 
   def populate_needs

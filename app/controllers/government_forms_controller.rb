@@ -3,10 +3,11 @@ class GovernmentFormsController < AdminController
   before_action :find_client
   before_action :find_association, only: [:new, :create, :edit, :update]
   before_action :find_government_form, only: [:edit, :update, :destroy]
-  before_action :find_form_name, only: :index
+  # before_action :find_form_name, only: :index
 
   def index
-    @government_forms = @client.government_forms.filter({ name: @form_name})
+    # @government_forms = @client.government_forms.filter({ name: @form_name})
+    @government_forms = @client.government_forms.filter({ name: params[:form]})
   end
 
   def new
@@ -18,7 +19,7 @@ class GovernmentFormsController < AdminController
   def create
     @government_form = @client.government_forms.new(government_form_params)
     if @government_form.save
-      redirect_to client_government_forms_path, notice: t('.successfully_created')
+      redirect_to client_government_forms_path(form: params[:government_form][:name]), notice: t('.successfully_created')
     else
       render :new
     end
@@ -27,6 +28,7 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
+        @form = params[:form]
         render  pdf:      'show',
                 template: 'government_forms/show.pdf.haml',
                 layout:   'pdf_design.html.haml',
@@ -45,7 +47,7 @@ class GovernmentFormsController < AdminController
 
   def update
     if @government_form.update_attributes(government_form_params)
-      redirect_to client_government_forms_path(@client), notice: t('.successfully_updated')
+      redirect_to client_government_forms_path(@client, form: params[:government_form][:name]), notice: t('.successfully_updated')
     else
       render :edit
     end
