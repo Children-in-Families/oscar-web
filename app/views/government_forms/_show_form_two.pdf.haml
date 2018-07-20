@@ -62,10 +62,10 @@
         %tr{ style: 'border-top: 1px dotted black;' }
           %td{ colspan: '2', style: 'padding-left: 10px;' }
             ឈ្មោះអ្នកកាន់ករណី:
-            %input{ style: 'width: 280px; margin-left: 2px;', value: " #{@government_form.case_worker_info.try(:name)}" }
+            %input{ style: 'width: 280px; margin-left: 2px;', value: @user.try(:name) }
           %td{ style: 'padding-left: 10px;' }
             លេខទូរសព្ទ:
-            %input{ style: 'width: 200px; margin-left: 2px;', value:  @government_form.case_worker_info.try(:mobile) }
+            %input{ style: 'width: 200px; margin-left: 2px;', value:  @user.try(:mobile) }
 
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #4a80ce; padding: 5px; color: #ffffff; border-bottom: 0px solid black;' }
@@ -108,6 +108,71 @@
     %h5{ style: 'margin: 0;' }
       %span{ style: "font-family: 'Time New Roman'; border: none;" } II-
       ស្ថានភាពគ្រួសារ:
+  .panel-body.panel-border.no-margin-bottom
+    %u អាសយដ្ឋាន៖
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
+      %tbody
+        %tr
+          %td
+            ផ្ទះលេខ:
+            %input{ style: 'width: 48px;', value: '' }
+          %td
+            ផ្លូវលេខ:
+            %input{ style: 'width: 43px;', value: '' }
+          %td{ colspan: '1' }
+            ភូមិ:
+            %input{ style: 'width: 128px;', value: @client.family.village }
+          %td
+            ឃុំ/សង្កាត់:
+            %input{ style: 'width: 222px;', value: @client.family.commune }
+        %tr
+          %td{ colspan: '3' }
+            ក្រុង/ស្រុក/ខណ្ឌ:
+            %input{ style: 'width: 275px; margin-left: 2px;', value: @client.family.district_name }
+          %td{ colspan: '2' }
+            ខេត្ត/រាជធានី:
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @client.family.province_name }
+    %table{ style: 'margin-top: 5px;' }
+      %tr
+        %td
+          ចំនួនកុមារក្នុងបន្ទុកសរុប
+          %input{ style: 'width: 90px;', value: @client.family.male_children_count + @client.family.female_children_count }
+        %td{ style: 'padding-left: 10px;' }
+          កុមារា
+          %input{ style: 'width: 48px;', value: @client.family.male_children_count }
+        %td{ style: 'padding-left: 10px;' }
+          កុមារី
+          %input{ style: 'width: 48px;', value: @client.family.female_children_count }
+    .row
+      .col-xs-12
+        %table.table.table-bordered.no-margin-bottom{ style: 'margin-top: 10px; table-layout: fixed; border-collapse:collapse;' }
+          %colgroup
+            %col{ style: 'width: 200px' }
+            %col{ style: 'width: 90px' }
+            %col{ style: 'width: 200px' }
+            %col{ style: 'width: 180px' }
+          %tr{ style: 'background: #d3d3d3;' }
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              ឈ្មោះមនុស្សពេញវ័យដែល
+              %br
+              រស់នៅក្នុងផ្ទះជាមួយគ្នា
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              ថ្ងៃខែឆ្នាំកំណើត
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              មុខរបរ
+            %th{ style: 'border:1px solid black; text-align: center;' }
+              ទំនាក់ទំនងជាមួយកុមារ
+          - @client.family.family_members.each do |member|
+            %tr
+              %td{ style: 'border:1px solid black;' }
+                = member.adult_name
+              %td{ style: 'border:1px solid black; text-align: center;' }
+                = member.date_of_birth
+              %td{ style: 'border:1px solid black;' }
+                = member.occupation
+              %td{ style: 'border:1px solid black;' }
+                = member.relation
+
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #d3d3d3; padding: 0px; color: #000; border-bottom: 0px solid black;' }
     %h5{ style: 'color: #072459; margin: 0 auto; padding: 5px; border-top: 1px solid black; border-bottom: 0px solid black' }
@@ -211,7 +276,7 @@
       .col-xs-12{ style: 'padding-left: 27px;' }
         %p{ style: 'margin-top: 5px' }
           ឈ្មោះអ្នកកាន់ករណី:
-          = @government_form.case_worker_info.try(:name)
+          = @user.try(:name)
 
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #ffb802; padding: 5px; color: #000; border-bottom: 0px solid black;' }

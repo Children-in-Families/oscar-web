@@ -640,12 +640,6 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.datetime "updated_at",              null: false
   end
 
-  create_table "family_plans", force: :cascade do |t|
-    t.string   "name",       default: ""
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
     t.jsonb    "file",                default: []
@@ -779,14 +773,6 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "contact_type",               default: ""
     t.string   "client_decision",            default: ""
     t.string   "other_service_type",         default: ""
-<<<<<<< HEAD
-=======
-    t.date     "gov_placement_date"
-    t.string   "care_type",                  default: ""
-    t.string   "primary_carer",              default: ""
-    t.string   "secondary_carer",            default: ""
-    t.string   "carer_contact_info",         default: ""
->>>>>>> c0b29dbc4a097d5f9464dbcaf9685fe5d62ac014
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
