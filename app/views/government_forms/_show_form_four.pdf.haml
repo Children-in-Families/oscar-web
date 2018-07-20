@@ -129,11 +129,13 @@
             គ្រួសារបង្កើត
           %td{style: 'line-height: 25px'}
             %p
-              ឈ្មោះឪពុក ៖
-              = @government_form.primary_carer if @government_form.care_type == 'គ្រួសារបង្កើត'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះឪពុក ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'គ្រួសារបង្កើត'
             %p
-              ឈ្មោះម្តាយ ៖
-              = @government_form.secondary_carer if @government_form.care_type == 'គ្រួសារបង្កើត'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះម្តាយ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.secondary_carer if @government_form.care_type == 'គ្រួសារបង្កើត'
           %td
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'គ្រួសារបង្កើត'
@@ -146,11 +148,13 @@
             សាច់ញាតិ
           %td{style: 'line-height: 25px'}
             %p
-              ឈ្មោះ ៖
-              = @government_form.primary_carer if @government_form.care_type == 'សាច់ញាតិ'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'សាច់ញាតិ'
             %p
-              ឈ្មោះ ៖
-              = @government_form.secondary_carer if @government_form.care_type == 'សាច់ញាតិ'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.secondary_carer if @government_form.care_type == 'សាច់ញាតិ'
           %td
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'សាច់ញាតិ'
@@ -163,11 +167,13 @@
             គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)
           %td{style: 'line-height: 25px'}
             %p
-              ឈ្មោះ ៖
-              = @government_form.primary_carer if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
             %p
-              ឈ្មោះ ៖
-              = @government_form.secondary_carer if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.secondary_carer if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
           %td
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
@@ -180,11 +186,13 @@
             ការថែទាំជាក្រុមក្នុងសហគមន័
           %td
             %p
-              ឈ្មោះអង្គការ ៖
-              = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះអង្គការ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
             %p
-              ឈ្មោះក្រុម ៖
-              = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះក្រុម ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
           %td
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
@@ -197,11 +205,13 @@
             តាមវត្តអារាមឬទីកន្លែងសាសនានានា
           %td
             %p
-              ឈ្មោះវត្ត/វិហារ ៖
-              = @government_form.primary_carer if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះវត្ត/វិហារ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
             %p
-              ឈ្មោះអ្នកគ្រប់គ្រង ៖
-              = @government_form.primary_carer if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
+              %span.no-border{style: 'width: 45%;display: inline-block;'} ឈ្មោះអ្នកគ្រប់គ្រង ៖
+              %span.no-border.dot-row{style: 'width: 50%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
           %td
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
@@ -214,11 +224,13 @@
             កន្លែងថែទាំកុមារ
           %td
             %p
-              ឈ្មោះអង្គការ ៖
-              = @government_form.primary_carer if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះអង្គការ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
             %p
-              ឈ្មោះមណ្ឌល ៖
-              = @government_form.primary_carer if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះមណ្ឌល ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
           %td
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
