@@ -5,11 +5,6 @@ class GovernmentForm < ActiveRecord::Base
   CONTACT_TYPES          = ['ជួបផ្ទាល់', 'តាមទូរសព្ទ', 'សរសេរ']
   CLIENT_DECISIONS       = ['ទទួលយកសេវា', 'មិនទទួលយកសេវា']
 
-  delegate :name, to: :province, prefix: true, allow_nil: true
-  delegate :name, to: :district, prefix: true, allow_nil: true
-  delegate :name, to: :commune, prefix: true, allow_nil: true
-  delegate :code, to: :village, prefix: true, allow_nil: true
-
   belongs_to :client
   belongs_to :province
   belongs_to :district
@@ -39,8 +34,12 @@ class GovernmentForm < ActiveRecord::Base
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
-  accepts_nested_attributes_for :government_form_children_plans
-  accepts_nested_attributes_for :government_form_family_plans
+
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :interview_district, prefix: true, allow_nil: true
+  delegate :name, to: :commune, prefix: true, allow_nil: true
+  delegate :code, to: :village, prefix: true, allow_nil: true
 
   before_save :concat_client_code_with_village_code
 
@@ -88,7 +87,7 @@ class GovernmentForm < ActiveRecord::Base
     records.where(name: options[:name]) if options[:name].present?
   end
 
-  def case_worker
+  def case_worker_info
     User.find_by(id: case_worker_id)
   end
 

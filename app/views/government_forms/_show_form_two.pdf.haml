@@ -59,10 +59,10 @@
         %tr
           %td{ colspan: '2' }
             ឈ្មោះអ្នកកាន់ករណី:
-            %input{ style: 'width: 280px; margin-left: 2px;', value: " #{@government_form.case_worker.try(:name)}" }
+            %input{ style: 'width: 280px; margin-left: 2px;', value: " #{@government_form.case_worker_info.try(:name)}" }
           %td
             លេខទូរសព្ទ:
-            %input{ style: 'width: 200px; margin-left: 2px;', value:  @government_form.case_worker.try(:mobile) }
+            %input{ style: 'width: 200px; margin-left: 2px;', value:  @government_form.case_worker_info.try(:mobile) }
 
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #ffd966; padding: 5px; color: #000; border-bottom: 0px solid black;' }
@@ -121,14 +121,14 @@
         %tr
           %td{ colspan: '3' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 275px; margin-left: 2px;', value: " #{@government_form.case_worker.try(:name)}" }
+            %input{ style: 'width: 275px; margin-left: 2px;', value: " #{@government_form.case_worker_info.try(:name)}" }
           %td{ colspan: '2' }
             ខេត្ត/រាជធានី:
-            %input{ style: 'width: 209px; margin-left: 2px;', value:  @government_form.case_worker.try(:mobile) }
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @government_form.case_worker_info.try(:mobile) }
         %tr
           %td{ colspan: '5' }
             លេខទូរស័ព្ទ:
-            %input{ style: 'width: 590px; margin-left: 3px;', value: " #{@government_form.case_worker.try(:name)}" }
+            %input{ style: 'width: 590px; margin-left: 3px;', value: " #{@government_form.case_worker_info.try(:name)}" }
 
   .panel-body.panel-border.no-margin-bottom
     .row
@@ -199,7 +199,7 @@
       .col-xs-12
         %p{ style: 'margin-top: 5px' }
           ឈ្មោះអ្នកកាន់ករណី:
-          = @government_form.case_worker.try(:name)
+          = @government_form.case_worker_info.try(:name)
 
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #ffd966; padding: 5px; color: #000; border-bottom: 0px solid black;' }
@@ -248,5 +248,3 @@
                 .col-xs-6
                   %img.img-responsive{src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB+SURBVGhD7dkxDoAgEERRWg9j5f2vZDyButuZKcmAG/JfMo0N/FYaAKCiLXYUWd6l2x57iizv0m3JkDt2Tl6eaQ+58sNkeSYhX4SYEKIIMSFEEWJCiCLEhBBFiAkhihATQhQhJoQoQkwIUYSYDAlZ5if23yMkLfP0BgAYoLUXo7aFPAK8De8AAAAASUVORK5CYII=", style: 'height: 30px; display: inline-block;' }
                   = service_type.name
-
-
