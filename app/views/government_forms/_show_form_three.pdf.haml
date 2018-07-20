@@ -106,7 +106,7 @@
           %td.text-right{:colspan => "2"}
             %label ឈ្មោះអ្នកកាន់ករណី:
           %td
-            %input{style: 'width: 100%', value: @government_form.case_worker_name }
+            %input{style: 'width: 100%', value: @government_form.case_worker.try(:name) }
           %td
             %label អង្គភាព:
           %td

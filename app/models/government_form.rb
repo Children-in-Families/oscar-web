@@ -88,8 +88,8 @@ class GovernmentForm < ActiveRecord::Base
     records.where(name: options[:name]) if options[:name].present?
   end
 
-  def case_worker_name
-    User.find_by(id: case_worker_id).try(:name)
+  def case_worker
+    User.find_by(id: case_worker_id)
   end
 
   private
