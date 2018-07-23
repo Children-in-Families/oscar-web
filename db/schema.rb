@@ -773,6 +773,11 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "contact_type",               default: ""
     t.string   "client_decision",            default: ""
     t.string   "other_service_type",         default: ""
+    t.date     "gov_placement_date"
+    t.string   "care_type",                  default: ""
+    t.string   "primary_carer",              default: ""
+    t.string   "secondary_carer",            default: ""
+    t.string   "carer_contact_info",         default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
