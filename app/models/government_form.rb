@@ -37,7 +37,6 @@ class GovernmentForm < ActiveRecord::Base
 
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
-  delegate :name, to: :interview_district, prefix: true, allow_nil: true
   delegate :name, to: :commune, prefix: true, allow_nil: true
   delegate :code, to: :village, prefix: true, allow_nil: true
 

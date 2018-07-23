@@ -6,40 +6,53 @@
   .col-xs-3
     %label រាជធានី/ខេត្ត:
   .col-xs-9
-    %input{ style: 'width: 70%', value: @client.gov_city }
+    %input{ style: 'width: 70%', value: @government_form.province_name }
 .row{style: 'margin-left: 5px;'}
   .col-xs-3
     %label ក្រុង/ស្រុក/ខណ្ឌ:
   .col-xs-9
-    %input{ style: 'width: 70%', value: @client.gov_commune }
+    %input{ style: 'width: 70%', value: @government_form.district_name }
 .row{style: 'margin-left: 5px;'}
   .col-xs-3
     %label ឃុំ/សង្កាត់:
   .col-xs-9
-    %input{ style: 'width: 70%', value: @client.gov_district}
+    %input{ style: 'width: 70%', value: @government_form.commune_name }
 .panel.panel-default.panel-no-margin#first-form
-  %label.text-center{style: 'padding:8px; background-color: black; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៍មានបឋម
+  %label.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៌មានបឋម
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}
-    ថ្ងៃ/ខែ/ឆ្នាំ:
-    - @client.gov_date.strftime('%d%m%y').split('').each_with_index do |code, index|
-      - if index == 0
-        %span.first= code
-      - else
-        %span= code
-    លេខកូដភូមិ:
-    - @client.gov_village_code.split('').each_with_index do |code, index|
-      - if index == 0
-        %span.first= code
-      - else
-        %span= code
-    លេខកូដកុមារ:
-    - @client.gov_client_code.split('').each_with_index do |code, index|
-      - if index == 0
-        %span.first= code
-      - else
-        %span= code
+    .row
+      .col-xs-2
+        ថ្ងៃ/ខែ/ឆ្នាំ:
+      .col-xs-4
+        %p
+          - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
+          - gov_date.split('').each_with_index do |code, index|
+            - if index == 0
+              %span.first= code
+            - else
+              %span= code
+      .col-xs-2
+        លេខកូដភូមិ:
+      .col-xs-4
+        - village_code = @government_form.village.present? ? @government_form.village_code : '00000000'
+        - village_code.split('').each_with_index do |code, index|
+          - if index == 0
+            %span.first= code
+          - else
+            %span= code
+    .row
+      .col-xs-2
+        លេខកូដកុមារ:
+      .col-xs-10
+        - client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
+        - @government_form.client_code.split('').each_with_index do |code, index|
+          - if index == 0
+            %span.first= code
+          - else
+            %span= code
+
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #DEEDF2;' }
     %u ទីកន្លែងសម្ភាសន៍ទទួលកុមារ:
   .panel-body.panel-border
     .row
@@ -48,62 +61,68 @@
           .col-xs-4
             %label ភូមិ:
           .col-xs-8
-            %input{style: 'width: 100%', value: @client.gov_interview_village }
+            %input{style: 'width: 100%', value: @government_form.interview_village }
       .col-xs-6
         .row
           .col-xs-4
             %label ឃុំ/សង្កាត់:
           .col-xs-8
-            %input{style: 'width: 100%', value: @client.gov_interview_commune }
+            %input{style: 'width: 100%', value: @government_form.interview_commune }
     .row
       .col-xs-6
         .row
           .col-xs-4
             %label ក្រុង/ស្រុក/ខណ្ឌ:
           .col-xs-8
-            %input{style: 'width: 100%', value: @client.gov_interview_district }
+            %input{style: 'width: 100%', value: @government_form.interview_district_name }
       .col-xs-6
         .row
           .col-xs-4
             %label រាជធានី/ខេត្ត:
           .col-xs-8
-            %input{style: 'width: 100%', value: @client.gov_interview_city }
+            %input{style: 'width: 100%', value: @government_form.interview_province_name }
   %label.panel-label{style: 'border-top: 0px;'}
-    %u អ្នកផ្ដល់បទសម្ភាសន៍:
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('កុមារ') }
-    %label កុមារ
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('ឪពុកម្ដាយ') }
-    %label ឪពុកម្ដាយ
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('អាណាព្យាបាល')}
-    %label អាណាព្យាបាល
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('អ្នកថែទាំ')}
-    %label អ្នកថែទាំ
-    %input{ type: 'checkbox' }
-    %label ផ្សេងៗ...................
+    %span{ style: 'background-color: #DEEDF2; margin-right: 10px;' }
+      %u អ្នកផ្ដល់បទសម្ភាសន៍:
+    %input{ type: 'checkbox', checked: @government_form.interviewees.pluck(:name).include?('កុមារ') }
+    %label{ style: 'margin-right: 5px;' } កុមារ
+    %input{ type: 'checkbox', checked: @government_form.interviewees.pluck(:name).include?('ឪពុកម្ដាយ') }
+    %label{ style: 'margin-right: 5px;' } ឪពុកម្ដាយ
+    %input{ type: 'checkbox', checked: @government_form.interviewees.pluck(:name).include?('អ្នកអាណាព្យាបាល')}
+    %label{ style: 'margin-right: 5px;' } អ្នកអាណាព្យាបាល
+    %input{ type: 'checkbox', checked: @government_form.interviewees.pluck(:name).include?('អ្នកថែទាំ')}
+    %label{ style: 'margin-right: 5px;' } អ្នកថែទាំ
+    %input{ type: 'checkbox', checked: @government_form.interviewees.pluck(:name).include?('ផ្សេងៗ (សូមបញ្ជាក់)')}
+    %label
+      = 'ផ្សេងៗ'
+      %input{style: 'width: auto', value: @government_form.other_interviewee }
+
   %div.panel-label{style: 'border-top: 0px;'}
     %label{style: 'margin-right:15px;'} ឈ្មោះអ្នកកាន់ករណី:
-    %input{style: 'width: 30%; margin-right: 25px;', value: @client.gov_caseworker_name }
+    %input{style: 'width: 30%; margin-right: 25px;', value: @government_form.case_worker_name }
     %label{style: 'margin-right:40px;'} លេខទូរស័ព្ទ:
-    %input{style: 'width: 30%', value: @client.gov_caseworker_phone }
+    %input{style: 'width: 30%', value: @government_form.case_worker_phone }
+
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #BEDCE7;' }
     %u ព័ត៌មានបឋមអំពីកុមារ:
-  .panel-body.border-label{style: 'border-bottom: 0px;'}
+  .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
     %label{style: 'margin-right:15px; margin-left: 10px;'} ឈ្មោះកុមារ:
-    %input{style: 'width: 20%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+    %input{style: 'width: 20%;', value: "#{@government_form.client.local_family_name} #{@government_form.client.local_given_name} "}
     ថ្ងៃខែឆ្នាំកំណើត:
-    - @client.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
+    - dob = @government_form.client.date_of_birth.present? ? @government_form.client.date_of_birth.strftime('%d%m%y') : '000000'
+    - dob.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
         %span= code
     %label ភេទ:
+    %input{ type: 'checkbox', checked: @government_form.client.gender == 'male' ? true : false }
     %label ប្រុស
-    %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+    %input{ type: 'checkbox', checked: @government_form.client.gender == 'female' ? true : false}
     %label ស្រី
-    %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
     .panel.panel-default.panel-no-margin.panel-margin-top
-      %label.panel-label អាសយដ្ឋានកុមាររស់នៅ:
+      %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋានកុមាររស់នៅ:
       .panel-body.panel-label-dotted
         .row
           .col-xs-6
@@ -111,35 +130,36 @@
               .col-xs-4
                 %label ភូមិ:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @client.village }
+                %input{ style: 'width: 100%', value: @government_form.client.village }
           .col-xs-6
             .row
               .col-xs-4
                 %label ឃុំ/សង្កាត់:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @client.commune }
+                %input{ style: 'width: 100%', value: @government_form.client.commune }
         .row
           .col-xs-6
             .row
               .col-xs-4
                 %label ក្រុង/ស្រុក/ខណ្ឌ:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @client.district }
+                %input{ style: 'width: 100%', value: @government_form.client.district_name }
           .col-xs-6
             .row
               .col-xs-4
                 %label រាជធានី/ខេត្ត:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @client.province.name.split(' / ').first }
-      %label.panel-label អ្នកថែទាំកុមារ:
-      .panel-body.panel-label-dotted
+                - province = @government_form.client.province.present? ? @government_form.client.province_name.split(' / ').first : ''
+                %input{ style: 'width: 100%', value: province }
+      %label.panel-label{ style: 'background-color: #D9E2C2;' } អ្នកថែទាំកុមារ:
+      .panel-body.panel-label-dotted{style: 'padding-bottom: 2px;'}
         %label{ style: 'margin-right:15px;'} ឈ្មោះ
-        %input{ style: 'width: 30%; margin-right: 25px;', value: @client.gov_carer_name }
+        %input{ style: 'width: 30%; margin-right: 25px;', value: @government_form.client.live_with }
         %label{ style: 'margin-right:40px;'} ទំនាក់ទំនងជាមួយកុមារ:
-        %input{ style: 'width: 30%', value: @client.gov_carer_relationship }
+        %input{ style: 'width: 30%', value: @government_form.primary_carer_relationship }
 
         .panel.panel-default.panel-no-margin.panel-margin-top
-          %label.panel-label អាសយដ្ឋាន:
+          %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋាន:
           .panel-body.panel-label-dotted
             .row
               .col-xs-7
@@ -147,337 +167,320 @@
                   .col-xs-2
                     %label ផ្ទះលេខ:
                   .col-xs-2
-                    %input{ style: 'width: 100%;', value: @client.gov_carer_home }
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_house }
                   .col-xs-2
                     %label ផ្លូវលេខ:
                   .col-xs-2
-                    %input{ style: 'width: 100%;', value: @client.gov_carer_street }
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_street }
                   .col-xs-1
                     %label ភូមិ:
                   .col-xs-3
-                    %input{ style: 'width: 100%;', value: @client.gov_carer_village }
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_village }
                 .row
                   .col-xs-4
                     %label ក្រុង/ស្រុក/ខណ្ឌ:
                   .col-xs-8
-                    %input{ style: 'width: 100%;', value: @client.gov_carer_commune }
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_district_name }
               .col-xs-5
                 .row
                   .col-xs-4
                     %label ឃុំ/សង្កាត់:
                   .col-xs-8
-                    %input{ style: 'width:100%;', value: @client.gov_carer_district }
+                    %input{ style: 'width:100%;', value: @government_form.primary_carer_commune }
                 .row
                   .col-xs-4
                     %label ខេត្ត/រាជធានី:
                   .col-xs-8
-                    %input{style: 'width:100%', value: @client.gov_carer_city }
+                    %input{style: 'width:100%', value: @government_form.primary_carer_province_name }
             .row
               .col-xs-2
                 %label លេខទូរស័ព្ទ:
               .col-xs-10
-                %input{style: 'width:97%; float: right;', value: @client.gov_carer_phone }
+                %input{style: 'width:96.6%; float: right;', value: @government_form.client.telephone_number }
   %div#panel-top-bottom-dotted
     %label ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
-    - @client.initial_referral_date.strftime('%d%m%y').split('').each_with_index do |code, index|
+    - ird = @government_form.client.initial_referral_date.present? ? @government_form.client.initial_referral_date.strftime('%d%m%y') : '000000'
+    - ird.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
         %span= code
-%p{style: 'page-break-after:always;'}
-%div#panel-top-bottom-dotted
-  %label ប្រភពព័ត៌មាន:
-  %input{ type: 'checkbox', checked: @client.gov_information_source == 'អនាមិក' ? true : false }
-  %label អនាមិក
-  %input{ type: 'checkbox', checked: @client.gov_information_source == 'ច្បាស់លាស់' ? true : false }
-  %label ច្បាស់លាស់
+  %div#panel-top-bottom-dotted
+    %label ប្រភពព័ត៌មាន:
+    %input{style: 'width:100%', value: @government_form.source_info }
 
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #F2F2F2;' }
     ប្រភេទកុមារ:
   .panel-body.border-label{style: 'border-bottom: 0px;'}
     .row
       .col-xs-4
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារកំព្រា') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារកំព្រា') }
             = 'កុមារកំព្រា'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារពិការ') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារពិការ') }
             = 'កុមារពិការ'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារត្រូវបានបោះបង់ចោល') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារត្រូវបានបោះបង់ចោល') }
             = 'កុមារត្រូវបានបោះបង់ចោល'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារអានាថាតាមចិញ្ចើមថ្នល់') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារអានាថាតាមចិញ្ចើមថ្នល់') }
             = 'កុមារអានាថាតាមចិញ្ចើមថ្នល់'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារញៀនសារធាតុញៀន') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារញៀនសារធាតុញៀន') }
             = 'កុមារញៀនសារធាតុញៀន'
       .col-xs-8
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន') }
             = 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលទទួលផលប៉ះពាល់​ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារដែលទទួលផលប៉ះពាល់ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏') }
             = 'កុមារដែលទទួលផលប៉ះពាល់​ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត') }
             = 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់') }
             = 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់'
         .form-check
           .form-check-label{style: 'inline-block;'}
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារមានទំនាស់ជាមួយច្បាប់') }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('កុមារមានទំនាស់ជាមួយច្បាប់') }
             = 'កុមារមានទំនាស់ជាមួយច្បាប់'
-            %input.form-input{ type: 'checkbox' }
+            %input.form-input{ type: 'checkbox', checked: @government_form.client_types.pluck(:name).include?('ផ្សេងៗ') }
             = 'ផ្សេងៗ'
-            %input{style: 'display: inline-block:width: 50%;'}
-
+            %input{style: 'display: inline-block:width: 50%;', value: @government_form.other_client_type }
+%p{style: 'page-break-after:always;'}
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #F2F2F2;' }
     បញ្ចូនមកពី:
   .panel-body.border-label.border-label{style: 'padding: 0;'}
     .row
-      .col-xs-4{style: 'border-right: 1px solid black;min-height:122px;'}
+      .col-xs-4{style: 'border-right: 1px solid black;min-height:136px;'}
         .form-check{style: 'margin-left: 10px;'}
           .form-check-label
-            %input.form-input{type: 'checkbox'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'ក្រសួង សអយ/មន្ទីរ សអយ' }
             = 'ក្រសួង សអយ/មន្ទីរ សអយ'
         .form-check{style: 'margin-left: 10px;'}
           .form-check-label
-            %input.form-input{type: 'checkbox'}
-            = 'អង្គារមិនមែនរដ្ឋាភិបាល'
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'អង្គការមិនមែនរដ្ឋាភិបាល'  }
+            = 'អង្គការមិនមែនរដ្ឋាភិបាល'
         .form-check{style: 'margin-left: 10px;'}
           .form-check-label
-            %input.form-input{type: 'checkbox'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'មន្ទីរពេទ្យ'  }
             = 'មន្ទីរពេទ្យ'
         .form-check{style: 'margin-left: 10px;'}
           .form-check-label
-            %input.form-input{type: 'checkbox'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'នគរបាល'  }
             = 'នគរបាល'
         .form-check{style: 'margin-left: 10px;'}
           .form-check-label
-            %input.form-input{type: 'checkbox'}
-            = 'តុលាការ/ប្រពន័្ធយុតិ្តធម៌'
-      .col-xs-4{style: 'min-height:122px;'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌'  }
+            = 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌'
+      .col-xs-4{style: 'min-height:136px;'}
         .form-check
           .form-check-label
-            %input.form-input{type: 'checkbox'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'រកឃើញនៅតាមទីសាធារណៈ'  }
             = 'រកឃើញនៅតាមទីសាធារណៈ'
         .form-check
           .form-check-label
-            %input.form-input{type: 'checkbox'}
-            = 'ស្ថាបន័រដ្ឋ'
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'ស្ថាប័នរដ្ឋ'  }
+            = 'ស្ថាប័នរដ្ឋ'
         .form-check
           .form-check-label
-            %input.form-input{type: 'checkbox'}
-            = 'មណ្ឌលថែទាំបណ្តោះអាសន្ន'
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន'  }
+            = 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន'
         .form-check
           .form-check-label
-            %input.form-input{type: 'checkbox'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'ទូរស័ព្ទទាន់ហេតុការណ៍'  }
             = 'ទូរស័ព្ទទាន់ហេតុការណ៍'
         .form-check
           .form-check-label
-            %input.form-input{type: 'checkbox'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'មកដោយខ្លួនឯង'  }
             = 'មកដោយខ្លួនឯង'
-      .col-xs-4{style: 'border-left: 1px solid black;min-height:122px;'}
+      .col-xs-4{style: 'border-left: 1px solid black;min-height:136px;'}
         .form-check
           .form-check-label
-            %input.form-input{type: 'checkbox'}
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'គ្រួសារ'  }
             = 'គ្រួសារ'
         .form-check
           .form-check-label
-            %input.form-input{type: 'checkbox'}
-            = 'មិត្តភ័ក្រ្តិ'
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'មិត្តភក្ដិ'  }
+            = 'មិត្តភក្ដិ'
         .form-check
-          %label.form-check-label
-            %input.form-input{type: 'checkbox'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @government_form.client.referral_source_name == 'អាជ្ញាធរដែនដី'  }
             = 'អាជ្ញាធរដែនដី'
         .form-check
-          %label.form-check-label{style: 'position: relative;top:-30px;'}
-            %input.form-input{type: 'checkbox'}
-              = 'ផ្សេងៗ'
-          %textarea{style: 'display: inline-block;width: 60%;'}
-
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: ReferralSource::REFERRAL_SOURCES.exclude?(@government_form.client.referral_source_name) }
+            = 'ផ្សេងៗ'
+          %textarea{ style: 'margin-left: 20px;'}
+            = @government_form.client.referral_source_name if ReferralSource::REFERRAL_SOURCES.exclude?(@government_form.client.referral_source_name)
 .panel.panel-default{style: 'margin:0;'}
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #FFFD54;' }
     មូលហេតុនៃការបញ្ចូន​​ និង តម្រូវការ:
   .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ចូនកុមារមករកសេវា:
       .panel-body.border-label
-        .comment{style: 'height: 30px;'}
+        .comment{style: 'min-height: 30px;'}
+          %p= @government_form.summary_info_of_referral
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ:
       .panel-body.border-label
-        .comment{style: 'height: 30px;'}
-.panel.panel-default{style: 'margin:0;'}
-  %label.panel-label
+        .comment{style: 'min-height: 30px;'}
+          %p= @government_form.guardian_comment
+  %label.panel-label{ style: 'background-color: #F2C59F;' }
     យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ:
   .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         សូមបញ្ជាក់ពីប្រភេទតម្រូវការចំបាច់(បង់លេខតាមអទិភាព):
       .panel-body.border-label{style: 'padding: 0;'}
         .row
           .col-xs-6
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ក្រសួង សអយ/មន្ទីរ សអយ'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'អង្ការមិនមែនរដ្ធាភិបាល'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'មន្ទីរពេទ្យ'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'នគរបាល'
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('ម្ហូបអាហារ') }
+              %label ម្ហូបអាហារ
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('ជំរក') }
+              %label ជំរក
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('ការសិក្សាអប់រំ') }
+              %label ការសិក្សាអប់រំ
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('ការថែទាំផ្នែកវេជ្ជសាស្ត្រ') }
+              %label ការថែទាំផ្នែកវេជ្ជសាស្ត្រ
           .col-xs-6{style: 'border-left: 1px solid black;min-height: 100px;'}
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ក្រសួង សអយ/មន្ទីរ សអយ'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'អង្ការមិនមែនរដ្ធាភិបាល'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'មន្ទីរពេទ្យ'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ផ្សេងៗ'
-                %input{style: 'display: inline-block;width: 70%;'}
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('ការមើលថែពីមនុស្សពេញវ័យ') }
+              %label ការមើលថែពីមនុស្សពេញវ័យ
+            .form-check{style: 'margin: 3px 0 0 0'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('សំលៀកបំពាក់') }
+              %label សំលៀកបំពាក់
+            .form-check{style: 'margin: 3px 0 0 0'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('ការគាំទ្រផ្នែកផ្លូវចិត្ត') }
+              %label ការគាំទ្រផ្នែកផ្លូវចិត្ត
+            .form-check{style: 'margin: 3px 0 0 0'}
+              %input.text-center{ style: 'width: 7%;', value: need_rank('ផ្សេងៗ') }
+              %label ផ្សេងៗ
+              %input{style: 'display: inline-block;width: 70%;', value: @government_form.other_need }
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ(បង់លេខតាមអទិភាព):
       .panel-body.border-label{style: 'padding: 0;'}
         .row
           .col-xs-6
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ប្រើប្រាស់គ្រឿងស្រវឹង'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ប្រើប្រាស់គ្រឿងញៀន'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'លេងល្បែង'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'រស់នៅតាមទីសាធារណៈ'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'មិនបានចូលរៀន'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ការរំលោភបំពានផ្លូវកាយ'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ការរំលោភបំពានផ្លូវភេទ'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ការជួញដូរមនុស្ស'
-            .form-check{style: 'margin-left: 10px;'}
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'អាពាហ៍ពិពាហ៍ដោយបង្ខំ'
-          .col-xs-6{style: 'border-left: 1px solid black;min-height: 100px;'}
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ចំណាកស្រុក'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'គ្រួសារធ្វេីចំណាកស្រុក'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ការរំលោភបំពានផ្នែកអារម្មណ៍'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'អំពេីហិង្សាក្នុងគ្រួសារ'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ការកេងប្រវញ្ច័ផ្នែកកំលាំងពលកម្ម'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ពលកម្មកំរិតធ្ងន់ធ្ងរ'
-            .form-check
-              .form-check-label
-                %input.form-input{type: 'checkbox'}
-                = 'ផ្សេងៗ'
-              %textarea{style: 'margin-left:16px;width: 80%;'}
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ប្រើប្រាស់គ្រឿងស្រវឹង') }
+              %label ប្រើប្រាស់គ្រឿងស្រវឹង
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ប្រើប្រាស់គ្រឿងញៀន') }
+              %label ប្រើប្រាស់គ្រឿងញៀន
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('លេងល្បែង') }
+              %label លេងល្បែង
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('រស់នៅតាមទីសាធារណៈ') }
+              %label រស់នៅតាមទីសាធារណៈ
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('មិនបានចូលរៀន') }
+              %label មិនបានចូលរៀន
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ការរំលោភបំពានផ្លូវកាយ') }
+              %label ការរំលោភបំពានផ្លូវកាយ
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ការរំលោភបំពានផ្លូវភេទ') }
+              %label ការរំលោភបំពានផ្លូវភេទ
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ការជួញដូរមនុស្ស') }
+              %label ការជួញដូរមនុស្ស
+            .form-check{style: 'margin: 3px 0 0 10px;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('អាពាហ៍ពិពាហ៍ដោយបង្ខំ') }
+              %label អាពាហ៍ពិពាហ៍ដោយបង្ខំ
+          .col-xs-6{style: 'border-left: 1px solid black;min-height: 245px;'}
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ចំណាកស្រុក') }
+              %label ចំណាកស្រុក
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('គ្រួសារធ្វើចំណាកស្រុក') }
+              %label គ្រួសារធ្វើចំណាកស្រុក
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ការរំលោភបំពានផ្នែកអារម្មណ៍') }
+              %label ការរំលោភបំពានផ្នែកអារម្មណ៍
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('អំពើហិង្សាក្នុងគ្រួសារ') }
+              %label អំពើហិង្សាក្នុងគ្រួសារ
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម') }
+              %label ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ពលកម្មកំរិតធ្ងន់ធ្ងរ') }
+              %label ពលកម្មកំរិតធ្ងន់ធ្ងរ
+            .form-check{style: 'margin: 3px 0 0 0;'}
+              %input.text-center{ style: 'width: 7%;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') }
+              %label ផ្សេងៗ
+              %textarea{style: 'margin-left:20px;width: 80%;' }= @government_form.other_problem
 %p{style: 'page-break-after:always;'}
 .panel.panel-default{style: 'margin:0;'}
-  %label.panel-label{style: 'padding:8px; background-color: black; color: white; width:100%; margin-bottom: 1px;'}
+  %label.panel-label{style: 'padding:8px; background-color: #2970BA; color: white; width:100%;'}
     មតិយោបល់អ្នកកាន់ករណី:
-  .panel-body.border-label
-    .row
+  .panel-body.border-label{style: 'padding: 0;'}
+    .row{style: 'margin: 0;'}
       .col-xs-12{style: 'border-bottom: 1px solid black;'}
-        .comment{style: 'height: 50px;'}
-    .row
+        %br
+        .comment{style: 'min-height: 50px;'}
+          %p= @government_form.case_worker_comment
+    .row{style: 'margin: 0;'}
       .col-xs-12
+        %br
         %i *គ្រប់ករណីទាំងអស់ត្រូវបន្តទៅជំហាននៃការប៉ាន់ប្រមាណករណី និងគ្រួសារ
-      %br
-      %br
-      .col-xs-6
-        ថ្ងទីៃ/ខែ/ឆ្នាំ:
-        %span.first 1
-        %span 1
-        %span 1
-        %span 1
-        %span 1
-        %span 1
         %br
         %br
-        %p ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
-        %br
-        %br
-        %p _________________________
-      .col-xs-6
-        .text-right
-          ថ្ងទីៃ/ខែ/ឆ្នាំ:
-          %span.first 1
-          %span 1
-          %span 1
-          %span 1
-          %span 1
-          %span 1
-          %br
-          %br
-          %p ហត្ថលេខាអ្នកកាន់ករណី
-          %br
-          %br
-          %p ___________________
+        .row
+          .col-xs-7.text-left
+            .signature_date
+              .row
+                .col-xs-3
+                  ថ្ងៃទី/ខែ/ឆ្នាំ:
+                .col-xs-9.text-left
+                  %span.first
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+            %br
+            %p{style: 'margin-left: 30px;'} ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
+            %br
+            %br
+            %p{style: 'margin-left: 30px;'} _________________________
+          .col-xs-5.text-right
+            .signature_date
+              .row
+                .col-xs-4
+                  ថ្ងៃទី/ខែ/ឆ្នាំ:
+                .col-xs-8.text-left
+                  %span.first
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+            %br
+            %p{style: 'margin-right: 30px;'} ហត្ថលេខាអ្នកកាន់ករណី
+            %br
+            %br
+            %p{style: 'margin-right: 30px;'} ___________________

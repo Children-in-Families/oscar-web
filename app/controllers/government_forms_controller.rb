@@ -2,7 +2,7 @@ class GovernmentFormsController < AdminController
   load_and_authorize_resource
   before_action :find_client
   before_action :find_association, only: [:new, :create, :edit, :update]
-  before_action :find_government_form, only: [:edit, :update, :destroy]
+  before_action :find_government_form, only: [:show, :edit, :update, :destroy]
   before_action :find_form_name
 
   def index
@@ -89,7 +89,7 @@ class GovernmentFormsController < AdminController
   end
 
   def find_government_form
-    @government_form = @client.government_forms.find(params[:id])
+    @government_form = @client.government_forms.find(params[:id]).decorate
   end
 
   def government_form_params
