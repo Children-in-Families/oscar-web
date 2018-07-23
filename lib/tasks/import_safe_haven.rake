@@ -1,9 +1,9 @@
 namespace :safe_haven do
   desc 'Import all Safe Haven clients and related data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'safe_haven', full_name: "Safe Haven", logo: File.open(Rails.root.join('app/assets/images/haven.png')))
+    org = Organization.create_and_build_tanent(short_name: 'safe-haven', full_name: "Safe Haven", logo: File.open(Rails.root.join('app/assets/images/haven.png')))
     # Organization.switch_to org.short_name
-    Organization.switch_to 'safe_haven'
+    Organization.switch_to 'safe-haven'
 
     Rake::Task['agencies:import'].invoke
     Rake::Task['departments:import'].invoke
@@ -12,7 +12,7 @@ namespace :safe_haven do
     Rake::Task['quantitative_types:import'].invoke
     Rake::Task['quantitative_cases:import'].invoke
 
-    import     = MoveDistrict::Import.new('safe_haven')
+    import     = MoveDistrict::Import.new('safe-haven')
     import.districts
 
     import     = SafeHavenImporter::Import.new('Users')

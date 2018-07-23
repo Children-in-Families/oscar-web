@@ -98,7 +98,7 @@ module SafeHavenImporter
     end
 
     def find_users
-      emails = [ 'pheakdey@safehavenkhmer.org', 'pheary@safehavenkhmer.org', 'phearom@safehavenkhmer.org', 'leakna@safehavenkhmer.org', 'Chamreoun@safehavenkhmer.org', 'kosal@safehavenkhmer.org', 'long@safehavenkhmer.org' ]
+      emails = [ 'pheakdey@safehavenkhmer.org', 'pheary@safehavenkhmer.org', 'phearom@safehavenkhmer.org', 'leakna@safehavenkhmer.org', 'chamreoun@safehavenkhmer.org', 'kosal@safehavenkhmer.org', 'long@safehavenkhmer.org' ]
       users = User.where('email IN (?)', emails).ids
     end
 
