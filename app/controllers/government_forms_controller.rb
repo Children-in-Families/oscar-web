@@ -63,7 +63,7 @@ class GovernmentFormsController < AdminController
 
   def destroy
     @government_form.destroy
-    redirect_to client_government_forms_path(@client), notice: t('.successfully_deleted')
+    redirect_to client_government_forms_path(@client, form: params[:form]), notice: t('.successfully_deleted')
   end
 
   private

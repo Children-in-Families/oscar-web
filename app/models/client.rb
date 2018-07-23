@@ -384,6 +384,10 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
+  def family
+    families.last
+  end
+
   private
 
   def create_client_history

@@ -1,5 +1,9 @@
-require 'rails_helper'
+describe ServiceType, 'associations' do
+  it { is_expected.to have_many(:government_form_service_types).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:government_forms).through(:government_form_service_types) }
+end
 
-RSpec.describe ServiceType, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe ServiceType, 'validations' do
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
 end

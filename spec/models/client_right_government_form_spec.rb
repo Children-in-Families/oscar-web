@@ -1,5 +1,5 @@
-require 'rails_helper'
-
-RSpec.describe ClientRightGovernmentForm, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe ClientRightGovernmentForm, 'associations' do
+  it { is_expected.to belong_to(:government_form) }
+  it { is_expected.to belong_to(:client_right) }
 end
+

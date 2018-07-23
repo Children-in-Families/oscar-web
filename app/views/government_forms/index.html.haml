@@ -29,5 +29,5 @@
                     = fa_icon('eye')
                   = link_to edit_client_government_form_path(@client, form, form: params[:form]), class: 'btn btn-outline btn-success btn-xs margin-left' do
                     = fa_icon('pencil')
-                  = link_to client_government_form_path(@client, form), method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs margin-left' do
+                  = link_to client_government_form_path(@client, form, form: params[:form]), method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs margin-left' do
                     = fa_icon('trash')

@@ -282,7 +282,7 @@ describe 'Client' do
       expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
     end
 
-    scenario 'government repor section invisible' do
+    scenario 'government report section invisible' do
       expect(page).not_to have_content('Government Form')
     end
   end
