@@ -34,6 +34,8 @@ class GovernmentForm < ActiveRecord::Base
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
+  accepts_nested_attributes_for :government_form_children_plans
+  accepts_nested_attributes_for :government_form_family_plans
 
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
