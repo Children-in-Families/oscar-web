@@ -4,4 +4,6 @@ class ClientRightGovernmentForm < ActiveRecord::Base
 
   belongs_to :government_form
   belongs_to :client_right
+
+  default_scope { order(:created_at) }
 end

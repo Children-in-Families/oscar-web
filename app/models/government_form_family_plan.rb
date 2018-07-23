@@ -7,4 +7,6 @@ class GovernmentFormFamilyPlan < ActiveRecord::Base
   belongs_to :government_form
   belongs_to :family_plan
   belongs_to :family_status, class_name: 'FamilyPlan', foreign_key: :family_plan_id
+
+  default_scope { order(:created_at) }
 end

@@ -5,4 +5,6 @@ class GovernmentFormServiceType < ActiveRecord::Base
 
   belongs_to :government_form
   belongs_to :service_type
+
+  default_scope { order(:created_at) }
 end
