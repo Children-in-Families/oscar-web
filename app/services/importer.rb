@@ -2,7 +2,7 @@ module Importer
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/basic_data_v2.xlsx')
+    def initialize(sheet_name, path = 'vendor/data/basic_data_v4.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
@@ -51,7 +51,7 @@ module Importer
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name          = workbook.row(row)[headers['District Name']].squish
         name_en       = workbook.row(row)[headers['District Name EN']].squish
-        province_name = workbook.row(row)[headers['Province Name']].squish
+        province_name = workbook.row(row)[headers['Province Name EN']].squish
         province   = Province.find_by('name iLIKE ?', "%#{province_name}%")
         full_name = "#{name} / #{name_en}"
         District.find_or_create_by(
