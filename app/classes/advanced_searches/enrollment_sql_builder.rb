@@ -29,9 +29,9 @@ module AdvancedSearches
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollments.where.not("lower(properties ->> '#{@field}') = '#{@value}' ")
+          properties_result = client_enrollments.where.not("lower(properties ->> '#{@field}') = '#{@value.squish}' ")
         else
-          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value}' ")
+          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'less'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
