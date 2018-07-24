@@ -154,13 +154,15 @@ describe Case, 'scopes' do
 end
 
 describe Case, 'methods' do
-  let!(:client){ create(:client) }
+  let!(:client_1){ create(:client) }
+  let!(:client_2){ create(:client) }
+  let!(:client_3){ create(:client) }
   let!(:emergency){ create(:case, case_type: 'EC') }
   let!(:kinship){ create(:case, case_type: 'KC') }
   let!(:foster){ create(:case, case_type: 'FC') }
-  let!(:latest_emergency){ create(:case, case_type: 'EC', client: client) }
-  let!(:latest_kinship){ create(:case, case_type: 'KC', client: client) }
-  let!(:latest_foster){ create(:case, case_type: 'FC') }
+  let!(:latest_emergency){ create(:case, case_type: 'EC', client: client_1) }
+  let!(:latest_kinship){ create(:case, case_type: 'KC', client: client_2) }
+  let!(:latest_foster){ create(:case, case_type: 'FC', client: client_3) }
 
   context 'latest emergency' do
     subject{ Case.latest_emergency }
@@ -213,10 +215,11 @@ describe Case, 'callbacks' do
   let!(:ec_client){ create(:client) }
   let!(:kc_client){ create(:client) }
   let!(:fc_client){ create(:client) }
+  let!(:ec_family){ create(:family, :emergency) }
   let!(:kc_family){ create(:family, :kinship) }
   let!(:fc_family){ create(:family, :foster) }
-  let!(:exit_emergency){ create(:case, case_type: 'EC', client: ec_client, exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph) }
-  let!(:emergency){ create(:case, case_type: 'EC', client: ec_client) }
+  let!(:exit_emergency){ create(:case, case_type: 'EC', client: ec_client, family: ec_family, exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph) }
+  let!(:emergency){ create(:case, case_type: 'EC', client: ec_client, family: ec_family) }
   let!(:kinship){ create(:case, case_type: 'KC', client: kc_client, family: kc_family) }
   let!(:foster){ create(:case, case_type: 'FC', client: fc_client, family: fc_family) }
 

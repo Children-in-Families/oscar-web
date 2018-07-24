@@ -51,7 +51,11 @@ body[id='client_advanced_searches-index'] {
       min-width: 135px;
     }
 
-    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.date_of_assessments, th.plot, th.road, th.postal_code {
+    th.date_of_assessments {
+      min-width: 200px;
+    }
+
+    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code {
       min-width: 150px;
     }
 
