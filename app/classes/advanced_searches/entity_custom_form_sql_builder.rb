@@ -25,9 +25,9 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
+          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase.squish}' ")
         else
-          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value}' ")
+          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
@@ -44,9 +44,9 @@ module AdvancedSearches
       when 'greater_or_equal'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'contains'
-        properties_result = custom_field_properties.where("properties ->> '#{@field}' ILIKE '%#{@value}%' ")
+        properties_result = custom_field_properties.where("properties ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
       when 'not_contains'
-        properties_result = custom_field_properties.where("properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
+        properties_result = custom_field_properties.where("properties ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
         properties_result = custom_field_properties.where("properties -> '#{@field}' ? '' ")
       when 'is_not_empty'

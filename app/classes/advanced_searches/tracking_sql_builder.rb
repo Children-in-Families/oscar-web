@@ -20,13 +20,13 @@ module AdvancedSearches
       if type_format.include?(@input_type)
         @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       end
-      
+
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollment_trackings.where("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
+          properties_result = client_enrollment_trackings.where("lower(#{properties_field} ->> '#{@field}') = '#{@value.squish}' ")
         else
-          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
@@ -43,9 +43,9 @@ module AdvancedSearches
       when 'greater_or_equal'
         properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{ '::int' if integer? } >= '#{@value}' AND #{properties_field} ->> '#{@field}' != '' ")
       when 'contains'
-        properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' ILIKE '%#{@value}%' ")
+        properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
       when 'not_contains'
-        properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
+        properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
         properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '' ")
       when 'is_not_empty'
