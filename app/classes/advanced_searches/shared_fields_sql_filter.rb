@@ -34,9 +34,9 @@ module AdvancedSearches
       when 'greater_or_equal'
         clients = SharedClient.where.not("shared_clients.#{@field} >= ?", @values)
       when 'contains'
-        clients = SharedClient.where("shared_clients.#{@field} ILIKE ?", @values.squish)
+        clients = SharedClient.where("shared_clients.#{@field} ILIKE ?", "%#{@values.squish}%")
       when 'not_contains'
-        clients = SharedClient.where.not("shared_clients.#{@field} NOT ILIKE ?", @values.squish)
+        clients = SharedClient.where.not("shared_clients.#{@field} NOT ILIKE ?", "%#{@values.squish}%")
       when 'is_empty'
         if @blank_fields.include?(@field)
           clients = SharedClient.where("shared_clients.#{@field} IS NULL")
