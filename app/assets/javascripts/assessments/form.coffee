@@ -78,7 +78,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       autoFocus: true
 
       onInit: (event, currentIndex) ->
-        _validateScore(form)
+        # _validateScore(form)
         _formEdit(currentIndex)
         _appendSaveButton()
         _handleAppendAddTaskBtn()
@@ -87,10 +87,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
         _filedsValidator(currentIndex, newIndex)
-        _validateScore(form)
+        # _validateScore(form)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
-        _validateScore(form)
+        # _validateScore(form)
         _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
         if currentIndex == 11
