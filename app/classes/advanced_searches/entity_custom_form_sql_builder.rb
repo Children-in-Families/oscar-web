@@ -33,7 +33,7 @@ module AdvancedSearches
         if @input_type == 'text' && @field.exclude?('&')
           properties_result = custom_field_properties.where.not("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
-          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
+          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'less'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
