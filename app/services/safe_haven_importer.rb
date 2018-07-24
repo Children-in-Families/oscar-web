@@ -44,7 +44,7 @@ module SafeHavenImporter
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
 
-      headers =['given_name', 'family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'initial_referral_date', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'village', 'agency_ids', 'code', 'user_ids']
+      headers =['given_name', 'family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'initial_referral_date', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'village', 'agency_ids', 'has_been_in_orphanage', 'has_been_in_government_care', 'code', 'user_ids', 'country_origin']
 
       (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
@@ -73,10 +73,14 @@ module SafeHavenImporter
         #agency
         data[13]   = find_agency(data[13])
 
-        data[14]   = check_nil_cell(data[14])
+        data[14]   = find_boolean_value(data[14])
+        data[15]   = find_boolean_value(data[15])
+
+        data[16]   = check_nil_cell(data[16])
 
         #case_worker
-        data[15]   = find_users
+        data[17]   = find_users
+        data[18]   = 'cambodia'
 
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
@@ -96,6 +100,11 @@ module SafeHavenImporter
         client.save(validate: false)
       end
       puts 'Create clients done!!!!!!'
+    end
+
+    def find_boolean_value(cell)
+      cell.nil? ? '' : cell.to_s.squish
+      (cell == 'Yes' || cell == 'yes') ? true : false
     end
 
     def find_users
