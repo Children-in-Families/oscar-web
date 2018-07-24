@@ -20,7 +20,7 @@ module SafeHavenImporter
       (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
         data[3]    = password
-        data[4]    = data[4].present? ? data[4].try(:downcase).squish : 'case worker'
+        data[4]    = data[4].try(:downcase).squish
         begin
           users << [headers, data.reject(&:blank?)].transpose.to_h
         rescue IndexError => e
@@ -33,7 +33,7 @@ module SafeHavenImporter
       end
 
       User.create!(users)
-      puts 'Create users one!!!!!!'
+      puts 'Create users done!!!!!!'
     end
 
     def password
@@ -59,6 +59,7 @@ module SafeHavenImporter
         data[6]    = format_date_of_birth(data[6])
         data[7]    = check_nil_cell(data[7])
         data[8]    = check_nil_cell(data[8])
+        data[8]    = data[8].gsub('/', ', ') if data[8].present?
 
         #current_province
         data[9]    = find_province(data[9])
@@ -98,8 +99,8 @@ module SafeHavenImporter
     end
 
     def find_users
-      emails = [ 'pheakdey@safehavenkhmer.org', 'pheary@safehavenkhmer.org', 'phearom@safehavenkhmer.org', 'leakna@safehavenkhmer.org', 'chamreoun@safehavenkhmer.org', 'kosal@safehavenkhmer.org', 'long@safehavenkhmer.org' ]
-      users = User.where('email IN (?)', emails).ids
+      first_names = [ 'Pheakdey', 'Sopheary', 'Phearom', 'Leakna', 'Chamroeun', 'Kosal', 'Long' ]
+      users = User.where('first_name IN (?)', first_names).ids
     end
 
     def find_agency(name)
