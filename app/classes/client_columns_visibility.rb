@@ -79,7 +79,8 @@ class ClientColumnsVisibility
       donor_: :donor,
       manage_: :manage,
       changelog_: :changelog,
-      telephone_number_: :telephone_number
+      telephone_number_: :telephone_number,
+      created_at_: :created_at
     }
   end
 

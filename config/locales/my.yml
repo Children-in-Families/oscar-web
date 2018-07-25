@@ -323,6 +323,7 @@ my:
       code: Custom ID Number1
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
+      created_at: ရက္စြဲကို ဖန္တီးရန္
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
       current_address: လက္ရွိေနရပ္လိပ္စာ
       current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
@@ -1722,6 +1723,7 @@ my:
         code: Custom ID Number1
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
         completed: ၿပီးစီးၿပီျဖစ္ေသာ
+        created_at: ရက္စြဲကို ဖန္တီးရန္
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ

@@ -325,6 +325,7 @@ km:
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
+      created_at: កាលបរិច្ឆេទ
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
@@ -1715,6 +1716,7 @@ km:
         code: លេខកូដផ្ទាល់ខ្លួនទី១
         commune: ឃុំ/សង្កាត់
         completed: ពេញលេញហើយឬនៅ?
+        created_at: កាលបរិច្ឆេទ
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ

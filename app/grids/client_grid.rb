@@ -29,6 +29,8 @@ class ClientGrid
     filter_shared_fileds('gender', value, scope)
   end
 
+  filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
+
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
@@ -493,6 +495,10 @@ class ClientGrid
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
+  end
+
+  column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
+    object.created_at.strftime('%F')
   end
 
   dynamic do

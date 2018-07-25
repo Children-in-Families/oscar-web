@@ -325,6 +325,7 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      created_at: Created Date
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
@@ -1714,6 +1715,7 @@ en:
         code: Custom ID Number1
         commune: Commune/Sangkat
         completed: Completed
+        created_at: Created Date
         current_address: Current Address
         current_province: Current Province
         date_of_assessments: Date of Assessments
