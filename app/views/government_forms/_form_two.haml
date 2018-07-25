@@ -5,7 +5,7 @@
     = error_notification(f)
     .row
       .col-xs-12
-        %h2.text-center= 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ'
+        %h2.text-center= 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
       = render 'government_info', f: f
       .col-xs-12
         %hr
@@ -25,12 +25,18 @@
       .col-xs-12
         %hr
         %h3= 'ស្ថានភាពកុមារ និង តម្រូវការ'
+      .col-xs-12
+        .text-right
+          = image_tag('score.png', style: 'width: 300px;')
       .col-xs-12.col-sm-12
         = f.simple_fields_for :government_form_children_plans do |f_children_status|
           = render 'children_status_fields', f: f_children_status
       .col-xs-12
         %hr
         %h3= 'ផែនការសំរាប់គ្រួសារ'
+      .col-xs-12
+        .text-right
+          = image_tag('score.png', style: 'width: 300px;')
       .col-xs-12
         = f.simple_fields_for :government_form_family_plans do |f_family_status|
           = render 'family_status_fields', f: f_family_status
@@ -42,9 +48,11 @@
       .col-xs-12
         %hr
         %h3= 'សេចក្តីសន្និដ្ឋាន របស់អ្នកកាន់ករណី'
+
       .col-xs-12
-        .i-checks
-          = f.input :caseworker_assumption, as: :radio_buttons, collection: GovernmentForm::CASEWORKER_ASSUMPTIONS, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-3', label: false
+        .row
+          .col-md-4
+            = f.input :caseworker_assumption, collection: GovernmentForm::CASEWORKER_ASSUMPTIONS, label: false
         = f.input :assumption_description, label: false, input_html: { rows: '10' }
       .col-xs-12
         .row
@@ -63,9 +71,10 @@
         %hr
         %h3= 'កិច្ចពិភាក្សាអំពីសេវា'
       .col-xs-12
-        = f.label :contact_type, 'ប្រភេទទំនាក់ទំនង'
-        .i-checks
-          = f.input :contact_type, as: :radio_buttons, collection: GovernmentForm::CONTACT_TYPES, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-3', label: false
+        .row
+          .col-md-4
+            = f.label :contact_type, 'ប្រភេទទំនាក់ទំនង'
+            = f.input :contact_type, collection: GovernmentForm::CONTACT_TYPES, label: false
       .col-xs-12
         %hr
         %h3= 'ប្រភេទសេវា'
@@ -82,8 +91,9 @@
         %hr
         %h3= 'ការសម្រេចចិត្តរបស់អតិថិជន'
       .col-xs-12
-        .i-checks
-          = f.input :client_decision, as: :radio_buttons, collection: GovernmentForm::CLIENT_DECISIONS, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-3', label: false
+        .row
+          .col-md-4
+            = f.input :client_decision, collection: GovernmentForm::CLIENT_DECISIONS, label: false
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
