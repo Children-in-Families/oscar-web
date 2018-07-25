@@ -99,7 +99,7 @@ class FamiliesController < AdminController
 
   def find_association
     @provinces = Province.order(:name)
-    @districts = District.order(:name)
+    @districts = @family.province.present? ? @family.province.districts.order(:name) : []
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else

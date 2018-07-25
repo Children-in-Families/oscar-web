@@ -31,18 +31,8 @@
           = render 'children_status_fields', f: f_children_status
       .col-xs-12
         %hr
-        %h3= 'ផែនការសំរាប់គ្រួសារ'
-      .col-xs-12
-        .text-right
-          = image_tag('score.png', style: 'width: 300px;')
-      .col-xs-12
-        = f.simple_fields_for :government_form_family_plans do |f_family_status|
-          = render 'family_status_fields', f: f_family_status
-      .col-xs-12
-        %hr
         %h3= 'ស្ថានភាពគ្រួសារ'
       .col-xs-12
-        %hr
         %h3= 'អាសយដ្ឋានអ្នកថែទាំ'
       .col-xs-12.col-sm-4
         = f.input :primary_carer_province_id, as: :select, collection: @provinces, label: 'ខេត្ត/រាជធានី', input_html: { data: { type: 'provinces', 'subaddress' => 'primaryCarerDistrict' } }
@@ -56,6 +46,16 @@
         = f.input :primary_carer_street, label: 'ផ្លូវលេខ'
       .col-xs-12.col-sm-4
         = f.input :primary_carer_village, label: 'ភូមិ'
+      .col-xs-12
+        %hr
+        %h3= 'សូមដាក់ចំណាត់ថ្នាក់ក្នុងតារាងខាងក្រោមតម្លៃលេខដែលសមស្រប'
+      .col-xs-12
+        .text-right
+          = image_tag('score.png', style: 'width: 300px;')
+      .col-xs-12
+        %h3= 'ស្ថានភាពគ្រួសារ និងតម្រូវការបច្ចុប្បន្ន'
+        = f.simple_fields_for :government_form_family_plans do |f_family_status|
+          = render 'family_status_fields', f: f_family_status
       .col-xs-12
         %hr
         %h3= 'សេចក្តីសន្និដ្ឋាន របស់អ្នកកាន់ករណី'
