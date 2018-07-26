@@ -20,7 +20,7 @@
             - @government_forms.each do |form|
               %tr
                 %td= form.id
-                %td= ''
+                %td= whodunnit('GovernmentForm', form)
                 %td= date_format(form.created_at)
                 %td.action.text-center
                   -# = link_to client_government_form_path(form.client, form, format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do

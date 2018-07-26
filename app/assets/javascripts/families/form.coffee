@@ -36,7 +36,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
           url: "/api/provinces/#{province_id}/districts"
           dataType: 'JSON'
           success: (response) ->
-            districts = response.districts
+            districts = response.data
             for district in districts
               $('select#family_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
 

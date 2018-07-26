@@ -44,6 +44,14 @@ class GovernmentFormDecorator < Draper::Decorator
     find_province_name(primary_carer_province_id)
   end
 
+  def assessment_district_name
+    find_district_name(assessment_district_id)
+  end
+
+  def assessment_province_name
+    find_province_name(assessment_province_id)
+  end
+
   def find_province_name(province_id)
     Province.find_by(id: province_id).try(:name)
   end

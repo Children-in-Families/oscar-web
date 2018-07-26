@@ -16,6 +16,7 @@ class GovernmentForm < ActiveRecord::Base
   belongs_to :commune
   belongs_to :village
   belongs_to :interview_province, class_name: 'Province', foreign_key: 'interview_province_id'
+  belongs_to :assessment_province, class_name: 'Province', foreign_key: 'assessment_province_id'
   belongs_to :primary_carer_province, class_name: 'Province', foreign_key: 'primary_carer_province_id'
 
   has_many :government_form_interviewees, dependent: :destroy

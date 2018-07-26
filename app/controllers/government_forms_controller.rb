@@ -79,6 +79,7 @@ class GovernmentFormsController < AdminController
     @provinces      = Province.official.order(:name)
     @districts      = @government_form.province.present? ? @government_form.province.districts.order(:code) : []
     @interviewee_districts   = @government_form.interview_province.present? ? @government_form.interview_province.districts.order(:code) : []
+    @assessment_districts    = @government_form.assessment_province.present? ? @government_form.assessment_province.districts.order(:code) : []
     @primary_carer_districts = @government_form.primary_carer_province.present? ? @government_form.primary_carer_province.districts.order(:code) : []
     @communes       = @government_form.district.present? ? @government_form.district.communes.order(:code) : []
     @villages       = @government_form.commune.present? ? @government_form.commune.villages.order(:code) : []
@@ -96,6 +97,7 @@ class GovernmentFormsController < AdminController
     params.require(:government_form).permit(
       :name, :date, :province_id, :district_id, :commune_id, :village_id, :client_code, :interview_village,
       :interview_commune, :interview_district_id, :interview_province_id,
+      :assessment_commune, :assessment_district_id, :assessment_province_id,
       :case_worker_id, :case_worker_phone, :primary_carer_relationship,
       :primary_carer_house, :primary_carer_street, :primary_carer_village,
       :primary_carer_commune, :primary_carer_district_id, :primary_carer_province_id,

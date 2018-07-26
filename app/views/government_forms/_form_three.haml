@@ -1,7 +1,7 @@
 = simple_form_for [@client, @government_form] do |f|
   .ibox-content
     = f.input :name, as: :hidden
-    = hidden_field_tag :form, params[:form]
+    = hidden_field_tag :form_num, params[:form]
     = error_notification(f)
     .row
       .col-xs-12
@@ -25,4 +25,4 @@
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
-    = link_to t('cancel'), client_government_forms_path, class: 'btn btn-default form-btn'
+    = link_to t('cancel'), client_government_forms_path(form: params[:form]), class: 'btn btn-default form-btn'

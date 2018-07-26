@@ -55,13 +55,13 @@
         %tr
           %td{ style: 'padding-left: 10px;' }
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 110px;', value: @client.gov_commune }
+            %input{ style: 'width: 110px;', value: @government_form.assessment_commune }
           %td{ style: 'padding-left: 10px;' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 120px;', value: @client.gov_district }
+            %input{ style: 'width: 120px;', value: @government_form.assessment_district_name }
           %td{ style: 'padding-left: 10px;' }
             ខេត្ត/រាជធានី:
-            %input{ style: 'width: 199px;', value: @client.gov_city }
+            %input{ style: 'width: 199px;', value: @government_form.assessment_province_name }
         %tr{ style: 'border-top: 1px dotted black;' }
           %td{ colspan: '2', style: 'padding-left: 10px;' }
             ឈ្មោះអ្នកកាន់ករណី:
@@ -207,27 +207,27 @@
         %tr
           %td
             ផ្ទះលេខ:
-            %input{ style: 'width: 48px;', value: @client.gov_carer_home }
+            %input{ style: 'width: 48px;', value: @government_form.primary_carer_house }
           %td
             ផ្លូវលេខ:
-            %input{ style: 'width: 43px;', value: @client.gov_carer_street }
+            %input{ style: 'width: 43px;', value: @government_form.primary_carer_street }
           %td{ colspan: '1' }
             ភូមិ:
-            %input{ style: 'width: 128px;', value: @client.gov_carer_village }
+            %input{ style: 'width: 128px;', value: @government_form.primary_carer_village }
           %td
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 222px;', value: @client.gov_carer_commune }
+            %input{ style: 'width: 222px;', value: @government_form.primary_carer_commune }
         %tr
           %td{ colspan: '3' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 275px; margin-left: 2px;', value: @client.gov_carer_district }
+            %input{ style: 'width: 275px; margin-left: 2px;', value: @government_form.primary_carer_district_name }
           %td{ colspan: '2' }
             ខេត្ត/រាជធានី:
-            %input{ style: 'width: 209px; margin-left: 2px;', value: @client.gov_carer_city }
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @government_form.primary_carer_province_name }
         %tr
           %td{ colspan: '5' }
             លេខទូរស័ព្ទ:
-            %input{ style: 'width: 590px; margin-left: 3px;', value: @client.gov_carer_phone }
+            %input{ style: 'width: 590px; margin-left: 3px;', value: @client.telephone_number }
 
   .panel-body.panel-border.no-margin-bottom
     .row
@@ -284,8 +284,8 @@
               = render 'government_forms/pdf/image_unchecked_box'
               = assumption
 
-    %div{ style: 'padding-left: 11px; line-height: 2; border-bottom: 1px solid black;'}
-      %p{ style: 'text-decoration: underline; text-underline-position: under; -webkit-text-underline-position: under; -ms-text-underline-position: below;' }
+    %div{ style: 'line-height: 2;'}
+      %p{ style: 'padding: 0 11px; border-bottom: 1px solid #000;' }
         = @government_form.assumption_description
     %br/
     .row
