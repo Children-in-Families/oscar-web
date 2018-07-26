@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :family_plan do
-    name "MyString"
+    name { FFaker::Name.name }
   end
 end

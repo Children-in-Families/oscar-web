@@ -109,7 +109,7 @@ class GovernmentFormsController < AdminController
       interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
-      government_form_children_plans_attributes: [:id, :goal, :action, :who, :when, :score, :comment, :children_plan_id],
+      government_form_children_plans_attributes: [:id, :goal, :action, :who, :completion_date, :score, :comment, :children_plan_id],
       government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id]
     )
   end

@@ -7,10 +7,6 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:birth_province) }
   it { is_expected.to belong_to(:donor) }
 
-  # Client ask to hide #147254199
-  # it { is_expected.to have_one(:government_report).dependent(:destroy) }
-  # it { is_expected.to have_many(:surveys).dependent(:destroy) }
-
   it { is_expected.to have_many(:cases).dependent(:destroy) }
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:case_notes).dependent(:destroy) }
@@ -26,6 +22,7 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:exit_ngos).dependent(:destroy) }
   it { is_expected.to have_many(:enter_ngos).dependent(:destroy) }
   it { is_expected.to have_many(:referrals).dependent(:destroy) }
+  it { is_expected.to have_many(:government_forms).dependent(:destroy) }
 end
 
 describe Client, 'callbacks' do
@@ -85,8 +82,8 @@ end
 describe Client, 'methods' do
   let!(:setting){ create(:setting, :monthly_assessment) }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:family){ create(:family) }
   let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
+  let!(:family){ create(:family) }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
@@ -100,6 +97,14 @@ describe Client, 'methods' do
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
   let!(:exited_client){ create(:client, :exited) }
+
+  context '#family' do
+    let!(:client_1){ create(:client, :accepted) }
+    let!(:family_1){ create(:family, children: [client_1.id]) }
+    it 'returns only a family of the client' do
+      expect(client_1.family).to eq(family_1)
+    end
+  end
 
   context '#most_recent_csi_assessment' do
     it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }

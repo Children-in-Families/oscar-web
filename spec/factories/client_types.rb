@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :service_type do
+  factory :client_type do
     name { FFaker::Name.name }
   end
 end

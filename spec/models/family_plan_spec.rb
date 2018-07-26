@@ -1,5 +1,9 @@
-require 'rails_helper'
+describe FamilyPlan, 'association' do
+  it { is_expected.to have_many(:government_form_family_plans).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:government_forms).through(:government_form_family_plans) }
+end
 
-RSpec.describe FamilyPlan, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe FamilyPlan, 'validations' do
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180718081031) do
+ActiveRecord::Schema.define(version: 20180726095407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -666,7 +666,7 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "goal",               default: ""
     t.string   "action",             default: ""
     t.string   "who",                default: ""
-    t.string   "when",               default: ""
+    t.string   "completion_date",    default: ""
     t.integer  "government_form_id"
     t.integer  "children_plan_id"
     t.datetime "created_at",                      null: false
@@ -782,6 +782,9 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "new_carer_gender",           default: ""
     t.date     "new_carer_date_of_birth"
     t.string   "new_carer_relationship",     default: ""
+    t.integer  "assessment_province_id"
+    t.integer  "assessment_district_id"
+    t.string   "assessment_commune",         default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1487,7 +1490,6 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "pin_code",                       default: ""
     t.boolean  "domain_warning",                 default: false
     t.boolean  "referral_notification",          default: false
-    t.string   "gender",                         default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

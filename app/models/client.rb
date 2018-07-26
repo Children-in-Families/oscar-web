@@ -385,7 +385,7 @@ class Client < ActiveRecord::Base
   end
 
   def family
-    families.last
+    Family.where('children && ARRAY[?]', id).last
   end
 
   private

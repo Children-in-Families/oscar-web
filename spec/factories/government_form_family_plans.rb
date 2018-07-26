@@ -3,7 +3,8 @@ FactoryGirl.define do
     goal "MyString"
     action "MyString"
     result "MyString"
-    government_form nil
-    family_plan nil
+
+    association :government_form, factory: :government_form
+    association :family_plan, factory: :family_plan
   end
 end
