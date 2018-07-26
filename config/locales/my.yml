@@ -1846,8 +1846,8 @@ my:
         female_adult_count: အရြယ္ေရာက္အမ်ိဳးသမီးအေရအတြက္
         female_children_count: အရြယ္မေရာက္ေသးေသာ ကေလးငယ္ အေရအတြက္
         form_title: ေခါင္းစဥ္မွ
-        household_income: အိမ္ေထာင္စု ၀င္ေငြ
         house: အိမ္နံပါတ္
+        household_income: အိမ္ေထာင္စု ၀င္ေငြ
         id: မွတ္ပံုတင္
         male: အမ်ိဳးသား
         male_adult_count: အရြယ္ေရာက္အမ်ိဳးသားအေရအတြက္
@@ -2646,8 +2646,8 @@ my:
       family_type: မိသားစု အမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
-      household_income: အိမ္ေထာင္စု ၀င္ေငြ
       house: အိမ္နံပါတ္
+      household_income: အိမ္ေထာင္စု ၀င္ေငြ
       id: မွတ္ပံုတင္
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
       male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလးအေရအတြက္
@@ -2687,8 +2687,8 @@ my:
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
       general_info: မိသားစုအေၾကာင္း
-      household_income: အိမ္ေထာင္စု၀င္ေငြ
       house: အိမ္နံပါတ္
+      household_income: အိမ္ေထာင္စု၀င္ေငြ
       id: မွတ္ပံုတင္
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
       male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလးအေရအတြက္
