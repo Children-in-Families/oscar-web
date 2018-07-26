@@ -11,5 +11,9 @@ class AddFieldsToGovernmentForm < ActiveRecord::Migration
     add_column :government_forms, :primary_carer, :string, default: ''
     add_column :government_forms, :secondary_carer, :string, default: ''
     add_column :government_forms, :carer_contact_info, :string, default: ''
+    add_column :government_forms, :new_carer, :string, default: ''
+    add_column :government_forms, :new_carer_gender, :string, default: ''
+    add_column :government_forms, :new_carer_date_of_birth, :date
+    add_column :government_forms, :new_carer_relationship, :string, default: ''
   end
 end

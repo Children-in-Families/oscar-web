@@ -778,6 +778,10 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "primary_carer",              default: ""
     t.string   "secondary_carer",            default: ""
     t.string   "carer_contact_info",         default: ""
+    t.string   "new_carer",                  default: ""
+    t.string   "new_carer_gender",           default: ""
+    t.date     "new_carer_date_of_birth"
+    t.string   "new_carer_relationship",     default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1483,6 +1487,7 @@ ActiveRecord::Schema.define(version: 20180718081031) do
     t.string   "pin_code",                       default: ""
     t.boolean  "domain_warning",                 default: false
     t.boolean  "referral_notification",          default: false
+    t.string   "gender",                         default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
