@@ -260,4 +260,14 @@ module ApplicationHelper
     return 'OSCaR Team' if user_id.present? && user_id.include?('@rotati')
     User.find_by(id: user_id).try(:name) || ''
   end
+
+  def khmer_dob_to_age(date)
+    return unless date.present?
+    ((Date.today - date) / 365).to_i
+  end
+
+  def khmer_gender(gender)
+    return unless gender.present?
+    gender.in?(['male', 'Male']) ? 'ប្រុស' : 'ស្រី'
+  end
 end
