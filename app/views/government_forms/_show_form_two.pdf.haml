@@ -38,7 +38,9 @@
                 %span.first= code
               - else
                 %span= code
+        %tr{ style: 'padding-top: 10px;'}
           %td
+            %br
             លេខកូដកុមារ:
             - gov_client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
             - gov_client_code.split('').each_with_index do |code, index|
@@ -46,20 +48,21 @@
                 %span.first= code
               - else
                 %span= code
+
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'padding: 0px;' }
-    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px; margin-bottom: 10px' }
       %tbody
         %u{ style: 'font-size: 14px; font-weight: bold; padding-left: 5px;' }
           ទីកន្លែងប៉ាន់ប្រមាណ៖
         %tr
           %td{ style: 'padding-left: 10px;' }
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 110px;', value: @government_form.assessment_commune }
-          %td{ style: 'padding-left: 10px;' }
+            %input{ style: 'width: 100px;', value: @government_form.assessment_commune }
+          %td{ style: 'padding-left: 5px;' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 120px;', value: @government_form.assessment_district_name }
-          %td{ style: 'padding-left: 10px;' }
+            %input{ style: 'width: 160px;', value: @government_form.assessment_district_name }
+          %td{ style: 'padding-left: 10x;' }
             ខេត្ត/រាជធានី:
             %input{ style: 'width: 199px;', value: @government_form.assessment_province_name }
         %tr{ style: 'border-top: 1px dotted black;' }
@@ -69,7 +72,6 @@
           %td{ style: 'padding-left: 10px;' }
             លេខទូរសព្ទ:
             %input{ style: 'width: 200px; margin-left: 2px;', value:  @user.try(:mobile) }
-
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #4a80ce; padding: 5px; color: #ffffff; border-bottom: 0px solid black;' }
     %h5{ style: 'margin: 0;' }
@@ -174,29 +176,30 @@
             - @client.family.family_members.each do |member|
               %tr{ style: 'page-break-inside: avoid;'  }
                 %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 36px;' }
+                  .comment{ style: 'min-height: 42px;' }
                     %p= member.adult_name
                 %td{ style: 'border:1px solid black; text-align: center;' }
-                  .comment{ style: 'min-height: 36px;' }
+                  .comment{ style: 'min-height: 42px;' }
                     %p= member.date_of_birth
                 %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 36px;' }
+                  .comment{ style: 'min-height: 42px;' }
                     %p= member.occupation
                 %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 36px;' }
+                  .comment{ style: 'min-height: 42px;' }
                     %p= member.relation
             - member_count = @client.family.family_members.count
             - if member_count < 7
               - (1..(7 - member_count)).each do |_|
-                %tr
+                %tr{ style: 'page-break-inside: avoid;'  }
                   %td{ style: 'border:1px solid black;' }
-                    .comment{ style: 'min-height: 36px;' }
+                    .comment{ style: 'min-height: 42px;' }
                   %td{ style: 'border:1px solid black;' }
-                    .comment{ style: 'min-height: 36px;' }
+                    .comment{ style: 'min-height: 42px;' }
                   %td{ style: 'border:1px solid black;' }
-                    .comment{ style: 'min-height: 36px;' }
+                    .comment{ style: 'min-height: 42px;' }
                   %td{ style: 'border:1px solid black;' }
-                    .comment{ style: 'min-height: 36px;' }
+                    .comment{ style: 'min-height: 42px;' }
+
 .panel.panel-borderless.panel-no-margin{ style: 'clear: both;' }
   .panel-heading.panel-border{ style: 'background: #d3d3d3; padding: 0px; color: #000; border-bottom: 0px solid black;' }
     %h5{ style: 'color: #072459; margin: 0 auto; padding: 5px; border-top: 1px solid black; border-bottom: 0px solid black' }
@@ -257,10 +260,13 @@
               %tr{ style: 'page-break-inside: avoid;' }
                 %td{ style: 'border:1px solid black;' }
                   = status.family_status_name == 'ផ្សេងៗ' ? "#{status.family_status_name}......................................": status.family_status_name
+                  .comment{ style: 'min-height: 10px;' }
                 %td{ style: 'border:1px solid black; text-align: center;' }
                   = status.score
+                  .comment{ style: 'min-height: 10px;' }
                 %td{ style: 'border:1px solid black; word-wrap: break-word;' }
                   = status.comment
+                  .comment{ style: 'min-height: 10px;' }
 
 .panel.panel-borderless.panel-no-margin
   .panel-heading.panel-border{ style: 'background: #d3d3d3; padding: 0px; color: #000; border-bottom: 0px solid black;' }
@@ -284,8 +290,8 @@
               = render 'government_forms/pdf/image_unchecked_box'
               = assumption
 
-    %div{ style: 'line-height: 2;'}
-      %p{ style: 'padding: 0 11px; border-bottom: 1px solid #000;' }
+    %div{ style: 'line-height: 2; min-height: 100px; border-bottom: 1px solid #000;' }
+      %p{ style: 'padding: 0 11px;' }
         = @government_form.assumption_description
     %br/
     .row
