@@ -1938,6 +1938,7 @@ km:
         department: កម្មវិធី
         email: ឣុីម៉ែល
         first_name: នាមខ្លួនជាអក្សរឡាតាំង
+        gender: ភេទ
         id: លេខសំគាល់
         job_title: មុខតំណែង
         last_name: នាមត្រកូល
@@ -4430,6 +4431,7 @@ km:
       department: កម្មវិធី
       email: ឣុីម៉ែល
       first_name: នាមខ្លួនជាអក្សរឡាតាំង
+      gender: ភេទ
       id: លេខសំគាល់
       job_title: មុខតំណែង
       last_name: នាមត្រកូល
@@ -4499,6 +4501,7 @@ km:
       department: កម្មវិធី
       email: ឣុីម៉ែល
       first_name: នាមខ្លួនជាអក្សរឡាតាំង
+      gender: ភេទ
       general_info: អំពីអ្នកប្រើប្រាស់
       id: លេខសំគាល់
       job_title: មុខតំណែង
