@@ -110,7 +110,8 @@ module ClientsHelper
       accepted_date:                 t('datagrid.columns.clients.ngo_accepted_date'),
       telephone_number:              t('datagrid.columns.clients.telephone_number'),
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
-      created_at:                    t('datagrid.columns.clients.created_at')
+      created_at:                    t('datagrid.columns.clients.created_at'),
+      created_by:                    t('datagrid.columns.clients.created_by')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -344,7 +345,9 @@ module ClientsHelper
       suburb_: t('datagrid.columns.clients.suburb'),
       directions_: t('datagrid.columns.clients.directions'),
       description_house_landmark_: t('datagrid.columns.clients.description_house_landmark'),
-      created_at_: t('datagrid.columns.clients.created_at')
+      created_at_: t('datagrid.columns.clients.created_at'),
+      created_by_: t('datagrid.columns.clients.created_by')
+
     }
     Domain.order_by_identity.each do |domain|
       identity = domain.identity

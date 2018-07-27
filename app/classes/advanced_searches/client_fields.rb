@@ -36,6 +36,7 @@ module AdvancedSearches
 
     def drop_down_type_list
       [
+        ['created_by', user_select_options ],
         ['gender', { female: 'Female', male: 'Male' }],
         ['status', client_status],
         ['agency_name', agencies_options],
@@ -130,7 +131,7 @@ module AdvancedSearches
     end
 
     def user_select_options
-      User.has_clients.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+      User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
     end
 
     def donor_options

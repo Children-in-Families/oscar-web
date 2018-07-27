@@ -36,6 +36,7 @@ module AdvancedSearches
 
     def drop_down_type_list
       [
+        ['created_by', user_select_options ],
         ['gender', { female: 'Female', male: 'Male' }],
         ['status', client_status],
         ['agency_name', agencies_options],

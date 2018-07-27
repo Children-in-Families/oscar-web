@@ -1,6 +1,6 @@
 module AdvancedSearches
   class ClientBaseSqlBuilder
-    ASSOCIATION_FIELDS = ['user_id', 'agency_name', 'form_title', 'age', 'family', 'family_id',
+    ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'form_title', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'case_note_type',
                           'date_of_assessments', 'accepted_date',
                           'exit_date', 'exit_note', 'other_info_of_exit',
@@ -117,29 +117,54 @@ module AdvancedSearches
         end
 
       when 'not_equal'
-        if SENSITIVITY_FIELDS.include?(field)
-          @sql_string << "lower(clients.#{field}) != ?"
-          @values << value.downcase
-        else
-          @sql_string << "clients.#{field} != ?"
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) != ?"
           @values << value
+        else
+          if SENSITIVITY_FIELDS.include?(field)
+            @sql_string << "lower(clients.#{field}) != ?"
+            @values << value.downcase
+          else
+            @sql_string << "clients.#{field} != ?"
+            @values << value
+          end
         end
 
       when 'less'
-        @sql_string << "clients.#{field} < ?"
-        @values << value
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) < ?"
+          @values << value
+        else
+          @sql_string << "clients.#{field} < ?"
+          @values << value
+        end
 
       when 'less_or_equal'
-        @sql_string << "clients.#{field} <= ?"
-        @values << value
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) <= ?"
+          @values << value
+        else
+          @sql_string << "clients.#{field} <= ?"
+          @values << value
+        end
 
       when 'greater'
-        @sql_string << "clients.#{field} > ?"
-        @values << value
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) > ?"
+          @values << value
+        else
+          @sql_string << "clients.#{field} > ?"
+          @values << value
+        end
 
       when 'greater_or_equal'
-        @sql_string << "clients.#{field} >= ?"
-        @values << value
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) >= ?"
+          @values << value
+        else
+          @sql_string << "clients.#{field} >= ?"
+          @values << value
+        end
 
       when 'contains'
         @sql_string << "clients.#{field} ILIKE ?"
@@ -150,27 +175,41 @@ module AdvancedSearches
         @values << "%#{value}%"
 
       when 'is_empty'
-        if BLANK_FIELDS.include? field
-          @sql_string << "clients.#{field} IS NULL"
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) IS NULL"
         else
-          @sql_string << "(clients.#{field} IS NULL OR clients.#{field} = '')"
+          if BLANK_FIELDS.include? field
+            @sql_string << "clients.#{field} IS NULL"
+          else
+            @sql_string << "(clients.#{field} IS NULL OR clients.#{field} = '')"
+          end
         end
 
       when 'is_not_empty'
-        if BLANK_FIELDS.include? field
-          @sql_string << "clients.#{field} IS NOT NULL"
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) IS NOT NULL"
         else
-          @sql_string << "(clients.#{field} IS NOT NULL AND clients.#{field} != '')"
+          if BLANK_FIELDS.include? field
+            @sql_string << "clients.#{field} IS NOT NULL"
+          else
+            @sql_string << "(clients.#{field} IS NOT NULL AND clients.#{field} != '')"
+          end
         end
 
       when 'between'
-        if field == 'school_grade'
-          @sql_string << "clients.#{field} in (?)"
-          @values << [value.first, value.last]
-        else
-          @sql_string << "clients.#{field} BETWEEN ? AND ?"
+        if field == 'created_at'
+          @sql_string << "date(clients.#{field}) BETWEEN ? AND ?"
           @values << value.first
           @values << value.last
+        else
+          if field == 'school_grade'
+            @sql_string << "clients.#{field} in (?)"
+            @values << [value.first, value.last]
+          else
+            @sql_string << "clients.#{field} BETWEEN ? AND ?"
+            @values << value.first
+            @values << value.last
+          end
         end
       end
     end

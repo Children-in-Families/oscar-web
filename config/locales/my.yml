@@ -1724,6 +1724,7 @@ my:
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
         completed: ၿပီးစီးၿပီျဖစ္ေသာ
         created_at: ရက္စြဲကို ဖန္တီးရန္
+        created_by: တည်ထောင်ထားတဲ့
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ

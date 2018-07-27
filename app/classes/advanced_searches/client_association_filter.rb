@@ -44,11 +44,42 @@ module AdvancedSearches
         values = exit_ngo_exit_circumstance_query
       when 'exit_reasons'
         values = exit_ngo_exit_reasons_query
+      when 'created_by'
+        values = created_by_user_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def created_by_user_query
+      user    = ''
+      clients = @clients.joins(:versions)
+      user    = User.find(@value) if @value.present?
+      client_ids = []
+      case @operator
+      when 'equal'
+        if user.name == "OSCaR Team"
+          ids = clients.where("versions.event = ?", 'create').distinct.ids
+          client_ids << clients.where.not(id: ids).distinct.ids
+          client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit = ?)", 'create', @value, 'create', 'deployer@rotati').distinct.ids
+          client_ids.flatten.uniq
+        else
+          clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
+        end
+      when 'not_equal'
+        if user.name == "OSCaR Team"
+          client_ids << clients.where("versions.event = ? AND versions.whodunnit != ? AND versions.event = ? AND versions.whodunnit != ?", 'create', @value, 'create', 'deployer@rotati').uniq.ids
+          client_ids.flatten.uniq
+        else
+          clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids
+        end
+      when 'is_empty'
+        clients.where("versions.whodunnit IS NULL").ids
+      when 'is_not_empty'
+        clients.where("versions.whodunnit IS NOT NULL").ids
+      end
+    end
 
     def exit_ngo_exit_reasons_query
       exit_ngos = ExitNgo.all

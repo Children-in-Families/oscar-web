@@ -1716,6 +1716,7 @@ en:
         commune: Commune/Sangkat
         completed: Completed
         created_at: Created Date
+        created_by: Created By
         current_address: Current Address
         current_province: Current Province
         date_of_assessments: Date of Assessments

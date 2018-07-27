@@ -148,7 +148,7 @@ class ClientGrid
 
   filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') }) { |value, scope| scope.info_like(value) }
 
-  # filter(:user_id, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') })
+  filter(:created_by, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.created_by') })
 
   filter(:user_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |ids, scope|
     ids = ids.map{ |id| id.to_i }
@@ -158,6 +158,10 @@ class ClientGrid
     else
       scope.joins(:users).where(users: { id: nil })
     end
+  end
+
+  def user_select_options
+    User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
   end
 
   def case_worker_options
@@ -499,6 +503,16 @@ class ClientGrid
 
   column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
     object.created_at.strftime('%F')
+  end
+
+  column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
+    version = object.versions.find_by(event: 'create')
+    if version.present?
+      id = version.whodunnit
+      id == 'deployer@rotati' ? 'OSCaR Team' : User.find_by(id: id.to_i).try(:name)
+    else
+      'OSCaR Team'
+    end
   end
 
   dynamic do

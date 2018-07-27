@@ -106,7 +106,8 @@ module AdvancedSearchHelper
       main_school_contact: I18n.t('advanced_search.fields.main_school_contact'),
       what3words: I18n.t('advanced_search.fields.what3words'),
       kid_id: I18n.t('advanced_search.fields.kid_id'),
-      created_at: I18n.t('advanced_search.fields.created_at')
+      created_at: I18n.t('advanced_search.fields.created_at'),
+      created_by: 'Created by'
     }
     translations[key.to_sym] || ''
   end
