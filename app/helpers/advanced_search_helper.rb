@@ -107,7 +107,9 @@ module AdvancedSearchHelper
       what3words: I18n.t('advanced_search.fields.what3words'),
       kid_id: I18n.t('advanced_search.fields.kid_id'),
       created_at: I18n.t('advanced_search.fields.created_at'),
-      created_by: 'Created by'
+      created_by: I18n.t('advanced_search.fields.created_by'),
+      referred_to: I18n.t('advanced_search.fields.referred_to'),
+      referred_from: I18n.t('advanced_search.fields.referred_from')
     }
     translations[key.to_sym] || ''
   end

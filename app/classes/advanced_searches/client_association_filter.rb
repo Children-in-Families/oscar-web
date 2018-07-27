@@ -46,11 +46,45 @@ module AdvancedSearches
         values = exit_ngo_exit_reasons_query
       when 'created_by'
         values = created_by_user_query
+      when 'referred_to'
+        values = referred_to_query
+      when 'referred_from'
+        values = referred_from_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def referred_to_query
+      value = Referral.find_by(referred_to: @value).id
+      clients = @clients.joins(:referrals)
+      case @operator
+      when 'equal'
+        clients.where('referrals.id = ?', value ).ids
+      when 'not_equal'
+        clients.where.not('referrals.id = ?', value ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def referred_from_query
+      value = Referral.find_by(referred_from: @value).id
+      clients = @clients.joins(:referrals)
+      case @operator
+      when 'equal'
+        clients.where('referrals.id = ?', value ).ids
+      when 'not_equal'
+        clients.where.not('referrals.id = ?', value ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
 
     def created_by_user_query
       user    = ''

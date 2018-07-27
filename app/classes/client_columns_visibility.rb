@@ -81,7 +81,9 @@ class ClientColumnsVisibility
       changelog_: :changelog,
       telephone_number_: :telephone_number,
       created_at_: :created_at,
-      created_by_: :created_by
+      created_by_: :created_by,
+      referred_to_: :referred_to,
+      referred_from_: :referred_from
     }
   end
 

@@ -54,7 +54,9 @@ module AdvancedSearches
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
         ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3'}],
-        *setting_country_fields[:drop_down_fields]
+        *setting_country_fields[:drop_down_fields],
+        ['referred_to', referral_options],
+        ['referred_from', referral_options]
       ]
     end
 
@@ -136,6 +138,10 @@ module AdvancedSearches
 
     def donor_options
       Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
+    end
+
+    def referral_options
+      Organization.oscar.map { |org| { org.short_name => org.full_name } }
     end
 
     def setting_country_fields

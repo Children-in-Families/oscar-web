@@ -326,6 +326,7 @@ km:
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
       created_at: កាលបរិច្ឆេទ
+      created_by: បង្កើត​ឡើង​ដោយ
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
@@ -387,6 +388,8 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
+      referred_from: ទទួលចូលអង្គការ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       referred_to_ec: បញ្ជួនទៅករណី EC
       referred_to_fc: បញ្ជួនទៅករណី FC
       referred_to_kc: បញ្ជួនទៅករណី KC
@@ -1796,6 +1799,8 @@ km:
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
+        referred_from: ប្រភពនៃការបញ្ជូន
+        referred_to: បញ្ជូនទៅអង្គការដទៃ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
@@ -3881,7 +3886,7 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
-      referred_to: បញ្ជូនទៅកាន់
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
       save_and_download: រក្សាទុក & ទាញយក
     index:

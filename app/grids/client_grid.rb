@@ -91,6 +91,14 @@ class ClientGrid
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
+  filter(:referred_to, :enum, select: :referral_options, header: -> { I18n.t('datagrid.columns.clients.referred_to') } )
+
+  filter(:referred_from, :enum, select: :referral_options, header: -> { I18n.t('datagrid.columns.clients.referred_from') } )
+
+  def referral_options
+    Organization.oscar.map { |org| { org.short_name => org.full_name } }
+  end
+
   def is_received_by_options
     current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).is_received_by : Client.is_received_by
   end
@@ -483,6 +491,16 @@ class ClientGrid
 
   column(:followed_up_by, html: false, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
     object.followed_up_by.try(:name)
+  end
+
+  column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
+    short_names = object.referrals.pluck(:referred_to)
+    Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name).join(', ')
+  end
+
+  column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
+    short_names = object.referrals.pluck(:referred_from)
+    Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name).join(', ')
   end
 
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|

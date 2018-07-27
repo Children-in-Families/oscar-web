@@ -111,7 +111,9 @@ module ClientsHelper
       telephone_number:              t('datagrid.columns.clients.telephone_number'),
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
       created_at:                    t('datagrid.columns.clients.created_at'),
-      created_by:                    t('datagrid.columns.clients.created_by')
+      created_by:                    t('datagrid.columns.clients.created_by'),
+      referred_to:                    t('datagrid.columns.clients.referred_to'),
+      referred_from:                    t('datagrid.columns.clients.referred_from')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -346,9 +348,11 @@ module ClientsHelper
       directions_: t('datagrid.columns.clients.directions'),
       description_house_landmark_: t('datagrid.columns.clients.description_house_landmark'),
       created_at_: t('datagrid.columns.clients.created_at'),
-      created_by_: t('datagrid.columns.clients.created_by')
-
+      created_by_: t('datagrid.columns.clients.created_by'),
+      referred_to_: t('datagrid.columns.clients.referred_to'),
+      referred_from_: t('datagrid.columns.clients.referred_from')
     }
+
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
       field = domain.convert_identity

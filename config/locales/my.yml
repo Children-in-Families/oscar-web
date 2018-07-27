@@ -324,6 +324,7 @@ my:
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
       created_at: ရက္စြဲကို ဖန္တီးရန္
+      created_by: တည်ထောင်ထားတဲ့
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
       current_address: လက္ရွိေနရပ္လိပ္စာ
       current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
@@ -385,6 +386,8 @@ my:
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲေျပာင္းရမည့္သူ
       referral_source_id: လႊဲေျပာင္းရမည့္သူ
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ကနေရည်ညွှန်း
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
@@ -1803,6 +1806,8 @@ my:
         received_by: မွ လက္ခံသည္
         referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
         referral_source: လႊဲရမည့္ ရင္းျမစ္
+        referred_from: ကနေရည်ညွှန်း
+        referred_to: ရည်ညွှန်း
         reject_note: ျငင္းပယ္သည့္ မွတ္စု
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
         relevant_referral_information: သက္ဆုိင္သည့္ လႊဲေျပာင္းမႈ အခ်က္အလက္

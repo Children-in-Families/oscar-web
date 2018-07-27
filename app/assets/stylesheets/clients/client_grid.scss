@@ -35,7 +35,7 @@ body[id='client_advanced_searches-index'] {
     th,
     td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date,
-    td.cases, td.accepted_date, td.exit_date, td.created_at, td.created_by {
+    td.cases, td.accepted_date, td.exit_date, td.created_at, td.created_by, td.referred_to, td.referred_from {
       text-align: center;
     }
 
@@ -55,7 +55,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 200px;
     }
 
-    th.created_at, th.created_by {
+    th.created_at, th.created_by, th.referred_to, th.referred_from {
       min-width: 150px;
     }
 
