@@ -2793,6 +2793,23 @@ my:
         edit: ျပင္ဆင္ရန္
       update:
         successfully_updated: အေကာက္ခြန္ပံုစံကုိ ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  government_forms:
+    create:
+      successfully_created: ပုံသဏ္ဌာန်ကိုအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ
+    destroy:
+      successfully_deleted: ပုံသဏ္ဌာန်အောင်မြင်စွာဖျက်ထားသည်
+    edit:
+      edit_report: ပြင်ဆင်ရန်ပုံစံ
+    index:
+      action: အရေးယူ
+      add_form: အသစ်သောပုံစံထည့်သွင်း
+      back: ပြန်.
+      created_at: ရက်စွဲကိုဖန်တီး
+      created_by: တို့ကဖန်တီး
+    new:
+      new_form: အသစ်သောပုံစံ
+    update:
+      successfully_updated: ပုံသဏ္ဌာန်အောင်မြင်စွာအပ်ဒိတ်လုပ်ထားပြီး
   government_reports:
     create:
       successfully_created: အစိုးရအစီရင္ခံစာကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ

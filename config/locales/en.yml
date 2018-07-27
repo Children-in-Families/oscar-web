@@ -2794,7 +2794,8 @@ en:
       action: Action
       add_form: Add New Form
       back: Back
-      date: Date
+      created_at: Created Date
+      created_by: Created By
     new:
       new_form: New Form
     update:

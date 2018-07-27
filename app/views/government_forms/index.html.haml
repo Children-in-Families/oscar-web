@@ -12,15 +12,13 @@
         %table.table.table-bordered
           %thead
             %tr
-              %th= 'ID'
               %th= t('.created_by')
-              %th= t('.at')
+              %th= t('.created_at')
               %th.text-center= t('.action')
           %tbody
             - @government_forms.each do |form|
               %tr
-                %td= form.id
-                %td= whodunnit('GovernmentForm', form)
+                %td= whodunnit('GovernmentForm', form.id)
                 %td= date_format(form.created_at)
                 %td.action.text-center
                   -# = link_to client_government_form_path(form.client, form, format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do

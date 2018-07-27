@@ -1,22 +1,5 @@
-%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
-%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
-.text-center
-  = wicked_pdf_image_tag 'logo.png', width: 120
-.row{style: 'margin-top: 10px; margin-left: 5px;'}
-  .col-xs-3
-    %label រាជធានី/ខេត្ត:
-  .col-xs-9
-    %input{ style: 'width: 70%', value: @government_form.province_name }
-.row{style: 'margin-left: 5px;'}
-  .col-xs-3
-    %label ក្រុង/ស្រុក/ខណ្ឌ:
-  .col-xs-9
-    %input{ style: 'width: 70%', value: @government_form.district_name }
-.row{style: 'margin-left: 5px;'}
-  .col-xs-3
-    %label ឃុំ/សង្កាត់:
-  .col-xs-9
-    %input{ style: 'width: 70%', value: @government_form.commune_name }
+= render 'head_section'
+
 .panel.panel-default.panel-no-margin#first-form
   %label.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៌មានបឋម
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}

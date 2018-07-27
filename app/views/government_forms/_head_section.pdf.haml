@@ -1,3 +1,13 @@
+:css
+  body { color: #001e55; }
+
+%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'header-liner.png', width: 100, style: 'margin-bottom: 5px;'
+.text-center
+  = wicked_pdf_image_tag 'logo.png', width: 120
+
 .panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
   .panel-body.panel-border{style: 'border-top: 1px solid black'}
     %table.table.no-margin-bottom.table-borderless
@@ -6,10 +16,11 @@
           %td{style: 'width: 70px;'}
             អង្គភាពប្រតិបត្តិ:
           %td
-            %input{style: 'width: 100%;', value: ''}
+            %input{style: 'width: 100%;', value: '' }
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr
+          -# organization name
           %td អាស័យដ្ឋានអង្គភាពប្រតិបត្តិ:
     %table.table.no-margin-bottom.table-borderless
       %tbody

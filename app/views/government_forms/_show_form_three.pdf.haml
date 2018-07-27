@@ -1,9 +1,5 @@
-%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
-%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
-.text-center
-  = wicked_pdf_image_tag 'logo.png', width: 120
-
 = render 'head_section'
+
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-no-padding.panel-borderless
     .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ
@@ -36,14 +32,14 @@
           %td
             %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
             ស្រី
-    - family = Family.where("#{@client.id} = ANY (children)").first
+
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
       %tbody
         %tr
           %td
             ឈ្មោះឪពុកម្តាយឬអ្នកអាណាព្យាបាល:
           %td{style: 'width: 200px;'}
-            %input{style: 'width: 100%;', value: "#{family.name}"}
+            %input{style: 'width: 100%;', value: @client.family.try(:name) }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
@@ -62,20 +58,20 @@
           %td.text-right
             ភូមិ:
           %td
-            %input{style: 'width: 100%;', value: ''}
+            %input{style: 'width: 100%;', value: @client.family.try(:village) }
           %td{style: 'width: 50px;'}
             ឃុំ/សង្កាត់:
           %td
-            %input{style: 'width: 100%', value: '' }
+            %input{style: 'width: 100%', value: @client.family.try(:commune) }
         %tr
           %td.text-right{:colspan => "2"}
             %label ក្រុង/ស្រុក/ខណ្ឌ:
           %td
-            %input{style: 'width: 100%', value: '' }
+            %input{style: 'width: 100%', value: @client.family.try(:district_name) }
           %td
             %label ខេត្ត/រាជធានី:
           %td
-            %input{style: 'width: 100%', value: '' }
+            %input{style: 'width: 100%', value: @client.family.try(:province_name) }
         %tr
           %td.text-right{:colspan => "2"}
             %label ឈ្មោះអ្នកកាន់ករណី:
@@ -84,6 +80,7 @@
           %td
             %label អង្គភាព:
           %td
+            -# organization name
             %input{style: 'width: 100%', value: '' }
 
 .panel.panel-borderless

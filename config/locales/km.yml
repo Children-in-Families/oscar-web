@@ -2784,6 +2784,23 @@ km:
         edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
+  government_forms:
+    create:
+      successfully_created: ទម្រង់ត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ទម្រង់ត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      edit_report: កែសម្រួលទម្រង់
+    index:
+      action: សកម្មភាព
+      add_form: បន្ថែមទម្រង់ថ្មី
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទនៃការបង្កើត
+      created_by: បង្កើតឡើងដោយ
+    new:
+      new_form: ទម្រង់ថ្មី
+    update:
+      successfully_updated: ទម្រង់ត្រូវបានកែសម្រួលដោយជោគជ័យ
   government_reports:
     create:
       successfully_created: របាយការណ៍ត្រូវបានបង្កើតដោយជោគជ័យ។
