@@ -666,13 +666,13 @@ ActiveRecord::Schema.define(version: 20180726095407) do
     t.string   "goal",               default: ""
     t.string   "action",             default: ""
     t.string   "who",                default: ""
-    t.string   "completion_date",    default: ""
     t.integer  "government_form_id"
     t.integer  "children_plan_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "score"
     t.text     "comment",            default: ""
+    t.date     "completion_date"
   end
 
   add_index "government_form_children_plans", ["children_plan_id"], name: "index_government_form_children_plans_on_children_plan_id", using: :btree
