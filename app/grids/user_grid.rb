@@ -15,6 +15,10 @@ class UserGrid
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.users.id') })
 
+  filter(:gender, :enum, select: %w(Male Female),  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
+    scope.gender_like(value)
+  end
+
   filter(:mobile, :string,  header: -> { I18n.t('datagrid.columns.users.mobile') }) do |value, scope|
     scope.mobile_like(value)
   end
@@ -57,6 +61,10 @@ class UserGrid
   column(:last_name, header: -> { I18n.t('datagrid.columns.users.last_name') }, html: false)
 
   column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
+
+  column(:gender, header: -> { I18n.t('datagrid.columns.users.gender') }) do |object|
+    object.gender.try(:titleize)
+  end
 
   column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') })
 

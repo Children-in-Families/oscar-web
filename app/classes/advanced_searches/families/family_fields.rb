@@ -22,7 +22,7 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['code', 'name', 'caregiver_information', 'case_history', 'commune', 'village']
+        ['code', 'name', 'caregiver_information', 'case_history', 'commune', 'village', 'street', 'house']
       end
 
       def date_type_list

@@ -1838,6 +1838,7 @@ en:
         female_adult_count: Female Adult Count
         female_children_count: Female Children Count
         form_title: Form Title
+        house: House
         household_income: Monthly Household Income
         id: ID
         male: Male
@@ -1850,6 +1851,7 @@ en:
         province: Province
         significant_family_member_count: Significant Family Member Count
         status: Status
+        street: Street
         total: Total
         view: View
         village: Village
@@ -1937,6 +1939,7 @@ en:
         department: Department
         email: Email
         first_name: First Name
+        gender: Gender
         id: ID
         job_title: Job Title
         last_name: Last Name
@@ -2635,6 +2638,7 @@ en:
       family_type: Family Type
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
+      house: House
       household_income: Monthly Household Income
       id: ID
       male_adult_count: Male Adult Count
@@ -2646,6 +2650,7 @@ en:
       province: Province
       significant_family_member_count: Significant Family Member Count
       status: Status
+      street: Street
       village: Village
       'yes': 'Yes'
     index:
@@ -2673,6 +2678,7 @@ en:
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
       general_info: About Family
+      house: House
       household_income: Monthly Household Income
       id: ID
       male_adult_count: Male Adult Count
@@ -2687,6 +2693,7 @@ en:
       relation: Relationship with Children
       significant_family_member_count: Significant Family Member Count
       status: Status
+      street: Street
       'yes': 'Yes'
     update:
       not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
@@ -4448,6 +4455,7 @@ en:
       department: Department
       email: Email
       first_name: First Name
+      gender: Gender
       id: ID
       job_title: Job Title
       last_name: Last Name
@@ -4517,6 +4525,7 @@ en:
       department: Department
       email: Email
       first_name: First Name
+      gender: Gender
       general_info: About User
       id: ID
       job_title: Job Title

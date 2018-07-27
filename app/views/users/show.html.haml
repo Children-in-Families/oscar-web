@@ -85,6 +85,12 @@
                     = date_format(@user.date_of_birth)
               %tr
                 %td.spacing-first-col
+                  = t('.gender')
+                %td
+                  %strong
+                    = @user.gender.try(:titleize)
+              %tr
+                %td.spacing-first-col
                   = t('.start_date')
                 %td
                   %strong

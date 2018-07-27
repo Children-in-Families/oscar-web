@@ -618,6 +618,8 @@ ActiveRecord::Schema.define(version: 20180726095407) do
     t.integer  "district_id"
     t.string   "commune",                         default: ""
     t.string   "village",                         default: ""
+    t.string   "house",                           default: ""
+    t.string   "street",                          default: ""
   end
 
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
@@ -1490,6 +1492,7 @@ ActiveRecord::Schema.define(version: 20180726095407) do
     t.string   "pin_code",                       default: ""
     t.boolean  "domain_warning",                 default: false
     t.boolean  "referral_notification",          default: false
+    t.string   "gender",                         default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

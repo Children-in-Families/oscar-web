@@ -125,6 +125,8 @@ module AdvancedSearchHelper
       district_id:                              I18n.t('datagrid.columns.families.district'),
       commune:                                  I18n.t('datagrid.columns.families.commune'),
       village:                                  I18n.t('datagrid.columns.families.village'),
+      street:                                   I18n.t('datagrid.columns.families.street'),
+      house:                                    I18n.t('datagrid.columns.families.house'),
       client_id:                                I18n.t('datagrid.columns.families.client'),
       dependable_income:                        I18n.t('datagrid.columns.families.dependable_income'),
       male_adult_count:                         I18n.t('datagrid.columns.families.male_adult_count'),

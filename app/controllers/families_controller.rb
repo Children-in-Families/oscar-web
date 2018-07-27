@@ -90,7 +90,7 @@ class FamiliesController < AdminController
                             :dependable_income, :female_children_count,
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :status, :contract_date,
-                            :address, :province_id, :district_id, :commune, :village,
+                            :address, :province_id, :district_id, :commune, :village, :house, :street,
                             custom_field_ids: [],
                             children: [],
                             family_members_attributes: [:id, :adult_name, :date_of_birth, :occupation, :relation, :_destroy]
