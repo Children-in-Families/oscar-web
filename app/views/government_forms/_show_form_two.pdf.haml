@@ -87,34 +87,34 @@
         %tr{ style: 'page-break-inside: avoid;' }
           %td
             ផ្ទះលេខ:
-            %input{ style: 'width: 48px;', value: 'pending...' }
+            %input{ style: 'width: 48px;', value: @client.family.try(:house) }
           %td
             ផ្លូវលេខ:
-            %input{ style: 'width: 43px;', value: 'pending...' }
+            %input{ style: 'width: 43px;', value: @client.family.try(:street) }
           %td{ colspan: '1' }
             ភូមិ:
-            %input{ style: 'width: 128px;', value: @client.family.village }
+            %input{ style: 'width: 128px;', value: @client.family.try(:village) }
           %td
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 222px;', value: @client.family.commune }
+            %input{ style: 'width: 222px;', value: @client.family.try(:commune) }
         %tr{ style: 'page-break-inside: avoid;' }
           %td{ colspan: '3' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 275px; margin-left: 2px;', value: @client.family.district_name }
+            %input{ style: 'width: 275px; margin-left: 2px;', value: @client.family.try(:district_name) }
           %td{ colspan: '2' }
             ខេត្ត/រាជធានី:
-            %input{ style: 'width: 209px; margin-left: 2px;', value: @client.family.province_name }
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @client.family.try(:province_name) }
     %table{ style: 'margin-top: 5px;' }
       %tr
         %td
           ចំនួនកុមារក្នុងបន្ទុកសរុប
-          %input{ style: 'width: 90px;', value: @client.family.male_children_count + @client.family.female_children_count }
+          %input{ style: 'width: 90px;', value: @client.family.try(:male_children_count).to_i + @client.family.try(:female_children_count).to_i }
         %td{ style: 'padding-left: 10px;' }
           កុមារា
-          %input{ style: 'width: 48px;', value: @client.family.male_children_count }
+          %input{ style: 'width: 48px;', value: @client.family.try(:male_children_count) }
         %td{ style: 'padding-left: 10px;' }
           កុមារី
-          %input{ style: 'width: 48px;', value: @client.family.female_children_count }
+          %input{ style: 'width: 48px;', value: @client.family.try(:female_children_count) }
     .row
       .col-xs-12
         %table.table.table-bordered.no-margin-bottom{ style: 'margin-top: 10px; table-layout: fixed; border-collapse:collapse;' }
@@ -136,21 +136,22 @@
               %th{ style: 'border:1px solid black; text-align: center;' }
                 ទំនាក់ទំនងជាមួយកុមារ
           %tbody
-            - @client.family.family_members.each do |member|
-              %tr{ style: 'page-break-inside: avoid;'  }
-                %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 42px;' }
-                    %p= member.adult_name
-                %td{ style: 'border:1px solid black; text-align: center;' }
-                  .comment{ style: 'min-height: 42px;' }
-                    %p= member.date_of_birth
-                %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 42px;' }
-                    %p= member.occupation
-                %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 42px;' }
-                    %p= member.relation
-            - member_count = @client.family.family_members.count
+            - if @client.family.try(:family_members).present?
+              - @client.family.try(:family_members).each do |member|
+                %tr{ style: 'page-break-inside: avoid;'  }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.adult_name
+                  %td{ style: 'border:1px solid black; text-align: center;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.date_of_birth
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.occupation
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.relation
+            - member_count = @client.family.try(:family_members).try(:count).to_i
             - if member_count < 7
               - (1..(7 - member_count)).each do |_|
                 %tr{ style: 'page-break-inside: avoid;'  }

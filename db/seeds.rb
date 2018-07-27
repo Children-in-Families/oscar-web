@@ -24,8 +24,6 @@ Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
 # Organization.create_and_build_tanent(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
 
-# BEGINNING OF FORM 1
-# create table and data the following for government report - Form 1.
 interviewees     = ['កុមារ', 'ឪពុកម្ដាយ', 'អ្នកអាណាព្យាបាល', 'អ្នកថែទាំ', 'ផ្សេងៗ (សូមបញ្ជាក់)']
 client_types     = ['កុមារកំព្រា', 'កុមារពិការ', 'កុមារត្រូវបានបោះបង់ចោល', 'កុមារអានាថាតាមចិញ្ចើមថ្នល់', 'កុមារញៀនសារធាតុញៀន', 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន', 'កុមារដែលទទួលផលប៉ះពាល់ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏', 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត', 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់', 'កុមារមានទំនាស់ជាមួយច្បាប់', 'ផ្សេងៗ']
 referral_sources = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អង្គការមិនមែនរដ្ឋាភិបាល', 'មន្ទីរពេទ្យ', 'នគរបាល', 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌', 'រកឃើញនៅតាមទីសាធារណៈ', 'ស្ថាប័នរដ្ឋ', 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន', 'ទូរស័ព្ទទាន់ហេតុការណ៍', 'មកដោយខ្លួនឯង', 'គ្រួសារ', 'មិត្តភក្ដិ', 'អាជ្ញាធរដែនដី', 'ផ្សេងៗ']
@@ -71,8 +69,6 @@ end
 client_rights.each do |right|
   ClientRight.find_or_create_by(name: right)
 end
-
-# END OF FORM 1
 
 setting = Setting.first_or_create(country_name: 'cambodia', assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
 

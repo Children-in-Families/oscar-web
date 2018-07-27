@@ -15,7 +15,6 @@
 .col-xs-12.col-sm-4
   = f.association :village, collection: @villages.map{|v| [v.code_format, v.id, { data: { code: v.code } }] }, label: 'លេខកូដភូមិ', input_html: { data: { type: 'villages' } }
 .col-xs-12.col-sm-4.form-group
-  -# = f.input :client_code, label: 'លេខកូដកុមារ'
   %label.control-label{:for => "government_form_client_code"}= 'លេខកូដកុមារ'
   .input-group
     .input-group-addon#government_form_client_code_prefixed

@@ -59,7 +59,6 @@ class Client < ActiveRecord::Base
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
-  # has_many :surveys,        dependent: :destroy
 
   has_paper_trail
 
@@ -403,7 +402,6 @@ class Client < ActiveRecord::Base
   end
 
   def assessment_duration(duration)
-    # assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
     if duration == 'max'
       setting = Setting.first
       assessment_period = (setting.try(:max_assessment) || 6)
