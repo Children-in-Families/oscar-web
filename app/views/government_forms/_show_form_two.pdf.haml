@@ -19,35 +19,7 @@
       ទម្រង់នេះត្រូវបំពេញដោយអ្នកកាន់ករណី។​ ពួកគេត្រូវត្រួតពិនិត្យគ្រប់ព័ត៌មាន​​​ទាំងអស់នៅក្នុង​ទម្រង់ព័ត៌មាន​បឋមមុន​ ពេល​​បំពេញចូលក្នុងទម្រង់នេះ។​ ពួកគេត្រូវតែទទួលបានការយល់ព្រមជាមុនពីកុមារ​ ពន្យល់អំពីការរក្សាការសម្ងាត់​ និងកន្លែងដែលមានសុវត្ថិភាព។
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'border-bottom: 1px solid black; border-top: 1px solid black' }
-    %table.table.no-margin-bottom.table-borderless
-      %tbody
-        %tr
-          %td
-            កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
-            - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
-            - gov_date.split('').each_with_index do |code, index|
-              - if index == 0
-                %span.first= code
-              - else
-                %span= code
-          %td
-            លេខកូដភូមិ:
-            - gov_village_code = @government_form.village.present? ? @government_form.village_code : '00000000'
-            - gov_village_code.split('').each_with_index do |code, index|
-              - if index == 0
-                %span.first= code
-              - else
-                %span= code
-        %tr{ style: 'padding-top: 10px;'}
-          %td
-            %br
-            លេខកូដកុមារ:
-            - gov_client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
-            - gov_client_code.split('').each_with_index do |code, index|
-              - if index == 0
-                %span.first= code
-              - else
-                %span= code
+    = render 'client_code'
 
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'padding: 0px;' }

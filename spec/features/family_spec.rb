@@ -64,7 +64,7 @@ describe 'Family' do
       fill_in 'Name', with: 'Family Name'
       find(".family_province select option[value='#{province.id}']", visible: false).select_option
       sleep 1
-      find(".family_district select option[value='#{district.id}']", visible: false).select_option
+      # find(".family_district select option[value='#{district.id}']", visible: false).select_option
       fill_in 'Caregiver Information', with: 'Caregiver info'
       find(".family_children select option[value='#{another_client.id}']", visible: false).select_option
       find(".family_family_type select option[value='Short Term / Emergency Foster Care']", visible: false).select_option
@@ -72,7 +72,8 @@ describe 'Family' do
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Family Name')
-      expect(page).to have_content("#{district.name}, #{province.name}")
+      # expect(page).to have_content("#{district.name}, #{province.name}")
+      expect(page).to have_content(province.name)
       expect(page).to have_content('Caregiver info')
       expect(page).to have_content('Family has been successfully created')
       expect(page).to have_content(another_client.given_name)

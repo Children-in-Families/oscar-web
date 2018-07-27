@@ -778,13 +778,13 @@ ActiveRecord::Schema.define(version: 20180726095407) do
     t.string   "primary_carer",              default: ""
     t.string   "secondary_carer",            default: ""
     t.string   "carer_contact_info",         default: ""
+    t.integer  "assessment_province_id"
+    t.integer  "assessment_district_id"
+    t.string   "assessment_commune",         default: ""
     t.string   "new_carer",                  default: ""
     t.string   "new_carer_gender",           default: ""
     t.date     "new_carer_date_of_birth"
     t.string   "new_carer_relationship",     default: ""
-    t.integer  "assessment_province_id"
-    t.integer  "assessment_district_id"
-    t.string   "assessment_commune",         default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree

@@ -10,33 +10,7 @@
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}
-    %table.table.no-margin-bottom.table-borderless
-      %tbody
-        %tr{style: 'page-break-inside: avoid;'}
-          %td
-            កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
-            - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
-            - gov_date.split('').each_with_index do |code, index|
-              - if index == 0
-                %span.first= code
-              - else
-                %span= code
-          %td
-            លេខកូដភូមិ:
-            - gov_village_code = @government_form.village.present? ? @government_form.village_code : '00000000'
-            - gov_village_code.split('').each_with_index do |code, index|
-              - if index == 0
-                %span.first= code
-              - else
-                %span= code
-          %td
-            លេខកូដកុមារ:
-            - gov_client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
-            - gov_client_code.split('').each_with_index do |code, index|
-              - if index == 0
-                %span.first= code
-              - else
-                %span= code
+    = render 'client_code'
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px; margin-top: 30px;'}
@@ -50,7 +24,7 @@
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
-            - dob = @user.date_of_birth.present? ? @user.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob = @user.try(:date_of_birth).present? ? @user.try(:date_of_birth).strftime('%d%m%y') : '000000'
             - dob.split('').each_with_index do |code, index|
               - if index == 0
                 %span.first= code
@@ -337,7 +311,7 @@
                 = khmer_gender @user.try(:gender)
               %span.no-border{style: 'width: 5%;display: inline-block;'} អាយុ
               %span.no-border.dot-row.text-center{style: 'width: 15%;display: inline-block;'}
-                = khmer_dob_to_age @user.date_of_birth
+                = khmer_dob_to_age @user.try(:date_of_birth)
             %p{style: 'line-height: 1;'}
               %span.no-border{style: 'width: 35%;display: inline-block;'} ជាអ្នកកាន់ករណី បានឯកភាពទុកដាក់កុមារជាមួយ
               %span.no-border.dot-row.text-center{style: 'width: 63%;display: inline-block;'}
