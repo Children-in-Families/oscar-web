@@ -57,13 +57,12 @@ module AdvancedSearches
     private
 
     def referred_to_query
-      value = Referral.find_by(referred_to: @value).id
       clients = @clients.joins(:referrals)
       case @operator
       when 'equal'
-        clients.where('referrals.id = ?', value ).ids
+        clients.where('referrals.referred_to = ?', @value).ids
       when 'not_equal'
-        clients.where.not('referrals.id = ?', value ).ids
+        clients.where('referrals.referred_to != ?', @value).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
@@ -72,13 +71,12 @@ module AdvancedSearches
     end
 
     def referred_from_query
-      value = Referral.find_by(referred_from: @value).id
       clients = @clients.joins(:referrals)
       case @operator
       when 'equal'
-        clients.where('referrals.id = ?', value ).ids
+        clients.where('referrals.referred_from = ?', @value).ids
       when 'not_equal'
-        clients.where.not('referrals.id = ?', value ).ids
+        clients.where('referrals.referred_from  != ?', @value).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
