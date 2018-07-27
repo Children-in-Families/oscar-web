@@ -1947,6 +1947,7 @@ my:
         department: ဌာန
         email: အီးေမးလ္
         first_name: ေရွ႕ဆံုးနာမည္
+        gender: က်ားမ
         id: မွတ္ပံုတင္
         job_title: အလုပ္အကိုင္
         last_name: ေနာက္ဆံုးနာမည္
@@ -4467,6 +4468,7 @@ my:
       department: ဌာန
       email: အီးေမးလ္
       first_name: နာမည္ ပထမဆံုးအလံုး
+      gender: က်ားမ
       id: မွတ္ပံုတင္
       job_title: 'အလုပ္အကိုင္ '
       last_name: နာမည္ ေနာက္ဆံုးအလံုး
@@ -4536,6 +4538,7 @@ my:
       department: ဌာန
       email: အီးေမးလ္
       first_name: နာမည္ ပထမဆံုးအလံုး
+      gender: က်ားမ
       general_info: အသံုးျပဳသူအေၾကာင္း
       id: မွတ္ပံုတင္
       job_title: အလုပ္အကိုင္

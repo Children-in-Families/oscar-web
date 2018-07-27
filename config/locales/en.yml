@@ -1939,6 +1939,7 @@ en:
         department: Department
         email: Email
         first_name: First Name
+        gender: Gender
         id: ID
         job_title: Job Title
         last_name: Last Name
@@ -4437,6 +4438,7 @@ en:
       department: Department
       email: Email
       first_name: First Name
+      gender: Gender
       id: ID
       job_title: Job Title
       last_name: Last Name
@@ -4506,6 +4508,7 @@ en:
       department: Department
       email: Email
       first_name: First Name
+      gender: Gender
       general_info: About User
       id: ID
       job_title: Job Title
