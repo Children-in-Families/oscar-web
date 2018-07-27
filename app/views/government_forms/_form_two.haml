@@ -64,7 +64,7 @@
         .row
           .col-md-4
             = f.input :caseworker_assumption, collection: GovernmentForm::CASEWORKER_ASSUMPTIONS, label: false
-        = f.input :assumption_description, label: false, input_html: { rows: '10' }
+        = f.input :assumption_description, label: false, input_html: { rows: '5' }
       .col-xs-12
         .row
           .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.government_form_assumption_date{ class: ('has-error' if f.error :date) }

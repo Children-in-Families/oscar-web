@@ -16,11 +16,10 @@
           %td{style: 'width: 70px;'}
             អង្គភាពប្រតិបត្តិ:
           %td
-            %input{style: 'width: 100%;', value: '' }
+            %input{style: 'width: 100%;', value: @setting.org_name }
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr
-          -# organization name
           %td អាស័យដ្ឋានអង្គភាពប្រតិបត្តិ:
     %table.table.no-margin-bottom.table-borderless
       %tbody
@@ -28,12 +27,12 @@
           %td{style: 'width: 70px;'}
             រាជធានី/ខេត្ត:
           %td
-            %input{style: 'width: 100%;', value: @government_form.try(:province_name)}
+            %input{style: 'width: 100%;', value: @setting.province_name }
           %td{style: 'width: 70px;'}
             ក្រុង/ស្រុក/ខណ្ឌ:
           %td
-            %input{style: 'width: 100%;', value: @government_form.try(:district_name)}
+            %input{style: 'width: 100%;', value: @setting.district_name }
           %td{style: 'width: 70px;'}
             ឃ៉ំ/សង្កាត់:
           %td
-            %input{style: 'width: 100%;', value: @government_form.try(:commune_name)}
+            %input{style: 'width: 100%;', value: @setting.org_commune }

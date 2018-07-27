@@ -12,4 +12,7 @@ class Setting < ActiveRecord::Base
   validates :max_case_note, presence: true, if: -> { case_note_frequency.present? }
   # validates :min_assessment, :max_assessment, presence: true, if: -> { assessment_frequency.present? }
   validates :max_assessment, presence: true, if: -> { assessment_frequency.present? }
+
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
 end

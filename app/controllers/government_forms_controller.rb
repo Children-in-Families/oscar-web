@@ -4,6 +4,7 @@ class GovernmentFormsController < AdminController
   before_action :find_association, only: [:new, :create, :edit, :update]
   before_action :find_government_form, only: [:show, :edit, :update, :destroy]
   before_action :find_form_name
+  before_action :find_static_association, only: :show
 
   def index
     @government_forms = @client.government_forms.filter({ name: @form_name})
@@ -33,7 +34,6 @@ class GovernmentFormsController < AdminController
 
   def show
     respond_to do |format|
-      @user = @government_form.case_worker_info
       format.pdf do
         render  pdf:      'show',
                 template: 'government_forms/show.pdf.haml',
@@ -125,5 +125,10 @@ class GovernmentFormsController < AdminController
             else nil
             end
     @form_name
+  end
+
+  def find_static_association
+    @user    = @government_form.case_worker_info
+    @setting = Setting.first
   end
 end
