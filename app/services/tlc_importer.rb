@@ -39,7 +39,9 @@ module TlcImporter
         district               = workbook.row(row)[headers['Address - District/Khan']]
         district_id            = District.where("name ilike ?", "%#{district}%").first.try(:id)
         commune                = workbook.row(row)[headers['Address - Commune/Sangkat']]
-        village                = workbook.row(row)[headers['Address - Village']]
+        village                = workbook.row(row)[headers['Address - Village']] == 'Unknown' ? '' : workbook.row(row)[headers['Address - Village']]
+        house                  = workbook.row(row)[headers['Address - House#']] == 'Unknown' ? '' : workbook.row(row)[headers['Address - House#']]
+        street                 = workbook.row(row)[headers['Address - Street']] == 'Unknown' ? '' : workbook.row(row)[headers['Address - Street']]
 
         donor                  = workbook.row(row)[headers['Donor']]
         donor_id               = Donor.find_by(name: donor).id
@@ -63,6 +65,8 @@ module TlcImporter
           district_id: district_id,
           commune: commune,
           village: village,
+          street_number: street,
+          house_number: house,
           donor_id: donor_id,
           rated_for_id_poor: rated_for_id_poor,
           code: code
