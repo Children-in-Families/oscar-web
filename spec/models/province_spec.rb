@@ -52,13 +52,19 @@ describe Province, '.scopes' do
 end
 
 describe Province, 'methods' do
-  let!(:province_1){ create(:province) }
+  let!(:province_1){ create(:province, name: 'ភ្នំពេញ / Phnom Penh') }
   let!(:province_2){ create(:province) }
   let!(:client){ create(:client, province: province_1) }
   context '#removeable?' do
     it 'returns false if the province is attached to any resources' do
       expect(province_1.removeable?).to be_falsey
       expect(province_2.removeable?).to be_truthy
+    end
+  end
+
+  context '#name_kh' do
+    it 'returns Khmer name' do
+      expect(province_1.name_kh).to eq('ភ្នំពេញ')
     end
   end
 end

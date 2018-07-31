@@ -5,19 +5,22 @@ class GovernmentForm < ActiveRecord::Base
   CONTACT_TYPES          = ['ជួបផ្ទាល់', 'តាមទូរសព្ទ', 'សរសេរ']
   CLIENT_DECISIONS       = ['ទទួលយកសេវា', 'មិនទទួលយកសេវា']
 
-  delegate :name, to: :province, prefix: true, allow_nil: true
-  delegate :name, to: :district, prefix: true, allow_nil: true
-  delegate :name, to: :commune, prefix: true, allow_nil: true
-  delegate :code, to: :village, prefix: true, allow_nil: true
-
   belongs_to :client
   belongs_to :province
   belongs_to :district
   belongs_to :commune
   belongs_to :village
   belongs_to :interview_province, class_name: 'Province', foreign_key: 'interview_province_id'
+  belongs_to :interview_district, class_name: 'District', foreign_key: 'interview_district_id'
+  belongs_to :interview_commune, class_name: 'Commune', foreign_key: 'interview_commune_id'
+  belongs_to :interview_village, class_name: 'Village', foreign_key: 'interview_village_id'
   belongs_to :assessment_province, class_name: 'Province', foreign_key: 'assessment_province_id'
+  belongs_to :assessment_district, class_name: 'District', foreign_key: 'assessment_district_id'
+  belongs_to :assessment_commune, class_name: 'Commune', foreign_key: 'assessment_commune_id'
   belongs_to :primary_carer_province, class_name: 'Province', foreign_key: 'primary_carer_province_id'
+  belongs_to :primary_carer_district, class_name: 'District', foreign_key: 'primary_carer_district_id'
+  belongs_to :primary_carer_commune, class_name: 'Commune', foreign_key: 'primary_carer_commune_id'
+  belongs_to :primary_carer_village, class_name: 'Village', foreign_key: 'primary_carer_village_id'
 
   has_many :government_form_interviewees, dependent: :destroy
   has_many :interviewees, through: :government_form_interviewees
@@ -43,9 +46,6 @@ class GovernmentForm < ActiveRecord::Base
   accepts_nested_attributes_for :government_form_children_plans
   accepts_nested_attributes_for :government_form_family_plans
 
-  delegate :name, to: :province, prefix: true, allow_nil: true
-  delegate :name, to: :district, prefix: true, allow_nil: true
-  delegate :name, to: :commune, prefix: true, allow_nil: true
   delegate :code, to: :village, prefix: true, allow_nil: true
 
   before_save :concat_client_code_with_village_code

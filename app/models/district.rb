@@ -12,4 +12,8 @@ class District < ActiveRecord::Base
 
   validates :province, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:province_id] }
+
+  def name_kh
+    name.split(' / ').first
+  end
 end

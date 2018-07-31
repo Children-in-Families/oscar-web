@@ -79,8 +79,13 @@ class GovernmentFormsController < AdminController
     @provinces      = Province.official.order(:name)
     @districts      = @government_form.province.present? ? @government_form.province.districts.order(:code) : []
     @interviewee_districts   = @government_form.interview_province.present? ? @government_form.interview_province.districts.order(:code) : []
+    @interview_communes      = @government_form.interview_district.present? ? @government_form.interview_district.communes.order(:code) : []
+    @interview_villages      = @government_form.interview_commune.present? ? @government_form.interview_commune.villages.order(:code) : []
     @assessment_districts    = @government_form.assessment_province.present? ? @government_form.assessment_province.districts.order(:code) : []
+    @assessment_communes     = @government_form.assessment_district.present? ? @government_form.assessment_district.communes.order(:code) : []
     @primary_carer_districts = @government_form.primary_carer_province.present? ? @government_form.primary_carer_province.districts.order(:code) : []
+    @primary_carer_communes  = @government_form.primary_carer_district.present? ? @government_form.primary_carer_district.communes.order(:code) : []
+    @primary_carer_villages  = @government_form.primary_carer_commune.present? ? @government_form.primary_carer_commune.villages.order(:code) : []
     @communes       = @government_form.district.present? ? @government_form.district.communes.order(:code) : []
     @villages       = @government_form.commune.present? ? @government_form.commune.villages.order(:code) : []
     @needs          = Need.order(:created_at)
@@ -95,12 +100,12 @@ class GovernmentFormsController < AdminController
 
   def government_form_params
     params.require(:government_form).permit(
-      :name, :date, :province_id, :district_id, :commune_id, :village_id, :client_code, :interview_village,
-      :interview_commune, :interview_district_id, :interview_province_id,
-      :assessment_commune, :assessment_district_id, :assessment_province_id,
+      :name, :date, :province_id, :district_id, :commune_id, :village_id, :client_code, :interview_village_id,
+      :interview_commune_id, :interview_district_id, :interview_province_id,
+      :assessment_commune_id, :assessment_district_id, :assessment_province_id,
       :case_worker_id, :case_worker_phone, :primary_carer_relationship,
-      :primary_carer_house, :primary_carer_street, :primary_carer_village,
-      :primary_carer_commune, :primary_carer_district_id, :primary_carer_province_id,
+      :primary_carer_house, :primary_carer_street, :primary_carer_village_id,
+      :primary_carer_commune_id, :primary_carer_district_id, :primary_carer_province_id,
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
       :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,

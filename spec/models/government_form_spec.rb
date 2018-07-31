@@ -5,8 +5,16 @@ describe GovernmentForm, 'associations' do
   it { is_expected.to belong_to(:commune) }
   it { is_expected.to belong_to(:village) }
   it { is_expected.to belong_to(:interview_province).class_name('Province').with_foreign_key('interview_province_id') }
+  it { is_expected.to belong_to(:interview_district).class_name('District').with_foreign_key('interview_district_id') }
+  it { is_expected.to belong_to(:interview_commune).class_name('Commune').with_foreign_key('interview_commune_id') }
+  it { is_expected.to belong_to(:interview_village).class_name('Village').with_foreign_key('interview_village_id') }
   it { is_expected.to belong_to(:assessment_province).class_name('Province').with_foreign_key('assessment_province_id') }
+  it { is_expected.to belong_to(:assessment_district).class_name('District').with_foreign_key('assessment_district_id') }
+  it { is_expected.to belong_to(:assessment_commune).class_name('Commune').with_foreign_key('assessment_commune_id') }
   it { is_expected.to belong_to(:primary_carer_province).class_name('Province').with_foreign_key('primary_carer_province_id') }
+  it { is_expected.to belong_to(:primary_carer_district).class_name('District').with_foreign_key('primary_carer_district_id') }
+  it { is_expected.to belong_to(:primary_carer_commune).class_name('Commune').with_foreign_key('primary_carer_commune_id') }
+  it { is_expected.to belong_to(:primary_carer_village).class_name('Village').with_foreign_key('primary_carer_village_id') }
 
   it { is_expected.to have_many(:government_form_interviewees).dependent(:destroy) }
   it { is_expected.to have_many(:interviewees).through(:government_form_interviewees) }

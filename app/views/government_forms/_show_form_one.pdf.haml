@@ -15,26 +15,26 @@
           .col-xs-4
             %label ភូមិ:
           .col-xs-8
-            %input{style: 'width: 100%', value: @government_form.interview_village }
+            %input{style: 'width: 100%', value: @government_form.interview_village.try(:name_kh) }
       .col-xs-6
         .row
           .col-xs-4
             %label ឃុំ/សង្កាត់:
           .col-xs-8
-            %input{style: 'width: 100%', value: @government_form.interview_commune }
+            %input{style: 'width: 100%', value: @government_form.interview_commune.try(:name_kh) }
     .row
       .col-xs-6
         .row
           .col-xs-4
             %label ក្រុង/ស្រុក/ខណ្ឌ:
           .col-xs-8
-            %input{style: 'width: 100%', value: @government_form.interview_district_name }
+            %input{style: 'width: 100%', value: @government_form.interview_district.try(:name_kh) }
       .col-xs-6
         .row
           .col-xs-4
             %label រាជធានី/ខេត្ត:
           .col-xs-8
-            %input{style: 'width: 100%', value: @government_form.interview_province_name }
+            %input{style: 'width: 100%', value: @government_form.interview_province.try(:name_kh) }
   %label.panel-label{style: 'border-top: 0px;'}
     %span{ style: 'background-color: #DEEDF2; margin-right: 10px;' }
       %u អ្នកផ្ដល់បទសម្ភាសន៍:
@@ -97,14 +97,13 @@
               .col-xs-4
                 %label ក្រុង/ស្រុក/ខណ្ឌ:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @government_form.client.district_name }
+                %input{ style: 'width: 100%', value: @government_form.client.district.try(:name_kh) }
           .col-xs-6
             .row
               .col-xs-4
                 %label រាជធានី/ខេត្ត:
               .col-xs-8
-                - province = @government_form.client.province.present? ? @government_form.client.province_name.split(' / ').first : ''
-                %input{ style: 'width: 100%', value: province }
+                %input{ style: 'width: 100%', value: @government_form.client.province.try(:name_kh) }
       %label.panel-label{ style: 'background-color: #D9E2C2;' } អ្នកថែទាំកុមារ:
       .panel-body.panel-label-dotted{style: 'padding-bottom: 2px;'}
         %label{ style: 'margin-right:15px;'} ឈ្មោះ
@@ -129,23 +128,23 @@
                   .col-xs-1
                     %label ភូមិ:
                   .col-xs-3
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_village }
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_village.try(:name_kh) }
                 .row
                   .col-xs-4
                     %label ក្រុង/ស្រុក/ខណ្ឌ:
                   .col-xs-8
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_district_name }
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_district.try(:name_kh) }
               .col-xs-5
                 .row
                   .col-xs-4
                     %label ឃុំ/សង្កាត់:
                   .col-xs-8
-                    %input{ style: 'width:100%;', value: @government_form.primary_carer_commune }
+                    %input{ style: 'width:100%;', value: @government_form.primary_carer_commune.try(:name_kh) }
                 .row
                   .col-xs-4
                     %label ខេត្ត/រាជធានី:
                   .col-xs-8
-                    %input{style: 'width:100%', value: @government_form.primary_carer_province_name }
+                    %input{style: 'width:100%', value: @government_form.primary_carer_province.try(:name_kh) }
             .row
               .col-xs-2
                 %label លេខទូរស័ព្ទ:

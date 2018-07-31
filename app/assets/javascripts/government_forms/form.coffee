@@ -9,7 +9,10 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id,
-                  #government_form_interview_province_id, #government_form_primary_carer_province_id, #government_form_assessment_province_id')
+                  #government_form_interview_province_id, #government_form_interview_district_id, #government_form_interview_commune_id,
+                  #government_form_primary_carer_province_id, #government_form_primary_carer_district_id, #government_form_primary_carer_commune_id,
+                  #government_form_assessment_province_id, #government_form_assessment_district_id
+                  ')
     mainAddress.on 'change', ->
       type       = $(@).data('type')
       typeId     = $(@).val()
@@ -27,12 +30,22 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
         $(subAddress).find('option[value!=""]').remove()
       else if type == 'districts'
         subResources = 'communes'
-        subAddress = $('#government_form_commune_id')
+        subAddress =  switch subAddress
+                      when 'commune' then $('#government_form_commune_id')
+                      when 'intervieweeCommune' then $('#government_form_interview_commune_id')
+                      when 'primaryCarerCommune' then $('#government_form_primary_carer_commune_id')
+                      when 'assessmentCommune' then $('#government_form_assessment_commune_id')
+
         $(subAddress).val(null).trigger('change')
         $(subAddress).find('option[value!=""]').remove()
       else if type == 'communes'
         subResources = 'villages'
-        subAddress = $('#government_form_village_id')
+        subAddress =  switch subAddress
+                      when 'village' then $('#government_form_village_id')
+                      when 'intervieweeVillage' then $('#government_form_interview_village_id')
+                      when 'primaryCarerVillage' then $('#government_form_primary_carer_village_id')
+
+
         $(subAddress).val(null).trigger('change')
         $(subAddress).find('option[value!=""]').remove()
 

@@ -67,11 +67,11 @@
           %td.text-right{:colspan => "2"}
             %label ក្រុង/ស្រុក/ខណ្ឌ:
           %td
-            %input{style: 'width: 100%', value: @client.family.try(:district_name) }
+            %input{style: 'width: 100%', value: @client.family.try(:district).try(:name_kh) }
           %td
             %label ខេត្ត/រាជធានី:
           %td
-            %input{style: 'width: 100%', value: @client.family.try(:province_name) }
+            %input{style: 'width: 100%', value: @client.family.try(:province).try(:name_kh) }
         %tr
           %td.text-right{:colspan => "2"}
             %label ឈ្មោះអ្នកកាន់ករណី:

@@ -9,9 +9,9 @@
 .col-xs-12.col-sm-4
   = f.association :province, collection: @provinces, label: 'ខេត្ត/ក្រុង', input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
 .col-xs-12.col-sm-4
-  = f.association :district, collection: @districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts' } }
+  = f.association :district, collection: @districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
 .col-xs-12.col-sm-4
-  = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes' } }
+  = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes', 'subaddress' => 'village' } }
 .col-xs-12.col-sm-4
   = f.association :village, collection: @villages.map{|v| [v.code_format, v.id, { data: { code: v.code } }] }, label: 'លេខកូដភូមិ', input_html: { data: { type: 'villages' } }
 .col-xs-12.col-sm-4.form-group

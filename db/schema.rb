@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180726095407) do
+ActiveRecord::Schema.define(version: 20180731014745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -741,8 +741,6 @@ ActiveRecord::Schema.define(version: 20180726095407) do
     t.string   "name",                       default: ""
     t.date     "date"
     t.string   "client_code",                default: ""
-    t.string   "interview_village",          default: ""
-    t.string   "interview_commune",          default: ""
     t.integer  "interview_district_id"
     t.integer  "interview_province_id"
     t.integer  "case_worker_id"
@@ -751,8 +749,6 @@ ActiveRecord::Schema.define(version: 20180726095407) do
     t.string   "primary_carer_relationship", default: ""
     t.string   "primary_carer_house",        default: ""
     t.string   "primary_carer_street",       default: ""
-    t.string   "primary_carer_village",      default: ""
-    t.string   "primary_carer_commune",      default: ""
     t.integer  "primary_carer_district_id"
     t.integer  "primary_carer_province_id"
     t.string   "source_info",                default: ""
@@ -782,11 +778,15 @@ ActiveRecord::Schema.define(version: 20180726095407) do
     t.string   "carer_contact_info",         default: ""
     t.integer  "assessment_province_id"
     t.integer  "assessment_district_id"
-    t.string   "assessment_commune",         default: ""
     t.string   "new_carer",                  default: ""
     t.string   "new_carer_gender",           default: ""
     t.date     "new_carer_date_of_birth"
     t.string   "new_carer_relationship",     default: ""
+    t.integer  "interview_commune_id"
+    t.integer  "interview_village_id"
+    t.integer  "assessment_commune_id"
+    t.integer  "primary_carer_commune_id"
+    t.integer  "primary_carer_village_id"
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree

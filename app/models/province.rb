@@ -22,4 +22,8 @@ class Province < ActiveRecord::Base
   def removeable?
     families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?
   end
+
+  def name_kh
+    name.split(' / ').first
+  end
 end
