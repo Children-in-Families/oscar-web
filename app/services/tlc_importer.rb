@@ -67,7 +67,7 @@ module TlcImporter
           rated_for_id_poor: rated_for_id_poor,
           code: code
         )
-        client.save
+        client.save(validate: false)
       end
     end
 
@@ -96,6 +96,7 @@ module TlcImporter
 
     def find_user(value)
       last_name = value.split(' ').last
+      last_name = last_name == 'Seourn' ? 'Soeurn' : last_name
       User.find_by(last_name: last_name)
     end
   end
