@@ -66,6 +66,8 @@ module FamiliesHelper
       district_id:                              t('datagrid.columns.families.district'),
       commune:                                  t('datagrid.columns.families.commune'),
       village:                                  t('datagrid.columns.families.village'),
+      street:                                   t('datagrid.columns.families.street'),
+      house:                                    t('datagrid.columns.families.house'),
       dependable_income:                        t('datagrid.columns.families.dependable_income'),
       male_adult_count:                         t('datagrid.columns.families.male_adult_count'),
       household_income:                         t('datagrid.columns.families.household_income'),
@@ -85,6 +87,8 @@ module FamiliesHelper
       district_id_:                              t('datagrid.columns.families.district'),
       commune_:                                  t('datagrid.columns.families.commune'),
       village_:                                  t('datagrid.columns.families.village'),
+      street_:                                   t('datagrid.columns.families.street'),
+      house_:                                    t('datagrid.columns.families.house'),
       caregiver_information_:                    t('datagrid.columns.families.caregiver_information'),
       case_history_:                             t('datagrid.columns.families.case_history'),
       clients_:                                  t('datagrid.columns.families.clients'),
@@ -112,6 +116,8 @@ module FamiliesHelper
 
   def merged_address_family(object)
     current_address = []
+    current_address << "#{I18n.t('datagrid.columns.families.house')} #{object.house}" if object.house.present?
+    current_address << "#{I18n.t('datagrid.columns.families.street')} #{object.street}" if object.street.present?
     current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village}" if object.village.present?
     current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune}" if object.commune.present?
     if locale == :km

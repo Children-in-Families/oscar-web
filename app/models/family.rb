@@ -34,6 +34,8 @@ class Family < ActiveRecord::Base
   scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value}%") }
   scope :village_like,               ->(value) { where('village iLIKE ?', "%#{value}%") }
   scope :commune_like,               ->(value) { where('commune iLIKE ?', "%#{value}%") }
+  scope :street_like,                ->(value) { where('street iLIKE ?', "%#{value}%") }
+  scope :house_like,                 ->(value) { where('house iLIKE ?', "%#{value}%") }
   scope :emergency,                  ->        { where(family_type: 'Short Term / Emergency Foster Care') }
   scope :foster,                     ->        { where(family_type: 'Long Term Foster Care') }
   scope :kinship,                    ->        { where(family_type: 'Extended Family / Kinship Care') }

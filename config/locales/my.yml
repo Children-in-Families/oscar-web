@@ -1854,6 +1854,7 @@ my:
         female_adult_count: အရြယ္ေရာက္အမ်ိဳးသမီးအေရအတြက္
         female_children_count: အရြယ္မေရာက္ေသးေသာ ကေလးငယ္ အေရအတြက္
         form_title: ေခါင္းစဥ္မွ
+        house: အိမ္နံပါတ္
         household_income: အိမ္ေထာင္စု ၀င္ေငြ
         id: မွတ္ပံုတင္
         male: အမ်ိဳးသား
@@ -1866,6 +1867,7 @@ my:
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
         status: အေနအထား
+        street: လမ္း
         total: စုစုေပါင္း
         view: ျမင္ကြင္း
         village: ေက်းရြာ
@@ -1953,6 +1955,7 @@ my:
         department: ဌာန
         email: အီးေမးလ္
         first_name: ေရွ႕ဆံုးနာမည္
+        gender: က်ားမ
         id: မွတ္ပံုတင္
         job_title: အလုပ္အကိုင္
         last_name: ေနာက္ဆံုးနာမည္
@@ -2652,6 +2655,7 @@ my:
       family_type: မိသားစု အမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
+      house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု ၀င္ေငြ
       id: မွတ္ပံုတင္
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
@@ -2663,6 +2667,7 @@ my:
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
       status: အေျခအေန
+      street: လမ္း
       village: ေက်းရြာ
       'yes': မွန္ပါသည္
     index:
@@ -2691,6 +2696,7 @@ my:
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
       general_info: မိသားစုအေၾကာင္း
+      house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု၀င္ေငြ
       id: မွတ္ပံုတင္
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
@@ -2705,6 +2711,7 @@ my:
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
       status: အေျခအေန
+      street: လမ္း
       'yes': မွန္ပါသည္
     update:
       not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ
@@ -4469,6 +4476,7 @@ my:
       department: ဌာန
       email: အီးေမးလ္
       first_name: နာမည္ ပထမဆံုးအလံုး
+      gender: က်ားမ
       id: မွတ္ပံုတင္
       job_title: 'အလုပ္အကိုင္ '
       last_name: နာမည္ ေနာက္ဆံုးအလံုး
@@ -4538,6 +4546,7 @@ my:
       department: ဌာန
       email: အီးေမးလ္
       first_name: နာမည္ ပထမဆံုးအလံုး
+      gender: က်ားမ
       general_info: အသံုးျပဳသူအေၾကာင္း
       id: မွတ္ပံုတင္
       job_title: အလုပ္အကိုင္
