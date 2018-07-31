@@ -111,8 +111,7 @@ module FlameImporter
         data[17]   = check_nil_cell(data[17])
         data[18]   = check_nil_cell(data[18])
 
-        #need to recheck id_poor
-        data[19]   = check_nil_cell(data[19])
+        data[19]   = ''
 
         data[20]   = find_boolean_value(data[20])
         data[21]   = find_boolean_value(data[21])
@@ -145,12 +144,13 @@ module FlameImporter
     end
 
     def find_referral_received_by(name)
+      full_name = name
       name = name.split(' ').first
       user = User.where("first_name iLike ?", "%#{name.squish}")
       if user.present?
         user = user.first
       else
-        user = User.create!(first_name: name, email: FFaker::Internet.email, password: password)
+        user = User.create!(first_name: name.squish, last_name: full_name.split(' ').last.squish, email: FFaker::Internet.email, password: password)
       end
       user.try(:id)
     end
