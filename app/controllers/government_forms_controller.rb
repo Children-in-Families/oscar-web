@@ -1,4 +1,5 @@
 class GovernmentFormsController < AdminController
+  include Pundit
   load_and_authorize_resource
   before_action :find_client
   before_action :find_association, only: [:new, :create, :edit, :update]
@@ -7,11 +8,13 @@ class GovernmentFormsController < AdminController
   before_action :find_static_association, only: :show
 
   def index
+    authorize :government_form, :index?
     @government_forms = @client.government_forms.filter({ name: @form_name})
   end
 
   def new
     @government_form = @client.government_forms.new(name: @form_name)
+    authorize @government_form
     @government_form.populate_needs
     @government_form.populate_problems
     if params[:form] == 'two'
@@ -25,6 +28,7 @@ class GovernmentFormsController < AdminController
 
   def create
     @government_form = @client.government_forms.new(government_form_params)
+    authorize @government_form
     if @government_form.save
       redirect_to client_government_forms_path(@client, form: params[:form_num]), notice: t('.successfully_created')
     else
@@ -96,6 +100,7 @@ class GovernmentFormsController < AdminController
 
   def find_government_form
     @government_form = @client.government_forms.find(params[:id]).decorate
+    authorize @government_form
   end
 
   def government_form_params
