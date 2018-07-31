@@ -80,6 +80,10 @@ class Family < ActiveRecord::Base
     emergency? || foster? || kinship?
   end
 
+  def name=(name)
+    write_attribute(:name, name.try(:strip))
+  end
+
   private
 
   def client_must_only_belong_to_a_family

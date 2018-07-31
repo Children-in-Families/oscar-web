@@ -24,4 +24,9 @@ class Partner < ActiveRecord::Base
   scope :NGO,                        ->        { joins(:organization_type).where(organization_types: { name: 'NGO' }) }
   scope :local_goverment,            ->        { joins(:organization_type).where(organization_types: { name: 'Local Goverment' }) }
   scope :church,                     ->        { joins(:organization_type).where(organization_types: { name: 'Church' }) }
+
+  def contact_person_name=(contact_person_name)
+    write_attribute(:contact_person_name, contact_person_name.try(:strip))
+  end
+
 end
