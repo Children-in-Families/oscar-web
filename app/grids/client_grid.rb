@@ -534,7 +534,7 @@ class ClientGrid
     version = object.versions.find_by(event: 'create')
     if version.present?
       id = version.whodunnit
-      id.include?('rotati') ? 'OSCaR Team' : User.find_by(id: id.to_i).try(:name)
+      id.include?('rotati') ? 'OSCaR Team' : User.find_by(id: id.to_i).try(:name) if id.present?
     else
       'OSCaR Team'
     end
