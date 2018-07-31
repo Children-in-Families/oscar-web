@@ -5,6 +5,8 @@ class GovernmentFormProblem < ActiveRecord::Base
 
   delegate :name, to: :problem, prefix: true, allow_nil: true
 
+  default_scope { order(:created_at) }
+
   belongs_to :government_form
   belongs_to :problem
 end

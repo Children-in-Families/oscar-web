@@ -13,26 +13,24 @@
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr{style: 'page-break-inside: avoid;'}
-          %td{style: 'width: 70px;'}
+          %td{style: 'width: 70px; vertical-align: middle;'}
             ខ្ញុំជាអ្នកកាន់ករណីឈ្មោះ:
-          %td{style: 'width: 200px'}
+          %td{style: 'width: 200px; vertical-align: middle;'}
             %input{style: 'width: 100%;', value: @user.try(:name)}
-          %td
+          %td{ style: 'vertical-align: middle;' }
             ថ្ងៃខែឆ្នាំកំណើត:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             - dob = @user.try(:date_of_birth).present? ? @user.try(:date_of_birth).strftime('%d%m%y') : '000000'
             - dob.split('').each_with_index do |code, index|
               - if index == 0
                 %span.first= code
               - else
                 %span= code
-          %td
+          %td{ style: 'vertical-align: middle;' }
             ភេទ:
-          %td
-            %input{ type: 'checkbox', checked: @user.try(:gender) == 'male' ? true : false }
+            = render @user.try(:gender) == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ប្រុស
-          %td
-            %input{ type: 'checkbox', checked: @user.try(:gender) == 'female' ? true : false}
+            = render @user.try(:gender) == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ស្រី
 
     %table.table.no-margin-bottom.table-borderless
@@ -55,13 +53,13 @@
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr{style: 'page-break-inside: avoid;'}
-          %td{style: 'width: 120px;'}
+          %td{ style: 'vertical-align: middle;' }
             ភេទ:
-            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ប្រុស
-            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ស្រី
-          %td.text-left
+          %td.text-left{ style: 'vertical-align: middle;' }
             ឲ្យរស់នៅតាមជម្រើសនៃការថែទាំដូចខាងក្រោម៖
 
 .panel.panel-no-margin.panel-borderless
@@ -86,16 +84,13 @@
             %b ជម្រើសនៃការថែទាំ
             %p តាមលំដាប់ដូចបានចែងនៅក្នុងគោលនយោបាយស្តីពីការថែទាំជំនួសចំពោះកុមារ
         %tr{ style: 'background: #efefef' }
-          %th.text-center{style: 'width: 150px'} ប្រភេទនៃការថែទាំ
+          %th.text-center{style: 'width: 180px'} ប្រភេទនៃការថែទាំ
           %th.text-center{style: 'width: 250px'} ឈ្មោះអ្នកថែទាំ/ឈ្មោះកន្លែងថែទាំ
           %th.text-center អាសយដ្ឋាន និងលេខទំនាក់ទំនង
       %tbody
         %tr{style: 'page-break-inside: avoid;'}
-          %td
-            - if @government_form.care_type == 'គ្រួសារបង្កើត'
-              %span.first{style: 'margin-right: 5px;'} &#10003;
-            - else
-              %span.first{style: 'margin-right: 5px; padding: 4px 12px;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'គ្រួសារបង្កើត' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             គ្រួសារបង្កើត
           %td{style: 'line-height: 25px'}
             %p
@@ -110,11 +105,8 @@
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'គ្រួសារបង្កើត'
         %tr{style: 'page-break-inside: avoid;'}
-          %td
-            - if @government_form.care_type == 'សាច់ញាតិ'
-              %span.first{style: 'margin-right: 5px;'} &#10003;
-            - else
-              %span.first{style: 'margin-right: 5px; padding: 4px 12px;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'សាច់ញាតិ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             សាច់ញាតិ
           %td{style: 'line-height: 25px'}
             %p
@@ -129,50 +121,45 @@
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'សាច់ញាតិ'
         %tr{style: 'page-break-inside: avoid;'}
-          %td
-            - if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
-              %span.first{style: 'margin-right: 5px;'} &#10003;
-            - else
-              %span.first{style: 'margin-right: 5px; padding: 4px 12px;'}
-            គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            គ្រូួសារមិនជាប់សាច់ញាតិ
+            %br
+            (គ្រួសារធម៌)
           %td{style: 'line-height: 25px'}
             %p
               %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
               %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
-                = @government_form.primary_carer if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+                = @government_form.primary_carer if @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
             %p
               %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
               %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
-                = @government_form.secondary_carer if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+                = @government_form.secondary_carer if @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
           %td
             .comment{style: 'min-height: 60px;'}
-              %p= @government_form.carer_contact_info if @government_form.care_type == 'គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+              %p= @government_form.carer_contact_info if @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
         %tr{style: 'page-break-inside: avoid;'}
-          %td
-            - if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
-              %span.first{style: 'margin-right: 5px;'} &#10003;
-            - else
-              %span.first{style: 'margin-right: 5px; padding: 4px 12px;'}
-            ការថែទាំជាក្រុមក្នុងសហគមន័
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ការថែទាំជាក្រុមក្នុងសហគមន៍
           %td
             %p
               %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះអង្គការ ៖
               %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
-                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
+                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍'
             %p
               %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះក្រុម ៖
               %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
-                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
+                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍'
           %td
             .comment{style: 'min-height: 60px;'}
-              %p= @government_form.carer_contact_info if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន័'
+              %p= @government_form.carer_contact_info if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍'
         %tr{style: 'page-break-inside: avoid;'}
-          %td
-            - if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
-              %span.first{style: 'margin-right: 5px;'} &#10003;
-            - else
-              %span.first{style: 'margin-right: 5px; padding: 4px 12px;'}
-            តាមវត្តអារាមឬទីកន្លែងសាសនានានា
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            តាមវត្តអារាមឬទីកន្លែង
+            %br
+            សាសនានានា
           %td
             %p
               %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះវត្ត/វិហារ ៖
@@ -186,11 +173,8 @@
             .comment{style: 'min-height: 60px;'}
               %p= @government_form.carer_contact_info if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
         %tr{style: 'page-break-inside: avoid;'}
-          %td
-            - if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
-              %span.first{style: 'margin-right: 5px;'} &#10003;
-            - else
-              %span.first{style: 'margin-right: 5px; padding: 4px 12px;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'កន្លែងថែទាំកុមារ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             កន្លែងថែទាំកុមារ
           %td
             %p
