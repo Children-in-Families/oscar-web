@@ -4,7 +4,6 @@ namespace :trim_field_name do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
       Family.all.each do |family|
-        binding.pry if family.name == 'Nou Sohon '
         family.update_columns(name: family.name.squish)
       end
     end
