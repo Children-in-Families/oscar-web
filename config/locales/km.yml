@@ -388,7 +388,7 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
-      referred_from: ទទួលចូលអង្គការ
+      referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       referred_to_ec: បញ្ជួនទៅករណី EC
       referred_to_fc: បញ្ជួនទៅករណី FC
@@ -1052,7 +1052,7 @@ km:
       preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_reasons: មូលហេតុនៃការបញ្ជូន
-      referred_from: ទទួលចូលអង្គការ
+      referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     client_advanced_searches:
       advanced_search:
@@ -1506,7 +1506,7 @@ km:
       referral_forms: បែបបទបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
-      referred_from: ទទួលចូលអង្គការ
+      referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       reject: មិនទទួលយក
       reject_client: មិនទទួលយកអតិថិជន

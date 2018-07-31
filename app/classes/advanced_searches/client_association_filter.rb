@@ -76,7 +76,7 @@ module AdvancedSearches
       when 'equal'
         clients.where('referrals.referred_from = ?', @value).ids
       when 'not_equal'
-        clients.where('referrals.referred_from  != ?', @value).ids
+        clients.where('referrals.referred_from != ?', @value).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
@@ -91,17 +91,17 @@ module AdvancedSearches
       client_ids = []
       case @operator
       when 'equal'
-        if user.name == "OSCaR Team"
+        if user.email == ENV['OSCAR_TEAM_EMAIL']
           ids = clients.where("versions.event = ?", 'create').distinct.ids
           client_ids << clients.where.not(id: ids).distinct.ids
-          client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit = ?)", 'create', @value, 'create', 'deployer@rotati').distinct.ids
+          client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit iLike ?)", 'create', @value, 'create', '%rotati%').distinct.ids
           client_ids.flatten.uniq
         else
           clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
         end
       when 'not_equal'
-        if user.name == "OSCaR Team"
-          client_ids << clients.where("versions.event = ? AND versions.whodunnit != ? AND versions.event = ? AND versions.whodunnit != ?", 'create', @value, 'create', 'deployer@rotati').uniq.ids
+        if user.email == ENV['OSCAR_TEAM_EMAIL']
+          client_ids << clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).where.not("versions.event = ? AND versions.whodunnit iLike ?", 'create', '%rotati%').distinct.ids
           client_ids.flatten.uniq
         else
           clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids

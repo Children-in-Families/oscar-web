@@ -91,11 +91,16 @@ class ClientGrid
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
-  filter(:referred_to, :enum, select: :referral_options, header: -> { I18n.t('datagrid.columns.clients.referred_to') } )
+  filter(:referred_to, :enum, select: :referral_to_options, header: -> { I18n.t('datagrid.columns.clients.referred_to') } )
 
-  filter(:referred_from, :enum, select: :referral_options, header: -> { I18n.t('datagrid.columns.clients.referred_from') } )
+  filter(:referred_from, :enum, select: :referral_from_options, header: -> { I18n.t('datagrid.columns.clients.referred_from') } )
 
-  def referral_options
+  def referral_to_options
+    orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+    orgs << { "external referral" => "I don't see the NGO I'm looking for" }
+  end
+
+  def referral_from_options
     Organization.oscar.map { |org| { org.short_name => org.full_name } }
   end
 
@@ -495,7 +500,13 @@ class ClientGrid
 
   column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
     short_names = object.referrals.pluck(:referred_to)
-    Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name).join(', ')
+    org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    if short_names.include?('external referral')
+      org_names << "I don't see the NGO I'm looking for"
+      org_names.join(', ')
+    else
+      org_names.join(', ')
+    end
   end
 
   column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
@@ -527,7 +538,7 @@ class ClientGrid
     version = object.versions.find_by(event: 'create')
     if version.present?
       id = version.whodunnit
-      id == 'deployer@rotati' ? 'OSCaR Team' : User.find_by(id: id.to_i).try(:name)
+      id.include?('rotati') ? 'OSCaR Team' : User.find_by(id: id.to_i).try(:name)
     else
       'OSCaR Team'
     end
