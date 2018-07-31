@@ -501,7 +501,7 @@ class ClientGrid
   column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
     short_names = object.referrals.pluck(:referred_to)
     org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
-    short_names.include?('external referral') ? org_names << "I don't see the NGO I'm looking for" : orgs
+    short_names.include?('external referral') ? org_names << "I don't see the NGO I'm looking for" : org_names
     org_names.join(', ')
   end
 
