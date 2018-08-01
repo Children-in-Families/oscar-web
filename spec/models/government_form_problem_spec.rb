@@ -10,3 +10,14 @@ describe GovernmentFormProblem, 'CONSTANTS' do
     end
   end
 end
+
+describe GovernmentFormProblem, 'scopes' do
+  let!(:record_1){ create(:government_form_problem) }
+  let!(:record_2){ create(:government_form_problem) }
+
+  context 'default_scope' do
+    it 'order by created_at ascending' do
+      expect(GovernmentFormProblem.all.ids).to eq([record_1.id, record_2.id])
+    end
+  end
+end

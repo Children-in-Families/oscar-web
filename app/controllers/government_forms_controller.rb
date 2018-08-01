@@ -39,7 +39,7 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        render  pdf:      'show',
+        render  pdf:      @government_form.name,
                 template: 'government_forms/show.pdf.haml',
                 layout:   'pdf_design.html.haml',
                 show_as_html: params.key?('debug'),
