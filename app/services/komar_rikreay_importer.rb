@@ -100,7 +100,7 @@ module KomarRikreayImporter
     def clients
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
-      headers     =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'school_name', 'school_grade', 'birth_province_id', 'province_id', 'district_id', 'commune', 'follow_up_date', 'initial_referral_date', 'referral_phone', 'has_been_in_orphanage', 'has_been_in_government_care', 'relevant_referral_information', 'kid_id', 'user_ids', 'country_origin']
+      headers     =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'school_name', 'school_grade', 'birth_province_id', 'province_id', 'district_id', 'current_address', 'follow_up_date', 'initial_referral_date', 'referral_phone', 'has_been_in_orphanage', 'has_been_in_government_care', 'relevant_referral_information', 'kid_id', 'user_ids', 'country_origin']
       family_hash = Hash.new { |h,k| h[k] = []}
 
       (2..sheet.last_row).each_with_index do |row_index, index|
