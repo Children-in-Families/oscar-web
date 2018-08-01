@@ -8,7 +8,6 @@ class GovernmentFormsController < AdminController
   before_action :find_static_association, only: :show
 
   def index
-    authorize :government_form, :index?
     @government_forms = @client.government_forms.filter({ name: @form_name})
   end
 
