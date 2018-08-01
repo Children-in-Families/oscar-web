@@ -13,7 +13,7 @@ module KomarRikreayImporter
     end
 
     def users
-      headers = ["first_name", "last_name", "email", "password", "roles"]
+      headers = ['first_name', 'last_name', 'email', 'password', 'roles']
       users = []
       sheet = workbook.sheet(@sheet_name)
 
@@ -40,7 +40,7 @@ module KomarRikreayImporter
     end
 
     def donors
-      headers = ["name", "code"]
+      headers = ['name', 'code']
       donors  = []
       sheet   = workbook.sheet(@sheet_name)
 
@@ -65,50 +65,82 @@ module KomarRikreayImporter
     end
 
     def families
+      headers   = ['name', 'code', 'case_history', 'family_type']
+      families  = []
+      sheet     = workbook.sheet(@sheet_name)
 
+      (2..sheet.last_row).each_with_index do |row_index, index|
+        data    = sheet.row(row_index)
+        data[0] = data[1].squish + " / " + data[0].squish
+        data[1] = data[2].squish
+        data[2] = "#{data[4].squish} #{data[3].squish}"
+        data[3] = map_family_type(data[5].squish)
+        data[4] = nil
+        data[5] = nil
+
+        begin
+          families << [headers, data.reject(&:nil?)].transpose.to_h
+        rescue IndexError => e
+          if Rails.env == 'development'
+            binding.pry
+          else
+            Rails.logger.debug e
+          end
+        end
+      end
+
+      families.each do |family|
+        family = Family.new(family)
+        family.save(validate: false)
+      end
+
+      puts 'Create families done!!!!!!'
     end
 
     def clients
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
-
-      headers =['given_name', 'family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'initial_referral_date', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'village', 'agency_ids', 'has_been_in_orphanage', 'has_been_in_government_care', 'code', 'user_ids', 'country_origin']
+      headers     =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'school_name', 'school_grade', 'birth_province_id', 'province_id', 'district_id', 'commune', 'follow_up_date', 'initial_referral_date', 'referral_phone', 'has_been_in_orphanage', 'has_been_in_government_care', 'relevant_referral_information', 'kid_id', 'user_ids', 'country_origin']
+      family_hash = Hash.new { |h,k| h[k] = []}
 
       (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
         data[0]    = data[0].squish
         data[1]    = data[1].squish
-        data[2]    = data[2].downcase.include?('m') ? 'male' : 'female'
-        data[3]    = format_date_of_birth(data[3])
+        data[2]    = data[2].squish
+        data[3]    = data[3].squish
+        data[4]    = data[4].squish
+        data[5]    = format_date_of_birth("#{data[5]}")
+        data[6]    = data[6].squish
 
-        data[4]    = find_referral_source(data[4])
-
-        data[5]    = check_nil_cell(data[5])
-        data[6]    = format_date_of_birth(data[6])
+        #school grade
         data[7]    = check_nil_cell(data[7])
-        data[8]    = check_nil_cell(data[8])
-        data[8]    = data[8].gsub('/', ', ') if data[8].present?
-
-        #current_province
+        #birth province
+        data[8]    = find_province(data[8])
+        #current province
         data[9]    = find_province(data[9])
 
-        #district
-        data[10]   = find_district(data[10])
-
-        data[11]   = check_nil_cell(data[11])
-        data[12]   = check_nil_cell(data[12])
-
-        #agency
-        data[13]   = find_agency(data[13])
-
-        data[14]   = find_boolean_value(data[14])
+        data[10]   = find_district(data[10].squish)
+        data[11]   = data[11].squish
+        data[12]   = format_date_of_birth("#{data[12]}")
+        data[13]   = format_date_of_birth("#{data[13]}")
+        data[14]   = check_nil_cell(data[14])
         data[15]   = find_boolean_value(data[15])
+        data[16]   = find_boolean_value(data[16])
+        data[17]   = check_nil_cell(data[17])
+        data[18]   = data[18].squish
 
-        data[16]   = check_nil_cell(data[16])
+        #case workers
+        data[19]   = map_case_worker(data[19].squish)
+        family     = { "#{data[18]}".squish => "#{check_nil_cell(data[20])}" }
+        family_hash.merge!(family)
 
-        #case_worker
-        data[17]   = find_users
-        data[18]   = 'cambodia'
+        data[20]   = 'cambodia'
+
+        #donor_id
+        data[21]   = nil
+        data[22]   = nil
+        data[23]   = nil
 
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
@@ -128,6 +160,31 @@ module KomarRikreayImporter
         client.save(validate: false)
       end
       puts 'Create clients done!!!!!!'
+
+      family_hash.each do |kid_id, family_id|
+        client = Client.find_by(kid_id: kid_id)
+        family = Family.find_by(code: family_id)
+        if family.present?
+          family.children << client.id
+          family.save(validate: false)
+        end
+
+      end
+    end
+
+    def map_case_worker(value)
+      first_names = {'ACP-001' => 'Saran', 'RRR-001' =>'Kanika', 'CFE-001' => 'Boramey', 'CFE-002' => 'Satheavuth', 'CFE-004' => 'Sokrady', 'CFE-005' => 'Leakhena', 'CFE-007' => 'Sotheary' }
+      user_id     = User.find_by(first_name: first_names[value]).try(:id)
+    end
+
+    def map_family_type(value)
+      if value == 'Foster'
+        'Long Term Foster Care'
+      elsif value == 'Emergency'
+        'Short Term / Emergency Foster Care'
+      elsif value == 'Birth Family'
+        'Birth Family (Both Parents)'
+      end
     end
 
     def password
@@ -137,22 +194,6 @@ module KomarRikreayImporter
     def find_boolean_value(cell)
       cell.nil? ? '' : cell.to_s.squish
       (cell == 'Yes' || cell == 'yes') ? true : false
-    end
-
-    def find_users
-      first_names = [ 'Pheakdey', 'Sopheary', 'Phearom', 'Leakna', 'Chamroeun', 'Kosal', 'Long' ]
-      users = User.where('first_name IN (?)', first_names).ids
-    end
-
-    def find_referral_source(name)
-      return '' unless name.present?
-      referral_source = ReferralSource.where("name ilike ?", "%#{name.squish.squish}")
-      if referral_source.any?
-        referral_source = referral_source.first
-      else
-        referral_source = ReferralSource.find_or_create_by!(name: name.squish)
-      end
-      referral_source.try(:id)
     end
 
     def find_district(name)
