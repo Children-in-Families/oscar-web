@@ -222,7 +222,7 @@
           %tbody
             - @government_form.government_form_family_plans.select(:id, :score, :comment, :family_plan_id, :government_form_id).each do |status|
               %tr{ style: 'page-break-inside: avoid;' }
-                %td{ style: 'border:1px solid black;' }
+                %td{ style: 'border:1px solid black; word-wrap: break-word;' }
                   = status.family_status_name == 'ផ្សេងៗ' ? "#{status.family_status_name}......................................": status.family_status_name
                   .comment{ style: 'min-height: 10px;' }
                 %td{ style: 'border:1px solid black; text-align: center;' }
@@ -239,10 +239,10 @@
   .panel-body.panel-border.no-margin-bottom{ style: 'padding: 0;' }
     %table{ style: 'padding-left: 22px;' }
       %colgroup
-        %col{ style: 'width: 210px' }
         %col{ style: 'width: 200px' }
-        %col{ style: 'width: 110px' }
-        %col{ style: 'width: 110px' }
+        %col{ style: 'width: 240px' }
+        %col{ style: 'width: 100px' }
+        %col{ style: 'width: 100px' }
       %tr{ style: 'page-break-inside: avoid;' }
         - GovernmentForm::CASEWORKER_ASSUMPTIONS.each_with_index do |assumption, index|
           - if @government_form.caseworker_assumption == assumption
