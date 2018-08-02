@@ -22,17 +22,17 @@
         %tr
           %td{ style: 'padding-left: 10px;' }
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 150px;', value: @government_form.assessment_commune.try(:name_kh) }
+            %input{ style: 'width: 140px;', value: @government_form.assessment_commune.try(:name_kh) }
           %td{ style: 'padding-left: 5px;' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 170px;', value: @government_form.assessment_district.try(:name_kh) }
+            %input{ style: 'width: 160px;', value: @government_form.assessment_district.try(:name_kh) }
           %td{ style: 'padding-left: 10x;' }
             ខេត្ត/រាជធានី:
             %input{ style: 'width: 135px;', value: @government_form.assessment_province.try(:name_kh) }
         %tr{ style: 'border-top: 1px dotted black;' }
           %td{ colspan: '2', style: 'padding-left: 10px;' }
             ឈ្មោះអ្នកកាន់ករណី:
-            %input{ style: 'width: 290px; margin-left: 2px;', value: @user.try(:name) }
+            %input{ style: 'width: 340px; margin-left: 2px;', value: @user.try(:name) }
           %td{ style: 'padding-left: 10px;' }
             លេខទូរសព្ទ:
             %input{ style: 'width: 130px; margin-left: 2px;', value:  @user.try(:mobile) }
