@@ -84,7 +84,7 @@ module FlameImporter
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
 
-      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'received_by_id', 'initial_referral_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'village', 'school_name', 'school_grade', 'rated_for_id_poor', 'has_been_in_orphanage', 'has_been_in_government_care', 'country_origin']
+      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'received_by_id', 'initial_referral_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'village', 'school_name', 'school_grade', 'rated_for_id_poor', 'has_been_in_orphanage', 'has_been_in_government_care', 'rated_for_id_poor', 'country_origin']
 
       (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
@@ -115,7 +115,8 @@ module FlameImporter
 
         data[20]   = find_boolean_value(data[20])
         data[21]   = find_boolean_value(data[21])
-        data[22]   = 'cambodia'
+        data[22]   = data[22].squish == 'Yes' ? 'Level 2' : data[22].squish
+        data[23]   = 'cambodia'
 
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
