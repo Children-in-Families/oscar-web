@@ -142,7 +142,7 @@
                   .col-xs-8
                     %input{ style: 'width: 100%;', value: @government_form.primary_carer_district.try(:name_kh) }
               .col-xs-5
-                .row
+                .row{ style: 'margin-bottom: 3px;' }
                   .col-xs-4
                     ឃុំ/សង្កាត់:
                   .col-xs-8
@@ -320,7 +320,7 @@
               %input.text-center{ style: 'width: 30px;', value: need_rank('សំលៀកបំពាក់') }
               សំលៀកបំពាក់
           .col-xs-8.no-left-padding
-            .form-check{style: 'margin: 3px 0 35px 0'}
+            .form-check
               %div.other-label
                 %input.text-center{ style: 'width: 30px;', value: need_rank('ផ្សេងៗ') }
                 ផ្សេងៗ
@@ -400,8 +400,7 @@
               .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
                 .form-check
                   %div.other-label
-                    %input.text-center{ style: 'width: 30px;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') }
-                    ផ្សេងៗ (សូមបញ្ជាក់)
+                    %input.text-center{ style: 'width: 30px;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') } ផ្សេងៗ (សូមបញ្ជាក់)
               .col-xs-12.no-left-padding
                 %div{ style: 'margin-left:0;', class: "other #{ 'empty' if @government_form.other_problem.blank?}" }= @government_form.other_problem
 
