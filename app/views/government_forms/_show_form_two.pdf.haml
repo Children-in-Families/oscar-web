@@ -18,20 +18,24 @@
       %tbody
         %u{ style: 'font-size: 14px; font-weight: bold; padding-left: 5px;' }
           ទីកន្លែងប៉ាន់ប្រមាណ៖
+        %colgroup
+          %col{ style: 'width: 100px;' }
+          %col{ style: 'width: 199px;' }
+          %col{ style: 'width: 199px;' }
         %tr
           %td{ style: 'padding-left: 10px;' }
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 100px;', value: @government_form.assessment_commune.try(:name_kh) }
+            %input{ value: @government_form.assessment_commune.try(:name_kh) }
           %td{ style: 'padding-left: 5px;' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 160px;', value: @government_form.assessment_district.try(:name_kh) }
+            %input{ value: @government_form.assessment_district.try(:name_kh) }
           %td{ style: 'padding-left: 10x;' }
             ខេត្ត/រាជធានី:
-            %input{ style: 'width: 199px;', value: @government_form.assessment_province.try(:name_kh) }
+            %input{ value: @government_form.assessment_province.try(:name_kh) }
         %tr{ style: 'border-top: 1px dotted black;' }
           %td{ colspan: '2', style: 'padding-left: 10px;' }
             ឈ្មោះអ្នកកាន់ករណី:
-            %input{ style: 'width: 280px; margin-left: 2px;', value: @user.try(:name) }
+            %input{ style: 'width: 250px; margin-left: 2px;', value: @user.try(:name) }
           %td{ style: 'padding-left: 10px;' }
             លេខទូរសព្ទ:
             %input{ style: 'width: 200px; margin-left: 2px;', value:  @user.try(:mobile) }
