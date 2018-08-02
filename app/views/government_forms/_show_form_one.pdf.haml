@@ -165,9 +165,12 @@
         %span.first= code
       - else
         %span= code
-  %div#panel-top-bottom-dotted
-    %label ប្រភពព័ត៌មាន:
-    %input{style: 'width:100%', value: @government_form.source_info }
+  #panel-top-bottom-dotted
+    .row
+      .col-xs-2
+        ប្រភពព័ត៌មាន:
+      .col-xs-10
+        %input{style: 'width:100%; float:left;', value: @government_form.source_info }
 %p{style: 'page-break-after:always;'}
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #F2F2F2;' }
@@ -214,7 +217,7 @@
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #F2F2F2;' }
     បញ្ចូនមកពី:
-  .panel-body.border-label.border-label{style: 'padding: 0;'}
+  .panel-body.border-label.border-label{style: 'padding: 0 0 5px 0;'}
     .row
       .col-xs-4{style: 'min-height:136px;'}
         = render @client.referral_source_name == 'ក្រសួង សអយ/មន្ទីរ សអយ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
@@ -258,13 +261,11 @@
         = render @client.referral_source_name == 'អាជ្ញាធរដែនដី' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         អាជ្ញាធរដែនដី
         %br
-
         %div.other-label
           = render ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
           ផ្សេងៗ
         %div{ class: "other #{ 'empty' if @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.include?(@client.referral_source_name)}" }
           = @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name)
-        %br
 
 .panel.panel-default{style: 'margin:0;'}
   %label.panel-label{ style: 'background-color: #FFFD54;' }
@@ -287,7 +288,7 @@
   .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
     .panel.panel-default{style: 'margin:0;'}
       %label.panel-label{ style: 'background-color: #D8D8D8;' }
-        សូមបញ្ជាក់ពីប្រភេទតម្រូវការចំបាច់(បង់លេខតាមអទិភាព):
+        សូមបញ្ជាក់ពីប្រភេទតម្រូវការចាំបាច់ ( បង់លេខតាមអាទិភាព ):
       .panel-body.border-label
         .row
           .col-xs-4
@@ -327,7 +328,7 @@
 
     .panel.panel-default{style: 'margin:0;'}
       %label.panel-label{ style: 'background-color: #D8D8D8;' }
-        សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ(បង់លេខតាមអទិភាព):
+        សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ ( បង់លេខតាមអាទិភាព ):
       .panel-body.border-label
         .row
           .col-xs-4
