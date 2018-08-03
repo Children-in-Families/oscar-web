@@ -8,16 +8,16 @@
   .panel-body.panel-border{style: 'border-top: 1px solid black'}
     = render 'client_code'
 
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr
-          %td{style: 'width: 70px; '}
+          %td{style: 'width: 70px; vertical-align: middle;'}
             ឈ្មោះកុមារ:
-          %td{style: 'width: 200px; '}
+          %td{style: 'width: 200px; vertical-align: middle;'}
             %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
-          %td
+          %td{ style: 'vertical-align: middle;' }
             ថ្ងៃខែឆ្នាំកំណើត:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
             - dob.split('').each_with_index do |code, index|
               - if index == 0
