@@ -57,11 +57,6 @@ class Assessment < ActiveRecord::Base
     adult ? errors.add(:base, 'Assessment cannot be created for client who is over 18.') : true
   end
 
-  def created_by
-    create_history = self.versions.find_by(event: 'create')
-    create_history.present? ? User.find_by(id: create_history.whodunnit.to_i).name : 'OSCaR Team'
-  end
-
   private
 
   def must_be_min_assessment_period

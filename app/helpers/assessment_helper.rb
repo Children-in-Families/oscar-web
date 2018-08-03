@@ -31,4 +31,10 @@ module AssessmentHelper
     return false if current_user.strategic_overviewer?
     current_user.permission.assessments_editable
   end
+
+  def whodunnit(assessment)
+    user_id = assessment.versions.find_by(event: 'create').try(:whodunnit)
+    return 'OSCaR Team' if user_id.blank? || (user_id.present? && user_id.include?('@rotati'))
+    User.find_by(id: user_id).try(:name) || ''
+  end
 end
