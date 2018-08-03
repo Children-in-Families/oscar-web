@@ -17,7 +17,7 @@
           .col-xs-12
             %span= t('.assessment_completed_by')
             %strong
-              %u= whodunnit(@assessment)
+              %u= whodunnit('Assessment', @assessment)
             %span= t('.on_date')
             %strong
               %u= @assessment.created_at.strftime("%B %d, %Y")
