@@ -59,7 +59,7 @@ class Assessment < ActiveRecord::Base
 
   def created_by
     create_history = self.versions.find_by(event: 'create')
-    create_history.present? ? User.find_by(id: create_history.whodunnit.to_i).fullname : 'OSCaR Team'
+    create_history.present? ? User.find_by(id: create_history.whodunnit.to_i).name : 'OSCaR Team'
   end
 
   private

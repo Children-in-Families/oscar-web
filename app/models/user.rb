@@ -269,10 +269,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def fullname
-    name = "#{first_name} #{last_name}"
-  end
-
   # def otp_module_changeable?
   #   # set it to false until the client request this feature
   #   # as the user is unable to access their device/token
