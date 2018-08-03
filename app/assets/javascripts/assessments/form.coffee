@@ -103,7 +103,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onFinished: ->
         $('.actions a:contains("Done")').removeAttr('href')
-        form.submit()
+        form.valid()
+        if !$('.text-required').is ':visible'
+          form.submit()
       labels:
         finish: 'Done'
 
