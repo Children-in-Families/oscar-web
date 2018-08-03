@@ -24,13 +24,11 @@
                 %span.first= code
               - else
                 %span= code
-          %td
+          %td{ style: 'vertical-align: middle;' }
             ភេទ:
-          %td
-            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ប្រុស
-          %td
-            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ស្រី
 
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
@@ -147,7 +145,7 @@
     .row{style: 'margin-top: 5px;'}
       .col-xs-6.text-left
         .signature_date
-          កាលបរិចេ្ឆទ:
+          កាលបរិច្ឆេទ:
           %span.first
           %span.padding-date
           %span.padding-date
@@ -166,7 +164,7 @@
         %p.no-margin-bottom ______________________________________
       .col-xs-6.text-right
         .signature_date
-          កាលបរិចេ្ឆទ (ថ្ងៃទី/ខែ/ឆ្នាំ):
+          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ):
           %span.first
           %span.padding-date
           %span.padding-date
@@ -189,7 +187,7 @@
     .row{style: 'margin-top: 5px;'}
       .col-xs-12
         .signature_date
-          កាលបរិចេ្ឆទ:
+          កាលបរិច្ឆេទ:
           %span.first
           %span.padding-date
           %span.padding-date

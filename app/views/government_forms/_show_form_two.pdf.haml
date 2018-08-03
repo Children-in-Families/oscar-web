@@ -261,7 +261,7 @@
     %br/
     .row
       .col-xs-12{ style: 'padding-left: 27px;' }
-        កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+        កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ):
         - gov_date = @government_form.assumption_date.present? ? @government_form.assumption_date.strftime('%d%m%y') : '000000'
         - gov_date.split('').each_with_index do |code, index|
           - if index == 0
