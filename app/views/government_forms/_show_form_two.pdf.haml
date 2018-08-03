@@ -57,13 +57,13 @@
             %col{ style: 'width: 420px' }
           %thead
             %tr{ style: 'background: #d3d3d3;' }
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 ស្ថានភាពរបស់កុមារ និងតម្រូវការបច្ចុប្បន្ន
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 ចំណាត់
                 %br
                 ថ្នាក់
-              %th{ style: 'border:1px solid black; text-align: center;' } មតិយោបល់
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
           %tbody
             - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each do |status|
               %tr{ style: 'page-break-inside: avoid;' }
@@ -126,15 +126,15 @@
             %col{ style: 'width: 180px' }
           %thead
             %tr{ style: 'background: #d3d3d3;' }
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 ឈ្មោះមនុស្សពេញវ័យដែល
                 %br
                 រស់នៅក្នុងផ្ទះជាមួយគ្នា
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 ថ្ងៃខែឆ្នាំកំណើត
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 មុខរបរ
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 ទំនាក់ទំនងជាមួយកុមារ
           %tbody
             - if @client.family.try(:family_members).present?
@@ -213,23 +213,23 @@
             %col{ style: 'width: 420px' }
           %thead
             %tr{ style: 'background: #d3d3d3;' }
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 ស្ថានភាពរបស់គ្រួសារ និងតម្រូវការបច្ចុប្បន្ន
-              %th{ style: 'border:1px solid black; text-align: center;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                 ចំណាត់
                 %br
                 ថ្នាក់
-              %th{ style: 'border:1px solid black; text-align: center;' } មតិយោបល់
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
           %tbody
             - @government_form.government_form_family_plans.select(:id, :score, :comment, :family_plan_id, :government_form_id).each do |status|
               %tr{ style: 'page-break-inside: avoid;' }
-                %td{ style: 'border:1px solid black; word-wrap: break-word;' }
+                %td{ style: 'border:1px solid black; word-wrap: break-word; vertical-align: middle;' }
                   = status.family_status_name == 'ផ្សេងៗ' ? "#{status.family_status_name}......................................": status.family_status_name
                   .comment{ style: 'min-height: 10px;' }
-                %td{ style: 'border:1px solid black; text-align: center;' }
+                %td{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
                   = status.score
                   .comment{ style: 'min-height: 10px;' }
-                %td{ style: 'border:1px solid black; word-wrap: break-word;' }
+                %td{ style: 'border:1px solid black; word-wrap: break-word; vertical-align: middle;' }
                   = status.comment
                   .comment{ style: 'min-height: 10px;' }
 
@@ -344,8 +344,7 @@
                         = service_type.name
                 .row
                   .col-xs-12
-                    %p{ style: 'margin-left: 5px; border: 1px solid black; padding: 5px;' }
-                      = @government_form.other_service_type
+                    %div{ class: "other #{ 'empty' if @government_form.other_service_type.blank?}" }= @government_form.other_service_type
 
   .panel-body.panel-border.no-margin-bottom{ style: 'padding: 0;' }
     %h5{ style: 'background: #ffff03; margin: 0 auto; padding: 5px; border-bottom: 1px solid black;' }
