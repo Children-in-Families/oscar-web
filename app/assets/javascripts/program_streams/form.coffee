@@ -142,10 +142,25 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(@).removeClass('disabled')
         $(@).addClass('done')
 
+  _preventProgramStreamWithoutTracking = ->
+    if $('#program_stream_tracking_required').is(':unchecked')
+      trackings = $('.nested-fields')
+      if trackings.size() > 0
+        for tracking in trackings
+          trackingName = $(tracking).find('.program_stream_trackings_name:visible input[type="text"]').val()
+          forms = $(tracking).find('.field-label').size()
+          if trackingName == '' || forms < 1
+            return true
+      else
+        return true
+
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
       if $('#trackings').is(':visible')
         _checkDuplicateTrackingName()
+      if _preventProgramStreamWithoutTracking()
+        messageWarning = $('#trackings').data('complete-tracking')
+        return alert(messageWarning)
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
       return false if _handleCheckingInvalidRuleValue() > 0

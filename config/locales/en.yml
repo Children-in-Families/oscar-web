@@ -3626,6 +3626,7 @@ en:
       tracking: Tracking
     tracking:
       add_tracking: Add Another Tracking Form
+      complete_tracking: Please complete the tracking form
       not_require_tracking: This Program Stream does not require any tracking form.
       tracking_form: Progress Tracking
     tracking_fields:
