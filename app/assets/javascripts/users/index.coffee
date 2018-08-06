@@ -3,6 +3,10 @@ CIF.UsersIndex = do ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
     _getUserPath()
+    _initSelect2()
+
+  _initSelect2 = ->
+    $('select').select2()
 
   _fixedHeaderTableColumns = ->
     $('.users-table').removeClass('table-responsive')

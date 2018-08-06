@@ -22,6 +22,8 @@ class FamilyColumnsVisibility
       contract_date_: :contract_date,
       province_id_: :province,
       district_id_: :district,
+      house_: :house,
+      street_: :street,
       commune_: :commune,
       village_: :village,
       manage_: :manage,
