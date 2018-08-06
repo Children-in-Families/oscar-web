@@ -35,9 +35,9 @@ module TlcImporter
         user_id                = find_user(workbook.row(row)[headers['Case Worker / Staff']]).id
 
         current_province       = workbook.row(row)[headers['Current Province']].split('/').last.squish if workbook.row(row)[headers['Current Province']].present?
-        current_province_id    = Province.where("name ilike ?", "%#{current_province}%").first.try(:id)
-        district               = workbook.row(row)[headers['Address - District/Khan']]
-        district_id            = District.where("name ilike ?", "%#{district}%").first.try(:id)
+        current_province_id    = Province.where("name ilike ?", "%#{current_province}%").first.try(:id) if current_province.present?
+        district               = workbook.row(row)[headers['Address - District/Khan']].squish if workbook.row(row)[headers['Address - District/Khan']].present?
+        district_id            = District.where(province_id: current_province_id).where("name ilike ?", "%#{district}%").first.try(:id) if district.present?
         commune                = workbook.row(row)[headers['Address - Commune/Sangkat']]
         village                = workbook.row(row)[headers['Address - Village']] == 'Unknown' ? '' : workbook.row(row)[headers['Address - Village']]
         house                  = workbook.row(row)[headers['Address - House#']] == 'Unknown' ? '' : workbook.row(row)[headers['Address - House#']]
