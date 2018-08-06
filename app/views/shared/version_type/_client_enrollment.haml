@@ -46,7 +46,7 @@
                   %td.col-sm-4.truncate
                     - if k == 'properties'
                       - values = v[0]
-                      - values = eval(v[0]) if v[0].class == String
+                      - values = eval(v[0].gsub('null', 'nil')) if v[0].class == String
                       - next if values == '{}'
                       - if values.present?
                         %ul
