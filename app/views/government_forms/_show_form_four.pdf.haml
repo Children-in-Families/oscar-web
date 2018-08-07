@@ -289,8 +289,8 @@
                 = khmer_dob_to_age @user.try(:date_of_birth)
                 = 'ឆ្នាំ'
             %p{style: 'line-height: 1;'}
-              %span.no-border{style: 'width: 37%;display: inline-block;'} ជាអ្នកកាន់ករណី បានឯកភាពទុកដាក់កុមារជាមួយ
-              %span.no-border.dot-row.text-center{style: 'width: 61%;display: inline-block;'}
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ជាអ្នកកាន់ករណី បានឯកភាពទុកដាក់កុមារជាមួយ
+              %span.no-border.dot-row.text-center{style: 'width: 58%;display: inline-block;'}
                 = @government_form.new_carer
               %span.no-border{style: 'width: 2%;display: inline-block;'} ។
             %p{style: 'line-height: 2;'}
@@ -298,7 +298,7 @@
 
         %tr{style: 'page-break-inside: avoid;'}
           %td{:colspan => "2", style: 'line-height: 25px; padding: 2px 8px 1px 8px;'}
-            កាលបរិច្ឆេទ:
+            កាលបរិច្ឆេទ
             - gov_date = @government_form.gov_placement_date.present? ? @government_form.gov_placement_date.strftime('%d%m%y') : '000000'
             - gov_date.split('').each_with_index do |code, index|
               - if index == 0

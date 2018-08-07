@@ -52,7 +52,7 @@
       %tbody
         %tr
           %td{style: 'width: 20px; padding-left: 0;'}
-            អាស័យដ្ឋាន:
+            អាសយដ្ឋាន:
           %td.text-right{ style: 'vertical-align: middle;' }
             ភូមិ:
           %td{ style: 'vertical-align: middle;' }
@@ -63,20 +63,20 @@
             %input{style: 'width: 100%', value: @client.family.try(:commune) }
         %tr
           %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
-            %label ក្រុង/ស្រុក/ខណ្ឌ:
+            ក្រុង/ស្រុក/ខណ្ឌ:
           %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:district).try(:name_kh) }
           %td{ style: 'vertical-align: middle;' }
-            %label ខេត្ត/រាជធានី:
+            ខេត្ត/រាជធានី:
           %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:province).try(:name_kh) }
         %tr
           %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
-            %label ឈ្មោះអ្នកកាន់ករណី:
+            ឈ្មោះអ្នកកាន់ករណី:
           %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @user.try(:name) }
           %td{ style: 'vertical-align: middle;' }
-            %label អង្គភាព:
+            អង្គភាព:
           %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @setting.org_name }
 
@@ -147,15 +147,15 @@
     .row{style: 'margin-top: 5px;'}
       .col-xs-6.text-left
         .signature_date
-          កាលបរិច្ឆេទ:
-          %span.first
+          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+          %span.first{ style: 'margin-left: 10px !important;' }
           %span.padding-date
           %span.padding-date
           %span.padding-date
           %span.padding-date
           %span.padding-date
         %br
-        %p{style: 'margin-left: 50px;'} ហត្ថលេខាអ្នកកាន់ករណី
+        %p{style: 'margin-left: 50px;'} ហត្ថលេខាអ្នកកាន់ករណី:
         %br
         %br
         %br
@@ -163,11 +163,11 @@
         %br
         %br
         %br
-        %p.no-margin-bottom ______________________________________
+
       .col-xs-6.text-right
         .signature_date
-          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ):
-          %span.first
+          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+          %span.first{ style: 'margin-left: 10px !important;' }
           %span.padding-date
           %span.padding-date
           %span.padding-date
@@ -182,22 +182,21 @@
         %br
         %br
         %br
-        %p.no-margin-bottom ______________________________________
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border.text-center{style: 'border-radius: 3px '}
     .row{style: 'margin-top: 5px;'}
       .col-xs-12
         .signature_date
-          កាលបរិច្ឆេទ:
-          %span.first
+          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+          %span.first{ style: 'margin-left: 10px !important;' }
           %span.padding-date
           %span.padding-date
           %span.padding-date
           %span.padding-date
           %span.padding-date
         %br
-        %p{style: 'margin-right: 30px;'} ហត្ថលេខា គ.ក.ន.ក
+        %p{style: 'margin-right: 30px;'} ហត្ថលេខា តំណាងអាជ្ញាធរមូលដ្ឋាន:
         %br
         %br
         %br
@@ -205,4 +204,3 @@
         %br
         %br
         %br
-        %p.no-margin-bottom ______________________________________
