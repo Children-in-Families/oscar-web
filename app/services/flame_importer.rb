@@ -13,7 +13,7 @@ module FlameImporter
     end
 
     def users
-      headers  = ["first_name", "last_name", "email", "password", "roles", "manager_ids"]
+      headers  = ["first_name", "last_name", "email", "password", "roles", "manager_id"]
       users    = []
       sheet    = workbook.sheet(@sheet_name)
 
@@ -42,7 +42,7 @@ module FlameImporter
 
       User.all.each do |user|
         next if user.first_name == 'Vandeth' || user.first_name == 'Maria'
-        id = User.find_by(first_name: 'Maria')
+        id = User.find_by(first_name: 'Maria').try(:id)
         user.update_attributes(manager_id: id)
       end
 
@@ -84,7 +84,7 @@ module FlameImporter
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
 
-      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'received_by_id', 'initial_referral_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'village', 'school_name', 'school_grade', 'rated_for_id_poor', 'has_been_in_orphanage', 'has_been_in_government_care', 'rated_for_id_poor', 'country_origin']
+      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'received_by_id', 'initial_referral_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'village', 'school_name', 'school_grade', 'rated_for_id_poor', 'has_been_in_orphanage', 'has_been_in_government_care', 'country_origin']
 
       (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
@@ -111,12 +111,11 @@ module FlameImporter
         data[17]   = check_nil_cell(data[17])
         data[18]   = check_nil_cell(data[18])
 
-        data[19]   = ''
+        data[19]   = data[19].squish == 'Yes' ? 'Level 2' : data[19].squish
 
         data[20]   = find_boolean_value(data[20])
         data[21]   = find_boolean_value(data[21])
-        data[22]   = data[22].squish == 'Yes' ? 'Level 2' : data[22].squish
-        data[23]   = 'cambodia'
+        data[22]   = 'cambodia'
 
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
@@ -158,7 +157,7 @@ module FlameImporter
 
     def find_boolean_value(cell)
       cell.nil? ? '' : cell.to_s.squish
-      (cell == 'Yes' || cell == 'yes') ? true : false
+      (cell.downcase == 'yes') ? true : false
     end
 
     def find_referral_source(name)
