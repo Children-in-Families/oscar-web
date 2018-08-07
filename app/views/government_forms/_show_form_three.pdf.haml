@@ -8,10 +8,10 @@
   .panel-body.panel-border{style: 'border-top: 1px solid black'}
     = render 'client_code'
 
-    %table.table.no-margin-bottom.table-borderless
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 4px;' }
       %tbody
         %tr
-          %td{style: 'width: 70px; vertical-align: middle;'}
+          %td{style: 'width: 70px; vertical-align: middle; padding-left: 0;'}
             ឈ្មោះកុមារ:
           %td{style: 'width: 200px; vertical-align: middle;'}
             %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
@@ -31,12 +31,12 @@
             = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ស្រី
 
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 4px;' }
       %tbody
         %tr
-          %td
+          %td{ style: 'vertical-align: middle; padding-left: 0;' }
             ឈ្មោះឪពុកម្តាយឬអ្នកអាណាព្យាបាល:
-          %td{style: 'width: 200px;'}
+          %td{style: 'width: 200px; vertical-align: middle;'}
             %input{style: 'width: 100%;', value: @client.family.try(:name) }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
@@ -48,36 +48,36 @@
               - else
                 %span= code
 
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 4px;'}
       %tbody
         %tr
-          %td{style: 'width: 20px;'}
+          %td{style: 'width: 20px; padding-left: 0;'}
             អាស័យដ្ឋាន:
-          %td.text-right
+          %td.text-right{ style: 'vertical-align: middle;' }
             ភូមិ:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%;', value: @client.family.try(:village) }
-          %td{style: 'width: 50px;'}
+          %td{style: 'width: 50px; vertical-align: middle;'}
             ឃុំ/សង្កាត់:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:commune) }
         %tr
-          %td.text-right{:colspan => "2"}
+          %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
             %label ក្រុង/ស្រុក/ខណ្ឌ:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:district).try(:name_kh) }
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %label ខេត្ត/រាជធានី:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:province).try(:name_kh) }
         %tr
-          %td.text-right{:colspan => "2"}
+          %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
             %label ឈ្មោះអ្នកកាន់ករណី:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @user.try(:name) }
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %label អង្គភាព:
-          %td
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @setting.org_name }
 
 .panel.panel-borderless
@@ -124,7 +124,9 @@
         %th.text-center{ style: 'width: 200px; vertical-align: middle;' } សូចនាករសំខាន់ៗរបស់អ្នកថែទាំ
         %th.text-center{ style: 'width: 100px; vertical-align: middle;' } គោលដៅ
         %th.text-center{ style:  'vertical-align: middle;' }
-          ផែនការសកម្មភាព (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
+          ផែនការសកម្មភាព
+          %br
+          (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
         %th.text-center{ style: 'width: 100px; vertical-align: middle;' } លទ្ធផល
     %tbody
       - @government_form.government_form_family_plans.each do |form|
