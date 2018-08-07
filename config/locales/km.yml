@@ -1293,6 +1293,11 @@ km:
       local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
+      province:
+        cambodia: ខេត្តកំណើត
+        lesotho: ខេត្តកំណើត
+        myanmar: ខេត្តកំណើត
+        thailand: ខេត្តកំណើត
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_information: ព័ត៌មានការបញ្ជូន
       referral_received_by: បុគ្គលិកទទួលករណី
@@ -1372,11 +1377,6 @@ km:
       is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       other_information: ព័ត៌មានផ្សេងៗ
-      province:
-        cambodia: ខេត្តកំណើត
-        lesotho: ខេត្តកំណើត
-        myanmar: ខេត្តកំណើត
-        thailand: ខេត្តកំណើត
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
@@ -1839,6 +1839,7 @@ km:
         female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
         female_children_count: ចំនួនក្មេងស្រី
         form_title: ឈ្មោះទម្រង់បែបបទ
+        house: ផ្ទះលេខ
         household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
         id: លេខសំគាល់
         male: ប្រុស
@@ -1851,6 +1852,7 @@ km:
         province: ខេត្ត/ក្រុង
         significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
         status: ស្ថានភាព
+        street: ផ្លូវ
         total: សរុប
         view: មើល
         village: ភូមិ
@@ -1938,6 +1940,7 @@ km:
         department: កម្មវិធី
         email: ឣុីម៉ែល
         first_name: នាមខ្លួនជាអក្សរឡាតាំង
+        gender: ភេទ
         id: លេខសំគាល់
         job_title: មុខតំណែង
         last_name: នាមត្រកូល
@@ -2636,6 +2639,7 @@ km:
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
+      house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
       id: លេខសំគាល់
       male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
@@ -2647,6 +2651,7 @@ km:
       province: ខេត្ត
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
+      street: ផ្លូវ
       village: ភូមិ
       'yes': បាទ/ចាស
     index:
@@ -2674,6 +2679,7 @@ km:
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
       general_info: អំពីគ្រួសារ
+      house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
       id: លេខសំគាល់
       male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
@@ -2688,6 +2694,7 @@ km:
       relation: ទំនាក់ទំនងជាមួយកុមារ
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
+      street: ផ្លូវ
       'yes': បាទ/ចាស
     update:
       not_allowed_to_detach_clients: អ្នកមិនអាចយកអតិថិជនចេញពីគ្រួសារតាមទម្រង់នេះបានទេ
@@ -4430,6 +4437,7 @@ km:
       department: កម្មវិធី
       email: ឣុីម៉ែល
       first_name: នាមខ្លួនជាអក្សរឡាតាំង
+      gender: ភេទ
       id: លេខសំគាល់
       job_title: មុខតំណែង
       last_name: នាមត្រកូល
@@ -4499,6 +4507,7 @@ km:
       department: កម្មវិធី
       email: ឣុីម៉ែល
       first_name: នាមខ្លួនជាអក្សរឡាតាំង
+      gender: ភេទ
       general_info: អំពីអ្នកប្រើប្រាស់
       id: លេខសំគាល់
       job_title: មុខតំណែង

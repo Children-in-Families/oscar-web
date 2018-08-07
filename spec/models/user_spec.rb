@@ -187,7 +187,8 @@ describe User, 'scopes' do
     job_title: 'Developer',
     department: department,
     roles: 'admin',
-    province: province
+    province: province,
+    gender: 'female'
   ) }
   let!(:other_user){ create(:user, department: department, province: province) }
   let!(:no_department_user){ create(:user, province: province) }
@@ -236,6 +237,16 @@ describe User, 'scopes' do
       is_expected.to include(user)
     end
     it 'should not include not mobile like' do
+      is_expected.not_to include(other_user)
+    end
+  end
+
+  context 'gender like' do
+    subject{ User.gender_like('female') }
+    it 'should include gender like' do
+      is_expected.to include(user)
+    end
+    it 'should not include not gender like' do
       is_expected.not_to include(other_user)
     end
   end

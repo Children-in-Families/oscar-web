@@ -13,8 +13,10 @@ FactoryGirl.define do
     association :district
     family_type 'Extended Family / Kinship Care'
     status 'Active'
-    commune { FFaker::Name.name }
-    village { FFaker::Name.name }
+    commune { FFaker::Address.street_address }
+    village { FFaker::Address.street_address }
+    street { FFaker::Address.street_address }
+    house { FFaker::Address.street_address }
 
     trait :emergency do
       family_type 'Short Term / Emergency Foster Care'

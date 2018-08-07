@@ -1299,6 +1299,11 @@ my:
       local_given_name: ပေးထားသောအမည် (ခမာ)
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       other_detail: အခြားအသေးစိတျ
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: Birth Province
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_information: လွှဲပြောင်းသတင်းအချက်အလက်များ
       referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
@@ -1378,11 +1383,6 @@ my:
       is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       other_detail: အခြားအသေးစိတျ
       other_information: အခြားအချက်အလက်
-      province:
-        cambodia: Birth Province
-        lesotho: Birth Suburb
-        myanmar: ေမြးဖြားရာ ခ႐ိုင္
-        thailand: Birth Province
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
@@ -1846,6 +1846,7 @@ my:
         female_adult_count: အရြယ္ေရာက္အမ်ိဳးသမီးအေရအတြက္
         female_children_count: အရြယ္မေရာက္ေသးေသာ ကေလးငယ္ အေရအတြက္
         form_title: ေခါင္းစဥ္မွ
+        house: အိမ္နံပါတ္
         household_income: အိမ္ေထာင္စု ၀င္ေငြ
         id: မွတ္ပံုတင္
         male: အမ်ိဳးသား
@@ -1858,6 +1859,7 @@ my:
         province: ခ႐ိုင္
         significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
         status: အေနအထား
+        street: လမ္း
         total: စုစုေပါင္း
         view: ျမင္ကြင္း
         village: ေက်းရြာ
@@ -1945,6 +1947,7 @@ my:
         department: ဌာန
         email: အီးေမးလ္
         first_name: ေရွ႕ဆံုးနာမည္
+        gender: က်ားမ
         id: မွတ္ပံုတင္
         job_title: အလုပ္အကိုင္
         last_name: ေနာက္ဆံုးနာမည္
@@ -2644,6 +2647,7 @@ my:
       family_type: မိသားစု အမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
+      house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု ၀င္ေငြ
       id: မွတ္ပံုတင္
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
@@ -2655,6 +2659,7 @@ my:
       province: ခ႐ိုင္
       significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
       status: အေျခအေန
+      street: လမ္း
       village: ေက်းရြာ
       'yes': မွန္ပါသည္
     index:
@@ -2683,6 +2688,7 @@ my:
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
       general_info: မိသားစုအေၾကာင္း
+      house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု၀င္ေငြ
       id: မွတ္ပံုတင္
       male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
@@ -2697,6 +2703,7 @@ my:
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
       status: အေျခအေန
+      street: လမ္း
       'yes': မွန္ပါသည္
     update:
       not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ
@@ -4461,6 +4468,7 @@ my:
       department: ဌာန
       email: အီးေမးလ္
       first_name: နာမည္ ပထမဆံုးအလံုး
+      gender: က်ားမ
       id: မွတ္ပံုတင္
       job_title: 'အလုပ္အကိုင္ '
       last_name: နာမည္ ေနာက္ဆံုးအလံုး
@@ -4530,6 +4538,7 @@ my:
       department: ဌာန
       email: အီးေမးလ္
       first_name: နာမည္ ပထမဆံုးအလံုး
+      gender: က်ားမ
       general_info: အသံုးျပဳသူအေၾကာင္း
       id: မွတ္ပံုတင္
       job_title: အလုပ္အကိုင္

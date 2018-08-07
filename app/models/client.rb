@@ -199,7 +199,7 @@ class Client < ActiveRecord::Base
   end
 
   def next_case_note_date
-    return Date.today if case_notes.count.zero? || case_notes.latest_record.meeting_date.nil?
+    return Date.today if case_notes.count.zero? || case_notes.latest_record.try(:meeting_date).nil?
     setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'

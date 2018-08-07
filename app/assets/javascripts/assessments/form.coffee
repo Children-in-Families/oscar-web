@@ -115,6 +115,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _saveAssessment = (form)->
     $("#rootwizard a[href='#save']").on 'click', ->
       form.valid()
+      _validateScore(form)
       if !$('.text-required').is ':visible'
         form.submit()
 
