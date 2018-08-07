@@ -49,10 +49,10 @@ module TlcImporter
         code                   = workbook.row(row)[headers['Custom ID Number 1']]
 
         client = Client.new(
-          family_name: family_name,
-          given_name: given_name,
-          local_family_name: local_family_name,
-          local_given_name: local_given_name,
+          family_name: family_name.try(:strip),
+          given_name: given_name.try(:strip),
+          local_family_name: local_family_name.try(:strip),
+          local_given_name: local_given_name.try(:strip),
           gender: gender,
           date_of_birth: dob,
           referral_source_id: referral_source_id,
