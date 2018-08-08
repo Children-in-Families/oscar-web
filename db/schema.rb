@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180726023440) do
+ActiveRecord::Schema.define(version: 20180808035053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -331,9 +331,9 @@ ActiveRecord::Schema.define(version: 20180726023440) do
     t.string   "current_address",                  default: ""
     t.string   "school_name",                      default: ""
     t.string   "school_grade",                     default: ""
-    t.boolean  "has_been_in_orphanage",            default: false
+    t.boolean  "has_been_in_orphanage"
     t.boolean  "able",                             default: false
-    t.boolean  "has_been_in_government_care",      default: false
+    t.boolean  "has_been_in_government_care"
     t.text     "relevant_referral_information",    default: ""
     t.string   "archive_state",                    default: ""
     t.text     "rejected_note",                    default: ""

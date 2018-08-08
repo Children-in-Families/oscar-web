@@ -17,12 +17,12 @@
       .col-xs-12.col-sm-6.col-md-4
         .i-check.has-been-in-orphanage
           %label= "#{t('.has_been_in_orphanage')}?"
-          = f.input :has_been_in_orphanage, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+          = f.input :has_been_in_orphanage, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, checked: @client.has_been_in_orphanage.nil? ? '' : @client.has_been_in_orphanage
 
       .col-xs-12.col-sm-6.col-md-4
         .i-check.has-been-in-government-care
           %label= "#{t('.has_been_in_government_care')}?"
-          = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+          = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, checked: @client.has_been_in_government_care.nil? ? '' : @client.has_been_in_government_care
       .col-xs-12.col-sm-6.col-md-4
         = f.input :code, label: t('.custom_id_number1')
     .row
