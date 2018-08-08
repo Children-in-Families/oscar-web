@@ -145,57 +145,51 @@
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-radius: 3px;'}
     .row{style: 'margin-top: 5px;'}
-      .col-xs-6.text-left
-        .signature_date
-          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
-          %span.first{ style: 'margin-left: 10px !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-        %br
-        %p{style: 'margin-left: 50px;'} ហត្ថលេខាអ្នកកាន់ករណី:
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
+      .col-xs-6
+        .row
+          .col-xs-12
+            %div{ style: 'float: left; line-height: 25px; margin-right: 5px;' }
+              កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+            - 6.times do |_|
+              .blank-box-date
+          .col-xs-12{ style: 'margin-top: 8px;' }
+            %p{style: 'margin-left: 50px;'} ហត្ថលេខាអ្នកកាន់ករណី:
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
 
-      .col-xs-6.text-right
-        .signature_date
-          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
-          %span.first{ style: 'margin-left: 10px !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-        %br
-        %p{style: 'margin-right: 30px;'} ស្នាមមេដៃឪពុកម្តាយ ឬអ្នកអាណាព្យាបាល
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
+      .col-xs-6
+        .row
+          .col-xs-12
+            %div{ style: 'float: right; line-height: 25px; margin-left: 5px;' }
+              - 6.times do |_|
+                .blank-box-date
+            %div{ style: 'float: right; line-height: 25px; margin-right: 5px;' }
+              កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+          .col-xs-12{ style: 'margin-top: 8px;' }
+            %p.text-right{style: 'margin-right: 40px;'} ស្នាមមេដៃឪពុកម្តាយ ឬអ្នកអាណាព្យាបាល
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border.text-center{style: 'border-radius: 3px '}
-    .row{style: 'margin-top: 5px;'}
-      .col-xs-12
-        .signature_date
+    .row
+      .col-xs-8.col-xs-offset-2{ style: 'padding: 0 13%;' }
+        %div{ style: 'float: left; line-height: 25px; margin-right: 5px;' }
           កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
-          %span.first{ style: 'margin-left: 10px !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-          %span.padding-date{ style: 'margin-left: 0 !important;' }
-        %br
+        - 6.times do |_|
+          .blank-box-date
+    .row
+      .col-xs-8.col-xs-offset-2{ style: 'padding: 0 13%; margin-top: 8px;' }
         %p{style: 'margin-right: 30px;'} ហត្ថលេខា តំណាងអាជ្ញាធរមូលដ្ឋាន:
         %br
         %br
