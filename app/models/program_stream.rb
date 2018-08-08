@@ -23,7 +23,7 @@ class ProgramStream < ActiveRecord::Base
   validate  :form_builder_field_uniqueness
   validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
 
-  after_save :set_program_completed
+  before_save :set_program_completed
   after_update :auto_update_exit_program, :auto_update_enrollment
   after_create :build_permission
 
@@ -151,8 +151,12 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def set_program_completed
-    return update_columns(completed: false) if !tracking_required && (trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([]))
-    update_columns(completed: true)
+    if !tracking_required && (trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([]))
+      self.completed = false
+      true
+    else
+      self.completed = true
+    end
   end
 
   def enrollment_errors_message
