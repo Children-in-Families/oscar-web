@@ -379,7 +379,7 @@ class ClientGrid
     Organization.switch_to 'shared'
     given_name = SharedClient.find_by(slug: object.slug).given_name
     Organization.switch_to current_org.short_name
-    link_to given_name, client_path(object), target: '_blank'
+    given_name
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
