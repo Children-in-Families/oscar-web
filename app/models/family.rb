@@ -11,6 +11,8 @@ class Family < ActiveRecord::Base
 
   belongs_to :province, counter_cache: true
   belongs_to :district
+  belongs_to :commune
+  belongs_to :village
 
   has_many :cases, dependent: :restrict_with_error
   has_many :clients, through: :cases

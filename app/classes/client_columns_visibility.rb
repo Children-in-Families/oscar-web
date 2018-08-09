@@ -37,8 +37,8 @@ class ClientColumnsVisibility
       current_address_: :current_address,
       house_number_: :house_number,
       street_number_: :street_number,
-      village_: :village,
-      commune_: :commune,
+      old_village_: :old_village,
+      old_commune_: :old_commune,
       district_: :district,
       subdistrict_: :subdistrict,
       state_: :state,
@@ -79,7 +79,9 @@ class ClientColumnsVisibility
       donor_: :donor,
       manage_: :manage,
       changelog_: :changelog,
-      telephone_number_: :telephone_number
+      telephone_number_: :telephone_number,
+      commune_: :commune,
+      village_: :village
     }
   end
 

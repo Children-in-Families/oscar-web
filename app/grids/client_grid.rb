@@ -126,9 +126,13 @@ class ClientGrid
 
   filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') }) { |value, scope| scope.street_number_like(value) }
 
-  filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') }) { |value, scope| scope.village_like(value) }
+  filter(:old_village, :string, header: -> { I18n.t('datagrid.columns.clients.old_village') }) { |value, scope| scope.old_village_like(value) }
+
+  filter(:old_commune, :string, header: -> { I18n.t('datagrid.columns.clients.old_commune') }) { |value, scope| scope.old_commune_like(value) }
 
   filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') }) { |value, scope| scope.commune_like(value) }
+
+  filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') }) { |value, scope| scope.commune_like(value) }
 
   filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') }) { |value, scope| scope.district_like(value) }
 
@@ -505,9 +509,17 @@ class ClientGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, header: -> { I18n.t('datagrid.columns.clients.village') })
+      column(:old_commune, header: -> { I18n.t('datagrid.columns.clients.old_commune') })
 
-      column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
+      column(:old_village, header: -> { I18n.t('datagrid.columns.clients.old_village') })
+
+      column(:commune, order: 'communes.name', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+        object.commune.try(:name)
+      end
+
+      column(:village, order: 'villages.name', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+        object.village.try(:code_format)
+      end
 
       column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name

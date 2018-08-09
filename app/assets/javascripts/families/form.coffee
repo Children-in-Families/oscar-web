@@ -26,18 +26,43 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
       disableTouchKeyboard: true
 
   _ajaxChangeDistrict = ->
-    $('#family_province_id').on 'change', ->
-      province_id = $(@).val()
-      $('select#family_district_id').val(null).trigger('change')
-      $('select#family_district_id option[value!=""]').remove()
-      if province_id != ''
+    mainAddress = $('#family_province_id, #family_district_id, #family_commune_id')
+    mainAddress.on 'change', ->
+      type       = $(@).data('type')
+      typeId     = $(@).val()
+      subAddress = $(@).data('subaddress')
+
+      if type == 'provinces'
+        subResources = 'districts'
+        subAddress =  switch subAddress
+                      when 'district' then $('#family_district_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'districts'
+        subResources = 'communes'
+        subAddress =  switch subAddress
+                      when 'commune' then $('#family_commune_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'communes'
+        subResources = 'villages'
+        subAddress =  switch subAddress
+                      when 'village' then $('#family_village_id')
+
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+
+      if typeId != ''
         $.ajax
           method: 'GET'
-          url: "/api/provinces/#{province_id}/districts"
+          url: "/api/#{type}/#{typeId}/#{subResources}"
           dataType: 'JSON'
           success: (response) ->
-            districts = response.data
-            for district in districts
-              $('select#family_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
+            for address in response.data
+              label = if subResources == 'villages' then address.code_format else address.name
+              subAddress.append("<option value='#{address.id}' data-code=#{address.code}>#{label}</option>")
 
   { init: _init }

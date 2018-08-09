@@ -370,6 +370,8 @@ my:
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      old_commune: Old Commune
+      old_village: Old Village
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       plot: Plot
@@ -1769,6 +1771,8 @@ my:
         ngo_accepted_date: NGO က လက္ခံသည့္ ရက္စြဲ
         ngo_exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
         no_dob: မဟုတ္ပါ
+        old_commune: Old Commune
+        old_village: Old Village
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         placement_case_type: ေနရာခ်ထားသည့္အမႈအမ်ိဳးအစား
         placement_start_date: ေနရာခ်ထားမႈ စတင္သည့္ ရက္စြဲ
@@ -1875,6 +1879,8 @@ my:
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       manage: စီမံသည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      old_commune: Old Commune
+      old_village: Old Village
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       partner: မိတ္ဖက္
       partners:

@@ -242,6 +242,8 @@ class ClientsController < AdminController
     @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
     @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
     @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
+    @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
+    @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
   end
 
   def initial_visit_client
