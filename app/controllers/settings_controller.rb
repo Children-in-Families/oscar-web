@@ -56,7 +56,7 @@ class SettingsController < AdminController
   def country_address_fields
     @provinces = Province.order(:name)
     @districts = Setting.first.province.present? ? Setting.first.province.districts.order(:name) : []
-    @communes  = Setting.first.commune.present? ? Setting.first.district.communes.order(:name_kh) : []
+    @communes  = Setting.first.district.present? ? Setting.first.district.communes.order(:name_kh) : []
   end
 
   def setting_params
