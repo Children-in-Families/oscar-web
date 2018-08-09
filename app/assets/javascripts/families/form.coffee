@@ -16,6 +16,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _cocoonCallback = ->
     $('#family-members').on 'cocoon:after-insert', ->
+      _initSelect2()
       _initDatePicker()
 
   _initDatePicker = ->

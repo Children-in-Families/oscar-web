@@ -2619,6 +2619,7 @@ en:
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth
+      guardian: Guardian
       occupation: Occupation
       relation: Relationship with Children
       remove_member: Remove Member
