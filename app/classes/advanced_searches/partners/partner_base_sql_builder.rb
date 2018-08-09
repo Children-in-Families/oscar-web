@@ -53,19 +53,19 @@ module AdvancedSearches
         when 'equal'
           if SENSITIVITY_FIELDS.include?(field)
             @sql_string << "lower(partners.#{field}) = ?"
-            @values << value.downcase
+            @values << value.downcase.squish
           else
             @sql_string << "partners.#{field} = ?"
-            @values << value
+            @values << value.squish
           end
 
         when 'not_equal'
           if SENSITIVITY_FIELDS.include?(field)
             @sql_string << "lower(partners.#{field}) != ?"
-            @values << value.downcase
+            @values << value.downcase.squish
           else
             @sql_string << "partners.#{field} != ?"
-            @values << value
+            @values << value.squish
           end
 
         when 'less'
@@ -86,11 +86,11 @@ module AdvancedSearches
 
         when 'contains'
           @sql_string << "partners.#{field} ILIKE ?"
-          @values << "%#{value}%"
+          @values << "%#{value.squish}%"
 
         when 'not_contains'
           @sql_string << "partners.#{field} NOT ILIKE ?"
-          @values << "%#{value}%"
+          @values << "%#{value.squish}%"
 
         when 'is_empty'
           if BLANK_FIELDS.include? field

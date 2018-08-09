@@ -54,9 +54,9 @@ module AdvancedSearches
       exit_ngos = ExitNgo.all
       case @operator
       when 'equal'
-        exit_ngos = exit_ngos.where('(? = ANY(exit_reasons))', @value)
+        exit_ngos = exit_ngos.where('(? = ANY(exit_reasons))', @value.squish)
       when 'not_equal'
-        exit_ngos = exit_ngos.where.not('? = ANY(exit_reasons)', @value)
+        exit_ngos = exit_ngos.where.not('? = ANY(exit_reasons)', @value.squish)
       when 'is_empty'
         exit_ngos = exit_ngos.where("(exit_reasons = '{}')")
       when 'is_not_empty'
@@ -70,9 +70,9 @@ module AdvancedSearches
       clients = @clients.joins(:exit_ngos)
       case @operator
       when 'equal'
-        clients = clients.where(exit_ngos: { exit_circumstance: @value })
+        clients = clients.where(exit_ngos: { exit_circumstance: @value.squish })
       when 'not_equal'
-        clients = clients.where.not(exit_ngos: { exit_circumstance: @value })
+        clients = clients.where.not(exit_ngos: { exit_circumstance: @value.squish })
       when 'is_empty'
         clients = clients.where(exit_ngos: { exit_circumstance: '' })
       when 'is_not_empty'
@@ -85,14 +85,14 @@ module AdvancedSearches
       exit_ngos = ExitNgo.all
       case @operator
       when 'equal'
-        client_id  = exit_ngos.find_by("lower(#{field}) = ?", @value.downcase).try(:client_id)
+        client_id  = exit_ngos.find_by("lower(#{field}) = ?", @value.downcase.squish).try(:client_id)
         client_ids = Array(client_id)
       when 'not_equal'
-        client_ids = exit_ngos.where.not("lower(#{field}) = ?", @value.downcase).pluck(:client_id)
+        client_ids = exit_ngos.where.not("lower(#{field}) = ?", @value.downcase.squish).pluck(:client_id)
       when 'contains'
-        client_ids = exit_ngos.where("#{field} ILIKE ?", "%#{@value}%").pluck(:client_id)
+        client_ids = exit_ngos.where("#{field} ILIKE ?", "%#{@value.squish}%").pluck(:client_id)
       when 'not_contains'
-        client_ids = exit_ngos.where.not("#{field} ILIKE ?", "%#{@value}%").pluck(:client_id)
+        client_ids = exit_ngos.where.not("#{field} ILIKE ?", "%#{@value.squish}%").pluck(:client_id)
       when 'is_empty'
         client_ids = exit_ngos.where("#{field} = ?", '').pluck(:client_id)
       when 'is_not_empty'
@@ -106,9 +106,9 @@ module AdvancedSearches
       clients = @clients.joins(:exit_ngos)
       case @operator
       when 'equal'
-        clients = clients.where(exit_ngos: { exit_date: @value })
+        clients = clients.where(exit_ngos: { exit_date: @value.squish })
       when 'not_equal'
-        clients = clients.where("exit_ngos.exit_date != ? OR exit_ngos.exit_date IS NULL", @value)
+        clients = clients.where("exit_ngos.exit_date != ? OR exit_ngos.exit_date IS NULL", @value.squish)
       when 'less'
         clients = clients.where('exit_ngos.exit_date < ?', @value)
       when 'less_or_equal'
@@ -199,10 +199,10 @@ module AdvancedSearches
           case key
           when 'equal'
             sql_string << "case_notes.interaction_type = ?"
-            param_values << values
+            param_values << values.squish
           when 'not_equal'
             sql_string << "case_notes.interaction_type != ?"
-            param_values << values
+            param_values << values.squish
           when 'is_empty'
             sql_string << "case_notes.interaction_type IS NULL"
             # param_values << ''
@@ -356,9 +356,9 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
       case @operator
       when 'equal'
-        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where('client_enrollments.program_stream_id = ?', @value.squish ).ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where.not('client_enrollments.program_stream_id = ?', @value.squish ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
@@ -370,9 +370,9 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments)
       case @operator
       when 'equal'
-        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where('client_enrollments.program_stream_id = ?', @value.squish ).ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where.not('client_enrollments.program_stream_id = ?', @value.squish ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
@@ -384,9 +384,9 @@ module AdvancedSearches
       clients = @clients.joins(:custom_fields)
       case @operator
       when 'equal'
-        clients = clients.where('custom_fields.id = ?', @value)
+        clients = clients.where('custom_fields.id = ?', @value.squish)
       when 'not_equal'
-        clients = clients.where.not('custom_fields.id = ?', @value)
+        clients = clients.where.not('custom_fields.id = ?', @value.squish)
       when 'is_empty'
         clients = @clients.where.not(id: clients.ids)
       when 'is_not_empty'
@@ -399,9 +399,9 @@ module AdvancedSearches
       clients = @clients.joins(:agencies)
       case @operator
       when 'equal'
-        clients.where('agencies.id = ?', @value ).ids
+        clients.where('agencies.id = ?', @value.squish ).ids
       when 'not_equal'
-        clients.where.not('agencies.id = ?', @value ).ids
+        clients.where.not('agencies.id = ?', @value.squish ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
@@ -448,9 +448,9 @@ module AdvancedSearches
       when 'not_equal'
         client_ids = families.where.not('lower(name) = ?', @values.downcase).pluck(:children)
       when 'contains'
-        client_ids = families.where('name ILIKE ?', "%#{@values}%").pluck(:children)
+        client_ids = families.where('name ILIKE ?', "%#{@values.squish}%").pluck(:children)
       when 'not_contains'
-        client_ids = families.where.not('name ILIKE ?', "%#{@values}%").pluck(:children)
+        client_ids = families.where.not('name ILIKE ?', "%#{@values.squish}%").pluck(:children)
       when 'is_empty'
         client_ids = families.pluck(:children).flatten.uniq
         client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq

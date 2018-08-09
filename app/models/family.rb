@@ -30,14 +30,14 @@ class Family < ActiveRecord::Base
 
   validate :client_must_only_belong_to_a_family
 
-  scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }
-  scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
-  scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value}%") }
-  scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value}%") }
-  scope :village_like,               ->(value) { where('village iLIKE ?', "%#{value}%") }
-  scope :commune_like,               ->(value) { where('commune iLIKE ?', "%#{value}%") }
-  scope :street_like,                ->(value) { where('street iLIKE ?', "%#{value}%") }
-  scope :house_like,                 ->(value) { where('house iLIKE ?', "%#{value}%") }
+  scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
+  scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
+  scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value.squish}%") }
+  scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value.squish}%") }
+  scope :village_like,               ->(value) { where('village iLIKE ?', "%#{value.squish}%") }
+  scope :commune_like,               ->(value) { where('commune iLIKE ?', "%#{value.squish}%") }
+  scope :street_like,                ->(value) { where('street iLIKE ?', "%#{value.squish}%") }
+  scope :house_like,                 ->(value) { where('house iLIKE ?', "%#{value.squish}%") }
   scope :emergency,                  ->        { where(family_type: 'Short Term / Emergency Foster Care') }
   scope :foster,                     ->        { where(family_type: 'Long Term Foster Care') }
   scope :kinship,                    ->        { where(family_type: 'Extended Family / Kinship Care') }
@@ -50,7 +50,7 @@ class Family < ActiveRecord::Base
   scope :other,                      ->        { where(family_type: 'Other') }
   scope :active,                     ->        { where(status: 'Active') }
   scope :inactive,                   ->        { where(status: 'Inactive') }
-  scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
+  scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value.squish}%") }
   scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :as_non_cases,               ->        { where.not(family_type: ['Short Term / Emergency Foster Care', 'Long Term Foster Care', 'Extended Family / Kinship Care']) }
   scope :by_status,                  ->(value) { where(status: value) }
@@ -82,6 +82,10 @@ class Family < ActiveRecord::Base
 
   def is_case?
     emergency? || foster? || kinship?
+  end
+
+  def name=(name)
+    write_attribute(:name, name.try(:strip))
   end
 
   private

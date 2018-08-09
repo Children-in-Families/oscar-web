@@ -32,7 +32,7 @@ class ClientGrid
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
-    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value).pluck(:slug)
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value.squish).pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
   end
@@ -383,7 +383,7 @@ class ClientGrid
     Organization.switch_to 'shared'
     given_name = SharedClient.find_by(slug: object.slug).given_name
     Organization.switch_to current_org.short_name
-    link_to given_name, client_path(object), target: '_blank'
+    given_name
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|

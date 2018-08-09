@@ -1294,6 +1294,11 @@ en:
       local_given_name: Given Name (Khmer)
       name_of_referee: Name of Referee
       other_detail: Other Details
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: Birth State
+        thailand: Birth Province
       referee_phone_number: Referee Phone Number
       referral_information: Referral Information
       referral_received_by: Referral Received By
@@ -1373,11 +1378,6 @@ en:
       is_the_client_rated_for_id_poor: Is the Client Rated for ID Poor
       other_detail: Other Details
       other_information: Other Information
-      province:
-        cambodia: Birth Province
-        lesotho: Birth Suburb
-        myanmar: Birth State
-        thailand: Birth Province
       relevant_referral_information: Relevant Referral Information / Notes
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
