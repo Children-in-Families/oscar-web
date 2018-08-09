@@ -92,7 +92,7 @@ class NgoUsageReport
       ngo_name               = org.full_name
       ngo_on_board           = org.created_at.strftime("%B %d, %Y")
       fcf                    = org.fcf_ngo? ? 'Yes' : 'No'
-      ngo_country            = Setting.country_name
+      ngo_country            = Setting.first.country_name.downcase.titleize
 
       user_count             = User.non_devs.count
       previous_month_users   = PaperTrail::Version.where(item_type: 'User', created_at: beginning_of_month..end_of_month)
@@ -100,21 +100,20 @@ class NgoUsageReport
       user_deleted_count     = previous_month_users.where(event: 'delete').count
       login_per_month        = Visit.excludes_non_devs.previous_month_logins.count
 
-      client_count           = Client.count
+      client_count           = Client.all.count
       previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
       client_added_count     = previous_month_clients.where(event: 'create').count
       client_deleted_count   = previous_month_clients.where(event: 'delete').count
-
       #in out
-      tranferred_client_count =
+      tranferred_client_count = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month).count
 
       ngo_values             = [ngo_name, ngo_on_board, fcf, ngo_country]
       user_values            = [ngo_name, user_count, user_added_count, user_deleted_count, login_per_month]
       client_values          = [ngo_name, client_count, client_added_count, client_deleted_count, tranferred_client_count]
 
       ngo_worksheet.insert_row(index += 1, ngo_values)
-      user_worksheet.insert_row(index += 1, user_values)
-      client_worksheet.insert_row(index += 1, client_values)
+      user_worksheet.insert_row(index, user_values)
+      client_worksheet.insert_row(index, client_values)
 
       ngo_length_of_column.times do |i|
         ngo_worksheet.row(index).set_format(i, column_date_format) if i == 1
@@ -123,21 +122,17 @@ class NgoUsageReport
       end
 
       user_length_of_column.times do |i|
-        user_worksheet.row(index).set_format(i, column_date_format) if i == 1
-        next if i == 1
         user_worksheet.row(index).set_format(i, column_format)
       end
 
       client_length_of_column.times do |i|
-        client_worksheet.row(index).set_format(i, column_date_format) if i == 1
-        next if i == 1
         client_worksheet.row(index).set_format(i, column_format)
       end
 
     end
 
     book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
-    generate(date_time, previous_month)
+    # generate(date_time, previous_month)
   end
 
   def generate(date_time, previous_month)
