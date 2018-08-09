@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180726023440) do
+ActiveRecord::Schema.define(version: 20180808075606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -949,6 +949,7 @@ ActiveRecord::Schema.define(version: 20180726023440) do
     t.string   "org_commune",             default: ""
     t.integer  "province_id"
     t.integer  "district_id"
+    t.integer  "age",                     default: 18
   end
 
   add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree

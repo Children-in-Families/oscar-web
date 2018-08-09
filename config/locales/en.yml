@@ -3951,6 +3951,7 @@ en:
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
   settings:
     assessment:
+      age: Age
       assessment: CSI Assessment Frequency Settings
       disable_assessment: We are not using CSI Assessment Tool
       max_assessment: Maximum time between assessments

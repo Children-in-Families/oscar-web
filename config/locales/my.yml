@@ -3980,6 +3980,7 @@ my:
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
     assessment:
+      age: အသက္
       assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
