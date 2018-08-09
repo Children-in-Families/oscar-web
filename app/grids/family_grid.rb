@@ -42,13 +42,13 @@ class FamilyGrid
 
   filter(:district_id, :enum, select: :district_options, header: -> { I18n.t('datagrid.columns.families.district') })
 
-  filter(:old_commune, :string, header: -> { I18n.t('datagrid.columns.families.old_commune') }) do |value, scope|
-    scope.old_commune_like(value)
-  end
+  # filter(:old_commune, :string, header: -> { I18n.t('datagrid.columns.families.old_commune') }) do |value, scope|
+  #   scope.old_commune_like(value)
+  # end
 
-  filter(:old_village, :string, header: -> { I18n.t('datagrid.columns.families.old_village') }) do |value, scope|
-    scope.old_village_like(value)
-  end
+  # filter(:old_village, :string, header: -> { I18n.t('datagrid.columns.families.old_village') }) do |value, scope|
+  #   scope.old_village_like(value)
+  # end
 
   filter(:commune, :enum, select: :commune_options, header: -> { I18n.t('datagrid.columns.families.commune') })
 

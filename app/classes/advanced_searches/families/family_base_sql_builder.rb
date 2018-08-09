@@ -63,6 +63,9 @@ module AdvancedSearches
           if SENSITIVITY_FIELDS.include?(field)
             @sql_string << "lower(families.#{field}) != ?"
             @values << value.downcase
+          elsif BLANK_FIELDS.include? field
+            @sql_string << "(families.#{field} IS NULL OR families.#{field} != ?)"
+            @values << value
           else
             @sql_string << "families.#{field} != ?"
             @values << value
