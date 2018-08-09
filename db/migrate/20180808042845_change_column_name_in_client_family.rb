@@ -12,6 +12,6 @@ class ChangeColumnNameInClientFamily < ActiveRecord::Migration
     rename_column :clients, :old_village, :village
     rename_column :families, :old_commune, :commune
     rename_column :families, :old_village, :village
-    rename_column :settings, :old_commune, :commune
+    rename_column :settings, :old_commune, :org_commune
   end
 end
