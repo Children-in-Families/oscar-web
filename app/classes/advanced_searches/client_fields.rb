@@ -31,11 +31,12 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at']
     end
 
     def drop_down_type_list
       [
+        ['created_by', user_select_options ],
         ['gender', { female: 'Female', male: 'Male' }],
         ['status', client_status],
         ['agency_name', agencies_options],
@@ -53,7 +54,9 @@ module AdvancedSearches
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
         ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3'}],
-        *setting_country_fields[:drop_down_fields]
+        *setting_country_fields[:drop_down_fields],
+        ['referred_to', referral_to_options],
+        ['referred_from', referral_from_options]
       ]
     end
 
@@ -130,11 +133,20 @@ module AdvancedSearches
     end
 
     def user_select_options
-      User.has_clients.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+      User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
     end
 
     def donor_options
       Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
+    end
+
+    def referral_to_options
+      orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+      orgs << { "external referral" => "I don't see the NGO I'm looking for" }
+    end
+
+    def referral_from_options
+      Organization.oscar.map { |org| { org.short_name => org.full_name } }
     end
 
     def setting_country_fields

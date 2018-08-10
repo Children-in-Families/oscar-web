@@ -44,11 +44,74 @@ module AdvancedSearches
         values = exit_ngo_exit_circumstance_query
       when 'exit_reasons'
         values = exit_ngo_exit_reasons_query
+      when 'created_by'
+        values = created_by_user_query
+      when 'referred_to'
+        values = referred_to_query
+      when 'referred_from'
+        values = referred_from_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def referred_to_query
+      clients = @clients.joins(:referrals)
+      case @operator
+      when 'equal'
+        clients.where('referrals.referred_to = ?', @value).ids
+      when 'not_equal'
+        clients.where('referrals.referred_to != ?', @value).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def referred_from_query
+      clients = @clients.joins(:referrals)
+      case @operator
+      when 'equal'
+        clients.where('referrals.referred_from = ?', @value).ids
+      when 'not_equal'
+        clients.where('referrals.referred_from != ?', @value).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def created_by_user_query
+      user    = ''
+      clients = @clients.joins(:versions)
+      user    = User.find(@value) if @value.present?
+      client_ids = []
+      case @operator
+      when 'equal'
+        if user.email == ENV['OSCAR_TEAM_EMAIL']
+          ids = clients.where("versions.event = ?", 'create').distinct.ids
+          client_ids << clients.where.not(id: ids).distinct.ids
+          client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit iLike ?)", 'create', @value, 'create', '%rotati%').distinct.ids
+          client_ids.flatten.uniq
+        else
+          clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
+        end
+      when 'not_equal'
+        if user.email == ENV['OSCAR_TEAM_EMAIL']
+          client_ids << clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).where.not("versions.event = ? AND versions.whodunnit iLike ?", 'create', '%rotati%').distinct.ids
+          client_ids.flatten.uniq
+        else
+          clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids
+        end
+      when 'is_empty'
+        clients.where("versions.whodunnit IS NULL").ids
+      when 'is_not_empty'
+        clients.where("versions.whodunnit IS NOT NULL").ids
+      end
+    end
 
     def exit_ngo_exit_reasons_query
       exit_ngos = ExitNgo.all
