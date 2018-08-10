@@ -29,22 +29,22 @@ describe Setting, 'validation' do
     it { expect(subject.valid?).to be_falsey }
   end
 
+  context 'age greater than 0 and less than 100' do
+    subject { Setting.new(age: 18) }
+    it { expect(subject.valid?).to be_truthy }
+  end
+
   context 'age greater than 0' do
     subject { Setting.new(age: 18) }
     it { expect(subject.valid?).to be_truthy }
   end
 
   context 'age less than 100' do
-    subject { Setting.new(age: 90) }
+    subject { Setting.new(age: 18) }
     it { expect(subject.valid?).to be_truthy }
   end
 
   context 'age equal 100' do
-    subject { Setting.new(age: 100) }
-    it { expect(subject.valid?).to be_truthy }
-  end
-
-  context 'age less than or equal 100' do
     subject { Setting.new(age: 100) }
     it { expect(subject.valid?).to be_truthy }
   end
@@ -54,7 +54,7 @@ describe Setting, 'validation' do
     it { expect(subject.valid?).to be_falsey }
   end
 
-  context 'age cannot less than 100' do
+  context 'age greater than 100' do
     subject { Setting.new(age: 110) }
     it { expect(subject.valid?).to be_falsey }
   end
