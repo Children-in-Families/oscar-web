@@ -1,0 +1,39 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "leave_programs-#{leave_program.id}" }
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = t('.leave_program')
+
+      .modal-body
+        = simple_form_for ([client, enrollment, leave_program]) do |f|
+          .row
+            .col-xs-12.form-group.date.optional{ class: ('has-error' if f.error :exit_date) }
+              %label.date.optional.control-label
+                %abbr{ title: 'required' } *
+                = t('.exit_date')
+              .input-group.date
+                = f.text_field :exit_date, class: 'date optional form-control date-picker', type: 'text', id: 'exit_date'
+                %span.input-group-addon
+                  %i.fa.fa-calendar-check-o
+              = f.error :exit_date
+
+          = f.simple_fields_for :properties, OpenStruct.new(leave_program.properties) do |prop_f|
+            - program_stream.exit_program.each do |exit_program|
+              .row
+                .col-xs-12{ class: exit_program['type'] == 'paragraph' ? '' : 'col-xs-12' }
+                  - exit_program['label'] = convert_bracket(exit_program['label'])
+                  - unless exit_program['type'] == 'file'
+                    = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: leave_program.errors.messages, entity: f
+                  - else
+                    - attachment = enrollment.build_leave_program.form_builder_attachments
+                    = f.simple_fields_for :form_builder_attachments, attachments.file_by_name(exit_program['label']) || attachments.build do |attachment|
+                      = render 'shared/form_builder/attachment', f: attachment, property: exit_program, entity: f, resource: leave_program
+                  .row
+                    .col-xs-12
+                      #message.text-danger
+          = hidden_field_tag :program_stream_id, program_stream.id
+          %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
+          = f.submit t('save'), class: 'btn btn-primary form-btn'

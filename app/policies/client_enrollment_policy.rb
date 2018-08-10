@@ -8,7 +8,12 @@ class ClientEnrollmentPolicy < ApplicationPolicy
     end
   end
 
+  def edit?
+    user.admin?
+  end
+
   alias new? create?
+  alias update? edit?
 
   def client_ids
     ClientEnrollment.active.where(program_stream_id: record.program_stream).pluck(:client_id).uniq

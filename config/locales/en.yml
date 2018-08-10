@@ -958,6 +958,14 @@ en:
       successfully_deleted: Enrollment has been successfully deleted.
     edit:
       enrollment: Edit Enrollment
+    edit_form:
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      client_enrollment: Edit Enrollment
+      enrollment_date: Enrollment Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      not_an_email: not an email
+      save: Save
     form:
       allow_file_size: Allowed file types
       cancel: Cancel
@@ -3258,6 +3266,13 @@ en:
       delete_attachment_successfully: Attachment has been successfully deleted.
     edit:
       leave_program: Edit Leave Program
+    edit_form:
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      exit_date: Exit Date
+      leave_program: Edit Leave Program
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
     form:
       allow_file_size: Allowed file types
       cancel: Cancel
@@ -3874,6 +3889,20 @@ en:
       successfully_created: Referral has been successfully created.
     edit:
       edit_referral: Edit Referral
+    edit_form:
+      client_id: Client ID
+      client_name: Client Name
+      consent_form: Please Upload Signed Referral Consent Form Here
+      date_of_referral: Date of Referral
+      edit_referral: Edit Referral
+      external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      name_of_referee: Case Worker Making the Referral
+      referral_phone: Contact Phone Number
+      referral_reason: What is the reason for this referral?
+      referred_from: Reffered from
+      referred_to: Referred to
+      save: Save
+      save_and_download: Save & Download
     form:
       client_id: Client ID
       client_name: Client Name
