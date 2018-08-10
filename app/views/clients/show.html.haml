@@ -353,13 +353,13 @@
                   = "#{t('.has_been_in_orphanage')}?"
                 %td
                   %strong
-                    = human_boolean(@client.has_been_in_orphanage)
+                    = human_boolean(@client.has_been_in_orphanage) unless @client.has_been_in_orphanage.nil?
               %tr
                 %td.spacing-first-col
                   = "#{t('.has_been_in_government_care')}?"
                 %td
                   %strong
-                    = human_boolean(@client.has_been_in_government_care)
+                    = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
               %tr
                 %td.spacing-first-col
                   = t('.relevant_referral_information')
