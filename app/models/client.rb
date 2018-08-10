@@ -84,23 +84,23 @@ class Client < ActiveRecord::Base
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   # after_update :notify_managers, if: :exiting_ngo?
 
-  scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
-  scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
-  scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value}%"}) }
-  scope :local_given_name_like,                    ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
-  scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value}%") }
-  scope :current_address_like,                     ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
-  scope :house_number_like,                        ->(value) { where('clients.house_number iLike ?', "%#{value}%") }
-  scope :street_number_like,                       ->(value) { where('clients.street_number iLike ?', "%#{value}%") }
-  scope :village_like,                             ->(value) { where('clients.village iLike ?', "%#{value}%") }
-  scope :commune_like,                             ->(value) { where('clients.commune iLike ?', "%#{value}%") }
-  scope :school_name_like,                         ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
-  scope :referral_phone_like,                      ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
-  scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
-  scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
-  scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value}%") }
-  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
-  scope :district_like,                            ->(value) { joins(:district).where('districts.name iLike ?', "%#{value}%").uniq }
+  scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value.squish}%") }
+  scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
+  scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
+  scope :local_given_name_like,                    ->(value) { where('clients.local_given_name iLIKE ?', "%#{value.squish}%") }
+  scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value.squish}%") }
+  scope :current_address_like,                     ->(value) { where('clients.current_address iLIKE ?', "%#{value.squish}%") }
+  scope :house_number_like,                        ->(value) { where('clients.house_number iLike ?', "%#{value.squish}%") }
+  scope :street_number_like,                       ->(value) { where('clients.street_number iLike ?', "%#{value.squish}%") }
+  scope :village_like,                             ->(value) { where('clients.village iLike ?', "%#{value.squish}%") }
+  scope :commune_like,                             ->(value) { where('clients.commune iLike ?', "%#{value.squish}%") }
+  scope :school_name_like,                         ->(value) { where('clients.school_name iLIKE ?', "%#{value.squish}%") }
+  scope :referral_phone_like,                      ->(value) { where('clients.referral_phone iLIKE ?', "%#{value.squish}%") }
+  scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value.squish}%") }
+  scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
+  scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value.squish}%") }
+  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value.squish}%") }
+  scope :district_like,                            ->(value) { joins(:district).where('districts.name iLike ?', "%#{value.squish}%").uniq }
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
@@ -121,7 +121,7 @@ class Client < ActiveRecord::Base
   scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
-  scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
+  scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value.squish}%") }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
   def self.filter(options)
@@ -199,7 +199,7 @@ class Client < ActiveRecord::Base
   end
 
   def next_case_note_date
-    return Date.today if case_notes.count.zero? || case_notes.latest_record.meeting_date.nil?
+    return Date.today if case_notes.count.zero? || case_notes.latest_record.try(:meeting_date).nil?
     setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'

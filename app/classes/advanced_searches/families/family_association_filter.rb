@@ -24,16 +24,16 @@ module AdvancedSearches
       private
 
       def clients
-        families = @families.joins(:clients)
+        families = @families
         case @operator
         when 'equal'
-          families = families.where('children && ARRAY[?]', @value.to_i)
+          families = families.joins(:clients).where('children && ARRAY[?]', @value.to_i)
         when 'not_equal'
-          families = families.where.not('children && ARRAY[?]', @value.to_i)
+          families = families.joins(:clients).where.not('children && ARRAY[?]', @value.to_i)
         when 'is_empty'
-          families = families.where(children: [])
+          families = families.where(children: '{}')
         when 'is_not_empty'
-          families = families.where.not(children: [])
+          families = families.where.not(children: '{}')
         end
         families.ids
       end

@@ -51,10 +51,10 @@ class User < ActiveRecord::Base
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
-  scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value}%") }
-  scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value}%") }
-  scope :mobile_like,     ->(value) { where('mobile iLIKE ?', "%#{value}%") }
-  scope :email_like,      ->(value) { where('email iLIKE  ?', "%#{value}%") }
+  scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value.squish}%") }
+  scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value.squish}%") }
+  scope :mobile_like,     ->(value) { where('mobile iLIKE ?', "%#{value.squish}%") }
+  scope :email_like,      ->(value) { where('email iLIKE  ?', "%#{value.squish}%") }
   scope :gender_like,      ->(value) { where('gender iLIKE  ?', "%#{value}%") }
   scope :in_department,   ->(value) { where('department_id = ?', value) }
   scope :job_title_are,   ->        { where.not(job_title: '').pluck(:job_title).uniq }

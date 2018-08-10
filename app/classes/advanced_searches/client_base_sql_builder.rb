@@ -109,7 +109,7 @@ module AdvancedSearches
         else
           if SENSITIVITY_FIELDS.include?(field)
             @sql_string << "lower(clients.#{field}) = ?"
-            @values << value.downcase
+            @values << value.downcase.squish
           else
             @sql_string << "clients.#{field} = ?"
             @values << value
@@ -123,10 +123,10 @@ module AdvancedSearches
         else
           if SENSITIVITY_FIELDS.include?(field)
             @sql_string << "lower(clients.#{field}) != ?"
-            @values << value.downcase
+            @values << value.downcase.squish
           else
             @sql_string << "clients.#{field} != ?"
-            @values << value
+            @values << value.squish
           end
         end
 
@@ -168,11 +168,11 @@ module AdvancedSearches
 
       when 'contains'
         @sql_string << "clients.#{field} ILIKE ?"
-        @values << "%#{value}%"
+        @values << "%#{value.squish}%"
 
       when 'not_contains'
         @sql_string << "clients.#{field} NOT ILIKE ?"
-        @values << "%#{value}%"
+        @values << "%#{value.squish}%"
 
       when 'is_empty'
         if field == 'created_at'
