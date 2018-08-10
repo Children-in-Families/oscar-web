@@ -61,7 +61,7 @@ class SettingsController < AdminController
 
   def setting_params
     # params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
-    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, :org_commune, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def find_setting
