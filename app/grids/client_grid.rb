@@ -576,11 +576,11 @@ class ClientGrid
   column(:school_grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
   column(:has_been_in_orphanage, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') }) do |object|
-    object.has_been_in_orphanage ? 'Yes' : 'No'
+    object.has_been_in_orphanage.nil? ? '' : object.has_been_in_orphanage? ? 'Yes' : 'No'
   end
 
   column(:has_been_in_government_care, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') }) do |object|
-    object.has_been_in_government_care ? 'Yes' : 'No'
+    object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
   column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
