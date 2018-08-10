@@ -397,13 +397,17 @@
                     %th.text-center= t('.detail')
                 %tbody
                   - @case_histories.each_with_index do |case_history, index|
+                    / - binding.pry
                     %tr
                       %td= case_history_label(case_history)
                       %td= date_format(case_history.new_date)
                       %td
                         .text-center
                           %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                          %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_edit_#{index}", 'data-toggle' => 'modal'}= fa_icon('pencil')
+
                         = render 'case_history_detail', object: case_history, index: index
+                        = render 'case_history_edit', object: [ case_history, @client ], index: index
 
         -# - if @enter_ngos.any?
         -#   .row
