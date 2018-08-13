@@ -577,7 +577,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         , 100)
 
     setTimeout( ->
-      self.initSelect2()
+      _initSelect2()
     )
 
   { init: _init }

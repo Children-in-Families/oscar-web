@@ -325,6 +325,8 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      created_at: Created Date
+      created_by: Created By
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
@@ -386,6 +388,8 @@ en:
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       referral_source_id: Referral Source
+      referred_from: Referred From
+      referred_to: Referred To
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
@@ -1292,6 +1296,11 @@ en:
       local_given_name: Given Name (Khmer)
       name_of_referee: Name of Referee
       other_detail: Other Details
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: Birth State
+        thailand: Birth Province
       referee_phone_number: Referee Phone Number
       referral_information: Referral Information
       referral_received_by: Referral Received By
@@ -1371,11 +1380,6 @@ en:
       is_the_client_rated_for_id_poor: Is the Client Rated for ID Poor
       other_detail: Other Details
       other_information: Other Information
-      province:
-        cambodia: Birth Province
-        lesotho: Birth Suburb
-        myanmar: Birth State
-        thailand: Birth Province
       relevant_referral_information: Relevant Referral Information / Notes
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
@@ -1714,6 +1718,8 @@ en:
         code: Custom ID Number1
         commune: Commune/Sangkat
         completed: Completed
+        created_at: Created Date
+        created_by: Created By
         current_address: Current Address
         current_province: Current Province
         date_of_assessments: Date of Assessments
@@ -1792,6 +1798,8 @@ en:
         received_by: Referral Received By
         referral_phone: Referee Phone Number
         referral_source: Referral Source
+        referred_from: Referred From
+        referred_to: Referred To
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information

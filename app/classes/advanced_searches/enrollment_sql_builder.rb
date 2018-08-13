@@ -23,15 +23,15 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollments.where("lower(properties ->> '#{@field}') = '#{@value}' ")
+          properties_result = client_enrollments.where("lower(properties ->> '#{@field}') = '#{@value.squish}' ")
         else
-          properties_result = client_enrollments.where("properties -> '#{@field}' ? '#{@value}' ")
+          properties_result = client_enrollments.where("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollments.where.not("lower(properties ->> '#{@field}') = '#{@value}' ")
+          properties_result = client_enrollments.where.not("lower(properties ->> '#{@field}') = '#{@value.squish}' ")
         else
-          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value}' ")
+          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'less'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
@@ -42,9 +42,9 @@ module AdvancedSearches
       when 'greater_or_equal'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'contains'
-        properties_result = client_enrollments.where("properties ->> '#{@field}' ILIKE '%#{@value}%' ")
+        properties_result = client_enrollments.where("properties ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
       when 'not_contains'
-        properties_result = client_enrollments.where("properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
+        properties_result = client_enrollments.where("properties ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
         properties_result = client_enrollments.where("properties -> '#{@field}' ? '' ")
       when 'is_not_empty'

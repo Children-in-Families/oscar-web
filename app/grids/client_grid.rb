@@ -29,10 +29,12 @@ class ClientGrid
     filter_shared_fileds('gender', value, scope)
   end
 
+  filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
+
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
-    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value).pluck(:slug)
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value.squish).pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
   end
@@ -88,6 +90,19 @@ class ClientGrid
   filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') }) { |value, scope| scope.referral_phone_like(value) }
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
+
+  filter(:referred_to, :enum, select: :referral_to_options, header: -> { I18n.t('datagrid.columns.clients.referred_to') } )
+
+  filter(:referred_from, :enum, select: :referral_from_options, header: -> { I18n.t('datagrid.columns.clients.referred_from') } )
+
+  def referral_to_options
+    orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+    orgs << { "external referral" => "I don't see the NGO I'm looking for" }
+  end
+
+  def referral_from_options
+    Organization.oscar.map { |org| { org.short_name => org.full_name } }
+  end
 
   def is_received_by_options
     current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).is_received_by : Client.is_received_by
@@ -146,7 +161,7 @@ class ClientGrid
 
   filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') }) { |value, scope| scope.info_like(value) }
 
-  # filter(:user_id, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') })
+  filter(:created_by, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.created_by') })
 
   filter(:user_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |ids, scope|
     ids = ids.map{ |id| id.to_i }
@@ -156,6 +171,10 @@ class ClientGrid
     else
       scope.joins(:users).where(users: { id: nil })
     end
+  end
+
+  def user_select_options
+    User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
   end
 
   def case_worker_options
@@ -379,7 +398,7 @@ class ClientGrid
     Organization.switch_to 'shared'
     given_name = SharedClient.find_by(slug: object.slug).given_name
     Organization.switch_to current_org.short_name
-    link_to given_name, client_path(object), target: '_blank'
+    given_name
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
@@ -479,6 +498,18 @@ class ClientGrid
     object.followed_up_by.try(:name)
   end
 
+  column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
+    short_names = object.referrals.pluck(:referred_to)
+    org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    short_names.include?('external referral') ? org_names << "I don't see the NGO I'm looking for" : org_names
+    org_names.join(', ')
+  end
+
+  column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
+    short_names = object.referrals.pluck(:referred_from)
+    Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name).join(', ')
+  end
+
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
     object.agencies.pluck(:name).join(', ')
   end
@@ -493,6 +524,19 @@ class ClientGrid
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
+  end
+
+  column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
+    object.created_at.strftime('%F')
+  end
+
+  column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
+    version = object.versions.find_by(event: 'create')
+    if version.present? && version.whodunnit.present?
+      version.whodunnit.include?('rotati') ? 'OSCaR Team' : User.find_by(id: version.whodunnit.to_i).try(:name)
+    else
+      'OSCaR Team'
+    end
   end
 
   dynamic do
