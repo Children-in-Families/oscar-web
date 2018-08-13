@@ -100,7 +100,7 @@ module KomarRikreayImporter
     def clients
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
-      headers     =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'school_name', 'school_grade', 'birth_province_id', 'province_id', 'district_id', 'current_address', 'follow_up_date', 'initial_referral_date', 'referral_phone', 'has_been_in_orphanage', 'has_been_in_government_care', 'relevant_referral_information', 'kid_id', 'user_ids', 'country_origin']
+      headers     = ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'school_name', 'school_grade', 'birth_province_id', 'province_id', 'district_id', 'current_address', 'follow_up_date', 'initial_referral_date', 'referral_phone', 'has_been_in_orphanage', 'has_been_in_government_care', 'relevant_referral_information', 'kid_id', 'user_ids', 'country_origin', 'donor_ids']
       family_hash = Hash.new { |h,k| h[k] = []}
 
       (2..sheet.last_row).each_with_index do |row_index, index|
@@ -138,9 +138,7 @@ module KomarRikreayImporter
         data[20]   = 'cambodia'
 
         #donor_id
-        data[21]   = nil
-        data[22]   = nil
-        data[23]   = nil
+        data[21]   = find_donors(data[21])
 
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
@@ -168,7 +166,6 @@ module KomarRikreayImporter
           family.children << client.id
           family.save(validate: false)
         end
-
       end
     end
 
@@ -224,6 +221,11 @@ module KomarRikreayImporter
           Rails.logger.debug e
         end
       end
+    end
+
+    def find_donors(codes)
+      return [] if codes.blank?
+      Donor.where(code: codes.split(', ')).ids
     end
 
     def format_date_of_birth(value)

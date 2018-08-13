@@ -63,6 +63,9 @@ module VersionHelper
     elsif version_values[:agency].include?(k) && val.present?
       obj = Agency.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
+    elsif version_values[:donor].include?(k) && val.present?
+      obj = Donor.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
     elsif version_values[:custom_fields].include?(k) && val.present?
       obj = CustomField.find_by(id: val)
       val = obj.present? ? obj.form_title : "##{val}"
@@ -81,7 +84,7 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase ProgramStream Tracking ClientEnrollment ClientEnrollmentTracking Survey)
+    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Sponsor Client ClientQuantitativeCase ProgramStream Tracking ClientEnrollment ClientEnrollmentTracking Survey)
     arr.exclude?(item_type)
   end
 
@@ -177,6 +180,7 @@ module VersionHelper
       client_qc:            ['quantitative_case_id'],
       organizations:        ['organization_id'],
       agency:               ['agency_id'],
+      donor:                ['donor_id'],
       custom_fields:        ['custom_field_id']
     }
   end
@@ -187,7 +191,6 @@ module VersionHelper
       provinces:            ['province_id'],
       referral_sources:     ['referral_source_id'],
       users:                ['received_by_id', 'followed_up_by_id', 'user_id'],
-      donors:               ['donor_id'],
       departments:          ['department_id'],
       domain_groups:        ['domain_group_id'],
       partners:             ['partner_id'],
