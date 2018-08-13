@@ -34,8 +34,6 @@ class Family < ActiveRecord::Base
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
   scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value.squish}%") }
   scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value.squish}%") }
-  scope :village_like,               ->(value) { where('village iLIKE ?', "%#{value.squish}%") }
-  scope :commune_like,               ->(value) { where('commune iLIKE ?', "%#{value.squish}%") }
   scope :street_like,                ->(value) { where('street iLIKE ?', "%#{value.squish}%") }
   scope :house_like,                 ->(value) { where('house iLIKE ?', "%#{value.squish}%") }
   scope :emergency,                  ->        { where(family_type: 'Short Term / Emergency Foster Care') }

@@ -62,7 +62,6 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
           dataType: 'JSON'
           success: (response) ->
             for address in response.data
-              label = if subResources == 'villages' then address.code_format else address.name
-              subAddress.append("<option value='#{address.id}' data-code=#{address.code}>#{label}</option>")
+              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
 
   { init: _init }

@@ -1,12 +1,12 @@
 .col-xs-12.col-sm-4
-  = f.association :province, collection: @current_provinces, label: t('.current_province'), input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
+  = f.association :province, collection: @current_provinces, label: t('.current_province'), input_html: { data: { type: 'provinces', subaddress: 'district' } }
 .col-xs-12.col-sm-4
-  = f.association :district, collection: @districts, label: t('.district'), input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
+  = f.association :district, collection: @districts, label: t('.district'), input_html: { data: { type: 'districts', subaddress: 'commune' } }
 .col-xs-12.col-sm-4
-  = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: @client.old_commune
+  = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { data: { type: 'communes', subaddress: 'village' } }, hint: @client.old_commune
 .col-xs-12.col-sm-4
-  = f.association :village, collection: @villages.map{|v| [v.code_format, v.id, { data: { code: v.code } }] }, label:t('.village'), input_html: { data: { type: 'villages' } }, hint: @client.old_village
-.col-xs-12.col-sm-6.col-md-4{ style: 'clear:both;' }
+  = f.association :village, collection: @villages.map{|v| [v.name, v.id] }, label:t('.village'), hint: @client.old_village
+.col-xs-12.col-sm-6.col-md-4.house_number
   = f.input :house_number, label: t('.house_number'), input_html:{ required: 'true'}
 .col-xs-12.col-sm-6.col-md-4
   = f.input :street_number, label: t('.street_number')

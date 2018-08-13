@@ -150,7 +150,7 @@ module AdvancedSearches
       case country
       when 'cambodia'
         {
-          text_fields: ['house_number', 'street_number', 'old_village', 'old_commune'],
+          text_fields: ['house_number', 'street_number'],
           drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
       when 'lesotho'

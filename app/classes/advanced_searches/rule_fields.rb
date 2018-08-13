@@ -89,11 +89,11 @@ module AdvancedSearches
     end
 
     def communes
-      Commune.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+      Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
     end
 
     def villages
-      Village.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+      Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
     end
 
     def subdistricts
@@ -129,7 +129,7 @@ module AdvancedSearches
       case country
       when 'cambodia'
         {
-          text_fields: ['house_number', 'street_number', 'old_village', 'old_commune'],
+          text_fields: ['house_number', 'street_number'],
           drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
       when 'lesotho'

@@ -37,8 +37,6 @@ class ClientColumnsVisibility
       current_address_: :current_address,
       house_number_: :house_number,
       street_number_: :street_number,
-      old_village_: :old_village,
-      old_commune_: :old_commune,
       district_: :district,
       subdistrict_: :subdistrict,
       state_: :state,

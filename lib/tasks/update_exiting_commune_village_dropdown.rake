@@ -18,25 +18,31 @@ namespace :update_commune_village do
           communes = Commune.where(district_id: district_id)
           commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
           client.commune_id = commune_id
-          client.save!(validate: false)
         else
           communes = Commune.all
           commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
+          if commune_id.present?
+            district_id = Commune.find(commune_id).district_id
+            client.district_id  = district_id
+          end
           client.commune_id = commune_id
-          client.save!(validate: false)
         end
+        client.save!(validate: false)
 
         if commune_id.present?
           villages = Village.where(commune_id: commune_id)
           village_id = villages.where(name_en: old_village.squish).or(villages.where(name_kh: old_village.squish)).first.try(:id) if old_village.present?
           client.village_id = village_id
-          client.save!(validate: false)
         else
           villages = Village.all
           village_id = villages.where(name_en: old_village.squish).or(villages.where(name_kh: old_village.squish)).first.try(:id) if old_village.present?
+          if village_id.present?
+            commune_id = Village.find(village_id).commune_id
+            client.commune_id  = commune_id
+          end
           client.village_id = village_id
-          client.save!(validate: false)
         end
+        client.save!(validate: false)
       end
 
       puts "#{org.short_name}" + ': Clients, finish!'
@@ -55,13 +61,17 @@ namespace :update_commune_village do
           communes = Commune.where(district_id: district_id)
           commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
           family.commune_id = commune_id
-          family.save!(validate: false)
         else
           communes = Commune.all
           commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
-          family.commune_id = commune_id
-          family.save!(validate: false)
+          if commune_id.present?
+            district_id = Commune.find(commune_id).district_id
+            family.district_id  = district_id
+          end
+          family.commune_id   = commune_id
         end
+
+        family.save!(validate: false)
 
         if commune_id.present?
           villages = Village.where(commune_id: commune_id)
@@ -71,9 +81,13 @@ namespace :update_commune_village do
         else
           villages = Village.all
           village_id = villages.where(name_en: old_village.squish).or(villages.where(name_kh: old_village.squish)).first.try(:id) if old_village.present?
+          if village_id.present?
+            commune_id = Village.find(village_id).commune_id
+            family.commune_id  = commune_id
+          end
           family.village_id = village_id
-          family.save!(validate: false)
         end
+        family.save!(validate: false)
       end
 
       puts  "#{org.short_name}" + ': Families, finish!'
@@ -89,14 +103,16 @@ namespace :update_commune_village do
           communes = Commune.where(district_id: district_id)
           commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
           setting.commune_id = commune_id
-          setting.save!(validate: false)
         else
           communes = Commune.all
           commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
+          if commune_id.present?
+            district_id = Commune.find(commune_id).district_id
+            setting.district_id  = district_id
+          end
           setting.commune_id = commune_id
-          setting.save!(validate: false)
         end
-
+        setting.save!(validate: false)
       end
 
       puts  "#{org.short_name}" + ': Setting, finish!'

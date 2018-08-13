@@ -22,7 +22,7 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['code', 'name', 'caregiver_information', 'case_history', 'old_commune', 'old_village', 'street', 'house']
+        ['code', 'name', 'caregiver_information', 'case_history', 'street', 'house']
       end
 
       def date_type_list
@@ -60,11 +60,11 @@ module AdvancedSearches
       end
 
       def communes
-        Commune.joins(:families, district: :province).distinct.map{|commune| ["#{commune.name_kh} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+        Commune.joins(:families, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
       end
 
       def villages
-        Village.joins(:families, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+        Village.joins(:families, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
       end
 
       def clients

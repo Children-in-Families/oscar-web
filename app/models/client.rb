@@ -85,17 +85,12 @@ class Client < ActiveRecord::Base
   scope :current_address_like,                     ->(value) { where('clients.current_address iLIKE ?', "%#{value.squish}%") }
   scope :house_number_like,                        ->(value) { where('clients.house_number iLike ?', "%#{value.squish}%") }
   scope :street_number_like,                       ->(value) { where('clients.street_number iLike ?', "%#{value.squish}%") }
-  scope :old_village_like,                         ->(value) { where('clients.village iLike ?', "%#{value.squish}%") }
-  scope :old_commune_like,                         ->(value) { where('clients.commune iLike ?', "%#{value.squish}%") }
   scope :school_name_like,                         ->(value) { where('clients.school_name iLIKE ?', "%#{value.squish}%") }
   scope :referral_phone_like,                      ->(value) { where('clients.referral_phone iLIKE ?', "%#{value.squish}%") }
   scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value.squish}%") }
   scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
   scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value.squish}%") }
   scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value.squish}%") }
-  scope :commune_like,                             ->(value) { joins(:commune).where('communes.name_kh iLike ?', "%#{value.squish}%").uniq }
-  scope :village_like,                             ->(value) { joins(:village).where('villages.name_kh iLike ?', "%#{value.squish}%").uniq }
-  scope :district_like,                            ->(value) { joins(:district).where('districts.name iLike ?', "%#{value.squish}%").uniq }
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }

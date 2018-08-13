@@ -42,14 +42,6 @@ class FamilyGrid
 
   filter(:district_id, :enum, select: :district_options, header: -> { I18n.t('datagrid.columns.families.district') })
 
-  # filter(:old_commune, :string, header: -> { I18n.t('datagrid.columns.families.old_commune') }) do |value, scope|
-  #   scope.old_commune_like(value)
-  # end
-
-  # filter(:old_village, :string, header: -> { I18n.t('datagrid.columns.families.old_village') }) do |value, scope|
-  #   scope.old_village_like(value)
-  # end
-
   filter(:commune, :enum, select: :commune_options, header: -> { I18n.t('datagrid.columns.families.commune') })
 
   filter(:village, :enum, select: :village_options, header: -> { I18n.t('datagrid.columns.families.village') })
@@ -63,11 +55,11 @@ class FamilyGrid
   end
 
   def commune_options
-    Commune.joins(:families, district: :province).distinct.map{|commune| ["#{commune.name_kh} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    Commune.joins(:families, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
   end
 
   def village_options
-    Village.joins(:families, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    Village.joins(:families, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
   end
 
   def province_options
@@ -150,12 +142,8 @@ class FamilyGrid
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
   column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
-
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
-  column(:old_commune, header: -> { I18n.t('datagrid.columns.families.old_commune') })
-  column(:old_village, header: -> { I18n.t('datagrid.columns.families.old_village') })
-
   column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
     object.commune.try(:name)
   end

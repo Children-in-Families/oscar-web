@@ -16,7 +16,7 @@
                 .col-xs-12.col-sm-6.col-md-4
                   = f.input :district_id, collection: @districts, label: t('.district'), input_html: { class: 'select2', data: { type: 'districts', 'subaddress' => 'commune' } }
                 .col-xs-12.col-sm-6.col-md-4
-                  = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { class: 'select2', data: { type: 'communes', 'subaddress' => 'village' } }, hint: @current_setting.old_commune
+                  = f.input :commune_id, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { class: 'select2' }, hint: @current_setting.old_commune
               .row
                 .col-xs-12.col-sm-6.col-md-4
                   = f.submit t('save'), class: 'btn btn-primary'

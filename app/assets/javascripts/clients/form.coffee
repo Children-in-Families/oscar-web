@@ -59,9 +59,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           dataType: 'JSON'
           success: (response) ->
             for address in response.data
-              label = if subResources == 'villages' then address.code_format else address.name
-              subAddress.append("<option value='#{address.id}' data-code=#{address.code}>#{label}</option>")
-
+              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
   _ajaxChangeSubDistrict = ->
     $('#client_district_id').on 'change', ->
       district_id = $(@).val()

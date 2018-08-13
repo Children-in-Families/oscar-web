@@ -12,4 +12,8 @@ class Village < ActiveRecord::Base
   def code_format
     "#{name_kh} / #{name_en} (#{code})"
   end
+
+  def name
+    "#{name_kh} / #{name_en}"
+  end
 end
