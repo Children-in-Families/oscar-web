@@ -99,7 +99,7 @@ class Client < ActiveRecord::Base
   scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value.squish}%") }
   scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
   scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value.squish}%") }
-  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value.squish}%") }
+  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
   scope :district_like,                            ->(value) { joins(:district).where('districts.name iLike ?', "%#{value.squish}%").uniq }
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
