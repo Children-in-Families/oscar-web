@@ -56,11 +56,11 @@
           %td.text-right{ style: 'vertical-align: middle;' }
             ភូមិ:
           %td{ style: 'vertical-align: middle;' }
-            %input{style: 'width: 100%;', value: @client.family.try(:village) }
+            %input{style: 'width: 100%;', value: @client.family.try(:village).try(:name_kh) }
           %td{style: 'width: 50px; vertical-align: middle;'}
             ឃុំ/សង្កាត់:
           %td{ style: 'vertical-align: middle;' }
-            %input{style: 'width: 100%', value: @client.family.try(:commune) }
+            %input{style: 'width: 100%', value: @client.family.try(:commune).try(:name_kh) }
         %tr
           %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
             ក្រុង/ស្រុក/ខណ្ឌ:
