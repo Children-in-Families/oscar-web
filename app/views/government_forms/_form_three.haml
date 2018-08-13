@@ -1,0 +1,28 @@
+= simple_form_for [@client, @government_form] do |f|
+  .ibox-content
+    = f.input :name, as: :hidden
+    = hidden_field_tag :form_num, params[:form]
+    = error_notification(f)
+    .row
+      .col-xs-12
+        %h2.text-center= 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
+      = render 'government_info', f: f
+      .col-xs-12.col-sm-4.clearfix
+        = f.input :case_worker_id, as: :select, collection: @users.map{|user| [user.name, user.id, selected: current_user.id == user.id] }, label: 'ឈ្មោះអ្នកកាន់ករណី'
+      .col-xs-12
+        %hr
+        %h3= 'ផែនការសំរាប់ករណី(កុមារ)'
+      .col-xs-12
+        %h4= 'យកចំណាត់ថ្នាក់ទាប (១និង២) ពីទម្រង់ប៉ាន់ប្រមាណករណី និងគ្រួសារ មកធ្វើការជួយគាំទ្រ'
+        = f.simple_fields_for :government_form_children_plans do |f_children_plan|
+          = render 'children_plan_fields', f: f_children_plan
+      .col-xs-12
+        %hr
+        %h3= 'ផែនការសំរាប់គ្រួសារ'
+      .col-xs-12
+        = f.simple_fields_for :government_form_family_plans do |f_family_plan|
+          = render 'family_plan_fields', f: f_family_plan
+
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), client_government_forms_path(form: params[:form]), class: 'btn btn-default form-btn'

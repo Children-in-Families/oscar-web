@@ -1,6 +1,6 @@
 describe ClientType, 'associations' do
-  it { is_expected.to have_many(:client_client_types).dependent(:restrict_with_error) }
-  it { is_expected.to have_many(:clients).through(:client_client_types) }
+  it { is_expected.to have_many(:client_type_government_forms).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:government_forms).through(:client_type_government_forms) }
 end
 
 describe ClientType, 'validations' do

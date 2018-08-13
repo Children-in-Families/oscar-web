@@ -17,6 +17,7 @@ class Client < ActiveRecord::Base
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4'].freeze
 
+  delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :donor, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
   delegate :name, to: :province, prefix: true, allow_nil: true
@@ -50,6 +51,7 @@ class Client < ActiveRecord::Base
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
   has_many :referrals, dependent: :destroy
+  has_many :government_forms, dependent: :destroy
 
   accepts_nested_attributes_for :tasks
 
@@ -57,19 +59,6 @@ class Client < ActiveRecord::Base
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
-  # has_many :surveys,        dependent: :destroy
-
-  has_many :client_client_types, dependent: :destroy
-  has_many :client_types, through: :client_client_types
-  has_many :client_interviewees, dependent: :destroy
-  has_many :interviewees, through: :client_interviewees
-  has_many :client_needs, dependent: :destroy
-  has_many :needs, through: :client_needs
-  has_many :client_problems, dependent: :destroy
-  has_many :problems, through: :client_problems
-
-  accepts_nested_attributes_for :client_needs
-  accepts_nested_attributes_for :client_problems
 
   has_paper_trail
 
@@ -344,18 +333,6 @@ class Client < ActiveRecord::Base
   #   end
   # end
 
-  def populate_needs
-    Need.all.each do |need|
-      client_needs.build(need: need)
-    end
-  end
-
-  def populate_problems
-    Problem.all.each do |problem|
-      client_problems.build(problem: problem)
-    end
-  end
-
   def exiting_ngo?
     return false unless status_changed?
     status == 'Exited'
@@ -406,6 +383,10 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
+  def family
+    Family.where('children && ARRAY[?]', id).last
+  end
+
   private
 
   def create_client_history
@@ -421,7 +402,6 @@ class Client < ActiveRecord::Base
   end
 
   def assessment_duration(duration)
-    # assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
     if duration == 'max'
       setting = Setting.first
       assessment_period = (setting.try(:max_assessment) || 6)
