@@ -336,6 +336,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
         _handleSetValueToField()
+        if _preventProgramStreamWithoutTracking()
+          messageWarning = $('#trackings').data('complete-tracking')
+          return alert(messageWarning)
         form.submit()
 
       labels:
