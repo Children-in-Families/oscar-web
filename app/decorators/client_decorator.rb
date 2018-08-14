@@ -27,7 +27,38 @@ class ClientDecorator < Draper::Decorator
   end
 
   def time_in_care
-    h.t('.time_in_care_around', count: model.time_in_care) if model.time_in_care
+    # h.t('.time_in_care_around', count: model.time_in_care) if model.time_in_care
+    return unless model.client_enrollments.any?
+    date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
+    first_multi_enrolled_program_date = ''
+    last_multi_leave_program_date = ''
+    ordered_enrollments = model.client_enrollments.order(:enrollment_date)
+    ordered_enrollments.each_with_index do |enrollment, index|
+      current_enrollment_date = enrollment.enrollment_date
+      current_program_exit_date = enrollment.leave_program.try(:exit_date) || Date.today
+
+      next_program_enrollment = ordered_enrollments[index + 1].nil? ? ordered_enrollments[index - 1] : ordered_enrollments[index + 1]
+      next_program_enrollment_date = next_program_enrollment.enrollment_date
+      next_program_exit_date = next_program_enrollment.leave_program.try(:exit_date) || Date.today
+      # binding.pry
+      if current_program_exit_date <= next_program_enrollment_date
+        if first_multi_enrolled_program_date.present? && last_multi_leave_program_date.present?
+          date_time_in_care = h.distance_of_time_in_words_hash(first_multi_enrolled_program_date, last_multi_leave_program_date + date_time_in_care[:years].years + date_time_in_care[:months].months + date_time_in_care[:weeks].weeks + date_time_in_care[:days].days, :except => [:seconds, :minutes, :hours])
+
+          first_multi_enrolled_program_date = ''
+          last_multi_leave_program_date = ''
+        end
+        date_time_in_care = h.distance_of_time_in_words_hash(current_enrollment_date, current_program_exit_date + date_time_in_care[:years].years + date_time_in_care[:months].months + date_time_in_care[:weeks].weeks + date_time_in_care[:days].days, :except => [:seconds, :minutes, :hours])
+      else
+        first_multi_enrolled_program_date = current_enrollment_date if first_multi_enrolled_program_date == ''
+        last_multi_leave_program_date = current_program_exit_date > next_program_exit_date ? current_program_exit_date : next_program_exit_date
+
+        if index == ordered_enrollments.length - 1
+          date_time_in_care = h.distance_of_time_in_words_hash(first_multi_enrolled_program_date, last_multi_leave_program_date + date_time_in_care[:years].years + date_time_in_care[:months].months + date_time_in_care[:weeks].weeks + date_time_in_care[:days].days, :except => [:seconds, :minutes, :hours])
+        end
+      end
+    end
+    date_time_in_care.to_s
   end
 
   def referral_date

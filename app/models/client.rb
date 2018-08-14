@@ -292,7 +292,7 @@ class Client < ActiveRecord::Base
     paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
 
-  def time_in_care
+  def time_in_careq
     if cases.any?
       if cases.active.any?
         (active_day_care / 365).round(1)
