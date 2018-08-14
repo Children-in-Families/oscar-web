@@ -113,14 +113,15 @@ class GovernmentFormsController < AdminController
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
       :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
-      :client_decision, :other_service_type, :problem, :follow_up_step,
+      :client_decision, :other_service_type, :problem,
       :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship,
       interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
       government_form_children_plans_attributes: [:id, :goal, :action, :who, :completion_date, :score, :comment, :children_plan_id],
       government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id],
-      follow_up_records_attributes: [:id, :date, :provided_service, :child_family_status, :_destroy]
+      follow_up_records_attributes: [:id, :date, :provided_service, :child_family_status, :_destroy],
+      action_results_attributes: [:id, :action, :result, :_destroy]
     )
   end
 

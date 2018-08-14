@@ -8,15 +8,21 @@
         %h2.text-center= 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'
       = render 'government_info', f: f
       .col-xs-12
-        %p= 'ទម្រង់នេះមានគោលបំណងចុះត្រួតពិនិត្យផែនការសកម្មភាពដើម្បីឲ្យដឹងថា តើកុមារ និងគ្រួសារបានទទួលសេវា និងតម្រូវការសមស្របដែរឬទេ? តើមានភាពខុសប្លែកអ្វីខ្លះ?​ តើសុខុមាលភាពកុមារ និងគ្រួសារមានភាពរីកចំរើនដែរឬទេ?'
+        #action_results
+          .panel.panel-default
+            .panel-heading
+              .text-center
+                %p= 'ទម្រង់នេះមានគោលបំណងចុះត្រួតពិនិត្យផែនការសកម្មភាពដើម្បីឲ្យដឹងថា តើកុមារ និងគ្រួសារបានទទួលសេវា និងតម្រូវការសមស្របដែរឬទេ? តើមានភាពខុសប្លែកអ្វីខ្លះ?​ តើសុខុមាលភាពកុមារ និងគ្រួសារមានភាពរីកចំរើនដែរឬទេ?'
+            .panel-body
+              = f.simple_fields_for :action_results do |action|
+                = render 'action_result_fields', f: action
+              - if params[:action] == 'new'
+                .links.link-action-result
+                  = link_to_add_association t('.action_result'), f, :action_results, class: 'btn btn-primary add_action_results'
 
       .col-xs-12
         %p= 'បញ្ហាថ្មីៗដែលបានរកឃើញ ក្នុងអំឡុងពេលនៃការចុះត្រួតពិនិត្យ និងតាមដាន និងដំណោះស្រាយដែលបានធ្វើដើម្បីដោះស្រាយបញ្ហាទាំងនោះ។'
-        = f.input :problem, label: false
-
-      .col-xs-12
-        %p= 'ការពិនិត្យតាមដាន ឬជំហានបន្ទាប់​ (កាលបរិច្ឆេទ និង គ្រួសារ, សកម្មភាពបន្ទាប់ទៀត។ល។)'
-        = f.input :follow_up_step, label: false
+        = f.input :problem, label: false, input_html: { rows: 10 }
 
       .col-xs-12
         #follow_up_records
@@ -30,9 +36,6 @@
                 = render 'follow_up_record_fields', f: record
               .links
                 = link_to_add_association t('.add_follow_up_record'), f, :follow_up_records, class: 'btn btn-primary add_follow_up_record'
-
-
-
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
