@@ -14,21 +14,6 @@ namespace :update_commune_village do
         communes    = []
         villages    = []
 
-        if district_id.present?
-          communes = Commune.where(district_id: district_id)
-          commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
-          client.commune_id = commune_id
-        else
-          communes = Commune.all
-          commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
-          if commune_id.present?
-            district_id = Commune.find(commune_id).district_id
-            client.district_id  = district_id
-          end
-          client.commune_id = commune_id
-        end
-        client.save!(validate: false)
-
         if commune_id.present?
           villages = Village.where(commune_id: commune_id)
           village_id = villages.where(name_en: old_village.squish).or(villages.where(name_kh: old_village.squish)).first.try(:id) if old_village.present?
@@ -41,6 +26,22 @@ namespace :update_commune_village do
             client.commune_id  = commune_id
           end
           client.village_id = village_id
+        end
+        client.save!(validate: false)
+
+        if district_id.present?
+          client.commune_id = commune_id
+          if province_id.nil?
+            province_id = District.find(district_id).province_id
+            client.province_id = province_id
+          end
+        else
+          district_id = Commune.find(commune_id).district_id if commune_id.present?
+          client.district_id  = district_id
+          if province_id.nil?
+            province_id = District.find(district_id).province_id if district_id.present?
+            client.province_id = province_id
+          end
         end
         client.save!(validate: false)
       end
@@ -57,22 +58,6 @@ namespace :update_commune_village do
         communes    = []
         villages    = []
 
-        if district_id.present?
-          communes = Commune.where(district_id: district_id)
-          commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
-          family.commune_id = commune_id
-        else
-          communes = Commune.all
-          commune_id = communes.where(name_en: old_commune.squish).or(communes.where(name_kh: old_commune.squish)).first.try(:id) if old_commune.present?
-          if commune_id.present?
-            district_id = Commune.find(commune_id).district_id
-            family.district_id  = district_id
-          end
-          family.commune_id   = commune_id
-        end
-
-        family.save!(validate: false)
-
         if commune_id.present?
           villages = Village.where(commune_id: commune_id)
           village_id = villages.where(name_en: old_village.squish).or(villages.where(name_kh: old_village.squish)).first.try(:id) if old_village.present?
@@ -86,6 +71,22 @@ namespace :update_commune_village do
             family.commune_id  = commune_id
           end
           family.village_id = village_id
+        end
+        family.save!(validate: false)
+
+        if district_id.present?
+          family.commune_id = commune_id
+          if province_id.nil?
+            province_id = District.find(district_id).province_id
+            family.province_id = province_id
+          end
+        else
+          district_id = Commune.find(commune_id).district_id if commune_id.present?
+          family.district_id  = district_id
+          if province_id.nil?
+            province_id = District.find(district_id).province_id if district_id.present?
+            family.province_id = province_id
+          end
         end
         family.save!(validate: false)
       end
@@ -116,8 +117,6 @@ namespace :update_commune_village do
       end
 
       puts  "#{org.short_name}" + ': Setting, finish!'
-
     end
-
   end
 end
