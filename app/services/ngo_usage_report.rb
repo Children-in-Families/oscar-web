@@ -9,8 +9,6 @@ class NgoUsageReport
   private
 
   def import_usage_report(date_time)
-    # column_names   = ['Organization','On-board Date', 'FCF', 'No. of Users', 'No. of Clients', 'No. Clients Added', 'No. Clients Deleted', 'No. of Logins/Month']
-
     ngo_columns    = ['Organization', 'On-board Date', 'FCF', 'Country']
     user_columns   = ['Organization', 'No. of Users', 'No. of Users Added', 'No. of Users Deleted', 'No. of Logins/Month']
     client_columns = ['Organization', 'No. of Clients', 'No. of Clients Added', 'No. of Clients Deleted', 'No. of Clients Transferred']
@@ -52,43 +50,44 @@ class NgoUsageReport
     user_length_of_column   = user_columns.length
     client_length_of_column = client_columns.length
 
-    #ngo_worksheet
+    #ngo_sheet
     ngo_length_of_column.times do |i|
       ngo_worksheet.row(0).set_format(i, header_format)
     end
 
-    ngo_worksheet.row(0).height = 30
+    ngo_worksheet.row(0).height   = 30
     ngo_worksheet.column(0).width = 35
     ngo_worksheet.column(1).width = 33
     ngo_worksheet.column(2).width = 15
     ngo_worksheet.column(3).width = 20
 
-    #user_worksheet
+    #user_sheet
     user_length_of_column.times do |i|
       user_worksheet.row(0).set_format(i, header_format)
     end
 
-    user_worksheet.row(0).height = 30
-    user_worksheet.column(0).width = 35
-    user_worksheet.column(1).width = 33
-    user_worksheet.column(2).width = 15
-    user_worksheet.column(3).width = 20
-    user_worksheet.column(4).width = 20
+    user_worksheet.row(0).height   = 30
+    user_worksheet.column(0).width = 30
+    user_worksheet.column(1).width = 30
+    user_worksheet.column(2).width = 30
+    user_worksheet.column(3).width = 30
+    user_worksheet.column(4).width = 30
 
-    #client_worksheet
+    #client_sheet
     client_length_of_column.times do |i|
       client_worksheet.row(0).set_format(i, header_format)
     end
 
-    client_worksheet.row(0).height = 30
-    client_worksheet.column(0).width = 35
-    client_worksheet.column(1).width = 33
-    client_worksheet.column(2).width = 15
-    client_worksheet.column(3).width = 20
-    client_worksheet.column(4).width = 20
+    client_worksheet.row(0).height   = 30
+    client_worksheet.column(0).width = 30
+    client_worksheet.column(1).width = 30
+    client_worksheet.column(2).width = 30
+    client_worksheet.column(3).width = 30
+    client_worksheet.column(4).width = 30
 
-    Organization.order(:created_at).each_with_index do |org, index|
+    Organization.order(:created_at).without_shared.each_with_index do |org, index|
       Organization.switch_to org.short_name
+
       ngo_name               = org.full_name
       ngo_on_board           = org.created_at.strftime("%B %d, %Y")
       fcf                    = org.fcf_ngo? ? 'Yes' : 'No'
@@ -104,8 +103,15 @@ class NgoUsageReport
       previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
       client_added_count     = previous_month_clients.where(event: 'create').count
       client_deleted_count   = previous_month_clients.where(event: 'delete').count
-      #in out
-      tranferred_client_count = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month).count
+
+      referral_ids = []
+      tranferred_clients     = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month)
+
+      tranferred_clients.each do |tc|
+        referral_ids << tc.item_id
+      end
+
+      tranferred_client_count = Referral.where(id: referral_ids).distinct.pluck(:slug).count
 
       ngo_values             = [ngo_name, ngo_on_board, fcf, ngo_country]
       user_values            = [ngo_name, user_count, user_added_count, user_deleted_count, login_per_month]
@@ -132,7 +138,7 @@ class NgoUsageReport
     end
 
     book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
-    # generate(date_time, previous_month)
+    generate(date_time, previous_month)
   end
 
   def generate(date_time, previous_month)
