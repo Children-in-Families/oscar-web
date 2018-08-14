@@ -33,6 +33,6 @@ class DataTrackerVersion
   private
 
   def self.exclude_item_type
-    %w(ClientCustomField FamilyCustomField PartnerCustomField UserCustomField CaseWorkerTask Location)
+    %w(ClientCustomField FamilyCustomField PartnerCustomField UserCustomField CaseWorkerTask Location EnterNgo ExitNgo)
   end
 end
