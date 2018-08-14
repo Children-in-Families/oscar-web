@@ -144,7 +144,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _preventProgramStreamWithoutTracking = ->
     if $('#program_stream_tracking_required').is(':unchecked')
-      trackings = $('.nested-fields')
+      trackings = $('.nested-fields:visible')
       if trackings.size() > 0
         for tracking in trackings
           trackingName = $(tracking).find('.program_stream_trackings_name:visible input[type="text"]').val()
