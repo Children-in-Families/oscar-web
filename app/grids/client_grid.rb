@@ -1,5 +1,6 @@
 class ClientGrid
   extend ActionView::Helpers::TextHelper
+  # extend ActionView::Helpers::DateHelper
   include Datagrid
   include ClientsHelper
 
@@ -725,6 +726,18 @@ class ClientGrid
 
   column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
     render partial: 'clients/all_csi_assessments', locals: { object: object }
+  end
+
+  column(:time_in_care, header: -> { I18n.t('datagrid.columns.clients.time_in_care') }) do |object|
+    if object.time_in_care.present?
+      years = object.time_in_care[:years] || 0
+      months = object.time_in_care[:months] || 0
+      weeks = object.time_in_care[:weeks] || 0
+      year_of_time_in_care = I18n.t('clients.show.time_in_care_around.year', count: years) if years > 0
+      month_of_time_in_care = I18n.t('clients.show.time_in_care_around.month', count: months) if months > 0
+      week_of_time_in_care = I18n.t('clients.show.time_in_care_around.week', count: weeks) if weeks > 0
+      [year_of_time_in_care, month_of_time_in_care, week_of_time_in_care].join(' ')
+    end
   end
 
   dynamic do

@@ -1529,9 +1529,15 @@ my:
       telephone_number: တယ်လီဖုန်းနံပါတ်
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
       time_in_care_around:
-        few: ႏွစ္အနည္းငယ္
-        one: "%{count} ႏွစ္၀န္းက်င္"
-        other: "%{count} ႏွစ္မ်ား"
+        year:
+          one: "%{count} ခုနှစ်"
+          other: "%{count} နှစ်ပေါင်း"
+        month:
+          one: "%{count} လ"
+          other: "%{count} လများ"
+        week:
+          one: "%{count} ရက်သတ္တပတ်"
+          other: "%{count} ရက်သတ္တပတ်"
       view_assessments: စိစစ္အကဲျဖတ္ခ်က္မ်ား
       view_case_notes: အမႈမွတ္စုမ်ား
       view_ec_history_btn_link: ECသမုိင္းေၾကာင္း
@@ -1823,6 +1829,7 @@ my:
         suburb: Suburb
         telephone_number: တယ်လီဖုန်းနံပါတ်
         thailand: ထိုင္းႏုိင္ငံ
+        time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
         time_of_frequency: အႀကိမ္ အေရအတြက္
         total: စုစုေပါင္း
         township: မြို့နယ်
@@ -1939,6 +1946,7 @@ my:
       show_all: အားလံုးကို ျပပါ
       support_amount: ေထာက္ပံ့သည့္ပမာဏ
       support_note: ေထာက္ပံ့မႈ မွတ္စု
+      time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
       trackings:
         action: လုပ္ေဆာင္မႈ
         frequency: အႀကိမ္ေရ

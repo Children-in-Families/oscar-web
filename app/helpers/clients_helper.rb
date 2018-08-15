@@ -350,7 +350,8 @@ module ClientsHelper
       created_at_: t('datagrid.columns.clients.created_at'),
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
-      referred_from_: t('datagrid.columns.clients.referred_from')
+      referred_from_: t('datagrid.columns.clients.referred_from'),
+      time_in_care_: t('datagrid.columns.clients.time_in_care')
     }
 
     Domain.order_by_identity.each do |domain|

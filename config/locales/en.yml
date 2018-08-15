@@ -1522,8 +1522,15 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
-        one: Around %{count} year
-        other: Around %{count} years
+        year:
+          one: "%{count} year"
+          other: "%{count} years"
+        month:
+          one: "%{count} month"
+          other: "%{count} months"
+        week:
+          one: "%{count} week"
+          other: "%{count} weeks"
       view_assessments: Assessments
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
@@ -1815,6 +1822,7 @@ en:
         suburb: Suburb
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
+        time_in_care: Time in Care
         time_of_frequency: Time of Frequency
         total: Total
         township: Township
@@ -1931,6 +1939,7 @@ en:
       show_all: Show All
       support_amount: Support Amount
       support_note: Support Note
+      time_in_care: Time in Care
       trackings:
         action: Action
         frequency: Frequency
