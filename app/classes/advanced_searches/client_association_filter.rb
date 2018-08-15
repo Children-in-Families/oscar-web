@@ -109,9 +109,9 @@ module AdvancedSearches
           clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids
         end
       when 'is_empty'
-        clients.where("versions.whodunnit IS NULL").ids
+        []
       when 'is_not_empty'
-        clients.where("versions.whodunnit IS NOT NULL").ids
+        clients.ids
       end
     end
 
