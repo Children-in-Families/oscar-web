@@ -1,3 +1,8 @@
+describe Donor, 'associations' do
+  it { is_expected.to have_many(:sponsors).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:clients).through(:sponsors) }
+end
+
 describe Donor, 'validation' do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:code).case_insensitive }
@@ -19,15 +24,11 @@ describe Donor, 'validation' do
   end
 end
 
-describe Donor, 'associations' do
-  it { is_expected.to have_many(:clients) }
-end
-
 describe Donor, 'scopes' do
   context 'has clients' do
     let!(:donor) { create(:donor) }
     let!(:other_donor) { create(:donor) }
-    let!(:client) { create(:client, donor: donor) }
+    let!(:client) { create(:client, donor_ids: [donor.id]) }
     subject { Donor.has_clients }
 
     it 'should include donor that has clients' do

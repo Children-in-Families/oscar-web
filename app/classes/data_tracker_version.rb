@@ -11,8 +11,9 @@ class DataTrackerVersion
 
   def self.agency_and_quantitative_case(client_id, event)
     agency_ids = AgencyClient.where(client_id: client_id).pluck(:id)
-    qc_ids = ClientQuantitativeCase.where(client_id: client_id).pluck(:id)
-    PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND item_type = ? OR item_id IN (?) AND item_type = ? AND event = ?', agency_ids, 'AgencyClient', qc_ids, 'ClientQuantitativeCase', event)
+    qc_ids     = ClientQuantitativeCase.where(client_id: client_id).pluck(:id)
+    donor_ids  = Sponsor.where(client_id: client_id).pluck(:id)
+    PaperTrail::Version.where.not(item_type: exclude_item_type).where('(item_id IN (?) AND item_type = ?) OR (item_id IN (?) AND item_type = ?) OR (item_id IN (?) AND item_type = ?) AND event = ?', donor_ids, 'Sponsor', agency_ids, 'AgencyClient', qc_ids, 'ClientQuantitativeCase', event)
   end
 
   def self.tracking(program_stream_id, event)
