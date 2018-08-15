@@ -1,5 +1,5 @@
 namespace :client_donor_as_sponsors do
-  desc 'update all clients school grade'
+  desc 'update all client donors as sponsors'
   task update: :environment do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
