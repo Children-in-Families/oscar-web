@@ -2,7 +2,7 @@ namespace :update_commune_village do
   desc 'update commune village data from freetext to drop down'
   task update: :environment do
     Organization.all.each do |org|
-
+      next if org.short_name != 'cif'
       Organization.switch_to org.short_name
 
       communes      = []
@@ -66,14 +66,20 @@ namespace :update_commune_village do
               district = District.joins(:communes).where(communes: { id: communes.ids }).first
               object.province_id = district.province_id
             end
+            commune_id         = District.find(district.id).communes.where(id: communes.ids).first.try(:id)
+            object.commune_id  = commune_id
             object.district_id = district.id
           elsif province_id.present? && old_commune.blank? && old_village.present?
             villages   = Village.where(name_en: old_village.squish).or(Village.where(name_kh: old_village.squish))
+
             next if villages.blank?
+
             district_id = object.province.districts.joins(communes: :villages).where(villages: { id: villages.ids }).first.id
             commune_id  = District.find(district_id).communes.joins(:villages).where(villages: { id: villages.ids }).first.id
+            village_id  = Commune.find(commune_id).villages.where(id: villages.ids).first.try(:id)
             object.district_id = district_id
             object.commune_id  = commune_id
+            object.village_id  = village_id
           end
 
           object.save!(validate: false)
