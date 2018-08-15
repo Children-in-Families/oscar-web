@@ -16,6 +16,8 @@ module AdvancedSearches
         values = user_id_field_query
       when 'agency_name'
         values = agency_name_field_query
+      when 'donor_name'
+        values = donor_name_field_query
       when 'family_id'
         values = family_id_field_query
       when 'family'
@@ -465,6 +467,20 @@ module AdvancedSearches
         clients.where('agencies.id = ?', @value.squish ).ids
       when 'not_equal'
         clients.where.not('agencies.id = ?', @value.squish ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def donor_name_field_query
+      clients = @clients.joins(:donors)
+      case @operator
+      when 'equal'
+        clients.where('donors.id = ?', @value ).ids
+      when 'not_equal'
+        clients.where.not('donors.id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
