@@ -20,7 +20,7 @@ module AdvancedSearches
       if type_format.include?(@input_type)
         @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       end
-      
+
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
@@ -63,7 +63,7 @@ module AdvancedSearches
     end
 
     def format_value(value)
-      value.is_a?(Array) ? value : value.gsub("'", "''")
+      value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
     end
   end
 end
