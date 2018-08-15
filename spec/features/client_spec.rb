@@ -246,6 +246,7 @@ describe 'Client' do
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
       fill_in 'client_name_of_referee', with: 'Thida'
       fill_in 'client_given_name', with: 'Kema'
+      find(".client_gender select option[value='male']", visible: false).select_option
 
       find('#steps-uid-0-t-3').click
       page.find('a[href="#finish"]', visible: false).click
