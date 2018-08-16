@@ -1,7 +1,7 @@
 class ClientSerializer < ActiveModel::Serializer
 
   attributes  :id, :given_name, :family_name, :gender, :code, :status, :date_of_birth, :grade,
-              :current_province, :local_given_name, :local_family_name, :kid_id, :donor,
+              :current_province, :local_given_name, :local_family_name, :kid_id, :donors,
               :current_address, :house_number, :street_number, :village, :commune, :district,
               :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source,
               # :referral_phone, :live_with, :id_poor, :received_by,

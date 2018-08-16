@@ -218,8 +218,9 @@
                 %td.spacing-first-col
                   = t('.donor')
                 %td
-                  %strong
-                    = @client.donor_name
+                  - @client.donors.each do|donor|
+                    %strong.label.label-default.donor
+                      = donor.name
               %tr
                 %td.spacing-first-col
                   = t('.address')

@@ -46,7 +46,7 @@
                   %td.col-sm-4.truncate
                     - if k == 'properties'
                       - values = v[0]
-                      - values = eval(v[0]) if v[0].class == String
+                      - values = eval(v[0].gsub('null', 'nil')) if v[0].class == String
                       - next if values == '{}'
                       - if values.present?
                         %ul
@@ -57,7 +57,7 @@
                     - elsif k == 'fields'
                       - if v[0].present?
                         - values = v[0]
-                        - values = eval(v[0]) if v[0].class == String
+                        - values = eval(v[0].gsub('null', 'nil')) if v[0].class == String
                         - values.each_with_index do |value, fields_index|
                           - index = 1
                           - value.each do |key, value|
@@ -75,7 +75,7 @@
                   %td.col-sm-4.truncate
                     - if k == 'properties'
                       - values = v[1]
-                      - values = eval(v[1]) if v[1].class == String
+                      - values = eval(v[1].gsub('null', 'nil')) if v[1].class == String
                       - next if values == '{}'
                       - if values.present?
                         %ul
@@ -86,7 +86,7 @@
                     - elsif k == 'fields'
                       - if v[1].present? && (v[1] != '{}' || v[1] != {})
                         - values = v[1]
-                        - values = eval(v[1]) if v[1].class == String
+                        - values = eval(v[1].gsub('null', 'nil')) if v[1].class == String
                         - values.each_with_index do |value, fields_index|
                           - index = 1
                           - value.each do |key, value|

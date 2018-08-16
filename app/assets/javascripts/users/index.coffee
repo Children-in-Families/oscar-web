@@ -6,7 +6,8 @@ CIF.UsersIndex = do ->
     _initSelect2()
 
   _initSelect2 = ->
-    $('select').select2()
+    $('select').select2
+      allowClear: true
 
   _fixedHeaderTableColumns = ->
     $('.users-table').removeClass('table-responsive')

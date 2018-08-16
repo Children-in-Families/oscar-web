@@ -34,7 +34,7 @@ RSpec.describe Organization, type: :model do
     it '.visible' do
       orgs = Organization.visible.pluck(:short_name)
       expect(orgs).to include('cif', 'new-smile')
-      expect(orgs).not_to include('cwd', 'myan', 'rok', 'shared')
+      expect(orgs).not_to include('cwd', 'myan', 'rok', 'shared', 'my')
     end
   end
 

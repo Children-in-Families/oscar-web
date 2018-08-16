@@ -1,11 +1,11 @@
 describe 'VisitClient' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:client_1){ create(:client, given_name: 'Rainy') }
-  let!(:client_2){ create(:client) }
-  let!(:client_3){ create(:client) }
+
   before do
     login_as(admin)
   end
+
   feature 'Client show page' do
     feature 'from clients list/index' do
       before(:each) do
