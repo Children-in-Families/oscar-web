@@ -103,9 +103,9 @@
               %u បញ្ហាថ្មីៗដែលបានរកឃើញ ក្នុងអំឡុងពេលនៃការចុះត្រួតពិនិត្យ និងតាមដាន និងដំណោះស្រាយដែលបានធ្វើដើម្បីដោះស្រាយបញ្ហាទាំងនោះ។
           %tr
             %td{ style: 'border:1px solid black;', colspan: '2' }
-              .comment{ style: 'min-height: 120px;' }
+              .comment{ style: 'min-height: 130px;' }
                 %p= @government_form.problem
-
+            %br/
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
       %tbody
@@ -129,16 +129,17 @@
             %th{ style: 'border:1px solid black; text-align: center;' }
               ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
         %tbody
-          - @government_form.follow_up_records.each do |record|
+          - follow_up_records = @client.tasks.where("tasks.completed = ? AND tasks.case_note_domain_group_id IS NOT NULL", true)
+          - follow_up_records.each do |record|
             %tr{ style: 'page-break-inside: avoid;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
-                %p= record.date
+                %p= record.completion_date
               %td{ style: 'border:1px solid black; text-align: center;' }
-                %p= record.provided_service
+                %p= record.domain_name
               %td{ style: 'border:1px solid black; text-align: center;' }
-                %p= record.child_family_status
-          - if @government_form.follow_up_records.size < 19
-            - (1..(19 - @government_form.follow_up_records.size)).each do |_|
+                %p= record.name
+          - if follow_up_records.size < 19
+            - (1..(19 - follow_up_records.size)).each do |_|
               %tr{ style: 'page-break-inside: avoid;' }
                 %td{ style: 'border:1px solid black; text-align: center;' }
                   .comment{ style: 'min-height: 30px;' }
@@ -146,7 +147,7 @@
                   .comment{ style: 'min-height: 30px;' }
                 %td{ style: 'border:1px solid black; text-align: center;' }
                   .comment{ style: 'min-height: 30px;' }
-
+          %br/
 
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
@@ -155,8 +156,11 @@
           ការពិនិត្យតាមដាន ឬជំហានបន្ទាប់ (កាលបរិច្ឆេទជួបកុមារ និងគ្រួសារ, សកម្មភាពបន្ទាប់ទៀត។ល។​)
       %tr
         %td{ style: 'border:1px solid black;' }
-          %ul
-          / %p.comment{ style: 'min-height: 600px;' }= @government_form.follow_up_step
+          .comment{ style: 'min-height: 600px;' }
+            %ul
+              - @client.case_notes.each do |case_note|
+                - case_note.tasks.where(completed: false).each do |task|
+                  %li #{task.completion_date} - #{task.domain_name}
 
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
@@ -169,20 +173,14 @@
           %tr
             %th{ style: 'border: none;' }
               ថ្ងៃទី/ខែ/ឆ្នាំ:
-              / - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
-              - gov_date.split('').each_with_index do |code, index|
-                - if index == 0
-                  %span.first= code
-                - else
-                  %span= code
+              %span.first &nbsp&nbsp
+              - (1..5).each do |_|
+                %span &nbsp&nbsp
             %th{ style: 'border: none; text-align: right;' }
               ថ្ងៃទី/ខែ/ឆ្នាំ:
-              - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
-              - gov_date.split('').each_with_index do |code, index|
-                - if index == 0
-                  %span.first= code
-                - else
-                  %span= code
+              %span.first &nbsp&nbsp
+              - (1..5).each do |_|
+                %span &nbsp&nbsp
         %tbody
           %tr
             %td{ style: 'border: none;' }

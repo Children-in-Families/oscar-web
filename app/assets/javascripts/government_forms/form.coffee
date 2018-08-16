@@ -165,7 +165,7 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
       _initDatePicker()
 
   _initCocoonFields = ->
-    i = 0
+    i = parseInt($('#action-count').val()) || 0
     while i < 3
       $('.add_action_results').click()
       i++;

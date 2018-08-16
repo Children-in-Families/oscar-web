@@ -5,6 +5,7 @@ class CaseNote < ActiveRecord::Base
   belongs_to :assessment
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
+  has_many   :tasks, dependent: :destroy
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }

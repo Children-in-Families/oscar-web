@@ -120,7 +120,6 @@ class GovernmentFormsController < AdminController
       government_form_problems_attributes: [:id, :rank, :problem_id],
       government_form_children_plans_attributes: [:id, :goal, :action, :who, :completion_date, :score, :comment, :children_plan_id],
       government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id],
-      follow_up_records_attributes: [:id, :date, :provided_service, :child_family_status, :_destroy],
       action_results_attributes: [:id, :action, :result, :_destroy]
     )
   end

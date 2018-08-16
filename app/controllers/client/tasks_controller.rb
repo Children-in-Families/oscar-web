@@ -59,7 +59,7 @@ class Client::TasksController < AdminController
   end
 
   def task_params
-    params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at)
+    params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at, :case_note_id, :assessment_id)
   end
 
   def encode32hex(str)

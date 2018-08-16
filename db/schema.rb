@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180813083128) do
+ActiveRecord::Schema.define(version: 20180815074853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -652,17 +652,6 @@ ActiveRecord::Schema.define(version: 20180813083128) do
     t.datetime "updated_at",              null: false
   end
 
-  create_table "follow_up_records", force: :cascade do |t|
-    t.date     "date"
-    t.string   "provided_service",    default: ""
-    t.string   "child_family_status", default: ""
-    t.integer  "government_form_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-  end
-
-  add_index "follow_up_records", ["government_form_id"], name: "index_follow_up_records_on_government_form_id", using: :btree
-
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
     t.jsonb    "file",                default: []
@@ -1233,8 +1222,12 @@ ActiveRecord::Schema.define(version: 20180813083128) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
+    t.integer  "assessment_id"
+    t.integer  "case_note_id"
   end
 
+  add_index "tasks", ["assessment_id"], name: "index_tasks_on_assessment_id", using: :btree
+  add_index "tasks", ["case_note_id"], name: "index_tasks_on_case_note_id", using: :btree
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -1623,7 +1616,6 @@ ActiveRecord::Schema.define(version: 20180813083128) do
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "families", "districts"
   add_foreign_key "family_members", "families"
-  add_foreign_key "follow_up_records", "government_forms"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"
@@ -1660,6 +1652,8 @@ ActiveRecord::Schema.define(version: 20180813083128) do
   add_foreign_key "settings", "provinces"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
+  add_foreign_key "tasks", "assessments"
+  add_foreign_key "tasks", "case_notes"
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"

@@ -3,6 +3,8 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
   belongs_to :user
+  belongs_to :case_note
+  belongs_to :assessment
 
   has_paper_trail
 
@@ -24,6 +26,11 @@ class Task < ActiveRecord::Base
   scope :exclude_exited_ngo_clients, -> { where(client_id: Client.active_accepted_status.ids) }
 
   after_save :create_task_history
+
+  def domain_name
+    domain = Domain.find domain_id
+    "#{domain.name} #{domain.identity}" if domain.present?
+  end
 
   def self.of_user(user)
     where(user_id: user.id)
