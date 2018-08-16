@@ -1035,8 +1035,8 @@ en:
       yes_no: Yes/No
     case_history_detail:
       accepted_date: NGO Accept Date
-      client_id: Client ID
       client: Client
+      client_id: Client ID
       consent_form: Consent Form
       date_of_referral: Date of Referral
       enrollment_date: Enrollment Date
@@ -3374,9 +3374,9 @@ en:
     program_stream_notify:
       review_client: Clients need to be reviewed
     referrals:
-      referral_clients:  Referral Clients
+      referral_clients: Referral Clients
     repeat_referrals:
-      referral_clients:  Referral Clients
+      referral_clients: Referral Clients
     upcoming_assessment:
       client: Client
       most_recent_assessment: Most Recent Assessment
