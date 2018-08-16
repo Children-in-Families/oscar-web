@@ -439,23 +439,18 @@ class Client < ActiveRecord::Base
   end
 
   def create_or_update_shared_client
-    current_org         = Organization.current
-    client              = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
-    birth_province_name = Province.find(self.birth_province_id).try(:name) if self.birth_province_id.present?
-    suburb              = self.suburb
-    state_name          = self.state_name
-    Organization.switch_to 'shared'
+    current_org = Organization.current
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
+    suburb = self.suburb
+    state_name = self.state_name
 
+    Organization.switch_to 'shared'
     if suburb.present?
       province = Province.find_or_create_by(name: suburb, country: 'lesotho')
       client['birth_province_id'] = province.id
     elsif state_name.present?
       province = Province.find_or_create_by(name: state_name, country: 'myanmar')
       client['birth_province_id'] = province.id
-    elsif birth_province_name.present?
-      birth_province_name = birth_province_name.split(' / ').last
-      birth_province = Province.country_is('cambodia').where('name iLike ? ', "%#{birth_province_name}%").first
-      client['birth_province_id'] = birth_province.try(:id)
     end
     shared_client = SharedClient.find_by(slug: client['slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
