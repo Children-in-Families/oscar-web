@@ -13,7 +13,6 @@ namespace :remove_duplicate_birth_provinces do
         province = Province.country_is('cambodia').find_by(id: province_id)
         next if province.nil?
         province_name = province.name
-        Organization.switch_to org.short_name
 
         used_provinces = Province.country_is('cambodia')
 
@@ -35,6 +34,7 @@ namespace :remove_duplicate_birth_provinces do
           province_id = used_provinces.where('name ilike ? ', '%ត្បូងឃ្មុំ%').first.id
         end
 
+        Organization.switch_to org.short_name
         client.birth_province_id = province_id
         if client.birth_province_id_changed?
           puts client.slug
