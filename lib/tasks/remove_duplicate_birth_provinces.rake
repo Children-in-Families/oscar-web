@@ -1,8 +1,7 @@
 namespace :remove_duplicate_birth_provinces do
   desc 'remove duplicate birth provinces in shared tenant'
   task start: :environment do
-    # Organization.where.not(short_name: 'shared').each do |org|
-    Organization.where(short_name: 'demo').each do |org|
+    Organization.where.not(short_name: 'shared').each do |org|
       Organization.switch_to org.short_name
       Client.where.not(birth_province_id: nil).each do |client|
         org = Organization.current
@@ -47,5 +46,14 @@ namespace :remove_duplicate_birth_provinces do
 
     wrong_provinces = Province.country_is('cambodia').where('name iLike ? or name iLike ? or name iLike ? or name iLike ? or name iLike ? or name iLike ? or name iLike ? or name iLike ? or name iLike ?', '%ត្បួងឃ្មុំ%', '%បៃលិន%', '%Banteay Meanchay%', '%Mondulkiri%', '%Oddar Meanchay%', '%Sihannouk%', '%Ratanakiri%', '%Seam Reap%', '%Siem Reap%')
     wrong_provinces.destroy_all
+
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      provinces = Province.where('name iLike ? ', '%Oddar%')
+      if provinces.any?
+        # some name might contain non blank space
+        provinces.update_all(name: 'ឧត្ដរមានជ័យ / Oddar Meanchey')
+      end
+    end
   end
 end
