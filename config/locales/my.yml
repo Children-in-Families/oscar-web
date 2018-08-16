@@ -405,6 +405,7 @@ my:
       subdistrict: Subdistrict
       suburb: Suburb
       telephone_number: တယ်လီဖုန်းနံပါတ်
+      time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
       time_of_frequency: အႀကိမ္အေရအတြက္
       township: မြို့နယ်
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း

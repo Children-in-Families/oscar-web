@@ -50,6 +50,8 @@ module AdvancedSearches
         values = referred_to_query
       when 'referred_from'
         values = referred_from_query
+      when 'time_in_care'
+        values = time_in_care_query
       end
       { id: sql_string, values: values }
     end
@@ -537,6 +539,32 @@ module AdvancedSearches
       when 'is_not_empty'
         @clients.where(id: clients.ids).ids
       end
+    end
+
+    def time_in_care_query
+      client_ids = []
+      clients = @clients.joins(:client_enrollments)
+      case @operator
+      when 'equal'
+        clients.map { |client| client_ids << client.id if client.time_in_care[:years] == @value  }
+      when 'not_equal'
+        clients.map { |client| client_ids << client.id if client.time_in_care[:years] != @value  }
+      when 'less'
+        clients.map { |client| client_ids << client.id if client.time_in_care[:years] < @value  }
+      when 'less_or_equal'
+        clients.map { |client| client_ids << client.id if client.time_in_care[:years] <= @value  }
+      when 'greater'
+        clients.map { |client| client_ids << client.id if client.time_in_care[:years] > @value  }
+      when 'greater_or_equal'
+        clients.map { |client| client_ids << client.id if client.time_in_care[:years] >= @value  }
+      when 'between'
+        clients.map { |client| client_ids << client.id if client.time_in_care[:years].between? @value.first, @value.last }
+      when 'is_empty'
+        client_ids = @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        client_ids = clients.ids
+      end
+      client_ids
     end
 
     def age_field_query

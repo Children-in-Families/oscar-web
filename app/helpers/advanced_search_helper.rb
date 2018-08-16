@@ -109,7 +109,8 @@ module AdvancedSearchHelper
       created_at: I18n.t('advanced_search.fields.created_at'),
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
-      referred_from: I18n.t('advanced_search.fields.referred_from')
+      referred_from: I18n.t('advanced_search.fields.referred_from'),
+      time_in_care: I18n.t('advanced_search.fields.time_in_care')
     }
     translations[key.to_sym] || ''
   end
