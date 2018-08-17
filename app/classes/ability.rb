@@ -40,8 +40,10 @@ class Ability
         Date.current > assessment.created_at + 2.weeks
       end
     elsif user.manager?
+      subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)
       can :create, Client
-      can :manage, Client, case_worker_clients: { user_id: User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id) }
+      can :manage, Client, case_worker_clients: { user_id: subordinate_users }
+      can :manage, Client, id: exited_clients(subordinate_users)
       can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
       can :manage, User, id: user.id
       can :manage, Case
@@ -58,5 +60,16 @@ class Ability
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
     end
+  end
+
+  def exited_clients(users)
+    client_ids = []
+    users.each do |user|
+      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'destroy').where_object(user_id: user).each do |version|
+        client_id = version.reify.client_id
+        client_ids << client_id if client_id.present?
+      end
+    end
+    client_ids.uniq
   end
 end
