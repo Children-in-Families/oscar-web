@@ -5,13 +5,18 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:received_by) }
   it { is_expected.to belong_to(:followed_up_by) }
   it { is_expected.to belong_to(:birth_province) }
-  it { is_expected.to belong_to(:donor) }
 
+  # Client ask to hide #147254199
+  # it { is_expected.to have_one(:government_report).dependent(:destroy) }
+  # it { is_expected.to have_many(:surveys).dependent(:destroy) }
+
+  it { is_expected.to have_many(:sponsors).dependent(:destroy) }
+  it { is_expected.to have_many(:donors).through(:sponsors) }
   it { is_expected.to have_many(:cases).dependent(:destroy) }
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:case_notes).dependent(:destroy) }
   it { is_expected.to have_many(:assessments).dependent(:destroy) }
-  it { is_expected.to have_many(:agency_clients) }
+  it { is_expected.to have_many(:agency_clients).dependent(:destroy) }
   it { is_expected.to have_many(:agencies).through(:agency_clients) }
   it { is_expected.to have_many(:client_quantitative_cases).dependent(:destroy) }
   it { is_expected.to have_many(:quantitative_cases).through(:client_quantitative_cases) }

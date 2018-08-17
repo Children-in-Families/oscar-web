@@ -65,9 +65,9 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('client/kid_id')
   end
 
-  it 'should be have attribute donor' do
-    expect(serializer).to have_json_path('client/donor')
-    expect(serializer).to have_json_type(NilClass).at_path('client/donor')
+  it 'has donors attribute' do
+    expect(serializer).to have_json_path('client/donors')
+    expect(serializer).to have_json_type(Array).at_path('client/donors')
   end
 
   it 'should be have attribute current_address' do
