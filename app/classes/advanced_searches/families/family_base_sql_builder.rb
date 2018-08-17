@@ -56,7 +56,7 @@ module AdvancedSearches
             @values << value.downcase.squish
           else
             @sql_string << "families.#{field} = ?"
-            @values << value.squish
+            value.class == Fixnum ? @values << value : @values << value.squish
           end
 
         when 'not_equal'

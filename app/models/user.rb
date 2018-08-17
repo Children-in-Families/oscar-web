@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   has_many :program_streams, through: :program_stream_permissions
   has_many :quantitative_type_permissions, -> { order_by_quantitative_type }, dependent: :destroy
   has_many :quantitative_types, through: :quantitative_type_permissions
+  has_many :families, dependent: :destroy
 
   accepts_nested_attributes_for :custom_field_permissions
   accepts_nested_attributes_for :program_stream_permissions
@@ -177,7 +178,7 @@ class User < ActiveRecord::Base
   end
 
   def family_custom_field_frequency_overdue_or_due_today
-    if self.admin? || self.any_case_manager? || self.manager?
+    if self.admin? || self.any_case_manager? || self.manager? || self.case_worker?
       entity_type_custom_field_notification(Family.all)
     end
   end

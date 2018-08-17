@@ -20,8 +20,8 @@ class FamiliesController < AdminController
     else
       respond_to do |f|
         f.html do
-          @results = @family_grid.assets.size
-          @family_grid.scope { |scope| scope.page(params[:page]).per(20) }
+          @results = @family_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
+          @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
           form_builder_report
@@ -37,6 +37,7 @@ class FamiliesController < AdminController
 
   def create
     @family = Family.new(family_params)
+    @family.user_id = current_user.id
     if @family.save
       redirect_to @family, notice: t('.successfully_created')
     else
@@ -105,7 +106,11 @@ class FamiliesController < AdminController
     else
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
     end
-    @clients  = Client.accessible_by(current_ability).where.not(id: client_ids).order(:given_name, :family_name)
+    if current_user.case_worker?
+      @clients  = current_user.clients.order(:given_name, :family_name)
+    else
+      @clients  = Client.accessible_by(current_ability).where.not(id: client_ids).order(:given_name, :family_name)
+    end
   end
 
   def find_family

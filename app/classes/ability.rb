@@ -39,6 +39,16 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+
+      family_ids = []
+      user.clients.each do |client|
+        family_ids << client.family_ids
+      end
+
+      can :create, Family
+      can :manage, Family, cases: { family_id: family_ids.flatten! }
+      can :manage, Family, user_id: user.id
+
     elsif user.manager?
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id) }

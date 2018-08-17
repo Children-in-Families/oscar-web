@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180813030846) do
+ActiveRecord::Schema.define(version: 20180817042218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -574,9 +574,11 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.string   "village",                         default: ""
     t.string   "house",                           default: ""
     t.string   "street",                          default: ""
+    t.integer  "user_id"
   end
 
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
+  add_index "families", ["user_id"], name: "index_families_on_user_id", using: :btree
 
   create_table "family_members", force: :cascade do |t|
     t.string   "adult_name",    default: ""
@@ -1404,6 +1406,7 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "families", "districts"
+  add_foreign_key "families", "users"
   add_foreign_key "family_members", "families"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
