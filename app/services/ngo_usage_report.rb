@@ -6,6 +6,42 @@ class NgoUsageReport
     import_usage_report(date_time)
   end
 
+  def ngo_info(org)
+    {
+      ngo_name: org.full_name,
+      ngo_on_board: org.created_at.strftime("%B %d, %Y"),
+      fcf: org.fcf_ngo? ? 'Yes' : 'No',
+      ngo_country: Setting.first.country_name.downcase.titleize
+    }
+  end
+
+  def ngo_users_info(beginning_of_month, end_of_month)
+    previous_month_users = PaperTrail::Version.where(item_type: 'User', created_at: beginning_of_month..end_of_month)
+    {
+      user_count: User.non_devs.count,
+      user_added_count: previous_month_users.where(event: 'create').count,
+      user_deleted_count: previous_month_users.where(event: 'destroy').count,
+      # should use PaperTrail instead for the visits
+      login_per_month: Visit.excludes_non_devs.total_logins(beginning_of_month, end_of_month).count
+    }
+  end
+
+  def ngo_clients_info(beginning_of_month, end_of_month)
+    previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
+    {
+      client_count: Client.count,
+      client_added_count: previous_month_clients.where(event: 'create').count,
+      client_deleted_count: previous_month_clients.where(event: 'destroy').count
+    }
+  end
+
+  def ngo_referrals_info(beginning_of_month, end_of_month)
+    tranferred_clients = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month)
+    {
+      tranferred_client_count: tranferred_clients.map{ |a| a.changeset[:slug][1] }.uniq.count
+    }
+  end
+
   private
 
   def import_usage_report(date_time)
@@ -38,7 +74,7 @@ class NgoUsageReport
     end_of_month       = 1.month.ago.end_of_month
     previous_month     = 1.month.ago.strftime('%B %Y')
 
-    ngo_worksheet      = book.create_worksheet(name: "NGO Report-#{previous_month}")
+    ngo_worksheet      = book.create_worksheet(name: "NGO Records-#{previous_month}")
     user_worksheet     = book.create_worksheet(name: "User Report-#{previous_month}")
     client_worksheet   = book.create_worksheet(name: "Client Report-#{previous_month}")
 
@@ -88,34 +124,14 @@ class NgoUsageReport
     Organization.order(:created_at).without_shared.each_with_index do |org, index|
       Organization.switch_to org.short_name
 
-      ngo_name               = org.full_name
-      ngo_on_board           = org.created_at.strftime("%B %d, %Y")
-      fcf                    = org.fcf_ngo? ? 'Yes' : 'No'
-      ngo_country            = Setting.first.country_name.downcase.titleize
+      setting                = ngo_info(org)
+      ngo_users              = ngo_users_info(beginning_of_month, end_of_month)
+      ngo_clients            = ngo_clients_info(beginning_of_month, end_of_month)
+      ngo_referrals          = ngo_referrals_info(beginning_of_month, end_of_month)
 
-      user_count             = User.non_devs.count
-      previous_month_users   = PaperTrail::Version.where(item_type: 'User', created_at: beginning_of_month..end_of_month)
-      user_added_count       = previous_month_users.where(event: 'create').count
-      user_deleted_count     = previous_month_users.where(event: 'delete').count
-      login_per_month        = Visit.excludes_non_devs.previous_month_logins.count
-
-      client_count           = Client.all.count
-      previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
-      client_added_count     = previous_month_clients.where(event: 'create').count
-      client_deleted_count   = previous_month_clients.where(event: 'delete').count
-
-      referral_ids = []
-      tranferred_clients     = PaperTrail::Version.where(item_type: 'Referral', event: 'create', created_at: beginning_of_month..end_of_month)
-
-      tranferred_clients.each do |tc|
-        referral_ids << tc.item_id
-      end
-
-      tranferred_client_count = Referral.where(id: referral_ids).distinct.pluck(:slug).count
-
-      ngo_values             = [ngo_name, ngo_on_board, fcf, ngo_country]
-      user_values            = [ngo_name, user_count, user_added_count, user_deleted_count, login_per_month]
-      client_values          = [ngo_name, client_count, client_added_count, client_deleted_count, tranferred_client_count]
+      ngo_values             = [setting[:ngo_name], setting[:ngo_on_board], setting[:fcf], setting[:ngo_country]]
+      user_values            = [setting[:ngo_name], ngo_users[:user_count], ngo_users[:user_added_count], ngo_users[:user_deleted_count], ngo_users[:login_per_month]]
+      client_values          = [setting[:ngo_name], ngo_clients[:client_count], ngo_clients[:client_added_count], ngo_clients[:client_deleted_count], ngo_referrals[:tranferred_client_count]]
 
       ngo_worksheet.insert_row(index += 1, ngo_values)
       user_worksheet.insert_row(index, user_values)
@@ -134,7 +150,6 @@ class NgoUsageReport
       client_length_of_column.times do |i|
         client_worksheet.row(index).set_format(i, column_format)
       end
-
     end
 
     book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
