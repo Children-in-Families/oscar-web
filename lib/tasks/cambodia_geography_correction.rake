@@ -2,7 +2,8 @@ namespace :cambodia_geography_correction do
   desc 'Update geography to match with data provided by NCDD'
   task start: :environment do
 
-    Organization.all.each do |org|
+    # Organization.all.each do |org|
+    Organization.where(short_name: 'cif').each do |org|
       Organization.switch_to org.short_name
       correct_provinces
       correct_districts
