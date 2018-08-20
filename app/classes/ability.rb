@@ -65,7 +65,7 @@ class Ability
   def exited_clients(users)
     client_ids = []
     users.each do |user|
-      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'destroy').where_object(user_id: user).each do |version|
+      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'destroy').where_object_changes(user_id: user).each do |version|
         client_id = version.reify.client_id
         client_ids << client_id if client_id.present?
       end
