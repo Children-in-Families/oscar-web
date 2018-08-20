@@ -6,7 +6,7 @@ class ClientGrid
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
 
   scope do
-    Client.includes(:district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -141,9 +141,9 @@ class ClientGrid
 
   filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') }) { |value, scope| scope.street_number_like(value) }
 
-  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') })
-
   filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') })
+
+  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') })
 
   filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') })
 
@@ -553,11 +553,11 @@ class ClientGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, order: 'villages.name', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+      column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
         object.village.try(:code_format)
       end
 
-      column(:commune, order: 'communes.name', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+      column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
         object.commune.try(:name)
       end
 

@@ -5,7 +5,7 @@ class FamilyGrid
   attr_accessor :dynamic_columns
 
   scope do
-    Family.includes({cases: [:client]}, :province).order(:name)
+    Family.includes({cases: [:client]}, :village, :commune, :district, :province).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.families.name') }) do |value, scope|
