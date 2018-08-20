@@ -14,6 +14,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     process resize_to_fill: [100, 100]
   end
 
+  version :ngo_thumb do
+    process resize_to_fill: [0, 90]
+  end
+
   def extension_white_list
     %w(jpg jpeg gif png)
   end
