@@ -144,12 +144,13 @@ class FamilyGrid
   column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
-  column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
-    object.commune.try(:name)
-  end
 
   column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
     object.village.try(:code_format)
+  end
+
+  column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
+    object.commune.try(:name)
   end
 
   column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.families.district') }) do |object|

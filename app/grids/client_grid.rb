@@ -553,12 +553,12 @@ class ClientGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:commune, order: 'communes.name', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
-        object.commune.try(:name)
-      end
-
       column(:village, order: 'villages.name', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
         object.village.try(:code_format)
+      end
+
+      column(:commune, order: 'communes.name', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+        object.commune.try(:name)
       end
 
       column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|

@@ -14,9 +14,9 @@
         .col-xs-12.col-sm-6.col-md-4
           = f.association :district, collection: @districts, label: t('.district'), input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
         .col-xs-12.col-sm-6.col-md-4
-          = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: @family.old_commune
+          = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: (@family.old_commune if @family.commune_id.nil?)
         .col-xs-12.col-sm-6.col-md-4
-          = f.association :village, collection: @villages.map{|v| [v.name, v.id] }, label:t('.village'), input_html: { data: { type: 'villages' } }, hint: @family.old_village
+          = f.association :village, collection: @villages.map{|v| [v.name, v.id] }, label:t('.village'), input_html: { data: { type: 'villages' } }, hint: (@family.old_village if @family.village_id.nil?)
         .col-xs-12.col-sm-6.col-md-4.famliy-street= f.input :street, label: t('.street')
         .col-xs-12.col-sm-6.col-md-4= f.input :house, label: t('.house')
         .col-xs-12.col-sm-6.col-md-4= f.input :significant_family_member_count, label: t('.significant_family_member_count')
