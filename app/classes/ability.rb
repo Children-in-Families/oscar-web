@@ -47,7 +47,7 @@ class Ability
 
       can :create, Family
       can :manage, Family, cases: { family_id: family_ids.flatten! }
-      can :manage, Family, user_id: user.id
+      can [:read, :update, :destroy], Family, user_id: user.id
 
     elsif user.manager?
       can :create, Client
