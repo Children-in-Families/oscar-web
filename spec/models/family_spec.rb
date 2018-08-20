@@ -36,8 +36,6 @@ describe Family, 'scopes' do
   let!(:active_family){ create(:family, :active)}
   let!(:inactive_family){ create(:family, :inactive, :other)}
   let!(:birth_family){ create(:family, :birth_family_both_parents)}
-  let!(:commune_family){ create(:family, commune: 'Beoung Kok')}
-  let!(:village_family){ create(:family, village: 'Wat Koh')}
 
   context '.as_non_cases' do
     it 'include inactive and birth_family' do
@@ -55,26 +53,6 @@ describe Family, 'scopes' do
       expect(families).to include(kc_family)
     end
     it 'should not include record not have family name like' do
-      expect(families).not_to include(fc_family)
-    end
-  end
-
-  context '.commune_like' do
-    let!(:families){ Family.commune_like('Beoung') }
-    it 'should include record have family commune like' do
-      expect(families).to include(commune_family)
-    end
-    it 'should not include record not have family name like' do
-      expect(families).not_to include(fc_family)
-    end
-  end
-
-  context '.village_like' do
-    let!(:families){ Family.village_like('wat') }
-    it 'should include record have family village like' do
-      expect(families).to include(village_family)
-    end
-    it 'should not include record not have family village like' do
       expect(families).not_to include(fc_family)
     end
   end

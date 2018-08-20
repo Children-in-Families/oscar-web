@@ -78,10 +78,6 @@ describe Case, 'scopes' do
     it 'should have emergency' do
       is_expected.to include(emergency)
     end
-    it 'should not have kinship or foster' do
-      is_expected.not_to include(kinship)
-      is_expected.not_to include(foster)
-    end
   end
 
   context 'non_emergency' do
@@ -89,10 +85,6 @@ describe Case, 'scopes' do
     subject{ non_emergencies }
     it 'should not have emergency' do
       is_expected.not_to include(emergency)
-    end
-    it 'should have kinship or foster' do
-      is_expected.to include(kinship)
-      is_expected.to include(foster)
     end
   end
 

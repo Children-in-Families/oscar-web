@@ -232,7 +232,7 @@ describe 'Client' do
     let!(:province) { create(:province) }
     let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
                              local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
-                             province: province, village: 'Sabay', commune: 'Vealvong') }
+                             province: province) }
     let!(:referral_source){ create(:referral_source) }
     before do
       login_as(admin)

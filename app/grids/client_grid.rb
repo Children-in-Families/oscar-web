@@ -43,7 +43,7 @@ class ClientGrid
 
   filter(:code, :integer, header: -> { I18n.t('datagrid.columns.clients.code') }) { |value, scope| scope.start_with_code(value) }
 
-  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') }) { |value, scope| scope.kid_id_like(value) }
+  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   filter(:status, :enum, select: :status_options, header: -> { I18n.t('datagrid.columns.clients.status') })
 
@@ -79,15 +79,15 @@ class ClientGrid
     Province.has_clients.map { |p| [p.name, p.id] }
   end
 
-  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') }) { |value, scope| scope.telephone_number_like(value) }
+  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
 
-  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
+  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
   # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
-  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') }) { |value, scope| scope.referral_phone_like(value) }
+  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
@@ -135,11 +135,11 @@ class ClientGrid
     end
   end
 
-  filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') }) { |value, scope| scope.current_address_like(value) }
+  filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
-  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_number') }) { |value, scope| scope.house_number_like(value) }
+  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_number') })
 
-  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') }) { |value, scope| scope.street_number_like(value) }
+  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
   filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') })
 
@@ -147,7 +147,7 @@ class ClientGrid
 
   filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') })
 
-  filter(:school_name, :string, header: -> { I18n.t('datagrid.columns.clients.school_name') }) { |value, scope| scope.school_name_like(value) }
+  filter(:school_name, :string, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
   filter(:has_been_in_government_care, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') })
 
@@ -159,7 +159,7 @@ class ClientGrid
 
   filter(:has_been_in_orphanage, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') })
 
-  filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') }) { |value, scope| scope.info_like(value) }
+  filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
   filter(:created_by, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.created_by') })
 

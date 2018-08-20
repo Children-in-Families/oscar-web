@@ -87,12 +87,12 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute village' do
     expect(serializer).to have_json_path('client/village')
-    expect(serializer).to have_json_type(String).at_path('client/village')
+    expect(serializer).to have_json_type(Object).at_path('client/village')
   end
 
   it 'should be have attribute commune' do
     expect(serializer).to have_json_path('client/commune')
-    expect(serializer).to have_json_type(String).at_path('client/commune')
+    expect(serializer).to have_json_type(Object).at_path('client/commune')
   end
 
   it 'should be have attribute district' do

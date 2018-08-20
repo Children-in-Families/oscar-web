@@ -77,19 +77,11 @@ class Client < ActiveRecord::Base
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   # after_update :notify_managers, if: :exiting_ngo?
 
-  scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value.squish}%") }
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :local_given_name_like,                    ->(value) { where('clients.local_given_name iLIKE ?', "%#{value.squish}%") }
   scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value.squish}%") }
-  scope :current_address_like,                     ->(value) { where('clients.current_address iLIKE ?', "%#{value.squish}%") }
-  scope :house_number_like,                        ->(value) { where('clients.house_number iLike ?', "%#{value.squish}%") }
-  scope :street_number_like,                       ->(value) { where('clients.street_number iLike ?', "%#{value.squish}%") }
-  scope :school_name_like,                         ->(value) { where('clients.school_name iLIKE ?', "%#{value.squish}%") }
-  scope :referral_phone_like,                      ->(value) { where('clients.referral_phone iLIKE ?', "%#{value.squish}%") }
-  scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value.squish}%") }
   scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
-  scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value.squish}%") }
   scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
@@ -111,7 +103,6 @@ class Client < ActiveRecord::Base
   scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
-  scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value.squish}%") }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
   def self.filter(options)
