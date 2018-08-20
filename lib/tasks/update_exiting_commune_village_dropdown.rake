@@ -32,8 +32,9 @@ namespace :update_commune_village do
               object.village_id  = village_id
               object.commune_id  = commune_id
               object.district_id = district_id
+
               if province_id.nil?
-                province_id = District.joins(:object).find(district_id).province_id if district_id.present?
+                province_id = District.find(district_id).province_id if district_id.present?
                 object.province_id = province_id
               end
             else
