@@ -55,7 +55,8 @@ class User < ActiveRecord::Base
   scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value.squish}%") }
   scope :mobile_like,     ->(value) { where('mobile iLIKE ?', "%#{value.squish}%") }
   scope :email_like,      ->(value) { where('email iLIKE  ?', "%#{value.squish}%") }
-  scope :gender_like,      ->(value) { where('gender iLIKE  ?', "%#{value}%") }
+  scope :males,           ->        { where(gender: 'male') }
+  scope :females,         ->        { where(gender: 'female') }
   scope :in_department,   ->(value) { where('department_id = ?', value) }
   scope :job_title_are,   ->        { where.not(job_title: '').pluck(:job_title).uniq }
   scope :department_are,  ->        { joins(:department).pluck('departments.name', 'departments.id').uniq }
