@@ -4,7 +4,7 @@ namespace :trim_field_name do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
       Family.all.each do |family|
-        family.update_columns(name: family.name.squish)
+        family.update_columns(name: family.name.try(:squish))
       end
     end
   end
@@ -13,7 +13,7 @@ namespace :trim_field_name do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
       Partner.all.each do |partner|
-        partner.update(contact_person_name: partner.contact_person_name.squish)
+        partner.update(contact_person_name: partner.contact_person_name.try(:squish))
       end
     end
   end

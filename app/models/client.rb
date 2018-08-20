@@ -18,7 +18,6 @@ class Client < ActiveRecord::Base
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4'].freeze
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
-  delegate :name, to: :donor, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :birth_province, prefix: true, allow_nil: true
@@ -30,7 +29,6 @@ class Client < ActiveRecord::Base
 
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
-  belongs_to :donor
   belongs_to :district
   belongs_to :subdistrict
   belongs_to :township
@@ -41,6 +39,8 @@ class Client < ActiveRecord::Base
   belongs_to :commune
   belongs_to :village
 
+  has_many :sponsors, dependent: :destroy
+  has_many :donors, through: :sponsors
   has_many :tasks,          dependent: :destroy
   has_many :agency_clients, dependent: :destroy
   has_many :agencies, through: :agency_clients
@@ -90,7 +90,7 @@ class Client < ActiveRecord::Base
   scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value.squish}%") }
   scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value.squish}%") }
   scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value.squish}%") }
-  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value.squish}%") }
+  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
@@ -424,8 +424,8 @@ class Client < ActiveRecord::Base
     client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
     suburb = self.suburb
     state_name = self.state_name
-    Organization.switch_to 'shared'
 
+    Organization.switch_to 'shared'
     if suburb.present?
       province = Province.find_or_create_by(name: suburb, country: 'lesotho')
       client['birth_province_id'] = province.id
