@@ -34,13 +34,13 @@ module AdvancedSearches
           properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'less'
-        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'less_or_equal'
-        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } <= '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } <= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'greater'
-        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } > '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } > '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'greater_or_equal'
-        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'contains'
         properties_result = client_enrollments.where("properties ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
       when 'not_contains'
@@ -58,7 +58,7 @@ module AdvancedSearches
           properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' OR properties -> '#{@field}' IS NULL")
         end
       when 'between'
-        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
+        properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
       client_ids = properties_result.pluck(:client_id).uniq
       { id: sql_string, values: client_ids }
@@ -70,7 +70,7 @@ module AdvancedSearches
     end
 
     def format_value(value)
-      value.is_a?(Array) ? value : value.gsub("'", "''")
+      value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
     end
   end
 end

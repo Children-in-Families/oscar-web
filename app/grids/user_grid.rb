@@ -16,7 +16,7 @@ class UserGrid
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.users.id') })
 
   filter(:gender, :enum, select: %w(Male Female),  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
-    scope.gender_like(value)
+    scope.send(value.downcase.pluralize)
   end
 
   filter(:mobile, :string,  header: -> { I18n.t('datagrid.columns.users.mobile') }) do |value, scope|

@@ -1,5 +1,6 @@
 class Donor < ActiveRecord::Base
-  has_many :clients, dependent: :restrict_with_error
+  has_many :sponsors, dependent: :restrict_with_error
+  has_many :clients, through: :sponsors
 
   has_paper_trail
 
