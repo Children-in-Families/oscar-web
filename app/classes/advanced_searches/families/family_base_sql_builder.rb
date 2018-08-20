@@ -65,7 +65,7 @@ module AdvancedSearches
             @values << value.downcase.squish
           else
             @sql_string << "families.#{field} != ?"
-            @values << value.squish
+            @values << value
           end
 
         when 'less'
