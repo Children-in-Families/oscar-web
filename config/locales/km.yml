@@ -374,8 +374,6 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
-      old_commune: Old Commune
-      old_village: Old Village
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       plot: Plot
@@ -1770,8 +1768,6 @@ km:
         ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
         ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
         no_dob: ទេ
-        old_commune: Old Commune
-        old_village: Old Village
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
@@ -1880,8 +1876,6 @@ km:
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
       manage: សកម្មភាព
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
-      old_commune: Old Commune
-      old_village: Old Village
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       partner: ដៃគូ
       partners:

@@ -374,8 +374,6 @@ en:
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
-      old_commune: Old Commune
-      old_village: Old Village
       other_info_of_exit: Other - More Information
       placement_start_date: Placement Start Date
       plot: Plot
@@ -1769,8 +1767,6 @@ en:
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
-        old_commune: 'Old Commune'
-        old_village: 'Old Village'
         other_info_of_exit: Other - More Information
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
@@ -1861,8 +1857,6 @@ en:
         member_count: Family Members
         name: Name
         'no': 'No'
-        old_commune: 'Old Commune'
-        old_village: 'Old Village'
         province: Province
         significant_family_member_count: Significant Family Member Count
         status: Status
