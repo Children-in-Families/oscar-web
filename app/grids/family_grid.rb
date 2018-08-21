@@ -55,11 +55,11 @@ class FamilyGrid
   end
 
   def commune_options
-    Family.joins(:commune).map{|f| [f.commune.name, f.id]}.uniq
+    Family.joins(:commune).map{|f| [f.commune.code_format, f.commune_id]}.uniq
   end
 
   def village_options
-    Family.joins(:village).map{|f| [f.village.name, f.id]}.uniq
+    Family.joins(:village).map{|f| [f.village.code_format, f.village_id]}.uniq
   end
 
   def province_options

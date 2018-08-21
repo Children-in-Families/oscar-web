@@ -96,10 +96,10 @@
             %input{ style: 'width: 43px;', value: @client.family.try(:street) }
           %td{ colspan: '1' }
             ភូមិ:
-            %input{ style: 'width: 128px;', value: @client.family.try(:village) }
+            %input{ style: 'width: 128px;', value: @client.family.try(:village).try(:name_kh) }
           %td
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 222px;', value: @client.family.try(:commune) }
+            %input{ style: 'width: 222px;', value: @client.family.try(:commune).try(:name_kh) }
         %tr{ style: 'page-break-inside: avoid;' }
           %td{ colspan: '3' }
             ក្រុង/ស្រុក/ខណ្ឌ:

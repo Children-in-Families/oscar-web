@@ -13,10 +13,16 @@ describe Commune, 'validations' do
 end
 
 describe Commune, 'methods' do
-  let(:commune_1){ create(:commune, name_kh: 'ABC', name_en: 'DEF') }
+  let(:commune_1){ create(:commune, name_kh: 'ABC', name_en: 'DEF', code: '123456') }
   context '#name' do
     it 'returns name_kh / name_en' do
       expect(commune_1.name).to eq('ABC / DEF')
+    end
+  end
+
+  context '#code_format' do
+    it 'returns name_kh / name_en (code)' do
+      expect(commune_1.code_format).to eq('ABC / DEF (123456)')
     end
   end
 end

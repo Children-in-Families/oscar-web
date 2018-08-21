@@ -13,8 +13,6 @@ class Client < ActiveRecord::Base
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments program_streams programexitdate enrollmentdate).freeze
 
-  ABLE_STATES = %w(Accepted Rejected Discharged).freeze
-
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4'].freeze
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
@@ -98,7 +96,6 @@ class Client < ActiveRecord::Base
   scope :active_kc,                                ->        { where(status: 'Active KC') }
   scope :active_fc,                                ->        { where(status: 'Active FC') }
   scope :without_assessments,                      ->        { includes(:assessments).where(assessments: { client_id: nil }) }
-  scope :able,                                     ->        { where(able_state: ABLE_STATES[0]) }
   scope :active_status,                            ->        { where(status: 'Active') }
   scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
@@ -188,10 +185,6 @@ class Client < ActiveRecord::Base
     (case_notes.latest_record.meeting_date + case_note_period).to_date
   end
 
-  def self.able_managed_by(user)
-    where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
-  end
-
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
   end
@@ -238,18 +231,6 @@ class Client < ActiveRecord::Base
 
   def age_extra_months(date = Date.today)
     ((date - date_of_birth) % 365 / 31).to_i
-  end
-
-  def able?
-    able_state == ABLE_STATES[0]
-  end
-
-  def rejected?
-    able_state == ABLE_STATES[1]
-  end
-
-  def discharged?
-    able_state == ABLE_STATES[2]
   end
 
   def active_kc?

@@ -90,13 +90,10 @@ describe Client, 'methods' do
   let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
   let!(:family){ create(:family) }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
-  let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
-  let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
-  let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
-  let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
-  let!(:client_b){ create(:client, date_of_birth: '2016-06-05') }
-  let!(:client_c){ create(:client, date_of_birth: '2016-06-06') }
+  let!(:client_a){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2017-05-05') }
+  let!(:client_b){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-05') }
+  let!(:client_c){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-06') }
   let!(:client_d){ create(:client, date_of_birth: '2015-10-06') }
   let!(:ec_case){ create(:case, client: client_a, case_type: 'EC') }
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
@@ -369,7 +366,8 @@ describe Client, 'methods' do
       followed_up_by: follower,
       birth_province: province,
       province: province,
-      user_ids: [user.id]
+      user_ids: [user.id],
+      code: Time.now.to_f.to_s.last(4)
     )}
     let!(:other_specific_client){ create(:client,
       date_of_birth: 2.year.ago.to_date,
@@ -377,7 +375,8 @@ describe Client, 'methods' do
       followed_up_by: follower,
       birth_province: province,
       province: province,
-      user_ids: [user.id]
+      user_ids: [user.id],
+      code: Time.now.to_f.to_s.last(4)
     )}
 
     min_age = 1
@@ -435,11 +434,11 @@ describe Client, 'scopes' do
     province: province,
     user_ids: [user.id],
     district: district,
-    telephone_number: '010123456'
+    telephone_number: '010123456',
+    code: Time.now.to_f.to_s.last(4)
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, :exited) }
-  let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
 
   let(:kc_client) { create(:client, :accepted) }
   let(:fc_client) { create(:client, :accepted) }
@@ -600,22 +599,6 @@ describe Client, 'scopes' do
 
     it 'should return client that has cases has family' do
       expect(Client.find_by_family_id(family.id)).to eq [client]
-    end
-  end
-
-  context 'able states' do
-    states = %w(Accepted Rejected Discharged)
-    it 'return all three able states' do
-      expect(Client::ABLE_STATES).to eq(states)
-    end
-  end
-
-  context 'able' do
-    it 'should return able client' do
-      expect(Client.able).to include(able_client)
-    end
-    it 'should not return non able client' do
-      expect(Client.able).not_to include([client, other_client])
     end
   end
 end

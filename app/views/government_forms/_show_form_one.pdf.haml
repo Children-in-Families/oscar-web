@@ -91,13 +91,13 @@
               .col-xs-4
                 ភូមិ:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @client.village }
+                %input{ style: 'width: 100%', value: @client.village.try(:name_kh) }
           .col-xs-6
             .row
               .col-xs-4
                 ឃុំ/សង្កាត់:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @client.commune }
+                %input{ style: 'width: 100%', value: @client.commune.try(:name_kh) }
         .row
           .col-xs-6
             .row
