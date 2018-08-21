@@ -9,12 +9,14 @@ class ClientHistory
   field :tenant, type: String, default: ->{ Organization.current.short_name }
 
   embeds_many :agency_client_histories
+  embeds_many :sponsor_histories
   embeds_many :case_client_histories
   embeds_many :case_worker_client_histories
   embeds_many :client_custom_field_property_histories
   embeds_many :client_family_histories
   embeds_many :client_quantitative_case_histories
 
+  after_save :create_sponsor_history, if: 'object.key?("donor_ids")'
   after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
   after_save :create_case_worker_client_history, if: 'object.key?("user_ids")'
   after_save :create_client_quantitative_case_history, if: 'object.key?("quantitative_case_ids")'
@@ -46,6 +48,13 @@ class ClientHistory
     object['agency_ids'].each do |agency_id|
       agency = Agency.find_by(id: agency_id).try(:attributes)
       agency_client_histories.create(object: agency)
+    end
+  end
+
+  def create_sponsor_history
+    object['donor_ids'].each do |donor_id|
+      donor = Donor.find_by(id: donor_id).try(:attributes)
+      sponsor_histories.create(object: donor)
     end
   end
 

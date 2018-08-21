@@ -118,13 +118,16 @@ module FamiliesHelper
     current_address = []
     current_address << "#{I18n.t('datagrid.columns.families.house')} #{object.house}" if object.house.present?
     current_address << "#{I18n.t('datagrid.columns.families.street')} #{object.street}" if object.street.present?
-    current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village}" if object.village.present?
-    current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune}" if object.commune.present?
+
     if locale == :km
+      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_kh}" if object.village.present?
+      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_kh}" if object.commune.present?
       current_address << object.district_name.split(' / ').first if object.district.present?
       current_address << object.province_name.split(' / ').first if object.province.present?
       current_address << 'កម្ពុជា'
     else
+      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_en}" if object.village.present?
+      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_en}" if object.commune.present?
       current_address << object.district_name.split(' / ').last if object.district.present?
       current_address << object.province_name.split(' / ').last if object.province.present?
       current_address << 'Cambodia'
