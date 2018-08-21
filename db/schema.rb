@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180726023440) do
+ActiveRecord::Schema.define(version: 20180813030846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -972,6 +972,16 @@ ActiveRecord::Schema.define(version: 20180726023440) do
 
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
+  create_table "sponsors", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "donor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sponsors", ["client_id"], name: "index_sponsors_on_client_id", using: :btree
+  add_index "sponsors", ["donor_id"], name: "index_sponsors_on_donor_id", using: :btree
+
   create_table "stages", force: :cascade do |t|
     t.float    "from_age"
     t.float    "to_age"
@@ -1412,6 +1422,8 @@ ActiveRecord::Schema.define(version: 20180726023440) do
   add_foreign_key "referrals", "clients"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
+  add_foreign_key "sponsors", "clients"
+  add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"

@@ -16,6 +16,8 @@ module AdvancedSearches
         values = user_id_field_query
       when 'agency_name'
         values = agency_name_field_query
+      when 'donor_name'
+        values = donor_name_field_query
       when 'family_id'
         values = family_id_field_query
       when 'family'
@@ -107,9 +109,9 @@ module AdvancedSearches
           clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids
         end
       when 'is_empty'
-        clients.where("versions.whodunnit IS NULL").ids
+        []
       when 'is_not_empty'
-        clients.where("versions.whodunnit IS NOT NULL").ids
+        clients.ids
       end
     end
 
@@ -419,9 +421,9 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
       case @operator
       when 'equal'
-        clients.where('client_enrollments.program_stream_id = ?', @value.squish ).ids
+        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value.squish ).ids
+        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
@@ -433,9 +435,9 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments)
       case @operator
       when 'equal'
-        clients.where('client_enrollments.program_stream_id = ?', @value.squish ).ids
+        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value.squish ).ids
+        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
@@ -447,9 +449,9 @@ module AdvancedSearches
       clients = @clients.joins(:custom_fields)
       case @operator
       when 'equal'
-        clients = clients.where('custom_fields.id = ?', @value.squish)
+        clients = clients.where('custom_fields.id = ?', @value)
       when 'not_equal'
-        clients = clients.where.not('custom_fields.id = ?', @value.squish)
+        clients = clients.where.not('custom_fields.id = ?', @value)
       when 'is_empty'
         clients = @clients.where.not(id: clients.ids)
       when 'is_not_empty'
@@ -462,9 +464,23 @@ module AdvancedSearches
       clients = @clients.joins(:agencies)
       case @operator
       when 'equal'
-        clients.where('agencies.id = ?', @value.squish ).ids
+        clients.where('agencies.id = ?', @value ).ids
       when 'not_equal'
-        clients.where.not('agencies.id = ?', @value.squish ).ids
+        clients.where.not('agencies.id = ?', @value ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def donor_name_field_query
+      clients = @clients.joins(:donors)
+      case @operator
+      when 'equal'
+        clients.where('donors.id = ?', @value ).ids
+      when 'not_equal'
+        clients.where.not('donors.id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
