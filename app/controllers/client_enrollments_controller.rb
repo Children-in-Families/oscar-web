@@ -32,6 +32,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def edit
+    authorize @client_enrollment
   end
 
   def update

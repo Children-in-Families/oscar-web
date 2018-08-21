@@ -13,6 +13,7 @@ class LeaveProgramsController < AdminController
 
   def edit
     check_user_permission('editable')
+    authorize @leave_program
   end
 
   def update

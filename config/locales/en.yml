@@ -325,6 +325,8 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      created_at: Created Date
+      created_by: Created By
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
@@ -386,6 +388,8 @@ en:
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       referral_source_id: Referral Source
+      referred_from: Referred From
+      referred_to: Referred To
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
@@ -1039,8 +1043,8 @@ en:
       yes_no: Yes/No
     case_history_detail:
       accepted_date: NGO Accept Date
-      client_id: Client ID
       client: Client
+      client_id: Client ID
       consent_form: Consent Form
       date_of_referral: Date of Referral
       enrollment_date: Enrollment Date
@@ -1722,6 +1726,8 @@ en:
         code: Custom ID Number1
         commune: Commune/Sangkat
         completed: Completed
+        created_at: Created Date
+        created_by: Created By
         current_address: Current Address
         current_province: Current Province
         date_of_assessments: Date of Assessments
@@ -1800,6 +1806,8 @@ en:
         received_by: Referral Received By
         referral_phone: Referee Phone Number
         referral_source: Referral Source
+        referred_from: Referred From
+        referred_to: Referred To
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
@@ -3381,9 +3389,9 @@ en:
     program_stream_notify:
       review_client: Clients need to be reviewed
     referrals:
-      referral_clients:  Referral Clients
+      referral_clients: Referral Clients
     repeat_referrals:
-      referral_clients:  Referral Clients
+      referral_clients: Referral Clients
     upcoming_assessment:
       client: Client
       most_recent_assessment: Most Recent Assessment

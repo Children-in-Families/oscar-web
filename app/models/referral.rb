@@ -13,8 +13,6 @@ class Referral < ActiveRecord::Base
 
   validates :consent_form, presence: true, if: :making_referral?
 
-  validate :check_saved_referral_in_target_ngo, on: :update
-
   before_validation :set_referred_from
 
   after_create :email_referrral_client
@@ -45,15 +43,6 @@ class Referral < ActiveRecord::Base
   end
 
   private
-
-  def check_saved_referral_in_target_ngo
-    current_org = Organization.current
-    return if self.non_oscar_ngo? || current_org.short_name == referred_to
-    Organization.switch_to referred_to
-    is_saved = Referral.find_by(slug: slug, date_of_referral: date_of_referral).try(:saved)
-    Organization.switch_to current_org.short_name
-    is_saved ? errors.add(:base, 'You cannot edit this referral because the target NGO already accepted the referral') : true
-  end
 
   def set_referred_from
     current_org = Organization.current
