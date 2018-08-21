@@ -56,7 +56,7 @@ module AdvancedSearches
             @values << value.downcase.squish
           else
             @sql_string << "partners.#{field} = ?"
-            @values << value.squish
+            @values << value
           end
 
         when 'not_equal'
@@ -65,7 +65,7 @@ module AdvancedSearches
             @values << value.downcase.squish
           else
             @sql_string << "partners.#{field} != ?"
-            @values << value.squish
+            @values << value
           end
 
         when 'less'

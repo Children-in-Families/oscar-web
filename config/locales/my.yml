@@ -1041,8 +1041,8 @@ my:
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
-      client_id: မွတ္ပံုတင္
       client: ကေလးနာမည္
+      client_id: မွတ္ပံုတင္
       consent_form: သဘောတူညီချက်ပုံစံ
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
       enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
@@ -3403,9 +3403,9 @@ my:
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     referrals:
-      referral_clients:  ရည်ညွန်းဖောက်သည်
+      referral_clients: ရည်ညွန်းဖောက်သည်
     repeat_referrals:
-      referral_clients:  ရည်ညွန်းဖောက်သည်
+      referral_clients: ရည်ညွန်းဖောက်သည်
     upcoming_assessment:
       client: အမႈသည္
       most_recent_assessment: အများစုမှာလတ်တလောအကဲဖြတ်
@@ -3941,8 +3941,6 @@ my:
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
     new:
       new_referral: ဂီယာ Add
-    update:
-      successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
     show:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
@@ -3967,6 +3965,8 @@ my:
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း
       referred_to: ရည်ညွှန်း
+    update:
+      successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
   reports:
     form:
       case_statistic: အမႈကိန္းဂဏန္း
