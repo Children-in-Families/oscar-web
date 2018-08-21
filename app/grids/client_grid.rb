@@ -25,7 +25,7 @@ class ClientGrid
     filter_shared_fileds('local_family_name', value, scope)
   end
 
-  filter(:gender, :enum, select: %w(Male Female), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+  filter(:gender, :enum, select: %w(Male Female Unknown), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
     filter_shared_fileds('gender', value, scope)
   end
 
