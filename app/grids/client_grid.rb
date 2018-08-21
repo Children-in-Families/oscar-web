@@ -153,10 +153,6 @@ class ClientGrid
 
   filter(:school_grade, :string, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
-  def able_states
-    Client::ABLE_STATES
-  end
-
   filter(:has_been_in_orphanage, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') })
 
   filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })

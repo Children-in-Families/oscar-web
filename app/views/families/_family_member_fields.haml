@@ -12,6 +12,11 @@
     .col-xs-12.col-sm-6.col-md-2
       = f.input :occupation, label: t('.occupation')
     .col-xs-12.col-sm-6.col-md-3
-      = f.input :relation, label: t('.relation')
+      = f.input :relation, collection: drop_down_relation, label: t('.relation'), class: 'select2'
     .col-xs-12.col-sm-6.col-md-2
+      %label= t('.guardian')
+      .i-checks
+        = f.input :guardian, type: 'checkbox', label: false, checked: f.object.guardian?, class: 'form-input'
+  .row
+    .col-xs-12.col-sm-6.col-md-1
       = link_to_remove_association t('.remove_member'), f, class: 'btn btn-danger btn-remove remove_member'

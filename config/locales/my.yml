@@ -2637,6 +2637,7 @@ my:
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
+      guardian: 'ဂေါကလူကြီး'
       occupation: အလုပ်အကိုင်
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       remove_member: ဖယ်ထုတ်ထား

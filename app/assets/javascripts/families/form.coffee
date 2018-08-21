@@ -4,6 +4,12 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _ajaxChangeDistrict()
     _cocoonCallback()
     _initDatePicker()
+    _initIcheck()
+
+  _initIcheck = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initSelect2 = ->
     $('select').select2
@@ -16,7 +22,9 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
 
   _cocoonCallback = ->
     $('#family-members').on 'cocoon:after-insert', ->
+      _initSelect2()
       _initDatePicker()
+      _initIcheck()
 
   _initDatePicker = ->
     $('.date-picker').datepicker
