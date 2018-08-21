@@ -134,4 +134,14 @@ module FamiliesHelper
     end
     current_address.join(', ')
   end
+
+  def drop_down_relation
+    if params[:locale] == 'en'
+      FamilyMember::EN_RELATIONS
+    elsif params[:locale] == 'km'
+      FamilyMember::KM_RELATIONS
+    elsif params[:locale] == 'my'
+      FamilyMember::MY_RELATIONS
+    end
+  end
 end
