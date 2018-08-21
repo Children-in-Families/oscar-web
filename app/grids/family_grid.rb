@@ -5,7 +5,7 @@ class FamilyGrid
   attr_accessor :dynamic_columns
 
   scope do
-    Family.includes({cases: [:client]}, :province).order(:name)
+    Family.includes({cases: [:client]}, :village, :commune, :district, :province).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.families.name') }) do |value, scope|
@@ -42,9 +42,9 @@ class FamilyGrid
 
   filter(:district_id, :enum, select: :district_options, header: -> { I18n.t('datagrid.columns.families.district') })
 
-  filter(:commune, :enum, select: :commune_options, header: -> { I18n.t('datagrid.columns.families.commune') })
+  filter(:commune_id, :enum, select: :commune_options, header: -> { I18n.t('datagrid.columns.families.commune') })
 
-  filter(:village, :enum, select: :village_options, header: -> { I18n.t('datagrid.columns.families.village') })
+  filter(:village_id, :enum, select: :village_options, header: -> { I18n.t('datagrid.columns.families.village') })
 
   filter(:street, :string, header: -> { I18n.t('datagrid.columns.families.street') }) do |value, scope|
     scope.street_like(value)
@@ -55,11 +55,11 @@ class FamilyGrid
   end
 
   def commune_options
-    Commune.joins(:families, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    Family.joins(:commune).map{|f| [f.commune.name, f.id]}.uniq
   end
 
   def village_options
-    Village.joins(:families, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    Family.joins(:village).map{|f| [f.village.name, f.id]}.uniq
   end
 
   def province_options
