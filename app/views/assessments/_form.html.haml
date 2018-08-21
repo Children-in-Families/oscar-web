@@ -40,4 +40,4 @@
                   %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                     = t('.add_task')
 - if policy(@client).create?
-  = render 'add_task_form'
+  = render 'add_task_form', assessment: @assessment
