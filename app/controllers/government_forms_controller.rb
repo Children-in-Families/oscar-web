@@ -137,7 +137,8 @@ class GovernmentFormsController < AdminController
   end
 
   def find_static_association
-    @user    = @government_form.case_worker_info
-    @setting = Setting.first
+    @user     = @government_form.case_worker_info
+    @setting  = Setting.first
+    @guardian = @client.family.family_members.find_by(guardian: true) if @client.family.present?
   end
 end
