@@ -58,6 +58,7 @@ describe 'Client' do
   feature 'Show' do
     let!(:client){ create(:client, :accepted, current_address: '') }
     let!(:setting){ Setting.first }
+    let!(:program_stream) { create(:program_stream) }
 
     before do
       PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
@@ -66,11 +67,38 @@ describe 'Client' do
     end
 
     feature 'Time in care' do
-      let!(:case) { create(:case, :emergency, client: client, start_date: 1.year.ago) }
-
-      it 'of EC' do
+      scenario 'once enrollment' do
+        client_enrollment = ClientEnrollment.create(enrollment_date: '2018-01-01', program_stream: program_stream, client: client)
+        LeaveProgram.create(exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: client_enrollment)
         visit client_path(client)
-        expect(page).to have_content(client.reload.time_in_care)
+        expect(page).to have_content('1 year 1 month')
+      end
+
+      scenario 'continuous enrollment' do
+        client_enrollment = ClientEnrollment.create(enrollment_date: '2018-01-01', program_stream: program_stream, client: client)
+        LeaveProgram.create(exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: client_enrollment)
+        visit client_path(client)
+
+        second_enrollment = ClientEnrollment.create(enrollment_date: '2019-02-01', program_stream: program_stream, client: client)
+        LeaveProgram.create(exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_enrollment)
+
+        visit client_path(client)
+        expect(page).to have_content('1 year 4 month')
+      end
+
+      scenario 'enrollment with one month delay' do
+        client_enrollment = ClientEnrollment.create(enrollment_date: '2018-01-01', program_stream: program_stream, client: client)
+        LeaveProgram.create(exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: client_enrollment)
+        visit client_path(client)
+
+        second_enrollment = ClientEnrollment.create(enrollment_date: '2019-02-01', program_stream: program_stream, client: client)
+        LeaveProgram.create(exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_enrollment)
+
+        third_enrollment = ClientEnrollment.create(enrollment_date: '2019-06-01', program_stream: program_stream, client: client)
+        LeaveProgram.create(exit_date: '2019-07-01', program_stream: program_stream, client_enrollment: third_enrollment)
+
+        visit client_path(client)
+        expect(page).to have_content('1 year 5 month')
       end
     end
 
