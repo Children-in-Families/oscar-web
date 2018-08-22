@@ -586,8 +586,9 @@ ActiveRecord::Schema.define(version: 20180817042218) do
     t.string   "occupation",    default: ""
     t.string   "relation",      default: ""
     t.integer  "family_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "guardian",      default: false
   end
 
   add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree
