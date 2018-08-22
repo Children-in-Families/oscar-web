@@ -5,7 +5,7 @@ class GovernmentFormsController < AdminController
   before_action :find_association, only: [:new, :create, :edit, :update]
   before_action :find_government_form, only: [:show, :edit, :update, :destroy]
   before_action :find_form_name
-  before_action :find_static_association, only: :show
+  before_action :find_static_association, :find_guardiant, only: :show
 
   def index
     @government_forms = @client.government_forms.filter({ name: @form_name})
@@ -72,7 +72,11 @@ class GovernmentFormsController < AdminController
   private
 
   def find_client
-    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    @client = Client.includes(families: :family_members).accessible_by(current_ability).friendly.find(params[:client_id])
+  end
+
+  def find_guardiant
+    @guardiant = @client.family.family_members.where(guardian: true).try(:first)
   end
 
   def find_association

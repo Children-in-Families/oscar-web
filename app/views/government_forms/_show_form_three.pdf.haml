@@ -37,15 +37,22 @@
           %td{ style: 'vertical-align: middle; padding-left: 0;' }
             ឈ្មោះឪពុកម្តាយឬអ្នកអាណាព្យាបាល:
           %td{style: 'width: 200px; vertical-align: middle;'}
-            %input{style: 'width: 100%;', value: @client.family.try(:name) }
+            %input{style: 'width: 100%;', value: @guardiant.try(:adult_name) }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
-            - (1..6).each_with_index do |code, index|
-              - if index == 0
-                %span.first &nbsp;&nbsp;
-              - else
-                %span &nbsp;&nbsp;
+            - if @guardiant.present?
+              - @guardiant.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
+                - if index == 0
+                  %span.first= code
+                - else
+                  %span= code
+            - else
+              - (1..6).each_with_index do |code, index|
+                - if index == 0
+                  %span.first &nbsp;&nbsp;
+                - else
+                  %span &nbsp;&nbsp;
 
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 4px;'}
       %tbody
