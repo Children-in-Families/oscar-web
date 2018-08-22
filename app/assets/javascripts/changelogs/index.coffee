@@ -3,6 +3,6 @@ CIF.ChangelogsIndex = do ->
     _initSelect2()
 
   _initSelect2 = ->
-    $('.select2').select2();
+    $('select').select2();
 
   { init: _init }

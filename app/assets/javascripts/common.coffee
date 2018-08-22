@@ -10,7 +10,7 @@ CIF.Common =
     @_initSelect2()
 
   _initSelect2: ->
-    $('.select2').select2()
+    $('select').select2()
 
   _ajaxChangeDistrict: ->
     $('#setting_province_id').on 'change', ->
