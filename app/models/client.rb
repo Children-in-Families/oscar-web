@@ -141,6 +141,10 @@ class Client < ActiveRecord::Base
     query
   end
 
+  def family
+    Family.where('children && ARRAY[?]', id).last
+  end
+
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
     value[0..(number_of_char-1)]

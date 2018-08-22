@@ -99,9 +99,9 @@ describe 'Abilities' do
     it 'can manage family of their clients' do
       family_ids = []
       user.clients.each do |client|
-        family_ids << client.family_ids
+        family_ids << client.family.id
       end
-      ability.model_adapter(Family, :manage).conditions.should ==  { cases: { family_id: family_ids.flatten! } }
+      ability.model_adapter(Family, :manage).conditions.should ==  { id: family_ids }
     end
 
   end

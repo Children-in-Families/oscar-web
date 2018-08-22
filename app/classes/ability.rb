@@ -42,11 +42,11 @@ class Ability
 
       family_ids = []
       user.clients.each do |client|
-        family_ids << client.family_ids
+        family_ids << client.family.id
       end
 
       can :create, Family
-      can :manage, Family, cases: { family_id: family_ids.flatten! }
+      can :manage, Family, id: family_ids
       can [:read, :update, :destroy], Family, user_id: user.id
 
     elsif user.manager?
