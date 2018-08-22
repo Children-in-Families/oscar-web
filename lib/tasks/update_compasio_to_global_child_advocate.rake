@@ -4,7 +4,7 @@ namespace :update_compasio do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
       referral_source = ReferralSource.find_by(name: 'Compasio - OSCaR Referral')
-      referral_source.update_attributes(name: 'Global Child Advocate - OSCaR Referral') if referral_source.present?
+      referral_source.update_attributes(name: 'Global Child Advocates - OSCaR Referral') if referral_source.present?
 
       referrals = Referral.where('slug ILIKE ?', '%cps%').or(Referral.where(referred_to: 'cps')).or(Referral.where(referred_from: 'cps'))
 
@@ -14,7 +14,6 @@ namespace :update_compasio do
         referral.referred_from  = referral.referred_from.gsub('cps', 'gca')
         referral.save(validate: false)
       end
-
 
       if org.short_name == 'shared'
         SharedClient.where('slug ILIKE ?', '%cps%').each do |client|
@@ -29,18 +28,14 @@ namespace :update_compasio do
       end
     end
 
-    puts 'Done!'
+    puts 'Updated Client IDs!'
 
     Organization.switch_to 'cps'
     org = Organization.current
-    org.full_name  = 'Global Child Advocate'
+    org.full_name  = 'Global Child Advocates'
     org.short_name = 'gca'
     org.save
 
-    puts 'Done!!'
+    puts 'Updated NGO Info!'
   end
 end
-
-# ALTER SCHEMA cps RENAME TO gca;
-# Organization.create_and_build_tanent(short_name: 'cps', full_name: 'Compasio', logo: File.open(Rails.root.join('app/assets/images/cps.png')))
-
