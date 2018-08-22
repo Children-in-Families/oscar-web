@@ -265,56 +265,33 @@ describe Client, 'methods' do
   end
 
   context 'time in care' do
-    context 'without any cases' do
-      it { expect(client.time_in_care).to be_nil }
+    let!(:program_stream) {  create(:program_stream) }
+
+    context 'once enrollment' do
+      let!(:client_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: client_enrollment) }
+      it { expect(client.time_in_care).to eq({ years: 1, months: 1, weeks: 0, days: 0 }) }
     end
 
-    context 'with an active case' do
-      let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
-      it { expect(client.time_in_care).to eq(1.0) }
+    context 'continuous enrollment' do
+      let!(:first_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: first_enrollment) }
+      let!(:second_enrollment) { create(:client_enrollment, enrollment_date: '2019-02-01', program_stream: program_stream, client: client) }
+      let!(:second_leave_program) { create(:leave_program, exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_enrollment) }
+
+      it { expect(client.time_in_care).to eq({ years: 1, months: 4, weeks: 0, days: 0 }) }
     end
 
-    context 'with inactive case' do
-      let!(:case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      it { expect(client.time_in_care).to eq(2.0) }
+    context 'enrollments with one month delay' do
+      let!(:first_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: first_enrollment) }
+      let!(:second_enrollment) { create(:client_enrollment, enrollment_date: '2019-02-01', program_stream: program_stream, client: client) }
+      let!(:second_leave_program) { create(:leave_program, exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_enrollment) }
+      let!(:third_enrollment) { create(:client_enrollment, enrollment_date: '2019-06-01', program_stream: program_stream, client: client) }
+      let!(:third_leave_program) { create(:leave_program, exit_date: '2019-07-01', program_stream: program_stream, client_enrollment: third_enrollment) }
+
+      it { expect(client.time_in_care).to eq({ years: 1, months: 5, weeks: 0, days: 0 }) }
     end
-
-    context 'with an inactive case and an active case' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, client: client, exited: false, start_date: 6.months.ago) }
-      it { expect(client.time_in_care).to eq(0.5) }
-    end
-
-    context 'with an inactive case and two active cases' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, client: client, exited: false, start_date: 1.year.ago) }
-      let!(:other_active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: false, start_date: 6.months.ago) }
-      it { expect(client.time_in_care).to eq(1.0) }
-    end
-
-    context 'with some inactive cases and an active case' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, client: client, exited: false, start_date: 1.year.ago) }
-      let!(:other_active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      it { expect(client.time_in_care).to eq(1.0) }
-    end
-
-    context 'without any active cases but some inactive cases' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      it { expect(client.time_in_care).to eq(2.0) }
-    end
-  end
-
-  context 'active_day_care' do
-    let!(:case) { create(:case, client: client, exited: false, start_date: 10.day.ago) }
-    it { expect(client.active_day_care).to eq(10) }
-  end
-
-  context 'inactive_day_care' do
-    let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-    let!(:active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-    it { expect(client.inactive_day_care).to be_between(730.0, 732) }
   end
 
   context 'assessment' do

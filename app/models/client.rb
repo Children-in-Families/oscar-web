@@ -344,26 +344,6 @@ class Client < ActiveRecord::Base
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
   end
 
-  def active_day_care
-    active_cases      = cases.active.order(:created_at)
-    first_active_case = active_cases.first
-
-    start_date        = first_active_case.start_date.to_date
-    current_date      = Date.today.to_date
-    (current_date - start_date).to_f
-  end
-
-  def inactive_day_care
-    inactive_cases     = cases.inactive.order(:updated_at)
-    last_inactive_case = inactive_cases.last
-    end_date           = last_inactive_case.exit_date.to_date
-
-    first_case         = cases.inactive.order(:created_at).first
-    start_date         = first_case.start_date.to_date
-
-    (end_date - start_date).to_f
-  end
-
   # def self.ec_reminder_in(day)
   #   Organization.all.each do |org|
   #     Organization.switch_to org.short_name
