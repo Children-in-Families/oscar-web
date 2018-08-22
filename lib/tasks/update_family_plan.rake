@@ -9,6 +9,7 @@ namespace :family_plan do
         family_plan.save
       end
       family_plan = FamilyPlan.last
+      next if family_plan.nil?
       family_plan.destroy if family_plan.name == 'មុខរបរនិងជំនាញនានាដែលអាចរកចំណូលបាន'
     end
   end
