@@ -42,7 +42,7 @@ class Ability
 
       family_ids = []
       user.clients.each do |client|
-        family_ids << client.family.id
+        family_ids << client.family.try(:id)
       end
 
       can :create, Family
