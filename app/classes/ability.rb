@@ -36,6 +36,7 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
       end
+      cannot :destroy, Task
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
