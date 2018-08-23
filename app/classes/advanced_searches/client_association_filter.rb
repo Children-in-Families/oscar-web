@@ -546,19 +546,19 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments)
       case @operator
       when 'equal'
-        clients.map { |client| client_ids << client.id if client.time_in_care[:years] == @value  }
+        clients.each { |client| client_ids << client.id if client.time_in_care[:years] == @value && client.time_in_care[:months] == 0 && client.time_in_care[:days] == 0  }
       when 'not_equal'
-        clients.map { |client| client_ids << client.id if client.time_in_care[:years] != @value  }
+        clients.each { |client| client_ids << client.id if client.time_in_care[:years] != @value && client.time_in_care[:months] == 0 && client.time_in_care[:days] == 0 }
       when 'less'
-        clients.map { |client| client_ids << client.id if client.time_in_care[:years] < @value  }
+        clients.each { |client| client_ids << client.id if client.time_in_care[:years] < @value  }
       when 'less_or_equal'
-        clients.map { |client| client_ids << client.id if client.time_in_care[:years] <= @value  }
+        clients.each { |client| client_ids << client.id if client.time_in_care[:years] < @value || (client.time_in_care[:years] == @value && client.time_in_care[:months] == 0 && client.time_in_care[:days] == 0) }
       when 'greater'
-        clients.map { |client| client_ids << client.id if client.time_in_care[:years] > @value  }
+        clients.each { |client| client_ids << client.id if client.time_in_care[:years] > @value && client.time_in_care[:months] > 0 && client.time_in_care[:days] > 0  }
       when 'greater_or_equal'
-        clients.map { |client| client_ids << client.id if client.time_in_care[:years] >= @value  }
+        clients.each { |client| client_ids << client.id if client.time_in_care[:years] > @value || (client.time_in_care[:years] == @value && client.time_in_care[:months] == 0 && client.time_in_care[:days] == 0) }
       when 'between'
-        clients.map { |client| client_ids << client.id if client.time_in_care[:years].between? @value.first, @value.last }
+        clients.each { |client| client_ids << client.id if client.time_in_care[:years] >= @value.first && (client.time_in_care[:years] < @value.last && client.time_in_care[:months] == 0 && client.time_in_care[:days] == 0) }
       when 'is_empty'
         client_ids = @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
