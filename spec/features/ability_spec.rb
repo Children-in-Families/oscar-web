@@ -90,18 +90,14 @@ describe 'Abilities' do
   context 'case worker permissions' do
     let!(:user){ create(:user, :case_worker) }
     let!(:client){ create(:client, user_ids: [user.id] ) }
-    let!(:family){ create(:family, client_ids: [client.id]) }
+    let!(:family){ create(:family, children: [client.id] ) }
 
     it 'can create family' do
       should be_able_to(:create, Family)
     end
 
     it 'can manage family of their clients' do
-      family_ids = []
-      user.clients.each do |client|
-        family_ids << client.family.id
-      end
-      ability.model_adapter(Family, :manage).conditions.should ==  { id: family_ids }
+      ability.model_adapter(Family, :manage).conditions.should ==  { id: [family.id] }
     end
 
   end
