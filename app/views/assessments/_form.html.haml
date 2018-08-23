@@ -1,4 +1,5 @@
 = simple_form_for([@assessment.client, @assessment], html: { class: 'assessment-form' }) do |f|
+  = hidden_field_tag :current_user, current_user.roles
   .row.assessment-domains
     .col-xs-12
       #rootwizard{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), action: params['action'] } }
@@ -35,7 +36,8 @@
                       - @client.tasks.by_domain_id(domain).incomplete.each do |task|
                         %li.list-group-item{style: 'padding-bottom: 11px'}
                           = task.name
-                          %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", :style => "margin: 0;"}
+                          - if can? :destroy, Task
+                            %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", :style => "margin: 0;"}
                 .form-group
                   %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                     = t('.add_task')
