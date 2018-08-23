@@ -1,4 +1,5 @@
 class ExitNgo < ActiveRecord::Base
+  has_paper_trail
   belongs_to :client
 
   alias_attribute :new_date, :exit_date

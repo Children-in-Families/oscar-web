@@ -15,15 +15,15 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if @sensitivity_fields.include?(@field)
-          clients = SharedClient.where("lower(shared_clients.#{@field}) = ?", @values.downcase)
+          clients = SharedClient.where("lower(shared_clients.#{@field}) = ?", @values.downcase.squish)
         else
-          clients = SharedClient.where("shared_clients.#{@field} = ?", @values)
+          clients = SharedClient.where("shared_clients.#{@field} = ?", @values.squish)
         end
       when 'not_equal'
         if @sensitivity_fields.include?(@field)
-          clients = SharedClient.where.not("lower(shared_clients.#{@field}) = ?", @values.downcase)
+          clients = SharedClient.where.not("lower(shared_clients.#{@field}) = ?", @values.downcase.squish)
         else
-          clients = SharedClient.where.not("shared_clients.#{@field} = ?", @values)
+          clients = SharedClient.where.not("shared_clients.#{@field} = ?", @values.squish)
         end
       when 'less'
         clients = SharedClient.where.not("shared_clients.#{@field} < ?", @values)
@@ -34,9 +34,9 @@ module AdvancedSearches
       when 'greater_or_equal'
         clients = SharedClient.where.not("shared_clients.#{@field} >= ?", @values)
       when 'contains'
-        clients = SharedClient.where.not("shared_clients.#{@field} ILIKE ?", @values)
+        clients = SharedClient.where("shared_clients.#{@field} ILIKE ?", "%#{@values.squish}%")
       when 'not_contains'
-        clients = SharedClient.where.not("shared_clients.#{@field} NOT ILIKE ?", @values)
+        clients = SharedClient.where("shared_clients.#{@field} NOT ILIKE ?", "%#{@values.squish}%")
       when 'is_empty'
         if @blank_fields.include?(@field)
           clients = SharedClient.where("shared_clients.#{@field} IS NULL")
