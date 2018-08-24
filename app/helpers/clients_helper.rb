@@ -787,7 +787,7 @@ module ClientsHelper
         end
       end
     when 'client_enrollments'
-      link_to edit_client_client_enrollment_path(@client, case_history, program_stream_id: ProgramStream.find(case_history.program_stream_id )) do
+      link_to edit_client_client_enrollment_path(@client, case_history, program_stream_id: case_history.program_stream_id) do
         content_tag :div, class: 'btn btn-outline btn-success btn-xs' do
           fa_icon('pencil')
         end
