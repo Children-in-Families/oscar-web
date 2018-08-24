@@ -10,7 +10,7 @@ class ClientEnrollmentPolicy < ApplicationPolicy
 
   def edit?
     client = Client.find(record.client_id)
-    (client.status == 'exited' && user.admin?) || (client.status != 'exited' && !user.strategic_overviewer?)
+    (client.exit_ngo? && user.admin?) || (!client.exit_ngo? && !user.strategic_overviewer?)
   end
 
   alias new? create?

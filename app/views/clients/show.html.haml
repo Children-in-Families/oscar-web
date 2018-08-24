@@ -406,26 +406,12 @@
                         .text-center
                           %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
                           - if policy(case_history).edit?
-                            - if case_history_name == 'enter_ngos' || case_history_name == 'exit_ngos'
+                            - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
                               %button.btn.btn-outline.btn-success.btn-xs{'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal'}= fa_icon('pencil')
-                            - case case_history_name
-                            - when 'referrals'
-                              = link_to edit_client_referral_path(@client, case_history), class: 'btn btn-outline btn-success btn-xs' do
-                                = fa_icon('pencil')
-                            - when 'client_enrollments'
-                              = link_to edit_client_client_enrollment_path(@client, case_history, program_stream_id: ProgramStream.find(case_history.program_stream_id )), class: 'btn btn-outline btn-success btn-xs' do
-                                = fa_icon('pencil')
-                            - when 'leave_programs'
-                              - enrollment = @client.client_enrollments.find(case_history.client_enrollment_id)
-                              = link_to edit_client_client_enrollment_leave_program_path(@client, enrollment, case_history), class: 'btn btn-outline btn-success btn-xs' do
-                                = fa_icon('pencil')
+                            = case_history_links(case_history, case_history_name)
 
                         = render 'case_history_detail', object: case_history, index: index
-                        - case case_history_name
-                        - when 'enter_ngos'
-                          = render 'client/enter_ngos/edit_form', client: @client, enter_ngo: case_history
-                        - when 'exit_ngos'
-                          = render 'client/exit_ngos/edit_form', client: @client, exit_ngo: case_history
+                        = render_case_history(case_history, case_history_name)
 
         -# - if @enter_ngos.any?
         -#   .row
