@@ -2636,6 +2636,7 @@ km:
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
+      guardian: អាណាព្យាបាល
       occupation: មុខរបរ
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: ដកចេញ
