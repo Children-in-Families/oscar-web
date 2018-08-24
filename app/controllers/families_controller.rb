@@ -106,11 +106,7 @@ class FamiliesController < AdminController
     else
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
     end
-    if current_user.case_worker?
-      @clients  = current_user.clients.order(:given_name, :family_name)
-    else
-      @clients  = Client.accessible_by(current_ability).where.not(id: client_ids).order(:given_name, :family_name)
-    end
+    @clients  = Client.accessible_by(current_ability).where.not(id: client_ids).order(:given_name, :family_name)
   end
 
   def find_family
