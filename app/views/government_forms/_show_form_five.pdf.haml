@@ -129,8 +129,7 @@
             %th{ style: 'border:1px solid black; text-align: center;' }
               ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
         %tbody
-          - follow_up_records = @client.tasks.where("tasks.completed = ? AND tasks.case_note_domain_group_id IS NOT NULL", true)
-          - follow_up_records.each do |record|
+          - @follow_up_records.each do |record|
             %tr{ style: 'page-break-inside: avoid;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
                 %p= record.completion_date
@@ -138,8 +137,8 @@
                 %p= record.domain_name
               %td{ style: 'border:1px solid black; text-align: center;' }
                 %p= record.name
-          - if follow_up_records.size < 19
-            - (1..(19 - follow_up_records.size)).each do |_|
+          - if @follow_up_records.size < 19
+            - (1..(19 - @follow_up_records.size)).each do |_|
               %tr{ style: 'page-break-inside: avoid;' }
                 %td{ style: 'border:1px solid black; text-align: center;' }
                   .comment{ style: 'min-height: 30px;' }
@@ -158,9 +157,8 @@
         %td{ style: 'border:1px solid black;' }
           .comment{ style: 'min-height: 600px;' }
             %ul
-              - @client.case_notes.each do |case_note|
-                - case_note.tasks.where(completed: false).each do |task|
-                  %li #{task.completion_date} - #{task.domain_name}
+              - @tasks.flatten.each do |task|
+                %li #{ task.completion_date - task.domain_name }
 
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
