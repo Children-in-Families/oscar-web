@@ -19,17 +19,18 @@ module HoltImporter
     end
 
     def families
-      ((workbook.first_row + 2)..workbook.last_row).each do |row|
+      ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name               = workbook.row(row)[headers['*Name']]
         code               = workbook.row(row)[headers['*Family ID']]
-        family_type        = workbook.row(row)[headers['Family Type']].parameterize.underscore
+        family_type        = workbook.row(row)[headers['Family Type']]
         case_history       = workbook.row(row)[headers['Family History']]
-        Family.create(name: name, code: code, case_history: case_history, family_type: family_type)
+        status             = 'Active'
+        Family.create(name: name, code: code, case_history: case_history, family_type: family_type, status: status)
       end
     end
 
     def clients
-      ((workbook.first_row + 5)..workbook.last_row).each do |row|
+      ((workbook.first_row + 1)..workbook.last_row).each do |row|
 
         family_name           = workbook.row(row)[headers['Family Name (English)']] || ''
         given_name            = workbook.row(row)[headers['Given Name (English)']] || ''
@@ -44,11 +45,11 @@ module HoltImporter
         referral_source_id      = find_referral_source(workbook.row(row)[headers['* Referral Source']]).id
         name_of_referee         = workbook.row(row)[headers['* Name of Referee']] || ''
         referral_phone          = workbook.row(row)[headers['Referee Phone Number']] || ''
-        received_by_id          = find_user(workbook.row(row)[headers['Referral Received By']]).id
+        received_by_id          = User.find_by(first_name: workbook.row(row)[headers['* Referral Received By']]).id
         initial_referral_date   = format_date_of_birth(workbook.row(row)[headers['* Initial Referral Date']].to_s)
-        follow_up_by_id         = find_user(workbook.row(row)[headers['First Follow-Up By']]).id
+        follow_up_by_id         = User.find_by(first_name: workbook.row(row)[headers['First Follow-Up By']]).id
         follow_up_date          = format_date_of_birth(workbook.row(row)[headers['First Follow-Up Date']].to_s)
-        user_id                 = find_user(workbook.row(row)[headers['Case Worker / Staff']]).id
+        user_id                 = User.find_by(first_name: workbook.row(row)[headers['* Case Worker / Staff']]).id
         live_with               = workbook.row(row)[headers['Primary Carer Name']] || ''
         telephone_number        = workbook.row(row)[headers['Primary Carer Phone Number']] || ''
         current_province        = Province.where("name ilike ?", "%Battambang%").first.try(:id)
@@ -85,7 +86,7 @@ module HoltImporter
           referral_phone: referral_phone,
           received_by_id: received_by_id,
           initial_referral_date: initial_referral_date,
-          follow_up_by_id: follow_up_by_id,
+          followed_up_by_id: follow_up_by_id,
           follow_up_date: follow_up_date,
           live_with: live_with,
           telephone_number: telephone_number,
@@ -93,7 +94,7 @@ module HoltImporter
           district_id: district,
           commune: commune,
           # commune_id: commune,
-          house: house,
+          house_number: house,
           village: village,
           # village_id: village,
           school_name: school_name,
@@ -104,11 +105,11 @@ module HoltImporter
           has_been_in_orphanage: has_been_in_orphanage,
           code: code,
           relevant_referral_information: relevant_referral_information,
+          user_ids: [user_id]
         )
         client.save
 
-        AgencyClient.create(client_id: client.id, agency_id: agency_id) if agency_id.present?
-        CaseWorkerClient.create(client_id: client.id, user_id: user_id)
+        # AgencyClient.create(client_id: client.id, agency_id: agency_id) if agency_id.present?
         family = Family.find(family_id)
         family.children << client.id
         family.save
@@ -138,13 +139,8 @@ module HoltImporter
       ReferralSource.find_or_create_by(name: value)
     end
 
-    def find_user(value)
-      first_name = value.split(' ').first
-      User.find_by(last_name: first_name)
-    end
-
     def users
-      ((workbook.first_row + 2)..workbook.last_row).each do |row|
+      ((workbook.first_row + 1)..workbook.last_row).each do |row|
         first_name = workbook.row(row)[headers['First Name']]
         last_name  = workbook.row(row)[headers['Last Name']]
         email      = workbook.row(row)[headers['*Email']]
@@ -153,6 +149,7 @@ module HoltImporter
           password = 12345678
         else
           password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
+        end
 
         User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: roles)
       end
