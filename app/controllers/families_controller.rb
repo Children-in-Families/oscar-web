@@ -13,6 +13,7 @@ class FamiliesController < AdminController
   def index
     @default_columns = Setting.first.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
+    @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
     @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: @custom_form_fields))
     @family_columns.visible_columns
     if has_params?
@@ -20,7 +21,7 @@ class FamiliesController < AdminController
     else
       respond_to do |f|
         f.html do
-          @results = @family_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
+          @results = @family_grid.assets.size
           @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
@@ -99,6 +100,8 @@ class FamiliesController < AdminController
   end
 
   def find_association
+    @provinces = Province.order(:name)
+    @districts = District.order(:name)
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else
