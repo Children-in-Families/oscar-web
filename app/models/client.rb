@@ -343,14 +343,6 @@ class Client < ActiveRecord::Base
     date_time_in_care
   end
 
-  def calculate_time_in_care(date_time_in_care, from_time, to_time)
-    to_time = to_time + date_time_in_care[:years].years unless date_time_in_care[:years].nil?
-    to_time = to_time + date_time_in_care[:months].months unless date_time_in_care[:months].nil?
-    to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?
-    to_time = to_time + date_time_in_care[:days].days unless date_time_in_care[:days].nil?
-    ActionController::Base.helpers.distance_of_time_in_words_hash(from_time, to_time, :except => [:seconds, :minutes, :hours])
-  end
-
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
@@ -488,5 +480,13 @@ class Client < ActiveRecord::Base
     return if country_origin.present?
     country = Setting.first.try(:country_name)
     self.country_origin = country
+  end
+
+  def calculate_time_in_care(date_time_in_care, from_time, to_time)
+    to_time = to_time + date_time_in_care[:years].years unless date_time_in_care[:years].nil?
+    to_time = to_time + date_time_in_care[:months].months unless date_time_in_care[:months].nil?
+    to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?
+    to_time = to_time + date_time_in_care[:days].days unless date_time_in_care[:days].nil?
+    ActionController::Base.helpers.distance_of_time_in_words_hash(from_time, to_time, :except => [:seconds, :minutes, :hours])
   end
 end

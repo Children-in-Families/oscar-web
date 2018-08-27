@@ -264,7 +264,7 @@ describe Client, 'methods' do
     end
   end
 
-  context 'time in care' do
+  context '#time_in_care' do
     let!(:program_stream) {  create(:program_stream) }
 
     context 'once enrollment' do
