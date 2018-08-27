@@ -9,7 +9,7 @@
       .modal-body
         = form_tag(client_tasks_path(@client), name: 'task', id: 'assessment_domain_task') do
           = hidden_field :task, 'domain_id'
-          = hidden_field :task, 'assessment_id', value: assessment.id
+          = hidden_field :task, 'relation', value: 'assessment'
 
           .form-group.required.task_name
             %label.date.required.control-label{ for: 'task_name' }

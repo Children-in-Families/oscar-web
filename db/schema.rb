@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180815074853) do
+ActiveRecord::Schema.define(version: 20180827023718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1233,12 +1233,9 @@ ActiveRecord::Schema.define(version: 20180815074853) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.integer  "assessment_id"
-    t.integer  "case_note_id"
+    t.string   "relation",                  default: ""
   end
 
-  add_index "tasks", ["assessment_id"], name: "index_tasks_on_assessment_id", using: :btree
-  add_index "tasks", ["case_note_id"], name: "index_tasks_on_case_note_id", using: :btree
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -1665,8 +1662,6 @@ ActiveRecord::Schema.define(version: 20180815074853) do
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
-  add_foreign_key "tasks", "assessments"
-  add_foreign_key "tasks", "case_notes"
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"

@@ -4,7 +4,6 @@ class Assessment < ActiveRecord::Base
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
   has_many :case_notes,         dependent: :destroy
-  has_many :tasks, dependent: :destroy
 
   has_paper_trail
 

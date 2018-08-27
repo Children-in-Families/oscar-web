@@ -39,11 +39,7 @@ class GovernmentFormsController < AdminController
     respond_to do |format|
       format.pdf do
         @follow_up_records = @client.tasks.where("tasks.completed = ? AND tasks.case_note_domain_group_id IS NOT NULL", true)
-        @tasks = []
-        @client.case_notes.each do |case_note|
-          @tasks << case_note.tasks.where(completed: false)
-        end
-
+        @client_tasks      = @client.tasks.where(relation: 'case_note', completed: false)
         render  pdf:      @government_form.name,
                 template: 'government_forms/show.pdf.haml',
                 layout:   'pdf_design.html.haml',

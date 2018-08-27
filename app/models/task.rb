@@ -3,8 +3,6 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
   belongs_to :user
-  belongs_to :case_note
-  belongs_to :assessment
 
   has_paper_trail
 
