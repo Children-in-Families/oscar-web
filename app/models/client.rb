@@ -327,12 +327,16 @@ class Client < ActiveRecord::Base
     date_time_in_care.store(:months, 0) unless date_time_in_care[:months].present?
     date_time_in_care.store(:weeks, 0) unless date_time_in_care[:weeks].present?
     date_time_in_care.store(:days, 0) unless date_time_in_care[:days].present?
-    date_time_in_care[:weeks] += 1 if date_time_in_care[:days] > 0
-    if date_time_in_care[:weeks] == 4
+
+    if date_time_in_care[:days] > 0
+      date_time_in_care[:weeks] = date_time_in_care[:weeks] + 1
+      date_time_in_care[:days] = 0
+    end
+    if date_time_in_care[:weeks] >= 4
       date_time_in_care[:weeks] = date_time_in_care[:weeks] - 4
       date_time_in_care[:months] = date_time_in_care[:months] + 1
     end
-    if date_time_in_care[:months] == 12
+    if date_time_in_care[:months] >= 12
       date_time_in_care[:months] = date_time_in_care[:months] - 12
       date_time_in_care[:years] = date_time_in_care[:years] + 1
     end
