@@ -97,7 +97,9 @@ describe 'Abilities' do
     end
 
     it 'can manage family of their clients' do
-      ability.model_adapter(Family, :manage).conditions.should ==  { id: [family.id] }
+      family_ids = user.families.ids
+      family_ids << family.id
+      ability.model_adapter(Family, :manage).conditions.should ==  { id: family_ids }
     end
 
   end

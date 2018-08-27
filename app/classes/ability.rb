@@ -40,14 +40,13 @@ class Ability
         Date.current > assessment.created_at + 2.weeks
       end
 
-      family_ids = []
+      family_ids = user.families.ids
       user.clients.each do |client|
         family_ids << client.family.try(:id)
       end
 
       can :create, Family
       can :manage, Family, id: family_ids
-      can [:read, :update, :destroy], Family, user_id: user.id
 
     elsif user.manager?
       can :create, Client
