@@ -67,6 +67,7 @@ class Ability
     users.each do |user|
       PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
         client_id = version.changeset[:client_id].last
+        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
         client_ids << client_id if client_id.present?
       end
     end
