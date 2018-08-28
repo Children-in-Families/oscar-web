@@ -1060,6 +1060,10 @@ my:
       referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
+    check_incompleted_task:
+      body: သူ / သူမဖြည့်စွက်ရန် Task ကြောင့်ဤကိစ္စတွင်အလုပ်သမားဖယ်ရှားပစ်ရန် လုပ်. မရပါ။
+      close: ပိတ်
+      title: သတိပေးခြင်း
     client_advanced_searches:
       advanced_search:
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္

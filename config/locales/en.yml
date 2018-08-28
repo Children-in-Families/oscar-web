@@ -1054,6 +1054,10 @@ en:
       referral_reasons: Referral Reasons
       referred_from: Referred from External Organisation
       referred_to: Referred to External Organisation
+    check_incompleted_task:
+      body: 'Unable to remove this case worker because he/she has task to complete.'
+      close: Close
+      title: Warning
     client_advanced_searches:
       advanced_search:
         add_new_filter: Add New Filter

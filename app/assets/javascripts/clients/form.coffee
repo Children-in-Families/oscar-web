@@ -18,6 +18,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _setMarginToClassActions()
     _setCancelButtonPosition()
     _handReadonlySpecificPoint()
+    _checkRemoveCaseWorker()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -314,5 +315,26 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
+
+  _checkRemoveCaseWorker = ->
+    $('.select2-search-choice-close').unbind('click')
+    $('.select2-search-choice-close').bind 'click', (e) ->
+      self = $(@)
+      e.preventDefault()
+      data = {
+        removedUser: $(this).parent().text()
+        clientId: $('#client_id').val()
+      }
+      $.ajax
+        type: 'GET'
+        url: '/api/clients/check_task'
+        data: data
+        success: (response) ->
+          responseText = response.text
+          if responseText == 'incompleted tasks remain'
+            $('#check-task-modal').modal('show')
+          else
+            $('.select2-search-choice-close').on('click')
+            self.parent().remove()
 
   { init: _init }

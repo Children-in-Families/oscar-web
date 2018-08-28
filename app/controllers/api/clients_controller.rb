@@ -5,6 +5,10 @@ module Api
       render json: find_client_in_organization
     end
 
+    def check_task
+      render json: check_incomplete_task
+    end
+
     private
 
     def find_client_in_organization
@@ -29,6 +33,17 @@ module Api
     def set_organization_to_client(collections, value)
       collections.each do |collection|
         collection.organization = value
+      end
+    end
+
+    def check_incomplete_task
+      name  = params['removedUser'].squish.split(' ')
+      user  = User.find_by(first_name: name.first, last_name: name.last)
+      tasks = user.tasks.where(completed: false, client_id: 894)
+      if tasks.any?
+        { text: 'incompleted tasks remain' }
+      else
+        { text: 'no task' }
       end
     end
   end
