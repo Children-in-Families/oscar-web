@@ -39,7 +39,8 @@ module Api
     def check_incomplete_task
       name  = params['removedUser'].squish.split(' ')
       user  = User.find_by(first_name: name.first, last_name: name.last)
-      tasks = user.tasks.where(completed: false, client_id: 894)
+      client_id = params['clientId']
+      tasks     = user.tasks.where(completed: false, client_id: client_id)
       if tasks.any?
         { text: 'incompleted tasks remain' }
       else
