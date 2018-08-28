@@ -7,7 +7,7 @@ class ClientGrid
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
 
   scope do
-    Client.includes(:donor, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes(:district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -182,7 +182,7 @@ class ClientGrid
     User.has_clients.map { |user| ["#{user.first_name} #{user.last_name}", user.id] }
   end
 
-  filter(:donor, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
+  filter(:donors_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
 
   def donor_select_options
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
@@ -399,7 +399,11 @@ class ClientGrid
     Organization.switch_to 'shared'
     given_name = SharedClient.find_by(slug: object.slug).given_name
     Organization.switch_to current_org.short_name
-    given_name
+    if given_name.present?
+      link_to given_name, client_path(object), target: :_blank
+    else
+      given_name
+    end
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
@@ -692,8 +696,8 @@ class ClientGrid
     object.users.map{|u| u.name }.join(', ')
   end
 
-  column(:donor, order: 'donors.name', header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
-    object.donor_name
+  column(:donor, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+    object.donors.pluck(:name).join(', ')
   end
 
   column(:form_title, order: false, header: -> { I18n.t('datagrid.columns.clients.form_title') }, html: true) do |object|

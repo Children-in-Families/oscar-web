@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  factory :agency_client do
-    association :agency, factory: :agency
+  factory :sponsor do
     association :client, factory: :client
+    association :donor, factory: :donor
   end
 end

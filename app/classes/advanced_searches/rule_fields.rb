@@ -47,7 +47,7 @@ module AdvancedSearches
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
-        ['donor_id', donor_options],
+        ['donor_name', donor_options],
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', { 'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral' }],

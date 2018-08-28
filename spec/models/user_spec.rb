@@ -190,7 +190,7 @@ describe User, 'scopes' do
     province: province,
     gender: 'female'
   ) }
-  let!(:other_user){ create(:user, department: department, province: province) }
+  let!(:other_user){ create(:user, department: department, province: province, gender: 'male') }
   let!(:no_department_user){ create(:user, province: province) }
   let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
   let!(:manager){ create(:user, :manager, staff_performance_notification: false) }
@@ -241,13 +241,17 @@ describe User, 'scopes' do
     end
   end
 
-  context 'gender like' do
-    subject{ User.gender_like('female') }
-    it 'should include gender like' do
-      is_expected.to include(user)
+  context '.males' do
+    it 'returns male users' do
+      expect(User.males.ids).to include(other_user.id)
+      expect(User.males.ids).not_to include(user.id)
     end
-    it 'should not include not gender like' do
-      is_expected.not_to include(other_user)
+  end
+
+  context '.females' do
+    it 'returns female users' do
+      expect(User.females.ids).to include(user.id)
+      expect(User.females.ids).not_to include(other_user.id)
     end
   end
 

@@ -1036,8 +1036,8 @@ km:
       yes_no: បាទ/អត់ទេ
     case_history_detail:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
-      client_id: លេខសំគាល់អតិថិជន
       client: ឈ្មោះអតិថិជន
+      client_id: លេខសំគាល់អតិថិជន
       consent_form: ទម្រង់យល់ព្រម
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
@@ -2638,6 +2638,7 @@ km:
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
+      guardian: អាណាព្យាបាល
       occupation: មុខរបរ
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: ដកចេញ
@@ -3923,8 +3924,6 @@ km:
       select_ngos: ជ្រើសរើសអង្គការ
     new:
       new_referral: បន្ថែមទម្រង់បញ្ជូន
-    update:
-      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
@@ -3949,6 +3948,8 @@ km:
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
+    update:
+      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   reports:
     form:
       case_statistic: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
