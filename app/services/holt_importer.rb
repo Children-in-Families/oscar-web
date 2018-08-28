@@ -109,7 +109,7 @@ module HoltImporter
         )
         client.save
 
-        # AgencyClient.create(client_id: client.id, agency_id: agency_id) if agency_id.present?
+        AgencyClient.create(client_id: client.id, agency_id: agency_id) if agency_id.present?
         family = Family.find(family_id)
         family.children << client.id
         family.save
