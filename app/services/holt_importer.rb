@@ -73,7 +73,7 @@ module HoltImporter
         code                    = workbook.row(row)[headers['Custom ID Number 1']] || ''
         relevant_referral_information  = workbook.row(row)[headers['Relevant Referral Information / Notes']] || ''
         family_code             = workbook.row(row)[headers['Family ID']] || ''
-        family_id               = Family.find_by(code: family_code).id
+        family                  = Family.find_by(code: family_code)
         agency_name             = workbook.row(row)[headers['Other Agencies Involved']]
         agency_id               = Agency.find_or_create_by(name: agency_name).id if agency_name.present?
 
@@ -115,7 +115,6 @@ module HoltImporter
         client.save(validate: false)
 
         AgencyClient.create(client_id: client.id, agency_id: agency_id) if agency_id.present?
-        family = Family.find_by(code: family_code)
         if family.present?
           family.children << client.id
           family.save(validate: false)
