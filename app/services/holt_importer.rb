@@ -52,15 +52,15 @@ module HoltImporter
         user_id                 = User.find_by(first_name: workbook.row(row)[headers['* Case Worker / Staff']]).id
         live_with               = workbook.row(row)[headers['Primary Carer Name']] || ''
         telephone_number        = workbook.row(row)[headers['Primary Carer Phone Number']] || ''
-        current_province        = Province.where("name ilike ?", "%Battambang%").first.try(:id)
-        district                = current_province.districts.where("name ilike ?", "%Sangkae%").first.try(:id) if current_province.present?
+        current_province        = Province.where("name ilike ?", "%Battambang%").first
+        district                = current_province.districts.where("name ilike ?", "%Sangkae%").first if current_province.present?
         commune                 = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
         # commune_name            = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
-        # commune                 = district.communes.where("name ilike ?", "%#{commune_name}%").first.try(:id) if commune_name.present? && district.present?
+        # commune                 = district.communes.where("name ilike ?", "%#{commune_name}%").first if commune_name.present? && district.present?
         house                   = workbook.row(row)[headers['Address - House#']] || ''
         village                 = workbook.row(row)[headers['Address - Village']] || ''
         # village_name            = workbook.row(row)[headers['Address - Village']] || ''
-        # village                 = commune.villages.where("name ilike ?", "%#{village_name}%").first.try(:id) if village_name.present? && commune.present?
+        # village                 = commune.villages.where("name ilike ?", "%#{village_name}%").first if village_name.present? && commune.present?
         school_name             = workbook.row(row)[headers['School Name']] || ''
         school_grade            = workbook.row(row)[headers['School Grade']] || ''
         main_school_contact     = workbook.row(row)[headers['Main School Contact']] || ''
@@ -93,13 +93,13 @@ module HoltImporter
           follow_up_date: follow_up_date,
           live_with: live_with,
           telephone_number: telephone_number,
-          province_id: current_province,
-          district_id: district,
+          province_id: current_province.try(:id),
+          district_id: district.try(:id),
           commune: commune,
-          # commune_id: commune,
+          # commune_id: commune.try(:id),
           house_number: house,
           village: village,
-          # village_id: village,
+          # village_id: village.try(:id),
           school_name: school_name,
           school_grade: school_grade,
           main_school_contact: main_school_contact,
