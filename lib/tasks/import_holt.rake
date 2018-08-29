@@ -1,7 +1,7 @@
 namespace :holt do
   desc 'Import Holt data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'holt', full_name: "Holt International Cambodia", logo: File.open(Rails.root.join('app/assets/images/holt.jpg', fcf: true)))
+    org = Organization.create_and_build_tanent(short_name: 'holt', full_name: "Holt International Cambodia", logo: File.open(Rails.root.join('app/assets/images/holt.jpg')), fcf: true)
     Organization.switch_to org.short_name
 
     Rake::Task['agencies:import'].invoke
