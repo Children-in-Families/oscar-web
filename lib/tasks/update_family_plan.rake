@@ -10,6 +10,7 @@ namespace :family_plan do
       end
       family_plan = FamilyPlan.last
       next if family_plan.nil?
+      family_plan.government_form_family_plans.destroy_all
       family_plan.destroy if family_plan.name == 'មុខរបរនិងជំនាញនានាដែលអាចរកចំណូលបាន'
     end
   end
