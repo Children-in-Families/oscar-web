@@ -53,20 +53,23 @@ module HoltImporter
         live_with               = workbook.row(row)[headers['Primary Carer Name']] || ''
         telephone_number        = workbook.row(row)[headers['Primary Carer Phone Number']] || ''
         current_province        = Province.where("name ilike ?", "%Battambang%").first.try(:id)
-        district                = District.where("name ilike ?", "%Sangkae%").first.try(:id)
+        district                = current_province.districts.where("name ilike ?", "%Sangkae%").first.try(:id) if current_province.present?
         commune                 = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
         # commune_name            = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
-        # commune                 = Commune.where("name ilike ?", "%#{commune_name}%").first.try(:id) if commune_name.present?
+        # commune                 = district.communes.where("name ilike ?", "%#{commune_name}%").first.try(:id) if commune_name.present? && district.present?
         house                   = workbook.row(row)[headers['Address - House#']] || ''
         village                 = workbook.row(row)[headers['Address - Village']] || ''
         # village_name            = workbook.row(row)[headers['Address - Village']] || ''
-        # village                 = Village.where("name ilike ?", "%#{village_name}%").first.try(:id) if village_name.present?
+        # village                 = commune.villages.where("name ilike ?", "%#{village_name}%").first.try(:id) if village_name.present? && commune.present?
         school_name             = workbook.row(row)[headers['School Name']] || ''
         school_grade            = workbook.row(row)[headers['School Grade']] || ''
         main_school_contact     = workbook.row(row)[headers['Main School Contact']] || ''
-        birth_province          = current_province
-        rated_for_id_poor       = false
+        Organization.switch_to 'shared'
+        birth_province          = Province.where("name ilike ?", "%Battambang%").first.try(:id)
+        Organization.switch_to 'holt'
+        rated_for_id_poor       = workbook.row(row)[headers['Is the Client Rated for ID Poor?']] || ''
         has_been_in_orphanage   = false
+        has_been_in_government_care = false
         code                    = workbook.row(row)[headers['Custom ID Number 1']] || ''
         relevant_referral_information  = workbook.row(row)[headers['Relevant Referral Information / Notes']] || ''
         family_code             = workbook.row(row)[headers['Family ID']] || ''
@@ -103,16 +106,20 @@ module HoltImporter
           birth_province_id: birth_province,
           rated_for_id_poor: rated_for_id_poor,
           has_been_in_orphanage: has_been_in_orphanage,
+          has_been_in_government_care: has_been_in_government_care,
           code: code,
           relevant_referral_information: relevant_referral_information,
-          user_ids: [user_id]
+          user_ids: [user_id],
+          country_origin: 'cambodia'
         )
-        client.save
+        client.save(validate: false)
 
         AgencyClient.create(client_id: client.id, agency_id: agency_id) if agency_id.present?
-        family = Family.find(family_id)
-        family.children << client.id
-        family.save
+        family = Family.find(family_id) if family_id.present?
+        if family.present?
+          family.children << client.id
+          family.save(validate: false)
+        end
       end
     end
 
@@ -145,11 +152,7 @@ module HoltImporter
         last_name  = workbook.row(row)[headers['Last Name']]
         email      = workbook.row(row)[headers['*Email']]
         roles      = workbook.row(row)[headers['*Permission Level']].downcase
-        if first_name.in? ['Karona', 'Savorn', 'Keo']
-          password = 12345678
-        else
-          password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
-        end
+        password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
 
         User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: roles)
       end
