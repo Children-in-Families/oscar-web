@@ -1,5 +1,5 @@
 namespace :fts do
-  desc "Import all Campasio clients and related data"
+  desc "Import all Free To Shine and related data"
   task import: :environment do
     Organization.create_and_build_tanent(short_name: 'fts', full_name: 'Free To Shine', logo: File.open(Rails.root.join('app/assets/images/freetoshine_logo.jpg')))
     Organization.switch_to 'fts'

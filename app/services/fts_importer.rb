@@ -40,8 +40,10 @@ module FtsImporter
         user_ids                = User.where(first_name: group_users(workbook.row(row)[headers['* Case Worker / Staff']])).ids
         live_with               = workbook.row(row)[headers['Primary Carer Name']]
         telephone_number        = workbook.row(row)[headers['Primary Carer Phone Number']]
+        Organization.switch_to 'shared'
         current_province        = Province.find_by("name ilike ?", "%#{workbook.row(row)[headers['Current Province']]}%").try(:id) if workbook.row(row)[headers['Current Province']].present?
         district                = District.find_by("name ilike ?", "%#{workbook.row(row)[headers['Address - District/Khan']]}%").try(:id) if workbook.row(row)[headers['Address - District/Khan']].present?
+        Organization.switch_to 'fts'
         commune                 = workbook.row(row)[headers['Address - Commune/Sangkat']].squish
         village                 = workbook.row(row)[headers['Address - Village']]
         school_name             = workbook.row(row)[headers['School Name']]
