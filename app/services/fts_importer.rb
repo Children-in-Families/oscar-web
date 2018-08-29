@@ -33,7 +33,7 @@ module FtsImporter
         referral_source_id      = ReferralSource.find_or_create_by(name: (workbook.row(row)[headers['* Referral Source']])).try(:id)
         name_of_referee         = workbook.row(row)[headers['* Name of Referee']]
         referral_phone          = workbook.row(row)[headers['Referee Phone Number']]
-        received_by_id          = User.find_by(first_name: group_users(workbook.row(row)[headers['* Referral Received By']]).first).try(:id)
+        received_by_id          = User.find_by(first_name: workbook.row(row)[headers['* Referral Received By']]).try(:id)
         initial_referral_date   = workbook.row(row)[headers['* Initial Referral Date']]
         follow_up_by_id         = User.find_by(first_name: group_users(workbook.row(row)[headers['First Follow-Up By']]).first).try(:id)
         follow_up_date          = workbook.row(row)[headers['First Follow-Up Date']]
@@ -49,7 +49,8 @@ module FtsImporter
         Organization.switch_to 'shared'
         birth_province          = Province.find_by("name ilike ?", "%#{workbook.row(row)[headers['Client Birth Province']]}%").try(:id) if workbook.row(row)[headers['Client Birth Province']].present?
         Organization.switch_to 'fts'
-        donor_id                = Donor.find_or_create_by(code: workbook.row(row)[headers['Donor ID']]).try(:id)
+        donor                   = Donor.find_by(code: workbook.row(row)[headers['Donor ID']])
+        donor_id                = donor.present? ? donor.id : Donor.create(code: workbook.row(row)[headers['Donor ID']], name: workbook.row(row)[headers['Donor ID']])
         client = Client.new(
           family_name: family_name,
           given_name: given_name,
@@ -73,7 +74,7 @@ module FtsImporter
           school_name: school_name,
           school_grade: school_grade,
           birth_province_id: birth_province,
-          donor_id: donor_id,
+          donor_ids: [donor_id],
           user_ids: user_ids
         )
         client.save(validate: false)
