@@ -50,7 +50,7 @@ module FtsImporter
         birth_province          = Province.find_by("name ilike ?", "%#{workbook.row(row)[headers['Client Birth Province']]}%").try(:id) if workbook.row(row)[headers['Client Birth Province']].present?
         Organization.switch_to 'fts'
         donor                   = Donor.find_by(code: workbook.row(row)[headers['Donor ID']])
-        donor_id                = donor.present? ? donor.id : Donor.create(code: workbook.row(row)[headers['Donor ID']], name: workbook.row(row)[headers['Donor ID']])
+        donor_id                = donor.present? ? donor.id : Donor.create(code: workbook.row(row)[headers['Donor ID']], name: workbook.row(row)[headers['Donor ID']]).id
         client = Client.new(
           family_name: family_name,
           given_name: given_name,
