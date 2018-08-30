@@ -952,6 +952,7 @@ ActiveRecord::Schema.define(version: 20180817042218) do
     t.string   "org_commune",             default: ""
     t.integer  "province_id"
     t.integer  "district_id"
+    t.integer  "age",                     default: 18
   end
 
   add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
