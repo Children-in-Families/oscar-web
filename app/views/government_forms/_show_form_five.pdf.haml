@@ -6,37 +6,7 @@
 
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'border-bottom: 1px solid black; border-top: 1px solid black' }
-    .row
-      .col-xs-2
-        កាលបរិច្ឆេទ៖
-      .col-xs-4
-        %p
-          - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
-          - gov_date.split('').each_with_index do |code, index|
-            - if index == 0
-              %span.first= code
-            - else
-              %span= code
-      .col-xs-2
-        លេខកូដភូមិ៖
-      .col-xs-4
-        - village_code = @government_form.village.present? ? @government_form.village_code : '00000000'
-        - village_code.split('').each_with_index do |code, index|
-          - if index == 0
-            %span.first= code
-          - else
-            %span= code
-    .row
-      .col-xs-2
-        លេខកូដកុមារ៖
-      .col-xs-10
-        - client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
-        - client_code.split('').each_with_index do |code, index|
-          - if index == 0
-            %span.first= code
-          - else
-            %span= code
-
+    = render 'client_code'
   .panel-body.panel-border{ style: 'border-bottom: 1px solid black; border-top: 1px solid black' }
     %tbody
 
@@ -46,51 +16,46 @@
           %input{ style: 'width: 200px;', value: @government_form.client.try(:en_and_local_name) }
         %td{ style: 'padding-left: 5px;' }
           ថ្ងៃខែឆ្នាំកំណើត:
-          - date_of_birth = @government_form.client.try(:date_of_birth).present? ? @government_form.client.try(:date_of_birth).strftime('%d%m%y') : '000000'
+          - date_of_birth = @government_form.client.try(:date_of_birth).present? ? @government_form.client.date_of_birth.strftime('%d%m%y') : '000000'
           - date_of_birth.split('').each_with_index do |code, index|
             - if index == 0
               %span.first= code
             - else
               %span= code
         %td{ style: 'padding-left: 5px;' }
-          - gender_value = @government_form.client.try(:gender)
+          - gender_value = @government_form.client.gender
           ភេទ:
+          ប្រុស
           - if gender_value == 'male'
             = render 'government_forms/pdf/image_checked_box'
-            ប្រុស
           - else
             = render 'government_forms/pdf/image_unchecked_box'
-            ប្រុស
+          ស្រី
           - if gender_value == 'female'
             = render 'government_forms/pdf/image_checked_box'
-            ស្រី
           - else
             = render 'government_forms/pdf/image_unchecked_box'
-            ស្រី
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px; margin-bottom: 10px' }
       %tbody
         %p{ style: 'font-size: 14px; font-weight: bold; padding: 5px; border: 1px solid black; margin-top: 5px; margin-bottom: -28px; border-bottom: none; text-align: center; background-color: #f9ebdf;' }
           ទម្រង់នេះមានគោលបំណងចុះត្រួតពិនិត្យផែនការសកម្មភាពដើម្បីឲ្យដឹងថា តើកុមារ និងគ្រួសារបានទទួលសេវា និងតម្រូវការសមស្របដែរឬទេ? តើមានភាពខុសប្លែកអ្វីខ្លះ?​ តើសុខុមាលភាពកុមារ និងគ្រួសារមានភាពរីកចំរើនដែរឬទេ?
-        %colgroup
-          %col{ style: 'width: 50%' }
-          %col{ style: 'width: 50%' }
         %thead
           %tr
-            %th{ style: 'border:1px solid black; text-align: center;' }
+            %th{ style: 'width: 50%; border:1px solid black; text-align: center;' }
               ការអនុវត្តន៍សកម្មភាព
-            %th{ style: 'border:1px solid black; text-align: center;' }
+            %th{ style: 'width: 50%; border:1px solid black; text-align: center;' }
               លទ្ធផល
         %tbody
           - action_results =  @government_form.action_results
           - action_results.each do |result|
             %tr
               %td{ style: 'border:1px solid black;' }
-                .comment{ style: 'min-height: 90px; max-height: 100px;' }
+                .comment{ style: 'min-height: 90px; max-height: 100px; word-break: break-all' }
                   %p= result.action
               %td{ style: 'border:1px solid black; text-align: center;' }
-                .comment{ style: 'min-height: 90px; max-height: 100px;' }
+                .comment{ style: 'min-height: 90px; max-height: 100px; word-break: break-all' }
                   %p= result.result
             - (1..(3 - action_results.count)).each do |row|
               %tr
@@ -104,7 +69,7 @@
           %tr
             %td{ style: 'border:1px solid black;', colspan: '2' }
               .comment{ style: 'min-height: 140px;' }
-                %p= @government_form.problem
+                %p= @government_form.recent_issues_and_progress
             %br/
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
@@ -113,20 +78,15 @@
           កំណត់ត្រាអំពីលទ្ធផល
           %br
           អ្នកកាន់ករណីត្រូវកត់ត្រានូវសេវា និងសកម្មភាពគ្រប់ពេលចុះត្រួតពិនិត្យកុមារ និងគ្រួសារ
-
-        %colgroup
-          %col{ style: 'width: 100px' }
-          %col{ style: 'width: 200px' }
-          %col{ style: 'width: 200px' }
         %thead
           %tr{ style: 'page-break-inside: avoid; background-color: #f9ebdf' }
-            %th{ style: 'border:1px solid black; text-align: center;' }
+            %th{ style: 'width: 100px; border:1px solid black; text-align: center;' }
               កាលបរិច្ឆេទ
               %br
               (ថ្ងៃ/ខែ/ឆ្នាំ)
-            %th{ style: 'border:1px solid black; text-align: center;' }
+            %th{ style: 'width: 200px; border:1px solid black; text-align: center;' }
               សេវាដែលបានផ្ដល់ជូនកុមារ និងគ្រួសារ
-            %th{ style: 'border:1px solid black; text-align: center;' }
+            %th{ style: 'width: 200px; border:1px solid black; text-align: center;' }
               ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
         %tbody
           - @follow_up_records.each do |record|
@@ -136,7 +96,7 @@
               %td{ style: 'border:1px solid black; text-align: center;' }
                 %p= record.domain_name
               %td{ style: 'border:1px solid black; text-align: center;' }
-                %p= record.name
+                %p.comment{ style: 'word-wrap: break-word;'}= record.name
           - if @follow_up_records.size < 19
             - (1..(19 - @follow_up_records.size)).each do |_|
               %tr{ style: 'page-break-inside: avoid;' }
@@ -155,7 +115,7 @@
           ការពិនិត្យតាមដាន ឬជំហានបន្ទាប់ (កាលបរិច្ឆេទជួបកុមារ និងគ្រួសារ, សកម្មភាពបន្ទាប់ទៀត។ល។​)
       %tr
         %td{ style: 'border:1px solid black;' }
-          .comment{ style: 'min-height: 600px;' }
+          .comment{ style: 'min-height: 550px;' }
             %ul
               - @client_tasks.each do |task|
                 %li "#{task.completion_date} - #{task.domain_name}"

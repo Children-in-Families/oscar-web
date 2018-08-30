@@ -6,8 +6,6 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _enableOtherProblemdOption()
     _autoFillClientCode()
     _ajaxChangeDistrict()
-    _cocoonCallback()
-    _initDatePicker()
     _initCocoonFields()
 
   _ajaxChangeDistrict = ->
@@ -152,17 +150,6 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     $('select').select2
       minimumInputLength: 0
       allowClear: true
-
-  _initDatePicker = ->
-    $('.date-picker').datepicker
-      autoclose: true,
-      format: 'yyyy-mm-dd',
-      todayHighlight: true,
-      disableTouchKeyboard: true
-
-  _cocoonCallback = ->
-    $('#follow_up_records').on 'cocoon:after-insert', ->
-      _initDatePicker()
 
   _initCocoonFields = ->
     i = parseInt($('#action-count').val()) || 0

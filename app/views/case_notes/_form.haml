@@ -48,4 +48,4 @@
           = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn'
           = link_to t('.back') , client_case_notes_path(@case_note.client), class: 'btn btn-default btn-form'
     - if policy(@client).create?
-      = render 'add_task_form', case_note: @case_note
+      = render 'add_task_form'

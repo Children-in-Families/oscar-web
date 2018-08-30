@@ -38,7 +38,7 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        @follow_up_records = @client.tasks.where("tasks.completed = ? AND tasks.case_note_domain_group_id IS NOT NULL", true)
+        @follow_up_records = @client.tasks.joins(:case_note_domain_group).completed
         @client_tasks      = @client.tasks.where(relation: 'case_note', completed: false)
         render  pdf:      @government_form.name,
                 template: 'government_forms/show.pdf.haml',
@@ -115,7 +115,7 @@ class GovernmentFormsController < AdminController
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
       :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
-      :client_decision, :other_service_type, :problem,
+      :client_decision, :other_service_type, :recent_issues_and_progress,
       :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship,
       interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],

@@ -1,7 +1,7 @@
 class ReferralSourcesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_referral_source, :restrict_edit_or_delete, only: [:update, :destroy]
+  before_action :find_referral_source, only: [:update, :destroy]
 
   def index
     @referral_sources = ReferralSource.order(:name).page(params[:page]).per(10)
