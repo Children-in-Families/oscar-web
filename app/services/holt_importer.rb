@@ -36,11 +36,7 @@ module HoltImporter
         given_name            = workbook.row(row)[headers['Given Name (English)']] || ''
         local_family_name     = workbook.row(row)[headers['Family Name (Khmer)']] || ''
         local_given_name      = workbook.row(row)[headers['Given Name (Khmer)']] || ''
-        gender          = workbook.row(row)[headers['Gender']]
-        gender          =  case gender
-                            when 'M' then 'male'
-                            when 'F' then 'female'
-                            end
+        gender                = workbook.row(row)[headers['Gender']]
         dob                     = format_date_of_birth(workbook.row(row)[headers['Date of Birth']].to_s)
         referral_source_id      = find_referral_source(workbook.row(row)[headers['* Referral Source']]).id
         name_of_referee         = workbook.row(row)[headers['* Name of Referee']] || ''
@@ -54,11 +50,11 @@ module HoltImporter
         telephone_number        = workbook.row(row)[headers['Primary Carer Phone Number']] || ''
         current_province        = Province.where("name ilike ?", "%Battambang%").first
         district                = current_province.districts.where("name ilike ?", "%Sangkae%").first if current_province.present?
-        commune                 = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
+        #commune                 = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
         # commune_name            = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
         # commune                 = district.communes.where("name ilike ?", "%#{commune_name}%").first if commune_name.present? && district.present?
         house                   = workbook.row(row)[headers['Address - House#']] || ''
-        village                 = workbook.row(row)[headers['Address - Village']] || ''
+        #village                 = workbook.row(row)[headers['Address - Village']] || ''
         # village_name            = workbook.row(row)[headers['Address - Village']] || ''
         # village                 = commune.villages.where("name ilike ?", "%#{village_name}%").first if village_name.present? && commune.present?
         school_name             = workbook.row(row)[headers['School Name']] || ''
@@ -95,10 +91,10 @@ module HoltImporter
           telephone_number: telephone_number,
           province_id: current_province.try(:id),
           district_id: district.try(:id),
-          commune: commune,
+          #commune: commune,
           # commune_id: commune.try(:id),
           house_number: house,
-          village: village,
+          #village: village,
           # village_id: village.try(:id),
           school_name: school_name,
           school_grade: school_grade,
