@@ -5,6 +5,7 @@ namespace :reupload_logo do
     records.each do |record|
       org = Organization.find_by(short_name: record[:short_name])
       org.update(logo: File.open(Rails.root.join("app/assets/images/#{record[:logo]}")))
+      org.logo.recreate_versions!
     end
   end
 end
