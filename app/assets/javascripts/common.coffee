@@ -7,10 +7,6 @@ CIF.Common =
     @autoCollapseManagMenu()
     @textShortener()
     @_ajaxChangeDistrict()
-    @_initSelect2()
-
-  _initSelect2: ->
-    $('.select2').select2()
 
   _ajaxChangeDistrict: ->
     $('#setting_province_id').on 'change', ->
