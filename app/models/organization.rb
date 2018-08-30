@@ -5,6 +5,7 @@ class Organization < ActiveRecord::Base
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }
   scope :without_cwd, -> { where.not(short_name: 'cwd') }
+  scope :without_shared, -> { where.not(short_name: 'shared') }
   scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
   scope :oscar, -> { visible.where.not(short_name: 'demo') }
   scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my']) }
