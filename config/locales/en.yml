@@ -1455,6 +1455,7 @@ en:
       government_form_six: Case closure Form
       government_form_three: Family Service Plan Form
       government_form_two: Assessment for Family Preservation Form
+      government_forms: Government Forms
       government_report: Government Report
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
@@ -2687,6 +2688,7 @@ en:
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
       general_info: About Family
+      guardian: Guardian
       house: House
       household_income: Monthly Household Income
       id: ID
@@ -2799,6 +2801,23 @@ en:
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
+  government_forms:
+    create:
+      successfully_created: Form has been successfully created.
+    destroy:
+      successfully_deleted: Form has been successfully deleted.
+    edit:
+      edit_report: Edit Form
+    index:
+      action: Action
+      add_form: Add New Form
+      back: Back
+      created_at: Created Date
+      created_by: Created By
+    new:
+      new_form: New Form
+    update:
+      successfully_updated: Form has been successfully updated.
   government_reports:
     create:
       successfully_created: Government Report has been successfully created.

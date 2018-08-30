@@ -5,7 +5,7 @@ class FamilyGrid
   attr_accessor :dynamic_columns
 
   scope do
-    Family.includes({cases: [:client]}, :province).order(:name)
+    Family.includes({cases: [:client]}, :village, :commune, :district, :province).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.families.name') }) do |value, scope|
@@ -42,13 +42,9 @@ class FamilyGrid
 
   filter(:district_id, :enum, select: :district_options, header: -> { I18n.t('datagrid.columns.families.district') })
 
-  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.families.commune') }) do |value, scope|
-    scope.commune_like(value)
-  end
+  filter(:commune_id, :enum, select: :commune_options, header: -> { I18n.t('datagrid.columns.families.commune') })
 
-  filter(:village, :string, header: -> { I18n.t('datagrid.columns.families.village') }) do |value, scope|
-    scope.village_like(value)
-  end
+  filter(:village_id, :enum, select: :village_options, header: -> { I18n.t('datagrid.columns.families.village') })
 
   filter(:street, :string, header: -> { I18n.t('datagrid.columns.families.street') }) do |value, scope|
     scope.street_like(value)
@@ -56,6 +52,14 @@ class FamilyGrid
 
   filter(:house, :string, header: -> { I18n.t('datagrid.columns.families.house') }) do |value, scope|
     scope.house_like(value)
+  end
+
+  def commune_options
+    Family.joins(:commune).map{|f| [f.commune.code_format, f.commune_id]}.uniq
+  end
+
+  def village_options
+    Family.joins(:village).map{|f| [f.village.code_format, f.village_id]}.uniq
   end
 
   def province_options
@@ -138,11 +142,16 @@ class FamilyGrid
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
   column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
-
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
-  column(:village, header: -> { I18n.t('datagrid.columns.families.village') })
-  column(:commune, header: -> { I18n.t('datagrid.columns.families.commune') })
+
+  column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.families.village') }) do |object|
+    object.village.try(:code_format)
+  end
+
+  column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.families.commune') }) do |object|
+    object.commune.try(:name)
+  end
 
   column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.families.district') }) do |object|
     object.district_name

@@ -33,6 +33,7 @@ class Ability
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
+      can :manage, GovernmentForm
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
       end
@@ -69,6 +70,7 @@ class Ability
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
+      can :manage, GovernmentForm
     end
   end
 

@@ -58,8 +58,9 @@ describe Case, 'validations' do
 end
 
 describe Case, 'scopes' do
+  let!(:client_1){ create(:client) }
   let!(:emergency){ create(:case, case_type: 'EC') }
-  let!(:kinship){ create(:case, :inactive, case_type: 'KC') }
+  let!(:kinship){ create(:case, :inactive, case_type: 'KC', client: client_1) }
   let!(:foster){ create(:case, case_type: 'FC') }
   let!(:referred) { create(:case, case_type: 'Referred') }
 
@@ -78,10 +79,6 @@ describe Case, 'scopes' do
     it 'should have emergency' do
       is_expected.to include(emergency)
     end
-    it 'should not have kinship or foster' do
-      is_expected.not_to include(kinship)
-      is_expected.not_to include(foster)
-    end
   end
 
   context 'non_emergency' do
@@ -89,10 +86,6 @@ describe Case, 'scopes' do
     subject{ non_emergencies }
     it 'should not have emergency' do
       is_expected.not_to include(emergency)
-    end
-    it 'should have kinship or foster' do
-      is_expected.to include(kinship)
-      is_expected.to include(foster)
     end
   end
 

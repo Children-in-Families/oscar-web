@@ -1,0 +1,99 @@
+= simple_form_for [@client, @government_form] do |f|
+  .ibox-content
+    = f.input :name, as: :hidden
+    = hidden_field_tag :form_num, params[:form]
+    = error_notification(f)
+    .row
+      .col-xs-12
+        %h2.text-center= 'ទម្រង់ទី១: ព័ត៌មានបឋម'
+      = render 'government_info', f: f
+      .col-xs-12
+        %hr
+        %h3= 'ទីកន្លែងទទួលសម្ភាសន៍កុមារ'
+      .col-xs-12.col-sm-4
+        = f.input :interview_province_id, as: :select, collection: @provinces, label: 'រាជធានី/ខេត្ត', input_html: { data: { type: 'provinces', 'subaddress' => 'intervieweeDistrict' } }
+      .col-xs-12.col-sm-4
+        = f.input :interview_district_id, as: :select, collection: @interviewee_districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts', 'subaddress' => 'intervieweeCommune' } }
+      .col-xs-12.col-sm-4
+        = f.input :interview_commune_id, as: :select, collection: @interview_communes, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes', 'subaddress' => 'intervieweeVillage' } }
+      .col-xs-12.col-sm-4
+        = f.input :interview_village_id, as: :select, collection: @interview_villages.map{ |v| [v.code_format, v.id] }, label: 'ភូមិ', input_html: { data: { type: 'villages' } }
+      .col-xs-12
+        %hr
+        %h3= 'អ្នកផ្ដល់បទសម្ភាសន៍'
+      .col-xs-12
+        = f.association :interviewees, collection: @interviewees, as: :check_boxes, input_html: { class: 'i-checks' }, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4', label: false
+        = f.input :other_interviewee, label: false, input_html: { placeholder: 'Other' }, as: :hidden
+
+      .col-xs-12
+        %hr
+        %h3= 'ឈ្មោះអ្នកកាន់ករណី'
+      .col-xs-12.col-sm-4.clearfix
+        = f.input :case_worker_id, as: :select, collection: @users.map{|user| [user.name, user.id, selected: current_user.id == user.id] }, label: false
+      .col-xs-12
+        %hr
+        %h3= 'អ្នកថែទាំកុមារ'
+      .col-xs-12.col-sm-4
+        .form-group.string.optional.readonly
+          %label.string.optional.control-label{ for: ''}= 'ឈ្មោះ'
+          %input.string.optional.form-control.readonly{ name: '', type: 'text', value: @client.live_with, readonly: 'readonly' }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_relationship, label: 'ទំនាក់ទំនងជាមួយកុមារ'
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_province_id, as: :select, collection: @provinces, label: 'ខេត្ត/រាជធានី', input_html: { data: { type: 'provinces', 'subaddress' => 'primaryCarerDistrict' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_district_id, as: :select, collection: @primary_carer_districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts', 'subaddress' => 'primaryCarerCommune' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_commune_id, as: :select, collection: @primary_carer_communes, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes', 'subaddress' => 'primaryCarerVillage' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_village_id, as: :select, collection: @primary_carer_villages.map{ |v| [v.code_format, v.id] }, label: 'ភូមិ', input_html: { data: { type: 'villages' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_house, label: 'ផ្ទះលេខ'
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_street, label: 'ផ្លូវលេខ'
+      .col-xs-12
+        %hr
+        %h3= 'ប្រភពព័ត៌មាន'
+      .col-xs-12
+        = f.input :source_info, label: false
+      .col-xs-12
+        %hr
+        %h3= 'ប្រភេទកុមារ'
+      .col-xs-12
+        = f.association :client_types, collection: @client_types, as: :check_boxes, input_html: { class: 'i-checks' }, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4', label: false
+        = f.input :other_client_type, label: false, input_html: { placeholder: 'Ohter' }, as: :hidden
+      .col-xs-12
+        %hr
+        %h3= 'មូលហេតុនៃការបញ្ជូន និង តម្រូវការ'
+      .col-xs-12.col-sm-6
+        = f.input :summary_info_of_referral, label: 'ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ជូនកុមារមករកសេវា'
+      .col-xs-12.col-sm-6
+        = f.input :guardian_comment, label: 'យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ'
+      .col-xs-12
+        %hr
+        %h3= 'យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ'
+      .col-xs-12
+        %h4= 'សូមបញ្ជាក់ពីប្រភេទតម្រូវការចាំបាច់ (បង់លេខតាមអាទិភាព)'
+        .row
+          = f.simple_fields_for :government_form_needs do |f_need|
+            .col-xs-12.col-sm-4
+              = render 'need_fields', f: f_need
+          .col-xs-12.col-sm-4
+            = f.input :other_need, input_html: { placeholder: 'ផ្សេងៗ' }, label: ''
+      .col-xs-12
+        %h4= 'សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ (បង់លេខតាមអាទិភាព)'
+        .row
+          = f.simple_fields_for :government_form_problems do |f_problem|
+            .col-xs-12.col-sm-4
+              = render 'problem_fields', f: f_problem
+          .col-xs-12.col-sm-4
+            = f.input :other_problem, input_html: { placeholder: 'ផ្សេងៗ (សូមបញ្ជាក់)' }, label: ''
+      .col-xs-12
+        %hr
+        %h3= 'មតិយោបល់អ្នកកាន់ករណី'
+      .col-xs-12
+        = f.input :case_worker_comment, label: false
+
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), client_government_forms_path(form: params[:form]), class: 'btn btn-default form-btn'

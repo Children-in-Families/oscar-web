@@ -1456,6 +1456,7 @@ km:
       government_form_six: 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
       government_form_three: 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ'
       government_form_two: 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
+      government_forms: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
@@ -2688,6 +2689,7 @@ km:
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
       general_info: អំពីគ្រួសារ
+      guardian: អាណាព្យាបាល
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
       id: លេខសំគាល់
@@ -2800,6 +2802,23 @@ km:
         edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
+  government_forms:
+    create:
+      successfully_created: ទម្រង់ត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ទម្រង់ត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      edit_report: កែសម្រួលទម្រង់
+    index:
+      action: សកម្មភាព
+      add_form: បន្ថែមទម្រង់ថ្មី
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទនៃការបង្កើត
+      created_by: បង្កើតឡើងដោយ
+    new:
+      new_form: ទម្រង់ថ្មី
+    update:
+      successfully_updated: ទម្រង់ត្រូវបានកែសម្រួលដោយជោគជ័យ
   government_reports:
     create:
       successfully_created: របាយការណ៍ត្រូវបានបង្កើតដោយជោគជ័យ។

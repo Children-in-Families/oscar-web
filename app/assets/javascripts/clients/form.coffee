@@ -23,20 +23,43 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
 
   _ajaxChangeDistrict = ->
-    $('#client_province_id').on 'change', ->
-      province_id = $(@).val()
-      $('select#client_district_id').val(null).trigger('change')
-      $('select#client_district_id option[value!=""]').remove()
-      if province_id != ''
+    mainAddress = $('#client_province_id, #client_district_id, #client_commune_id')
+    mainAddress.on 'change', ->
+      type       = $(@).data('type')
+      typeId     = $(@).val()
+      subAddress = $(@).data('subaddress')
+
+      if type == 'provinces'
+        subResources = 'districts'
+        subAddress =  switch subAddress
+                      when 'district' then $('#client_district_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'districts'
+        subResources = 'communes'
+        subAddress =  switch subAddress
+                      when 'commune' then $('#client_commune_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'communes'
+        subResources = 'villages'
+        subAddress =  switch subAddress
+                      when 'village' then $('#client_village_id')
+
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+
+      if typeId != ''
         $.ajax
           method: 'GET'
-          url: "/api/provinces/#{province_id}/districts"
+          url: "/api/#{type}/#{typeId}/#{subResources}"
           dataType: 'JSON'
           success: (response) ->
-            districts = response.districts
-            for district in districts
-              $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
-
+            for address in response.data
+              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
   _ajaxChangeSubDistrict = ->
     $('#client_district_id').on 'change', ->
       district_id = $(@).val()

@@ -30,11 +30,9 @@ describe 'FamilyMember' do
       find('.add_new_member').click
       fill_in 'Name of Adult Member', with: 'Allen'
       fill_in 'Occupation', with: 'Developer'
-      fill_in 'Relationship with Children', with: 'Brother'
       find('input.form-btn').click
       expect(page).to have_content('Allen')
       expect(page).to have_content('Developer')
-      expect(page).to have_content('Brother')
     end
   end
 
@@ -51,11 +49,9 @@ describe 'FamilyMember' do
     scenario 'successful', js:true do
       fill_in 'Name of Adult Member', with: 'Allen'
       fill_in 'Occupation', with: 'Developer'
-      fill_in 'Relationship with Children', with: 'Brother'
       find('input.form-btn').click
       expect(page).to have_content('Allen')
       expect(page).to have_content('Developer')
-      expect(page).to have_content('Brother')
     end
   end
 
