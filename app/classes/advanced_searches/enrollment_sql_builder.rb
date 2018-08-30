@@ -46,9 +46,17 @@ module AdvancedSearches
       when 'not_contains'
         properties_result = client_enrollments.where("properties ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
-        properties_result = client_enrollments.where("properties -> '#{@field}' ? '' ")
+        if @type == 'checkbox'
+          properties_result = client_enrollments.where("properties -> '#{@field}' ? ''")
+        else
+          properties_result = client_enrollments.where("properties -> '#{@field}' ? '' OR properties -> '#{@field}' IS NULL")
+        end
       when 'is_not_empty'
-        properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' ")
+        if @type == 'checkbox'
+          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? ''")
+        else
+          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' OR properties -> '#{@field}' IS NULL")
+        end
       when 'between'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
