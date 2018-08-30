@@ -172,15 +172,16 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
           client_referral_source_id     = $('#client_referral_source_id').val() == ''
           client_name_of_referee        = $('#client_name_of_referee').val() == ''
+          client_gender                 = $('#client_gender').val() == ''
           clientIsExited                = $('#client_status').val() == 'Exited'
 
           if clientIsExited
-            if client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+            if client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender
               return false
             else
               return true
           else
-            if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+            if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender
               return false
             else
               return true
@@ -301,6 +302,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         "client[initial_referral_date]": ruleRequired
         "client[referral_source_id]":ruleRequired
         "client[name_of_referee]": ruleRequired
+        "client[gender]": ruleRequired
 
       }
       messages: {
@@ -309,9 +311,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         "client[initial_referral_date]": requiredMessage
         "client[referral_source_id]": requiredMessage
         "client[name_of_referee]": requiredMessage
+        "client[gender]": requiredMessage
       }
 
-    $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id').change ->
+    $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
 
