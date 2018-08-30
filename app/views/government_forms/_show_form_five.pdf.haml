@@ -89,16 +89,20 @@
             %th{ style: 'width: 200px; border:1px solid black; text-align: center;' }
               ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
         %tbody
-          - @follow_up_records.each do |record|
+          - @client.case_notes.each do |case_note|
             %tr{ style: 'page-break-inside: avoid;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
-                %p= record.completion_date
+                %p= case_note.meeting_date
+              %td{ style: 'border:1px solid black;' }
+                - case_note.case_note_domain_groups.each do |case_note_dg|
+                  %ul
+                    - case_note_dg.tasks.each do |task|
+                      %li= task.name
               %td{ style: 'border:1px solid black; text-align: center;' }
-                %p= record.domain_name
-              %td{ style: 'border:1px solid black; text-align: center;' }
-                %p.comment{ style: 'word-wrap: break-word;'}= record.name
-          - if @follow_up_records.size < 19
-            - (1..(19 - @follow_up_records.size)).each do |_|
+                - case_note.case_note_domain_groups.each do |case_note_dg|
+                  %p.comment{ style: 'word-wrap: break-word;'}= case_note_dg.note
+          - if @client.case_notes.size < 19
+            - (1..(19 - @client.case_notes.size)).each do |_|
               %tr{ style: 'page-break-inside: avoid;' }
                 %td{ style: 'border:1px solid black; text-align: center;' }
                   .comment{ style: 'min-height: 30px;' }

@@ -38,7 +38,6 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        @follow_up_records = @client.tasks.joins(:case_note_domain_group).completed
         @client_tasks      = @client.tasks.where(relation: 'case_note', completed: false)
         render  pdf:      @government_form.name,
                 template: 'government_forms/show.pdf.haml',
