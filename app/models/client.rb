@@ -417,7 +417,7 @@ class Client < ActiveRecord::Base
   end
 
   def disconnect_client_user_relation
-    self.user_ids = []
+    case_worker_clients.destroy_all
   end
 
   def assessment_duration(duration)

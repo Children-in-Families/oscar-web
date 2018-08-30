@@ -1,5 +1,5 @@
 describe 'User' do
-  let!(:admin){ create(:user, roles: 'admin') }
+  let!(:admin){ create(:user, :admin) }
   let!(:used_user){ create(:user) }
   let!(:user){ create(:user) }
   let!(:strategic_overviewer){ create(:user, :strategic_overviewer) }
