@@ -96,10 +96,9 @@ module FtsImporter
 
     def donors
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
-        name            = "#{workbook.row(row)[headers['*Name']].squish} #{workbook.row(row)[headers['Last Name']].squish}"
+        name            = workbook.row(row)[headers['*Donor ID']].squish
         code            = workbook.row(row)[headers['Code']].squish
-        description     = workbook.row(row)[headers['Description']].squish
-        Donor.find_or_create_by(name: name, code: code, description: description)
+        Donor.find_or_create_by(name: name, code: code)
       end
     end
 
