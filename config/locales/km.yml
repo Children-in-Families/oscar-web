@@ -325,6 +325,8 @@ km:
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
+      created_at: កាលបរិច្ឆេទ
+      created_by: បង្កើត​ឡើង​ដោយ
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
@@ -386,6 +388,8 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
+      referred_from: បញ្ជូនមកពីអង្គការ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       referred_to_ec: បញ្ជួនទៅករណី EC
       referred_to_fc: បញ្ជួនទៅករណី FC
       referred_to_kc: បញ្ជួនទៅករណី KC
@@ -1031,8 +1035,8 @@ km:
       yes_no: បាទ/អត់ទេ
     case_history_detail:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
-      client_id: លេខសំគាល់អតិថិជន
       client: ឈ្មោះអតិថិជន
+      client_id: លេខសំគាល់អតិថិជន
       consent_form: ទម្រង់យល់ព្រម
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
@@ -1048,7 +1052,7 @@ km:
       preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_reasons: មូលហេតុនៃការបញ្ជូន
-      referred_from: ទទួលចូលអង្គការ
+      referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     client_advanced_searches:
       advanced_search:
@@ -1293,6 +1297,11 @@ km:
       local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
+      province:
+        cambodia: ខេត្តកំណើត
+        lesotho: ខេត្តកំណើត
+        myanmar: ខេត្តកំណើត
+        thailand: ខេត្តកំណើត
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_information: ព័ត៌មានការបញ្ជូន
       referral_received_by: បុគ្គលិកទទួលករណី
@@ -1372,11 +1381,6 @@ km:
       is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       other_information: ព័ត៌មានផ្សេងៗ
-      province:
-        cambodia: ខេត្តកំណើត
-        lesotho: ខេត្តកំណើត
-        myanmar: ខេត្តកំណើត
-        thailand: ខេត្តកំណើត
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
@@ -1503,7 +1507,7 @@ km:
       referral_forms: បែបបទបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
-      referred_from: ទទួលចូលអង្គការ
+      referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       reject: មិនទទួលយក
       reject_client: មិនទទួលយកអតិថិជន
@@ -1716,6 +1720,8 @@ km:
         code: លេខកូដផ្ទាល់ខ្លួនទី១
         commune: ឃុំ/សង្កាត់
         completed: ពេញលេញហើយឬនៅ?
+        created_at: កាលបរិច្ឆេទ
+        created_by: បង្កើត​ឡើង​ដោយ
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
@@ -1794,6 +1800,8 @@ km:
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
+        referred_from: ប្រភពនៃការបញ្ជូន
+        referred_to: បញ្ជូនទៅអង្គការដទៃ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
@@ -2621,6 +2629,7 @@ km:
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
+      guardian: អាណាព្យាបាល
       occupation: មុខរបរ
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: ដកចេញ
@@ -3903,7 +3912,7 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
-      referred_to: បញ្ជូនទៅកាន់
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
       save_and_download: រក្សាទុក & ទាញយក
     index:
@@ -3923,8 +3932,6 @@ km:
       select_ngos: ជ្រើសរើសអង្គការ
     new:
       new_referral: បន្ថែមទម្រង់បញ្ជូន
-    update:
-      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
@@ -3949,6 +3956,8 @@ km:
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
+    update:
+      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   reports:
     form:
       case_statistic: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន

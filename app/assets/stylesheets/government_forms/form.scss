@@ -35,4 +35,14 @@ body[id=government_forms-update] {
       margin-top: 10px;
     }
   }
+  .removed-btn {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    .remove_follow_up_record {
+      margin-top: 24px;
+      align-self: center;
+    }
+  }
 }

@@ -25,6 +25,11 @@ class Task < ActiveRecord::Base
 
   after_save :create_task_history
 
+  def domain_name
+    domain = Domain.find domain_id
+    "#{domain.name} #{domain.identity}" if domain.present?
+  end
+
   def self.of_user(user)
     where(user_id: user.id)
   end

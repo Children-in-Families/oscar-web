@@ -38,6 +38,8 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
+        @follow_up_records = @client.tasks.where("tasks.completed = ? AND tasks.case_note_domain_group_id IS NOT NULL", true)
+        @client_tasks      = @client.tasks.where(relation: 'case_note', completed: false)
         render  pdf:      @government_form.name,
                 template: 'government_forms/show.pdf.haml',
                 layout:   'pdf_design.html.haml',
@@ -113,31 +115,33 @@ class GovernmentFormsController < AdminController
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
       :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
-      :client_decision, :other_service_type,
+      :client_decision, :other_service_type, :problem,
       :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship,
       interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
       government_form_children_plans_attributes: [:id, :goal, :action, :who, :completion_date, :score, :comment, :children_plan_id],
-      government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id]
+      government_form_family_plans_attributes: [:id, :goal, :action, :result, :score, :comment, :family_plan_id],
+      action_results_attributes: [:id, :action, :result, :_destroy]
     )
   end
 
   def find_form_name
     @form_name = case params[:form]
-            when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
-            when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ'
-            when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
-            when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
-            when 'five' then ''
-            when 'sixe' then ''
+            when 'one'    then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
+            when 'two'    then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ'
+            when 'three'  then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
+            when 'four'   then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
+            when 'five'   then 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'
+            when 'six'    then ''
             else nil
             end
     @form_name
   end
 
   def find_static_association
-    @user    = @government_form.case_worker_info
-    @setting = Setting.first
+    @user     = @government_form.case_worker_info
+    @setting  = Setting.first
+    @guardian = @client.family.family_members.find_by(guardian: true) if @client.family.present?
   end
 end

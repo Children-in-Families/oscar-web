@@ -2,7 +2,7 @@
 
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-no-padding.panel-borderless
-    .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ
+    .text-main-header.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-top: 1px solid black'}
@@ -37,16 +37,22 @@
           %td{ style: 'vertical-align: middle; padding-left: 0;' }
             ឈ្មោះឪពុកម្តាយឬអ្នកអាណាព្យាបាល:
           %td{style: 'width: 200px; vertical-align: middle;'}
-            %input{style: 'width: 100%;', value: @client.family.try(:name) }
+            %input{style: 'width: 100%;', value: @guardian.try(:adult_name) }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
-            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
-            - dob.split('').each_with_index do |code, index|
-              - if index == 0
-                %span.first= code
-              - else
-                %span= code
+            - if @guardian.present?
+              - @guardian.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
+                - if index == 0
+                  %span.first= code
+                - else
+                  %span= code
+            - else
+              - (1..6).each_with_index do |code, index|
+                - if index == 0
+                  %span.first &nbsp;&nbsp;
+                - else
+                  %span &nbsp;&nbsp;
 
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 4px;'}
       %tbody

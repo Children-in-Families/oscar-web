@@ -1,8 +1,13 @@
+# ["cif", "newsmile", "icf", "tlc", "demo", "fsc", "cct", "mtp", "cfi", "fsi", "ahc", "scc", "cwd", "wmo", "agh", "my", "ssc", "mrs", "rok", "myan", "voice", "mho", "cccu", "auscam", "isf", "shk", "fco", "kmr"]
+
 namespace :communes_and_villages do
   desc 'Import all communes and villages provided by NCDD'
-  task import: :environment do
-    Organization.where.not(short_name: Organization::BROAD_NGOS).each do |org|
-      Organization.switch_to org.short_name
+  task :start, [:ngos] do |task, args|
+    ngos = args[:ngos]
+    ngos.each do |ngo_short_name|
+      next if Organization::BROAD_NGOS.include?(ngo_short_name) || Organization.find_by(short_name: ngo_short_name).nil?
+
+      Organization.switch_to ngo_short_name
 
       files = [
         'Gazetteer_BMC_12_Jul_2018.xlsx',
@@ -32,10 +37,14 @@ namespace :communes_and_villages do
         'Gazetteer_TKM_12_Jul_2018.xlsx'
       ]
 
+      puts "START | #{Organization.current.short_name} | at #{Time.now.to_s}"
+
       files.each do |file_name|
         import = VillageImporter::Import.new(file_name)
         import.communes_and_villages
       end
+
+      puts "FINISH | #{Organization.current.short_name} | at #{Time.now.to_s}"
     end
   end
 end

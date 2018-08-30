@@ -1,0 +1,15 @@
+.nested-fields
+  .row
+    .col-xs-12.col-sm-6.col-md-3
+      %label.date.optional.control-label{ for: 'follow_up_records_date' }
+        = 'កាលបរិច្ឆេទ'
+      .input-group.date
+        = f.text_field :date, class: 'date optional form-control date-picker', type: 'text'
+        %span.input-group-addon.initial-referral
+          %i.fa.fa-calendar-check-o
+    .col-xs-12.col-sm-6.col-md-4
+      = f.input :provided_service, label: 'សេវាដែលបានផ្តល់ជូនកុមារ និងគ្រួសារ'
+    .col-xs-12.col-sm-6.col-md-3
+      = f.input :child_family_status, label: 'ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ'
+    .col-xs-12.col-sm-6.col-md-2.removed-btn
+      = link_to_remove_association t('.remove_record'), f, class: 'btn btn-danger btn-remove remove_follow_up_record'

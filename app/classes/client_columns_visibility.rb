@@ -33,12 +33,11 @@ class ClientColumnsVisibility
       followed_up_by_id_: :followed_up_by,
       follow_up_date_: :follow_up_date,
       agencies_name_: :agency,
+      donors_name_: :donor,
       province_id_: :province,
       current_address_: :current_address,
       house_number_: :house_number,
       street_number_: :street_number,
-      village_: :village,
-      commune_: :commune,
       district_: :district,
       subdistrict_: :subdistrict,
       state_: :state,
@@ -76,10 +75,15 @@ class ClientColumnsVisibility
       case_note_type_: :case_note_type,
       date_of_assessments_: :date_of_assessments,
       all_csi_assessments_: :all_csi_assessments,
-      donor_: :donor,
       manage_: :manage,
       changelog_: :changelog,
-      telephone_number_: :telephone_number
+      telephone_number_: :telephone_number,
+      commune_: :commune,
+      village_: :village,
+      created_at_: :created_at,
+      created_by_: :created_by,
+      referred_to_: :referred_to,
+      referred_from_: :referred_from
     }
   end
 
