@@ -85,9 +85,10 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     appendElement  = $("#tasks-domain-#{data.domain_id} .task-arising");
     deleteUrl      = undefined
     element        = undefined
+    deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{data.id}"
-
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' style='margin: 0;' href='javascript:void(0)' data-url='#{deleteUrl}'></a></li>"
+    deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' style='margin: 0;' href='javascript:void(0)' data-url='#{deleteUrl}'></a>" if $('#current_user').val() != 'case worker'
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}#{deleteLink}</li>"
 
     if $(".task-domain-#{data.domain_id}").hasClass('hidden')
       $(".task-domain-#{data.domain_id}").removeClass('hidden')
