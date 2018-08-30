@@ -25,8 +25,12 @@ class ClientGrid
     filter_shared_fileds('local_family_name', value, scope)
   end
 
-  filter(:gender, :enum, select: %w(Male Female), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
-    filter_shared_fileds('gender', value, scope)
+  filter(:gender, :enum, select: %w(Male Female Unknown), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    slugs = SharedClient.where(gender: value.downcase).pluck(:slug)
+    Organization.switch_to current_org.short_name
+    scope.where(slug: slugs)
   end
 
   filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
@@ -34,7 +38,7 @@ class ClientGrid
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
-    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value.squish).pluck(:slug)
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", "%#{value.squish}%").pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
   end
@@ -218,12 +222,12 @@ class ClientGrid
     ids = []
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |c|
-        next if c.age_over_18?
+        next if c.uneligible_age?
         ids << c.id if c.next_assessment_date == Date.today
       end
     else
       Client.joins(:assessments).active_accepted_status.each do |c|
-        next if c.age_over_18?
+        next if c.uneligible_age?
         ids << c.id if c.next_assessment_date < Date.today
       end
     end
@@ -624,11 +628,11 @@ class ClientGrid
   column(:school_grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
   column(:has_been_in_orphanage, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') }) do |object|
-    object.has_been_in_orphanage ? 'Yes' : 'No'
+    object.has_been_in_orphanage.nil? ? '' : object.has_been_in_orphanage? ? 'Yes' : 'No'
   end
 
   column(:has_been_in_government_care, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') }) do |object|
-    object.has_been_in_government_care ? 'Yes' : 'No'
+    object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
   column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })

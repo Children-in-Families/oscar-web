@@ -6,6 +6,7 @@ FactoryGirl.define do
     case_note_frequency 'day'
     disable_assessment false
     country_name 'cambodia'
+    age 18
     association :commune, factory: :commune
 
     trait :yearly_assessment do
@@ -39,6 +40,5 @@ FactoryGirl.define do
     trait :daily_casenote do
       case_note_frequency 'day'
     end
-
   end
 end

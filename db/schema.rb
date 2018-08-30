@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180813030846) do
+ActiveRecord::Schema.define(version: 20180817042218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -363,9 +363,9 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.string   "current_address",                  default: ""
     t.string   "school_name",                      default: ""
     t.string   "school_grade",                     default: ""
-    t.boolean  "has_been_in_orphanage",            default: false
+    t.boolean  "has_been_in_orphanage"
     t.boolean  "able",                             default: false
-    t.boolean  "has_been_in_government_care",      default: false
+    t.boolean  "has_been_in_government_care"
     t.text     "relevant_referral_information",    default: ""
     t.string   "archive_state",                    default: ""
     t.text     "rejected_note",                    default: ""
@@ -626,11 +626,13 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.string   "street",                          default: ""
     t.integer  "commune_id"
     t.integer  "village_id"
+    t.integer  "user_id"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
   add_index "families", ["village_id"], name: "index_families_on_village_id", using: :btree
+  add_index "families", ["user_id"], name: "index_families_on_user_id", using: :btree
 
   create_table "family_members", force: :cascade do |t|
     t.string   "adult_name",    default: ""
@@ -1148,6 +1150,7 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"
+    t.integer  "age",                     default: 18
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1624,6 +1627,7 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "villages"
+  add_foreign_key "families", "users"
   add_foreign_key "family_members", "families"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"

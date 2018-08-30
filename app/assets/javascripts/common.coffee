@@ -6,10 +6,6 @@ CIF.Common =
     @initNotification()
     @autoCollapseManagMenu()
     @textShortener()
-    @_initSelect2()
-
-  _initSelect2: ->
-    $('.select2').select2()
 
   textShortener: ->
     if $('.clients-table').is(':visible')

@@ -77,7 +77,10 @@ describe Client, 'callbacks' do
         it { expect(client.user_ids.any?).to be_truthy }
         it 'remove user associaton' do
           client.update(exit_date: Date.today, exit_note: 'test', exit_circumstance: 'testing', status: 'Exited')
+          client.reload
+          expect(client.status).to eq('Exited')
           expect(client.user_ids.empty?).to be_truthy
+          expect(client.case_worker_clients.empty?).to be_truthy
         end
       end
     end
@@ -608,6 +611,7 @@ describe 'validations' do
   it { is_expected.to validate_presence_of(:received_by_id) }
   it { is_expected.to validate_presence_of(:referral_source) }
   it { is_expected.to validate_presence_of(:name_of_referee) }
+  it { is_expected.to validate_presence_of(:gender) }
 
   subject { FactoryGirl.build(:client) }
 
