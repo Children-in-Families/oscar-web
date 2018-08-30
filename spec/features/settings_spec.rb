@@ -33,7 +33,6 @@ describe 'Settings' do
     scenario 'only admin can edit' do
       visit edit_setting_path(setting)
       fill_in 'setting_org_name', with: 'Demo'
-      fill_in 'setting_org_commune', with: 'ABC'
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Setting have been successfully updated.')

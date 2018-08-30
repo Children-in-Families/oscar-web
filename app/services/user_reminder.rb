@@ -66,7 +66,6 @@ class UserReminder
         # client_ids = tasks.map(&:client_id).uniq
         # client_of  = clients_by_manager(client_ids)
 
-        # CaseManagerWorker.perform_async('ABLE', client_of[:able], org.short_name) if client_of[:able].present?
         # CaseManagerWorker.perform_async('FC', client_of[:fc], org.short_name)     if client_of[:fc].present?
         # CaseManagerWorker.perform_async('KC', client_of[:kc], org.short_name)     if client_of[:kc].present?
         # CaseManagerWorker.perform_async('EC', client_of[:ec], org.short_name)     if client_of[:ec].present?
@@ -78,7 +77,6 @@ class UserReminder
 
   # def clients_by_manager(client_ids)
   #   {
-  #     able: Client.able.where(id: client_ids).map(&:user_ids).flatten.uniq,
   #     ec:   Client.active_ec.where(id: client_ids).map(&:user_ids).flatten.uniq,
   #     fc:   Client.active_fc.where(id: client_ids).map(&:user_ids).flatten.uniq,
   #     kc:   Client.active_kc.where(id: client_ids).map(&:user_ids).flatten.uniq
@@ -86,6 +84,6 @@ class UserReminder
   # end
 
   # def admin_case_workers(client_ids)
-  #   Client.where.not(status: ['Active EC', 'Active FC', 'Active KC'], able_state: 'Accepted').where(id: client_ids).map(&:user_ids).flatten.uniq
+  #   Client.where.not(status: ['Active EC', 'Active FC', 'Active KC']).where(id: client_ids).map(&:user_ids).flatten.uniq
   # end
 end

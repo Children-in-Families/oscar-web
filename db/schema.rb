@@ -373,9 +373,9 @@ ActiveRecord::Schema.define(version: 20180827023718) do
     t.string   "current_address",                  default: ""
     t.string   "school_name",                      default: ""
     t.string   "school_grade",                     default: ""
-    t.boolean  "has_been_in_orphanage",            default: false
+    t.boolean  "has_been_in_orphanage"
     t.boolean  "able",                             default: false
-    t.boolean  "has_been_in_government_care",      default: false
+    t.boolean  "has_been_in_government_care"
     t.text     "relevant_referral_information",    default: ""
     t.string   "archive_state",                    default: ""
     t.text     "rejected_note",                    default: ""
@@ -398,8 +398,8 @@ ActiveRecord::Schema.define(version: 20180827023718) do
     t.string   "kid_id",                           default: ""
     t.string   "house_number",                     default: ""
     t.string   "street_number",                    default: ""
-    t.string   "village",                          default: ""
-    t.string   "commune",                          default: ""
+    t.string   "old_village",                      default: ""
+    t.string   "old_commune",                      default: ""
     t.string   "archive_district",                 default: ""
     t.string   "live_with",                        default: ""
     t.integer  "id_poor"
@@ -453,14 +453,18 @@ ActiveRecord::Schema.define(version: 20180827023718) do
     t.integer  "township_id"
     t.integer  "state_id"
     t.string   "country_origin",                   default: ""
+    t.integer  "commune_id"
+    t.integer  "village_id"
   end
 
+  add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
   add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
   add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
   add_index "clients", ["township_id"], name: "index_clients_on_township_id", using: :btree
+  add_index "clients", ["village_id"], name: "index_clients_on_village_id", using: :btree
 
   create_table "clients_quantitative_cases", force: :cascade do |t|
     t.integer  "client_id"
@@ -626,13 +630,19 @@ ActiveRecord::Schema.define(version: 20180827023718) do
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
-    t.string   "commune",                         default: ""
-    t.string   "village",                         default: ""
+    t.string   "old_commune",                     default: ""
+    t.string   "old_village",                     default: ""
     t.string   "house",                           default: ""
     t.string   "street",                          default: ""
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.integer  "user_id"
   end
 
+  add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
+  add_index "families", ["user_id"], name: "index_families_on_user_id", using: :btree
+  add_index "families", ["village_id"], name: "index_families_on_village_id", using: :btree
 
   create_table "family_members", force: :cascade do |t|
     t.string   "adult_name",    default: ""
@@ -1147,11 +1157,14 @@ ActiveRecord::Schema.define(version: 20180827023718) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "org_name",                default: ""
-    t.string   "org_commune",             default: ""
+    t.string   "old_commune",             default: ""
     t.integer  "province_id"
     t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "age",                     default: 18
   end
 
+  add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
   add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
   add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
 
@@ -1607,11 +1620,13 @@ ActiveRecord::Schema.define(version: 20180827023718) do
   add_foreign_key "client_right_government_forms", "government_forms"
   add_foreign_key "client_type_government_forms", "client_types"
   add_foreign_key "client_type_government_forms", "government_forms"
+  add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
+  add_foreign_key "clients", "villages"
   add_foreign_key "communes", "districts"
   add_foreign_key "custom_field_permissions", "custom_fields"
   add_foreign_key "custom_field_permissions", "users"
@@ -1622,7 +1637,10 @@ ActiveRecord::Schema.define(version: 20180827023718) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
+  add_foreign_key "families", "users"
+  add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
@@ -1656,6 +1674,7 @@ ActiveRecord::Schema.define(version: 20180827023718) do
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
   add_foreign_key "sponsors", "clients"

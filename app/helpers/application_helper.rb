@@ -268,6 +268,11 @@ module ApplicationHelper
 
   def khmer_gender(gender)
     return unless gender.present?
-    gender.in?(['male', 'Male']) ? 'ប្រុស' : 'ស្រី'
+    case gender
+    when 'male' then 'ប្រុស'
+    when 'female' then 'ស្រី'
+    else
+      'Unknown'
+    end
   end
 end

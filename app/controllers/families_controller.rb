@@ -90,7 +90,8 @@ class FamiliesController < AdminController
                             :dependable_income, :female_children_count,
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :status, :contract_date,
-                            :address, :province_id, :district_id, :commune, :village, :house, :street,
+                            :address, :province_id, :district_id, :house, :street,
+                            :commune_id, :village_id,
                             custom_field_ids: [],
                             children: [],
                             family_members_attributes: [:id, :adult_name, :date_of_birth, :occupation, :relation, :guardian, :_destroy]
@@ -100,6 +101,9 @@ class FamiliesController < AdminController
   def find_association
     @provinces = Province.order(:name)
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
+    @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
+    @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
+
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else
