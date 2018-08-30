@@ -8,10 +8,10 @@
   .panel-body.panel-border{style: 'border-top: 1px solid black'}
     = render 'client_code'
 
-    %table.table.no-margin-bottom.table-borderless
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 4px;' }
       %tbody
         %tr
-          %td{style: 'width: 70px; vertical-align: middle;'}
+          %td{style: 'width: 70px; vertical-align: middle; padding-left: 0;'}
             ឈ្មោះកុមារ:
           %td{style: 'width: 200px; vertical-align: middle;'}
             %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
@@ -31,12 +31,12 @@
             = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ស្រី
 
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 4px;' }
       %tbody
         %tr
-          %td
+          %td{ style: 'vertical-align: middle; padding-left: 0;' }
             ឈ្មោះឪពុកម្តាយឬអ្នកអាណាព្យាបាល:
-          %td{style: 'width: 200px;'}
+          %td{style: 'width: 200px; vertical-align: middle;'}
             %input{style: 'width: 100%;', value: @client.family.try(:name) }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
@@ -48,36 +48,36 @@
               - else
                 %span= code
 
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 4px;'}
       %tbody
         %tr
-          %td{style: 'width: 20px;'}
-            អាស័យដ្ឋាន:
-          %td.text-right
+          %td{style: 'width: 20px; padding-left: 0;'}
+            អាសយដ្ឋាន:
+          %td.text-right{ style: 'vertical-align: middle;' }
             ភូមិ:
-          %td
-            %input{style: 'width: 100%;', value: @client.family.try(:village) }
-          %td{style: 'width: 50px;'}
+          %td{ style: 'vertical-align: middle;' }
+            %input{style: 'width: 100%;', value: @client.family.try(:village).try(:name_kh) }
+          %td{style: 'width: 50px; vertical-align: middle;'}
             ឃុំ/សង្កាត់:
-          %td
-            %input{style: 'width: 100%', value: @client.family.try(:commune) }
+          %td{ style: 'vertical-align: middle;' }
+            %input{style: 'width: 100%', value: @client.family.try(:commune).try(:name_kh) }
         %tr
-          %td.text-right{:colspan => "2"}
-            %label ក្រុង/ស្រុក/ខណ្ឌ:
-          %td
+          %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
+            ក្រុង/ស្រុក/ខណ្ឌ:
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:district).try(:name_kh) }
-          %td
-            %label ខេត្ត/រាជធានី:
-          %td
+          %td{ style: 'vertical-align: middle;' }
+            ខេត្ត/រាជធានី:
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:province).try(:name_kh) }
         %tr
-          %td.text-right{:colspan => "2"}
-            %label ឈ្មោះអ្នកកាន់ករណី:
-          %td
+          %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
+            ឈ្មោះអ្នកកាន់ករណី:
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @user.try(:name) }
-          %td
-            %label អង្គភាព:
-          %td
+          %td{ style: 'vertical-align: middle;' }
+            អង្គភាព:
+          %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @setting.org_name }
 
 .panel.panel-borderless
@@ -124,7 +124,9 @@
         %th.text-center{ style: 'width: 200px; vertical-align: middle;' } សូចនាករសំខាន់ៗរបស់អ្នកថែទាំ
         %th.text-center{ style: 'width: 100px; vertical-align: middle;' } គោលដៅ
         %th.text-center{ style:  'vertical-align: middle;' }
-          ផែនការសកម្មភាព (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
+          ផែនការសកម្មភាព
+          %br
+          (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
         %th.text-center{ style: 'width: 100px; vertical-align: middle;' } លទ្ធផល
     %tbody
       - @government_form.government_form_family_plans.each do |form|
@@ -143,59 +145,52 @@
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-radius: 3px;'}
     .row{style: 'margin-top: 5px;'}
-      .col-xs-6.text-left
-        .signature_date
-          កាលបរិច្ឆេទ:
-          %span.first
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-        %br
-        %p{style: 'margin-left: 50px;'} ហត្ថលេខាអ្នកកាន់ករណី
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %p.no-margin-bottom ______________________________________
-      .col-xs-6.text-right
-        .signature_date
-          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ):
-          %span.first
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-        %br
-        %p{style: 'margin-right: 30px;'} ស្នាមមេដៃឪពុកម្តាយ ឬអ្នកអាណាព្យាបាល
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %p.no-margin-bottom ______________________________________
+      .col-xs-6
+        .row
+          .col-xs-12
+            %div{ style: 'float: left; line-height: 25px; margin-right: 5px;' }
+              កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+            - 6.times do |_|
+              .blank-box-date
+          .col-xs-12{ style: 'margin-top: 8px;' }
+            %p{style: 'margin-left: 50px;'} ហត្ថលេខាអ្នកកាន់ករណី:
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
+
+      .col-xs-6
+        .row
+          .col-xs-12
+            %div{ style: 'float: right; line-height: 25px; margin-left: 5px;' }
+              - 6.times do |_|
+                .blank-box-date
+            %div{ style: 'float: right; line-height: 25px; margin-right: 5px;' }
+              កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+          .col-xs-12{ style: 'margin-top: 8px;' }
+            %p.text-right{style: 'margin-right: 40px;'} ស្នាមមេដៃឪពុកម្តាយ ឬអ្នកអាណាព្យាបាល
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
+            %br
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border.text-center{style: 'border-radius: 3px '}
-    .row{style: 'margin-top: 5px;'}
-      .col-xs-12
-        .signature_date
-          កាលបរិច្ឆេទ:
-          %span.first
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-        %br
-        %p{style: 'margin-right: 30px;'} ហត្ថលេខា គ.ក.ន.ក
+    .row
+      .col-xs-8.col-xs-offset-2{ style: 'padding: 0 13%;' }
+        %div{ style: 'float: left; line-height: 25px; margin-right: 5px;' }
+          កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+        - 6.times do |_|
+          .blank-box-date
+    .row
+      .col-xs-8.col-xs-offset-2{ style: 'padding: 0 13%; margin-top: 8px;' }
+        %p{style: 'margin-right: 30px;'} ហត្ថលេខា តំណាងអាជ្ញាធរមូលដ្ឋាន:
         %br
         %br
         %br
@@ -203,4 +198,3 @@
         %br
         %br
         %br
-        %p.no-margin-bottom ______________________________________
