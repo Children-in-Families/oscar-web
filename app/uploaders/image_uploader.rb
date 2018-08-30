@@ -12,6 +12,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   version :thumb do
     process resize_to_fill: [0, 90]
+    process quality: 100
   end
 
   def extension_white_list
