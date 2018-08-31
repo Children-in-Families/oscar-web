@@ -10,7 +10,7 @@ class Organization < ActiveRecord::Base
   scope :without_shared, -> { where.not(short_name: 'shared') }
   scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
   scope :oscar, -> { visible.where.not(short_name: 'demo') }
-  scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my']) }
+  scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my', 'fts', 'holt']) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
