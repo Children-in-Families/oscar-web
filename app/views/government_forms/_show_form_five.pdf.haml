@@ -25,16 +25,16 @@
         %td{ style: 'padding-left: 5px;' }
           - gender_value = @government_form.client.gender
           ភេទ:
-          ប្រុស
           - if gender_value == 'male'
             = render 'government_forms/pdf/image_checked_box'
           - else
             = render 'government_forms/pdf/image_unchecked_box'
-          ស្រី
+          ប្រុស
           - if gender_value == 'female'
             = render 'government_forms/pdf/image_checked_box'
           - else
             = render 'government_forms/pdf/image_unchecked_box'
+          ស្រី
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px; margin-bottom: 10px' }
