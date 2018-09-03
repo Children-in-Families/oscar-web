@@ -29,6 +29,26 @@ describe Setting, 'validation' do
     it { expect(subject.valid?).to be_falsey }
   end
 
+  context 'age greater than 0 and less than 100' do
+    subject { Setting.new(age: 18) }
+    it { expect(subject.valid?).to be_truthy }
+  end
+
+  context 'age equal 100' do
+    subject { Setting.new(age: 100) }
+    it { expect(subject.valid?).to be_truthy }
+  end
+
+  context 'age cannot equal 0' do
+    subject { Setting.new(age: 0) }
+    it { expect(subject.valid?).to be_falsey }
+  end
+
+  context 'age greater than 100' do
+    subject { Setting.new(age: 110) }
+    it { expect(subject.valid?).to be_falsey }
+  end
+
   context 'max assessment and max case note should have value if frequency present' do
     subject { Setting.new(assessment_frequency: 'day', case_note_frequency: 'day') }
     it { expect(subject.valid?).to be_falsey }

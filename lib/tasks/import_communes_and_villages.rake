@@ -1,5 +1,3 @@
-# ["cif", "newsmile", "icf", "tlc", "demo", "fsc", "cct", "mtp", "cfi", "fsi", "ahc", "scc", "cwd", "wmo", "agh", "my", "ssc", "mrs", "rok", "myan", "voice", "mho", "cccu", "auscam", "isf", "shk", "fco", "kmr"]
-
 namespace :communes_and_villages do
   desc 'Import all communes and villages provided by NCDD'
   task :start, [:ngos] do |task, args|

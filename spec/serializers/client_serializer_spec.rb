@@ -167,12 +167,12 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute has_been_in_orphanage' do
     expect(serializer).to have_json_path('client/has_been_in_orphanage')
-    expect(serializer).to have_json_type(:boolean).at_path('client/has_been_in_orphanage')
+    expect(serializer).to have_json_type(NilClass).at_path('client/has_been_in_orphanage')
   end
 
   it 'should be have attribute has_been_in_government_care' do
     expect(serializer).to have_json_path('client/has_been_in_government_care')
-    expect(serializer).to have_json_type(:boolean).at_path('client/has_been_in_government_care')
+    expect(serializer).to have_json_type(NilClass).at_path('client/has_been_in_government_care')
   end
 
   it 'should be have attribute relevant_referral_information' do

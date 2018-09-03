@@ -611,6 +611,7 @@ describe 'validations' do
   it { is_expected.to validate_presence_of(:received_by_id) }
   it { is_expected.to validate_presence_of(:referral_source) }
   it { is_expected.to validate_presence_of(:name_of_referee) }
+  it { is_expected.to validate_presence_of(:gender) }
 
   subject { FactoryGirl.build(:client) }
 

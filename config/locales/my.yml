@@ -2637,7 +2637,7 @@ my:
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
-      guardian: 'ဂေါကလူကြီး'
+      guardian: ဂေါကလူကြီး
       occupation: အလုပ်အကိုင်
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       remove_member: ဖယ်ထုတ်ထား
@@ -2698,6 +2698,7 @@ my:
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
       general_info: မိသားစုအေၾကာင္း
+      guardian: ဂေါကလူကြီး
       house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု၀င္ေငြ
       id: မွတ္ပံုတင္
@@ -4007,8 +4008,10 @@ my:
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
     assessment:
+      age: အသက္
       assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
+      eligible: အောက်မှာ အမႈသည္ ကိုများအတွက်အရည်အချင်းပြည့်မီ
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
     case_note:

@@ -373,9 +373,9 @@ ActiveRecord::Schema.define(version: 20180830063914) do
     t.string   "current_address",                  default: ""
     t.string   "school_name",                      default: ""
     t.string   "school_grade",                     default: ""
-    t.boolean  "has_been_in_orphanage",            default: false
+    t.boolean  "has_been_in_orphanage"
     t.boolean  "able",                             default: false
-    t.boolean  "has_been_in_government_care",      default: false
+    t.boolean  "has_been_in_government_care"
     t.text     "relevant_referral_information",    default: ""
     t.string   "archive_state",                    default: ""
     t.text     "rejected_note",                    default: ""
@@ -1161,6 +1161,7 @@ ActiveRecord::Schema.define(version: 20180830063914) do
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"
+    t.integer  "age",                     default: 18
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

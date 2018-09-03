@@ -8,7 +8,7 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: Family::TYPES, label: t('.family_type')
         .col-xs-12.col-sm-6.col-md-4= f.input :status, collection: Family::STATUSES, label: t('.status')
         .col-xs-12.col-sm-6.col-md-4= f.input :case_history, label: t('.case_history')
-        .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address'), readonly: true
+        -# .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address'), readonly: true
         .col-xs-12.col-sm-6.col-md-4
           = f.association :province, collection: @provinces, label: t('.province'), input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
         .col-xs-12.col-sm-6.col-md-4
