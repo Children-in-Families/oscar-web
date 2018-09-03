@@ -43,7 +43,6 @@ class GovernmentForm < ActiveRecord::Base
   has_many :action_results, dependent: :destroy
 
   accepts_nested_attributes_for :action_results, reject_if: :all_blank, allow_destroy: true
-
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
   accepts_nested_attributes_for :government_form_children_plans
