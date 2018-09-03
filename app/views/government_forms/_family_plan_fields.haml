@@ -1,0 +1,12 @@
+.nested-fields
+  .field
+    = f.input :family_plan_id, as: :hidden, label: false
+    %p
+      %strong= f.object.family_plan_name
+    .row
+      .col-xs-4
+        = f.input :goal, label: 'គោលដៅ'
+      .col-xs-4
+        = f.input :action, label: 'ផែនការសកម្មភាព'
+      .col-xs-4
+        = f.input :result, label: 'លទ្ធផល'

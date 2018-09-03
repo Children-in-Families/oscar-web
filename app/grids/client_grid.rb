@@ -6,7 +6,7 @@ class ClientGrid
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
 
   scope do
-    Client.includes(:district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -25,8 +25,12 @@ class ClientGrid
     filter_shared_fileds('local_family_name', value, scope)
   end
 
-  filter(:gender, :enum, select: %w(Male Female), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
-    filter_shared_fileds('gender', value, scope)
+  filter(:gender, :enum, select: %w(Male Female Unknown), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    slugs = SharedClient.where(gender: value.downcase).pluck(:slug)
+    Organization.switch_to current_org.short_name
+    scope.where(slug: slugs)
   end
 
   filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
@@ -34,7 +38,7 @@ class ClientGrid
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
-    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value.squish).pluck(:slug)
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", "%#{value.squish}%").pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
   end
@@ -43,7 +47,7 @@ class ClientGrid
 
   filter(:code, :integer, header: -> { I18n.t('datagrid.columns.clients.code') }) { |value, scope| scope.start_with_code(value) }
 
-  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') }) { |value, scope| scope.kid_id_like(value) }
+  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   filter(:status, :enum, select: :status_options, header: -> { I18n.t('datagrid.columns.clients.status') })
 
@@ -79,15 +83,15 @@ class ClientGrid
     Province.has_clients.map { |p| [p.name, p.id] }
   end
 
-  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') }) { |value, scope| scope.telephone_number_like(value) }
+  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
 
-  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
+  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
   # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
-  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') }) { |value, scope| scope.referral_phone_like(value) }
+  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
@@ -135,31 +139,27 @@ class ClientGrid
     end
   end
 
-  filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') }) { |value, scope| scope.current_address_like(value) }
+  filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
-  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_number') }) { |value, scope| scope.house_number_like(value) }
+  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_number') })
 
-  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') }) { |value, scope| scope.street_number_like(value) }
+  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-  filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') }) { |value, scope| scope.village_like(value) }
+  filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') })
 
-  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') }) { |value, scope| scope.commune_like(value) }
+  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') })
 
-  filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') }) { |value, scope| scope.district_like(value) }
+  filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') })
 
-  filter(:school_name, :string, header: -> { I18n.t('datagrid.columns.clients.school_name') }) { |value, scope| scope.school_name_like(value) }
+  filter(:school_name, :string, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
   filter(:has_been_in_government_care, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') })
 
   filter(:school_grade, :string, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
-  def able_states
-    Client::ABLE_STATES
-  end
-
   filter(:has_been_in_orphanage, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') })
 
-  filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') }) { |value, scope| scope.info_like(value) }
+  filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
   filter(:created_by, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.created_by') })
 
@@ -222,12 +222,12 @@ class ClientGrid
     ids = []
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |c|
-        next if c.age_over_18?
+        next if c.uneligible_age?
         ids << c.id if c.next_assessment_date == Date.today
       end
     else
       Client.joins(:assessments).active_accepted_status.each do |c|
-        next if c.age_over_18?
+        next if c.uneligible_age?
         ids << c.id if c.next_assessment_date < Date.today
       end
     end
@@ -553,9 +553,13 @@ class ClientGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, header: -> { I18n.t('datagrid.columns.clients.village') })
+      column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+        object.village.try(:code_format)
+      end
 
-      column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
+      column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+        object.commune.try(:name)
+      end
 
       column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
@@ -624,11 +628,11 @@ class ClientGrid
   column(:school_grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
   column(:has_been_in_orphanage, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') }) do |object|
-    object.has_been_in_orphanage ? 'Yes' : 'No'
+    object.has_been_in_orphanage.nil? ? '' : object.has_been_in_orphanage? ? 'Yes' : 'No'
   end
 
   column(:has_been_in_government_care, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') }) do |object|
-    object.has_been_in_government_care ? 'Yes' : 'No'
+    object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
   column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })

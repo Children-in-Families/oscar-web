@@ -2,10 +2,10 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::CaseNotesController, type: :request do
   let(:user) { create(:user) }
-  let!(:client) { create(:client, users: [user]) }
+  let!(:client) { create(:client, users: [user], code: rand(1000..2000).to_s) }
   let(:assessment) { create(:assessment) }
   let!(:assessment_domain) { create_list(:assessment_domain, 12, assessment: assessment) }
-  let!(:tasks) { create_list(:task, 2, case_note_domain_group: nil, domain: Domain.first, user: user) }
+  let!(:tasks) { create_list(:task, 2, case_note_domain_group: nil, domain: Domain.first, user: user, client: client) }
 
   describe 'POST #create' do
     context 'when user not loged in' do

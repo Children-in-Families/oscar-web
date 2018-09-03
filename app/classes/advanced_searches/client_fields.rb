@@ -37,7 +37,7 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['created_by', user_select_options ],
-        ['gender', { female: 'Female', male: 'Male' }],
+        ['gender', { male: 'Male', female: 'Female', unknown: 'Unknown' }],
         ['status', client_status],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
@@ -101,6 +101,14 @@ module AdvancedSearches
       District.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
+    def communes
+      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def villages
+      Village.joins(:clients, commune: [district: :province]).distinct.map{|village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
     def subdistricts
       Subdistrict.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
     end
@@ -154,8 +162,8 @@ module AdvancedSearches
       case country
       when 'cambodia'
         {
-          text_fields: ['house_number', 'street_number', 'village', 'commune'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces]]
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
       when 'lesotho'
         {

@@ -120,7 +120,7 @@ Rails.application.routes.draw do
     end
 
     resources :custom_field_properties
-    # resources :government_reports
+    resources :government_forms
     resources :assessments
     resources :case_notes
     resources :cases do
@@ -170,6 +170,14 @@ Rails.application.routes.draw do
 
     resources :provinces, only: :index do
       resources :districts, only: :index
+    end
+
+    resources :districts, only: [] do
+      resources :communes, only: :index
+    end
+
+    resources :communes, only: [] do
+      resources :villages, only: :index
     end
 
     resources :districts, only: :index do

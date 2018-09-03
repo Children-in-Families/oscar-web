@@ -20,7 +20,7 @@
                     %td.col-xs-3{ rowspan: upcoming_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
-            - if @assessment_params && upcoming_assessments_any?(client) && client.user_ids.include?(@user.id) && !client.age_over_18?
+            - if @assessment_params && upcoming_assessments_any?(client) && client.user_ids.include?(@user.id) && !client.uneligible_age?
               - assessment = client.assessments.latest_record
               %tr
                 %td.col-xs-3= t('.assessment')

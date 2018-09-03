@@ -232,7 +232,7 @@ describe 'Client' do
     let!(:province) { create(:province) }
     let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
                              local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
-                             province: province, village: 'Sabay', commune: 'Vealvong') }
+                             province: province) }
     let!(:referral_source){ create(:referral_source) }
     before do
       login_as(admin)
@@ -246,6 +246,7 @@ describe 'Client' do
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
       fill_in 'client_name_of_referee', with: 'Thida'
       fill_in 'client_given_name', with: 'Kema'
+      find(".client_gender select option[value='male']", visible: false).select_option
 
       find('#steps-uid-0-t-3').click
       page.find('a[href="#finish"]', visible: false).click
@@ -282,7 +283,7 @@ describe 'Client' do
       expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
     end
 
-    scenario 'government repor section invisible' do
+    scenario 'government report section invisible' do
       expect(page).not_to have_content('Government Form')
     end
   end

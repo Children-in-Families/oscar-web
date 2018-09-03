@@ -21,25 +21,70 @@
     %link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :integrity => "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", :rel => "stylesheet"}
 
     :css
+      .min-width {
+        min-width: 700px;
+      }
+      /* @font-face {
+        font-family: 'Khmer OS';
+        src: url(font_url('KhmerOS.ttf'));
+        font-weight: normal;
+        font-style: normal;
+      } */
+
       body {
         font-size: 12px;
         margin: 0;
         padding: 0;
       }
+
+      body#government_forms {
+        font-family: 'Khmer OS Siemreap';
+      }
+
       .panel-body {
         padding: 7px;
       }
+
+      #top-header {
+        font-family: 'Khmer OS Muol';
+        font-size: 18px;
+      }
+
+      .text-main-header {
+        font-family: 'Khmer OS Muol';
+        font-size: 16px;
+      }
+
       span {
-        padding: 4px 7px;
+        padding: 0 7px;
         border-style: solid;
         border-color: black;
         border-width: 1px;
         border-left: 1px;
         margin-left: -4px !important;
       }
+      span.no-border {
+        border-style: none;
+      }
       span.first {
         margin-left: 3px !important;
         border-left: 1px solid black;
+      }
+
+      div.other {
+        margin-left: 8px;
+        padding: 5px;
+        border: 1px solid #000;
+        float: left;
+        min-width: 200px;
+      }
+
+      div.other.empty {
+        padding: 14px;
+      }
+
+      div.other-label {
+        float: left;
       }
 
       .signature_date span {
@@ -127,16 +172,42 @@
       .bottom-radius {
         border-top: 0;
         border-radius: 0;
-        border-bottom-left-radius: 3px; 
+        border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
       }
       .top-radius {
         border-bottom: 0;
         border-radius: 0;
-        border-top-left-radius: 3px; 
+        border-top-left-radius: 3px;
         border-top-right-radius: 3px;
       }
-      
+      .dot-row {
+        border-bottom: 1px dashed black !important;
+      }
 
-  %body{ style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'pageNumber()' }
+      .no-left-padding {
+        padding-left: 0;
+      }
+
+      .no-right-padding {
+        padding-right: 0;
+      }
+
+      table#carer-options tbody td {
+        padding-bottom: 0;
+        vertical-align: middle;
+      }
+
+      table#carer-options tbody tr td:first-child {
+        padding-top: 0;
+      }
+
+      .blank-box-date {
+        width: 25px;
+        height: 25px;
+        border: 1px solid #000;
+        float: left;
+      }
+
+  %body{ id: "#{controller_name}", style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'pageNumber()' }
     = yield

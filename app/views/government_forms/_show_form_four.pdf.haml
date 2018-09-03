@@ -1,0 +1,330 @@
+= render 'head_section'
+
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-main-header.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៤: ការទុកដាក់កុមារ
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-top: 1px solid black;'}
+    = render 'client_code'
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{style: 'width: 123px; vertical-align: middle;'}
+            ខ្ញុំជាអ្នកកាន់ករណីឈ្មោះ:
+          %td{style: 'min-width: 70px; vertical-align: middle;'}
+            %input{style: 'width: 100%;', value: @user.try(:name)}
+          %td{ style: 'vertical-align: middle;' }
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td{ style: 'vertical-align: middle;' }
+            - dob = @user.try(:date_of_birth).present? ? @user.try(:date_of_birth).strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td{ style: 'vertical-align: middle;' }
+            ភេទ:
+            = render @user.try(:gender) == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ប្រុស
+            = render @user.try(:gender) == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ស្រី
+
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{style: 'width: 157px; vertical-align: middle;'}
+            បានឯកភាពទុកដាក់កុមារឈ្មោះ:
+          %td{style: 'width: 270px; vertical-align: middle;'}
+            %input{style: 'width: 90%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'vertical-align: middle;' }
+            ភេទ:
+            = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ប្រុស
+            = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ស្រី
+            ឲ្យរស់នៅតាមជម្រើសនៃការថែទាំដូចខាងក្រោម៖
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border.no-border-bottom.top-radius
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td
+            កាលបរិច្ឆេទនៃការទុកដាក់:
+            - gov_date = @government_form.gov_placement_date.present? ? @government_form.gov_placement_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin#carer-options
+      %thead
+        %tr{ style: 'background: #f3dcda' }
+          %th.text-center{:colspan => "3"}
+            %b ជម្រើសនៃការថែទាំ
+            %p តាមលំដាប់ដូចបានចែងនៅក្នុងគោលនយោបាយស្តីពីការថែទាំជំនួសចំពោះកុមារ
+        %tr{ style: 'background: #efefef' }
+          %th.text-center{style: 'width: 190px'} ប្រភេទនៃការថែទាំ
+          %th.text-center{style: 'width: 270px'} ឈ្មោះអ្នកថែទាំ/ឈ្មោះកន្លែងថែទាំ
+          %th.text-center អាសយដ្ឋាន និងលេខទំនាក់ទំនង
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'គ្រួសារបង្កើត' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            គ្រួសារបង្កើត
+          %td{style: 'line-height: 15px'}
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះឪពុក ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'គ្រួសារបង្កើត'
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះម្តាយ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.secondary_carer if @government_form.care_type == 'គ្រួសារបង្កើត'
+          %td
+            %p{ style: 'line-height: 2;' }= @government_form.carer_contact_info if @government_form.care_type == 'គ្រួសារបង្កើត'
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'សាច់ញាតិ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            សាច់ញាតិ
+          %td{style: 'line-height: 15px'}
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'សាច់ញាតិ'
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.secondary_carer if @government_form.care_type == 'សាច់ញាតិ'
+          %td
+            %p{ style: 'line-height: 2;' }= @government_form.carer_contact_info if @government_form.care_type == 'សាច់ញាតិ'
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            គ្រួសារមិនជាប់សាច់ញាតិ
+            %br
+            (គ្រួសារធម៌)
+          %td{style: 'line-height: 15px'}
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.secondary_carer if @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+          %td
+            %p{ style: 'line-height: 2;' }= @government_form.carer_contact_info if @government_form.care_type == 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)'
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ការថែទាំជាក្រុមក្នុងសហគមន៍
+          %td
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះអង្គការ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍'
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះក្រុម ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍'
+          %td
+            %p{ style: 'line-height: 2;' }= @government_form.carer_contact_info if @government_form.care_type == 'ការថែទាំជាក្រុមក្នុងសហគមន៍'
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            តាមវត្តអារាមឬទីកន្លែង
+            %br
+            សាសនានានា
+          %td
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះវត្ត/វិហារ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
+            %p
+              %span.no-border{style: 'width: 45%;display: inline-block;'} ឈ្មោះអ្នកគ្រប់គ្រង ៖
+              %span.no-border.dot-row{style: 'width: 50%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
+          %td
+            %p{ style: 'line-height: 2;' }= @government_form.carer_contact_info if @government_form.care_type == 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា'
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'vertical-align: middle;' }
+            = render @government_form.care_type == 'កន្លែងថែទាំកុមារ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            កន្លែងថែទាំកុមារ
+          %td
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះអង្គការ ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
+            %p
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ឈ្មោះមណ្ឌល ៖
+              %span.no-border.dot-row{style: 'width: 55%;display: inline-block;'}
+                = @government_form.primary_carer if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
+          %td
+            %p{ style: 'line-height: 2;' }= @government_form.carer_contact_info if @government_form.care_type == 'កន្លែងថែទាំកុមារ'
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 25px'}
+  .panel-heading.panel-border.text-center{style: 'background: #001f60; padding: 5px; color: white; border-top: 1px solid black; border-bottom: 0;'}
+    កិច្ចព្រមព្រៀង
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #fcebdd' }
+        %tr
+          %th{:colspan => "2"}
+            %i កុមារ
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{:colspan => "2", style: 'line-height: 25px'}
+            %p{style: 'line-height: 1;'}
+              %span.no-border{style: 'width: 15%;display: inline-block;'} ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ
+              %span.no-border.dot-row.text-center{style: 'width: 30%;display: inline-block;'}
+                = "#{@client.local_family_name} #{@client.local_given_name}"
+              %span.no-border{style: 'width: 5%;display: inline-block;'} ភេទ
+              %span.no-border.dot-row.text-center{style: 'width: 15%;display: inline-block;'}
+                = khmer_gender @client.gender
+              %span.no-border{style: 'width: 13%;display: inline-block;'} ថ្ងៃខែឆ្នាំកំណើត
+              %span.no-border.dot-row.text-center{style: 'width: 22%;display: inline-block;'}
+                = @client.date_of_birth.strftime('%d-%m-%Y') if @client.date_of_birth?
+            %p{style: 'line-height: 1;'}
+              %span.no-border{style: 'width: 23%;display: inline-block;'} បានយល់ព្រមមករស់នៅជាមួយ
+              %span.no-border.dot-row.text-center{style: 'width: 43%;display: inline-block;'}
+                = @government_form.new_carer
+              %span.no-border{style: 'width: 34%;display: inline-block;'} និងខ្ញុំយល់ព្រមប្រឹងប្រែងឲ្យអស់ពីលទ្ធភាពគោរព
+            %p{style: 'line-height: 1;'}
+              %span.no-border{style: 'width: 63%;display: inline-block;'} តាមកម្មវិធីដែលបានធ្វើឡើងដោយបុគ្គលិកកាន់ករណី និងយល់ព្រមរួមសុខទុក្ខជាមួយ
+              %span.no-border.dot-row.text-center{style: 'width: 35%;display: inline-block;'}
+                = @government_form.new_carer
+              %span.no-border{style: 'width: 2%;display: inline-block;'} ។
+
+        %tr{style: 'page-break-inside: avoid;'}
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p ឈ្មោះ និង ហត្ថលេខា/ស្នាមមេដៃ:
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p
+                កាលបរិច្ឆេទ (ថ្ងៃ/ខែ/ឆ្នាំ)៖
+                = @government_form.gov_placement_date.strftime('%d/%m/%Y') if @government_form.gov_placement_date?
+
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #fcebdd' }
+        %tr
+          %th
+            %i អ្នកថែទាំ
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'line-height: 25px; padding-bottom: 0;'}
+            %p{style: 'line-height: 1;'}
+              %span.no-border{style: 'width: 15%;display: inline-block;'} ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ
+              %span.no-border.dot-row.text-center{style: 'width: 30%;display: inline-block;'}
+                = @government_form.new_carer
+              %span.no-border{style: 'width: 5%;display: inline-block;'} ភេទ
+              %span.no-border.dot-row.text-center{style: 'width: 15%;display: inline-block;'}
+                = @government_form.new_carer_gender
+              %span.no-border{style: 'width: 13%;display: inline-block;'} ថ្ងៃខែឆ្នាំកំណើត
+              %span.no-border.dot-row.text-center{style: 'width: 22%;display: inline-block;'}
+                = @government_form.new_carer_date_of_birth.strftime('%d-%m-%Y') if @government_form.new_carer_date_of_birth?
+            %p{style: 'line-height: 1;'}
+              %span.no-border{style: 'width: 7%;display: inline-block;'} ត្រូវជា
+              %span.no-border.dot-row.text-center{style: 'width: 33%;display: inline-block;'}
+                = @government_form.new_carer_relationship
+              %span.no-border{style: 'width: 60%;display: inline-block;'} របស់កុមារបានយល់ព្រមថែរក្សាបំពេញនូវតម្រូវការមូលដ្ឋានរបស់គាត់ និងប្រឹងប្រែង
+            %p{style: 'line-height: 2; margin-bottom: 4px;'}
+              ផ្តល់ជំនួយចាំបាច់នានាដែលអាចធ្វើទៅបានឈរលើគោលកាណ៍ការធ្វើសមាហរណ៍កម្មប្រកបដោយសុវត្ថិភាព។ ខ្ញុំបាទ/នាងខ្ញុំយល់ព្រមប្រគល់កុមារទៅអាជ្ញាធរមានសមត្ថកិច្ចវិញ ក្នុងករណីដែលស្ថានភាពគ្រួសារអាចប៉ះពាល់ដល់សុខុមាលភាព និងសុវត្ថិភាពកុមារ។
+
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{ style: 'line-height: 25px; padding: 2px 8px 1px 8px;'}
+            កាលបរិច្ឆេទ:
+            - gov_date = @government_form.gov_placement_date.present? ? @government_form.gov_placement_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+        %tr{style: 'page-break-inside: avoid;'}
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p ឈ្មោះ និង ហត្ថលេខា/ស្នាមមេដៃ របស់អ្នកថែទាំ (ឪពុក/ម្តាយ/អាណាព្យាបាល)៖
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #fcebdd' }
+        %tr
+          %th{:colspan => "2"}
+            %i អ្នកកាន់ករណី
+      %tbody
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{:colspan => "2", style: 'line-height: 25px'}
+            %p{style: 'line-height: 1;'}
+              %span.no-border{style: 'width: 15%;display: inline-block;'} ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ
+              %span.no-border.dot-row.text-center{style: 'width: 45%;display: inline-block;'}
+                = @user.try(:name)
+              %span.no-border{style: 'width: 5%;display: inline-block;'} ភេទ
+              %span.no-border.dot-row.text-center{style: 'width: 15%;display: inline-block;'}
+                = khmer_gender @user.try(:gender)
+              %span.no-border{style: 'width: 5%;display: inline-block;'} អាយុ
+              %span.no-border.dot-row.text-center{style: 'width: 15%;display: inline-block;'}
+                = khmer_dob_to_age @user.try(:date_of_birth)
+                = 'ឆ្នាំ'
+            %p{style: 'line-height: 1;'}
+              %span.no-border{style: 'width: 40%;display: inline-block;'} ជាអ្នកកាន់ករណី បានឯកភាពទុកដាក់កុមារជាមួយ
+              %span.no-border.dot-row.text-center{style: 'width: 58%;display: inline-block;'}
+                = @government_form.new_carer
+              %span.no-border{style: 'width: 2%;display: inline-block;'} ។
+            %p{style: 'line-height: 2;'}
+              ខ្ញុំនឹងចុះសួរសុខទុក្ខ កុមាររូបនេះ និងគ្រួសារយ៉ាងទៀងទាត់ និងតាមការចាំបាច់។ ខ្ញុំនិងខិតខំឲ្យអស់ពីលទ្ធភាពដើម្បីជួយដោះស្រាយការលំបាកនានាដែលអាចកើតឡើង ចំពោះកុមារនិងផ្តល់ជំនួយគាំទ្រ នានាដែលចាំបាច់ដើម្បីឲ្យការទុកដាក់បានជោគជ័យនិងប្រកបដោយសុវត្ថិភាព។
+
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{:colspan => "2", style: 'line-height: 25px; padding: 2px 8px 1px 8px;'}
+            កាលបរិច្ឆេទ
+            - gov_date = @government_form.gov_placement_date.present? ? @government_form.gov_placement_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+        %tr{style: 'page-break-inside: avoid;'}
+          %td{style: 'width: 350px'}
+            .comment{style: 'min-height: 80px;'}
+              %p ឈ្មោះ និង ហត្ថលេខា/ស្នាមមេដៃ អ្នកកាន់ករណី៖
+            %p{ style: 'margin-bottom: 6px;' }
+              %span.no-border{style: 'width: 12%;display: inline-block;'} ឈ្មោះ
+              %span.no-border.dot-row.text-center{style: 'width: 88%;display: inline-block;'}
+                = @user.try(:name)
+            %p{ style: 'margin-bottom: 6px;' }
+              %span.no-border{style: 'width: 12%;display: inline-block;'} តួនាទី
+              %span.no-border.dot-row.text-center{style: 'width: 88%;display: inline-block;'}
+                = @user.try(:job_title)
+            %p{ style: 'margin-bottom: 6px;' }
+              %span.no-border{style: 'width: 31%;display: inline-block;'} ឈ្មោះអង្គការ/ស្ថាប័ន
+              %span.no-border.dot-row.text-center{style: 'width: 69%;display: inline-block;'}
+                = @setting.org_name
+
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p ហត្ថលេខា និងត្រា មេឃុំ/ចៅសង្កាត់៖
+            %p
+              %span.no-border{style: 'width: 12%;display: inline-block;'} ឈ្មោះ
+              %span.no-border.dot-row{style: 'width: 88%;display: inline-block;'}
