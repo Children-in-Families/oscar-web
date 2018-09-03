@@ -36,6 +36,11 @@ RSpec.describe Organization, type: :model do
       expect(orgs).to include('cif', 'new-smile')
       expect(orgs).not_to include('cwd', 'myan', 'rok', 'shared', 'my')
     end
+
+    it '.without_shared' do
+      orgs = Organization.without_shared.pluck(:short_name)
+      expect(orgs).not_to include('shared')
+    end
   end
 
   describe 'Validation' do

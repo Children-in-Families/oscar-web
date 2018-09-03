@@ -4,7 +4,7 @@ module FamilyAdvancedSearchesConcern
 
   def advanced_search
     basic_rules = JSON.parse @basic_filter_params
-    @families = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.all).filter
+    @families = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.accessible_by(current_ability)).filter
     custom_form_column
     respond_to do |f|
       f.html do

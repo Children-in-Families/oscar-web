@@ -13,6 +13,7 @@ class Family < ActiveRecord::Base
   belongs_to :district
   belongs_to :commune
   belongs_to :village
+  belongs_to :user
 
   has_many :cases, dependent: :restrict_with_error
   has_many :clients, through: :cases

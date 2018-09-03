@@ -119,6 +119,10 @@ class Client < ActiveRecord::Base
     query
   end
 
+  def family
+    Family.where('children && ARRAY[?]', id).last
+  end
+
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
     value[0..(number_of_char-1)]
@@ -371,7 +375,7 @@ class Client < ActiveRecord::Base
   end
 
   def disconnect_client_user_relation
-    self.user_ids = []
+    case_worker_clients.destroy_all
   end
 
   def assessment_duration(duration)

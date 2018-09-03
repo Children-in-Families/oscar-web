@@ -86,4 +86,19 @@ describe 'Abilities' do
       should be_able_to(:manage, LeaveProgram)
     end
   end
+
+  context 'case worker permissions' do
+    let!(:user){ create(:user, :case_worker) }
+    let!(:client){ create(:client, user_ids: [user.id] ) }
+    let!(:family){ create(:family, children: [client.id] ) }
+
+    it 'can create family' do
+      should be_able_to(:create, Family)
+    end
+
+    it 'can manage family of their clients' do
+      ability.model_adapter(Family, :manage).conditions.should ==  { id: [family.id] }
+    end
+
+  end
 end

@@ -42,10 +42,6 @@ class ReferralSourcesController < AdminController
 
   private
 
-  def restrict_edit_or_delete
-    redirect_to referral_sources_path if @referral_source.cannot_edit_or_delete?
-  end
-
   def referral_source_params
     params.require(:referral_source).permit(:name, :description)
   end

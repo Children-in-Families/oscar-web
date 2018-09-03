@@ -636,10 +636,12 @@ ActiveRecord::Schema.define(version: 20180830063914) do
     t.string   "street",                          default: ""
     t.integer  "commune_id"
     t.integer  "village_id"
+    t.integer  "user_id"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
+  add_index "families", ["user_id"], name: "index_families_on_user_id", using: :btree
   add_index "families", ["village_id"], name: "index_families_on_village_id", using: :btree
 
   create_table "family_members", force: :cascade do |t|
@@ -1636,6 +1638,7 @@ ActiveRecord::Schema.define(version: 20180830063914) do
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
+  add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
   add_foreign_key "government_form_children_plans", "children_plans"

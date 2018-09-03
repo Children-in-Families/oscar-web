@@ -22,6 +22,7 @@ end
 describe Family, 'associations' do
   it { is_expected.to belong_to(:province) }
   it { is_expected.to belong_to(:district) }
+  it { is_expected.to belong_to(:user) }
   it { is_expected.to have_many(:cases) }
   it { is_expected.to have_many(:family_members).dependent(:destroy) }
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
