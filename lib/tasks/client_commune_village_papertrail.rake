@@ -1,5 +1,5 @@
 namespace :client_commune_village_papertrail do
-  desc 'Update client state papertrail'
+  desc 'Update client commune villiage papertrail'
   task update: :environment do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
@@ -10,7 +10,7 @@ namespace :client_commune_village_papertrail do
         end
 
         if version.object_changes.present?
-          obj = version.object_changes.gsub(/^commune:/, 'old_commune:').gsub(/^village:/, 'old_village:')  
+          obj = version.object_changes.gsub(/^commune:/, 'old_commune:').gsub(/^village:/, 'old_village:')
           version.update(object_changes: obj)
         end
       end
