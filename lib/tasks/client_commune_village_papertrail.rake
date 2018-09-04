@@ -10,8 +10,7 @@ namespace :client_commune_village_papertrail do
         end
 
         if version.object_changes.present?
-          obj = version.object_changes.gsub(/^commune:/, 'old_commune:')
-          obj = version.object_changes.gsub(/^village:/, 'old_village:')
+          obj = version.object_changes.gsub(/^commune:/, 'old_commune:').gsub(/^village:/, 'old_village:')  
           version.update(object_changes: obj)
         end
       end
