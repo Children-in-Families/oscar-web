@@ -38,7 +38,7 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        @client_tasks      = @client.tasks.where(relation: 'case_note', completed: false)
+        @client_tasks      = @client.tasks.incomplete.by_case_note
         render  pdf:      @government_form.name,
                 template: 'government_forms/show.pdf.haml',
                 layout:   'pdf_design.html.haml',

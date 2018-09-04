@@ -100,7 +100,9 @@
                       %li= task.name
               %td{ style: 'border:1px solid black; text-align: center;' }
                 - case_note.case_note_domain_groups.each do |case_note_dg|
-                  %p.comment{ style: 'word-wrap: break-word;'}= case_note_dg.note
+                  %ul
+                    - if case_note_dg.note.present?
+                      %li.comment{ style: 'word-wrap: break-word;'}= case_note_dg.note
           - if @client.case_notes.size < 19
             - (1..(19 - @client.case_notes.size)).each do |_|
               %tr{ style: 'page-break-inside: avoid;' }
@@ -122,7 +124,7 @@
           .comment{ style: 'min-height: 550px;' }
             %ul
               - @client_tasks.each do |task|
-                %li "#{task.completion_date} - #{task.domain_name}"
+                %li "#{task.completion_date} - #{task.name}"
 
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
