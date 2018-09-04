@@ -4,6 +4,7 @@ describe 'Referral' do
   let!(:client_1) { create(:client, :accepted) }
   let!(:client_2) { create(:client, :accepted) }
   let!(:referral) { create(:referral, client: client, slug: client.slug) }
+  let!(:referral_1) { create(:referral, client: client_1, saved: true, slug: client_1.slug) }
 
   before do
     login_as(user)
@@ -92,6 +93,11 @@ describe 'Referral' do
       find('#referral_consent_form', visible: false).set('spec/supports/file.docx')
       click_button 'Save'
       expect(page).to have_content('012345678')
+    end
+
+    scenario 'cannot edit referral', js: true do
+      visit edit_client_referral_path(client_1, referral_1)
+      expect(page).to have_content('You are not authorized to access this page.')
     end
   end
 
