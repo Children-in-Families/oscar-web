@@ -190,7 +190,6 @@ Rails.application.routes.draw do
 
     resources :clients do
       get :compare, on: :collection
-      get :check_task, on: :collection
     end
     resources :custom_fields do
       collection do

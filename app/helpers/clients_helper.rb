@@ -780,4 +780,15 @@ module ClientsHelper
   def return_default_filter(object, rule, results)
     rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
+
+  def case_workers_option(client_id)
+    @users.map do |user|
+      tasks = user.tasks.incomplete.where(client_id: client_id)
+      if tasks.any?
+        [user.name, user.id, { locked: 'locked'} ]
+      else
+        [user.name, user.id]
+      end
+    end
+  end
 end
