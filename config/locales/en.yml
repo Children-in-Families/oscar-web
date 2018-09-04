@@ -1055,7 +1055,7 @@ en:
       referred_from: Referred from External Organisation
       referred_to: Referred to External Organisation
     check_incompleted_task:
-      body: 'Unable to remove this case worker because he/she has task to complete.'
+      body: 'Unable to remove this case worker because he/she has some remaining tasks to complete.'
       close: Close
       title: Warning
     client_advanced_searches:
