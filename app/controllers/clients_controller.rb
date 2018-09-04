@@ -15,7 +15,6 @@ class ClientsController < AdminController
   before_action :assign_client_attributes, only: [:show, :edit]
   before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
-  before_action :find_resources, only: :show
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
@@ -104,13 +103,9 @@ class ClientsController < AdminController
     else
       @client = Client.new
     end
-    @client.populate_needs
-    @client.populate_problems
   end
 
   def edit
-    @client.populate_needs unless @client.needs.any?
-    @client.populate_problems unless @client.problems.any?
     attributes = @client.attributes
     if params[:referral_id].present?
       find_referral_by_params
@@ -196,15 +191,15 @@ class ClientsController < AdminController
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :school_grade, :school_name, :current_address,
-            :house_number, :street_number, :village, :commune, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
+            :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id,
-            :state_id, :township_id, :rejected_note, :able, :live_with,
+            :state_id, :township_id, :rejected_note, :live_with,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment,
+            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -248,6 +243,8 @@ class ClientsController < AdminController
     @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
     @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
     @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
+    @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
+    @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
   end
 
   def initial_visit_client
@@ -257,11 +254,6 @@ class ClientsController < AdminController
     controller_name = referrer[:controller]
 
     VisitClient.initial_visit_client(current_user) if white_list_referrers.include?(controller_name)
-  end
-
-  def find_resources
-    @interviewee_names = @client.interviewees.pluck(:name)
-    @client_type_names = @client.client_types.pluck(:name)
   end
 
   def quantitative_type_editable

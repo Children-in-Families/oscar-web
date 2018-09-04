@@ -183,9 +183,8 @@ module ApplicationHelper
     end
   end
 
-  def government_reports_visible?
-    # current_organization.cwd? || current_organization.cif?
-    false
+  def government_forms_visible?
+    selected_country == 'cambodia'
   end
 
   def program_stream_readable?(value)
@@ -260,5 +259,20 @@ module ApplicationHelper
     user_id = PaperTrail::Version.find_by(event: 'create', item_type: type, item_id: id).try(:whodunnit)
     return 'OSCaR Team' if user_id.blank? || (user_id.present? && user_id.include?('@rotati'))
     User.find_by(id: user_id).try(:name) || ''
+  end
+
+  def khmer_dob_to_age(date)
+    return unless date.present?
+    ((Date.today - date) / 365).to_i
+  end
+
+  def khmer_gender(gender)
+    return unless gender.present?
+    case gender
+    when 'male' then 'ប្រុស'
+    when 'female' then 'ស្រី'
+    else
+      'Unknown'
+    end
   end
 end

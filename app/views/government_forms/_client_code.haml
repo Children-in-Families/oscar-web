@@ -1,0 +1,30 @@
+.row
+  .col-xs-2
+    ថ្ងៃ/ខែ/ឆ្នាំ:
+  .col-xs-4
+    %p
+      - gov_date = @government_form.date.present? ? @government_form.date.strftime('%d%m%y') : '000000'
+      - gov_date.split('').each_with_index do |code, index|
+        - if index == 0
+          %span.first= code
+        - else
+          %span= code
+  .col-xs-2
+    លេខកូដភូមិ:
+  .col-xs-4
+    - village_code = @government_form.village.present? ? @government_form.village_code : '00000000'
+    - village_code.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code
+.row
+  .col-xs-2
+    លេខកូដកុមារ:
+  .col-xs-10
+    - client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
+    - @government_form.client_code.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code

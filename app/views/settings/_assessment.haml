@@ -11,6 +11,8 @@
       /   %label.control-label= t('.min_assessment')
       .col-xs-12.col-sm-4
         %label.control-label= t('.max_assessment')
+      .col-xs-12.col-sm-push-4.col-sm-4
+        %label.control-label= t('.eligible')
     .row
       / .col-xs-12.col-sm-4
       /   .form-group
@@ -21,4 +23,6 @@
       .col-xs-12.col-sm-4
         .form-group
           = f.input :assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
-
+      .col-xs-12.col-sm-4
+        .form-group
+          = f.input :age, placeholder: t('.age'), label: false

@@ -22,6 +22,7 @@ describe User, 'associations' do
   it { is_expected.to have_many(:quantitative_types).through(:quantitative_type_permissions) }
   it { is_expected.to have_many(:enter_ngo_users).dependent(:destroy) }
   it { is_expected.to have_many(:enter_ngos).through(:enter_ngo_users) }
+  it { is_expected.to have_many(:families).dependent(:nullify) }
 end
 
 describe User, 'validations' do

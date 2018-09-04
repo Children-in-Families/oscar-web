@@ -1470,6 +1470,7 @@ my:
       government_form_six: အမႈပိတ္သိမ္းသည့္ပံုစံ
       government_form_three: မိသားစု ၀န္ေဆာင္မႈ အစီအစဥ္ပံုစံ
       government_form_two: မိသားစု ထိန္းသိမ္းေရး ပံုစံအတြက္ အကဲျဖတ္မႈမ်ား
+      government_forms: အစိုးရ အစီရင္ခံစာမ်ား
       government_report: အစိုးရ အစီရင္ခံစာမ်ား
       has_been_in_government_care: အစိုးရ၏ ေစာင့္ေရွာက္မႈ ခံယူဖူး
       has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူး
@@ -2644,7 +2645,7 @@ my:
     family_member_fields:
       adult_name: အတူတူအိမျ၌နထေိုငျသူမြားလူကြီးများ
       date_of_birth: မွေးရက်
-      guardian: 'ဂေါကလူကြီး'
+      guardian: ဂေါကလူကြီး
       occupation: အလုပ်အကိုင်
       relation: ကလေးတွေနဲ့အတူဆက်သွယ်ပါ
       remove_member: ဖယ်ထုတ်ထား
@@ -2705,6 +2706,7 @@ my:
       female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
       general_info: မိသားစုအေၾကာင္း
+      guardian: ဂေါကလူကြီး
       house: အိမ္နံပါတ္
       household_income: အိမ္ေထာင္စု၀င္ေငြ
       id: မွတ္ပံုတင္
@@ -2817,6 +2819,23 @@ my:
         edit: ျပင္ဆင္ရန္
       update:
         successfully_updated: အေကာက္ခြန္ပံုစံကုိ ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  government_forms:
+    create:
+      successfully_created: ပုံသဏ္ဌာန်ကိုအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ
+    destroy:
+      successfully_deleted: ပုံသဏ္ဌာန်အောင်မြင်စွာဖျက်ထားသည်
+    edit:
+      edit_report: ပြင်ဆင်ရန်ပုံစံ
+    index:
+      action: အရေးယူ
+      add_form: အသစ်သောပုံစံထည့်သွင်း
+      back: ပြန်.
+      created_at: ရက်စွဲကိုဖန်တီး
+      created_by: တို့ကဖန်တီး
+    new:
+      new_form: အသစ်သောပုံစံ
+    update:
+      successfully_updated: ပုံသဏ္ဌာန်အောင်မြင်စွာအပ်ဒိတ်လုပ်ထားပြီး
   government_reports:
     create:
       successfully_created: အစိုးရအစီရင္ခံစာကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
@@ -4018,8 +4037,10 @@ my:
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
     assessment:
+      age: အသက္
       assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
+      eligible: အောက်မှာ အမႈသည္ ကိုများအတွက်အရည်အချင်းပြည့်မီ
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
     case_note:
