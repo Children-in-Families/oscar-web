@@ -56,7 +56,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def client_builder_fields
-    @builder_fields = get_client_basic_fields + get_custom_form_fields + program_stream_fields
+    @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
     @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
@@ -76,8 +76,17 @@ module ClientAdvancedSearchesConcern
     custom_form_value? ? eval(@advanced_search_params[:custom_form_selected]) : []
   end
 
+  def custom_form_fields
+    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+  end
+
   def get_custom_form_fields
-    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    AdvancedSearches::CustomFields.new(custom_form_values).render
+  end
+
+  def get_has_this_form_fields
+    []
+    # @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
   end
 
   def get_quantitative_fields
