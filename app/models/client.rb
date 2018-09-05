@@ -318,6 +318,7 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+      next if Setting.first.disable_assessment
       clients = joins(:assessments).active_accepted_status
       clients.each do |client|
         next if client.uneligible_age?
