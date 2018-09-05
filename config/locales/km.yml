@@ -738,10 +738,8 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
-        accept: ទទួលយក
         accept_ngo_form: ទទួលចូលអង្គការ
         accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
-        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       form:
         accept: ទទួលយក
         accept_ngo_form: ទទួលចូលអង្គការ
@@ -755,16 +753,12 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
-        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-        exit_btn: ចាកចេញ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ
-        exit_status: ស្ថានភាព
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
-        reject_client: មិនទទួលយកអតិថិជន
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -962,14 +956,6 @@ km:
       successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
     edit:
       enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
-    edit_form:
-      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-      cancel: ទុកជាមោឃៈ
-      client_enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
-      enrollment_date: ថ្ងៃចុះឈ្មោះ
-      max_file_size: '"*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."'
-      not_an_email: មិនមែនជាឣុីម៉ែល
-      save: រក្សាទុក
     form:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
@@ -3295,13 +3281,6 @@ km:
       delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     edit:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
-    edit_form:
-      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-      cancel: ទុកជាមោឃៈ
-      exit_date: ថ្ងៃចាកចេញ
-      leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
-      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
-      save: រក្សាទុក
     form:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
@@ -3314,7 +3293,7 @@ km:
       back: ត្រលប់ក្រោយ
       exit_date: ថ្ងៃចាកចេញ
     update:
-      successfully_updated: កម្មវិធីចាកចេញត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_updated: កម្មវិធីចាកចេញ ត្រូវបានកែសម្រួលដោយជោគជ័យ
   locations:
     create:
       failed_create: កន្លែងមិនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -3918,20 +3897,6 @@ km:
       successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
     edit:
       edit_referral: កែសម្រួលទម្រង់បញ្ជូន
-    edit_form:
-      client_id: លេខសំគាល់អតិថិជន
-      client_name: ឈ្មោះអតិថិជន
-      consent_form: ទម្រង់យល់ព្រម
-      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
-      edit_referral: កែសម្រួលទម្រង់បញ្ជូន
-      external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅបច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
-      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
-      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      referral_reason: មូលហេតុនៃការបញ្ជូន
-      referred_from: ប្រភពនៃការបញ្ជូន
-      referred_to: បញ្ជូនទៅកាន់
-      save: រក្សាទុក
-      save_and_download: រក្សាទុក & ទាញយក
     form:
       client_id: លេខសំគាល់អតិថិជន
       client_name: ឈ្មោះអតិថិជន
