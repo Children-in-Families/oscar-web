@@ -259,40 +259,59 @@ class Client < ActiveRecord::Base
   end
 
   def time_in_care
-    if cases.any?
-      if cases.active.any?
-        (active_day_care / 365).round(1)
+    return unless client_enrollments.any?
+    date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
+    first_multi_enrolled_program_date = ''
+    last_multi_leave_program_date = ''
+    ordered_enrollments = client_enrollments.order(:enrollment_date)
+    ordered_enrollments.each_with_index do |enrollment, index|
+      current_enrollment_date = enrollment.enrollment_date
+      current_program_exit_date = enrollment.leave_program.try(:exit_date) || Date.today
+
+      next_program_enrollment = ordered_enrollments[index + 1].nil? ? ordered_enrollments[index - 1] : ordered_enrollments[index + 1]
+      next_program_enrollment_date = next_program_enrollment.enrollment_date
+      next_program_exit_date = next_program_enrollment.leave_program.try(:exit_date) || Date.today
+
+      if current_program_exit_date <= next_program_enrollment_date
+        if first_multi_enrolled_program_date.present? && last_multi_leave_program_date.present?
+          date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
+
+          first_multi_enrolled_program_date = ''
+          last_multi_leave_program_date = ''
+        end
+        date_time_in_care = calculate_time_in_care(date_time_in_care, current_enrollment_date, current_program_exit_date)
       else
-        (inactive_day_care / 365).round(1)
+        first_multi_enrolled_program_date = current_enrollment_date if first_multi_enrolled_program_date == ''
+        last_multi_leave_program_date = current_program_exit_date > next_program_exit_date ? current_program_exit_date : next_program_exit_date
+
+        if index == ordered_enrollments.length - 1
+          date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
+        end
       end
-    else
-      nil
     end
+    date_time_in_care.store(:years, 0) unless date_time_in_care[:years].present?
+    date_time_in_care.store(:months, 0) unless date_time_in_care[:months].present?
+    date_time_in_care.store(:weeks, 0) unless date_time_in_care[:weeks].present?
+    date_time_in_care.store(:days, 0) unless date_time_in_care[:days].present?
+
+    if date_time_in_care[:days] > 0
+      date_time_in_care[:weeks] = date_time_in_care[:weeks] + 1
+      date_time_in_care[:days] = 0
+    end
+    if date_time_in_care[:weeks] >= 4
+      date_time_in_care[:weeks] = date_time_in_care[:weeks] - 4
+      date_time_in_care[:months] = date_time_in_care[:months] + 1
+    end
+    if date_time_in_care[:months] >= 12
+      date_time_in_care[:months] = date_time_in_care[:months] - 12
+      date_time_in_care[:years] = date_time_in_care[:years] + 1
+    end
+    date_time_in_care
   end
 
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
-  end
-
-  def active_day_care
-    active_cases      = cases.active.order(:created_at)
-    first_active_case = active_cases.first
-
-    start_date        = first_active_case.start_date.to_date
-    current_date      = Date.today.to_date
-    (current_date - start_date).to_f
-  end
-
-  def inactive_day_care
-    inactive_cases     = cases.inactive.order(:updated_at)
-    last_inactive_case = inactive_cases.last
-    end_date           = last_inactive_case.exit_date.to_date
-
-    first_case         = cases.inactive.order(:created_at).first
-    start_date         = first_case.start_date.to_date
-
-    (end_date - start_date).to_f
   end
 
   # def self.ec_reminder_in(day)
@@ -420,5 +439,13 @@ class Client < ActiveRecord::Base
     return if country_origin.present?
     country = Setting.first.try(:country_name)
     self.country_origin = country
+  end
+
+  def calculate_time_in_care(date_time_in_care, from_time, to_time)
+    to_time = to_time + date_time_in_care[:years].years unless date_time_in_care[:years].nil?
+    to_time = to_time + date_time_in_care[:months].months unless date_time_in_care[:months].nil?
+    to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?
+    to_time = to_time + date_time_in_care[:days].days unless date_time_in_care[:days].nil?
+    ActionController::Base.helpers.distance_of_time_in_words_hash(from_time, to_time, :except => [:seconds, :minutes, :hours])
   end
 end

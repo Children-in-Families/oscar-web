@@ -83,7 +83,8 @@ class ClientColumnsVisibility
       created_at_: :created_at,
       created_by_: :created_by,
       referred_to_: :referred_to,
-      referred_from_: :referred_from
+      referred_from_: :referred_from,
+      time_in_care_: :time_in_care
     }
   end
 
