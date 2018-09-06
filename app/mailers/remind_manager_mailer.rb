@@ -36,7 +36,7 @@ class RemindManagerMailer < ApplicationMailer
           end
         end
       end
-      overdue_assessments = [] unless @csi_setting
+      overdue_assessments = @csi_setting ? overdue_assessments : []
       case_workers << user if overdue_forms.present? || overdue_tasks.present? || overdue_assessments.present?
     end
     case_workers
