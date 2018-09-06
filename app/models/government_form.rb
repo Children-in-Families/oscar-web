@@ -40,6 +40,8 @@ class GovernmentForm < ActiveRecord::Base
   has_many :service_types, through: :government_form_service_types
   has_many :client_right_government_forms, dependent: :destroy
   has_many :client_rights, through: :client_right_government_forms
+  has_many :government_form_case_closures, dependent: :destroy
+  has_many :case_closures, through: :government_form_case_closures
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
@@ -88,6 +90,12 @@ class GovernmentForm < ActiveRecord::Base
     FamilyPlan.all.each do |status|
       next if status_names.include?(status.name)
       government_form_family_plans.build(family_status: status)
+    end
+  end
+
+  def populate_case_closures
+    CaseClosure.all.each do |case_closure|
+      government_form_case_closures.build(case_closure: case_closure)
     end
   end
 

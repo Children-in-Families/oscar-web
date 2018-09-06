@@ -98,6 +98,9 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     $('#mock_government_form_service_type').change ->
       $('#government_form_other_service_type').val($(this).val())
 
+    $('#mock_government_form_case_closure').change ->
+      $('#government_form_other_case_closure').val($(this).val())
+
   _enableOtherOption = ->
     otherIntervieweeOption = $('.government_form_interviewees').children('span').last()
     otherIntervieweeVal    = $('#government_form_other_interviewee').val()
@@ -105,10 +108,13 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     otherClientTypeVal     = $('#government_form_other_client_type').val()
     otherServiceTypeOption = $('.government_form_service_types').children('span').last()
     otherServiceTypeVal    = $('#government_form_other_service_type').val()
+    otherCaseClosureOption = $('.government_form_case_closures').children('span').last()
+    otherCaseClosureVal    = $('#government_form_other_case_closure').val()
 
     $(otherIntervieweeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ (សូមបញ្ជាក់)' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherIntervieweeVal}' id='mock_government_form_interviewee'>")
     $(otherClientTypeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherClientTypeVal}' id='mock_government_form_client_type'>")
     $(otherServiceTypeOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherServiceTypeVal}' id='mock_government_form_service_type'>")
+    $(otherCaseClosureOption).append("<input readonly='readonly' placeholder='ផ្សេងៗ' style='margin-top:10px;' class='string optional form-control' type='text' value='#{otherCaseClosureVal}' id='mock_government_form_case_closure'>")
 
     if otherIntervieweeVal != ''
       _removeReadOnlyAttr('#mock_government_form_interviewee')
@@ -118,6 +124,9 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
 
     if otherServiceTypeVal != ''
       _removeReadOnlyAttr('#mock_government_form_service_type')
+
+    if otherCaseClosureVal != ''
+      _removeReadOnlyAttr('#mock_government_form_case_closure')
 
     _changeMockOption()
 
@@ -133,6 +142,10 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
       _removeReadOnlyAttr('#mock_government_form_service_type')
       _changeMockOption()
 
+    otherCaseClosureOption.on 'ifChecked', ->
+      _removeReadOnlyAttr('#mock_government_form_case_closure')
+      _changeMockOption()
+
     otherIntervieweeOption.on 'ifUnchecked', ->
       _addReadOnlyAttr('#mock_government_form_interviewee')
       $('#government_form_other_interviewee').val('')
@@ -144,6 +157,10 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     otherServiceTypeOption.on 'ifUnchecked', ->
       _addReadOnlyAttr('#mock_government_form_service_type')
       $('#government_form_other_service_type').val('')
+
+    otherCaseClosureOption.on 'ifUnchecked', ->
+      _addReadOnlyAttr('#mock_government_form_case_closure')
+      $('#government_form_other_case_closure').val('')
 
   _select2 = ->
     $('select').select2

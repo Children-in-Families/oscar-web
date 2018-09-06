@@ -2,11 +2,11 @@ body[id=government_forms-new],
 body[id=government_forms-create],
 body[id=government_forms-edit],
 body[id=government_forms-update] {
-  .government_form_interviewees .checkbox, .government_form_client_types .checkbox {
+  .government_form_interviewees .checkbox, .government_form_client_types .checkbox, .government_form_case_closures .checkbox {
     margin-top: 10px;
   }
 
-  .government_form_interviewees, .government_form_client_types, .government_form_service_types, .government_form_client_rights {
+  .government_form_interviewees, .government_form_client_types, .government_form_service_types, .government_form_client_rights, .government_form_case_closures {
     .checkbox {
       padding-left: 0;
       label {

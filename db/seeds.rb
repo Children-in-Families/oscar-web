@@ -35,6 +35,7 @@ children_plans   = ['សុខភាព​​ផ្លូវកាយ', 'សុ�
 family_plans     = ['ការការពារ និងការថែទាំ', 'ភាពស្និតស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'សុខភាពផ្លូវចិត្ត', 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'កម្រិតសិក្សាអប់រំ', 'ចំណេះដឹងទូទៅក្នុងសង្គម', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន', 'ផ្សេងៗ']
 service_types    = ['ម្ហូបអាហារ', 'ជំរក', 'សំលៀកបំពាក់', 'ការសិក្សាអប់រំ', 'ការគាំទ្រផ្លូវចិត្ត', 'ការថែទាំវេជ្ជសាស្ត្រ', 'ផ្សេងៗ']
 client_rights    = ['សិទ្ធិរបស់អតិថិជនទូទៅ', 'សិទ្ធិអតិថិជន ក្នុងការទទួល ឬមិនទទួលយកសេវា', 'រក្សាការសម្ងាត់']
+case_closures    = ['បិទ (ប្រសិនបើពិន្ទុសរុប ចាប់ពី៤៨ឡើង)', 'បន្តករណី', 'បិទដោយសារកុមារស្លាប់', 'អវត្តមានកុមារ និងគ្រួសារ', 'ករណីបិទដោយកុមារផ្លាស់ទៅកន្លែងផ្សេង ឬរកកុមារមិនឃើញ', 'ផ្សេងៗ']
 
 interviewees.each do |interviewee|
   Interviewee.find_or_create_by(name: interviewee)
@@ -70,6 +71,10 @@ end
 
 client_rights.each do |right|
   ClientRight.find_or_create_by(name: right)
+end
+
+case_closures.each do |case_closure|
+  CaseClosure.find_or_create_by(name: case_closure)
 end
 
 setting = Setting.first_or_create(country_name: 'cambodia', assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
