@@ -731,16 +731,18 @@ class ClientGrid
   #   object.assessments.most_recents.map{ |a| a.created_at.to_date }.join(' | ') if object.assessments.any?
   # end
 
-  column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
-    render partial: 'clients/all_csi_assessments', locals: { object: object }
-  end
-
   dynamic do
-    Domain.order_by_identity.each do |domain|
-      identity = domain.identity
-      column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-        assessment = client.assessments.latest_record
-        assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+    if enable_assessment_setting?
+      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
+        render partial: 'clients/all_csi_assessments', locals: { object: object }
+      end
+
+      Domain.order_by_identity.each do |domain|
+        identity = domain.identity
+        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+          assessment = client.assessments.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        end
       end
     end
   end

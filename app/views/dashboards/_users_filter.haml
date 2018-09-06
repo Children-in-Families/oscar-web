@@ -16,10 +16,11 @@
     .form-group.btn.btn-default.btn-sm
       = check_box_tag 'forms', 'true', checkbox_forms, class: 'i-checks'
       %label= t('.forms')
-  .col-xs-12.col-md-3
-    .form-group.btn.btn-default.btn-sm
-      = check_box_tag 'assessments', 'true', checkbox_assessments, class: 'i-checks'
-      %label= t('.assessments')
+  - if enable_assessment_setting?
+    .col-xs-12.col-md-3
+      .form-group.btn.btn-default.btn-sm
+        = check_box_tag 'assessments', 'true', checkbox_assessments, class: 'i-checks'
+        %label= t('.assessments')
 
   .col-xs-12.col-md-1
     %button#user-filter-submit.btn.btn-primary{type: 'submit'}
