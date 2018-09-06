@@ -13,7 +13,9 @@ describe 'Family' do
   let!(:case_b){ create(:case, :foster, client: client_b, family: foster_family) }
 
   let!(:client){ create(:client, :accepted) }
-  let!(:family){ create(:family, :emergency, name: 'EC Family', province_id: province.id, district_id: district.id, commune: 'Beoung Kak 2', village: 'Wat Neak Kwan', children: [client.id]) }
+  let!(:village_1){ create(:village, name_en: 'Wat Neak Kwan') }
+  let!(:commune_1){ create(:commune, name_en: 'Beoung Kak 2') }
+  let!(:family){ create(:family, :emergency, name: 'EC Family', province_id: province.id, district_id: district.id, commune_id: commune_1.id, village_id: village_1.id, children: [client.id]) }
   let!(:other_family){ create(:family, name: 'Unknown', dependable_income: true) }
   let!(:case){ create(:case, family: other_family) }
   let!(:another_client){ create(:client, :accepted) }
@@ -64,7 +66,7 @@ describe 'Family' do
       fill_in 'Name', with: 'Family Name'
       find(".family_province select option[value='#{province.id}']", visible: false).select_option
       sleep 1
-      find(".family_district select option[value='#{district.id}']", visible: false).select_option
+      # find(".family_district select option[value='#{district.id}']", visible: false).select_option
       fill_in 'Caregiver Information', with: 'Caregiver info'
       find(".family_children select option[value='#{another_client.id}']", visible: false).select_option
       find(".family_family_type select option[value='Short Term / Emergency Foster Care']", visible: false).select_option
@@ -72,7 +74,8 @@ describe 'Family' do
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Family Name')
-      expect(page).to have_content("#{district.name}, #{province.name}")
+      # expect(page).to have_content("#{district.name}, #{province.name}")
+      expect(page).to have_content(province.name)
       expect(page).to have_content('Caregiver info')
       expect(page).to have_content('Family has been successfully created')
       expect(page).to have_content(another_client.given_name)
@@ -188,13 +191,6 @@ describe 'Family' do
       expect(page).not_to have_content(other_family)
     end
 
-    # scenario 'filter by family address' do
-    #   fill_in('family_grid_address',with: 'Phnom Penh')
-    #   click_button 'Search'
-    #   expect(page).to have_content(family.name)
-    #   expect(page).not_to have_content(other_family)
-    # end
-
     scenario 'filter by family province' do
       province_id = Province.find_by(name: 'Phnom Penh').id
       page.find("#family-search-form select#family_grid_province_id option[value='#{province_id}']", visible: false).select_option
@@ -214,7 +210,8 @@ describe 'Family' do
     end
 
     scenario 'filter by family commune' do
-      fill_in('family_grid_commune',with: 'Beoung Kak 2')
+      commune_id = Commune.find_by(name_en: 'Beoung Kak 2').id
+      page.find("#family-search-form select#family_grid_commune_id option[value='#{commune_id}']", visible: false).select_option
       sleep 1
       click_button 'Search'
       expect(page).to have_content(family.name)
@@ -222,7 +219,8 @@ describe 'Family' do
     end
 
     scenario 'filter by family village' do
-      fill_in('family_grid_village',with: 'Wat Neak Kwan')
+      village_id = Village.find_by(name_en: 'Wat Neak Kwan').id
+      page.find("#family-search-form select#family_grid_village_id option[value='#{village_id}']", visible: false).select_option
       sleep 1
       click_button 'Search'
       expect(page).to have_content(family.name)

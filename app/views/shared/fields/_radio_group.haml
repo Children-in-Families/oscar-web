@@ -2,6 +2,6 @@
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label'].html_safe
-  = f.input field_props['label'], as: :radio_buttons, collection: field_props['values'].map { |f| [format_placeholder(f['label']), f['label'], id: "custom_field_property_properties_#{field_props['label'].gsub('"', '&qoute;').html_safe}_#{f['label'].html_safe}"] }, checked: f.object[field_props['label']] || field_props['values'].first['label'], required: field_props['required'] || false, label: false, input_html: { title: field_props['description'], name: "#{f.object_name}[#{field_props['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('"', '%22')}]" }
+  = f.input field_props['label'], as: :radio_buttons, collection: field_props['values'].map { |f| [format_placeholder(f['label']), f['label'], id: "custom_field_property_properties_#{field_props['label'].gsub('"', '&qoute;').html_safe}_#{f['label'].html_safe}"] }, label: false, input_html: { title: field_props['description'], name: "#{f.object_name}[#{field_props['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('"', '%22')}]" }
   %span.help-block
     = field_message(field_props['label'], errors)

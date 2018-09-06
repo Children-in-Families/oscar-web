@@ -1,6 +1,6 @@
 describe 'Task' do
-  let!(:user){ create(:user, calendar_integration: true) }
-  let!(:client){ create(:client, users: [user]) }
+  let!(:user){ create(:user, :admin, calendar_integration: true) }
+  let!(:client){ create(:client, users: [user], code: rand(1000..2000).to_s) }
   let!(:domain){ create(:domain) }
   let!(:overdue_task){ create(:task, client: client, completion_date: Date.today - 6.month) }
   let!(:today_task){ create(:task, client: client, completion_date: Date.today) }

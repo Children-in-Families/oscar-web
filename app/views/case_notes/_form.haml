@@ -1,6 +1,7 @@
 .row
   .col-xs-12
     = simple_form_for([@case_note.client, @case_note], html: { id: 'case-note-form', data: { translate: t('cannot_be_blank') } }) do |f|
+      = hidden_field_tag :current_user, current_user.roles
       .ibox
         .ibox-title
           %h5= t('.meeting_detail')
@@ -37,11 +38,12 @@
                   .row
                     .col-xs-12
                       #interaction-type.text-danger
-          = f.simple_fields_for :case_note_domain_groups do |cd|
-            - if cd.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
-              = render 'form_with_assessment_domains', { cd: cd }
+          = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
+            - next if case_note_domain.object.domain_group.nil?
+            - if case_note_domain.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
+              = render 'form_with_assessment_domains', { cd: case_note_domain }
             - else
-              = render 'form_without_assessment_domains', { cd: cd }
+              = render 'form_without_assessment_domains', { cd: case_note_domain }
 
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn'

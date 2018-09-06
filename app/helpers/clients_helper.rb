@@ -79,6 +79,7 @@ module ClientsHelper
       referral_source_id:            t('datagrid.columns.clients.referral_source'),
       follow_up_date:                t('datagrid.columns.clients.follow_up_date'),
       agencies_name:                 t('datagrid.columns.clients.agencies_involved'),
+      donors_name:                   t('datagrid.columns.clients.donor'),
       province_id:                   t('datagrid.columns.clients.current_province'),
       current_address:               t('datagrid.columns.clients.current_address'),
       house_number:                  t('datagrid.columns.clients.house_number'),
@@ -100,7 +101,6 @@ module ClientsHelper
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
       date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
-      donor:                         t('datagrid.columns.clients.donor'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
       # id_poor:                       t('datagrid.columns.clients.id_poor'),
@@ -109,7 +109,11 @@ module ClientsHelper
       program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
       accepted_date:                 t('datagrid.columns.clients.ngo_accepted_date'),
       telephone_number:              t('datagrid.columns.clients.telephone_number'),
-      exit_date:                     t('datagrid.columns.clients.ngo_exit_date')
+      exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
+      created_at:                    t('datagrid.columns.clients.created_at'),
+      created_by:                    t('datagrid.columns.clients.created_by'),
+      referred_to:                    t('datagrid.columns.clients.referred_to'),
+      referred_from:                    t('datagrid.columns.clients.referred_from')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -142,12 +146,15 @@ module ClientsHelper
     current_address = []
     current_address << "#{I18n.t('datagrid.columns.clients.house_number')} #{client.house_number}" if client.house_number.present?
     current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
-    current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
-    current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
+
     if locale == :km
+      current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village.name_kh}" if client.village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune.name_kh}" if client.commune.present?
       current_address << client.district_name.split(' / ').first if client.district.present?
       current_address << client.province_name.split(' / ').first if client.province.present?
     else
+      current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village.name_en}" if client.village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune.name_en}" if client.commune.present?
       current_address << client.district_name.split(' / ').last if client.district.present?
       current_address << client.province_name.split(' / ').last if client.province.present?
     end
@@ -297,6 +304,7 @@ module ClientsHelper
       followed_up_by_id_: t('datagrid.columns.clients.follow_up_by'),
       follow_up_date_: t('datagrid.columns.clients.follow_up_date'),
       agencies_name_: t('datagrid.columns.clients.agencies_involved'),
+      donors_name_: t('datagrid.columns.clients.donor'),
       province_id_: t('datagrid.columns.clients.current_province'),
       current_address_: t('datagrid.columns.clients.current_address'),
       house_number_: t('datagrid.columns.clients.house_number'),
@@ -329,7 +337,6 @@ module ClientsHelper
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
       date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
       all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
-      donor_: t('datagrid.columns.clients.donor'),
       manage_: t('datagrid.columns.clients.manage'),
       changelog_: t('datagrid.columns.changelog'),
       telephone_number_: t('datagrid.columns.clients.telephone_number'),
@@ -342,8 +349,14 @@ module ClientsHelper
       street_line2_: t('datagrid.columns.clients.street_line2'),
       suburb_: t('datagrid.columns.clients.suburb'),
       directions_: t('datagrid.columns.clients.directions'),
-      description_house_landmark_: t('datagrid.columns.clients.description_house_landmark')
+      description_house_landmark_: t('datagrid.columns.clients.description_house_landmark'),
+      created_at_: t('datagrid.columns.clients.created_at'),
+      created_by_: t('datagrid.columns.clients.created_by'),
+      referred_to_: t('datagrid.columns.clients.referred_to'),
+      referred_from_: t('datagrid.columns.clients.referred_from'),
+      time_in_care_: t('datagrid.columns.clients.time_in_care')
     }
+
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
       field = domain.convert_identity

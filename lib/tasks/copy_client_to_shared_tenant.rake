@@ -10,7 +10,7 @@ namespace :client_to_shared do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
       case org.short_name
-      when 'cps'
+      when 'gca'
         thailand_province_names.concat(Province.pluck(:name))
         clients << fetch_client_attributes('birth_province_name')
       when 'kmo'

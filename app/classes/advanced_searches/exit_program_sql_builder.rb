@@ -33,23 +33,31 @@ module AdvancedSearches
           properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '#{@value}'")
         end
       when 'less'
-        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
+        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
       when 'less_or_equal'
-        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::int' if integer? } <= '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
+        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::numeric' if integer? } <= '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
       when 'greater'
-        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::int' if integer? } > '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
+        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::numeric' if integer? } > '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
       when 'greater_or_equal'
-        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::int' if integer? } >= '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
+        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::numeric' if integer? } >= '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
       when 'contains'
         properties_result = leave_programs.where("leave_programs.properties ->> '#{@field}' ILIKE '%#{@value}%' ")
       when 'not_contains'
         properties_result = leave_programs.where("leave_programs.properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
       when 'is_empty'
-        properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '' ")
+        if @type == 'checkbox'
+          properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? ''")
+        else
+          properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '' OR leave_programs.properties -> '#{@field}' IS NULL")
+        end
       when 'is_not_empty'
-        properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' ")
+        if @type == 'checkbox'
+          properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? ''")
+        else
+          properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' OR leave_programs.properties -> '#{@field}' IS NULL")
+        end
       when 'between'
-        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND leave_programs.properties ->> '#{@field}' != ''")
+        properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND leave_programs.properties ->> '#{@field}' != ''")
       end
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
       {id: sql_string, values: client_ids}
@@ -61,7 +69,7 @@ module AdvancedSearches
     end
 
     def format_value(value)
-      value.is_a?(Array) ? value : value.gsub("'", "''")
+      value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
     end
   end
 end

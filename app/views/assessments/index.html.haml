@@ -33,7 +33,7 @@
 
           .col-xs-12.col-sm-3
             - if can? :manage, Assessment
-              - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.age_over_18?
+              - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
                 = link_to new_client_assessment_path(@client) do
                   .btn.btn-primary.button
                     = t('.begin_now')

@@ -32,7 +32,7 @@ class ProgramStream < ActiveRecord::Base
   scope  :ordered_by,     ->(column) { order(column) }
   scope  :filter,         ->(value)  { where(id: value) }
   scope  :name_like,      ->(value)  { where(name: value) }
-  scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value}%") }
+  scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value.squish}%") }
 
   def name=(name)
     write_attribute(:name, name.try(:strip))

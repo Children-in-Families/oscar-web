@@ -1,0 +1,457 @@
+= render 'head_section'
+
+.panel.panel-default.panel-no-margin#first-form
+  %label.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៌មានបឋម
+  .panel-body.panel-border{style: 'border-top: 1px solid black;'}
+    = render 'client_code'
+
+.panel.panel-default.panel-no-margin
+  %label.panel-label{ style: 'background-color: #DEEDF2;' }
+    %u ទីកន្លែងសម្ភាសន៍ទទួលកុមារ:
+  .panel-body.panel-border
+    .row{ style: 'margin-bottom: 3px;' }
+      .col-xs-6
+        .row
+          .col-xs-4
+            ភូមិ:
+          .col-xs-8
+            %input{style: 'width: 100%', value: @government_form.interview_village.try(:name_kh) }
+      .col-xs-6
+        .row
+          .col-xs-4
+            ឃុំ/សង្កាត់:
+          .col-xs-8
+            %input{style: 'width: 100%', value: @government_form.interview_commune.try(:name_kh) }
+    .row
+      .col-xs-6
+        .row
+          .col-xs-4
+            ក្រុង/ស្រុក/ខណ្ឌ:
+          .col-xs-8
+            %input{style: 'width: 100%', value: @government_form.interview_district.try(:name_kh) }
+      .col-xs-6
+        .row
+          .col-xs-4
+            រាជធានី/ខេត្ត:
+          .col-xs-8
+            %input{style: 'width: 100%', value: @government_form.interview_province.try(:name_kh) }
+  %label.panel-label{ style: 'background-color: #DEEDF2;' }
+    %u អ្នកផ្ដល់បទសម្ភាសន៍:
+  .panel-body.panel-border
+    .row
+      .col-xs-4
+        = render @government_form.interviewees.pluck(:name).include?('កុមារ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារ
+      .col-xs-4
+        = render @government_form.interviewees.pluck(:name).include?('ឪពុកម្ដាយ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        ឪពុកម្ដាយ
+      .col-xs-4
+        = render @government_form.interviewees.pluck(:name).include?('អ្នកអាណាព្យាបាល') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        អ្នកអាណាព្យាបាល
+      .col-xs-4
+        = render @government_form.interviewees.pluck(:name).include?('អ្នកថែទាំ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        អ្នកថែទាំ
+      .col-xs-8
+        %div.other-label
+          = render @government_form.interviewees.pluck(:name).include?('ផ្សេងៗ (សូមបញ្ជាក់)') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+          ផ្សេងៗ (សូមបញ្ជាក់)
+        %div{ class: "other #{ 'empty' if @government_form.interviewees.pluck(:name).exclude?('ផ្សេងៗ (សូមបញ្ជាក់)')}" }= @government_form.other_interviewee
+
+  %div.panel-label{style: 'border-top: 0px;'}
+    ឈ្មោះអ្នកកាន់ករណី:
+    %input{style: 'width: 30%; margin-right: 25px; margin-left: 15px;', value: @government_form.case_worker_name }
+    លេខទូរស័ព្ទ:
+    %input{style: 'width: 30%; margin-left: 40px;', value: @government_form.case_worker_phone }
+
+.panel.panel-default.panel-no-margin
+  %label.panel-label{ style: 'background-color: #BEDCE7;' }
+    %u ព័ត៌មានបឋមអំពីកុមារ:
+  .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
+    ឈ្មោះកុមារ:
+    %input{style: 'width: 20%; margin-left; 15px;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+    ថ្ងៃខែឆ្នាំកំណើត:
+    - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+    - dob.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code
+    ភេទ:
+    = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+    ប្រុស
+    = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+    ស្រី
+
+    .panel.panel-default.panel-no-margin.panel-margin-top
+      %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋានកុមាររស់នៅ:
+      .panel-body.panel-label-dotted
+        .row{ style: 'margin-bottom: 3px;' }
+          .col-xs-6
+            .row
+              .col-xs-4
+                ភូមិ:
+              .col-xs-8
+                %input{ style: 'width: 100%', value: @client.village.try(:name_kh) }
+          .col-xs-6
+            .row
+              .col-xs-4
+                ឃុំ/សង្កាត់:
+              .col-xs-8
+                %input{ style: 'width: 100%', value: @client.commune.try(:name_kh) }
+        .row
+          .col-xs-6
+            .row
+              .col-xs-4
+                ក្រុង/ស្រុក/ខណ្ឌ:
+              .col-xs-8
+                %input{ style: 'width: 100%', value: @client.district.try(:name_kh) }
+          .col-xs-6
+            .row
+              .col-xs-4
+                រាជធានី/ខេត្ត:
+              .col-xs-8
+                %input{ style: 'width: 100%', value: @client.province.try(:name_kh) }
+      %label.panel-label{ style: 'background-color: #D9E2C2;' } អ្នកថែទាំកុមារ:
+      .panel-body.panel-label-dotted{style: 'padding-bottom: 2px;'}
+        ឈ្មោះ
+        %input{ style: 'width: 30%; margin-left: 15px; margin-right: 25px;', value: @client.live_with }
+        ទំនាក់ទំនងជាមួយកុមារ:
+        %input{ style: 'width: 30%; margin-left: 40px;', value: @government_form.primary_carer_relationship }
+
+        .panel.panel-default.panel-no-margin.panel-margin-top{ style: 'margin-top: 3px;' }
+          %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋាន:
+          .panel-body.panel-label-dotted
+            .row
+              .col-xs-7
+                .row{ style: 'margin-bottom: 3px;' }
+                  .col-xs-2
+                    ផ្ទះលេខ:
+                  .col-xs-2
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_house }
+                  .col-xs-2
+                    ផ្លូវលេខ:
+                  .col-xs-2
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_street }
+                  .col-xs-1
+                    ភូមិ:
+                  .col-xs-3
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_village.try(:name_kh) }
+                .row{ style: 'margin-bottom: 3px;' }
+                  .col-xs-4
+                    ក្រុង/ស្រុក/ខណ្ឌ:
+                  .col-xs-8
+                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_district.try(:name_kh) }
+              .col-xs-5
+                .row{ style: 'margin-bottom: 3px;' }
+                  .col-xs-4
+                    ឃុំ/សង្កាត់:
+                  .col-xs-8
+                    %input{ style: 'width:100%;', value: @government_form.primary_carer_commune.try(:name_kh) }
+                .row
+                  .col-xs-4
+                    ខេត្ត/រាជធានី:
+                  .col-xs-8
+                    %input{style: 'width:100%', value: @government_form.primary_carer_province.try(:name_kh) }
+            .row
+              .col-xs-2
+                លេខទូរស័ព្ទ:
+              .col-xs-10
+                %input{style: 'width:96.6%; float: right;', value: @client.telephone_number }
+  %div#panel-top-bottom-dotted
+    ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
+    - ird = @client.initial_referral_date.present? ? @client.initial_referral_date.strftime('%d%m%y') : '000000'
+    - ird.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code
+  #panel-top-bottom-dotted
+    .row
+      .col-xs-2
+        ប្រភពព័ត៌មាន:
+      .col-xs-10
+        %input{style: 'width:100%; float:left;', value: @government_form.source_info }
+%p{style: 'page-break-after:always;'}
+.panel.panel-default.panel-no-margin
+  %label.panel-label{ style: 'background-color: #F2F2F2;' }
+    ប្រភេទកុមារ:
+  .panel-body.border-label{style: 'border-bottom: 0px; padding: 0 0 5px 0;'}
+    .row
+      .col-xs-3.no-right-padding{ style: 'width: 30%;' }
+        = render @government_form.client_types.pluck(:name).include?('កុមារកំព្រា') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារកំព្រា
+        %br
+        = render @government_form.client_types.pluck(:name).include?('កុមារពិការ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារពិការ
+        %br
+        = render @government_form.client_types.pluck(:name).include?('កុមារត្រូវបានបោះបង់ចោល') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារត្រូវបានបោះបង់ចោល
+        %br
+        = render @government_form.client_types.pluck(:name).include?('កុមារអានាថាតាមចិញ្ចើមថ្នល់') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារអានាថាតាមចិញ្ចើមថ្នល់
+        %br
+        = render @government_form.client_types.pluck(:name).include?('កុមារញៀនសារធាតុញៀន') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារញៀនសារធាតុញៀន
+        %br
+      .col-xs-9{ style: 'width:70%;' }
+        = render @government_form.client_types.pluck(:name).include?('កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន
+        %br
+        = render @government_form.client_types.pluck(:name).include?('កុមារដែលទទួលផលប៉ះពាល់ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារដែលទទួលផលប៉ះពាល់ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏
+        %br
+        = render @government_form.client_types.pluck(:name).include?('កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត
+        %br
+        = render @government_form.client_types.pluck(:name).include?('កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់
+        %br
+        %div.other-label
+          = render @government_form.client_types.pluck(:name).include?('កុមារមានទំនាស់ជាមួយច្បាប់') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+          កុមារមានទំនាស់ជាមួយច្បាប់
+        %div.other-label
+          = render @government_form.client_types.pluck(:name).include?('ផ្សេងៗ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+          ផ្សេងៗ
+        %div{ class: "other #{ 'empty' if @government_form.client_types.pluck(:name).exclude?('ផ្សេងៗ')}" }= @government_form.other_client_type
+        %br
+.panel.panel-default.panel-no-margin
+  %label.panel-label{ style: 'background-color: #F2F2F2;' }
+    បញ្ចូនមកពី:
+  .panel-body.border-label.border-label{style: 'padding: 0 0 5px 0;'}
+    .row
+      .col-xs-3{style: 'min-height:136px; width: 30%;'}
+        = render @client.referral_source_name == 'ក្រសួង សអយ/មន្ទីរ សអយ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        ក្រសួង សអយ/មន្ទីរ សអយ
+        %br
+        = render @client.referral_source_name == 'អង្គការមិនមែនរដ្ឋាភិបាល' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        អង្គការមិនមែនរដ្ឋាភិបាល
+        %br
+        = render @client.referral_source_name == 'មន្ទីរពេទ្យ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        មន្ទីរពេទ្យ
+        %br
+        = render @client.referral_source_name == 'នគរបាល' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        នគរបាល
+        %br
+        = render @client.referral_source_name == 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        តុលាការ/ប្រព័ន្ធយុត្តិធម៌
+        %br
+      .col-xs-5{style: 'min-height:136px; width: 35%;'}
+        = render @client.referral_source_name == 'រកឃើញនៅតាមទីសាធារណៈ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        រកឃើញនៅតាមទីសាធារណៈ
+        %br
+        = render @client.referral_source_name == 'ស្ថាប័នរដ្ឋ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        ស្ថាប័នរដ្ឋ
+        %br
+        = render @client.referral_source_name == 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        មណ្ឌលថែទាំបណ្ដោះអាសន្ន
+        %br
+        = render @client.referral_source_name == 'ទូរស័ព្ទទាន់ហេតុការណ៍' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        ទូរស័ព្ទទាន់ហេតុការណ៍
+        %br
+        = render @client.referral_source_name == 'មកដោយខ្លួនឯង' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        មកដោយខ្លួនឯង
+        %br
+      .col-xs-4{style: 'min-height:136px; width: 35%;'}
+        = render @client.referral_source_name == 'គ្រួសារ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        គ្រួសារ
+        %br
+        = render @client.referral_source_name == 'មិត្តភក្ដិ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        មិត្តភក្ដិ
+        %br
+        = render @client.referral_source_name == 'អាជ្ញាធរដែនដី' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        អាជ្ញាធរដែនដី
+        %br
+        %div.other-label
+          = render ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+          ផ្សេងៗ
+        %div{ class: "other #{ 'empty' if @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.include?(@client.referral_source_name)}" }
+          = @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name)
+
+.panel.panel-default{style: 'margin:0;'}
+  %label.panel-label{ style: 'background-color: #FFFD54;' }
+    មូលហេតុនៃការបញ្ចូន​​ និង តម្រូវការ:
+  .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
+    .panel.panel-default{style: 'margin:0;'}
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
+        ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ចូនកុមារមករកសេវា:
+      .panel-body.border-label
+        .comment{style: 'min-height: 30px;'}
+          %p= @government_form.summary_info_of_referral
+    .panel.panel-default{style: 'margin:0;'}
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
+        យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ:
+      .panel-body.border-label
+        .comment{style: 'min-height: 30px;'}
+          %p= @government_form.guardian_comment
+  %label.panel-label{ style: 'background-color: #F2C59F;' }
+    យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ:
+  .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
+    .panel.panel-default{style: 'margin:0;'}
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
+        សូមបញ្ជាក់ពីប្រភេទតម្រូវការចាំបាច់ ( បង់លេខតាមអាទិភាព ):
+      .panel-body.border-label
+        .row
+          .col-xs-4{ style: 'margin-bottom: 3px;' }
+            .form-check
+              %input.text-center{ style: 'width: 30px;', value: need_rank('ម្ហូបអាហារ') }
+              ម្ហូបអាហារ
+          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+            .form-check
+              %input.text-center{ style: 'width: 30px;', value: need_rank('ការសិក្សាអប់រំ') }
+              ការសិក្សាអប់រំ
+          .col-xs-4.no-left-padding.no-right-padding{ style: 'margin-bottom: 3px;' }
+            .form-check
+              %input.text-center{ style: 'width: 30px;', value: need_rank('ការមើលថែពីមនុស្សពេញវ័យ') }
+              ការមើលថែពីមនុស្សពេញវ័យ
+          .col-xs-4{ style: 'margin-bottom: 3px;' }
+            .form-check
+              %input.text-center{ style: 'width: 30px;', value: need_rank('ការគាំទ្រផ្នែកផ្លូវចិត្ត') }
+              ការគាំទ្រផ្នែកផ្លូវចិត្ត
+          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+            .form-check
+              %input.text-center{ style: 'width: 30px;', value: need_rank('ជំរក') }
+              ជំរក
+          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+            .form-check
+              %input.text-center{ style: 'width: 30px;', value: need_rank('ការថែទាំផ្នែកវេជ្ជសាស្ត្រ') }
+              ការថែទាំផ្នែកវេជ្ជសាស្ត្រ
+          .col-xs-4
+            .form-check
+              %input.text-center{ style: 'width: 30px;', value: need_rank('សំលៀកបំពាក់') }
+              សំលៀកបំពាក់
+          .col-xs-8.no-left-padding
+            .form-check
+              %div.other-label
+                %input.text-center{ style: 'width: 30px;', value: need_rank('ផ្សេងៗ') }
+                ផ្សេងៗ
+              %div{ class: "other #{ 'empty' if @government_form.other_need.blank?}" }= @government_form.other_need
+
+    .panel.panel-default{style: 'margin:0;'}
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
+        សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ ( បង់លេខតាមអាទិភាព ):
+      .panel-body.border-label
+        .row
+          .col-xs-4
+            .row
+              .col-xs-12{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ប្រើប្រាស់គ្រឿងស្រវឹង') }
+                  ប្រើប្រាស់គ្រឿងស្រវឹង
+              .col-xs-12{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ប្រើប្រាស់គ្រឿងញៀន') }
+                  ប្រើប្រាស់គ្រឿងញៀន
+              .col-xs-12{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('លេងល្បែង') }
+                  លេងល្បែង
+              .col-xs-12{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('រស់នៅតាមទីសាធារណៈ') }
+                  រស់នៅតាមទីសាធារណៈ
+              .col-xs-12{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('មិនបានចូលរៀន') }
+                  មិនបានចូលរៀន
+              .col-xs-12
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ការរំលោភបំពានផ្លូវកាយ') }
+                  ការរំលោភបំពានផ្លូវកាយ
+          .col-xs-4
+            .row
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ការរំលោភបំពានផ្លូវភេទ') }
+                  ការរំលោភបំពានផ្លូវភេទ
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ការជួញដូរមនុស្ស') }
+                  ការជួញដូរមនុស្ស
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('អាពាហ៍ពិពាហ៍ដោយបង្ខំ') }
+                  អាពាហ៍ពិពាហ៍ដោយបង្ខំ
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ចំណាកស្រុក') }
+                  ចំណាកស្រុក
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('គ្រួសារធ្វើចំណាកស្រុក') }
+                  គ្រួសារធ្វើចំណាកស្រុក
+              .col-xs-12.no-left-padding
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ការរំលោភបំពានផ្នែកអារម្មណ៍') }
+                  ការរំលោភបំពានផ្នែកអារម្មណ៍
+          .col-xs-4
+            .row
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('អំពើហិង្សាក្នុងគ្រួសារ') }
+                  អំពើហិង្សាក្នុងគ្រួសារ
+              .col-xs-12.no-left-padding.no-right-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម') }
+                  ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %input.text-center{ style: 'width: 30px;', value: problem_rank('ពលកម្មកំរិតធ្ងន់ធ្ងរ') }
+                  ពលកម្មកំរិតធ្ងន់ធ្ងរ
+              .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
+                .form-check
+                  %div.other-label
+                    %input.text-center{ style: 'width: 30px;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') } ផ្សេងៗ (សូមបញ្ជាក់)
+              .col-xs-12.no-left-padding
+                %div{ style: 'margin-left:0;', class: "other #{ 'empty' if @government_form.other_problem.blank?}" }= @government_form.other_problem
+
+%p{style: 'page-break-after:always;'}
+.panel.panel-default{style: 'margin:0;'}
+  %label.panel-label{style: 'padding:8px; background-color: #2970BA; color: white; width:100%;'}
+    មតិយោបល់អ្នកកាន់ករណី:
+  .panel-body.border-label{style: 'padding: 0;'}
+    .row{style: 'margin: 0;'}
+      .col-xs-12{style: 'border-bottom: 1px solid black;'}
+        %br
+        .comment{style: 'min-height: 50px;'}
+          %p= @government_form.case_worker_comment
+    .row{style: 'margin: 0;'}
+      .col-xs-12
+        %br
+        %i *គ្រប់ករណីទាំងអស់ត្រូវបន្តទៅជំហាននៃការប៉ាន់ប្រមាណករណី និងគ្រួសារ
+        %br
+        %br
+        .row
+          .col-xs-7.text-left
+            .signature_date
+              .row
+                .col-xs-3
+                  ថ្ងៃទី/ខែ/ឆ្នាំ:
+                .col-xs-9.text-left
+                  %span.first
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+            %br
+            %p{style: 'margin-left: 30px;'} ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
+            %br
+            %br
+            %p{style: 'margin-left: 30px;'} _________________________
+          .col-xs-5.text-right
+            .signature_date
+              .row
+                .col-xs-4
+                  ថ្ងៃទី/ខែ/ឆ្នាំ:
+                .col-xs-8.text-left
+                  %span.first
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+            %br
+            %p{style: 'margin-right: 30px;'} ហត្ថលេខាអ្នកកាន់ករណី
+            %br
+            %br
+            %p{style: 'margin-right: 30px;'} ___________________

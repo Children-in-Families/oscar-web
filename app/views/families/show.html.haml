@@ -145,6 +145,7 @@
                   %th= t('.date_of_birth')
                   %th= t('.occupation')
                   %th= t('.relation')
+                  %th= t('.guardian')
                 %tbody
                 - @family.family_members.each do |member|
                   %tr
@@ -152,6 +153,7 @@
                     %td= date_format member.date_of_birth
                     %td= member.occupation
                     %td= member.relation
+                    %td= human_boolean(member.guardian)
 
 .row
   .col-xs-12.clients

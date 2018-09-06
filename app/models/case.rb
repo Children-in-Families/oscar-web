@@ -146,6 +146,6 @@ class Case < ActiveRecord::Base
   def add_family_children
     return if family.children.include?(client.id)
     family.children << client.id
-    family.save
+    family.save(validate: false)
   end
 end

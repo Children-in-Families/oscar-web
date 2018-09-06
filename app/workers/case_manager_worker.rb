@@ -4,9 +4,7 @@ class CaseManagerWorker
 
   def perform(manager_type, case_workers_ids, short_name)
     Organization.switch_to short_name
-    if manager_type == 'ABLE'
-      case_managers = User.able_managers
-    elsif manager_type == 'EC'
+    if manager_type == 'EC'
       case_managers = User.ec_managers
     elsif manager_type == 'FC'
       case_managers = User.fc_managers

@@ -44,7 +44,13 @@
                   %td.col-sm-4.client-id
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
-                    = version_value_format(v[0], k, v)
+                    - if k.in?(['has_been_in_government_care', 'has_been_in_orphanage'])
+                      = v[0].nil? ? '' : version_value_format(v[0], k, v)
+                    - else
+                      = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate.client-after
-                    = version_value_format(v[1], k, v)
+                    - if k.in?(['has_been_in_government_care', 'has_been_in_orphanage'])
+                      = v[1].nil? ? '' : version_value_format(v[1], k, v)
+                    - else
+                      = version_value_format(v[1], k, v)
       = render 'shared/version_type/agency_and_quantitative_case', client_id: version.item_id, event: version.event, version_created_at: version.created_at

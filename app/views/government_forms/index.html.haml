@@ -1,0 +1,31 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @client.name
+      .ibox-content
+        %p
+          = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
+          - if policy(@client).create?
+            = link_to t('.add_form'), new_client_government_form_path(@client, form: params[:form]), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
+        %table.table.table-bordered
+          %thead
+            %tr
+              %th= t('.created_by')
+              %th= t('.created_at')
+              %th.text-center= t('.action')
+          %tbody
+            - @government_forms.each do |form|
+              %tr
+                %td= whodunnit('GovernmentForm', form.id)
+                %td= date_format(form.created_at)
+                %td.action.text-center
+                  - if policy(form).show?
+                    = link_to client_government_form_path(@client, form, form: params[:form], format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do
+                      = fa_icon('eye')
+                  - if policy(form).edit?
+                    = link_to edit_client_government_form_path(@client, form, form: params[:form]), class: 'btn btn-outline btn-success btn-xs margin-left' do
+                      = fa_icon('pencil')
+                  - if policy(form).destroy?
+                    = link_to client_government_form_path(@client, form, form: params[:form]), method: :delete, data: { confirm: t('are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs margin-left' do
+                      = fa_icon('trash')
