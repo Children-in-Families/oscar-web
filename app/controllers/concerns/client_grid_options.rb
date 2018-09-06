@@ -202,7 +202,7 @@ module ClientGridOptions
     return unless @client_columns.visible_columns[:date_of_assessments_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:date_of_assessments, header: I18n.t('datagrid.columns.clients.date_of_assessments')) do |client|
-        client.assessments.latest_record.try(:created_at).strftime('%d %B, %Y') if client.assessments.any?
+        client.assessments.latest_record.try(:created_at).strftime('%d %B %Y') if client.assessments.any?
       end
     else
       @client_grid.column(:date_of_assessments, header: I18n.t('datagrid.columns.clients.date_of_assessments')) do |client|

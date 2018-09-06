@@ -89,7 +89,7 @@ describe 'Client' do
     scenario 'information' do
       expect(page).to have_content(client.given_name)
       expect(page).to have_content(client.gender.capitalize)
-      expect(page).to have_content(client.date_of_birth.strftime('%B %d, %Y'))
+      expect(page).to have_content(client.date_of_birth.strftime('%d %B %Y'))
     end
 
     scenario 'tasks link' do

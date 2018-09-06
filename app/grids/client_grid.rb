@@ -1,6 +1,5 @@
-class ClientGrid
+class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
-  include Datagrid
   include ClientsHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
@@ -523,16 +522,14 @@ class ClientGrid
     Organization.switch_to 'shared'
     date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
     Organization.switch_to current_org.short_name
-    date_of_birth
+    date_of_birth.strftime("%d %B %Y")
   end
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
-    object.created_at.strftime('%F')
-  end
+  date_column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') })
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
@@ -635,7 +632,7 @@ class ClientGrid
     object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
-  column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
+  date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 

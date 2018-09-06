@@ -108,7 +108,7 @@ describe 'Referral' do
 
     scenario 'Created by .. on ..' do
       user = referral.name_of_referee
-      date = referral.created_at.strftime("%B %d, %Y")
+      date = referral.created_at.strftime("%d %B %Y")
       expect(page).to have_content("Created by #{user} on #{date}")
     end
 

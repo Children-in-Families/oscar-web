@@ -1,6 +1,5 @@
 include ActionView::Helpers::SanitizeHelper
-class ProgressNoteGrid
-  include Datagrid
+class ProgressNoteGrid < BaseGrid
 
   attr_accessor :current_client
 
@@ -55,12 +54,10 @@ class ProgressNoteGrid
   end
 
   column(:date, html: true, header: -> { I18n.t('datagrid.columns.progress_notes.date') }) do |object|
-    link_to object.date.strftime('%d %b, %Y'), client_progress_note_path(object.client, object)
+    link_to object.date.strftime('%d %B %Y'), client_progress_note_path(object.client, object)
   end
 
-  column(:date, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.date') }) do |object|
-    object.date
-  end
+  date_column(:date, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.date') })
 
   column(:child, html: true, order: false, header: -> { I18n.t('datagrid.columns.progress_notes.child') }) do |object|
     entity_name(object.client)

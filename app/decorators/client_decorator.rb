@@ -6,7 +6,7 @@ class ClientDecorator < Draper::Decorator
   end
 
   def date_of_birth_format
-    model.date_of_birth.strftime('%B %d, %Y') if model.date_of_birth
+    model.date_of_birth.strftime('%d %B %Y') if model.date_of_birth
   end
 
   def age
@@ -31,7 +31,7 @@ class ClientDecorator < Draper::Decorator
   end
 
   def referral_date
-    model.initial_referral_date.strftime('%B %d, %Y') if model.initial_referral_date
+    model.initial_referral_date.strftime('%d %B %Y') if model.initial_referral_date
   end
 
   def referral_source

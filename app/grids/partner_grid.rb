@@ -1,4 +1,4 @@
-class PartnerGrid
+class PartnerGrid < BaseGrid
   include Datagrid
   include ClientsHelper
 
@@ -79,7 +79,7 @@ class PartnerGrid
     object.organization_type_name
   end
 
-  column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
+  date_column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
   column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
   column(:engagement, header: -> { I18n.t('datagrid.columns.partners.engagement') })
   column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })
