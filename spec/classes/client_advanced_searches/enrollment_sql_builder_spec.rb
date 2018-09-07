@@ -75,7 +75,7 @@ describe AdvancedSearches::EnrollmentSqlBuilder, 'Method' do
       client_filter = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rules).get_sql
 
       expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include
+      expect(client_filter[:values]).to eq([])
     end
 
     it 'return clients with operator (is_not_empty)' do

@@ -732,6 +732,16 @@ class ClientGrid < BaseGrid
     render partial: 'clients/all_csi_assessments', locals: { object: object }
   end
 
+  column(:time_in_care, header: -> { I18n.t('datagrid.columns.clients.time_in_care') }) do |object|
+    if object.time_in_care.present?
+      time_in_care = object.time_in_care
+      years = I18n.t('clients.show.time_in_care_around.year', count: time_in_care[:years]) if time_in_care[:years] > 0
+      months = I18n.t('clients.show.time_in_care_around.month', count: time_in_care[:months]) if time_in_care[:months] > 0
+      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_care[:weeks]) if time_in_care[:weeks] > 0
+      [years, months, weeks].join(' ')
+    end
+  end
+
   dynamic do
     Domain.order_by_identity.each do |domain|
       identity = domain.identity

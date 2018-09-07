@@ -48,13 +48,13 @@ module AdvancedSearches
         if @type == 'checkbox'
           properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? ''")
         else
-          properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '' OR leave_programs.properties -> '#{@field}' IS NULL")
+          properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '' OR (leave_programs.properties -> '#{@field}') IS NULL")
         end
       when 'is_not_empty'
         if @type == 'checkbox'
           properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? ''")
         else
-          properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' OR leave_programs.properties -> '#{@field}' IS NULL")
+          properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' OR (leave_programs.properties -> '#{@field}') IS NULL")
         end
       when 'between'
         properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND leave_programs.properties ->> '#{@field}' != ''")
