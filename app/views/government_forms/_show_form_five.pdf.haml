@@ -2,7 +2,7 @@
 
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-no-padding.panel-borderless
-    .text-center{ style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;' } ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ
+    .text-center{ style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px; font-family: Khmer OS Muol;' } ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ
 
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'border-bottom: 1px solid black; border-top: 1px solid black' }
@@ -94,7 +94,7 @@
             - task_size += tasks.size
             - tasks.each do |task|
               %tr
-                %td{ style: 'border:1px solid black; text-align: center; min-height: 35px;' }
+                %td{ style: 'border:1px solid black; min-height: 35px;' }
                   %p= task.first
                 %td{ style: 'border:1px solid black; min-height: 35px;' }
                   %p= task.second
