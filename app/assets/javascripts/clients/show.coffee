@@ -76,21 +76,24 @@ CIF.ClientsShow = do ->
     }
     _modalFormValidator(data)
 
+  _checkExitReasonsLength = (form) ->
+    if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length else 1
+
   _modalFormValidator = (data)->
     date = data['date']
     field = data['field']
     note = data['note']
     form = data['form']
     btn = data['btn']
-    exitReasonsLength = if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length  else 1
+    exitReasonsLength = _checkExitReasonsLength(form)
     _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
     $(date).add(field).add(note).bind 'keyup change', ->
-      exitReasonsLength = if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length  else 1
+      exitReasonsLength = _checkExitReasonsLength(form)
       _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
     $('#exitFromNgo .i-checks').on 'ifToggled', ->
-      exitReasonsLength = if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length  else 1
+      exitReasonsLength = _checkExitReasonsLength(form)
       _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
   _modalButtonAction = (form, date, field, note, btn, exitReasonsLength) ->
