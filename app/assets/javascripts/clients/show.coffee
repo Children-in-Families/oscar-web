@@ -82,17 +82,23 @@ CIF.ClientsShow = do ->
     note = data['note']
     form = data['form']
     btn = data['btn']
-    _modalButtonAction(form, date, field, note, btn)
+    exitReasonsLength = if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length  else 1
+    _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
     $(date).add(field).add(note).bind 'keyup change', ->
-      _modalButtonAction(form, date, field, note, btn)
+      exitReasonsLength = if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length  else 1
+      _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
-  _modalButtonAction = (form, date, field, note, btn) ->
+    $('#exitFromNgo .i-checks').on 'ifToggled', ->
+      exitReasonsLength = if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length  else 1
+      _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
+
+  _modalButtonAction = (form, date, field, note, btn, exitReasonsLength) ->
     date = $(date).val()
     field = $(field).val()
     note = $(note).val()
 
-    if (field == '' or field == null) or date == '' or note == ''
+    if (field == '' or field == null) or date == '' or note == '' or exitReasonsLength == 0
       $(form).find(btn).attr 'disabled', 'disabled'
     else
       $(form).find(btn).removeAttr 'disabled'
