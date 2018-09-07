@@ -120,6 +120,11 @@
 
           %li
             .visibility.col-sm-12
+              = check_box_tag 'time_in_care_', 'time_in_care', checked = default_setting('time_in_care_', @client_default_columns) || params[:time_in_care_].present?, class: 'i-checks'
+              = label_tag 'time_in_care_', t('datagrid.columns.time_in_care')
+
+          %li
+            .visibility.col-sm-12
               = check_box_tag 'rejected_note_', 'rejected_note', checked = default_setting('rejected_note_', @client_default_columns) || params[:rejected_note_].present?, class: 'i-checks'
               = label_tag 'rejected_note_', t('datagrid.columns.rejected_note')
           %li
