@@ -622,6 +622,7 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_date', with: Date.today
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Rejected Referral')
       fill_in 'exit_ngo_exit_note', with: 'Note'
+      first('.icheckbox_square-green', visible: false).trigger('click')
       find("input[type='submit'][value='Exit']").click
 
       expect(client.reload.exit_ngos.last.exit_circumstance).to eq('Rejected Referral')
@@ -635,6 +636,7 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_date', with: Date.today
       fill_in 'exit_ngo_exit_note', with: 'Note'
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Exited Client')
+      first('.icheckbox_square-green', visible: false).trigger('click')
       find("input[type='submit'][value='Exit']").click
 
       expect(accepted_client.reload.exit_ngos.last.exit_circumstance).to eq('Exited Client')
