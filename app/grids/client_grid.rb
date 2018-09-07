@@ -765,10 +765,18 @@ class ClientGrid
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if data == 'recent'
-            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-            properties = properties[format_field_value] if properties.present?
+            if fields.last == 'Has This Form'
+
+            else
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = properties[format_field_value] if properties.present?
+            end
           else
-            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+            if fields.last == 'Has This Form'
+              properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
+            else
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+            end
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'

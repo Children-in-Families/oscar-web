@@ -40,7 +40,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_column
-    @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }
+    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
   end
 
   def program_stream_column
@@ -85,8 +85,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_has_this_form_fields
-    []
-    # @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
+    @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
   end
 
   def get_quantitative_fields

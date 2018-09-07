@@ -64,7 +64,7 @@ class ClientColumnsVisibility
       reason_for_family_separation_: :reason_for_family_separation,
       rejected_note_: :rejected_note,
       family_: :family,
-      form_title_: :form_title,
+      has_this_form_: :has_this_form,
       code_: :code,
       age_: :age,
       slug_: :slug,
