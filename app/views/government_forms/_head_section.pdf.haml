@@ -1,0 +1,40 @@
+:css
+  body { color: #001e55; }
+
+%h4.text-center#top-header ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center{ style: 'margin-bottom: 4px;' } ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'header-liner.png', width: 100, style: 'margin-bottom: 10px;'
+.row
+  .col-xs-12
+    = wicked_pdf_image_tag 'logo.png', width: 120, style: 'margin-left: 285px;'
+    = wicked_pdf_image_tag 'picture.png', width: 65, style: 'margin-left: 205px; position: absolute;', class: 'pull-right'
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 20px;'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black'}
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td{style: 'width: 70px; vertical-align: middle;'}
+            អង្គភាពប្រតិបត្តិ:
+          %td{ style: 'vertical-align: middle;' }
+            %input{style: 'width: 100%;', value: @setting.org_name }
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td អាសយដ្ឋានអង្គភាពប្រតិបត្តិ:
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td{style: 'width: 70px; vertical-align: middle;'}
+            រាជធានី/ខេត្ត:
+          %td{ style: 'vertical-align: middle;' }
+            %input{style: 'width: 100%;', value: @setting.province.try(:name_kh) }
+          %td{style: 'width: 70px; vertical-align: middle;'}
+            ក្រុង/ស្រុក/ខណ្ឌ:
+          %td{ style: 'vertical-align: middle;' }
+            %input{style: 'width: 100%;', value: @setting.district.try(:name_kh) }
+          %td{style: 'width: 70px; vertical-align: middle;'}
+            ឃុំ/សង្កាត់:
+          %td{ style: 'vertical-align: middle;' }
+            %input{style: 'width: 100%;', value: @setting.commune.try(:name_kh) }

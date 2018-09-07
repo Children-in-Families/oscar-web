@@ -1,0 +1,54 @@
+= simple_form_for [@client, @government_form] do |f|
+  .ibox-content
+    = f.input :name, as: :hidden
+    = hidden_field_tag :form_num, params[:form]
+    = error_notification(f)
+    .row
+      .col-xs-12
+        %h2.text-center= 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
+      = render 'government_info', f: f
+      .col-xs-12.col-sm-4.clearfix
+        = f.input :case_worker_id, as: :select, collection: @users.map{|user| [user.name, user.id, selected: current_user.id == user.id] }, label: 'ឈ្មោះអ្នកកាន់ករណី'
+      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.government_form_gov_placement_date{ class: ('has-error' if f.error :gov_placement_date) }
+        %label.date.optional.control-label{ for: 'government_form_gov_placement_date' }
+          = 'កាលបរិច្ឆេទនៃការទុកដាក់'
+        .input-group.date
+          = f.text_field :gov_placement_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_form[gov_placement_date]', id: 'government_form_gov_placement_date'
+          %span.input-group-addon.initial-referral
+            %i.fa.fa-calendar-check-o
+        = f.error :gov_placement_date
+      .col-xs-12
+        %hr
+        %h3.text-center= 'ជម្រើសនៃការថែទាំ'
+      - carer_types = ['គ្រួសារបង្កើត', 'សាច់ញាតិ', 'គ្រូួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)', 'ការថែទាំជាក្រុមក្នុងសហគមន៍', 'តាមវត្តអារាមឬទីកន្លែងសាសនានានា', 'កន្លែងថែទាំកុមារ']
+      .col-xs-12.col-sm-4
+        = f.input :care_type, as: :select, collection: carer_types, label: 'ប្រភេទនៃការថែទាំ'
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer, label: 'ឈ្មោះឪពុក/ឈ្មោះ/ឈ្មោះអង្កការ/ឈ្មោះវត្ត/វិហារ'
+      .col-xs-12.col-sm-4
+        = f.input :secondary_carer, label: 'ឈ្មោះម្តាយ/ឈ្មោះ/ឈ្មោះក្រុម/ឈ្មោះអ្នកគ្រប់គ្រង/ឈ្មោះមណ្ឌល'
+      .col-xs-12.col-sm-4
+        = f.input :carer_contact_info, label: 'អាសយដ្ឋាន និងលេខទំនាក់ទំនង'
+      .col-xs-12
+        %hr
+        %h3.text-center= 'កិច្ចព្រមព្រៀង'
+      .col-xs-12.col-sm-4
+        = f.input :new_carer, label: 'អ្នកថែទាំ'
+      .col-xs-12.col-sm-4
+        = f.input :new_carer_gender, as: :select, collection: ['ប្រុស', 'ស្រី'], label: 'ភេទ'
+      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.government_form_gov_placement_date{ class: ('has-error' if f.error :new_carer_date_of_birth) }
+        %label.date.optional.control-label{ for: 'government_form_new_carer_date_of_birth' }
+          = 'ថ្ងៃខែឆ្នាំកំណើត'
+        .input-group.date
+          = f.text_field :new_carer_date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'government_form[new_carer_date_of_birth]', id: 'government_form_new_carer_date_of_birth'
+          %span.input-group-addon.initial-referral
+            %i.fa.fa-calendar-check-o
+        = f.error :new_carer_date_of_birth
+      .col-xs-12.col-sm-4
+        = f.input :new_carer_relationship, label: 'ត្រូវជា'
+
+
+
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), client_government_forms_path(form: params[:form]), class: 'btn btn-default form-btn'

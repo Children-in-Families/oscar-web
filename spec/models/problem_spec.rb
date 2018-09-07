@@ -1,6 +1,6 @@
 describe Problem, 'associations' do
-  it { is_expected.to have_many(:client_problems).dependent(:restrict_with_error) }
-  it { is_expected.to have_many(:clients).through(:client_problems) }
+  it { is_expected.to have_many(:government_form_problems).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:government_forms).through(:government_form_problems) }
 end
 
 describe Problem, 'validations' do

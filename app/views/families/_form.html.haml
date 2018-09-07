@@ -8,12 +8,16 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: Family::TYPES, label: t('.family_type')
         .col-xs-12.col-sm-6.col-md-4= f.input :status, collection: Family::STATUSES, label: t('.status')
         .col-xs-12.col-sm-6.col-md-4= f.input :case_history, label: t('.case_history')
-        .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address'), readonly: true
-        .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @provinces, label: t('.province'), input_html: { class: 'select2' }
-        .col-xs-12.col-sm-6.col-md-4= f.association :district, collection: @districts, label: t('.district'), input_html: { class: 'select2' }
-        .col-xs-12.col-sm-6.col-md-4= f.input :commune, label: t('.commune')
-        .col-xs-12.col-sm-6.col-md-4= f.input :village, label: t('.village')
-        .col-xs-12.col-sm-6.col-md-4= f.input :street, label: t('.street')
+        -# .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address'), readonly: true
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :province, collection: @provinces, label: t('.province'), input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :district, collection: @districts, label: t('.district'), input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: (@family.old_commune if @family.commune_id.nil?)
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :village, collection: @villages.map{|v| [v.name, v.id] }, label:t('.village'), input_html: { data: { type: 'villages' } }, hint: (@family.old_village if @family.village_id.nil?)
+        .col-xs-12.col-sm-6.col-md-4.famliy-street= f.input :street, label: t('.street')
         .col-xs-12.col-sm-6.col-md-4= f.input :house, label: t('.house')
         .col-xs-12.col-sm-6.col-md-4= f.input :significant_family_member_count, label: t('.significant_family_member_count')
         .col-xs-12.col-sm-6.col-md-4= f.input :female_children_count, label: t('.female_children_count')

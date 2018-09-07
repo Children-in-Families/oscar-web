@@ -56,11 +56,11 @@ class SettingsController < AdminController
   def country_address_fields
     @provinces = Province.order(:name)
     @districts = Setting.first.province.present? ? Setting.first.province.districts.order(:name) : []
+    @communes  = Setting.first.district.present? ? Setting.first.district.communes.order(:name_kh, :name_en) : []
   end
 
   def setting_params
-    # params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
-    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :org_commune, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, :age, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def find_setting
@@ -70,7 +70,7 @@ class SettingsController < AdminController
 
   def client_default_columns
     columns = []
-    sub_columns = %w(rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
+    sub_columns = %w(time_in_care_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
       form_title_ family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ manage_ changelog_)
     filter_columns = ClientGrid.new.filters.map(&:name)
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,

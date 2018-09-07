@@ -407,6 +407,7 @@ km:
       subdistrict: Subdistrict
       suburb: Suburb
       telephone_number: លេខទូរស័ព្ទ
+      time_in_care: រយៈពេលមើលថែទាំ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       township: Township
       tracking: តាមដាន
@@ -1456,6 +1457,7 @@ km:
       government_form_six: 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
       government_form_three: 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ'
       government_form_two: 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
+      government_forms: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
@@ -1523,8 +1525,15 @@ km:
       telephone_number: លេខទូរស័ព្ទ
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
-        one: ប្រហែល%{count}ឆ្នាំ
-        other: ប្រហែល%{count}ឆ្នាំ
+        year:
+          one: "%{count} ឆ្នាំ"
+          other: "%{count} ឆ្នាំ"
+        month:
+          one: "%{count} ខែ"
+          other: "%{count} ខែ"
+        week:
+          one: "%{count} សប្តាហ៍"
+          other: "%{count} សប្តាហ៍"
       view_assessments: ការប៉ាន់ប្រមាណ
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
@@ -1816,6 +1825,7 @@ km:
         suburb: Suburb
         telephone_number: លេខទូរស័ព្ទ
         thailand: ថៃ
+        time_in_care: រយៈពេលមើលថែទាំ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
         township: Township
@@ -1932,6 +1942,7 @@ km:
       show_all: បង្ហាញទាំងអស់
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+      time_in_care: រយៈពេលមើលថែទាំ
       trackings:
         action: សកម្មភាព
         frequency: ភាពញឹកញាប់
@@ -2628,6 +2639,7 @@ km:
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
+      guardian: អាណាព្យាបាល
       occupation: មុខរបរ
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: ដកចេញ
@@ -2687,6 +2699,7 @@ km:
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
       general_info: អំពីគ្រួសារ
+      guardian: អាណាព្យាបាល
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
       id: លេខសំគាល់
@@ -2799,6 +2812,23 @@ km:
         edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
+  government_forms:
+    create:
+      successfully_created: ទម្រង់ត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ទម្រង់ត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      edit_report: កែសម្រួលទម្រង់
+    index:
+      action: សកម្មភាព
+      add_form: បន្ថែមទម្រង់ថ្មី
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទនៃការបង្កើត
+      created_by: បង្កើតឡើងដោយ
+    new:
+      new_form: ទម្រង់ថ្មី
+    update:
+      successfully_updated: ទម្រង់ត្រូវបានកែសម្រួលដោយជោគជ័យ
   government_reports:
     create:
       successfully_created: របាយការណ៍ត្រូវបានបង្កើតដោយជោគជ័យ។
@@ -3960,8 +3990,10 @@ km:
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
     assessment:
+      age: អាយុ
       assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
+      eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
       min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
     case_note:

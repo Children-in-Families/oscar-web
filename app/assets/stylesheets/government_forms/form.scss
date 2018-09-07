@@ -1,0 +1,38 @@
+body[id=government_forms-new],
+body[id=government_forms-create],
+body[id=government_forms-edit],
+body[id=government_forms-update] {
+  .government_form_interviewees .checkbox, .government_form_client_types .checkbox {
+    margin-top: 10px;
+  }
+
+  .government_form_interviewees, .government_form_client_types, .government_form_service_types, .government_form_client_rights {
+    .checkbox {
+      padding-left: 0;
+      label {
+        padding-left: 0;
+      }
+    }
+  }
+
+  .government_form_other_need label, .government_form_other_problem label {
+    opacity: 0;
+  }
+
+  .icheckbox_square-green {
+    margin-right: 5px;
+  }
+  .government_form_caseworker_assumption, .government_form_contact_type, .government_form_client_decision {
+    .radio:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+  .iradio_square-green {
+    margin-right: 5px;
+  }
+  .government_form_service_types {
+    .checkbox:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+}

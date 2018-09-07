@@ -5,6 +5,14 @@ RSpec.describe Organization, type: :model do
   let!(:new_smile_org) { Organization.create_and_build_tanent(short_name: 'new-smile', full_name: 'New Smile') }
   let!(:cwd_org) { Organization.create_and_build_tanent(short_name: 'cwd', full_name: 'cwd') }
 
+  describe Organization, 'CONSTANTS' do
+    context 'BROAD_NGOS' do
+      it 'list of Non-Cambodian NGOs' do
+        expect(Organization::BROAD_NGOS).to eq(['shared', 'kmo', 'spo', 'gca'])
+      end
+    end
+  end
+
   describe Organization, 'Scopes' do
     it '.without_demo' do
       orgs = Organization.without_demo
@@ -27,6 +35,11 @@ RSpec.describe Organization, type: :model do
       orgs = Organization.visible.pluck(:short_name)
       expect(orgs).to include('cif', 'new-smile')
       expect(orgs).not_to include('cwd', 'myan', 'rok', 'shared', 'my')
+    end
+
+    it '.without_shared' do
+      orgs = Organization.without_shared.pluck(:short_name)
+      expect(orgs).not_to include('shared')
     end
   end
 

@@ -49,8 +49,8 @@ module AdvancedSearchHelper
       referral_phone: I18n.t('advanced_search.fields.referral_phone'),
       house_number: I18n.t('advanced_search.fields.house_number'),
       street_number: I18n.t('advanced_search.fields.street_number'),
-      village: I18n.t('advanced_search.fields.village'),
-      commune: I18n.t('advanced_search.fields.commune'),
+      commune_id: I18n.t('advanced_search.fields.commune'),
+      village_id: I18n.t('advanced_search.fields.village'),
       suburb: I18n.t('advanced_search.fields.suburb'),
       description_house_landmark: I18n.t('advanced_search.fields.description_house_landmark'),
       directions: I18n.t('advanced_search.fields.directions'),
@@ -109,7 +109,8 @@ module AdvancedSearchHelper
       created_at: I18n.t('advanced_search.fields.created_at'),
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
-      referred_from: I18n.t('advanced_search.fields.referred_from')
+      referred_from: I18n.t('advanced_search.fields.referred_from'),
+      time_in_care: I18n.t('advanced_search.fields.time_in_care')
     }
     translations[key.to_sym] || ''
   end
@@ -127,8 +128,8 @@ module AdvancedSearchHelper
       male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
       province_id:                              I18n.t('datagrid.columns.families.province'),
       district_id:                              I18n.t('datagrid.columns.families.district'),
-      commune:                                  I18n.t('datagrid.columns.families.commune'),
-      village:                                  I18n.t('datagrid.columns.families.village'),
+      commune_id:                               I18n.t('datagrid.columns.families.commune'),
+      village_id:                               I18n.t('datagrid.columns.families.village'),
       street:                                   I18n.t('datagrid.columns.families.street'),
       house:                                    I18n.t('datagrid.columns.families.house'),
       client_id:                                I18n.t('datagrid.columns.families.client'),

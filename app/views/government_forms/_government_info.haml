@@ -1,0 +1,21 @@
+.col-xs-12.col-sm-6.col-md-4.form-group.date.optional.government_form_date{ class: ('has-error' if f.error :date) }
+  %label.date.optional.control-label{ for: 'government_form_date' }
+    = 'កាលបរិច្ឆេទ'
+  .input-group.date
+    = f.text_field :date, class: 'date optional form-control date-picker', type: 'text', name: 'government_form[date]', id: 'government_form_date'
+    %span.input-group-addon.initial-referral
+      %i.fa.fa-calendar-check-o
+  = f.error :date
+.col-xs-12.col-sm-4
+  = f.association :province, collection: @provinces, label: 'ខេត្ត/ក្រុង', input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
+.col-xs-12.col-sm-4
+  = f.association :district, collection: @districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
+.col-xs-12.col-sm-4
+  = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes', 'subaddress' => 'village' } }
+.col-xs-12.col-sm-4
+  = f.association :village, collection: @villages.map{|v| [v.code_format, v.id, { data: { code: v.code } }] }, label: 'លេខកូដភូមិ', input_html: { data: { type: 'villages' } }
+.col-xs-12.col-sm-4.form-group
+  %label.control-label{:for => "government_form_client_code"}= 'លេខកូដកុមារ'
+  .input-group
+    .input-group-addon#government_form_client_code_prefixed
+    = f.text_field :client_code, type: 'text', class: 'form-control', name: 'government_form[client_code]', id: 'government_form_client_code', maxlength: 2, value: @government_form.client_code.last(2)

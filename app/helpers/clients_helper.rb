@@ -146,12 +146,15 @@ module ClientsHelper
     current_address = []
     current_address << "#{I18n.t('datagrid.columns.clients.house_number')} #{client.house_number}" if client.house_number.present?
     current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
-    current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
-    current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
+
     if locale == :km
+      current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village.name_kh}" if client.village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune.name_kh}" if client.commune.present?
       current_address << client.district_name.split(' / ').first if client.district.present?
       current_address << client.province_name.split(' / ').first if client.province.present?
     else
+      current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village.name_en}" if client.village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune.name_en}" if client.commune.present?
       current_address << client.district_name.split(' / ').last if client.district.present?
       current_address << client.province_name.split(' / ').last if client.province.present?
     end
@@ -350,7 +353,8 @@ module ClientsHelper
       created_at_: t('datagrid.columns.clients.created_at'),
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
-      referred_from_: t('datagrid.columns.clients.referred_from')
+      referred_from_: t('datagrid.columns.clients.referred_from'),
+      time_in_care_: t('datagrid.columns.clients.time_in_care')
     }
 
     Domain.order_by_identity.each do |domain|

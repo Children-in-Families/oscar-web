@@ -6,33 +6,12 @@ CIF.Common =
     @initNotification()
     @autoCollapseManagMenu()
     @textShortener()
-    @_ajaxChangeDistrict()
-    @_initSelect2()
-
-  _initSelect2: ->
-    $('.select2').select2()
-
-  _ajaxChangeDistrict: ->
-    $('#setting_province_id').on 'change', ->
-      province_id = $(@).val()
-      $('select#setting_district_id').val(null).trigger('change')
-      $('select#setting_district_id option[value!=""]').remove()
-      if province_id != ''
-        $.ajax
-          method: 'GET'
-          url: "/api/provinces/#{province_id}/districts"
-          dataType: 'JSON'
-          success: (response) ->
-            districts = response.districts
-            for district in districts
-              $('select#setting_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
 
   textShortener: ->
     if $('.clients-table').is(':visible')
       moreText = $('.clients-table').attr('data-read-more')
       lessText = $('.clients-table').attr('data-read-less')
       new CIF.ShowMore('.td-content', 57, moreText, lessText)
-
 
   customCheckBox: ->
     $('.i-check-red').iCheck

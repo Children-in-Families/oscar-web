@@ -1,5 +1,5 @@
 class DistrictSerializer < ActiveModel::Serializer
-  attributes :id, :name, :province
+  attributes :id, :name, :code
 
   def province
     object.province

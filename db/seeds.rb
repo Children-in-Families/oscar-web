@@ -13,10 +13,11 @@ domains = [
   { name: '6B', identity: 'Work and Education', group: 6, score_1_color: 'danger', score_2_color: 'danger', score_3_color: 'warning', score_4_color: 'primary', description: "<p><b><u>កត្តា ៦ខ៖ ការអប់រំ និងការងារ</p><p>Domain 6B: Education and Work</u></p><br><p>កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា និងចូលរួមវគ្គបណ្តុះបណ្តាលជំនាញ រឺក្នុងអាយុសមរម្យមួយពួកគេបានចូលរួមលេងសកម្មភាពការរៀនសូត្រ ឬការងារ។</p><p>Goal: The child is enrolled and attends school, or skill traning, or is engaged in age-appropriate play, learning, activities or job.</p><br><p>សំនួគំរូ៖</p><p>Sample Questions:</b></p><ul><li>តើកុមារបានរៀនបញ្ចប់នូវថ្នាក់បមឋសិក្សាហើយឬនៅ? / Is the child in, or has he/she completed, primary school?</li><li>សូមប្រាប់ខ្ញុំអំពីសាលារៀនរបស់កុមារ ឬវគ្គបណ្តុះបណ្តាល។ / Tell me about the child's school or training</li><li>តើនរណាជាអ្នកបង់ថ្លៃសាលា និងទិញឯកសណ្ឋាន ហើយនឹងសម្ភារៈការសិក្សា? / Who pays school fee and buys uniforms and school materials?</li><li>(ប្រសិនបើបានចុះឈ្មោះចូលរៀន) តើកុមារនេះបានទៅសាលារៀនទៀងទាត់រឺទេ? / Does the child attend the school regularly?</li><li>តើមានហេតុផល និងភាពញឹកញាប់ប៉ុណ្ណាដែរ ដែលកុមារខកខានមិនទៅសាលារៀន? / How often must the child miss school for any reason?</li><li> តើគាត់/នាងបានទៅធ្វើការទៀងទាត់ទេ? / Does he/she go to work regularly?</li></ul><br><p><b>សូមសង្កេតមើលប្រសិនបើឣាច៖</p><p>Things to look for during the visit:</b></p><ul><li>ប្រសិនបើអាច សូមធ្វើការសង្កេតលើឯកសណ្ឋានសាលារបស់កុមារ ឬសម្ភារៈ និងការប្រើប្រាស់របស់ពួកគេ។ / If possible, observe the child's school uniform, or supplies, or their usage</li><li>សំរាប់ទារក ឬកុមារថ្នាក់មត្តេយ្យសូមសង្កេតទៅលើសកម្មភាពរបស់គាត់/នាងត្រូវបានចូលរួមលេងអ្វីមួយ ឬកំពុងធ្វើសកម្មភាពរៀនសូត្រជាមូយសមាជិកគ្រួសារណាមួយ។ / If an infant or preschooler, observe if he/she is involved in any play or learning with any family member?</li></ul><hr><p><b>ឣត្ថន័យនៃពិន្ទុ៖</p><p>Score Interpretations:</b></p><p>១៖ កុមារគឺពុំបានចុះឈ្មោះចូលរៀនក្នុងសាលា មិនទាន់បានចូលវគ្គះបណ្តុះបណ្តាល ឬពុំបានចូលរួមក្នុងសកម្មភាពផលិត ឬការងារក្នុងអាយុដ៏សមរម្យមួយ។ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុមិនមានអ្នកលេងជាមួយ។</p><p>1. The child is not enrolled in school, not attending training, or not involve in an age-appropriate productive activity or job. An infant or preschooler is not played with.</p><p>២៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា រឺមានការងារ ប៉ុន្តែគាត់/នាងកម្របានចូលរួម។ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុកម្រមានអ្នកលេងជាមួយ។</p><p>2. The child is enrolled in school or has a job, but he/she rarely attends. An infant or preschooler is rarely played with.</p><p>៣៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា/ចូលរួមវគ្គបណ្តុះបណ្តាល ប៉ុន្តែការចូលរួមមិនទៀងទាត់ ឬមិនខ្ជាប់ខ្ជួនដែលវាអាចបង្ហាញអោយឃើញពីផលប៉ះពាល់សកម្មភាពលើសកម្មភាពផលិត រឺការងារពួកគាត់។ កូនដែលក្មេងជាងគឺអាចលេងជាមួយនូវពេលខ្លះ ប៉ុន្តែមិនជារៀងរាល់ថ្ងៃ។</p><p>3. The child is enrolled in school or training, but attends irrigularly or shows up inconsistantly for it, or for a productive activity or job. Younger children are played with sometimes, but not daily.</p><p>៤៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា និងចូលរួមវគ្គបណ្តុះបណ្តាលទូទៅ។ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុអាចអោយលេងជាមួយអ្នកថែទាំ។ កូនដែលធំជាងត្រូវមានការងារធ្វើដ៏សមរម្យមួយ។</p><p>4. The child is enrolled in and attending school/ training regularly. Infants/preschoolers play with their caregiver. An older child has an appropriate job.</p>"}
 ]
 
-domains.each do |domain|
-  Organization.switch_to 'kmr'
-  dg = DomainGroup.find_or_create_by(name: domain[:group])
-  Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
+if Organization.current.presence.try(:short_name) == Organization.order(:created_at).last.short_name
+  domains.each do |domain|
+    dg = DomainGroup.find_or_create_by(name: domain[:group])
+    Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
+  end
 end
 
 Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
@@ -25,13 +26,15 @@ Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
 # Organization.create_and_build_tanent(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
 
-# BEGINNING OF FORM 1
-# create table and data the following for government report - Form 1.
-interviewees = ['កុមារ', 'ឪពុកម្ដាយ', 'អាណាព្យាបាល', 'អ្នកថែទាំ']
-client_types = ['កុមារកំព្រា', 'កុមារពិការ', 'កុមារត្រូវបានបោះបង់ចោល', 'កុមារអានាថាតាមចិញ្ចើមថ្នល់', 'កុមារញៀនសារធាតុញៀន', 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន', 'កុមារដែលទទួលផលប៉ះពាល់​ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏', 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត', 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់', 'កុមារមានទំនាស់ជាមួយច្បាប់']
-referral_sources = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អង្គការមិនមែនរដ្ឋាភិបាល', 'មន្ទីរពេទ្យ', 'នគរបាល', 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌', 'រកឃើញនៅតាមទីសាធារណៈ', 'ស្ថាប័នរដ្ឋ', 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន', 'ទូរស័ព្ទទាន់ហេតុការណ៍', 'មកដោយខ្លួនឯង', 'គ្រួសារ', 'មិត្តភក្ដិ', 'អាជ្ញាធរដែនដី']
-needs = ['ម្ហូបអាហារ', 'ជំរក', 'ការសិក្សាអប់រំ', 'ការថែទាំផ្នែកវេជ្ជសាស្ត្រ', 'ការមើលថែពីមនុស្សពេញវ័យ', 'សំលៀកបំពាក់', 'ការគាំទ្រផ្នែកផ្លូវចិត្ត']
-problems = ['ប្រើប្រាស់គ្រឿងស្រវឹង', 'ប្រើប្រាស់គ្រឿងញៀន', 'លេងល្បែង', 'រស់នៅតាមទីសាធារណៈ', 'មិនបានចូលរៀន', 'ការរំលោភបំពានផ្លូវកាយ', 'ការរំលោភបំពានផ្លូវភេទ', 'ការជួញដូរមនុស្ស', 'អាពាហ៍ពិពាហ៍ដោយបង្ខំ', 'ចំណាកស្រុក', 'គ្រួសារធ្វើចំណាកស្រុក', 'ការរំលោភបំពានផ្នែកអារម្មណ៍', 'អំពើហិង្សាក្នុងគ្រួសារ', 'ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម', 'ពលកម្មកំរិតធ្ងន់ធ្ងរ']
+interviewees     = ['កុមារ', 'ឪពុកម្ដាយ', 'អ្នកអាណាព្យាបាល', 'អ្នកថែទាំ', 'ផ្សេងៗ (សូមបញ្ជាក់)']
+client_types     = ['កុមារកំព្រា', 'កុមារពិការ', 'កុមារត្រូវបានបោះបង់ចោល', 'កុមារអានាថាតាមចិញ្ចើមថ្នល់', 'កុមារញៀនសារធាតុញៀន', 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន', 'កុមារដែលទទួលផលប៉ះពាល់ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏', 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត', 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់', 'កុមារមានទំនាស់ជាមួយច្បាប់', 'ផ្សេងៗ']
+referral_sources = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អង្គការមិនមែនរដ្ឋាភិបាល', 'មន្ទីរពេទ្យ', 'នគរបាល', 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌', 'រកឃើញនៅតាមទីសាធារណៈ', 'ស្ថាប័នរដ្ឋ', 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន', 'ទូរស័ព្ទទាន់ហេតុការណ៍', 'មកដោយខ្លួនឯង', 'គ្រួសារ', 'មិត្តភក្ដិ', 'អាជ្ញាធរដែនដី', 'ផ្សេងៗ']
+needs            = ['ម្ហូបអាហារ', 'ជំរក', 'ការសិក្សាអប់រំ', 'ការថែទាំផ្នែកវេជ្ជសាស្ត្រ', 'ការមើលថែពីមនុស្សពេញវ័យ', 'សំលៀកបំពាក់', 'ការគាំទ្រផ្នែកផ្លូវចិត្ត', 'ផ្សេងៗ']
+problems         = ['ប្រើប្រាស់គ្រឿងស្រវឹង', 'ប្រើប្រាស់គ្រឿងញៀន', 'លេងល្បែង', 'រស់នៅតាមទីសាធារណៈ', 'មិនបានចូលរៀន', 'ការរំលោភបំពានផ្លូវកាយ', 'ការរំលោភបំពានផ្លូវភេទ', 'ការជួញដូរមនុស្ស', 'អាពាហ៍ពិពាហ៍ដោយបង្ខំ', 'ចំណាកស្រុក', 'គ្រួសារធ្វើចំណាកស្រុក', 'ការរំលោភបំពានផ្នែកអារម្មណ៍', 'អំពើហិង្សាក្នុងគ្រួសារ', 'ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម', 'ពលកម្មកំរិតធ្ងន់ធ្ងរ', 'ផ្សេងៗ (សូមបញ្ជាក់)']
+children_plans   = ['សុខភាព​​ផ្លូវកាយ', 'សុខភាព​ផ្លូវចិត្ត', 'សុវត្ថិភាព និងសន្តិសុខ', 'ចំណីអាហារ', 'ទីជម្រក', 'សម្លៀកបំពាក់', 'ការសិក្សាអប់រំ', 'ទំនាក់ទំនងក្នុងគ្រួសារ', 'ទំនាក់ទំនងសង្គម', 'ឯកសារច្បាប់', 'តម្រូវការជំនួយផ្នែកច្បាប់']
+family_plans     = ['ការការពារ និងការថែទាំ', 'ភាពស្និតស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'សុខភាពផ្លូវចិត្ត', 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'កម្រិតសិក្សាអប់រំ', 'ចំណេះដឹងទូទៅក្នុងសង្គម', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន', 'ផ្សេងៗ']
+service_types    = ['ម្ហូបអាហារ', 'ជំរក', 'សំលៀកបំពាក់', 'ការសិក្សាអប់រំ', 'ការគាំទ្រផ្លូវចិត្ត', 'ការថែទាំវេជ្ជសាស្ត្រ', 'ផ្សេងៗ']
+client_rights    = ['សិទ្ធិរបស់អតិថិជនទូទៅ', 'សិទ្ធិអតិថិជន ក្នុងការទទួល ឬមិនទទួលយកសេវា', 'រក្សាការសម្ងាត់']
 
 interviewees.each do |interviewee|
   Interviewee.find_or_create_by(name: interviewee)
@@ -53,7 +56,21 @@ problems.each do |problem|
   Problem.find_or_create_by(name: problem)
 end
 
-# END OF FORM 1
+children_plans.each do |plan|
+  ChildrenPlan.find_or_create_by(name: plan)
+end
+
+family_plans.each do |plan|
+  FamilyPlan.find_or_create_by(name: plan)
+end
+
+service_types.each do |type|
+  ServiceType.find_or_create_by(name: type)
+end
+
+client_rights.each do |right|
+  ClientRight.find_or_create_by(name: right)
+end
 
 setting = Setting.first_or_create(country_name: 'cambodia', assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
 

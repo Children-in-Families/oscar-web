@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180813030846) do
+ActiveRecord::Schema.define(version: 20180817042218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,6 +237,12 @@ ActiveRecord::Schema.define(version: 20180813030846) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "children_plans", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "client_client_types", force: :cascade do |t|
     t.integer  "client_id"
     t.integer  "client_type_id"
@@ -309,6 +315,32 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.datetime "updated_at"
   end
 
+  create_table "client_right_government_forms", force: :cascade do |t|
+    t.integer  "government_form_id"
+    t.integer  "client_right_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "client_right_government_forms", ["client_right_id"], name: "index_client_right_government_forms_on_client_right_id", using: :btree
+  add_index "client_right_government_forms", ["government_form_id"], name: "index_client_right_government_forms_on_government_form_id", using: :btree
+
+  create_table "client_rights", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "client_type_government_forms", force: :cascade do |t|
+    t.integer  "client_type_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_type_government_forms", ["client_type_id"], name: "index_client_type_government_forms_on_client_type_id", using: :btree
+  add_index "client_type_government_forms", ["government_form_id"], name: "index_client_type_government_forms_on_government_form_id", using: :btree
+
   create_table "client_types", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at"
@@ -331,9 +363,9 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.string   "current_address",                  default: ""
     t.string   "school_name",                      default: ""
     t.string   "school_grade",                     default: ""
-    t.boolean  "has_been_in_orphanage",            default: false
+    t.boolean  "has_been_in_orphanage"
     t.boolean  "able",                             default: false
-    t.boolean  "has_been_in_government_care",      default: false
+    t.boolean  "has_been_in_government_care"
     t.text     "relevant_referral_information",    default: ""
     t.string   "archive_state",                    default: ""
     t.text     "rejected_note",                    default: ""
@@ -356,8 +388,8 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.string   "kid_id",                           default: ""
     t.string   "house_number",                     default: ""
     t.string   "street_number",                    default: ""
-    t.string   "village",                          default: ""
-    t.string   "commune",                          default: ""
+    t.string   "old_village",                      default: ""
+    t.string   "old_commune",                      default: ""
     t.string   "archive_district",                 default: ""
     t.string   "live_with",                        default: ""
     t.integer  "id_poor"
@@ -411,14 +443,18 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.integer  "township_id"
     t.integer  "state_id"
     t.string   "country_origin",                   default: ""
+    t.integer  "commune_id"
+    t.integer  "village_id"
   end
 
+  add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
   add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
   add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
   add_index "clients", ["township_id"], name: "index_clients_on_township_id", using: :btree
+  add_index "clients", ["village_id"], name: "index_clients_on_village_id", using: :btree
 
   create_table "clients_quantitative_cases", force: :cascade do |t|
     t.integer  "client_id"
@@ -426,6 +462,17 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "communes", force: :cascade do |t|
+    t.string   "code",        default: ""
+    t.string   "name_kh",     default: ""
+    t.string   "name_en",     default: ""
+    t.integer  "district_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "communes", ["district_id"], name: "index_communes_on_district_id", using: :btree
 
   create_table "custom_field_permissions", force: :cascade do |t|
     t.integer  "user_id"
@@ -473,8 +520,11 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   end
 
   create_table "districts", force: :cascade do |t|
-    t.string  "name"
-    t.integer "province_id"
+    t.string   "name"
+    t.integer  "province_id"
+    t.string   "code",        default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "districts", ["province_id"], name: "index_districts_on_province_id", using: :btree
@@ -570,13 +620,19 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
-    t.string   "commune",                         default: ""
-    t.string   "village",                         default: ""
+    t.string   "old_commune",                     default: ""
+    t.string   "old_village",                     default: ""
     t.string   "house",                           default: ""
     t.string   "street",                          default: ""
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.integer  "user_id"
   end
 
+  add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
+  add_index "families", ["village_id"], name: "index_families_on_village_id", using: :btree
+  add_index "families", ["user_id"], name: "index_families_on_user_id", using: :btree
 
   create_table "family_members", force: :cascade do |t|
     t.string   "adult_name",    default: ""
@@ -584,11 +640,18 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.string   "occupation",    default: ""
     t.string   "relation",      default: ""
     t.integer  "family_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "guardian",      default: false
   end
 
   add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree
+
+  create_table "family_plans", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
@@ -611,6 +674,137 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "government_form_children_plans", force: :cascade do |t|
+    t.string   "goal",               default: ""
+    t.string   "action",             default: ""
+    t.string   "who",                default: ""
+    t.integer  "government_form_id"
+    t.integer  "children_plan_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "score"
+    t.text     "comment",            default: ""
+    t.date     "completion_date"
+  end
+
+  add_index "government_form_children_plans", ["children_plan_id"], name: "index_government_form_children_plans_on_children_plan_id", using: :btree
+  add_index "government_form_children_plans", ["government_form_id"], name: "index_government_form_children_plans_on_government_form_id", using: :btree
+
+  create_table "government_form_family_plans", force: :cascade do |t|
+    t.string   "goal",               default: ""
+    t.string   "action",             default: ""
+    t.string   "result",             default: ""
+    t.integer  "government_form_id"
+    t.integer  "family_plan_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "score"
+    t.text     "comment",            default: ""
+  end
+
+  add_index "government_form_family_plans", ["family_plan_id"], name: "index_government_form_family_plans_on_family_plan_id", using: :btree
+  add_index "government_form_family_plans", ["government_form_id"], name: "index_government_form_family_plans_on_government_form_id", using: :btree
+
+  create_table "government_form_interviewees", force: :cascade do |t|
+    t.integer  "government_form_id"
+    t.integer  "interviewee_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_interviewees", ["government_form_id"], name: "index_government_form_interviewees_on_government_form_id", using: :btree
+  add_index "government_form_interviewees", ["interviewee_id"], name: "index_government_form_interviewees_on_interviewee_id", using: :btree
+
+  create_table "government_form_needs", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "need_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_needs", ["government_form_id"], name: "index_government_form_needs_on_government_form_id", using: :btree
+  add_index "government_form_needs", ["need_id"], name: "index_government_form_needs_on_need_id", using: :btree
+
+  create_table "government_form_problems", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "problem_id"
+    t.integer  "government_form_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "government_form_problems", ["government_form_id"], name: "index_government_form_problems_on_government_form_id", using: :btree
+  add_index "government_form_problems", ["problem_id"], name: "index_government_form_problems_on_problem_id", using: :btree
+
+  create_table "government_form_service_types", force: :cascade do |t|
+    t.integer  "government_form_id"
+    t.integer  "service_type_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "government_form_service_types", ["government_form_id"], name: "index_government_form_service_types_on_government_form_id", using: :btree
+  add_index "government_form_service_types", ["service_type_id"], name: "index_government_form_service_types_on_service_type_id", using: :btree
+
+  create_table "government_forms", force: :cascade do |t|
+    t.string   "name",                       default: ""
+    t.date     "date"
+    t.string   "client_code",                default: ""
+    t.integer  "interview_district_id"
+    t.integer  "interview_province_id"
+    t.integer  "case_worker_id"
+    t.string   "case_worker_phone",          default: ""
+    t.integer  "client_id"
+    t.string   "primary_carer_relationship", default: ""
+    t.string   "primary_carer_house",        default: ""
+    t.string   "primary_carer_street",       default: ""
+    t.integer  "primary_carer_district_id"
+    t.integer  "primary_carer_province_id"
+    t.string   "source_info",                default: ""
+    t.string   "summary_info_of_referral",   default: ""
+    t.string   "guardian_comment",           default: ""
+    t.string   "case_worker_comment",        default: ""
+    t.string   "other_interviewee",          default: ""
+    t.string   "other_client_type",          default: ""
+    t.string   "other_need",                 default: ""
+    t.string   "other_problem",              default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.string   "caseworker_assumption",      default: ""
+    t.text     "assumption_description",     default: ""
+    t.date     "assumption_date"
+    t.string   "contact_type",               default: ""
+    t.string   "client_decision",            default: ""
+    t.string   "other_service_type",         default: ""
+    t.date     "gov_placement_date"
+    t.string   "care_type",                  default: ""
+    t.string   "primary_carer",              default: ""
+    t.string   "secondary_carer",            default: ""
+    t.string   "carer_contact_info",         default: ""
+    t.integer  "assessment_province_id"
+    t.integer  "assessment_district_id"
+    t.string   "new_carer",                  default: ""
+    t.string   "new_carer_gender",           default: ""
+    t.date     "new_carer_date_of_birth"
+    t.string   "new_carer_relationship",     default: ""
+    t.integer  "interview_commune_id"
+    t.integer  "interview_village_id"
+    t.integer  "assessment_commune_id"
+    t.integer  "primary_carer_commune_id"
+    t.integer  "primary_carer_village_id"
+  end
+
+  add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
+  add_index "government_forms", ["commune_id"], name: "index_government_forms_on_commune_id", using: :btree
+  add_index "government_forms", ["district_id"], name: "index_government_forms_on_district_id", using: :btree
+  add_index "government_forms", ["province_id"], name: "index_government_forms_on_province_id", using: :btree
+  add_index "government_forms", ["village_id"], name: "index_government_forms_on_village_id", using: :btree
 
   create_table "government_reports", force: :cascade do |t|
     t.string   "code",                          default: ""
@@ -931,6 +1125,12 @@ ActiveRecord::Schema.define(version: 20180813030846) do
 
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
 
+  create_table "service_types", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string   "assessment_frequency"
     t.integer  "min_assessment"
@@ -946,11 +1146,14 @@ ActiveRecord::Schema.define(version: 20180813030846) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "org_name",                default: ""
-    t.string   "org_commune",             default: ""
+    t.string   "old_commune",             default: ""
     t.integer  "province_id"
     t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "age",                     default: 18
   end
 
+  add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
   add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
   add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
 
@@ -1343,6 +1546,17 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
 
+  create_table "villages", force: :cascade do |t|
+    t.string   "code",       default: ""
+    t.string   "name_kh",    default: ""
+    t.string   "name_en",    default: ""
+    t.integer  "commune_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "villages", ["commune_id"], name: "index_villages_on_commune_id", using: :btree
+
   create_table "visit_clients", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "created_at"
@@ -1389,11 +1603,18 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_foreign_key "client_needs", "needs"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
+  add_foreign_key "client_right_government_forms", "client_rights"
+  add_foreign_key "client_right_government_forms", "government_forms"
+  add_foreign_key "client_type_government_forms", "client_types"
+  add_foreign_key "client_type_government_forms", "government_forms"
+  add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
+  add_foreign_key "clients", "villages"
+  add_foreign_key "communes", "districts"
   add_foreign_key "custom_field_permissions", "custom_fields"
   add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"
@@ -1403,8 +1624,28 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
+  add_foreign_key "families", "villages"
+  add_foreign_key "families", "users"
   add_foreign_key "family_members", "families"
+  add_foreign_key "government_form_children_plans", "children_plans"
+  add_foreign_key "government_form_children_plans", "government_forms"
+  add_foreign_key "government_form_family_plans", "family_plans"
+  add_foreign_key "government_form_family_plans", "government_forms"
+  add_foreign_key "government_form_interviewees", "government_forms"
+  add_foreign_key "government_form_interviewees", "interviewees"
+  add_foreign_key "government_form_needs", "government_forms"
+  add_foreign_key "government_form_needs", "needs"
+  add_foreign_key "government_form_problems", "government_forms"
+  add_foreign_key "government_form_problems", "problems"
+  add_foreign_key "government_form_service_types", "government_forms"
+  add_foreign_key "government_form_service_types", "service_types"
+  add_foreign_key "government_forms", "clients"
+  add_foreign_key "government_forms", "communes"
+  add_foreign_key "government_forms", "districts"
+  add_foreign_key "government_forms", "provinces"
+  add_foreign_key "government_forms", "villages"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
@@ -1420,6 +1661,7 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
   add_foreign_key "sponsors", "clients"
@@ -1432,6 +1674,7 @@ ActiveRecord::Schema.define(version: 20180813030846) do
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
+  add_foreign_key "villages", "communes"
   add_foreign_key "visit_clients", "users"
   add_foreign_key "visits", "users"
 end

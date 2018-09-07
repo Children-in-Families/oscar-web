@@ -27,9 +27,10 @@
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                            .btn.btn-outline.btn-danger.btn-xs
-                              %i.fa.fa-trash
+                          - if can? :destroy, Task
+                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                              .btn.btn-outline.btn-danger.btn-xs
+                                %i.fa.fa-trash
 
         .panel.panel-info
           .panel-heading
@@ -50,9 +51,10 @@
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                            .btn.btn-outline.btn-danger.btn-xs
-                              %i.fa.fa-trash
+                          - if can? :destroy, Task
+                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                              .btn.btn-outline.btn-danger.btn-xs
+                                %i.fa.fa-trash
         .panel.panel-primary
           .panel-heading
             .row
@@ -72,6 +74,7 @@
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                            .btn.btn-outline.btn-danger.btn-xs
-                              %i.fa.fa-trash
+                          - if can? :destroy, Task
+                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                              .btn.btn-outline.btn-danger.btn-xs
+                                %i.fa.fa-trash
