@@ -7,6 +7,15 @@ CIF.ClientsShow = do ->
     _enterNgoModalValidation()
     _ajaxCheckReferral()
     _initUploader()
+    _initDatePicker()
+
+  _initDatePicker = ->
+    $('.accepted_date').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      orientation: 'bottom',
+      disableTouchKeyboard: true
 
   _initSelect2 = ->
     $('select').select2()
