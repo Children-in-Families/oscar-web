@@ -1,6 +1,7 @@
 class Organization < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
-  BROAD_NGOS = ['shared', 'kmo', 'spo', 'cps']
+  BROAD_NGOS = ['shared', 'kmo', 'spo', 'gca']
+
 
   has_many :employees, class_name: 'User'
 

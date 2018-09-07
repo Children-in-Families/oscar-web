@@ -58,6 +58,7 @@ describe 'Client' do
   feature 'Show' do
     let!(:client){ create(:client, :accepted, current_address: '') }
     let!(:setting){ Setting.first }
+    let!(:program_stream) { create(:program_stream) }
 
     before do
       PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
@@ -66,11 +67,36 @@ describe 'Client' do
     end
 
     feature 'Time in care' do
-      let!(:case) { create(:case, :emergency, client: client, start_date: 1.year.ago) }
+      let!(:once_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
+      let!(:client_exit) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: once_enrollment) }
 
-      it 'of EC' do
+      let!(:client_2) { create(:client, :accepted, current_address: '') }
+      let!(:first_client_2_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client_2) }
+      let!(:first_client_2_exit) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: first_client_2_enrollment) }
+      let!(:second_client_2_enrollment) { create(:client_enrollment, enrollment_date: '2019-02-01', program_stream: program_stream, client: client_2) }
+      let!(:second_client_2_exit) { create(:leave_program, exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_client_2_enrollment) }
+
+      let!(:client_3) { create(:client, :accepted, current_address: '') }
+      let!(:first_client_3_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client_3) }
+      let!(:first_client_3_exit) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: first_client_3_enrollment) }
+      let!(:second_client_3_enrollment) { create(:client_enrollment, enrollment_date: '2019-02-01', program_stream: program_stream, client: client_3) }
+      let!(:second_client_3_exit) { create(:leave_program, exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_client_3_enrollment) }
+      let!(:third_client_3_enrollment) { create(:client_enrollment, enrollment_date: '2019-06-01', program_stream: program_stream, client: client_3) }
+      let!(:third_client_3_exit) { create(:leave_program, exit_date: '2019-07-01', program_stream: program_stream, client_enrollment: third_client_3_enrollment) }
+
+      scenario 'once enrollment' do
         visit client_path(client)
-        expect(page).to have_content(client.reload.time_in_care)
+        expect(page).to have_content('1 year 1 month')
+      end
+
+      scenario 'continuous enrollment' do
+        visit client_path(client_2)
+        expect(page).to have_content('1 year 4 month')
+      end
+
+      scenario 'enrollment with one month delay' do
+        visit client_path(client_3)
+        expect(page).to have_content('1 year 5 month')
       end
     end
 
