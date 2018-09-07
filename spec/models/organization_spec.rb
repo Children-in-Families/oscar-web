@@ -8,7 +8,7 @@ RSpec.describe Organization, type: :model do
   describe Organization, 'CONSTANTS' do
     context 'BROAD_NGOS' do
       it 'list of Non-Cambodian NGOs' do
-        expect(Organization::BROAD_NGOS).to eq(['shared', 'kmo', 'spo', 'cps'])
+        expect(Organization::BROAD_NGOS).to eq(['shared', 'kmo', 'spo', 'gca'])
       end
     end
   end

@@ -407,6 +407,7 @@ km:
       subdistrict: Subdistrict
       suburb: Suburb
       telephone_number: លេខទូរស័ព្ទ
+      time_in_care: រយៈពេលមើលថែទាំ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       township: Township
       tracking: តាមដាន
@@ -1518,8 +1519,15 @@ km:
       telephone_number: លេខទូរស័ព្ទ
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
-        one: ប្រហែល%{count}ឆ្នាំ
-        other: ប្រហែល%{count}ឆ្នាំ
+        year:
+          one: "%{count} ឆ្នាំ"
+          other: "%{count} ឆ្នាំ"
+        month:
+          one: "%{count} ខែ"
+          other: "%{count} ខែ"
+        week:
+          one: "%{count} សប្តាហ៍"
+          other: "%{count} សប្តាហ៍"
       view_assessments: ការប៉ាន់ប្រមាណ
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
@@ -1811,6 +1819,7 @@ km:
         suburb: Suburb
         telephone_number: លេខទូរស័ព្ទ
         thailand: ថៃ
+        time_in_care: រយៈពេលមើលថែទាំ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
         township: Township
@@ -1927,6 +1936,7 @@ km:
       show_all: បង្ហាញទាំងអស់
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+      time_in_care: រយៈពេលមើលថែទាំ
       trackings:
         action: សកម្មភាព
         frequency: ភាពញឹកញាប់
