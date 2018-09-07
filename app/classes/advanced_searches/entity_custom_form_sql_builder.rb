@@ -51,13 +51,13 @@ module AdvancedSearches
         if @type == 'checkbox'
           properties_result = custom_field_properties.where("properties -> '#{@field}' ? ''")
         else
-          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '' OR properties -> '#{@field}' IS NULL")
+          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
         end
       when 'is_not_empty'
         if @type == 'checkbox'
           properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? ''")
         else
-          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '' OR properties -> '#{@field}' IS NULL")
+          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
         end
       when 'between'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
