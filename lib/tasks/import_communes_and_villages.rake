@@ -3,7 +3,7 @@ namespace :communes_and_villages do
   task :start, [:ngos] do |task, args|
     ngos = args[:ngos]
     ngos.each do |ngo_short_name|
-      next if Organization::BROAD_NGOS.include?(ngo_short_name) || Organization.find_by(short_name: ngo_short_name).nil?
+      next if Organization.cambodian.pluck(:short_name).exclude?(ngo_short_name) || Organization.find_by(short_name: ngo_short_name).nil?
 
       Organization.switch_to ngo_short_name
 
