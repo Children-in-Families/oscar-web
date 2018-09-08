@@ -1,7 +1,5 @@
 class Organization < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
-  BROAD_NGOS = ['shared', 'kmo', 'spo', 'gca']
-
 
   has_many :employees, class_name: 'User'
 
@@ -11,6 +9,7 @@ class Organization < ActiveRecord::Base
   scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
   scope :oscar, -> { visible.where.not(short_name: 'demo') }
   scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my']) }
+  scope :cambodian, -> { where(country: 'cambodia') }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
