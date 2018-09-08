@@ -1,5 +1,4 @@
 class PartnerGrid < BaseGrid
-  include Datagrid
   include ClientsHelper
 
   attr_accessor :dynamic_columns

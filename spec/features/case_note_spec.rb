@@ -39,7 +39,7 @@ describe 'CaseNote' do
       find('#case-note-submit-btn').trigger('click')
 
       sleep 1
-      expect(page).to have_content('April 01, 2017')
+      expect(page).to have_content('01 April 2017')
       expect(page).to have_content('Jonh')
       expect(page).to have_content('This is valid')
       expect(Task.find_by(name: 'ABC').user_id).to eq(user.id)
