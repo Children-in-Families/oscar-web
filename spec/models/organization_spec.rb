@@ -1,19 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
-  let!(:cif_org) { Organization.create_and_build_tanent(short_name: 'cif', full_name: 'Children in Family') }
+  let!(:cif_org) { Organization.create_and_build_tanent(short_name: 'cif', full_name: 'Children in Family', country: 'cambodia') }
   let!(:new_smile_org) { Organization.create_and_build_tanent(short_name: 'new-smile', full_name: 'New Smile') }
   let!(:cwd_org) { Organization.create_and_build_tanent(short_name: 'cwd', full_name: 'cwd') }
 
-  describe Organization, 'CONSTANTS' do
-    context 'BROAD_NGOS' do
-      it 'list of Non-Cambodian NGOs' do
-        expect(Organization::BROAD_NGOS).to eq(['shared', 'kmo', 'spo', 'gca'])
+  describe Organization, 'scopes' do
+    context '.cambodian' do
+      it 'get NGOs located in Cambodia' do
+        orgs = Organization.cambodian
+        expect(orgs).to include(cif_org)
+        expect(orgs).not_to include(new_smile_org, cwd_org)
       end
     end
-  end
 
-  describe Organization, 'Scopes' do
     it '.without_demo' do
       orgs = Organization.without_demo
       expect(orgs).to include(cif_org, new_smile_org, cwd_org)
