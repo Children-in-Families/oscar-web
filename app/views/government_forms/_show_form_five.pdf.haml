@@ -2,7 +2,7 @@
 
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-no-padding.panel-borderless
-    .text-center{ style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;' } ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ
+    .text-center{ style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px; font-family: Khmer OS Muol;' } ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ
 
 .panel.panel-borderless.panel-no-margin
   .panel-body.panel-border{ style: 'border-bottom: 1px solid black; border-top: 1px solid black' }
@@ -54,15 +54,15 @@
               %td{ style: 'border:1px solid black;' }
                 .comment{ style: 'min-height: 90px; max-height: 100px; word-break: break-all' }
                   %p= result.action
-              %td{ style: 'border:1px solid black; text-align: center;' }
+              %td{ style: 'border:1px solid black;' }
                 .comment{ style: 'min-height: 90px; max-height: 100px; word-break: break-all' }
                   %p= result.result
-            - (1..(3 - action_results.count)).each do |row|
-              %tr
-                %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 90px; max-height: 100px;' }
-                %td{ style: 'border:1px solid black; text-align: center;' }
-                  .comment{ style: 'min-height: 90px; max-height: 100px;' }
+          - (1..(3 - action_results.count)).each do |row|
+            %tr
+              %td{ style: 'border:1px solid black;' }
+                .comment{ style: 'min-height: 90px; max-height: 100px;' }
+              %td{ style: 'border:1px solid black; text-align: center;' }
+                .comment{ style: 'min-height: 90px; max-height: 100px;' }
           %tr
             %td{ style: 'border:1px solid black; background-color: #f2f2f2', colspan: '2' }
               %u បញ្ហាថ្មីៗដែលបានរកឃើញ ក្នុងអំឡុងពេលនៃការចុះត្រួតពិនិត្យ និងតាមដាន និងដំណោះស្រាយដែលបានធ្វើដើម្បីដោះស្រាយបញ្ហាទាំងនោះ។
@@ -79,7 +79,7 @@
           %br
           អ្នកកាន់ករណីត្រូវកត់ត្រានូវសេវា និងសកម្មភាពគ្រប់ពេលចុះត្រួតពិនិត្យកុមារ និងគ្រួសារ
         %thead
-          %tr{ style: 'page-break-inside: avoid; background-color: #f9ebdf' }
+          %tr{ style: 'background-color: #f9ebdf; page-break-inside: avoid;' }
             %th{ style: 'width: 100px; border:1px solid black; text-align: center;' }
               កាលបរិច្ឆេទ
               %br
@@ -89,42 +89,36 @@
             %th{ style: 'width: 200px; border:1px solid black; text-align: center;' }
               ស្ថានភាពបច្ចុប្បន្នកុមារ និងគ្រួសារ
         %tbody
-          - @client.case_notes.each do |case_note|
+          - task_size = 0
+          - @case_notes.each do |tasks|
+            - task_size += tasks.size
+            - tasks.each do |task|
+              %tr
+                %td{ style: 'border:1px solid black; min-height: 35px;' }
+                  %p= task.first
+                %td{ style: 'border:1px solid black; min-height: 35px;' }
+                  %p= task.second
+                %td{ style: 'border:1px solid black; min-height: 35px;' }
+                  %p.comment{ style: 'word-wrap: break-word;'}= task.last
+          - (1..(20- task_size)).each do |_|
             %tr{ style: 'page-break-inside: avoid;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
-                %p= case_note.meeting_date
-              %td{ style: 'border:1px solid black;' }
-                - case_note.case_note_domain_groups.each do |case_note_dg|
-                  %ul
-                    - case_note_dg.tasks.each do |task|
-                      %li= task.name
+                .comment{ style: 'min-height: 35px;' }
               %td{ style: 'border:1px solid black; text-align: center;' }
-                - case_note.case_note_domain_groups.each do |case_note_dg|
-                  %ul
-                    - if case_note_dg.note.present?
-                      %li.comment{ style: 'word-wrap: break-word;'}= case_note_dg.note
-          - if @client.case_notes.size < 19
-            - (1..(19 - @client.case_notes.size)).each do |_|
-              %tr{ style: 'page-break-inside: avoid;' }
-                %td{ style: 'border:1px solid black; text-align: center;' }
-                  .comment{ style: 'min-height: 30px;' }
-                %td{ style: 'border:1px solid black; text-align: center;' }
-                  .comment{ style: 'min-height: 30px;' }
-                %td{ style: 'border:1px solid black; text-align: center;' }
-                  .comment{ style: 'min-height: 30px;' }
-          %br/
+                .comment{ style: 'min-height: 35px;' }
+              %td{ style: 'border:1px solid black; text-align: center;' }
+                .comment{ style: 'min-height: 35px;' }
+          %br
 
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
-    %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }
+    %table.table.no-margin-bottom.comment{ style: 'margin-top: 10px; margin-bottom: 10px;' }
       %thead
         %p{ style: 'font-size: 14px; font-weight: bold; padding: 5px; border: 1px solid black; margin-top: 5px; margin-bottom: -10px; border-bottom: none; text-align: center; background-color: #e93223; color: white' }
           ការពិនិត្យតាមដាន ឬជំហានបន្ទាប់ (កាលបរិច្ឆេទជួបកុមារ និងគ្រួសារ, សកម្មភាពបន្ទាប់ទៀត។ល។​)
-      %tr
-        %td{ style: 'border:1px solid black;' }
-          .comment{ style: 'min-height: 550px;' }
-            %ul
-              - @client_tasks.each do |task|
-                %li "#{task.completion_date} - #{task.name}"
+      - @client_tasks.each do |task|
+        %tr
+          %td{ style: 'border:1px solid black;' }
+            %p= "#{task.completion_date} - #{task.name}"
 
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom{ style: 'margin-top: 10px; margin-bottom: 10px' }

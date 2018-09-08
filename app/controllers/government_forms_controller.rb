@@ -38,7 +38,30 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        @client_tasks      = @client.tasks.incomplete.by_case_note
+        @client_tasks  = @client.tasks.incomplete.by_case_note
+        @case_notes    = []
+
+        @client.case_notes.each do |case_note|
+          meeting_dates = []
+          tasks = []
+          notes = []
+          case_note.case_note_domain_groups.each do |case_note_dg|
+            case_note_dg.tasks.each do |task|
+              tasks << task.name
+            end
+            next if case_note_dg.note.blank?
+            notes << case_note_dg.note
+          end
+
+          max_size = [tasks.count, notes.count].max
+          (1..max_size).each do |_|
+            meeting_dates << case_note.meeting_date
+          end
+
+          case_note = [meeting_dates, tasks, notes]
+          @case_notes << case_note[0].zip(*case_note[1..-1])
+        end
+
         render  pdf:      @government_form.name,
                 template: 'government_forms/show.pdf.haml',
                 layout:   'pdf_design.html.haml',
