@@ -66,7 +66,7 @@
           %td
             ឈ្មោះឪពុក ឬអ្នកអាណាព្យាបាល:
           %td{style: 'width: 200px;'}
-            %input{style: 'width: 100%;', value: @father.adult_name }
+            %input{style: 'width: 100%;', value: @father.try(:adult_name) }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
@@ -90,7 +90,7 @@
           %td
             ឈ្មោះម្ដាយ ឬអ្នកអាណាព្យាបាល:
           %td{style: 'width: 200px;'}
-            %input{style: 'width: 100%;', value: @mother.adult_name }
+            %input{style: 'width: 100%;', value: @mother.try(:adult_name) }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
@@ -284,25 +284,25 @@
   .panel-body.panel-border{style: 'page-break-inside: avoid;'}
     .row
       .col-xs-6
-        = render @government_form.case_closures.pluck(:name).include?('បិទ (ប្រសិនបើពិន្ទុសរុប ចាប់ពី៤៨ឡើង)') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render @government_form.case_closure_name == 'បិទ (ប្រសិនបើពិន្ទុសរុប ចាប់ពី៤៨ឡើង)' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         បិទ (ប្រសិនបើពិន្ទុសរុប ចាប់ពី៤៨ឡើង)
         %br
-        = render @government_form.case_closures.pluck(:name).include?('បិទដោយសារកុមារស្លាប់') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render @government_form.case_closure_name == 'បិទដោយសារកុមារស្លាប់' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         បិទដោយសារកុមារស្លាប់
         %br
-        = render @government_form.case_closures.pluck(:name).include?('ករណីបិទដោយកុមារផ្លាស់ទៅកន្លែងផ្សេង ឬរកកុមារមិនឃើញ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render @government_form.case_closure_name == 'ករណីបិទដោយកុមារផ្លាស់ទៅកន្លែងផ្សេង ឬរកកុមារមិនឃើញ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         = 'ករណីបិទដោយកុមារផ្លាស់ទៅកន្លែងផ្សេង ឬរកកុមារមិនឃើញ'
         %br
       .col-xs-6
-        = render @government_form.case_closures.pluck(:name).include?('បន្តករណី') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render @government_form.case_closure_name == 'បន្តករណី' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         បន្តករណី
         %br
-        = render @government_form.case_closures.pluck(:name).include?('អវត្តមានកុមារ និងគ្រួសារ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render @government_form.case_closure_name == 'អវត្តមានកុមារ និងគ្រួសារ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         = 'អវត្តមានកុមារ និងគ្រួសារ'
         %br
         %div.other-label
-          = render @government_form.case_closures.pluck(:name).include?('ផ្សេងៗ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-          - if @government_form.case_closures.pluck(:name).exclude?('ផ្សេងៗ')
+          = render @government_form.case_closure_name == 'ផ្សេងៗ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+          - if @government_form.case_closure_name != 'ផ្សេងៗ'
             = "ផ្សេងៗ(សូមបញ្ចាក់): ......................................................"
           - else
             = "ផ្សេងៗ(សូមបញ្ចាក់): #{@government_form.other_case_closure}"

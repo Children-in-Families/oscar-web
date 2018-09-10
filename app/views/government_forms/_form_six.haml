@@ -22,8 +22,11 @@
       .col-xs-12
         %hr
         %h3= 'ស្ថានភាពគ្រួសារ និងតម្រូវការបច្ចុប្បន្ន'
-        = f.association :case_closures, collection: @case_closures, as: :check_boxes, input_html: { class: 'i-checks' }, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-6', label: false
-        = f.input :other_case_closure, label: false, input_html: { placeholder: 'Ohter' }, as: :hidden
+        .row#case-closure
+          .col-xs-12.col-sm-6
+            = f.association :case_closure, collection: @case_closures.map{|c| [c.name, c.id] }, label: false
+          .col-xs-12.col-sm-6.other-case-closure.hidden
+            = f.input :other_case_closure, label: false, input_html: { placeholder: 'Other' }
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'

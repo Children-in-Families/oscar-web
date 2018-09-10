@@ -22,7 +22,6 @@ class GovernmentFormsController < AdminController
     elsif params[:form] == 'six'
       @government_form.populate_children_status
       @government_form.populate_family_status
-      @government_form.populate_case_closures
     elsif params[:form] == 'three'
       @government_form.populate_children_plans
       @government_form.populate_family_plans
@@ -118,9 +117,9 @@ class GovernmentFormsController < AdminController
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
       :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
-      :client_decision, :other_service_type, :other_case_closure,
+      :client_decision, :other_service_type, :other_case_closure, :case_closure_id,
       :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship,
-      interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [], case_closure_ids: [],
+      interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
       government_form_children_plans_attributes: [:id, :goal, :action, :who, :completion_date, :score, :comment, :children_plan_id],

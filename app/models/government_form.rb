@@ -10,6 +10,7 @@ class GovernmentForm < ActiveRecord::Base
   belongs_to :district
   belongs_to :commune
   belongs_to :village
+  belongs_to :case_closure
   belongs_to :interview_province, class_name: 'Province', foreign_key: 'interview_province_id'
   belongs_to :interview_district, class_name: 'District', foreign_key: 'interview_district_id'
   belongs_to :interview_commune, class_name: 'Commune', foreign_key: 'interview_commune_id'
@@ -40,8 +41,6 @@ class GovernmentForm < ActiveRecord::Base
   has_many :service_types, through: :government_form_service_types
   has_many :client_right_government_forms, dependent: :destroy
   has_many :client_rights, through: :client_right_government_forms
-  has_many :government_form_case_closures, dependent: :destroy
-  has_many :case_closures, through: :government_form_case_closures
 
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
@@ -49,6 +48,7 @@ class GovernmentForm < ActiveRecord::Base
   accepts_nested_attributes_for :government_form_family_plans
 
   delegate :code, to: :village, prefix: true, allow_nil: true
+  delegate :name, to: :case_closure, prefix: true, allow_nil: true
 
   before_save :concat_client_code_with_village_code
 

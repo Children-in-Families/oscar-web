@@ -681,16 +681,6 @@ ActiveRecord::Schema.define(version: 20180906040657) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "government_form_case_closures", force: :cascade do |t|
-    t.integer  "government_form_id"
-    t.integer  "case_closure_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-  end
-
-  add_index "government_form_case_closures", ["case_closure_id"], name: "index_government_form_case_closures_on_case_closure_id", using: :btree
-  add_index "government_form_case_closures", ["government_form_id"], name: "index_government_form_case_closures_on_government_form_id", using: :btree
-
   create_table "government_form_children_plans", force: :cascade do |t|
     t.string   "goal",               default: ""
     t.string   "action",             default: ""
@@ -815,6 +805,7 @@ ActiveRecord::Schema.define(version: 20180906040657) do
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
     t.string   "other_case_closure"
+    t.integer  "case_closure_id"
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1646,8 +1637,6 @@ ActiveRecord::Schema.define(version: 20180906040657) do
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
-  add_foreign_key "government_form_case_closures", "case_closures"
-  add_foreign_key "government_form_case_closures", "government_forms"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"
