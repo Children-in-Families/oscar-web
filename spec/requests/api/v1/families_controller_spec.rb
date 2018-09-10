@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::FamiliesController, type: :request do
   let(:user) { create(:user) }
-  let!(:families) { create_list(:family, 5) }
+  let!(:families) { create_list(:family, 2) }
 
   describe 'GET #index' do
     context 'when user not loged in' do
@@ -26,7 +26,7 @@ RSpec.describe Api::V1::FamiliesController, type: :request do
       end
 
       it 'should be returns the families with the correct data' do
-        expect(json['families'].size).to eq 5
+        expect(json['families'].size).to eq 2
       end
     end
   end

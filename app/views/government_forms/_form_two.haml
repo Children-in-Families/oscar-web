@@ -1,0 +1,109 @@
+= simple_form_for [@client, @government_form] do |f|
+  .ibox-content
+    = f.input :name, as: :hidden
+    = hidden_field_tag :form_num, params[:form]
+    = error_notification(f)
+    .row
+      .col-xs-12
+        %h2.text-center= 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
+      = render 'government_info', f: f
+      .col-xs-12
+        %hr
+        %h3= 'ទីកន្លែងប៉ាន់ប្រមាណ៖'
+      .col-xs-12.col-sm-4
+        = f.input :assessment_province_id, as: :select, collection: @provinces, label: 'រាជធានី/ខេត្ត', input_html: { data: { type: 'provinces', 'subaddress' => 'assessmentDistrict' } }
+      .col-xs-12.col-sm-4
+        = f.input :assessment_district_id, as: :select, collection: @assessment_districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts', 'subaddress' => 'assessmentCommune' } }
+      .col-xs-12.col-sm-4
+        = f.input :assessment_commune_id, as: :select, collection: @assessment_communes, label: 'ឃុំ/សង្កាត់'
+      .col-xs-12
+        %hr
+      .col-xs-12.col-sm-4.clearfix
+        = f.input :case_worker_id, as: :select, collection: @users.map{|user| [user.name, user.id, selected: [@government_form.case_worker_id, current_user.id].include?(user.id)] }, label: 'ឈ្មោះអ្នកកាន់ករណី'
+      .col-xs-12
+        %hr
+        %h3= 'ស្ថានភាពកុមារ និង តម្រូវការ'
+      .col-xs-12
+        .text-right
+          = image_tag('score.png', style: 'width: 300px;')
+      .col-xs-12.col-sm-12
+        = f.simple_fields_for :government_form_children_plans do |f_children_status|
+          = render 'children_status_fields', f: f_children_status
+      .col-xs-12
+        %hr
+        %h3= 'ស្ថានភាពគ្រួសារ'
+      .col-xs-12
+        %h3= 'អាសយដ្ឋានអ្នកថែទាំ'
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_province_id, as: :select, collection: @provinces, label: 'ខេត្ត/រាជធានី', input_html: { data: { type: 'provinces', 'subaddress' => 'primaryCarerDistrict' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_district_id, as: :select, collection: @primary_carer_districts, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { data: { type: 'districts', 'subaddress' => 'primaryCarerCommune' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_commune_id, as: :select, collection: @primary_carer_communes, label: 'ឃុំ/សង្កាត់', input_html: { data: { type: 'communes', 'subaddress' => 'primaryCarerVillage' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_village_id, as: :select, collection: @primary_carer_villages.map{ |v| [v.code_format, v.id] }, label: 'ភូមិ', input_html: { data: { type: 'villages' } }
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_house, label: 'ផ្ទះលេខ'
+      .col-xs-12.col-sm-4
+        = f.input :primary_carer_street, label: 'ផ្លូវលេខ'
+      .col-xs-12
+        %hr
+        %h3= 'សូមដាក់ចំណាត់ថ្នាក់ក្នុងតារាងខាងក្រោមតម្លៃលេខដែលសមស្រប'
+      .col-xs-12
+        .text-right
+          = image_tag('score.png', style: 'width: 300px;')
+      .col-xs-12
+        %h3= 'ស្ថានភាពគ្រួសារ និងតម្រូវការបច្ចុប្បន្ន'
+        = f.simple_fields_for :government_form_family_plans do |f_family_status|
+          = render 'family_status_fields', f: f_family_status
+      .col-xs-12
+        %hr
+        %h3= 'សេចក្តីសន្និដ្ឋាន របស់អ្នកកាន់ករណី'
+
+      .col-xs-12
+        .row
+          .col-md-4
+            = f.input :caseworker_assumption, collection: GovernmentForm::CASEWORKER_ASSUMPTIONS, label: false
+        = f.input :assumption_description, label: false, input_html: { rows: '5' }
+      .col-xs-12
+        .row
+          .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.government_form_assumption_date{ class: ('has-error' if f.error :date) }
+            %label.date.optional.control-label{ for: 'government_form_assumption_date' }
+              = 'កាលបរិច្ឆេទ'
+            .input-group.date
+              = f.text_field :date, class: 'date optional form-control date-picker', type: 'text', name: 'government_form[assumption_date]', id: 'government_form_assumption_date'
+              %span.input-group-addon.initial-referral
+                %i.fa.fa-calendar-check-o
+            = f.error :date
+
+      .col-xs-12
+        %hr
+        %h3= 'កិច្ចពិភាក្សាអំពីសេវា'
+      .col-xs-12
+        .row
+          .col-md-4
+            = f.label :contact_type, 'ប្រភេទទំនាក់ទំនង'
+            = f.input :contact_type, collection: GovernmentForm::CONTACT_TYPES, label: false
+      .col-xs-12
+        %hr
+        %h3= 'ប្រភេទសេវា'
+      .col-xs-12
+        = f.association :service_types, collection: @service_types, as: :check_boxes, input_html: { class: 'i-checks' }, wrapper_html: { class: 'row' }, item_wrapper_class: 'col-xs-12 col-sm-4', label: false
+        = f.input :other_service_type, label: false, input_html: { placeholder: 'Ohter' }, as: :hidden
+      .col-xs-12
+        %hr
+        %h3= 'ការពន្យល់អំពីសិទ្ធិរបស់អតិថិជន'
+      .col-xs-12
+        = f.association :client_rights, collection: @client_rights, as: :check_boxes, input_html: { class: 'i-checks' }, label: false
+
+      .col-xs-12
+        %hr
+        %h3= 'ការសម្រេចចិត្តរបស់អតិថិជន'
+      .col-xs-12
+        .row
+          .col-md-4
+            = f.input :client_decision, collection: GovernmentForm::CLIENT_DECISIONS, label: false
+
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), client_government_forms_path(form: params[:form]), class: 'btn btn-default form-btn'

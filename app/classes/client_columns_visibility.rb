@@ -38,8 +38,6 @@ class ClientColumnsVisibility
       current_address_: :current_address,
       house_number_: :house_number,
       street_number_: :street_number,
-      village_: :village,
-      commune_: :commune,
       district_: :district,
       subdistrict_: :subdistrict,
       state_: :state,
@@ -80,10 +78,13 @@ class ClientColumnsVisibility
       manage_: :manage,
       changelog_: :changelog,
       telephone_number_: :telephone_number,
+      commune_: :commune,
+      village_: :village,
       created_at_: :created_at,
       created_by_: :created_by,
       referred_to_: :referred_to,
-      referred_from_: :referred_from
+      referred_from_: :referred_from,
+      time_in_care_: :time_in_care
     }
   end
 

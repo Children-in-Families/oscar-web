@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   has_many :program_streams, through: :program_stream_permissions
   has_many :quantitative_type_permissions, -> { order_by_quantitative_type }, dependent: :destroy
   has_many :quantitative_types, through: :quantitative_type_permissions
+  has_many :families, dependent: :nullify
 
   accepts_nested_attributes_for :custom_field_permissions
   accepts_nested_attributes_for :program_stream_permissions
@@ -147,7 +148,7 @@ class User < ActiveRecord::Base
     overdue   = []
     due_today = []
     clients.active_accepted_status.each do |client|
-      next if client.age_over_18?
+      next if client.uneligible_age?
       client_next_asseement_date = client.next_assessment_date.to_date
       if client_next_asseement_date < Date.today
         overdue << client
@@ -179,6 +180,13 @@ class User < ActiveRecord::Base
   def family_custom_field_frequency_overdue_or_due_today
     if self.admin? || self.any_case_manager? || self.manager?
       entity_type_custom_field_notification(Family.all)
+    elsif self.case_worker?
+      family_ids = []
+      self.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
+      entity_type_custom_field_notification(families)
     end
   end
 

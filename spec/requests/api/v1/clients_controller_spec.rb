@@ -62,12 +62,11 @@ RSpec.describe Api::V1::ClientsController, type: :request do
 
       context 'when try to create client' do
         before do
-          client = { format: 'json', client: { given_name: "example", user_ids: [user.id], initial_referral_date: '2018-02-19', received_by_id: user.id, name_of_referee: FFaker::Name.name, referral_source_id: referral_source.id } }
+          client = { format: 'json', client: { gender: 'male', given_name: "example", user_ids: [user.id], initial_referral_date: '2018-02-19', received_by_id: user.id, name_of_referee: FFaker::Name.name, referral_source_id: referral_source.id } }
           post "/api/v1/clients", client, @auth_headers
         end
 
         it 'should return status 200' do
-
           expect(response).to have_http_status(:success)
         end
 

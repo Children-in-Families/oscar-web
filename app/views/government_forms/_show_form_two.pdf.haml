@@ -1,0 +1,404 @@
+= render 'head_section'
+
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-main-header.text-center{ style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;' } ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី​​​ និងគ្រួសារ
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{ style: 'border-bottom: 0px solid black' }
+    %p
+      ទម្រង់នេះត្រូវបំពេញដោយអ្នកកាន់ករណី។​ ពួកគេត្រូវត្រួតពិនិត្យគ្រប់ព័ត៌មាន​​​ទាំងអស់នៅក្នុង​ទម្រង់ព័ត៌មាន​បឋមមុន​ ពេល​​បំពេញចូលក្នុងទម្រង់នេះ។​ ពួកគេត្រូវតែទទួលបានការយល់ព្រមជាមុនពីកុមារ​ ពន្យល់អំពីការរក្សាការសម្ងាត់​ និងកន្លែងដែលមានសុវត្ថិភាព។
+.panel.panel-borderless.panel-no-margin
+  .panel-body.panel-border{ style: 'border-bottom: 1px solid black; border-top: 1px solid black' }
+    = render 'client_code'
+
+.panel.panel-borderless.panel-no-margin
+  .panel-body.panel-border{ style: 'padding: 4px 0 0 0;' }
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-bottom: 3px;' }
+      %tbody
+        %u{ style: 'font-size: 14px; font-weight: bold; padding-left: 5px;' }
+          ទីកន្លែងប៉ាន់ប្រមាណ៖
+
+        %tr
+          %td{ style: 'padding-left: 10px; vertical-align: middle;' }
+            ឃុំ/សង្កាត់:
+            %input{ style: 'width: 140px;', value: @government_form.assessment_commune.try(:name_kh) }
+          %td{ style: 'padding-left: 5px; vertical-align: middle;' }
+            ក្រុង/ស្រុក/ខណ្ឌ:
+            %input{ style: 'width: 160px;', value: @government_form.assessment_district.try(:name_kh) }
+          %td{ style: 'padding-left: 10x; vertical-align: middle;' }
+            ខេត្ត/រាជធានី:
+            %input{ style: 'width: 135px;', value: @government_form.assessment_province.try(:name_kh) }
+        %tr{ style: 'border-top: 1px dotted black;' }
+          %td{ colspan: '2', style: 'padding-left: 10px; vertical-align: middle;' }
+            ឈ្មោះអ្នកកាន់ករណី:
+            %input{ style: 'width: 340px; margin-left: 2px;', value: @user.try(:name) }
+          %td{ style: 'padding-left: 10px; vertical-align: middle;' }
+            លេខទូរសព្ទ:
+            %input{ style: 'width: 130px; margin-left: 2px;', value:  @user.try(:mobile) }
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #4a80ce; padding: 5px; color: #ffffff; border-bottom: 0px solid black;' }
+    %h5{ style: 'margin: 0;' }
+      %span{ style: "font-family: 'Time New Roman'; border: none;" } I-
+      ស្ថានភាពកុមារ​ និងតម្រូវការ:
+  .panel-body.panel-border.no-margin-bottom
+    .row
+      .col-xs-7
+        %p{ style: 'font-size: 14px; font-weight: bold;' }
+          សូមដាក់ចំណាត់ថ្នាក់ក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
+      .col-xs-5{ style: 'margin-bottom: 5px;' }
+        = wicked_pdf_image_tag 'score.png', class: 'img-responsive'
+    .row
+      .col-xs-12
+        %table.table.table-bordered.no-margin-bottom{ style: 'table-layout: fixed; border-collapse:collapse;' }
+          %colgroup
+            %col{ style: 'width: 200px' }
+            %col{ style: 'width: 50px' }
+            %col{ style: 'width: 420px' }
+          %thead
+            %tr{ style: 'background: #d3d3d3;' }
+              %th{ style: 'border:1px solid black; text-align: center;' }
+                ស្ថានភាពរបស់កុមារ និង
+                %br
+                តម្រូវការបច្ចុប្បន្ន
+              %th{ style: 'border:1px solid black; text-align: center; padding-left: 5px; padding-right: 5px;' }
+                ចំណាត់
+                %br
+                ថ្នាក់
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
+          %tbody
+            - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each do |status|
+              %tr{ style: 'page-break-inside: avoid;' }
+                %td{ style: 'border:1px solid black;' }
+                  .comment{ style: 'min-height: 36px;' }
+                    %p= status.children_status_name
+                %td{ style: 'border:1px solid black; text-align: center;' }
+                  .comment{ style: 'min-height: 36px;' }
+                    %p= status.score
+                %td{ style: 'border:1px solid black;' }
+                  .comment{ style: 'min-height: 36px; max-height: 36px; word-wrap: break-word;' }
+                    %p= status.comment
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #4a80ce; padding: 5px; color: #ffffff; border-bottom: 0px solid black;' }
+    %h5{ style: 'margin: 0;' }
+      %span{ style: "font-family: 'Time New Roman'; border: none;" } II-
+      ស្ថានភាពគ្រួសារ:
+  .panel-body.panel-border.no-margin-bottom
+    %u អាសយដ្ឋាន៖
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
+      %tbody
+        %tr{ style: 'page-break-inside: avoid;' }
+          %td
+            ផ្ទះលេខ:
+            %input{ style: 'width: 48px;', value: @client.family.try(:house) }
+          %td
+            ផ្លូវលេខ:
+            %input{ style: 'width: 43px;', value: @client.family.try(:street) }
+          %td{ colspan: '1' }
+            ភូមិ:
+            %input{ style: 'width: 128px;', value: @client.family.try(:village).try(:name_kh) }
+          %td
+            ឃុំ/សង្កាត់:
+            %input{ style: 'width: 222px;', value: @client.family.try(:commune).try(:name_kh) }
+        %tr{ style: 'page-break-inside: avoid;' }
+          %td{ colspan: '3' }
+            ក្រុង/ស្រុក/ខណ្ឌ:
+            %input{ style: 'width: 275px; margin-left: 2px;', value: @client.family.try(:district).try(:name_kh) }
+          %td{ colspan: '2' }
+            ខេត្ត/រាជធានី:
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @client.family.try(:province).try(:name_kh) }
+    %table{ style: 'margin-top: 5px;' }
+      %tr
+        %td
+          ចំនួនកុមារក្នុងបន្ទុកសរុប
+          %input{ style: 'width: 90px;', value: @client.family.try(:male_children_count).to_i + @client.family.try(:female_children_count).to_i }
+        %td{ style: 'padding-left: 10px;' }
+          កុមារា
+          %input{ style: 'width: 48px;', value: @client.family.try(:male_children_count) }
+        %td{ style: 'padding-left: 10px;' }
+          កុមារី
+          %input{ style: 'width: 48px;', value: @client.family.try(:female_children_count) }
+    .row
+      .col-xs-12
+        %table.table.table-bordered.no-margin-bottom{ style: 'margin-top: 10px; table-layout: fixed; border-collapse:collapse;' }
+          %colgroup
+            %col{ style: 'width: 200px' }
+            %col{ style: 'width: 90px' }
+            %col{ style: 'width: 200px' }
+            %col{ style: 'width: 180px' }
+          %thead
+            %tr{ style: 'background: #d3d3d3;' }
+              %th{ style: 'border:1px solid black; text-align: center;' }
+                ឈ្មោះមនុស្សពេញវ័យដែល
+                %br
+                រស់នៅក្នុងផ្ទះជាមួយគ្នា
+              %th{ style: 'border:1px solid black; text-align: center; padding-left: 5px; padding-right: 5px; vertical-align: middle;' }
+                ថ្ងៃខែឆ្នាំកំណើត
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
+                មុខរបរ
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
+                ទំនាក់ទំនងជាមួយកុមារ
+          %tbody
+            - if @client.family.try(:family_members).present?
+              - @client.family.try(:family_members).each do |member|
+                %tr{ style: 'page-break-inside: avoid;'  }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.adult_name
+                  %td{ style: 'border:1px solid black; text-align: center;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.date_of_birth
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.occupation
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                      %p= member.relation
+            - member_count = @client.family.try(:family_members).try(:count).to_i
+            - if member_count < 7
+              - (1..(7 - member_count)).each do |_|
+                %tr{ style: 'page-break-inside: avoid;'  }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 42px;' }
+
+.panel.panel-borderless.panel-no-margin{ style: 'clear: both;' }
+  .panel-heading.panel-border{ style: 'background: #d3d3d3; padding: 0px; color: #000; border-bottom: 0px solid black;' }
+    %h5{ style: 'color: #072459; margin: 0 auto; padding: 5px; border-top: 1px solid black; border-bottom: 0px solid black' }
+      អាសយដ្ឋានអ្នកថែទាំ:
+  .panel-body.panel-border.no-margin-bottom
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
+      %tbody
+        %tr
+          %td
+            ផ្ទះលេខ:
+            %input{ style: 'width: 48px;', value: @government_form.primary_carer_house }
+          %td
+            ផ្លូវលេខ:
+            %input{ style: 'width: 43px;', value: @government_form.primary_carer_street }
+          %td{ colspan: '1' }
+            ភូមិ:
+            %input{ style: 'width: 128px;', value: @government_form.primary_carer_village.try(:name_kh) }
+          %td
+            ឃុំ/សង្កាត់:
+            %input{ style: 'width: 222px;', value: @government_form.primary_carer_commune.try(:name_kh) }
+        %tr
+          %td{ colspan: '3' }
+            ក្រុង/ស្រុក/ខណ្ឌ:
+            %input{ style: 'width: 275px; margin-left: 2px;', value: @government_form.primary_carer_district.try(:name_kh) }
+          %td{ colspan: '2' }
+            ខេត្ត/រាជធានី:
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @government_form.primary_carer_province.try(:name_kh) }
+        %tr
+          %td{ colspan: '5' }
+            លេខទូរស័ព្ទ:
+            %input{ style: 'width: 590px; margin-left: 3px;', value: @client.telephone_number }
+
+  .panel-body.panel-border.no-margin-bottom
+    .row
+      .col-xs-7
+        %p{ style: 'font-size: 12px; font-weight: bold;' }
+          សូមដាក់ចំណាត់ថ្នាក់ក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
+      .col-xs-5{ style: 'margin-bottom: 5px;' }
+        = wicked_pdf_image_tag 'score.png', class: 'img-responsive'
+    .row
+      .col-xs-12
+        %table.table.table-bordered.no-margin-bottom{ style: 'table-layout: fixed; border-collapse:collapse;' }
+          %colgroup
+            %col{ style: 'width: 240px' }
+            %col{ style: 'width: 50px' }
+            %col{ style: 'width: 390px' }
+          %thead
+            %tr{ style: 'background: #d3d3d3;' }
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' }
+                ស្ថានភាពរបស់គ្រួសារ និងតម្រូវការបច្ចុប្បន្ន
+              %th{ style: 'border:1px solid black; text-align: center;' }
+                ចំណាត់
+                %br
+                ថ្នាក់
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
+          %tbody
+            - @government_form.government_form_family_plans.select(:id, :score, :comment, :family_plan_id, :government_form_id).each do |status|
+              %tr{ style: 'page-break-inside: avoid;' }
+                %td{ style: 'border:1px solid black; word-wrap: break-word;' }
+                  = status.family_status_name == 'ផ្សេងៗ' ? "#{status.family_status_name}......................................": status.family_status_name
+                  .comment{ style: 'min-height: 10px;' }
+                %td{ style: 'border:1px solid black; text-align: center;' }
+                  = status.score
+                  .comment{ style: 'min-height: 10px;' }
+                %td{ style: 'border:1px solid black; word-wrap: break-word;' }
+                  = status.comment
+                  .comment{ style: 'min-height: 10px;' }
+
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #d3d3d3; padding: 0px; color: #000; border-bottom: 0px solid black;' }
+    %h5{ style: 'color: #072459; margin: 0 auto; padding: 5px; border-bottom: 1px solid black;' }
+      សេចក្ដីសន្និដ្ឋានរបស់អ្នកកាន់ករណី
+  .panel-body.panel-border.no-margin-bottom{ style: 'padding: 0;' }
+    %table{ style: 'padding-left: 22px;' }
+      %colgroup
+        %col{ style: 'width: 200px' }
+        %col{ style: 'width: 240px' }
+        %col{ style: 'width: 100px' }
+        %col{ style: 'width: 100px' }
+      %tr{ style: 'page-break-inside: avoid;' }
+        - GovernmentForm::CASEWORKER_ASSUMPTIONS.each_with_index do |assumption, index|
+          - if @government_form.caseworker_assumption == assumption
+            %td{ style: 'padding-left: 7px;' }
+              = render 'government_forms/pdf/image_checked_box'
+              = assumption
+          - else
+            %td{ style: 'padding-left: 7px;' }
+              = render 'government_forms/pdf/image_unchecked_box'
+              = assumption
+
+    %div{ style: 'line-height: 2; min-height: 100px; border-bottom: 1px solid #000;' }
+      %p{ style: 'padding: 0 11px;' }
+        = @government_form.assumption_description
+    %br/
+    .row
+      .col-xs-3{ style: 'padding-left: 23px;' }
+        កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+      .col-xs-9
+        - gov_date = @government_form.assumption_date.present? ? @government_form.assumption_date.strftime('%d%m%y') : '000000'
+        - gov_date.split('').each_with_index do |code, index|
+          - if index == 0
+            %span.first= code
+          - else
+            %span= code
+      .col-xs-3{ style: 'margin-top: 8px; padding-left: 23px;' }
+        %p ឈ្មោះអ្នកកាន់ករណី :
+      .col-xs-9{ style: 'margin-top: 8px;' }
+        %p{ style: 'padding-left: 3px;' }= @user.try(:name)
+
+.panel.panel-borderless.panel-no-margin{ style: 'border-top: 1px solid #000;' }
+  .panel-heading.panel-border{ style: 'background: #ffb802; padding: 5px; color: #000; border-bottom: 0px solid black;' }
+    %h5{ style: 'margin: 0;' }
+      %span{ style: "font-family: 'Time New Roman'; border: none;" } III-
+      កិច្ចពិភាក្សាអំពីសេវា
+  .panel-body.panel-border.no-margin-bottom{ style: 'padding: 0;' }
+    %h5{ style: 'background: #ffff03; margin: 0 auto; padding: 5px; border-top: 1px solid black; border-bottom: 1px solid black;' }
+      ១. ទំនាក់ទំនងអតិថិជនលើកដំបូង​ ពន្យល់អំពីសេវា​ និងកម្មវិធី
+    %table.table.no-margin-bottom
+      %colgroup
+        %col{ style: 'width: 155px' }
+        %col{ style: 'width: 110px' }
+        %col{ style: 'width: 300px' }
+
+      %tr{ style: 'page-break-inside: avoid;' }
+        %td{ style: 'border:1px solid black; border: 0px;' }
+          កាលបរិច្ឆេទ ទំនាក់ទំនងអតិថិជនដំបូង:
+          %p
+          - gov_date = @client.follow_up_date.present? ? @client.follow_up_date.strftime('%d%m%y') : '000000'
+          - gov_date.split('').each_with_index do |code, index|
+            - if index == 0
+              %span.first= code
+            - else
+              %span= code
+        %td{ style: 'border:1px solid black; border-bottom: 0px; border-top: 0px;' }
+          ប្រភេទទំនាក់ទំនង:
+          - GovernmentForm::CONTACT_TYPES.each do |contact_type|
+            - if @government_form.contact_type == contact_type
+              .row
+                .col-xs-12
+                  = render 'government_forms/pdf/image_checked_box'
+                  = contact_type
+            - else
+              .row
+                .col-xs-12
+                  = render 'government_forms/pdf/image_unchecked_box'
+                  = contact_type
+        %td{ style: 'border:1px solid black; border-right: 0px; border-top: 0px; border-bottom: 0px;' }
+          ប្រភេទសេវា:
+          - service_type_names = @government_form.government_form_service_types.map(&:service_type_name).compact
+
+          - first_services, second_services = ServiceType.all.in_groups_of(4)
+          %table
+            %tr{ style: 'page-break-inside: avoid;' }
+              %td{ style: 'width: 132px;' }
+                - first_services.each_with_index do |service_type, index|
+                  - if service_type_names.include?(service_type.name)
+                    .row
+                      .col-xs-12
+                        = render 'government_forms/pdf/image_checked_box'
+                        = service_type.name
+                  - else
+                    .row
+                      .col-xs-12
+                        = render 'government_forms/pdf/image_unchecked_box'
+                        = service_type.name
+              %td{ style: 'width: 250px;' }
+                - second_services.compact.each do |service_type|
+                  - if service_type_names.include?(service_type.name)
+                    .row
+                      .col-xs-12
+                        = render 'government_forms/pdf/image_checked_box'
+                        = service_type.name
+                  - else
+                    .row
+                      .col-xs-12
+                        = render 'government_forms/pdf/image_unchecked_box'
+                        = service_type.name
+                .row
+                  .col-xs-12
+                    %div{ class: "other #{ 'empty' if @government_form.other_service_type.blank?}" }= @government_form.other_service_type
+
+  .panel-body.panel-border.no-margin-bottom{ style: 'padding: 0;' }
+    %h5{ style: 'background: #ffff03; margin: 0 auto; padding: 5px; border-bottom: 1px solid black;' }
+      ២. ការពន្យល់អំពីសិទ្ធិរបស់អតិថិជន
+    - client_rights = @government_form.client_right_government_forms.map(&:client_right_name).compact
+    - ClientRight.all.each do |client_right|
+      .row
+        .col-xs-12{ style: 'padding-left: 22px;' }
+          - if client_rights.include?(client_right.name)
+            = render 'government_forms/pdf/image_checked_box'
+            = client_right.name
+          - else
+            = render 'government_forms/pdf/image_unchecked_box'
+            = client_right.name
+
+  .panel-body.panel-border.no-margin-bottom{ style: 'padding: 0;' }
+    %h5{ style: 'background: #ffff03; margin: 0 auto; padding: 5px; border-bottom: 1px solid black;' }
+      ៣. ការសម្រេចចិត្តរបស់អតិថិជន
+    .row
+      .col-xs-12{ style: 'padding-left: 22px;' }
+        - GovernmentForm::CLIENT_DECISIONS.each do |decision|
+          - if @government_form.client_decision == decision
+            = render 'government_forms/pdf/image_checked_box'
+            = decision
+          - else
+            = render 'government_forms/pdf/image_unchecked_box'
+            = decision
+
+.panel.panel-borderless.panel-no-margin
+  .panel-heading.panel-border{ style: 'background: #0065b8; padding: 5px; color: #ffffff; border-bottom: 0px solid black;' }
+    %h5{ style: 'margin: 0 auto; padding: 5px;' }
+      ហត្ថលេខា
+  .panel-body.panel-border.no-margin-bottom{ style: 'padding: 0px' }
+    %table.table.no-margin-bottom
+      %tr{ style: 'page-break-inside: avoid; height: 120px;' }
+        %td{ style: 'border:1px solid black; border-left: 0px;' }
+          ឈ្មោះកុមារ:
+        %td{ style: 'border:1px solid black;' }
+          ហត្ថលេខាឬស្នាមមេដៃ:
+        %td{ style: 'border:1px solid black; border-right: 0px;' }
+          កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ)៖
+      %tr{ style: 'height: 120px' }
+        %td{ style: 'border:1px solid black; border-left: 0px;' }
+          ឈ្មោះអាណាព្យាបាលកុមារ:
+        %td{ style: 'border:1px solid black;' }
+          ហត្ថលេខាឬស្នាមមេដៃ:
+        %td{ style: 'border:1px solid black; border-right: 0px;' }
+          កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ)៖
+      %tr{ style: 'height: 120px' }
+        %td{ style: 'border:1px solid black; border-left: 0px; border-bottom: 0px;' }
+          ឈ្មោះអ្នកកាន់ករណី:
+        %td{ style: 'border:1px solid black; border-bottom: 0px;' }
+          ហត្ថលេខា
+        %td{ style: 'border:1px solid black; border-right: 0px; border-bottom: 0px;' }
+          កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ)៖

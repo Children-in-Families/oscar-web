@@ -5,7 +5,7 @@ class AssessmentPolicy < ApplicationPolicy
   end
 
   def new?
-    index? && !record.client.age_over_18?
+    index? && !record.client.uneligible_age?
   end
 
   alias create? new?

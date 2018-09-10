@@ -3,7 +3,6 @@ describe Dashboard, 'Method' do
   let!(:client_ec)         { create(:client, status: 'Active EC')  }
   let!(:client_fc)         { create(:client, :female, status: 'Active FC')  }
   let!(:client_kc)         { create(:client, :female, status: 'Active KC')  }
-  let!(:able_client)       { create(:client, able_state: 'Accepted')  }
   let!(:program_stream)    { create(:program_stream) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Active') }
   let!(:client_ec_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client_ec, status: 'Active') }
@@ -13,7 +12,7 @@ describe Dashboard, 'Method' do
   let!(:other_kc_family)   { create(:family, :kinship) }
   let!(:fc_family)         { create(:family, :foster) }
   let!(:othter_fc_family)  { create(:family, :foster) }
-  let!(:ec_family)         { create(:family, :emergency) }
+  let!(:ec_family)         { create(:family, :emergency, code: rand(1000..2000).to_s) }
 
   context '#client_program_stream' do
     before do
@@ -109,12 +108,6 @@ describe Dashboard, 'Method' do
     end
   end
 
-  context '#able_count' do
-    it 'shoud return able clients count' do
-      expect(Dashboard.new(Client.all).able_count).to eq(1)
-    end
-  end
-
   context '#family_count' do
     it 'shoud return family count' do
       expect(Dashboard.new(Client.all).family_count).to eq(5)
@@ -141,7 +134,7 @@ describe Dashboard, 'Method' do
 
   context '#referral_source_count' do
     it 'shoud return referral source count' do
-      expect(Dashboard.new(Client.all).referral_source_count).to eq(5)
+      expect(Dashboard.new(Client.all).referral_source_count).to eq(4)
     end
   end
 

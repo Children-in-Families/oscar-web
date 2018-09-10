@@ -111,10 +111,6 @@ class Dashboard
     ]
   end
 
-  def able_count
-    @clients.able.size
-  end
-
   def family_count
     @families.size
   end

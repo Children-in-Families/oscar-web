@@ -407,6 +407,7 @@ en:
       subdistrict: Subdistrict
       suburb: Suburb
       telephone_number: Primary Carer Phone Number
+      time_in_care: Time in Care
       time_of_frequency: Time of Frequency
       township: Township
       tracking: Tracking
@@ -1455,6 +1456,7 @@ en:
       government_form_six: Case closure Form
       government_form_three: Family Service Plan Form
       government_form_two: Assessment for Family Preservation Form
+      government_forms: Government Forms
       government_report: Government Report
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
@@ -1522,8 +1524,15 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
-        one: Around %{count} year
-        other: Around %{count} years
+        year:
+          one: "%{count} year"
+          other: "%{count} years"
+        month:
+          one: "%{count} month"
+          other: "%{count} months"
+        week:
+          one: "%{count} week"
+          other: "%{count} weeks"
       view_assessments: Assessments
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
@@ -1815,6 +1824,7 @@ en:
         suburb: Suburb
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
+        time_in_care: Time in Care
         time_of_frequency: Time of Frequency
         total: Total
         township: Township
@@ -1931,6 +1941,7 @@ en:
       show_all: Show All
       support_amount: Support Amount
       support_note: Support Note
+      time_in_care: Time in Care
       trackings:
         action: Action
         frequency: Frequency
@@ -2687,6 +2698,7 @@ en:
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
       general_info: About Family
+      guardian: Guardian
       house: House
       household_income: Monthly Household Income
       id: ID
@@ -2799,6 +2811,23 @@ en:
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
+  government_forms:
+    create:
+      successfully_created: Form has been successfully created.
+    destroy:
+      successfully_deleted: Form has been successfully deleted.
+    edit:
+      edit_report: Edit Form
+    index:
+      action: Action
+      add_form: Add New Form
+      back: Back
+      created_at: Created Date
+      created_by: Created By
+    new:
+      new_form: New Form
+    update:
+      successfully_updated: Form has been successfully updated.
   government_reports:
     create:
       successfully_created: Government Report has been successfully created.
@@ -3960,8 +3989,10 @@ en:
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
   settings:
     assessment:
+      age: age
       assessment: CSI Assessment Frequency Settings
       disable_assessment: We are not using CSI Assessment Tool
+      eligible: Eligible for client under
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
     case_note:
