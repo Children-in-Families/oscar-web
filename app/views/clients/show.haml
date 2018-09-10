@@ -406,7 +406,8 @@
                       %td
                         .text-center
                           %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
-                          - if policy(case_history).edit?
+                          -# - if policy(case_history).edit?
+                          - if current_user.admin?
                             - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
                               %button.btn.btn-outline.btn-success.btn-xs{'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal'}= fa_icon('pencil')
                             = case_history_links(case_history, case_history_name)
