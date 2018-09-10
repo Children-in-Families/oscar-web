@@ -522,7 +522,7 @@ class ClientGrid < BaseGrid
     Organization.switch_to 'shared'
     date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
     Organization.switch_to current_org.short_name
-    date_of_birth.strftime("%d %B %Y")
+    date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
   end
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
