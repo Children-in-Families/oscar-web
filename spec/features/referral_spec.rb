@@ -113,7 +113,7 @@ describe 'Referral' do
     end
 
     scenario 'Date of referral' do
-      expect(page).to have_content(referral.date_of_referral.strftime('%d %B, %Y'))
+      expect(page).to have_content(referral.date_of_referral.strftime('%d %B %Y'))
     end
 
     scenario 'Client Name' do
