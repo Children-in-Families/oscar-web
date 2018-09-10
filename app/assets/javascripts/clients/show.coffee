@@ -4,6 +4,7 @@ CIF.ClientsShow = do ->
 
     _caseModalValidation()
     _exitNgoModalValidation()
+    _editExitNgoModalValidation()
     _enterNgoModalValidation()
     _ajaxCheckReferral()
 
@@ -65,8 +66,18 @@ CIF.ClientsShow = do ->
     }
     _modalFormValidator(data)
 
-  _exitNgoModalValidation = ->
+  _editExitNgoModalValidation = ->
+    $('.exit-ngos').on 'shown.bs.modal', (e) ->
+      data = {
+        date: "##{e.target.id} #exit_ngo_exit_date",
+        field: "##{e.target.id} #exit_ngo_exit_circumstance",
+        note: "##{e.target.id} #exit_ngo_exit_note",
+        form: "##{e.target.id}",
+        btn: ".confirm-exit"
+      }
+      _modalFormValidator(data)
 
+  _exitNgoModalValidation = ->
     data = {
       date: '#exitFromNgo #exit_ngo_exit_date',
       field: '#exitFromNgo #exit_ngo_exit_circumstance',
@@ -77,7 +88,7 @@ CIF.ClientsShow = do ->
     _modalFormValidator(data)
 
   _checkExitReasonsLength = (form) ->
-    if form == '#exitFromNgo' then $('#exitFromNgo .i-checks input:checked').length else 1
+    if form == '#exitFromNgo' or form.indexOf('#exit_ngos-') >= 0 then $(form).find('.i-checks input:checked').length else 1
 
   _modalFormValidator = (data)->
     date = data['date']
@@ -92,7 +103,7 @@ CIF.ClientsShow = do ->
       exitReasonsLength = _checkExitReasonsLength(form)
       _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
-    $('#exitFromNgo .i-checks').on 'ifToggled', ->
+    $('#exitFromNgo .i-checks, .exit-ngos .i-checks').on 'ifToggled', ->
       exitReasonsLength = _checkExitReasonsLength(form)
       _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
