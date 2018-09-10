@@ -704,10 +704,6 @@ class ClientGrid
     object.donors.pluck(:name).join(', ')
   end
 
-  column(:form_title, order: false, header: -> { I18n.t('datagrid.columns.clients.form_title') }, html: true) do |object|
-    render partial: 'clients/client_custom_fields', locals: { object: object }
-  end
-
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
     Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
   end
@@ -766,7 +762,7 @@ class ClientGrid
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).count
             else
               properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
               properties = properties[format_field_value] if properties.present?

@@ -46,7 +46,6 @@ module AdvancedSearches
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
-        ['form_title', client_custom_form_options],
         ['donor_name', donor_options],
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
@@ -56,10 +55,6 @@ module AdvancedSearches
         ['referred_to', referral_to_options],
         ['referred_from', referral_from_options]
       ]
-    end
-
-    def client_custom_form_options
-      CustomField.client_forms.order(:form_title).map{ |c| { c.id.to_s => c.form_title }}
     end
 
     def case_note_type_options

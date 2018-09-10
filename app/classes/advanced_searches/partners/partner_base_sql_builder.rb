@@ -1,7 +1,7 @@
 module AdvancedSearches
   module Partners
     class PartnerBaseSqlBuilder
-      ASSOCIATION_FIELDS = ['form_title']
+      ASSOCIATION_FIELDS = []
       BLANK_FIELDS = ['start_date', 'organization_type_id', 'id']
       SENSITIVITY_FIELDS = %w(name contact_person_name address email contact_person_mobile engagement affiliation background)
 
@@ -27,10 +27,16 @@ module AdvancedSearches
             @values     << association_filter[:values]
 
           elsif form_builder.first == 'formbuilder'
-            custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Partner')
-            custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'partner').get_sql
-            @sql_string << custom_field[:id]
-            @values << custom_field[:values]
+            if form_builder.last == 'Has This Form'
+              custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Partner').try(:id)
+              @sql_string << "Partners.id IN (?)"
+              @values << @partners.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
+            else
+              custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Partner')
+              custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'partner').get_sql
+              @sql_string << custom_field[:id]
+              @values << custom_field[:values]
+            end
 
           elsif field != nil
             base_sql(field, operator, value)

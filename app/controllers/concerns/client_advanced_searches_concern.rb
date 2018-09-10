@@ -81,7 +81,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_has_this_form_fields
