@@ -145,7 +145,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _addTasks = ->
     $('.assessment-task-btn').on 'click', (e) ->
-      _clearTaskForm()
       domainId = $(e.target).data('domain-id')
       $('#task_domain_id').val(domainId)
       $('.task_required').removeClass('text-required')
@@ -156,33 +155,45 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       e.preventDefault()
       actionUrl = undefined
       data      = undefined
+      taskName  = undefined
+      taskDate  = undefined
+      domainId  = undefined
       data      = $('#assessment_domain_task').serializeArray()
       actionUrl = $('#assessment_domain_task').attr('action').split('?')[0]
 
-      $.ajax
-        type: 'POST'
-        url: "#{actionUrl}.json"
-        data: data
-        success: (response) ->
-          _addElementToDom(response, actionUrl)
-          $('.add-task-btn').removeAttr('disabled')
-          $('#tasksFromModal').modal('hide')
-        error: (response) ->
-          $('.add-task-btn').removeAttr('disabled')
-          _showTaskError(response.responseJSON)
+      taskName  = $('#task_name').val()
+      domainId  = $('#task_domain_id').val()
+      domainDate  = $('#task_completion_date').val()
 
-  _addElementToDom = (data, actionUrl) ->
-    appendElement  = $(".domain-#{data.domain_id} .task-arising");
+      _addElementToDom(taskName, domainDate, domainId, actionUrl)
+      _clearTaskForm()
+      # $.ajax
+      #   type: 'POST'
+      #   url: "#{actionUrl}.json"
+      #   data: data
+      #   success: (response) ->
+      #     _addElementToDom(response, actionUrl)
+      #     $('.add-task-btn').removeAttr('disabled')
+      #     $('#tasksFromModal').modal('hide')
+      #   error: (response) ->
+      #     $('.add-task-btn').removeAttr('disabled')
+      #     _showTaskError(response.responseJSON)
+
+  _addElementToDom = (taskName, domainDate, domainId, actionUrl) ->
+    appendElement  = $(".domain-#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
     deleteLink     = ''
-    deleteUrl      = "#{actionUrl}/#{data.id}"
+    deleteUrl      = "#{actionUrl}/#{domainId}"
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() != 'case worker'
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}#{deleteLink}</li>"
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink}</li>"
+    element        = element + "<input id='prodId' name='task[]' type='hidden' value='#{taskName}, #{domainDate}, #{domainId}'>"
 
-    $(".domain-#{data.domain_id} .task-arising").removeClass('hidden')
-    $(".domain-#{data.domain_id} .task-arising ol").append(element)
+    $(".domain-#{domainId} .task-arising").removeClass('hidden')
+    $(".domain-#{domainId} .task-arising ol").append(element)
     _clearTaskForm()
+    $('.add-task-btn').removeAttr('disabled')
+    $('#tasksFromModal').modal('hide')
 
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
@@ -201,10 +212,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
 
-    $.ajax
-      type: 'delete'
-      url: url
-      success: (response) ->
+    # $.ajax
+    #   type: 'delete'
+    #   url: url
+    #   success: (response) ->
     $(e.target).parent().remove()
 
   _removeTaskError = ->

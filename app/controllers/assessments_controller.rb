@@ -20,9 +20,13 @@ class AssessmentsController < AdminController
   end
 
   def create
+    binding.pry
     @assessment = @client.assessments.new(assessment_params)
     authorize @assessment
+    task_header = ['name', 'completion_date', 'domain_id']
     if @assessment.save
+      task_attr = params[:task].map {|task| [task_header, task.split(', ')].transpose.to_h}
+      Task.create(task_attr) if task_attr.present?
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
     else
       render :new
@@ -42,6 +46,7 @@ class AssessmentsController < AdminController
   end
 
   def update
+    binding.pry
     params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
       add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
     end

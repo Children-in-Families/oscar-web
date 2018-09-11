@@ -12,7 +12,7 @@
                 %h5= "#{@assessment.client.name}"
                 %label.label.label-success= "#{t('.domain')} #{domain.name}"
                 .ibox-tools
-                  = link_to client_assessments_path(@client) do
+                  = link_to client_assessments_path(@client, task_unsaved: [1,2,3,4]) do
                     .btn.btn-default.btn-back-default.button
                       = t('.back')
               .ibox-content
