@@ -38,7 +38,7 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        @client_tasks  = @client.tasks.incomplete.by_case_note.order(:completion_date)
+        @client_tasks  = @client.tasks.incomplete.by_case_note.order(completion_date: :desc)
         @case_notes    = []
 
         @client.case_notes.order(meeting_date: :desc).each do |case_note|
