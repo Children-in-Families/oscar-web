@@ -68,6 +68,7 @@ class ClientHistory
   def create_case_worker_client_history
     object['user_ids'].each do |user_id|
       case_worker = User.find_by(id: user_id).try(:attributes)
+      next if case_worker.nil?
       case_worker['current_sign_in_ip'] = case_worker['current_sign_in_ip'].to_s
       case_worker['last_sign_in_ip'] = case_worker['last_sign_in_ip'].to_s
       case_worker_client_histories.create(object: case_worker)
