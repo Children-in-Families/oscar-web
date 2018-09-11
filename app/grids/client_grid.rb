@@ -479,7 +479,7 @@ class ClientGrid < BaseGrid
     end
   end
 
-  column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
+  date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }

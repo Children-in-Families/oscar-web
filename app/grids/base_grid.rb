@@ -14,8 +14,12 @@ class BaseGrid
 
   def self.date_column(name, *args)
     column(name, *args) do |model|
-      format(block_given? ? yield : model.send(name)) do |date|
-        date.strftime("%d %B %Y") if date.present?
+      if block_given?
+        format(block_given? ? yield : model.send(name)) do |date|
+          date.strftime("%d %B %Y") if date.present?
+        end
+      else
+        model.send(name).present? ? model.send(name).strftime("%d %B %Y") : ''
       end
     end
   end
