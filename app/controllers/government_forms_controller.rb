@@ -38,10 +38,10 @@ class GovernmentFormsController < AdminController
   def show
     respond_to do |format|
       format.pdf do
-        @client_tasks  = @client.tasks.incomplete.by_case_note
+        @client_tasks  = @client.tasks.incomplete.by_case_note.order(:completion_date)
         @case_notes    = []
 
-        @client.case_notes.each do |case_note|
+        @client.case_notes.order(meeting_date: :desc).each do |case_note|
           meeting_dates = []
           tasks = []
           notes = []
