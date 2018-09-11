@@ -37,7 +37,7 @@
                         %li.list-group-item{style: 'padding-bottom: 11px'}
                           = task.name
                           - if can? :destroy, Task
-                            %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", :style => "margin: 0;"}
+                            %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
                 .form-group
                   %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                     = t('.add_task')

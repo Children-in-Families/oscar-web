@@ -154,40 +154,31 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $('.add-task-btn').attr('disabled','disabled')
       e.preventDefault()
       actionUrl = undefined
-      data      = undefined
       taskName  = undefined
       taskDate  = undefined
       domainId  = undefined
-      data      = $('#assessment_domain_task').serializeArray()
+
       actionUrl = $('#assessment_domain_task').attr('action').split('?')[0]
 
-      taskName  = $('#task_name').val()
-      domainId  = $('#task_domain_id').val()
-      domainDate  = $('#task_completion_date').val()
+      taskName = $('#task_name').val()
+      domainId = $('#task_domain_id').val()
+      taskDate = $('#task_completion_date').val()
 
-      _addElementToDom(taskName, domainDate, domainId, actionUrl)
-      _clearTaskForm()
-      # $.ajax
-      #   type: 'POST'
-      #   url: "#{actionUrl}.json"
-      #   data: data
-      #   success: (response) ->
-      #     _addElementToDom(response, actionUrl)
-      #     $('.add-task-btn').removeAttr('disabled')
-      #     $('#tasksFromModal').modal('hide')
-      #   error: (response) ->
-      #     $('.add-task-btn').removeAttr('disabled')
-      #     _showTaskError(response.responseJSON)
+      if taskName.length > 0 || taskDate.length > 0
+        _addElementToDom(taskName, taskDate, domainId, actionUrl)
+        _clearTaskForm()
+      else
+        $('.add-task-btn').removeAttr('disabled')
+        _showTaskError(taskName, taskDate)
 
-  _addElementToDom = (taskName, domainDate, domainId, actionUrl) ->
+  _addElementToDom = (taskName, taskDate, domainId, actionUrl) ->
     appendElement  = $(".domain-#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
     deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{domainId}"
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() != 'case worker'
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink}</li>"
-    element        = element + "<input id='prodId' name='task[]' type='hidden' value='#{taskName}, #{domainDate}, #{domainId}'>"
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}'></li>"
 
     $(".domain-#{domainId} .task-arising").removeClass('hidden')
     $(".domain-#{domainId} .task-arising ol").append(element)
@@ -212,29 +203,33 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
 
-    # $.ajax
-    #   type: 'delete'
-    #   url: url
-    #   success: (response) ->
-    $(e.target).parent().remove()
+    if $(e.target).data('persisted') == true
+      $.ajax
+        type: 'delete'
+        url: url
+        success: (response) ->
+      $(e.target).parent().remove()
+    else
+      $(e.target).parent().remove()
 
   _removeTaskError = ->
     task = '#assessment_domain_task'
     $("#{task} .task_name, #{task} .task_completion_date").removeClass('has-error')
     $("#{task} .task_name_help, #{task} .task_completion_date_help").hide()
 
-  _showTaskError = (error) ->
+  _showTaskError = (taskName, completionDate) ->
     task = '#assessment_domain_task'
-    if error.completion_date != undefined and error.completion_date.length > 0
+
+    if completionDate != undefined and completionDate.length <= 0
       $("#{task} .task_completion_date").addClass('has-error')
-      $("#{task} .task_completion_date_help").show().html(error.completion_date[0])
+      $("#{task} .task_completion_date_help").show().html('can not be blank')
     else
       $("#{task} .task_completion_date").removeClass('has-error')
       $("#{task} .task_completion_date_help").hide()
 
-    if error.name != undefined and error.name.length > 0
+    if taskName != undefined and taskName.length <= 0
       $("#{task} .task_name").addClass('has-error')
-      $("#{task} .task_name_help").show().html(error.name[0])
+      $("#{task} .task_name_help").show().html('can not be blank')
     else
       $("#{task} .task_name").removeClass('has-error')
       $("#{task} .task_name_help").hide()

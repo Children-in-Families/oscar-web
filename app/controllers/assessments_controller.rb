@@ -20,13 +20,13 @@ class AssessmentsController < AdminController
   end
 
   def create
-    binding.pry
     @assessment = @client.assessments.new(assessment_params)
     authorize @assessment
-    task_header = ['name', 'completion_date', 'domain_id']
     if @assessment.save
-      task_attr = params[:task].map {|task| [task_header, task.split(', ')].transpose.to_h}
-      Task.create(task_attr) if task_attr.present?
+      if params.has_key?(:task)
+        task_attr = params[:task].map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ')].transpose.to_h }
+        @client.tasks.create(task_attr)
+      end
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
     else
       render :new
@@ -46,13 +46,16 @@ class AssessmentsController < AdminController
   end
 
   def update
-    binding.pry
     params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
       add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
     end
     if @assessment.update_attributes(assessment_params)
       @assessment.update(updated_at: DateTime.now)
       @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
+      if params.has_key?(:task)
+        task_attr = params[:task].map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ')].transpose.to_h }
+        @client.tasks.create(task_attr)
+      end
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
     else
       render :edit
