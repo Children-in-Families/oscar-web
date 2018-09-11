@@ -29,7 +29,11 @@ module AdvancedSearches
     private
 
     def quantitative_cases(qt)
-      qt.quantitative_cases.map{ |qc| { qc.id.to_s => qc.value }}
+      # binding.pry
+      # qt.quantitative_cases.each do |qc|
+      #   binding.pry
+      # end
+      # qt.quantitative_cases.map{ |qc| { qc.id.to_s => qc.value }}
     end
   end
 end

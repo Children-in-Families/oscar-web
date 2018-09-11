@@ -6,7 +6,7 @@ class ClientGrid
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
 
   scope do
-    Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :enter_ngos, :exit_ngos, :users, :custom_fields).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
