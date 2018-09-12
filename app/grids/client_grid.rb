@@ -762,7 +762,7 @@ class ClientGrid
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).count
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
               properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
               properties = properties[format_field_value] if properties.present?

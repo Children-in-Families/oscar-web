@@ -231,7 +231,7 @@ module ClientGridOptions
         if fields.first == 'formbuilder'
           if data == 'recent'
             if fields.last == 'Has This Form'
-              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).count
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
               properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
               properties = format_array_value(properties[format_field_value]) if properties.present?

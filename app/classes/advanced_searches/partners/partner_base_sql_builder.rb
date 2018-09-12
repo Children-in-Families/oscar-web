@@ -1,7 +1,6 @@
 module AdvancedSearches
   module Partners
     class PartnerBaseSqlBuilder
-      ASSOCIATION_FIELDS = []
       BLANK_FIELDS = ['start_date', 'organization_type_id', 'id']
       SENSITIVITY_FIELDS = %w(name contact_person_name address email contact_person_mobile engagement affiliation background)
 
@@ -21,12 +20,7 @@ module AdvancedSearches
           operator = rule['operator']
           value    = rule['value']
           form_builder = field != nil ? field.split('_') : []
-          if ASSOCIATION_FIELDS.include?(field)
-            association_filter = AdvancedSearches::Partners::PartnerAssociationFilter.new(@partners, field, operator, value).get_sql
-            @sql_string << association_filter[:id]
-            @values     << association_filter[:values]
-
-          elsif form_builder.first == 'formbuilder'
+          if form_builder.first == 'formbuilder'
             if form_builder.last == 'Has This Form'
               custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Partner').try(:id)
               @sql_string << "Partners.id IN (?)"

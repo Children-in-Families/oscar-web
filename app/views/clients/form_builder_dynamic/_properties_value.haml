@@ -1,7 +1,7 @@
 %ul
   - if params[:data] == 'recent'
     - if properties.is_a? Integer
-      %span.label.label-info= "#{t('datagrid.columns.clients.total')}  : #{properties} "
+      %span.label.label-info= "#{t('datagrid.columns.clients.total')} : #{properties} "
     - else
       - return unless field_not_blank?(properties)
       %li= format_properties_value(properties) if properties.present?
@@ -9,6 +9,6 @@
     - properties.each do |property|
       - next unless field_not_blank?(property)
       - if property.is_a? Integer
-        %span.label.label-info= "#{t('datagrid.columns.clients.total')}  : #{property} "
+        %span.label.label-info= "#{t('datagrid.columns.clients.total')} : #{property} "
       - else
         %li= format_properties_value(property)
