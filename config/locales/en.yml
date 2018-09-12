@@ -739,10 +739,8 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        accept: Accept
         accept_ngo_form: Enter NGO Form
         accepted_date: Accepted Date
-        case_worker_or_staff: Case Worker / Staff
       form:
         accept: Accept
         accept_ngo_form: Enter NGO Form
@@ -756,16 +754,12 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        case_worker_or_staff: Case Worker / Staff
-        exit_btn: Exit
         exit_circumstance: Exit Circumstance
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
         exit_reasons: Reason for Exit / Case Rejection
-        exit_status: Status
         other_info_of_exit: Other - More Information
-        reject_client: Reject Client
         rejected_note: Rejected Note
       form:
         case_worker_or_staff: Case Worker / Staff
