@@ -24,7 +24,7 @@ class AssessmentsController < AdminController
     authorize @assessment
     if @assessment.save
       if params.has_key?(:task)
-        task_attr = params[:task].map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ')].transpose.to_h }
+        task_attr = params[:task].map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ') << current_user.id].transpose.to_h }
         @client.tasks.create(task_attr)
       end
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
@@ -53,7 +53,8 @@ class AssessmentsController < AdminController
       @assessment.update(updated_at: DateTime.now)
       @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
       if params.has_key?(:task)
-        task_attr = params[:task].map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ')].transpose.to_h }
+        binding.pry
+        task_attr = params[:task].map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ') << current_user.id].transpose.to_h }
         @client.tasks.create(task_attr)
       end
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
