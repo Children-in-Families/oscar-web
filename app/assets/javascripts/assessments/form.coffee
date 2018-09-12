@@ -164,7 +164,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainId = $('#task_domain_id').val()
       taskDate = $('#task_completion_date').val()
 
-      if taskName.length > 0 || taskDate.length > 0
+      if taskName.length > 0 && taskDate.length > 0
         _addElementToDom(taskName, taskDate, domainId, actionUrl)
         _clearTaskForm()
       else
@@ -222,14 +222,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     if completionDate != undefined and completionDate.length <= 0
       $("#{task} .task_completion_date").addClass('has-error')
-      $("#{task} .task_completion_date_help").show().html('can not be blank')
+      $("#{task} .task_completion_date_help").show().html($("#{task} #hidden-error-message").text())
     else
       $("#{task} .task_completion_date").removeClass('has-error')
       $("#{task} .task_completion_date_help").hide()
 
     if taskName != undefined and taskName.length <= 0
+
       $("#{task} .task_name").addClass('has-error')
-      $("#{task} .task_name_help").show().html('can not be blank')
+      $("#{task} .task_name_help").show().html($("#{task} #hidden-error-message").text())
     else
       $("#{task} .task_name").removeClass('has-error')
       $("#{task} .task_name_help").hide()

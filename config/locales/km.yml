@@ -2601,6 +2601,7 @@ km:
     messages:
       already_confirmed: ត្រូវបានបញ្ជាក់រួចហើយ សូមសាកល្បងចូល
       already_in_use: កុំពុងត្រូវបានប្រើប្រាស់រួចហើយ
+      blank: មិនអាចរំលង
       confirmation_period_expired: ត្រូវការបញ្ជាក់ជាមួយ %{period} សូម ស្នើសុំ ថ្មីមួយទៀត
       expired: បានផុតកំណត់ហើយ សូម ស្នើសុំ ថ្មីមួយទៀត
       not_email: មិនមែនជាឣុីម៉ែល
