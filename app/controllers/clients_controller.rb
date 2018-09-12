@@ -28,8 +28,6 @@ class ClientsController < AdminController
       respond_to do |f|
         f.html do
           client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-          @csi_statistics         = CsiStatistic.new(client_grid.assets).assessment_domain_score.to_json
-          @enrollments_statistics = ActiveEnrollmentStatistic.new(client_grid.assets).statistic_data.to_json
           @results                = client_grid.assets.size
           @clients                = client_grid.assets
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }

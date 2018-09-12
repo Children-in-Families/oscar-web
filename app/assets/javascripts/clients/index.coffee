@@ -9,8 +9,6 @@ CIF.ClientsIndex = do ->
     _clickMenuResizeChart()
     _handleHideShowReport()
     _formatReportxAxis()
-    _handleCreateCaseReport()
-    _handleCreateCsiDomainReport()
     _handleScrollTable()
     _handleColumnVisibilityParams()
     # _handleUncheckColumnVisibility()
@@ -215,10 +213,36 @@ CIF.ClientsIndex = do ->
 
   _handleHideShowReport = ->
     $('#client-statistic').click ->
-      $('#client-advance-search-form').collapse('hide')
-      $('#client-search-form').collapse('hide')
-      $('#client-statistic-body').slideToggle("slow")
-      _handleResizeWindow()
+      paramsAdvancedSearch = $('#params').val()
+      if paramsAdvancedSearch != ''
+        _handleCreateCsiDomainReport()
+        _handleCreateCaseReport()
+        $('#client-advance-search-form').collapse('hide')
+        $('#client-search-form').collapse('hide')
+        $('#client-statistic-body').slideToggle("slow")
+        _handleResizeWindow()
+      else
+        $quickGraphButton = $(this)
+        $quickGraphButton.button 'loading'
+
+        $.ajax
+          url: '/api/clients/render_client_statistics'
+          method: 'GET'
+          success: (response) ->
+            data = response.text.split(' & ')
+            cisStatistic = data[0]
+            enrollmentStatistics = data[1]
+            $('#cis-domain-score').attr 'data-csi-domain', cisStatistic
+            $('#program-statistic').attr 'data-program-statistic', enrollmentStatistics
+            _handleCreateCsiDomainReport()
+            _handleCreateCaseReport()
+            setTimeout (->
+              $quickGraphButton.button 'reset'
+            )
+            $('#client-advance-search-form').collapse('hide')
+            $('#client-search-form').collapse('hide')
+            $('#client-statistic-body').slideToggle("slow")
+            _handleResizeWindow()
 
   _clickMenuResizeChart = ->
     $('.minimalize-styl-2').click ->

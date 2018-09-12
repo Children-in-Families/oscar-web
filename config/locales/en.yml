@@ -1322,6 +1322,7 @@ en:
       export_to_xls: Export to XLS
       load: Loading more...
       load_save_search: Load Saved Search
+      loading: Loading ...
       most_recent: Most Recent
       read_less: read less
       read_more: read more

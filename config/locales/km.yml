@@ -1323,6 +1323,7 @@ km:
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       load: កំពុងផ្ទុក...
       load_save_search: ទាញយកលក្ខខ័ណ្ឌស្វែងរក
+      loading: កំពុងផ្ទុក...
       most_recent: ថ្មីបំផុត
       read_less: អានតិច
       read_more: អានបន្ថែម

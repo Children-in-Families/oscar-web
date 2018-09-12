@@ -1,8 +1,15 @@
 module Api
   class ClientsController < AdminController
+    include ClientGridOptions
+
+    before_action :choose_grid
 
     def compare
       render json: find_client_in_organization
+    end
+
+    def render_client_statistics
+      render json: client_statistics
     end
 
     private
@@ -30,6 +37,13 @@ module Api
       collections.each do |collection|
         collection.organization = value
       end
+    end
+
+    def client_statistics
+      client_grid     = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+      @csi_statistics = CsiStatistic.new(client_grid.assets).assessment_domain_score.to_json
+      @enrollments_statistics = ActiveEnrollmentStatistic.new(client_grid.assets).statistic_data.to_json
+      { text: "#{@csi_statistics} & #{@enrollments_statistics}" }
     end
   end
 end
