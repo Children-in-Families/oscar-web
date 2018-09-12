@@ -57,7 +57,7 @@ module FtsImporter
         client_given_name   = workbook.row(row)[headers['*Name']].squish
         donor = Donor.find_or_create_by(name: name, code: name)
         client = Client.given_name_like(client_given_name).family_name_like(client_family_name).first
-        if client.donor_ids.nil?
+        if client.donors.empty?
           donor_ids = [donor.id]
           client.donor_ids = donor_ids
         else
