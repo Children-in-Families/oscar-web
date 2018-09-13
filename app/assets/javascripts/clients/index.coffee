@@ -225,7 +225,7 @@ CIF.ClientsIndex = do ->
         _handleCreateCaseReport()
         _toggleCollapseOnOff()
       else
-        if $('#client-statistic-body').is(':visible')
+        if $('#cis-domain-score').is('[data-csi-domain]') && $('#program-statistic').is('[data-program-statistic]')
           _toggleCollapseOnOff()
         else
           $('#client-statistic').css 'cursor', 'progress'
@@ -241,8 +241,8 @@ CIF.ClientsIndex = do ->
               $('#program-statistic').attr 'data-program-statistic', enrollmentStatistics
               _handleCreateCsiDomainReport()
               _handleCreateCaseReport()
-              $('#client-statistic').css 'cursor', 'default'
-              $('body').css 'cursor', 'default'
+              $('#client-statistic').css 'cursor', ''
+              $('body').css 'cursor', ''
               _toggleCollapseOnOff()
 
   _clickMenuResizeChart = ->
