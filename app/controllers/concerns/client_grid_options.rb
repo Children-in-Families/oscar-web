@@ -163,7 +163,7 @@ module ClientGridOptions
     if params[:data].presence == 'recent'
       @client_grid.column(:program_exit_date, header: I18n.t('datagrid.columns.clients.program_exit_date')) do |client|
         recent_record = client.client_enrollments.inactive.joins(:leave_program).order('leave_programs.exit_date DESC').first
-        "#{recent_record.program_stream.name} : #{recent_record.leave_program.exit_date}" if recent_record.present?
+        "#{recent_record.program_stream.name} : #{date_format(recent_record.leave_program.exit_date)}" if recent_record.present?
       end
     else
       @client_grid.column(:program_exit_date, header: I18n.t('datagrid.columns.clients.program_exit_date')) do |client|
