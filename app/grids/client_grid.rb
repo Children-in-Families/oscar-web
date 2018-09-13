@@ -792,7 +792,7 @@ class ClientGrid < BaseGrid
           if data == 'recent'
             properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map{|date| date_format(date.enrollment_date) }
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map{|date| date_format(date.exit_date) }
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids
@@ -806,7 +806,7 @@ class ClientGrid < BaseGrid
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('_').split(' ').first }
         else
-          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties.map{|value| date_format(value.to_date) } }
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: properties.flatten.all?{|value| DateTime.parse value rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
         end
       end
     end
