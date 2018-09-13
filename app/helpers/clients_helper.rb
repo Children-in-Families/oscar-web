@@ -162,14 +162,14 @@ module ClientsHelper
   end
 
   def format_array_value(value)
-    value.is_a?(Array) ? check_is_date?(value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')).join(' , ') : check_string_date?(value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"'))
+    value.is_a?(Array) ? check_is_array_date?(value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')).join(' , ') : check_is_string_date?(value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"'))
   end
 
   def check_is_array_date?(properties)
     properties.flatten.all?{|value| DateTime.parse value rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
   end
 
-  def check_string_date?(property)
+  def check_is_string_date?(property)
     (DateTime.parse property rescue nil).present? ? date_format(property.to_date) : property
   end
 
