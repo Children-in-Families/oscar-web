@@ -222,9 +222,8 @@ CIF.ClientsIndex = do ->
         $('#client-statistic-body').slideToggle("slow")
         _handleResizeWindow()
       else
-        $quickGraphButton = $(this)
-        $quickGraphButton.button 'loading'
-
+        $('#client-statistic').css 'cursor', 'progress'
+        $('body').css 'cursor', 'progress'
         $.ajax
           url: '/api/clients/render_client_statistics'
           method: 'GET'
@@ -236,9 +235,8 @@ CIF.ClientsIndex = do ->
             $('#program-statistic').attr 'data-program-statistic', enrollmentStatistics
             _handleCreateCsiDomainReport()
             _handleCreateCaseReport()
-            setTimeout (->
-              $quickGraphButton.button 'reset'
-            )
+            $('#client-statistic').css 'cursor', 'default'
+            $('body').css 'cursor', 'default'
             $('#client-advance-search-form').collapse('hide')
             $('#client-search-form').collapse('hide')
             $('#client-statistic-body').slideToggle("slow")
