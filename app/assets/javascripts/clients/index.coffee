@@ -222,25 +222,31 @@ CIF.ClientsIndex = do ->
         $('#client-statistic-body').slideToggle("slow")
         _handleResizeWindow()
       else
-        $('#client-statistic').css 'cursor', 'progress'
-        $('body').css 'cursor', 'progress'
-        $.ajax
-          url: '/api/clients/render_client_statistics'
-          method: 'GET'
-          success: (response) ->
-            data = response.text.split(' & ')
-            cisStatistic = data[0]
-            enrollmentStatistics = data[1]
-            $('#cis-domain-score').attr 'data-csi-domain', cisStatistic
-            $('#program-statistic').attr 'data-program-statistic', enrollmentStatistics
-            _handleCreateCsiDomainReport()
-            _handleCreateCaseReport()
-            $('#client-statistic').css 'cursor', 'default'
-            $('body').css 'cursor', 'default'
-            $('#client-advance-search-form').collapse('hide')
-            $('#client-search-form').collapse('hide')
-            $('#client-statistic-body').slideToggle("slow")
-            _handleResizeWindow()
+        if $('#client-statistic-body').is(':visible')
+          $('#client-advance-search-form').collapse('hide')
+          $('#client-search-form').collapse('hide')
+          $('#client-statistic-body').slideToggle("slow")
+          _handleResizeWindow()
+        else
+          $('#client-statistic').css 'cursor', 'progress'
+          $('body').css 'cursor', 'progress'
+          $.ajax
+            url: '/api/clients/render_client_statistics'
+            method: 'GET'
+            success: (response) ->
+              data = response.text.split(' & ')
+              cisStatistic = data[0]
+              enrollmentStatistics = data[1]
+              $('#cis-domain-score').attr 'data-csi-domain', cisStatistic
+              $('#program-statistic').attr 'data-program-statistic', enrollmentStatistics
+              _handleCreateCsiDomainReport()
+              _handleCreateCaseReport()
+              $('#client-statistic').css 'cursor', 'default'
+              $('body').css 'cursor', 'default'
+              $('#client-advance-search-form').collapse('hide')
+              $('#client-search-form').collapse('hide')
+              $('#client-statistic-body').slideToggle("slow")
+              _handleResizeWindow()
 
   _clickMenuResizeChart = ->
     $('.minimalize-styl-2').click ->
