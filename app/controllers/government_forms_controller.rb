@@ -76,6 +76,21 @@ class GovernmentFormsController < AdminController
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    client_record = SharedClient.find_by(slug: params[:client_id])
+    if client_record.present?
+      @client.given_name = client_record.given_name
+      @client.family_name = client_record.family_name
+      @client.local_given_name = client_record.local_given_name
+      @client.local_family_name = client_record.local_family_name
+      @client.gender = client_record.gender
+      @client.date_of_birth = client_record.date_of_birth
+      @client.telephone_number = client_record.telephone_number
+      @client.live_with = client_record.live_with
+      @client.birth_province_id = client_record.birth_province_id
+    end
+    Organization.switch_to current_org.short_name
   end
 
   def find_association
