@@ -133,7 +133,7 @@ class GovernmentFormsController < AdminController
       :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
       :client_decision, :other_service_type, :other_case_closure, :case_closure_id,
-      :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship,
+      :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship, :brief_case_history,
       interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],

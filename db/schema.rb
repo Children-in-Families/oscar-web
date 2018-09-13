@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180907035927) do
+ActiveRecord::Schema.define(version: 20180906040657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -805,6 +805,7 @@ ActiveRecord::Schema.define(version: 20180907035927) do
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
     t.string   "other_case_closure"
+    t.text     "brief_case_history"
     t.integer  "case_closure_id"
   end
 
@@ -942,7 +943,6 @@ ActiveRecord::Schema.define(version: 20180907035927) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
-    t.string   "country",    default: ""
   end
 
   create_table "partners", force: :cascade do |t|
