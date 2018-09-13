@@ -7,6 +7,16 @@ CIF.ClientsShow = do ->
     _editExitNgoModalValidation()
     _enterNgoModalValidation()
     _ajaxCheckReferral()
+    _initUploader()
+    _initDatePicker()
+
+  _initDatePicker = ->
+    $('.accepted_date').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      orientation: 'bottom',
+      disableTouchKeyboard: true
 
   _initSelect2 = ->
     $('select').select2()
@@ -116,5 +126,13 @@ CIF.ClientsShow = do ->
       $(form).find(btn).attr 'disabled', 'disabled'
     else
       $(form).find(btn).removeAttr 'disabled'
+
+  _initUploader = ->
+    $('.referral_consent_form').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   { init: _init }

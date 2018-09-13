@@ -14,7 +14,7 @@ class Client::ExitNgosController < AdminController
 
   def update
     @exit_ngo = @client.exit_ngos.find(params[:id])
-
+    authorize @exit_ngo
     if @exit_ngo.update_attributes(exit_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
