@@ -1,8 +1,8 @@
-module AghReImporter
+module AghReimporter
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/agh.xlsx')
+    def initialize(sheet_name, path = 'vendor/data/re_agh.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
@@ -23,8 +23,8 @@ module AghReImporter
         kid_id                = workbook.row(row)[headers['Kid ID']]
         family_name           = workbook.row(row)[headers['Last Name']] || ''
         given_name            = workbook.row(row)[headers['First Name']] || ''
-        local_family_name     = workbook.row(row)[headers['Last Name (Khmer)']] || ''
-        local_given_name      = workbook.row(row)[headers['First Name (Khmer)']] || ''
+        local_family_name     = workbook.row(row)[headers['Last Name (khmer)']] || ''
+        local_given_name      = workbook.row(row)[headers['First Name (khmer)']] || ''
         gender                = workbook.row(row)[headers['Gender']]
         dob                   = workbook.row(row)[headers['Date of Birth']]
         school_name           = workbook.row(row)[headers['School Name']]
@@ -48,7 +48,7 @@ module AghReImporter
                                       end
         user_ids                    = User.where(last_name: 'Carson').pluck(:id)
 
-        client = Client.find_by(kid_id: kid)
+        client = Client.find_by(kid_id: kid_id)
         if client.present?
           client.family_name = family_name
           client.given_name = given_name
@@ -71,13 +71,13 @@ module AghReImporter
             family_name: family_name,
             given_name: given_name,
             local_given_name: local_given_name,
-            local_family_name: local_family_name
+            local_family_name: local_family_name,
             gender: gender,
             date_of_birth: dob,
             school_name: school_name,
             school_grade: school_grade,
             birth_province_id: birth_province_id,
-            province_id: province_id,
+            province_id: current_province.try(:id),
             district_id: district_id,
             follow_up_date: follow_up_date,
             has_been_in_orphanage: has_been_in_orphanage,
