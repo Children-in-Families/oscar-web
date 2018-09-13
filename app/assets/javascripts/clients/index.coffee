@@ -211,22 +211,22 @@ CIF.ClientsIndex = do ->
   _formatReportxAxis = ->
     Highcharts.setOptions global: useUTC: false
 
+  _toggleCollapseOnOff = ->
+    $('#client-advance-search-form').collapse('hide')
+    $('#client-search-form').collapse('hide')
+    $('#client-statistic-body').slideToggle("slow")
+    _handleResizeWindow()
+
   _handleHideShowReport = ->
     $('#client-statistic').click ->
       paramsAdvancedSearch = $('#params').val()
       if paramsAdvancedSearch != ''
         _handleCreateCsiDomainReport()
         _handleCreateCaseReport()
-        $('#client-advance-search-form').collapse('hide')
-        $('#client-search-form').collapse('hide')
-        $('#client-statistic-body').slideToggle("slow")
-        _handleResizeWindow()
+        _toggleCollapseOnOff()
       else
         if $('#client-statistic-body').is(':visible')
-          $('#client-advance-search-form').collapse('hide')
-          $('#client-search-form').collapse('hide')
-          $('#client-statistic-body').slideToggle("slow")
-          _handleResizeWindow()
+          _toggleCollapseOnOff()
         else
           $('#client-statistic').css 'cursor', 'progress'
           $('body').css 'cursor', 'progress'
@@ -243,10 +243,7 @@ CIF.ClientsIndex = do ->
               _handleCreateCaseReport()
               $('#client-statistic').css 'cursor', 'default'
               $('body').css 'cursor', 'default'
-              $('#client-advance-search-form').collapse('hide')
-              $('#client-search-form').collapse('hide')
-              $('#client-statistic-body').slideToggle("slow")
-              _handleResizeWindow()
+              _toggleCollapseOnOff()
 
   _clickMenuResizeChart = ->
     $('.minimalize-styl-2').click ->
