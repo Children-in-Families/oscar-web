@@ -806,7 +806,7 @@ class ClientGrid < BaseGrid
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('_').split(' ').first }
         else
-          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: properties.flatten.all?{|value| DateTime.parse value rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
         end
       end
     end

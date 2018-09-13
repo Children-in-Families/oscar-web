@@ -95,7 +95,7 @@ class PartnerGrid < BaseGrid
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Partner'}).properties_by(format_field_value)
-        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
       end
     end
   end

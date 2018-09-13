@@ -166,15 +166,15 @@ module ClientsHelper
   end
 
   def check_is_array_date?(properties)
-    properties.flatten.all?{|value| DateTime.parse value rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
+    properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
   end
 
   def check_is_string_date?(property)
-    (DateTime.parse property rescue nil).present? && property.size <= 10 ? date_format(property.to_date) : property
+    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? date_format(property.to_date) : property
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.delete_if(&:empty?).map{|c| c.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')}.join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
+    value.is_a?(Array) ? check_is_array_date?(value.delete_if(&:empty?).map{|c| c.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')}).join(' , ') : check_is_string_date?(value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"'))
   end
 
   def field_not_blank?(value)
