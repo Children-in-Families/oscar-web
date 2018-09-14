@@ -407,6 +407,7 @@ en:
       subdistrict: Subdistrict
       suburb: Suburb
       telephone_number: Primary Carer Phone Number
+      time_in_care: Time in Care
       time_of_frequency: Time of Frequency
       township: Township
       tracking: Tracking
@@ -738,10 +739,8 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        accept: Accept
         accept_ngo_form: Enter NGO Form
         accepted_date: Accepted Date
-        case_worker_or_staff: Case Worker / Staff
       form:
         accept: Accept
         accept_ngo_form: Enter NGO Form
@@ -755,16 +754,12 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        case_worker_or_staff: Case Worker / Staff
-        exit_btn: Exit
         exit_circumstance: Exit Circumstance
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
         exit_reasons: Reason for Exit / Case Rejection
-        exit_status: Status
         other_info_of_exit: Other - More Information
-        reject_client: Reject Client
         rejected_note: Rejected Note
       form:
         case_worker_or_staff: Case Worker / Staff
@@ -1523,8 +1518,15 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
-        one: Around %{count} year
-        other: Around %{count} years
+        year:
+          one: "%{count} year"
+          other: "%{count} years"
+        month:
+          one: "%{count} month"
+          other: "%{count} months"
+        week:
+          one: "%{count} week"
+          other: "%{count} weeks"
       view_assessments: Assessments
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
@@ -1816,6 +1818,7 @@ en:
         suburb: Suburb
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
+        time_in_care: Time in Care
         time_of_frequency: Time of Frequency
         total: Total
         township: Township
@@ -1932,6 +1935,7 @@ en:
       show_all: Show All
       support_amount: Support Amount
       support_note: Support Note
+      time_in_care: Time in Care
       trackings:
         action: Action
         frequency: Frequency

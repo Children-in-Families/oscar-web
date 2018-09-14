@@ -155,6 +155,9 @@ GEM
     dotenv-rails (2.0.2)
       dotenv (= 2.0.2)
       railties (~> 4.0)
+    dotiw (4.0.1)
+      actionpack (>= 4)
+      i18n
     draper (2.1.0)
       actionpack (>= 3.0)
       activemodel (>= 3.0)
@@ -717,6 +720,7 @@ DEPENDENCIES
   devise (~> 3.5, >= 3.5.2)
   devise_token_auth (~> 0.1.37)
   dotenv-rails (~> 2.0.2)
+  dotiw (~> 4.0.1)
   draper (~> 2.1)
   dropzonejs-rails (~> 0.7.3)
   factory_girl_rails (~> 4.5)

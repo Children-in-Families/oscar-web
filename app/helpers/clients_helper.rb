@@ -353,7 +353,8 @@ module ClientsHelper
       created_at_: t('datagrid.columns.clients.created_at'),
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
-      referred_from_: t('datagrid.columns.clients.referred_from')
+      referred_from_: t('datagrid.columns.clients.referred_from'),
+      time_in_care_: t('datagrid.columns.clients.time_in_care')
     }
 
     Domain.order_by_identity.each do |domain|
@@ -779,5 +780,32 @@ module ClientsHelper
 
   def return_default_filter(object, rule, results)
     rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
+  end
+
+  def case_history_links(case_history, case_history_name)
+    case case_history_name
+    when 'client_enrollments'
+      link_to edit_client_client_enrollment_path(@client, case_history, program_stream_id: case_history.program_stream_id) do
+        content_tag :div, class: 'btn btn-outline btn-success btn-xs' do
+          fa_icon('pencil')
+        end
+      end
+    when 'leave_programs'
+      enrollment = @client.client_enrollments.find(case_history.client_enrollment_id)
+      link_to edit_client_client_enrollment_leave_program_path(@client, enrollment, case_history) do
+        content_tag :div, class: 'btn btn-outline btn-success btn-xs' do
+          fa_icon('pencil')
+        end
+      end
+    end
+  end
+
+  def render_case_history(case_history, case_history_name)
+    case case_history_name
+    when 'enter_ngos'
+      render 'client/enter_ngos/edit_form', client: @client, enter_ngo: case_history
+    when 'exit_ngos'
+      render 'client/exit_ngos/edit_form', client: @client, exit_ngo: case_history
+    end
   end
 end
