@@ -28,9 +28,8 @@ class CsiStatistic
   def assessment_amount
     data = []
     return data unless @clients.any?
-
-    max_count = @clients.map(&:assessments).map(&:size).max
-    clients = @clients.includes(:assessments).where.not(assessments: { client_id: nil }).order('assessments.created_at')
+    max_count = @clients.where.not(assessments_count: nil).pluck(:assessments_count).max
+    clients = @clients.joins(:assessments).order('assessments.created_at')
 
     max_count.times do |i|
       data << clients.map{|c| c.assessments[i].id if c.assessments[i].present? }

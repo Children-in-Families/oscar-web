@@ -24,7 +24,7 @@ Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
 
 Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
-Organization.create_and_build_tanent(short_name: 'cfi', full_name: "Children's Future International", logo: File.open(Rails.root.join('path_to_ngo_logo')))
+# Organization.create_and_build_tanent(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
 
 interviewees     = ['កុមារ', 'ឪពុកម្ដាយ', 'អ្នកអាណាព្យាបាល', 'អ្នកថែទាំ', 'ផ្សេងៗ (សូមបញ្ជាក់)']
 client_types     = ['កុមារកំព្រា', 'កុមារពិការ', 'កុមារត្រូវបានបោះបង់ចោល', 'កុមារអានាថាតាមចិញ្ចើមថ្នល់', 'កុមារញៀនសារធាតុញៀន', 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន', 'កុមារដែលទទួលផលប៉ះពាល់ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏', 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត', 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់', 'កុមារមានទំនាស់ជាមួយច្បាប់', 'ផ្សេងៗ']
