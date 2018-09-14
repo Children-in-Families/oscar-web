@@ -305,20 +305,20 @@ module ClientGridOptions
   end
 
   def non_admin_client_grid
+    data = params[:data].presence
     if params.dig(:client_grid, :quantitative_types)
       quantitative_types = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder, param_data: data))
     end
   end
 
   def column_form_builder
-    if @custom_form_fields.present? || @program_stream_fields.present?
-      @custom_form_fields + @program_stream_fields
-    else
-      []
-    end
+    forms = []
+    forms << @custom_form_fields if @custom_form_fields.present?
+    forms << @program_stream_fields if @program_stream_fields.present?
+    forms.flatten
   end
 
   def form_builder_params

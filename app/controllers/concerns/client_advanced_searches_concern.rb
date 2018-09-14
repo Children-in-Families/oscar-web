@@ -77,7 +77,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_form_fields = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_quantitative_fields
@@ -86,18 +86,18 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_enrollment_fields
-    @enrollment_fields = AdvancedSearches::EnrollmentFields.new(program_stream_values).render
-    enrollment_check? ? @enrollment_fields : []
+    return [] if program_stream_values.empty? || !enrollment_check?
+    AdvancedSearches::EnrollmentFields.new(program_stream_values).render
   end
 
   def get_tracking_fields
-    @tracking_fields = AdvancedSearches::TrackingFields.new(program_stream_values).render
-    tracking_check? ? @tracking_fields : []
+    return [] if program_stream_values.empty? || !tracking_check?
+    AdvancedSearches::TrackingFields.new(program_stream_values).render
   end
 
   def get_exit_program_fields
-    @exit_program_fields = AdvancedSearches::ExitProgramFields.new(program_stream_values).render
-    exit_program_check? ? @exit_program_fields : []
+    return [] if program_stream_values.empty? || !exit_program_check?
+    AdvancedSearches::ExitProgramFields.new(program_stream_values).render
   end
 
   def program_stream_value?
