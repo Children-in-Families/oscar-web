@@ -21,7 +21,7 @@
           = render 'family_status_fields', f: f_family_status
       .col-xs-12
         %hr
-        %h3= 'ការប៉ាន់ប្រមាណចុងក្រោយនៃស្ថានភាពគ្រួសារ'
+        %h3= 'សេចក្ដីសន្និដ្ឋានចុងក្រោយ'
         .row#case-closure
           .col-xs-12.col-sm-6
             = f.association :case_closure, collection: @case_closures.map{|c| [c.name, c.id] }, label: false

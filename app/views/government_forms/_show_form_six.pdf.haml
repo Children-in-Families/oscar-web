@@ -220,7 +220,7 @@
 
         %tr{style: 'background: #fcebdd; '}
           %td.text-right{:colspan => '3'}
-            ចំណាត់ថ្នាក់សរុប (យកពិន្ទុកុមារ+គ្រួសារ)=
+            ចំណាត់ថ្នាក់សរុប (យកចំណាត់ថ្នាក់កុមារ+គ្រួសារ)=
           %td.text-center{:colspan => '2'}
             = @government_form.government_form_children_plans.pluck(:score).select(&:present?).sum + @government_form.government_form_family_plans.pluck(:score).select(&:present?).sum
 
