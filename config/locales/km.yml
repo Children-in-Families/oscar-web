@@ -739,10 +739,8 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
-        accept: ទទួលយក
         accept_ngo_form: ទទួលចូលអង្គការ
         accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
-        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       form:
         accept: ទទួលយក
         accept_ngo_form: ទទួលចូលអង្គការ
@@ -756,16 +754,12 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
-        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-        exit_btn: ចាកចេញ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ
-        exit_status: ស្ថានភាព
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
-        reject_client: មិនទទួលយកអតិថិជន
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -3309,7 +3303,7 @@ km:
       back: ត្រលប់ក្រោយ
       exit_date: ថ្ងៃចាកចេញ
     update:
-      successfully_updated: កម្មវិធីចាកចេញត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_updated: កម្មវិធីចាកចេញ ត្រូវបានកែសម្រួលដោយជោគជ័យ
   locations:
     create:
       failed_create: កន្លែងមិនត្រូវបានបង្កើតដោយជោគជ័យ
