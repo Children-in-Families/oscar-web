@@ -27,7 +27,7 @@ module FtsImporter
         district                = current_province.districts.find_by("name ilike ?", "%#{workbook.row(row)[headers['Address - District/Khan']].squish}%") if workbook.row(row)[headers['Address - District/Khan']].present? && current_province.present?
         commune                 = district.communes.find_by(name_en: workbook.row(row)[headers['Address - Commune/Sangkat']].squish) if district.present? && workbook.row(row)[headers['Address - Commune/Sangkat']].present?
         village                 = commune.villages.find_by(name_en: workbook.row(row)[headers['Address - Village']].squish) if commune.present? && workbook.row(row)[headers['Address - Village']].present?
-        code                    = workbook.row(row)[headers['Family ID']]
+        code                    = workbook.row(row)[headers['Family ID']].squish
         if (given_name == 'Makara' && family_name == 'Meurn') || (given_name == 'Norng' && family_name == 'Poy') || (given_name == 'Pok' && family_name == 'Panha') || (given_name == 'Buk' && family_name == 'Pa') || (given_name == 'Heng' && family_name == 'Kan')
           clients = Client.given_name_like(given_name).family_name_like(family_name)
           clients.last.destroy if clients.count > 1
