@@ -8,7 +8,13 @@ class ClientEnrollmentPolicy < ApplicationPolicy
     end
   end
 
+  def edit?
+    client = Client.find(record.client_id)
+    (client.exit_ngo? && user.admin?) || (!client.exit_ngo? && !user.strategic_overviewer?)
+  end
+
   alias new? create?
+  alias update? edit?
 
   def client_ids
     ClientEnrollment.active.where(program_stream_id: record.program_stream).pluck(:client_id).uniq

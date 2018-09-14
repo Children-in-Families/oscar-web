@@ -14,7 +14,6 @@ class Referral < ActiveRecord::Base
   validates :consent_form, presence: true, if: :making_referral?
 
   validate :check_saved_referral_in_target_ngo, on: :update
-
   before_validation :set_referred_from
 
   after_create :email_referrral_client

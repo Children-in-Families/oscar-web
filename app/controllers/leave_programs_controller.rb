@@ -13,9 +13,11 @@ class LeaveProgramsController < AdminController
 
   def edit
     check_user_permission('editable')
+    authorize @leave_program
   end
 
   def update
+    authorize @leave_program
     if @leave_program.update_attributes(leave_program_params)
       add_more_attachments(@leave_program)
       redirect_to client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program), notice: t('.successfully_updated')

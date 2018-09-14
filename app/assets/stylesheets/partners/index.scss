@@ -17,6 +17,10 @@ body[id='partners-index'] {
     th, td {
       min-width: 225px;
     }
+
+    th.contact_person_email {
+      min-width: 280px;
+    }
   }
 
   .date_filter {
