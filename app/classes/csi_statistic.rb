@@ -28,7 +28,7 @@ class CsiStatistic
   def assessment_amount
     data = []
     return data unless @clients.any?
-    max_count = @clients.where.not(assessments_count: nil).pluck(:assessments_count).max
+    max_count = @clients.where.not(assessments_count: nil).pluck(:assessments_count).max.to_i
     clients = @clients.joins(:assessments).order('assessments.created_at')
 
     max_count.times do |i|
