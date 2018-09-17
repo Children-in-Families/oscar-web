@@ -14,7 +14,7 @@
           %td{style: 'width: 70px;'}
             ឈ្មោះកុមារ:
           %td{style: 'width: 200px;'}
-            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name}"}
+            %input{style: 'width: 100%;', value: @client.local_name }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
@@ -274,7 +274,7 @@
         .col-xs-4{style: 'padding-left: 30px;'}
           %label{style: 'margin-top: 5px;'} ឈ្មោះកុមារ
           .comment{style: 'min-height: 40px;'}
-            %p= "#{@client.local_family_name} #{@client.local_given_name}"
+            %p=@client.local_name
 
         .col-xs-5{style: 'border-left: 1px solid black;'}
           %label{style: 'margin-top: 5px;'} ហត្ថលេខាឬស្នាមមេដៃ

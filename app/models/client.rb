@@ -160,6 +160,10 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def local_name
+    "#{local_family_name} #{local_given_name}"
+  end
+
   def next_assessment_date
     return Date.today if assessments.count.zero?
     (assessments.latest_record.created_at + assessment_duration('max')).to_date
