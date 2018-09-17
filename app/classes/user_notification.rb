@@ -270,7 +270,8 @@ class UserNotification
   private
 
   def program_streams_by_user
-    ProgramStream.complete.includes(:client_enrollments).where.not(client_enrollments: { id: nil, status: 'Exited' }, program_streams: { rules: "{}"}).where(client_enrollments: { client_id: @clients.ids })
+    program_ids = ClientEnrollment.where(client_id: @clients.ids).active.pluck(:program_stream_id).uniq
+    ProgramStream.where(id: program_ids).where.not(rules: '{}')
   end
 
   def enable_assessment_setting?

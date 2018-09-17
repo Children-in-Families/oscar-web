@@ -69,7 +69,8 @@ module AdvancedSearches
     end
 
     def active_program_options
-      ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active'").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
+      program_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
     end
 
     def enrolled_program_options
@@ -77,7 +78,7 @@ module AdvancedSearches
     end
 
     def client_custom_form_options
-      CustomField.joins(:custom_field_properties).client_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
+      CustomFieldProperty.includes(:custom_field).where(custom_formable_type: 'Client').map{ |c| { c.custom_field_id.to_s => c.custom_field.form_title }}.uniq
     end
 
     def client_status
