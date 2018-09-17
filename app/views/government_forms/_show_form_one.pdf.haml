@@ -68,7 +68,7 @@
     %u ព័ត៌មានបឋមអំពីកុមារ:
   .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
     ឈ្មោះកុមារ:
-    %input{style: 'width: 20%; margin-left; 15px;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+    %input{style: 'width: 20%; margin-left; 15px;', value: @client.local_name }
     ថ្ងៃខែឆ្នាំកំណើត:
     - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
     - dob.split('').each_with_index do |code, index|
