@@ -14,7 +14,7 @@
           %td{style: 'width: 70px;'}
             ឈ្មោះកុមារ:
           %td{style: 'width: 200px;'}
-            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name}"}
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
@@ -151,14 +151,11 @@
   .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
     I. ការប៉ាន់ប្រមាណចុងក្រោយសម្រាប់កុមារ
 
-  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px; padding-bottom: 0;'}
-    %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px; margin-top: 5px;'} ចំណាត់ពិន្ទុ
-
   .panel-body.panel-border
     %table.table.table-border.panel-no-margin
       %thead{ style: 'background: #f2f2f2;' }
         %tr
-          %th.text-center ពិន្ទុៈ
+          %th.text-center ចំណាត់ថ្នាក់
           %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
           %th.text-center{style: 'width: 100px;'} 2 មធ្យម
           %th.text-center{style: 'width: 100px;'} 3 ល្អ
@@ -178,7 +175,7 @@
       %tr
         %td{:colspan => '4'}
           %p.no-margin-bottom ចំណាត់ថ្នាក់ដែលអាចបិទករណីបានត្រូវចាប់ពី២១ឡើង
-          %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានពិន្ទុតិចជាង២ ទោះបានពិន្ទុសរុប២១ ក៏មិនអាចបិទករណីបានដែរ)
+          %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានចំណាត់ថ្នាក់តិចជាង២ ទោះបានចំណាត់ថ្នាក់សរុប២១ ក៏មិនអាចបិទករណីបានដែរ)
         %td.text-center{style: 'background: #feff00; border: 1px solid black;'}
           = @government_form.government_form_children_plans.pluck(:score).select(&:present?).sum
 
@@ -194,16 +191,19 @@
     %table.table.table-border.panel-no-margin
       %thead{ style: 'background: #f2f2f2;' }
         %tr
-          %th.text-center ចំណាត់ពិន្ទុៈ
+          %th.text-center ចំណាត់ថ្នាក់
           %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
           %th.text-center{style: 'width: 100px;'} 2 មធ្យម
           %th.text-center{style: 'width: 100px;'} 3 ល្អ
           %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
       %tbody
         - @government_form.government_form_family_plans.select(:id, :score, :comment, :family_plan_id, :government_form_id).each do |status|
-          %tr{ style: 'page-break-inside: avoid;' }
+          %tr
             %td
-              = status.family_status_name
+              - if status.family_status_name == 'ជំនួយពីសាច់ញាតិ'
+                ជំនួយពីសាច់ញាតិ(ទោះបីមានពិន្ទុតិចជាង២ក៏អាចបិទបានដែរ)
+              - else
+                = status.family_status_name
             - (1..4).each do |score|
               %td.text-center
                 .comment{ style: 'min-height: 15px;' }
@@ -214,7 +214,7 @@
         %tr
           %td{:colspan => '4'}
             %p.no-margin-bottom ចំណាត់ថ្នាក់ដែលអាចបិទករណីបានត្រូវចាប់ពី៣០ឡើង
-            %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានពិន្ទុតិចជាង២ ទោះបានពិន្ទុសរុប៣០ ក៏មិនអាចបិទករណីបានដែរ)
+            %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានចំណាត់ថ្នាក់តិចជាង២ ទោះបានចំណាត់ថ្នាក់សរុប៣០ ក៏មិនអាចបិទករណីបានដែរ)
           %td.text-center{style: 'background: #feff00; border: 1px solid black;'}
             = @government_form.government_form_family_plans.pluck(:score).select(&:present?).sum
 
@@ -268,13 +268,13 @@
   .panel-heading.panel-border{style: 'border: 1px solid black; background: #ffc003; padding: 5px;'}
     ហត្ថលេខា
 
-  .panel-border{style: 'padding: 0 7px 7px;'}
+  .panel-border
     .panel-body.border-label.panel-no-padding
       .row
         .col-xs-4{style: 'padding-left: 30px;'}
           %label{style: 'margin-top: 5px;'} ឈ្មោះកុមារ
           .comment{style: 'min-height: 40px;'}
-            %p= @client.name
+            %p= "#{@client.local_family_name} #{@client.local_given_name}"
 
         .col-xs-5{style: 'border-left: 1px solid black;'}
           %label{style: 'margin-top: 5px;'} ហត្ថលេខាឬស្នាមមេដៃ

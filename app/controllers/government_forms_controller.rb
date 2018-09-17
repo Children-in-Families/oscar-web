@@ -16,12 +16,9 @@ class GovernmentFormsController < AdminController
     authorize @government_form
     @government_form.populate_needs
     @government_form.populate_problems
-    if params[:form] == 'two'
+    if params[:form] == 'two' || params[:form] == 'six'
       @government_form.populate_children_status
-      @government_form.populate_family_status
-    elsif params[:form] == 'six'
-      @government_form.populate_children_status
-      @government_form.populate_family_status
+      @government_form.populate_family_status(params[:form])
     elsif params[:form] == 'three'
       @government_form.populate_children_plans
       @government_form.populate_family_plans
