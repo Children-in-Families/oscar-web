@@ -5,7 +5,7 @@
         .dropdown.profile-element
           .image-wrapper.text-center
             = link_to root_path do
-              = image_tag(Organization.current.logo, class: 'img-circle')
+              = image_tag(Organization.current.logo.thumb, class: 'img-circle')
           %hr.line-border
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             %span.clear
