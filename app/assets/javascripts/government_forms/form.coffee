@@ -157,7 +157,7 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
      optionVal = $(@).select2('data')
      _handleOtherCaseClosure(optionVal, otherCaseClosureVal)
 
- _handleOtherCaseClosure = (caseCloser, otherCaseClosureText) ->
+  _handleOtherCaseClosure = (caseCloser, otherCaseClosureText) ->
    if caseCloser == null || caseCloser.text != 'ផ្សេងៗ (សូមបញ្ជាក់)'
      $('.other-case-closure').addClass('hidden')
      $('#government_form_other_case_closure').val('')
