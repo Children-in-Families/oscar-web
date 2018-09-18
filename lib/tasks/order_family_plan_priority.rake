@@ -1,7 +1,7 @@
 namespace :family_plan_priority do
   desc 'Order Family Plan Priority'
   task order: :environment do |task, args|
-    Organization.visible.each do |org|
+    Organization.all.each do |org|
       Organization.switch_to org.short_name
       family_plans = [
         {name: 'ការការពារ និងការថែទាំ', priority: 1},
