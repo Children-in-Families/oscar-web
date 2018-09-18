@@ -150,20 +150,20 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
       $('#government_form_other_service_type').val('')
 
   _handleCaseClosureSelectOptions = ->
-    optionVal = $('.government_form_case_closure select').select2('data').text
-    otherCaseClosureVal = $('#government_form_other_case_closure').val()
-    _handleOtherCaseClosure(optionVal, otherCaseClosureVal)
-    $('.government_form_case_closure select').on 'select2-selected', ->
-      optionVal = $(@).select2('data').text
-      _handleOtherCaseClosure(optionVal, otherCaseClosureVal)
+   optionVal = $('.government_form_case_closure select').select2('data')
+   otherCaseClosureVal = $('#government_form_other_case_closure').val()
+   _handleOtherCaseClosure(optionVal, otherCaseClosureVal)
+   $('.government_form_case_closure select').on 'change', ->
+     optionVal = $(@).select2('data')
+     _handleOtherCaseClosure(optionVal, otherCaseClosureVal)
 
-  _handleOtherCaseClosure = (caseCloserText, otherCaseClosureText) ->
-    if caseCloserText == 'ផ្សេងៗ'
-      $('.other-case-closure').removeClass('hidden')
-      $('#government_form_other_case_closure').val(otherCaseClosureText)
-    else
-      $('.other-case-closure').addClass('hidden')
-      $('#government_form_other_case_closure').val('')
+ _handleOtherCaseClosure = (caseCloser, otherCaseClosureText) ->
+   if caseCloser == null || caseCloser.text != 'ផ្សេងៗ (សូមបញ្ជាក់)'
+     $('.other-case-closure').addClass('hidden')
+     $('#government_form_other_case_closure').val('')
+   else
+     $('.other-case-closure').removeClass('hidden')
+     $('#government_form_other_case_closure').val(otherCaseClosureText)
 
   _select2 = ->
     $('select').select2
