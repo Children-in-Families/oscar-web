@@ -23,7 +23,7 @@
     លេខកូដកុមារ:
   .col-xs-10
     - client_code = @government_form.client_code.present? ? @government_form.client_code : '0000'
-    - @government_form.client_code.split('').each_with_index do |code, index|
+    - client_code.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
