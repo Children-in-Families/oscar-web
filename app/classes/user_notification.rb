@@ -44,7 +44,7 @@ class UserNotification
     client_wrong_program_rules = []
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
-      client_ids = program_stream.client_enrollments.active.pluck(:client_id)
+      client_ids = program_stream.client_enrollments.active.pluck(:client_id).uniq
       clients = Client.active_accepted_status.where(id: client_ids)
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
 
