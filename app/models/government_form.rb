@@ -79,6 +79,7 @@ class GovernmentForm < ActiveRecord::Base
 
   def populate_family_plans
     skipped_plans = ['កម្រិតសិក្សាអប់រំ', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ទំនាក់ទំនងសង្គម']
+
     FamilyPlan.order(:priority).each do |plan|
       next if skipped_plans.include?(plan.name)
       government_form_family_plans.build(family_plan: plan)
@@ -89,6 +90,7 @@ class GovernmentForm < ActiveRecord::Base
     form_two = ['ចំណេះដឹងទូទៅក្នុងសង្គម', 'កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន']
     form_six = [*form_two, 'សុខភាពផ្លូវចិត្ត', 'កម្រិតសិក្សាអប់រំ']
     skipped_plans = form == 'two' ? form_two : form_six
+
     FamilyPlan.order(:priority).each do |status|
       next if skipped_plans.include?(status.name)
       government_form_family_plans.build(family_status: status)

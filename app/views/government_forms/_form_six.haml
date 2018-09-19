@@ -26,7 +26,7 @@
           .col-xs-12.col-sm-6
             = f.association :case_closure, collection: @case_closures.map{|c| [c.name, c.id] }, label: false
           .col-xs-12.col-sm-6.other-case-closure.hidden
-            = f.input :other_case_closure, label: false, input_html: { placeholder: 'Other' }
+            = f.input :other_case_closure, label: false, input_html: { placeholder: 'ផ្សេងៗ' }
       .col-xs-12
         %hr
         %h3= 'សង្ខេបសាច់រឿងរបស់អតិថិជន ចាប់តាំងពីធ្វើសមាហរណកម្មរហូតដល់បិទករណី'
