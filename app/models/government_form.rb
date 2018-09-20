@@ -78,21 +78,17 @@ class GovernmentForm < ActiveRecord::Base
   end
 
   def populate_family_plans
-    skipped_plans = ['កម្រិតសិក្សាអប់រំ', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ទំនាក់ទំនងសង្គម']
-
-    FamilyPlan.order(:priority).each do |plan|
-      next if skipped_plans.include?(plan.name)
+    form_three = ['ការពារ និងការថែទាំ', 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'សុខភាពផ្លូវចិត្ត', 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'ចំណេះដឹងទូទៅក្នុងសង្គម', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ផ្សេងៗ']
+    FamilyPlan.where(name: form_three).order(:priority).each do |plan|
       government_form_family_plans.build(family_plan: plan)
     end
   end
 
   def populate_family_status(form)
-    form_two = ['ចំណេះដឹងទូទៅក្នុងសង្គម', 'កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន']
-    form_six = [*form_two, 'សុខភាពផ្លូវចិត្ត', 'កម្រិតសិក្សាអប់រំ']
-    skipped_plans = form == 'two' ? form_two : form_six
-
-    FamilyPlan.order(:priority).each do |status|
-      next if skipped_plans.include?(status.name)
+    form_two = ['ការពារ និងការថែទាំ', 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'សុខភាពផ្លូវចិត្ត', 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'កម្រិតសិក្សាអប់រំ', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ផ្សេងៗ']
+    form_six = ['ការពារ និងការថែទាំ', 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'ឆន្ទៈនិងលទ្ធភាពក្នុងការបន្តធ្វើឲស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'ទំនាក់ទំនងក្នុងសង្គម', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ (ទោះបីមានពិន្ទុតិចជាង២ក៏អាចបិទបានដែរ)', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ផ្សេងៗ']
+    form = form == 'two' ? form_two : form_six
+    FamilyPlan.where(name: form).order(:priority).each do |status|
       government_form_family_plans.build(family_status: status)
     end
   end

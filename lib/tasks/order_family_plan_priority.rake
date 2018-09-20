@@ -3,27 +3,15 @@ namespace :family_plan_priority do
   task order: :environment do |task, args|
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      family_plans = [
-        {name: 'ការការពារ និងការថែទាំ', priority: 1},
-        {name: 'ភាពស្និតស្នាលរវាងកុមារនិងអ្នកថែទាំ', priority: 2},
-        {name: 'សុខភាពផ្លូវកាយ', priority: 3},
-        {name: 'សុខភាពផ្លូវចិត្ត', priority: 4},
-        {name: 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', priority: 5},
-        {name: 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', priority: 6},
-        {name: 'ទំនាក់ទំនងសង្គម', priority: 7},
-        {name: 'កម្រិតសិក្សាអប់រំ', priority: 8},
-        {name: 'ចំណេះដឹងទូទៅក្នុងសង្គម', priority: 9},
-        {name: 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', priority: 10},
-        {name: 'ជំនួយពីសាច់ញាតិ', priority: 11},
-        {name: 'ការគាំទ្រពីសហគមន៍', priority: 12},
-        {name: 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', priority: 13},
-        {name: 'កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន', priority: 14},
-        {name: 'ផ្សេងៗ', priority: 15}
-      ]
+      family_plans = ['ការពារ និងការថែទាំ', 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'សុខភាពផ្លូវចិត្ត', 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'ឆន្ទៈនិងលទ្ធភាពក្នុងការបន្តធ្វើឲស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'ទំនាក់ទំនងសង្គម', 'ទំនាក់ទំនងក្នុងសង្គម',
+                      'កម្រិតសិក្សាអប់រំ', 'ចំណេះដឹងទូទៅក្នុងសង្គម', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ', 'ជំនួយពីសាច់ញាតិ (ទោះបីមានពិន្ទុតិចជាង២ក៏អាចបិទបានដែរ)', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន', 'ផ្សេងៗ']
 
-      family_plans.each do |plan|
-        family_plan = FamilyPlan.find_by(name: plan[:name])
-        family_plan.update(priority: plan[:priority]) if family_plan.present?
+      FamilyPlan.find_by(name: 'ភាពស្និតស្នាលរវាងកុមារនិងអ្នកថែទាំ').update(name: 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ') if FamilyPlan.find_by(name: 'ភាពស្និតស្នាលរវាងកុមារនិងអ្នកថែទាំ').present?
+      FamilyPlan.find_by(name: 'ការការពារ និងការថែទាំ').update(name: 'ការពារ និងការថែទាំ') if FamilyPlan.find_by(name: 'ការការពារ និងការថែទាំ').present?
+
+      family_plans.each_with_index do |plan, index|
+        family_plan = FamilyPlan.find_by(name: plan)
+        family_plan.update(priority: index + 1) if family_plan.present?
       end
     end
   end
