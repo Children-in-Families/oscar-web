@@ -24,9 +24,9 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollment_trackings.where("lower(#{properties_field} ->> '#{@field}') = '#{@value.squish}' ")
+          properties_result = client_enrollment_trackings.where("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
         else
-          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value.squish}' ")
+          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value}' ")
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
@@ -50,13 +50,13 @@ module AdvancedSearches
         if @type == 'checkbox'
           properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? ''")
         else
-          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '' OR #{properties_field} -> '#{@field}' IS NULL")
+          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
         end
       when 'is_not_empty'
         if @type == 'checkbox'
           properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? ''")
         else
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '' OR #{properties_field} -> '#{@field}' IS NULL")
+          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
         end
       when 'between'
         properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND #{properties_field} ->> '#{@field}' != ''")

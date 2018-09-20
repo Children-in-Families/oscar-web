@@ -13,7 +13,7 @@ class Client::EnterNgosController < AdminController
 
   def update
     @enter_ngo = @client.enter_ngos.find(params[:id])
-
+    authorize @enter_ngo
     if @enter_ngo.update_attributes(enter_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
     else

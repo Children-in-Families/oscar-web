@@ -23,15 +23,15 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollments.where("lower(properties ->> '#{@field}') = '#{@value.squish}' ")
+          properties_result = client_enrollments.where("lower(properties ->> '#{@field}') = '#{@value}' ")
         else
-          properties_result = client_enrollments.where("properties -> '#{@field}' ? '#{@value.squish}' ")
+          properties_result = client_enrollments.where("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollments.where.not("lower(properties ->> '#{@field}') = '#{@value.squish}' ")
+          properties_result = client_enrollments.where.not("lower(properties ->> '#{@field}') = '#{@value}' ")
         else
-          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value.squish}' ")
+          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'less'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
@@ -49,13 +49,13 @@ module AdvancedSearches
         if @type == 'checkbox'
           properties_result = client_enrollments.where("properties -> '#{@field}' ? ''")
         else
-          properties_result = client_enrollments.where("properties -> '#{@field}' ? '' OR properties -> '#{@field}' IS NULL")
+          properties_result = client_enrollments.where("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
         end
       when 'is_not_empty'
         if @type == 'checkbox'
           properties_result = client_enrollments.where.not("properties -> '#{@field}' ? ''")
         else
-          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' OR properties -> '#{@field}' IS NULL")
+          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
         end
       when 'between'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")

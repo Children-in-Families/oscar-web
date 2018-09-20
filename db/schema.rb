@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180817042218) do
+ActiveRecord::Schema.define(version: 20180907035927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -934,6 +934,7 @@ ActiveRecord::Schema.define(version: 20180817042218) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
+    t.string   "country",    default: ""
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1149,8 +1150,8 @@ ActiveRecord::Schema.define(version: 20180817042218) do
     t.string   "old_commune",             default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "commune_id"
     t.integer  "age",                     default: 18
+    t.integer  "commune_id"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
