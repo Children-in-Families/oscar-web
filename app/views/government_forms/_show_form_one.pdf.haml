@@ -157,7 +157,7 @@
                 លេខទូរស័ព្ទ:
               .col-xs-10
                 %input{style: 'width:96.6%; float: right;', value: @client.telephone_number }
-  %div#panel-top-bottom-dotted
+  %div#panel-top-bottom-dotted{style: 'border: 1px solid black; border-bottom: 1px dotted black;'}
     ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
     - ird = @client.initial_referral_date.present? ? @client.initial_referral_date.strftime('%d%m%y') : '000000'
     - ird.split('').each_with_index do |code, index|
@@ -165,7 +165,7 @@
         %span.first= code
       - else
         %span= code
-  #panel-top-bottom-dotted
+  #panel-top-bottom-dotted{style: 'border: 1px solid black; border-top: 1px dotted black;'}
     .row
       .col-xs-2
         ប្រភពព័ត៌មាន:
@@ -291,11 +291,11 @@
         សូមបញ្ជាក់ពីប្រភេទតម្រូវការចាំបាច់ ( បង់លេខតាមអាទិភាព ):
       .panel-body.border-label
         .row
-          .col-xs-4{ style: 'margin-bottom: 3px;' }
+          .col-xs-2{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ម្ហូបអាហារ') }
               ម្ហូបអាហារ
-          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+          .col-xs-3.no-left-padding{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការសិក្សាអប់រំ') }
               ការសិក្សាអប់រំ
@@ -303,28 +303,27 @@
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការមើលថែពីមនុស្សពេញវ័យ') }
               ការមើលថែពីមនុស្សពេញវ័យ
-          .col-xs-4{ style: 'margin-bottom: 3px;' }
+          .col-xs-3{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការគាំទ្រផ្នែកផ្លូវចិត្ត') }
               ការគាំទ្រផ្នែកផ្លូវចិត្ត
-          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+          .col-xs-2{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ជំរក') }
               ជំរក
-          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+          .col-xs-3.no-left-padding{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការថែទាំផ្នែកវេជ្ជសាស្ត្រ') }
               ការថែទាំផ្នែកវេជ្ជសាស្ត្រ
-          .col-xs-4
+          .col-xs-3.no-left-padding
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('សំលៀកបំពាក់') }
               សំលៀកបំពាក់
-          .col-xs-8.no-left-padding
-            .form-check
-              %div.other-label
-                %input.text-center{ style: 'width: 30px;', value: need_rank('ផ្សេងៗ') }
-                ផ្សេងៗ
-              %div{ class: "other #{ 'empty' if @government_form.other_need.blank?}" }= @government_form.other_need
+          .col-xs-2.no-left-padding
+            %input.text-center{ style: 'width: 30px;', value: need_rank('ផ្សេងៗ') }
+            ផ្សេងៗ:
+          .col-xs-2.no-left-padding
+            .div{ class: "other-one #{ 'empty' if @government_form.other_need.blank?}" }= @government_form.other_need
 
     .panel.panel-default{style: 'margin:0;'}
       %label.panel-label{ style: 'background-color: #D8D8D8;' }
