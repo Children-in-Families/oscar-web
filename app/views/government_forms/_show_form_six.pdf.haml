@@ -1,7 +1,7 @@
 = render 'head_section'
 
 .panel.panel-default.panel-no-margin
-  %label.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ
+  %label.text-main-header.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
@@ -122,7 +122,7 @@
           %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: @setting.org_name }
           %td
-            កាលបរិចេ្ឆទ (ថ្ងៃ/ខែ/ឆ្នាំ):
+            កាលបរិច្ឆេទ (ថ្ងៃ/ខែ/ឆ្នាំ):
           %td{style: 'width: 200px;'}
             - accepted_date = @client.enter_ngos.last.present? ? @client.enter_ngos.last.accepted_date.strftime('%d%m%y') : '000000'
             - accepted_date.split('').each_with_index do |code, index|
