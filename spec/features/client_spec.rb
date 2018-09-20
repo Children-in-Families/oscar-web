@@ -2,7 +2,7 @@ describe 'Client' do
   let(:admin) { create(:user, roles: 'admin') }
   let!(:user) { create(:user) }
 
-  feature 'List' do
+  xfeature 'List' do
     let!(:client){create(:client, users: [user])}
     let!(:other_client) {create(:client)}
     let!(:domain) { create(:domain, name: "1A") }
@@ -40,7 +40,7 @@ describe 'Client' do
     end
   end
 
-  feature 'Reports' do
+  xfeature 'Reports' do
     before do
       login_as(admin)
       visit clients_path
@@ -364,7 +364,7 @@ describe 'Client' do
 
   end
 
-  feature 'Delete' do
+  xfeature 'Delete' do
     let!(:client){ create(:client, users: [user]) }
     before do
       login_as(admin)
