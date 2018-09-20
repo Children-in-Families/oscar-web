@@ -325,6 +325,8 @@ km:
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
+      created_at: កាលបរិច្ឆេទ
+      created_by: បង្កើត​ឡើង​ដោយ
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
@@ -386,6 +388,8 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
+      referred_from: បញ្ជូនមកពីអង្គការ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       referred_to_ec: បញ្ជួនទៅករណី EC
       referred_to_fc: បញ្ជួនទៅករណី FC
       referred_to_kc: បញ្ជួនទៅករណី KC
@@ -403,6 +407,7 @@ km:
       subdistrict: Subdistrict
       suburb: Suburb
       telephone_number: លេខទូរស័ព្ទ
+      time_in_care: រយៈពេលមើលថែទាំ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       township: Township
       tracking: តាមដាន
@@ -734,10 +739,8 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
-        accept: ទទួលយក
         accept_ngo_form: ទទួលចូលអង្គការ
         accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
-        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       form:
         accept: ទទួលយក
         accept_ngo_form: ទទួលចូលអង្គការ
@@ -751,16 +754,12 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
-        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-        exit_btn: ចាកចេញ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ
-        exit_status: ស្ថានភាព
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
-        reject_client: មិនទទួលយកអតិថិជន
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1031,8 +1030,8 @@ km:
       yes_no: បាទ/អត់ទេ
     case_history_detail:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
-      client_id: លេខសំគាល់អតិថិជន
       client: ឈ្មោះអតិថិជន
+      client_id: លេខសំគាល់អតិថិជន
       consent_form: ទម្រង់យល់ព្រម
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
@@ -1048,7 +1047,7 @@ km:
       preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_reasons: មូលហេតុនៃការបញ្ជូន
-      referred_from: ទទួលចូលអង្គការ
+      referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     client_advanced_searches:
       advanced_search:
@@ -1452,6 +1451,7 @@ km:
       government_form_six: 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
       government_form_three: 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ'
       government_form_two: 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
+      government_forms: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
@@ -1502,7 +1502,7 @@ km:
       referral_forms: បែបបទបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
-      referred_from: ទទួលចូលអង្គការ
+      referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       reject: មិនទទួលយក
       reject_client: មិនទទួលយកអតិថិជន
@@ -1519,8 +1519,15 @@ km:
       telephone_number: លេខទូរស័ព្ទ
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
-        one: ប្រហែល%{count}ឆ្នាំ
-        other: ប្រហែល%{count}ឆ្នាំ
+        year:
+          one: "%{count} ឆ្នាំ"
+          other: "%{count} ឆ្នាំ"
+        month:
+          one: "%{count} ខែ"
+          other: "%{count} ខែ"
+        week:
+          one: "%{count} សប្តាហ៍"
+          other: "%{count} សប្តាហ៍"
       view_assessments: ការប៉ាន់ប្រមាណ
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
@@ -1715,6 +1722,8 @@ km:
         code: លេខកូដផ្ទាល់ខ្លួនទី១
         commune: ឃុំ/សង្កាត់
         completed: ពេញលេញហើយឬនៅ?
+        created_at: កាលបរិច្ឆេទ
+        created_by: បង្កើត​ឡើង​ដោយ
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
@@ -1793,6 +1802,8 @@ km:
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
+        referred_from: ប្រភពនៃការបញ្ជូន
+        referred_to: បញ្ជូនទៅអង្គការដទៃ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
@@ -1808,6 +1819,7 @@ km:
         suburb: Suburb
         telephone_number: លេខទូរស័ព្ទ
         thailand: ថៃ
+        time_in_care: រយៈពេលមើលថែទាំ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
         township: Township
@@ -1924,6 +1936,7 @@ km:
       show_all: បង្ហាញទាំងអស់
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+      time_in_care: រយៈពេលមើលថែទាំ
       trackings:
         action: សកម្មភាព
         frequency: ភាពញឹកញាប់
@@ -2620,6 +2633,7 @@ km:
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
+      guardian: អាណាព្យាបាល
       occupation: មុខរបរ
       relation: ទំនាក់ទំនងជាមួយកុមារ
       remove_member: ដកចេញ
@@ -2679,6 +2693,7 @@ km:
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
       general_info: អំពីគ្រួសារ
+      guardian: អាណាព្យាបាល
       house: ផ្ទះលេខ
       household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
       id: លេខសំគាល់
@@ -2791,6 +2806,23 @@ km:
         edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
+  government_forms:
+    create:
+      successfully_created: ទម្រង់ត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ទម្រង់ត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      edit_report: កែសម្រួលទម្រង់
+    index:
+      action: សកម្មភាព
+      add_form: បន្ថែមទម្រង់ថ្មី
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទនៃការបង្កើត
+      created_by: បង្កើតឡើងដោយ
+    new:
+      new_form: ទម្រង់ថ្មី
+    update:
+      successfully_updated: ទម្រង់ត្រូវបានកែសម្រួលដោយជោគជ័យ
   government_reports:
     create:
       successfully_created: របាយការណ៍ត្រូវបានបង្កើតដោយជោគជ័យ។
@@ -3271,7 +3303,7 @@ km:
       back: ត្រលប់ក្រោយ
       exit_date: ថ្ងៃចាកចេញ
     update:
-      successfully_updated: កម្មវិធីចាកចេញត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_updated: កម្មវិធីចាកចេញ ត្រូវបានកែសម្រួលដោយជោគជ័យ
   locations:
     create:
       failed_create: កន្លែងមិនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -3886,7 +3918,7 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
-      referred_to: បញ្ជូនទៅកាន់
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
       save_and_download: រក្សាទុក & ទាញយក
     index:
@@ -3906,8 +3938,6 @@ km:
       select_ngos: ជ្រើសរើសអង្គការ
     new:
       new_referral: បន្ថែមទម្រង់បញ្ជូន
-    update:
-      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
     show:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
@@ -3932,6 +3962,8 @@ km:
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
+    update:
+      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   reports:
     form:
       case_statistic: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
@@ -3953,8 +3985,10 @@ km:
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
     assessment:
+      age: អាយុ
       assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
+      eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
       min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
     case_note:

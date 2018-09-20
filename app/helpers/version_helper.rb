@@ -63,6 +63,9 @@ module VersionHelper
     elsif version_values[:agency].include?(k) && val.present?
       obj = Agency.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
+    elsif version_values[:donor].include?(k) && val.present?
+      obj = Donor.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
     elsif version_values[:custom_fields].include?(k) && val.present?
       obj = CustomField.find_by(id: val)
       val = obj.present? ? obj.form_title : "##{val}"
@@ -81,12 +84,12 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase ProgramStream Tracking ClientEnrollment ClientEnrollmentTracking Survey)
+    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Sponsor Client ClientQuantitativeCase ProgramStream Tracking ClientEnrollment ClientEnrollmentTracking Survey)
     arr.exclude?(item_type)
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'attachments' || k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
+    k == 'country_origin' || k == 'archive_state' || k == 'attachments' || k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
   end
 
   def skipable_user_task_and_case?(k, item_type)
@@ -177,6 +180,7 @@ module VersionHelper
       client_qc:            ['quantitative_case_id'],
       organizations:        ['organization_id'],
       agency:               ['agency_id'],
+      donor:                ['donor_id'],
       custom_fields:        ['custom_field_id']
     }
   end
@@ -187,7 +191,6 @@ module VersionHelper
       provinces:            ['province_id'],
       referral_sources:     ['referral_source_id'],
       users:                ['received_by_id', 'followed_up_by_id', 'user_id'],
-      donors:               ['donor_id'],
       departments:          ['department_id'],
       domain_groups:        ['domain_group_id'],
       partners:             ['partner_id'],
@@ -197,7 +200,10 @@ module VersionHelper
       clients:              ['client_id'],
       trackings:            ['tracking_id'],
       program_streams:      ['program_stream_id'],
-      organization_types:   ['organization_type_id']
+      organization_types:   ['organization_type_id'],
+      district:             ['district_id'],
+      commune:              ['commune_id'],
+      village:              ['village_id']
     }
   end
 
@@ -218,7 +224,28 @@ module VersionHelper
       contact_person_mobile:  'contact_mobile',
       custom_field_id:        'Form Title',
       client_enrollment_id:   'Client Enrollment ID',
-      roles:   'Permission set'
+      roles:                  'Permission set',
+      **client_labels
+    }
+  end
+
+  def client_labels
+    {
+      live_with:              'Primary Carer Name',
+      given_name:             'Given Name (English)',
+      local_given_name:       'Given Name (Khmer)',
+      family_name:            'Family Name (English)',
+      local_family_name:      'Family Name (Khmer)',
+      code:                   'Custom ID Number 1',
+      kid_id:                 'Custom ID Number 2',
+      referral_phone:         'Referee Phone Number',
+      telephone_number:       'Primary Carer Phone Number',
+      rated_for_id_poor:      'Is the client rated for ID poor',
+      received_by_id:         'Referral Received By',
+      followed_up_by_id:      'First Follow-Up By',
+      follow_up_date:         'First Follow-Up Date',
+      has_been_in_orphanage:  'Has the client lived in an orphanage?',
+      has_been_in_government_care: 'Has the client lived in government care?'
     }
   end
 

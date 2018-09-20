@@ -23,20 +23,43 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
 
   _ajaxChangeDistrict = ->
-    $('#client_province_id').on 'change', ->
-      province_id = $(@).val()
-      $('select#client_district_id').val(null).trigger('change')
-      $('select#client_district_id option[value!=""]').remove()
-      if province_id != ''
+    mainAddress = $('#client_province_id, #client_district_id, #client_commune_id')
+    mainAddress.on 'change', ->
+      type       = $(@).data('type')
+      typeId     = $(@).val()
+      subAddress = $(@).data('subaddress')
+
+      if type == 'provinces'
+        subResources = 'districts'
+        subAddress =  switch subAddress
+                      when 'district' then $('#client_district_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'districts'
+        subResources = 'communes'
+        subAddress =  switch subAddress
+                      when 'commune' then $('#client_commune_id')
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+      else if type == 'communes'
+        subResources = 'villages'
+        subAddress =  switch subAddress
+                      when 'village' then $('#client_village_id')
+
+
+        $(subAddress).val(null).trigger('change')
+        $(subAddress).find('option[value!=""]').remove()
+
+      if typeId != ''
         $.ajax
           method: 'GET'
-          url: "/api/provinces/#{province_id}/districts"
+          url: "/api/#{type}/#{typeId}/#{subResources}"
           dataType: 'JSON'
           success: (response) ->
-            districts = response.districts
-            for district in districts
-              $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
-
+            for address in response.data
+              subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
   _ajaxChangeSubDistrict = ->
     $('#client_district_id').on 'change', ->
       district_id = $(@).val()
@@ -172,15 +195,16 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
           client_referral_source_id     = $('#client_referral_source_id').val() == ''
           client_name_of_referee        = $('#client_name_of_referee').val() == ''
+          client_gender                 = $('#client_gender').val() == ''
           clientIsExited                = $('#client_status').val() == 'Exited'
 
           if clientIsExited
-            if client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+            if client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender
               return false
             else
               return true
           else
-            if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+            if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender
               return false
             else
               return true
@@ -301,6 +325,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         "client[initial_referral_date]": ruleRequired
         "client[referral_source_id]":ruleRequired
         "client[name_of_referee]": ruleRequired
+        "client[gender]": ruleRequired
 
       }
       messages: {
@@ -309,9 +334,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         "client[initial_referral_date]": requiredMessage
         "client[referral_source_id]": requiredMessage
         "client[name_of_referee]": requiredMessage
+        "client[gender]": requiredMessage
       }
 
-    $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id').change ->
+    $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
 

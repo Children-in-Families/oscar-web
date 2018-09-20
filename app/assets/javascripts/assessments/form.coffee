@@ -18,6 +18,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _handleAppendAddTaskBtn = ->
     scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning')
     if $(scores).length > 0
+      $(scores).trigger('click')
       $(".assessment-task-btn, .task_required").removeClass('hidden').show()
     else
       $(".assessment-task-btn, .task_required").hide()
@@ -78,7 +79,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       autoFocus: true
 
       onInit: (event, currentIndex) ->
-        _validateScore(form)
         _formEdit(currentIndex)
         _appendSaveButton()
         _handleAppendAddTaskBtn()
@@ -87,10 +87,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
         _filedsValidator(currentIndex, newIndex)
-        _validateScore(form)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
-        _validateScore(form)
         _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
         if currentIndex == 11
@@ -115,6 +113,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _saveAssessment = (form)->
     $("#rootwizard a[href='#save']").on 'click', ->
       form.valid()
+      _validateScore(form)
       if !$('.text-required').is ':visible'
         form.submit()
 
@@ -126,24 +125,23 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor}")
 
   _filedsValidator = (currentIndex, newIndex ) ->
-      currentTab   = "#rootwizard-p-#{currentIndex}"
-      scoreOption  = $("#{currentTab} .score_option")
+    currentTab   = "#rootwizard-p-#{currentIndex}"
+    scoreOption  = $("#{currentTab} .score_option")
 
-      if(scoreOption.find('input.error').length)
-        $(currentTab).find('.score_option').addClass('is_error')
-        return false
-      else
-        $(currentTab).find('.score_option').removeClass('is_error')
-        if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length
+    if(scoreOption.find('input.error').length)
+      $(currentTab).find('.score_option').addClass('is_error')
+      return false
+    else
+      $(currentTab).find('.score_option').removeClass('is_error')
+      if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length
+        activeLabel = $(currentTab).find('.active-label')
+        activeScore = activeLabel.text()
+        activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
 
-          activeLabel = $(currentTab).find('.active-label')
-          activeScore = activeLabel.text()
-          activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
-
-          if activeScoreColor == 'warning' || activeScoreColor == 'danger'
-            return true if $("#{currentTab} ol.tasks-list li").length >= 1
-          else
-            return true
+        if activeScoreColor == 'warning' || activeScoreColor == 'danger'
+          return true if $("#{currentTab} ol.tasks-list li").length >= 1
+        else
+          return true
 
   _addTasks = ->
     $('.assessment-task-btn').on 'click', (e) ->
@@ -177,8 +175,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     appendElement  = $(".domain-#{data.domain_id} .task-arising");
     deleteUrl      = undefined
     element        = undefined
+    deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{data.id}"
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a></li>"
+    deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() != 'case worker'
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}#{deleteLink}</li>"
 
     $(".domain-#{data.domain_id} .task-arising").removeClass('hidden')
     $(".domain-#{data.domain_id} .task-arising ol").append(element)

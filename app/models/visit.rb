@@ -1,11 +1,8 @@
 class Visit < ActiveRecord::Base
+  has_paper_trail
+
   belongs_to :user
 
   scope :excludes_non_devs, -> { where(user_id: User.non_devs.ids) }
-
-  def self.previous_month_logins
-    beginning_of_month = 1.month.ago.beginning_of_month
-    end_of_month       = 1.month.ago.end_of_month
-    where(created_at: beginning_of_month..end_of_month)
-  end
+  scope :total_logins, -> (start_date, end_date) { where(created_at: start_date..end_date) }
 end

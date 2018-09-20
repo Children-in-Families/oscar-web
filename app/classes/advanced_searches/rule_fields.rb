@@ -23,7 +23,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['family_id', 'age']
+      ['family_id', 'age', 'time_in_care']
     end
 
     def text_type_list
@@ -31,12 +31,13 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at']
     end
 
     def drop_down_type_list
       [
-        ['gender', { female: 'Female', male: 'Male' }],
+        ['created_by', user_select_options ],
+        ['gender', { male: 'Male', female: 'Female', unknown: 'Unknown' }],
         ['status', client_status],
         ['agency_name', agencies_options],
         ['received_by_id', user_select_options],
@@ -46,12 +47,14 @@ module AdvancedSearches
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
-        ['donor_id', donor_options],
+        ['donor_name', donor_options],
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', { 'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral' }],
         ['rated_for_id_poor', { 'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3' }],
-        *setting_country_fields[:drop_down_fields]
+        *setting_country_fields[:drop_down_fields],
+        ['referred_to', referral_to_options],
+        ['referred_from', referral_from_options]
       ]
     end
 
@@ -88,6 +91,14 @@ module AdvancedSearches
       District.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
+    def communes
+      Commune.all.map { |commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+    end
+
+    def villages
+      Village.all.map { |village| ["#{village.name_kh} / #{village.name_en} (#{village.code})", village.id] }.sort.map{ |s| {s[1].to_s => s[0]} }
+    end
+
     def subdistricts
       Subdistrict.order(:name).map { |s| { s.id.to_s => s.name } }
     end
@@ -116,13 +127,22 @@ module AdvancedSearches
       Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
     end
 
+    def referral_to_options
+      orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+      orgs << { "external referral" => "I don't see the NGO I'm looking for" }
+    end
+
+    def referral_from_options
+      Organization.oscar.map { |org| { org.short_name => org.full_name } }
+    end
+
     def setting_country_fields
       country = Setting.first.try(:country_name) || 'cambodia'
       case country
       when 'cambodia'
         {
-          text_fields: ['house_number', 'street_number', 'village', 'commune'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces]]
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
       when 'lesotho'
         {

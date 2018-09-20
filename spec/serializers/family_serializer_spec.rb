@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe FamilySerializer, type: :serializer do
-  let(:family) { create(:family) }
+  let(:family) { create(:family, code: nil) }
   let(:serializer) { FamilySerializer.new(family).to_json }
 
   it 'should be have attribute family as root path' do

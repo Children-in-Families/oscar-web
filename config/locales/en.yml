@@ -325,6 +325,8 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      created_at: Created Date
+      created_by: Created By
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
@@ -386,6 +388,8 @@ en:
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       referral_source_id: Referral Source
+      referred_from: Referred From
+      referred_to: Referred To
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
@@ -403,6 +407,7 @@ en:
       subdistrict: Subdistrict
       suburb: Suburb
       telephone_number: Primary Carer Phone Number
+      time_in_care: Time in Care
       time_of_frequency: Time of Frequency
       township: Township
       tracking: Tracking
@@ -734,10 +739,8 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        accept: Accept
         accept_ngo_form: Enter NGO Form
         accepted_date: Accepted Date
-        case_worker_or_staff: Case Worker / Staff
       form:
         accept: Accept
         accept_ngo_form: Enter NGO Form
@@ -751,16 +754,12 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        case_worker_or_staff: Case Worker / Staff
-        exit_btn: Exit
         exit_circumstance: Exit Circumstance
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
         exit_reasons: Reason for Exit / Case Rejection
-        exit_status: Status
         other_info_of_exit: Other - More Information
-        reject_client: Reject Client
         rejected_note: Rejected Note
       form:
         case_worker_or_staff: Case Worker / Staff
@@ -1031,8 +1030,8 @@ en:
       yes_no: Yes/No
     case_history_detail:
       accepted_date: NGO Accept Date
-      client_id: Client ID
       client: Client
+      client_id: Client ID
       consent_form: Consent Form
       date_of_referral: Date of Referral
       enrollment_date: Enrollment Date
@@ -1451,6 +1450,7 @@ en:
       government_form_six: Case closure Form
       government_form_three: Family Service Plan Form
       government_form_two: Assessment for Family Preservation Form
+      government_forms: Government Forms
       government_report: Government Report
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
@@ -1518,8 +1518,15 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
-        one: Around %{count} year
-        other: Around %{count} years
+        year:
+          one: "%{count} year"
+          other: "%{count} years"
+        month:
+          one: "%{count} month"
+          other: "%{count} months"
+        week:
+          one: "%{count} week"
+          other: "%{count} weeks"
       view_assessments: Assessments
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
@@ -1714,6 +1721,8 @@ en:
         code: Custom ID Number1
         commune: Commune/Sangkat
         completed: Completed
+        created_at: Created Date
+        created_by: Created By
         current_address: Current Address
         current_province: Current Province
         date_of_assessments: Date of Assessments
@@ -1792,6 +1801,8 @@ en:
         received_by: Referral Received By
         referral_phone: Referee Phone Number
         referral_source: Referral Source
+        referred_from: Referred From
+        referred_to: Referred To
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
@@ -1807,6 +1818,7 @@ en:
         suburb: Suburb
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
+        time_in_care: Time in Care
         time_of_frequency: Time of Frequency
         total: Total
         township: Township
@@ -1923,6 +1935,7 @@ en:
       show_all: Show All
       support_amount: Support Amount
       support_note: Support Note
+      time_in_care: Time in Care
       trackings:
         action: Action
         frequency: Frequency
@@ -2619,6 +2632,7 @@ en:
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth
+      guardian: Guardian
       occupation: Occupation
       relation: Relationship with Children
       remove_member: Remove Member
@@ -2678,6 +2692,7 @@ en:
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
       general_info: About Family
+      guardian: Guardian
       house: House
       household_income: Monthly Household Income
       id: ID
@@ -2790,6 +2805,23 @@ en:
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
+  government_forms:
+    create:
+      successfully_created: Form has been successfully created.
+    destroy:
+      successfully_deleted: Form has been successfully deleted.
+    edit:
+      edit_report: Edit Form
+    index:
+      action: Action
+      add_form: Add New Form
+      back: Back
+      created_at: Created Date
+      created_by: Created By
+    new:
+      new_form: New Form
+    update:
+      successfully_updated: Form has been successfully updated.
   government_reports:
     create:
       successfully_created: Government Report has been successfully created.
@@ -3366,9 +3398,9 @@ en:
     program_stream_notify:
       review_client: Clients need to be reviewed
     referrals:
-      referral_clients:  Referral Clients
+      referral_clients: Referral Clients
     repeat_referrals:
-      referral_clients:  Referral Clients
+      referral_clients: Referral Clients
     upcoming_assessment:
       client: Client
       most_recent_assessment: Most Recent Assessment
@@ -3952,8 +3984,10 @@ en:
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
   settings:
     assessment:
+      age: age
       assessment: CSI Assessment Frequency Settings
       disable_assessment: We are not using CSI Assessment Tool
+      eligible: Eligible for client under
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
     case_note:

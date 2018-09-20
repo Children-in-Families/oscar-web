@@ -1,12 +1,13 @@
 class ClientGrid
   extend ActionView::Helpers::TextHelper
+  # extend ActionView::Helpers::DateHelper
   include Datagrid
   include ClientsHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
 
   scope do
-    Client.includes(:donor, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -25,14 +26,20 @@ class ClientGrid
     filter_shared_fileds('local_family_name', value, scope)
   end
 
-  filter(:gender, :enum, select: %w(Male Female), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
-    filter_shared_fileds('gender', value, scope)
+  filter(:gender, :enum, select: %w(Male Female Unknown), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    slugs = SharedClient.where(gender: value.downcase).pluck(:slug)
+    Organization.switch_to current_org.short_name
+    scope.where(slug: slugs)
   end
+
+  filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
 
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
-    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", value).pluck(:slug)
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", "%#{value.squish}%").pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
   end
@@ -41,7 +48,7 @@ class ClientGrid
 
   filter(:code, :integer, header: -> { I18n.t('datagrid.columns.clients.code') }) { |value, scope| scope.start_with_code(value) }
 
-  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') }) { |value, scope| scope.kid_id_like(value) }
+  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   filter(:status, :enum, select: :status_options, header: -> { I18n.t('datagrid.columns.clients.status') })
 
@@ -77,17 +84,30 @@ class ClientGrid
     Province.has_clients.map { |p| [p.name, p.id] }
   end
 
-  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') }) { |value, scope| scope.telephone_number_like(value) }
+  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
 
-  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
+  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
   # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
-  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') }) { |value, scope| scope.referral_phone_like(value) }
+  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
+
+  filter(:referred_to, :enum, select: :referral_to_options, header: -> { I18n.t('datagrid.columns.clients.referred_to') } )
+
+  filter(:referred_from, :enum, select: :referral_from_options, header: -> { I18n.t('datagrid.columns.clients.referred_from') } )
+
+  def referral_to_options
+    orgs = Organization.oscar.map { |org| { org.short_name => org.full_name } }
+    orgs << { "external referral" => "I don't see the NGO I'm looking for" }
+  end
+
+  def referral_from_options
+    Organization.oscar.map { |org| { org.short_name => org.full_name } }
+  end
 
   def is_received_by_options
     current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).is_received_by : Client.is_received_by
@@ -120,33 +140,29 @@ class ClientGrid
     end
   end
 
-  filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') }) { |value, scope| scope.current_address_like(value) }
+  filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
-  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_number') }) { |value, scope| scope.house_number_like(value) }
+  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_number') })
 
-  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') }) { |value, scope| scope.street_number_like(value) }
+  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-  filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') }) { |value, scope| scope.village_like(value) }
+  filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') })
 
-  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') }) { |value, scope| scope.commune_like(value) }
+  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') })
 
-  filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') }) { |value, scope| scope.district_like(value) }
+  filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') })
 
-  filter(:school_name, :string, header: -> { I18n.t('datagrid.columns.clients.school_name') }) { |value, scope| scope.school_name_like(value) }
+  filter(:school_name, :string, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
   filter(:has_been_in_government_care, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') })
 
   filter(:school_grade, :string, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
-  def able_states
-    Client::ABLE_STATES
-  end
-
   filter(:has_been_in_orphanage, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') })
 
-  filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') }) { |value, scope| scope.info_like(value) }
+  filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  # filter(:user_id, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') })
+  filter(:created_by, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.created_by') })
 
   filter(:user_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |ids, scope|
     ids = ids.map{ |id| id.to_i }
@@ -158,11 +174,15 @@ class ClientGrid
     end
   end
 
+  def user_select_options
+    User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+  end
+
   def case_worker_options
     User.has_clients.map { |user| ["#{user.first_name} #{user.last_name}", user.id] }
   end
 
-  filter(:donor, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
+  filter(:donors_name, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
 
   def donor_select_options
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
@@ -203,12 +223,12 @@ class ClientGrid
     ids = []
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |c|
-        next if c.age_over_18?
+        next if c.uneligible_age?
         ids << c.id if c.next_assessment_date == Date.today
       end
     else
       Client.joins(:assessments).active_accepted_status.each do |c|
-        next if c.age_over_18?
+        next if c.uneligible_age?
         ids << c.id if c.next_assessment_date < Date.today
       end
     end
@@ -379,7 +399,11 @@ class ClientGrid
     Organization.switch_to 'shared'
     given_name = SharedClient.find_by(slug: object.slug).given_name
     Organization.switch_to current_org.short_name
-    link_to given_name, client_path(object), target: '_blank'
+    if given_name.present?
+      link_to given_name, client_path(object), target: :_blank
+    else
+      given_name
+    end
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false) do |object|
@@ -479,6 +503,18 @@ class ClientGrid
     object.followed_up_by.try(:name)
   end
 
+  column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
+    short_names = object.referrals.pluck(:referred_to)
+    org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
+    short_names.include?('external referral') ? org_names << "I don't see the NGO I'm looking for" : org_names
+    org_names.join(', ')
+  end
+
+  column(:referred_from, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_from') }) do |object|
+    short_names = object.referrals.pluck(:referred_from)
+    Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name).join(', ')
+  end
+
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
     object.agencies.pluck(:name).join(', ')
   end
@@ -495,6 +531,19 @@ class ClientGrid
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
+  column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
+    object.created_at.strftime('%F')
+  end
+
+  column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
+    version = object.versions.find_by(event: 'create')
+    if version.present? && version.whodunnit.present?
+      version.whodunnit.include?('rotati') ? 'OSCaR Team' : User.find_by(id: version.whodunnit.to_i).try(:name)
+    else
+      'OSCaR Team'
+    end
+  end
+
   dynamic do
     country = Setting.first.try(:country_name) || 'cambodia'
     case country
@@ -505,9 +554,13 @@ class ClientGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, header: -> { I18n.t('datagrid.columns.clients.village') })
+      column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+        object.village.try(:code_format)
+      end
 
-      column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
+      column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+        object.commune.try(:name)
+      end
 
       column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
@@ -576,11 +629,11 @@ class ClientGrid
   column(:school_grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
   column(:has_been_in_orphanage, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') }) do |object|
-    object.has_been_in_orphanage ? 'Yes' : 'No'
+    object.has_been_in_orphanage.nil? ? '' : object.has_been_in_orphanage? ? 'Yes' : 'No'
   end
 
   column(:has_been_in_government_care, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') }) do |object|
-    object.has_been_in_government_care ? 'Yes' : 'No'
+    object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
   column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
@@ -647,8 +700,8 @@ class ClientGrid
     object.users.map{|u| u.name }.join(', ')
   end
 
-  column(:donor, order: 'donors.name', header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
-    object.donor_name
+  column(:donor, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+    object.donors.pluck(:name).join(', ')
   end
 
   column(:form_title, order: false, header: -> { I18n.t('datagrid.columns.clients.form_title') }, html: true) do |object|
@@ -681,6 +734,16 @@ class ClientGrid
 
   column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
     render partial: 'clients/all_csi_assessments', locals: { object: object }
+  end
+
+  column(:time_in_care, header: -> { I18n.t('datagrid.columns.clients.time_in_care') }) do |object|
+    if object.time_in_care.present?
+      time_in_care = object.time_in_care
+      years = I18n.t('clients.show.time_in_care_around.year', count: time_in_care[:years]) if time_in_care[:years] > 0
+      months = I18n.t('clients.show.time_in_care_around.month', count: time_in_care[:months]) if time_in_care[:months] > 0
+      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_care[:weeks]) if time_in_care[:weeks] > 0
+      [years, months, weeks].join(' ')
+    end
   end
 
   dynamic do

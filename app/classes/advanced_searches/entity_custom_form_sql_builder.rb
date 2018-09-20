@@ -6,7 +6,7 @@ module AdvancedSearches
       field          = rule['field']
       @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
-      @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
+      @value         = rule['value'].is_a?(Array) || rule['value'].is_a?(Fixnum) ? rule['value'] : rule['value'].gsub("'", "''")
       @type          = rule['type']
       @input_type    = rule['input']
       @entity_type   = entity_type
@@ -25,15 +25,15 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
+          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase.squish}' ")
         else
-          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value}' ")
+          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
           properties_result = custom_field_properties.where.not("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
-          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
+          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value.squish}' ")
         end
       when 'less'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
@@ -44,13 +44,21 @@ module AdvancedSearches
       when 'greater_or_equal'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'contains'
-        properties_result = custom_field_properties.where("properties ->> '#{@field}' ILIKE '%#{@value}%' ")
+        properties_result = custom_field_properties.where("properties ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
       when 'not_contains'
-        properties_result = custom_field_properties.where("properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
+        properties_result = custom_field_properties.where("properties ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
-        properties_result = custom_field_properties.where("properties -> '#{@field}' ? '' ")
+        if @type == 'checkbox'
+          properties_result = custom_field_properties.where("properties -> '#{@field}' ? ''")
+        else
+          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
+        end
       when 'is_not_empty'
-        properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '' ")
+        if @type == 'checkbox'
+          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? ''")
+        else
+          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
+        end
       when 'between'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end

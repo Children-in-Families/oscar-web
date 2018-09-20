@@ -64,8 +64,8 @@ module FamiliesHelper
       male_children_count:                      t('datagrid.columns.families.male_children_count'),
       province_id:                              t('datagrid.columns.families.province'),
       district_id:                              t('datagrid.columns.families.district'),
-      commune:                                  t('datagrid.columns.families.commune'),
-      village:                                  t('datagrid.columns.families.village'),
+      commune_id:                               t('datagrid.columns.families.commune'),
+      village_id:                               t('datagrid.columns.families.village'),
       street:                                   t('datagrid.columns.families.street'),
       house:                                    t('datagrid.columns.families.house'),
       dependable_income:                        t('datagrid.columns.families.dependable_income'),
@@ -85,8 +85,8 @@ module FamiliesHelper
       address_:                                  t('datagrid.columns.families.address'),
       province_id_:                              t('datagrid.columns.families.province'),
       district_id_:                              t('datagrid.columns.families.district'),
-      commune_:                                  t('datagrid.columns.families.commune'),
-      village_:                                  t('datagrid.columns.families.village'),
+      commune_id_:                               t('datagrid.columns.families.commune'),
+      village_id_:                               t('datagrid.columns.families.village'),
       street_:                                   t('datagrid.columns.families.street'),
       house_:                                    t('datagrid.columns.families.house'),
       caregiver_information_:                    t('datagrid.columns.families.caregiver_information'),
@@ -118,17 +118,30 @@ module FamiliesHelper
     current_address = []
     current_address << "#{I18n.t('datagrid.columns.families.house')} #{object.house}" if object.house.present?
     current_address << "#{I18n.t('datagrid.columns.families.street')} #{object.street}" if object.street.present?
-    current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village}" if object.village.present?
-    current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune}" if object.commune.present?
+
     if locale == :km
+      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_kh}" if object.village.present?
+      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_kh}" if object.commune.present?
       current_address << object.district_name.split(' / ').first if object.district.present?
       current_address << object.province_name.split(' / ').first if object.province.present?
       current_address << 'កម្ពុជា'
     else
+      current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_en}" if object.village.present?
+      current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_en}" if object.commune.present?
       current_address << object.district_name.split(' / ').last if object.district.present?
       current_address << object.province_name.split(' / ').last if object.province.present?
       current_address << 'Cambodia'
     end
     current_address.join(', ')
+  end
+
+  def drop_down_relation
+    if params[:locale] == 'en'
+      FamilyMember::EN_RELATIONS
+    elsif params[:locale] == 'km'
+      FamilyMember::KM_RELATIONS
+    elsif params[:locale] == 'my'
+      FamilyMember::MY_RELATIONS
+    end
   end
 end

@@ -5,17 +5,18 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:received_by) }
   it { is_expected.to belong_to(:followed_up_by) }
   it { is_expected.to belong_to(:birth_province) }
-  it { is_expected.to belong_to(:donor) }
 
   # Client ask to hide #147254199
   # it { is_expected.to have_one(:government_report).dependent(:destroy) }
   # it { is_expected.to have_many(:surveys).dependent(:destroy) }
 
+  it { is_expected.to have_many(:sponsors).dependent(:destroy) }
+  it { is_expected.to have_many(:donors).through(:sponsors) }
   it { is_expected.to have_many(:cases).dependent(:destroy) }
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:case_notes).dependent(:destroy) }
   it { is_expected.to have_many(:assessments).dependent(:destroy) }
-  it { is_expected.to have_many(:agency_clients) }
+  it { is_expected.to have_many(:agency_clients).dependent(:destroy) }
   it { is_expected.to have_many(:agencies).through(:agency_clients) }
   it { is_expected.to have_many(:client_quantitative_cases).dependent(:destroy) }
   it { is_expected.to have_many(:quantitative_cases).through(:client_quantitative_cases) }
@@ -23,18 +24,10 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
   it { is_expected.to have_many(:users).through(:case_worker_clients) }
   it { is_expected.to have_many(:case_worker_clients).dependent(:destroy) }
-
-  it { is_expected.to have_many(:client_client_types).dependent(:destroy) }
-  it { is_expected.to have_many(:client_types).through(:client_client_types) }
-  it { is_expected.to have_many(:client_needs).dependent(:destroy) }
-  it { is_expected.to have_many(:needs).through(:client_needs) }
-  it { is_expected.to have_many(:client_interviewees).dependent(:destroy) }
-  it { is_expected.to have_many(:interviewees).through(:client_interviewees) }
-  it { is_expected.to have_many(:client_problems).dependent(:destroy) }
-  it { is_expected.to have_many(:problems).through(:client_problems) }
   it { is_expected.to have_many(:exit_ngos).dependent(:destroy) }
   it { is_expected.to have_many(:enter_ngos).dependent(:destroy) }
   it { is_expected.to have_many(:referrals).dependent(:destroy) }
+  it { is_expected.to have_many(:government_forms).dependent(:destroy) }
 end
 
 describe Client, 'callbacks' do
@@ -84,7 +77,10 @@ describe Client, 'callbacks' do
         it { expect(client.user_ids.any?).to be_truthy }
         it 'remove user associaton' do
           client.update(exit_date: Date.today, exit_note: 'test', exit_circumstance: 'testing', status: 'Exited')
+          client.reload
+          expect(client.status).to eq('Exited')
           expect(client.user_ids.empty?).to be_truthy
+          expect(client.case_worker_clients.empty?).to be_truthy
         end
       end
     end
@@ -94,21 +90,26 @@ end
 describe Client, 'methods' do
   let!(:setting){ create(:setting, :monthly_assessment) }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:family){ create(:family) }
   let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
+  let!(:family){ create(:family) }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
-  let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
-  let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
-  let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
-  let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
-  let!(:client_b){ create(:client, date_of_birth: '2016-06-05') }
-  let!(:client_c){ create(:client, date_of_birth: '2016-06-06') }
+  let!(:client_a){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2017-05-05') }
+  let!(:client_b){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-05') }
+  let!(:client_c){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-06') }
   let!(:client_d){ create(:client, date_of_birth: '2015-10-06') }
   let!(:ec_case){ create(:case, client: client_a, case_type: 'EC') }
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
   let!(:exited_client){ create(:client, :exited) }
+
+  context '#family' do
+    let!(:client_1){ create(:client, :accepted) }
+    let!(:family_1){ create(:family, children: [client_1.id]) }
+    it 'returns only a family of the client' do
+      expect(client_1.family).to eq(family_1)
+    end
+  end
 
   context '#most_recent_csi_assessment' do
     it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }
@@ -264,57 +265,34 @@ describe Client, 'methods' do
     end
   end
 
-  context 'time in care' do
-    context 'without any cases' do
-      it { expect(client.time_in_care).to be_nil }
+  context '#time_in_care' do
+    let!(:program_stream) {  create(:program_stream) }
+
+    context 'once enrollment' do
+      let!(:client_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: client_enrollment) }
+      it { expect(client.time_in_care).to eq({ years: 1, months: 1, weeks: 0, days: 0 }) }
     end
 
-    context 'with an active case' do
-      let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
-      it { expect(client.time_in_care).to eq(1.0) }
+    context 'continuous enrollment' do
+      let!(:first_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: first_enrollment) }
+      let!(:second_enrollment) { create(:client_enrollment, enrollment_date: '2019-02-01', program_stream: program_stream, client: client) }
+      let!(:second_leave_program) { create(:leave_program, exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_enrollment) }
+
+      it { expect(client.time_in_care).to eq({ years: 1, months: 4, weeks: 0, days: 0 }) }
     end
 
-    context 'with inactive case' do
-      let!(:case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      it { expect(client.time_in_care).to eq(2.0) }
+    context 'enrollments with one month delay' do
+      let!(:first_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: first_enrollment) }
+      let!(:second_enrollment) { create(:client_enrollment, enrollment_date: '2019-02-01', program_stream: program_stream, client: client) }
+      let!(:second_leave_program) { create(:leave_program, exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_enrollment) }
+      let!(:third_enrollment) { create(:client_enrollment, enrollment_date: '2019-06-01', program_stream: program_stream, client: client) }
+      let!(:third_leave_program) { create(:leave_program, exit_date: '2019-07-01', program_stream: program_stream, client_enrollment: third_enrollment) }
+
+      it { expect(client.time_in_care).to eq({ years: 1, months: 5, weeks: 0, days: 0 }) }
     end
-
-    context 'with an inactive case and an active case' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, client: client, exited: false, start_date: 6.months.ago) }
-      it { expect(client.time_in_care).to eq(0.5) }
-    end
-
-    context 'with an inactive case and two active cases' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, client: client, exited: false, start_date: 1.year.ago) }
-      let!(:other_active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: false, start_date: 6.months.ago) }
-      it { expect(client.time_in_care).to eq(1.0) }
-    end
-
-    context 'with some inactive cases and an active case' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, client: client, exited: false, start_date: 1.year.ago) }
-      let!(:other_active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      it { expect(client.time_in_care).to eq(1.0) }
-    end
-
-    context 'without any active cases but some inactive cases' do
-      let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      let!(:active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-      it { expect(client.time_in_care).to eq(2.0) }
-    end
-  end
-
-  context 'active_day_care' do
-    let!(:case) { create(:case, client: client, exited: false, start_date: 10.day.ago) }
-    it { expect(client.active_day_care).to eq(10) }
-  end
-
-  context 'inactive_day_care' do
-    let!(:inactive_case) { create(:case, family: family, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-    let!(:active_case) { create(:case, family: family, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
-    it { expect(client.inactive_day_care).to be_between(730.0, 732) }
   end
 
   context 'assessment' do
@@ -368,7 +346,8 @@ describe Client, 'methods' do
       followed_up_by: follower,
       birth_province: province,
       province: province,
-      user_ids: [user.id]
+      user_ids: [user.id],
+      code: Time.now.to_f.to_s.last(4)
     )}
     let!(:other_specific_client){ create(:client,
       date_of_birth: 2.year.ago.to_date,
@@ -376,7 +355,8 @@ describe Client, 'methods' do
       followed_up_by: follower,
       birth_province: province,
       province: province,
-      user_ids: [user.id]
+      user_ids: [user.id],
+      code: Time.now.to_f.to_s.last(4)
     )}
 
     min_age = 1
@@ -434,11 +414,11 @@ describe Client, 'scopes' do
     province: province,
     user_ids: [user.id],
     district: district,
-    telephone_number: '010123456'
+    telephone_number: '010123456',
+    code: Time.now.to_f.to_s.last(4)
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, :exited) }
-  let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
 
   let(:kc_client) { create(:client, :accepted) }
   let(:fc_client) { create(:client, :accepted) }
@@ -451,14 +431,6 @@ describe Client, 'scopes' do
     subject { Client.exited_ngo }
     it 'include clients who exited from NGO' do
       is_expected.to include(exited_client)
-      is_expected.not_to include(kc_client, fc_client, ec_client)
-    end
-  end
-
-  context 'telephone_number_like' do
-    subject { Client.telephone_number_like('010123456') }
-    it 'include clients who have phone number like' do
-      is_expected.to include(client)
       is_expected.not_to include(kc_client, fc_client, ec_client)
     end
   end
@@ -533,96 +505,6 @@ describe Client, 'scopes' do
     end
   end
 
-  context 'current address like' do
-    let!(:clients){ Client.current_address_like(client.current_address.downcase[0, 10]) }
-    it 'should include record have address like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have address like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'house number like' do
-    let!(:clients){ Client.house_number_like(client.house_number.downcase[0, 5]) }
-    it 'should include record have house number like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have house number like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'street number like' do
-    let!(:clients){ Client.street_number_like(client.street_number.downcase[0, 5]) }
-    it 'should include record have street number like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have street number like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'village like' do
-    let!(:clients){ Client.village_like(client.village.downcase[0, 5]) }
-    it 'should include record have village like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have village like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'commune like' do
-    let!(:clients){ Client.commune_like(client.commune.downcase[0, 5]) }
-    it 'should include record have commune like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have commune like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'district like' do
-    let!(:clients){ Client.district_like(district.name) }
-    it 'should include record have district like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have district like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'school name like' do
-    let!(:clients){ Client.school_name_like(client.school_name.downcase) }
-    it 'should include record have school name like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have school name like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'referral phone like' do
-    let!(:clients){ Client.referral_phone_like(client.referral_phone.downcase) }
-    it 'should include record have referral phone like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have referral phone like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'info like' do
-    let!(:clients){ Client.info_like(client.relevant_referral_information.downcase[0, 10]) }
-    it 'should include record have info like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have info like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
   context 'is received by' do
     let!(:received_by){ [user.name, user.id] }
     let!(:is_received_by){ Client.is_received_by }
@@ -680,23 +562,6 @@ describe Client, 'scopes' do
     end
   end
 
-  context 'start with code' do
-    let(:kc_client) { create(:client, status: 'Active KC') }
-    let(:fc_client) { create(:client, status: 'Active FC') }
-    let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
-    let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
-
-    it 'should return active kc case with code start from 2' do
-      expect(Client.start_with_code(2).count).to eq 1
-      expect(Client.start_with_code(2).first.code).to eq '2000'
-    end
-
-    it 'should return active fc case with code start from 1' do
-      expect(Client.start_with_code(1).count).to eq 1
-      expect(Client.start_with_code(1).first.code).to eq '1000'
-    end
-  end
-
   context 'id like' do
     let!(:clients){ Client.slug_like(client.slug.downcase) }
     it 'should include record have id like' do
@@ -716,46 +581,6 @@ describe Client, 'scopes' do
       expect(Client.find_by_family_id(family.id)).to eq [client]
     end
   end
-
-  context 'able states' do
-    states = %w(Accepted Rejected Discharged)
-    it 'return all three able states' do
-      expect(Client::ABLE_STATES).to eq(states)
-    end
-  end
-
-  context 'able' do
-    it 'should return able client' do
-      expect(Client.able).to include(able_client)
-    end
-    it 'should not return non able client' do
-      expect(Client.able).not_to include([client, other_client])
-    end
-  end
-
-  context 'kid_id_like' do
-    let!(:client)       { create(:client, kid_id: 'K000001') }
-    let!(:other_client) { create(:client, kid_id: 'K000002') }
-    let!(:clients)      { Client.kid_id_like('000001') }
-    it 'should include records with kid_id like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include records without kid_id like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
-  context 'live_with_like' do
-    let!(:client)       { create(:client, live_with: 'Rainy') }
-    let!(:other_client) { create(:client, live_with: 'Nico') }
-    let!(:clients)      { Client.live_with_like('rain') }
-    it 'should include records with live_with like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include records without live_with like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
 end
 
 describe 'validations' do
@@ -763,6 +588,7 @@ describe 'validations' do
   it { is_expected.to validate_presence_of(:received_by_id) }
   it { is_expected.to validate_presence_of(:referral_source) }
   it { is_expected.to validate_presence_of(:name_of_referee) }
+  it { is_expected.to validate_presence_of(:gender) }
 
   subject { FactoryGirl.build(:client) }
 

@@ -49,8 +49,8 @@ module AdvancedSearchHelper
       referral_phone: I18n.t('advanced_search.fields.referral_phone'),
       house_number: I18n.t('advanced_search.fields.house_number'),
       street_number: I18n.t('advanced_search.fields.street_number'),
-      village: I18n.t('advanced_search.fields.village'),
-      commune: I18n.t('advanced_search.fields.commune'),
+      commune_id: I18n.t('advanced_search.fields.commune'),
+      village_id: I18n.t('advanced_search.fields.village'),
       suburb: I18n.t('advanced_search.fields.suburb'),
       description_house_landmark: I18n.t('advanced_search.fields.description_house_landmark'),
       directions: I18n.t('advanced_search.fields.directions'),
@@ -71,6 +71,7 @@ module AdvancedSearchHelper
       gender: I18n.t('advanced_search.fields.gender'),
       status: I18n.t('advanced_search.fields.status'),
       agency_name: I18n.t('advanced_search.fields.agency_name'),
+      donor_name: I18n.t('advanced_search.fields.donor_id'),
       received_by_id: I18n.t('advanced_search.fields.received_by_id'),
       birth_province_id: I18n.t('advanced_search.fields.birth_province_id'),
       province_id: I18n.t('advanced_search.fields.province_id'),
@@ -80,7 +81,6 @@ module AdvancedSearchHelper
       able_state: I18n.t('advanced_search.fields.able_state'),
       has_been_in_orphanage: I18n.t('advanced_search.fields.has_been_in_orphanage'),
       user_id: I18n.t('advanced_search.fields.user_id'),
-      donor_id: I18n.t('advanced_search.fields.donor_id'),
       # id_poor: I18n.t('advanced_search.fields.id_poor'),
       enrollment: I18n.t('advanced_search.fields.enrollment'),
       tracking: I18n.t('advanced_search.fields.tracking'),
@@ -105,7 +105,12 @@ module AdvancedSearchHelper
       name_of_referee: I18n.t('advanced_search.fields.name_of_referee'),
       main_school_contact: I18n.t('advanced_search.fields.main_school_contact'),
       what3words: I18n.t('advanced_search.fields.what3words'),
-      kid_id: I18n.t('advanced_search.fields.kid_id')
+      kid_id: I18n.t('advanced_search.fields.kid_id'),
+      created_at: I18n.t('advanced_search.fields.created_at'),
+      created_by: I18n.t('advanced_search.fields.created_by'),
+      referred_to: I18n.t('advanced_search.fields.referred_to'),
+      referred_from: I18n.t('advanced_search.fields.referred_from'),
+      time_in_care: I18n.t('advanced_search.fields.time_in_care')
     }
     translations[key.to_sym] || ''
   end
@@ -123,8 +128,8 @@ module AdvancedSearchHelper
       male_children_count:                      I18n.t('datagrid.columns.families.male_children_count'),
       province_id:                              I18n.t('datagrid.columns.families.province'),
       district_id:                              I18n.t('datagrid.columns.families.district'),
-      commune:                                  I18n.t('datagrid.columns.families.commune'),
-      village:                                  I18n.t('datagrid.columns.families.village'),
+      commune_id:                               I18n.t('datagrid.columns.families.commune'),
+      village_id:                               I18n.t('datagrid.columns.families.village'),
       street:                                   I18n.t('datagrid.columns.families.street'),
       house:                                    I18n.t('datagrid.columns.families.house'),
       client_id:                                I18n.t('datagrid.columns.families.client'),

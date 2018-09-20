@@ -9,12 +9,14 @@ class ClientHistory
   field :tenant, type: String, default: ->{ Organization.current.short_name }
 
   embeds_many :agency_client_histories
+  embeds_many :sponsor_histories
   embeds_many :case_client_histories
   embeds_many :case_worker_client_histories
   embeds_many :client_custom_field_property_histories
   embeds_many :client_family_histories
   embeds_many :client_quantitative_case_histories
 
+  after_save :create_sponsor_history, if: 'object.key?("donor_ids")'
   after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
   after_save :create_case_worker_client_history, if: 'object.key?("user_ids")'
   after_save :create_client_quantitative_case_history, if: 'object.key?("quantitative_case_ids")'
@@ -49,6 +51,13 @@ class ClientHistory
     end
   end
 
+  def create_sponsor_history
+    object['donor_ids'].each do |donor_id|
+      donor = Donor.find_by(id: donor_id).try(:attributes)
+      sponsor_histories.create(object: donor)
+    end
+  end
+
   def create_case_client_history
     object['case_ids'].each do |case_id|
       c_case = Case.find_by(id: case_id).try(:attributes)
@@ -59,6 +68,7 @@ class ClientHistory
   def create_case_worker_client_history
     object['user_ids'].each do |user_id|
       case_worker = User.find_by(id: user_id).try(:attributes)
+      next if case_worker.nil?
       case_worker['current_sign_in_ip'] = case_worker['current_sign_in_ip'].to_s
       case_worker['last_sign_in_ip'] = case_worker['last_sign_in_ip'].to_s
       case_worker_client_histories.create(object: case_worker)

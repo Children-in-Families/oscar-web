@@ -13,6 +13,7 @@ class FamiliesController < AdminController
   def index
     @default_columns = Setting.first.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
+    @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability) }
     @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: @custom_form_fields))
     @family_columns.visible_columns
     if has_params?
@@ -21,7 +22,7 @@ class FamiliesController < AdminController
       respond_to do |f|
         f.html do
           @results = @family_grid.assets.size
-          @family_grid.scope { |scope| scope.page(params[:page]).per(20) }
+          @family_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
           form_builder_report
@@ -37,6 +38,7 @@ class FamiliesController < AdminController
 
   def create
     @family = Family.new(family_params)
+    @family.user_id = current_user.id
     if @family.save
       redirect_to @family, notice: t('.successfully_created')
     else
@@ -90,16 +92,20 @@ class FamiliesController < AdminController
                             :dependable_income, :female_children_count,
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :status, :contract_date,
-                            :address, :province_id, :district_id, :commune, :village, :house, :street,
+                            :address, :province_id, :district_id, :house, :street,
+                            :commune_id, :village_id,
                             custom_field_ids: [],
                             children: [],
-                            family_members_attributes: [:id, :adult_name, :date_of_birth, :occupation, :relation, :_destroy]
+                            family_members_attributes: [:id, :adult_name, :date_of_birth, :occupation, :relation, :guardian, :_destroy]
                             )
   end
 
   def find_association
     @provinces = Province.order(:name)
-    @districts = District.order(:name)
+    @districts = @family.province.present? ? @family.province.districts.order(:name) : []
+    @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
+    @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
+
     if action_name.in?(['edit', 'update'])
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
     else
