@@ -6,6 +6,6 @@ namespace :mhc do
     # import.users
 
     import = MhcImporter::Import.new('Clients')
-    import.update
+    import.clients
   end
 end
