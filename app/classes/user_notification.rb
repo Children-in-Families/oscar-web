@@ -63,7 +63,7 @@ class UserNotification
   end
 
   def due_today_tasks_count
-    @user.tasks.today_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+    @user.tasks.today_incomplete.exclude_exited_ngo_clients.size
   end
 
   def any_due_today_tasks?
