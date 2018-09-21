@@ -30,7 +30,7 @@ class CsiStatistic
     data = []
     return data unless @clients.any?
     clients = @clients.joins(:assessments).order('assessments.created_at')
-    max_count = clients.map { |a| a.assessments.size }.max
+    max_count = clients.map { |a| a.assessments.size }.max.to_i
     max_count.times do |i|
       data << clients.map { |c| c.assessments[i].id if c.assessments[i].present? }
     end
