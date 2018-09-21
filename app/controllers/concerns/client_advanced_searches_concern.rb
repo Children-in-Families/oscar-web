@@ -48,7 +48,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form
-    @custom_fields  = CustomField.joins(:custom_field_properties).client_forms.order_by_form_title.uniq
+    form_ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
+    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
   def program_stream_fields
@@ -61,7 +62,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_program_streams
-    @program_streams = ProgramStream.complete.joins(:client_enrollments).order(:name).uniq
+    program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
+    @program_streams = ProgramStream.where(id: program_ids).order(:name)
   end
 
   def program_stream_values
@@ -77,7 +79,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_form_fields = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_quantitative_fields
@@ -86,18 +88,18 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_enrollment_fields
-    @enrollment_fields = AdvancedSearches::EnrollmentFields.new(program_stream_values).render
-    enrollment_check? ? @enrollment_fields : []
+    return [] if program_stream_values.empty? || !enrollment_check?
+    AdvancedSearches::EnrollmentFields.new(program_stream_values).render
   end
 
   def get_tracking_fields
-    @tracking_fields = AdvancedSearches::TrackingFields.new(program_stream_values).render
-    tracking_check? ? @tracking_fields : []
+    return [] if program_stream_values.empty? || !tracking_check?
+    AdvancedSearches::TrackingFields.new(program_stream_values).render
   end
 
   def get_exit_program_fields
-    @exit_program_fields = AdvancedSearches::ExitProgramFields.new(program_stream_values).render
-    exit_program_check? ? @exit_program_fields : []
+    return [] if program_stream_values.empty? || !exit_program_check?
+    AdvancedSearches::ExitProgramFields.new(program_stream_values).render
   end
 
   def program_stream_value?

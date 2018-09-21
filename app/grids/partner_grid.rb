@@ -4,7 +4,7 @@ class PartnerGrid
 
   attr_accessor :dynamic_columns
   scope do
-    Partner.includes(:province).order(:name)
+    Partner.includes(:province, :organization_type).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.partners.name') }) do |value, scope|
