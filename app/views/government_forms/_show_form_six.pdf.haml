@@ -29,7 +29,7 @@
           %td
             %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
             ប្រុស
-          %td
+          %td.text-right
             %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
             ស្រី
 
@@ -41,9 +41,9 @@
             ឈ្មោះឪពុក ឬអ្នកអាណាព្យាបាល:
           %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: @father.try(:adult_name) }
-          %td
+          %td.text-right
             ថ្ងៃខែឆ្នាំកំណើត:
-          %td
+          %td.text-right
             - if @father.present?
               - @father.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
                 - if index == 0
@@ -65,9 +65,9 @@
             ឈ្មោះម្ដាយ ឬអ្នកអាណាព្យាបាល:
           %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: @mother.try(:adult_name) }
-          %td
+          %td.text-right
             ថ្ងៃខែឆ្នាំកំណើត:
-          %td
+          %td.text-right
             - if @mother.present?
               - @mother.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
                 - if index == 0
@@ -85,50 +85,52 @@
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
-          %td
+          %td{style: 'width: 210px;'}
             ឈ្មោះអ្នកបំពេញរបាយការណ៍:
           %td{style: 'width: 200px;'}
             %input{style: 'width: 100%; margin-left: -10px;', value: @user.try(:name)}
           %td
-            អង្គភាព:
-          %td{style: 'width: 200px;'}
+            .text-right អង្គភាព:
+          %td{style: 'width: 220px;'}
             %input{style: 'width: 100%;', value: @setting.org_name}
     %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
+
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
-          %td
+          %td{style: 'width: 157px;'}
             អាស័យដ្ឋាន៖ &nbsp;&nbsp;&nbsp;&nbsp;ភូមិ:
+          %td{style: 'width: 230px;'}
+            %input{style: 'width: 100%', value: @client.village_name_kh}
+          %td{style: 'width: 70px;'}
+            .text-right ឃុំ/សង្កាត់:
           %td
-            %input{style: 'width: 250px; margin-left: 35px;', value: @client.village_name_kh}
-          %td
-            %label.text-right ឃុំ/សង្កាត់:
-          %td
-            %input{style: 'width: 194px; margin-left: 20px;', value: @client.commune_name_kh }
+            %input{style: 'width: 100%', value: @client.commune_name_kh }
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
           - district = @client.district.present? ? @client.district.name_kh : ''
           - province = @client.province.present? ? @client.province.name_kh : ''
+          %td{style: 'width: 157px;'}
+            ក្រុង/ស្រុក/ខណ្ឌ:
+          %td{style: 'width: 230px;'}
+            %input{style: 'width: 100%', value: district }
+          %td{style: 'width: 70px;'}
+            .text-right ខេត្ត/រាជធានី:
           %td
-            %label{style: 'margin-left: 14px;'} ក្រុង/ស្រុក/ខណ្ឌ:
-          %td
-            %input{style: 'width: 250px; margin-left: 50px;', value: district }
-          %td
-            %label{style: ''} ខេត្ត/រាជធានី:
-          %td
-            %input{style: 'width: 194px; padding-left: 15px;', value: province }
+            %input{style: 'width: 100%', value: province }
+
     %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
-          %td
+          %td{style: 'width: 157px;'}
             ឈ្មោះកន្លែងថែទាំកុមារ:
-          %td{style: 'width: 200px;'}
+          %td{style: 'width: 300px;'}
             %input{style: 'width: 100%;', value: @setting.org_name }
-          %td
-            កាលបរិច្ឆេទ (ថ្ងៃ/ខែ/ឆ្នាំ):
-          %td{style: 'width: 200px;'}
+          %td.text-right
+            កាលបរិច្ឆេទ:
+          %td.text-right
             - accepted_date = @client.enter_ngos.last.present? ? @client.enter_ngos.last.accepted_date.strftime('%d%m%y') : '000000'
             - accepted_date.split('').each_with_index do |code, index|
               - if index == 0
@@ -140,17 +142,17 @@
       - time_in_care = @client.time_in_care
       %tbody
         %tr
-          %td
+          %td{style: 'vertical-align: middle;'}
             រយៈពេលសរុបនៃការទុកដាក់កុមារ:
-          %td{style: 'width: 200px;'}
+          %td.text-right{style: 'width: 200px; vertical-align: middle;'}
             សប្ដាហ៍
-            %input{ style: 'width: 120px', value: time_in_care[:weeks] }
-          %td{style: 'width: 200px;'}
+            %input.text-right{ style: 'width: 120px', value: time_in_care[:weeks] }
+          %td.text-right{style: 'width: 200px; vertical-align: middle;'}
             ខែ
-            %input{ style: 'width: 120px;', value: time_in_care[:months] }
-          %td{style: 'width: 200px;'}
+            %input.text-right{ style: 'width: 120px;', value: time_in_care[:months] }
+          %td.text-right{style: 'width: 200px; vertical-align: middle;'}
             ឆ្នាំ
-            %input{ style: 'width: 120px;', value: time_in_care[:years] }
+            %input.text-right{ style: 'width: 120px;', value: time_in_care[:years] }
 
 .panel.panel-borderless{style: 'margin-bottom: 0px;'}
   .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
