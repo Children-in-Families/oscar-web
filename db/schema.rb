@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180907035927) do
+ActiveRecord::Schema.define(version: 20180917071148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,12 @@ ActiveRecord::Schema.define(version: 20180907035927) do
   end
 
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
+
+  create_table "case_closures", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"
@@ -651,6 +657,7 @@ ActiveRecord::Schema.define(version: 20180907035927) do
     t.string   "name",       default: ""
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "priority"
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|
@@ -798,6 +805,9 @@ ActiveRecord::Schema.define(version: 20180907035927) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
+    t.string   "other_case_closure"
+    t.text     "brief_case_history"
+    t.integer  "case_closure_id"
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree

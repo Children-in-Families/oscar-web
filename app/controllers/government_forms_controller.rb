@@ -16,9 +16,9 @@ class GovernmentFormsController < AdminController
     authorize @government_form
     @government_form.populate_needs
     @government_form.populate_problems
-    if params[:form] == 'two'
+    if params[:form] == 'two' || params[:form] == 'six'
       @government_form.populate_children_status
-      @government_form.populate_family_status
+      @government_form.populate_family_status(params[:form])
     elsif params[:form] == 'three'
       @government_form.populate_children_plans
       @government_form.populate_family_plans
@@ -73,6 +73,21 @@ class GovernmentFormsController < AdminController
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    client_record = SharedClient.find_by(slug: params[:client_id])
+    if client_record.present?
+      @client.given_name = client_record.given_name
+      @client.family_name = client_record.family_name
+      @client.local_given_name = client_record.local_given_name
+      @client.local_family_name = client_record.local_family_name
+      @client.gender = client_record.gender
+      @client.date_of_birth = client_record.date_of_birth
+      @client.telephone_number = client_record.telephone_number
+      @client.live_with = client_record.live_with
+      @client.birth_province_id = client_record.birth_province_id
+    end
+    Organization.switch_to current_org.short_name
   end
 
   def find_association
@@ -95,6 +110,7 @@ class GovernmentFormsController < AdminController
     @problems       = Problem.order(:created_at)
     @service_types  = ServiceType.order(:created_at)
     @client_rights  = ClientRight.order(:created_at)
+    @case_closures  = CaseClosure.order(:created_at)
   end
 
   def find_government_form
@@ -113,8 +129,8 @@ class GovernmentFormsController < AdminController
       :source_info, :summary_info_of_referral, :guardian_comment, :case_worker_comment,
       :other_interviewee, :other_need, :other_problem, :other_client_type, :gov_placement_date,
       :caseworker_assumption, :assumption_description, :assumption_date, :contact_type,
-      :client_decision, :other_service_type,
-      :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship,
+      :client_decision, :other_service_type, :other_case_closure, :case_closure_id,
+      :care_type, :primary_carer, :secondary_carer, :carer_contact_info, :new_carer, :new_carer_gender, :new_carer_date_of_birth, :new_carer_relationship, :brief_case_history,
       interviewee_ids: [], client_type_ids: [], service_type_ids: [], client_right_ids: [],
       government_form_needs_attributes: [:id, :rank, :need_id],
       government_form_problems_attributes: [:id, :rank, :problem_id],
@@ -130,7 +146,7 @@ class GovernmentFormsController < AdminController
             when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
             when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
             when 'five' then ''
-            when 'sixe' then ''
+            when 'six' then 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
             else nil
             end
     @form_name
@@ -140,5 +156,7 @@ class GovernmentFormsController < AdminController
     @user     = @government_form.case_worker_info
     @setting  = Setting.first
     @guardian = @client.family.family_members.find_by(guardian: true) if @client.family.present?
+    @father = @client.family.family_members.find_by(guardian: true, relation: 'Father') if @client.family.present?
+    @mother = @client.family.family_members.find_by(guardian: true, relation: 'Mother') if @client.family.present?
   end
 end
