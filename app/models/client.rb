@@ -263,8 +263,8 @@ class Client < ActiveRecord::Base
   end
 
   def time_in_care
-    return unless client_enrollments.any?
     date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
+    return date_time_in_care unless client_enrollments.any?
     first_multi_enrolled_program_date = ''
     last_multi_leave_program_date = ''
     ordered_enrollments = client_enrollments.order(:enrollment_date)
