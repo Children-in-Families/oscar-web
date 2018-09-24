@@ -52,35 +52,46 @@
         = render @government_form.interviewees.pluck(:name).include?('អ្នកថែទាំ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         អ្នកថែទាំ
       .col-xs-8
-        %div.other-label
+        .col-xs-4.other-label{style: 'padding: 0px;'}
           = render @government_form.interviewees.pluck(:name).include?('ផ្សេងៗ (សូមបញ្ជាក់)') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
           ផ្សេងៗ (សូមបញ្ជាក់)
-        %div{ class: "other #{ 'empty' if @government_form.interviewees.pluck(:name).exclude?('ផ្សេងៗ (សូមបញ្ជាក់)')}" }= @government_form.other_interviewee
+        .col-xs-8{ style: 'margin-left: 0px;', class: "other #{ 'empty' if @government_form.interviewees.pluck(:name).exclude?('ផ្សេងៗ (សូមបញ្ជាក់)')}" }= @government_form.other_interviewee
 
-  %div.panel-label{style: 'border-top: 0px;'}
-    ឈ្មោះអ្នកកាន់ករណី:
-    %input{style: 'width: 30%; margin-right: 25px; margin-left: 15px;', value: @government_form.case_worker_name }
-    លេខទូរស័ព្ទ:
-    %input{style: 'width: 30%; margin-left: 40px;', value: @government_form.case_worker_phone }
-
+  .panel-body.panel-border{style: 'border-bottom: none'}
+    .row
+      .col-xs-2
+        ឈ្មោះអ្នកកាន់ករណី:
+      .col-xs-4
+        %input{style: 'width: 100%;', value: @government_form.case_worker_name }
+      .col-xs-2.text-right
+        លេខទូរស័ព្ទ:
+      .col-xs-4.text-right
+        %input{style: 'width: 100%;', value: @government_form.case_worker_phone }
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #BEDCE7;' }
     %u ព័ត៌មានបឋមអំពីកុមារ:
   .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
-    ឈ្មោះកុមារ:
-    %input{style: 'width: 20%; margin-left; 15px;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
-    ថ្ងៃខែឆ្នាំកំណើត:
-    - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
-    - dob.split('').each_with_index do |code, index|
-      - if index == 0
-        %span.first= code
-      - else
-        %span= code
-    ភេទ:
-    = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-    ប្រុស
-    = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-    ស្រី
+    %table
+      %tbody
+        %tr
+          %td
+            ឈ្មោះកុមារ:
+          %td{style: 'width: 200px; padding-left: 5px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td{style: 'width: 250px; padding-left: 5px;'}
+            ថ្ងៃខែឆ្នាំកំណើត:
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td.text-right{style: 'width: 200px;'}
+            ភេទ:
+            = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ប្រុស
+            = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ស្រី
 
     .panel.panel-default.panel-no-margin.panel-margin-top
       %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋានកុមាររស់នៅ:
@@ -113,10 +124,15 @@
                 %input{ style: 'width: 100%', value: @client.province.try(:name_kh) }
       %label.panel-label{ style: 'background-color: #D9E2C2;' } អ្នកថែទាំកុមារ:
       .panel-body.panel-label-dotted{style: 'padding-bottom: 2px;'}
-        ឈ្មោះ
-        %input{ style: 'width: 30%; margin-left: 15px; margin-right: 25px;', value: @client.live_with }
-        ទំនាក់ទំនងជាមួយកុមារ:
-        %input{ style: 'width: 30%; margin-left: 40px;', value: @government_form.primary_carer_relationship }
+        .row
+          .col-xs-1
+            ឈ្មោះ
+          .col-xs-4
+            %input{ style: 'width: 100%;', value: @client.live_with }
+          .col-xs-3
+            ទំនាក់ទំនងជាមួយកុមារ:
+          .col-xs-4
+            %input{ style: 'width: 100%;', value: @government_form.primary_carer_relationship }
 
         .panel.panel-default.panel-no-margin.panel-margin-top{ style: 'margin-top: 3px;' }
           %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋាន:
