@@ -81,39 +81,44 @@
                 - else
                   %span &nbsp;&nbsp;
 
-    %hr{style: 'border-bottom: 1px solid black; margin: 0 -6px 0;'}
+    %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
           %td
             ឈ្មោះអ្នកបំពេញរបាយការណ៍:
           %td{style: 'width: 200px;'}
-            %input{style: 'width: 100%;', value: @user.try(:name)}
+            %input{style: 'width: 100%; margin-left: -10px;', value: @user.try(:name)}
           %td
             អង្គភាព:
           %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: @setting.org_name}
+    %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
         %tr
-          %td{style: 'width: 20px;'}
-            អាស័យដ្ឋាន: ភូមិ:
           %td
-            %input{style: 'width: 100%;', value: @client.village_name_kh}
-          %td{style: 'width: 50px;'}
-            ឃុំ/សង្កាត់:
+            អាស័យដ្ឋាន៖ &nbsp;&nbsp;&nbsp;&nbsp;ភូមិ:
           %td
-            %input{style: 'width: 100%', value: @client.commune_name_kh }
+            %input{style: 'width: 250px; margin-left: 35px;', value: @client.village_name_kh}
+          %td
+            %label.text-right ឃុំ/សង្កាត់:
+          %td
+            %input{style: 'width: 194px; margin-left: 20px;', value: @client.commune_name_kh }
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
         %tr
           - district = @client.district.present? ? @client.district.name_kh : ''
           - province = @client.province.present? ? @client.province.name_kh : ''
           %td
-            %label ក្រុង/ស្រុក/ខណ្ឌ:
+            %label{style: 'margin-left: 14px;'} ក្រុង/ស្រុក/ខណ្ឌ:
           %td
-            %input{style: 'width: 100%', value: district }
+            %input{style: 'width: 250px; margin-left: 50px;', value: district }
           %td
-            %label ខេត្ត/រាជធានី:
+            %label{style: ''} ខេត្ត/រាជធានី:
           %td
-            %input{style: 'width: 100%', value: province }
-    %hr{style: 'border-bottom: 1px solid black; margin: 0 -6px 0;'}
+            %input{style: 'width: 194px; padding-left: 15px;', value: province }
+    %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
