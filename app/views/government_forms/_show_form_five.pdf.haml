@@ -8,33 +8,33 @@
   .panel-body.panel-border{ style: 'border-bottom: 0px solid black; border-top: 1px solid black' }
     = render 'client_code'
   .panel-body.panel-border{ style: 'border-bottom: 1px dotted black; border-top: 1px dotted black' }
-    %tbody
-
-      %tr
-        %td{ style: 'padding-left: 10px;' }
-          ឈ្មោះកុមារ:
-          %input{ style: 'width: 200px;', value: @government_form.client.try(:en_and_local_name) }
-        %td{ style: 'padding-left: 5px;' }
-          ថ្ងៃខែឆ្នាំកំណើត:
-          - date_of_birth = @government_form.client.try(:date_of_birth).present? ? @government_form.client.date_of_birth.strftime('%d%m%y') : '000000'
-          - date_of_birth.split('').each_with_index do |code, index|
-            - if index == 0
-              %span.first= code
+    %table
+      %tbody
+        %tr
+          %td{ style: 'padding-left: 10px; width: 350px;' }
+            ឈ្មោះកុមារ:
+            %input{ style: 'width: 200px;', value: @government_form.client.try(:en_and_local_name) }
+          %td{ style: 'padding-left: 5px; width: 350px;' }
+            ថ្ងៃខែឆ្នាំកំណើត:
+            - date_of_birth = @government_form.client.try(:date_of_birth).present? ? @government_form.client.date_of_birth.strftime('%d%m%y') : '000000'
+            - date_of_birth.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td.text-right{ style: 'padding-left: 5px; width: 300px;' }
+            - gender_value = @government_form.client.gender
+            ភេទ:
+            - if gender_value == 'male'
+              = render 'government_forms/pdf/image_checked_box'
             - else
-              %span= code
-        %td{ style: 'padding-left: 5px;' }
-          - gender_value = @government_form.client.gender
-          ភេទ:
-          - if gender_value == 'male'
-            = render 'government_forms/pdf/image_checked_box'
-          - else
-            = render 'government_forms/pdf/image_unchecked_box'
-          ប្រុស
-          - if gender_value == 'female'
-            = render 'government_forms/pdf/image_checked_box'
-          - else
-            = render 'government_forms/pdf/image_unchecked_box'
-          ស្រី
+              = render 'government_forms/pdf/image_unchecked_box'
+            ប្រុស
+            - if gender_value == 'female'
+              = render 'government_forms/pdf/image_checked_box'
+            - else
+              = render 'government_forms/pdf/image_unchecked_box'
+            ស្រី
 .panel.panel-borderless.panel-no-margin{ style: 'page-break-after: always;' }
   .panel-body.panel-border{ style: 'padding: 0px 10px 0px 10px;' }
     %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px; margin-bottom: 10px' }
