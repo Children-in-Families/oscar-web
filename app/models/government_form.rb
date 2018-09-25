@@ -41,7 +41,9 @@ class GovernmentForm < ActiveRecord::Base
   has_many :service_types, through: :government_form_service_types
   has_many :client_right_government_forms, dependent: :destroy
   has_many :client_rights, through: :client_right_government_forms
+  has_many :action_results, dependent: :destroy
 
+  accepts_nested_attributes_for :action_results, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
   accepts_nested_attributes_for :government_form_children_plans
@@ -118,7 +120,8 @@ class GovernmentForm < ActiveRecord::Base
       government_form_needs_attributes: mapping_government_form_needs,
       government_form_problems_attributes: mapping_government_form_problems,
       government_form_children_plans_attributes: mapping_government_form_children_plans,
-      government_form_family_plans_attributes: mapping_government_form_family_plans
+      government_form_family_plans_attributes: mapping_government_form_family_plans,
+      action_results_attributes: mapping_action_results
     )
   end
 
@@ -156,6 +159,14 @@ class GovernmentForm < ActiveRecord::Base
     attr_hash = {}
     government_form_family_plans.each_with_index do |gov_family_plan, index|
       attr_hash["#{index}"] = { 'score'=> "#{gov_family_plan.score}", 'comment'=> "#{gov_family_plan.comment}", 'family_plan_id'=> "#{gov_family_plan.family_plan.id}", 'goal'=> "#{gov_family_plan.goal}", 'action'=> "#{gov_family_plan.action}", 'result'=> "#{gov_family_plan.result}" }
+    end
+    attr_hash
+  end
+
+  def mapping_action_results
+    attr_hash = {}
+    action_results.each_with_index do |action_result, index|
+      attr_hash["#{index}"] = { 'action'=> "#{action_result.action}", 'result'=> "#{action_result.result}" }
     end
     attr_hash
   end

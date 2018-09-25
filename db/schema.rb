@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 20180917071148) do
   add_index "able_screening_questions", ["question_group_id"], name: "index_able_screening_questions_on_question_group_id", using: :btree
   add_index "able_screening_questions", ["stage_id"], name: "index_able_screening_questions_on_stage_id", using: :btree
 
+  create_table "action_results", force: :cascade do |t|
+    t.text     "action",             default: ""
+    t.text     "result",             default: ""
+    t.integer  "government_form_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "action_results", ["government_form_id"], name: "index_action_results_on_government_form_id", using: :btree
+
   create_table "advanced_searches", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -808,6 +818,7 @@ ActiveRecord::Schema.define(version: 20180917071148) do
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
+    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1246,6 +1257,7 @@ ActiveRecord::Schema.define(version: 20180917071148) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
+    t.string   "relation",                  default: ""
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
@@ -1586,6 +1598,7 @@ ActiveRecord::Schema.define(version: 20180917071148) do
 
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
+  add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
   add_foreign_key "answers", "able_screening_questions"
   add_foreign_key "answers", "clients"
