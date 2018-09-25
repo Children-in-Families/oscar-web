@@ -1,0 +1,37 @@
+= simple_form_for [@client, @government_form] do |f|
+  .ibox-content
+    = f.input :name, as: :hidden
+    = hidden_field_tag :form_num, params[:form]
+    = error_notification(f)
+    .row
+      .col-xs-12
+        %h2.text-center= 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
+      = render 'government_info', f: f
+      .col-xs-12.col-sm-4.clearfix
+        = f.input :case_worker_id, as: :select, collection: @users.map{|user| [user.name, user.id, selected: current_user.id == user.id] }, label: 'ឈ្មោះអ្នកបំពេញរបាយការណ៌'
+      .col-xs-12
+        %hr
+        %h3= 'ការប៉ាន់ប្រមាណចុងក្រោយសម្រាប់កុមារ'
+        = f.simple_fields_for :government_form_children_plans do |f_children_status|
+          = render 'children_status_fields', f: f_children_status
+      .col-xs-12
+        %hr
+        %h3= 'ការប៉ាន់ប្រមាណចុងក្រោយនៃស្ថានភាពគ្រួសារ'
+        = f.simple_fields_for :government_form_family_plans do |f_family_status|
+          = render 'family_status_fields', f: f_family_status
+      .col-xs-12
+        %hr
+        %h3= 'សេចក្ដីសន្និដ្ឋានចុងក្រោយ'
+        .row#case-closure
+          .col-xs-12.col-sm-6
+            = f.association :case_closure, collection: @case_closures.map{|c| [c.name, c.id] }, label: false
+          .col-xs-12.col-sm-6.other-case-closure.hidden
+            = f.input :other_case_closure, label: false, input_html: { placeholder: 'ផ្សេងៗ' }
+      .col-xs-12
+        %hr
+        %h3= 'សង្ខេបសាច់រឿងរបស់អតិថិជន ចាប់តាំងពីធ្វើសមាហរណកម្មរហូតដល់បិទករណី'
+        = f.input :brief_case_history, label: false
+
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), client_government_forms_path(form: params[:form]), class: 'btn btn-default form-btn'
