@@ -12,16 +12,24 @@ class GovernmentFormsController < AdminController
   end
 
   def new
-    @government_form = @client.government_forms.new(name: @form_name)
-    authorize @government_form
-    @government_form.populate_needs
-    @government_form.populate_problems
-    if params[:form] == 'two'
-      @government_form.populate_children_status
-      @government_form.populate_family_status
-    elsif params[:form] == 'three'
-      @government_form.populate_children_plans
-      @government_form.populate_family_plans
+    if params[:new_duplicate] != "true"
+      @government_form = @client.government_forms.new(name: @form_name)
+      authorize @government_form
+      @government_form.populate_needs
+      @government_form.populate_problems
+      if params[:form] == 'two'
+        @government_form.populate_children_status
+        @government_form.populate_family_status
+      elsif params[:form] == 'three'
+        @government_form.populate_children_plans
+        @government_form.populate_family_plans
+      end
+    else
+      @government_form = @client.government_forms.find(params[:government_form_id]).decorate
+      gov_attr = @government_form.merge_associations_params
+      gov_attr["id"] = ''
+      @government_form =  @client.government_forms.new(gov_attr)
+      authorize @government_form
     end
   end
 
