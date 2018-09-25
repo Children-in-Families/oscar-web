@@ -7,7 +7,7 @@ namespace :client_enrollment_tracking do
     trackings.each do |tracking|
       value = tracking.properties["ចំណាត់ថ្នាក់ប្រចាំខែ-ឆមាស-ឆ្នាំ/Monthly-Bi-annually-Annually Rank:"].first
       if value == 'N/A'
-        tracking.properties["ចំណាត់ថ្នាក់ប្រចាំខែ-ឆមាស-ឆ្នាំ/Monthly-Bi-annually-Annually Rank:"] = '0'
+        tracking.properties["ចំណាត់ថ្នាក់ប្រចាំខែ-ឆមាស-ឆ្នាំ/Monthly-Bi-annually-Annually Rank:"] = ''
       else
         tracking.properties["ចំណាត់ថ្នាក់ប្រចាំខែ-ឆមាស-ឆ្នាំ/Monthly-Bi-annually-Annually Rank:"] = value
       end
