@@ -1,7 +1,5 @@
-class ClientGrid
+class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
-  # extend ActionView::Helpers::DateHelper
-  include Datagrid
   include ClientsHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
@@ -481,7 +479,7 @@ class ClientGrid
     end
   end
 
-  column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
+  date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
@@ -524,16 +522,14 @@ class ClientGrid
     Organization.switch_to 'shared'
     date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
     Organization.switch_to current_org.short_name
-    date_of_birth
+    date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
   end
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
-    object.created_at.strftime('%F')
-  end
+  date_column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') })
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
@@ -636,7 +632,7 @@ class ClientGrid
     object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
-  column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
+  date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
@@ -704,10 +700,6 @@ class ClientGrid
     object.donors.pluck(:name).join(', ')
   end
 
-  column(:form_title, order: false, header: -> { I18n.t('datagrid.columns.clients.form_title') }, html: true) do |object|
-    render partial: 'clients/client_custom_fields', locals: { object: object }
-  end
-
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
     Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
   end
@@ -732,10 +724,6 @@ class ClientGrid
   #   object.assessments.most_recents.map{ |a| a.created_at.to_date }.join(' | ') if object.assessments.any?
   # end
 
-  column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
-    render partial: 'clients/all_csi_assessments', locals: { object: object }
-  end
-
   column(:time_in_care, header: -> { I18n.t('datagrid.columns.clients.time_in_care') }) do |object|
     if object.time_in_care.present?
       time_in_care = object.time_in_care
@@ -747,11 +735,17 @@ class ClientGrid
   end
 
   dynamic do
-    Domain.order_by_identity.each do |domain|
-      identity = domain.identity
-      column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-        assessment = client.assessments.latest_record
-        assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+    if enable_assessment_setting?
+      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
+        render partial: 'clients/all_csi_assessments', locals: { object: object }
+      end
+
+      Domain.order_by_identity.each do |domain|
+        identity = domain.identity
+        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+          assessment = client.assessments.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        end
       end
     end
   end
@@ -765,16 +759,24 @@ class ClientGrid
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if data == 'recent'
-            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-            properties = properties[format_field_value] if properties.present?
+            if fields.last == 'Has This Form'
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = properties[format_field_value] if properties.present?
+            end
           else
-            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+            if fields.last == 'Has This Form'
+              properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
+            else
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+            end
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
+            properties = date_format(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date))
           else
-            properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('_')).map(&:enrollment_date)
+            properties = date_filter(object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('_')).map{|date| date_format(date.enrollment_date) }
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -794,9 +796,9 @@ class ClientGrid
         elsif fields.first == 'programexitdate'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
+            properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map(&:exit_date)
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map{|date| date_format(date.exit_date) }
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids
@@ -810,7 +812,7 @@ class ClientGrid
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('_').split(' ').first }
         else
-          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
         end
       end
     end

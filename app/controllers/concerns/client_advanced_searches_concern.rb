@@ -40,7 +40,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_column
-    @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }
+    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
   end
 
   def program_stream_column
@@ -57,7 +57,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def client_builder_fields
-    @builder_fields = get_client_basic_fields + get_custom_form_fields + program_stream_fields
+    @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
     @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
@@ -78,8 +78,16 @@ module ClientAdvancedSearchesConcern
     custom_form_value? ? eval(@advanced_search_params[:custom_form_selected]) : []
   end
 
+  def custom_form_fields
+    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+  end
+
   def get_custom_form_fields
-    @custom_form_fields = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_forms = custom_form_values.empty? ? [] : AdvancedSearches::CustomFields.new(custom_form_values).render
+  end
+
+  def get_has_this_form_fields
+    @has_this_form_fields = custom_form_values.empty? ? [] : AdvancedSearches::HasThisFormFields.new(custom_form_values).render
   end
 
   def get_quantitative_fields

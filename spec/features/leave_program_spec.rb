@@ -25,7 +25,7 @@ describe LeaveProgram, 'Leave Program' do
         click_button 'Save'
       end
       expect(page).to have_content('4')
-      expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
+      expect(page).to have_content(Date.today.strftime('%d %B %Y'))
       expect(page).to have_content('Good client')
       expect(page).to have_content('test@example.com')
     end
@@ -79,7 +79,7 @@ describe LeaveProgram, 'Leave Program' do
       find('#exit_date').set(Date.today)
       find('#leave_program_properties_description').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
+      expect(page).to have_content(Date.today.strftime('%d %B %Y'))
       expect(page).to have_content('this is editing')
     end
 

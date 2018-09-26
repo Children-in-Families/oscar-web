@@ -162,11 +162,19 @@ module ClientsHelper
   end
 
   def format_array_value(value)
-    value.is_a?(Array) ? value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"').join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
+    value.is_a?(Array) ? check_is_array_date?(value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')).join(' , ') : check_is_string_date?(value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"'))
+  end
+
+  def check_is_array_date?(properties)
+    properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
+  end
+
+  def check_is_string_date?(property)
+    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? date_format(property.to_date) : property
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.delete_if(&:empty?).map { |c| c.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')}.join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
+    value.is_a?(Array) ? check_is_array_date?(value.delete_if(&:empty?).map{|c| c.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')}).join(' , ') : check_is_string_date?(value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"'))
   end
 
   def field_not_blank?(value)
@@ -326,7 +334,6 @@ module ClientsHelper
       history_of_high_risk_behaviours_: t('datagrid.columns.clients.history_of_high_risk_behaviours'),
       reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
       rejected_note_: t('datagrid.columns.clients.rejected_note'),
-      form_title_: t('datagrid.columns.clients.form_title'),
       family_: t('datagrid.columns.clients.placements.family'),
       code_: t('datagrid.columns.clients.code'),
       age_: t('datagrid.columns.clients.age'),
@@ -776,6 +783,17 @@ module ClientsHelper
     rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
+  def case_workers_option(client_id)
+    @users.map do |user|
+      tasks = user.tasks.incomplete.where(client_id: client_id)
+      if tasks.any?
+        [user.name, user.id, { locked: 'locked'} ]
+      else
+        [user.name, user.id]
+      end
+    end
+  end
+
   def case_history_links(case_history, case_history_name)
     case case_history_name
     when 'client_enrollments'
@@ -801,5 +819,9 @@ module ClientsHelper
     when 'exit_ngos'
       render 'client/exit_ngos/edit_form', client: @client, exit_ngo: case_history
     end
+  end
+
+  def date_format(date)
+    date.strftime('%d %B %Y') if date.present?
   end
 end

@@ -2,7 +2,7 @@
   .col-xs-12.col-sm-12.col-md-12
     .ibox
       .ibox-title
-        %h5= "#{t('created_by')} #{@referral.name_of_referee} #{t('at')} #{@referral.created_at.strftime("%B %d, %Y")}"
+        %h5= "#{t('created_by')} #{@referral.name_of_referee} #{t('at')} #{date_format(@referral.created_at)}"
         .text-right
           - if @referral.non_oscar_ngo?
             = link_to client_referral_path(@client, @referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do

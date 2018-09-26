@@ -17,7 +17,7 @@ describe "Assessment" do
       (1..n).each do |time|
         find('.assessment-task-btn').trigger('click')
         fill_in 'task_name', with: 'ABC'
-        fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
+        fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%d %B %Y')
         find('.add-task-btn').trigger('click')
         sleep 1
       end
