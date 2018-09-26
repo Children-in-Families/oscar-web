@@ -198,20 +198,10 @@ module AdvancedSearches
         end
 
       when 'between'
-        if field == 'created_at'
-          @sql_string << "date(clients.#{field}) BETWEEN ? AND ?"
-          @values << value.first
-          @values << value.last
-        else
-          if field == 'school_grade'
-            @sql_string << "clients.#{field} in (?)"
-            @values << [value.first, value.last]
-          else
-            @sql_string << "clients.#{field} BETWEEN ? AND ?"
-            @values << value.first
-            @values << value.last
-          end
-        end
+        query_string = field == 'created_at' ? "date(clients.#{field}) BETWEEN ? AND ?" : "clients.#{field} BETWEEN ? AND ?"
+        @sql_string << query_string
+        @values << value.first
+        @values << value.last
       end
     end
 
