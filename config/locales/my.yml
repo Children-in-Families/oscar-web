@@ -1309,6 +1309,7 @@ my:
       referral_source: လႊဲရမည့္ ရင္းျမစ္
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
+      text-hint: သူ / သူမဖြည့်စွက်ရန် Task ကြောင့်ဤကိစ္စတွင်အလုပ်သမားဖယ်ရှားပစ်ရန် လုပ်. မရပါ။
     index:
       active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
