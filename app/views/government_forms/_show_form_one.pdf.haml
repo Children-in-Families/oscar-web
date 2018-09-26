@@ -415,7 +415,8 @@
               .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
                 .form-check
                   %div.other-label
-                    %input.text-center{ style: 'width: 30px;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') } ផ្សេងៗ (សូមបញ្ជាក់)
+                    %input.text-center{ style: 'width: 30px;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') }
+                    ផ្សេងៗ (សូមបញ្ជាក់):
               .col-xs-12.no-left-padding
                 %div{ style: 'margin-left:0;', class: "other #{ 'empty' if @government_form.other_problem.blank?}" }= @government_form.other_problem
 
