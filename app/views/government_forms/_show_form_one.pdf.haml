@@ -8,7 +8,7 @@
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #DEEDF2;' }
     %u ទីកន្លែងសម្ភាសន៍ទទួលកុមារ:
-  .panel-body.panel-border
+  .panel-body.panel-border{style: 'padding-bottom: 2px; border-bottom: none'}
     .row{ style: 'margin-bottom: 3px;' }
       .col-xs-6
         .row
@@ -57,7 +57,7 @@
           ផ្សេងៗ (សូមបញ្ជាក់)
         .col-xs-8{ style: 'margin-left: 0px;', class: "other #{ 'empty' if @government_form.interviewees.pluck(:name).exclude?('ផ្សេងៗ (សូមបញ្ជាក់)')}" }= @government_form.other_interviewee
 
-  .panel-body.panel-border{style: 'border-bottom: none'}
+  .panel-body.panel-border{style: 'border-bottom: none; padding-bottom: 0px;'}
     .row
       .col-xs-2
         ឈ្មោះអ្នកកាន់ករណី:
