@@ -38,6 +38,8 @@ class Ability
         assessment.client.user_id == user.id
       end
       cannot :destroy, Task
+      cannot :edit, Task
+      cannot :update, Task
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
@@ -71,6 +73,9 @@ class Ability
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :manage, GovernmentForm
+      cannot :destroy, Task
+      cannot :edit, Task
+      cannot :update, Task
     end
   end
 

@@ -177,7 +177,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     element        = undefined
     deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{data.id}"
-    deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() != 'case worker'
+    deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
     element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}#{deleteLink}</li>"
 
     $(".domain-#{data.domain_id} .task-arising").removeClass('hidden')
