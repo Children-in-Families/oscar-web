@@ -28,7 +28,8 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_custom_form
-    @custom_fields  = CustomField.joins(:custom_field_properties).family_forms.order_by_form_title.uniq
+    form_ids = CustomFieldProperty.where(custom_formable_type: 'Family').pluck(:custom_field_id).uniq
+    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
   def family_builder_fields
