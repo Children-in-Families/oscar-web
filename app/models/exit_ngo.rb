@@ -9,7 +9,7 @@ class ExitNgo < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
 
-  validates :exit_circumstance, :exit_date, :exit_note, presence: true
+  validates :exit_circumstance, :exit_date, :exit_note, :exit_reasons, presence: true
 
   after_create :update_client_status
   after_save :create_exit_ngo_history
