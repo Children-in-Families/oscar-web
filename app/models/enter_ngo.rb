@@ -1,5 +1,6 @@
 class EnterNgo < ActiveRecord::Base
   has_paper_trail
+
   belongs_to :client
 
   alias_attribute :new_date, :accepted_date
