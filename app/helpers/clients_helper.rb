@@ -334,7 +334,6 @@ module ClientsHelper
       history_of_high_risk_behaviours_: t('datagrid.columns.clients.history_of_high_risk_behaviours'),
       reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
       rejected_note_: t('datagrid.columns.clients.rejected_note'),
-      form_title_: t('datagrid.columns.clients.form_title'),
       family_: t('datagrid.columns.clients.placements.family'),
       code_: t('datagrid.columns.clients.code'),
       age_: t('datagrid.columns.clients.age'),

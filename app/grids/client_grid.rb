@@ -700,10 +700,6 @@ class ClientGrid < BaseGrid
     object.donors.pluck(:name).join(', ')
   end
 
-  column(:form_title, order: false, header: -> { I18n.t('datagrid.columns.clients.form_title') }, html: true) do |object|
-    render partial: 'clients/client_custom_fields', locals: { object: object }
-  end
-
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
     Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
   end
@@ -728,10 +724,6 @@ class ClientGrid < BaseGrid
   #   object.assessments.most_recents.map{ |a| a.created_at.to_date }.join(' | ') if object.assessments.any?
   # end
 
-  column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
-    render partial: 'clients/all_csi_assessments', locals: { object: object }
-  end
-
   column(:time_in_care, header: -> { I18n.t('datagrid.columns.clients.time_in_care') }) do |object|
     if object.time_in_care.present?
       time_in_care = object.time_in_care
@@ -743,11 +735,17 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
-    Domain.order_by_identity.each do |domain|
-      identity = domain.identity
-      column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-        assessment = client.assessments.latest_record
-        assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+    if enable_assessment_setting?
+      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
+        render partial: 'clients/all_csi_assessments', locals: { object: object }
+      end
+
+      Domain.order_by_identity.each do |domain|
+        identity = domain.identity
+        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+          assessment = client.assessments.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        end
       end
     end
   end
@@ -761,10 +759,18 @@ class ClientGrid < BaseGrid
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if data == 'recent'
-            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-            properties = properties[format_field_value] if properties.present?
+            if fields.last == 'Has This Form'
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = properties[format_field_value] if properties.present?
+            end
           else
-            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+            if fields.last == 'Has This Form'
+              properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
+            else
+              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+            end
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'

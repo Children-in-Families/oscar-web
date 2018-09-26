@@ -32,17 +32,12 @@ module AdvancedSearches
       def drop_down_type_list
         [
           ['province_id', provinces],
-          ['form_title', partner_custom_form_options],
           ['organization_type_id', organization_types]
         ]
       end
 
       def provinces
         Partner.joins(:province).pluck('provinces.name', 'provinces.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
-      end
-
-      def partner_custom_form_options
-        CustomField.joins(:custom_field_properties).partner_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
       end
 
       def organization_types

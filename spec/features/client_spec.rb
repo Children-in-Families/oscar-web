@@ -107,7 +107,7 @@ describe 'Client' do
     end
 
     scenario 'Created by .. on ..' do
-      user = whodunnit(client.id)
+      user = whodunnit_client(client.id)
       date = client.created_at.strftime('%d %B %Y')
       expect(page).to have_content("Created by #{user} on #{date}")
     end
@@ -622,6 +622,7 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_date', with: Date.today
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Rejected Referral')
       fill_in 'exit_ngo_exit_note', with: 'Note'
+      first('.icheckbox_square-green', visible: false).trigger('click')
       find("input[type='submit'][value='Exit']").click
 
       expect(client.reload.exit_ngos.last.exit_circumstance).to eq('Rejected Referral')
@@ -635,6 +636,7 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_date', with: Date.today
       fill_in 'exit_ngo_exit_note', with: 'Note'
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Exited Client')
+      first('.icheckbox_square-green', visible: false).trigger('click')
       find("input[type='submit'][value='Exit']").click
 
       expect(accepted_client.reload.exit_ngos.last.exit_circumstance).to eq('Exited Client')
@@ -694,7 +696,7 @@ def exit_client_from_ngo
   expect(client.reload.status).to eq('Exited')
 end
 
-def whodunnit(id)
+def whodunnit_client(id)
   user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'Client', item_id: id).try(:whodunnit)
   return 'OSCaR Team' if user_id.present? && user_id.include?('@rotati')
   User.find_by(id: user_id).try(:name) || ''
