@@ -53,7 +53,7 @@ module AdvancedSearches
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
-        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3'}],
+        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2'}],
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
         ['referred_from', referral_from_options]
