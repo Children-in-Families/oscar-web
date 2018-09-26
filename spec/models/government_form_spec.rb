@@ -38,6 +38,7 @@ describe GovernmentForm, 'associations' do
 
   it { is_expected.to have_many(:client_right_government_forms).dependent(:destroy) }
   it { is_expected.to have_many(:client_rights).through(:client_right_government_forms) }
+  it { is_expected.to have_many(:action_results).dependent(:destroy) }
 end
 
 describe GovernmentForm, 'callbacks' do
