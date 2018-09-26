@@ -3659,6 +3659,7 @@ km:
       tracking: តាមដាន
     tracking:
       add_tracking: បន្ថែមការតាមដាន
+      complete_tracking: សូមបំពេញការតាមដានមុនពេលរក្សាទុក
       not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
       tracking_form: ទម្រង់បែបបទតាមដាន
     tracking_fields:
