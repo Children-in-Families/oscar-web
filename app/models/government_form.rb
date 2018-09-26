@@ -10,6 +10,7 @@ class GovernmentForm < ActiveRecord::Base
   belongs_to :district
   belongs_to :commune
   belongs_to :village
+  belongs_to :case_closure
   belongs_to :interview_province, class_name: 'Province', foreign_key: 'interview_province_id'
   belongs_to :interview_district, class_name: 'District', foreign_key: 'interview_district_id'
   belongs_to :interview_commune, class_name: 'Commune', foreign_key: 'interview_commune_id'
@@ -40,13 +41,16 @@ class GovernmentForm < ActiveRecord::Base
   has_many :service_types, through: :government_form_service_types
   has_many :client_right_government_forms, dependent: :destroy
   has_many :client_rights, through: :client_right_government_forms
+  has_many :action_results, dependent: :destroy
 
+  accepts_nested_attributes_for :action_results, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
   accepts_nested_attributes_for :government_form_children_plans
   accepts_nested_attributes_for :government_form_family_plans
 
   delegate :code, to: :village, prefix: true, allow_nil: true
+  delegate :name, to: :case_closure, prefix: true, allow_nil: true
 
   before_save :concat_client_code_with_village_code
 
@@ -76,18 +80,24 @@ class GovernmentForm < ActiveRecord::Base
   end
 
   def populate_family_plans
-    plan_names = ['កម្រិតសិក្សាអប់រំ', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន']
-    FamilyPlan.all.each do |plan|
-      next if plan_names.include?(plan.name)
+    form_three = ['ការការពារ និងការថែទាំ', 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'សុខភាពផ្លូវចិត្ត', 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'ចំណេះដឹងទូទៅក្នុងសង្គម', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ផ្សេងៗ']
+    FamilyPlan.where(name: form_three).order(:priority).each do |plan|
       government_form_family_plans.build(family_plan: plan)
     end
   end
 
-  def populate_family_status
-    status_names = ['ចំណេះដឹងទូទៅក្នុងសង្គម', 'កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន']
-    FamilyPlan.all.each do |status|
-      next if status_names.include?(status.name)
+  def populate_family_status(form)
+    form_two = ['ការការពារ និងការថែទាំ', 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'សុខភាពផ្លូវចិត្ត', 'ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'កម្រិតសិក្សាអប់រំ', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ផ្សេងៗ']
+    form_six = ['ការការពារ និងការថែទាំ', 'ភាពស្និទ្ធស្នាលរវាងកុមារនិងអ្នកថែទាំ', 'សុខភាពផ្លូវកាយ', 'ឆន្ទៈនិងលទ្ធភាពក្នុងការបន្តធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង', 'មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន', 'ទំនាក់ទំនងក្នុងសង្គម', 'ធនធាននានា(ដីធ្លី ផ្ទះ...)', 'ជំនួយពីសាច់ញាតិ (ទោះបីមានពិន្ទុតិចជាង២ក៏អាចបិទបានដែរ)', 'ការគាំទ្រពីសហគមន៍', 'កូនៗផ្សេងទៀតដែលអាចជួយបាន', 'ផ្សេងៗ']
+    form = form == 'two' ? form_two : form_six
+    FamilyPlan.where(name: form).order(:priority).each do |status|
       government_form_family_plans.build(family_status: status)
+    end
+  end
+
+  def populate_case_closures
+    CaseClosure.all.each do |case_closure|
+      government_form_case_closures.build(case_closure: case_closure)
     end
   end
 
