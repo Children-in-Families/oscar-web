@@ -47,7 +47,6 @@ module AdvancedSearches
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
-        ['form_title', client_custom_form_options],
         ['donor_name', donor_options],
         ['active_program_stream', active_program_options],
         ['enrolled_program_stream', enrolled_program_options],
@@ -75,10 +74,6 @@ module AdvancedSearches
 
     def enrolled_program_options
       ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
-    end
-
-    def client_custom_form_options
-      CustomField.joins(:custom_field_properties).client_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
     end
 
     def client_status
