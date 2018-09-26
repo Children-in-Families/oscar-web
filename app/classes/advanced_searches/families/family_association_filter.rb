@@ -13,8 +13,6 @@ module AdvancedSearches
         case @field
         when 'client_id'
           values = clients
-        when 'form_title'
-          values = form_title_field_query
         when 'case_workers'
           values = case_worker_field_query
         end
@@ -36,21 +34,6 @@ module AdvancedSearches
           families = families.where.not(children: '{}')
         end
         families.ids
-      end
-
-      def form_title_field_query
-        families = @families.joins(:custom_fields)
-        case @operator
-        when 'equal'
-          families = families.where('custom_fields.id = ?', @value)
-        when 'not_equal'
-          families = families.where.not('custom_fields.id = ?', @value)
-        when 'is_empty'
-          families = @families.where.not(id: families.ids)
-        when 'is_not_empty'
-          families = @families.where(id: families.ids)
-        end
-        families.uniq.ids
       end
 
       def case_worker_field_query

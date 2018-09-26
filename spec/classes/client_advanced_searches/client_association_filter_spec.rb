@@ -12,13 +12,6 @@ describe AdvancedSearches::ClientAssociationFilter, 'Method' do
   let!(:custom_field_property) { create(:custom_field_property, custom_field: custom_field, custom_formable_id: client.id) }
 
   context '#get_sql' do
-    it 'return clients that filter with form_title' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'form_title', 'equal', custom_field.id).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include client.id
-    end
-
     it 'return clients that filter with user_id' do
       client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'user_id', 'equal', user.id).get_sql
 

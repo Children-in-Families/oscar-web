@@ -11,7 +11,8 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.input :followed_up_by_id, collection: @users, label: t('.first_followed_up_by')
       .col-xs-12.col-sm-6.col-md-4
-        = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, required: !@client.exit_ngo? || @client.referred?
+        = hidden_field(:hidden, :text, value: t('.text-hint'))
+        = f.association :users, collection: case_workers_option(@client.id), label: t('.case_worker_or_staff'), include_blank: false, multiple: true, required: !@client.exit_ngo? || @client.referred?
     .row
       .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date{ class: ('has-error' if f.error :initial_referral_date) }
         %label.date.optional.control-label{ for: 'client_initial_referral_date' }

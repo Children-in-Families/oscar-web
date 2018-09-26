@@ -7,6 +7,7 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _autoFillClientCode()
     _ajaxChangeDistrict()
     _handleCaseClosureSelectOptions()
+    _initCocoonFields()
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id,
@@ -169,5 +170,12 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     $('select').select2
       minimumInputLength: 0
       allowClear: true
+
+  _initCocoonFields = ->
+    i = parseInt($('#action-count').val()) || 0
+    while i < 3
+      $('.add_action_results').click()
+      i++;
+    $('.link-action-result').addClass 'hide'
 
   { init: _init }

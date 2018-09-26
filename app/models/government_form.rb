@@ -41,7 +41,9 @@ class GovernmentForm < ActiveRecord::Base
   has_many :service_types, through: :government_form_service_types
   has_many :client_right_government_forms, dependent: :destroy
   has_many :client_rights, through: :client_right_government_forms
+  has_many :action_results, dependent: :destroy
 
+  accepts_nested_attributes_for :action_results, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :government_form_needs
   accepts_nested_attributes_for :government_form_problems
   accepts_nested_attributes_for :government_form_children_plans

@@ -15,7 +15,7 @@
         %ul{ style: 'list-style: none; text-align: left; padding-left: 0px;' }
           - tasks.each do |task|
             %li{ style: 'margin: 5px' }
-              = "#{task.name}, due by #{task.completion_date.strftime('%d %B, %Y')}."
+              = "#{task.name}, due by #{date_format(task.completion_date)}."
 
 %p Thanks,
 %p OSCaR Team
