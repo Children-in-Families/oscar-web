@@ -23,7 +23,6 @@ module ClientGridOptions
     program_enrollment_date_report
     program_exit_date_report
     date_of_assessments
-    form_title_report
     case_note_date_report
     case_note_type_report
     accepted_date_report
@@ -114,19 +113,6 @@ module ClientGridOptions
     else
       @client_grid.column(:accepted_date, header: I18n.t('datagrid.columns.clients.ngo_accepted_date')) do |client|
         date_filter(client.enter_ngos.most_recents, 'accepted_date').map(&:accepted_date).select(&:present?).join(' | ') if client.enter_ngos.any?
-      end
-    end
-  end
-
-  def form_title_report
-    return unless @client_columns.visible_columns[:form_title_].present?
-    if params[:data].presence == 'recent'
-      @client_grid.column(:form_title, header: I18n.t('datagrid.columns.clients.form_title')) do |client|
-        client.custom_field_properties.order(created_at: :desc).first.try(:custom_field).try(:form_title)
-      end
-    else
-      @client_grid.column(:form_title, header: I18n.t('datagrid.columns.clients.form_title')) do |client|
-        client.custom_fields.pluck(:form_title).uniq.join(' | ')
       end
     end
   end
@@ -244,11 +230,19 @@ module ClientGridOptions
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if data == 'recent'
-            properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-            properties = format_array_value(properties[format_field_value]) if properties.present?
+            if fields.last == 'Has This Form'
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = format_array_value(properties[format_field_value]) if properties.present?
+            end
           else
-            custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
-            custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+            if fields.last == 'Has This Form'
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+            end
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'

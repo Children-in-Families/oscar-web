@@ -1,7 +1,7 @@
 describe ProgramStream, 'associations' do
   it { is_expected.to have_many(:domain_program_streams).dependent(:destroy) }
   it { is_expected.to have_many(:domains).through(:domain_program_streams) }
-  it { is_expected.to have_many(:client_enrollments).dependent(:destroy) }
+  it { is_expected.to have_many(:client_enrollments).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:clients).through(:client_enrollments) }
   it { is_expected.to have_many(:trackings).dependent(:destroy) }
   it { is_expected.to have_many(:leave_programs).dependent(:destroy) }
@@ -56,6 +56,20 @@ describe ProgramStream, 'scope' do
 end
 
 describe ProgramStream, 'callback' do
+  context 'before_save' do
+    let!(:program_1){ create(:program_stream, tracking_required: false) }
+    let!(:program_2){ create(:program_stream, tracking_required: true) }
+    context '#set_program_completed' do
+      it 'true as Completed' do
+        expect(program_2.completed).to be_truthy
+      end
+
+      it 'false as Incomplete' do
+        expect(program_1.completed).to be_falsey
+      end
+    end
+  end
+
   context 'valid' do
     let!(:completed_program_stream) { create(:program_stream)}
     let!(:tracking) { create(:tracking, program_stream: completed_program_stream) }
