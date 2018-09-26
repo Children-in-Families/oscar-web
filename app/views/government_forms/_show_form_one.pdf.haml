@@ -37,7 +37,7 @@
             %input{style: 'width: 100%', value: @government_form.interview_province.try(:name_kh) }
   %label.panel-label{ style: 'background-color: #DEEDF2;' }
     %u អ្នកផ្ដល់បទសម្ភាសន៍:
-  .panel-body.panel-border
+  .panel-body.panel-border{style: 'padding-bottom: 0px; padding-top: 0px;'}
     .row
       .col-xs-4
         = render @government_form.interviewees.pluck(:name).include?('កុមារ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
