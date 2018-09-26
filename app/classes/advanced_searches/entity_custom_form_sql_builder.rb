@@ -25,15 +25,15 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
-          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase.squish}' ")
+          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
-          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value.squish}' ")
+          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'not_equal'
         if @input_type == 'text' && @field.exclude?('&')
           properties_result = custom_field_properties.where.not("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
-          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value.squish}' ")
+          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'less'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")

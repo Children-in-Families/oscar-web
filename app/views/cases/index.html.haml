@@ -15,7 +15,7 @@
                 .ibox-title
                   %h5= t('.exit_date')
                   %span.label.label-info
-                    = case_history.exit_date.strftime('%B %d, %Y')
+                    = date_format(case_history.exit_date)
                   .ibox-tools
                     - if can? :manage, Case
                       - if current_user.admin? || current_user.manager?
@@ -42,7 +42,7 @@
                         = t('.start_date')
                       %td
                         %strong
-                          = case_history.start_date.strftime('%B %d, %Y') if case_history.start_date
+                          = date_format(case_history.start_date) if case_history.start_date
                     %tr
                       %td.spacing-first-col.border-right
                         = t('.carer_names')
@@ -92,7 +92,7 @@
                         %strong
                           = family case_history.family if case_history.family
                     %tr.border-bottom
-                      %td.spacing-first-col.border-right 
+                      %td.spacing-first-col.border-right
                         = t('.family_preservation')
                       %td
                         %strong

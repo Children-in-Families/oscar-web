@@ -1,4 +1,4 @@
-.modal.fade{ role: 'dialog', tabindex: '-1', id:  "exitFromNgo-#{exit_ngo.id}" }
+.modal.fade.exit-ngos{ role: 'dialog', tabindex: '-1', id:  "exit_ngos-#{exit_ngo.id}" }
   .modal-dialog.modal-lg{ role: 'document'}
     .modal-content
       .modal-header
@@ -24,7 +24,7 @@
                     %abbr{ title: 'required' } *
                     = t('.exit_date')
                   .input-group.date
-                    = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'exit_ngo[exit_date]'
+                    = f.text_field :exit_date, required: true, class: 'date form-control date-picker datepicker-dropdown exit_date', type: 'text', name: 'exit_ngo[exit_date]'
                     %span.input-group-addon
                       %i.fa.fa-calendar-check-o
 

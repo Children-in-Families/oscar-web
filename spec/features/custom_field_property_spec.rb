@@ -27,8 +27,8 @@ feature 'custom_field_property' do
       end
 
       scenario 'Created by .. on ..' do
-        user = whodunnit(custom_field_property.id)
-        date = custom_field_property.created_at.strftime('%d %B, %Y')
+        user = whodunnit_custom_field(custom_field_property.id)
+        date = custom_field_property.created_at.strftime('%d %B %Y')
         expect(page).to have_content("Created by #{user} on #{date}")
       end
     end
@@ -124,7 +124,7 @@ feature 'custom_field_property' do
   end
 end
 
-def whodunnit(id)
+def whodunnit_custom_field(id)
   user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'CustomFieldProperty', item_id: id).try(:whodunnit)
   return 'OSCaR Team' if user_id.present? && user_id.include?('@rotati')
   User.find_by(id: user_id).try(:name) || ''

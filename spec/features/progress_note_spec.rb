@@ -29,7 +29,7 @@
 #     end
 #
 #     scenario 'date formated' do
-#       expect(page).to have_content(progress_note.decorate.date.strftime('%d %B, %Y'))
+#       expect(page).to have_content(progress_note.decorate.date.strftime('%d %B %Y'))
 #     end
 #
 #     scenario 'activities/response' do
@@ -64,8 +64,8 @@
 #     end
 #
 #     scenario 'date and link to show page' do
-#       expect(page).to have_content(progress_note.date.strftime('%d %b, %Y'))
-#       expect(page).to have_link(progress_note.date.strftime('%d %b, %Y'), client_progress_note_path(progress_note.client, progress_note))
+#       expect(page).to have_content(progress_note.date.strftime('%d %B %Y'))
+#       expect(page).to have_link(progress_note.date.strftime('%d %B %Y'), client_progress_note_path(progress_note.client, progress_note))
 #     end
 #
 #     scenario 'edit link' do
@@ -89,7 +89,7 @@
 #       fill_in 'Date', with: Date.today
 #       click_button 'Save'
 #       sleep 1
-#       expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
+#       expect(page).to have_content(Date.today.strftime('%d %B %Y'))
 #     end
 #     scenario 'invalid', js: true do
 #       fill_in 'Date', with: ''

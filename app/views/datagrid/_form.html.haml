@@ -161,10 +161,6 @@
               = label_tag 'name_of_referee_', t('datagrid.columns.name_of_referee')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'form_title_', 'form_title', checked = default_setting('form_title_', @client_default_columns) || params[:form_title_].present?, class: 'i-checks'
-              = label_tag 'form_title_', t('datagrid.columns.form_title')
-          %li
-            .visibility.col-sm-12
               = check_box_tag 'family_', 'family', checked = default_setting('family_', @client_default_columns) || params[:family_].present?, class: 'i-checks'
               = label_tag 'family_', t('datagrid.columns.family')
           %li
@@ -179,17 +175,18 @@
             .visibility.col-sm-12
               = check_box_tag 'case_note_type_', 'case_note_type', checked = default_setting('case_note_type_', @client_default_columns) || params[:case_note_type_].present?, class: 'i-checks'
               = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
-          %li.csi-header
-            %strong= t('.csi_domain_scores')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = default_setting('date_of_assessments_', @client_default_columns) || params[:date_of_assessments_].present?, class: 'i-checks'
-              = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = default_setting('all_csi_assessments_', @client_default_columns) || params[:all_csi_assessments_].present?, class: 'i-checks'
-              = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
-          = render 'datagrid/domain_score_columns_picker'
+          - if enable_assessment_setting?
+            %li.csi-header
+              %strong= t('.csi_domain_scores')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = default_setting('date_of_assessments_', @client_default_columns) || params[:date_of_assessments_].present?, class: 'i-checks'
+                = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = default_setting('all_csi_assessments_', @client_default_columns) || params[:all_csi_assessments_].present?, class: 'i-checks'
+                = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
+            = render 'datagrid/domain_score_columns_picker'
 
           %li.divider.col-xs-12
           %li

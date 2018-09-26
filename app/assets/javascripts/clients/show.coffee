@@ -4,8 +4,19 @@ CIF.ClientsShow = do ->
 
     _caseModalValidation()
     _exitNgoModalValidation()
+    _editExitNgoModalValidation()
     _enterNgoModalValidation()
     _ajaxCheckReferral()
+    _initUploader()
+    _initDatePicker()
+
+  _initDatePicker = ->
+    $('.accepted_date').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      orientation: 'bottom',
+      disableTouchKeyboard: true
 
   _initSelect2 = ->
     $('select').select2()
@@ -65,8 +76,18 @@ CIF.ClientsShow = do ->
     }
     _modalFormValidator(data)
 
-  _exitNgoModalValidation = ->
+  _editExitNgoModalValidation = ->
+    $('.exit-ngos').on 'shown.bs.modal', (e) ->
+      data = {
+        date: "##{e.target.id} #exit_ngo_exit_date",
+        field: "##{e.target.id} #exit_ngo_exit_circumstance",
+        note: "##{e.target.id} #exit_ngo_exit_note",
+        form: "##{e.target.id}",
+        btn: ".confirm-exit"
+      }
+      _modalFormValidator(data)
 
+  _exitNgoModalValidation = ->
     data = {
       date: '#exitFromNgo #exit_ngo_exit_date',
       field: '#exitFromNgo #exit_ngo_exit_circumstance',
@@ -76,25 +97,42 @@ CIF.ClientsShow = do ->
     }
     _modalFormValidator(data)
 
+  _checkExitReasonsLength = (form) ->
+    if form == '#exitFromNgo' or form.indexOf('#exit_ngos-') >= 0 then $(form).find('.i-checks input:checked').length else 1
+
   _modalFormValidator = (data)->
     date = data['date']
     field = data['field']
     note = data['note']
     form = data['form']
     btn = data['btn']
-    _modalButtonAction(form, date, field, note, btn)
+    exitReasonsLength = _checkExitReasonsLength(form)
+    _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
     $(date).add(field).add(note).bind 'keyup change', ->
-      _modalButtonAction(form, date, field, note, btn)
+      exitReasonsLength = _checkExitReasonsLength(form)
+      _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
 
-  _modalButtonAction = (form, date, field, note, btn) ->
+    $('#exitFromNgo .i-checks, .exit-ngos .i-checks').on 'ifToggled', ->
+      exitReasonsLength = _checkExitReasonsLength(form)
+      _modalButtonAction(form, date, field, note, btn, exitReasonsLength)
+
+  _modalButtonAction = (form, date, field, note, btn, exitReasonsLength) ->
     date = $(date).val()
     field = $(field).val()
     note = $(note).val()
 
-    if (field == '' or field == null) or date == '' or note == ''
+    if (field == '' or field == null) or date == '' or note == '' or exitReasonsLength == 0
       $(form).find(btn).attr 'disabled', 'disabled'
     else
       $(form).find(btn).removeAttr 'disabled'
+
+  _initUploader = ->
+    $('.referral_consent_form').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   { init: _init }

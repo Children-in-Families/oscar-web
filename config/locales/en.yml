@@ -739,10 +739,8 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        accept: Accept
         accept_ngo_form: Enter NGO Form
         accepted_date: Accepted Date
-        case_worker_or_staff: Case Worker / Staff
       form:
         accept: Accept
         accept_ngo_form: Enter NGO Form
@@ -756,16 +754,12 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
-        case_worker_or_staff: Case Worker / Staff
-        exit_btn: Exit
         exit_circumstance: Exit Circumstance
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
         exit_reasons: Reason for Exit / Case Rejection
-        exit_status: Status
         other_info_of_exit: Other - More Information
-        reject_client: Reject Client
         rejected_note: Rejected Note
       form:
         case_worker_or_staff: Case Worker / Staff
@@ -1308,6 +1302,7 @@ en:
       referral_source: Referral Source
       specific_point: Specific Point-of-Referral Data
       staff_responsibilities: Staff Responsibilities
+      text-hint: Unable to remove this case worker because he/she has some remaining tasks to complete.
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
@@ -3664,6 +3659,7 @@ en:
       tracking: Tracking
     tracking:
       add_tracking: Add Another Tracking Form
+      complete_tracking: Please complete the tracking form
       not_require_tracking: This Program Stream does not require any tracking form.
       tracking_form: Progress Tracking
     tracking_fields:

@@ -110,8 +110,8 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     end
 
     scenario 'Created by .. on ..' do
-      user = whodunnit(client_enrollment_tracking.id)
-      date = client_enrollment_tracking.created_at.strftime('%d %B, %Y')
+      user = whodunnit_client_enrollment_tracking(client_enrollment_tracking.id)
+      date = client_enrollment_tracking.created_at.strftime('%d %B %Y')
       sleep 1
       expect(page).to have_content("Created by #{user} on #{date}")
     end
@@ -225,7 +225,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   end
 end
 
-def whodunnit(id)
+def whodunnit_client_enrollment_tracking(id)
   user_id = PaperTrail::Version.find_by(event: 'create', item_type: 'ClientEnrollmentTracking', item_id: id).try(:whodunnit)
   return 'OSCaR Team' if user_id.present? && user_id.include?('@rotati')
   User.find_by(id: user_id).try(:name) || ''

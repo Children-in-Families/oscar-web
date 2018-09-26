@@ -39,7 +39,6 @@ module AdvancedSearchHelper
       family_name: I18n.t('advanced_search.fields.family_name'),
       local_given_name: I18n.t('advanced_search.fields.local_given_name'),
       local_family_name: I18n.t('advanced_search.fields.local_family_name'),
-      form_title: I18n.t('advanced_search.fields.form_title'),
       code: I18n.t('advanced_search.fields.code'),
       school_grade: I18n.t('advanced_search.fields.school_grade'),
       family_id: I18n.t('advanced_search.fields.family_id'),
@@ -142,7 +141,6 @@ module AdvancedSearchHelper
       manage:                                   I18n.t('datagrid.columns.families.manage'),
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
-      form_title:                               I18n.t('datagrid.columns.families.form_title'),
       case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
       member_count:                             I18n.t('datagrid.columns.families.member_count')
     }
@@ -163,7 +161,6 @@ module AdvancedSearchHelper
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
       background:                               I18n.t('datagrid.columns.partners.background'),
       start_date:                               I18n.t('datagrid.columns.partners.start_date'),
-      form_title:                               I18n.t('datagrid.columns.partners.form_title')
     }
     translations[key.to_sym] || ''
   end
