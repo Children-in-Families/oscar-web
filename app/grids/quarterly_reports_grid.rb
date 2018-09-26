@@ -1,5 +1,4 @@
-class QuarterlyReportsGrid
-  include Datagrid
+class QuarterlyReportsGrid < BaseGrid
 
   attr_accessor :current_case
 
@@ -11,7 +10,7 @@ class QuarterlyReportsGrid
     link_to object.code, client_case_quarterly_report_path(object.case.client, object.case, object)
   end
 
-  column(:visit_date, header: -> { I18n.t('datagrid.columns.quarterly_reports.visit_date') }, html: true)
+  date_column(:visit_date, header: -> { I18n.t('datagrid.columns.quarterly_reports.visit_date') }, html: true)
 
   column(:case, header: -> { I18n.t('datagrid.columns.quarterly_reports.kc_name') }, html: true) do |object|
     link_to entity_name(object.case.client), client_path(object.case.client) if object.kinship?

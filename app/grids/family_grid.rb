@@ -1,5 +1,4 @@
-class FamilyGrid
-  include Datagrid
+class FamilyGrid < BaseGrid
   include ClientsHelper
 
   attr_accessor :dynamic_columns
@@ -141,7 +140,7 @@ class FamilyGrid
   column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
-  column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+  date_column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 

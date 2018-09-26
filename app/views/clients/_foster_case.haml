@@ -21,7 +21,7 @@
                 = t('.start_date')
               %td
                 %strong
-                  = fc.start_date.strftime('%B %d, %Y') if fc.start_date
+                  = date_format(fc.start_date) if fc.start_date
             %tr
               %td.spacing-first-col
                 = t('.carer_names')

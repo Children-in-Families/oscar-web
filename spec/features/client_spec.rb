@@ -108,14 +108,14 @@ describe 'Client' do
 
     scenario 'Created by .. on ..' do
       user = whodunnit_client(client.id)
-      date = client.created_at.strftime('%d %B, %Y')
+      date = client.created_at.strftime('%d %B %Y')
       expect(page).to have_content("Created by #{user} on #{date}")
     end
 
     scenario 'information' do
       expect(page).to have_content(client.given_name)
       expect(page).to have_content(client.gender.capitalize)
-      expect(page).to have_content(client.date_of_birth.strftime('%B %d, %Y'))
+      expect(page).to have_content(client.date_of_birth.strftime('%d %B %Y'))
     end
 
     scenario 'tasks link' do

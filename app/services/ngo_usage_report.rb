@@ -9,7 +9,7 @@ class NgoUsageReport
   def ngo_info(org)
     {
       ngo_name: org.full_name,
-      ngo_on_board: org.created_at.strftime("%B %d, %Y"),
+      ngo_on_board: org.created_at.strftime("%d %B %Y"),
       fcf: org.fcf_ngo? ? 'Yes' : 'No',
       ngo_country: Setting.first.country_name.downcase.titleize
     }

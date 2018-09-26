@@ -1,5 +1,4 @@
-class UserGrid
-  include Datagrid
+class UserGrid < BaseGrid
 
   scope do
     User.includes(:department, :province).order(:first_name, :last_name)
@@ -60,7 +59,7 @@ class UserGrid
   column(:first_name, header: -> { I18n.t('datagrid.columns.users.first_name') }, html: false)
   column(:last_name, header: -> { I18n.t('datagrid.columns.users.last_name') }, html: false)
 
-  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
+  date_column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
 
   column(:gender, header: -> { I18n.t('datagrid.columns.users.gender') }) do |object|
     object.gender.try(:titleize)
@@ -80,7 +79,7 @@ class UserGrid
     object.department.try(:name)
   end
 
-  column(:start_date, header: -> { I18n.t('datagrid.columns.users.start_date') })
+  date_column(:start_date, header: -> { I18n.t('datagrid.columns.users.start_date') })
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.users.province') }) do |object|
     object.province.try(:name)

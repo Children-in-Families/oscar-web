@@ -17,19 +17,19 @@ describe 'Task' do
       panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue Tasks') }.first }.first
       expect(panel).to have_content(overdue_task.name)
       expect(panel).to have_content(overdue_task.domain.name)
-      expect(panel).to have_content(overdue_task.completion_date.strftime("%B %d, %Y"))
+      expect(panel).to have_content(overdue_task.completion_date.strftime("%d %B %Y"))
     end
     scenario 'today task' do
       panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Today Tasks') }.first }.first
       expect(panel).to have_content(today_task.name)
       expect(panel).to have_content(today_task.domain.name)
-      expect(panel).to have_content(today_task.completion_date.strftime("%B %d, %Y"))
+      expect(panel).to have_content(today_task.completion_date.strftime("%d %B %Y"))
     end
     scenario 'upcoming task' do
       panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming Tasks') }.first }.first
       expect(panel).to have_content(upcoming_task.name)
       expect(panel).to have_content(upcoming_task.domain.name)
-      expect(panel).to have_content(upcoming_task.completion_date.strftime("%B %d, %Y"))
+      expect(panel).to have_content(upcoming_task.completion_date.strftime("%d %B %Y"))
     end
     scenario 'edit link' do
       expect(page).to have_link(nil, href: edit_client_task_path(client, overdue_task))
