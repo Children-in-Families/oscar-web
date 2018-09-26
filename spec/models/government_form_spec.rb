@@ -90,7 +90,7 @@ describe GovernmentForm, 'methods' do
 
   context '#populate_family_status' do
     it 'builds government form family status' do
-      expect(form_1.populate_family_status.count).to eq(ChildrenPlan.where.not(name: 'ចំណេះដឹងទូទៅក្នុងសង្គម').count)
+      expect(form_1.populate_family_status('one').count).to eq(ChildrenPlan.where.not(name: 'ចំណេះដឹងទូទៅក្នុងសង្គម').count)
     end
   end
 
