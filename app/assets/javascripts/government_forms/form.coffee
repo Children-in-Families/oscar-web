@@ -6,6 +6,8 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _enableOtherProblemdOption()
     _autoFillClientCode()
     _ajaxChangeDistrict()
+    _handleCaseClosureSelectOptions()
+    _initCocoonFields()
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id,
@@ -98,6 +100,9 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     $('#mock_government_form_service_type').change ->
       $('#government_form_other_service_type').val($(this).val())
 
+    $('#mock_government_form_case_closure').change ->
+      $('#government_form_other_case_closure').val($(this).val())
+
   _enableOtherOption = ->
     otherIntervieweeOption = $('.government_form_interviewees').children('span').last()
     otherIntervieweeVal    = $('#government_form_other_interviewee').val()
@@ -145,9 +150,32 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
       _addReadOnlyAttr('#mock_government_form_service_type')
       $('#government_form_other_service_type').val('')
 
+  _handleCaseClosureSelectOptions = ->
+   optionVal = $('.government_form_case_closure select').select2('data')
+   otherCaseClosureVal = $('#government_form_other_case_closure').val()
+   _handleOtherCaseClosure(optionVal, otherCaseClosureVal)
+   $('.government_form_case_closure select').on 'change', ->
+     optionVal = $(@).select2('data')
+     _handleOtherCaseClosure(optionVal, otherCaseClosureVal)
+
+  _handleOtherCaseClosure = (caseCloser, otherCaseClosureText) ->
+   if caseCloser == null || caseCloser.text != 'ផ្សេងៗ (សូមបញ្ជាក់)'
+     $('.other-case-closure').addClass('hidden')
+     $('#government_form_other_case_closure').val('')
+   else
+     $('.other-case-closure').removeClass('hidden')
+     $('#government_form_other_case_closure').val(otherCaseClosureText)
+
   _select2 = ->
     $('select').select2
       minimumInputLength: 0
       allowClear: true
+
+  _initCocoonFields = ->
+    i = parseInt($('#action-count').val()) || 0
+    while i < 3
+      $('.add_action_results').click()
+      i++;
+    $('.link-action-result').addClass 'hide'
 
   { init: _init }

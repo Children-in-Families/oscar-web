@@ -15,7 +15,7 @@
                 - else
                   = t('.assessment_completed_on')
                 %b
-                  = assessment.created_at.strftime("%B %d, %Y")
+                  = date_format(assessment.created_at)
             .col-xs-12.col-sm-3
               .btn.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)
@@ -25,11 +25,11 @@
               - if @client.assessments.any?
                 = t('.next_review')
                 %b
-                  = @client.next_assessment_date.strftime('%B %d, %Y')
+                  = date_format(@client.next_assessment_date)
               - else
                 = t('.initial_assessment')
                 %b
-                  = Date.today.strftime('%B %d, %Y')
+                  = date_format(Date.today)
 
           .col-xs-12.col-sm-3
             - if can? :manage, Assessment

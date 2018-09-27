@@ -4,7 +4,7 @@
 - @overdue_tasks.each do |task|
   %li
     %span
-      = "#{task.name}, due by #{task.completion_date.strftime('%d %B, %Y')}."
+      = "#{task.name}, due by #{date_format(task.completion_date)}."
 %p
   = 'Please click'
   = link_to 'here', dashboards_url(user_id: @user.id, subdomain: @short_name, tasks: true), target: :_blank

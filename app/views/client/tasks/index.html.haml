@@ -21,7 +21,7 @@
                     %tr
                       %td= "#{t('.domain')}: #{task.domain.name}"
                       %td.task-name= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
+                      %td= date_format(task.completion_date)
                       - if can? :manage, Task
                         %td.text-center.margin-icon
                           = link_to edit_client_task_path(@client, task) do
@@ -45,7 +45,7 @@
                     %tr
                       %td= "#{t('.domain')}: #{task.domain.name}"
                       %td= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
+                      %td= date_format(task.completion_date)
                       - if can? :manage, Task
                         %td.text-center.margin-icon
                           = link_to edit_client_task_path(@client, task) do
@@ -68,7 +68,7 @@
                     %tr
                       %td= "#{ t('.domain') }: #{task.domain.name}"
                       %td= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
+                      %td= date_format(task.completion_date)
                       - if can? :manage, Task
                         %td.text-center.margin-icon
                           = link_to edit_client_task_path(@client, task) do

@@ -1,7 +1,7 @@
 module AdvancedSearches
   module Families
     class FamilyBaseSqlBuilder
-      ASSOCIATION_FIELDS = ['client_id', 'form_title', 'case_workers']
+      ASSOCIATION_FIELDS = ['client_id', 'case_workers']
       BLANK_FIELDS = %w(contract_date household_income dependable_income female_children_count male_children_count female_adult_count male_adult_count province_id significant_family_member_count district_id commune_id village_id id)
       SENSITIVITY_FIELDS = %w(name code address case_history caregiver_information family_type status)
 
@@ -27,11 +27,16 @@ module AdvancedSearches
             @values     << association_filter[:values]
 
           elsif form_builder.first == 'formbuilder'
-            custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Family')
-            custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'family').get_sql
-            @sql_string << custom_field[:id]
-            @values << custom_field[:values]
-
+            if form_builder.last == 'Has This Form'
+              custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Family').try(:id)
+              @sql_string << "Families.id IN (?)"
+              @values << @families.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
+            else
+              custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Family')
+              custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'family').get_sql
+              @sql_string << custom_field[:id]
+              @values << custom_field[:values]
+            end
           elsif field != nil
             base_sql(field, operator, value)
           else

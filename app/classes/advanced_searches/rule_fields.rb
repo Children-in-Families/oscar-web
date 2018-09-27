@@ -1,6 +1,7 @@
 module AdvancedSearches
   class  RuleFields
     include AdvancedSearchHelper
+    include ClientsHelper
 
     def initialize(options = {})
       @user = options[:user]
@@ -12,7 +13,7 @@ module AdvancedSearches
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
-      domain_scores_options = AdvancedSearches::DomainScoreFields.render
+      domain_scores_options = enable_assessment_setting? ? AdvancedSearches::DomainScoreFields.render : []
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
 
       search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
@@ -46,7 +47,6 @@ module AdvancedSearches
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
-        ['form_title', client_custom_form_options],
         ['donor_name', donor_options],
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
@@ -56,10 +56,6 @@ module AdvancedSearches
         ['referred_to', referral_to_options],
         ['referred_from', referral_from_options]
       ]
-    end
-
-    def client_custom_form_options
-      CustomField.client_forms.order(:form_title).map{ |c| { c.id.to_s => c.form_title }}
     end
 
     def case_note_type_options

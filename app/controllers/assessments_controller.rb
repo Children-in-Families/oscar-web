@@ -23,6 +23,7 @@ class AssessmentsController < AdminController
     @assessment = @client.assessments.new(assessment_params)
     authorize @assessment
     if @assessment.save
+      create_bulk_task(params[:task]) if params.has_key?(:task)
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
     else
       render :new
@@ -48,6 +49,7 @@ class AssessmentsController < AdminController
     if @assessment.update_attributes(assessment_params)
       @assessment.update(updated_at: DateTime.now)
       @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
+      create_bulk_task(params[:task]) if params.has_key?(:task)
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
     else
       render :edit
@@ -129,5 +131,11 @@ class AssessmentsController < AdminController
 
   def check_current_organization
     redirect_to dashboards_path, alert: t('unauthorized.default') if current_organization.mho?
+  end
+
+  def create_bulk_task(task_in_params)
+    task_attr = task_in_params.map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ') << current_user.id].transpose.to_h }
+    tasks = @client.tasks.create(task_attr)
+    tasks.each {|task| Calendar.populate_tasks(task) }
   end
 end
