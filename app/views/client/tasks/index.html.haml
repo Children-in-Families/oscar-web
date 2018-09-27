@@ -22,15 +22,15 @@
                       %td= "#{t('.domain')}: #{task.domain.name}"
                       %td.task-name= task.name
                       %td= task.completion_date.strftime("%B %d, %Y")
-                      - if can? :edit, Task
-                        %td.text-center.margin-icon
+                      %td.text-center.margin-icon
+                        - if can? :edit, Task
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          - if can?  :destroy, Task
-                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                              .btn.btn-outline.btn-danger.btn-xs
-                                %i.fa.fa-trash
+                        - if can? :destroy, Task
+                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                            .btn.btn-outline.btn-danger.btn-xs
+                              %i.fa.fa-trash
 
         .panel.panel-info
           .panel-heading
