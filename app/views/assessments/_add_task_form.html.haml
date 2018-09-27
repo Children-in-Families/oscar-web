@@ -8,8 +8,10 @@
           = t('.title')
       .modal-body
         = form_tag(client_tasks_path(@client), name: 'task', id: 'assessment_domain_task') do
-          = hidden_field :task, 'domain_id', class: 'form-control'
-
+          = hidden_field :task, 'domain_id'
+          = hidden_field :task, 'relation', value: 'assessment'
+          %p#hidden-error-message.hide
+            = I18n.t('errors.messages.blank')
           .form-group.required.task_name
             %label.date.required.control-label{ for: 'task_name' }
               %abbr{ title: 'required' } *

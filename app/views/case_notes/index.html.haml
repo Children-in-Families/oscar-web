@@ -18,7 +18,7 @@
                 .col-xs-4.text-right
                   %h4
                     = t('.case_note_on')
-                    = case_note.meeting_date.strftime('%B %d, %Y') if case_note.meeting_date
+                    = date_format(case_note.meeting_date) if case_note.meeting_date
                     - if can? :manage, CaseNote
                       = edit_link(@client, case_note)
 

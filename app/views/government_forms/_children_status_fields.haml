@@ -5,8 +5,11 @@
       .col-xs-3
         %p
           %strong= f.object.children_status_name
-      .col-xs-3
-        = f.input :score, collection: [1, 2, 3, 4], selected: f.object.try(:score), prompt: '', label: 'ចំណាត់ថ្នាក់'
-      .col-xs-6
-        = f.input :comment, label: 'មតិយោបល់', input_html: { rows: '1' }
-
+      - if params[:form] == 'six'
+        .col-xs-4
+          = f.input :score, collection: [['1 ខ្សោយ', 1], ['2 មធ្យម', 2],['3 ល្អ', 3],['4 ល្អណាស់', 4]], label: 'ចំណាត់ថ្នាក់'
+      - else
+        .col-xs-3
+          = f.input :score, collection: [1, 2, 3, 4], selected: f.object.try(:score), prompt: '', label: 'ចំណាត់ថ្នាក់'
+        .col-xs-6
+          = f.input :comment, label: 'មតិយោបល់', input_html: { rows: '1' }

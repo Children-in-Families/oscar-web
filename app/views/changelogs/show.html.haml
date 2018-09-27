@@ -7,7 +7,7 @@
             .panel-heading
               %h4
                 = @changelog.change_version
-                %small= @changelog.created_at.strftime('%d %B, %Y')
+                %small= date_format(@changelog.created_at)
             .panel-body
               %p= @changelog.description.html_safe
             .panel-footer

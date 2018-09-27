@@ -20,7 +20,7 @@
               %u= whodunnit('Assessment', @assessment)
             %span= t('.on_date')
             %strong
-              %u= @assessment.created_at.strftime("%B %d, %Y")
+              %u= date_format(@assessment.created_at)
             %span.pull-right.margin-asse
               - if @assessment.latest_record?
                 - if can? :update, @assessment
