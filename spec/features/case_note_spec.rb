@@ -19,7 +19,7 @@ describe 'CaseNote' do
       (1..n).each do |time|
         find('.case-note-task-btn').trigger('click')
         fill_in 'task_name', with: 'ABC'
-        fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
+        fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%d %B %Y')
         find('.add-task-btn').trigger('click')
         sleep 1
       end
@@ -39,7 +39,7 @@ describe 'CaseNote' do
       find('#case-note-submit-btn').trigger('click')
 
       sleep 1
-      expect(page).to have_content('April 01, 2017')
+      expect(page).to have_content('01 April 2017')
       expect(page).to have_content('Jonh')
       expect(page).to have_content('This is valid')
       expect(Task.find_by(name: 'ABC').user_id).to eq(user.id)
@@ -78,7 +78,7 @@ describe 'CaseNote' do
     end
 
     scenario 'case note date' do
-      expect(page).to have_content case_note.meeting_date.strftime('%B %d, %Y')
+      expect(page).to have_content case_note.meeting_date.strftime('%d %B %Y')
     end
 
     scenario 'case note domain' do

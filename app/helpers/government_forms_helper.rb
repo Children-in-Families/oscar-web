@@ -17,6 +17,8 @@ module GovernmentFormsHelper
     when 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ' then 'two'
     when 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ' then 'three'
     when 'ទម្រង់ទី៤: ការទុកដាក់កុមារ' then 'four'
+    when 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ' then 'five'
+    when 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ' then 'six'
     end
   end
 end

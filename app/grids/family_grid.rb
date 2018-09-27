@@ -1,5 +1,4 @@
-class FamilyGrid
-  include Datagrid
+class FamilyGrid < BaseGrid
   include ClientsHelper
 
   attr_accessor :dynamic_columns
@@ -141,7 +140,7 @@ class FamilyGrid
   column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
-  column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+  date_column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 
@@ -175,10 +174,15 @@ class FamilyGrid
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].gsub('&qoute;', '"').split('_')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
-        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-        properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
+        if fields.last == 'Has This Form'
+          properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]
+        else
+          format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+          properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
+        end
         render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
       end
+
     end
   end
 

@@ -24,7 +24,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def custom_form_column
-    @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }
+    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
   end
 
   def get_custom_form
@@ -32,7 +32,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def family_builder_fields
-    @builder_fields = get_family_basic_fields + get_custom_form_fields
+    @builder_fields = get_family_basic_fields + custom_form_fields
   end
 
   def get_family_basic_fields
@@ -43,8 +43,16 @@ module FamilyAdvancedSearchesConcern
     custom_form_value? ? eval(@advanced_search_params[:custom_form_selected]) : []
   end
 
+  def custom_form_fields
+    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+  end
+
+  def get_has_this_form_fields
+    @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
+  end
+
   def get_custom_form_fields
-    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def custom_form_value?
@@ -66,10 +74,14 @@ module FamilyAdvancedSearchesConcern
   def form_builder_report
     @custom_form_fields.each do |field|
       fields = field[:id].split('_')
-      @family_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
-        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-        custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
-        custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+      @family_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |family|
+        if fields.last == 'Has This Form'
+          custom_field_properties = family.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count
+        else
+          format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+          custom_field_properties = family.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
+          custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+        end
       end
     end
   end

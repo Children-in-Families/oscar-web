@@ -12,7 +12,7 @@
               %abbr{ title: 'required' } *
               = t('.date_of_referral')
             .input-group.date
-              = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', value: referral_date(f.object)
+              = f.text_field :date_of_referral, class: 'date form-control date-picker datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', value: referral_date(f.object)
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
             = f.error :date_of_referral

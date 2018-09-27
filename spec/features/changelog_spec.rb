@@ -60,7 +60,7 @@ describe 'Changelog' do
       end
       sleep 1
       expect(page).to have_content(changelog.change_version)
-      expect(page).to have_content(changelog.created_at.strftime('%d %b, %Y'))
+      expect(page).to have_content(changelog.created_at.strftime('%d %B %Y'))
     end
   end
 
@@ -88,7 +88,7 @@ describe 'Changelog' do
       end
       sleep 1
       expect(page).to have_content(changelog.change_version)
-      expect(page).to have_content(changelog.created_at.strftime('%d %b, %Y'))
+      expect(page).to have_content(changelog.created_at.strftime('%d %B %Y'))
     end
   end
 

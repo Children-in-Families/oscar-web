@@ -19,7 +19,8 @@ class Assessment < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
 
-  DUE_STATES = ['Due Today', 'Overdue']
+  DUE_STATES        = ['Due Today', 'Overdue']
+  ASSESSMENT_HEADER = ['name', 'completion_date', 'domain_id', 'user_id']
 
   def self.latest_record
     most_recents.first

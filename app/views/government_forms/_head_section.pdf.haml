@@ -11,7 +11,7 @@
     = wicked_pdf_image_tag 'picture.png', width: 65, style: 'margin-left: 205px; position: absolute;', class: 'pull-right'
 
 .panel.panel-no-margin.panel-borderless{style: 'margin-top: 20px;'}
-  .panel-body.panel-border{style: 'border-top: 1px solid black'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-bottom: 1px dotted black'}
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr
@@ -19,6 +19,7 @@
             អង្គភាពប្រតិបត្តិ:
           %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%;', value: @setting.org_name }
+  .panel-body.panel-border
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr
