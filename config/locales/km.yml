@@ -1303,6 +1303,7 @@ km:
       referral_source: ប្រភពយោង
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
+      text-hint: មិនអាចដកបុគ្គលិកកាន់ករណីនេះបានទេ ព្រោះគាត់មានកាតព្វកិច្ចមួយចំនួនដែលមិនទាន់បានបញ្ចប់
     index:
       active_programs: ក្រាបកម្មវិធីចម្បង
       add_new_client: បន្ថែមអតិថិជនថ្មី

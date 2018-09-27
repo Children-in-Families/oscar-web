@@ -11,14 +11,14 @@
     - @overdue_forms.each do |form|
       %li{style: 'margin-left: 15px;'}
         %span
-          = "#{form.first}, due by #{form.last.strftime('%d %B, %Y')}."
+          = "#{form.first}, due by #{date_format(form.last)}."
 - if @today_forms.present?
   %p Due Today Forms
   %ul
     - @today_forms.each do |form|
       %li{style: 'margin-left: 15px;'}
         %span
-          = "#{form.first}, due by #{form.last.strftime('%d %B, %Y')}."
+          = "#{form.first}, due by #{date_format(form.last)}."
 %p
   = 'Please click'
   = link_to 'here', dashboards_url(user_id: @user.id, subdomain: @short_name, forms: true), target: :_blank

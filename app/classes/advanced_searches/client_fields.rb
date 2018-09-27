@@ -69,11 +69,13 @@ module AdvancedSearches
     end
 
     def active_program_options
-      ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active'").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
+      program_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
     end
 
     def enrolled_program_options
-      ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
+      program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
     end
 
     def client_status

@@ -388,6 +388,13 @@ describe Client, 'methods' do
       expect(client.en_and_local_name).to eq("Adam Eve (Romeo Juliet)")
     end
   end
+
+  context '#local_name' do
+    let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Juliet', local_family_name: 'Romeo') }
+    it 'return local name' do
+      expect(client.local_name).to eq("Romeo Juliet")
+    end
+  end
 end
 
 describe Client, 'scopes' do

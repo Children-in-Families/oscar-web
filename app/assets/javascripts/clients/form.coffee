@@ -146,6 +146,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       minimumInputLength: 0
       allowClear: true
 
+    $('.select2-locked div').attr 'title', $('#hidden_text').val()
     $('select.able-related-info').change ->
       qtSelectedSize = $('select.able-related-info option:selected').length
 
@@ -340,5 +341,4 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
-
   { init: _init }

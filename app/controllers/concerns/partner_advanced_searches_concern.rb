@@ -27,7 +27,8 @@ module PartnerAdvancedSearchesConcern
     @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
   end
   def get_custom_form
-    @custom_fields  = CustomField.joins(:custom_field_properties).partner_forms.order_by_form_title.uniq
+    form_ids = CustomFieldProperty.where(custom_formable_type: 'Partner').pluck(:custom_field_id).uniq
+    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
   def partner_builder_fields

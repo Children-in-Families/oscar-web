@@ -1,10 +1,9 @@
-class PartnerGrid
-  include Datagrid
+class PartnerGrid < BaseGrid
   include ClientsHelper
 
   attr_accessor :dynamic_columns
   scope do
-    Partner.includes(:province).order(:name)
+    Partner.includes(:province, :organization_type).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.partners.name') }) do |value, scope|
@@ -79,7 +78,7 @@ class PartnerGrid
     object.organization_type_name
   end
 
-  column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
+  date_column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
   column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
   column(:engagement, header: -> { I18n.t('datagrid.columns.partners.engagement') })
   column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })
@@ -100,7 +99,7 @@ class PartnerGrid
         else
           properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Partner'}).properties_by(format_field_value)
         end
-        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
       end
     end
   end

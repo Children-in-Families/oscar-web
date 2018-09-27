@@ -7,14 +7,14 @@
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-top: 1px solid black'}
     = render 'client_code'
-
+  .panel-body.panel-border{style: 'border-bottom: 1px dotted black;'}
     %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 4px;' }
       %tbody
         %tr
           %td{style: 'width: 70px; vertical-align: middle; padding-left: 0;'}
             ឈ្មោះកុមារ:
           %td{style: 'width: 200px; vertical-align: middle;'}
-            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+            %input{style: 'width: 100%;', value: @client.local_name }
           %td{ style: 'vertical-align: middle;' }
             ថ្ងៃខែឆ្នាំកំណើត:
           %td{ style: 'vertical-align: middle;' }
@@ -30,7 +30,7 @@
             ប្រុស
             = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
             ស្រី
-
+  .panel-body.panel-border{style: 'border-bottom: 1px dotted black;'}
     %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 4px;' }
       %tbody
         %tr
@@ -53,12 +53,12 @@
                   %span.first &nbsp;&nbsp;
                 - else
                   %span &nbsp;&nbsp;
-
+  .panel-body.panel-border{style: 'border-bottom: 1px dotted black;'}
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 4px;'}
       %tbody
         %tr
-          %td{style: 'width: 20px; padding-left: 0;'}
-            អាសយដ្ឋាន:
+          %td{style: 'width: 20px; padding-left: 0; vertical-align: middle;'}
+            អាសយដ្ឋាន៖
           %td.text-right{ style: 'vertical-align: middle;' }
             ភូមិ:
           %td{ style: 'vertical-align: middle;' }
@@ -76,22 +76,22 @@
             ខេត្ត/រាជធានី:
           %td{ style: 'vertical-align: middle;' }
             %input{style: 'width: 100%', value: @client.family.try(:province).try(:name_kh) }
-        %tr
-          %td.text-right{:colspan => "2", style: 'vertical-align: middle;'}
-            ឈ្មោះអ្នកកាន់ករណី:
-          %td{ style: 'vertical-align: middle;' }
-            %input{style: 'width: 100%', value: @user.try(:name) }
-          %td{ style: 'vertical-align: middle;' }
-            អង្គភាព:
-          %td{ style: 'vertical-align: middle;' }
-            %input{style: 'width: 100%', value: @setting.org_name }
-
+  .panel-body.panel-border
+    .col-xs-2.text-right{style: 'padding: 0px; margin-right: 35px;'}
+      ឈ្មោះអ្នកកាន់ករណី:
+    .col-xs-4
+      %input{style: 'width: 240px;margin-left: -38px;', value: @user.try(:name) }
+    .col-xs-2
+      អង្គភាព:
+    .col-xs-4{style: 'padding: 0px; margin-left: -50px;'}
+      %input{style: 'width: 240px', value: @setting.org_name }
 .panel.panel-borderless
   .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
-    %u I- ផែនការសំរាប់ករណី (កុមារ)
+    I-
+    %u ផែនការសំរាប់ករណី (កុមារ)
 
   .panel-body.panel-border.no-border-bottom
-    %u យកពិន្ទុទាប ( ១និង២ ) ពីទម្រង់ប៉ាន់ប្រមាណករណី និងគ្រួសារ មកធ្វើផែនការជួយគាំទ្រ
+    %u យកចំណាត់ថ្នាក់ទាប ( ១និង២ ) ពីទម្រង់ប៉ាន់ប្រមាណករណី និងគ្រួសារ មកធ្វើផែនការជួយគាំទ្រ
 
   .panel-body.panel-border
     %table.table.table-border.panel-no-margin
@@ -103,50 +103,117 @@
           %th.text-center អ្នកអនុវត្ត
           %th.text-center{ style: 'width: 40px;' } អនុវត្តពេលណា
       %tbody
-        - @government_form.government_form_children_plans.each do |form|
-          %tr{style: 'page-break-inside: avoid;'}
-            %td= form.try(:children_plan_name)
-            %td
-              .comment{style: 'min-height: 36px;'}
-                %p= form.try(:goal)
-            %td
-              .comment{style: 'min-height: 36px;'}
-                %p= form.try(:action)
-            %td
-              .comment{style: 'min-height: 36px;'}
-                %p= form.try(:who)
-            %td
-              .comment{style: 'min-height: 36px;'}
-                %p= form.try(:completion_date)
+        - @government_form.government_form_children_plans.each_with_index do |form, index|
+          - if index <= 6
+            %tr
+              %td= form.try(:children_plan_name)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:goal)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:action)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:who)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:completion_date)
+  .footer{ style: 'page-break-after: always;' }
+.panel.panel-borderless{style: 'margin-bottom: 0px;'}
+  .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
+    I-
+    %u ផែនការសំរាប់ករណី (កុមារ)(ត)
+
+  .panel-body.panel-border.no-border-bottom
+    %u យកចំណាត់ថ្នាក់ទាប ( ១និង២ ) ពីទម្រង់ប៉ាន់ប្រមាណករណី និងគ្រួសារ មកធ្វើផែនការជួយគាំទ្រ
+  .panel-body.panel-border{style: 'border-bottom: 0px;'}
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8;' }
+        %tr
+          %th.text-center{ style: 'width: 200px;' } ស្ថានភាពរបស់កុមារនិងតម្រូវការបច្ចុប្បន្ន
+          %th.text-center{ style: 'width: 100px;' } គោលដៅ
+          %th.text-center សកម្មភាពលំអិត
+          %th.text-center អ្នកអនុវត្ត
+          %th.text-center{ style: 'width: 40px;' } អនុវត្តពេលណា
+      %tbody
+        - @government_form.government_form_children_plans.each_with_index do |form, index|
+          - if index > 6
+            %tr
+              %td= form.try(:children_plan_name)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:goal)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:action)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:who)
+              %td
+                .comment{style: 'min-height: 15px; max-height: 17px;'}
+                  %p= form.try(:completion_date)
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
+    II.
+    %u ផែនការសំរាប់គ្រួសារ
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8;' }
+        %tr
+          %th.text-center{ style: 'width: 200px; vertical-align: middle;' } សូចនាករសំខាន់ៗរបស់អ្នកថែទាំ
+          %th.text-center{ style: 'width: 100px; vertical-align: middle;' } គោលដៅ
+          %th.text-center{ style:  'vertical-align: middle;' }
+            ផែនការសកម្មភាព
+            %br
+            (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
+          %th.text-center{ style: 'width: 100px; vertical-align: middle;' } លទ្ធផល
+      %tbody
+        - @government_form.government_form_family_plans.each_with_index do |form, index|
+          - if index <= 5
+            %tr{style: 'page-break-inside: avoid;'}
+              %td= form.try(:family_plan_name)
+              %td
+                .comment{style: 'min-height: 85px; max-height: 85px;'}
+                  %p= form.try(:goal)
+              %td
+                .comment{style: 'min-height: 85px; max-height: 85px;'}
+                  %p= form.try(:action)
+              %td
+                .comment{style: 'min-height: 85px; max-height: 85px;s'}
+                  %p= form.try(:result)
 
 .panel.panel-no-margin.panel-borderless
-.panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
-  %u II- ផែនការសំរាប់គ្រួសារ
+  .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
+    II.
+    %u ផែនការសំរាប់គ្រួសារ(ត)
 
-.panel-body.panel-border
-  %table.table.table-border.panel-no-margin
-    %thead{ style: 'background: #d8d8d8;' }
-      %tr
-        %th.text-center{ style: 'width: 200px; vertical-align: middle;' } សូចនាករសំខាន់ៗរបស់អ្នកថែទាំ
-        %th.text-center{ style: 'width: 100px; vertical-align: middle;' } គោលដៅ
-        %th.text-center{ style:  'vertical-align: middle;' }
-          ផែនការសកម្មភាព
-          %br
-          (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
-        %th.text-center{ style: 'width: 100px; vertical-align: middle;' } លទ្ធផល
-    %tbody
-      - @government_form.government_form_family_plans.each do |form|
-        %tr{style: 'page-break-inside: avoid;'}
-          %td= form.try(:family_plan_name)
-          %td
-            .comment{style: 'min-height: 36px;'}
-              %p= form.try(:goal)
-          %td
-            .comment{style: 'min-height: 36px;'}
-              %p= form.try(:action)
-          %td
-            .comment{style: 'min-height: 36px;'}
-              %p= form.try(:result)
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8;' }
+        %tr
+          %th.text-center{ style: 'width: 200px; vertical-align: middle;' } សូចនាករសំខាន់ៗរបស់អ្នកថែទាំ
+          %th.text-center{ style: 'width: 100px; vertical-align: middle;' } គោលដៅ
+          %th.text-center{ style:  'vertical-align: middle;' }
+            ផែនការសកម្មភាព
+            %br
+            (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
+          %th.text-center{ style: 'width: 100px; vertical-align: middle;' } លទ្ធផល
+      %tbody
+        - @government_form.government_form_family_plans.each_with_index do |form, index|
+          - if index > 5
+            %tr{style: 'page-break-inside: avoid;'}
+              %td= form.try(:family_plan_name)
+              %td
+                .comment{style: 'min-height: 85px; max-height: 85px;'}
+                  %p= form.try(:goal)
+              %td
+                .comment{style: 'min-height: 85px; max-height: 85px;'}
+                  %p= form.try(:action)
+              %td
+                .comment{style: 'min-height: 85px; max-height: 85px;'}
+                  %p= form.try(:result)
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-radius: 3px;'}
@@ -163,11 +230,6 @@
             %br
             %br
             %br
-            %br
-            %br
-            %br
-            %br
-
       .col-xs-6
         .row
           .col-xs-12
@@ -181,11 +243,6 @@
             %br
             %br
             %br
-            %br
-            %br
-            %br
-            %br
-
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border.text-center{style: 'border-radius: 3px '}
     .row
@@ -195,12 +252,5 @@
         - 6.times do |_|
           .blank-box-date
     .row
-      .col-xs-8.col-xs-offset-2{ style: 'padding: 0 13%; margin-top: 8px;' }
+      .col-xs-8.col-xs-offset-2{ style: 'padding: 0 13%; margin-top: 8px; height: 60px;' }
         %p{style: 'margin-right: 30px;'} ហត្ថលេខា តំណាងអាជ្ញាធរមូលដ្ឋាន:
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br
-        %br

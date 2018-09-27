@@ -140,11 +140,11 @@ module ApplicationHelper
   end
 
   def date_format(date)
-    date.strftime('%d %B, %Y') if date.present?
+    date.strftime('%d %B %Y') if date.present?
   end
 
   def date_time_format(date_time)
-    date_time.in_time_zone('Bangkok').strftime('%d %B, %Y %H:%M:%S')
+    date_time.in_time_zone('Bangkok').strftime('%d %B %Y %H:%M:%S')
   end
 
   def ability_to_write(object)

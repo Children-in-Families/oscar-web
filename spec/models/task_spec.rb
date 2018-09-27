@@ -11,7 +11,7 @@ describe Task, 'validations' do
   it { is_expected.to validate_presence_of(:completion_date) }
 end
 
-xdescribe Task, 'scopes' do
+describe Task, 'scopes' do
   let!(:active_client){ create(:client, status: 'Active') }
   let!(:exited_ngo_client){ create(:client, :exited) }
   let!(:domain){ create(:domain)}
@@ -23,6 +23,8 @@ xdescribe Task, 'scopes' do
   let!(:today_task){ create(:task, completion_date: Date.today) }
   let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
   let!(:upcoming_task_2){ create(:task, completion_date: 4.months.from_now) }
+  let!(:case_note_task){ create(:task, relation: 'case_note') }
+  let!(:assessment_task){ create(:task, relation: 'assessment') }
 
   context 'exclude_exited_ngo_clients' do
     subject{ Task.exclude_exited_ngo_clients }
@@ -104,6 +106,20 @@ xdescribe Task, 'scopes' do
     end
     it 'should not include not upcoming task 2 within three months' do
       is_expected.not_to include(upcoming_task_2)
+    end
+  end
+
+  context 'by case note' do
+    subject{ Task.by_case_note }
+    it 'should have relation with case note' do
+      is_expected.to include(case_note_task)
+    end
+  end
+
+  context 'by assessment' do
+    subject{ Task.by_assessment }
+    it 'should have relation with assessment' do
+      is_expected.to include(assessment_task)
     end
   end
 end

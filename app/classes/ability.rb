@@ -29,6 +29,7 @@ class Ability
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: user.id }
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
