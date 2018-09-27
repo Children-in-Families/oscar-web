@@ -1,6 +1,6 @@
 class ActiveEnrollmentStatistic
   def initialize(clients)
-    @enrollments = ClientEnrollment.joins(:client).where(clients: { id: clients.ids }).active
+    @enrollments = ClientEnrollment.joins(:client).where(clients: { id: clients.ids.uniq }).active
   end
 
   def statistic_data

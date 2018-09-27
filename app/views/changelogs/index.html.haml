@@ -9,7 +9,7 @@
             %ul.list-group
               - @changelogs.each do |changelog|
                 %li.list.list-group-item
-                  = link_to "#{changelog.change_version} - #{changelog.created_at.strftime('%d %b, %Y')}", "#changelog-#{changelog.id}"
+                  = link_to "#{changelog.change_version} - #{date_format(changelog.created_at)}", "#changelog-#{changelog.id}"
                   .pull-right.actions
                     - if can? :manage, Changelog
                       = link_to '#', {class: 'btn btn-outline btn-success btn-xs btn-add-margin', "data-target" => "#changelogModal-#{changelog.id}", "data-toggle" => "modal", :type => "button"} do
@@ -32,7 +32,7 @@
                   .col-xs-12.changes-item{ id: "changelog-#{changelog.id}" }
                     .row
                       .col-xs-12.col-sm-8
-                        %h4= "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}"
+                        %h4= "#{changelog.change_version} - #{date_format(changelog.created_at)}"
                       .col-xs-12.col-sm-4
                         - if can? :version, Changelog
                           %p.view-modification

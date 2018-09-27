@@ -1,4 +1,7 @@
 %ul
   - properties.each do |property|
     - next unless field_not_blank?(property)
-    %li= format_properties_value(property)
+    - if property.is_a? Integer
+      %span.label.label-info= "#{t('datagrid.columns.families.total')} : #{property} "
+    - else
+      %li= format_properties_value(property)
