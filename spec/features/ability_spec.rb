@@ -46,8 +46,12 @@ describe 'Abilities' do
       should be_able_to(:manage, Case)
     end
 
-    it 'can manage Task' do
-      should be_able_to(:manage, Task)
+    it 'can create Task' do
+      should be_able_to(:create, Task)
+    end
+
+    it 'can read Task' do
+      should be_able_to(:read, Task)
     end
 
     it 'can manage Assessment' do
@@ -101,5 +105,12 @@ describe 'Abilities' do
       ability.model_adapter(Family, :manage).conditions.should ==  { id: [family.id] }
     end
 
+    it 'can create Task' do
+      should be_able_to(:create, Task)
+    end
+
+    it 'can read Task' do
+      should be_able_to(:read, Task)
+    end
   end
 end
