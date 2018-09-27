@@ -9,6 +9,7 @@
       .modal-body
 
         = form_tag(client_tasks_path(@client), name: 'task', id: 'case_note_task') do
+          = hidden_field :task, 'relation', value: 'case_note'
           = label_tag(:domain_id, t('.domain'))
           = select(:task, 'domain_id', [], { include_blank: false }, class: 'form-control')
 

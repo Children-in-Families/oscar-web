@@ -108,14 +108,14 @@ describe 'Client' do
 
     scenario 'Created by .. on ..' do
       user = whodunnit_client(client.id)
-      date = client.created_at.strftime('%d %B, %Y')
+      date = client.created_at.strftime('%d %B %Y')
       expect(page).to have_content("Created by #{user} on #{date}")
     end
 
     scenario 'information' do
       expect(page).to have_content(client.given_name)
       expect(page).to have_content(client.gender.capitalize)
-      expect(page).to have_content(client.date_of_birth.strftime('%B %d, %Y'))
+      expect(page).to have_content(client.date_of_birth.strftime('%d %B %Y'))
     end
 
     scenario 'tasks link' do
@@ -316,6 +316,7 @@ describe 'Client' do
 
   feature 'Update', js: true do
     let!(:client){ create(:client, users: [user]) }
+    let!(:task){ create(:task, client_id: client.id, user_id: user.id) }
     before do
       login_as(admin)
       visit edit_client_path(client)
@@ -332,6 +333,10 @@ describe 'Client' do
       fill_in 'client_name_of_referee', with: ''
       find('.save-edit-client').trigger('click')
       expect(page).to have_content("can't be blank")
+    end
+
+    scenario 'locked user who has incomplete tasks' do
+      expect(page).to have_selector(:css, "option[locked='locked']", text: user.name, count: 1)
     end
   end
 
@@ -376,29 +381,6 @@ describe 'Client' do
     end
   end
 
-  # feature 'Add To EC' do
-  #   let!(:client){ create(:client, :accepted) }
-  #   let!(:family){ create(:family, :emergency) }
-  #
-  #   before do
-  #     login_as(admin)
-  #     visit client_path(client)
-  #     click_button 'add-client-to-case'
-  #     click_link 'Add to EC'
-  #     fill_in 'case_carer_names', with: 'John'
-  #     click_button 'Save'
-  #   end
-  #
-  #   scenario 'Emergency Case panel' do
-  #     expect(page).to have_content('Emergency Care')
-  #     expect(page).to have_content('John')
-  #   end
-  #
-  #   scenario "client's status is now Active" do
-  #     expect(client.reload.status).to eq('Active')
-  #   end
-  # end
-
   feature 'Case Button' do
     feature 'Blank Client' do
       let!(:blank_client){ create(:client, :accepted) }
@@ -408,41 +390,9 @@ describe 'Client' do
         visit client_path(blank_client)
       end
 
-      # scenario 'Emergency Case Button' do
-      #   expect(page).to have_link('Add to EC', href: new_client_case_path(blank_client, case_type: 'EC'))
-      # end
-
       scenario 'Exit NGO Button' do
         expect(page).to have_content('Exit Client From NGO')
       end
-    end
-
-    feature 'Emergency Active Client' do
-      let!(:ec_client){ create(:client, :accepted) }
-      let!(:case){ create(:case, case_type: 'EC', client: ec_client, exited: false) }
-
-      before do
-        login_as(admin)
-        visit client_path(ec_client)
-      end
-
-      # scenario 'Emergency Case Button' do
-      #   expect(page).not_to have_link('Add to EC', href: new_client_case_path(ec_client, case_type: 'EC'))
-      # end
-    end
-
-    feature 'Inactive Client' do
-      let!(:inactive_client){ create(:client, :accepted) }
-      let!(:case){ create(:case, :inactive, case_type: ['EC', 'FC', 'KC'].sample, client: inactive_client) }
-
-      before do
-        login_as(admin)
-        visit client_path(inactive_client)
-      end
-
-      # scenario 'Emergency Case Button' do
-      #   expect(page).to have_link('Add to EC', href: new_client_case_path(inactive_client, case_type: 'EC'))
-      # end
     end
   end
 
@@ -622,6 +572,7 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_date', with: Date.today
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Rejected Referral')
       fill_in 'exit_ngo_exit_note', with: 'Note'
+      first('.icheckbox_square-green', visible: false).trigger('click')
       find("input[type='submit'][value='Exit']").click
 
       expect(client.reload.exit_ngos.last.exit_circumstance).to eq('Rejected Referral')
@@ -635,6 +586,7 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_date', with: Date.today
       fill_in 'exit_ngo_exit_note', with: 'Note'
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Exited Client')
+      first('.icheckbox_square-green', visible: false).trigger('click')
       find("input[type='submit'][value='Exit']").click
 
       expect(accepted_client.reload.exit_ngos.last.exit_circumstance).to eq('Exited Client')

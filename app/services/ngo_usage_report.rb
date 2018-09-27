@@ -7,11 +7,12 @@ class NgoUsageReport
   end
 
   def ngo_info(org)
+    country = org.short_name == 'cccu' ? 'uganda' : Setting.first.country_name.downcase
     {
       ngo_name: org.full_name,
-      ngo_on_board: org.created_at.strftime("%B %d, %Y"),
+      ngo_on_board: org.created_at.strftime("%d %B %Y"),
       fcf: org.fcf_ngo? ? 'Yes' : 'No',
-      ngo_country: Setting.first.country_name.downcase.titleize
+      ngo_country: country.titleize
     }
   end
 

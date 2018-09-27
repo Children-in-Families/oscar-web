@@ -39,7 +39,7 @@
           %td{style: 'width: 157px; vertical-align: middle;'}
             បានឯកភាពទុកដាក់កុមារឈ្មោះ:
           %td{style: 'width: 270px; vertical-align: middle;'}
-            %input{style: 'width: 90%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+            %input{style: 'width: 90%;', value: @client.local_name }
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
@@ -198,7 +198,7 @@
             %p{style: 'line-height: 1;'}
               %span.no-border{style: 'width: 15%;display: inline-block;'} ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ
               %span.no-border.dot-row.text-center{style: 'width: 30%;display: inline-block;'}
-                = "#{@client.local_family_name} #{@client.local_given_name}"
+                =@client.local_name
               %span.no-border{style: 'width: 5%;display: inline-block;'} ភេទ
               %span.no-border.dot-row.text-center{style: 'width: 15%;display: inline-block;'}
                 = khmer_gender @client.gender

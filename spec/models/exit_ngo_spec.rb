@@ -6,6 +6,7 @@ describe ExitNgo, 'validations' do
   it { is_expected.to validate_presence_of(:exit_circumstance)}
   it { is_expected.to validate_presence_of(:exit_note)}
   it { is_expected.to validate_presence_of(:exit_date)}
+  it { is_expected.to validate_presence_of(:exit_reasons)}
 end
 
 describe ExitNgo, 'callbacks' do
