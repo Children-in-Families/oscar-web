@@ -1,14 +1,14 @@
 = render 'head_section'
 
 .panel.panel-default.panel-no-margin#first-form
-  %label.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៌មានបឋម
+  %label.text-center.text-main-header{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៌មានបឋម
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}
     = render 'client_code'
 
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #DEEDF2;' }
     %u ទីកន្លែងសម្ភាសន៍ទទួលកុមារ:
-  .panel-body.panel-border
+  .panel-body.panel-border{style: 'padding-bottom: 2px; border-bottom: none'}
     .row{ style: 'margin-bottom: 3px;' }
       .col-xs-6
         .row
@@ -37,7 +37,7 @@
             %input{style: 'width: 100%', value: @government_form.interview_province.try(:name_kh) }
   %label.panel-label{ style: 'background-color: #DEEDF2;' }
     %u អ្នកផ្ដល់បទសម្ភាសន៍:
-  .panel-body.panel-border
+  .panel-body.panel-border{style: 'padding-bottom: 0px; padding-top: 0px;'}
     .row
       .col-xs-4
         = render @government_form.interviewees.pluck(:name).include?('កុមារ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
@@ -52,35 +52,46 @@
         = render @government_form.interviewees.pluck(:name).include?('អ្នកថែទាំ') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         អ្នកថែទាំ
       .col-xs-8
-        %div.other-label
+        .col-xs-4.other-label{style: 'padding: 0px;'}
           = render @government_form.interviewees.pluck(:name).include?('ផ្សេងៗ (សូមបញ្ជាក់)') ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
           ផ្សេងៗ (សូមបញ្ជាក់)
-        %div{ class: "other #{ 'empty' if @government_form.interviewees.pluck(:name).exclude?('ផ្សេងៗ (សូមបញ្ជាក់)')}" }= @government_form.other_interviewee
+        .col-xs-8{ style: 'margin-left: 0px;', class: "other #{ 'empty' if @government_form.interviewees.pluck(:name).exclude?('ផ្សេងៗ (សូមបញ្ជាក់)')}" }= @government_form.other_interviewee
 
-  %div.panel-label{style: 'border-top: 0px;'}
-    ឈ្មោះអ្នកកាន់ករណី:
-    %input{style: 'width: 30%; margin-right: 25px; margin-left: 15px;', value: @government_form.case_worker_name }
-    លេខទូរស័ព្ទ:
-    %input{style: 'width: 30%; margin-left: 40px;', value: @government_form.case_worker_phone }
-
+  .panel-body.panel-border{style: 'border-bottom: none; padding-bottom: 0px;'}
+    .row
+      .col-xs-2
+        ឈ្មោះអ្នកកាន់ករណី:
+      .col-xs-4
+        %input{style: 'width: 100%;', value: @government_form.case_worker_name }
+      .col-xs-2.text-right
+        លេខទូរស័ព្ទ:
+      .col-xs-4.text-right
+        %input{style: 'width: 100%;', value: @government_form.case_worker_phone }
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #BEDCE7;' }
     %u ព័ត៌មានបឋមអំពីកុមារ:
   .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
-    ឈ្មោះកុមារ:
-    %input{style: 'width: 20%; margin-left; 15px;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
-    ថ្ងៃខែឆ្នាំកំណើត:
-    - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
-    - dob.split('').each_with_index do |code, index|
-      - if index == 0
-        %span.first= code
-      - else
-        %span= code
-    ភេទ:
-    = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-    ប្រុស
-    = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-    ស្រី
+    %table
+      %tbody
+        %tr
+          %td
+            ឈ្មោះកុមារ:
+          %td{style: 'width: 200px; padding-left: 5px;'}
+            %input{style: 'width: 100%;', value: @client.local_name }
+          %td{style: 'width: 250px; padding-left: 5px;'}
+            ថ្ងៃខែឆ្នាំកំណើត:
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td.text-right{style: 'width: 200px;'}
+            ភេទ:
+            = render @client.gender == 'male' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ប្រុស
+            = render @client.gender == 'female' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+            ស្រី
 
     .panel.panel-default.panel-no-margin.panel-margin-top
       %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋានកុមាររស់នៅ:
@@ -113,10 +124,15 @@
                 %input{ style: 'width: 100%', value: @client.province.try(:name_kh) }
       %label.panel-label{ style: 'background-color: #D9E2C2;' } អ្នកថែទាំកុមារ:
       .panel-body.panel-label-dotted{style: 'padding-bottom: 2px;'}
-        ឈ្មោះ
-        %input{ style: 'width: 30%; margin-left: 15px; margin-right: 25px;', value: @client.live_with }
-        ទំនាក់ទំនងជាមួយកុមារ:
-        %input{ style: 'width: 30%; margin-left: 40px;', value: @government_form.primary_carer_relationship }
+        .row
+          .col-xs-1
+            ឈ្មោះ
+          .col-xs-4
+            %input{ style: 'width: 100%;', value: @client.live_with }
+          .col-xs-3
+            ទំនាក់ទំនងជាមួយកុមារ:
+          .col-xs-4
+            %input{ style: 'width: 100%;', value: @government_form.primary_carer_relationship }
 
         .panel.panel-default.panel-no-margin.panel-margin-top{ style: 'margin-top: 3px;' }
           %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋាន:
@@ -157,7 +173,7 @@
                 លេខទូរស័ព្ទ:
               .col-xs-10
                 %input{style: 'width:96.6%; float: right;', value: @client.telephone_number }
-  %div#panel-top-bottom-dotted
+  %div#panel-top-bottom-dotted{style: 'border: 1px solid black; border-bottom: 1px dotted black;'}
     ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
     - ird = @client.initial_referral_date.present? ? @client.initial_referral_date.strftime('%d%m%y') : '000000'
     - ird.split('').each_with_index do |code, index|
@@ -165,7 +181,7 @@
         %span.first= code
       - else
         %span= code
-  #panel-top-bottom-dotted
+  #panel-top-bottom-dotted{style: 'border: 1px solid black; border-top: 1px dotted black;'}
     .row
       .col-xs-2
         ប្រភពព័ត៌មាន:
@@ -291,11 +307,11 @@
         សូមបញ្ជាក់ពីប្រភេទតម្រូវការចាំបាច់ ( បង់លេខតាមអាទិភាព ):
       .panel-body.border-label
         .row
-          .col-xs-4{ style: 'margin-bottom: 3px;' }
+          .col-xs-2{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ម្ហូបអាហារ') }
               ម្ហូបអាហារ
-          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+          .col-xs-3.no-left-padding{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការសិក្សាអប់រំ') }
               ការសិក្សាអប់រំ
@@ -303,28 +319,27 @@
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការមើលថែពីមនុស្សពេញវ័យ') }
               ការមើលថែពីមនុស្សពេញវ័យ
-          .col-xs-4{ style: 'margin-bottom: 3px;' }
+          .col-xs-3{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការគាំទ្រផ្នែកផ្លូវចិត្ត') }
               ការគាំទ្រផ្នែកផ្លូវចិត្ត
-          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+          .col-xs-2{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ជំរក') }
               ជំរក
-          .col-xs-4.no-left-padding{ style: 'margin-bottom: 3px;' }
+          .col-xs-3.no-left-padding{ style: 'margin-bottom: 3px;' }
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('ការថែទាំផ្នែកវេជ្ជសាស្ត្រ') }
               ការថែទាំផ្នែកវេជ្ជសាស្ត្រ
-          .col-xs-4
+          .col-xs-3.no-left-padding
             .form-check
               %input.text-center{ style: 'width: 30px;', value: need_rank('សំលៀកបំពាក់') }
               សំលៀកបំពាក់
-          .col-xs-8.no-left-padding
-            .form-check
-              %div.other-label
-                %input.text-center{ style: 'width: 30px;', value: need_rank('ផ្សេងៗ') }
-                ផ្សេងៗ
-              %div{ class: "other #{ 'empty' if @government_form.other_need.blank?}" }= @government_form.other_need
+          .col-xs-2.no-left-padding
+            %input.text-center{ style: 'width: 30px;', value: need_rank('ផ្សេងៗ') }
+            ផ្សេងៗ:
+          .col-xs-2.no-left-padding
+            .div{ class: "other-one #{ 'empty' if @government_form.other_need.blank?}" }= @government_form.other_need
 
     .panel.panel-default{style: 'margin:0;'}
       %label.panel-label{ style: 'background-color: #D8D8D8;' }
@@ -400,7 +415,8 @@
               .col-xs-12.no-left-padding{ style: 'margin-bottom: 3px;' }
                 .form-check
                   %div.other-label
-                    %input.text-center{ style: 'width: 30px;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') } ផ្សេងៗ (សូមបញ្ជាក់)
+                    %input.text-center{ style: 'width: 30px;', value: problem_rank('ផ្សេងៗ (សូមបញ្ជាក់)') }
+                    ផ្សេងៗ (សូមបញ្ជាក់):
               .col-xs-12.no-left-padding
                 %div{ style: 'margin-left:0;', class: "other #{ 'empty' if @government_form.other_problem.blank?}" }= @government_form.other_problem
 

@@ -5,6 +5,7 @@ class CsiStatistic
 
   def assessment_domain_score
     assessments_by_index = assessment_amount
+
     assessments = []
     series = []
 
@@ -17,7 +18,7 @@ class CsiStatistic
         a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score)
         assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
       end
-      series << { name: domain.name, data: assessment_by_value}
+      series << { name: domain.name, data: assessment_by_value }
     end
 
     [assessments, series]
@@ -28,12 +29,10 @@ class CsiStatistic
   def assessment_amount
     data = []
     return data unless @clients.any?
-
-    max_count = @clients.map(&:assessments).map(&:size).max
-    clients = @clients.includes(:assessments).where.not(assessments: { client_id: nil }).order('assessments.created_at')
-
+    clients = @clients.joins(:assessments).order('assessments.created_at')
+    max_count = clients.map { |a| a.assessments.size }.max.to_i
     max_count.times do |i|
-      data << clients.map{|c| c.assessments[i].id if c.assessments[i].present? }
+      data << clients.map { |c| c.assessments[i].id if c.assessments[i].present? }
     end
     data
   end

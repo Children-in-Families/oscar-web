@@ -19,13 +19,13 @@
                   - if index == 0
                     %td.col-xs-3{ rowspan: upcoming_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
-                  %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+                  %td.col-xs-3= date_format(task.completion_date)
             - if @assessment_params && upcoming_assessments_any?(client) && client.user_ids.include?(@user.id) && !client.uneligible_age?
               - assessment = client.assessments.latest_record
               %tr
                 %td.col-xs-3= t('.assessment')
                 %td.col-xs-6.task-name.border-left-right
-                %td.col-xs-3= client.next_assessment_date.strftime("%B %d, %Y")
+                %td.col-xs-3= date_format(client.next_assessment_date)
             - if @form_params
               - custom_field_index = 0
               - row_count = upcoming_forms[:upcoming_forms].size + upcoming_forms[:upcoming_trackings].size
@@ -34,7 +34,7 @@
                   - if index == 0
                     %td.col-xs-3{ rowspan: row_count }= t('.forms')
                   %td.col-xs-6.task-name.border-left-right= custom_field.form_title
-                  %td.col-xs-3= next_custom_field_date.strftime("%B %d, %Y")
+                  %td.col-xs-3= date_format(next_custom_field_date)
                   - custom_field_index = index + 1
               - upcoming_forms[:upcoming_trackings].each do |tracking, next_client_enrollment_tracking_date|
                 %tr
@@ -42,4 +42,4 @@
                     %td.col-xs-3{rowspan: row_count}= t('.forms')
                     - custom_field_index = custom_field_index + 1
                   %td.col-xs-6.task-name.border-left-right= tracking.name
-                  %td.col-xs-3= next_client_enrollment_tracking_date.strftime("%B %d, %Y")
+                  %td.col-xs-3= date_format(next_client_enrollment_tracking_date)

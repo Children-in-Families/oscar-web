@@ -27,7 +27,7 @@
             ក្រុង/ស្រុក/ខណ្ឌ:
             %input{ style: 'width: 160px;', value: @government_form.assessment_district.try(:name_kh) }
           %td{ style: 'padding-left: 10x; vertical-align: middle;' }
-            ខេត្ត/រាជធានី:
+            រាជធានី/ខេត្ត:
             %input{ style: 'width: 135px;', value: @government_form.assessment_province.try(:name_kh) }
         %tr{ style: 'border-top: 1px dotted black;' }
           %td{ colspan: '2', style: 'padding-left: 10px; vertical-align: middle;' }
@@ -67,23 +67,58 @@
                 ថ្នាក់
               %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
           %tbody
-            - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each do |status|
-              %tr{ style: 'page-break-inside: avoid;' }
-                %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 36px;' }
-                    %p= status.children_status_name
-                %td{ style: 'border:1px solid black; text-align: center;' }
-                  .comment{ style: 'min-height: 36px;' }
-                    %p= status.score
-                %td{ style: 'border:1px solid black;' }
-                  .comment{ style: 'min-height: 36px; max-height: 36px; word-wrap: break-word;' }
-                    %p= status.comment
+            - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
+              - if index <= 5
+                %tr{ style: 'page-break-inside: avoid;' }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 30px;' }
+                      %p= status.children_status_name
+                  %td{ style: 'border:1px solid black; text-align: center;' }
+                    .comment{ style: 'min-height: 30px;' }
+                      %p= status.score
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 30px; word-wrap: break-word;' }
+                      %p= status.comment
+.footer{ style: 'page-break-after: always;' }
+.panel.panel-borderless.panel-no-margin{ style: 'border-top: 1px solid black; '}
+  .panel-body.panel-border.no-margin-bottom
+    .row
+      .col-xs-12
+        %table.table.table-bordered.no-margin-bottom{ style: 'table-layout: fixed; border-collapse:collapse;' }
+          %colgroup
+            %col{ style: 'width: 200px' }
+            %col{ style: 'width: 50px' }
+            %col{ style: 'width: 420px' }
+          %thead
+            %tr{ style: 'background: #d3d3d3;' }
+              %th{ style: 'border:1px solid black; text-align: center;' }
+                ស្ថានភាពរបស់កុមារ និង
+                %br
+                តម្រូវការបច្ចុប្បន្ន
+              %th{ style: 'border:1px solid black; text-align: center; padding-left: 5px; padding-right: 5px;' }
+                ចំណាត់
+                %br
+                ថ្នាក់
+              %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
+          %tbody
+            - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
+              - if index > 5
+                %tr{ style: 'page-break-inside: avoid;' }
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 30px;' }
+                      %p= status.children_status_name
+                  %td{ style: 'border:1px solid black; text-align: center;' }
+                    .comment{ style: 'min-height: 30px;' }
+                      %p= status.score
+                  %td{ style: 'border:1px solid black;' }
+                    .comment{ style: 'min-height: 30px; max-height: 36px; word-wrap: break-word;' }
+                      %p= status.comment
 .panel.panel-borderless.panel-no-margin
-  .panel-heading.panel-border{ style: 'background: #4a80ce; padding: 5px; color: #ffffff; border-bottom: 0px solid black;' }
+  .panel-heading.panel-border{ style: 'background: #4a80ce; padding: 5px; color: #ffffff;' }
     %h5{ style: 'margin: 0;' }
       %span{ style: "font-family: 'Time New Roman'; border: none;" } II-
       ស្ថានភាពគ្រួសារ:
-  .panel-body.panel-border.no-margin-bottom
+  .panel-body.panel-border.no-margin-bottom{ style: 'border-bottom: 1px dotted black;'}
     %u អាសយដ្ឋាន៖
     %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
       %tbody
@@ -107,10 +142,11 @@
           %td{ colspan: '2' }
             ខេត្ត/រាជធានី:
             %input{ style: 'width: 209px; margin-left: 2px;', value: @client.family.try(:province).try(:name_kh) }
+  .panel-body.panel-border.no-margin-bottom
     %table{ style: 'margin-top: 5px;' }
       %tr
         %td
-          ចំនួនកុមារក្នុងបន្ទុកសរុប
+          ចំនួនកុមារសរុបក្នុងបន្ទុក:
           %input{ style: 'width: 90px;', value: @client.family.try(:male_children_count).to_i + @client.family.try(:female_children_count).to_i }
         %td{ style: 'padding-left: 10px;' }
           កុមារា
@@ -166,13 +202,13 @@
                     .comment{ style: 'min-height: 42px;' }
                   %td{ style: 'border:1px solid black;' }
                     .comment{ style: 'min-height: 42px;' }
-
+.footer{ style: 'page-break-after: always;' }
 .panel.panel-borderless.panel-no-margin{ style: 'clear: both;' }
   .panel-heading.panel-border{ style: 'background: #d3d3d3; padding: 0px; color: #000; border-bottom: 0px solid black;' }
     %h5{ style: 'color: #072459; margin: 0 auto; padding: 5px; border-top: 1px solid black; border-bottom: 0px solid black' }
       អាសយដ្ឋានអ្នកថែទាំ:
   .panel-body.panel-border.no-margin-bottom
-    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 10px;' }
+    %table.table.no-margin-bottom.table-borderless{ style: 'margin-top: 5px;' }
       %tbody
         %tr
           %td
@@ -390,14 +426,14 @@
           កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ)៖
       %tr{ style: 'height: 120px' }
         %td{ style: 'border:1px solid black; border-left: 0px;' }
-          ឈ្មោះអាណាព្យាបាលកុមារ:
+          ឈ្មោះអាណាព្យាបាលកុមារ
         %td{ style: 'border:1px solid black;' }
           ហត្ថលេខាឬស្នាមមេដៃ:
         %td{ style: 'border:1px solid black; border-right: 0px;' }
           កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ)៖
       %tr{ style: 'height: 120px' }
         %td{ style: 'border:1px solid black; border-left: 0px; border-bottom: 0px;' }
-          ឈ្មោះអ្នកកាន់ករណី:
+          ឈ្មោះអ្នកកាន់ករណី
         %td{ style: 'border:1px solid black; border-bottom: 0px;' }
           ហត្ថលេខា
         %td{ style: 'border:1px solid black; border-right: 0px; border-bottom: 0px;' }

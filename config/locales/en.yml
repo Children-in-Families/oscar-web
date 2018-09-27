@@ -1302,6 +1302,7 @@ en:
       referral_source: Referral Source
       specific_point: Specific Point-of-Referral Data
       staff_responsibilities: Staff Responsibilities
+      text-hint: Unable to remove this case worker because he/she has some remaining tasks to complete.
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
@@ -3658,6 +3659,7 @@ en:
       tracking: Tracking
     tracking:
       add_tracking: Add Another Tracking Form
+      complete_tracking: Please complete the tracking form
       not_require_tracking: This Program Stream does not require any tracking form.
       tracking_form: Progress Tracking
     tracking_fields:

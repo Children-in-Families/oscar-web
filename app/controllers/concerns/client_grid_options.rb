@@ -23,7 +23,6 @@ module ClientGridOptions
     program_enrollment_date_report
     program_exit_date_report
     date_of_assessments
-    form_title_report
     case_note_date_report
     case_note_type_report
     accepted_date_report
@@ -96,11 +95,11 @@ module ClientGridOptions
     return unless @client_columns.visible_columns[:exit_date_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:exit_date, header: I18n.t('datagrid.columns.clients.ngo_exit_date')) do |client|
-        client.exit_ngos.most_recents.first.try(:exit_date)
+        date_format(client.exit_ngos.most_recents.first.try(:exit_date))
       end
     else
       @client_grid.column(:exit_date, header: I18n.t('datagrid.columns.clients.ngo_exit_date')) do |client|
-        date_filter(client.exit_ngos.most_recents, 'exit_date').map(&:exit_date).select(&:present?).join(' | ') if client.exit_ngos.any?
+        date_filter(client.exit_ngos.most_recents, 'exit_date').map{|date| date_format(date.exit_date) }.select(&:present?).join(' | ') if client.exit_ngos.any?
       end
     end
   end
@@ -109,24 +108,11 @@ module ClientGridOptions
     return unless @client_columns.visible_columns[:accepted_date_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:accepted_date, header: I18n.t('datagrid.columns.clients.ngo_accepted_date')) do |client|
-        client.enter_ngos.most_recents.first.try(:accepted_date)
+        date_format(client.enter_ngos.most_recents.first.try(:accepted_date))
       end
     else
       @client_grid.column(:accepted_date, header: I18n.t('datagrid.columns.clients.ngo_accepted_date')) do |client|
-        date_filter(client.enter_ngos.most_recents, 'accepted_date').map(&:accepted_date).select(&:present?).join(' | ') if client.enter_ngos.any?
-      end
-    end
-  end
-
-  def form_title_report
-    return unless @client_columns.visible_columns[:form_title_].present?
-    if params[:data].presence == 'recent'
-      @client_grid.column(:form_title, header: I18n.t('datagrid.columns.clients.form_title')) do |client|
-        client.custom_field_properties.order(created_at: :desc).first.try(:custom_field).try(:form_title)
-      end
-    else
-      @client_grid.column(:form_title, header: I18n.t('datagrid.columns.clients.form_title')) do |client|
-        client.custom_fields.pluck(:form_title).uniq.join(' | ')
+        date_filter(client.enter_ngos.most_recents, 'accepted_date').map{|date| date_format(date.accepted_date) }.select(&:present?).join(' | ') if client.enter_ngos.any?
       end
     end
   end
@@ -149,11 +135,11 @@ module ClientGridOptions
     if params[:data].presence == 'recent'
       @client_grid.column(:program_enrollment_date, header: I18n.t('datagrid.columns.clients.program_enrollment_date')) do |client|
         recent_record = client.client_enrollments.active.order(enrollment_date: :desc).first
-        "#{recent_record.program_stream.name} : #{recent_record.enrollment_date}" if recent_record
+        "#{recent_record.program_stream.name} : #{date_format(recent_record.enrollment_date)}" if recent_record
       end
     else
       @client_grid.column(:program_enrollment_date, header: I18n.t('datagrid.columns.clients.program_enrollment_date')) do |client|
-        client.client_enrollments.active.map{|a| a.enrollment_date }.join(' | ')
+        client.client_enrollments.active.map{|a| date_format(a.enrollment_date) }.join(' | ')
       end
     end
   end
@@ -163,11 +149,11 @@ module ClientGridOptions
     if params[:data].presence == 'recent'
       @client_grid.column(:program_exit_date, header: I18n.t('datagrid.columns.clients.program_exit_date')) do |client|
         recent_record = client.client_enrollments.inactive.joins(:leave_program).order('leave_programs.exit_date DESC').first
-        "#{recent_record.program_stream.name} : #{recent_record.leave_program.exit_date}" if recent_record.present?
+        "#{recent_record.program_stream.name} : #{date_format(recent_record.leave_program.exit_date)}" if recent_record.present?
       end
     else
       @client_grid.column(:program_exit_date, header: I18n.t('datagrid.columns.clients.program_exit_date')) do |client|
-        client.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
+        client.client_enrollments.inactive.joins(:leave_program).map{|a| date_format(a.leave_program.exit_date) }.join(' | ')
       end
     end
   end
@@ -176,11 +162,11 @@ module ClientGridOptions
     return unless @client_columns.visible_columns[:case_note_date_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
-        client.case_notes.most_recents.order(meeting_date: :desc).first.try(:meeting_date)
+        date_format(client.case_notes.most_recents.order(meeting_date: :desc).first.try(:meeting_date))
       end
     else
       @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
-        case_note_query(client.case_notes.most_recents, 'case_note_date').map(&:meeting_date).select(&:present?).join(' | ') if client.case_notes.any?
+        case_note_query(client.case_notes.most_recents, 'case_note_date').map{|date| date_format(date.meeting_date) }.select(&:present?).join(' | ') if client.case_notes.any?
       end
     end
   end
@@ -202,11 +188,11 @@ module ClientGridOptions
     return unless @client_columns.visible_columns[:date_of_assessments_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:date_of_assessments, header: I18n.t('datagrid.columns.clients.date_of_assessments')) do |client|
-        client.assessments.latest_record.try(:created_at).strftime('%d %B, %Y') if client.assessments.any?
+        date_format(client.assessments.latest_record.try(:created_at)) if client.assessments.any?
       end
     else
       @client_grid.column(:date_of_assessments, header: I18n.t('datagrid.columns.clients.date_of_assessments')) do |client|
-        date_filter(client.assessments.most_recents, 'date_of_assessments').map{ |a| a.created_at.to_date }.join(' | ') if client.assessments.any?
+        date_filter(client.assessments.most_recents, 'date_of_assessments').map{ |a| date_format(a.created_at) }.join(' | ') if client.assessments.any?
       end
     end
   end
@@ -216,7 +202,7 @@ module ClientGridOptions
     if params[:data].presence == 'recent'
       @client_grid.column(:all_csi_assessments, header: t('.all_csi_assessments')) do |client|
         recent_assessment = client.assessments.latest_record
-        "#{recent_assessment.created_at.to_date} => #{recent_assessment.assessment_domains_score}" if recent_assessment.present?
+        "#{date_format(recent_assessment.created_at)} => #{recent_assessment.assessment_domains_score}" if recent_assessment.present?
       end
     else
       @client_grid.column(:all_csi_assessments, header: t('.all_csi_assessments')) do |client|
@@ -244,17 +230,25 @@ module ClientGridOptions
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if data == 'recent'
-            properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-            properties = format_array_value(properties[format_field_value]) if properties.present?
+            if fields.last == 'Has This Form'
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = format_array_value(properties[format_field_value]) if properties.present?
+            end
           else
-            custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
-            custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+            if fields.last == 'Has This Form'
+              properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              custom_field_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
+            end
           end
         elsif fields.first == 'enrollmentdate'
           if data == 'recent'
-            properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
+            properties = date_format(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date))
           else
-            properties = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('_')).map(&:enrollment_date).join(' | ')
+            properties = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('_')).map{|date| date_format(date.enrollment_date) }.join(' | ')
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -262,7 +256,7 @@ module ClientGridOptions
             enrollment_properties = format_array_value(enrollment_properties[format_field_value]) if enrollment_properties.present?
           else
             enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
-            enrollment_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+            enrollment_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
           end
         elsif fields.first == 'tracking'
           ids = client.client_enrollments.ids
@@ -271,14 +265,14 @@ module ClientGridOptions
             enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
           else
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-            enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+            enrollment_tracking_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
           end
         elsif fields.first == 'programexitdate'
           ids = client.client_enrollments.inactive.ids
           if data == 'recent'
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
+            properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map(&:exit_date).join(' | ')
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map{|date| date_format(date.exit_date) }.join(' | ')
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
@@ -287,7 +281,7 @@ module ClientGridOptions
             leave_program_properties = format_array_value(leave_program_properties[format_field_value]) if leave_program_properties.present?
           else
             leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
-            leave_program_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+            leave_program_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
           end
         end
       end
@@ -305,20 +299,20 @@ module ClientGridOptions
   end
 
   def non_admin_client_grid
+    data = params[:data].presence
     if params.dig(:client_grid, :quantitative_types)
       quantitative_types = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder, param_data: data))
     end
   end
 
   def column_form_builder
-    if @custom_form_fields.present? || @program_stream_fields.present?
-      @custom_form_fields + @program_stream_fields
-    else
-      []
-    end
+    forms = []
+    forms << @custom_form_fields if @custom_form_fields.present?
+    forms << @program_stream_fields if @program_stream_fields.present?
+    forms.flatten
   end
 
   def form_builder_params

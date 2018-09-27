@@ -95,7 +95,7 @@ feature 'Case' do
       fill_in 'Start Date', with: '2017-04-01'
       click_button 'Save'
       expect(page).to have_content('Jonh')
-      expect(page).to have_content('April 01, 2017')
+      expect(page).to have_content('01 April 2017')
     end
   end
 
