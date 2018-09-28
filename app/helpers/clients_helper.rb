@@ -166,7 +166,7 @@ module ClientsHelper
   end
 
   def check_is_array_date?(properties)
-    properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
+    properties.is_a?(Array) && properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
   end
 
   def check_is_string_date?(property)
