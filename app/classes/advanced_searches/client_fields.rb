@@ -1,6 +1,7 @@
 module AdvancedSearches
   class  ClientFields
     include AdvancedSearchHelper
+    include ClientsHelper
 
     def initialize(options = {})
       @user = options[:user]
@@ -12,7 +13,7 @@ module AdvancedSearches
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
-      domain_scores_options = AdvancedSearches::DomainScoreFields.render
+      domain_scores_options = enable_assessment_setting? ? AdvancedSearches::DomainScoreFields.render : []
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
 
       search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
@@ -46,7 +47,6 @@ module AdvancedSearches
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
-        ['form_title', client_custom_form_options],
         ['donor_name', donor_options],
         ['active_program_stream', active_program_options],
         ['enrolled_program_stream', enrolled_program_options],
@@ -69,15 +69,13 @@ module AdvancedSearches
     end
 
     def active_program_options
-      ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active'").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
+      program_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
     end
 
     def enrolled_program_options
-      ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
-    end
-
-    def client_custom_form_options
-      CustomField.joins(:custom_field_properties).client_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
+      program_ids = ClientEnrollment.pluck(:program_stream_id).uniq
+      ProgramStream.where(id: program_ids).order(:name).map { |ps| { ps.id.to_s => ps.name } }
     end
 
     def client_status

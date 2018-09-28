@@ -48,5 +48,16 @@ module AdvancedSearches
         operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
+
+    def self.has_this_form_drop_list_options(field_name, label, values, group)
+      {
+        id: field_name,
+        optgroup: group,
+        label: label,
+        input: 'select',
+        values: values,
+        operators: ['equal']
+      }
+    end
   end
 end

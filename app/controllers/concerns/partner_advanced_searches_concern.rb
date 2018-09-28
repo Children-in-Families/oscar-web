@@ -24,14 +24,15 @@ module PartnerAdvancedSearchesConcern
   end
 
   def custom_form_column
-    @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }
+    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
   end
   def get_custom_form
-    @custom_fields  = CustomField.joins(:custom_field_properties).partner_forms.order_by_form_title.uniq
+    form_ids = CustomFieldProperty.where(custom_formable_type: 'Partner').pluck(:custom_field_id).uniq
+    @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
   def partner_builder_fields
-    @builder_fields = get_partner_basic_fields + get_custom_form_fields
+    @builder_fields = get_partner_basic_fields + custom_form_fields
   end
 
   def get_partner_basic_fields
@@ -42,8 +43,16 @@ module PartnerAdvancedSearchesConcern
     custom_form_value? ? eval(@advanced_search_params[:custom_form_selected]) : []
   end
 
+  def custom_form_fields
+    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+  end
+
   def get_custom_form_fields
-    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_forms = AdvancedSearches::CustomFields.new(custom_form_values).render
+  end
+
+  def get_has_this_form_fields
+    @has_this_form_fields = AdvancedSearches::HasThisFormFields.new(custom_form_values).render
   end
 
   def custom_form_value?
@@ -66,9 +75,13 @@ module PartnerAdvancedSearchesConcern
     @custom_form_fields.each do |field|
       fields = field[:id].split('_')
       @partner_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
-        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-        custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Partner'}).properties_by(format_field_value)
-        custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+        if fields.last == 'Has This Form'
+          custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Partner'}).count
+        else
+          format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+          custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Partner'}).properties_by(format_field_value)
+          custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+        end
       end
     end
   end

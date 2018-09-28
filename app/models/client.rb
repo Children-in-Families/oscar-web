@@ -160,6 +160,10 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def local_name
+    "#{local_family_name} #{local_given_name}"
+  end
+
   def next_assessment_date
     return Date.today if assessments.count.zero?
     (assessments.latest_record.created_at + assessment_duration('max')).to_date
@@ -259,8 +263,8 @@ class Client < ActiveRecord::Base
   end
 
   def time_in_care
-    return unless client_enrollments.any?
     date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
+    return date_time_in_care unless client_enrollments.any?
     first_multi_enrolled_program_date = ''
     last_multi_leave_program_date = ''
     ordered_enrollments = client_enrollments.order(:enrollment_date)
@@ -337,6 +341,7 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+      next if Setting.first.try(:disable_assessment)
       clients = joins(:assessments).active_accepted_status
       clients.each do |client|
         next if client.uneligible_age?

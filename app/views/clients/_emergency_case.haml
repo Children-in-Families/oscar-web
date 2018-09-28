@@ -21,7 +21,7 @@
                 = t('.start_date')
               %td
                 %strong
-                  = ec.start_date.strftime('%B %d, %Y') if ec.start_date
+                  = date_format(ec.start_date) if ec.start_date
             %tr
               %td.spacing-first-col
                 = t('.carer_names')
@@ -82,7 +82,7 @@
                   = t('.exit_date')
                 %td
                   %strong
-                    = ec.exit_date.strftime('%B %d, %Y') if ec.exit_date
+                    = date_format(ec.exit_date) if ec.exit_date
               %tr
                 %td.spacing-first-col
                   = t('.exit_note')

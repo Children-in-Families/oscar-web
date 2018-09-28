@@ -1,0 +1,384 @@
+= render 'head_section'
+
+.panel.panel-default.panel-no-margin
+  %label.text-main-header.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    = render 'client_code'
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px -5px 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 70px;'}
+            ឈ្មោះកុមារ:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: @client.local_name }
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            ភេទ:
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            ប្រុស
+          %td.text-right
+            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            ស្រី
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px -5px 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះឪពុក ឬអ្នកអាណាព្យាបាល:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: @father.try(:adult_name) }
+          %td.text-right
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td.text-right
+            - if @father.present?
+              - @father.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
+                - if index == 0
+                  %span.first= code
+                - else
+                  %span= code
+            - else
+              - (1..6).each_with_index do |code, index|
+                - if index == 0
+                  %span.first &nbsp;&nbsp;
+                - else
+                  %span &nbsp;&nbsp;
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px -5px 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះម្ដាយ ឬអ្នកអាណាព្យាបាល:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: @mother.try(:adult_name) }
+          %td.text-right
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td.text-right
+            - if @mother.present?
+              - @mother.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
+                - if index == 0
+                  %span.first= code
+                - else
+                  %span= code
+            - else
+              - (1..6).each_with_index do |code, index|
+                - if index == 0
+                  %span.first &nbsp;&nbsp;
+                - else
+                  %span &nbsp;&nbsp;
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 210px;'}
+            ឈ្មោះអ្នកបំពេញរបាយការណ៍:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%; margin-left: -10px;', value: @user.try(:name)}
+          %td
+            .text-right អង្គភាព:
+          %td{style: 'width: 220px;'}
+            %input{style: 'width: 100%;', value: @setting.org_name}
+    %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
+
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 157px;'}
+            អាស័យដ្ឋាន៖ &nbsp;&nbsp;&nbsp;&nbsp;ភូមិ:
+          %td{style: 'width: 230px;'}
+            %input{style: 'width: 100%', value: @client.village_name_kh}
+          %td{style: 'width: 70px;'}
+            .text-right ឃុំ/សង្កាត់:
+          %td
+            %input{style: 'width: 100%', value: @client.commune_name_kh }
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          - district = @client.district.present? ? @client.district.name_kh : ''
+          - province = @client.province.present? ? @client.province.name_kh : ''
+          %td{style: 'width: 157px;'}
+            ក្រុង/ស្រុក/ខណ្ឌ:
+          %td{style: 'width: 230px;'}
+            %input{style: 'width: 100%', value: district }
+          %td{style: 'width: 70px;'}
+            .text-right ខេត្ត/រាជធានី:
+          %td
+            %input{style: 'width: 100%', value: province }
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 0 -6px 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 157px;'}
+            ឈ្មោះកន្លែងថែទាំកុមារ:
+          %td{style: 'width: 300px;'}
+            %input{style: 'width: 100%;', value: @setting.org_name }
+          %td.text-right
+            កាលបរិច្ឆេទ:
+          %td.text-right
+            - accepted_date = @client.enter_ngos.last.present? ? @client.enter_ngos.last.accepted_date.strftime('%d%m%y') : '000000'
+            - accepted_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+    %hr{style: 'border-bottom: 1px solid black; margin: 0 -6px 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      - time_in_care = @client.time_in_care
+      %tbody
+        %tr
+          %td{style: 'vertical-align: middle;'}
+            រយៈពេលសរុបនៃការទុកដាក់កុមារ:
+          %td.text-right{style: 'width: 200px; vertical-align: middle;'}
+            សប្ដាហ៍
+            %input.text-right{ style: 'width: 120px', value: time_in_care[:weeks] }
+          %td.text-right{style: 'width: 200px; vertical-align: middle;'}
+            ខែ
+            %input.text-right{ style: 'width: 120px;', value: time_in_care[:months] }
+          %td.text-right{style: 'width: 200px; vertical-align: middle;'}
+            ឆ្នាំ
+            %input.text-right{ style: 'width: 120px;', value: time_in_care[:years] }
+
+.panel.panel-borderless{style: 'margin-bottom: 0px;'}
+  .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
+    I. ការប៉ាន់ប្រមាណចុងក្រោយសម្រាប់កុមារ
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #f2f2f2;' }
+        %tr
+          %th.text-center ចំណាត់ថ្នាក់
+          %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
+          %th.text-center{style: 'width: 100px;'} 2 មធ្យម
+          %th.text-center{style: 'width: 100px;'} 3 ល្អ
+          %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
+      %tbody
+        - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
+          - if index <= 5
+            %tr{ style: 'page-break-inside: avoid;' }
+              %td
+                = status.children_status_name
+              - (1..4).each do |score|
+                %td.text-center
+                  .comment{ style: 'min-height: 15px;' }
+                    %p
+                      - if status.score == score
+                        %i.glyphicon.glyphicon-ok
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 10px; page-break-before: always; border-top: 1px solid black;'}
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #f2f2f2;' }
+        %tr
+          %th.text-center ចំណាត់ថ្នាក់
+          %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
+          %th.text-center{style: 'width: 100px;'} 2 មធ្យម
+          %th.text-center{style: 'width: 100px;'} 3 ល្អ
+          %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
+      %tbody
+        - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
+          - if index > 5
+            %tr{ style: 'page-break-inside: avoid;' }
+              %td
+                = status.children_status_name
+              - (1..4).each do |score|
+                %td.text-center
+                  .comment{ style: 'min-height: 15px;' }
+                    %p
+                      - if status.score == score
+                        %i.glyphicon.glyphicon-ok
+        %tr
+          %td{:colspan => '4'}
+            %p.no-margin-bottom ចំណាត់ថ្នាក់ដែលអាចបិទករណីបានត្រូវចាប់ពី២១ឡើង
+            %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានចំណាត់ថ្នាក់តិចជាង២ ទោះបានចំណាត់ថ្នាក់សរុប២១ ក៏មិនអាចបិទករណីបានដែរ)
+          %td.text-center{style: 'background: #feff00; border: 1px solid black; vertical-align: middle;'}
+            = @government_form.government_form_children_plans.pluck(:score).select(&:present?).sum
+
+
+.panel.panel-borderless{style: 'margin-bottom: 0px;'}
+  .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
+    II. ស្ថានភាពគ្រួសារ
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px; padding-bottom: 0px;'}
+    %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} ការប៉ាន់ប្រមាណចុងក្រោយ
+
+  .panel-body.panel-border{style: 'padding-top: 0px;'}
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #f2f2f2;' }
+        %tr
+          %th.text-center ចំណាត់ថ្នាក់
+          %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
+          %th.text-center{style: 'width: 100px;'} 2 មធ្យម
+          %th.text-center{style: 'width: 100px;'} 3 ល្អ
+          %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
+      %tbody
+        - @government_form.government_form_family_plans.select(:id, :score, :comment, :family_plan_id, :government_form_id).each do |status|
+          %tr{ style: 'page-break-inside: avoid;' }
+            %td
+              - if status.family_status_name == 'ជំនួយពីសាច់ញាតិ'
+                ជំនួយពីសាច់ញាតិ(ទោះបីមានពិន្ទុតិចជាង២ក៏អាចបិទបានដែរ)
+              - else
+                = status.family_status_name
+            - (1..4).each do |score|
+              %td.text-center
+                .comment{ style: 'min-height: 15px;' }
+                  %p
+                    - if status.score == score
+                      %i.glyphicon.glyphicon-ok
+
+        %tr
+          %td{:colspan => '4'}
+            %p.no-margin-bottom ចំណាត់ថ្នាក់ដែលអាចបិទករណីបានត្រូវចាប់ពី៣០ឡើង
+            %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានចំណាត់ថ្នាក់តិចជាង២ ទោះបានចំណាត់ថ្នាក់សរុប៣០ ក៏មិនអាចបិទករណីបានដែរ)
+          %td.text-center{style: 'background: #feff00; border: 1px solid black; vertical-align: middle'}
+            = @government_form.government_form_family_plans.pluck(:score).select(&:present?).sum
+
+        %tr{style: 'background: #fcebdd; '}
+          %td.text-right{:colspan => '3'}
+            ចំណាត់ថ្នាក់សរុប (យកចំណាត់ថ្នាក់កុមារ+គ្រួសារ)=
+          %td.text-center{:colspan => '2'}
+            = @government_form.government_form_children_plans.pluck(:score).select(&:present?).sum + @government_form.government_form_family_plans.pluck(:score).select(&:present?).sum
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 10px; page-break-before: always; border-top: 1px solid black;'}
+    %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} សេចក្តីសន្និដ្ឋានចុងក្រោយ៖
+
+    .col-xs-6{ style: 'border-left: 1px solid black; border-bottom: 1px solid black; padding: 0px;'}
+      = render @government_form.case_closure_name == 'បិទ (ប្រសិនបើពិន្ទុសរុប ចាប់ពី៤៨ឡើង)' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+      បិទ (ប្រសិនបើពិន្ទុសរុប ចាប់ពី៤៨ឡើង)
+      %br
+      = render @government_form.case_closure_name == 'បិទដោយសារកុមារស្លាប់' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+      បិទដោយសារកុមារស្លាប់
+      %br
+      = render @government_form.case_closure_name == 'ករណីបិទដោយកុមារផ្លាស់ទៅកន្លែងផ្សេង ឬរកកុមារមិនឃើញ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+      = 'ករណីបិទដោយកុមារផ្លាស់ទៅកន្លែងផ្សេង ឬរកកុមារមិនឃើញ'
+      %br
+    .col-xs-6{ style: 'border-right: 1px solid black; border-bottom: 1px solid black; padding: 0px;'}
+      = render @government_form.case_closure_name == 'បន្តករណី' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+      បន្តករណី
+      %br
+      = render @government_form.case_closure_name == 'អវត្តមានកុមារ និងគ្រួសារ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+      = 'អវត្តមានកុមារ និងគ្រួសារ'
+      %br
+      %div.other-label
+        = render @government_form.case_closure_name == 'ផ្សេងៗ (សូមបញ្ជាក់)' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        - if @government_form.case_closure_name != 'ផ្សេងៗ (សូមបញ្ជាក់)'
+          = "ផ្សេងៗ(សូមបញ្ចាក់): .............................................."
+        - else
+          = "ផ្សេងៗ(សូមបញ្ចាក់): #{@government_form.other_case_closure}"
+      %br
+
+%table.table.table-border.panel-no-margin
+  %thead
+    %tr{ style: 'background: #fcebdd;' }
+      %th សង្ខេបសាច់រឿងរបស់អតិថិជន ចាប់តាំងពីធ្វើសមាហរណកម្មរហូតដល់បិទករណីៈ
+  %tbody
+    %tr
+      %td
+        .comment{ style: 'min-height: 400px; line-height: 2.5;' }
+          = @government_form.brief_case_history
+          / -@government_form_brief_case_history.split('newline').each do |line|
+          /   .comment{ style: 'border-bottom: 1px solid black; text-align: justify;'}= line
+
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-border{style: 'border: 1px solid black; background: #ffc003; padding: 5px;'}
+    ហត្ថលេខា
+
+  .panel-border
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          %label{style: 'margin-top: 5px;'} ឈ្មោះកុមារ
+          .comment{style: 'min-height: 40px;'}
+            %p=@client.local_name
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          %label{style: 'margin-top: 5px;'} ហត្ថលេខាឬស្នាមមេដៃ
+          .comment{style: 'min-height: 50px;'}
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          %label{style: 'margin-top: 5px;'} ថ្ងៃ/ខែ/ឆ្នាំ
+          .comment{style: 'min-height: 50px;'}
+
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ឈ្មោះអាណាព្យាបាលកុមារ
+            .col-xs-12
+              .comment{style: 'min-height: 40px;'}
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ហត្ថលេខាឬស្នាមមេដៃ
+            .col-xs-12
+              .comment{style: 'min-height: 50px;'}
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ថ្ងៃ/ខែ/ឆ្នាំ
+            .col-xs-12
+              .comment{style: 'min-height: 50px;'}
+
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ឈ្មោះអ្នកកាន់ករណី
+            .col-xs-12
+              .comment{style: 'min-height: 40px;'}
+                %p= @user.try(:name)
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ហត្ថលេខា
+            .col-xs-12
+              .comment{style: 'min-height: 50px;'}
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ថ្ងៃ/ខែ/ឆ្នាំ
+            .col-xs-12
+              .comment{style: 'min-height: 50px;'}
+
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ឈ្មោះអាជ្ញាធរ
+            .col-xs-12
+              .comment{style: 'min-height: 40px;'}
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ហត្ថលេខា និង ត្រា
+            .col-xs-12
+              .comment{style: 'min-height: 50px;'}
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label{style: 'margin-top: 5px;'} ថ្ងៃ/ខែ/ឆ្នាំ
+            .col-xs-12
+              .comment{style: 'min-height: 50px;'}
