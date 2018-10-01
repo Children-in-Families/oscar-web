@@ -26,8 +26,7 @@ class GovernmentFormsController < AdminController
       end
     else
       @government_form = @client.government_forms.find(params[:government_form_id]).decorate
-      gov_attr = @government_form.merge_associations_params
-      gov_attr["id"] = ''
+      gov_attr = @government_form.merge_associations_params.except('id')
       @government_form =  @client.government_forms.new(gov_attr)
       authorize @government_form
     end

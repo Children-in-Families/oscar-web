@@ -17,6 +17,10 @@
               - action_count = @government_form.action_results.count
               = f.simple_fields_for :action_results do |action|
                 = render 'action_result_fields', f: action
+              - if ['new', 'create'].include?(params[:action]) && params[:new_duplicate].present?
+                %input#action-count{:type => "hidden", :value => "3"}
+                .links.link-action-result
+                  = link_to_add_association t('.action_result'), f, :action_results, class: 'btn btn-primary add_action_results'
               - if ['new', 'create'].include?(params[:action])
                 .links.link-action-result
                   = link_to_add_association t('.action_result'), f, :action_results, class: 'btn btn-primary add_action_results'
