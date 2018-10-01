@@ -35,11 +35,6 @@ namespace :remove_province do
           user.save(validate: false)
         end
 
-        province.cases.each do |client_case|
-          client_case.province_id = nil
-          client_case.save(validate: false)
-        end
-
         province.government_forms.each do |government_form|
           government_form.province_id = nil
           government_form.save(validate: false)
