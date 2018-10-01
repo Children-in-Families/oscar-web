@@ -200,5 +200,13 @@ body[id='clients-index'] {
       }
     }
   }
+  .popover[class*="tour-"].orphan .arrow{
+    display: inline-block;
+  }
+
+  #step-0{
+    margin-top: 80px;
+    margin-left: -430px;
+  }
 
 }
