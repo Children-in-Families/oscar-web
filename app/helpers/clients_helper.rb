@@ -824,4 +824,17 @@ module ClientsHelper
   def date_format(date)
     date.strftime('%d %B %Y') if date.present?
   end
+
+
+  def country_scope_label_translation
+    country_name = Setting.first.country_name
+    case country_name
+    when 'cambodia' then 'Khmer'
+    when 'thailand' then 'Thai'
+    when 'myanmar' then 'Burmese'
+    when 'sepheo' then 'Sesotho'
+    else
+      'Unknown'
+    end
+  end
 end
