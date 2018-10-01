@@ -8,7 +8,7 @@ class UserReminder
       remind_case_worker_with_forms(org)
       remind_case_workers(org)
       remind_manager_and_admin(org)
-      # remind_managers_have_case_workers_overdue_tasks(org)
+      remind_managers_have_case_workers_overdue_tasks(org)
     end
   end
 
