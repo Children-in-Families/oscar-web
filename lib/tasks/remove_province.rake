@@ -48,9 +48,9 @@ namespace :remove_province do
         province.destroy
       end
     end
-    
+
     Organization.switch_to 'shared'
-    provinces = Province.where(name: provinces)
+    provinces = Province.where(name: province_names)
     SharedClient.where(birth_province_id: provinces.ids).each do |shared_client|
       shared_client.birth_province_id = nil
       shared_client.save(validate: false)
