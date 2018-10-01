@@ -832,7 +832,7 @@ module ClientsHelper
     when 'cambodia' then 'Khmer'
     when 'thailand' then 'Thai'
     when 'myanmar' then 'Burmese'
-    when 'sepheo' then 'Sesotho'
+    when 'lesotho' then 'Sesotho'
     else
       'Unknown'
     end
