@@ -834,6 +834,7 @@ module ClientsHelper
       when 'thailand' then '(Thai)'
       when 'myanmar' then '(Burmese)'
       when 'lesotho' then '(Sesotho)'
+      when 'uganda' then '(Swahili)'
       else
         '(Unknown)'
       end
