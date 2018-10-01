@@ -3,6 +3,7 @@ class ClientGrid < BaseGrid
   include ClientsHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+  COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)" }
 
   scope do
     Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :enter_ngos, :exit_ngos, :users).order('clients.status, clients.given_name')
@@ -420,7 +421,7 @@ class ClientGrid < BaseGrid
     family_name
   end
 
-  column(:local_given_name, order: 'clients.local_given_name', header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) do |object|
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ I18n.locale.to_s == 'en' ? COUNTRY_LANG[Setting.first.country_name] : '' }" }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
     local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
@@ -428,7 +429,7 @@ class ClientGrid < BaseGrid
     local_given_name
   end
 
-  column(:local_family_name, order: 'clients.local_family_name', header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) do |object|
+  column(:local_family_name, order: 'clients.local_family_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_family_name')} #{ I18n.locale.to_s == 'en' ? COUNTRY_LANG[Setting.first.country_name] : '' }" }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
     local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
@@ -825,6 +826,18 @@ class ClientGrid < BaseGrid
     end
     column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
       link_to t('datagrid.columns.clients.view'), client_version_path(object)
+    end
+  end
+
+  def country_scope_label_translation
+    country_name = Setting.first.country_name
+    case country_name
+    when 'cambodia' then 'Khmer'
+    when 'thailand' then 'Thai'
+    when 'myanmar' then 'Burmese'
+    when 'lesotho' then 'Sesotho'
+    else
+      'Unknown'
     end
   end
 end

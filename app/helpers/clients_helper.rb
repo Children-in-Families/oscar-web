@@ -66,8 +66,8 @@ module ClientsHelper
       age:                           t('datagrid.columns.clients.age'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
-      local_given_name:              t('datagrid.columns.clients.local_given_name'),
-      local_family_name:             t('datagrid.columns.clients.local_family_name'),
+      local_given_name:              "#{t('datagrid.columns.clients.local_given_name')} #{country_scope_label_translation}",
+      local_family_name:             "#{t('datagrid.columns.clients.local_family_name')} #{country_scope_label_translation}",
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
       birth_province_id:             t('datagrid.columns.clients.birth_province'),
@@ -299,8 +299,8 @@ module ClientsHelper
       program_streams_: t('datagrid.columns.clients.program_streams'),
       given_name_: t('datagrid.columns.clients.given_name'),
       family_name_: t('datagrid.columns.clients.family_name'),
-      local_given_name_: t('datagrid.columns.clients.local_given_name'),
-      local_family_name_: t('datagrid.columns.clients.local_family_name'),
+      local_given_name_: "#{t('datagrid.columns.clients.local_given_name')} (#{country_scope_label_translation})",
+      local_family_name_: "#{t('datagrid.columns.clients.local_family_name')} (#{country_scope_label_translation})",
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
@@ -827,14 +827,16 @@ module ClientsHelper
 
 
   def country_scope_label_translation
-    country_name = Setting.first.country_name
-    case country_name
-    when 'cambodia' then 'Khmer'
-    when 'thailand' then 'Thai'
-    when 'myanmar' then 'Burmese'
-    when 'lesotho' then 'Sesotho'
-    else
-      'Unknown'
+    if I18n.locale.to_s == 'en'
+      country_name = Setting.first.country_name
+      case country_name
+      when 'cambodia' then '(Khmer)'
+      when 'thailand' then '(Thai)'
+      when 'myanmar' then '(Burmese)'
+      when 'lesotho' then '(Sesotho)'
+      else
+        '(Unknown)'
+      end
     end
   end
 end
