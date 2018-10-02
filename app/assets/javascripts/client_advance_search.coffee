@@ -465,7 +465,10 @@ class CIF.ClientAdvanceSearch
         setTimeout( ->
           for value in disableValue
             $(select).find("option[value='#{value}']").attr('disabled', 'true')
-          $(select).find('select').val('1').trigger('change')
+          first_value_option = $(select).find('select:first').find(':selected').text()
+          second_value_option = $(select).find('select:last').find(':selected').text()
+          if disableValue.includes(first_value_option) && disableValue.includes(second_value_option)
+            $(select).find('select').val('1').trigger('change')
         , 100)
 
     setTimeout( ->
