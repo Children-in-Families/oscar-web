@@ -12,7 +12,7 @@ class GovernmentFormsController < AdminController
   end
 
   def new
-    if params[:new_duplicate] != "true"
+    if params[:copy] != "true"
       @government_form = @client.government_forms.new(name: @form_name)
       authorize @government_form
       @government_form.populate_needs
@@ -122,6 +122,9 @@ class GovernmentFormsController < AdminController
   end
 
   def find_association
+    if params[:copy] == 'true'
+      @government_form = GovernmentForm.find(params[:government_form_id])
+    end
     @interviewees   = Interviewee.order(:created_at)
     @client_types   = ClientType.order(:created_at)
     @users          = @client.users.order(:first_name, :last_name)

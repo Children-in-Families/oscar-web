@@ -57,3 +57,51 @@
 #     end
 #   end
 # end
+
+describe 'government_forms' do
+  let!(:user) { create(:user, :admin) }
+  let!(:client) { create(:client, status: 'accepted') }
+
+  before do
+    login_as(user)
+  end
+
+  feature 'Create' do
+    before do
+      visit new_client_government_form_path(client, form: 'one')
+    end
+
+    scenario 'Valid', js: true do
+      fill_in 'government_form_source_info', with: 'Government Form Source Info'
+      click_button 'Save'
+      expect(page).to have_content(I18n.t('government_forms.create.successfully_created'))
+    end
+  end
+
+  feature 'List' do
+    let!(:government_form_one) { create(:government_form, name: 'ទម្រង់ទី១: ព័ត៌មានបឋម', client: client) }
+    before do
+      visit client_government_forms_path(client, form: 'one')
+    end
+
+    scenario 'edit link' do
+      expect(page).to have_link(nil, href: edit_client_government_form_path(client, government_form_one, form: 'one') )
+    end
+
+    scenario 'delete link' do
+      expect(page).to have_css("a[href='#{client_government_form_path(client, government_form_one, form: 'one')}'][data-method='delete']")
+    end
+
+    scenario 'view link' do
+      expect(page).to have_link(nil, href: client_government_form_path(client, government_form_one, form: 'one', format: :pdf) )
+    end
+
+    scenario 'new link' do
+      expect(page).to have_link(nil, href: new_client_government_form_path(client, form: 'one') )
+    end
+
+    scenario 'copy form' do
+      expect(page).to have_link(nil, href: new_client_government_form_path(client, government_form_id: government_form_one.id, form: 'one', copy: true))
+    end
+  end
+end
