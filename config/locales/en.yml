@@ -1318,9 +1318,8 @@ en:
       load: Loading more...
       load_save_search: Load Saved Search
       most_recent: Most Recent
-      popover-content: Please click Search button to see clients
-      popover-done: Close
-      popover-info: Info
+      popover_content: Please click Search button to see clients
+      popover_done: Close
       read_less: read less
       read_more: read more
       report_builder: Report Builder

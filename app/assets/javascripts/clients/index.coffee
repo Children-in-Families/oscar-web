@@ -344,24 +344,20 @@ CIF.ClientsIndex = do ->
     total = if total != 0 then total else ''
 
   _addTourTip = ->
-    info = $('#info').val()
     content = $('#content').val()
-    btnDone = $('#btn-done').val()
     if !$('#most-recent').length
       tour = new Tour(
         debug: true
         storage: false
         steps: [
           {
-            element: '#client-btn-search'
-            title: info
+            element: '#datagrid-search-btn'
             content: content
             placement: 'top'
             orphan: true
             smartPlacement: true
             template: "<div class='popover tour' style='display: block;top: 120.5px;left: 582px;'>
                       <div class='arrow'></div>
-                      <h3 class='popover-title'></h3>
                       <div class='popover-content'></div>
                       <div class='popover-navigation' id= 'btn-done-da'>
                         <button class='btn btn-default' data-role='end' id='btn-done-done'>Done</button>
@@ -372,5 +368,9 @@ CIF.ClientsIndex = do ->
       ])
       tour.init()
       tour.start()
+      _addTranslateToBtn()
+  _addTranslateToBtn = ->
+    btnDone = $('#btn-done').val()
+    $('#btn-done-done').html btnDone
 
   { init: _init }

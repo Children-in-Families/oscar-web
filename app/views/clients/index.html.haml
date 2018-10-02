@@ -1,6 +1,6 @@
-%input#btn-done{ value: t('.popover-done'), type: 'hidden' }
-%input#info{ value: t('.popover-info'), type: 'hidden' }
-%input#content{ value: t('.popover-content'), type: 'hidden' }
+%input#btn-done{ value: t('.popover_done'), type: 'hidden' }
+%input#info{ value: t('.popover_info'), type: 'hidden' }
+%input#content{ value: t('.popover_content'), type: 'hidden' }
 .row
   .col-xs-12.col-md-9
     %button.btn.btn-primary.query.client-search{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
@@ -14,13 +14,13 @@
 
     %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
       = t('.save_search_settings')
-    - if params['commit'] == 'Search' || params['client_advanced_search'].present?
+    - if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
       = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
         %i.fa.fa-download
         = t('.export_to_xls')
 
     - if current_user.admin? || current_user.any_manager?
-      - if params['commit'] == 'Search' || params['client_advanced_search'].present?
+      - if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
         %button.btn.btn-primary#client-statistic
           %i.fa.fa-line-chart
           %span= t('.reports')
@@ -54,7 +54,7 @@
           .ibox-content
             #program-statistic{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
 
-- if params['commit'] == 'Search' || params['client_advanced_search'].present?
+- if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
   .row.mini-margin
     .col-xs-12
       .ibox
