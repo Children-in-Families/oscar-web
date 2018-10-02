@@ -353,7 +353,7 @@
           ប្រភេទសេវា:
           - service_type_names = @government_form.government_form_service_types.map(&:service_type_name).compact
 
-          - first_services, second_services = ServiceType.all.in_groups_of(4)
+          - first_services, second_services = ServiceType.order(:created_at).in_groups_of(4)
           %table
             %tr{ style: 'page-break-inside: avoid;' }
               %td{ style: 'width: 132px;' }

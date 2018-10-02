@@ -50,7 +50,7 @@ module AdvancedSearches
           clients = SharedClient.where.not("(shared_clients.#{@field} IS NULL OR shared_clients.#{@field} = '')")
         end
       when 'between'
-        clients = SharedClient.where("shared_clients.#{field} BETWEEN ? AND ?", @values.first, @values.last)
+        clients = SharedClient.where("shared_clients.#{@field} BETWEEN ? AND ?", @values.first, @values.last)
       end
       { id: sql_string, values: clients.pluck(:slug) }
     end

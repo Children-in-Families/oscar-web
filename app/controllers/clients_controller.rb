@@ -161,7 +161,7 @@ class ClientsController < AdminController
   private
 
   def find_client
-    @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate
+    @client = Client.includes(custom_field_properties: [:custom_field], client_enrollments: [:program_stream]).accessible_by(current_ability).friendly.find(params[:id]).decorate
   end
 
   def assign_client_attributes
