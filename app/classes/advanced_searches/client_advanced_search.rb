@@ -13,7 +13,23 @@ module AdvancedSearches
 
       query_array << client_base_sql[:sql_string]
       # client_ids = overdue_assessment_clients if @overdue_assessment == 'true'
-      client_base_values  = client_base_sql[:values].map{ |v| query_array << v }
+      if client_base_sql.first.present?
+        rules = @basic_rules["rules"].reject {|hash_value| hash_value["id"] != "active_program_stream" }
+        operators = rules.map{|value| value["operator"] }.uniq
+        if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.sort == ["not_equal", "equal"].sort
+          result = []
+          client_base_sql[:values].each do |client_ids|
+            if result.size > client_ids.size
+              result = result - client_ids
+            else
+              result = client_ids - result
+            end
+          end
+          client_base_sql[:values].each{ |v| query_array << result }
+        else
+          client_base_sql[:values].each{ |v| query_array << v }
+        end
+      end
 
       @clients.where(query_array)
     end
