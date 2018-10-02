@@ -828,7 +828,7 @@ module ClientsHelper
 
   def country_scope_label_translation
     if I18n.locale.to_s == 'en'
-      country_name = Setting.first.country_name
+      country_name = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.country_name
       case country_name
       when 'cambodia' then '(Khmer)'
       when 'thailand' then '(Thai)'
