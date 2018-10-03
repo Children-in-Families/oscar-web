@@ -60,7 +60,8 @@
 
 describe 'government_forms' do
   let!(:user) { create(:user, :admin) }
-  let!(:client) { create(:client, status: 'accepted') }
+  let!(:client) { create(:client, status: 'Accepted') }
+  let!(:government_form_one) { create(:government_form, name: 'ទម្រង់ទី១: ព័ត៌មានបឋម', source_info: 'Info 1', client: client) }
 
   before do
     login_as(user)
@@ -78,8 +79,42 @@ describe 'government_forms' do
     end
   end
 
+  feature 'Edit' do
+    before do
+      visit edit_client_government_form_path(client, government_form_one, form: 'one')
+    end
+
+    scenario 'Valid', js: true do
+      fill_in 'government_form_source_info', with: 'Edit Government Form Source Info'
+      click_button 'Save'
+      expect(page).to have_content(I18n.t('government_forms.update.successfully_updated'))
+    end
+  end
+
+  feature 'Destroy' do
+    before do
+      visit client_government_forms_path(client, form: 'one')
+    end
+
+    scenario 'Valid', js: true do
+      first("a[data-method='delete'][href='#{client_government_form_path(client, government_form_one, form: "one")}']").click
+      expect(GovernmentForm.all.ids).not_to include(government_form_one.id)
+    end
+  end
+
+  feature 'Copy' do
+    before do
+      visit client_government_forms_path(client, form: 'one')
+    end
+
+    scenario 'Valid', js: true do
+      first("a[href='#{new_client_government_form_path(client, government_form_id: government_form_one.id, form: "one", copy: true)}']").click
+      sleep 1
+      expect(find_field('government_form_source_info').value).to eq 'Info 1'
+    end
+  end
+
   feature 'List' do
-    let!(:government_form_one) { create(:government_form, name: 'ទម្រង់ទី១: ព័ត៌មានបឋម', client: client) }
     before do
       visit client_government_forms_path(client, form: 'one')
     end
