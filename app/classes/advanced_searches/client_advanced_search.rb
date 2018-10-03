@@ -15,8 +15,8 @@ module AdvancedSearches
       # client_ids = overdue_assessment_clients if @overdue_assessment == 'true'
       if client_base_sql.first.present?
         rules = @basic_rules["rules"].reject {|hash_value| hash_value["id"] != "active_program_stream" }
-        operators = rules.map{|value| value["operator"] }.uniq
-        if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.sort == ["not_equal", "equal"].sort
+        operators = rules.map{|value| value["operator"] }
+        if @basic_rules["condition"] == "AND" && rules.count == 2 && operators.sort == ["not_equal", "equal"].sort
           result = []
           client_base_sql[:values].each do |client_ids|
             if result.size > client_ids.size
