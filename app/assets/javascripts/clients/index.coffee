@@ -359,7 +359,7 @@ CIF.ClientsIndex = do ->
             template: "<div class='popover tour'>
                       <div class='arrow'></div>
                       <div class='popover-content'></div>
-                      <div class='popover-navigation'>
+                      <div class='popover-navigation pull-right' style='padding: 5px;' >
                         <button class='btn btn-default' data-role='end' id='btn-done-done'>#{btnDone}</button>
                       </div>
                   </div>"
