@@ -17,10 +17,16 @@ module AdvancedSearches
 
       if client_base_sql[:sql_string].first.present?
         rules = @basic_rules["rules"].reject {|hash_value| hash_value["id"] != "active_program_stream" }
-        operators = rules.map{|value| value["operator"] }
-        if @basic_rules["condition"] == "AND" && rules.count == 2 && operators.sort == ["not_equal", "equal"].sort
-          client_ids = @clients.joins(:client_enrollments).where(query_array).group(:id).having('count(client_enrollments) = 1').ids
-          return @clients.where(id: client_ids)
+        operators = rules.map{|value| value["operator"] }.uniq
+        if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.sort == ["not_equal", "equal"].sort
+          # client_ids = @clients.joins(:client_enrollments).where(query_array).group(:id).having('count(client_enrollments) = 1').ids
+
+          excluded_client_ids = rules.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
+          clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).where(query_array).reject do |client|
+            client_enrollment_ids = client.client_enrollments.map(&:program_stream_id)
+            client_enrollment_ids.any? { |e| excluded_client_ids.compact.include?(e.to_s) }
+          end
+          return @clients.where(id: clients.map(&:id))
         end
       end
 
