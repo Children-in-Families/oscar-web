@@ -204,9 +204,12 @@ body[id='clients-index'] {
     display: inline-block;
   }
 
-  #step-0{
-    margin-top: 75px;
-    margin-left: -430px;
+  .tour-tour{
+    left: 0px !important;
+    // top: 0px !important;
+    width: 227px;
+    margin-left: 175px !important;
+    // margin-top: 430px !important;
   }
 
 }
