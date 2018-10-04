@@ -24,14 +24,14 @@ describe 'AdvancedSearch' do
         page.find('#load-saved-search').click
         expect(page).to have_content(advanced_search_1.name)
         expect(page).to have_content(advanced_search_1.description)
-        expect(page).to have_content(advanced_search_1.created_at.strftime('%d %B, %Y'))
+        expect(page).to have_content(advanced_search_1.created_at.strftime('%d %B %Y'))
         expect(page).to have_link(nil, edit_advanced_search_save_query_path(advanced_search_1))
         expect(page).to have_css("a[href='#{advanced_search_save_query_path(advanced_search_1)}'][data-method='delete']")
 
         expect(page).not_to have_content(advanced_search_6.name)
         expect(page).not_to have_content(advanced_search_6.description)
         expect(page).not_to have_content(advanced_search_6.owner)
-        expect(page).not_to have_content(advanced_search_6.created_at.strftime('%d %B, %Y'))
+        expect(page).not_to have_content(advanced_search_6.created_at.strftime('%d %B %Y'))
       end
 
       scenario 'saved search of other people within org' do
@@ -40,7 +40,7 @@ describe 'AdvancedSearch' do
         expect(page).to have_content(advanced_search_6.name)
         expect(page).to have_content(advanced_search_6.description)
         expect(page).to have_content(advanced_search_6.owner)
-        expect(page).to have_content(advanced_search_6.created_at.strftime('%d %B, %Y'))
+        expect(page).to have_content(advanced_search_6.created_at.strftime('%d %B %Y'))
         expect(page).not_to have_css("a[href='#{edit_advanced_search_save_query_path(advanced_search_6)}']")
         expect(page).not_to have_css("a[href='#{advanced_search_save_query_path(advanced_search_6)}'][data-method='delete']")
       end

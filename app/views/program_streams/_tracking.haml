@@ -1,6 +1,6 @@
 %h4= t('.tracking_form')
 %section
-  #trackings
+  #trackings{ data: { complete_tracking: t('.complete_tracking') } }
     = f.simple_fields_for :trackings, @tracking do |ff|
       = render 'tracking_fields', f: ff
     .links

@@ -44,7 +44,7 @@ class UserNotification
     client_wrong_program_rules = []
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
-      client_ids = program_stream.client_enrollments.active.pluck(:client_id)
+      client_ids = program_stream.client_enrollments.active.pluck(:client_id).uniq
       clients = Client.active_accepted_status.where(id: client_ids)
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
 
@@ -63,7 +63,7 @@ class UserNotification
   end
 
   def due_today_tasks_count
-    @user.tasks.today_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+    @user.tasks.today_incomplete.exclude_exited_ngo_clients.size
   end
 
   def any_due_today_tasks?
@@ -270,7 +270,8 @@ class UserNotification
   private
 
   def program_streams_by_user
-    ProgramStream.complete.includes(:client_enrollments).where.not(client_enrollments: { id: nil, status: 'Exited' }, program_streams: { rules: "{}"}).where(client_enrollments: { client_id: @clients.ids })
+    program_ids = ClientEnrollment.where(client_id: @clients.ids).active.pluck(:program_stream_id).uniq
+    ProgramStream.where(id: program_ids).where.not(rules: '{}')
   end
 
   def enable_assessment_setting?

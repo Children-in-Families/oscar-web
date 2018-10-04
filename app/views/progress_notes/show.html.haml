@@ -2,7 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @progress_note.date.strftime('%d %B, %Y')
+        %h5= date_format(@progress_note.date)
         .ibox-tools
           %a.collapse-link
             .btn.btn-outline.btn-primary

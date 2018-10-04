@@ -10,8 +10,6 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       case @field
-      when 'form_title'
-        values = form_title_field_query
       when 'user_id'
         values = user_id_field_query
       when 'agency_name'
@@ -445,21 +443,6 @@ module AdvancedSearches
       when 'is_not_empty'
         @clients.where(id: clients.ids).ids
       end
-    end
-
-    def form_title_field_query
-      clients = @clients.joins(:custom_fields)
-      case @operator
-      when 'equal'
-        clients = clients.where('custom_fields.id = ?', @value)
-      when 'not_equal'
-        clients = clients.where.not('custom_fields.id = ?', @value)
-      when 'is_empty'
-        clients = @clients.where.not(id: clients.ids)
-      when 'is_not_empty'
-        clients = @clients.where(id: clients.ids)
-      end
-      clients.uniq.ids
     end
 
     def agency_name_field_query
