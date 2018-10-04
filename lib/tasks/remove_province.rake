@@ -40,7 +40,7 @@ namespace :remove_province do
           government_form.save(validate: false)
         end
 
-        province.destroy
+        province.delete
       end
     end
 
