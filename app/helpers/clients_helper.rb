@@ -672,7 +672,12 @@ module ClientsHelper
             count += case_note_query(client.send(klass.to_sym), class_name).count
           elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
             class_name = 'active_program_stream'
-            count += program_stream_name(client.send(klass.to_sym).active, class_name).count
+            program_stream_name_active = program_stream_name(client.send(klass.to_sym).active, class_name)
+            if program_stream_name_active.present?
+              count += program_stream_name(client.send(klass.to_sym).active, class_name).count
+            else
+              count += client.send(klass.to_sym).active.count
+            end
           elsif class_name[/^(enrollmentdate)/i].present?
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
