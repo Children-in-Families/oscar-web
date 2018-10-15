@@ -40,15 +40,16 @@ module TmwImporter
       password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
     end
 
-    agency_info = []
     def clients
+      agency_info = []
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
 
-      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'referral_phone', 'received_by_id', 'initial_referral_date', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'house_number', 'street_number', 'village', 'school_name', 'school_grade', 'main_school_contact', 'birth_province_id', 'country_origin', 'has_been_in_government_care']
+      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'referral_phone', 'received_by_id', 'initial_referral_date', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune_id', 'house_number', 'street_number', 'village_id', 'school_name', 'school_grade', 'main_school_contact', 'country_origin', 'has_been_in_government_care']
 
       (6..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
+        data[0]    = data[0].squish
         data[1]    = check_nil_cell(data[1])
         data[2]    = check_nil_cell(data[2])
         data[3]    = check_nil_cell(data[3])
@@ -60,12 +61,12 @@ module TmwImporter
         data[8]    = check_nil_cell(data[8])
 
         # referral_receive_by
-        data[9]    =
+        data[9]    = find_or_create_user(data[9])
 
         data[10]   = format_date_of_birth(data[10])
 
         # first_follow_up_by
-        data[11]
+        data[11]   = find_or_create_user(data[11])
 
         data[12]   = format_date_of_birth(data[12])
         # case_workers
@@ -73,30 +74,29 @@ module TmwImporter
         data[14]   = check_nil_cell(data[14])
         data[15]   = check_nil_cell(data[15])
 
-        # current_province
-        data[17]
         # district
-        data[18]
+        data[17] = find_district(data[17])
+        # current_province
+        data[16] = find_province(data[17])
         # commune
-        data[19]
+        data[18] = find_commune(data[17], data[18])
 
-        data[20]   = check_nil_cell(data[20])
-        data[21]   = check_nil_cell(data[21])
+        data[19]   = check_nil_cell(data[20])
+        data[20]   = check_nil_cell(data[21])
+        #village
+        data[21]   = find_village(data[18], data[21])
+
         data[22]   = check_nil_cell(data[22])
-        data[23]   = check_nil_cell(data[23])
         # school_grade
+        data[23]   = check_nil_cell(data[23])
         data[24]   = check_nil_cell(data[24])
-        data[25]   = check_nil_cell(data[25])
-
-        # client_birth_province
-        data[26]
 
         # agencies
-        if data[27].present?
-          agency_info << "#{data[0] - data[27]}"
+        if data[25].present?
+          agency_info << "#{data[0]} - #{data[25]}"
         end
-        data[27]   = 'cambodia'
-        data[28]   = find_boolean_value(data[28])
+        data[25]   = 'cambodia'
+        data[26]   = find_boolean_value(data[26])
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
         begin
@@ -115,12 +115,44 @@ module TmwImporter
         client.save(validate: false)
       end
 
-      add_agency_to_client
+      add_agency_to_client(agency_info)
 
       puts 'Create clients done!!!!!!'
     end
 
-    def add_agency_to_client
+    def find_village(commune_id, village_name)
+      return '' if village_name.nil? || commune_id.nil? || commune_id == ''
+      Commune.find(commune_id).villages.find_by(name_en: village_name.squish).try(:id)
+    end
+
+    def find_commune(district_id, commune_name)
+      return '' if commune_name.nil? || district_id.nil? || district_id == ''
+      District.find(district_id).communes.find_by('name_en ilike ?', "%#{commune_name.squish}%").try(:id)
+    end
+
+    def find_province(district_id)
+      return '' if district_id == '' || district_id.nil?
+      District.find(district_id).province.id
+    end
+
+    def find_district(name)
+      return '' if name.nil? || name == ''
+      District.find_by('name ilike ?', "%#{name.squish}%").try(:id) || ''
+    end
+
+    def find_or_create_user(user_data)
+      return '' if user_data.nil?
+      user_name = user_data.split(' ')
+      user = User.find_or_create_by!(first_name: user_name.first) do |user|
+        user.first_name = user_name.first.squish
+        user.email      = FFaker::Internet.email
+        user.password   = password
+        user.roles      = 'case worker'
+      end
+      user.try(:id)
+    end
+
+    def add_agency_to_client(agency_info)
       agency_info.each do |data|
         given_name  = data.split('-').first.squish
         agency_name = data.split('-').last.squish
@@ -133,9 +165,9 @@ module TmwImporter
     def find_caseworker(caseworker)
       return '' if caseworker.nil?
       ids = []
-      caseworkers = caseworker.split('&').map{ |c| c.squish }
+      caseworkers = caseworker.gsub('Team', '').split('&').map{ |c| c.squish }
       caseworkers.each do |case_worker|
-        ids << User.where('first_name ilike ?', "%#{case_worker}%")
+        ids << User.find_by('first_name ilike ?', "%#{case_worker}%").try(:id)
       end
       ids
     end
@@ -146,8 +178,8 @@ module TmwImporter
     end
 
     def find_boolean_value(cell)
-      cell.nil? ? '' : cell.to_s.squish
-      (cell.downcase == 'yes') ? true : false
+      return '' if cell.nil?
+      (cell.squish.downcase == 'yes') ? true : false
     end
 
     def check_gender(gender)
@@ -160,38 +192,11 @@ module TmwImporter
       end
     end
 
-    def find_district(name)
-      districts = District.where("name ilike ?", "%#{name}")
-      district = districts.select{|d| d.name.gsub(/.*\//, '').squish == name }
-      begin
-        district.first.id
-      rescue NoMethodError => e
-        if Rails.env == 'development'
-          binding.pry
-        else
-          Rails.logger.debug e
-        end
-      end
-    end
-
-    def find_province(name)
-      provinces = Province.where("name ilike ?", "%#{name}")
-      province  = provinces.select{|d| d.name.gsub(/.*\//, '').squish == name }
-      begin
-        province.first.id
-      rescue NoMethodError => e
-        if Rails.env == 'development'
-          binding.pry
-        else
-          Rails.logger.debug e
-        end
-      end
-    end
-
     def format_date_of_birth(value)
+      return '' if value.nil?
       first_regex  = /\A\d{2}\/\d{2}\/\d{2}\z/
       second_regex = /\A\d{4}\z/
-
+      value = value.to_s
       if value =~ first_regex
         value  = value.split('/')
         year = "20#{value.last}"
