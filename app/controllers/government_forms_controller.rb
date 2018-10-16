@@ -167,7 +167,7 @@ class GovernmentFormsController < AdminController
   def find_form_name
     @form_name = case params[:form]
             when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
-            when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ'
+            when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
             when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
             when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
             when 'five'   then 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'

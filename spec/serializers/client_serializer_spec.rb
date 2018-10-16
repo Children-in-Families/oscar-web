@@ -112,7 +112,7 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute time_in_care' do
     expect(serializer).to have_json_path('client/time_in_care')
-    expect(serializer).to have_json_type(NilClass).at_path('client/time_in_care')
+    expect(serializer).to have_json_type(Hash).at_path('client/time_in_care')
   end
 
   it 'should be have attribute initial_referral_date' do

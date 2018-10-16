@@ -14,7 +14,7 @@ module GovernmentFormsHelper
   def form_partial(form_name)
     case form_name
     when 'ទម្រង់ទី១: ព័ត៌មានបឋម' then 'one'
-    when 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ' then 'two'
+    when 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ' then 'two'
     when 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ' then 'three'
     when 'ទម្រង់ទី៤: ការទុកដាក់កុមារ' then 'four'
     when 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ' then 'five'
