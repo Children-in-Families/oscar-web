@@ -69,29 +69,31 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       taskName  = undefined
       taskDate  = undefined
       domainId  = undefined
+      relation  = undefined
 
       actionUrl = $('#case_note_task').attr('action').split('?')[0]
 
       taskName = $('#task_name').val()
       domainId = $('#task_domain_id').val()
+      relation = $('#task_relation').val()
       taskDate = $('#task_completion_date').val()
 
       if taskName.length > 0 && taskDate.length > 0
-        _addElementToDom(taskName, taskDate, domainId, actionUrl)
+        _addElementToDom(taskName, taskDate, domainId, relation, actionUrl)
         $('.add-task-btn').removeAttr('disabled')
         $('#tasksFromModal').modal('hide')
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')
 
-  _addElementToDom = (taskName, taskDate, domainId, actionUrl) ->
+  _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl) ->
     appendElement  = $(".domain-#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
     deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{domainId}"
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() != 'case worker'
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}'></li>"
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}, #{relation}'></li>"
 
     if $(".task-domain-#{domainId}").hasClass('hidden')
       $(".task-domain-#{domainId}").removeClass('hidden')
