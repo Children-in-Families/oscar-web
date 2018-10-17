@@ -19,18 +19,17 @@
                 %table.table.table-bordered
                   - @tasks.incomplete.overdue.each do |task|
                     %tr
-                      %td= "#{t('.domain')}: #{task.domain.name}"
+                      %td.text-middle= "#{t('.domain')}: #{task.domain.name}"
                       %td.task-name= task.name
-                      %td= date_format(task.completion_date)
-                      - if can? :manage, Task
-                        %td.text-center.margin-icon
+                      %td.text-center.text-middle= date_format(task.completion_date)
+                      - if current_user.admin?
+                        %td.text-center.margin-icon.text-middle
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          - if can? :destroy, Task
-                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                              .btn.btn-outline.btn-danger.btn-xs
-                                %i.fa.fa-trash
+                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                            .btn.btn-outline.btn-danger.btn-xs
+                              %i.fa.fa-trash
 
         .panel.panel-info
           .panel-heading
@@ -43,18 +42,17 @@
                 %table.table.table-bordered
                   - @tasks.incomplete.today.each do |task|
                     %tr
-                      %td= "#{t('.domain')}: #{task.domain.name}"
+                      %td.text-middle= "#{t('.domain')}: #{task.domain.name}"
                       %td= task.name
-                      %td= date_format(task.completion_date)
-                      - if can? :manage, Task
-                        %td.text-center.margin-icon
+                      %td.text-center.text-middle= date_format(task.completion_date)
+                      - if current_user.admin?
+                        %td.text-center.margin-icon.text-middle
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          - if can? :destroy, Task
-                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                              .btn.btn-outline.btn-danger.btn-xs
-                                %i.fa.fa-trash
+                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                            .btn.btn-outline.btn-danger.btn-xs
+                              %i.fa.fa-trash
         .panel.panel-primary
           .panel-heading
             .row
@@ -66,15 +64,14 @@
                 %table.table.table-bordered
                   - @tasks.incomplete.upcoming.each do |task|
                     %tr
-                      %td= "#{ t('.domain') }: #{task.domain.name}"
+                      %td.text-middle= "#{ t('.domain') }: #{task.domain.name}"
                       %td= task.name
-                      %td= date_format(task.completion_date)
-                      - if can? :manage, Task
-                        %td.text-center.margin-icon
+                      %td.text-center.text-middle= date_format(task.completion_date)
+                      - if current_user.admin?
+                        %td.text-center.margin-icon.text-middle
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          - if can? :destroy, Task
-                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                              .btn.btn-outline.btn-danger.btn-xs
-                                %i.fa.fa-trash
+                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                            .btn.btn-outline.btn-danger.btn-xs
+                              %i.fa.fa-trash
