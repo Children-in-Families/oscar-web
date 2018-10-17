@@ -421,13 +421,13 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
       case @operator
       when 'equal'
-        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where('client_enrollments.program_stream_id = ?', @value).distinct.ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where.not('client_enrollments.program_stream_id = ?', @value).distinct.ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        clients.where(id: clients.ids).ids
       end
     end
 
@@ -435,9 +435,9 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments)
       case @operator
       when 'equal'
-        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
+        clients.where.not('client_enrollments.program_stream_id = ?', @value ).distinct.ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
