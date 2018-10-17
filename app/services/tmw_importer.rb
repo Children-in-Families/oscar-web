@@ -41,11 +41,10 @@ module TmwImporter
     end
 
     def clients
-      agency_info = []
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
 
-      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'referral_phone', 'received_by_id', 'initial_referral_date', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune_id', 'house_number', 'street_number', 'village_id', 'school_name', 'school_grade', 'main_school_contact', 'country_origin', 'has_been_in_government_care']
+      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'referral_phone', 'received_by_id', 'initial_referral_date', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune_id', 'house_number', 'street_number', 'village_id', 'school_name', 'school_grade', 'main_school_contact', 'agency_ids', 'has_been_in_government_care', 'country_origin']
 
       (6..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
@@ -92,11 +91,9 @@ module TmwImporter
         data[24]   = check_nil_cell(data[24])
 
         # agencies
-        if data[25].present?
-          agency_info << "#{data[0]} - #{data[25]}"
-        end
-        data[25]   = 'cambodia'
+        data[25]   = find_agency(data[25])
         data[26]   = find_boolean_value(data[26])
+        data[27]   = 'cambodia'
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
         begin
@@ -114,29 +111,32 @@ module TmwImporter
         client = Client.new(client)
         client.save(validate: false)
       end
-
-      add_agency_to_client(agency_info)
-
       puts 'Create clients done!!!!!!'
     end
 
+    def find_agency(name)
+      return '' if name.nil?
+      agency = Agency.find_or_create_by!(name: name.squish)
+      [agency.try(:id)]
+    end
+
     def find_village(commune_id, village_name)
-      return '' if village_name.nil? || commune_id.nil? || commune_id == ''
+      return '' if village_name.nil? || commune_id.blank?
       Commune.find(commune_id).villages.find_by(name_en: village_name.squish).try(:id)
     end
 
     def find_commune(district_id, commune_name)
-      return '' if commune_name.nil? || district_id.nil? || district_id == ''
+      return '' if commune_name.nil? || district_id.blank?
       District.find(district_id).communes.find_by('name_en ilike ?', "%#{commune_name.squish}%").try(:id)
     end
 
     def find_province(district_id)
-      return '' if district_id == '' || district_id.nil?
+      return '' if district_id.blank?
       District.find(district_id).province.id
     end
 
     def find_district(name)
-      return '' if name.nil? || name == ''
+      return '' if name.blank?
       District.find_by('name ilike ?', "%#{name.squish}%").try(:id) || ''
     end
 
@@ -147,19 +147,8 @@ module TmwImporter
         user.first_name = user_name.first.squish
         user.email      = FFaker::Internet.email
         user.password   = password
-        user.roles      = 'case worker'
       end
       user.try(:id)
-    end
-
-    def add_agency_to_client(agency_info)
-      agency_info.each do |data|
-        given_name  = data.split('-').first.squish
-        agency_name = data.split('-').last.squish
-        client      = Client.find_by(given_name: given_name)
-        agency_id   = Agency.find_or_create_by!(name: agency_name).id
-        AgencyClient.create(client_id: client.id, agency_id: agency_id)
-      end
     end
 
     def find_caseworker(caseworker)
