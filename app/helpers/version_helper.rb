@@ -45,8 +45,8 @@ module VersionHelper
       val = strip_tags(val)
     elsif version_values[:score_colors].include?(k)
       val = domain_score_color(val)
-    elsif version_values[:currencies].include?(k)
-      val = number_to_currency(val)
+    # elsif version_values[:currencies].include?(k)
+    #   val = number_to_currency(val)
 
     elsif version_values[:progress_note_types].include?(k) && val.present?
       obj = ProgressNoteType.find_by(id: val)
@@ -176,7 +176,7 @@ module VersionHelper
       score_colors:         ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color'],
       progress_note_types:  ['progress_note_type_id'],
       materials:            ['material_id'],
-      currencies:           ['household_income'],
+      # currencies:           ['household_income'],
       client_qc:            ['quantitative_case_id'],
       organizations:        ['organization_id'],
       agency:               ['agency_id'],
