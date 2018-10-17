@@ -1319,6 +1319,8 @@ km:
       load: កំពុងផ្ទុក...
       load_save_search: ទាញយកលក្ខខ័ណ្ឌស្វែងរក
       most_recent: ថ្មីបំផុត
+      popover_content: សូមចុចប៊ូតុងស្វែងរកដើម្បីមើលអតិថិជន
+      popover_done: បិទ
       read_less: អានតិច
       read_more: អានបន្ថែម
       report_builder: បង្កើតរបាយការណ៍
