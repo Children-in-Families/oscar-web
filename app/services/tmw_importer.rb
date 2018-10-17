@@ -144,7 +144,7 @@ module TmwImporter
       return '' if user_data.nil?
       user_name = user_data.split(' ')
       user = User.find_or_create_by!(first_name: user_name.first) do |user|
-        user.first_name = user_name.first.squish
+        user.last_name  = user_name.last.squish if user_name.last.present?
         user.email      = FFaker::Internet.email
         user.password   = password
       end
