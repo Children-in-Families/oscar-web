@@ -30,6 +30,7 @@ CIF.ClientsIndex = do ->
     _removeOverdueFormsSearch()
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
+    _addTourTip()
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
@@ -342,5 +343,30 @@ CIF.ClientsIndex = do ->
         total += 1
     total = if total != 0 then total else ''
 
+  _addTourTip = ->
+    content = $('#content').val()
+    btnDone = $('#btn-done').val()
+    if !$('#most-recent').length
+      tour = new Tour(
+        debug: true
+        storage: false
+        steps: [
+          {
+            element: '#client-search-form'
+            content: content
+            placement: 'bottom'
+            orphan: true
+            template: "<div class='popover tour'>
+                      <div class='arrow'></div>
+                      <div class='popover-content'></div>
+                      <div class='popover-navigation pull-right' style='padding: 5px;' >
+                        <button class='btn btn-default' data-role='end' id='btn-done-done'>#{btnDone}</button>
+                      </div>
+                  </div>"
+
+          }
+      ])
+      tour.init()
+      tour.start()
 
   { init: _init }

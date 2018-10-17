@@ -1325,6 +1325,8 @@ my:
       load: ဆက္လက္ လုပ္ေဆာင္ေနသည္
       load_save_search: သိမ္းဆည္းထားသည့္ ရွာေဖြမႈမ်ားကို ျပပါ။
       most_recent: လတ်တလော
+      popover_content: ဤနေရာတွင်ကလစ်နှိပ်ပါ ကျေးဇူးပြု.
+      popover_done: ပိတ်
       read_less: ဒီထက်ကိုဖတ်ရှု
       read_more: ဆက်ဖတ်ရန်
       report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ

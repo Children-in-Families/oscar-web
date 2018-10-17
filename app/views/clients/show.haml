@@ -180,7 +180,6 @@
                 %li
                   = link_to client_government_forms_path(@client, form: 'six') do
                     %span.text-success= t('.government_form_six')
-
 .row.mini-margin
   .col-xs-12
     .ibox
@@ -204,13 +203,13 @@
             %table.table.table-bordered
               %tr
                 %td.spacing-first-col
-                  = t('.local_given_name')
+                  = "#{t('.local_given_name')} #{country_scope_label_translation}"
                 %td
                   %strong
                     = @client.local_given_name
               %tr
                 %td.spacing-first-col
-                  = t('.local_family_name')
+                  = "#{t('.local_family_name')} #{country_scope_label_translation}"
                 %td
                   %strong
                     = @client.local_family_name

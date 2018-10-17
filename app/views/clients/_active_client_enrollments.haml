@@ -4,9 +4,14 @@
     %ul{'data-program_stream': '' }
       %li= recent_record
 - else
-  - active_programs = program_stream_name(active_programs, 'active_program_stream')
-  - all_programs = active_programs.map{ |c| c.program_stream.name }.uniq
+  - client_enrollments = program_stream_name(active_programs, 'active_program_stream')
+  - all_programs = client_enrollments.map{ |c| c.program_stream.name }.uniq
   - if all_programs.any?
     %ul{'data-program_streams': '' }
       - all_programs.each do |program_name|
         %li= program_name
+  - else
+    %ul{'data-program_streams': '' }
+      - active_programs.each do |enrollment|
+        %li= enrollment.program_stream_name
+

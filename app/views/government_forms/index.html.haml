@@ -20,6 +20,9 @@
                 %td= whodunnit('GovernmentForm', form.id)
                 %td= date_format(form.created_at)
                 %td.action.text-center
+                  - if policy(form).duplicate?
+                    = link_to new_client_government_form_path(@client, government_form_id: form.id, form: params[:form], copy: true), class: 'btn btn-outline btn-success btn-xs margin-left' do
+                      = fa_icon('copy')
                   - if policy(form).show?
                     = link_to client_government_form_path(@client, form, form: params[:form], format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do
                       = fa_icon('eye')

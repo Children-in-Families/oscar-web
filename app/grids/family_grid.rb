@@ -117,11 +117,7 @@ class FamilyGrid < BaseGrid
 
   column(:caregiver_information, order: 'LOWER(caregiver_information)', header: -> { I18n.t('datagrid.columns.families.caregiver_information') })
 
-  column(:household_income, header: -> { I18n.t('datagrid.columns.families.household_income') }) do |object|
-    format(object.household_income) do |income|
-      number_to_currency income
-    end
-  end
+  column(:household_income, header: -> { I18n.t('datagrid.columns.families.household_income') })
 
   column(:dependable_income, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |object|
     object.dependable_income ? 'Yes' : 'No'
