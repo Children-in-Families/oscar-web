@@ -233,9 +233,9 @@ module VersionHelper
     {
       live_with:              'Primary Carer Name',
       given_name:             'Given Name (English)',
-      local_given_name:       'Given Name (Khmer)',
+      local_given_name:       "Given Name #{country_scope_label_translation}",
       family_name:            'Family Name (English)',
-      local_family_name:      'Family Name (Khmer)',
+      local_family_name:      "Family Name #{country_scope_label_translation}",
       code:                   'Custom ID Number 1',
       kid_id:                 'Custom ID Number 2',
       referral_phone:         'Referee Phone Number',

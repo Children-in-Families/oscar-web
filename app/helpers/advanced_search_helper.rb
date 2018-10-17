@@ -1,4 +1,6 @@
 module AdvancedSearchHelper
+  include ClientsHelper
+
   def custom_form_values
     has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present?
     has_custom_form_selected ? eval(advanced_search_params[:custom_form_selected]) : []
@@ -37,8 +39,8 @@ module AdvancedSearchHelper
     translations = {
       given_name: I18n.t('advanced_search.fields.given_name'),
       family_name: I18n.t('advanced_search.fields.family_name'),
-      local_given_name: I18n.t('advanced_search.fields.local_given_name'),
-      local_family_name: I18n.t('advanced_search.fields.local_family_name'),
+      local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
+      local_family_name: "#{I18n.t('advanced_search.fields.local_family_name')} #{country_scope_label_translation}",
       code: I18n.t('advanced_search.fields.code'),
       school_grade: I18n.t('advanced_search.fields.school_grade'),
       family_id: I18n.t('advanced_search.fields.family_id'),
