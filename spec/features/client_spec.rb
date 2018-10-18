@@ -10,6 +10,7 @@ describe 'Client' do
     before do
       login_as(user)
       visit clients_path
+      first('.datagrid-actions').click_button 'Search'
     end
 
     scenario 'new link' do
@@ -35,6 +36,7 @@ describe 'Client' do
     scenario 'admin' do
       login_as(admin)
       visit clients_path
+      first('.datagrid-actions').click_button 'Search'
       expect(page).to have_content(client.given_name)
       expect(page).to have_content(other_client.given_name)
     end
@@ -44,6 +46,10 @@ describe 'Client' do
     before do
       login_as(admin)
       visit clients_path
+      find('.client-search').click
+      sleep 1
+      first('.datagrid-actions').click_button 'Search'
+      sleep 1
     end
     scenario 'Domain Score Statistic and Active Programs Statistic', js: true do
       page.find("#client-statistic").click
@@ -374,6 +380,7 @@ describe 'Client' do
     before do
       login_as(admin)
       visit clients_path
+      first('.datagrid-actions').click_button 'Search'
     end
     scenario 'successful' do
       first("a[data-method='delete'][href='#{client_path(client.reload)}']").click

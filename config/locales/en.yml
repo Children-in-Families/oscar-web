@@ -367,8 +367,8 @@ en:
       initial_referral_date: Initial Referral Date
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
-      local_family_name: Family Name (Khmer)
-      local_given_name: Given Name (Khmer)
+      local_family_name: Family Name
+      local_given_name: Given Name
       main_school_contact: Main School Contact
       name: Name
       name_of_referee: Name of Referee
@@ -1232,8 +1232,8 @@ en:
       is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
-      local_family_name: Family Name (Khmer)
-      local_given_name: Given Name (khmer)
+      local_family_name: Family Name
+      local_given_name: Given Name
       name: Name
       next: Next
       previous: Previous
@@ -1287,8 +1287,8 @@ en:
       given_name: Given Name (English)
       initial_referral_date: Initial Referral Date
       living_detail: Living Details
-      local_family_name: Family Name (Khmer)
-      local_given_name: Given Name (Khmer)
+      local_family_name: Family Name
+      local_given_name: Given Name
       name_of_referee: Name of Referee
       other_detail: Other Details
       province:
@@ -1318,6 +1318,8 @@ en:
       load: Loading more...
       load_save_search: Load Saved Search
       most_recent: Most Recent
+      popover_content: Please click Search button to see clients
+      popover_done: Close
       read_less: read less
       read_more: read more
       report_builder: Report Builder
@@ -1463,8 +1465,8 @@ en:
       is_the_client_rated_for_id_poor: Is the client rated for ID poor
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
-      local_family_name: Family Name (Khmer)
-      local_given_name: Given Name (khmer)
+      local_family_name: Family Name
+      local_given_name: Given Name
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
@@ -1760,8 +1762,8 @@ en:
         kid_id: Custom ID Number2
         lesotho: Lesotho
         live_with: Primary Carer Name
-        local_family_name: Family Name (Khmer)
-        local_given_name: Given Name (khmer)
+        local_family_name: Family Name
+        local_given_name: Given Name
         main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
@@ -2045,8 +2047,8 @@ en:
     initial_referral_date: Initial Referral Date
     kid_id: Custom ID Number2
     live_with: Primary Carer Name
-    local_family_name: Family Name (Khmer)
-    local_given_name: Given Name (khmer)
+    local_family_name: Family Name
+    local_given_name: Given Name
     name: Name
     province: Birth Province
     received_by: Referral Received By

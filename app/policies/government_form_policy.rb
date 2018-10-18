@@ -8,4 +8,5 @@ class GovernmentFormPolicy < ApplicationPolicy
   alias edit? create?
   alias update? create?
   alias destroy? create?
+  alias duplicate? create?
 end

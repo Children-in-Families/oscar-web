@@ -31,7 +31,7 @@
             = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
-        .col-xs-12.col-sm-6.col-md-4= f.input :household_income, label: "#{t('.household_income')}($)"
+        .col-xs-12.col-sm-6.col-md-4= f.input :household_income, label: t('.household_income')
         .col-xs-12.col-sm-6.col-md-4
           .i-checks.dependable-income
             %label= t('.dependable_income')

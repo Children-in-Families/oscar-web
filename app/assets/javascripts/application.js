@@ -41,6 +41,7 @@
 //= require wrapbootstrap/inspinia.js
 //= require slimscroll/jquery.slimscroll.min.js
 //= require toastr/toastr.min.js
+//= require bootstrap-tour/bootstrap-tour.js
 
 //LOAD MODULE
 //= require namespace

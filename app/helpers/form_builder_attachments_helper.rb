@@ -22,7 +22,11 @@ module FormBuilderAttachmentsHelper
   def disabled?
     return if current_user.admin? && authorize_client?
     return 'disabled' if current_user.strategic_overviewer?
-    permission = current_user.custom_field_permissions.find_by(custom_field_id: params[:custom_field_id]).try(:editable)
+    if controller_name == 'custom_field_properties'
+      permission = current_user.custom_field_permissions.find_by(custom_field_id: @custom_field.id).try(:editable)
+    else
+      permission = current_user.program_stream_permissions.find_by(program_stream_id: @program_stream.id).try(:editable)
+    end
     'disabled' unless permission
   end
 

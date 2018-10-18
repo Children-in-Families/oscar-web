@@ -204,20 +204,11 @@ module AdvancedSearches
         end
 
       when 'between'
-        if field == 'created_at'
-          @sql_string << "date(clients.#{field}) BETWEEN ? AND ?"
-          @values << value.first
-          @values << value.last
-        else
-          if field == 'school_grade'
-            @sql_string << "clients.#{field} in (?)"
-            @values << [value.first, value.last]
-          else
-            @sql_string << "clients.#{field} BETWEEN ? AND ?"
-            @values << value.first
-            @values << value.last
-          end
-        end
+        created_at_query = "date(clients.#{field}) BETWEEN ? AND ?"
+        school_grade_query = "clients.#{field} in (?)"
+        default_query = "clients.#{field} BETWEEN ? AND ?"
+        @sql_string = field == 'created_at' ? [*@sql_string, created_at_query] : field == 'school_grade' ? [*@sql_string, school_grade_query] : [*@sql_string, default_query]
+        @values = field == 'school_grade' ? [*@values, [*value.first..value.last]] : [*@values, *value]
       end
     end
 

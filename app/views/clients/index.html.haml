@@ -1,3 +1,6 @@
+%input#btn-done{ value: t('.popover_done'), type: 'hidden' }
+%input#info{ value: t('.popover_info'), type: 'hidden' }
+%input#content{ value: t('.popover_content'), type: 'hidden' }
 .row
   .col-xs-12.col-md-9
     %button.btn.btn-primary.query.client-search{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
@@ -11,15 +14,16 @@
 
     %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
       = t('.save_search_settings')
-
-    = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
-      %i.fa.fa-download
-      = t('.export_to_xls')
+    - if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
+      = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
+        %i.fa.fa-download
+        = t('.export_to_xls')
 
     - if current_user.admin? || current_user.any_manager?
-      %button.btn.btn-primary#client-statistic
-        %i.fa.fa-line-chart
-        %span= t('.reports')
+      - if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
+        %button.btn.btn-primary#client-statistic
+          %i.fa.fa-line-chart
+          %span= t('.reports')
 
   .col-xs-12.col-md-3
     .pull-right.client-option
@@ -49,27 +53,29 @@
         .col-xs-12.col-md-6
           .ibox-content
             #program-statistic{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
-.row.mini-margin
-  .col-xs-12
-    .ibox
-      .ibox-title
-        %h5= @results
-        %span.label.label-info= t('.results')
-        .ibox-tools
-          - if params[:data] == 'recent'
-            = link_to t('.show_all'), url_for(params.merge({data: 'all'})), class: 'btn btn-primary', id: 'show-all'
-          - else
-            = link_to t('.most_recent'), url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', id: 'most-recent'
 
-      .ibox-content
-        .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
-          %table.table.table-bordered.table-striped.table-hover.clients
-            = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
-            %thead
-              = datagrid_header(@client_grid)
-            %tbody.page
-              = render 'client_rows'
+- if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
+  .row.mini-margin
+    .col-xs-12
+      .ibox
+        .ibox-title
+          %h5= @results
+          %span.label.label-info= t('.results')
+          .ibox-tools
+            - if params[:data] == 'recent'
+              = link_to t('.show_all'), url_for(params.merge({data: 'all'})), class: 'btn btn-primary', id: 'show-all'
+            - else
+              = link_to t('.most_recent'), url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', id: 'most-recent'
 
-          %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
-      .ibox-footer.text-center
-        = paginate @client_grid.assets
+        .ibox-content
+          .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
+            %table.table.table-bordered.table-striped.table-hover.clients
+              = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
+              %thead
+                = datagrid_header(@client_grid)
+              %tbody.page
+                = render 'client_rows'
+
+            %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
+        .ibox-footer.text-center
+          = paginate @client_grid.assets
