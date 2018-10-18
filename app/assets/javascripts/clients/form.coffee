@@ -4,7 +4,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _getTranslation()
     _initWizardForm()
     _initICheck()
-    _ajaxCheckExistClient()
     _ajaxChangeDistrict()
     _ajaxChangeSubDistrict()
     _ajaxChangeTownship()
@@ -91,55 +90,49 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
-    $("a[href='#finish']").click ->
-      data = {
-        given_name: $('#client_given_name').val()
-        family_name: $('#client_family_name').val()
-        local_given_name: $('#client_local_given_name').val()
-        local_family_name: $('#client_local_family_name').val()
-        birth_province_id: $('#client_birth_province_id').val()
-        current_province_id: $('#client_province_id').val()
-        date_of_birth: $('#client_date_of_birth').val()
-        village: $('#client_village').val()
-        commune: $('#client_commune').val()
-      }
-      if data.date_of_birth != '' or data.given_name != '' or data.birth_province_id != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province_id != ''
-        $.ajax({
-          type: 'GET'
-          url: '/api/clients/compare'
-          data: data
-          dataType: "JSON"
-        }).success((json)->
-          clientId  = $('#client_id').val()
-          clientIds = []
-          clients   = json.clients
-          for client in clients
-            clientIds.push(String(client.id))
+    data = {
+      given_name: $('#client_given_name').val()
+      family_name: $('#client_family_name').val()
+      local_given_name: $('#client_local_given_name').val()
+      local_family_name: $('#client_local_family_name').val()
+      birth_province_id: $('#client_birth_province_id').val()
+      current_province_id: $('#client_province_id').val()
+      date_of_birth: $('#client_date_of_birth').val()
+      village_id: $('#client_village_id').val()
+      commune_id: $('#client_commune_id').val()
+    }
 
-          if clients.length > 0 and clientId not in clientIds
-            modalTitle      = $('#hidden_title').val()
-            modalTextFirst  = $('#hidden_body_first').val()
-            modalTextSecond = $('#hidden_body_second').val()
-            modalTextThird  = $('#hidden_body_third').val()
-            clientName      = $('#client_given_name').val()
-            organizations   = []
-            organizations.push(client.organization for client in clients)
-            $.unique(organizations[0])
-            modalText = []
-            for organization in organizations[0]
-              modalText.push("<p>#{modalTextFirst} #{organization}#{modalTextSecond} #{organization} #{modalTextThird}<p/>")
+    if data.date_of_birth != '' or data.given_name != '' or data.birth_province_id != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village_id != '' or data.commune_id != '' or data.current_province_id != ''
+      $.ajax({
+        type: 'GET'
+        url: '/api/clients/compare'
+        data: data
+        dataType: "JSON"
+      }).success((json)->
+        clientId  = $('#client_slug').val()
+        organizations   = json.organizations
+        if clientId == ''
+          modalTitle      = $('#hidden_title').val()
+          modalTextFirst  = $('#hidden_body_first').val()
+          modalTextSecond = $('#hidden_body_second').val()
+          modalTextThird  = $('#hidden_body_third').val()
+          clientName      = $('#client_given_name').val()
 
-            $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
-            $('#confirm-client-modal .modal-body').html(modalText)
+          modalText = []
+          for organization in organizations
+            modalText.push("<p>#{modalTextFirst} #{organization}#{modalTextSecond} #{organization} #{modalTextThird}<p/>")
 
-            $('#confirm-client-modal').modal('show')
-            $('#confirm-client-modal #confirm').on 'click', ->
-              $('#client-wizard-form').submit()
-          else
+          $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
+          $('#confirm-client-modal .modal-body').html(modalText)
+
+          $('#confirm-client-modal').modal('show')
+          $('#confirm-client-modal #confirm').on 'click', ->
             $('#client-wizard-form').submit()
-        )
-      else
-        $('#client-wizard-form').submit()
+        else
+          $('#client-wizard-form').submit()
+      )
+    else
+      $('#client-wizard-form').submit()
 
   _clientSelectOption = ->
     $('select').select2
@@ -217,6 +210,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         form.valid()
 
       onFinished: (event, currentIndex) ->
+        form.valid()
         _ajaxCheckExistClient()
 
       labels:

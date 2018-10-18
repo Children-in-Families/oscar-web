@@ -1,5 +1,5 @@
 module Api
-  class CustomFieldsController < AdminController
+  class CustomFieldsController < Api::ApplicationController
     def fetch_custom_fields
       render json: find_custom_field_in_organization
     end
