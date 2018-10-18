@@ -121,11 +121,11 @@ module ClientGridOptions
     return unless @client_columns.visible_columns[:program_streams_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:program_streams, header: I18n.t('datagrid.columns.clients.program_streams')) do |client|
-        client.client_enrollments.last.try(:program_stream).try(:name)
+        client.client_enrollments.active.last.try(:program_stream).try(:name)
       end
     else
       @client_grid.column(:program_streams, header: I18n.t('datagrid.columns.clients.program_streams')) do |client|
-        client.client_enrollments.map{ |c| c.program_stream.name }.uniq.join(' | ')
+        client.client_enrollments.active.map{ |c| c.program_stream.name }.uniq.join(' | ')
       end
     end
   end

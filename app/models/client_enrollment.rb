@@ -20,6 +20,8 @@ class ClientEnrollment < ActiveRecord::Base
   scope :active,                      ->                 { where(status: 'Active') }
   scope :inactive,                    ->                 { where(status: 'Exited') }
 
+  delegate :name, to: :program_stream, prefix: true, allow_nil: true
+
   after_create :set_client_status
   after_save :create_client_enrollment_history
   after_destroy :reset_client_status

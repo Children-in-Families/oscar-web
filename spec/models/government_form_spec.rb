@@ -106,4 +106,12 @@ describe GovernmentForm, 'methods' do
       expect(form_2.case_worker_info).to eq(user_1)
     end
   end
+
+  context '#merge_associations_params' do
+    let!(:client_type){ create(:client_type, name: 'កុមារអានាថាតាមចិញ្ចើមថ្នល់') }
+    let!(:form_one){ create(:government_form, name: 'ទម្រង់ទី១: ព័ត៌មានបឋម', case_worker_id: user_1, client_type_ids: [client_type.id] )}
+    it 'has client_type attributes' do
+      expect(form_one.merge_associations_params[:client_type_ids]).to eq([client_type.id])
+    end
+  end
 end

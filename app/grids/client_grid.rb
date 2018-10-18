@@ -3,6 +3,7 @@ class ClientGrid < BaseGrid
   include ClientsHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+  COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
     Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :enter_ngos, :exit_ngos, :users).order('clients.status, clients.given_name')
@@ -420,7 +421,12 @@ class ClientGrid < BaseGrid
     family_name
   end
 
-  column(:local_given_name, order: 'clients.local_given_name', header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) do |object|
+  def self.dynamic_local_name
+    country = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.country_name
+    I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
+  end
+
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_given_name')} #{ dynamic_local_name }" }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
     local_given_name = SharedClient.find_by(slug: object.slug).local_given_name
@@ -428,7 +434,7 @@ class ClientGrid < BaseGrid
     local_given_name
   end
 
-  column(:local_family_name, order: 'clients.local_family_name', header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) do |object|
+  column(:local_family_name, order: 'clients.local_family_name', header: -> { "#{I18n.t('datagrid.columns.clients.local_family_name')} #{ dynamic_local_name }" }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
     local_family_name = SharedClient.find_by(slug: object.slug).local_family_name
@@ -812,7 +818,8 @@ class ClientGrid < BaseGrid
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('_').split(' ').first }
         else
-          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
+          properties = properties.present? ? properties : []
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: properties.is_a?(Array) && properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ?  properties.map{|value| date_format(value.to_date) } : properties }
         end
       end
     end

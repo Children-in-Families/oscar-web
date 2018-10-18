@@ -12,16 +12,23 @@ class GovernmentFormsController < AdminController
   end
 
   def new
-    @government_form = @client.government_forms.new(name: @form_name)
-    authorize @government_form
-    @government_form.populate_needs
-    @government_form.populate_problems
-    if params[:form] == 'two' || params[:form] == 'six'
-      @government_form.populate_children_status
-      @government_form.populate_family_status(params[:form])
-    elsif params[:form] == 'three'
-      @government_form.populate_children_plans
-      @government_form.populate_family_plans
+    if params[:copy] != "true"
+      @government_form = @client.government_forms.new(name: @form_name)
+      authorize @government_form
+      @government_form.populate_needs
+      @government_form.populate_problems
+      if params[:form] == 'two' || params[:form] == 'six'
+        @government_form.populate_children_status
+        @government_form.populate_family_status(params[:form])
+      elsif params[:form] == 'three'
+        @government_form.populate_children_plans
+        @government_form.populate_family_plans
+      end
+    else
+      @government_form = @client.government_forms.find(params[:government_form_id]).decorate
+      gov_attr = @government_form.merge_associations_params.except('id')
+      @government_form =  @client.government_forms.new(gov_attr)
+      authorize @government_form
     end
   end
 
@@ -115,6 +122,9 @@ class GovernmentFormsController < AdminController
   end
 
   def find_association
+    if params[:copy] == 'true'
+      @government_form = GovernmentForm.find(params[:government_form_id])
+    end
     @interviewees   = Interviewee.order(:created_at)
     @client_types   = ClientType.order(:created_at)
     @users          = @client.users.order(:first_name, :last_name)
@@ -167,7 +177,7 @@ class GovernmentFormsController < AdminController
   def find_form_name
     @form_name = case params[:form]
             when 'one' then 'ទម្រង់ទី១: ព័ត៌មានបឋម'
-            when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគញរួសារ'
+            when 'two' then 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
             when 'three' then 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី​ និង គ្រួសារ'
             when 'four' then 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
             when 'five'   then 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'

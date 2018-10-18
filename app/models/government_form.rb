@@ -110,9 +110,65 @@ class GovernmentForm < ActiveRecord::Base
     User.find_by(id: case_worker_id)
   end
 
+  def merge_associations_params
+    attributes.merge(
+      interviewee_ids: interviewee_ids,
+      client_type_ids: client_right_ids,
+      service_type_ids: service_type_ids,
+      client_right_ids: client_right_ids,
+      client_type_ids: client_type_ids,
+      government_form_needs_attributes: mapping_government_form_needs,
+      government_form_problems_attributes: mapping_government_form_problems,
+      government_form_children_plans_attributes: mapping_government_form_children_plans,
+      government_form_family_plans_attributes: mapping_government_form_family_plans,
+      action_results_attributes: mapping_action_results
+    )
+  end
+
   private
 
   def concat_client_code_with_village_code
     self.client_code = "#{village.try(:code)}#{client_code}"
   end
+
+  def mapping_government_form_needs
+    attr_hash = {}
+    government_form_needs.each_with_index do |gov_need, index|
+      attr_hash["#{index}"] = { 'rank'=> "#{gov_need.rank}", 'need_id'=> "#{gov_need.need.id}" }
+    end
+    attr_hash
+  end
+
+  def mapping_government_form_problems
+    attr_hash = {}
+    government_form_problems.each_with_index do |gov_problem, index|
+      attr_hash["#{index}"] = { 'rank'=> "#{gov_problem.rank}", 'problem_id'=> "#{gov_problem.problem.id}" }
+    end
+    attr_hash
+  end
+
+  def mapping_government_form_children_plans
+    attr_hash = {}
+    government_form_children_plans.each_with_index do |gov_children_plan, index|
+      attr_hash["#{index}"] = { 'score'=> "#{gov_children_plan.score}", 'comment'=> "#{gov_children_plan.comment}", 'children_plan_id'=> "#{gov_children_plan.children_plan.id}", 'goal'=> "#{gov_children_plan.goal}", 'action'=> "#{gov_children_plan.action}", 'who'=> "#{gov_children_plan.who}", 'completion_date'=> "#{gov_children_plan.completion_date}" }
+    end
+    attr_hash
+  end
+
+  def mapping_government_form_family_plans
+    attr_hash = {}
+    government_form_family_plans.each_with_index do |gov_family_plan, index|
+      attr_hash["#{index}"] = { 'score'=> "#{gov_family_plan.score}", 'comment'=> "#{gov_family_plan.comment}", 'family_plan_id'=> "#{gov_family_plan.family_plan.id}", 'goal'=> "#{gov_family_plan.goal}", 'action'=> "#{gov_family_plan.action}", 'result'=> "#{gov_family_plan.result}" }
+    end
+    attr_hash
+  end
+
+  def mapping_action_results
+    attr_hash = {}
+    action_results.each_with_index do |action_result, index|
+      attr_hash["#{index}"] = { 'action'=> "#{action_result.action}", 'result'=> "#{action_result.result}" }
+    end
+    attr_hash
+  end
+
 end

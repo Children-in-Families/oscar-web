@@ -66,8 +66,8 @@ module ClientsHelper
       age:                           t('datagrid.columns.clients.age'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
-      local_given_name:              t('datagrid.columns.clients.local_given_name'),
-      local_family_name:             t('datagrid.columns.clients.local_family_name'),
+      local_given_name:              "#{t('datagrid.columns.clients.local_given_name')} #{country_scope_label_translation}",
+      local_family_name:             "#{t('datagrid.columns.clients.local_family_name')} #{country_scope_label_translation}",
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
       birth_province_id:             t('datagrid.columns.clients.birth_province'),
@@ -166,7 +166,7 @@ module ClientsHelper
   end
 
   def check_is_array_date?(properties)
-    properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
+    properties.is_a?(Array) && properties.flatten.all?{|value| DateTime.strptime(value, '%Y-%m-%d') rescue nil } ? properties.map{|value| date_format(value.to_date) } : properties
   end
 
   def check_is_string_date?(property)
@@ -299,8 +299,8 @@ module ClientsHelper
       program_streams_: t('datagrid.columns.clients.program_streams'),
       given_name_: t('datagrid.columns.clients.given_name'),
       family_name_: t('datagrid.columns.clients.family_name'),
-      local_given_name_: t('datagrid.columns.clients.local_given_name'),
-      local_family_name_: t('datagrid.columns.clients.local_family_name'),
+      local_given_name_: "#{t('datagrid.columns.clients.local_given_name')} (#{country_scope_label_translation})",
+      local_family_name_: "#{t('datagrid.columns.clients.local_family_name')} (#{country_scope_label_translation})",
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
@@ -672,7 +672,12 @@ module ClientsHelper
             count += case_note_query(client.send(klass.to_sym), class_name).count
           elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
             class_name = 'active_program_stream'
-            count += program_stream_name(client.send(klass.to_sym).active, class_name).count
+            program_stream_name_active = program_stream_name(client.send(klass.to_sym).active, class_name)
+            if program_stream_name_active.present?
+              count += program_stream_name(client.send(klass.to_sym).active, class_name).count
+            else
+              count += client.send(klass.to_sym).active.count
+            end
           elsif class_name[/^(enrollmentdate)/i].present?
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
@@ -823,5 +828,21 @@ module ClientsHelper
 
   def date_format(date)
     date.strftime('%d %B %Y') if date.present?
+  end
+
+
+  def country_scope_label_translation
+    if I18n.locale.to_s == 'en'
+      country_name = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.country_name
+      case country_name
+      when 'cambodia' then '(Khmer)'
+      when 'thailand' then '(Thai)'
+      when 'myanmar' then '(Burmese)'
+      when 'lesotho' then '(Sesotho)'
+      when 'uganda' then '(Swahili)'
+      else
+        '(Unknown)'
+      end
+    end
   end
 end

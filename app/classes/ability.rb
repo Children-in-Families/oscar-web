@@ -28,7 +28,6 @@ class Ability
       can :manage, CaseNote
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: user.id }
-      can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, ClientEnrollment
@@ -38,7 +37,8 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
       end
-      cannot :destroy, Task
+      can :create, Task
+      can :read, Task
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
@@ -59,7 +59,6 @@ class Ability
       can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
       can :manage, User, id: user.id
       can :manage, Case
-      can :manage, Task
       can :manage, Assessment
       can :manage, CaseNote
       can :manage, Family
@@ -72,6 +71,8 @@ class Ability
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :manage, GovernmentForm
+      can :create, Task
+      can :read, Task
     end
   end
 
