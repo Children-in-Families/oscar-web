@@ -845,4 +845,8 @@ module ClientsHelper
       end
     end
   end
+
+  def client_alias_id
+    current_organization.short_name == 'fts' ? @client.code : @client.slug
+  end
 end
