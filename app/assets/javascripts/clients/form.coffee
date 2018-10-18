@@ -111,7 +111,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       }).success((json)->
         clientId  = $('#client_slug').val()
         organizations   = json.organizations
-        if clientId == ''
+        if clientId == '' and organizations.length > 0
           modalTitle      = $('#hidden_title').val()
           modalTextFirst  = $('#hidden_body_first').val()
           modalTextSecond = $('#hidden_body_second').val()
