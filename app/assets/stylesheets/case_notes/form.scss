@@ -60,7 +60,12 @@ body[id=case_notes-create] {
   .table.attachment-table tbody>tr>td{
     vertical-align: top;
   }
+
   .table.attachment-table tbody>tr>td.vert-align{
     vertical-align: middle;
+  }
+
+  .assessment-domain-panel {
+    margin-bottom: 5px;
   }
 }
