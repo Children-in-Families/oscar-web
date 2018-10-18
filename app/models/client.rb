@@ -110,10 +110,9 @@ class Client < ActiveRecord::Base
     query = query.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
     query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
 
-
     query = query.where(birth_province_id: options[:birth_province_id])   if options[:birth_province_id].present?
-    query = query.where(commune_id: options[:commune_id])                       if options[:commune_id].present?
-    query = query.where(village_id: options[:village_id])                       if options[:village_id].present?
+    query = query.where(commune_id: options[:commune_id])                 if options[:commune_id].present?
+    query = query.where(village_id: options[:village_id])                 if options[:village_id].present?
     query = query.where(province_id: options[:current_province_id])       if options[:current_province_id].present?
 
     query
