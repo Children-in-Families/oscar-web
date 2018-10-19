@@ -136,9 +136,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             $('#confirm-client-modal #confirm').on 'click', ->
               $('#client-wizard-form').submit()
           else
+            $("a[href='#finish']").attr("disabled","disabled");
             $('#client-wizard-form').submit()
         )
       else
+        $("a[href='#finish']").attr("disabled","disabled");
         $('#client-wizard-form').submit()
 
   _clientSelectOption = ->
