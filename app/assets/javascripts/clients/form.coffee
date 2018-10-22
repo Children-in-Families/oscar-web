@@ -18,6 +18,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _setMarginToClassActions()
     _setCancelButtonPosition()
     _handReadonlySpecificPoint()
+    _enableDoneButton()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -91,7 +92,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
-    $("a[href='#finish']").click ->
+    $("a[href='#finish']").on  'click', ->
+      $(@).append(document.createTextNode('...')).attr("disabled","disabled");
       data = {
         given_name: $('#client_given_name').val()
         family_name: $('#client_family_name').val()
@@ -136,11 +138,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             $('#confirm-client-modal #confirm').on 'click', ->
               $('#client-wizard-form').submit()
           else
-            $("a[href='#finish']").append(document.createTextNode('...')).attr("disabled","disabled");
             $('#client-wizard-form').submit()
         )
       else
-        $("a[href='#finish']").append(document.createTextNode('...')).attr("disabled","disabled");
         $('#client-wizard-form').submit()
 
   _clientSelectOption = ->
@@ -343,4 +343,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
+
+  _enableDoneButton = ->
+    $("a[href='#previous']").on 'click', ->
+      $("a[href='#finish']").removeAttr("disabled");
+
   { init: _init }
