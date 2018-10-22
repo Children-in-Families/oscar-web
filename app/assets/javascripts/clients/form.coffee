@@ -345,7 +345,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $(this).closest('.form-group').find('label.error').remove()
 
   _enableDoneButton = ->
-    $("a[href='#previous']").on 'click', ->
-      $("a[href='#finish']").removeAttr("disabled");
+    $("a[href='#previous'], #btn-modal-cancel").on 'click', ->
+      doneText = @filterTranslation.done
+      $("a[href='#finish']").removeAttr("disabled").text(doneText);
 
   { init: _init }
