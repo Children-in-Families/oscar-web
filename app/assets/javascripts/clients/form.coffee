@@ -136,11 +136,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             $('#confirm-client-modal #confirm').on 'click', ->
               $('#client-wizard-form').submit()
           else
-            $("a[href='#finish']").attr("disabled","disabled");
+            $("a[href='#finish']").append(document.createTextNode('...')).attr("disabled","disabled");
             $('#client-wizard-form').submit()
         )
       else
-        $("a[href='#finish']").attr("disabled","disabled");
+        $("a[href='#finish']").append(document.createTextNode('...')).attr("disabled","disabled");
         $('#client-wizard-form').submit()
 
   _clientSelectOption = ->
@@ -284,21 +284,21 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('.save-edit-client').show()
       $('.cancel-client-button').css 'margin-top', '-97px'
       if current_url.includes('locale=my')
-        $('.actions').css 'margin-left', '-150px'
+        $('.actions').css 'margin-left', '-155px'
       else if current_url.includes('locale=km')
-        $('.actions').css 'margin-left', '-70px'
+        $('.actions').css 'margin-left', '-75px'
       else
-        $('.actions').css 'margin-left', '-60px'
+        $('.actions').css 'margin-left', '-65px'
 
   _setMarginToClassActions = ->
     current_url = window.location.href
     if $('.edit-form').length
       if current_url.includes('locale=my')
-        $('.actions').css 'margin-left', '-150px'
+        $('.actions').css 'margin-left', '-155px'
       else if current_url.includes('locale=km')
-        $('.actions').css 'margin-left', '-70px'
+        $('.actions').css 'margin-left', '-75px'
       else
-        $('.actions').css 'margin-left', '-60px'
+        $('.actions').css 'margin-left', '-65px'
 
   _removeMarginOnNewForm = ->
     if $('.client-form-title').length
