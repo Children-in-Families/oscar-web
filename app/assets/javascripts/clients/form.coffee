@@ -92,8 +92,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
-    $("a[href='#finish']").on  'click', ->
-      $(@).append(document.createTextNode('...')).attr("disabled","disabled");
+    $("a[href='#finish']").on 'click', ->
+      $(@).text(filterTranslation.done).append(document.createTextNode('...')).attr("disabled","disabled");
       data = {
         given_name: $('#client_given_name').val()
         family_name: $('#client_family_name').val()
@@ -136,6 +136,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
             $('#confirm-client-modal').modal('show')
             $('#confirm-client-modal #confirm').on 'click', ->
+              $(@).append('...').attr("disabled","disabled");
               $('#client-wizard-form').submit()
           else
             $('#client-wizard-form').submit()
@@ -345,8 +346,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $(this).closest('.form-group').find('label.error').remove()
 
   _enableDoneButton = ->
-    $("a[href='#previous'], #btn-modal-cancel").on 'click', ->
-      doneText = @filterTranslation.done
-      $("a[href='#finish']").removeAttr("disabled").text(doneText);
+    $("a[href='#previous'], .btn-modal-cancel").on 'click', ->
+      $("a[href='#finish']").removeAttr("disabled").text(filterTranslation.done);
 
   { init: _init }
