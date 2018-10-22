@@ -528,11 +528,14 @@ module AdvancedSearches
 
     def user_id_field_query
       clients = @clients.joins(:users)
+      ids = clients.ids.uniq
       case @operator
       when 'equal'
-        clients.where('users.id = ?', @value ).ids
+        client_ids = Client.joins(:users).where('users.id = ?', @value).ids
+        client_ids & ids
       when 'not_equal'
-        clients.where.not('users.id = ?', @value ).ids
+        client_ids = Client.joins(:users).where('users.id = ?', @value).ids
+        ids - client_ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
