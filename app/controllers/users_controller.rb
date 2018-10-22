@@ -12,6 +12,7 @@ class UsersController < AdminController
         @user_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do
+        @user_grid.scope { |scope| scope.accessible_by(current_ability) }
         send_data @user_grid.to_xls, filename: "user_report-#{Time.now}.xls"
       end
     end
