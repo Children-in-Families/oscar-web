@@ -95,14 +95,14 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       family_name: $('#client_family_name').val()
       local_given_name: $('#client_local_given_name').val()
       local_family_name: $('#client_local_family_name').val()
-      birth_province_id: $('#client_birth_province_id').val()
-      current_province_id: $('#client_province_id').val()
       date_of_birth: $('#client_date_of_birth').val()
-      village_id: $('#client_village_id').val()
-      commune_id: $('#client_commune_id').val()
+      birth_province_id: $('#client_birth_province_id').val()
+      current_province: $('#client_province_id').find(':selected').text()
+      village: $('#client_village_id').find(':selected').text()
+      commune: $('#client_commune_id').find(':selected').text()
     }
 
-    if data.date_of_birth != '' or data.given_name != '' or data.birth_province_id != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village_id != '' or data.commune_id != '' or data.current_province_id != ''
+    if data.date_of_birth != '' or data.given_name != '' or data.birth_province_id != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province != ''
       $.ajax({
         type: 'GET'
         url: '/api/clients/compare'
