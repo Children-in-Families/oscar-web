@@ -534,8 +534,7 @@ module AdvancedSearches
         client_ids = Client.joins(:users).where('users.id = ?', @value).ids
         client_ids & ids
       when 'not_equal'
-        client_ids = Client.joins(:users).where('users.id = ?', @value).ids
-        ids - client_ids
+        clients.where.not('users.id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
