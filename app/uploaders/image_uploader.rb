@@ -7,7 +7,7 @@ class ImageUploader < CarrierWave::Uploader::Base
     process quality: 100
   end
 
-  version :profile do
+  version :photo do
     process resize_to_fit: [nil, 150]
     process quality: 100
   end

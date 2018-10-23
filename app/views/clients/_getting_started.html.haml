@@ -59,6 +59,6 @@
     .row
       .col-xs-12
         %label= t('.profile')
-        = f.input :profile, as: :file, label: false, input_html: { 'data-img-src': @client.try(:profile).try(:profile).try(:url) }
-        - if action_name == 'edit'
-          = f.input :remove_profile, as: :boolean, inline_label: t('.remove_profile')
+        = f.input :profile, as: :file, label: false, input_html: { 'data-img-src': @client.profile.photo.url }
+
+        = f.input :remove_profile, as: :boolean, inline_label: t('.remove_profile') if @client.profile?

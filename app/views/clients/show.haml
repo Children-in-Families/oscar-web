@@ -6,8 +6,8 @@
           %tbody
             %tr
               %td{rowspan: '4'}
-                - if @client.profile.present?
-                  = image_tag @client.profile.profile
+                - if @client.profile?
+                  = image_tag @client.profile.photo, alt: @client.profile.file.filename, id: 'client_photo'
               %td
                 = "#{t('.name')} :"
                 = @client.name
