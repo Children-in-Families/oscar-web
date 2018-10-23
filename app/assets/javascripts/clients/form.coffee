@@ -18,6 +18,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _setMarginToClassActions()
     _setCancelButtonPosition()
     _handReadonlySpecificPoint()
+    _initUploader()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -341,4 +342,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
+
+  _initUploader = ->
+    path = $('#client_profile').data('img-src')
+    $('.file .optional').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg']
+      initialPreview: ["<img src=#{path} class='file-preview-image'>"] if path != '' and path != 'image-placeholder.png'
+
   { init: _init }

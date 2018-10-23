@@ -56,3 +56,9 @@
         = f.input :name_of_referee, label: t('.name_of_referee')
       .col-xs-12.col-sm-6.col-md-4
         = f.input :referral_phone, label: t('.referee_phone_number')
+    .row
+      .col-xs-12
+        %label= t('.profile')
+        = f.input :profile, as: :file, label: false, input_html: { 'data-img-src': @client.try(:profile).try(:profile).try(:url) }
+        - if action_name == 'edit'
+          = f.input :remove_profile, as: :boolean, inline_label: t('.remove_profile')

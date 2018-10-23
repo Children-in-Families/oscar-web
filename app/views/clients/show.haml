@@ -1,17 +1,27 @@
 .row
   .col-xs-12
     .row
-      .col-md-3
-        %span.show-name
-          = @client.name
-        - if @client.status
-          %span.show-status= status_style(@client.status)
-        .client-info
-          = @client.slug
-          = @client.gender.try(:titleize)
-      .col-md-6
+      .col-md-8
         %table.table.small.m-b-xs
           %tbody
+            %tr
+              %td{rowspan: '4'}
+                - if @client.profile.present?
+                  = image_tag @client.profile.profile
+              %td
+                = "#{t('.name')} :"
+                = @client.name
+              - if @client.status
+                %td
+                  = "#{t('.status')} :"
+                  %span.show-status= status_style(@client.status)
+            %tr
+              %td
+                = "#{t('.id')} :"
+                %strong= @client.slug
+              %td
+                = "#{t('.gender')} :"
+                %strong= @client.gender.try(:titleize)
             %tr
               %td
                 = "#{t('.date_of_birth')} :"

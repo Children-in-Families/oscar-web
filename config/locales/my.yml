@@ -1298,6 +1298,7 @@ my:
       local_given_name: ပေးထားသောအမည် (ခမာ)
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       other_detail: အခြားအသေးစိတျ
+      profile: ရုပ်ပုံ
       province:
         cambodia: Birth Province
         lesotho: Birth Suburb
@@ -1307,6 +1308,7 @@ my:
       referral_information: လွှဲပြောင်းသတင်းအချက်အလက်များ
       referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
       referral_source: လႊဲရမည့္ ရင္းျမစ္
+      remove_profile: ရုပ်ပုံကိုဖယ်ရှား
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
       text-hint: သူ / သူမဖြည့်စွက်ရန် Task ကြောင့်ဤကိစ္စတွင်အလုပ်သမားဖယ်ရှားပစ်ရန် လုပ်. မရပါ။
