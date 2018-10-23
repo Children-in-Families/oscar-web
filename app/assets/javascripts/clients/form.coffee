@@ -93,7 +93,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _ajaxCheckExistClient = ->
     $("a[href='#finish']").on 'click', ->
-      $(@).text(filterTranslation.done).append(document.createTextNode('...')).attr("disabled","disabled");
+      $(@).text(filterTranslation.done).append('...').attr("disabled","disabled");
       data = {
         given_name: $('#client_given_name').val()
         family_name: $('#client_family_name').val()
@@ -136,7 +136,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
             $('#confirm-client-modal').modal('show')
             $('#confirm-client-modal #confirm').on 'click', ->
-              $(@).append('...').attr("disabled","disabled");
+              $(@).text($(@).data('confirm')).append('...').attr("disabled","disabled");
               $('#client-wizard-form').submit()
           else
             $('#client-wizard-form').submit()

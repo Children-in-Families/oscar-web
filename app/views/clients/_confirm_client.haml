@@ -10,7 +10,7 @@
         %h4.modal-title
       .modal-body.text-center
       .modal-footer
-        %button#confirm.btn.btn-warning{ type: 'button' }
+        %button#confirm.btn.btn-warning{ type: 'button', 'data-confirm': t('.confirm') }
           = t('.confirm')
         %button.btn-modal-cancel.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
           = t('.close')
