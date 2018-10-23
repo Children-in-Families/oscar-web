@@ -1,4 +1,4 @@
-#confirm-client-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog' }
+#confirm-client-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog', 'data-backdrop' => 'static' }
   = hidden_field(:hidden, :title, value: t('.title'))
   = hidden_field(:hidden, :body_first, value: t('.body_first') )
   = hidden_field(:hidden, :body_second, value: t('.body_second') )
