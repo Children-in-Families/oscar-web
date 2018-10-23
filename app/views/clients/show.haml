@@ -1,8 +1,8 @@
 .row
   .col-xs-12
     .row
-      .col-md-8
-        %table.table.small.m-b-xs
+      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
+        %table.table.small.m-b-xs#main-info
           %tbody
             %tr
               %td{rowspan: '4'}
