@@ -10,9 +10,13 @@ describe 'VisitClient' do
     feature 'from clients list/index' do
       before(:each) do
         visit clients_path
+        find('.client-search').click
+        sleep 1
+        first('.datagrid-actions').click_button 'Search'
       end
       scenario 'increase visit client by 1' do
         first("a[href='#{client_path(client_1)}']").click
+        sleep 1
         expect(admin.visit_clients.count).to eq(1)
       end
     end
