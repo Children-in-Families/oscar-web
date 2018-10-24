@@ -1,5 +1,5 @@
 namespace :change_client_profile do
-  desc 'Enroll Able Clients to ABLE Program Stream'
+  desc 'Faking client data in development and staging'
   task update: :environment do |task, args|
     if Rails.env.development? || Rails.env.staging?
       Organization.all.each do |org|
