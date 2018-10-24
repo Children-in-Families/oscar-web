@@ -6,16 +6,21 @@
           %strong= "#{@client.name}"
         %h5.margin-title= t('.assessment_history')
       .ibox-content
-        - @client.assessments.order(:created_at).each_with_index do |assessment, index|
+        - @assessmets.each_with_index do |assessment, index|
           .row.margin-row
             .col-xs-12.col-sm-9.middle-text
               %h5
                 - if assessment.initial?
                   = t('.initial_assessment')
                 - else
-                  = t('.assessment_completed_on')
+                  - if assessment.completed?
+                    = t('.assessment_completed_on')
+                  - else
+                    = t('.assessment_created_on')
                 %b
-                  = date_format(assessment.created_at)
+                  - completed_date = assessment_completed_date(assessment)
+                  = date_format(completed_date)
+                %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
             .col-xs-12.col-sm-3
               .btn.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)

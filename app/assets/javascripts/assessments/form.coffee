@@ -106,9 +106,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         finish: 'Done'
 
   _appendSaveButton = ->
-    action = $('#rootwizard').data('action')
-    if action == 'edit'
-      $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
+    $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
   _saveAssessment = (form)->
     $("#rootwizard a[href='#save']").on 'click', ->

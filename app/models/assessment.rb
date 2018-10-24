@@ -14,6 +14,7 @@ class Assessment < ActiveRecord::Base
   validate :client_must_not_over_18, if: :new_record?
 
   before_save :set_previous_score
+  after_save :set_assessment_complete
 
   accepts_nested_attributes_for :assessment_domains
 
@@ -21,6 +22,16 @@ class Assessment < ActiveRecord::Base
 
   DUE_STATES        = ['Due Today', 'Overdue']
   ASSESSMENT_HEADER = ['name', 'completion_date', 'domain_id', 'user_id']
+
+  def set_assessment_complete
+    if assessment_domains.where(goal: '', score: nil, reason: '').count > 0 && completed == true
+      self.completed = false
+      self.save
+    elsif assessment_domains.where(goal: '', score: nil, reason: '').count.zero? && completed == false
+      self.completed = true
+      self.save
+    end
+  end
 
   def self.latest_record
     most_recents.first

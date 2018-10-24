@@ -11,6 +11,7 @@ class AssessmentsController < AdminController
   before_action -> { assessments_permission('editable') }, except: [:index, :show]
 
   def index
+    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
   end
 
   def new
@@ -73,7 +74,7 @@ class AssessmentsController < AdminController
   end
 
   def find_assessment
-    @assessment = @client.assessments.find(params[:id])
+    @assessment = @client.assessments.find(params[:id]).decorate
   end
 
   def authorize_client
