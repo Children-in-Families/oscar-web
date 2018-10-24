@@ -347,7 +347,7 @@ describe 'Client' do
     end
 
     scenario 'locked user who has incomplete tasks' do
-      expect(page).to have_selector(:css, "option[locked='locked']", text: user.name, count: 1)
+      expect(page).to have_selector(:css, "option[locked='locked']", text: user.name, count: 1, visible: false)
     end
   end
 
