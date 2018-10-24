@@ -13,13 +13,9 @@
                 - if assessment.initial?
                   = t('.initial_assessment')
                 - else
-                  - if assessment.completed?
-                    = t('.assessment_completed_on')
-                  - else
-                    = t('.assessment_created_on')
+                  = t('.assessment_created_on')
                 %b
-                  - completed_date = assessment_completed_date(assessment)
-                  = date_format(completed_date)
+                  = date_format(assessment.created_at)
                 %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
             .col-xs-12.col-sm-3
               .btn.btn-info.button{ class: ('disabled' unless case_notes_readable?) }

@@ -15,16 +15,12 @@
             %strong
               %u= @assessment.client.name
           .col-xs-12
-            - if @assessment.completed?
-              %span= t('.assessment_completed_by')
-            - else
-              %span= t('.assessment_created_by')
+            %span= t('.assessment_created_by')
             %strong
               %u= whodunnit('Assessment', @assessment)
             %span= t('.on_date')
             %strong
-              - completed_date = assessment_completed_date(@assessment)
-              %u= date_format(completed_date)
+              %u= date_format(@assessment.created_at)
             %label{ class: "#{@assessment.completed_label_class}"}= @assessment.completed_status
             %span.pull-right.margin-asse
               - if @assessment.latest_record?
