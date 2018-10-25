@@ -7,7 +7,7 @@ namespace :change_casenote_data do
         Organization.switch_to org.short_name
         dummy_text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         interaction_types = ['Visit', 'Non face to face', '3rd Party', 'Other']
-        CaseNote.all.each do |case_note|
+        CaseNote.includes(:case_note_domain_groups).all.each do |case_note|
           case_note.attendee         = ['Father', 'Mother'].sample
           case_note.interaction_type = interaction_types.sample
           case_note.case_note_domain_groups.each do |domain|
