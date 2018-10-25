@@ -20,7 +20,7 @@ namespace :change_client_profile do
           if province_ids.present?
             current_province_ids = province_ids - [client.province_id]
             province_id          = current_province_ids.sample
-            district_ids         = Province.find(province_id).district_ids
+            district_ids         = Province.find(province_id).district_ids if province_id.present?
             district_id          = district_ids.sample
             commune_ids          = District.find(district_id).commune_ids if district_id.present?
             commune_id           = commune_ids.sample
