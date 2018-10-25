@@ -13,8 +13,7 @@ class Assessment < ActiveRecord::Base
   validate :only_latest_record_can_be_updated
   validate :client_must_not_over_18, if: :new_record?
 
-  before_save :set_previous_score
-  after_save :set_assessment_complete
+  before_save :set_previous_score, :set_assessment_complete
 
   accepts_nested_attributes_for :assessment_domains
 
@@ -24,13 +23,11 @@ class Assessment < ActiveRecord::Base
   ASSESSMENT_HEADER = ['name', 'completion_date', 'domain_id', 'user_id']
 
   def set_assessment_complete
-    if assessment_domains.where(goal: '', score: nil, reason: '').count > 0 && completed == true
-      self.completed = false
-      self.save
-    elsif assessment_domains.where(goal: '', score: nil, reason: '').count.zero? && completed == false
-      self.completed = true
-      self.save
+    empty_assessment_domains = []
+    assessment_domains.each do |assessment_domain|
+      empty_assessment_domains << assessment_domain if assessment_domain[:goal].empty? || assessment_domain[:score].nil? || assessment_domain[:reason].empty?
     end
+    self.completed = empty_assessment_domains.count.zero? ? true : false
   end
 
   def self.latest_record

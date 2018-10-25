@@ -229,23 +229,23 @@ module AdvancedSearches
       clients = @clients.joins(:assessments)
       case @operator
       when 'equal'
-        clients = clients.where('assessments.completed = true AND date(assessments.created_at) = ?', @value.to_date)
+        clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
       when 'not_equal'
-        clients = clients.where("assessments.completed = true AND date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
+        clients = clients.where("date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
       when 'less'
-        clients = clients.where('assessments.completed = true AND date(assessments.created_at) < ?', @value.to_date)
+        clients = clients.where('date(assessments.created_at) < ?', @value.to_date)
       when 'less_or_equal'
-        clients = clients.where('assessments.completed = true AND date(assessments.created_at) <= ?', @value.to_date)
+        clients = clients.where('date(assessments.created_at) <= ?', @value.to_date)
       when 'greater'
-        clients = clients.where('assessments.completed = true AND date(assessments.created_at) > ?', @value.to_date)
+        clients = clients.where('date(assessments.created_at) > ?', @value.to_date)
       when 'greater_or_equal'
-        clients = clients.where('assessments.completed = true AND date(assessments.created_at) >= ?', @value.to_date)
+        clients = clients.where('date(assessments.created_at) >= ?', @value.to_date)
       when 'between'
-        clients = clients.where('assessments.completed = true AND date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+        clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = clients.where(assessments: { created_at: nil, completed: true })
+        clients = clients.where(assessments: { created_at: nil })
       when 'is_not_empty'
-        clients = clients.where.not(assessments: { created_at: nil, completed: true })
+        clients = clients.where.not(assessments: { created_at: nil })
       end
       clients.ids
     end

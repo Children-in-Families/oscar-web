@@ -5,7 +5,7 @@ describe AssessmentDomain, 'associations' do
 end
 
 describe AssessmentDomain, 'validations' do
-  it { is_expected.to validate_presence_of(:domain) }
+  # it { is_expected.to validate_presence_of(:domain) }
 end
 
 describe AssessmentDomain, 'class method' do
