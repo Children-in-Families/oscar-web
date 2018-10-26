@@ -1,6 +1,5 @@
 class AssessmentDomain < ActiveRecord::Base
   mount_uploaders :attachments, FileUploader
-  attr_accessor :completed
 
   SCORE_COLORS = {
     has_problem: 'warning',
@@ -16,6 +15,7 @@ class AssessmentDomain < ActiveRecord::Base
   has_paper_trail
 
   # validates :score, :reason, :domain, :goal, presence: true
+  validates :domain, presence: true
 
   SCORE_COLORS.each do |key, value|
     define_method "#{key}?" do

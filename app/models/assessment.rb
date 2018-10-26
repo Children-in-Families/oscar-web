@@ -13,7 +13,7 @@ class Assessment < ActiveRecord::Base
   validate :only_latest_record_can_be_updated
   validate :client_must_not_over_18, if: :new_record?
 
-  before_save :set_previous_score, :set_assessment_complete
+  before_save :set_previous_score, :set_assessment_completed
 
   accepts_nested_attributes_for :assessment_domains
 
@@ -22,12 +22,17 @@ class Assessment < ActiveRecord::Base
   DUE_STATES        = ['Due Today', 'Overdue']
   ASSESSMENT_HEADER = ['name', 'completion_date', 'domain_id', 'user_id']
 
-  def set_assessment_complete
+  def set_assessment_completed
     empty_assessment_domains = []
     assessment_domains.each do |assessment_domain|
       empty_assessment_domains << assessment_domain if assessment_domain[:goal].empty? || assessment_domain[:score].nil? || assessment_domain[:reason].empty?
     end
-    self.completed = empty_assessment_domains.count.zero? ? true : false
+    if empty_assessment_domains.count.zero?
+      self.completed = true
+    else
+      self.completed = false
+      true
+    end
   end
 
   def self.latest_record
