@@ -14,7 +14,8 @@ class AssessmentDomain < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :score, :reason, :domain, :goal, presence: true
+  # validates :score, :reason, :domain, :goal, presence: true
+  validates :domain, presence: true
 
   SCORE_COLORS.each do |key, value|
     define_method "#{key}?" do

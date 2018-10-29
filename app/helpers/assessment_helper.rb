@@ -31,4 +31,13 @@ module AssessmentHelper
     return false if current_user.strategic_overviewer?
     current_user.permission.assessments_editable
   end
+
+  def assessment_completed_date(assessment)
+    if assessment.completed?
+      completed_date = PaperTrail::Version.where(item_type: 'Assessment', item_id: assessment.id).where_object_changes(completed: true).last.created_at
+    else
+      completed_date = assessment.created_at
+    end
+    completed_date
+  end
 end
