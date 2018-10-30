@@ -15,7 +15,7 @@ class CsiStatistic
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|
-        a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score)
+        a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
         assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
       end
       series << { name: domain.name, data: assessment_by_value }

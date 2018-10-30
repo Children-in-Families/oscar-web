@@ -460,7 +460,7 @@ class CIF.ClientAdvanceSearch
         $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
     else if rule == 'school_grade'
       select = $(element).parent().siblings('.rule-value-container')
-      disableValue = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4']
+      disableValue = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8']
       if $(element).val() == 'between'
         setTimeout( ->
           for value in disableValue

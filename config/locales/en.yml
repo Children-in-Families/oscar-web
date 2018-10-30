@@ -501,7 +501,7 @@ en:
       save: Save
       tasks_arising: 'Tasks arising:'
     index:
-      assessment_completed_on: Assessment completed on
+      assessment_created_on: Assessment created on
       assessment_history: Assessment History
       back: Back
       begin_now: Add New Assessment
@@ -510,8 +510,8 @@ en:
       three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:
-      assessment_completed_by: Assessment completed by
-      assessment_completed_for: Assessment completed for
+      assessment_created_by: Assessment created by
+      assessment_completed_for: Assessment for
       back_to_assessment_history: Back to assessment history
       domain: Domain
       edit: Edit

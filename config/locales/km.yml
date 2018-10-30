@@ -501,7 +501,7 @@ km:
       save: រក្សាទុក
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     index:
-      assessment_completed_on: ការប៉ាន់ប្រមាណដែលបានបំពេញ
+      assessment_created_on: ការប៉ាន់ប្រមាណដែលបានបង្កើត
       assessment_history: ការប៉ាន់ប្រមាណចាស់ៗ
       back: ត្រលប់ក្រោយ
       begin_now: បង្កើតការប៉ាន់ប្រមាណថ្មី
@@ -510,7 +510,7 @@ km:
       three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:
-      assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
+      assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖
       assessment_completed_for: ការប៉ាន់ប្រមាណសម្រាប់
       back_to_assessment_history: ត្រលប់ទៅការប៉ាន់ប្រមាណចាស់ៗ
       domain: កត្តា

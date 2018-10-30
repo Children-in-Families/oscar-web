@@ -17,4 +17,9 @@ body[id=assessments-show] {
   .margin-asse{
     margin-top: -18px;
   }
+  #assessment-info {
+    .label-primary, .label-danger {
+      float: none;
+    }
+  }
 }

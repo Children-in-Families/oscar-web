@@ -1,5 +1,5 @@
 module Api
-  class SubdistrictsController < AdminController
+  class SubdistrictsController < Api::ApplicationController
     def index
       subdistricts = District.find(params[:district_id]).subdistricts
       render json: subdistricts

@@ -1,5 +1,7 @@
 class CaseNotesController < AdminController
   load_and_authorize_resource
+  include CreateBulkTask
+
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update]
   before_action :authorize_client, only: [:new, :create]
@@ -24,6 +26,7 @@ class CaseNotesController < AdminController
     @case_note = @client.case_notes.new(case_note_params)
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+      create_bulk_task(params[:task]) if params.has_key?(:task)
       redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
     else
       render :new
@@ -46,6 +49,7 @@ class CaseNotesController < AdminController
         add_more_attachments(d.second[:attachments], d.second[:id])
       end
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+      create_bulk_task(params[:task]) if params.has_key?(:task)
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit

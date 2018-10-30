@@ -12,7 +12,7 @@
     = render 'specific_point', f: f
   - if @client.persisted?
     .text-right
-      = f.submit t('save'), class: 'btn btn-primary save-edit-client'
+      = submit_tag t('save'), class: 'btn btn-primary save-edit-client', data: { disable_with: "#{t('save')}..." }
     = link_to t('cancel'), client_path, class: 'btn btn-default cancel-client-button'
   - else
     = link_to t('cancel'), clients_path, class: 'btn btn-default cancel-client-button'
