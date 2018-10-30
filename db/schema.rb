@@ -462,6 +462,7 @@ ActiveRecord::Schema.define(version: 20181023071121) do
     t.string   "country_origin",                   default: ""
     t.integer  "commune_id"
     t.integer  "village_id"
+    t.string   "profile"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree

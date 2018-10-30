@@ -8,6 +8,7 @@ class Client < ActiveRecord::Base
   attr_accessor :organization, :case_type
 
   friendly_id :slug, use: :slugged
+  mount_uploader :profile, ImageUploader
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
