@@ -17,6 +17,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _setMarginToClassActions()
     _setCancelButtonPosition()
     _handReadonlySpecificPoint()
+    _initUploader()
+    _enableDoneButton()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -90,6 +92,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
+    $("a[href='#finish']").text(filterTranslation.done).append('...').attr("disabled","disabled");
     data = {
       given_name: $('#client_given_name').val()
       family_name: $('#client_family_name').val()
@@ -127,6 +130,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
           $('#confirm-client-modal').modal('show')
           $('#confirm-client-modal #confirm').on 'click', ->
+            $(@).text($(@).data('confirm')).append('...').attr("disabled","disabled");
             $('#client-wizard-form').submit()
         else
           $('#client-wizard-form').submit()
@@ -276,21 +280,21 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('.save-edit-client').show()
       $('.cancel-client-button').css 'margin-top', '-97px'
       if current_url.includes('locale=my')
-        $('.actions').css 'margin-left', '-150px'
+        $('.actions').css 'margin-left', '-155px'
       else if current_url.includes('locale=km')
-        $('.actions').css 'margin-left', '-70px'
+        $('.actions').css 'margin-left', '-75px'
       else
-        $('.actions').css 'margin-left', '-60px'
+        $('.actions').css 'margin-left', '-65px'
 
   _setMarginToClassActions = ->
     current_url = window.location.href
     if $('.edit-form').length
       if current_url.includes('locale=my')
-        $('.actions').css 'margin-left', '-150px'
+        $('.actions').css 'margin-left', '-155px'
       else if current_url.includes('locale=km')
-        $('.actions').css 'margin-left', '-70px'
+        $('.actions').css 'margin-left', '-75px'
       else
-        $('.actions').css 'margin-left', '-60px'
+        $('.actions').css 'margin-left', '-65px'
 
   _removeMarginOnNewForm = ->
     if $('.client-form-title').length
@@ -335,4 +339,19 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
+
+  _initUploader = ->
+    path = $('#client_profile').data('img-src')
+    $('.file .optional').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg']
+      initialPreview: ["<img src=#{path} class='file-preview-image'>"] if path != '' and path != 'image-placeholder.png'
+
+  _enableDoneButton = ->
+    $("a[href='#previous'], .btn-modal-cancel").on 'click', ->
+      $("a[href='#finish']").removeAttr("disabled").text(filterTranslation.done);
+
   { init: _init }
