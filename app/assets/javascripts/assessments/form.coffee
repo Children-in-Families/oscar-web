@@ -106,9 +106,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         finish: 'Done'
 
   _appendSaveButton = ->
-    action = $('#rootwizard').data('action')
-    if action == 'edit'
-      $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
+    $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
   _saveAssessment = (form)->
     $("#rootwizard a[href='#save']").on 'click', ->
@@ -157,28 +155,30 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       taskName  = undefined
       taskDate  = undefined
       domainId  = undefined
+      relation  = undefined
 
       actionUrl = $('#assessment_domain_task').attr('action').split('?')[0]
 
       taskName = $('#task_name').val()
       domainId = $('#task_domain_id').val()
+      relation = $('#task_relation').val()
       taskDate = $('#task_completion_date').val()
 
       if taskName.length > 0 && taskDate.length > 0
-        _addElementToDom(taskName, taskDate, domainId, actionUrl)
+        _addElementToDom(taskName, taskDate, domainId, relation, actionUrl)
         _clearTaskForm()
       else
         $('.add-task-btn').removeAttr('disabled')
         _showTaskError(taskName, taskDate)
 
-  _addElementToDom = (taskName, taskDate, domainId, actionUrl) ->
+  _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl) ->
     appendElement  = $(".domain-#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
     deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{domainId}"
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}'></li>"
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}, #{relation}'></li>"
 
     $(".domain-#{domainId} .task-arising").removeClass('hidden')
     $(".domain-#{domainId} .task-arising ol").append(element)

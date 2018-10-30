@@ -4,10 +4,10 @@
       = t('.back_to_assessment_history')
 .row.mini-margin
   .col-xs-12
-    .ibox
+    .ibox#assessment-info
       .ibox-title
         .row
-          .col-xs-12
+          .col-xs-10
             - if @assessment.initial?
               = t('.initial_assessment_of')
             - else
@@ -15,12 +15,13 @@
             %strong
               %u= @assessment.client.name
           .col-xs-12
-            %span= t('.assessment_completed_by')
+            %span= t('.assessment_created_by')
             %strong
               %u= whodunnit('Assessment', @assessment)
             %span= t('.on_date')
             %strong
               %u= date_format(@assessment.created_at)
+            %label{ class: "#{@assessment.completed_label_class}"}= @assessment.completed_status
             %span.pull-right.margin-asse
               - if @assessment.latest_record?
                 - if can? :update, @assessment

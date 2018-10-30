@@ -1,5 +1,5 @@
 module Api
-  class ClientsController < AdminController
+  class ClientsController < Api::ApplicationController
 
     def compare
       render json: find_client_in_organization
@@ -13,27 +13,13 @@ module Api
 
     def find_client_in_organization
       results = []
+      shared_clients = Client.find_shared_client(params)
       Organization.oscar.each do |org|
         Organization.switch_to(org.short_name)
-        clients = find_client_by(params)
-        set_organization_to_client(clients, org.full_name)
-        results << clients if clients.any?
+        slugs = shared_clients & Client.filter(params)
+        results << org.full_name if slugs.any?
       end
-      results.flatten
-    end
-
-    def find_client_by(params)
-      if params[:given_name] || params[:birth_province_id] || params[:current_province_id] || params[:date_of_birth] || params[:local_given_name] || params[:local_family_name] || params[:family_name] || params[:commune] || params[:village]
-        Client.filter(params)
-      else
-        []
-      end
-    end
-
-    def set_organization_to_client(collections, value)
-      collections.each do |collection|
-        collection.organization = value
-      end
+      { organizations: results.flatten }
     end
 
     def client_statistics

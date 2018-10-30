@@ -1,5 +1,5 @@
 module Api
-  class FormBuilderAttachmentsController < AdminController
+  class FormBuilderAttachmentsController < Api::ApplicationController
     before_action :find_attachment
 
     def destroy
