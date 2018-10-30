@@ -9,8 +9,6 @@ CIF.ClientsIndex = do ->
     _clickMenuResizeChart()
     _handleHideShowReport()
     _formatReportxAxis()
-    _handleCreateCaseReport()
-    _handleCreateCsiDomainReport()
     _handleScrollTable()
     _handleColumnVisibilityParams()
     # _handleUncheckColumnVisibility()
@@ -214,12 +212,39 @@ CIF.ClientsIndex = do ->
   _formatReportxAxis = ->
     Highcharts.setOptions global: useUTC: false
 
+  _toggleCollapseOnOff = ->
+    $('#client-advance-search-form').collapse('hide')
+    $('#client-search-form').collapse('hide')
+    $('#client-statistic-body').slideToggle("slow")
+    _handleResizeWindow()
+
   _handleHideShowReport = ->
     $('#client-statistic').click ->
-      $('#client-advance-search-form').collapse('hide')
-      $('#client-search-form').collapse('hide')
-      $('#client-statistic-body').slideToggle("slow")
-      _handleResizeWindow()
+      paramsAdvancedSearch = $('#params').val()
+      if paramsAdvancedSearch != ''
+        _handleCreateCsiDomainReport()
+        _handleCreateCaseReport()
+        _toggleCollapseOnOff()
+      else
+        if $('#cis-domain-score').is('[data-csi-domain]') && $('#program-statistic').is('[data-program-statistic]')
+          _toggleCollapseOnOff()
+        else
+          $('#client-statistic').css 'cursor', 'progress'
+          $('body').css 'cursor', 'progress'
+          $.ajax
+            url: '/api/clients/render_client_statistics'
+            method: 'GET'
+            success: (response) ->
+              data = response.text.split(' & ')
+              cisStatistic = data[0]
+              enrollmentStatistics = data[1]
+              $('#cis-domain-score').attr 'data-csi-domain', cisStatistic
+              $('#program-statistic').attr 'data-program-statistic', enrollmentStatistics
+              _handleCreateCsiDomainReport()
+              _handleCreateCaseReport()
+              $('#client-statistic').css 'cursor', ''
+              $('body').css 'cursor', ''
+              _toggleCollapseOnOff()
 
   _clickMenuResizeChart = ->
     $('.minimalize-styl-2').click ->

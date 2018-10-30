@@ -112,6 +112,11 @@ describe 'Client' do
       end
     end
 
+    scenario 'alias id' do
+      expect(page).to have_content(client.slug)
+      # FTS instance expects to see client code instead of slug
+    end
+
     scenario 'Created by .. on ..' do
       user = whodunnit_client(client.id)
       date = client.created_at.strftime('%d %B %Y')
@@ -342,7 +347,7 @@ describe 'Client' do
     end
 
     scenario 'locked user who has incomplete tasks' do
-      expect(page).to have_selector(:css, "option[locked='locked']", text: user.name, count: 1)
+      expect(page).to have_selector(:css, "option[locked='locked']", text: user.name, count: 1, visible: false)
     end
   end
 

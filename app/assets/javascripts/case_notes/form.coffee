@@ -48,13 +48,13 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _addTaskToServer()
     _addDomainToSelect()
 
-  _showError = (error) ->
-    if error.completion_date != undefined and error.completion_date.length > 0
+  _showError = (name, completion_date) ->
+    if completion_date != undefined and completion_date.length <= 0
       $('#case_note_task .task_completion_date').addClass('has-error')
     else
       $('#case_note_task .task_completion_date').removeClass('has-error')
 
-    if error.name != undefined and error.name.length > 0
+    if name != undefined and name.length <= 0
       $('#case_note_task .task_name').addClass('has-error')
     else
       $('#case_note_task .task_name').removeClass('has-error')
@@ -66,35 +66,40 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     $('.add-task-btn').on 'click', (e) ->
       $('.add-task-btn').attr('disabled','disabled')
       actionUrl = undefined
-      data      = undefined
-      data      = $('#case_note_task').serializeArray()
-      actionUrl = $('#case_note_task').attr('action').split('?')[0]
-      $.ajax
-          type: 'POST'
-          url: "#{actionUrl}.json"
-          data: data
-          success: (response) ->
-            _addElementToDom(response, actionUrl)
-            $('.add-task-btn').removeAttr('disabled')
-            $('#tasksFromModal').modal('hide')
-          error: (response) ->
-            _showError(response.responseJSON)
-            $('.add-task-btn').removeAttr('disabled')
+      taskName  = undefined
+      taskDate  = undefined
+      domainId  = undefined
+      relation  = undefined
 
-  _addElementToDom = (data, actionUrl) ->
-    appendElement  = $("#tasks-domain-#{data.domain_id} .task-arising");
+      actionUrl = $('#case_note_task').attr('action').split('?')[0]
+
+      taskName = $('#task_name').val()
+      domainId = $('#task_domain_id').val()
+      relation = $('#task_relation').val()
+      taskDate = $('#task_completion_date').val()
+
+      if taskName.length > 0 && taskDate.length > 0
+        _addElementToDom(taskName, taskDate, domainId, relation, actionUrl)
+        $('.add-task-btn').removeAttr('disabled')
+        $('#tasksFromModal').modal('hide')
+      else
+        _showError(taskName, taskDate)
+        $('.add-task-btn').removeAttr('disabled')
+
+  _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl) ->
+    appendElement  = $(".domain-#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
     deleteLink     = ''
-    deleteUrl      = "#{actionUrl}/#{data.id}"
-    deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' style='margin: 0;' href='javascript:void(0)' data-url='#{deleteUrl}'></a>" if $('#current_user').val() != 'case worker'
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}#{deleteLink}</li>"
+    deleteUrl      = "#{actionUrl}/#{domainId}"
+    deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}, #{relation}'></li>"
 
-    if $(".task-domain-#{data.domain_id}").hasClass('hidden')
-      $(".task-domain-#{data.domain_id}").removeClass('hidden')
+    if $(".task-domain-#{domainId}").hasClass('hidden')
+      $(".task-domain-#{domainId}").removeClass('hidden')
 
-    $("#tasks-domain-#{data.domain_id} .task-arising").removeClass('hidden')
-    $("#tasks-domain-#{data.domain_id} .task-arising ol").append(element)
+    $("#tasks-domain-#{domainId} .task-arising").removeClass('hidden')
+    $("#tasks-domain-#{domainId} .task-arising ol").append(element)
     _clearForm()
 
     $('a.remove-task').on 'click', (e) ->
@@ -119,11 +124,14 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
 
-    $.ajax
-      type: 'delete'
-      url: url
-      success: (response) ->
-    $(e.target).parent().remove()
+    if $(e.target).data('persisted') == true
+      $.ajax
+        type: 'delete'
+        url: url
+        success: (response) ->
+      $(e.target).parent().remove()
+    else
+      $(e.target).parent().remove()
 
   _addDomainToSelect =  ->
     $('.case-note-task-btn').on 'click', (e) ->

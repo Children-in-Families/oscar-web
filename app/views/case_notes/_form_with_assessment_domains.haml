@@ -1,7 +1,7 @@
 .panel.panel-default.assessment-domain-panel
   .panel-heading{:role => "tab"}
     %h5.panel-title
-      %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}", role: "button" }
+      %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}", "aria-expanded": cd.object.domain_group.name == '1' ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}", role: "button" }
         %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
         = "(#{cd.object.domain_group.domain_identities})"
         - cd.object.domain_group.domains.each do |domain|
@@ -9,7 +9,7 @@
           - next if ad.nil?
           %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
 
-  .panel-collapse.collapse{ id: "collapse#{cd.object.domain_group.name}", class: cd.object.domain_group.first_ordered? ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel" }
+  .panel-collapse.collapse{ id: "collapse#{cd.object.domain_group.name}", class: cd.object.domain_group.name == '1' ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel" }
     .panel-body
       .row
         .col-xs-12.col-md-6
@@ -38,5 +38,5 @@
           = render 'attachment_fields', { cd: cd }
       .row
         .col-xs-12
-          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
+          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
             = t('.add_task')
