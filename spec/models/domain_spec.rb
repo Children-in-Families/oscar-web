@@ -21,3 +21,20 @@ describe Domain, 'methods' do
     end
   end
 end
+
+describe Organization, 'scopes' do
+  let!(:domain){ create(:domain, custom_domain: false) }
+  let!(:custom_domain){ create(:domain, custom_domain: true) }
+
+  it '.csi_domains' do
+    domains = Domain.csi_domains
+    expect(domains).to include(domain)
+    expect(domains).not_to include(custom_domain)
+  end
+
+  it '.custom_csi_domains' do
+    domains = Domain.custom_csi_domains
+    expect(domains).to include(custom_domain)
+    expect(domains).not_to include(domain)
+  end
+end

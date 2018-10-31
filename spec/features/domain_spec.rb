@@ -1,12 +1,13 @@
 describe 'Domain' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:domain_group){ create(:domain_group) }
-  let!(:domain){ create(:domain) }
+  let!(:domain){ create(:domain, name: 'Domain ABC') }
   let!(:other_domain){ create(:domain) }
   let!(:task){ create(:task, domain: other_domain) }
   before do
     login_as(admin)
   end
+
   feature 'List' do
     before do
       visit domains_path
@@ -33,6 +34,11 @@ describe 'Domain' do
     scenario 'edit link' do
       expect(page).to have_link(nil, href: edit_domain_path(domain))
     end
+
+    scenario 'copy link' do
+      expect(page).to have_link(nil, href: new_domain_path(domain_id: domain.id, copy: true))
+    end
+
     scenario 'delete link' do
       expect(page).to have_css("a[href='#{domain_path(domain)}'][data-method='delete']")
     end
@@ -57,6 +63,18 @@ describe 'Domain' do
       fill_in 'Identity', with: 'Domain Identity'
       click_button 'Save'
       expect(page).to have_content('has already been taken')
+    end
+  end
+
+  feature 'Copy' do
+    before do
+      visit domains_path
+    end
+
+    scenario 'Valid', js: true do
+      first("a[href='#{new_domain_path(domain_id: domain.id, copy: true)}']").click
+      sleep 1
+      expect(find_field('domain_name').value).to eq 'Domain ABC'
     end
   end
 
