@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181023071121) do
+ActiveRecord::Schema.define(version: 20181030035922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -563,17 +563,21 @@ ActiveRecord::Schema.define(version: 20181023071121) do
   end
 
   create_table "domains", force: :cascade do |t|
-    t.string   "name",            default: ""
-    t.string   "identity",        default: ""
-    t.text     "description",     default: ""
+    t.string   "name",               default: ""
+    t.string   "identity",           default: ""
+    t.text     "description",        default: ""
     t.integer  "domain_group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "tasks_count",     default: 0
-    t.string   "score_1_color",   default: "danger"
-    t.string   "score_2_color",   default: "warning"
-    t.string   "score_3_color",   default: "info"
-    t.string   "score_4_color",   default: "primary"
+    t.integer  "tasks_count",        default: 0
+    t.string   "score_1_color",      default: "danger"
+    t.string   "score_2_color",      default: "warning"
+    t.string   "score_3_color",      default: "info"
+    t.string   "score_4_color",      default: "primary"
+    t.text     "score_1_definition", default: ""
+    t.text     "score_2_definition", default: ""
+    t.text     "score_3_definition", default: ""
+    t.text     "score_4_definition", default: ""
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree

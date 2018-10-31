@@ -2535,6 +2535,7 @@ en:
       description: Description
       domain_group: Domain Group
       identity: Identity
+      interpretation: Interpretation
       name: Name
       save: Save
       score_1: Score 1

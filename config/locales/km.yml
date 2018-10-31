@@ -2536,6 +2536,7 @@ km:
       description: ការបរិយាយ
       domain_group: ការប្រមូលផ្តុំកត្តា
       identity: សំគាល់
+      interpretation: អត្ថន័យ
       name: ឈ្មោះកត្តា
       save: រក្សាទុក
       score_1: ពិន្ទុ 1
