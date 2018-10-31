@@ -37,21 +37,21 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $('.actions.clearfix ul').before("<hr/>")
 
   _formValidate = (form) ->
-    $('.score_option input').attr('required','required')
-    $('.col-xs-12').on 'click', '.score_option label', ->
+    $('.score_option .btn-option').attr('required','required')
+    $('.col-xs-12').on 'click', '.score_option .btn-option', ->
 
-      currentTabLabels = $(@).parents('.score_option').find('label label')
+      currentTabLabels = $(@).siblings()
       currentTabLabels.removeClass('active-label')
-      $(@).children('label').addClass('active-label')
+      $(@).addClass('active-label')
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'label-danger label-warning label-primary label-info'
+      labelColors = 'btn-danger btn-warning btn-primary btn-success'
       currentTabLabels.removeClass(labelColors)
-      score       = $(@).children('label').text()
+      score       = $(@).data('score')
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).children('label').addClass("label-#{scoreColor}")
+      $(@).addClass("btn-#{scoreColor}")
       if(scoreColor == 'danger' or scoreColor == 'warning')
         $(".domain-#{domainId} .assessment-task-btn, .domain-#{domainId} .task_required").removeClass('hidden').show()
       else

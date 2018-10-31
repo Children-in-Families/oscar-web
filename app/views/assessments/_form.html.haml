@@ -19,25 +19,42 @@
                 = ad.hidden_field :domain_id
                 .well
                   = ad.object.domain.description.html_safe
+                = ad.input :reason, label: t('.reason'), required: true, input_html: { class: 'reason' }
+                %label
+                  Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+                .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
+                  .btn-option.btn.btn-block{ 'data-score': 1 }
+                    %p ១៖ កុមារមិនសូវ មានឣាហារបរិភោគ ហើយចូលគេងទាំងឃ្លាន ស្ទើររាល់យប់។
+                    %p 1: The child rarely has food to eat and goes to bed hungry most nights.
+                  .btn-option.btn.btn-block{ 'data-score': 2 }
+                    %p ២៖ កុមារជាញឹកញាប់មានអាហារបរិភោគតិចតួចជាងតម្រូវការ និងត្អូញត្អែរពី ការ ឃ្លាន។
+                    %p 2: The child frequently has less food to eat than needed, complains of hunger.
+                  .btn-option.btn.btn-block{ 'data-score': 3 }
+                    %p ៣៖ នៅពេលខ្លះ កុមារ បរិភោគ គ្រប់គ្រាន់ ឣាស្រ័យទៅលើរដូវកាល ឬការផ្គត់ផ្គង់អាហារ។
+                    %p 3: The child has enough to eat for some of time, depending on season or food supply.
+                  .btn-option.btn.btn-block{ 'data-score': 4 }
+                    %p ៤៖កុមារមានអាហារផ្គត់ផ្គង់គ្រប់ គ្រាន់, បរិភោគបានជាទៀងទាត់។
+                    %p 4: The child is well fed, eats regularly.
                 .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
                   = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)], :first, :last
-
-                = ad.input :reason, label: t('.reason'), required: true, input_html: { class: 'reason' }
                 = ad.input :goal, label: t('.goal'), required: true, input_html: { class: 'goal' }
-                = render 'attachment_fields', ad: ad
-                .form-group
-                  %p.text-danger.task_required.hidden
-                    %abbr{ title: 'required' } *
-                    = t('.at_least_one_task_required')
-                  %div{ class: "task-arising hidden" }
-                    %label.control-label
-                      = t('.tasks_arising')
-                    %ol.tasks-list{ type: '1'}
-                      - @client.tasks.by_domain_id(domain).incomplete.each do |task|
-                        %li.list-group-item{style: 'padding-bottom: 11px'}
-                          = task.name
-                          - if can? :destroy, Task
-                            %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
+                .row
+                  .col-sm-12.col-md-6
+                    = render 'attachment_fields', ad: ad
+                  .col-sm-12.col-md-6
+                    .form-group
+                      %p.text-danger.task_required.hidden
+                        %abbr{ title: 'required' } *
+                        = t('.at_least_one_task_required')
+                      %div{ class: "task-arising hidden" }
+                        %label.control-label
+                          = t('.tasks_arising')
+                        %ol.tasks-list{ type: '1'}
+                          - @client.tasks.by_domain_id(domain).incomplete.each do |task|
+                            %li.list-group-item{style: 'padding-bottom: 11px'}
+                              = task.name
+                              - if can? :destroy, Task
+                                %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
                 .form-group
                   %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                     = t('.add_task')
