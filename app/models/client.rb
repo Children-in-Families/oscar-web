@@ -8,12 +8,13 @@ class Client < ActiveRecord::Base
   attr_accessor :organization, :case_type
 
   friendly_id :slug, use: :slugged
+  mount_uploader :profile, ImageUploader
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments program_streams programexitdate enrollmentdate).freeze
 
-  GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4'].freeze
+  GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
@@ -103,20 +104,27 @@ class Client < ActiveRecord::Base
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
   def self.filter(options)
-    query = all
-    query = query.where("given_name iLIKE ?", "%#{fetch_75_chars_of(options[:given_name])}%")                 if options[:given_name].present?
-    query = query.where("family_name iLIKE ?", "%#{fetch_75_chars_of(options[:family_name])}%")               if options[:family_name].present?
-    query = query.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
-    query = query.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
-    query = query.where("village iLIKE ?", "%#{fetch_75_chars_of(options[:village])}%")                       if options[:village].present?
-    query = query.where("commune iLIKE ?", "%#{fetch_75_chars_of(options[:commune])}%")                       if options[:commune].present?
+    query = Client.all
     query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
+    query = query.joins(:commune).where("communes.name_en iLIKE ?", "%#{options[:commune].split(' / ').last}%")                 if options[:commune].present?
+    query = query.joins(:village).where("villages.name_en iLIKE ?", "%#{options[:village].split(' / ').last}%")                 if options[:village].present?
+    query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")         if options[:current_province].present?
 
+    query.pluck(:slug)
+  end
 
-    query = query.where(birth_province_id: options[:birth_province_id])   if options[:birth_province_id].present?
-    query = query.where(province_id: options[:current_province_id])       if options[:current_province_id].present?
-
-    query
+  def self.find_shared_client(options)
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_clients = SharedClient.all
+    shared_clients = shared_clients.where("given_name iLIKE ?", "%#{fetch_75_chars_of(options[:given_name])}%")                 if options[:given_name].present?
+    shared_clients = shared_clients.where("family_name iLIKE ?", "%#{fetch_75_chars_of(options[:family_name])}%")               if options[:family_name].present?
+    shared_clients = shared_clients.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
+    shared_clients = shared_clients.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
+    shared_clients = shared_clients.joins(:birth_province).where("provinces.name iLIKE ?", "%#{options[:birth_province]}%")     if options[:birth_province].present?
+    shared_clients = shared_clients.pluck(:slug)
+    Organization.switch_to current_org
+    shared_clients
   end
 
   def family

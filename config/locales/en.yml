@@ -1291,6 +1291,7 @@ en:
       local_given_name: Given Name
       name_of_referee: Name of Referee
       other_detail: Other Details
+      profile: Photo
       province:
         cambodia: Birth Province
         lesotho: Birth Suburb
@@ -1300,6 +1301,7 @@ en:
       referral_information: Referral Information
       referral_received_by: Referral Received By
       referral_source: Referral Source
+      remove_profile: Remove Photo
       specific_point: Specific Point-of-Referral Data
       staff_responsibilities: Staff Responsibilities
       text-hint: Unable to remove this case worker because he/she has some remaining tasks to complete.
@@ -2533,6 +2535,7 @@ en:
       description: Description
       domain_group: Domain Group
       identity: Identity
+      interpretation: Interpretation
       name: Name
       save: Save
       score_1: Score 1

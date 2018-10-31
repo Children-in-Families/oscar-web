@@ -1292,6 +1292,7 @@ km:
       local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
+      profile: រូបថត
       province:
         cambodia: ខេត្តកំណើត
         lesotho: ខេត្តកំណើត
@@ -1301,6 +1302,7 @@ km:
       referral_information: ព័ត៌មានការបញ្ជូន
       referral_received_by: បុគ្គលិកទទួលករណី
       referral_source: ប្រភពយោង
+      remove_profile: លុបរូបថត
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
       text-hint: មិនអាចដកបុគ្គលិកកាន់ករណីនេះបានទេ ព្រោះគាត់មានកាតព្វកិច្ចមួយចំនួនដែលមិនទាន់បានបញ្ចប់
@@ -2534,6 +2536,7 @@ km:
       description: ការបរិយាយ
       domain_group: ការប្រមូលផ្តុំកត្តា
       identity: សំគាល់
+      interpretation: អត្ថន័យ
       name: ឈ្មោះកត្តា
       save: រក្សាទុក
       score_1: ពិន្ទុ 1

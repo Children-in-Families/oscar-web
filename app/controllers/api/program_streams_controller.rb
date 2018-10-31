@@ -1,5 +1,5 @@
 module Api
-  class ProgramStreamsController < AdminController
+  class ProgramStreamsController < Api::ApplicationController
     def enrollment_fields
       program_stream = ProgramStream.find params[:program_stream_id]
       client_enrollment_ids = ClientEnrollment.find_by_program_stream_id(program_stream.id).ids

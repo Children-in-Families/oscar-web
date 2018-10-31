@@ -1,4 +1,4 @@
-#confirm-client-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog' }
+#confirm-client-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog', 'data-backdrop': 'static' }
   = hidden_field(:hidden, :title, value: t('.title'))
   = hidden_field(:hidden, :body_first, value: t('.body_first') )
   = hidden_field(:hidden, :body_second, value: t('.body_second') )
@@ -6,11 +6,11 @@
   .modal-dialog
     .modal-content.panel-warning
       .modal-header.panel-heading
-        %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+        %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
         %h4.modal-title
       .modal-body.text-center
       .modal-footer
-        %button#confirm.btn.btn-warning{ type: 'button' }
+        %button#confirm.btn.btn-warning{ type: 'button', 'data-confirm': t('.confirm') }
           = t('.confirm')
-        %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
+        %button.btn-modal-cancel.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
           = t('.close')

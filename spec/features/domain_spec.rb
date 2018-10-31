@@ -46,6 +46,7 @@ describe 'Domain' do
     scenario 'valid' do
       fill_in 'Name', with: 'Domain Name'
       fill_in 'Identity', with: 'Domain Identity'
+      fill_in 'domain_score_1_definition', with: 'Score 1 Description'
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Domain Name')

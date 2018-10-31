@@ -19,9 +19,19 @@ end
 
 
 describe DomainGroup, 'methods' do
-  let!(:domain_group){ create(:domain_group) }
+  let!(:domain_group){ create(:domain_group, name: '1') }
+  let!(:domain_group_2){ create(:domain_group, name: '2') }
   let!(:domain){ create(:domain, domain_group: domain_group) }
   let!(:other_domain){ create(:domain, domain_group: domain_group) }
   let!(:domain_identities){ "#{domain.identity}, #{other_domain.identity}" }
   it { expect(domain_group.domain_identities).to eq(domain_identities) }
+
+  context '#first_ordered?' do
+    it 'returns true' do
+      expect(domain_group.first_ordered?). to be_truthy
+    end
+    it 'returns false' do
+      expect(domain_group_2.first_ordered?). to be_falsey
+    end
+  end
 end

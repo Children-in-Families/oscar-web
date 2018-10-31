@@ -10,4 +10,8 @@ class DomainGroup < ActiveRecord::Base
   def domain_identities
     domains.map(&:identity).join(', ')
   end
+
+  def first_ordered?
+    name == DomainGroup.first.name
+  end
 end

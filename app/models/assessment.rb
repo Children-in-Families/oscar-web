@@ -20,7 +20,6 @@ class Assessment < ActiveRecord::Base
   scope :most_recents, -> { order(created_at: :desc) }
 
   DUE_STATES        = ['Due Today', 'Overdue']
-  ASSESSMENT_HEADER = ['name', 'completion_date', 'domain_id', 'user_id']
 
   def set_assessment_completed
     empty_assessment_domains = []

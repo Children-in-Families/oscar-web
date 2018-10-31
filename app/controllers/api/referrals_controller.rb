@@ -1,5 +1,5 @@
 module Api
-  class ReferralsController < AdminController
+  class ReferralsController < Api::ApplicationController
     include ApplicationHelper
     load_and_authorize_resource
 

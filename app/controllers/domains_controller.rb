@@ -51,7 +51,7 @@ class DomainsController < AdminController
   private
 
   def domain_params
-    params.require(:domain).permit(:name, :identity, :description, :domain_group_id, :score_1_color, :score_2_color, :score_3_color, :score_4_color)
+    params.require(:domain).permit(:name, :identity, :description, :domain_group_id, :score_1_color, :score_2_color, :score_3_color, :score_4_color, :score_1_definition, :score_2_definition, :score_3_definition, :score_4_definition)
   end
 
   def find_domain
