@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181030035922) do
+ActiveRecord::Schema.define(version: 20181031030528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,41 +80,6 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "ahoy_events", force: :cascade do |t|
-    t.integer  "visit_id"
-    t.integer  "user_id"
-    t.string   "name"
-    t.jsonb    "properties"
-    t.datetime "time"
-  end
-
-  add_index "ahoy_events", ["name", "time"], name: "index_ahoy_events_on_name_and_time", using: :btree
-
-  create_table "ahoy_visits", force: :cascade do |t|
-    t.string   "visit_token"
-    t.string   "visitor_token"
-    t.integer  "user_id"
-    t.string   "ip"
-    t.text     "user_agent"
-    t.text     "referrer"
-    t.string   "referring_domain"
-    t.text     "landing_page"
-    t.string   "browser"
-    t.string   "os"
-    t.string   "device_type"
-    t.string   "country"
-    t.string   "region"
-    t.string   "city"
-    t.string   "utm_source"
-    t.string   "utm_medium"
-    t.string   "utm_term"
-    t.string   "utm_content"
-    t.string   "utm_campaign"
-    t.datetime "started_at"
-  end
-
-  add_index "ahoy_visits", ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true, using: :btree
 
   create_table "answers", force: :cascade do |t|
     t.string   "description"
@@ -613,6 +578,7 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.text     "score_2_definition", default: ""
     t.text     "score_3_definition", default: ""
     t.text     "score_4_definition", default: ""
+    t.boolean  "custom_domain",      default: false
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
