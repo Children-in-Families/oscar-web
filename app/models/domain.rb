@@ -16,6 +16,8 @@ class Domain < ActiveRecord::Base
 
   scope :assessment_domains_by_assessment_id, ->(id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
   scope :order_by_identity, -> { order(:identity) }
+  scope :csi_domains, -> { where(custom_domain: false) }
+  scope :custom_csi_domains, -> { where(custom_domain: true) }
 
   enum domain_score_colors: { danger: 'Red', warning: 'Yellow', info: 'Blue', primary: 'Green' }
 

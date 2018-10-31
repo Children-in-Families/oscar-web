@@ -2530,6 +2530,26 @@ my:
   domains:
     create:
       successfully_created: ဒိုမိန္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    csi_tool:
+      add_new_domain: ဒိုမိန္းအသစ္
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+      domains: ဒိုမိန္းမ်ား
+      score_1: ရမွတ္ ၁
+      score_2: ရမွတ္ ၂
+      score_3: ရမွတ္ ၃
+      score_4: ရမွတ္ ၄
+      view: ျမင္ကြင္း
+    custom_csi_tool:
+      add_new_domain: ဒိုမိန္းအသစ္
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+      domains: ဒိုမိန္းမ်ား
+      score_1: ရမွတ္ ၁
+      score_2: ရမွတ္ ၂
+      score_3: ရမွတ္ ၃
+      score_4: ရမွတ္ ၄
+      view: ျမင္ကြင္း
     destroy:
       alert: ဒိုမိန္းအုုပ္စုကို ဖ်က္၍ မရပါ။
       successfully_deleted: ဒိုမိန္းအုပ္စုကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ
@@ -2542,6 +2562,7 @@ my:
       identity: အမွတ္အသား
       name: နာမည္
       save: သိမ္းဆည္းသည္
+      saving: ချွေတာ...
       score_1: ရမွတ္ ၁
       score_2: ရမွတ္ ၂
       score_3: ရမွတ္ ၃

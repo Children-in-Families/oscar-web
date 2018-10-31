@@ -83,6 +83,7 @@
 //= require data_trackers/index
 //= require changelogs/index
 //= require domains/form
+//= require domains/index
 //= require custom_fields/form
 //= require custom_fields/index
 //= require custom_fields/show
