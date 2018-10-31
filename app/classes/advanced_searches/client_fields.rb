@@ -120,7 +120,7 @@ module AdvancedSearches
     end
 
     def received_by_options
-      recevied_by_clients = @user.admin? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
+      recevied_by_clients = @user.admin? || @user.manager? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
       recevied_by_clients.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
@@ -130,7 +130,7 @@ module AdvancedSearches
     end
 
     def followed_up_by_options
-      followed_up_clients = @user.admin? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
+      followed_up_clients = @user.admin? || @user.manager? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
       followed_up_clients.sort.map{|s| {s[1].to_s => s[0]}}
     end
 

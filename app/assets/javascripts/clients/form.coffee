@@ -4,7 +4,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _getTranslation()
     _initWizardForm()
     _initICheck()
-    _ajaxCheckExistClient()
     _ajaxChangeDistrict()
     _ajaxChangeSubDistrict()
     _ajaxChangeTownship()
@@ -18,6 +17,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _setMarginToClassActions()
     _setCancelButtonPosition()
     _handReadonlySpecificPoint()
+    _initUploader()
+    _enableDoneButton()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -91,55 +92,51 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
-    $("a[href='#finish']").click ->
-      data = {
-        given_name: $('#client_given_name').val()
-        family_name: $('#client_family_name').val()
-        local_given_name: $('#client_local_given_name').val()
-        local_family_name: $('#client_local_family_name').val()
-        birth_province_id: $('#client_birth_province_id').val()
-        current_province_id: $('#client_province_id').val()
-        date_of_birth: $('#client_date_of_birth').val()
-        village: $('#client_village').val()
-        commune: $('#client_commune').val()
-      }
-      if data.date_of_birth != '' or data.given_name != '' or data.birth_province_id != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province_id != ''
-        $.ajax({
-          type: 'GET'
-          url: '/api/clients/compare'
-          data: data
-          dataType: "JSON"
-        }).success((json)->
-          clientId  = $('#client_id').val()
-          clientIds = []
-          clients   = json.clients
-          for client in clients
-            clientIds.push(String(client.id))
+    $("a[href='#finish']").text(filterTranslation.done).append('...').attr("disabled","disabled");
+    data = {
+      given_name: $('#client_given_name').val()
+      family_name: $('#client_family_name').val()
+      local_given_name: $('#client_local_given_name').val()
+      local_family_name: $('#client_local_family_name').val()
+      date_of_birth: $('#client_date_of_birth').val()
+      birth_province: $('#client_birth_province_id').find(':selected').text()
+      current_province: $('#client_province_id').find(':selected').text()
+      village: $('#client_village_id').find(':selected').text()
+      commune: $('#client_commune_id').find(':selected').text()
+    }
 
-          if clients.length > 0 and clientId not in clientIds
-            modalTitle      = $('#hidden_title').val()
-            modalTextFirst  = $('#hidden_body_first').val()
-            modalTextSecond = $('#hidden_body_second').val()
-            modalTextThird  = $('#hidden_body_third').val()
-            clientName      = $('#client_given_name').val()
-            organizations   = []
-            organizations.push(client.organization for client in clients)
-            $.unique(organizations[0])
-            modalText = []
-            for organization in organizations[0]
-              modalText.push("<p>#{modalTextFirst} #{organization}#{modalTextSecond} #{organization} #{modalTextThird}<p/>")
+    if data.date_of_birth != '' or data.given_name != '' or data.birth_province != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province != ''
+      $.ajax({
+        type: 'GET'
+        url: '/api/clients/compare'
+        data: data
+        dataType: "JSON"
+      }).success((json)->
+        clientId  = $('#client_slug').val()
+        organizations   = json.organizations
+        if clientId == '' and organizations.length > 0
+          modalTitle      = $('#hidden_title').val()
+          modalTextFirst  = $('#hidden_body_first').val()
+          modalTextSecond = $('#hidden_body_second').val()
+          modalTextThird  = $('#hidden_body_third').val()
+          clientName      = $('#client_given_name').val()
 
-            $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
-            $('#confirm-client-modal .modal-body').html(modalText)
+          modalText = []
+          for organization in organizations
+            modalText.push("<p>#{modalTextFirst} #{organization}#{modalTextSecond} #{organization} #{modalTextThird}<p/>")
 
-            $('#confirm-client-modal').modal('show')
-            $('#confirm-client-modal #confirm').on 'click', ->
-              $('#client-wizard-form').submit()
-          else
+          $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
+          $('#confirm-client-modal .modal-body').html(modalText)
+
+          $('#confirm-client-modal').modal('show')
+          $('#confirm-client-modal #confirm').on 'click', ->
+            $(@).text($(@).data('confirm')).append('...').attr("disabled","disabled");
             $('#client-wizard-form').submit()
-        )
-      else
-        $('#client-wizard-form').submit()
+        else
+          $('#client-wizard-form').submit()
+      )
+    else
+      $('#client-wizard-form').submit()
 
   _clientSelectOption = ->
     $('select').select2
@@ -217,6 +214,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         form.valid()
 
       onFinished: (event, currentIndex) ->
+        form.valid()
         _ajaxCheckExistClient()
 
       labels:
@@ -282,21 +280,21 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('.save-edit-client').show()
       $('.cancel-client-button').css 'margin-top', '-97px'
       if current_url.includes('locale=my')
-        $('.actions').css 'margin-left', '-150px'
+        $('.actions').css 'margin-left', '-155px'
       else if current_url.includes('locale=km')
-        $('.actions').css 'margin-left', '-70px'
+        $('.actions').css 'margin-left', '-75px'
       else
-        $('.actions').css 'margin-left', '-60px'
+        $('.actions').css 'margin-left', '-65px'
 
   _setMarginToClassActions = ->
     current_url = window.location.href
     if $('.edit-form').length
       if current_url.includes('locale=my')
-        $('.actions').css 'margin-left', '-150px'
+        $('.actions').css 'margin-left', '-155px'
       else if current_url.includes('locale=km')
-        $('.actions').css 'margin-left', '-70px'
+        $('.actions').css 'margin-left', '-75px'
       else
-        $('.actions').css 'margin-left', '-60px'
+        $('.actions').css 'margin-left', '-65px'
 
   _removeMarginOnNewForm = ->
     if $('.client-form-title').length
@@ -341,4 +339,19 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
+
+  _initUploader = ->
+    path = $('#client_profile').data('img-src')
+    $('.file .optional').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg']
+      initialPreview: ["<img src=#{path} class='file-preview-image'>"] if path != '' and path != 'image-placeholder.png'
+
+  _enableDoneButton = ->
+    $("a[href='#previous'], .btn-modal-cancel").on 'click', ->
+      $("a[href='#finish']").removeAttr("disabled").text(filterTranslation.done);
+
   { init: _init }

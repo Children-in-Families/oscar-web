@@ -1,5 +1,5 @@
 module Api
-  class CommunesController < AdminController
+  class CommunesController < Api::ApplicationController
     def index
       data = District.find(params[:district_id]).communes
       render json: {

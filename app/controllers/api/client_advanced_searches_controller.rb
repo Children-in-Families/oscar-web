@@ -1,5 +1,5 @@
 module Api
-  class ClientAdvancedSearchesController < AdminController
+  class ClientAdvancedSearchesController < Api::ApplicationController
     def get_basic_field
       advanced_filter_fields = AdvancedSearches::ClientFields.new(user: current_user).render
       render json: advanced_filter_fields

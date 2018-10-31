@@ -3,22 +3,32 @@
     = error_notification(f)
     .form-inputs
       .row
-        .col-xs-4
+        .col-xs-3
           = f.association :domain_group, collection: DomainGroup.all, label: t('.domain_group'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-4
+        .col-xs-6
           = f.input :name, label: t('.name')
-        .col-xs-4
+        .col-xs-3
           = f.input :identity, label: t('.identity')
-      %hr
       .row
         .col-xs-3
           = f.input :score_1_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_1'), include_blank: false, input_html: { class: 'select2' }
+        .col-xs-6
+          = f.input :score_1_definition, label: t('.interpretation')
+      .row
         .col-xs-3
           = f.input :score_2_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_2'), include_blank: false, input_html: { class: 'select2' }
+        .col-xs-6
+          = f.input :score_2_definition, label: t('.interpretation')
+      .row
         .col-xs-3
           = f.input :score_3_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_3'), include_blank: false, input_html: { class: 'select2' }
+        .col-xs-6
+          = f.input :score_3_definition, label: t('.interpretation')
+      .row
         .col-xs-3
           = f.input :score_4_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_4'), include_blank: false, input_html: { class: 'select2' }
+        .col-xs-6
+          = f.input :score_4_definition, label: t('.interpretation')
       %hr
       .row
         .col-xs-12

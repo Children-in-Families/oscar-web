@@ -61,4 +61,10 @@ body[id='clients-edit'], body[id='clients-update']{
   .consent-forms, .house_number {
     clear: both;
   }
+
+  a[disabled='disabled'] {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 }

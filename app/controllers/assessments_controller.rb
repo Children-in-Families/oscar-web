@@ -1,5 +1,6 @@
 class AssessmentsController < AdminController
   load_and_authorize_resource
+  include CreateBulkTask
 
   before_action :find_client, :check_current_organization
   before_action :find_assessment, only: [:edit, :update, :show]
@@ -132,11 +133,5 @@ class AssessmentsController < AdminController
 
   def check_current_organization
     redirect_to dashboards_path, alert: t('unauthorized.default') if current_organization.mho?
-  end
-
-  def create_bulk_task(task_in_params)
-    task_attr = task_in_params.map {|task| [Assessment::ASSESSMENT_HEADER, task.split(', ') << current_user.id].transpose.to_h }
-    tasks = @client.tasks.create(task_attr)
-    tasks.each {|task| Calendar.populate_tasks(task) }
   end
 end

@@ -1,5 +1,5 @@
 module Api
-  class DistrictsController < AdminController
+  class DistrictsController < Api::ApplicationController
     def index
       data = Province.find(params[:province_id]).districts
       render json: { data: data }

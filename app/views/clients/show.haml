@@ -1,17 +1,27 @@
 .row
   .col-xs-12
     .row
-      .col-md-3
-        %span.show-name
-          = @client.name
-        - if @client.status
-          %span.show-status= status_style(@client.status)
-        .client-info
-          = client_alias_id
-          = @client.gender.try(:titleize)
-      .col-md-6
-        %table.table.small.m-b-xs
+      %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
+        %table.table.small.m-b-xs#main-info
           %tbody
+            %tr
+              %td{rowspan: '4'}
+                - if @client.profile?
+                  = image_tag @client.profile.photo, alt: @client.profile.file.filename, id: 'client_photo'
+              %td
+                = "#{t('.name')} :"
+                = @client.name
+              - if @client.status
+                %td
+                  = "#{t('.status')} :"
+                  %span.show-status= status_style(@client.status)
+            %tr
+              %td
+                = "#{t('.id')} :"
+                %strong= @client.slug
+              %td
+                = "#{t('.gender')} :"
+                %strong= @client.gender.try(:titleize)
             %tr
               %td
                 = "#{t('.date_of_birth')} :"
