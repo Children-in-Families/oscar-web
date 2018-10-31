@@ -81,6 +81,41 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.datetime "updated_at"
   end
 
+  create_table "ahoy_events", force: :cascade do |t|
+    t.integer  "visit_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.jsonb    "properties"
+    t.datetime "time"
+  end
+
+  add_index "ahoy_events", ["name", "time"], name: "index_ahoy_events_on_name_and_time", using: :btree
+
+  create_table "ahoy_visits", force: :cascade do |t|
+    t.string   "visit_token"
+    t.string   "visitor_token"
+    t.integer  "user_id"
+    t.string   "ip"
+    t.text     "user_agent"
+    t.text     "referrer"
+    t.string   "referring_domain"
+    t.text     "landing_page"
+    t.string   "browser"
+    t.string   "os"
+    t.string   "device_type"
+    t.string   "country"
+    t.string   "region"
+    t.string   "city"
+    t.string   "utm_source"
+    t.string   "utm_medium"
+    t.string   "utm_term"
+    t.string   "utm_content"
+    t.string   "utm_campaign"
+    t.datetime "started_at"
+  end
+
+  add_index "ahoy_visits", ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true, using: :btree
+
   create_table "answers", force: :cascade do |t|
     t.string   "description"
     t.integer  "able_screening_question_id"
@@ -821,10 +856,10 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
-    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
+    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
