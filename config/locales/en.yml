@@ -497,8 +497,9 @@ en:
       goal: 'Goal: what specific goal will the client be working toward over the next few months?'
       next: Next
       previous: Previous
-      reason: 'Reason: explain why you have chosen this score.'
+      reason: 'Observation: explain why you have chosen this score.'
       save: Save
+      set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
       assessment_created_on: Assessment created on

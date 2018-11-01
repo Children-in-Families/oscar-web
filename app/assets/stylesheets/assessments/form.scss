@@ -200,4 +200,21 @@ body[id='assessments-update'] {
   .btn-option {
     border: 1px solid #999999;
   }
+
+  .goal-required-option {
+    display: inline;
+    span {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    .radio_buttons.optional {
+      margin-left: 5px;
+      display: inline;
+    }
+
+    label {
+      padding-left: 0;
+    }
+  }
 }

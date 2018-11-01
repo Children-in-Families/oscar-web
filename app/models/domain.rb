@@ -17,7 +17,7 @@ class Domain < ActiveRecord::Base
   scope :assessment_domains_by_assessment_id, ->(id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
   scope :order_by_identity, -> { order(:identity) }
 
-  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', info: 'Blue', primary: 'Green' }
+  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', success: 'Blue', primary: 'Green' }
 
   def convert_identity
     identity.downcase.parameterize('_')

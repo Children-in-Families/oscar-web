@@ -22,31 +22,36 @@
                 = ad.input :reason, label: t('.reason'), required: true, input_html: { class: 'reason' }
                 %label
                   Choose which of the following descriptions most closely describe the client's situation, base on your observation.
-                .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
-                  .btn-option.btn.btn-block{ 'data-score': 1 }
-                    %p ១៖ កុមារមិនសូវ មានឣាហារបរិភោគ ហើយចូលគេងទាំងឃ្លាន ស្ទើររាល់យប់។
-                    %p 1: The child rarely has food to eat and goes to bed hungry most nights.
-                  .btn-option.btn.btn-block{ 'data-score': 2 }
-                    %p ២៖ កុមារជាញឹកញាប់មានអាហារបរិភោគតិចតួចជាងតម្រូវការ និងត្អូញត្អែរពី ការ ឃ្លាន។
-                    %p 2: The child frequently has less food to eat than needed, complains of hunger.
-                  .btn-option.btn.btn-block{ 'data-score': 3 }
-                    %p ៣៖ នៅពេលខ្លះ កុមារ បរិភោគ គ្រប់គ្រាន់ ឣាស្រ័យទៅលើរដូវកាល ឬការផ្គត់ផ្គង់អាហារ។
-                    %p 3: The child has enough to eat for some of time, depending on season or food supply.
-                  .btn-option.btn.btn-block{ 'data-score': 4 }
-                    %p ៤៖កុមារមានអាហារផ្គត់ផ្គង់គ្រប់ គ្រាន់, បរិភោគបានជាទៀងទាត់។
-                    %p 4: The child is well fed, eats regularly.
-                .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
-                  = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)], :first, :last
-                = ad.input :goal, label: t('.goal'), required: true, input_html: { class: 'goal' }
+                - if is_domain_definition(domain)
+                  .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
+                    .btn-option.btn.btn-block{ 'data-score': 1 }
+                      %b= score_definition(domain.score_1_definition, 1)
+                    .btn-option.btn.btn-block{ 'data-score': 2 }
+                      %b= score_definition(domain.score_2_definition, 2)
+                    .btn-option.btn.btn-block{ 'data-score': 3 }
+                      %b= score_definition(domain.score_3_definition, 3)
+                    .btn-option.btn.btn-block{ 'data-score': 4 }
+                      %b= score_definition(domain.score_4_definition, 4)
+                    = ad.hidden_field :score
+                - else
+                  .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
+                    = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)], :first, :last
+                = ad.label :goal, required: true, label: t('.goal')
+                / .col-xs-12.col-sm-6.col-md-4
+                .goal-required-option{ id: "i-checks-#{domain.name}", class: ad.object.score == 4 ? '' : 'hidden' }
+                  %label= t('.set_goal')
+                  = ad.input :nil?, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, input_html: { 'data-goal-option': domain.name }
+
+                = ad.input :goal, label: false, required: true, input_html: { class: 'goal', id: "goal-text-area-#{domain.name}" }
                 .row
                   .col-sm-12.col-md-6
                     = render 'attachment_fields', ad: ad
                   .col-sm-12.col-md-6
                     .form-group
-                      %p.text-danger.task_required.hidden
+                      %p.text-danger.task_required
                         %abbr{ title: 'required' } *
                         = t('.at_least_one_task_required')
-                      %div{ class: "task-arising hidden" }
+                      %div{ class: "task-arising" }
                         %label.control-label
                           = t('.tasks_arising')
                         %ol.tasks-list{ type: '1'}
@@ -55,8 +60,8 @@
                               = task.name
                               - if can? :destroy, Task
                                 %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
-                .form-group
-                  %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
-                    = t('.add_task')
+                    .form-group
+                      %button.assessment-task-btn.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
+                        = t('.add_task')
 - if policy(@client).create?
   = render 'add_task_form'
