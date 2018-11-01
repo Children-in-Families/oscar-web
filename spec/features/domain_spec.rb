@@ -45,7 +45,7 @@ describe 'Domain' do
   end
 
   feature 'Create', js: true do
-    let!(:another_domain) { create(:domain, name: 'Another Domain') }
+    let!(:another_domain) { create(:domain, name: 'Another Domain', custom_domain: true) }
     before do
       visit new_domain_path
     end
@@ -100,7 +100,7 @@ describe 'Domain' do
       visit domains_path
     end
     scenario 'success' do
-      find("a[href='#{domain_path(domain)}'][data-method='delete']").click
+      first("a[href='#{domain_path(domain)}'][data-method='delete']").click
       sleep 1
       expect(page).not_to have_content(domain.name)
     end

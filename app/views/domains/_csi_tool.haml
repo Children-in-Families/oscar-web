@@ -11,6 +11,6 @@
                 .btn.btn.btn-primary.btn-add
                   = t('.add_new_domain')
         - @domains.each do |domain|
-          = render 'domain_list', domain: domain
+          = render partial: 'domain_list', collection: @domains, as: :domain
         .text-center
           = paginate @domains, params: { tab: 'csi_domain' }, :param_name => 'page_1'
