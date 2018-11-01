@@ -2,7 +2,7 @@
   .row
     .col-xs-12
       .ibox
-        .ibox-title
+        .ibox-title.domain-ibox
           %h5= @custom_domain_results
           %span.label.label-info= t('.domains')
           .ibox-tools
@@ -10,8 +10,7 @@
               = link_to new_domain_path do
                 .btn.btn.btn-primary.btn-add
                   = t('.add_new_domain')
-        .ibox-content
-          - @custom_domains.each do |domain|
-            = render 'domain_list', domain: domain
-        .ibox-footer.text-center
+        - @custom_domains.each do |domain|
+          = render 'domain_list', domain: domain
+        .text-center
           = paginate @custom_domains, params: { tab: 'custom_domain' }, :param_name => 'page_2'

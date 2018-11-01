@@ -3,7 +3,7 @@
     .ibox.min-margin-layout
       .ibox-content
         %div
-          %ul.nav.nav-tabs{role: "tablist"}
+          %ul.nav.nav-tabs.csi-tab{role: "tablist"}
             %li.active{role: "presentation"}
               %a{"aria-controls" => "csi-tools", "data-toggle" => "tab", href: "#csi-tools", role: "tab"}= t('.csi_tool')
             - if @custom_domains.present?

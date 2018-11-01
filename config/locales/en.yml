@@ -2525,6 +2525,10 @@ en:
   domains:
     create:
       successfully_created: Domain has been successfully created.
+    csi_tool:
+      add_new_domain: Add New Domain
+    custom_csi_tool:
+      add_new_domain: Add New Domain
     destroy:
       alert: Domain cannot be deleted.
       successfully_deleted: Domain has been successfully deleted.
@@ -2553,7 +2557,6 @@ en:
       score_3: Score 3
       score_4: Score 4
     index:
-      add_new_domain: Add New Domain
       are_you_sure: Are you sure you want to delete?
       changelog: Changelog
       csi_tool: CSI Tools

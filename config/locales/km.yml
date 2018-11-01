@@ -2526,6 +2526,10 @@ km:
   domains:
     create:
       successfully_created: កត្តាត្រូវបានបង្កើតដោយជោគជ័យ
+    csi_tool:
+      add_new_domain: បន្ថែមកត្តាថ្មី
+    custom_csi_tool:
+      add_new_domain: បន្ថែមកត្តាថ្មី
     destroy:
       alert: កត្តាមិនអាចលុបបានទេ
       successfully_deleted: កត្តាត្រូវបានលុបចោលដោយជោគជ័យ
@@ -2554,9 +2558,10 @@ km:
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
     index:
-      add_new_domain: បន្ថែមកត្តាថ្មី
       are_you_sure: តើអ្នកប្រាកដហើយ?
       changelog: ប្រវត្តិនៃកំណែ
+      csi_tool: CSI Tools
+      custom_csi_tool: Custom CSI Tools
       domains: កត្តា
       score_1: ពិន្ទុ 1
       score_2: ពិន្ទុ 2
