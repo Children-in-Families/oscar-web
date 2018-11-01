@@ -31,7 +31,7 @@ describe AssessmentDomain, 'instance method' do
   let!(:good) { create(:assessment_domain, score: 4, previous_score: 4) }
 
 
-  context 'good?' do
+  context '#good?' do
     # it 'should be true when score eq 4' do
     #   Domain.update_all(score_4_color: 'success', score_4_color: 'primary')
     #   expect(good.good?).to be_truthy
@@ -46,7 +46,7 @@ describe AssessmentDomain, 'instance method' do
     end
   end
 
-  context 'not_ideal?' do
+  context '#not_ideal?' do
     it 'should be true when score eq 3 and not in domain 1A' do
       expect(not_ideal.not_ideal?).to be_truthy
     end
@@ -59,7 +59,7 @@ describe AssessmentDomain, 'instance method' do
     end
   end
 
-  context 'has_problem?' do
+  context '#has_problem?' do
     it 'should be true when score eq 2 and not in domain 1A' do
       expect(has_problem.has_problem?).to be_truthy
     end
@@ -76,7 +76,7 @@ describe AssessmentDomain, 'instance method' do
     end
   end
 
-  context 'critical_problem?' do
+  context '#critical_problem?' do
     it 'should be true when score eq 1' do
       expect(critical_problem.critical_problem?).to be_truthy
     end
@@ -93,21 +93,21 @@ describe AssessmentDomain, 'instance method' do
     end
   end
 
-  context 'score color class' do
+  context '#score_color_class' do
     it { expect(critical_problem.score_color_class).to eq('danger') }
     it { expect(has_problem.score_color_class).to eq('warning') }
     it { expect(not_ideal.score_color_class).to eq('info') }
     # it { expect(good.score_color_class).to eq('primary')}
   end
 
-  context 'previous score color class' do
+  context '#previous_score_color_class' do
     it { expect(critical_problem.previous_score_color_class).to eq('danger') }
     it { expect(has_problem.previous_score_color_class).to eq('warning') }
     it { expect(not_ideal.previous_score_color_class).to eq('info') }
     # it { expect(good.previous_score_color_class).to eq('primary')}
   end
 
-  context 'score_definition' do
+  context '#score_definition' do
     it { expect(other_critical_problem.score_definition).to eq('score 2 definition') }
   end
 end

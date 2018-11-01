@@ -36,16 +36,16 @@
                         %td{rowspan: 4}
                           .domain-score.text-center
                             - unless @assessment.initial?
-                              %button{ 'data-original-title': "#{ad.score_definition.gsub(/\n/, '<br/>')}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                              %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
                                 = "#{ad.previous_score}"
                               %span{style: 'color:black;'} &#8594;
-                            %button{ 'data-original-title': "#{ad.score_definition.gsub(/\n/, '<br/>')}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                            %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
                               = "#{ad.score}"
                       %tr
                         %td
                           %b= "#{t('.score')} #{ad.score}:"
                         %td
-                          %b= ad.score_definition.gsub(/\n/, '<br/>').html_safe
+                          %b= simple_format(ad.score_definition)
                       %tr
                         %td
                           %b= "#{t('.reason')}:"
