@@ -2,15 +2,95 @@ class ClientSerializer < ActiveModel::Serializer
 
   attributes  :id, :given_name, :family_name, :gender, :code, :status, :date_of_birth, :grade,
               :current_province, :local_given_name, :local_family_name, :kid_id, :donors,
-              :current_address, :house_number, :street_number, :village, :commune, :district,
-              :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source,
+              :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
+              :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
               # :referral_phone, :live_with, :id_poor, :received_by,
-              :referral_phone, :live_with, :received_by,
+              :referral_phone, :live_with, :received_by, :main_school_contact,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :has_been_in_government_care, :relevant_referral_information,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms, :inactive_program_streams
+              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
+
+  def family_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.family_name
+  end
+
+  def given_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.given_name
+  end
+
+  def local_given_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.local_given_name
+  end
+
+  def local_family_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.local_family_name
+  end
+
+  def gender
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.gender
+  end
+
+  def date_of_birth
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.date_of_birth
+  end
+
+  def live_with
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.live_with
+  end
+
+  def telephone_number
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.telephone_number
+  end
+
+  def birth_province
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.birth_province
+  end
+
+  def enter_ngos
+    object.enter_ngos
+  end
+
+  def exit_ngos
+    object.exit_ngos
+  end
 
   def case_workers
     object.users
