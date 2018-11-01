@@ -516,10 +516,11 @@ en:
       based_on: Based on Assessment Number
       case_plan: Case Plan for
       domain: Domain
+      due_date: Due Date
       edit: Edit
       goal: Goal
       initial_assessment: Based on Initial Assessment
-      on_date: On Date
+      on_date: 'on'
       reason: Observations
       score: Score
       show_attachment: Show Attachments

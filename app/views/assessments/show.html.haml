@@ -1,5 +1,5 @@
 .row.mini-margin
-  .col-xs-12
+  .col-xs-12.col-sm-10.col-sm-offset-1
     .ibox#assessment-info.center-block
       .ibox-title
         = link_to client_assessments_path(@assessment.client), class: 'btn btn-default' do
@@ -29,9 +29,9 @@
                   %table.table.table-borderless
                     %tbody
                       %tr
-                        %td
+                        %td.no-padding-bottom
                           %b= "#{t('.domain')} #{ad.domain.name}:"
-                        %td
+                        %td.no-padding-bottom
                           %b= ad.domain.identity
                         %td{rowspan: 4}
                           .domain-score.text-center
@@ -42,9 +42,9 @@
                             %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
                               = "#{ad.score}"
                       %tr
-                        %td
+                        %td.no-padding-top
                           %b= "#{t('.score')} #{ad.score}:"
-                        %td
+                        %td.no-padding-top
                           %b= simple_format(ad.score_definition)
                       %tr
                         %td
@@ -63,7 +63,7 @@
                             %b= "#{t('.task')}:"
                           %td
                             - incomplete_tasks.each do |task|
-                              %li= task.name
+                              %li= "#{task.name} (#{t('.due_date')}: #{date_format(task.completion_date)})"
                             - if ad.attachments.any?
                               %br
                               %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')

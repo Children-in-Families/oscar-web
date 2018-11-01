@@ -516,6 +516,7 @@ km:
       based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
       case_plan: គម្រងករណី
       domain: កត្តា
+      due_date: កាលបរិច្ឆេទ
       edit: កែតម្រូវ
       goal: គោលដៅ
       initial_assessment: ដោយផ្អែកលើការប៉ាន់ប្រមាណដំបូង
