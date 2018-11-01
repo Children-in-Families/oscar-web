@@ -190,6 +190,14 @@ describe Assessment, 'callbacks' do
     end
   end
 
+  context 'index_of' do
+    let!(:client) { create(:client) }
+    let!(:assessment) { create(:assessment, client: client) }
+
+    it 'return index of assessment is 0' do
+      expect(assessment.index_of).to eq(0)
+    end
+  end
 end
 
 describe Assessment, 'CONSTANTS' do

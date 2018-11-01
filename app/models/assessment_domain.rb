@@ -27,6 +27,10 @@ class AssessmentDomain < ActiveRecord::Base
     domain["score_#{score}_color"]
   end
 
+  def score_definition
+    domain["score_#{score}_definition"]
+  end
+
   def previous_score_color_class
     domain["score_#{previous_score}_color"]
   end

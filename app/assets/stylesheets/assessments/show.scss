@@ -5,11 +5,9 @@ body[id=assessments-show] {
   }
 
   .domain-score {
-    margin-top: 10px;
-    .label {
-      display: inline-block;
-      font-size: 16px;
-    }
+    background: white;
+    border-radius: 10px;
+    padding: 5px 10px;
   }
   .button {
     min-width: 100px;
@@ -18,8 +16,24 @@ body[id=assessments-show] {
     margin-top: -18px;
   }
   #assessment-info {
+    width: 70%;
     .label-primary, .label-danger {
       float: none;
+    }
+    .table.table-borderless td, .table.table-borderless th {
+      border: none;
+    }
+    .table.table-borderless td:first-child {
+      width: 10%;
+    }
+    .table.table-borderless td:nth-child(2) {
+      width: 80%;
+    }
+    .panel.panel-danger, .panel.panel-info, .panel.panel-warning, .panel.panel-primary {
+      border-color: white;
+      .panel-heading {
+        border-radius: 20px;
+      }
     }
   }
 }
