@@ -22,7 +22,7 @@ describe Domain, 'methods' do
   end
 end
 
-describe Organization, 'scopes' do
+describe Domain, 'scopes' do
   let!(:domain){ create(:domain, custom_domain: false) }
   let!(:custom_domain){ create(:domain, custom_domain: true) }
 

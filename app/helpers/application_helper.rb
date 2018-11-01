@@ -45,7 +45,7 @@ module ApplicationHelper
 
   def remove_link(object, associated_objects = {}, btn_size = 'btn-xs')
     btn_status = associated_objects.values.sum.zero? ? nil : 'disabled'
-    link_to(object, method: 'delete',  data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
+    link_to(object, method: 'delete',  data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
       fa_icon('trash')
     end
   end
