@@ -24,7 +24,7 @@ end
 describe AssessmentDomain, 'instance method' do
   let!(:domain_1A) { create(:domain, name: '1A', score_1_color: 'danger', score_2_color: 'danger', score_3_color: 'warning', score_1_definition: 'score 1 definition', score_2_definition: 'score 2 definition') }
   let!(:critical_problem) { create(:assessment_domain, score: 1, previous_score: 1) }
-  let!(:other_critical_problem) { create(:assessment_domain, score: 2, domain: domain_1A) }
+  let!(:other_critical_problem) { create(:assessment_domain, previous_score: 1, score: 2, domain: domain_1A) }
   let!(:has_problem) { create(:assessment_domain, score: 2, previous_score: 2) }
   let!(:other_has_problem) { create(:assessment_domain, score: 3, domain: domain_1A) }
   let!(:not_ideal) { create(:assessment_domain, score: 3, previous_score: 3) }
@@ -109,6 +109,10 @@ describe AssessmentDomain, 'instance method' do
 
   context '#score_definition' do
     it { expect(other_critical_problem.score_definition).to eq('score 2 definition') }
+  end
+
+  context '#previous_score_definition' do
+    it { expect(other_critical_problem.previous_score_definition).to eq('score 1 definition') }
   end
 end
 

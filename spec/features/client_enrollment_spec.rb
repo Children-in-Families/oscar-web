@@ -137,9 +137,9 @@ describe 'Client Enrollment' do
     end
 
     scenario 'Date' do
-      expect(page).to have_content(client_enrollment.enrollment_date.strftime '%d %B %Y')
-      expect(page).to have_content(client_enrollment_active.enrollment_date.strftime '%d %B %Y')
-      expect(page).to have_content(client_enrollment_exited.enrollment_date.strftime '%d %B %Y')
+      expect(page).to have_content(date_format(client_enrollment.enrollment_date))
+      expect(page).to have_content(date_format(client_enrollment_active.enrollment_date))
+      expect(page).to have_content(date_format(client_enrollment_exited.enrollment_date))
     end
 
     scenario 'View Link' do
@@ -158,7 +158,7 @@ describe 'Client Enrollment' do
     end
 
     scenario 'Date' do
-      expect(page).to have_content(client_enrollment.enrollment_date.strftime '%d %B %Y')
+      expect(page).to have_content(date_format(client_enrollment.enrollment_date))
     end
 
     scenario 'Age' do
@@ -213,7 +213,7 @@ describe 'Client Enrollment' do
 
     scenario 'success' do
       find("a[data-method='delete'][href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)}']").click
-      expect(page).not_to have_content(client_enrollment.enrollment_date.strftime('%d %B %Y'))
+      expect(page).not_to have_content(date_format(client_enrollment.enrollment_date))
     end
   end
 

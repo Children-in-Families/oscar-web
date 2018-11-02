@@ -8,6 +8,26 @@ describe "Assessment" do
     login_as(user)
   end
 
+  feature 'show' do
+    let!(:domain_1){ create(:domain, score_1_color: 'danger', score_1_definition: 'Poor', score_2_color: 'warning', score_2_definition: 'Good') }
+    let!(:assessment_1){ create(:assessment, client: client, created_at: 6.months.ago) }
+    let!(:assessment_2){ create(:assessment, client: client) }
+    let!(:assessment_domain_1){ create(:assessment_domain, score: 1, assessment: assessment_1, domain: domain_1) }
+    let!(:assessment_domain_2){ create(:assessment_domain, previous_score: 1, score: 2, assessment: assessment_2, domain: domain_1) }
+
+    before do
+      visit client_assessment_path(client, assessment_2)
+    end
+
+    scenario 'Case Plan' do
+      expect(page).to have_content("Case Plan for #{client.name}")
+      expect(page).to have_content("Based on Assessment Number 2")
+      expect(page).to have_content("Completed by OSCaR Team on #{date_format(Date.today)}")
+      expect(page).to have_css('.btn-danger[data-toggle="tooltip"][data-original-title="<p>Poor</p>"]', text: '1')
+      expect(page).to have_css('.btn-warning[data-toggle="tooltip"][data-original-title="<p>Good</p>"]', text: '2')
+    end
+  end
+
   feature 'Create' do
     before do
       visit new_client_assessment_path(client)
@@ -17,7 +37,7 @@ describe "Assessment" do
       (1..n).each do |time|
         find('.assessment-task-btn').trigger('click')
         fill_in 'task_name', with: 'ABC'
-        fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%d %B %Y')
+        fill_in 'task_completion_date', with: date_format(Date.strptime(FFaker::Time.date))
         find('.add-task-btn').trigger('click')
         sleep 1
       end

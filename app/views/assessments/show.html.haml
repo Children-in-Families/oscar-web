@@ -36,7 +36,7 @@
                         %td{rowspan: 4}
                           .domain-score.text-center
                             - unless @assessment.initial?
-                              %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                              %button{ 'data-original-title': "#{simple_format(ad.previous_score_definition)}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
                                 = "#{ad.previous_score}"
                               %span{style: 'color:black;'} &#8594;
                             %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
