@@ -343,6 +343,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainName = $(@).data('goal-option')
       if $(@).val() == 'false'
         $("textarea#goal-text-area-#{domainName}").addClass('valid').removeClass('error required').siblings().remove()
-
+      else
+        $("textarea#goal-text-area-#{domainName}").addClass('valid').addClass('error required')
 
   { init: _init }
