@@ -2,7 +2,7 @@ describe "Assessment" do
   let!(:user) { create(:user) }
   let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:fc_case) { create(:case, case_type: 'FC', client: client) }
-  let!(:domain) { create(:domain, name: FFaker::Name.name) }
+  let!(:domain) { create(:domain) }
 
   before do
     login_as(user)
@@ -36,15 +36,14 @@ describe "Assessment" do
       expect(page).not_to have_css('.label-danger')
       expect(page).not_to have_css('.label-warning')
       expect(page).not_to have_css('.label-info')
-      expect(page).not_to have_css('.assessment-task-btn')
     end
 
     scenario 'valid', js: true do
       with_tasks(1)
       without_task
 
-      fill_in 'Reason', with: FFaker::Lorem.paragraph
-      fill_in 'Goal', with: FFaker::Lorem.paragraph
+      fill_in 'assessment_assessment_domains_attributes_0_reason', with: FFaker::Lorem.paragraph
+      fill_in "goal-text-area-#{domain.name}", with: FFaker::Lorem.paragraph
 
       click_link 'Done'
       sleep 1
@@ -55,7 +54,8 @@ describe "Assessment" do
 
     scenario  'invalid', js: true do
       choose('1')
-      fill_in 'Reason', with: FFaker::Lorem.paragraph
+
+      fill_in 'assessment_assessment_domains_attributes_0_reason', with: FFaker::Lorem.paragraph
 
       click_link 'Done'
       expect(page).to have_content('This field is required')
