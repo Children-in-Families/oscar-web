@@ -2525,9 +2525,22 @@ en:
   domains:
     create:
       successfully_created: Domain has been successfully created.
+    csi_tool:
+      add_new_domain: Add New Domain
+    custom_csi_tool:
+      add_new_domain: Add New Domain
     destroy:
       alert: Domain cannot be deleted.
       successfully_deleted: Domain has been successfully deleted.
+    domain_list:
+      add_new_domain: Add New Domain
+      changelog: Changelog
+      domains: Domains
+      score_1: Score 1
+      score_2: Score 2
+      score_3: Score 3
+      score_4: Score 4
+      view: View
     edit:
       title: Edit Domain
     form:
@@ -2538,14 +2551,16 @@ en:
       interpretation: Interpretation
       name: Name
       save: Save
+      saving: Saving...
       score_1: Score 1
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
     index:
-      add_new_domain: Add New Domain
       are_you_sure: Are you sure you want to delete?
       changelog: Changelog
+      csi_tool: CSI Tools
+      custom_csi_tool: Custom CSI Tools
       domains: Domains
       score_1: Score 1
       score_2: Score 2
