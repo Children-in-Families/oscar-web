@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181105043909) do
+ActiveRecord::Schema.define(version: 20181102025117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,7 +103,8 @@ ActiveRecord::Schema.define(version: 20181105043909) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "goal",           default: ""
-    t.string   "attachments",    default: [], array: true
+    t.string   "attachments",    default: [],   array: true
+    t.boolean  "goal_required",  default: true
   end
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|

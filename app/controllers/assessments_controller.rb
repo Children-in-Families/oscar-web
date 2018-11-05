@@ -89,8 +89,8 @@ class AssessmentsController < AdminController
   def assessment_params
     # params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal])
 
-    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal])
-    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, attachments: []]) if action_name == 'create'
+    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required])
+    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, attachments: []]) if action_name == 'create'
     default_params
   end
 
