@@ -162,7 +162,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     currentTab   = "#rootwizard-p-#{currentIndex}"
     scoreOption  = $("#{currentTab} .score_option")
 
-    if(scoreOption.find('input.error').length)
+    if(scoreOption.find('input.error').length || !scoreOption.children().last().val().length)
       $(currentTab).find('.score_option').addClass('is_error')
       return false
     else
