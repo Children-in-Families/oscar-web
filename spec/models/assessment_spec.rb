@@ -64,19 +64,19 @@ describe Assessment, 'methods' do
   let!(:other_domain){ create(:domain) }
   let!(:assessment_domain) { create(:assessment_domain, assessment: assessment, domain: domain) }
 
-  context 'latest record?' do
+  context '#latest_record?' do
     let!(:last_assessment){ create(:assessment, created_at: Time.now, client: client) }
     it { expect(last_assessment.latest_record?).to be_truthy }
     it { expect(assessment.latest_record?).to be_falsey }
   end
 
-  context 'initial?' do
+  context '#initial?' do
     let!(:last_assessment){ create(:assessment, created_at: Time.now, client: client) }
     it { expect(assessment.initial?).to be_truthy }
     it { expect(last_assessment.initial?).to be_falsey }
   end
 
-  context 'populate notes' do
+  context '#populate_notes' do
     before do
       assessment.populate_notes
     end
@@ -88,7 +88,7 @@ describe Assessment, 'methods' do
     end
   end
 
-  context 'latest record' do
+  context '#latest_record' do
     let!(:last_assessment){ create(:assessment, client: client) }
     subject{ Assessment.latest_record }
 
@@ -101,22 +101,31 @@ describe Assessment, 'methods' do
     end
   end
 
-  context 'basic info' do
+  context '#basic_info' do
     it 'should return domain infomation string' do
       expect(assessment.basic_info).to eq "#{last_assessment_date.to_date} => #{domain.name}: #{assessment_domain.score}"
     end
   end
 
-  context 'assessment domains score' do
+  context '#assessment_domains_score' do
     it 'should return domain score infomation string' do
       expect(assessment.assessment_domains_score).to eq "#{domain.name}: #{assessment_domain.score}"
     end
   end
 
-  context 'assessment domains in order' do
+  context '#assessment_domains_in_order' do
     let!(:other_assessment_domain){ create(:assessment_domain, assessment: assessment, domain: other_domain) }
     it 'should return assessment domains in order' do
       expect(assessment.assessment_domains_in_order).to eq([assessment_domain, other_assessment_domain])
+    end
+  end
+
+  context '#index_of' do
+    let!(:client) { create(:client) }
+    let!(:assessment) { create(:assessment, client: client) }
+
+    it 'return index of assessment is 0' do
+      expect(assessment.index_of).to eq(0)
     end
   end
 end
@@ -189,7 +198,6 @@ describe Assessment, 'callbacks' do
       expect(existing_assessment.errors.full_messages).not_to include('Assessment cannot be created for client who is over 18.')
     end
   end
-
 end
 
 describe Assessment, 'CONSTANTS' do

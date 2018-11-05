@@ -61,6 +61,7 @@
 //= require table_scroll
 //= require filters
 //= require assessments/form
+//= require assessments/show
 //= require tasks/form
 //= require tasks/index
 //= require dashboards/index

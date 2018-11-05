@@ -512,10 +512,13 @@ my:
       assessment_created_by: အသုံးပြုနေသူများကဖန်တီးအကဲဖြတ်
       assessment_completed_for: အဘို့အပြီးစီးခဲ့အကဲဖြတ်
       back_to_assessment_history: စိစစ္မႈသမုိင္းေၾကာင္းသို႔ ျပန္ထြက္၇န္
+      based_on: ခန့်မှန်းအရေအတွက်ပေါ်မှာအခြေခံပြီး
+      case_plan: စီမံကိန်း၏အမှု
       domain: ဒိုမိန္း
+      due_date: ရက္စြဲတြင္
       edit: ျပင္ဆင္ရန္
       goal: ရည္မွန္းခ်က္
-      initial_assessment_of: "၏ ကနဦးစိစစ္မႈ"
+      initial_assessment: ကနဦးခန့်မှန်းတွက်ချက်မှုအပေါ် အခြေခံ
       on_date: ရက္စြဲတြင္
       reason: အေၾကာင္းျပခ်က္
       score: ရမွတ္

@@ -1,65 +1,71 @@
-.row
-  .col-xs-12
-    = link_to client_assessments_path(@assessment.client), class: 'btn btn-default' do
-      = t('.back_to_assessment_history')
 .row.mini-margin
-  .col-xs-12
-    .ibox#assessment-info
+  .col-xs-12.col-sm-10.col-sm-offset-1
+    .ibox#assessment-info.center-block
       .ibox-title
+        = link_to client_assessments_path(@assessment.client), class: 'btn btn-default' do
+          = t('.back_to_assessment_history')
+      .ibox-content
         .row
-          .col-xs-10
-            - if @assessment.initial?
-              = t('.initial_assessment_of')
-            - else
-              = t('.assessment_completed_for')
-            %strong
-              %u= @assessment.client.name
-          .col-xs-12
-            %span= t('.assessment_created_by')
-            %strong
-              %u= whodunnit('Assessment', @assessment)
-            %span= t('.on_date')
-            %strong
-              %u= date_format(@assessment.created_at)
-            %label{ class: "#{@assessment.completed_label_class}"}= @assessment.completed_status
-            %span.pull-right.margin-asse
+          .col-xs-11
+            %p
+              %b= "#{t('.case_plan')} #{@assessment.client.name}"
+              %br
+              - if @assessment.index_of == 0
+                = "#{t('.initial_assessment')}"
+              - else
+                = "#{t('.based_on')} #{@assessment.index_of + 1}"
+              %br
+              = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.created_at)}"
+          .col-xs-1
+            .pull-right
               - if @assessment.latest_record?
                 - if can? :update, @assessment
                   = assessment_edit_link(@assessment.client, @assessment)
-      .ibox-content
-        .table-responsive
-          %table.table.table-bordered
-            %tbody
-              - @assessment.assessment_domains_in_order.each do |ad|
-                %tr
-                  %td.domain-detail
-                    .domain-identity
-                      %span
-                        = "#{t('.domain')} #{ad.domain.name}:"
-                      %strong
-                        = ad.domain.identity
-                    .domain-score
-                      %span= t('.score')
-                      - unless @assessment.initial?
-                        %span{ class: "label label-#{ad.previous_score_color_class} "}
-                          = "#{ad.previous_score}"
-                        %span &#8594;
-                      %span{ class: "label label-#{ad.score_color_class} "}
-                        = "#{ad.score}"
-                  %td.reason
-                    %p
-                      %strong= "#{t('.reason')}:"
-                      %span= ad.reason
-                    %p
-                      %strong= "#{t('.goal')}:"
-                      %span= ad.try(:goal)
-                    - incomplete_tasks = @client.tasks.by_domain_id(ad.domain_id).incomplete
-                    - if incomplete_tasks.any?
-                      %p
-                        %strong= "#{t('.task')}:"
-                        %ul
-                          - incomplete_tasks.each do |task|
-                            %li= task.name
-                    - if ad.attachments.any?
-                      %button.btn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')
-                      = render 'attachment', { ad: ad }
+        - @assessment.assessment_domains_in_order.each do |ad|
+          .row
+            .col-xs-12
+              %div{class: "panel panel-#{ad.score_color_class}"}
+                .panel-heading
+                  %table.table.table-borderless
+                    %tbody
+                      %tr
+                        %td.no-padding-bottom
+                          %b= "#{t('.domain')} #{ad.domain.name}:"
+                        %td.no-padding-bottom
+                          %b= ad.domain.identity
+                        %td{rowspan: 4}
+                          .domain-score.text-center
+                            - unless @assessment.initial?
+                              %button{ 'data-original-title': "#{simple_format(ad.previous_score_definition)}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                                = "#{ad.previous_score}"
+                              %span{style: 'color:black;'} &#8594;
+                            %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
+                              = "#{ad.score}"
+                      %tr
+                        %td.no-padding-top
+                          %b= "#{t('.score')} #{ad.score}:"
+                        %td.no-padding-top
+                          %b= simple_format(ad.score_definition)
+                      %tr
+                        %td
+                          %b= "#{t('.reason')}:"
+                        %td
+                          = ad.reason
+                      %tr
+                        %td
+                          %b= "#{t('.goal')}:"
+                        %td
+                          = ad.try(:goal)
+                      - incomplete_tasks = @client.tasks.by_domain_id(ad.domain_id).incomplete
+                      - if incomplete_tasks.any?
+                        %tr
+                          %td
+                            %b= "#{t('.task')}:"
+                          %td
+                            - incomplete_tasks.each do |task|
+                              %li= "#{task.name} (#{t('.due_date')}: #{date_format(task.completion_date)})"
+                            - if ad.attachments.any?
+                              %br
+                              %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')
+                - if ad.attachments.any?
+                  = render 'attachment', { ad: ad }

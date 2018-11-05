@@ -70,6 +70,10 @@ class Assessment < ActiveRecord::Base
     adult ? errors.add(:base, 'Assessment cannot be created for client who is over 18.') : true
   end
 
+  def index_of
+    Assessment.order(:created_at).where(client_id: client_id).pluck(:id).index(id)
+  end
+
   private
 
   def must_be_min_assessment_period

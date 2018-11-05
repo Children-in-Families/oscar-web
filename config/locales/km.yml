@@ -513,10 +513,13 @@ km:
       assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖
       assessment_completed_for: ការប៉ាន់ប្រមាណសម្រាប់
       back_to_assessment_history: ត្រលប់ទៅការប៉ាន់ប្រមាណចាស់ៗ
+      based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
+      case_plan: គម្រងករណី
       domain: កត្តា
+      due_date: កាលបរិច្ឆេទ
       edit: កែតម្រូវ
       goal: គោលដៅ
-      initial_assessment_of: ការប៉ាន់ប្រមាណដំបូងរបស់
+      initial_assessment: ដោយផ្អែកលើការប៉ាន់ប្រមាណដំបូង
       on_date: នៅថ្ងៃ
       reason: មូលហេតុ
       score: ពិន្ទុ
