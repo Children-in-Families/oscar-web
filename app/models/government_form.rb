@@ -113,7 +113,6 @@ class GovernmentForm < ActiveRecord::Base
   def merge_associations_params
     attributes.merge(
       interviewee_ids: interviewee_ids,
-      client_type_ids: client_right_ids,
       service_type_ids: service_type_ids,
       client_right_ids: client_right_ids,
       client_type_ids: client_type_ids,
