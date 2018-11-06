@@ -14,14 +14,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _removeTask()
     _removeHiddenTaskArising()
     _saveAssessment(form)
+    _radioGoalOption()
 
   _handleAppendAddTaskBtn = ->
-    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning')
+    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning, label.collection_radio_buttons.label-success')
     if $(scores).length > 0
       $(scores).trigger('click')
-      $(".assessment-task-btn, .task_required").removeClass('hidden').show()
+      $(".task_required").removeClass('hidden').show()
     else
-      $(".assessment-task-btn, .task_required").hide()
+      $(".task_required").hide()
 
   _translatePagination = ->
     next     = $('#rootwizard').data('next')
@@ -37,6 +38,33 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $('.actions.clearfix ul').before("<hr/>")
 
   _formValidate = (form) ->
+    scoreColor = undefined
+    domainId   = undefined
+
+    $('.score_option .btn-option').attr('required','required')
+    $('.col-xs-12').on 'click', '.score_option .btn-option', ->
+
+      currentTabLabels = $(@).siblings()
+      currentTabLabels.removeClass('active-label')
+      $(@).addClass('active-label')
+
+      $('.score_option').removeClass('is_error')
+      labelColors = 'btn-danger btn-warning btn-primary btn-success'
+      currentTabLabels.removeClass(labelColors)
+      score       = $(@).data('score')
+      scoreColor  = $(@).parents('.score_option').data("score-#{score}")
+      domainId    = $(@).parents('.score_option').data("domain-id")
+
+      $(@).addClass("btn-#{scoreColor}")
+      $($(@).siblings().get(-1)).val(score)
+
+      if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
+        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        $(".domain-#{domainId} .goal-required-option").addClass('hidden')
+      else
+        $(".domain-#{domainId} .task_required").hide()
+        $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
+
     $('.score_option input').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option label', ->
 
@@ -45,17 +73,23 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(@).children('label').addClass('active-label')
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'label-danger label-warning label-primary label-info'
+      labelColors = 'label-danger label-warning label-primary label-success'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).children('label').text()
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
       $(@).children('label').addClass("label-#{scoreColor}")
-      if(scoreColor == 'danger' or scoreColor == 'warning')
-        $(".domain-#{domainId} .assessment-task-btn, .domain-#{domainId} .task_required").removeClass('hidden').show()
+
+      if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
+        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        $(".domain-#{domainId} .goal-required-option").addClass('hidden')
       else
-        $(".domain-#{domainId} .assessment-task-btn, .domain-#{domainId} .task_required").hide()
+        $(".domain-#{domainId} .task_required").hide()
+        $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
+
+      if scoreColor == 'primary'
+        $('.goal-required-option').removeClass('hidden')
 
     form.validate errorElement: 'em'
     errorPlacement: (error, element) ->
@@ -121,22 +155,27 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     chosenScore = scoreOption.find('label input:checked').val()
     scoreColor  = scoreOption.data("score-#{chosenScore}")
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor}")
+    btnScore = scoreOption.find('input:hidden').val()
+    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
 
   _filedsValidator = (currentIndex, newIndex ) ->
     currentTab   = "#rootwizard-p-#{currentIndex}"
     scoreOption  = $("#{currentTab} .score_option")
 
-    if(scoreOption.find('input.error').length)
+    isScoreExist = if scoreOption.children().last().val().length or $(currentTab).find('.active-label').length then false else true
+    if(scoreOption.find('input.error').length || isScoreExist)
       $(currentTab).find('.score_option').addClass('is_error')
       return false
     else
       $(currentTab).find('.score_option').removeClass('is_error')
-      if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length
-        activeLabel = $(currentTab).find('.active-label')
-        activeScore = activeLabel.text()
-        activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
-
-        if activeScoreColor == 'warning' || activeScoreColor == 'danger'
+      activeScoreLabel = $(currentTab).find('.score_option').find('.label-primary').last()
+      activeLabel      = if activeScoreLabel.length >= 1 then activeScoreLabel else $(currentTab).find('.score_option').children().last()
+      activeScore      = if activeScoreLabel.length >= 1 then activeLabel.text() else activeLabel.val()
+      activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
+      isGoal = $(currentTab).find('input.radio_buttons:checked').val()
+      if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length || (activeScoreColor == 'primary' && isGoal == 'false')
+        $(currentTab).find('textarea.goal').removeClass('error')
+        if activeScoreColor == 'warning' || activeScoreColor == 'danger' || activeScoreColor == 'success'
           return true if $("#{currentTab} ol.tasks-list li").length >= 1
         else
           return true
@@ -295,5 +334,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     if url.search(pattern) >= 0
       return url.replace(pattern, '$1' + paramValue + '$2')
     url + (if url.indexOf('?') > 0 then '&' else '?') + paramName + '=' + paramValue
+
+  _radioGoalOption = ->
+    $('[id^="i-checks-"]').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
+
+    $('input').on 'ifChecked', (event) ->
+      domainName = $(@).data('goal-option')
+      if $(@).val() == 'false'
+        $("textarea#goal-text-area-#{domainName}").addClass('valid').removeClass('error required').siblings().remove()
+      else
+        $("textarea#goal-text-area-#{domainName}").addClass('valid').addClass('error required')
 
   { init: _init }

@@ -122,7 +122,8 @@ ActiveRecord::Schema.define(version: 20181106030616) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",  default: false
+    t.boolean  "completed",          default: false
+    t.boolean  "requried_task_last", default: false
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
@@ -824,10 +825,10 @@ ActiveRecord::Schema.define(version: 20181106030616) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
+    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
-    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1180,8 +1181,8 @@ ActiveRecord::Schema.define(version: 20181106030616) do
     t.string   "old_commune",             default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                     default: 18
     t.integer  "commune_id"
+    t.integer  "age",                     default: 18
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

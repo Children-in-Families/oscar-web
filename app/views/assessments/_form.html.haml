@@ -2,6 +2,9 @@
   = hidden_field_tag :current_user, current_user.roles
   .row.assessment-domains
     .col-xs-12
+      .i-checks.goal-required-option
+        %label Would you prefer adding tasks at the end?
+        = f.input :requried_task_last, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
       #rootwizard{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), action: params['action'] } }
         = f.simple_fields_for 'assessment_domains', order_assessment do |ad|
           - domain = ad.object.domain
@@ -15,12 +18,36 @@
                   = link_to client_assessments_path(@client) do
                     .btn.btn-default.btn-back-default.button
                       = t('.back')
+              .goal-required-option{ id: "i-checks-domain-#{domain.name}", class: ad.object.score == 4 ? '' : 'hidden' }
+                %label= t('.set_goal')
+                = ad.input :nil?, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+
               .ibox-content
                 = ad.hidden_field :domain_id
                 .well
                   = ad.object.domain.description.html_safe
-                .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
-                  = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)], :first, :last
+                = ad.input :reason, label: t('.reason'), required: true, input_html: { class: 'reason' }
+                %label= t('.score_label')
+                - if is_domain_definition(domain)
+                  .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
+                    .btn-option.btn.btn-block{ 'data-score': 1 }
+                      %b= score_definition(domain.score_1_definition, 1)
+                    .btn-option.btn.btn-block{ 'data-score': 2 }
+                      %b= score_definition(domain.score_2_definition, 2)
+                    .btn-option.btn.btn-block{ 'data-score': 3 }
+                      %b= score_definition(domain.score_3_definition, 3)
+                    .btn-option.btn.btn-block{ 'data-score': 4 }
+                      %b= score_definition(domain.score_4_definition, 4)
+                    = ad.hidden_field :score
+                - else
+                  .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
+                    = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)], :first, :last
+                = ad.label :goal, required: true, label: t('.goal')
+                / .col-xs-12.col-sm-6.col-md-4
+                .goal-required-option{ id: "i-checks-#{domain.name}", class: ad.object.score == 4 ? '' : 'hidden' }
+                  %label= t('.set_goal')
+                  = ad.input :goal_required, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, input_html: { 'data-goal-option': domain.name }
+
                 = ad.input :goal, label: false, required: ad.object.goal_required?, input_html: { class: 'goal', id: "goal-text-area-#{domain.name}" }
                 .row
                   .col-sm-12.col-md-6
