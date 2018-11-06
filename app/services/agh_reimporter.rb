@@ -46,7 +46,7 @@ module AghReimporter
                                       when 'Yes' then true
                                       when 'No' then false
                                       end
-        user_ids                    = User.where(last_name: 'Carson').pluck(:id)
+        user_ids                    = User.where("last_name = 'Carson' or first_name = 'Chenda'").pluck(:id)
 
         client = Client.find_by(kid_id: kid_id)
         if client.present?
