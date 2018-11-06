@@ -35,12 +35,12 @@ class Ability
       can :manage, LeaveProgram
       can :manage, GovernmentForm
       can :update, Assessment do |assessment|
-        assessment.client.user_id == user.id
+        assessment.client.user_ids.include?(user.id)
       end
       can :create, Task
       can :read, Task
-      cannot :update, Assessment do |assessment|
-        Date.current > assessment.created_at + 2.weeks
+      can :update, Assessment do |assessment|
+        Date.current <= assessment.created_at + 1.weeks
       end
 
       family_ids = user.families.ids
@@ -73,6 +73,9 @@ class Ability
       can :manage, GovernmentForm
       can :create, Task
       can :read, Task
+      can :update, Assessment do |assessment|
+        Date.current <= assessment.created_at + 1.weeks
+      end
     end
   end
 
