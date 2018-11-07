@@ -8,8 +8,11 @@ class AssessmentPolicy < ApplicationPolicy
     index? && !record.client.uneligible_age?
   end
 
+  def edit?
+    index? && Date.current <= record.created_at + 1.week && !user.strategic_overviewer?
+  end
+
   alias create? new?
   alias show? index?
-  alias edit? index?
-  alias update? index?
+  alias update? edit?
 end

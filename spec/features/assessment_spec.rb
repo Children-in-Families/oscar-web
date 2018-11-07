@@ -1,11 +1,46 @@
 describe "Assessment" do
   let!(:user) { create(:user) }
+  let!(:strategic_overviewer_1){ create(:user, :strategic_overviewer) }
+  let!(:user_2){ create(:user) }
   let!(:client) { create(:client, :accepted, users: [user]) }
+  let!(:client_1) { create(:client, :accepted, users: [user, user_2]) }
+  let!(:client_2) { create(:client, :accepted, users: [user, user_2]) }
   let!(:fc_case) { create(:case, case_type: 'FC', client: client) }
   let!(:domain) { create(:domain, name: FFaker::Name.name) }
+  let!(:assessment_1){ create(:assessment, client: client_1) }
+  let!(:assessment_2){ create(:assessment, client: client_2, created_at: 2.weeks.ago) }
 
   before do
     login_as(user)
+  end
+
+  feature 'show' do
+    context 'edit link' do
+      context 'log in as case worker / manager / admin' do
+        scenario 'visible within 1 week' do
+          visit client_assessment_path(client_1, assessment_1)
+
+          expect(page).to have_link(nil, href: edit_client_assessment_path(client_1, assessment_1))
+        end
+
+        scenario 'invisible after 1 week' do
+          visit client_assessment_path(client_2, assessment_2)
+
+          expect(page).not_to have_link(nil, href: edit_client_assessment_path(client_2, assessment_2))
+        end
+      end
+
+      context 'log in as strategic overviewer' do
+        before do
+          login_as(strategic_overviewer_1)
+        end
+
+        scenario 'invisible' do
+          visit client_assessment_path(client_2, assessment_2)
+          expect(page).not_to have_link(nil, href: edit_client_assessment_path(client_2, assessment_2))
+        end
+      end
+    end
   end
 
   feature 'Create' do
