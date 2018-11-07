@@ -34,9 +34,9 @@ module AghReimporter
         birth_province_id     = Province.where("name ilike ?", "%#{birth_province}%").first.try(:id) if birth_province.present?
         Organization.switch_to 'agh'
         current_province_value      = workbook.row(row)[headers['*Current Province']]
-        current_province            = Province.where("name ilike ?", "%#{current_province_value}%").first if current_province.present?
+        current_province            = Province.where("name ilike ?", "%#{current_province_value}%").first if current_province_value.present?
         district                    = workbook.row(row)[headers['Current Address']]
-        district_id                 = current_province.districts.where("name ilike ?", "%#{district}%").first.try(:id) if current_province.present? && district.present?
+        district_id                 = current_province.districts.where("name ilike ?", "%#{district}%").first.try(:id) if current_province_value.present? && district.present?
         follow_up_date              = workbook.row(row)[headers['Follow Up Date']]
         has_been_in_orphanage       = case workbook.row(row)[headers['Has Been In Orphanage?']]
                                       when 'Yes' then true
@@ -59,7 +59,7 @@ module AghReimporter
           client.school_name = school_name
           client.school_grade = school_grade
           client.birth_province_id = birth_province_id
-          client.province = current_province.try(:id)
+          client.province_id = current_province.try(:id)
           client.district_id = district_id
           client.follow_up_date = follow_up_date
           client.has_been_in_orphanage = has_been_in_orphanage
