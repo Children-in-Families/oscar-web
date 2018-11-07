@@ -154,7 +154,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreOption = $("#{currentTab} .score_option")
     chosenScore = scoreOption.find('label input:checked').val()
     scoreColor  = scoreOption.data("score-#{chosenScore}")
-    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor}")
+    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
     btnScore = scoreOption.find('input:hidden').val()
     $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
 
@@ -163,7 +163,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreOption  = $("#{currentTab} .score_option")
 
     isScoreExist = if scoreOption.children().last().val().length or $(currentTab).find('.active-label').length then false else true
-    if scoreOption.find('input.error').length
+    if scoreOption.find('input.error').length || isScoreExist
       $(currentTab).find('.score_option').addClass('is_error')
       return false
     else
