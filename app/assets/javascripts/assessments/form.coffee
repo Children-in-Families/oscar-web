@@ -163,7 +163,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreOption  = $("#{currentTab} .score_option")
 
     isScoreExist = if scoreOption.children().last().val().length or $(currentTab).find('.active-label').length then false else true
-    if(scoreOption.find('input.error').length || isScoreExist)
+    if scoreOption.find('input.error').length
       $(currentTab).find('.score_option').addClass('is_error')
       return false
     else
@@ -173,12 +173,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       activeScore      = if activeScoreLabel.length >= 1 then activeLabel.text() else activeLabel.val()
       activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
       isGoal = $(currentTab).find('input.radio_buttons:checked').val()
-      if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length || (activeScoreColor == 'primary' && isGoal == 'false')
-        $(currentTab).find('textarea.goal').removeClass('error')
-        if activeScoreColor == 'warning' || activeScoreColor == 'danger' || activeScoreColor == 'success'
-          return true if $("#{currentTab} ol.tasks-list li").length >= 1
-        else
+      if (activeScoreColor == 'primary' && isGoal == 'true')
+        if $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
           return true
+      else if (activeScoreColor == 'primary' && isGoal == 'false')
+        $(currentTab).find('textarea.goal').removeClass('error')
+        if $(currentTab).find('textarea.reason.valid').length
+          return true
+      else
+        return true if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal').val() != ''
 
   _addTasks = ->
     $('.assessment-task-btn').on 'click', (e) ->
@@ -344,7 +347,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainName = $(@).data('goal-option')
       if $(@).val() == 'false'
         $("textarea#goal-text-area-#{domainName}").addClass('valid').removeClass('error required').siblings().remove()
+        $("textarea#goal-text-area-#{domainName}").prop('readonly', true);
       else
         $("textarea#goal-text-area-#{domainName}").addClass('valid').addClass('error required')
+        $("textarea#goal-text-area-#{domainName}").prop('readonly', false);
 
   { init: _init }
