@@ -9,7 +9,7 @@ class AssessmentPolicy < ApplicationPolicy
   end
 
   def edit?
-    index? && Date.current <= record.created_at + 1.week && !user.strategic_overviewer?
+    index? && Date.current <= record.created_at + 6.days && !user.strategic_overviewer?
   end
 
   alias create? new?

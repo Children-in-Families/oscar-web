@@ -8,7 +8,7 @@ describe "Assessment" do
   let!(:fc_case) { create(:case, case_type: 'FC', client: client) }
   let!(:domain) { create(:domain, name: FFaker::Name.name) }
   let!(:assessment_1){ create(:assessment, client: client_1) }
-  let!(:assessment_2){ create(:assessment, client: client_2, created_at: 2.weeks.ago) }
+  let!(:assessment_2){ create(:assessment, client: client_2, created_at: 1.week.ago) } # this is 8 days
 
   before do
     login_as(user)
