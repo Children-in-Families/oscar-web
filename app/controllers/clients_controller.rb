@@ -35,7 +35,7 @@ class ClientsController < AdminController
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
-          next unless params['commit'] == 'Search'
+          next unless params['commit'] == I18n.t('datagrid.form.search').html_safe
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
