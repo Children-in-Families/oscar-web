@@ -4,11 +4,7 @@
       .col-xs-12.col-sm-8
         %h3
           = "#{t('.domains')} : #{domain.name} (#{domain.identity})"
-        %h5
-          %label{class: "label label-#{domain.score_1_color}"}= "#{t('.score_1')}"
-          %label{class: "label label-#{domain.score_2_color}"}= "#{t('.score_2')}"
-          %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
-          %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
+
       .col-xs-12.col-sm-4.text-right.actions
         - if can? :version, Domain
           = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
@@ -21,3 +17,12 @@
           = remove_link(domain, {domain_task: domain.tasks.count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
   .panel-body
     %p= domain.description.html_safe
+  .penel-footer
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_1_color}" }
+      = score_definition(domain.score_1_definition, 1)
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_2_color}" }
+      = score_definition(domain.score_2_definition, 2)
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_3_color}" }
+      = score_definition(domain.score_3_definition, 3)
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_4_color}" }
+      = score_definition(domain.score_4_definition, 4)
