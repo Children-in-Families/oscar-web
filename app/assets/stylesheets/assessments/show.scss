@@ -29,7 +29,7 @@ body[id=assessments-show] {
     .table.table-borderless td:nth-child(2) {
       width: 80%;
     }
-    .panel.panel-danger, .panel.panel-info, .panel.panel-warning, .panel.panel-primary {
+    .panel.panel-danger, .panel.panel-success, .panel.panel-warning, .panel.panel-primary {
       border-color: white;
       .panel-heading {
         border-radius: 20px;
@@ -42,7 +42,7 @@ body[id=assessments-show] {
       border: 2px solid #f7a54a;
     }
 
-    .panel-info .panel-heading {
+    .panel-success .panel-heading {
       background-color: #a0d8ff;
       border: 2px solid #21b9bb;
     }
