@@ -142,12 +142,12 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveButton = ->
     $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
-  _saveAssessment = (form)->
+  _saveAssessment = (form) ->
     $("#rootwizard a[href='#save']").on 'click', ->
-      form.valid()
-      _validateScore(form)
-      if !$('.text-required').is ':visible'
-        form.submit()
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      newIndex = currentIndex + 1
+      if form.valid() && _validateScore(form) && _filedsValidator(currentIndex, newIndex)
+          form.submit()
 
   _formEdit = (currentIndex) ->
     currentTab  = "#rootwizard-p-#{currentIndex}"
@@ -157,6 +157,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
     btnScore = scoreOption.find('input:hidden').val()
     $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
+    domainName = $(@).data('goal-option')
+    name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+    radioName = '\'' + name 
+    goalRequiredValue = $("input[name=#{radioName}:checked").val()
+    select = $(currentTab).find('textarea.goal')
+    if goalRequiredValue == 'false'
+      $(select).prop('readonly', true)
+    else if goalRequiredValue == 'true'
+      $(select).prop('readonly', false)
 
   _filedsValidator = (currentIndex, newIndex ) ->
     currentTab   = "#rootwizard-p-#{currentIndex}"
