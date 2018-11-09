@@ -25,7 +25,7 @@ class AssessmentsController < AdminController
     @assessment = @client.assessments.new(assessment_params)
     authorize @assessment
     if @assessment.save
-      create_bulk_task(params[:task]) if params.has_key?(:task)
+      create_bulk_task(params[:task].uniq) if params.has_key?(:task)
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
     else
       render :new
@@ -89,8 +89,8 @@ class AssessmentsController < AdminController
   def assessment_params
     # params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal])
 
-    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required])
-    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, attachments: []]) if action_name == 'create'
+    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :requried_task_last])
+    default_params = params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :requried_task_last, attachments: []]) if action_name == 'create'
     default_params
   end
 
