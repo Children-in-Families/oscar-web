@@ -146,8 +146,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $("#rootwizard a[href='#save']").on 'click', ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       newIndex = currentIndex + 1
-      if form.valid() && _validateScore(form) && _filedsValidator(currentIndex, newIndex)
-          form.submit()
+      if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
+        _filedsValidator(currentIndex, newIndex)
+        return false
+      else
+        form.submit()
 
   _formEdit = (currentIndex) ->
     currentTab  = "#rootwizard-p-#{currentIndex}"

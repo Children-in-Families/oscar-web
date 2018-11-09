@@ -43,9 +43,10 @@
 
                 = ad.input :goal, label: false, required: ad.object.goal_required?, input_html: { class: 'goal', id: "goal-text-area-#{domain.name}" }
                 .row
-                  .col-sm-12.col-md-6
+                  .col-sm-12.col-md-12
                     = render 'attachment_fields', ad: ad
-                  .col-sm-12.col-md-6
+                .row
+                  .col-sm-12.col-md-12
                     .form-group
                       %p.text-danger.task_required
                         %abbr{ title: 'required' } *
