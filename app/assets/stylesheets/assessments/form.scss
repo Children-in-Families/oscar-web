@@ -90,7 +90,10 @@ body[id='assessments-update'] {
     display: inline;
     border-radius: 3px;
   }
-
+  .wrap-text-style { 
+    white-space: normal;
+    text-align: left;
+  }
   .score_option.is_error{
     border: 1px solid #a94442;
     border-radius: 2px;

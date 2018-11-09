@@ -23,13 +23,13 @@
                 %label= t('.score_label')
                 - if is_domain_definition(domain)
                   .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
-                    .btn-option.btn.btn-block{ 'data-score': 1 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 1 }
                       %b= score_definition(domain.score_1_definition, 1)
-                    .btn-option.btn.btn-block{ 'data-score': 2 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 2 }
                       %b= score_definition(domain.score_2_definition, 2)
-                    .btn-option.btn.btn-block{ 'data-score': 3 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 3 }
                       %b= score_definition(domain.score_3_definition, 3)
-                    .btn-option.btn.btn-block{ 'data-score': 4 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 4 }
                       %b= score_definition(domain.score_4_definition, 4)
                     = ad.hidden_field :score
                 - else
