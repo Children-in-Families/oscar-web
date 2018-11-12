@@ -40,4 +40,8 @@ module AssessmentHelper
     end
     completed_date
   end
+
+  def score_definition(definition, score)
+    definition.present? ? simple_format(definition) : score
+  end
 end
