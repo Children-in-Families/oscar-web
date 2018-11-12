@@ -65,8 +65,11 @@
                           %td
                             - incomplete_tasks.each do |task|
                               %li= "#{task.name} (#{t('.due_date')}: #{date_format(task.completion_date)})"
-                            - if ad.attachments.any?
-                              %br
-                              %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')
+                      %tr
+                        %td
+                        %td
+                          - if ad.attachments.any?
+                            %br
+                            %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')
                 - if ad.attachments.any?
                   = render 'attachment', { ad: ad }
