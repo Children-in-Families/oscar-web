@@ -5,11 +5,7 @@
         .ibox-title.domain-ibox
           %h5= @results
           %span.label.label-info= t('.domains')
-          .ibox-tools
-            - if can? :manage, Domain
-              = link_to new_domain_path do
-                .btn.btn.btn-primary.btn-add
-                  = t('.add_new_domain')
+
         = render partial: 'domain_list', collection: @domains, as: :domain
         .text-center
           = paginate @domains, params: { tab: 'csi_domain' }, :param_name => 'page_1'

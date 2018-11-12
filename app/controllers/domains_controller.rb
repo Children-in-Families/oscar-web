@@ -66,7 +66,7 @@ class DomainsController < AdminController
   end
 
   def find_domain
-    @domain = Domain.find(params[:id])
+    @domain = Domain.custom_csi_domains.find(params[:id])
   end
 
   def find_domain_group
