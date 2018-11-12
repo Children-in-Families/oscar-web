@@ -44,6 +44,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('.score_option .btn-option').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option .btn-option', ->
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      currentTab  = "#rootwizard-p-#{currentIndex}"
+      select = $(currentTab).find('textarea.goal')
+      name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+      radioName = '\'' + name 
 
       currentTabLabels = $(@).siblings()
       currentTabLabels.removeClass('active-label')
@@ -62,12 +67,21 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
+        $(select).prop('readonly', false).addClass('valid').addClass('error required')
       else
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
-
+        goalRequiredValue = $("input[name=#{radioName}:checked").val()
+        if goalRequiredValue == 'false'
+          $(select).prop('readonly', true).addClass('valid').removeClass('error required').siblings().remove()
+        
     $('.score_option input').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option label', ->
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      currentTab  = "#rootwizard-p-#{currentIndex}"
+      select = $(currentTab).find('textarea.goal')
+      name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+      radioName = '\'' + name 
 
       currentTabLabels = $(@).parents('.score_option').find('label label')
       currentTabLabels.removeClass('active-label')
@@ -85,9 +99,13 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
+        $(select).prop('readonly', false).addClass('valid').addClass('error required')
       else
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
+        goalRequiredValue = $("input[name=#{radioName}:checked").val()
+        if goalRequiredValue == 'false'
+          $(select).prop('readonly', true).addClass('valid').removeClass('error required').siblings().remove()
 
       if scoreColor == 'primary'
         $('.goal-required-option').removeClass('hidden')
@@ -227,8 +245,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         if $(currentTab).find('textarea.reason.valid').length
           return true
       else
-        return true if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal').val() != ''
-
+        return true if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+        
   _addTasks = ->
     $(document).on 'click', '.assessment-task-btn', (e) ->
       domainId = $(e.target).data('domain-id')
