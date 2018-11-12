@@ -136,12 +136,12 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _appendSaveButton()
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
-        _TaskRequiredAtEnd(currentIndex)
+        _taskRequiredAtEnd(currentIndex)
 
       onStepChanging: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
-        _TaskRequiredAtEnd(currentIndex)
+        _taskRequiredAtEnd(currentIndex)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
           return true
         else
@@ -151,14 +151,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
-        _TaskRequiredAtEnd(currentIndex)
+        _taskRequiredAtEnd(currentIndex)
         if currentIndex == 11
           $("#rootwizard a[href='#save']").remove()
 
       onFinishing: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled'
         form.valid()
-        _TaskRequiredAtEnd(currentIndex)
+        _taskRequiredAtEnd(currentIndex)
         currentStep = $("#rootwizard-p-" + currentIndex)
         if newIndex == undefined && currentStep.hasClass('domain-last')
           isTaskRequred = true
@@ -408,7 +408,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         $("textarea#goal-text-area-#{domainName}").addClass('valid').addClass('error required')
         $("textarea#goal-text-area-#{domainName}").prop('readonly', false);
 
-  _TaskRequiredAtEnd = (currentIndex) ->
+  _taskRequiredAtEnd = (currentIndex) ->
     currentTab = "#rootwizard-p-#{currentIndex}"
     domainId   = $(currentTab).find('.score_option').data('domain-id')
 

@@ -490,6 +490,7 @@ en:
       successfully_deleted: Attachment has been successfully deleted.
     form:
       add_task: Add Task
+      add_task_confirm: Would you prefer adding tasks at the end?
       at_least_one_task_required: At least one task is required
       back: Back
       domain: Domain
