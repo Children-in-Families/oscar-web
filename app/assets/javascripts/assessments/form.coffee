@@ -48,7 +48,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       currentTab  = "#rootwizard-p-#{currentIndex}"
       select = $(currentTab).find('textarea.goal')
       name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
-      radioName = '\'' + name 
+      radioName = '\'' + name
 
       currentTabLabels = $(@).siblings()
       currentTabLabels.removeClass('active-label')
@@ -74,14 +74,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         goalRequiredValue = $("input[name=#{radioName}:checked").val()
         if goalRequiredValue == 'false'
           $(select).prop('readonly', true).addClass('valid').removeClass('error required').siblings().remove()
-        
+
     $('.score_option input').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option label', ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       currentTab  = "#rootwizard-p-#{currentIndex}"
       select = $(currentTab).find('textarea.goal')
       name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
-      radioName = '\'' + name 
+      radioName = '\'' + name
 
       currentTabLabels = $(@).parents('.score_option').find('label label')
       currentTabLabels.removeClass('active-label')
@@ -226,27 +226,18 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       activeScore      = if activeScoreLabel.length >= 1 then activeLabel.text() else activeLabel.val()
       activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
 
-      isGoal = $("#{currentTab} .goal-required-option input").last().is(':checked')
+      isGoal = $(currentTab).find('input.radio_buttons:checked').val()
 
-      # if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length
-      #   if (activeScoreColor == 'warning' || activeScoreColor == 'danger' || activeScoreColor == 'success') && $("#{currentTab} .task-required-option input").last().is(':checked')
-      #     return true if $("#{currentTab} ol.tasks-list li").length >= 1
-      #   else
-      #     return true
-      # else if (activeScoreColor == 'primary' && isGoal)
-      #   $(currentTab).find('textarea.goal').removeClass('error')
-      #   return true
-
-      if (activeScoreColor == 'primary' && isGoal)
+      if (activeScoreColor == 'primary' && isGoal == 'true')
         if $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
           return true
-      else if (activeScoreColor == 'primary' && isGoal == false)
+      else if (activeScoreColor == 'primary' && isGoal == 'false')
         $(currentTab).find('textarea.goal').removeClass('error')
         if $(currentTab).find('textarea.reason.valid').length
           return true
       else
         return true if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
-        
+
   _addTasks = ->
     $(document).on 'click', '.assessment-task-btn', (e) ->
       domainId = $(e.target).data('domain-id')
