@@ -210,14 +210,24 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       isGoal = $("#{currentTab} .goal-required-option input").last().is(':checked')
 
-      if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length
-        if (activeScoreColor == 'warning' || activeScoreColor == 'danger' || activeScoreColor == 'success') && $("#{currentTab} .task-required-option input").last().is(':checked')
-          return true if $("#{currentTab} ol.tasks-list li").length >= 1
-        else
+      # if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length
+      #   if (activeScoreColor == 'warning' || activeScoreColor == 'danger' || activeScoreColor == 'success') && $("#{currentTab} .task-required-option input").last().is(':checked')
+      #     return true if $("#{currentTab} ol.tasks-list li").length >= 1
+      #   else
+      #     return true
+      # else if (activeScoreColor == 'primary' && isGoal)
+      #   $(currentTab).find('textarea.goal').removeClass('error')
+      #   return true
+
+      if (activeScoreColor == 'primary' && isGoal)
+        if $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
           return true
-      else if (activeScoreColor == 'primary' && isGoal)
+      else if (activeScoreColor == 'primary' && isGoal == false)
         $(currentTab).find('textarea.goal').removeClass('error')
-        return true
+        if $(currentTab).find('textarea.reason.valid').length
+          return true
+      else
+        return true if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal').val() != ''
 
   _addTasks = ->
     $(document).on 'click', '.assessment-task-btn', (e) ->
@@ -405,7 +415,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainId   = $(currentTab).find('.score_option').data('domain-id')
 
       $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
-        if $("#{currentTab} .task-required-option input").first().is(':checked')
+        if $(@).attr('value') == 'true'
           $('a#btn-save').hide()
           currentTableObj  = $(currentTab)
           goalSectionClone = currentTableObj.find('textarea.goal').clone()
@@ -416,15 +426,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
           taskArisingClone.find('.task-required-option').remove()
           $(".domain-last .ibox-content").append(
-            "<div class='row'>
-              <div class='row'><div class='col-sm-12'><h5>Domain: #{domainName}</h5></div></div>
+            "<div class='row #{$(@).attr('id').replace('true', 'false')}'>
+              <div class='row'><div class='col-sm-12'><div class='ibox-title'><h5>Domain: #{domainName}</h5></div></div></div>
               <div class='col-sm-12 col-md-6 domain-goal-section#{currentIndex}'></div>
               <div class='col-sm-12 col-md-6' id='domain-task-section#{domainId}'></div>
             </div>")
           $(".domain-goal-section#{currentIndex}").append("<label>Goal:</label>")
-          $(".domain-goal-section#{currentIndex}").append(goalSectionClone)
+          $(".domain-goal-section#{currentIndex}").append(goalSectionClone.removeClass('error required'))
           $("#domain-task-section#{domainId}").append(textRequiredClone)
           $("#domain-task-section#{domainId}").append(taskArisingClone)
           $("#domain-task-section#{domainId}").append(taskClone)
+        else
+          $(".row.#{$(@).attr('id')}").remove()
 
   { init: _init }
