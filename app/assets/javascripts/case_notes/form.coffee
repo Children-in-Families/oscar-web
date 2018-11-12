@@ -93,7 +93,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{domainId}"
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}, #{relation}'></li>"
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName},, #{taskDate},, #{domainId},, #{relation}'></li>"
 
     if $(".task-domain-#{domainId}").hasClass('hidden')
       $(".task-domain-#{domainId}").removeClass('hidden')
