@@ -164,11 +164,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveButton = ->
     $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
-  _saveAssessment = (form)->
+  _saveAssessment = (form) ->
     $("#rootwizard a[href='#save']").on 'click', ->
-      form.valid()
-      _validateScore(form)
-      if !$('.text-required').is ':visible'
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      newIndex = currentIndex + 1
+      if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
+        _filedsValidator(currentIndex, newIndex)
+        return false
+      else
         form.submit()
 
   _formEdit = (currentIndex) ->
@@ -179,6 +182,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
     btnScore = scoreOption.find('input:hidden').val()
     $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
+    domainName = $(@).data('goal-option')
+    name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+    radioName = '\'' + name
+    goalRequiredValue = $("input[name=#{radioName}:checked").val()
+    select = $(currentTab).find('textarea.goal')
+    if goalRequiredValue == 'false'
+      $(select).prop('readonly', true)
+    else if goalRequiredValue == 'true'
+      $(select).prop('readonly', false)
 
   _filedsValidator = (currentIndex, newIndex ) ->
     currentTab   = "#rootwizard-p-#{currentIndex}"
@@ -195,6 +207,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       activeLabel      = if activeScoreLabel.length >= 1 then activeScoreLabel else $(currentTab).find('.score_option').children().last()
       activeScore      = if activeScoreLabel.length >= 1 then activeLabel.text() else activeLabel.val()
       activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
+
       isGoal = $("#{currentTab} .goal-required-option input").last().is(':checked')
 
       if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length
@@ -371,8 +384,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainName = $(@).data('goal-option')
       if $(@).val() == 'false'
         $("textarea#goal-text-area-#{domainName}").addClass('valid').removeClass('error required').siblings().remove()
+        $("textarea#goal-text-area-#{domainName}").prop('readonly', true);
       else
         $("textarea#goal-text-area-#{domainName}").addClass('valid').addClass('error required')
+        $("textarea#goal-text-area-#{domainName}").prop('readonly', false);
 
   _TaskRequiredAtEnd = (currentIndex) ->
     currentTab = "#rootwizard-p-#{currentIndex}"
