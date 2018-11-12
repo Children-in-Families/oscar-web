@@ -23,8 +23,9 @@ class AssessmentDomain < ActiveRecord::Base
     end
   end
 
+
   def score_color_class
-    domain["score_#{score}_color"]
+    domain["score_#{score}_color"] || 'default'
   end
 
   def score_definition

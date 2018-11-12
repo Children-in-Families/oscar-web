@@ -26,6 +26,10 @@ describe "Assessment" do
       expect(page).to have_css('.btn-danger[data-toggle="tooltip"][data-original-title="<p>Poor</p>"]', text: '1')
       expect(page).to have_css('.btn-warning[data-toggle="tooltip"][data-original-title="<p>Good</p>"]', text: '2')
     end
+
+    scenario 'status' do
+      expect(page).to have_content('Completed')
+    end
   end
 
   feature 'Create' do

@@ -47,7 +47,6 @@ module AssessmentHelper
   end
 
   def score_definition(definition, score)
-    return simple_format(definition) if definition.present?
-    score
+    definition.present? ? simple_format(definition) : score
   end
 end

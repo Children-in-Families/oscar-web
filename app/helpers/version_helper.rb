@@ -133,6 +133,7 @@ module VersionHelper
     domain_color = {
       danger: 'Red',
       info: 'Blue',
+      success: 'Blue',
       primary: 'Green',
       warning: 'Yellow'
     }
