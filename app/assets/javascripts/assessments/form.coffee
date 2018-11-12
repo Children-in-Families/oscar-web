@@ -226,7 +226,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       activeScore      = if activeScoreLabel.length >= 1 then activeLabel.text() else activeLabel.val()
       activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
 
-      isGoal = $(currentTab).find('input.radio_buttons:checked').val()
+      isGoal = $("#{currentTab} .goal-required-option").find('input.radio_buttons:checked').val()
+      isTask = $("#{currentTab} .task-required-option").find('input.radio_buttons:checked').val()
 
       if (activeScoreColor == 'primary' && isGoal == 'true')
         if $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
@@ -235,8 +236,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         $(currentTab).find('textarea.goal').removeClass('error')
         if $(currentTab).find('textarea.reason.valid').length
           return true
+      else if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+        return true
       else
-        return true if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+        return true if isTask == 'true' && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
 
   _addTasks = ->
     $(document).on 'click', '.assessment-task-btn', (e) ->
