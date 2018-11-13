@@ -3148,6 +3148,9 @@ km:
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   layouts:
     notification:
+      assessments_count:
+        one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1
+        other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន%{count}
       check_tasks: ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច
       click_here: ទីនេះ
       client_case_note_due_today:
@@ -3165,9 +3168,9 @@ km:
       client_quantity:
         one: "(អតិថិជនចំនួន 1)"
         other: "(អតិថិជនចំនួន %{count})"
-      due_today_assessments_count:
-        one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_assessments:
+        one: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_client_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -3193,6 +3196,9 @@ km:
         one: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន1
         other: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន%{count}
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
+      overdue_assessments:
+        one: មិនទាន់បានធ្វើ
+        other: មិនទាន់បានធ្វើ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ហើយនិងមានចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -3994,7 +4000,9 @@ km:
     assessment:
       age: អាយុ
       assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
-      disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
+      customized_assessment_name: ឈ្មោះ
+      default_assessment: លំនាំដើមបរសប់ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
+      default_assessment_name: ឈ្មោះ
       eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
       min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
@@ -4017,6 +4025,8 @@ km:
       partner_default_columns: ដៃគូ
     index:
       csi_tools: ឧបករណ៍ CSI
+      custom_assessment: ឧបករណ៍ផ្ទាល់ខ្លួនរបស់ CSI
+      default_assessment: ឧបករណ៍លំនាំដើមរបស់ CSI
     navigation:
       country: ប្រទេស
     update:
