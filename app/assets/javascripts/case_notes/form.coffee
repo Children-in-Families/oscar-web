@@ -6,6 +6,12 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _hideCompletedTasks()
     _handlePreventBlankInput()
     _initSelect2()
+    _initScoreTooltip()
+
+  _initScoreTooltip = ->
+    $('#case-note-domain-score').tooltip
+      placement: 'top'
+      html: true
 
   _initSelect2 = ->
     $('#case_note_interaction_type').select2()

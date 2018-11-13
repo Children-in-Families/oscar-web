@@ -7,7 +7,8 @@
         - cd.object.domain_group.domains.each do |domain|
           - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
           - next if ad.nil?
-          %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
+          %button#case-note-domain-score{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-sm", 'data-toggle': 'tooltip' }
+            = "#{ad.score}"
 
   .panel-collapse.collapse{ id: "collapse#{cd.object.domain_group.name}", class: cd.object.domain_group.first_ordered? ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel" }
     .panel-body
