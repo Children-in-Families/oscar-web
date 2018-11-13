@@ -183,7 +183,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
   _saveAssessment = (form) ->
-    $("#rootwizard a[href='#save']").on 'click', ->
+    $(document).on 'click', "#rootwizard a[href='#save']", ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       newIndex = currentIndex + 1
       if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
