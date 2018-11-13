@@ -430,6 +430,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         if $(@).attr('value') == 'true'
           $('a#btn-save').hide()
           currentTableObj  = $(currentTab)
+          goalLabelClone   = $("#{currentTab} label[for$='_#{currentIndex}_goal']").clone()
           goalSectionClone = currentTableObj.find('textarea.goal').clone()
           domainName       = $(@).data('task-name')
           taskClone        = currentTableObj.find('.add-task-btn-wrapper').clone()
@@ -443,12 +444,19 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
               <div class='col-sm-12 col-md-6 domain-goal-section#{currentIndex}'></div>
               <div class='col-sm-12 col-md-6' id='domain-task-section#{domainId}'></div>
             </div>")
-          $(".domain-goal-section#{currentIndex}").append("<label>Goal:</label>")
+          $(".domain-goal-section#{currentIndex}").append(goalLabelClone)
           $(".domain-goal-section#{currentIndex}").append(goalSectionClone.removeClass('error required'))
           $("#domain-task-section#{domainId}").append(textRequiredClone)
           $("#domain-task-section#{domainId}").append(taskArisingClone)
           $("#domain-task-section#{domainId}").append(taskClone)
         else
           $(".row.#{$(@).attr('id')}").remove()
+          isChecked = false
+          $("[id$='_requried_task_last_true']").each ->
+            return isChecked = true if $(@).is(':checked')
+
+          $('a#btn-save').show() unless isChecked
+
+
 
   { init: _init }
