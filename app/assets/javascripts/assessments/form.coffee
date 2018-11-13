@@ -430,6 +430,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         if $(@).attr('value') == 'true'
           $('a#btn-save').hide()
           currentTableObj  = $(currentTab)
+
           goalLabelClone   = $("#{currentTab} label[for$='_#{currentIndex}_goal']").clone()
           goalSectionClone = currentTableObj.find('textarea.goal').clone()
           domainName       = $(@).data('task-name')
