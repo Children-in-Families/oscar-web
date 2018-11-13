@@ -423,8 +423,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _handleAppendDomainAtTheEnd = (currentIndex) ->
     if $("form#new_assessment").length
-      currentTab = "#rootwizard-p-#{currentIndex}"
-      domainId   = $(currentTab).find('.score_option').data('domain-id')
+      currentTab   = "#rootwizard-p-#{currentIndex}"
+      domainId     = $(currentTab).find('.score_option').data('domain-id')
 
       $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
         if $(@).attr('value') == 'true'
@@ -452,11 +452,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           $("#domain-task-section#{domainId}").append(taskClone)
         else
           $(".row.#{$(@).attr('id')}").remove()
-          isChecked = false
+          isChecked    = false
           $("[id$='_requried_task_last_true']").each ->
             return isChecked = true if $(@).is(':checked')
 
-          $('a#btn-save').show() unless isChecked
+          unless isChecked
+            if $('a#btn-save').length == 0
+              _appendSaveButton()
+              _translatePagination()
+            $('a#btn-save').show()
 
 
 
