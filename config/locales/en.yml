@@ -3164,6 +3164,9 @@ en:
   is_not_email: is not an email
   layouts:
     notification:
+      assessments_count:
+        one: You have 1
+        other: You have %{count}
       check_tasks: To check your tasks, please
       click_here: click here.
       client_case_note_due_today:
@@ -3181,9 +3184,9 @@ en:
       client_quantity:
         one: "(1 client)"
         other: "(%{count} clients)"
-      due_today_assessments_count:
-        one: You have 1 assessment due today.
-        other: You have %{count} assessments due today.
+      due_today_assessments:
+        one: assessment due today.
+        other: assessments due today.
       due_today_client_custom_field_count:
         one: There is 1 client custom form due today.
         other: There are %{count} client custom forms due today.
@@ -3212,6 +3215,9 @@ en:
       overdue_and_due_today_count:
         one: and 1 due today
         other: and %{count} due today
+      overdue_assessments:
+        one: assessment overdue.
+        other: assessments overdue.
       overdue_assessments_count:
         one: You have 1 assessment overdue
         other: You have %{count} assessments overdue
@@ -3250,7 +3256,7 @@ en:
       changelogs: Changelogs
       clients: Clients
       country: Country
-      csi_tools: CSI Tools
+      csi_tools: Available CSI Tools
       custom_fields: Custom Form
       dashboards: Dashboards
       default_columns: Default Columns
@@ -4009,8 +4015,10 @@ en:
   settings:
     assessment:
       age: age
-      assessment: CSI Assessment Frequency Settings
-      disable_assessment: We are not using CSI Assessment Tool
+      assessment: Customized Assessment Frequency Settings
+      customized_assessment_name: Name
+      default_assessment: Default Assessment Frequency Settings
+      default_assessment_name: Name
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
@@ -4032,7 +4040,9 @@ en:
       family_default_columns: Family
       partner_default_columns: Partner
     index:
-      csi_tools: CSI Tools
+      csi_tools: Available CSI Tools
+      custom_assessment: Custom CSI Tool
+      default_assessment: Default CSI Tool
     navigation:
       country: Country
     update:

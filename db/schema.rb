@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181031030528) do
+ActiveRecord::Schema.define(version: 20181112042033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20181031030528) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.boolean  "completed",  default: false
+    t.boolean  "default",    default: true
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
@@ -822,10 +823,10 @@ ActiveRecord::Schema.define(version: 20181031030528) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
+    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
-    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1164,22 +1165,28 @@ ActiveRecord::Schema.define(version: 20181031030528) do
     t.string   "assessment_frequency"
     t.integer  "min_assessment"
     t.integer  "max_assessment"
-    t.string   "country_name",            default: ""
+    t.string   "country_name",                 default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.boolean  "disable_assessment"
-    t.string   "client_default_columns",  default: [], array: true
-    t.string   "family_default_columns",  default: [], array: true
-    t.string   "partner_default_columns", default: [], array: true
-    t.string   "user_default_columns",    default: [], array: true
+    t.string   "client_default_columns",       default: [],            array: true
+    t.string   "family_default_columns",       default: [],            array: true
+    t.string   "partner_default_columns",      default: [],            array: true
+    t.string   "user_default_columns",         default: [],            array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "org_name",                default: ""
-    t.string   "old_commune",             default: ""
+    t.string   "org_name",                     default: ""
+    t.string   "old_commune",                  default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                     default: 18
+    t.integer  "age",                          default: 18
     t.integer  "commune_id"
+    t.string   "customized_assessment_name",   default: "Custom CSI"
+    t.boolean  "enable_customized_assessment", default: false
+    t.boolean  "enable_default_assessment",    default: true
+    t.integer  "default_max_assessment",       default: 6
+    t.string   "default_assessment_frequency", default: "month"
+    t.integer  "default_age",                  default: 18
+    t.string   "default_assessment_name",      default: "Default CSI"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

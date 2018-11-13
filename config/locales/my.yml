@@ -3174,6 +3174,9 @@ my:
   is_not_email: အီးေမးလ္မဟုတ္ပါ
   layouts:
     notification:
+      assessments_count:
+        one: သငျသညျ 1 ပြီ
+        other: သငျသညျ %{count} ပြီ
       check_tasks: လုပ္ငန္းမ်ားကို ေက်းဇူးျပဳ၍ စိစစ္ပါ
       click_here: ဤေနရာကို ကလစ္ႏွိပ္ပါ
       client_case_note_due_today:
@@ -3194,10 +3197,9 @@ my:
         few: "(အမႈသည္ အခ်ိဳ႕)"
         one: "(အမႈသည္ တစ္ဦး) "
         other: "(အမႈသည္ %{count} ဦး)"
-      due_today_assessments_count:
-        few: သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕လုပ္ရန္ ရွိပါသည္။
-        one: 'သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈလုပ္ရန္ တစ္ခု ရွိပါသည္။ '
-        other: သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈ %{count} လုပ္ရန္ ရွိပါသည္။
+      due_today_assessments:
+        one: ယနေ့ကြောင့်အကဲဖြတ်။
+        other: ယနေ့ကြောင့်အကဲဖြတ်။
       due_today_client_custom_field_count:
         few: 'ယေန႔ အမႈသည္ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ လုပ္ရန္ရွိပါသည္။ '
         one: ယေန႔ အမႈသည္အေကာက္ခြန္ပံုစံတစ္ခုလုပ္ရန္ရွိပါသည္။
@@ -3231,8 +3233,11 @@ my:
         other: သငျသညျသစ်တစ်ခုဖောက်သည်ရည်ညွှန်းပြီ%{count}
       no_task: အသိေပးစရာမရွိပါ
       overdue_and_due_today_count:
-        one: and 1 due today
-        other: and %{count} due today
+        one: နှင့် 1 ယနေ့ကြောင့်
+        other: နှင့် %{count} ယနေ့ကြောင့်
+      overdue_assessments:
+        one: အကဲဖြတ်ရက်ကျော်နေပြီ။
+        other: အကဲဖြတ်ရက်ကျော်နေပြီ။
       overdue_assessments_count:
         few: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕ ရွိေနပါသည္။
         one: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ ၁ ခု ရွိေနပါသည္။
@@ -4039,7 +4044,9 @@ my:
     assessment:
       age: အသက္
       assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
-      disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
+      customized_assessment_name: နာမတျောကို
+      default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
+      default_assessment_name: နာမတျောကို
       eligible: အောက်မှာ အမႈသည္ ကိုများအတွက်အရည်အချင်းပြည့်မီ
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
@@ -4062,6 +4069,8 @@ my:
       partner_default_columns: လက္တြဲေဖာ္
     index:
       csi_tools: CSI ကိရိယာတခု
+      custom_assessment: CSI ၏ကိုယ်ပိုင်ပစ္စည်းတွေ
+      default_assessment: ပျက်ကွက် စက်ပစ္စည်း CSI
     navigation:
       country: ႏုိင္ငံ
     update:

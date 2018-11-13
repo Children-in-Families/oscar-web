@@ -87,9 +87,9 @@ class Assessment < ActiveRecord::Base
   end
 
   def must_be_enable_assessment
-    setting = Setting.first.try(:disable_assessment)
-    return if setting.nil?
-    errors.add(:base, 'Assessment tool must be enable in setting') if setting
+    setting = Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
+    return if setting
+    errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
   def set_previous_score

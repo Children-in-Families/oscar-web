@@ -40,15 +40,33 @@ module DashboardHelper
   end
 
   def overdue_assessments_any?(client)
-    client.next_assessment_date < Date.today
+    if @setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment)
+      client.next_assessment_date < Date.today || client.custom_next_assessment_date < Date.today
+    elsif @setting.try(:enable_default_assessment)
+      client.next_assessment_date < Date.today
+    elsif @setting.try(:enable_customized_assessment)
+      client.custom_next_assessment_date < Date.today
+    end
   end
 
   def duetoday_assessments_any?(client)
-    client.next_assessment_date == Date.today
+    if @setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment)
+      client.next_assessment_date == Date.today || client.custom_next_assessment_date == Date.today
+    elsif @setting.try(:enable_default_assessment)
+      client.next_assessment_date == Date.today
+    elsif @setting.try(:enable_customized_assessment)
+      client.custom_next_assessment_date == Date.today
+    end
   end
 
   def upcoming_assessments_any?(client)
-    client.next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
+    if @setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment)
+      client.next_assessment_date.between?(Date.tomorrow, 3.months.from_now) || client.custom_next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
+    elsif @setting.try(:enable_default_assessment)
+      client.next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
+    elsif @setting.try(:enable_customized_assessment)
+      client.custom_next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
+    end
   end
 
   def skipped_overdue_tasks?(tasks)
