@@ -36,7 +36,7 @@ class Ability
       can :manage, GovernmentForm
       can :create, Task
       can :read, Task
-
+      can :manage, Referral
 
       family_ids = user.families.ids
       user.clients.each do |client|
@@ -68,6 +68,7 @@ class Ability
       can :manage, GovernmentForm
       can :create, Task
       can :read, Task
+      can :manage, Referral
     end
   end
 
