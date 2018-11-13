@@ -35,9 +35,12 @@
           .col-xs-12.col-sm-3
             - if can? :manage, Assessment
               - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
-                = link_to new_client_assessment_path(@client) do
+                = link_to new_client_assessment_path(@client, default: true) do
                   .btn.btn-primary.button
-                    = t('.begin_now')
+                    = 'Default CSI'
+                = link_to new_client_assessment_path(@client, default: false) do
+                  .btn.btn-primary.button
+                    = 'Custom CSI'
               - else
                 .btn.btn-default.button.disabled#disabled_assessment_button
                   = t('.begin_now')

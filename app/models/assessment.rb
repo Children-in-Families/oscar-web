@@ -46,8 +46,8 @@ class Assessment < ActiveRecord::Base
     self == client.assessments.latest_record
   end
 
-  def populate_notes
-    Domain.all.each do |domain|
+  def populate_notes(default)
+    Domain.where(custom_domain: default).each do |domain|
       assessment_domains.build(domain: domain)
     end
   end
