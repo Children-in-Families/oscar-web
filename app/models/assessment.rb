@@ -18,8 +18,8 @@ class Assessment < ActiveRecord::Base
   accepts_nested_attributes_for :assessment_domains
 
   scope :most_recents, -> { order(created_at: :desc) }
-  scope :default_assessment, -> { where(custom_assessment: false) }
-  scope :custom_assessment, -> { where(custom_assessment: true) }
+  scope :default_assessment, -> { where(default: true) }
+  scope :custom_assessment, -> { where(default: false) }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 
@@ -41,13 +41,11 @@ class Assessment < ActiveRecord::Base
   end
 
   def self.default_latest_record
-    # default_assessment.most_recents.first
-    most_recents.first
+    default_assessment.most_recents.first
   end
 
   def self.custom_latest_record
-    # custom_assessment.most_recents.first
-    most_recents.first
+    custom_assessment.most_recents.first
   end
 
   def initial?
@@ -58,8 +56,8 @@ class Assessment < ActiveRecord::Base
     self == client.assessments.latest_record
   end
 
-  def populate_notes
-    Domain.all.each do |domain|
+  def populate_notes(default)
+    Domain.where(custom_domain: default).each do |domain|
       assessment_domains.build(domain: domain)
     end
   end
@@ -99,9 +97,9 @@ class Assessment < ActiveRecord::Base
   end
 
   def must_be_enable_assessment
-    setting = Setting.first.try(:disable_assessment)
-    return if setting.nil?
-    errors.add(:base, 'Assessment tool must be enable in setting') if setting
+    setting = Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
+    return if setting
+    errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
   def set_previous_score

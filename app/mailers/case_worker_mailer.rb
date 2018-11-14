@@ -20,8 +20,14 @@ class CaseWorkerMailer < ApplicationMailer
     @client   = client
     recievers = client.users.non_locked.notify_email.pluck(:email)
     return if recievers.empty?
+    default = @client.assessments.most_recents.first.try(:default)
+    if default == true
+      @name = Setting.first.try(:default_assessment_name)
+    elsif default == false
+      @name = Setting.first.try(:customized_assessment_name)
+    end
     dev_email = ENV['DEV_EMAIL']
-    mail(to: recievers, subject: 'Upcoming CSI Assessment', bcc: dev_email)
+    mail(to: recievers, subject: "Upcoming CSI #{@name} Assessment", bcc: dev_email)
   end
 
   def forms_notifity(user, short_name)

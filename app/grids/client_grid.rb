@@ -220,15 +220,28 @@ class ClientGrid < BaseGrid
 
   filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
     ids = []
+    setting = Setting.first
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |c|
         next if c.uneligible_age?
-        ids << c.id if c.next_assessment_date == Date.today
+        if setting.try(:enable_default_assessment) && setting.try(:enable_customized_assessment)
+          ids << c.id if c.next_assessment_date == Date.today || c.custom_next_assessment_date == Date.today
+        elsif setting.try(:enable_default_assessment)
+          ids << c.id if c.next_assessment_date == Date.today
+        elsif setting.try(:enable_customized_assessment)
+          ids << c.id if c.custom_next_assessment_date == Date.today
+        end
       end
     else
       Client.joins(:assessments).active_accepted_status.each do |c|
         next if c.uneligible_age?
-        ids << c.id if c.next_assessment_date < Date.today
+        if setting.try(:enable_default_assessment) && setting.try(:enable_customized_assessment)
+          ids << c.id if c.next_assessment_date  < Date.today || c.custom_next_assessment_date  < Date.today
+        elsif setting.try(:enable_default_assessment)
+          ids << c.id if c.next_assessment_date  < Date.today
+        elsif setting.try(:enable_customized_assessment)
+          ids << c.id if c.custom_next_assessment_date  < Date.today
+        end
       end
     end
     scope.where(id: ids)

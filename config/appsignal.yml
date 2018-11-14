@@ -6,6 +6,9 @@ default: &defaults
   # Your app's name
   name: "OSCaR"
 
+  ignore_errors:
+    - Apartment::TenantNotFound
+
   # Actions that should not be monitored by AppSignal
   # ignore_actions:
   #   - ApplicationController#isup

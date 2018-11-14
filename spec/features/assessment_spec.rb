@@ -92,7 +92,6 @@ describe "Assessment" do
 
       scenario 'user does not have editable permission' do
         user.permission.update(assessments_editable: false)
-
         visit new_client_assessment_path(client)
         expect(dashboards_path).to have_content(current_path)
       end

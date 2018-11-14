@@ -4,6 +4,11 @@
       .ibox
         .ibox-title
           %h5.text-center= t('.csi_tools')
+          .ibox-tools
+            = f.input_field :enable_default_assessment, class: 'i-checks', as: :boolean
+            %label= t('.default_assessment')
+            = f.input_field :enable_customized_assessment, class: 'i-checks', as: :boolean
+            %label= t('.custom_assessment')
         .ibox-content
           = render 'assessment', f: f
           = render 'case_note', f: f

@@ -60,12 +60,12 @@ class SettingsController < AdminController
   end
 
   def setting_params
-    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, :age, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:default_assessment_frequency, :default_max_assessment, :default_assessment_name, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, :org_name, :enable_customized_assessment, :enable_default_assessment, :customized_assessment_name, :province_id, :district_id, :commune_id, :age, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def find_setting
     # @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
-    @setting = Setting.first_or_initialize(assessment_frequency: 'month', max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    @setting = Setting.first_or_initialize(case_note_frequency: 'day', max_case_note: 30)
   end
 
   def client_default_columns

@@ -30,7 +30,6 @@ class CaseNotesController < AdminController
 
   def create
     @case_note = @client.case_notes.new(case_note_params)
-    binding.pry
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       create_bulk_task(params[:task]) if params.has_key?(:task)
