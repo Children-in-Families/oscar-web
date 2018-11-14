@@ -18,7 +18,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
 
   _handleAppendAddTaskBtn = ->
-    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning, label.collection_radio_buttons.label-success')
+    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning, div.btn-option.btn-warning, div.btn-option.btn-danger')
     if $(scores).length > 0
       $(scores).trigger('click')
       $(".task_required").removeClass('hidden').show()
@@ -65,7 +65,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
-        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        $(".domain-#{domainId} .task_required").removeClass('hidden').show() unless scoreColor == 'success'
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
         $(select).prop('readonly', false).addClass('valid').addClass('error required')
       else
@@ -97,7 +97,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
-        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        $(".domain-#{domainId} .task_required").removeClass('hidden').show() unless scoreColor == 'success'
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
         $(select).prop('readonly', false).addClass('valid').addClass('error required')
       else
@@ -230,16 +230,16 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       isTask = $("#{currentTab} .task-required-option").find('input.radio_buttons:checked').val()
 
       if (activeScoreColor == 'primary' && isGoal == 'true')
-        if $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
-          return true
+        return true if $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
       else if (activeScoreColor == 'primary' && isGoal == 'false')
         $(currentTab).find('textarea.goal').removeClass('error')
-        if $(currentTab).find('textarea.reason.valid').length
-          return true
+        return true if $(currentTab).find('textarea.reason.valid').length
       else if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
         return true
+      else if isTask == 'true' && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+        return true
       else
-        return true if isTask == 'true' && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+        return true if activeScoreColor == 'success' && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
 
   _addTasks = ->
     $(document).on 'click', '.assessment-task-btn', (e) ->
