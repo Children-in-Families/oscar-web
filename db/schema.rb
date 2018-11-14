@@ -121,8 +121,9 @@ ActiveRecord::Schema.define(version: 20181112042033) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",  default: false
-    t.boolean  "default",    default: true
+    t.boolean  "completed",          default: false
+    t.boolean  "requried_task_last", default: false
+    t.boolean  "default",            default: true
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
@@ -1179,8 +1180,8 @@ ActiveRecord::Schema.define(version: 20181112042033) do
     t.string   "old_commune",                  default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                          default: 18
     t.integer  "commune_id"
+    t.integer  "age",                          default: 18
     t.string   "customized_assessment_name",   default: "Custom CSI"
     t.boolean  "enable_customized_assessment", default: false
     t.boolean  "enable_default_assessment",    default: true
