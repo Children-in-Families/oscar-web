@@ -47,7 +47,8 @@ class Assessment < ActiveRecord::Base
   end
 
   def populate_notes(default)
-    Domain.where(custom_domain: default).each do |domain|
+    domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
+    domains.each do |domain|
       assessment_domains.build(domain: domain)
     end
   end
