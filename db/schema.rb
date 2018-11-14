@@ -123,7 +123,6 @@ ActiveRecord::Schema.define(version: 20181112051352) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.boolean  "completed",          default: false
-    t.boolean  "requried_task_last", default: false
     t.boolean  "default",            default: true
   end
 
