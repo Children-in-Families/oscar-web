@@ -25,7 +25,7 @@ class AssessmentsController < AdminController
     @assessment = @client.assessments.new(assessment_params)
     authorize @assessment
     if @assessment.save
-      create_bulk_task(params[:task]) if params.has_key?(:task)
+      create_bulk_task(params[:task].uniq) if params.has_key?(:task)
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
     else
       render :new

@@ -14,10 +14,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _removeTask()
     _removeHiddenTaskArising()
     _saveAssessment(form)
-    _radioGoalOption()
+    _radioGoalAndTaskRequiredOption()
+
 
   _handleAppendAddTaskBtn = ->
-    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning, label.collection_radio_buttons.label-success')
+    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning, div.btn-option.btn-warning, div.btn-option.btn-danger')
     if $(scores).length > 0
       $(scores).trigger('click')
       $(".task_required").removeClass('hidden').show()
@@ -43,10 +44,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('.score_option .btn-option').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option .btn-option', ->
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      currentTab  = "#rootwizard-p-#{currentIndex}"
+      select = $(currentTab).find('textarea.goal')
+      name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+      radioName = '\'' + name
 
       currentTabLabels = $(@).siblings()
       currentTabLabels.removeClass('active-label')
-      $(@).addClass('active-label')
+
 
       $('.score_option').removeClass('is_error')
       labelColors = 'btn-danger btn-warning btn-primary btn-success'
@@ -59,14 +65,23 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
-        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        $(".domain-#{domainId} .task_required").removeClass('hidden').show() unless scoreColor == 'success'
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
+        $(select).prop('readonly', false).addClass('valid').addClass('error required')
       else
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
+        goalRequiredValue = $("input[name=#{radioName}:checked").val()
+        if goalRequiredValue == 'false'
+          $(select).prop('readonly', true).addClass('valid').removeClass('error required').siblings().remove()
 
     $('.score_option input').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option label', ->
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      currentTab  = "#rootwizard-p-#{currentIndex}"
+      select = $(currentTab).find('textarea.goal')
+      name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+      radioName = '\'' + name
 
       currentTabLabels = $(@).parents('.score_option').find('label label')
       currentTabLabels.removeClass('active-label')
@@ -79,14 +94,18 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).children('label').addClass("label-#{scoreColor}")
+      $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
-        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        $(".domain-#{domainId} .task_required").removeClass('hidden').show() unless scoreColor == 'success'
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
+        $(select).prop('readonly', false).addClass('valid').addClass('error required')
       else
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
+        goalRequiredValue = $("input[name=#{radioName}:checked").val()
+        if goalRequiredValue == 'false'
+          $(select).prop('readonly', true).addClass('valid').removeClass('error required').siblings().remove()
 
       if scoreColor == 'primary'
         $('.goal-required-option').removeClass('hidden')
@@ -116,22 +135,43 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _formEdit(currentIndex)
         _appendSaveButton()
         _handleAppendAddTaskBtn()
+        _handleAppendDomainAtTheEnd(currentIndex)
+        _taskRequiredAtEnd(currentIndex)
 
       onStepChanging: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
-        _filedsValidator(currentIndex, newIndex)
+        _taskRequiredAtEnd(currentIndex)
+        if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
+          return true
+        else
+          _filedsValidator(currentIndex, newIndex)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
         _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
+        _handleAppendDomainAtTheEnd(currentIndex)
+        _taskRequiredAtEnd(currentIndex)
         if currentIndex == 11
           $("#rootwizard a[href='#save']").remove()
 
       onFinishing: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled'
         form.valid()
-        _filedsValidator(currentIndex,newIndex)
+        _taskRequiredAtEnd(currentIndex)
+        currentStep = $("#rootwizard-p-" + currentIndex)
+        if newIndex == undefined && currentStep.hasClass('domain-last')
+          isTaskRequred = true
+          $.each $("#rootwizard-p-#{currentIndex} [id^='domain-task-section']"), (index, item) ->
+            if $(item).find('ol.tasks-list li').length
+              $(item).find('p.task_required').hide()
+            else
+              isTaskRequred = false
+              $(item).find('p.task_required').show()
+
+          return isTaskRequred
+        else
+          _filedsValidator(currentIndex,newIndex)
 
       onFinished: ->
         $('.actions a:contains("Done")').removeAttr('href')
@@ -142,11 +182,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveButton = ->
     $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
-  _saveAssessment = (form)->
-    $("#rootwizard a[href='#save']").on 'click', ->
-      form.valid()
-      _validateScore(form)
-      if !$('.text-required').is ':visible'
+  _saveAssessment = (form) ->
+    $(document).on 'click', "#rootwizard a[href='#save']", ->
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      newIndex = currentIndex + 1
+      if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
+        _filedsValidator(currentIndex, newIndex)
+        return false
+      else
         form.submit()
 
   _formEdit = (currentIndex) ->
@@ -154,17 +197,27 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreOption = $("#{currentTab} .score_option")
     chosenScore = scoreOption.find('label input:checked').val()
     scoreColor  = scoreOption.data("score-#{chosenScore}")
-    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor}")
+    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
     btnScore = scoreOption.find('input:hidden').val()
     $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
+    domainName = $(@).data('goal-option')
+    name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
+    radioName = '\'' + name
+    goalRequiredValue = $("input[name=#{radioName}:checked").val()
+    select = $(currentTab).find('textarea.goal')
+    if goalRequiredValue == 'false'
+      $(select).prop('readonly', true)
+    else if goalRequiredValue == 'true'
+      $(select).prop('readonly', false)
 
   _filedsValidator = (currentIndex, newIndex ) ->
     currentTab   = "#rootwizard-p-#{currentIndex}"
     scoreOption  = $("#{currentTab} .score_option")
 
-    isScoreExist = if scoreOption.children().last().val().length or $(currentTab).find('.active-label').length then false else true
+    isScoreExist = if (scoreOption.children().last().val().length or $(currentTab).find('.active-label').length) then false else true
+
     if(scoreOption.find('input.error').length || isScoreExist)
-      $(currentTab).find('.score_option').addClass('is_error')
+      $(currentTab).find('.score_option').addClass('is_error') if isScoreExist
       return false
     else
       $(currentTab).find('.score_option').removeClass('is_error')
@@ -172,17 +225,26 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       activeLabel      = if activeScoreLabel.length >= 1 then activeScoreLabel else $(currentTab).find('.score_option').children().last()
       activeScore      = if activeScoreLabel.length >= 1 then activeLabel.text() else activeLabel.val()
       activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
-      isGoal = $(currentTab).find('input.radio_buttons:checked').val()
-      if $(currentTab).find('textarea.goal.valid').length and $(currentTab).find('textarea.reason.valid').length || (activeScoreColor == 'primary' && isGoal == 'false')
+
+      isGoal = $("#{currentTab} .goal-required-option").find('input.radio_buttons:checked').val()
+      isTask = $("#{currentTab} .task-required-option").find('input.radio_buttons:checked').val()
+
+      if (activeScoreColor == 'primary' && isGoal == 'true')
+        return true if $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+      else if (activeScoreColor == 'primary' && isGoal == 'false')
         $(currentTab).find('textarea.goal').removeClass('error')
-        if activeScoreColor == 'warning' || activeScoreColor == 'danger' || activeScoreColor == 'success'
-          return true if $("#{currentTab} ol.tasks-list li").length >= 1
-        else
-          return true
+        return true if $(currentTab).find('textarea.reason.valid').length
+      else if $("#{currentTab} ol.tasks-list li").length >= 1 && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+        return true
+      else if isTask == 'true' && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
+        return true
+      else
+        return true if activeScoreColor == 'success' && $(currentTab).find('textarea.reason.valid').length && $(currentTab).find('textarea.goal.valid').length
 
   _addTasks = ->
-    $('.assessment-task-btn').on 'click', (e) ->
+    $(document).on 'click', '.assessment-task-btn', (e) ->
       domainId = $(e.target).data('domain-id')
+
       $('#task_domain_id').val(domainId)
       $('.task_required').removeClass('text-required')
 
@@ -211,7 +273,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _showTaskError(taskName, taskDate)
 
   _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl) ->
-    appendElement  = $(".domain-#{domainId} .task-arising");
+    appendElement  = $(".domain-#{domainId} .task-arising, #domain-task-section#{domainId} .task-arising");
     deleteUrl      = undefined
     element        = undefined
     deleteLink     = ''
@@ -219,8 +281,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
     element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}, #{relation}'></li>"
 
-    $(".domain-#{domainId} .task-arising").removeClass('hidden')
-    $(".domain-#{domainId} .task-arising ol").append(element)
+    $(".domain-#{domainId} .task-arising, #domain-task-section#{domainId} .task-arising").removeClass('hidden')
+    $(".domain-#{domainId} .task-arising ol, #domain-task-section#{domainId} .task-arising ol").append(element)
     _clearTaskForm()
     $('.add-task-btn').removeAttr('disabled')
     $('#tasksFromModal').modal('hide')
@@ -335,16 +397,71 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       return url.replace(pattern, '$1' + paramValue + '$2')
     url + (if url.indexOf('?') > 0 then '&' else '?') + paramName + '=' + paramValue
 
-  _radioGoalOption = ->
+  _radioGoalAndTaskRequiredOption = ->
     $('[id^="i-checks-"]').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
-    $('input').on 'ifChecked', (event) ->
+    $('.goal-required-option input').on 'ifChecked', (event) ->
       domainName = $(@).data('goal-option')
       if $(@).val() == 'false'
         $("textarea#goal-text-area-#{domainName}").addClass('valid').removeClass('error required').siblings().remove()
+        $("textarea#goal-text-area-#{domainName}").prop('readonly', true);
       else
         $("textarea#goal-text-area-#{domainName}").addClass('valid').addClass('error required')
+        $("textarea#goal-text-area-#{domainName}").prop('readonly', false);
+
+  _taskRequiredAtEnd = (currentIndex) ->
+    currentTab = "#rootwizard-p-#{currentIndex}"
+    domainId   = $(currentTab).find('.score_option').data('domain-id')
+
+    $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
+      if $(@).val() == 'true'
+        $(".domain-#{domainId} .task_required").hide()
+      else
+        $(".domain-#{domainId} .task_required").show()
+
+  _handleAppendDomainAtTheEnd = (currentIndex) ->
+    if $("form#new_assessment").length
+      currentTab   = "#rootwizard-p-#{currentIndex}"
+      domainId     = $(currentTab).find('.score_option').data('domain-id')
+
+      $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
+        if $(@).attr('value') == 'true'
+          $('a#btn-save').hide()
+          currentTableObj  = $(currentTab)
+
+          goalLabelClone   = $("#{currentTab} label[for$='_#{currentIndex}_goal']").clone()
+          goalSectionClone = currentTableObj.find('textarea.goal').clone()
+          domainName       = $(@).data('task-name')
+          taskClone        = currentTableObj.find('.add-task-btn-wrapper').clone()
+          taskArisingClone = currentTableObj.find('.task-arising').clone()
+          textRequiredClone = currentTableObj.find('.task_required').clone()
+
+          taskArisingClone.find('.task-required-option').remove()
+          $(".domain-last .ibox-content").append(
+            "<div class='row #{$(@).attr('id').replace('true', 'false')}'>
+              <div class='row'><div class='col-sm-12'><div class='ibox-title'><h5>Domain: #{domainName}</h5></div></div></div>
+              <div class='col-sm-12 col-md-6 domain-goal-section#{currentIndex}'></div>
+              <div class='col-sm-12 col-md-6' id='domain-task-section#{domainId}'></div>
+            </div>")
+          $(".domain-goal-section#{currentIndex}").append(goalLabelClone)
+          $(".domain-goal-section#{currentIndex}").append(goalSectionClone.removeClass('error required'))
+          $("#domain-task-section#{domainId}").append(textRequiredClone)
+          $("#domain-task-section#{domainId}").append(taskArisingClone)
+          $("#domain-task-section#{domainId}").append(taskClone)
+        else
+          $(".row.#{$(@).attr('id')}").remove()
+          isChecked    = false
+          $("[id$='_requried_task_last_true']").each ->
+            return isChecked = true if $(@).is(':checked')
+
+          unless isChecked
+            if $('a#btn-save').length == 0
+              _appendSaveButton()
+              _translatePagination()
+            $('a#btn-save').show()
+
+
 
   { init: _init }
