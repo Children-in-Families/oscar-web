@@ -122,9 +122,22 @@ class Client < ActiveRecord::Base
     shared_clients = shared_clients.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
     shared_clients = shared_clients.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
     shared_clients = shared_clients.joins(:birth_province).where("provinces.name iLIKE ?", "%#{options[:birth_province]}%")     if options[:birth_province].present?
+    @clients       = shared_clients.map{ |client| client }
     shared_clients = shared_clients.pluck(:slug)
     Organization.switch_to current_org
     shared_clients
+  end
+
+  def self.get_similar_fields(options)
+    similar_fields = []
+    @clients.each do |client|
+      similar_fields << '#hidden_given_name' if client.given_name == options[:given_name]
+      similar_fields << '#hidden_family_name' if client.family_name == options[:family_name]
+      similar_fields << '#hidden_local_given_name' if client.local_given_name == options[:local_given_name]
+      similar_fields << '#hidden_local_given_name' if client.local_family_name == options[:local_family_name]
+      similar_fields << '#hidden_local_given_name' if client.birth_province == options[:birth_province]
+    end
+    similar_fields.uniq
   end
 
   def family

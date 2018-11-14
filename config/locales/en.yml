@@ -1102,11 +1102,15 @@ en:
       close: Close
       question: Q
     confirm_client:
-      body_first: The client you are registering has many attributes that match a client who is already registered at
-      body_second: ". You may wish to contact"
-      body_third: to discuss this.
+      birth_province: Birth Province
+      body_first: 'The client record you are saving has similarities to other records in OSCaR in the following fields:'
+      body_third: Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.
       close: Cancel
       confirm: Save Anyway
+      family_name: Family Name
+      given_name: Given Name
+      local_family_name: Local Family Name
+      local_given_name: Local Given Name
       title: Warning
     create:
       successfully_created: Client has been successfully created.
