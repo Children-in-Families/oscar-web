@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(version: 20181112082013) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.string   "interaction_type", default: ""
-    t.boolean  "custom_case_note", default: false
+    t.boolean  "custom",           default: false
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
