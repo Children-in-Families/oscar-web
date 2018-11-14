@@ -5,6 +5,8 @@ class Setting < ActiveRecord::Base
   belongs_to :district
   belongs_to :commune
 
+  validates_numericality_of :default_max_assessment, only_integer: true, greater_than: 3, if: -> { default_max_assessment.present? && default_assessment_frequency == 'month' }
+  validates_numericality_of :default_max_assessment, only_integer: true, greater_than: 0, if: -> { default_max_assessment.present? && default_assessment_frequency == 'year' }
   validates_numericality_of :max_assessment, only_integer: true, greater_than: 3, if: -> { max_assessment.present? && assessment_frequency == 'month' }
   validates_numericality_of :max_assessment, only_integer: true, greater_than: 0, if: -> { max_assessment.present? && assessment_frequency == 'year' }
   validates_numericality_of :max_case_note, only_integer: true, greater_than: 0, if: -> { max_case_note.present? }

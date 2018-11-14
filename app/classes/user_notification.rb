@@ -86,6 +86,22 @@ class UserNotification
     due_today_assessments_count >= 1
   end
 
+  def customized_overdue_assessments_count
+    @assessments[:customized_overdue_count]
+  end
+
+  def any_customized_overdue_assessments?
+    customized_overdue_assessments_count >= 1
+  end
+
+  def customized_due_today_assessments_count
+    @assessments[:customized_due_today_count]
+  end
+
+  def any_customized_due_today_assessments?
+    customized_due_today_assessments_count >= 1
+  end
+
   # def ec_notification(day)
   #   if @user.admin? || @user.ec_manager?
   #     Client.exit_in_week(day)
@@ -238,7 +254,7 @@ class UserNotification
 
   def count
     count_notification = 0
-
+    setting = Setting.first
     # if @user.admin? || @user.ec_manager?
     #   (83..90).each do |item|
     #     count_notification += 1 if ec_notification(item).present?
@@ -259,7 +275,8 @@ class UserNotification
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
-      count_notification += 1 if (any_overdue_assessments? || any_due_today_assessments?) && enable_assessment_setting?
+      count_notification += 1 if setting.try(:enable_customized_assessment) && (any_overdue_assessments? || any_due_today_assessments?)
+      count_notification += 1 if setting.try(:enable_customized_assessment) && (any_customized_overdue_assessments? || any_customized_due_today_assessments?)
       count_notification += 1 if any_upcoming_csi_assessments? && enable_assessment_setting?
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
@@ -275,8 +292,7 @@ class UserNotification
   end
 
   def enable_assessment_setting?
-    setting = Setting.first.try(:disable_assessment)
-    setting.nil? ? true : !setting
+    Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
   end
 
   def get_referrals(referral_type)

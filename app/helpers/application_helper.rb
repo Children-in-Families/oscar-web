@@ -237,11 +237,29 @@ module ApplicationHelper
 
   def assessments_notification_label
     if @notification.any_overdue_assessments? && @notification.any_due_today_assessments?
-      "#{I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.due_today_assessments_count)}"
+      overdue_count = @notification.overdue_assessments_count
+      due_today_count = @notification.due_today_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.first.default_assessment_name} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
     elsif @notification.any_overdue_assessments?
-      I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)
+      count = @notification.overdue_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.default_assessment_name} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
     else
-      I18n.t('layouts.notification.due_today_assessments_count', count: @notification.due_today_assessments_count)
+      count = @notification.due_today_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.default_assessment_name} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
+    end
+  end
+
+  def customized_assessments_notification_label
+    if @notification.any_customized_overdue_assessments? && @notification.any_customized_due_today_assessments?
+      overdue_count = @notification.customized_overdue_assessments_count
+      due_today_count = @notification.customized_due_today_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.first.customized_assessment_name} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
+    elsif @notification.any_customized_overdue_assessments?
+      count = @notification.customized_overdue_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.customized_assessment_name} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
+    else
+      count = @notification.customized_due_today_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.customized_assessment_name} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
     end
   end
 

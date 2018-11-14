@@ -177,6 +177,11 @@ class Client < ActiveRecord::Base
     (assessments.latest_record.created_at + assessment_duration('max')).to_date
   end
 
+  def custom_next_assessment_date
+    return Date.today if assessments.count.zero?
+    (assessments.latest_record.created_at + assessment_duration('max', true)).to_date
+  end
+
   def next_appointment_date
     return Date.today if assessments.count.zero?
 
@@ -349,8 +354,9 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      next if Setting.first.try(:disable_assessment)
+      next if !(Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment))
       clients = joins(:assessments).active_accepted_status
+
       clients.each do |client|
         next if client.uneligible_age?
         repeat_notifications = client.repeat_notifications_schedule
@@ -384,9 +390,23 @@ class Client < ActiveRecord::Base
 
   def uneligible_age?
     return false unless date_of_birth.present?
-    age = Setting.first.try(:age) || 18
     client_age = age_as_years
-    client_age >= age ? true : false
+    setting = Setting.first
+    if setting.try(:enable_default_assessment) && setting.try(:enable_customized_assessment)
+      age = Setting.first.try(:age)
+      default_age = Setting.first.try(:default_age)
+      if client_age >= age || client_age >= default_age
+        true
+      else
+        false
+      end
+    elsif setting.try(:enable_default_assessment)
+      age = Setting.first.try(:default_age)
+      client_age >= age ? true : false
+    elsif setting.try(:enable_customized_assessment)
+      age = Setting.first.try(:age) || 18
+      client_age >= age ? true : false
+    end
   end
 
   def country_origin_label
@@ -411,11 +431,16 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def assessment_duration(duration)
+  def assessment_duration(duration, custom_assessment = false)
     if duration == 'max'
       setting = Setting.first
-      assessment_period = (setting.try(:max_assessment) || 6)
-      assessment_frequency = setting.try(:assessment_frequency) || 'month'
+      if custom_assessment
+        assessment_period = setting.try(:max_assessment)
+        assessment_frequency = setting.try(:assessment_frequency)
+      else
+        assessment_period = setting.default_max_assessment
+        assessment_frequency = setting.default_assessment_frequency
+      end
     else
       assessment_period = 3
       assessment_frequency = 'month'
