@@ -292,7 +292,7 @@ class UserNotification
   end
 
   def enable_assessment_setting?
-    Setting.first.try(:enable_customized_assessment) || Setting.first.try(:enable_customized_assessment)
+    Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
   end
 
   def get_referrals(referral_type)
