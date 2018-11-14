@@ -324,7 +324,7 @@ describe 'Client' do
       find('#steps-uid-0-t-3').click
       page.find('a[href="#finish"]', visible: false).click
       wait_for_ajax
-      expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
+      expect(page).to have_content("The client record you are saving has similarities to other records in OSCaR in the following fields:")
     end
 
     scenario 'government report section invisible' do
