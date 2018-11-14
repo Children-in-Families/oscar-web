@@ -18,6 +18,8 @@ class Assessment < ActiveRecord::Base
   accepts_nested_attributes_for :assessment_domains
 
   scope :most_recents, -> { order(created_at: :desc) }
+  scope :defaults, -> { where(default: true) }
+  scope :customs, -> { where(default: false) }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 

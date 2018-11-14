@@ -139,6 +139,20 @@ describe Assessment, 'scopes' do
       expect(Assessment.most_recents).to eq(order)
     end
   end
+
+  context 'defaults' do
+    let!(:default_assessment){ create(:assessment, default: true) }
+    it 'should return default assessments' do
+      expect(Assessment.defaults).to include(default_assessment)
+    end
+  end
+
+  context 'customs' do
+    let!(:custom_assessment){ create(:assessment, default: false) }
+    it 'should return default assessments' do
+      expect(Assessment.customs).to include(custom_assessment)
+    end
+  end
 end
 
 describe Assessment, 'callbacks' do

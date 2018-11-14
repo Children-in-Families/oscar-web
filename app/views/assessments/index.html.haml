@@ -24,7 +24,7 @@
           .row.margin-row
             .col-xs-12.col-sm-9
               %h5
-                - if @client.assessments.any?
+                - if @client.assessments.defaults.any?
                   = t('.next_review')
                   %b
                     = date_format(@client.next_assessment_date)
@@ -46,7 +46,7 @@
           .row.margin-row
             .col-xs-12.col-sm-9
               %h5
-                - if @client.assessments.any?
+                - if @client.assessments.customs.any?
                   = t('.next_review')
                   %b
                     = date_format(@client.custom_next_assessment_date)
