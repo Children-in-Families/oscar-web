@@ -31,13 +31,33 @@
                 = t('.initial_assessment')
                 %b
                   = date_format(Date.today)
-
           .col-xs-12.col-sm-3
             - if can? :manage, Assessment
               - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
-                = link_to new_client_assessment_path(@client) do
+                = link_to new_client_assessment_path(@client, default: true) do
                   .btn.btn-primary.button
-                    = t('.begin_now')
+                    = Setting.first.default_assessment_name
+              - else
+                .btn.btn-default.button.disabled#disabled_assessment_button
+                  = t('.begin_now')
+
+        .row.margin-row
+          .col-xs-12.col-sm-9
+            %h5
+              - if @client.assessments.any?
+                = t('.next_review')
+                %b
+                  = date_format(@client.custom_next_assessment_date)
+              - else
+                = t('.initial_assessment')
+                %b
+                  = date_format(Date.today)
+          .col-xs-12.col-sm-3
+            - if can? :manage, Assessment
+              - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
+                = link_to new_client_assessment_path(@client, default: false) do
+                  .btn.btn-primary.button
+                    = Setting.first.customized_assessment_name
               - else
                 .btn.btn-default.button.disabled#disabled_assessment_button
                   = t('.begin_now')
