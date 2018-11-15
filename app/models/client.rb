@@ -131,11 +131,11 @@ class Client < ActiveRecord::Base
   def self.get_similar_fields(options)
     similar_fields = []
     @clients.each do |client|
-      similar_fields << '#hidden_given_name' if client.given_name == options[:given_name]
-      similar_fields << '#hidden_family_name' if client.family_name == options[:family_name]
-      similar_fields << '#hidden_local_given_name' if client.local_given_name == options[:local_given_name]
-      similar_fields << '#hidden_local_given_name' if client.local_family_name == options[:local_family_name]
-      similar_fields << '#hidden_local_given_name' if client.birth_province == options[:birth_province]
+      similar_fields << '#hidden_given_name' if client.given_name.include?(fetch_75_chars_of(options[:given_name])) && options[:given_name].present?
+      similar_fields << '#hidden_family_name' if client.family_name.include?(fetch_75_chars_of(options[:family_name])) && options[:family_name].present?
+      similar_fields << '#hidden_local_given_name' if client.local_given_name.include?(fetch_75_chars_of(options[:local_given_name])) && options[:local_given_name].present?
+      similar_fields << '#hidden_local_family_name' if client.local_family_name.include?(fetch_75_chars_of(options[:local_family_name])) && options[:local_family_name].present?
+      similar_fields << '#hidden_birth_province' if client.birth_province.present? && client.birth_province.include?(fetch_75_chars_of(options[:birth_province]))
     end
     similar_fields.uniq
   end

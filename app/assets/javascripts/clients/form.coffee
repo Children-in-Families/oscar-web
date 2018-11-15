@@ -117,7 +117,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         similar_fields  = json.similar_fields
         modalTextSecond = ''
 
-        if clientId == '' and organizations.length > 0
+        if clientId == '' and similar_fields.length > 0
           modalTitle      = $('#hidden_title').val()
           modalTextFirst  = $('#hidden_body_first').val() + '<br/>'
           modalTextThird  = $('#hidden_body_third').val()
@@ -131,8 +131,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             i++
 
           modalText = []
-          for organization in organizations
-            modalText.push("<p>#{modalTextFirst} #{modalTextSecond} <br/> #{modalTextThird}<p/>")
+          modalText.push("<p>#{modalTextFirst} #{modalTextSecond} <br/> #{modalTextThird}<p/>")
 
           $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
           $('#confirm-client-modal .modal-body').html(modalText)
