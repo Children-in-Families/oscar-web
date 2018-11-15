@@ -1,5 +1,5 @@
 class AssessmentSerializer < ActiveModel::Serializer
-  attributes :id, :client_id, :created_at, :updated_at, :case_notes, :completed
+  attributes :id, :client_id, :created_at, :updated_at, :case_notes
 
   has_many :assessment_domains
 
