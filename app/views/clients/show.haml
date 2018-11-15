@@ -46,7 +46,7 @@
                     .form-inputs
                       = f.hidden_field :accepted_date, value: Date.today
                     .form-actions
-                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client', data: { disable_with: "#{t('.accepting')}..." }
+                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client', data: { disable_with: t('.accepting') }
                 .col-xs-12
                   %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
 
