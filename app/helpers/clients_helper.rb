@@ -281,7 +281,7 @@ module ClientsHelper
   end
 
   def enable_assessment_setting?
-    Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
+    Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
   end
 
   def default_columns_visibility(column)

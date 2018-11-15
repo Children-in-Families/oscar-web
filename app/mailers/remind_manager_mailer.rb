@@ -2,7 +2,7 @@ class RemindManagerMailer < ApplicationMailer
   def case_worker_overdue_tasks_notify(manager, case_workers, org_name)
     @org_name     = org_name
     @manager      = manager
-    @csi_setting  = Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
+    @csi_setting  = Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
     @subject      = @csi_setting ? 'Case workers have overdue assessments, tasks or forms that are more than a week overdue' : 'Case workers have overdue tasks or forms that are more than a week overdue'
     @case_workers = case_workers_overdue_tasks(case_workers)
     @setting = Setting.first
@@ -20,15 +20,15 @@ class RemindManagerMailer < ApplicationMailer
         break if overdue_forms.present? || overdue_tasks.present? || overdue_assessments.present?
         client_overdue_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(user).incomplete.where('completion_date <= ?', 7.days.ago)
         overdue_tasks << client_overdue_tasks if client_overdue_tasks.present?
-        if @setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment)
+        if @setting.enable_default_assessment && @setting.enable_custom_assessment
           if client.custom_next_assessment_date <= 7.days.ago
             overdue_assessments << client.custom_next_assessment_date
           elsif client.next_assessment_date <= 7.days.ago
             overdue_assessments << client.next_assessment_date
           end
-        elsif @setting.try(:enable_default_assessment)
+        elsif @setting.enable_default_assessment
           overdue_assessments << client.next_assessment_date if client.next_assessment_date <= 7.days.ago
-        elsif @setting.try(:enable_customized_assessment) || (@setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment) && client.assessmets.last.custom?)
+        elsif @setting.enable_custom_assessment
           overdue_assessments << client.custom_next_assessment_date if client.custom_next_assessment_date <= 7.days.ago
         end
         custom_fields = client.custom_fields.where.not(frequency: '')

@@ -143,7 +143,7 @@ describe 'Client' do
       end
 
       scenario 'disable assessment tool' do
-        setting.update(enable_default_assessment: false, enable_customized_assessment: false)
+        setting.update(enable_default_assessment: false, enable_custom_assessment: false)
         visit current_path
         expect(page).not_to have_link('Assessments', href: client_assessments_path(client))
       end

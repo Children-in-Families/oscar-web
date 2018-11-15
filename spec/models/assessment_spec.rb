@@ -190,7 +190,7 @@ describe Assessment, 'callbacks' do
     let!(:setting) { Setting.first }
 
     it 'should return error message' do
-      setting.update(enable_default_assessment: false, enable_customized_assessment: false)
+      setting.update(enable_default_assessment: false, enable_custom_assessment: false)
       assessment = Assessment.create(client: client)
       expect(assessment.errors.full_messages).to include('Assessment tool must be enable in setting')
     end

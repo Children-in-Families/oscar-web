@@ -9,10 +9,10 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
 
   _handleAssessmentCheckbox = ->
     _disableAssessmentSetting()
-    $('#setting_enable_customized_assessment.i-checks').on 'ifUnchecked', ->
+    $('#setting_enable_custom_assessment.i-checks').on 'ifUnchecked', ->
       $('#assessment-setting .panel-body').find('input, select').prop('disabled', true)
 
-    $('#setting_enable_customized_assessment.i-checks').on 'ifChecked', ->
+    $('#setting_enable_custom_assessment.i-checks').on 'ifChecked', ->
       $('#assessment-setting .panel-body').find('input, select').prop('disabled', false)
 
     $('#setting_enable_default_assessment.i-checks').on 'ifUnchecked', ->
@@ -22,7 +22,7 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
       $('#default-assessment-setting .panel-body').find('input, select').prop('disabled', false)
 
   _disableAssessmentSetting = ->
-    disableAssessmentChecked = $('#setting_enable_customized_assessment').is(':unchecked')
+    disableAssessmentChecked = $('#setting_enable_custom_assessment').is(':unchecked')
     $('#assessment-setting .panel-body').find('input, select').prop('disabled', true) if disableAssessmentChecked
     disableDefaultAssessmentChecked = $('#setting_enable_default_assessment').is(':unchecked')
     $('#default-assessment-setting .panel-body').find('input, select').prop('disabled', true) if disableDefaultAssessmentChecked

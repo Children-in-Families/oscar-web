@@ -5,10 +5,10 @@ FactoryGirl.define do
     max_case_note 30
     case_note_frequency 'day'
     enable_default_assessment true
-    enable_customized_assessment false
-    default_assessment_frequency 'month'
-    default_max_assessment 6
-    default_assessment_name 'Default CSI'
+    enable_custom_assessment false
+    custom_assessment_frequency 'month'
+    max_custom_assessment 6
+    default_assessment 'Default CSI'
     country_name 'cambodia'
     age 18
     association :commune, factory: :commune
