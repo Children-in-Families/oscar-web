@@ -296,15 +296,26 @@ describe Client, 'methods' do
   end
 
   context 'assessment' do
+    let!(:client_1){ create(:client, :accepted) }
     context '#next_assessment_date' do
-      let!(:client_1){ create(:client, :accepted) }
       let!(:latest_assessment){ create(:assessment, client: client_1) }
-      it 'should be last assessment + maximum assessment duration' do
+      it 'last default assessment + maximum assessment duration' do
         expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + (setting.max_assessment).months).to_date)
       end
 
       it 'should be today' do
         expect(other_client.next_assessment_date.start).to eq(Date.today.start)
+      end
+    end
+
+    context '#custom_next_assessment_date' do
+      let!(:latest_assessment){ create(:assessment, client: client_1, default: false) }
+      it 'last custom assessment + maximum custom assessment duration' do
+        expect(client_1.custom_next_assessment_date).to eq((latest_assessment.created_at + (setting.max_custom_assessment).months).to_date)
+      end
+
+      it 'should be today' do
+        expect(other_client.custom_next_assessment_date.start).to eq(Date.today.start)
       end
     end
   end

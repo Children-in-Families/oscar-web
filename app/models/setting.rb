@@ -18,11 +18,17 @@ class Setting < ActiveRecord::Base
   validates :max_assessment, presence: true, if: -> { enable_default_assessment.present? }
   validates :age, presence: true, if: -> { enable_default_assessment.present? }
   validates :assessment_frequency, presence: true, if: -> { enable_default_assessment.present? }
-  validates :custom_assessment, presence: true, if: -> { enable_custom_assessment.present? }
+  validate  :custom_assessment_name, if: -> { enable_custom_assessment.present? }
   validates :custom_assessment_frequency, presence: true, if: -> { enable_custom_assessment.present? }
   validates :max_custom_assessment, presence: true, if: -> { enable_custom_assessment.present? }
   validates :custom_age, presence: true, if: -> { enable_custom_assessment.present? }
 
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
+
+  private
+
+  def custom_assessment_name
+    errors.add(:custom_assessment, I18n.t('invalid_name')) if custom_assessment.downcase.include?('csi')
+  end
 end

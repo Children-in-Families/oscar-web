@@ -20,7 +20,7 @@
             .col-xs-12.col-sm-3
               .btn.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)
-        - if Setting.first.enable_default_assessment
+        - if @current_setting.enable_default_assessment
           .row.margin-row
             .col-xs-12.col-sm-9
               %h5
@@ -37,12 +37,12 @@
                 - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
                   = link_to new_client_assessment_path(@client, default: true) do
                     .btn.btn-primary.button
-                      = Setting.first.default_assessment
+                      = @current_setting.default_assessment
                 - else
                   .btn.btn-default.button.disabled#disabled_assessment_button
-                    = "#{t('.begin_now')} #{Setting.first.default_assessment}"
+                    = "#{t('.begin_now')} #{@current_setting.default_assessment}"
 
-        - if Setting.first.enable_custom_assessment
+        - if @current_setting.enable_custom_assessment
           .row.margin-row
             .col-xs-12.col-sm-9
               %h5
@@ -59,10 +59,10 @@
                 - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
                   = link_to new_client_assessment_path(@client, default: false) do
                     .btn.btn-primary.button
-                      = Setting.first.custom_assessment
+                      = @current_setting.custom_assessment
                 - else
                   .btn.btn-default.button.disabled#disabled_assessment_button
-                    = "#{t('.begin_now')} #{Setting.first.custom_assessment}"
+                    = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
 
       .ibox-footer
         .row

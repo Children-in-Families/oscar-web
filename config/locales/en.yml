@@ -3163,6 +3163,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  invalid_name: name is invalid
   invalid_program_enrollment_date: The enrollment date you have selected is invalid. Please select a date prior to your program exit date.
   invalid_program_exit_date: The exit date you have selected is invalid. Please select a date after your program enrollment date.
   is_not_email: is not an email
@@ -4021,7 +4022,7 @@ en:
       age: age
       assessment: Customized Assessment Frequency Settings
       custom_assessment: Name
-      default_assessment: Default Assessment Frequency Settings
+      default_assessment: CSI Assessment Frequency Settings
       name: Name
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments

@@ -173,12 +173,12 @@ class Client < ActiveRecord::Base
   end
 
   def next_assessment_date
-    return Date.today if assessments.count.zero?
+    return Date.today if assessments.defaults.empty?
     (assessments.latest_record.created_at + assessment_duration('max')).to_date
   end
 
   def custom_next_assessment_date
-    return Date.today if assessments.count.zero?
+    return Date.today if assessments.customs.empty?
     (assessments.latest_record.created_at + assessment_duration('max', false)).to_date
   end
 
