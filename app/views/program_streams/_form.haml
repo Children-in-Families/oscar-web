@@ -3,7 +3,7 @@
   - tracking_tab  = f.error(:"trackings.tab").slice(/\d/) if f.error(:"trackings.tab").present?
   = hidden_field_tag :program_stream_id, @program_stream.id
 
-  .program-steps{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), tab: params[:tab] || tab || tracking_tab || 0 } }
+  .program-steps{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), tab: params[:tab] || tab || tracking_tab || 0 } }
     = render 'program_detail', f: f
     = render 'program_rule', f: f
     = render 'enrollment', f: f

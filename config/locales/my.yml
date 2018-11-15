@@ -749,6 +749,7 @@ my:
         accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       form:
         accept: လက္ခံသည္
+        accepting: လက်ခံ
         accept_ngo_form: NGO ရိုက်ထည့်ပါ
         accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
         case_worker_or_staff: ဝန်ထမ်းများ
@@ -765,6 +766,7 @@ my:
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exiting: မထွက်
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       form:
@@ -776,6 +778,7 @@ my:
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
+        exiting: မထွက်
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         reject_client: client ကိုငြင်းပယ်
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
@@ -1156,6 +1159,7 @@ my:
       exit_ngo: NGO မွ ထြက္ရန္
       exit_note: ထြက္သည့္ မွတ္တမ္း
       exit_status: အေနအထား
+      exiting: မထွက်
     exit_ngo_form:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       exit_btn: ထြက္ရန္
@@ -1403,6 +1407,7 @@ my:
       able_state: Able State
       accept: လက္ခံသည္
       accepted_date: NGO က လက္ခံသည္ ရက္စြဲ
+      accepting: လက်ခံ
       add_client_to_case: အမႈသည္ကို အမႈျခင္းရာထဲသုိ႔ ထည့္သြင္းရန္
       add_ec_btn: EC ထဲသုိ႔ ထည့္ရန္
       add_fc_btn: FC ထဲသုိ႔ ထည့္ရန္
@@ -4013,6 +4018,7 @@ my:
   review_problem: ေက်းဇူးျပဳ၍ ေအာက္တြင္ေဖာ္ျပထားသည့္ ျပႆနာကို ျပန္လည္သံုးသပ္ေပးပါ
   rules_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့စည်းကမ်းများပြောင်းလဲသွားတယ်သို့မဟုတ်မထည့်သွင်းနိုင်
   save: သိမ္းဆည္းရန္
+  saving: ချွေတာ
   sessions:
     create:
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
