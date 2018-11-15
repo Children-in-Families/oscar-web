@@ -152,7 +152,7 @@ class User < ActiveRecord::Base
     customized_due_today = []
     clients.active_accepted_status.each do |client|
       next if client.uneligible_age?
-      if setting.try(:enable_default_assessment) && setting.try(:enable_customized_assessment)
+      if setting.enable_default_assessment && setting.enable_custom_assessment
         client_next_asseement_date = client.next_assessment_date.to_date
         client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
         if client_next_asseement_date < Date.today
@@ -165,14 +165,14 @@ class User < ActiveRecord::Base
         elsif client_custom_next_assessment_date == Date.today
           customized_due_today << client
         end
-      elsif setting.try(:enable_default_assessment)
+      elsif setting.enable_default_assessment
         client_next_asseement_date = client.next_assessment_date.to_date
         if client_next_asseement_date < Date.today
           overdue << client
         elsif client_next_asseement_date == Date.today
           due_today << client
         end
-      elsif setting.try(:enable_customized_assessment)
+      elsif setting.enable_custom_assessment
         client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
         if client_custom_next_assessment_date < Date.today
           customized_overdue << client
@@ -181,7 +181,7 @@ class User < ActiveRecord::Base
         end
       end
     end
-    { overdue_count: overdue.count, due_today_count: due_today.count, customized_overdue_count: customized_overdue.count, customized_due_today_count: customized_due_today.count }
+    { overdue_count: overdue.count, due_today_count: due_today.count, custom_overdue_count: customized_overdue.count, custom_due_today_count: customized_due_today.count }
   end
 
   def client_custom_field_frequency_overdue_or_due_today

@@ -86,20 +86,20 @@ class UserNotification
     due_today_assessments_count >= 1
   end
 
-  def customized_overdue_assessments_count
-    @assessments[:customized_overdue_count]
+  def overdue_custom_assessments_count
+    @assessments[:custom_overdue_count]
   end
 
-  def any_customized_overdue_assessments?
-    customized_overdue_assessments_count >= 1
+  def any_overdue_custom_assessments?
+    overdue_custom_assessments_count >= 1
   end
 
-  def customized_due_today_assessments_count
-    @assessments[:customized_due_today_count]
+  def due_today_custom_assessments_count
+    @assessments[:custom_due_today_count]
   end
 
-  def any_customized_due_today_assessments?
-    customized_due_today_assessments_count >= 1
+  def any_due_today_custom_assessments?
+    due_today_custom_assessments_count >= 1
   end
 
   # def ec_notification(day)
@@ -275,8 +275,8 @@ class UserNotification
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
-      count_notification += 1 if setting.try(:enable_customized_assessment) && (any_overdue_assessments? || any_due_today_assessments?)
-      count_notification += 1 if setting.try(:enable_customized_assessment) && (any_customized_overdue_assessments? || any_customized_due_today_assessments?)
+      count_notification += 1 if setting.enable_default_assessment && (any_overdue_assessments? || any_due_today_assessments?)
+      count_notification += 1 if setting.enable_custom_assessment && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
       count_notification += 1 if any_upcoming_csi_assessments? && enable_assessment_setting?
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
@@ -292,7 +292,7 @@ class UserNotification
   end
 
   def enable_assessment_setting?
-    Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
+    Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
   end
 
   def get_referrals(referral_type)

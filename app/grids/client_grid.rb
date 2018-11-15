@@ -224,22 +224,22 @@ class ClientGrid < BaseGrid
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |c|
         next if c.uneligible_age?
-        if setting.try(:enable_default_assessment) && setting.try(:enable_customized_assessment)
+        if setting.enable_default_assessment && setting.enable_custom_assessment
           ids << c.id if c.next_assessment_date == Date.today || c.custom_next_assessment_date == Date.today
-        elsif setting.try(:enable_default_assessment)
+        elsif setting.enable_default_assessment
           ids << c.id if c.next_assessment_date == Date.today
-        elsif setting.try(:enable_customized_assessment)
+        elsif setting.enable_custom_assessment
           ids << c.id if c.custom_next_assessment_date == Date.today
         end
       end
     else
       Client.joins(:assessments).active_accepted_status.each do |c|
         next if c.uneligible_age?
-        if setting.try(:enable_default_assessment) && setting.try(:enable_customized_assessment)
+        if setting.enable_default_assessment && setting.enable_custom_assessment
           ids << c.id if c.next_assessment_date  < Date.today || c.custom_next_assessment_date  < Date.today
-        elsif setting.try(:enable_default_assessment)
+        elsif setting.enable_default_assessment
           ids << c.id if c.next_assessment_date  < Date.today
-        elsif setting.try(:enable_customized_assessment)
+        elsif setting.enable_custom_assessment
           ids << c.id if c.custom_next_assessment_date  < Date.today
         end
       end

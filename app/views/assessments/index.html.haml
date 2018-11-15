@@ -37,12 +37,12 @@
                 - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
                   = link_to new_client_assessment_path(@client, default: true) do
                     .btn.btn-primary.button
-                      = Setting.first.default_assessment_name
+                      = Setting.first.default_assessment
                 - else
                   .btn.btn-default.button.disabled#disabled_assessment_button
-                    = "#{t('.begin_now')} #{Setting.first.default_assessment_name}"
+                    = "#{t('.begin_now')} #{Setting.first.default_assessment}"
 
-        - if Setting.first.enable_customized_assessment
+        - if Setting.first.enable_custom_assessment
           .row.margin-row
             .col-xs-12.col-sm-9
               %h5
@@ -59,10 +59,10 @@
                 - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
                   = link_to new_client_assessment_path(@client, default: false) do
                     .btn.btn-primary.button
-                      = Setting.first.customized_assessment_name
+                      = Setting.first.custom_assessment
                 - else
                   .btn.btn-default.button.disabled#disabled_assessment_button
-                    = "#{t('.begin_now')} #{Setting.first.customized_assessment_name}"
+                    = "#{t('.begin_now')} #{Setting.first.custom_assessment}"
 
       .ibox-footer
         .row
