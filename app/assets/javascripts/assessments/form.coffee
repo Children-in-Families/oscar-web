@@ -101,7 +101,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onFinished: ->
         btnSaving = $('#rootwizard').data('saving')
-        $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text("#{btnSaving}...")
+        $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
       labels:
@@ -118,7 +118,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.submit (e) ->
           if form.valid()
             btnSaving = $('#rootwizard').data('saving')
-            $("a[href='#save']").addClass('disabled').text("#{btnSaving}...")
+            $("a[href='#save']").addClass('disabled').text(btnSaving)
         form.submit()
 
 

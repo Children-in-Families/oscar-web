@@ -743,7 +743,7 @@ en:
         accepted_date: Accepted Date
       form:
         accept: Accept
-        accepting: Accepting
+        accepting: Accepting...
         accept_ngo_form: Enter NGO Form
         accepted_date: Accepted Date
         case_worker_or_staff: Case Worker / Staff
@@ -760,7 +760,7 @@ en:
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
         exit_reasons: Reason for Exit / Case Rejection
-        exiting: Exiting
+        exiting: Exiting...
         other_info_of_exit: Other - More Information
         rejected_note: Rejected Note
       form:
@@ -772,7 +772,7 @@ en:
         exit_note: Exit Note
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
-        exiting: Exiting
+        exiting: Exiting...
         other_info_of_exit: Other - More Information
         reject_client: Reject Client
         rejected_note: Rejected Note
@@ -1153,7 +1153,7 @@ en:
       exit_ngo: Exit NGO
       exit_note: Exit Note
       exit_status: Status
-      exiting: Exiting
+      exiting: Exiting...
     exit_ngo_form:
       case_worker_or_staff: Case Worker / Staff
       exit_btn: Exit
@@ -1400,7 +1400,7 @@ en:
       able_state: Able State
       accept: Accept
       accepted_date: NGO Accept Date
-      accepting: Accepting
+      accepting: Accepting...
       add_client_to_case: Add Client to Case
       add_ec_btn: Add to EC
       add_fc_btn: Add to FC
@@ -3988,7 +3988,7 @@ en:
   review_problem: 'Please review the problems below:'
   rules_has_been_modified: Rules cannot be changed or added because it breaks the previous rules.
   save: Save
-  saving: Saving
+  saving: Saving...
   sessions:
     create:
       bad_credentials_supplied: Bad Credentials Supplied.

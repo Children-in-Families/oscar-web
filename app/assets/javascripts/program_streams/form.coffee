@@ -169,7 +169,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
       btnSaving = $('.program-steps').data('saving')
-      $('#btn-save-draft').attr('disabled', 'disabled').text("#{btnSaving}...")
+      $('#btn-save-draft').attr('disabled', 'disabled').text(btnSaving)
       $('#program-stream').submit()
 
 
@@ -344,7 +344,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return alert(messageWarning)
 
         btnSaving = $('.program-steps').data('saving')
-        $('a[href="#finish"]').addClass('btn btn-xs disabled').css('font-size', '95%').text("#{btnSaving}...")
+        $('a[href="#finish"]').addClass('btn btn-xs disabled').css('font-size', '95%').text(btnSaving)
         form.submit()
 
       labels:
