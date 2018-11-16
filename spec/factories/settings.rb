@@ -8,7 +8,7 @@ FactoryGirl.define do
     enable_custom_assessment true
     custom_assessment_frequency 'month'
     max_custom_assessment 6
-    default_assessment 'Default Assessment'
+    default_assessment 'CSI Assessment'
     country_name 'cambodia'
     age 18
     association :commune, factory: :commune

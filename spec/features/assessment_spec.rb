@@ -1,8 +1,14 @@
 describe "Assessment" do
   let!(:user) { create(:user) }
+  let!(:strategic_overviewer_1){ create(:user, :strategic_overviewer) }
+  let!(:user_2){ create(:user) }
   let!(:client) { create(:client, :accepted, users: [user]) }
+  let!(:client_a) { create(:client, :accepted, users: [user, user_2]) }
+  let!(:client_b) { create(:client, :accepted, users: [user, user_2]) }
   let!(:fc_case) { create(:case, case_type: 'FC', client: client) }
   let!(:domain) { create(:domain) }
+  let!(:assessment_a){ create(:assessment, client: client_a) }
+  let!(:assessment_b){ create(:assessment, client: client_b, created_at: 1.week.ago) } # this is 8 days
 
   before do
     login_as(user)
@@ -15,26 +21,70 @@ describe "Assessment" do
     let!(:assessment_domain_1){ create(:assessment_domain, score: 1, assessment: assessment_1, domain: domain_1) }
     let!(:assessment_domain_2){ create(:assessment_domain, previous_score: 1, score: 2, assessment: assessment_2, domain: domain_1) }
 
-    before do
-      visit client_assessment_path(client, assessment_2)
+    feature 'CSI Assessment' do
+      before do
+        visit client_assessment_path(client, assessment_2)
+      end
+
+      scenario 'Case Plan' do
+        expect(page).to have_content("Case Plan for #{client.name}")
+        expect(page).to have_content("Based on Assessment Number 2")
+        expect(page).to have_content("Completed by OSCaR Team on #{date_format(Date.today)}")
+        expect(page).to have_css('.btn-danger[data-toggle="tooltip"][data-original-title="<p>Poor</p>"]', text: '1')
+        expect(page).to have_css('.btn-warning[data-toggle="tooltip"][data-original-title="<p>Good</p>"]', text: '2')
+      end
+
+      scenario 'status' do
+        expect(page).to have_content('Completed')
+      end
+
+      context 'edit link' do
+        context 'log in as case worker / manager / admin' do
+          scenario 'visible within 1 week' do
+            visit client_assessment_path(client_a, assessment_a)
+
+            expect(page).to have_link(nil, href: edit_client_assessment_path(client_a, assessment_a))
+          end
+
+          scenario 'invisible after 1 week' do
+            visit client_assessment_path(client_b, assessment_b)
+
+            expect(page).not_to have_link(nil, href: edit_client_assessment_path(client_b, assessment_b))
+          end
+        end
+
+        context 'log in as strategic overviewer' do
+          before do
+            login_as(strategic_overviewer_1)
+          end
+
+          scenario 'invisible' do
+            visit client_assessment_path(client_b, assessment_b)
+            expect(page).not_to have_link(nil, href: edit_client_assessment_path(client_b, assessment_b))
+          end
+        end
+      end
     end
 
-    scenario 'Case Plan' do
-      expect(page).to have_content("Case Plan for #{client.name}")
-      expect(page).to have_content("Based on Assessment Number 2")
-      expect(page).to have_content("Completed by OSCaR Team on #{date_format(Date.today)}")
-      expect(page).to have_css('.btn-danger[data-toggle="tooltip"][data-original-title="<p>Poor</p>"]', text: '1')
-      expect(page).to have_css('.btn-warning[data-toggle="tooltip"][data-original-title="<p>Good</p>"]', text: '2')
+    feature 'Custom Assessment', js: true do
+      before { Setting.first.update(enable_custom_assessment: true) }
+      let!(:custom_assessment_1){ create(:assessment, client: client, default: false) }
+
+      context 'is not enabled' do
+        scenario 'unauthorized' do
+          Setting.first.update(enable_custom_assessment: false)
+          visit client_assessment_path(client, custom_assessment_1)
+
+          expect(page).to have_content('You are not authorized to access this page.')
+        end
+      end
     end
 
-    scenario 'status' do
-      expect(page).to have_content('Completed')
-    end
   end
 
   feature 'Create' do
     before do
-      visit new_client_assessment_path(client)
+      visit new_client_assessment_path(client, default: true)
     end
 
     def add_tasks(n)
@@ -99,6 +149,8 @@ describe "Assessment" do
   end
 
   feature 'List' do
+    before { Setting.first.update(enable_custom_assessment: true) }
+
     let!(:assessment){ create(:assessment, client: client) }
     let!(:assessment_domain){ create(:assessment_domain, assessment: assessment, domain: domain) }
     let!(:client_1){ create(:client, :accepted, users: [user]) }
@@ -107,9 +159,11 @@ describe "Assessment" do
     # let!(:assessment_2){ create(:assessment, created_at: Time.now - 4.months, client: client_2) }
     let!(:last_assessment_domain){ create(:assessment_domain, assessment: assessment_1, domain: domain) }
 
-    let!(:setting) {create(:setting, :monthly_assessment, max_assessment: 6)}
+    let(:setting) { Setting.first }
     let!(:assessment_1){ create(:assessment, created_at: Time.now - 3.months, client: client_1) }
     let!(:assessment_2){ create(:assessment, created_at: Time.now - (setting.max_assessment).months, client: client_2) }
+    let!(:custom_assessment_1){ create(:assessment, created_at: Time.now - 3.months, client: client_1, default: false) }
+    let!(:custom_assessment_2){ create(:assessment, created_at: Time.now - (setting.max_custom_assessment).months, client: client_2, default: false) }
 
     before do
       visit client_assessments_path(client)
@@ -124,13 +178,26 @@ describe "Assessment" do
     end
 
     feature 'new assessment is enable for user to create as often as they like' do
-      scenario 'after minimum assessment duration' do
-        visit client_assessments_path(client_1)
-        expect(page).to have_link('Add New Assessment', href: new_client_assessment_path(client_1))
+      context 'CSI Assessment' do
+        scenario 'after minimum assessment duration' do
+          visit client_assessments_path(client_1)
+          expect(page).to have_link('Add New CSI Assessment', href: new_client_assessment_path(client_1, default: true))
+        end
+        scenario 'after maximum assessment duration' do
+          visit client_assessments_path(client_2)
+          expect(page).to have_link('Add New CSI Assessment', href: new_client_assessment_path(client_2, default: true))
+        end
       end
-      scenario 'after maximum assessment duration' do
-        visit client_assessments_path(client_2)
-        expect(page).to have_link('Add New Assessment', href: new_client_assessment_path(client_2))
+
+      context 'Custom Assessment' do
+        scenario 'after minimum assessment duration' do
+          visit client_assessments_path(client_1)
+          expect(page).to have_link('Add New Custom Assessment', href: new_client_assessment_path(client_1, default: false))
+        end
+        scenario 'after maximum assessment duration' do
+          visit client_assessments_path(client_2)
+          expect(page).to have_link('Add New Custom Assessment', href: new_client_assessment_path(client_2, default: false))
+        end
       end
     end
 

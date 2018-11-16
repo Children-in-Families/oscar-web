@@ -86,7 +86,7 @@ module DashboardHelper
   end
 
   def skipped_overdue_assessments?(client)
-    skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id) || client.uneligible_age?
+    skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
     if skipped_assessments
       true
     elsif @assessment_params
@@ -113,7 +113,7 @@ module DashboardHelper
   end
 
   def skipped_duetoday_assessments?(client)
-    skipped_assessments = !duetoday_assessments_any?(client) || client.user_ids.exclude?(@user.id) || client.uneligible_age?
+    skipped_assessments = !duetoday_assessments_any?(client) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
     if skipped_assessments
       true
     elsif @assessment_params
@@ -140,7 +140,7 @@ module DashboardHelper
   end
 
   def skipped_upcoming_assessments?(client)
-    skipped_assessments = !upcoming_assessments_any?(client) || client.user_ids.exclude?(@user.id) || client.uneligible_age?
+    skipped_assessments = !upcoming_assessments_any?(client) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
     if skipped_assessments
       true
     elsif @assessment_params

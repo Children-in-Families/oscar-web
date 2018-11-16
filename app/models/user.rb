@@ -151,8 +151,8 @@ class User < ActiveRecord::Base
     customized_overdue   = []
     customized_due_today = []
     clients.active_accepted_status.each do |client|
-      next if client.uneligible_age?
-      if setting.enable_default_assessment && setting.enable_custom_assessment
+      next if !client.eligible_default_csi? && !client.eligible_custom_csi?
+      if setting.enable_default_assessment? && setting.enable_custom_assessment?
         client_next_asseement_date = client.next_assessment_date.to_date
         client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
         if client_next_asseement_date < Date.today
@@ -165,14 +165,14 @@ class User < ActiveRecord::Base
         elsif client_custom_next_assessment_date == Date.today
           customized_due_today << client
         end
-      elsif setting.enable_default_assessment
+      elsif setting.enable_default_assessment?
         client_next_asseement_date = client.next_assessment_date.to_date
         if client_next_asseement_date < Date.today
           overdue << client
         elsif client_next_asseement_date == Date.today
           due_today << client
         end
-      elsif setting.enable_custom_assessment
+      elsif setting.enable_custom_assessment?
         client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
         if client_custom_next_assessment_date < Date.today
           customized_overdue << client

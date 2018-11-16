@@ -14,13 +14,13 @@
 
     %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
       = t('.save_search_settings')
-    - if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
+    - if params['commit'].present? || params['client_advanced_search'].present?
       = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
         %i.fa.fa-download
         = t('.export_to_xls')
 
     - if current_user.admin? || current_user.any_manager?
-      - if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
+      - if params['commit'].present? || params['client_advanced_search'].present?
         %button.btn.btn-primary#client-statistic
           %i.fa.fa-line-chart
           %span= t('.reports')
@@ -62,7 +62,7 @@
             - else
               #program-statistic{ "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
 
-- if params['commit'] == I18n.t('datagrid.form.search').html_safe || params['client_advanced_search'].present?
+- if params['commit'].present? || params['client_advanced_search'].present?
   .row.mini-margin
     .col-xs-12
       .ibox

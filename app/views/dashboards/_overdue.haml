@@ -20,7 +20,7 @@
                     %td.col-xs-3{ rowspan: overdue_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= date_format(task.completion_date)
-            - if @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && !client.uneligible_age?
+            - if @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && (client.eligible_default_csi? || client.eligible_custom_csi?)
               - assessment = client.assessments.latest_record
               - if assessment.present?
                 %tr
