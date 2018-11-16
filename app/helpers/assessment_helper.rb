@@ -40,4 +40,10 @@ module AssessmentHelper
     end
     completed_date
   end
+
+  def check_previous_assessment_status(client)
+    return true if client.assessments.latest_record.nil?
+    client.assessments.latest_record.completed == true ? true : false
+  end
+
 end

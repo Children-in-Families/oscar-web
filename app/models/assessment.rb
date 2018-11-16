@@ -12,6 +12,7 @@ class Assessment < ActiveRecord::Base
   validate :must_be_min_assessment_period, if: :new_record?
   validate :only_latest_record_can_be_updated
   validate :client_must_not_over_18, if: :new_record?
+  validate :check_previous_assessment_status, if: :new_record?
 
   before_save :set_previous_score, :set_assessment_completed
 
@@ -98,4 +99,9 @@ class Assessment < ActiveRecord::Base
       end
     end
   end
+
+  def check_previous_assessment_status
+    errors.add(:base, 'Please complete the previous assessment before creating another assessment.') if Assessment.latest_record.present? && Assessment.latest_record.completed == false
+  end
+
 end
