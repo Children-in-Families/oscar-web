@@ -55,7 +55,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 200px;
     }
 
-    th.created_at, th.created_by, th.referred_to, th.referred_from, th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code {
+    th.created_at, th.created_by, th.referred_to, th.referred_from, th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code, th.time_in_care {
       min-width: 150px;
     }
 
@@ -76,7 +76,7 @@ body[id='client_advanced_searches-index'] {
 
     th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
     th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province,
-    th.rejected_note, th.user, th.donor, th.rated_for_id_poor {
+    th.rejected_note, th.user, th.donor {
       min-width: 250px;
     }
 
@@ -84,7 +84,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 260px;
     }
 
-    th.has_been_in_government_care, th.relevant_referral_information, th.description_house_landmark, th.quantitative-type {
+    th.has_been_in_government_care, th.relevant_referral_information, th.description_house_landmark, th.quantitative-type, th.rated_for_id_poor {
       min-width: 310px;
     }
 

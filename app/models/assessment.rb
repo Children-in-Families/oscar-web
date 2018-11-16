@@ -10,7 +10,7 @@ class Assessment < ActiveRecord::Base
   validates :client, presence: true
   validate :must_be_enable_assessment
   validate :must_be_min_assessment_period, if: :new_record?
-  validate :only_latest_record_can_be_updated
+  # validate :only_latest_record_can_be_updated
   validate :client_must_not_over_18, if: :new_record?
   validate :check_previous_assessment_status, if: :new_record?
 
@@ -79,9 +79,9 @@ class Assessment < ActiveRecord::Base
     errors.add(:base, "Assessment cannot be created before #{period} months") if new_record? && client.present? && !client.can_create_assessment?
   end
 
-  def only_latest_record_can_be_updated
-    errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
-  end
+  # def only_latest_record_can_be_updated
+  #   errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
+  # end
 
   def must_be_enable_assessment
     setting = Setting.first.try(:disable_assessment)

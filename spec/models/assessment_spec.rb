@@ -11,7 +11,7 @@ describe Assessment, 'validations' do
   let!(:client){ create(:client) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 7.month, client: client) }
 
-  context 'update?' do
+  xcontext 'update?' do
     let!(:last_assessment){ create(:assessment, client: client) }
 
     it 'should updatable if latest' do
