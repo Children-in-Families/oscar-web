@@ -308,7 +308,7 @@ module ClientsHelper
       initial_referral_date_: t('datagrid.columns.clients.initial_referral_date'),
       referral_phone_: t('datagrid.columns.clients.referral_phone'),
       received_by_id_: t('datagrid.columns.clients.received_by'),
-      referral_source_id_: t('datagrid.columns.clients.referral_phone'),
+      referral_source_id_: t('datagrid.columns.clients.referral_source'),
       followed_up_by_id_: t('datagrid.columns.clients.follow_up_by'),
       follow_up_date_: t('datagrid.columns.clients.follow_up_date'),
       agencies_name_: t('datagrid.columns.clients.agencies_involved'),
