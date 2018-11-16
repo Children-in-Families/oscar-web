@@ -42,9 +42,14 @@ module AdvancedSearches
             custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client').try(:id)
             @sql_string << "Clients.id IN (?)"
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
+          elsif rule['operator'] == 'is_empty'
+            client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
+            @sql_string << "clients.id NOT IN (?)"
+            @values << client_ids
           else
             custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Client')
             custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'client').get_sql
+
             @sql_string << custom_field[:id]
             @values << custom_field[:values]
           end
@@ -66,7 +71,7 @@ module AdvancedSearches
           tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
           @sql_string << tracking_fields[:id]
           @values << tracking_fields[:values]
-
+  delegate :id, to: :client, prefix: true, allow_nil: true
         elsif form_builder.first == 'exitprogram'
           program_stream = ProgramStream.find_by(name: form_builder.second)
           exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
@@ -88,6 +93,7 @@ module AdvancedSearches
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(form_builder.second, rule).get_sql
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
+
         elsif field != nil
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)

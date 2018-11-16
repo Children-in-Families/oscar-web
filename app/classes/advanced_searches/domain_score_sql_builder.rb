@@ -29,7 +29,7 @@ module AdvancedSearches
         assessments = assessments.where(assessment_domains: { domain_id: @domain_id, score: @value.first..@value.last })
       when 'is_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
-        client_ids = Client.where.not(id: assessments.pluck(:client_id).uniq).pluck(:id).uniq
+        client_ids  = Client.where.not(id: assessments.distinct.pluck(:client_id)).ids
       when 'is_not_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
       end

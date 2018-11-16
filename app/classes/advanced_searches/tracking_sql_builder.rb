@@ -48,10 +48,14 @@ module AdvancedSearches
         properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
         if @type == 'checkbox'
-          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? ''")
+          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? ''")
+          client_ids        = properties_result.pluck(:client_id)
         else
-          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
+          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
+          client_ids        = properties_result.pluck(:client_id)
         end
+        client_ids          = Client.where.not(id: client_ids).ids
+        return {id: sql_string, values: client_ids}
       when 'is_not_empty'
         if @type == 'checkbox'
           properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? ''")
