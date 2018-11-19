@@ -7,6 +7,10 @@ class DomainGroup < ActiveRecord::Base
 
   default_scope { order('name') }
 
+  def domain_identities
+    domains.map(&:identity).join(', ')
+  end
+
   def default_domain_identities
     domains.csi_domains.map(&:identity).join(', ')
   end
