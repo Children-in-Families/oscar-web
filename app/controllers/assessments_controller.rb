@@ -1,28 +1,27 @@
 class AssessmentsController < AdminController
-  load_and_authorize_resource
   include CreateBulkTask
 
-  before_action :find_client, :check_current_organization
+  before_action :find_client
   before_action :find_assessment, only: [:edit, :update, :show]
   before_action :authorize_client, only: [:new, :create]
-  before_action :authorize_assessment, except: [:index, :destroy, :new, :create]
-  before_action :restrict_invalid_assessment, only: [:new, :create]
-  before_action :restrict_update_assessment, only: [:edit, :update]
-  before_action -> { assessments_permission('readable') }, only: :show
-  before_action -> { assessments_permission('editable') }, except: [:index, :show]
+  before_action :authorize_assessment, only: [:show, :edit, :update]
+  before_action :fetch_available_custom_domains, only: :index
 
   def index
+    @default_assessment = @client.assessments.new
+    @custom_assessment  = @client.assessments.new(default: false)
     @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
   end
 
   def new
-    @assessment = @client.assessments.new
+    @assessment = @client.assessments.new(default: default?)
     authorize @assessment
     @assessment.populate_notes(params[:default])
   end
 
   def create
     @assessment = @client.assessments.new(assessment_params)
+    @assessment.default = params[:default]
     authorize @assessment
     if @assessment.save
       create_bulk_task(params[:task].uniq) if params.has_key?(:task)
@@ -33,15 +32,9 @@ class AssessmentsController < AdminController
   end
 
   def show
-    unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_readable
-    end
   end
 
   def edit
-    unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_editable
-    end
   end
 
   def update
@@ -87,19 +80,9 @@ class AssessmentsController < AdminController
   end
 
   def assessment_params
-    # params.require(:assessment).permit(assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal])
-
     default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :requried_task_last])
     default_params = params.require(:assessment).permit(:default, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :requried_task_last, attachments: []]) if action_name == 'create'
     default_params
-  end
-
-  def restrict_invalid_assessment
-    redirect_to client_assessments_path(@client) unless @client.can_create_assessment?
-  end
-
-  def restrict_update_assessment
-    redirect_to client_assessments_path(@client) unless @assessment.latest_record?
   end
 
   def remove_attachment_at_index(index)
@@ -121,17 +104,11 @@ class AssessmentsController < AdminController
     end
   end
 
-  def assessments_permission(permission)
-    unless current_user.admin? || current_user.strategic_overviewer?
-      if permission == 'readable'
-        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_readable
-      else
-        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_editable
-      end
-    end
+  def default?
+    params[:default] == 'true'
   end
 
-  def check_current_organization
-    redirect_to dashboards_path, alert: t('unauthorized.default') if current_organization.mho?
+  def fetch_available_custom_domains
+    @custom_domains = Domain.custom_csi_domains
   end
 end

@@ -8,16 +8,16 @@ class Assessment < ActiveRecord::Base
   has_paper_trail
 
   validates :client, presence: true
-  validate :must_be_enable_assessment
-  validate :must_be_min_assessment_period, if: :new_record?
-  validate :only_latest_record_can_be_updated
-  validate :client_must_not_over_18, if: :new_record?
+  validate :must_be_enable
+  validate :must_be_min_assessment_period, :eligible_client_age, if: :new_record?
 
   before_save :set_previous_score, :set_assessment_completed
 
   accepts_nested_attributes_for :assessment_domains
 
   scope :most_recents, -> { order(created_at: :desc) }
+  scope :defaults, -> { where(default: true) }
+  scope :customs, -> { where(default: false) }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 
@@ -36,6 +36,14 @@ class Assessment < ActiveRecord::Base
 
   def self.latest_record
     most_recents.first
+  end
+
+  def self.default_latest_record
+    defaults.most_recents.first
+  end
+
+  def self.custom_latest_record
+    customs.most_recents.first
   end
 
   def initial?
@@ -65,10 +73,11 @@ class Assessment < ActiveRecord::Base
     assessment_domains.order('created_at')
   end
 
-  def client_must_not_over_18
+  def eligible_client_age
     return false if client.nil?
-    adult = client.uneligible_age?
-    adult ? errors.add(:base, 'Assessment cannot be created for client who is over 18.') : true
+
+    eligible = default? ? client.eligible_default_csi? : client.eligible_custom_csi?
+    eligible ? true : errors.add(:base, "Assessment cannot be added due to client's age.")
   end
 
   def index_of
@@ -80,17 +89,16 @@ class Assessment < ActiveRecord::Base
   def must_be_min_assessment_period
     # period = Setting.first.try(:min_assessment) || 3
     period = 3
-    errors.add(:base, "Assessment cannot be created before #{period} months") if new_record? && client.present? && !client.can_create_assessment?
+    errors.add(:base, "Assessment cannot be created before #{period} months") if new_record? && client.present? && !client.can_create_assessment?(default)
   end
 
-  def only_latest_record_can_be_updated
-    errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
-  end
+  # def only_latest_record_can_be_updated
+  #   errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
+  # end
 
-  def must_be_enable_assessment
-    setting = Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
-    return if setting
-    errors.add(:base, 'Assessment tool must be enable in setting')
+  def must_be_enable
+    enable = default? ? Setting.first.enable_default_assessment : Setting.first.enable_custom_assessment
+    enable ? true : errors.add(:base, 'Assessment tool must be enable in setting')
   end
 
   def set_previous_score

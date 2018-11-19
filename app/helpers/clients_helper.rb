@@ -281,7 +281,7 @@ module ClientsHelper
   end
 
   def enable_assessment_setting?
-    Setting.first.try(:enable_default_assessment) || Setting.first.try(:enable_customized_assessment)
+    Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
   end
 
   def default_columns_visibility(column)
@@ -832,7 +832,7 @@ module ClientsHelper
 
   def country_scope_label_translation
     if I18n.locale.to_s == 'en'
-      country_name = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.country_name
+      country_name = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
       when 'thailand' then '(Thai)'

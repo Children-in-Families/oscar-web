@@ -102,6 +102,7 @@ describe Client, 'methods' do
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
   let!(:exited_client){ create(:client, :exited) }
+  before { Setting.first.update(enable_custom_assessment: true) }
 
   context '#family' do
     let!(:client_1){ create(:client, :accepted) }
@@ -296,10 +297,10 @@ describe Client, 'methods' do
   end
 
   context 'assessment' do
+    let!(:client_1){ create(:client, :accepted) }
     context '#next_assessment_date' do
-      let!(:client_1){ create(:client, :accepted) }
       let!(:latest_assessment){ create(:assessment, client: client_1) }
-      it 'should be last assessment + maximum assessment duration' do
+      it 'last default assessment + maximum assessment duration' do
         expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + (setting.max_assessment).months).to_date)
       end
 
@@ -307,19 +308,30 @@ describe Client, 'methods' do
         expect(other_client.next_assessment_date.start).to eq(Date.today.start)
       end
     end
+
+    context '#custom_next_assessment_date' do
+      let!(:latest_assessment){ create(:assessment, client: client_1, default: false) }
+      it 'last custom assessment + maximum custom assessment duration' do
+        expect(client_1.custom_next_assessment_date).to eq((latest_assessment.created_at + (setting.max_custom_assessment).months).to_date)
+      end
+
+      it 'should be today' do
+        expect(other_client.custom_next_assessment_date.start).to eq(Date.today.start)
+      end
+    end
   end
 
-  context '#can_create_assessment?' do
+  context '#can_create_assessment?(default)' do
     let!(:other_assessment){ create(:assessment, created_at: Date.today - 2.months, client: other_client) }
     let!(:no_csi_client){ create(:client, :accepted) }
     let!(:client_with_two_csi){ create(:client, :accepted) }
     let!(:assessment_1){ create(:assessment, created_at: Date.today - 3.months, client: client_with_two_csi) }
     let!(:assessment_2){ create(:assessment, created_at: Date.today, client: client_with_two_csi) }
 
-      it { expect(client.can_create_assessment?).to be_truthy }
-      it { expect(no_csi_client.can_create_assessment?).to be_truthy }
-      it { expect(client_with_two_csi.can_create_assessment?).to be_truthy }
-      it { expect(other_client.can_create_assessment?).to be_falsey }
+    it { expect(client.can_create_assessment?(true)).to be_truthy }
+    it { expect(no_csi_client.can_create_assessment?(true)).to be_truthy }
+    it { expect(client_with_two_csi.can_create_assessment?(true)).to be_truthy }
+    it { expect(other_client.can_create_assessment?(true)).to be_falsey }
   end
 
   context '#next_case_note_date' do
@@ -393,6 +405,21 @@ describe Client, 'methods' do
     let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Juliet', local_family_name: 'Romeo') }
     it 'return local name' do
       expect(client.local_name).to eq("Romeo Juliet")
+    end
+  end
+
+  context 'age for csi' do
+    before { Setting.first.update(enable_custom_assessment: true, age: 18, custom_age: 10) }
+    let!(:client_1){ create(:client, date_of_birth: 10.years.ago) }
+    let!(:client_2){ create(:client, date_of_birth: 5.years.ago) }
+    context '#eligible_default_csi?' do
+      it { expect(client_1.eligible_default_csi?).to be_truthy }
+      it { expect(client_2.eligible_default_csi?).to be_truthy }
+    end
+
+    context '#eligible_custom_csi?' do
+      it { expect(client_1.eligible_custom_csi?).to be_falsey }
+      it { expect(client_2.eligible_custom_csi?).to be_truthy }
     end
   end
 end

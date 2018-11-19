@@ -512,6 +512,8 @@ km:
       begin_now: បង្កើតថ្មី
       initial_assessment: ការប៉ាន់ប្រមាណដំបូង
       next_review: ការប៉ាន់ប្រមាណទៀងទាត់ពេលក្រោយ
+      no_custom_domains_available: មិនមានកត្តាផ្ទាល់ខ្លួន
+      please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:
@@ -624,6 +626,8 @@ km:
       case_note_lists: បញ្ជីកំណត់ត្រា
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+      custom_case_note: កំណត់ត្រាផ្ទាល់ខ្លួន
+      default_case_note: កំណត់ត្រា
       domain: កត្តា
       goal: គោលដៅ
       new_case_note: កំណត់ត្រាថ្មី
@@ -3166,6 +3170,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  invalid_name: មិនត្រឺមត្រូវ
   invalid_program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទមុនកាលបរិច្ឆេទចេញពីកម្មវិធីរបស់អ្នក
   invalid_program_exit_date: កាលបរិច្ឆេទចាកចេញដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទក្រោយកាលបរិច្ឆេទចុះឈ្មោះចូលកម្មវិធី
   is_not_email: មិនមែនជាអ៊ីម៉ែល
@@ -4023,12 +4028,13 @@ km:
     assessment:
       age: អាយុ
       assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
-      customized_assessment_name: ឈ្មោះ
-      default_assessment: លំនាំដើមបរសប់ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
-      default_assessment_name: ឈ្មោះ
+      custom_assessment: ឈ្មោះ
+      default_assessment: លំនាំដើមនៃការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
+      name: ឈ្មោះ
       eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
       min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
+      noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការវាយតម្លៃតាមតម្រូវការ។'
     case_note:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា

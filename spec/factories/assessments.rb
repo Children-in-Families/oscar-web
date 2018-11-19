@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :assessment do
-    customized false
+    default true
     association :client, factory: :client
   end
 end

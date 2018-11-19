@@ -22,7 +22,6 @@ class Ability
       can :version, :all
       can :report, :all
     elsif user.case_worker?
-      can :manage, Assessment
       can :manage, Attachment
       can :manage, Case, exited: false
       can :manage, CaseNote
@@ -34,14 +33,9 @@ class Ability
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :manage, GovernmentForm
-      can :update, Assessment do |assessment|
-        assessment.client.user_id == user.id
-      end
       can :create, Task
       can :read, Task
-      cannot :update, Assessment do |assessment|
-        Date.current > assessment.created_at + 2.weeks
-      end
+      can :manage, Referral
 
       family_ids = user.families.ids
       user.clients.each do |client|
@@ -59,7 +53,6 @@ class Ability
       can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
       can :manage, User, id: user.id
       can :manage, Case
-      can :manage, Assessment
       can :manage, CaseNote
       can :manage, Family
       can :manage, Partner
@@ -73,6 +66,7 @@ class Ability
       can :manage, GovernmentForm
       can :create, Task
       can :read, Task
+      can :manage, Referral
     end
   end
 

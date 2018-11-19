@@ -14,16 +14,28 @@ module CaseNoteHelper
   end
 
   def new_link
-    if case_notes_editable? && policy(@client).create?
-      link_to new_client_case_note_path(@client) do
-        content_tag :div, class: 'btn btn-primary button' do
-          t('.new_case_note')
-        end
+    if case_notes_editable? && policy(@client).create?      
+      link_to new_client_case_note_path(@client, custom: false) do
+        t('.default_case_note')
       end
     else
-      link_to_if false, new_client_case_note_path(@client) do
-        content_tag :div, class: 'btn btn-primary button disabled' do
-          t('.new_case_note')
+      link_to_if false, '' do
+        content_tag :a, class: 'disabled' do
+          t('.default_case_note')
+        end
+      end
+    end
+  end
+
+  def new_custom_link
+    if case_notes_editable? && policy(@client).create?      
+      link_to new_client_case_note_path(@client, custom: true) do
+        t('.custom_case_note')
+      end
+    else
+      link_to_if false, '' do
+        content_tag :a, class: 'disabled' do
+          t('.custom_case_note')
         end
       end
     end
