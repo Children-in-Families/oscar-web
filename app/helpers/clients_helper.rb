@@ -1,4 +1,5 @@
 module ClientsHelper
+  PROGRAM_STREAM_HEADERS = %w(enrollment exitprogram quantitative domainscore tracking)
   def user(user)
     if can? :read, User
       link_to user.name, user_path(user) if user.present?
@@ -648,6 +649,9 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
 
+    basic_rules = eval params[:client_advanced_search][:basic_rules]
+    form_builder = class_name.present? ? class_name.split('_') : []
+
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments' }
@@ -687,6 +691,17 @@ module ClientsHelper
         end
       end
 
+      if count > 0 && class_name != 'case_note_type'
+        link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        [column.header.truncate(65),
+          content_tag(:span, count, class: 'label label-info'),
+          link_all
+        ].join(' ').html_safe
+      else
+        column.header.truncate(65)
+      end
+    elsif PROGRAM_STREAM_HEADERS.include?(form_builder.first)
+      binding.pry
       if count > 0 && class_name != 'case_note_type'
         link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
         [column.header.truncate(65),
