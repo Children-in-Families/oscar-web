@@ -72,8 +72,7 @@
           %div{ class: "assessment-domain-item domain-last" }
             .ibox
               .ibox-title
-                %h5= "#{@assessment.client.name}"
-                %label.label.label-success= "#{t('.domain')}"
+                %h5= t('.finished_assessment_msg')
                 .ibox-tools
                   = link_to client_assessments_path(@client) do
                     .btn.btn-default.btn-back-default.button

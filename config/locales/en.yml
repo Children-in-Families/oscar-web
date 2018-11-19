@@ -495,6 +495,7 @@ en:
       back: Back
       domain: Domain
       finish: Done
+      finished_assessment_msg: This assessment is ready to be saved!
       goal: 'Goal: what specific goal will the client be working toward over the next few months?'
       next: Next
       previous: Previous
