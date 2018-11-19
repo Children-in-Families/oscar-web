@@ -12,7 +12,7 @@ class AddCustomCsiNameToSettings < ActiveRecord::Migration
 
     Setting.first.update(enable_custom_assessment: false, enable_default_assessment: false) if Setting.first.disable_assessment?
 
-    Setting.first.update(enable_custom_assessment: true, enable_default_assessment: false) if ['mho' 'fsc' 'tlc'].include?(Organization.current.try(:short_name))
+    Setting.first.update(enable_custom_assessment: true, enable_default_assessment: false) if ['mho', 'fsc', 'tlc'].include?(Organization.current.try(:short_name))
 
     remove_column :settings, :disable_assessment, :boolean, default: true
   end
