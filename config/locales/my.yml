@@ -494,6 +494,7 @@ my:
       back: ေနာက္သို႔
       domain: ဒိုမိန္း
       finish: ၿပီးပါၿပီ။
+      finished_assessment_msg: ဤသည်အကဲဖြတ်ကယ်ဖို့အဆင်သင့်ပါ!
       goal: ရည္မွန္းခ်က္
       next: ေနာက္တစ္ခု
       previous: ေရွ႕တစ္ခု
