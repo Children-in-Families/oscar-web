@@ -20,7 +20,7 @@
             .col-xs-12.col-sm-3
               .btn.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)
-        - if Setting.first.enable_default_assessment
+        - if enable_default_assessment?
           .row.margin-row
             .col-xs-12.col-sm-9
               %h5
@@ -42,7 +42,7 @@
                   .btn.btn-default.button.disabled#disabled_assessment_button
                     = "#{t('.begin_now')} #{Setting.first.default_assessment}"
 
-        - if Setting.first.enable_custom_assessment
+        - if enable_custom_assessment?
           .row.margin-row
             .col-xs-12.col-sm-9
               %h5

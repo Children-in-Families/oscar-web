@@ -328,6 +328,7 @@ my:
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
       current_address: လက္ရွိေနရပ္လိပ္စာ
       current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
+      custom_csi_domain_scores: Custom CSI ဒိုမိန္း ရမွတ္မ်ား
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
@@ -1327,7 +1328,8 @@ my:
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
       case_statistics: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ ပမာဏမ်ား
-      csi_domain_scores: SCI ဒိုမိန္း ရမွတ္မ်ား
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      custom_all_csi_assessments: Custom CSI စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
@@ -1744,6 +1746,8 @@ my:
         created_by: တည်ထောင်ထားတဲ့
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
+        custom_all_csi_assessments: Custom CSI စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+        custom_date_of_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         description_house_landmark: Description of the house and a landmark
@@ -1845,6 +1849,8 @@ my:
         view: ျမင္ကြင္း
         village: ေက်းရြာ
         what3words: What3words
+      custom_all_csi_assessments: Custom CSI စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      custom_date_of_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_note: ထြက္သည့္မွတ္စု
@@ -1999,7 +2005,8 @@ my:
         'no': မဟုတ္ပါ
         'yes': ဟုတ္ပါသည္
     form:
-      csi_domain_scores: CSI ဒိုမိန္း အမွတ္မ်ား
+      custom_csi_domain_scores: Custom CSI ဒိုမိန္း အမွတ္မ်ား
+      default_csi_domain_scores: Default CSI ဒိုမိန္း အမွတ္မ်ား
       filter_domains: စိစစ္မႈ ဒိုမိန္း
       has_overdue_assessment: ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ တစ္ခုရွိပါသည္။
       has_overdue_forms: ရက်လွန်ပုံစံများရှိပါတယ်

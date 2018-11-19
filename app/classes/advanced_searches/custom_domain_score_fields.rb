@@ -1,18 +1,18 @@
 module AdvancedSearches
-  class DomainScoreFields
+  class CustomDomainScoreFields
     extend AdvancedSearchHelper
 
     def self.render
-      domain_score_group  = format_header('csi_domain_scores')
+      domain_score_group  = format_header('custom_csi_domain_scores')
       csi_domain_options  = domain_options.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
-      date_of_assessments = ['Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, domain_score_group) }
-      date_of_assessments + csi_domain_options
+      date_of_assessments = ['Custom Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, domain_score_group) }
+      csi_domain_options + date_of_assessments
     end
 
     private
 
     def self.domain_options
-      Domain.csi_domains.order_by_identity.map { |domain| "domainscore_#{domain.id}_#{domain.identity}" }
+      Domain.custom_csi_domains.order_by_identity.map { |domain| "domainscore_#{domain.id}_#{domain.identity}" }
     end
 
     def self.domain_score_format(label)

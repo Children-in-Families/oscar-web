@@ -74,6 +74,8 @@ class ClientColumnsVisibility
       case_note_type_: :case_note_type,
       date_of_assessments_: :date_of_assessments,
       all_csi_assessments_: :all_csi_assessments,
+      custom_date_of_assessments_: :custom_date_of_assessments,
+      custom_all_csi_assessments_: :custom_all_csi_assessments,
       manage_: :manage,
       changelog_: :changelog,
       telephone_number_: :telephone_number,

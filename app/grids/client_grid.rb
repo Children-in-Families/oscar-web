@@ -736,7 +736,11 @@ class ClientGrid < BaseGrid
   end
 
   column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object }
+    render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
+  end
+
+  column(:custom_date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.custom_date_of_assessments') }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
 
   # column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments')}, html: false) do |object|
@@ -754,15 +758,29 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
-    if enable_assessment_setting?
+    if enable_default_assessment?
       column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
-        render partial: 'clients/all_csi_assessments', locals: { object: object }
+        render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
 
-      Domain.order_by_identity.each do |domain|
+      Domain.csi_domains.order_by_identity.each do |domain|
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-          assessment = client.assessments.latest_record
+          assessment = client.assessments.defaults.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        end
+      end
+    end
+
+    if enable_custom_assessment?
+      column(:custom_all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.custom_all_csi_assessments') }, html: true) do |object|
+        render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
+      end
+
+      Domain.custom_csi_domains.order_by_identity.each do |domain|
+        identity = domain.identity
+        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+          assessment = client.assessments.customs.latest_record
           assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
         end
       end

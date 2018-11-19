@@ -31,7 +31,9 @@ module AdvancedSearches
       when 'case_note_type'
         values = advanced_case_note_query
       when 'date_of_assessments'
-        values = date_of_assessments_field_query
+        values = date_of_assessments_query(true)
+      when 'custom_date_of_assessments'
+        values = date_of_assessments_query(false)
       when 'accepted_date'
         values = enter_ngo_accepted_date_query
       when 'exit_date'
@@ -225,8 +227,8 @@ module AdvancedSearches
       clients.ids
     end
 
-    def date_of_assessments_field_query
-      clients = @clients.joins(:assessments)
+    def date_of_assessments_query(type)
+      clients = @clients.joins(:assessments).where(assessments: { default: type })
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
