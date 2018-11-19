@@ -625,6 +625,8 @@ km:
       case_note_lists: បញ្ជីកំណត់ត្រា
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+      custom_case_note: កំណត់ត្រាផ្ទាល់ខ្លួន
+      default_case_note: កំណត់ត្រា
       domain: កត្តា
       goal: គោលដៅ
       new_case_note: កំណត់ត្រាថ្មី

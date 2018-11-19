@@ -38,6 +38,14 @@ class Assessment < ActiveRecord::Base
     most_recents.first
   end
 
+  def self.default_latest_record
+    defaults.most_recents.first
+  end
+
+  def self.custom_latest_record
+    customs.most_recents.first
+  end
+
   def initial?
     self == client.assessments.most_recents.last || client.assessments.count.zero?
   end
