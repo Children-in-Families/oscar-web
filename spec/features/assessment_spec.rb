@@ -190,6 +190,7 @@ describe "Assessment" do
       end
 
       context 'Custom Assessment' do
+        let!(:domain_1){ create(:domain, custom_domain: true) }
         scenario 'after minimum assessment duration' do
           visit client_assessments_path(client_1)
           expect(page).to have_link('Add New Custom Assessment', href: new_client_assessment_path(client_1, default: false))
