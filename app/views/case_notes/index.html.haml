@@ -5,16 +5,19 @@
         %h5= "#{t('.case_note_lists')} #{@client.name}"
         .ibox-tools
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
-          - if can? :create, CaseNote 
-            .btn-group#case-note-selection
-              %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
-                = t('.new_case_note')
-                %span.caret
-              %ul.dropdown-menu#case-note-dropdown
-                %li
-                  = new_link
-                %li
-                  = new_custom_link
+          - if can? :create, CaseNote
+            - if enable_all_csi_tools?
+              .btn-group#case-note-selection
+                %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+                  = t('.new_case_note')
+                  %span.caret
+                %ul.dropdown-menu#case-note-dropdown
+                  %li
+                    = new_link
+                  %li
+                    = new_custom_link
+            - else
+              = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_custom_assessment), class: 'btn btn-primary'
 
       .ibox-content
         - @case_notes.each do |case_note|
