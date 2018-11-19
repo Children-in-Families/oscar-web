@@ -7,8 +7,12 @@ class DomainGroup < ActiveRecord::Base
 
   default_scope { order('name') }
 
-  def domain_identities
-    domains.map(&:identity).join(', ')
+  def default_domain_identities
+    domains.csi_domains.map(&:identity).join(', ')
+  end
+
+  def custom_domain_identities
+    domains.custom_csi_domains.map(&:identity).join(', ')
   end
 
   def first_ordered?

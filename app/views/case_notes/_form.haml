@@ -41,6 +41,7 @@
                     .col-xs-12
                       #interaction-type.text-danger
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
+            - binding.pry
             - next if case_note_domain.object.domain_group.nil?
             - if case_note_domain.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
               = render 'form_with_assessment_domains', { cd: case_note_domain }

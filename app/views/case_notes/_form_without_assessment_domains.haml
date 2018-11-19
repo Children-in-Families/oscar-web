@@ -1,10 +1,15 @@
 .panel.panel-default.assessment-domain-panel
   .panel-heading{:role => "tab"}
     %h5.panel-title
-      %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}-#{cd.object.domain_group.id}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}-#{cd.object.domain_group.id}", role: "button" }
-        %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
-        = "(#{cd.object.domain_group.domain_identities})"
-
+      - if params[:custom] == 'true'
+        %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}", role: "button" }
+          %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
+          = "(#{cd.object.domain_group.custom_domain_identities})"
+      - else
+        %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}", role: "button" }
+          %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
+          = "(#{cd.object.domain_group.default_domain_identities})"
+          
   .panel-collapse.collapse{ id: "collapse#{cd.object.domain_group.name}-#{cd.object.domain_group.id}", class: cd.object.domain_group.first_ordered? ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel"}
     .panel-body
       .row
@@ -12,7 +17,8 @@
           = cd.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
           = cd.hidden_field :domain_group_id
         .col-xs-12.col-md-6
-          - cd.object.domain_group.domains.each do |domain|
+          - domains = fetch_domains(cd)
+          - domains.each do |domain|
             - tasks = @case_note.client.tasks.where(domain_id: domain.id)
             - if cd.object.persisted?
               - tasks = tasks.by_case_note_domain_group(cd.object)
