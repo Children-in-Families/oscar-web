@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181112051352) do
+ActiveRecord::Schema.define(version: 20181031030528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,18 +94,16 @@ ActiveRecord::Schema.define(version: 20181112051352) do
   add_index "answers", ["client_id"], name: "index_answers_on_client_id", using: :btree
 
   create_table "assessment_domains", force: :cascade do |t|
-    t.text     "note",               default: ""
+    t.text     "note",           default: ""
     t.integer  "previous_score"
     t.integer  "score"
-    t.text     "reason",             default: ""
+    t.text     "reason",         default: ""
     t.integer  "assessment_id"
     t.integer  "domain_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "goal",               default: ""
-    t.string   "attachments",        default: [],    array: true
-    t.boolean  "goal_required",      default: true
-    t.boolean  "requried_task_last", default: false
+    t.text     "goal",           default: ""
+    t.string   "attachments",    default: [], array: true
   end
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
