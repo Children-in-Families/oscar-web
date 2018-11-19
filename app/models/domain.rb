@@ -19,7 +19,7 @@ class Domain < ActiveRecord::Base
   scope :csi_domains, -> { where(custom_domain: false) }
   scope :custom_csi_domains, -> { where(custom_domain: true) }
 
-  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', info: 'Blue', primary: 'Green' }
+  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', success: 'Blue', primary: 'Green' }
 
   def convert_identity
     identity.downcase.parameterize('_')

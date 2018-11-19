@@ -41,6 +41,11 @@ module AssessmentHelper
     completed_date
   end
 
+  def is_domain_definition(domain)
+    domain.score_1_definition.present? || domain.score_2_definition.present? ||
+    domain.score_3_definition.present? || domain.score_4_definition.present?
+  end
+
   def score_definition(definition, score)
     definition.present? ? simple_format(definition) : score
   end

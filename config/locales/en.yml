@@ -490,6 +490,7 @@ en:
       successfully_deleted: Attachment has been successfully deleted.
     form:
       add_task: Add Task
+      add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
       at_least_one_task_required: At least one task is required
       back: Back
       domain: Domain
@@ -497,8 +498,11 @@ en:
       goal: 'Goal: what specific goal will the client be working toward over the next few months?'
       next: Next
       previous: Previous
-      reason: 'Reason: explain why you have chosen this score.'
+      reason: Observation
+      reason_placeholder: 'Explain why you have chosen this score'
       save: Save
+      score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
       assessment_created_on: Assessment created on
@@ -507,6 +511,8 @@ en:
       begin_now: Add New
       initial_assessment: Initial Assessment on
       next_review: Next Review on
+      no_custom_domains_available: No Custom Domains Available
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:
@@ -3161,6 +3167,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  invalid_name: name is invalid
   invalid_program_enrollment_date: The enrollment date you have selected is invalid. Please select a date prior to your program exit date.
   invalid_program_exit_date: The exit date you have selected is invalid. Please select a date after your program enrollment date.
   is_not_email: is not an email
@@ -4018,12 +4025,13 @@ en:
     assessment:
       age: age
       assessment: Customized Assessment Frequency Settings
-      customized_assessment_name: Name
-      default_assessment: Default Assessment Frequency Settings
-      default_assessment_name: Name
+      custom_assessment: Name
+      default_assessment: CSI Assessment Frequency Settings
+      name: Name
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
+      noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum

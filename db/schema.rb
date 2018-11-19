@@ -94,16 +94,18 @@ ActiveRecord::Schema.define(version: 20181112082013) do
   add_index "answers", ["client_id"], name: "index_answers_on_client_id", using: :btree
 
   create_table "assessment_domains", force: :cascade do |t|
-    t.text     "note",           default: ""
+    t.text     "note",               default: ""
     t.integer  "previous_score"
     t.integer  "score"
-    t.text     "reason",         default: ""
+    t.text     "reason",             default: ""
     t.integer  "assessment_id"
     t.integer  "domain_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "goal",           default: ""
-    t.string   "attachments",    default: [], array: true
+    t.text     "goal",               default: ""
+    t.string   "attachments",        default: [],    array: true
+    t.boolean  "goal_required",      default: true
+    t.boolean  "requried_task_last", default: false
   end
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
@@ -576,11 +578,11 @@ ActiveRecord::Schema.define(version: 20181112082013) do
     t.string   "score_2_color",      default: "warning"
     t.string   "score_3_color",      default: "info"
     t.string   "score_4_color",      default: "primary"
+    t.boolean  "custom_domain",      default: false
     t.text     "score_1_definition", default: ""
     t.text     "score_2_definition", default: ""
     t.text     "score_3_definition", default: ""
     t.text     "score_4_definition", default: ""
-    t.boolean  "custom_domain",      default: false
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
@@ -1163,31 +1165,31 @@ ActiveRecord::Schema.define(version: 20181112082013) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.string   "assessment_frequency"
+    t.string   "assessment_frequency",        default: "month"
     t.integer  "min_assessment"
-    t.integer  "max_assessment"
-    t.string   "country_name",                 default: ""
+    t.integer  "max_assessment",              default: 6
+    t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",       default: [],            array: true
-    t.string   "family_default_columns",       default: [],            array: true
-    t.string   "partner_default_columns",      default: [],            array: true
-    t.string   "user_default_columns",         default: [],            array: true
+    t.string   "client_default_columns",      default: [],                  array: true
+    t.string   "family_default_columns",      default: [],                  array: true
+    t.string   "partner_default_columns",     default: [],                  array: true
+    t.string   "user_default_columns",        default: [],                  array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "org_name",                     default: ""
-    t.string   "old_commune",                  default: ""
+    t.string   "org_name",                    default: ""
+    t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                          default: 18
     t.integer  "commune_id"
-    t.string   "customized_assessment_name",   default: "Custom CSI"
-    t.boolean  "enable_customized_assessment", default: false
-    t.boolean  "enable_default_assessment",    default: true
-    t.integer  "default_max_assessment",       default: 6
-    t.string   "default_assessment_frequency", default: "month"
-    t.integer  "default_age",                  default: 18
-    t.string   "default_assessment_name",      default: "Default CSI"
+    t.integer  "age",                         default: 18
+    t.string   "custom_assessment",           default: "Custom Assessment"
+    t.boolean  "enable_custom_assessment",    default: false
+    t.boolean  "enable_default_assessment",   default: true
+    t.integer  "max_custom_assessment",       default: 6
+    t.string   "custom_assessment_frequency", default: "month"
+    t.integer  "custom_age",                  default: 18
+    t.string   "default_assessment",          default: "CSI Assessment"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

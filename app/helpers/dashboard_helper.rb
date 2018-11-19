@@ -40,31 +40,31 @@ module DashboardHelper
   end
 
   def overdue_assessments_any?(client)
-    if @setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment)
+    if @setting.enable_default_assessment && @setting.enable_custom_assessment
       client.next_assessment_date < Date.today || client.custom_next_assessment_date < Date.today
-    elsif @setting.try(:enable_default_assessment)
+    elsif @setting.enable_default_assessment
       client.next_assessment_date < Date.today
-    elsif @setting.try(:enable_customized_assessment)
+    elsif @setting.enable_custom_assessment
       client.custom_next_assessment_date < Date.today
     end
   end
 
   def duetoday_assessments_any?(client)
-    if @setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment)
+    if @setting.enable_default_assessment && @setting.enable_custom_assessment
       client.next_assessment_date == Date.today || client.custom_next_assessment_date == Date.today
-    elsif @setting.try(:enable_default_assessment)
+    elsif @setting.enable_default_assessment
       client.next_assessment_date == Date.today
-    elsif @setting.try(:enable_customized_assessment)
+    elsif @setting.enable_custom_assessment
       client.custom_next_assessment_date == Date.today
     end
   end
 
   def upcoming_assessments_any?(client)
-    if @setting.try(:enable_default_assessment) && @setting.try(:enable_customized_assessment)
+    if @setting.enable_default_assessment && @setting.enable_custom_assessment
       client.next_assessment_date.between?(Date.tomorrow, 3.months.from_now) || client.custom_next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
-    elsif @setting.try(:enable_default_assessment)
+    elsif @setting.enable_default_assessment
       client.next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
-    elsif @setting.try(:enable_customized_assessment)
+    elsif @setting.enable_custom_assessment
       client.custom_next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
     end
   end
@@ -86,7 +86,7 @@ module DashboardHelper
   end
 
   def skipped_overdue_assessments?(client)
-    skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id) || client.uneligible_age?
+    skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
     if skipped_assessments
       true
     elsif @assessment_params
@@ -113,7 +113,7 @@ module DashboardHelper
   end
 
   def skipped_duetoday_assessments?(client)
-    skipped_assessments = !duetoday_assessments_any?(client) || client.user_ids.exclude?(@user.id) || client.uneligible_age?
+    skipped_assessments = !duetoday_assessments_any?(client) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
     if skipped_assessments
       true
     elsif @assessment_params
@@ -140,7 +140,7 @@ module DashboardHelper
   end
 
   def skipped_upcoming_assessments?(client)
-    skipped_assessments = !upcoming_assessments_any?(client) || client.user_ids.exclude?(@user.id) || client.uneligible_age?
+    skipped_assessments = !upcoming_assessments_any?(client) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
     if skipped_assessments
       true
     elsif @assessment_params
