@@ -510,6 +510,8 @@ my:
       begin_now: ယခုစမည္
       initial_assessment: ကနဦး အကဲျဖတ္ခ်က္
       next_review: သုံးလစဉ်ပြန်လည်သုံးသပ်ချက်
+      no_custom_domains_available: ရရှိနိုင်သောအဘယ်သူမျှမစိတ်ကြိုက်ဒိုမိန်း
+      please_add_custom_domains: သငျသညျဤ action လုပ်ဆောင်နိုင်မီအချို့ကိုသင်စိတ်ကြိုက်ဒိုမိန်းထည့်သွင်းဖို့လိုပေမည်
       three_month_assessment: သုံးလစဉ်အကဲဖြတ်
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:

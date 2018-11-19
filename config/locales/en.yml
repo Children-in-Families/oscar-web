@@ -511,6 +511,8 @@ en:
       begin_now: Add New
       initial_assessment: Initial Assessment on
       next_review: Next Review on
+      no_custom_domains_available: No Custom Domains Available
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:

@@ -55,9 +55,24 @@
                     = date_format(Date.today)
             .col-xs-12.col-sm-4
               - if policy(@custom_assessment).create?
-                = link_to new_client_assessment_path(@client, default: false) do
-                  .btn.btn-block.btn-primary.button
-                    = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
+                - if @custom_domains.any?
+                  = link_to new_client_assessment_path(@client, default: false) do
+                    .btn.btn-block.btn-primary.button
+                      = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
+                - else
+                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                    .btn.btn-block.btn-primary.button
+                      = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
+
+                  #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog{:role => "document"}
+                      .modal-content
+                        .modal-header
+                          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                            %span{"aria-hidden" => "true"} ×
+                          %h4= t('.no_custom_domains_available')
+                        .modal-body.text-center
+                          = t('.please_add_custom_domains')
               - else
                 .btn.btn-block.btn-default.button.disabled#disabled_assessment_button
                   = "#{t('.begin_now')} #{@current_setting.custom_assessment}"

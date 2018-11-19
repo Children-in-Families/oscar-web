@@ -511,6 +511,8 @@ km:
       begin_now: បង្កើតថ្មី
       initial_assessment: ការប៉ាន់ប្រមាណដំបូង
       next_review: ការប៉ាន់ប្រមាណទៀងទាត់ពេលក្រោយ
+      no_custom_domains_available: មិនមានកត្តាផ្ទាល់ខ្លួន
+      please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:

@@ -23,7 +23,7 @@ class AssessmentPolicy < ApplicationPolicy
     enable_assessment = record.default? ? setting.enable_default_assessment? && record.client.eligible_default_csi? : setting.enable_custom_assessment? && record.client.eligible_custom_csi?
     return true if enable_assessment && user.admin?
     editable_user     = user.admin? ? true : user.permission.assessments_editable
-    enable_assessment && editable_user && !record.client.exit_ngo? && (Date.current <= record.created_at + 6.days) || user.admin?
+    enable_assessment && (editable_user && !record.client.exit_ngo? && Date.current <= record.created_at + 6.days || user.admin?)
   end
 
   alias create? new?

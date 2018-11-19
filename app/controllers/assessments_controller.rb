@@ -5,6 +5,7 @@ class AssessmentsController < AdminController
   before_action :find_assessment, only: [:edit, :update, :show]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_assessment, only: [:show, :edit, :update]
+  before_action :fetch_available_custom_domains, only: :index
 
   def index
     @default_assessment = @client.assessments.new
@@ -13,13 +14,14 @@ class AssessmentsController < AdminController
   end
 
   def new
-    @assessment = @client.assessments.new
+    @assessment = @client.assessments.new(default: default?)
     authorize @assessment
     @assessment.populate_notes(params[:default])
   end
 
   def create
     @assessment = @client.assessments.new(assessment_params)
+    @assessment.default = params[:default]
     authorize @assessment
     if @assessment.save
       create_bulk_task(params[:task].uniq) if params.has_key?(:task)
@@ -100,5 +102,13 @@ class AssessmentsController < AdminController
       assessment_domain.attachments = files
       assessment_domain.save
     end
+  end
+
+  def default?
+    params[:default] == 'true'
+  end
+
+  def fetch_available_custom_domains
+    @custom_domains = Domain.custom_csi_domains
   end
 end
