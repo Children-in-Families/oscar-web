@@ -1181,8 +1181,8 @@ ActiveRecord::Schema.define(version: 20181112082013) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                         default: 18
     t.integer  "commune_id"
+    t.integer  "age",                         default: 18
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true

@@ -73,8 +73,27 @@ describe 'CaseNote' do
       visit client_case_notes_path(client)
     end
 
-    scenario 'link new case note' do
-      expect(page).to have_link('New case note', href: new_client_case_note_path(client))
+    context 'New Case note link' do
+      let(:default_csi){ Setting.first.default_assessment }
+      let(:custom_csi){ Setting.first.custom_assessment }
+
+      context 'only one csi tool is enable' do
+        scenario 'default csi' do
+          expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: false))
+        end
+        scenario 'custom csi', js: true do
+          Setting.first.update(enable_default_assessment: false, enable_custom_assessment: true)
+          visit client_case_notes_path(client)
+          expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: true))
+        end
+      end
+      scenario 'both csi tools are enable', js: true do
+        Setting.first.update(enable_custom_assessment: true)
+        visit client_case_notes_path(client)
+        click_on 'New case note'
+        expect(page).to have_link(default_csi, href: new_client_case_note_path(client, custom: false))
+        expect(page).to have_link(custom_csi, href: new_client_case_note_path(client, custom: true))
+      end
     end
 
     scenario 'case note date' do

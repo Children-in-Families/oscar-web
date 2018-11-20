@@ -626,8 +626,6 @@ en:
       case_note_lists: Case note lists of
       case_note_on: Case note on
       completed_tasks: Completed Tasks
-      custom_case_note: Custom case note
-      default_case_note: Default case note
       domain: Domain
       goal: Goal
       new_case_note: New case note
