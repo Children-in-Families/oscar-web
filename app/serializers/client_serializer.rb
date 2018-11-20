@@ -12,6 +12,18 @@ class ClientSerializer < ActiveModel::Serializer
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
               :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
 
+  def time_in_care
+    years = object.time_in_care[:years]
+    year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+    months = object.time_in_care[:months]
+    month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+    weeks = object.time_in_care[:weeks]
+    week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+    days = object.time_in_care[:days]
+    day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+    "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+  end
+
   def family_name
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
