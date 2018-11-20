@@ -496,6 +496,7 @@ en:
       back: Back
       domain: Domain
       finish: Done
+      finished_assessment_msg: This assessment is ready to be saved!
       goal: 'Goal: what specific goal will the client be working toward over the next few months?'
       next: Next
       previous: Previous
@@ -512,6 +513,8 @@ en:
       begin_now: Add New
       initial_assessment: Initial Assessment on
       next_review: Next Review on
+      no_custom_domains_available: No Custom Domains Available
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:
@@ -2573,8 +2576,8 @@ en:
     index:
       are_you_sure: Are you sure you want to delete?
       changelog: Changelog
-      csi_tool: CSI Tools
-      custom_csi_tool: Custom CSI Tools
+      csi_tool: Assessment Tools
+      custom_csi_tool: Custom Assessment Tools
       domains: Domains
       score_1: Score 1
       score_2: Score 2
@@ -3170,6 +3173,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  invalid_name: name is invalid
   invalid_program_enrollment_date: The enrollment date you have selected is invalid. Please select a date prior to your program exit date.
   invalid_program_exit_date: The exit date you have selected is invalid. Please select a date after your program enrollment date.
   is_not_email: is not an email
@@ -3267,7 +3271,7 @@ en:
       changelogs: Changelogs
       clients: Clients
       country: Country
-      csi_tools: Available CSI Tools
+      csi_tools: Available Assessment Tools
       custom_fields: Custom Form
       dashboards: Dashboards
       default_columns: Default Columns
@@ -4028,7 +4032,7 @@ en:
       age: age
       assessment: Customized Assessment Frequency Settings
       custom_assessment: Name
-      default_assessment: Default Assessment Frequency Settings
+      default_assessment: CSI Assessment Frequency Settings
       name: Name
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments
@@ -4052,9 +4056,9 @@ en:
       family_default_columns: Family
       partner_default_columns: Partner
     index:
-      csi_tools: Available CSI Tools
-      custom_assessment: Custom CSI Tool
-      default_assessment: Default CSI Tool
+      csi_tools: Available Assessment Tools
+      custom_assessment: Custom Assessment Tool
+      default_assessment: Default Assessment Tool
     navigation:
       country: Country
     update:

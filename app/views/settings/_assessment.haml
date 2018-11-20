@@ -24,7 +24,7 @@
       /     = f.input :min_assessment, label: false
       .col-xs-12.col-sm-3
         .form-group
-          = f.input :default_assessment, label: false
+          = f.input :default_assessment, label: false, readonly: true
       .col-xs-12.col-sm-3
         .form-group
           = f.input :max_assessment, label: false
@@ -34,11 +34,6 @@
       .col-xs-12.col-sm-3
         .form-group
           = f.input :age, placeholder: t('.age'), label: false
-    .row
-      .col-xs-12
-        %p
-          %i= t('.noted')
-
 
 #assessment-setting.panel.panel-default
   .panel-heading

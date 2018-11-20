@@ -143,6 +143,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.valid()
         _taskRequiredAtEnd(currentIndex)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
+          if $('a#btn-save').length == 0 && currentIndex > newIndex
+            _appendSaveButton()
+            _translatePagination()
           return true
         else
           _filedsValidator(currentIndex, newIndex)
@@ -152,8 +155,13 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
-        if currentIndex == 11
+        currentStep = $("#rootwizard-p-" + currentIndex)
+        if currentStep.hasClass('domain-last')
           $("#rootwizard a[href='#save']").remove()
+        else
+          if $('a#btn-save').length == 0
+            _appendSaveButton()
+            _translatePagination()
 
       onFinishing: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled'
@@ -279,7 +287,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     deleteLink     = ''
     deleteUrl      = "#{actionUrl}/#{domainId}"
     deleteLink     = "<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' href='javascript:void(0)' data-url='#{deleteUrl}' style='margin: 0;'></a>" if $('#current_user').val() == 'admin'
-    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskName}#{deleteLink} <input name='task[]' type='hidden' value='#{taskName}, #{taskDate}, #{domainId}, #{relation}'></li>"
+    taskNameOrign  = taskName
+    taskName       = taskName.replace(/,/g, '&#44;').replace(/'/g, 'apos').replace(/"/g, 'qout')
+    taskObj        = { name: taskName, completion_date: taskDate, domain_id: domainId, relation: relation }
+    taskObj        = JSON.stringify(taskObj)
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{taskNameOrign}#{deleteLink} <input name='task[]' type='hidden' value='#{taskObj}'></li>"
 
     $(".domain-#{domainId} .task-arising, #domain-task-section#{domainId} .task-arising").removeClass('hidden')
     $(".domain-#{domainId} .task-arising ol, #domain-task-section#{domainId} .task-arising ol").append(element)

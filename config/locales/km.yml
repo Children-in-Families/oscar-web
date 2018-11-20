@@ -496,6 +496,7 @@ km:
       back: ត្រលប់ក្រោយ
       domain: កត្តា
       finish: រក្សាទុក
+      finished_assessment_msg: ការវាយតម្លៃនេះរួចរាល់ក្នុងការរក្សាទុក!
       goal: គោលដៅ
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
@@ -512,6 +513,8 @@ km:
       begin_now: បង្កើតថ្មី
       initial_assessment: ការប៉ាន់ប្រមាណដំបូង
       next_review: ការប៉ាន់ប្រមាណទៀងទាត់ពេលក្រោយ
+      no_custom_domains_available: មិនមានកត្តាផ្ទាល់ខ្លួន
+      please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:
@@ -1748,7 +1751,7 @@ km:
         directions: Directions
         district: ស្រុក/ខណ្ឌ
         domain: កត្តា
-        domains: កត្តា CSI ទាំងអស់
+        domains: កត្តាការវាយតម្លៃទាំងអស់
         donor: ម្ចាស់ជំនួយ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
@@ -2574,8 +2577,8 @@ km:
     index:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       changelog: ប្រវត្តិនៃកំណែ
-      csi_tool: CSI Tools
-      custom_csi_tool: Custom CSI Tools
+      csi_tool: ឧបករណ៍ការវាយតម្លៃលំនាំដើម
+      custom_csi_tool: ឧបករណ៍ការវាយតម្លៃផ្ទាល់ខ្លួន
       domains: កត្តា
       score_1: ពិន្ទុ 1
       score_2: ពិន្ទុ 2
@@ -3172,6 +3175,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  invalid_name: មិនត្រឺមត្រូវ
   invalid_program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទមុនកាលបរិច្ឆេទចេញពីកម្មវិធីរបស់អ្នក
   invalid_program_exit_date: កាលបរិច្ឆេទចាកចេញដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទក្រោយកាលបរិច្ឆេទចុះឈ្មោះចូលកម្មវិធី
   is_not_email: មិនមែនជាអ៊ីម៉ែល
@@ -3269,7 +3273,7 @@ km:
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       clients: ឣតិថិជន
       country: ប្រទេស
-      csi_tools: ឧបករណ៍ CSI
+      csi_tools: ឧបករណ៍ការវាយតម្លៃ
       custom_fields: ទម្រង់បែបបទ
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
@@ -4028,9 +4032,9 @@ km:
   settings:
     assessment:
       age: អាយុ
-      assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
+      assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃផ្ទាល់ខ្លួន
       custom_assessment: ឈ្មោះ
-      default_assessment: លំនាំដើមបរសប់ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
+      default_assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃលំនាំដើម CSI
       name: ឈ្មោះ
       eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
@@ -4054,9 +4058,9 @@ km:
       family_default_columns: គ្រួសារ
       partner_default_columns: ដៃគូ
     index:
-      csi_tools: ឧបករណ៍ CSI
-      custom_assessment: ឧបករណ៍ផ្ទាល់ខ្លួនរបស់ CSI
-      default_assessment: ឧបករណ៍លំនាំដើមរបស់ CSI
+      csi_tools: ឧបករណ៍ការវាយតម្លៃ
+      custom_assessment: ឧបករណ៍ការវាយតម្លៃផ្ទាល់ខ្លួន
+      default_assessment: ឧបករណ៍ការវាយតម្លៃលំនាំដើម
     navigation:
       country: ប្រទេស
     update:

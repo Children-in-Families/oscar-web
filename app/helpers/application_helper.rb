@@ -204,10 +204,6 @@ module ApplicationHelper
     current_user.custom_field_permissions.find_by(custom_field_id: value).editable
   end
 
-  def non_mho_tenant?
-    !current_organization.mho?
-  end
-
   def action_search?
     Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
   end
@@ -292,5 +288,9 @@ module ApplicationHelper
     else
       'Unknown'
     end
+  end
+
+  def enable_all_csi_tools?
+    Setting.first.enable_default_assessment && Setting.first.enable_custom_assessment
   end
 end

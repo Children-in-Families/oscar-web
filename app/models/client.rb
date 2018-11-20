@@ -173,13 +173,13 @@ class Client < ActiveRecord::Base
   end
 
   def next_assessment_date
-    return Date.today if assessments.count.zero?
-    (assessments.latest_record.created_at + assessment_duration('max')).to_date
+    return Date.today if assessments.defaults.empty?
+    (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
 
   def custom_next_assessment_date
-    return Date.today if assessments.count.zero?
-    (assessments.latest_record.created_at + assessment_duration('max', false)).to_date
+    return Date.today if assessments.customs.empty?
+    (assessments.customs.latest_record.created_at + assessment_duration('max', false)).to_date
   end
 
   def next_appointment_date
@@ -192,8 +192,12 @@ class Client < ActiveRecord::Base
     next_appointment.created_at + 1.month
   end
 
-  def can_create_assessment?
-    return Date.today >= (assessments.latest_record.created_at + assessment_duration('min')).to_date if assessments.count == 1
+  def can_create_assessment?(default)
+    if default
+      return Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date if assessments.defaults.count == 1
+    else
+      return Date.today >= (assessments.customs.latest_record.created_at + assessment_duration('min', false)).to_date if assessments.customs.count == 1
+    end
     true
   end
 
@@ -358,7 +362,7 @@ class Client < ActiveRecord::Base
       clients = joins(:assessments).active_accepted_status
 
       clients.each do |client|
-        next if client.uneligible_age?
+        next if !client.eligible_default_csi? && !client.eligible_custom_csi?
         repeat_notifications = client.repeat_notifications_schedule
 
         if(repeat_notifications.include?(Date.today))
@@ -388,25 +392,18 @@ class Client < ActiveRecord::Base
     [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
   end
 
-  def uneligible_age?
-    return false unless date_of_birth.present?
+  def eligible_default_csi?
+    return true if date_of_birth.nil?
     client_age = age_as_years
-    setting = Setting.first
-    if setting.enable_default_assessment && setting.enable_custom_assessment
-      age = Setting.first.age
-      custom_age = Setting.first.custom_age
-      if client_age >= age || client_age >= custom_age
-        true
-      else
-        false
-      end
-    elsif setting.enable_default_assessment
-      age = Setting.first.age || 18
-      client_age >= age ? true : false
-    elsif setting.enable_custom_assessment
-      age = Setting.first.custom_age
-      client_age >= age ? true : false
-    end
+    age        = Setting.first.age || 18
+    client_age < age ? true : false
+  end
+
+  def eligible_custom_csi?
+    return true if date_of_birth.nil?
+    client_age = age_as_years
+    age        = Setting.first.custom_age || 18
+    client_age < age ? true : false
   end
 
   def country_origin_label
@@ -431,21 +428,21 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def assessment_duration(duration, custom_assessment = true)
+  def assessment_duration(duration, default = true)
     if duration == 'max'
       setting = Setting.first
-      if custom_assessment
-        assessment_period = setting.try(:max_assessment)
-        assessment_frequency = setting.try(:assessment_frequency)
+      if default
+        assessment_period    = setting.max_assessment
+        assessment_frequency = setting.assessment_frequency
       else
-        assessment_period = setting.max_custom_assessment
+        assessment_period    = setting.max_custom_assessment
         assessment_frequency = setting.custom_assessment_frequency
       end
     else
       assessment_period = 3
       assessment_frequency = 'month'
     end
-    assessment_period = assessment_period.send(assessment_frequency)
+    assessment_period.send(assessment_frequency)
   end
 
   def mark_referral_as_saved
