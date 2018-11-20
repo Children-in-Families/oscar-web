@@ -3,7 +3,7 @@
     %h5.panel-title
       %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}-#{cd.object.domain_group.id}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}-#{cd.object.domain_group.id}", role: "button" }
         %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
-        = "(#{cd.object.domain_group.domain_identities})"
+        = "(#{get_domains(cd)})"
         - cd.object.domain_group.domains.each do |domain|
           - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
           - next if ad.nil?
