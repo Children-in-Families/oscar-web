@@ -13,20 +13,22 @@ module WmoImporter
     end
 
     def users
-      headers = ["first_name", "last_name", "gender", "email", "password", "roles", "manager_ids"]
+      headers = ["first_name", "last_name", "gender", "email", "pin_code", "roles", "manager_ids", "password"]
       users = []
       sheet = workbook.sheet(@sheet_name)
       managed_by = []
 
-      (1..sheet.last_row).each_with_index do |row_index, index|
+      (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
         data[2]    = check_gender(data[2])
-        data[4]    = password
+        data[3]    = data[3].squish
+        data[4]    = data[4].squish
         data[5]    = data[5].downcase
         managed_by << "#{data[3]} - #{data[6]}"
         data[6]    = ''
+        data[7]    = password
         begin
-          users << [headers, data.reject(&:blank?)].transpose.to_h
+          users << [headers, data.reject(&:nil?)].transpose.to_h
         rescue IndexError => e
           if Rails.env == 'development'
             binding.pry
@@ -44,9 +46,10 @@ module WmoImporter
         manager_emails = data.split('-').last.split(',')
         manager_emails.each do |email|
           user = User.find_by(email: user_email.squish)
-          manager = User.find_by(email: email.squish).id
+          manager = User.find_by(email: email.squish).try(:id)
+          next if manager.nil?
           user.manager_ids << manager
-          user.save
+          user.save(validate: false)
         end
       end
       puts 'Added manager ids!!'
@@ -62,11 +65,12 @@ module WmoImporter
     def families
       families = []
       sheet    = workbook.sheet(@sheet_name)
-      headers  = ['name', 'family_id']
+      headers  = ['name', 'code']
 
-      (1..sheet.last_row).each_with_index do |row_index, index|
+      (2..sheet.last_row).each_with_index do |row_index, index|
         data    = sheet.row(row_index)
-
+        data [0]  = data[0].squish
+        data [1]  = data[1].squish
         begin
           families << [headers, data.reject(&:nil?)].transpose.to_h
         rescue IndexError => e
@@ -88,63 +92,46 @@ module WmoImporter
     def clients
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
+      has_family  = []
 
-      headers =['local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'school_name', 'school_grade', 'birth_province_id', 'village_id', 'commune_id', 'district_id', 'province_id', 'follow_up_date', 'initial_referral_date', 'referral_source_id', 'referral_phone', 'has_been_in_orphanage', 'has_been_in_government_care', 'relevant_referral_information', 'kid_id', 'family_id', 'donor_id', 'user_ids', 'country_origin']
+      headers =['local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'school_name', 'school_grade', 
+                'birth_province_id', 'province_id', 'district_id' ,'commune_id', 'village_id', 'follow_up_date', 
+                'initial_referral_date', 'referral_source_id', 'referral_phone', 'has_been_in_orphanage', 
+                'has_been_in_government_care', 'relevant_referral_information', 
+                'kid_id', 'family_ids', 'donor_ids', 'user_ids', 'country_origin']
 
-      (1..sheet.last_row).each_with_index do |row_index, index|
+      (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
         data[0]    = data[0].squish
-        data[1]    = data[0].squish
+        data[1]    = data[1].squish
         data[2]    = check_gender(data[2])
         data[3]    = format_date_of_birth(data[3])
         data[4]    = check_nil_cell(data[4])
         data[5]    = check_nil_cell(data[5])
+        Organization.switch_to 'shared'
         data[6]    = Province.find_by('name ilike ?', "%#{data[6].squish}%").try(:id) || ''
-        data[7]    = 
-        # referral_source
-        data[6]    = find_or_create_referral_source(data[6])
-        data[7]    = check_nil_cell(data[7])
-        data[8]    = check_nil_cell(data[8])
-
-        # referral_receive_by
-        data[9]    = find_or_create_user(data[9])
-
-        data[10]   = format_date_of_birth(data[10])
-
-        # first_follow_up_by
-        data[11]   = find_or_create_user(data[11])
-
+        Organization.switch_to 'wmo'
+        data[7]    = Province.find_by('name ilike ?', "%#{data[7].squish}%").try(:id) || ''
+        data[8]    = find_district(data[8])
+        data[9]    = find_commune(data[8], data[9])
+        data[10]   = find_village(data[9], data[10])
+        data[11]   = format_date_of_birth(data[11])
         data[12]   = format_date_of_birth(data[12])
-        # case_workers
-        data[13]   = find_caseworker(data[13])
+        data[13]   = find_or_create_referral_source(data[13])
         data[14]   = check_nil_cell(data[14])
-        data[15]   = check_nil_cell(data[15])
+        data[15]   = find_boolean_value(data[15])
+        data[16]   = find_boolean_value(data[16])
+        data[17]   = check_nil_cell(data[17])
+        data[18]   = check_nil_cell(data[18])
+        has_family << "#{data[18]} , #{data[19]}"
+        data[19]   = ''
+        data[20]   = Donor.find_by(name: 'SCI').try(:id)
+        data[21]   = User.find_by(pin_code: data[21].squish).try(:id)
+        data[22]   = 'cambodia'
 
-        # district
-        data[17] = find_district(data[17])
-        # current_province
-        
-        # commune
-        data[18] = find_commune(data[17], data[18])
-
-        data[19]   = check_nil_cell(data[20])
-        data[20]   = check_nil_cell(data[21])
-        #village
-        data[21]   = find_village(data[18], data[21])
-
-        data[22]   = check_nil_cell(data[22])
-        # school_grade
-        data[23]   = check_nil_cell(data[23])
-        data[24]   = check_nil_cell(data[24])
-
-        # agencies
-        data[25]   = find_agency(data[25])
-        data[26]   = find_boolean_value(data[26])
-        data[27]   = 'cambodia'
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
-
         begin
-          clients << [headers, data.reject(&:nil?)].transpose.to_h
+          clients << [headers, data].transpose.to_h
         rescue IndexError => e
           if Rails.env == 'development'
             binding.pry
@@ -159,53 +146,35 @@ module WmoImporter
         client.save(validate: false)
       end
       puts 'Create clients done!!!!!!'
-    end
 
-    def find_agency(name)
-      return '' if name.nil?
-      agency = Agency.find_or_create_by!(name: name.squish)
-      [agency.try(:id)]
-    end
+      has_family.each do |family|
+        client = Client.find_by(kid_id: family.split(',').first.squish)
+        family = Family.find_by(code: family.split(',').last.squish)
+        family.children << client.id
+        family.save(validate: false)
+      end
+      puts 'assign family'
 
+      User.all.each do |u|
+        u.pin_code = ''
+        u.save(validate: false)
+      end
+      puts 'delete user pin code'
+    end
+   
     def find_village(commune_id, village_name)
       return '' if village_name.nil? || commune_id.blank?
-      Commune.find(commune_id).villages.find_by(name_en: village_name.squish).try(:id)
+      village = Commune.find(commune_id).villages.find_by('name_kh ilike ?',  "%#{village_name.squish}%").try(:id)
     end
 
     def find_commune(district_id, commune_name)
       return '' if commune_name.nil? || district_id.blank?
-      District.find(district_id).communes.find_by('name_en ilike ?', "%#{commune_name.squish}%").try(:id)
-    end
-
-    def find_province(district_id)
-      return '' if district_id.blank?
-      District.find(district_id).province.id
+      commune = District.find(district_id).communes.find_by('name_kh ilike ?', "%#{commune_name.squish}%").try(:id)
     end
 
     def find_district(name)
       return '' if name.blank?
-      District.find_by('name ilike ?', "%#{name.squish}%").try(:id) || ''
-    end
-
-    def find_or_create_user(user_data)
-      return '' if user_data.nil?
-      user_name = user_data.split(' ')
-      user = User.find_or_create_by!(first_name: user_name.first) do |user|
-        user.last_name  = user_name.last.squish if user_name.last.present?
-        user.email      = FFaker::Internet.email
-        user.password   = password
-      end
-      user.try(:id)
-    end
-
-    def find_caseworker(caseworker)
-      return '' if caseworker.nil?
-      ids = []
-      caseworkers = caseworker.gsub('Team', '').split('&').map{ |c| c.squish }
-      caseworkers.each do |case_worker|
-        ids << User.find_by('first_name ilike ?', "%#{case_worker}%").try(:id)
-      end
-      ids
+      district = District.find_by('name ilike ?', "%#{name.squish}%").try(:id)
     end
 
     def find_or_create_referral_source(referral_source)
