@@ -2569,8 +2569,8 @@ en:
     index:
       are_you_sure: Are you sure you want to delete?
       changelog: Changelog
-      csi_tool: CSI Tools
-      custom_csi_tool: Custom CSI Tools
+      csi_tool: Assessment Tools
+      custom_csi_tool: Custom Assessment Tools
       domains: Domains
       score_1: Score 1
       score_2: Score 2
@@ -3264,7 +3264,7 @@ en:
       changelogs: Changelogs
       clients: Clients
       country: Country
-      csi_tools: Available CSI Tools
+      csi_tools: Available Assessment Tools
       custom_fields: Custom Form
       dashboards: Dashboards
       default_columns: Default Columns
@@ -4049,9 +4049,9 @@ en:
       family_default_columns: Family
       partner_default_columns: Partner
     index:
-      csi_tools: Available CSI Tools
-      custom_assessment: Custom CSI Tool
-      default_assessment: Default CSI Tool
+      csi_tools: Available Assessment Tools
+      custom_assessment: Custom Assessment Tool
+      default_assessment: Default Assessment Tool
     navigation:
       country: Country
     update:
