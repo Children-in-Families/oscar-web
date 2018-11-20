@@ -1168,28 +1168,21 @@ ActiveRecord::Schema.define(version: 20181112082013) do
     t.string   "assessment_frequency"
     t.integer  "min_assessment"
     t.integer  "max_assessment"
-    t.string   "country_name",                 default: ""
+    t.string   "country_name",            default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",       default: [],            array: true
-    t.string   "family_default_columns",       default: [],            array: true
-    t.string   "partner_default_columns",      default: [],            array: true
-    t.string   "user_default_columns",         default: [],            array: true
+    t.string   "client_default_columns",  default: [], array: true
+    t.string   "family_default_columns",  default: [], array: true
+    t.string   "partner_default_columns", default: [], array: true
+    t.string   "user_default_columns",    default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "org_name",                     default: ""
-    t.string   "old_commune",                  default: ""
+    t.string   "org_name",                default: ""
+    t.string   "old_commune",             default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                          default: 18
+    t.integer  "age",                     default: 18
     t.integer  "commune_id"
-    t.string   "customized_assessment_name",   default: "Custom CSI"
-    t.boolean  "enable_customized_assessment", default: false
-    t.boolean  "enable_default_assessment",    default: true
-    t.integer  "default_max_assessment",       default: 6
-    t.string   "default_assessment_frequency", default: "month"
-    t.integer  "default_age",                  default: 18
-    t.string   "default_assessment_name",      default: "Default CSI"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
