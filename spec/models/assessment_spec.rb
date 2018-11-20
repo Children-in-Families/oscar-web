@@ -190,7 +190,7 @@ describe Assessment, 'callbacks' do
     end
   end
 
-  context 'previous_task_must_be_completed' do
+  context 'check_previous_assessment_status' do
     let!(:client) { create(:client) }
     let!(:domain) { create(:domain) }
     let!(:assessment) { create(:assessment, :with_assessment_domain) }
@@ -200,6 +200,18 @@ describe Assessment, 'callbacks' do
       expect(assessment_1.errors.full_messages).to include('Please complete the previous assessment before creating another assessment.')
     end
   end
+
+  context 'check_previous_assessment_status' do
+    let!(:client) { create(:client) }
+    let!(:domain) { create(:domain) }
+    let!(:assessment) { create(:assessment) }
+
+    it 'should not return error message' do
+      assessment_1 = Assessment.create(client: client)
+      expect(assessment_1.errors.full_messages).not_to include('Please complete the previous assessment before creating another assessment.')
+    end
+  end
+
 end
 
 describe Assessment, 'CONSTANTS' do
