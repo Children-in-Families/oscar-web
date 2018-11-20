@@ -143,6 +143,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.valid()
         _taskRequiredAtEnd(currentIndex)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
+          if $('a#btn-save').length == 0 && currentIndex > newIndex
+            _appendSaveButton()
+            _translatePagination()
           return true
         else
           _filedsValidator(currentIndex, newIndex)
@@ -152,8 +155,13 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
-        if currentIndex == 11
+        currentStep = $("#rootwizard-p-" + currentIndex)
+        if currentStep.hasClass('domain-last')
           $("#rootwizard a[href='#save']").remove()
+        else
+          if $('a#btn-save').length == 0
+            _appendSaveButton()
+            _translatePagination()
 
       onFinishing: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled'
