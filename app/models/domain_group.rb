@@ -11,6 +11,14 @@ class DomainGroup < ActiveRecord::Base
     domains.map(&:identity).join(', ')
   end
 
+  def default_domain_identities
+    domains.csi_domains.map(&:identity).join(', ')
+  end
+
+  def custom_domain_identities
+    domains.custom_csi_domains.map(&:identity).join(', ')
+  end
+
   def first_ordered?
     name == DomainGroup.first.name
   end

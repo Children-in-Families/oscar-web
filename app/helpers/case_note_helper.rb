@@ -41,6 +41,14 @@ module CaseNoteHelper
     end
   end
 
+  def fetch_domains(cd)
+    if params[:custom] == 'true'
+      cd.object.domain_group.domains.custom_csi_domains
+    else
+      cd.object.domain_group.domains.csi_domains
+    end
+  end
+
   def display_case_note_attendee(case_note)
     case_note.interaction_type.present? ? "#{t('.present')} #{case_note.attendee} ( #{case_note.interaction_type} )" : "#{t('.present')} #{case_note.attendee}"
   end
