@@ -1,0 +1,9 @@
+#program-streams.tab-pane.margin-top-datatable{ role: 'tabpanel' }
+  .table-responsive
+    %table.table.table-bordered.table-hover.table-striped.custom-field-table#program-streams-table{ data: { url: list_program_streams_api_program_streams_path, next: t('.next'), previous: t('.previous')  } }
+      %thead
+        %tr
+          %th.program-stream-name= t('.program_stream_name')
+          %th.tracking-name= t('.tracking_name')
+          %th.link.text-center= t('.link')
+      %tbody

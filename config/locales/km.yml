@@ -1606,6 +1606,15 @@ km:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទដែលបាននិងកំពុងចូលរួមកម្មវិធី
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
+    custom_fields_tab:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      name: ឈ្មោះ
+      link: តំណ
+    multiple_forms:
+      custom_forms: ទម្រង់បែបបទ
+      multiple_forms: ទម្រង់ច្រើន
+      program_streams: កម្មវិធីចម្បង
     duetoday:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -1624,6 +1633,12 @@ km:
       tasks: កាតព្វកិច្ច
     program_stream:
       program_stream: កម្មវិធីចម្បង
+    program_streams_tab:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      program_stream_name: ឈ្មោះកម្មវិធី
+      link: តំណ
+      tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
       agencies: អង្គភាព
@@ -3374,6 +3389,17 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  multiple_form:
+    client_custom_fields:
+      create:
+        successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកដោយជោគជ័យ
+    client_trackings:
+      create:
+        successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    complete_form:
+      no: ទេ
+      want_to_complete_again: តើអ្នកចង់បំពេញបែបបទនេះម្តងទៀតសម្រាប់អតិថិជនច្រើនទៀតទេ?
+      yes: បាទ/ចាស
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   notifications:

@@ -1,0 +1,52 @@
+class MultipleForm::ClientTrackingsController < AdminController
+  include FormBuilderAttachments
+
+  def new
+    @tracking = Tracking.find(params[:tracking_id])
+    @program_stream = @tracking.program_stream
+    client_ids = ClientEnrollment.where(program_stream_id: @program_stream.id, status: 'Active').pluck(:client_id)
+    @clients = Client.accessible_by(current_ability).where(id: client_ids)
+    @client_enrollment_tracking = ClientEnrollmentTracking.new
+  end
+
+  def create
+    @tracking = Tracking.find(params[:tracking_id])
+    @program_stream = @tracking.program_stream
+    clients = Client.where(slug: params['client_enrollment_tracking']['clients'])
+    clients.each do |client|
+      client_enrollment = client.client_enrollments.find_by(program_stream_id: @program_stream.id, status: 'Active')
+      @client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(client_enrollment_tracking_params)
+      if @client_enrollment_tracking.valid?
+        @client_enrollment_tracking.save
+      else
+        break
+      end
+    end
+    unless @client_enrollment_tracking.valid?
+      @clients = Client.accessible_by(current_ability)
+      @selectd_clients = clients.pluck(:slug)
+      render :new
+    else
+      if params[:client_enrollment_tracking][:confirm]
+        redirect_to new_multiple_form_tracking_client_tracking_path(@tracking), notice: t('.successfully_created')
+      else
+        redirect_to root_path, notice: t('.successfully_created')
+      end
+    end
+  end
+
+  def client_enrollment_tracking_params
+    if properties_params.present?
+      mappings = {}
+      properties_params.each do |k, v|
+        mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
+      end
+      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+    end
+    default_params = params.require(:client_enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])
+    default_params = default_params.merge!(properties: formatted_params) if formatted_params.present?
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment_tracking][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
+    default_params
+  end
+end

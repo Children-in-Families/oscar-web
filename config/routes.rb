@@ -196,6 +196,7 @@ Rails.application.routes.draw do
       collection do
         get :fetch_custom_fields
         get :ngo_custom_fields
+        get :list_custom_fields
       end
       get :fields
     end
@@ -221,6 +222,9 @@ Rails.application.routes.draw do
       get :enrollment_fields
       get :exit_program_fields
       get :tracking_fields
+      collection do
+        get :list_program_streams
+      end
     end
 
     namespace :v1, default: { format: :json } do
@@ -256,6 +260,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :multiple_form do
+    resources :custom_fields, only: [] do
+      resources :client_custom_fields, only: [:create, :new]
+    end
+    resources :trackings, only: [] do
+      resources :client_trackings, only: [:create, :new]
+    end
+  end
 
   scope '', module: 'form_builder' do
     resources :custom_fields do

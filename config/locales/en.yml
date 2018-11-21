@@ -1605,6 +1605,15 @@ en:
       active_progarm_streams_by_gender: Active Program Streams by client gender
       active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
+    custom_fields_tab:
+      next: Next
+      previous: Previous
+      name: Name
+      link: Link
+    multiple_forms:
+      custom_forms: Custom Forms
+      multiple_forms: Multiple Forms
+      program_streams: Progarm Streams
     duetoday:
       assessment: Assessment
       assessments: Assessments
@@ -1623,6 +1632,12 @@ en:
       tasks: Tasks
     program_stream:
       program_stream: Program Streams
+    program_streams_tab:
+      next: Next
+      previous: Previous
+      program_stream_name: Program Stream Name
+      link: Link
+      tracking_name: Tracking Name
     third_party:
       ables: Ables
       agencies: Agencies
@@ -3372,6 +3387,18 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  multiple_form:
+    client_custom_fields:
+      create:
+        successfully_created: Custom Field Properties has been successfully created.
+    client_trackings:
+      create:
+        successfully_created: Tracking Program has been successfully deleted.
+    complete_form:
+      no: No
+      want_to_complete_again: Do you want to complete this form again for more clients?
+      yes: Yes
+
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   notifications:

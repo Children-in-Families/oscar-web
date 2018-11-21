@@ -1612,6 +1612,15 @@ my:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+    custom_fields_tab:
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      name: နာမည္
+      link: link ကို
+    multiple_forms:
+      custom_forms: ပုံစံများ
+      multiple_forms: ပုံစံအမျိုးမျိုး
+      program_streams: အစီအစဥ္ စီဆင္းမႈမ်ား
     duetoday:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
@@ -1630,6 +1639,12 @@ my:
       tasks: ရက်လွန်အလုပ်တခုကို
     program_stream:
       program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
+    program_streams_tab:
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      program_stream_name: အစီအမံစီဆင္းမႈ
+      link: link ကို
+      tracking_name: ခြေရာခံနာမကိုအမှီ
     third_party:
       ables: Ables
       agencies: ေအဂ်င္စီမ်ား
@@ -3401,6 +3416,17 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
+  multiple_form:
+    client_custom_fields:
+      create:
+        successfully_created: ေနရာပိုင္ဆုိင္မႈသတ္မွတ္ပံုစံကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    client_trackings:
+      create:
+        successfully_created: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ
+    complete_form:
+      no: အဘယ်သူမျှမ
+      want_to_complete_again: သင်ပိုမို client များအတွက်နောက်တဖန်ဤပုံစံကိုဖြည့်စွက်ရန်လိုပါသလား?
+      yes: ဟုတ်ကဲ့
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
   mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   notifications:
