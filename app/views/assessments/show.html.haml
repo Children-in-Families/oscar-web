@@ -23,9 +23,8 @@
               %u= date_format(@assessment.created_at)
             %label{ class: "#{@assessment.completed_label_class}"}= @assessment.completed_status
             %span.pull-right.margin-asse
-              - if @assessment.latest_record?
-                - if can? :update, @assessment
-                  = assessment_edit_link(@assessment.client, @assessment)
+              - if policy(@assessment).edit?
+                = assessment_edit_link(@assessment.client, @assessment)
       .ibox-content
         .table-responsive
           %table.table.table-bordered

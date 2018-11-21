@@ -7,7 +7,6 @@ class AssessmentsController < AdminController
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_assessment, except: [:index, :destroy, :new, :create]
   before_action :restrict_invalid_assessment, only: [:new, :create]
-  before_action :restrict_update_assessment, only: [:edit, :update]
   before_action -> { assessments_permission('readable') }, only: :show
   before_action -> { assessments_permission('editable') }, except: [:index, :show]
 
@@ -39,12 +38,14 @@ class AssessmentsController < AdminController
   end
 
   def edit
+    authorize @assessment
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_editable
     end
   end
 
   def update
+    authorize @assessment
     params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
       add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
     end
@@ -96,10 +97,6 @@ class AssessmentsController < AdminController
 
   def restrict_invalid_assessment
     redirect_to client_assessments_path(@client) unless @client.can_create_assessment?
-  end
-
-  def restrict_update_assessment
-    redirect_to client_assessments_path(@client) unless @assessment.latest_record?
   end
 
   def remove_attachment_at_index(index)
