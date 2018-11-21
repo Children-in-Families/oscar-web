@@ -47,7 +47,11 @@ class Assessment < ActiveRecord::Base
   end
 
   def initial?
-    self == client.assessments.most_recents.last || client.assessments.count.zero?
+    if default?
+      self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
+    else
+      self == client.assessments.customs.most_recents.last || client.assessments.customs.count.zero?
+    end
   end
 
   def latest_record?
@@ -103,7 +107,11 @@ class Assessment < ActiveRecord::Base
 
   def set_previous_score
     if new_record? && !initial?
-      previous_assessment = client.assessments.latest_record
+      if default?
+        previous_assessment = client.assessments.defaults.latest_record
+      else
+        previous_assessment = client.assessments.customs.latest_record
+      end
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|
           assessment_domain.previous_score = previous_assessment_domain.score if assessment_domain.domain_id == previous_assessment_domain.domain_id

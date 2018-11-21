@@ -71,9 +71,18 @@ describe Assessment, 'methods' do
   end
 
   context '#initial?' do
+    before { Setting.first.update(enable_custom_assessment: true) }
     let!(:last_assessment){ create(:assessment, created_at: Time.now, client: client) }
-    it { expect(assessment.initial?).to be_truthy }
-    it { expect(last_assessment.initial?).to be_falsey }
+    let!(:custom_assessment_1){ create(:assessment, :custom, client: client, created_at: last_assessment_date) }
+    let!(:custom_assessment_2){ create(:assessment, :custom, client: client) }
+    it 'detault' do
+      expect(assessment.initial?).to be_truthy
+      expect(last_assessment.initial?).to be_falsey
+    end
+    it 'custom' do
+      expect(custom_assessment_1.initial?).to be_truthy
+      expect(custom_assessment_2.initial?).to be_falsey
+    end
   end
 
   context '#populate_notes(default)' do
@@ -157,21 +166,33 @@ describe Assessment, 'scopes' do
 end
 
 describe Assessment, 'callbacks' do
-  context 'set previous score' do
+  context 'set_previous_score' do
+    before { Setting.first.update(enable_custom_assessment: true) }
     let!(:client) { create(:client) }
     let!(:domain) { create(:domain) }
-    let!(:assessment) { create(:assessment, created_at: Time.now - 3.months - 1.day, client: client) }
-    let!(:assessment_domain) { create(:assessment_domain, assessment: assessment, domain: domain) }
-    let!(:last_assessment) { client.assessments.new }
+    let!(:assessment_1) { create(:assessment, created_at: Time.now - 3.months - 1.day, client: client) }
+    let!(:assessment_domain) { create(:assessment_domain, assessment: assessment_1, domain: domain) }
+    let!(:custom_assessment_1) { create(:assessment, :custom, created_at: Time.now - 3.months - 1.day, client: client) }
+    let!(:custom_assessment_domain) { create(:assessment_domain, assessment: custom_assessment_1, domain: domain) }
+    let!(:assessment_2) { build(:assessment, client: client) }
+    let!(:custom_assessment_2) { build(:assessment, :custom, client: client) }
 
     before do
-      last_assessment.assessment_domains.build(domain: domain, score: rand(4)+1, reason: FFaker::Lorem.paragraph, goal: FFaker::Lorem.paragraph)
-      last_assessment.save
+      assessment_domain_attr = { domain: domain, score: rand(4)+1, reason: FFaker::Lorem.paragraph, goal: FFaker::Lorem.paragraph }
+      assessment_2.assessment_domains.build(assessment_domain_attr)
+      assessment_2.save
+      custom_assessment_2.assessment_domains.build(assessment_domain_attr)
+      custom_assessment_2.save
     end
 
     it "should eq lastet assessment score" do
-      previous_score = last_assessment.assessment_domains.find_by(domain: domain).previous_score
+      previous_score = assessment_2.assessment_domains.find_by(domain: domain).previous_score
       expect(previous_score).to eq(assessment_domain.score)
+    end
+
+    it "should eq lastet custom assessment score" do
+      previous_score = custom_assessment_2.assessment_domains.find_by(domain: domain).previous_score
+      expect(previous_score).to eq(custom_assessment_domain.score)
     end
   end
 

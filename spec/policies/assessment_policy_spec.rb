@@ -50,13 +50,26 @@ describe AssessmentPolicy do
 
       context 'for a case worker' do
         let(:user){ create(:user, client_ids: [client_1.id]) }
+        let!(:client_1){ create(:client, date_of_birth: 5.years.ago) }
+        let!(:assessment_1){ create(:assessment, client: client_1) }
+        before { client_1.update(date_of_birth: 20.years.ago) }
 
         it_behaves_like 'create' do
+          # client age matters
           let(:assessment){ build(:assessment) }
         end
 
+        it_behaves_like 'unauthorized_create' do
+          # client age matters
+          let(:assessment){ build(:assessment, client: client_1) }
+        end
+
         it_behaves_like 'show'
-        it_behaves_like 'update'
+
+        it_behaves_like 'update' do
+          # regardless the client age
+          let(:assessment){ assessment_1 }
+        end
       end
 
       context 'for a manager' do
