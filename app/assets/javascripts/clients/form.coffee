@@ -101,6 +101,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       date_of_birth: $('#client_date_of_birth').val()
       birth_province: $('#client_birth_province_id').find(':selected').text()
       current_province: $('#client_province_id').find(':selected').text()
+      district: $('#client_district_id').find(':selected').text()
       village: $('#client_village_id').find(':selected').text()
       commune: $('#client_commune_id').find(':selected').text()
     }

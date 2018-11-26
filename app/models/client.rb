@@ -108,7 +108,8 @@ class Client < ActiveRecord::Base
     query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
     query = query.joins(:commune).where("communes.name_en iLIKE ?", "%#{options[:commune].split(' / ').last}%")                 if options[:commune].present?
     query = query.joins(:village).where("villages.name_en iLIKE ?", "%#{options[:village].split(' / ').last}%")                 if options[:village].present?
-    query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")         if options[:current_province].present?
+    query = query.joins(:district).where("districts.name iLike ?", "%#{options[:district]}%")                                   if options[:district].present?
+    query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")                           if options[:current_province].present?
     query.map{ |client| client }
   end
 
@@ -144,9 +145,10 @@ class Client < ActiveRecord::Base
 
     clients.each do |client|
       similar_fields << '#hidden_date_of_birth' if options[:date_of_birth].present? && (client.date_of_birth.month == Date.parse(options[:date_of_birth]).month) && (client.date_of_birth.year == Date.parse(options[:date_of_birth]).year)
-      similar_fields << '#hidden_commune' if client.commune.name_en.include?(fetch_75_chars_of(options[:commune].split(' / ').last)) && options[:commune].present?
-      similar_fields << '#hidden_village' if client.village.name_en.include?(fetch_75_chars_of(options[:village].split(' / ').last)) && options[:village].present?
-      similar_fields << '#hidden_province' if client.province_name.include?(fetch_75_chars_of(options[:current_province])) && options[:current_province].present?
+      similar_fields << '#hidden_province' if options[:current_province].present? && client.province_name.include?(fetch_75_chars_of(options[:current_province]))
+      similar_fields << '#hidden_district' if options[:district].present? && client.district_name.include?(fetch_75_chars_of(options[:district]))
+      similar_fields << '#hidden_commune' if options[:commune].present? && client.commune.name_en.include?(fetch_75_chars_of(options[:commune].split(' / ').last))
+      similar_fields << '#hidden_village' if options[:village].present? && client.village.name_en.include?(fetch_75_chars_of(options[:village].split(' / ').last))
     end
     similar_fields.uniq
   end
