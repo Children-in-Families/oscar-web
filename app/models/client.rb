@@ -109,8 +109,7 @@ class Client < ActiveRecord::Base
     query = query.joins(:commune).where("communes.name_en iLIKE ?", "%#{options[:commune].split(' / ').last}%")                 if options[:commune].present?
     query = query.joins(:village).where("villages.name_en iLIKE ?", "%#{options[:village].split(' / ').last}%")                 if options[:village].present?
     query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")         if options[:current_province].present?
-
-    query.pluck(:slug)
+    query.map{ |client| client }
   end
 
   def self.find_shared_client(options)
@@ -122,20 +121,32 @@ class Client < ActiveRecord::Base
     shared_clients = shared_clients.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
     shared_clients = shared_clients.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
     shared_clients = shared_clients.joins(:birth_province).where("provinces.name iLIKE ?", "%#{options[:birth_province]}%")     if options[:birth_province].present?
-    @clients       = shared_clients.map{ |client| client }
-    shared_clients = shared_clients.pluck(:slug)
+    shared_clients = shared_clients.map{ |client| client }
     Organization.switch_to current_org
     shared_clients
   end
 
   def self.get_similar_fields(options)
+    current_org    = Organization.current.short_name
+    shared_clients = Client.find_shared_client(options)
+    clients        = Client.filter(options)
     similar_fields = []
-    @clients.each do |client|
-      similar_fields << '#hidden_given_name' if client.given_name.include?(fetch_75_chars_of(options[:given_name])) && options[:given_name].present?
-      similar_fields << '#hidden_family_name' if client.family_name.include?(fetch_75_chars_of(options[:family_name])) && options[:family_name].present?
-      similar_fields << '#hidden_local_given_name' if client.local_given_name.include?(fetch_75_chars_of(options[:local_given_name])) && options[:local_given_name].present?
-      similar_fields << '#hidden_local_family_name' if client.local_family_name.include?(fetch_75_chars_of(options[:local_family_name])) && options[:local_family_name].present?
-      similar_fields << '#hidden_birth_province' if client.birth_province.present? && client.birth_province.include?(fetch_75_chars_of(options[:birth_province]))
+
+    shared_clients.each do |shared_client|
+      similar_fields << '#hidden_given_name' if shared_client.given_name.include?(fetch_75_chars_of(options[:given_name])) && options[:given_name].present?
+      similar_fields << '#hidden_family_name' if shared_client.family_name.include?(fetch_75_chars_of(options[:family_name])) && options[:family_name].present?
+      similar_fields << '#hidden_local_given_name' if shared_client.local_given_name.include?(fetch_75_chars_of(options[:local_given_name])) && options[:local_given_name].present?
+      similar_fields << '#hidden_local_family_name' if shared_client.local_family_name.include?(fetch_75_chars_of(options[:local_family_name])) && options[:local_family_name].present?
+      Organization.switch_to 'shared'
+      similar_fields << '#hidden_birth_province' if shared_client.birth_province_id.present? && (Province.find(shared_client.birth_province_id).try(:name) == options[:birth_province])
+      Organization.switch_to current_org
+    end
+
+    clients.each do |client|
+      similar_fields << '#hidden_date_of_birth' if options[:date_of_birth].present? && (client.date_of_birth.month == Date.parse(options[:date_of_birth]).month) && (client.date_of_birth.year == Date.parse(options[:date_of_birth]).year)
+      similar_fields << '#hidden_commune' if client.commune.name_en.include?(fetch_75_chars_of(options[:commune].split(' / ').last)) && options[:commune].present?
+      similar_fields << '#hidden_village' if client.village.name_en.include?(fetch_75_chars_of(options[:village].split(' / ').last)) && options[:village].present?
+      similar_fields << '#hidden_province' if client.province_name.include?(fetch_75_chars_of(options[:current_province])) && options[:current_province].present?
     end
     similar_fields.uniq
   end

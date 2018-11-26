@@ -12,7 +12,6 @@ module Api
     private
 
     def find_client_in_organization
-      shared_clients = Client.find_shared_client(params)
       similar_fields = Client.get_similar_fields(params)
       { similar_fields: similar_fields }
     end

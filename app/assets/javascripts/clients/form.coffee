@@ -113,7 +113,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         dataType: "JSON"
       }).success((json)->
         clientId  = $('#client_slug').val()
-        organizations   = json.organizations
         similar_fields  = json.similar_fields
         modalTextSecond = ''
 
@@ -125,7 +124,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           
           i = 0
           while i < similar_fields.length
-            debugger
             text = $(similar_fields[i]).val()
             modalTextSecond += '<li>' + text
             i++
