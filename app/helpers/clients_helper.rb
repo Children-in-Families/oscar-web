@@ -1,5 +1,6 @@
 module ClientsHelper
-  PROGRAM_STREAM_HEADERS = %w(enrollment exitprogram quantitative domainscore tracking)
+  PROGRAM_STREAM_HEADERS = %w(enrollment exitprogram quantitative domainscore tracking formbuilder)
+
   def user(user)
     if can? :read, User
       link_to user.name, user_path(user) if user.present?
@@ -649,8 +650,9 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
 
-    basic_rules = eval params[:client_advanced_search][:basic_rules]
-    form_builder = class_name.present? ? class_name.split('_') : []
+    basic_rules = eval params[:client_advanced_search][:basic_rules] if params.has_key?(:client_advanced_search)
+    program_stream_header = class_name.present? ? datagrid_column_classes(grid, column).split('_') : []
+    quantitative_types = QuantitativeType.all.pluck(:name)
 
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i]
       association = "#{class_name}_count"
@@ -700,8 +702,51 @@ module ClientsHelper
       else
         column.header.truncate(65)
       end
-    elsif PROGRAM_STREAM_HEADERS.include?(form_builder.first)
-      binding.pry
+
+    elsif PROGRAM_STREAM_HEADERS.include?(program_stream_header.first) || quantitative_types.include?(column.name.to_s)
+      sql_string = []
+      values     = []
+
+      basic_rules.with_indifferent_access['rules'].each do |rule|
+        if program_stream_header.first == 'formbuilder'
+          type = rule['type']
+          field = rule['field']
+          field = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+
+          custom_form = CustomField.find_by(form_title: program_stream_header.second, entity_type: 'Client')
+          custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: custom_form)
+
+          if type == 'checkbox'
+            count += custom_field_properties.where.not("properties -> '#{field}' ? ''").count
+          else
+            count += custom_field_properties.where.not("properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL").count
+          end
+
+        elsif program_stream_header.first == 'enrollment'
+          program_stream = ProgramStream.find_by(name: program_stream_header.second)
+          count += ClientEnrollment.joins(:program_stream).where(program_stream_id: program_stream.id, client_id: @clients.ids).count
+
+        elsif program_stream_header.first == 'tracking'
+          tracking = Tracking.joins(:program_stream).where(program_streams: {name: program_stream_header.second}, trackings: {name: program_stream_header.third}).last
+          count += ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: tracking.id).where(client_enrollments: {client_id: @clients.ids}).count
+
+        elsif program_stream_header.first == 'exitprogram'
+          program_stream = ProgramStream.find_by(name: program_stream_header.second)
+          exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
+          sql_string << exit_program_fields[:id]
+          values << exit_program_fields[:values]
+          count += LeaveProgram.joins(:client_enrollment).where(program_stream_id: program_stream.id).where(client_enrollments: {client_id: @clients.ids}).count
+
+        elsif quantitative_types.include?(column.name.to_s)
+          count += @clients.joins(quantitative_cases: :quantitative_type).where("quantitative_types.name iLike ?", "%#{column.name.to_s}").distinct.count
+
+        elsif program_stream_header.first == 'domainscore'
+          domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(program_stream_header.second, rule).get_sql
+          sql_string << domain_scores[:id]
+          values << domain_scores[:values]
+        end
+      end
+
       if count > 0 && class_name != 'case_note_type'
         link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
         [column.header.truncate(65),
