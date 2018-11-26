@@ -48,7 +48,7 @@ module Api
                 :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
                 :referral_phone, :received_by_id, :followed_up_by_id,
                 :follow_up_date, :school_grade, :school_name, :current_address,
-                :house_number, :street_number, :village, :commune, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
+                :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id, :village_id, :commune_id,
                 :has_been_in_orphanage, :has_been_in_government_care,
                 :relevant_referral_information, :province_id, :profile,
                 :state_id, :township_id, :rejected_note, :live_with,
