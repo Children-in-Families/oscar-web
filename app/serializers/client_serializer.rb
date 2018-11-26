@@ -5,7 +5,7 @@ class ClientSerializer < ActiveModel::Serializer
               :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
               :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
               # :referral_phone, :live_with, :id_poor, :received_by,
-              :referral_phone, :live_with, :received_by, :main_school_contact,
+              :referral_phone, :live_with, :received_by, :main_school_contact,  :telephone_number,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :has_been_in_government_care, :relevant_referral_information,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
