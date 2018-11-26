@@ -55,6 +55,10 @@ body[id='client_advanced_searches-index'] {
       min-width: 200px;
     }
 
+    th.custom_date_of_assessments {
+      min-width: 250px;
+    }
+
     th.created_at, th.created_by, th.referred_to, th.referred_from, th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code, th.time_in_care {
       min-width: 150px;
     }
@@ -80,7 +84,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 250px;
     }
 
-    th.all_csi_assessments {
+    th.all_csi_assessments, th.custom_all_csi_assessments {
       min-width: 260px;
     }
 
