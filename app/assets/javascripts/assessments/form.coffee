@@ -465,7 +465,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         else
           $(".row.#{$(@).attr('id')}").remove()
           isChecked    = false
-          $("[id$='_requried_task_last_true']").each ->
+          $("[id$='_required_task_last_true']").each ->
             return isChecked = true if $(@).is(':checked')
 
           unless isChecked

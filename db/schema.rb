@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20181112082013) do
     t.text     "goal",               default: ""
     t.string   "attachments",        default: [],    array: true
     t.boolean  "goal_required",      default: true
-    t.boolean  "requried_task_last", default: false
+    t.boolean  "required_task_last", default: false
   end
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|

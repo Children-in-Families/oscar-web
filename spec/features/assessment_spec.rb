@@ -40,10 +40,18 @@ describe "Assessment" do
 
       context 'edit link' do
         context 'log in as case worker / manager / admin' do
-          scenario 'visible within 1 week' do
-            visit client_assessment_path(client_a, assessment_a)
+          context 'visible within 1 week' do
+            scenario 'eligiable age' do
+              visit client_assessment_path(client_a, assessment_a)
 
-            expect(page).to have_link(nil, href: edit_client_assessment_path(client_a, assessment_a))
+              expect(page).to have_link(nil, href: edit_client_assessment_path(client_a, assessment_a))
+            end
+            scenario 'uneligiable age' do
+              client_a.update(date_of_birth: 20.years.ago)
+              visit client_assessment_path(client_a, assessment_a)
+
+              expect(page).to have_link(nil, href: edit_client_assessment_path(client_a, assessment_a))
+            end
           end
 
           scenario 'invisible after 1 week' do
