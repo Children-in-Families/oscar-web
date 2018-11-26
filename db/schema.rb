@@ -817,10 +817,10 @@ ActiveRecord::Schema.define(version: 20181023071121) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
-    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
+    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1162,7 +1162,6 @@ ActiveRecord::Schema.define(version: 20181023071121) do
     t.string   "country_name",            default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.boolean  "disable_assessment"
     t.string   "client_default_columns",  default: [], array: true
     t.string   "family_default_columns",  default: [], array: true
     t.string   "partner_default_columns", default: [], array: true
@@ -1175,6 +1174,7 @@ ActiveRecord::Schema.define(version: 20181023071121) do
     t.integer  "district_id"
     t.integer  "age",                     default: 18
     t.integer  "commune_id"
+    t.boolean  "disable_assessment"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

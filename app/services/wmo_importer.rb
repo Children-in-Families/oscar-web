@@ -11,22 +11,23 @@ module WmoImporter
     def workbook
       @workbook
     end
-
+    
     def users
-      headers = ["first_name", "last_name", "gender", "email", "pin_code", "roles", "manager_ids", "password"]
-      users = []
-      sheet = workbook.sheet(@sheet_name)
-      managed_by = []
+      headers = ["first_name", "last_name", "gender", "email", "password", "roles", "manager_ids"]
+      users   = []
+      sheet   = workbook.sheet(@sheet_name)
+      managed_by     = []
+      @@case_workers = []
 
       (2..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
         data[2]    = check_gender(data[2])
         data[3]    = data[3].squish
-        data[4]    = data[4].squish
+        @@case_workers << {"#{data[4].squish}" => "#{data[3].squish}"}
+        data[4]    = password
         data[5]    = data[5].downcase
         managed_by << "#{data[3]} - #{data[6]}"
         data[6]    = ''
-        data[7]    = password
         begin
           users << [headers, data.reject(&:nil?)].transpose.to_h
         rescue IndexError => e
@@ -105,18 +106,18 @@ module WmoImporter
         data[0]    = data[0].squish
         data[1]    = data[1].squish
         data[2]    = check_gender(data[2])
-        data[3]    = format_date_of_birth(data[3])
+        data[3]    = format_date(data[3])
         data[4]    = check_nil_cell(data[4])
         data[5]    = check_nil_cell(data[5])
         Organization.switch_to 'shared'
         data[6]    = Province.find_by('name ilike ?', "%#{data[6].squish}%").try(:id) || ''
         Organization.switch_to 'wmo'
         data[7]    = Province.find_by('name ilike ?', "%#{data[7].squish}%").try(:id) || ''
-        data[8]    = find_district(data[8])
+        data[8]    = find_district(data[7], data[8])
         data[9]    = find_commune(data[8], data[9])
         data[10]   = find_village(data[9], data[10])
-        data[11]   = format_date_of_birth(data[11])
-        data[12]   = format_date_of_birth(data[12])
+        data[11]   = format_date(data[11])
+        data[12]   = format_date(data[12])
         data[13]   = find_or_create_referral_source(data[13])
         data[14]   = check_nil_cell(data[14])
         data[15]   = find_boolean_value(data[15])
@@ -126,7 +127,7 @@ module WmoImporter
         has_family << "#{data[18]} , #{data[19]}"
         data[19]   = ''
         data[20]   = Donor.find_by(name: 'SCI').try(:id)
-        data[21]   = User.find_by(pin_code: data[21].squish).try(:id)
+        data[21]   = find_case_worker(data[21].squish) 
         data[22]   = 'cambodia'
 
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
@@ -155,11 +156,14 @@ module WmoImporter
       end
       puts 'assign family'
 
-      User.all.each do |u|
-        u.pin_code = ''
-        u.save(validate: false)
+    end
+
+    def find_case_worker(case_worker_id)
+      user = nil
+      user = @@case_workers.map do |case_worker|
+        User.find_by(email: case_worker[case_worker_id]).try(:id)
       end
-      puts 'delete user pin code'
+      user.reject(&:nil?)
     end
    
     def find_village(commune_id, village_name)
@@ -172,9 +176,9 @@ module WmoImporter
       commune = District.find(district_id).communes.find_by('name_kh ilike ?', "%#{commune_name.squish}%").try(:id)
     end
 
-    def find_district(name)
-      return '' if name.blank?
-      district = District.find_by('name ilike ?', "%#{name.squish}%").try(:id)
+    def find_district(province_id, district_name)
+      return '' if district_name.nil? || province_id.blank?
+      district = Province.find(province_id).districts.find_by('name ilike ?', "%#{district_name.squish}%").try(:id)
     end
 
     def find_or_create_referral_source(referral_source)
@@ -197,7 +201,7 @@ module WmoImporter
       end
     end
 
-    def format_date_of_birth(value)
+    def format_date(value)
       return '' if value.nil?
       first_regex  = /\A\d{2}\/\d{2}\/\d{2}\z/
       second_regex = /\A\d{4}\z/
