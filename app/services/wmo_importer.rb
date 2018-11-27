@@ -38,8 +38,9 @@ module WmoImporter
           end
         end
       end
-
-      User.create!(users)
+      users.each do |user|
+        User.create_with(user).find_or_create_by(email: user['email'])
+      end
       puts 'Create users one!!!!!!'
 
       managed_by.each do |data|
