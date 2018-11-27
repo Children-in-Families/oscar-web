@@ -9,7 +9,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _initScoreTooltip()
 
   _initScoreTooltip = ->
-    $('#case-note-domain-score').tooltip
+    $('.case-note-domain-score').tooltip
       placement: 'top'
       html: true
 
