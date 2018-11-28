@@ -779,7 +779,7 @@ class ClientGrid < BaseGrid
       end
 
       Domain.custom_csi_domains.order_by_identity.each do |domain|
-        identity = "Custom #{domain.identity}"
+        identity = domain.identity
         column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessment = client.assessments.customs.latest_record
           assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?

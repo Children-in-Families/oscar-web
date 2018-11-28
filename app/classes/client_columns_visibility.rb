@@ -112,13 +112,8 @@ class ClientColumnsVisibility
   def domain_score_columns
     columns = columns_collection
     Domain.order_by_identity.each do |domain|
-      if domain.custom_domain
-        identity = "Custom #{domain.identity}"
-        field = "custom_#{domain.convert_identity}"
-      else
-        identity = domain.identity
-        field = domain.convert_identity
-      end
+      identity = domain.identity
+      field = domain.custom_domain ? "custom_#{domain.convert_identity}" : domain.convert_identity
       columns = columns.merge!("#{field}_": field.to_sym)
     end
     columns

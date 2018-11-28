@@ -252,12 +252,11 @@ module ClientGridOptions
 
   def csi_domain_score_report
     Domain.order_by_identity.each do |domain|
+      identity = domain.identity
       if domain.custom_domain
-        identity = "Custom #{domain.identity}"
         column = "custom_#{domain.convert_identity}".to_sym
         records = 'client.assessments.customs'
       else
-        identity = domain.identity
         column = domain.convert_identity.to_sym
         records = 'client.assessments.defaults'
       end

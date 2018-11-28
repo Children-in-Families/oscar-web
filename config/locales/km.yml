@@ -1322,11 +1322,11 @@ km:
       add_new_client: បន្ថែមអតិថិជនថ្មី
       advanced_search: ការស្វែងរកដែលឆ្លាតវៃ
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       assessments: ការប៉ាន់ប្រមាណ
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
       client_amount: ចំនួនអតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
@@ -1700,6 +1700,7 @@ km:
   datagrid:
     columns:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំ
@@ -1725,6 +1726,7 @@ km:
         agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
         agency_names: ឈ្មោះអង្គភាព
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+        all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលធ្វើការប៉ាន់ប្រមាណ
@@ -1743,9 +1745,8 @@ km:
         created_by: បង្កើត​ឡើង​ដោយ
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
-        all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
-        date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+        date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -1846,9 +1847,8 @@ km:
         view: មើល
         village: ភូមិ
         what3words: What3words
-      all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
-      date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ

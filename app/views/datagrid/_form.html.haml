@@ -199,8 +199,7 @@
               .visibility.col-sm-12
                 = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = default_setting('all_custom_csi_assessments_', @client_default_columns) || params[:all_custom_csi_assessments_].present?, class: 'i-checks'
                 = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments')
-            - custom_domains = Domain.custom_csi_domains.order_by_identity.each{ |domain| domain.identity = "Custom #{domain.identity}" }
-            = render partial: 'datagrid/domain_score_columns_picker', collection: custom_domains, as: :domain
+            = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
 
           %li.divider.col-xs-12
           %li

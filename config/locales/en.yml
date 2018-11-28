@@ -1320,8 +1320,8 @@ en:
       active_programs: Active Programs
       add_new_client: Add New Client
       advanced_search: Advanced Search
-      all_custom_csi_assessments: All Custom Assessments
       all_csi_assessments: All CSI Assessments
+      all_custom_csi_assessments: All Custom Assessments
       assessments: Assessments
       case_statistics: Case Statistics
       client_amount: Clients
@@ -1699,6 +1699,7 @@ en:
   datagrid:
     columns:
       all_csi_assessments: All CSI Assessments
+      all_custom_csi_assessments: All Custom Assessments
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -1723,8 +1724,8 @@ en:
         age: Age
         agencies_involved: Other Agencies Involved
         agency_names: Agency Name
-        all_custom_csi_assessments: All Custom Assessments
         all_csi_assessments: All CSI Assessments
+        all_custom_csi_assessments: All Custom Assessments
         any_assessments: Has Assessments
         assessments: Assessments
         assessments_due_to: Assessments Due To
@@ -1743,9 +1744,9 @@ en:
         created_by: Created By
         current_address: Current Address
         current_province: Current Province
-        date_of_custom_assessments: Date of Custom Assessment
         date_of_assessments: Date of Assessments
         date_of_birth: Date of Birth
+        date_of_custom_assessments: Date of Custom Assessment
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: District/Khan
@@ -1845,9 +1846,8 @@ en:
         view: View
         village: Village
         what3words: What3words
-      all_custom_csi_assessments: All Custom Assessments
-      date_of_custom_assessments: Date of Custom Assessment
       date_of_assessments: Date of Assessments
+      date_of_custom_assessments: Date of Custom Assessment
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
       exit_reasons: Reason For Exit

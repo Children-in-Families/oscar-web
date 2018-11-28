@@ -1328,11 +1328,11 @@ my:
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
       advanced_search: အဆင့္ျမင့္ ရွာေဖြမႈ
       all_csi_assessments: အားလုံးအကဲဖြတ်
+      all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
       case_statistics: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ ပမာဏမ်ား
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
-      all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
@@ -1706,6 +1706,7 @@ my:
   datagrid:
     columns:
       all_csi_assessments: အားလုံးအကဲဖြတ်
+      all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
@@ -1731,6 +1732,7 @@ my:
         agencies_involved: ပါ၀င္ေသာ ေအဂ်င္စီမ်ား
         agency_names: ေအဂ်င္စီနာမည္
         all_csi_assessments: အားလုံးအကဲဖြတ်
+        all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
@@ -1749,9 +1751,8 @@ my:
         created_by: တည်ထောင်ထားတဲ့
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
-        all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
-        date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+        date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -1852,9 +1853,8 @@ my:
         view: ျမင္ကြင္း
         village: ေက်းရြာ
         what3words: What3words
-      all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
-      date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
+      date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
