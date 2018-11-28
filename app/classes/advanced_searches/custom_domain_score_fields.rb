@@ -5,7 +5,7 @@ module AdvancedSearches
     def self.render
       domain_score_group  = format_header('custom_csi_domain_scores')
       csi_domain_options  = domain_options.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
-      date_of_assessments = ['Custom Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, domain_score_group) }
+      date_of_assessments = ['Date of Custom Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, domain_score_group) }
       csi_domain_options + date_of_assessments
     end
 

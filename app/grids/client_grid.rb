@@ -1,6 +1,7 @@
 class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
   include ClientsHelper
+  include ApplicationHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -739,7 +740,7 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
-  column(:custom_date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.custom_date_of_assessments') }, html: true) do |object|
+  column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments') }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.customs }
   end
 
@@ -773,13 +774,13 @@ class ClientGrid < BaseGrid
     end
 
     if enable_custom_assessment?
-      column(:custom_all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.custom_all_csi_assessments') }, html: true) do |object|
+      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
       end
 
       Domain.custom_csi_domains.order_by_identity.each do |domain|
-        identity = domain.identity
-        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+        identity = "Custom #{domain.identity}"
+        column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessment = client.assessments.customs.latest_record
           assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
         end

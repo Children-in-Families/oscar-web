@@ -74,8 +74,8 @@ class ClientColumnsVisibility
       case_note_type_: :case_note_type,
       date_of_assessments_: :date_of_assessments,
       all_csi_assessments_: :all_csi_assessments,
-      custom_date_of_assessments_: :custom_date_of_assessments,
-      custom_all_csi_assessments_: :custom_all_csi_assessments,
+      date_of_custom_assessments_: :date_of_custom_assessments,
+      all_custom_csi_assessments_: :all_custom_csi_assessments,
       manage_: :manage,
       changelog_: :changelog,
       telephone_number_: :telephone_number,
@@ -112,8 +112,13 @@ class ClientColumnsVisibility
   def domain_score_columns
     columns = columns_collection
     Domain.order_by_identity.each do |domain|
-      identity = domain.identity
-      field = domain.convert_identity
+      if domain.custom_domain
+        identity = "Custom #{domain.identity}"
+        field = "custom_#{domain.convert_identity}"
+      else
+        identity = domain.identity
+        field = domain.convert_identity
+      end
       columns = columns.merge!("#{field}_": field.to_sym)
     end
     columns

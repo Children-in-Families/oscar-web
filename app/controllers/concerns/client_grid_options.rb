@@ -192,7 +192,7 @@ module ClientGridOptions
   end
 
   def custom_date_of_assessments
-    return unless @client_columns.visible_columns[:custom_date_of_assessments_].present?
+    return unless @client_columns.visible_columns[:date_of_custom_assessments_].present?
     date_of_assessments('custom')
   end
 
@@ -203,7 +203,7 @@ module ClientGridOptions
       column = 'date_of_assessments'
     when 'custom'
       records = 'client.assessments.customs'
-      column = 'custom_date_of_assessments'
+      column = 'date_of_custom_assessments'
     end
 
     if params[:data].presence == 'recent'
@@ -223,7 +223,7 @@ module ClientGridOptions
   end
 
   def custom_all_csi_assessments
-    return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:custom_all_csi_assessments_].present?
+    return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:all_custom_csi_assessments_].present?
     domain_score_report('custom')
   end
 
@@ -234,7 +234,7 @@ module ClientGridOptions
       column = 'all_csi_assessments'
     when 'custom'
       records = 'client.assessments.customs'
-      column = 'custom_all_csi_assessments'
+      column = 'all_custom_csi_assessments'
     end
 
     if params[:data].presence == 'recent'
@@ -252,9 +252,17 @@ module ClientGridOptions
 
   def csi_domain_score_report
     Domain.order_by_identity.each do |domain|
-      identity = domain.identity
-      @client_grid.column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity) do |client|
-        assessment = client.assessments.latest_record
+      if domain.custom_domain
+        identity = "Custom #{domain.identity}"
+        column = "custom_#{domain.convert_identity}".to_sym
+        records = 'client.assessments.customs'
+      else
+        identity = domain.identity
+        column = domain.convert_identity.to_sym
+        records = 'client.assessments.defaults'
+      end
+      @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
+        assessment = eval(records).latest_record
         assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
       end
     end

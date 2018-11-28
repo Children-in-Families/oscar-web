@@ -331,7 +331,7 @@ km:
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
       custom_form: ទម្រង់បែបបទ
-      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSIផ្ទាល់ខ្លួន
+      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       description_house_landmark: Description of the house and a landmark
@@ -1326,7 +1326,7 @@ km:
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
       client_amount: ចំនួនអតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      custom_all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSIផ្ទាល់ខ្លួន
+      all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
@@ -1743,8 +1743,8 @@ km:
         created_by: បង្កើត​ឡើង​ដោយ
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
-        custom_all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSIផ្ទាល់ខ្លួន
-        custom_date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+        all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+        date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         description_house_landmark: Description of the house and a landmark
@@ -1846,8 +1846,8 @@ km:
         view: មើល
         village: ភូមិ
         what3words: What3words
-      custom_all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSIផ្ទាល់ខ្លួន
-      custom_date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
@@ -2002,8 +2002,8 @@ km:
         'no': ទេ
         'yes': បាទ/ចាស
     form:
-      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSIផ្ទាល់ខ្លួន
-      default_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       filter_domains: កត្តា
       has_overdue_assessment: ការប៉ាន់ប្រមាណហួសកំណត់
       has_overdue_forms: ទម្រង់បែបបទហួសកំណត់
