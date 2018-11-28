@@ -39,7 +39,12 @@ module WmoImporter
         end
       end
       users.each do |user|
-        User.create_with(user).find_or_create_by(email: user['email'])
+        u = User.find_by(email: user['email'])
+        if u.present?
+          u.update_attributes(user.except('password'))
+        else
+          User.create!(user)
+        end
       end
       puts 'Create users one!!!!!!'
 
@@ -67,12 +72,13 @@ module WmoImporter
     def families
       families = []
       sheet    = workbook.sheet(@sheet_name)
-      headers  = ['name', 'code']
+      headers  = ['name', 'code', 'family_type']
 
       (2..sheet.last_row).each_with_index do |row_index, index|
         data    = sheet.row(row_index)
         data [0]  = data[0].squish
         data [1]  = data[1].squish
+        data [2]  = ''
         begin
           families << [headers, data.reject(&:nil?)].transpose.to_h
         rescue IndexError => e
