@@ -47,20 +47,21 @@ module AdvancedSearches
       when 'not_contains'
         properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
+        enrollment_trackings = ClientEnrollmentTracking.includes(:client_enrollment)
         if @type == 'checkbox'
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? ''")
-          client_ids        = properties_result.pluck(:client_id)
+          properties_result = enrollment_trackings.where("#{properties_field} -> '#{@field}' ? ''")
+          client_ids        = properties_result.pluck('client_enrollments.client_id').uniq
         else
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
-          client_ids        = properties_result.pluck(:client_id)
+          properties_result = enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
+          client_ids        = properties_result.pluck('client_enrollments.client_id').uniq
+          client_ids        = Client.includes(:program_streams).where("clients.id IN (?) OR program_streams.client_id IS NULL", client_ids).references(:program_streams).distinct.ids
         end
-        client_ids          = Client.where.not(id: client_ids).ids
         return {id: sql_string, values: client_ids}
       when 'is_not_empty'
         if @type == 'checkbox'
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? ''")
+          properties_result = client_enrollment_trackings.where.not("#{properties_field} ->> '#{@field}' = ?", '')
         else
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
+          properties_result = client_enrollment_trackings.where.not("#{properties_field} ->> '#{@field}' = ? OR (#{properties_field} -> '#{@field}') IS NULL", '')
         end
       when 'between'
         properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND #{properties_field} ->> '#{@field}' != ''")

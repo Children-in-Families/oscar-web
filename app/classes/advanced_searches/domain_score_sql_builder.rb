@@ -28,8 +28,9 @@ module AdvancedSearches
       when 'between'
         assessments = assessments.where(assessment_domains: { domain_id: @domain_id, score: @value.first..@value.last })
       when 'is_empty'
-        assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
-        client_ids  = Client.where.not(id: assessments.distinct.pluck(:client_id)).ids
+        assessments = Assessment.includes([:assessment_domains, :client]).where("assessments.created_at = (#{sub_query})")
+        assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NULL', @domain_id)
+        client_ids  = Client.where(id: assessments.distinct.pluck(:client_id)).ids
       when 'is_not_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
       end

@@ -45,15 +45,16 @@ module AdvancedSearches
       when 'not_contains'
         properties_result = leave_programs.where("leave_programs.properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
       when 'is_empty'
+        leave_programs = LeaveProgram.includes(:client_enrollment).where(program_stream_id: @program_stream_id)
         if @type == 'checkbox'
-          properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? ''")
+          properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? ''")
           client_ids        = properties_result.pluck('client_enrollments.client_id').uniq
         else
-          properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' OR (leave_programs.properties -> '#{@field}') IS NULL")
+          properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '' OR (leave_programs.properties -> '#{@field}') IS NULL")
           client_ids        = properties_result.pluck('client_enrollments.client_id').uniq
         end
 
-        client_ids = Client.where.not(id: client_ids).ids
+        client_ids = Client.where(id: client_ids).ids
         return {id: sql_string, values: client_ids}
       when 'is_not_empty'
         if @type == 'checkbox'

@@ -47,20 +47,18 @@ module AdvancedSearches
         properties_result = client_enrollments.where("properties ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
         if @type == 'checkbox'
-          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? ''")
-          client_ids        = properties_result.pluck(:client_id)
+          client_ids = Client.includes(:client_enrollments).merge(ClientEnrollment.where("properties ->> '#{@field}' = ?", '')).references(:client_enrollments).ids
         else
-          properties_result = client_enrollments.where("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
-          client_ids        = properties_result.pluck(:client_id)
+          client_ids = Client.includes(:client_enrollments).merge(ClientEnrollment.where("properties ->> '#{@field}' = ? OR properties -> '#{@field}' IS NULL", '')).references(:client_enrollments).ids
         end
-        client_ids          = Client.where(id: client_ids).ids
         return { id: sql_string, values: client_ids }
       when 'is_not_empty'
         if @type == 'checkbox'
-          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? ''")
+          client_ids = Client.joins(:client_enrollments).merge(client_enrollments.where.not("properties ->> '#{@field}' = ?", '')).ids
         else
-          properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
+          client_ids = Client.joins(:client_enrollments).merge(client_enrollments.where.not("properties ->> '#{@field}' = ? OR properties ->> '#{@field}' IS NULL", '')).ids
         end
+        return { id: sql_string, values: client_ids }
       when 'between'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
