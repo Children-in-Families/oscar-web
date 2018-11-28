@@ -12,6 +12,10 @@ class ClientSerializer < ActiveModel::Serializer
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
               :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
 
+  def profile
+    object.profile.present? ? { uri: object.profile.url } : {}
+  end
+
   def time_in_care
     years = object.time_in_care[:years]
     year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
