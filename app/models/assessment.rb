@@ -101,7 +101,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def check_previous_assessment_status
-    errors.add(:base, 'Please complete the previous assessment before creating another assessment.') if Assessment.latest_record.present? && Assessment.latest_record.completed == false
+    errors.add(:base, 'Please complete the previous assessment before creating another assessment.') if Client.find(self.client_id).assessments.present? && Client.find(self.client_id).assessments.latest_record.completed == false
   end
 
 end
