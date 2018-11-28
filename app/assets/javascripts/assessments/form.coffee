@@ -43,6 +43,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     domainId   = undefined
 
     $('.score_option .btn-option').attr('required','required')
+    # score with def
     $('.col-xs-12').on 'click', '.score_option .btn-option', ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       currentTab  = "#rootwizard-p-#{currentIndex}"
@@ -67,13 +68,21 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show() unless scoreColor == 'success'
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
-        $(select).prop('readonly', false).addClass('valid').addClass('error required')
+
+        $(select).prop('readonly', false)
+        if $(select).val() != ''
+          $(select).addClass('valid').removeClass('error required')
+        else
+          $(select).addClass('error required')
       else
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
         goalRequiredValue = $("input[name=#{radioName}:checked").val()
         if goalRequiredValue == 'false'
+          $(select).val('')
           $(select).prop('readonly', true).addClass('valid').removeClass('error required').siblings().remove()
+        else
+          $(select).addClass('valid') if $(select).val() != ''
 
     $('.score_option input').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option label', ->
@@ -99,16 +108,20 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show() unless scoreColor == 'success'
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
-        $(select).prop('readonly', false).addClass('valid').addClass('error required')
-      else
+        $(select).prop('readonly', false)
+        if $(select).val() != ''
+          $(select).addClass('valid').removeClass('error required')
+        else
+          $(select).addClass('error required')
+      else if scoreColor == 'primary'
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
         goalRequiredValue = $("input[name=#{radioName}:checked").val()
         if goalRequiredValue == 'false'
+          $(select).val('')
           $(select).prop('readonly', true).addClass('valid').removeClass('error required').siblings().remove()
-
-      if scoreColor == 'primary'
-        $('.goal-required-option').removeClass('hidden')
+        else
+          $(select).addClass('valid') if $(select).val() != ''
 
     form.validate errorElement: 'em'
     errorPlacement: (error, element) ->
@@ -143,31 +156,30 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.valid()
         _taskRequiredAtEnd(currentIndex)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
-          if $('a#btn-save').length == 0 && currentIndex > newIndex
-            _appendSaveButton()
-            _translatePagination()
           return true
         else
+          _formEdit(currentIndex)
           _filedsValidator(currentIndex, newIndex)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
-        _formEdit(currentIndex)
+        currentStep = $("#rootwizard-p-" + currentIndex)
+
+        unless currentStep.hasClass('domain-last')
+          _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
-        currentStep = $("#rootwizard-p-" + currentIndex)
-        if currentStep.hasClass('domain-last')
+
+        if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
           $("#rootwizard a[href='#save']").remove()
-        else
-          if $('a#btn-save').length == 0
-            _appendSaveButton()
-            _translatePagination()
+          _toggleEndOfAssessmentMsg()
 
       onFinishing: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled'
         form.valid()
         _taskRequiredAtEnd(currentIndex)
         currentStep = $("#rootwizard-p-" + currentIndex)
+
         if newIndex == undefined && currentStep.hasClass('domain-last')
           isTaskRequred = true
           $.each $("#rootwizard-p-#{currentIndex} [id^='domain-task-section']"), (index, item) ->
@@ -202,10 +214,20 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _formEdit = (currentIndex) ->
     currentTab  = "#rootwizard-p-#{currentIndex}"
-    scoreOption = $("#{currentTab} .score_option")
-    chosenScore = scoreOption.find('label input:checked').val()
+
+    if $("#{currentTab} .score_option.with-def").length > 0
+      scoreOption = $("#{currentTab} .score_option.with-def")
+      chosenScore = scoreOption.find('input.selected-score').val()
+
+    else if $("#{currentTab} .score_option.without-def").length > 0
+      scoreOption = $("#{currentTab} .score_option.without-def")
+      chosenScore = scoreOption.find('label input:checked').val()
+
     scoreColor  = scoreOption.data("score-#{chosenScore}")
+
+    # score without def
     scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
+
     btnScore = scoreOption.find('input:hidden').val()
     $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
     domainName = $(@).data('goal-option')
@@ -213,10 +235,21 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     radioName = '\'' + name
     goalRequiredValue = $("input[name=#{radioName}:checked").val()
     select = $(currentTab).find('textarea.goal')
-    if goalRequiredValue == 'false'
-      $(select).prop('readonly', true)
-    else if goalRequiredValue == 'true'
-      $(select).prop('readonly', false)
+
+    if scoreColor == 'primary'
+      if goalRequiredValue == 'false'
+        $(select).val('')
+        $(select).prop('readonly', true)
+        $(select).addClass('valid')
+      else if goalRequiredValue == 'true'
+        $(select).prop('readonly', false)
+        $(select).removeClass('valid')
+        $(select).addClass('valid') if $(select).val() != ''
+    else
+      if $(select).val() != ''
+        $(select).addClass('valid')
+      else
+        $(select).removeClass('valid').addClass('required')
 
   _filedsValidator = (currentIndex, newIndex ) ->
     currentTab   = "#rootwizard-p-#{currentIndex}"
@@ -418,10 +451,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       domainName = $(@).data('goal-option')
       if $(@).val() == 'false'
         $("textarea#goal-text-area-#{domainName}").addClass('valid').removeClass('error required').siblings().remove()
+        $("textarea#goal-text-area-#{domainName}").val('');
         $("textarea#goal-text-area-#{domainName}").prop('readonly', true);
       else
-        $("textarea#goal-text-area-#{domainName}").addClass('valid').addClass('error required')
-        $("textarea#goal-text-area-#{domainName}").prop('readonly', false);
+        $("textarea#goal-text-area-#{domainName}").prop('readonly', false)
+        if $("textarea#goal-text-area-#{domainName}").val() != ''
+          $("textarea#goal-text-area-#{domainName}").addClass('valid').removeClass('error required')
+        else
+          $("textarea#goal-text-area-#{domainName}").addClass('error required')
 
   _taskRequiredAtEnd = (currentIndex) ->
     currentTab = "#rootwizard-p-#{currentIndex}"
@@ -451,17 +488,18 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           textRequiredClone = currentTableObj.find('.task_required').clone()
 
           taskArisingClone.find('.task-required-option').remove()
-          $(".domain-last .ibox-content").append(
-            "<div class='row #{$(@).attr('id').replace('true', 'false')}'>
-              <div class='row'><div class='col-sm-12'><div class='ibox-title'><h5>Domain: #{domainName}</h5></div></div></div>
-              <div class='col-sm-12 col-md-6 domain-goal-section#{currentIndex}'></div>
-              <div class='col-sm-12 col-md-6' id='domain-task-section#{domainId}'></div>
-            </div>")
-          $(".domain-goal-section#{currentIndex}").append(goalLabelClone)
-          $(".domain-goal-section#{currentIndex}").append(goalSectionClone.removeClass('error required'))
-          $("#domain-task-section#{domainId}").append(textRequiredClone)
-          $("#domain-task-section#{domainId}").append(taskArisingClone)
-          $("#domain-task-section#{domainId}").append(taskClone)
+          unless $("#required-task-wrapper-domain-#{domainId}").length
+            $(".domain-last .ibox-content").append(
+              "<div class='row #{$(@).attr('id').replace('true', 'false')} required-task-wrapper' id='required-task-wrapper-domain-#{domainId}'>
+                <div class='row'><div class='col-sm-12'><div class='ibox-title'><h5>Domain: #{domainName}</h5></div></div></div>
+                <div class='col-sm-12 col-md-6 domain-goal-section#{currentIndex}'></div>
+                <div class='col-sm-12 col-md-6' id='domain-task-section#{domainId}'></div>
+              </div>")
+            $(".domain-goal-section#{currentIndex}").append(goalLabelClone)
+            $(".domain-goal-section#{currentIndex}").append(goalSectionClone.removeClass('error required'))
+            $("#domain-task-section#{domainId}").append(textRequiredClone)
+            $("#domain-task-section#{domainId}").append(taskArisingClone)
+            $("#domain-task-section#{domainId}").append(taskClone)
         else
           $(".row.#{$(@).attr('id')}").remove()
           isChecked    = false
@@ -474,6 +512,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
               _translatePagination()
             $('a#btn-save').show()
 
-
+  _toggleEndOfAssessmentMsg = ->
+    if $('.required-task-wrapper:visible').length
+      $('#end-of-assessment-msg').addClass('hidden')
+    else
+      $('#end-of-assessment-msg').removeClass('hidden')
 
   { init: _init }

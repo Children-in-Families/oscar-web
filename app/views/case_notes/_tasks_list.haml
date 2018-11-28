@@ -1,7 +1,7 @@
 .panel-body{ id: "tasks-domain-#{domain.id}" }
   .row
     .col-xs-12
-      = cd.association :tasks, collection: tasks.map{ |t| [t.name, t.id, {data: { completed: t.completed }}] }, as: :check_boxes, label: t('.on_going_tasks'), input_html: { class: 'i-checks task' }
+      = domain_note.association :tasks, collection: tasks.map{ |t| [t.name, t.id, {data: { completed: t.completed }}] }, as: :check_boxes, label: t('.on_going_tasks'), input_html: { class: 'i-checks task' }
       %div{ class: 'task-arising hidden' }
         %label.control-label
           = t('.tasks_arising')
