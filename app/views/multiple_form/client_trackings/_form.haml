@@ -20,14 +20,14 @@
         .row
           .col-xs-12.col-sm-6
             %div#client{ class: "form-group" }
-              %label.control-label{ class: 'required' }
+              %label.control-label
                 %abbr{ title: 'required' }= '*'
-                = t('.type')
-              = f.input :clients, collection: @clients.map { |c| [c.name, c.slug] }, label: false, required: true, input_html: { multiple: true, class: 'clients' }, selected: @selectd_clients
+                = t('.clients')
+              = f.input :clients, collection: @clients.map { |c| [c.name, c.slug] }, label: false, required: false, input_html: { multiple: true, class: 'clients' }, selected: @selectd_clients
               %span.help-block.hidden
                 = t('cannot_be_blank')
 
       .ibox-footer
-        %button.btn.btn-primary.form-btn{"data-target" => "#complete-form", "data-toggle" => "modal", :type => "button"}
-          Save
+        %button.btn.btn-primary.form-btn.complete-form
+          = t('save')
         = link_to t('cancel'), root_path, class: 'btn btn-default form-btn'

@@ -1,5 +1,4 @@
 %div
-  -# = f.input :name, as: :hidden, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][name]", value: property['label'] }
   %label.control-label
     %abbr{ title: 'repuired' }
       = '*' if property['required'].present?

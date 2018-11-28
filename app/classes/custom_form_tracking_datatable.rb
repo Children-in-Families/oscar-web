@@ -41,7 +41,7 @@ class CustomFormTrackingDatatable < ApplicationDatatable
     organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
     custom_fields = organizations.map do |org|
       Organization.switch_to org.short_name
-      CustomField.order(:entity_type, :form_title).reload
+      CustomField.client_forms.order(:entity_type, :form_title).reload
     end
     Organization.switch_to(current_org_name)
     custom_fields = custom_fields.flatten

@@ -18,7 +18,7 @@ class CustomFieldDatatable < ApplicationDatatable
   end
 
   def fetch_custom_fields
-    CustomField.order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page)
+    CustomField.client_forms.order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page)
   end
 
   def columns

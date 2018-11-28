@@ -1607,9 +1607,9 @@ km:
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
     custom_fields_tab:
+      name: ឈ្មោះ
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
-      name: ឈ្មោះ
       link: តំណ
     multiple_forms:
       custom_forms: ទម្រង់បែបបទ
@@ -1634,10 +1634,10 @@ km:
     program_stream:
       program_stream: កម្មវិធីចម្បង
     program_streams_tab:
+      link: តំណ
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
       program_stream_name: ឈ្មោះកម្មវិធី
-      link: តំណ
       tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
@@ -3392,14 +3392,22 @@ km:
   multiple_form:
     client_custom_fields:
       create:
-        successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកដោយជោគជ័យ
+        successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកនៅក្នុងអតិថិជនដោយជោគជ័យ
+      form:
+        clients: អតិថិជន
     client_trackings:
       create:
-        successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+        successfully_created: ការតាមដានត្រូវបានរក្សាទុកនៅក្នុងអតិថិជនដោយជោគជ័យ
+      form:
+        clients: អតិថិជន
     complete_form:
       no: ទេ
       want_to_complete_again: តើអ្នកចង់បំពេញបែបបទនេះម្តងទៀតសម្រាប់អតិថិជនច្រើនទៀតទេ?
       yes: បាទ/ចាស
+    fields:
+      file_field:
+        allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+        max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   notifications:

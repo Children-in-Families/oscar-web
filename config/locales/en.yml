@@ -1606,10 +1606,10 @@ en:
       active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
     custom_fields_tab:
+      link: Link
+      name: Name
       next: Next
       previous: Previous
-      name: Name
-      link: Link
     multiple_forms:
       custom_forms: Custom Forms
       multiple_forms: Multiple Forms
@@ -1633,10 +1633,10 @@ en:
     program_stream:
       program_stream: Program Streams
     program_streams_tab:
+      link: Link
       next: Next
       previous: Previous
       program_stream_name: Program Stream Name
-      link: Link
       tracking_name: Tracking Name
     third_party:
       ables: Ables
@@ -3390,14 +3390,22 @@ en:
   multiple_form:
     client_custom_fields:
       create:
-        successfully_created: Custom Field Properties has been successfully created.
+        successfully_created: Form have been added to client(s) successfully
+      form:
+        clients: Clients
     client_trackings:
       create:
-        successfully_created: Tracking Program has been successfully deleted.
+        successfully_created: Form have been added to client(s) successfully
+      form:
+        clients: Clients
     complete_form:
       no: No
       want_to_complete_again: Do you want to complete this form again for more clients?
       yes: Yes
+    fields:
+      file_field:
+        allow_file_size: Allowed file types
+        max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
 
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.

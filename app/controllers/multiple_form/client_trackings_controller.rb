@@ -4,7 +4,7 @@ class MultipleForm::ClientTrackingsController < AdminController
   def new
     @tracking = Tracking.find(params[:tracking_id])
     @program_stream = @tracking.program_stream
-    client_ids = ClientEnrollment.where(program_stream_id: @program_stream.id, status: 'Active').pluck(:client_id)
+    client_ids = @program_stream.client_enrollments.active.pluck(:client_id)
     @clients = Client.accessible_by(current_ability).where(id: client_ids)
     @client_enrollment_tracking = ClientEnrollmentTracking.new
   end
@@ -14,7 +14,7 @@ class MultipleForm::ClientTrackingsController < AdminController
     @program_stream = @tracking.program_stream
     clients = Client.where(slug: params['client_enrollment_tracking']['clients'])
     clients.each do |client|
-      client_enrollment = client.client_enrollments.find_by(program_stream_id: @program_stream.id, status: 'Active')
+      client_enrollment = client.client_enrollments.active.find_by(program_stream_id: @program_stream.id)
       @client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(client_enrollment_tracking_params)
       if @client_enrollment_tracking.valid?
         @client_enrollment_tracking.save
@@ -27,7 +27,7 @@ class MultipleForm::ClientTrackingsController < AdminController
       @selectd_clients = clients.pluck(:slug)
       render :new
     else
-      if params[:client_enrollment_tracking][:confirm]
+      if params[:confirm]
         redirect_to new_multiple_form_tracking_client_tracking_path(@tracking), notice: t('.successfully_created')
       else
         redirect_to root_path, notice: t('.successfully_created')

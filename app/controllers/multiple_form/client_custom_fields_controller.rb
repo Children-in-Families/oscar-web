@@ -24,7 +24,7 @@ class MultipleForm::ClientCustomFieldsController < AdminController
       @selectd_clients = clients.pluck(:slug)
       render :new
     else
-      if params[:custom_field_property][:confirm]
+      if params[:confirm]
         redirect_to new_multiple_form_custom_field_client_custom_field_path(@custom_field), notice: t('.successfully_created')
       else
         redirect_to root_path, notice: t('.successfully_created')
