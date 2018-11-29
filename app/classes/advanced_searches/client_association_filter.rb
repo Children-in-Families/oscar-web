@@ -32,7 +32,7 @@ module AdvancedSearches
         values = advanced_case_note_query
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
-      when 'custom_date_of_assessments'
+      when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
         values = enter_ngo_accepted_date_query

@@ -2,6 +2,7 @@ module AdvancedSearches
   class  ClientFields
     include AdvancedSearchHelper
     include ClientsHelper
+    include ApplicationHelper
 
     def initialize(options = {})
       @user = options[:user]

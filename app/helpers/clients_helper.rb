@@ -101,7 +101,7 @@ module ClientsHelper
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
       date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
-      custom_date_of_assessments:    t('datagrid.columns.clients.custom_date_of_assessments'),
+      date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
       # id_poor:                       t('datagrid.columns.clients.id_poor'),
@@ -285,14 +285,6 @@ module ClientsHelper
     Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
   end
 
-  def enable_default_assessment?
-    Setting.first.enable_default_assessment
-  end
-
-  def enable_custom_assessment?
-    Setting.first.enable_custom_assessment
-  end
-
   def default_columns_visibility(column)
     label_column = {
       live_with_: t('datagrid.columns.clients.live_with'),
@@ -352,8 +344,8 @@ module ClientsHelper
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
       date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
       all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
-      custom_date_of_assessments_: t('datagrid.columns.clients.custom_date_of_assessments'),
-      custom_all_csi_assessments_: t('datagrid.columns.clients.custom_all_csi_assessments'),
+      date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments'),
+      all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments'),
       manage_: t('datagrid.columns.clients.manage'),
       changelog_: t('datagrid.columns.changelog'),
       telephone_number_: t('datagrid.columns.clients.telephone_number'),
@@ -619,7 +611,7 @@ module ClientsHelper
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
-    elsif rule == 'date_of_assessments' || rule == 'custom_date_of_assessments'
+    elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments'])
       field_name = 'created_at'
     elsif rule[/^(programexitdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')
@@ -660,7 +652,7 @@ module ClientsHelper
 
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i]
       association = "#{class_name}_count"
-      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', custom_date_of_assessments: 'assessments' }
+      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments' }
 
       if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
         klass     = 'leave_programs'
@@ -693,7 +685,7 @@ module ClientsHelper
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i]
             count += client.send(klass.to_sym).defaults.count
-          elsif class_name[/^(custom_date_of_assessments)/i]
+          elsif class_name[/^(date_of_custom_assessments)/i]
             count += client.send(klass.to_sym).customs.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
