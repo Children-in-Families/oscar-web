@@ -2,6 +2,7 @@ module AdvancedSearches
   class  RuleFields
     include AdvancedSearchHelper
     include ClientsHelper
+    include ApplicationHelper
 
     def initialize(options = {})
       @user = options[:user]
@@ -19,7 +20,7 @@ module AdvancedSearches
 
       search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
 
-      search_fields.sort_by { |f| f[:label].downcase } + domain_scores_options + custom_domain_scores_options + school_grade_options
+      search_fields.sort_by { |f| f[:label].downcase } + default_domain_scores_options + custom_domain_scores_options + school_grade_options
     end
 
     private
