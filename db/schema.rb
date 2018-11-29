@@ -1166,7 +1166,6 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.string   "country_name",            default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.boolean  "disable_assessment"
     t.string   "client_default_columns",  default: [], array: true
     t.string   "family_default_columns",  default: [], array: true
     t.string   "partner_default_columns", default: [], array: true
@@ -1179,6 +1178,7 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.integer  "district_id"
     t.integer  "age",                     default: 18
     t.integer  "commune_id"
+    t.boolean  "disable_assessment"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
