@@ -50,14 +50,12 @@ module WmoImporter
 
       managed_by.each do |data|
         user_email = data.split('-').first
-        manager_emails = data.split('-').last.split(',')
-        manager_emails.each do |email|
-          user = User.find_by(email: user_email.squish)
-          manager = User.find_by(email: email.squish).try(:id)
-          next if manager.nil?
-          user.manager_ids << manager
-          user.save(validate: false)
-        end
+        manager_email = data.split('-').last
+        user = User.find_by(email: user_email.squish)
+        manager = User.find_by(email: manager_email.squish).try(:id)
+        next if manager.nil?
+        user.manager_id = manager
+        user.save(validate: false)
       end
       puts 'Added manager ids!!'
 
