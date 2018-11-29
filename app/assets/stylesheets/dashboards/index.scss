@@ -1,6 +1,12 @@
 body[id='dashboards-index'] {
   #width-modal {
-    width: 45%;
+    li.active {
+      margin-bottom: -1px;
+    }
+    li.active > a {
+      border-bottom: 2px solid #fff;
+    }
+
     th.name,  td.name {
       width: 60% !important;
     }

@@ -1613,7 +1613,7 @@ en:
     multiple_forms:
       custom_forms: Custom Forms
       multiple_forms: Multiple Forms
-      program_streams: Progarm Streams
+      tracking_forms: Tracking Forms
     duetoday:
       assessment: Assessment
       assessments: Assessments
@@ -1636,8 +1636,8 @@ en:
       link: Link
       next: Next
       previous: Previous
-      program_stream_name: Program Stream Name
-      tracking_name: Tracking Name
+      program_stream_name: Program Stream
+      tracking_name: Tracking
     third_party:
       ables: Ables
       agencies: Agencies

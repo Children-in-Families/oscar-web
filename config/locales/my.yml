@@ -1620,7 +1620,7 @@ my:
     multiple_forms:
       custom_forms: ပုံစံများ
       multiple_forms: ပုံစံအမျိုးမျိုး
-      program_streams: အစီအစဥ္ စီဆင္းမႈမ်ား
+      tracking_forms: ခြေရာခံခြင်းပုံစံ
     duetoday:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်

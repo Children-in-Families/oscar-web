@@ -1614,7 +1614,7 @@ km:
     multiple_forms:
       custom_forms: ទម្រង់បែបបទ
       multiple_forms: ទម្រង់ច្រើន
-      program_streams: កម្មវិធីចម្បង
+      tracking_forms: ទម្រង់បែបបទតាមដាន
     duetoday:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -1637,8 +1637,8 @@ km:
       link: តំណ
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
-      program_stream_name: ឈ្មោះកម្មវិធី
-      tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
+      program_stream_name: កម្មវិធី
+      tracking_name: ទម្រង់បែបបទតាមដាន
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
       agencies: អង្គភាព
