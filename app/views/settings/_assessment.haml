@@ -33,7 +33,7 @@
           = f.input :assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
       .col-xs-12.col-sm-3
         .form-group
-          = f.input :age, placeholder: t('.age'), label: false
+          = f.input :age, placeholder: t('.age'), label: false, readonly: true
 
 #assessment-setting.panel.panel-default
   .panel-heading
