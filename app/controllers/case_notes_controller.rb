@@ -18,7 +18,7 @@ class CaseNotesController < AdminController
 
   def new
     if params[:custom] == 'true'
-      @case_note = @client.case_notes.new
+      @case_note = @client.case_notes.new(custom: true)
       @case_note.assessment = @client.assessments.custom_latest_record
       @case_note.populate_notes
     else

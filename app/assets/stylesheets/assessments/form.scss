@@ -90,7 +90,7 @@ body[id='assessments-update'] {
     display: inline;
     border-radius: 3px;
   }
-  .wrap-text-style { 
+  .wrap-text-style {
     white-space: normal;
     text-align: center;
   }
@@ -149,6 +149,11 @@ body[id='assessments-update'] {
   }
   .padding-bottom {
     padding-bottom: 140px;
+  }
+
+  #end-of-assessment-msg {
+    border-radius: 4px;
+    padding: 15px;
   }
 
   @media only screen and (max-device-width : 767px){

@@ -41,6 +41,6 @@ class CaseNote < ActiveRecord::Base
   private
 
   def set_assessment
-    self.assessment = client.assessments.latest_record
+    self.assessment = custom? ? client.assessments.custom_latest_record : client.assessments.default_latest_record
   end
 end
