@@ -15,7 +15,13 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _removeHiddenTaskArising()
     _saveAssessment(form)
     _radioGoalAndTaskRequiredOption()
+    _liveGoal()
 
+  _liveGoal = ->
+    $('textarea.goal').change ->
+      goal = $(this).val()
+      name = $(this).attr('name')
+      $("textarea.goal[name='#{name}']").val(goal)
 
   _handleAppendAddTaskBtn = ->
     scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning, div.btn-option.btn-warning, div.btn-option.btn-danger')
@@ -173,6 +179,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
           $("#rootwizard a[href='#save']").remove()
           _toggleEndOfAssessmentMsg()
+          _liveGoal()
+
 
       onFinishing: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled'
@@ -200,7 +208,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         finish: 'Done'
 
   _appendSaveButton = ->
-    $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
+    unless $('#rootwizard').find('a[href="#finish"]').length
+      $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
   _saveAssessment = (form) ->
     $(document).on 'click', "#rootwizard a[href='#save']", ->
