@@ -68,12 +68,12 @@ module AdvancedSearches
 
         elsif form_builder.first == 'tracking'
           tracking = Tracking.joins(:program_stream).where(program_streams: {name: form_builder.second}, trackings: {name: form_builder.third}).last
-          tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
+          tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule, form_builder.second).get_sql
           @sql_string << tracking_fields[:id]
           @values << tracking_fields[:values]
         elsif form_builder.first == 'exitprogram'
           program_stream = ProgramStream.find_by(name: form_builder.second)
-          exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
+          exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule, form_builder.second).get_sql
           @sql_string << exit_program_fields[:id]
           @values << exit_program_fields[:values]
 
@@ -83,7 +83,7 @@ module AdvancedSearches
           @sql_string << exit_date[:id]
           @values << exit_date[:values]
 
-        elsif form_builder.first == 'quantitative'
+        elsif form_builder.first == 'quantitative' #custom referral data
           quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
           @sql_string << quantitative_filter[:id]
           @values << quantitative_filter[:values]
@@ -97,7 +97,7 @@ module AdvancedSearches
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
         else
-          nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
+          nested_query =  self.new(@clients, rule).generate
           @sql_string << nested_query[:sql_string]
           nested_query[:values].select{ |v| @values << v }
         end

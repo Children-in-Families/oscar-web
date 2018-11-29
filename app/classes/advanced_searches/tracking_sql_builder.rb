@@ -1,7 +1,7 @@
 module AdvancedSearches
   class TrackingSqlBuilder
 
-    def initialize(tracking_id, rule)
+    def initialize(tracking_id, rule, program_stream_name)
       @tracking_id   = tracking_id
       field          = rule['field']
       @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
@@ -9,6 +9,7 @@ module AdvancedSearches
       @value         = format_value(rule['value'])
       @type          = rule['type']
       @input_type    = rule['input']
+      @program_stream_name = program_stream_name
     end
 
     def get_sql
@@ -47,16 +48,12 @@ module AdvancedSearches
       when 'not_contains'
         properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
       when 'is_empty'
-        enrollment_trackings = ClientEnrollmentTracking.includes(:client_enrollment)
-        if @type == 'checkbox'
-          properties_result = enrollment_trackings.where("#{properties_field} -> '#{@field}' ? ''")
-          client_ids        = properties_result.pluck('client_enrollments.client_id').uniq
-        else
-          properties_result = enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
-          client_ids        = properties_result.pluck('client_enrollments.client_id').uniq
-          client_ids        = Client.includes(:program_streams).where("clients.id IN (?) OR program_streams.client_id IS NULL", client_ids).references(:program_streams).distinct.ids
-        end
-        return {id: sql_string, values: client_ids}
+        clients = Client.includes(:client_enrollments).all.reject do |client|
+                  tracking_results = client.client_enrollments.joins(:program_stream, :client_enrollment_trackings).where(program_streams: {name: @program_stream_name}).pluck('client_enrollment_trackings.properties')
+                  tracking_results = tracking_results.reject{|result| !result.has_key?(@field) }
+                  tracking_results.blank? ? false : tracking_results.all?{|property| property[@field].present? }
+                end
+        return {id: sql_string, values: clients.map(&:id)}
       when 'is_not_empty'
         if @type == 'checkbox'
           properties_result = client_enrollment_trackings.where.not("#{properties_field} ->> '#{@field}' = ?", '')
