@@ -6,7 +6,7 @@ class DataTrackerVersion
 
   def self.case_note(case_note_id, event)
     ids = CaseNoteDomainGroup.where(case_note_id: case_note_id).pluck(:id)
-    PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND item_type = ? AND event = ?', ids, 'AssessmentDomain', event)
+    PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND item_type = ? AND event = ?', ids, 'CaseNote', event)
   end
 
   def self.agency_and_quantitative_case(client_id, event)
