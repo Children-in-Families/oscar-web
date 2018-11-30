@@ -71,7 +71,7 @@ module AdvancedSearches
           tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
           @sql_string << tracking_fields[:id]
           @values << tracking_fields[:values]
-  delegate :id, to: :client, prefix: true, allow_nil: true
+
         elsif form_builder.first == 'exitprogram'
           program_stream = ProgramStream.find_by(name: form_builder.second)
           exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
