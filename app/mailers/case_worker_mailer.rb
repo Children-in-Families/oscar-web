@@ -27,7 +27,7 @@ class CaseWorkerMailer < ApplicationMailer
       @name = Setting.first.custom_assessment
     end
     dev_email = ENV['DEV_EMAIL']
-    mail(to: recievers, subject: "Upcoming CSI #{@name} Assessment", bcc: dev_email)
+    mail(to: recievers, subject: "Upcoming #{@name}", bcc: dev_email)
   end
 
   def forms_notifity(user, short_name)
