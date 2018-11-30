@@ -6,6 +6,22 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _hideCompletedTasks()
     _handlePreventBlankInput()
     _initSelect2()
+    _onHeadingCollapse()
+
+  _onHeadingCollapse = ->
+    chevronDown = '<div class="btn btn-lg"><i class="fa fa-chevron-down"></i></div>'
+    chevronUp = '<div class="btn btn-lg"><i class="fa fa-chevron-up"></i></div>'
+    expandedPanel = $('.assessment-domain-panel .panel-collapse.collapse.in')
+    unexpandedPanel = $('.assessment-domain-panel .panel-collapse.collapse').not('.in')
+
+    $(expandedPanel).parents('.assessment-domain-panel').find('.chevron-icon').append(chevronUp)
+    $(unexpandedPanel).parents('.assessment-domain-panel').find('.chevron-icon').append(chevronDown)
+
+    $('.panel-collapse.collapse').on 'shown.bs.collapse', ->
+      $(this).parents('.assessment-domain-panel').find('.chevron-icon').empty().append(chevronUp)
+
+    $('.panel-collapse.collapse').on 'hidden.bs.collapse', ->
+      $(this).parents('.assessment-domain-panel').find('.chevron-icon').empty().append(chevronDown)
 
   _initSelect2 = ->
     $('#case_note_interaction_type').select2()

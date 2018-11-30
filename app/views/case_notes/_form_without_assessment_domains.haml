@@ -1,9 +1,13 @@
 .panel.panel-default.assessment-domain-panel
-  .panel-heading{:role => "tab"}
-    %h5.panel-title
-      %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}", role: "button" }
-        %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
-        = "(#{cd.object.domain_group.domain_identities})"
+  .main-heading.panel-heading
+    .row.height-row
+      .col-xs-10.col-md-11{ "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}" }
+        %h5.panel-title.full-height
+          %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion" }
+            %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
+            = "(#{cd.object.domain_group.domain_identities})"
+      .col-xs-2.col-md-1
+        .chevron-icon.text-center
 
   .panel-collapse.collapse{ id: "collapse#{cd.object.domain_group.name}", class: cd.object.domain_group.first_ordered? ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel"}
     .panel-body
