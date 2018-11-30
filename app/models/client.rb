@@ -134,10 +134,10 @@ class Client < ActiveRecord::Base
     similar_fields = []
 
     shared_clients.each do |shared_client|
-      similar_fields << '#hidden_given_name' if shared_client.given_name.include?(fetch_75_chars_of(options[:given_name])) && options[:given_name].present?
-      similar_fields << '#hidden_family_name' if shared_client.family_name.include?(fetch_75_chars_of(options[:family_name])) && options[:family_name].present?
-      similar_fields << '#hidden_local_given_name' if shared_client.local_given_name.include?(fetch_75_chars_of(options[:local_given_name])) && options[:local_given_name].present?
-      similar_fields << '#hidden_local_family_name' if shared_client.local_family_name.include?(fetch_75_chars_of(options[:local_family_name])) && options[:local_family_name].present?
+      similar_fields << '#hidden_given_name' if shared_client.given_name.downcase.include?(fetch_75_chars_of(options[:given_name])) && options[:given_name].present?
+      similar_fields << '#hidden_family_name' if shared_client.family_name.downcase.include?(fetch_75_chars_of(options[:family_name])) && options[:family_name].present?
+      similar_fields << '#hidden_local_given_name' if shared_client.local_given_name.downcase.include?(fetch_75_chars_of(options[:local_given_name])) && options[:local_given_name].present?
+      similar_fields << '#hidden_local_family_name' if shared_client.local_family_name.downcase.include?(fetch_75_chars_of(options[:local_family_name])) && options[:local_family_name].present?
       Organization.switch_to 'shared'
       similar_fields << '#hidden_birth_province' if shared_client.birth_province_id.present? && (Province.find(shared_client.birth_province_id).try(:name) == options[:birth_province])
       Organization.switch_to current_org
@@ -145,10 +145,10 @@ class Client < ActiveRecord::Base
 
     clients.each do |client|
       similar_fields << '#hidden_date_of_birth' if options[:date_of_birth].present? && (client.date_of_birth.month == Date.parse(options[:date_of_birth]).month) && (client.date_of_birth.year == Date.parse(options[:date_of_birth]).year)
-      similar_fields << '#hidden_province' if options[:current_province].present? && client.province_name.include?(fetch_75_chars_of(options[:current_province]))
-      similar_fields << '#hidden_district' if options[:district].present? && client.district_name.include?(fetch_75_chars_of(options[:district]))
-      similar_fields << '#hidden_commune' if options[:commune].present? && client.commune.name_en.include?(fetch_75_chars_of(options[:commune].split(' / ').last))
-      similar_fields << '#hidden_village' if options[:village].present? && client.village.name_en.include?(fetch_75_chars_of(options[:village].split(' / ').last))
+      similar_fields << '#hidden_province' if options[:current_province].present? && client.province_name.downcase.include?(options[:current_province].downcase)
+      similar_fields << '#hidden_district' if options[:district].present? && client.district_name.downcase.include?((options[:district].downcase))
+      similar_fields << '#hidden_commune' if options[:commune].present? && client.commune.name_en.downcase.include?((options[:commune].downcase.split(' / ').last))
+      similar_fields << '#hidden_village' if options[:village].present? && client.village.name_en.downcase.include?((options[:village].downcase.split(' / ').last))
     end
     similar_fields.uniq
   end
@@ -158,7 +158,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.fetch_75_chars_of(value)
-    number_of_char = (value.length * 75) / 100
+    number_of_char = (value.downcase.length * 75) / 100
     value[0..(number_of_char-1)]
   end
 

@@ -2,6 +2,110 @@ describe 'Client' do
   let(:admin) { create(:user, roles: 'admin') }
   let!(:user) { create(:user) }
 
+  feature 'existing' do
+    let!(:referral_source){ create(:referral_source) }
+    let!(:province){ create(:province, name: 'Kandal / Province') }
+    let!(:district){ create(:district, province: province) }
+    let!(:commune){ create(:commune, district: district ) }
+    let!(:village){ create(:village, commune: commune) }
+    let!(:client_1){ create(:client, :accepted, province: province, district: district, commune: commune, village: village, given_name: 'Hello', family_name: 'World', local_given_name: 'ABC', local_family_name: 'DEF') }
+
+    before do
+      Organization.switch_to 'shared'
+      kandal = Province.find_or_create_by(name: 'Kandal', country: 'cambodia')
+      Organization.switch_to 'app'
+      client_1.update(birth_province_id: kandal.id)
+      login_as(user)
+      visit new_client_path
+    end
+
+    def fill_in_required_fields
+      find(".client_received_by_id select option[value='#{user.id}']", visible: false).select_option
+      find(".client_users select option[value='#{user.id}']", visible: false).select_option
+      find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
+      find(".client_birth_province_id select optgroup option[value='#{client_1.birth_province_id}']", visible: false).select_option
+      find(".client_gender select option[value='male']", visible: false).select_option
+      fill_in 'client_name_of_referee', with: FFaker::Name.name
+      fill_in 'client_initial_referral_date', with: Date.today
+    end
+
+    scenario 'current_address', js: true do
+      fill_in_required_fields
+      find('#steps-uid-0-t-1').click
+      wait_for_ajax
+      find(".client_province select option[value='#{province.id}']", visible: false).select_option
+      wait_for_ajax
+      find(".client_district select option[value='#{district.id}']", visible: false).select_option
+      wait_for_ajax
+      find(".client_commune select option[value='#{commune.id}']", visible: false).select_option
+      wait_for_ajax
+      find(".client_village select option[value='#{village.id}']", visible: false).select_option
+      wait_for_ajax
+      find('#steps-uid-0-t-3').click
+      wait_for_ajax
+      page.find('a[href="#finish"]', visible: false).click
+      wait_for_ajax
+      expect(page).to have_css("#existing-client-warning li", :text => "Province")
+      expect(page).to have_css("#existing-client-warning li", :text => "District")
+      expect(page).to have_css("#existing-client-warning li", :text => "Commune")
+      expect(page).to have_css("#existing-client-warning li", :text => "Village")
+    end
+
+    scenario 'birth_province', js: true do
+      fill_in_required_fields
+      fill_in 'client_given_name', with: 'hello'
+      fill_in 'client_family_name', with: 'world'
+      find('#steps-uid-0-t-3').click
+      wait_for_ajax
+      page.find('a[href="#finish"]', visible: false).click
+      wait_for_ajax
+      expect(page).to have_css("#existing-client-warning li", :text => "Birth Province")
+    end
+
+    scenario 'local_given_name', js: true do
+      fill_in_required_fields
+      fill_in 'client_given_name', with: 'hello'
+      fill_in 'client_family_name', with: 'world'
+      fill_in 'client_local_given_name', with: 'abc'
+      find('#steps-uid-0-t-3').click
+      wait_for_ajax
+      page.find('a[href="#finish"]', visible: false).click
+      wait_for_ajax
+      expect(page).to have_css("#existing-client-warning li", :text => "Local Given Name")
+    end
+
+    scenario 'local_family_name', js: true do
+      fill_in_required_fields
+      fill_in 'client_local_family_name', with: 'def'
+      find('#steps-uid-0-t-3').click
+      wait_for_ajax
+      page.find('a[href="#finish"]', visible: false).click
+      wait_for_ajax
+      expect(page).to have_css("#existing-client-warning li", :text => "Local Family Name")
+    end
+
+    scenario 'family_name', js: true do
+      fill_in_required_fields
+      fill_in 'client_given_name', with: 'hello'
+      fill_in 'client_family_name', with: 'world'
+      find('#steps-uid-0-t-3').click
+      wait_for_ajax
+      page.find('a[href="#finish"]', visible: false).click
+      wait_for_ajax
+      expect(page).to have_css("#existing-client-warning li", :text => "Family Name")
+    end
+ 
+    scenario 'given_name', js: true do
+      fill_in_required_fields
+      fill_in 'client_given_name', with: 'hell'
+      find('#steps-uid-0-t-3').click
+      wait_for_ajax
+      page.find('a[href="#finish"]', visible: false).click
+      wait_for_ajax
+      expect(page).to have_css("#existing-client-warning li", :text => "Given Name")
+    end
+  end
+
   feature 'List' do
     let!(:client){create(:client, users: [user])}
     let!(:other_client) {create(:client)}
@@ -273,7 +377,7 @@ describe 'Client' do
   feature 'New' do
     let!(:province) { create(:province) }
     let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
-                             local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
+                             local_family_name: 'Kell', date_of_birth: '2017-05-01',
                              province: province) }
     let!(:referral_source){ create(:referral_source) }
     before do
@@ -312,6 +416,7 @@ describe 'Client' do
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
       fill_in 'client_name_of_referee', with: FFaker::Name.name
       fill_in 'client_initial_referral_date', with: Date.today
+      find(".client_gender select option[value='male']", visible: false).select_option
 
       fill_in 'client_given_name', with: 'Branderjo'
       fill_in 'client_family_name', with: 'Anderjo'
@@ -319,8 +424,6 @@ describe 'Client' do
       fill_in 'client_local_family_name', with: 'Kelly'
       fill_in 'Date of Birth', with: '2017-05-01'
 
-      find('#steps-uid-0-t-1').click
-      find(".client_province select option[value='#{province.id}']", visible: false).select_option
       find('#steps-uid-0-t-3').click
       page.find('a[href="#finish"]', visible: false).click
       wait_for_ajax

@@ -13,7 +13,7 @@
   = hidden_field(:hidden, :province, value: t('.province') )
   = hidden_field(:hidden, :district, value: t('.district') )
   
-  .modal-dialog
+  .modal-dialog#existing-client-warning
     .modal-content.panel-warning
       .modal-header.panel-heading
         %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
