@@ -1171,10 +1171,10 @@ ActiveRecord::Schema.define(version: 20181112082013) do
     t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",      default: [],                  array: true
-    t.string   "family_default_columns",      default: [],                  array: true
-    t.string   "partner_default_columns",     default: [],                  array: true
-    t.string   "user_default_columns",        default: [],                  array: true
+    t.string   "client_default_columns",  default: [], array: true
+    t.string   "family_default_columns",  default: [], array: true
+    t.string   "partner_default_columns", default: [], array: true
+    t.string   "user_default_columns",    default: [], array: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "org_name",                    default: ""
