@@ -208,7 +208,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         finish: 'Done'
 
   _appendSaveButton = ->
-    unless $('#rootwizard').find('a[href="#finish"]').length
+    unless $('#rootwizard').find('a[href="#finish"]:visible').length
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
   _saveAssessment = (form) ->
