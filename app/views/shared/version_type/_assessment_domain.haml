@@ -1,23 +1,22 @@
 - DataTrackerVersion.assessment_domain(assessment_id, event).each do |version|
   - next if version.changeset[:attachments].present?
-  - if version.item_type == "AssessmentDomain"
-    %div{ class: "panel panel-#{version_color(version.event)}" }
-      .panel-body
-        .table-responsive
-          %table.table.table-hover
-            %tbody
-              - version.changeset.each do |k, v|
-                - next if version_keys_skipable?(k, version.item_type)
-                %tr.ad
-                  %td.col-sm-4.attribute.ad-id
-                    = version_attribute(k, version.item_type)
-                  %td.col-sm-4.truncate
-                    = version_value_format(v[0], k, v)
-                    - if type_assessment_domain(k,version.event)
-                      %label{ class: "badge badge-#{version_color(version.event)}"}
-                        = version_domain_name(version.item_id)
-                  %td.col-sm-4.truncate
-                    = version_value_format(v[1], k, v)
-                    - if type_assessment_domain(k,version.event)
-                      %label{ class: "badge badge-#{version_color(version.event)}"}
-                        = version_domain_name(version.item_id)
+  %div{ class: "panel panel-#{version_color(version.event)}" }
+    .panel-body
+      .table-responsive
+        %table.table.table-hover
+          %tbody
+            - version.changeset.each do |k, v|
+              - next if version_keys_skipable?(k, version.item_type)
+              %tr.ad
+                %td.col-sm-4.attribute.ad-id
+                  = version_attribute(k, version.item_type)
+                %td.col-sm-4.truncate
+                  = version_value_format(v[0], k, v)
+                  - if type_assessment_domain(k,version.event)
+                    %label{ class: "badge badge-#{version_color(version.event)}"}
+                      = version_domain_name(version.item_id)
+                %td.col-sm-4.truncate
+                  = version_value_format(v[1], k, v)
+                  - if type_assessment_domain(k,version.event)
+                    %label{ class: "badge badge-#{version_color(version.event)}"}
+                      = version_domain_name(version.item_id)
