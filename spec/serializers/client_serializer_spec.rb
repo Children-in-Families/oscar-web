@@ -45,6 +45,21 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('client/gender')
   end
 
+  it 'should be have attribute what3words' do
+    expect(serializer).to have_json_path('client/what3words')
+    expect(serializer).to have_json_type(String).at_path('client/what3words')
+  end
+
+  it 'should be have attribute name_of_referee' do
+    expect(serializer).to have_json_path('client/name_of_referee')
+    expect(serializer).to have_json_type(String).at_path('client/name_of_referee')
+  end
+
+  it 'should be have attribute profile' do
+    expect(serializer).to have_json_path('client/profile')
+    expect(serializer).to have_json_type(Object).at_path('client/profile')
+  end
+
   it 'should be have attribute date_of_birth' do
     expect(serializer).to have_json_path('client/date_of_birth')
     expect(serializer).to have_json_type(String).at_path('client/date_of_birth')
@@ -112,7 +127,7 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute time_in_care' do
     expect(serializer).to have_json_path('client/time_in_care')
-    expect(serializer).to have_json_type(Hash).at_path('client/time_in_care')
+    expect(serializer).to have_json_type(String).at_path('client/time_in_care')
   end
 
   it 'should be have attribute initial_referral_date' do
