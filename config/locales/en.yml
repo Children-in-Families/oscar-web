@@ -3393,11 +3393,13 @@ en:
         successfully_created: Form have been added to client(s) successfully
       form:
         clients: Clients
+        warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
     client_trackings:
       create:
         successfully_created: Form have been added to client(s) successfully
       form:
         clients: Clients
+        warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
     complete_form:
       no: No
       want_to_complete_again: Do you want to complete this form again for more clients?

@@ -104,7 +104,7 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
           e.preventDefault()
         else
           $(select).parent().removeClass('has-error')
-          $(select).parents('.i-checks').children('.help-block').addClass('hidden')
+          $(select).parents().children('.help-block').addClass('hidden')
 
   preventRadioButton = ->
     $('.complete-form').on 'click', (e) ->

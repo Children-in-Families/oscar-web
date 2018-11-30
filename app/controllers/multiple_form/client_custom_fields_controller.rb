@@ -3,7 +3,7 @@ class MultipleForm::ClientCustomFieldsController < AdminController
 
   def new
     @custom_field = CustomField.find(params[:custom_field_id])
-    @clients = Client.accessible_by(current_ability)
+    @clients = Client.accessible_by(current_ability).active_accepted_status
     @custom_field_property = CustomFieldProperty.new(custom_formable_type: "Client")
   end
 
@@ -20,11 +20,11 @@ class MultipleForm::ClientCustomFieldsController < AdminController
       end
     end
     unless @custom_field_property.valid?
-      @clients = Client.accessible_by(current_ability)
+      @clients = Client.accessible_by(current_ability).active_accepted_status
       @selectd_clients = clients.pluck(:slug)
       render :new
     else
-      if params[:confirm]
+      if  params[:confirm] == 'true'
         redirect_to new_multiple_form_custom_field_client_custom_field_path(@custom_field), notice: t('.successfully_created')
       else
         redirect_to root_path, notice: t('.successfully_created')
