@@ -2,10 +2,10 @@ class RemindManagerMailer < ApplicationMailer
   def case_worker_overdue_tasks_notify(manager, case_workers, org_name)
     @org_name     = org_name
     @manager      = manager
-    @csi_setting  = Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
+    @setting      = Setting.first
+    @csi_setting  = @setting.enable_default_assessment || @setting.enable_custom_assessment
     @subject      = @csi_setting ? 'Case workers have overdue assessments, tasks or forms that are more than a week overdue' : 'Case workers have overdue tasks or forms that are more than a week overdue'
     @case_workers = case_workers_overdue_tasks(case_workers)
-    @setting = Setting.first
     return unless @case_workers.present?
     mail(to: @manager.email, subject: @subject)
   end
