@@ -20,7 +20,7 @@ class CustomFormTrackingDatatable < ApplicationDatatable
 
   def fetch_custom_fields
     if @ngo_custom_field == 'current_custom_field'
-      custom_fields = CustomField.order("#{sort_column} #{sort_direction}")
+      custom_fields = CustomField.client_forms.order("#{sort_column} #{sort_direction}")
     elsif @ngo_custom_field == 'all_custom_field'
       custom_fields = find_custom_field_in_organization
     elsif @ngo_custom_field == 'demo_custom_field'

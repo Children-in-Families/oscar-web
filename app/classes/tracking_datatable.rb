@@ -23,7 +23,8 @@ class TrackingDatatable < ApplicationDatatable
   end
 
   def fetch_trackings
-    Tracking.unscoped.includes(:client_enrollments, :program_stream).where(client_enrollments: { status: 'Active' }).order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page)
+    program_stream_ids = ClientEnrollment.where(status: 'Active').pluck(:program_stream_id)
+    Tracking.unscoped.includes(:client_enrollments, :program_stream).where(program_streams: { id: program_stream_ids }).order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page)
   end
 
   def columns

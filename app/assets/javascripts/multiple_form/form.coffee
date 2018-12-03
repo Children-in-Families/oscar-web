@@ -98,7 +98,7 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     $('.complete-form').on 'click', (e) ->
       selects = $('select').parents('div.required')
       for select in selects
-        if $(select).find('select.required').select2('val') == ''
+        if $(select).find('select.required').select2('val') == '' || _.isEmpty($(select).find('select.required').select2('val'))
           $(select).parent().addClass('has-error')
           $(select).siblings('.help-block').removeClass('hidden')
           e.preventDefault()
