@@ -94,6 +94,7 @@ describe Client, 'methods' do
   let!(:family){ create(:family) }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
+  let!(:custom_assessment){ create(:assessment, created_at: Date.today - 3.months, client: client, custom) }
   let!(:client_a){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2017-05-05') }
   let!(:client_b){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-05') }
   let!(:client_c){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-06') }
@@ -114,6 +115,10 @@ describe Client, 'methods' do
 
   context '#most_recent_csi_assessment' do
     it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }
+  end
+
+  context '#most_recent_custom_csi_assessment' do
+    it { expect(client.most_recent_custom_csi_assessment).to eq(custom_assessment.created_at.to_date) }
   end
 
   xcontext '.notify_upcoming_csi_assessment', skip: '====== Days of FEBRUARY ======' do
