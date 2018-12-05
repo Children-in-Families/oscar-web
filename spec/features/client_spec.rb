@@ -213,8 +213,8 @@ describe 'Client' do
 
       scenario 'Case Notes' do
         visit client_case_notes_path(client)
-        expect(page).not_to have_link('New case note', href: new_client_case_note_path(client))
-        expect(page).to have_link(nil, href: edit_client_case_note_path(client, case_note))
+        expect(page).not_to have_link('New case note', href: new_client_case_note_path(client, custom: false))
+        expect(page).to have_link(nil, href: edit_client_case_note_path(client, case_note, custom: case_note.custom))
       end
 
       scenario 'Case history' do
@@ -491,8 +491,8 @@ describe 'Client' do
         find("a[href='#{client_case_notes_path(client)}']").click
         expect(client_case_notes_path(client)).to have_content(current_path)
 
-        find("a[href='#{edit_client_case_note_path(client, case_note)}']").click
-        expect(edit_client_case_note_path(client, case_note)).to have_content(current_path)
+        find("a[href='#{edit_client_case_note_path(client, case_note, custom: case_note.custom)}']").click
+        expect(edit_client_case_note_path(client, case_note, custom: case_note.custom)).to have_content(current_path)
       end
 
       scenario 'assessments' do
