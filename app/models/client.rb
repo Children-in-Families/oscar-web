@@ -358,26 +358,39 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      next if !(Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment)
+      next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment)
       clients = joins(:assessments).active_accepted_status
-
       clients.each do |client|
-        next if !client.eligible_default_csi? && !client.eligible_custom_csi?
-        repeat_notifications = client.repeat_notifications_schedule
-
-        if(repeat_notifications.include?(Date.today))
-          CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
+          repeat_notifications = client.repeat_notifications_schedule
+          if(repeat_notifications.include?(Date.today))
+            CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+          end
+        end
+        if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
+          repeat_notifications = client.repeat_notifications_schedule(false)
+          if(repeat_notifications.include?(Date.today))
+            CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+          end
         end
       end
     end
   end
 
   def most_recent_csi_assessment
-    assessments.most_recents.first.created_at.to_date
+    assessments.defaults.most_recents.first.created_at.to_date
   end
 
-  def repeat_notifications_schedule
-    most_recent_csi   = most_recent_csi_assessment
+  def most_recent_custom_csi_assessment
+    assessments.customs.most_recents.first.created_at.to_date
+  end
+
+  def repeat_notifications_schedule(default = true)
+    if default
+      most_recent_csi   = most_recent_csi_assessment
+    else
+      most_recent_csi   = most_recent_custom_csi_assessment
+    end
 
     notification_date = most_recent_csi + 5.months + 15.days
     next_one_week     = notification_date + 1.week
