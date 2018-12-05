@@ -94,7 +94,6 @@ describe Client, 'methods' do
   let!(:family){ create(:family) }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
-  let!(:custom_assessment){ create(:assessment, created_at: Date.today - 3.months, client: client, custom) }
   let!(:client_a){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2017-05-05') }
   let!(:client_b){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-05') }
   let!(:client_c){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-06') }
@@ -103,7 +102,10 @@ describe Client, 'methods' do
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
   let!(:exited_client){ create(:client, :exited) }
+
   before { Setting.first.update(enable_custom_assessment: true) }
+
+  let!(:custom_assessment){ create(:assessment, :custom, created_at: Date.today - 3.months, client: client) }
 
   context '#family' do
     let!(:client_1){ create(:client, :accepted) }
