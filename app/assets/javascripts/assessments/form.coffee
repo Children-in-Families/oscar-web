@@ -271,10 +271,16 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       return false
     else
       $(currentTab).find('.score_option').removeClass('is_error')
-      activeScoreLabel = $(currentTab).find('.score_option').find('.label-primary').last()
-      activeLabel      = if activeScoreLabel.length >= 1 then activeScoreLabel else $(currentTab).find('.score_option').children().last()
-      activeScore      = if activeScoreLabel.length >= 1 then activeLabel.text() else activeLabel.val()
-      activeScoreColor = $(activeLabel).parents('.score_option').data("score-#{activeScore}")
+
+      if $("#{currentTab} .score_option.with-def").length > 0
+        scoreOption = $("#{currentTab} .score_option.with-def")
+        chosenScore = scoreOption.find('input.selected-score').val()
+
+      else if $("#{currentTab} .score_option.without-def").length > 0
+        scoreOption = $("#{currentTab} .score_option.without-def")
+        chosenScore = scoreOption.find('label input:checked').val()
+
+      activeScoreColor  = scoreOption.data("score-#{chosenScore}")
 
       isGoal = $("#{currentTab} .goal-required-option").find('input.radio_buttons:checked').val()
       isTask = $("#{currentTab} .task-required-option").find('input.radio_buttons:checked').val()
