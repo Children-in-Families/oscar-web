@@ -94,7 +94,7 @@ describe Client, 'methods' do
   let!(:family){ create(:family) }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
-  let!(:custom_assessment){ create(:assessment, created_at: Date.today - 3.months, client: client, custom) }
+  let!(:custom_assessment){ create(:assessment, :custom, created_at: Date.today - 3.months, client: client) }
   let!(:client_a){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2017-05-05') }
   let!(:client_b){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-05') }
   let!(:client_c){ create(:client, code: Time.now.to_f.to_s.last(4) + rand(1..9).to_s, date_of_birth: '2016-06-06') }
