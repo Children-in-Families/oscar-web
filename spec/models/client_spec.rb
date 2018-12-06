@@ -103,7 +103,10 @@ describe Client, 'methods' do
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
   let!(:exited_client){ create(:client, :exited) }
+
   before { Setting.first.update(enable_custom_assessment: true) }
+
+  let!(:custom_assessment){ create(:assessment, :custom, created_at: Date.today - 3.months, client: client) }
 
   context '#family' do
     let!(:client_1){ create(:client, :accepted) }
