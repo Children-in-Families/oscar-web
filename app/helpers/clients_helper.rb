@@ -281,10 +281,6 @@ module ClientsHelper
     current_address.compact.join(', ')
   end
 
-  def enable_assessment_setting?
-    Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
-  end
-
   def default_columns_visibility(column)
     label_column = {
       live_with_: t('datagrid.columns.clients.live_with'),

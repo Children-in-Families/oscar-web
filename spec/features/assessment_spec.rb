@@ -125,7 +125,7 @@ describe "Assessment" do
       without_task
 
       fill_in 'assessment_assessment_domains_attributes_0_reason', with: FFaker::Lorem.paragraph
-      fill_in "goal-text-area-#{domain.name}", with: FFaker::Lorem.paragraph
+      fill_in "goal-text-area-#{domain.name.downcase.split.join('-')}", with: FFaker::Lorem.paragraph
 
       click_link 'Done'
       sleep 1
