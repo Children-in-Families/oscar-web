@@ -15,7 +15,7 @@
           %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
             = check_box_tag 'overdue-forms', 'overdue-forms', checked = check_params_has_over_forms, class: 'i-checks'
             %label=t('.has_overdue_forms')
-          - if enable_all_csi_tools?
+          - if enable_any_csi_tools?
             %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
               = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
               %label=t('.has_overdue_assessment')

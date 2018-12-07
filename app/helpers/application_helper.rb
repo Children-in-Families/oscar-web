@@ -291,6 +291,10 @@ module ApplicationHelper
   end
 
   def enable_all_csi_tools?
+    Setting.first.enable_default_assessment && Setting.first.enable_custom_assessment
+  end
+
+  def enable_any_csi_tools?
     Setting.first.enable_default_assessment || Setting.first.enable_custom_assessment
   end
 end
