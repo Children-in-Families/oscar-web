@@ -22,20 +22,24 @@ class UserNotification
     clients = @user.clients.joins(:assessments).active_accepted_status
     clients.each do |client|
       if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
-        repeat_notifications = client.repeat_notifications_schedule
-        if(repeat_notifications.include?(Date.today))
-          client_ids << client.id
+        if client_ids.exclude?(client.id)
+          repeat_notifications = client.repeat_notifications_schedule
+          if(repeat_notifications.include?(Date.today))
+            client_ids << client.id
+          end
         end
       end
       if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
-        repeat_notifications = client.repeat_notifications_schedule(false)
-        if(repeat_notifications.include?(Date.today))
-          custom_client_ids << client.id
+        if custom_client_ids.exclude?(client.id)
+          repeat_notifications = client.repeat_notifications_schedule(false)
+          if(repeat_notifications.include?(Date.today))
+            custom_client_ids << client.id
+          end
         end
       end
     end
-    default_clients = clients.where(id: client_ids)
-    custom_clients = clients.where(id: custom_client_ids)
+    default_clients = clients.where(id: client_ids).uniq
+    custom_clients = clients.where(id: custom_client_ids).uniq
     { clients: default_clients, custom_clients: custom_clients }
   end
 

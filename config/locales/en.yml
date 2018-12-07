@@ -3200,8 +3200,8 @@ en:
         one: "(1 client)"
         other: "(%{count} clients)"
       due_today_assessments:
-        one: assessment due today.
-        other: assessments due today.
+        one: due today.
+        other: due today.
       due_today_client_custom_field_count:
         one: There is 1 client custom form due today.
         other: There are %{count} client custom forms due today.
@@ -3231,8 +3231,8 @@ en:
         one: and 1 due today
         other: and %{count} due today
       overdue_assessments:
-        one: assessment overdue
-        other: assessments overdue
+        one: overdue
+        other: overdue
       overdue_assessments_count:
         one: You have 1 assessment overdue
         other: You have %{count} assessments overdue
