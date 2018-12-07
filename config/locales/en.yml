@@ -1606,13 +1606,14 @@ en:
       active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
     custom_fields_tab:
-      link: Link
+      link: Action
       name: Name
       next: Next
+      open_form: Open Form
       previous: Previous
     multiple_forms:
       custom_forms: Custom Forms
-      multiple_forms: Multiple Forms
+      multiple_forms: Add Form to Multiple Clients
       tracking_forms: Tracking Forms
     duetoday:
       assessment: Assessment
@@ -1633,11 +1634,12 @@ en:
     program_stream:
       program_stream: Program Streams
     program_streams_tab:
-      link: Link
+      link: Action
       next: Next
+      open_form: Open Form
       previous: Previous
       program_stream_name: Program Stream
-      tracking_name: Tracking
+      tracking_name: Tracking Form Name
     third_party:
       ables: Ables
       agencies: Agencies

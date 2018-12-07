@@ -1607,13 +1607,14 @@ km:
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
     custom_fields_tab:
+      link: តំណ
       name: ឈ្មោះ
       next: ទំព័របន្ទាប់
+      open_form: បើកទម្រង់
       previous: ទំព័រមុន
-      link: តំណ
     multiple_forms:
       custom_forms: ទម្រង់បែបបទ
-      multiple_forms: ទម្រង់ច្រើន
+      multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
       tracking_forms: ទម្រង់បែបបទតាមដាន
     duetoday:
       assessment: ការប៉ាន់ប្រមាណ
@@ -1636,6 +1637,7 @@ km:
     program_streams_tab:
       link: តំណ
       next: ទំព័របន្ទាប់
+      open_form: បើកទម្រង់
       previous: ទំព័រមុន
       program_stream_name: កម្មវិធី
       tracking_name: ទម្រង់បែបបទតាមដាន

@@ -36,8 +36,8 @@ class TrackingDatatable < ApplicationDatatable
   end
 
   def link_program_stream(tracking)
-    link_to(new_multiple_form_tracking_client_tracking_path(tracking)) do
-      fa_icon('external-link')
+    link_to new_multiple_form_tracking_client_tracking_path(tracking), class: 'btn btn-primary btn-sm' do
+      I18n.t('dashboards.program_streams_tab.open_form')
     end
   end
 

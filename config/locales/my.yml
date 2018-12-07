@@ -1615,6 +1615,7 @@ my:
     custom_fields_tab:
       link: link ကို
       next: ေနာက္တစ္ခု
+      open_form: ပွင့်လင်းပုံစံ
       previous: ေရွ႕တစ္ခု
       name: နာမည္
     multiple_forms:
@@ -1642,6 +1643,7 @@ my:
     program_streams_tab:
       link: link ကို
       next: ေနာက္တစ္ခု
+      open_form: ပွင့်လင်းပုံစံ
       previous: ေရွ႕တစ္ခု
       program_stream_name: အစီအမံစီဆင္းမႈ
       tracking_name: ခြေရာခံနာမကိုအမှီ

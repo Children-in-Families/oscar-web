@@ -30,8 +30,8 @@ class CustomFieldDatatable < ApplicationDatatable
   end
 
   def link_custom_field(custom_field)
-    link_to(new_multiple_form_custom_field_client_custom_field_path(custom_field)) do
-      fa_icon('external-link')
+    link_to new_multiple_form_custom_field_client_custom_field_path(custom_field), class: 'btn btn-primary btn-sm' do
+      I18n.t('dashboards.custom_fields_tab.open_form')
     end
   end
 
