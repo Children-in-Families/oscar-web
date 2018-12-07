@@ -43,7 +43,7 @@ class MultipleForm::ClientCustomFieldsController < AdminController
     end
     default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
     default_params = default_params.merge(properties: formatted_params) if formatted_params.present?
-    default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?
+    default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if attachment_params.present?
     default_params
   end
 end
