@@ -17,8 +17,10 @@
           %thead
             %tr
               %th #
+              %th= I18n.t('datagrid.columns.clients.id')
               %th= t('.client_name')
               %th= t('.assessments')
+              %th= I18n.t('datagrid.columns.clients.assessments_due_to')
               - Domain.all.each do |domain|
                 %th= domain.name
           %tbody.page
@@ -28,8 +30,10 @@
                 - assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
                 %tr
                   %th{:scope => "row"}= ordering += 1
-                  %td= client.name
+                  %th= client.slug
+                  %td= "#{client.local_name} #{client.en_and_local_name}".squish
                   %td= "Assessment #{index + 1}"
+                  %th= date_format(assessment.created_at)
                   - Domain.all.each do |domain|
                     - if assessment_domain_hash.present?
                       %td= assessment_domain_hash[domain.id]

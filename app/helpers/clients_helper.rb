@@ -851,7 +851,11 @@ module ClientsHelper
   end
 
   def to_spreadsheet
-    column_header = [I18n.t('client_advanced_searches.index.client_name'), I18n.t('client_advanced_searches.index.assessments'), Domain.pluck(:name)]
+    column_header = [
+                      I18n.t('datagrid.columns.clients.id'), I18n.t('client_advanced_searches.index.client_name'),
+                      I18n.t('client_advanced_searches.index.assessments'), I18n.t('datagrid.columns.clients.assessments_due_to'),
+                      Domain.pluck(:name)
+                    ]
     book = Spreadsheet::Workbook.new
     book.create_worksheet
     book.worksheet(0).insert_row(0, column_header.flatten)
@@ -862,7 +866,7 @@ module ClientsHelper
       client.assessments.each_with_index do |assessment, index|
         assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
         domain_scores = Domain.all.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
-        book.worksheet(0).insert_row (ordering += 1), [client.name, "Assessment #{index + 1}", domain_scores].flatten
+        book.worksheet(0).insert_row (ordering += 1), [client.slug, "#{client.local_name} #{client.en_and_local_name}".squish, "Assessment #{index + 1}", date_format(assessment.created_at), domain_scores].flatten
       end
     end
 
