@@ -849,4 +849,26 @@ module ClientsHelper
   def client_alias_id
     current_organization.short_name == 'fts' ? @client.code : @client.slug
   end
+
+  def to_spreadsheet
+    column_header = [I18n.t('client_advanced_searches.index.client_name'), I18n.t('client_advanced_searches.index.assessments'), Domain.pluck(:name)]
+    book = Spreadsheet::Workbook.new
+    book.create_worksheet
+    book.worksheet(0).insert_row(0, column_header.flatten)
+
+    ordering = 0
+    assessment_domain_hash = {}
+    assets.includes(assessments: :assessment_domains).each do |client|
+      client.assessments.each_with_index do |assessment, index|
+        assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+        domain_scores = Domain.all.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
+        book.worksheet(0).insert_row (ordering += 1), [client.name, "Assessment #{index + 1}", domain_scores].flatten
+      end
+    end
+
+    buffer = StringIO.new
+    book.write(buffer)
+    buffer.rewind
+    buffer.read
+  end
 end

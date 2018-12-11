@@ -836,8 +836,10 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
+      assessment_data: Assessment Data
       assessments: Assessments
       client_column: Client General Information
+      client_name: Client Name
       csi_domain_scores: CSI Domain Scores
       custom_form_column: Custom form columns
       delete_group: Delete

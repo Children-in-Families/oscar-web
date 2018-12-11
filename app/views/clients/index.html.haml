@@ -18,7 +18,9 @@
       = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
         %i.fa.fa-download
         = t('.export_to_xls')
-
+      = link_to '#', class: 'btn btn-primary btn-export', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+        %i.fa.fa-external-link
+        = t('.assessment_data')
     - if current_user.admin? || current_user.any_manager?
       - if params['commit'].present? || params['client_advanced_search'].present?
         %button.btn.btn-primary#client-statistic
@@ -87,3 +89,5 @@
             %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
         .ibox-footer.text-center
           = paginate @client_grid.assets
+
+= render 'assessment_domain_score'

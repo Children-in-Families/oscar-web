@@ -836,8 +836,10 @@ km:
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
       add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
       advanced_search: ការបង្កើតរបាយការណ៍
+      assessment_data: ទិន្នន័យវាយតម្លៃ
       assessments: ការប៉ាន់ប្រមាណ
       client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
+      client_name: ឈ្មោះកុមារ
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_form_column: ជួរឈរទម្រង់បែបបទ
       delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក

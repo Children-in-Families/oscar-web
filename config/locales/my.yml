@@ -842,8 +842,10 @@ my:
       add_new_filter: စိစစ္မႈအသစ္ျဖည့္ရန္
       add_new_group: အဖြဲ႕ထည့္ရန္
       advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
+      assessment_data: အကဲဖြတ်ဖို့ဒေတာ
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
       client_column: အမႈသည္အေျခခံေကာ္လံမ်ား
+      client_name: ကေလးနာမည္
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
       custom_form_column: အခြန္ပံုစံ ေကာ္လံမ်ား
       delete_group: ဖ်က္ရန္
