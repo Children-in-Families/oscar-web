@@ -2,7 +2,7 @@ class MultipleForm::ClientCustomFieldsController < AdminController
   include FormBuilderAttachments
 
   def new
-    @custom_field = CustomField.find(params[:custom_field_id])
+    @custom_field = CustomField.client_forms.find(params[:custom_field_id])
     @clients = Client.accessible_by(current_ability).active_accepted_status
     @custom_field_property = CustomFieldProperty.new(custom_formable_type: "Client")
   end

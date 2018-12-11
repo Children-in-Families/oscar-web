@@ -1,18 +1,16 @@
 class MultipleForm::ClientTrackingsController < AdminController
   include FormBuilderAttachments
+  before_action :find_resources, only: [:new, :create]
 
   def new
-    @tracking = Tracking.find(params[:tracking_id])
-    @program_stream = @tracking.program_stream
-    client_ids = @program_stream.client_enrollments.active.pluck(:client_id)
-    @clients = Client.accessible_by(current_ability).where(id: client_ids).active_accepted_status
+    client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
+    @clients   = Client.accessible_by(current_ability).where(id: client_ids).active_accepted_status
     @client_enrollment_tracking = ClientEnrollmentTracking.new
   end
 
   def create
-    @tracking = Tracking.find(params[:tracking_id])
-    @program_stream = @tracking.program_stream
     clients = Client.where(slug: params['client_enrollment_tracking']['clients'])
+
     clients.each do |client|
       client_enrollment = client.client_enrollments.active.find_by(program_stream_id: @program_stream.id)
       @client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(client_enrollment_tracking_params)
@@ -36,6 +34,8 @@ class MultipleForm::ClientTrackingsController < AdminController
     end
   end
 
+  private
+
   def client_enrollment_tracking_params
     if properties_params.present?
       mappings = {}
@@ -49,5 +49,12 @@ class MultipleForm::ClientTrackingsController < AdminController
     default_params = default_params.merge!(properties: formatted_params) if formatted_params.present?
     default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment_tracking][:form_builder_attachments_attributes]) if attachment_params.present?
     default_params
+  end
+
+  def find_resources
+    tracking           = Tracking.find(params[:tracking_id])
+    program_stream_ids = ClientEnrollment.active.pluck(:program_stream_id).uniq
+    @tracking          = Tracking.where(program_stream_id: program_stream_ids).find(params[:tracking_id])
+    @program_stream    = @tracking.program_stream
   end
 end
