@@ -754,6 +754,7 @@ km:
         accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       form:
         accept: ទទួលយក
+        accepting: កំពុងទទួលយក...
         accept_ngo_form: ទទួលចូលអង្គការ
         accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -770,6 +771,7 @@ km:
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ
+        exiting: កំពុងចាកចេញពីអង្គការ...
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       form:
@@ -781,6 +783,7 @@ km:
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
+        exiting: កំពុងចាកចេញ...
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
         reject_client: មិនទទួលយកអតិថិជន
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -1161,6 +1164,7 @@ km:
       exit_ngo: ចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
+      exiting: កំពុងចាកចេញ...
     exit_ngo_form:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       exit_btn: ចាកចេញ
@@ -1409,6 +1413,7 @@ km:
       able_state: ស្ថានភាព Able
       accept: ទទួលយក
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      accepting: កំពុងទទួលយក...
       add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       add_ec_btn: បន្ថែមចូលទៅ EC
       add_fc_btn: បន្ថែមចូលទៅ FC
@@ -4063,6 +4068,7 @@ km:
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   rules_has_been_modified: លក្ខខ័ណ្ឌមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   save: រក្សាទុក
+  saving: កំពុងរក្សាទុក...
   sessions:
     create:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ

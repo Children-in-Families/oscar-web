@@ -13,4 +13,4 @@
           = render 'assessment', f: f
           = render 'case_note', f: f
         .ibox-footer
-          = f.submit t('save'), class: 'btn btn-primary'
+          = f.submit t('save'), class: 'btn btn-primary', data: { disable_with: t('saving') }

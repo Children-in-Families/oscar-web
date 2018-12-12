@@ -26,5 +26,5 @@
                 #message.text-danger
     = hidden_field_tag :program_stream_id, @program_stream.id
   .ibox-footer
-    = f.submit t('.save'), class: 'btn btn-primary form-btn'
+    = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = link_to t('.cancel'), client_client_enrollments_path(@client), class: 'btn btn-default form-btn'
