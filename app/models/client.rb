@@ -192,11 +192,20 @@ class Client < ActiveRecord::Base
     next_appointment.created_at + 1.month
   end
 
+
   def can_create_assessment?(default)
     if default
-      return Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date if assessments.defaults.count == 1
+      if assessments.defaults.count == 1
+        return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
+      elsif assessments.defaults.count >= 2
+        return assessments.defaults.latest_record.completed?
+      end
     else
-      return Date.today >= (assessments.customs.latest_record.created_at + assessment_duration('min', false)).to_date if assessments.customs.count == 1
+      if assessments.customs.count == 1
+        return (Date.today >= (assessments.customs.latest_record.created_at + assessment_duration('min', false)).to_date) && assessments.customs.latest_record.completed?
+      elsif assessments.customs.count >= 2
+        return assessments.customs.latest_record.completed?
+      end
     end
     true
   end

@@ -340,6 +340,27 @@ describe Client, 'methods' do
     it { expect(no_csi_client.can_create_assessment?(true)).to be_truthy }
     it { expect(client_with_two_csi.can_create_assessment?(true)).to be_truthy }
     it { expect(other_client.can_create_assessment?(true)).to be_falsey }
+
+    context 'previous assessment is not completed' do
+      let!(:client_3){ create(:client, :accepted) }
+      let!(:assessment_3){ create(:assessment, client: client_3, created_at: 3.months.ago) }
+      let!(:assessment_domain_3){ create(:assessment_domain, assessment: assessment_3, reason: '') }
+      it 'return false' do
+        assessment_3.reload
+        assessment_3.update(completed: false)
+        expect(client_3.can_create_assessment?(true)).to be_falsey
+      end
+    end
+    context 'previous custom assessment is not completed' do
+      let!(:client_4){ create(:client, :accepted) }
+      let!(:assessment_4){ create(:assessment, :custom, client: client_4, created_at: 3.months.ago) }
+      let!(:assessment_domain_4){ create(:assessment_domain, assessment: assessment_4, reason: '') }
+      it 'return false' do
+        assessment_4.reload
+        assessment_4.update(completed: false)
+        expect(client_4.can_create_assessment?(false)).to be_falsey
+      end
+    end
   end
 
   context '#next_case_note_date' do

@@ -39,7 +39,7 @@ describe Assessment, 'validations' do
     it { expect(invalid_assessment).not_to be_valid }
     it { expect(valid_assessment_1).to be_valid }
 
-    it 'should NOT have message Assessment cannot be created before 3 months' do
+    it 'should NOT have message Assessment cannot be created due to either frequency period or previous assessment status' do
       valid_assessment_1.save
       valid_third_assessment.save
 
@@ -47,12 +47,12 @@ describe Assessment, 'validations' do
       expect(valid_third_assessment.errors.full_messages).to be_empty
     end
 
-    it 'should have message Assessment cannot be created before 3 months' do
+    it 'should have message Assessment cannot be created due to either frequency period or previous assessment status' do
       invalid_assessment.save
-      expect(invalid_assessment.errors.full_messages).to include('Assessment cannot be created before 3 months')
+      expect(invalid_assessment.errors.full_messages).to include('Assessment cannot be created due to either frequency period or previous assessment status')
     end
 
-    it { is_expected.to validate_presence_of(:client) }
+    # it { is_expected.to validate_presence_of(:client) }
   end
 end
 
@@ -196,14 +196,36 @@ describe Assessment, 'callbacks' do
     end
   end
 
-  context 'must_be_min_assessment_period' do
-    let!(:client) { create(:client) }
-    # let!(:setting) { create(:setting, :monthly_assessment, min_assessment: 4) }
-    let!(:assessment) { create(:assessment, client: client, created_at: 2.month.ago.to_date) }
+  context 'allow_create' do
+    let!(:client) { create(:client, :accepted) }
+    context 'frequency period' do
+      let!(:assessment) { create(:assessment, client: client, created_at: 2.month.ago.to_date) }
+      it "return error message" do
+        second_assessment = Assessment.create(client: client)
+        expect(second_assessment.errors.full_messages).to include('Assessment cannot be created due to either frequency period or previous assessment status')
+      end
+      it "not return error message" do
+        assessment.update(created_at: 3.months.ago)
+        second_assessment = Assessment.create(client: client)
+        expect(second_assessment.errors.full_messages).not_to include('Assessment cannot be created due to either frequency period or previous assessment status')
+      end
+    end
 
-    it "should be return error message" do
-      second_assessment = Assessment.create(client: client)
-      expect(second_assessment.errors.full_messages).to include('Assessment cannot be created before 3 months')
+    context 'previous assessment status' do
+      context 'not completed' do
+        let!(:assessment) { create(:assessment, :with_assessment_domain, client: client, created_at: 3.months.ago) }
+        it "return error message" do
+          assessment_1 = Assessment.create(client: client)
+          expect(assessment_1.errors.full_messages).to include('Assessment cannot be created due to either frequency period or previous assessment status')
+        end
+      end
+      context 'completed' do
+        let!(:assessment) { create(:assessment, client: client, created_at: 3.months.ago) }
+        it "not return error message" do
+          assessment_1 = Assessment.create(client: client)
+          expect(assessment_1.errors.full_messages).not_to include('Assessment cannot be created due to either frequency period or previous assessment status')
+        end
+      end
     end
   end
 

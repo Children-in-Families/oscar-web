@@ -57,5 +57,4 @@ module AssessmentHelper
       cd.object.domain_group.default_domain_identities
     end
   end
-
 end

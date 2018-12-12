@@ -826,10 +826,10 @@ ActiveRecord::Schema.define(version: 20181112082013) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
-    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
+    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree

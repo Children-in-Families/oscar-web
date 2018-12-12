@@ -4466,7 +4466,7 @@ en:
     actions:
       are_you_sure: Are you sure you want to delete?
     assessment_permission:
-      assessments: CSI Assessments
+      assessments: Assessments
       can_edit: Can Edit
       can_view: Can View
     case_note_permission:
@@ -4570,8 +4570,7 @@ en:
       roles: Permission Set
       start_date: Start Date
     permissions:
-      assessments: CSI Assessments
-      assessmets: CSI Assessments
+      assessments: Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
       custom_programs: Program Stream
