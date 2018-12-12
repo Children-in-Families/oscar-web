@@ -38,7 +38,7 @@
         -# - if @user.persisted? && current_user.otp_module_changeable?
         -#   .col-xs-12.col-sm-6.col-md-4= f.input :otp_module, disabled: @user.otp_module_disabled?, as: :select, collection: [[t('.enable'), 'otp_module_enabled'], [t('.disable'), 'otp_module_disabled']], label: t('.two_factor_authentication'), include_blank: false
   .ibox-footer
-    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     - if @user.persisted?
       = link_to t('cancel'), user_path(@user), class: 'btn btn-outline btn-default form-btn'
     - else

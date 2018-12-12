@@ -22,4 +22,4 @@
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
-            = f.submit t('save') , class: 'btn btn-success agree-btn', name: 'accept-client'
+            = f.submit t('save') , class: 'btn btn-success agree-btn', name: 'accept-client', data: { disable_with: t('saving') }

@@ -22,5 +22,5 @@
                     = link_to_add_association t('.add_change'), f, :changelog_types, class: 'btn btn-outline btn-primary'
         .modal-footer
           .pull-left
-            = f.submit t('.save') , class: 'btn btn-primary form-btn'
+            = f.submit t('.save') , class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
             %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')

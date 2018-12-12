@@ -40,5 +40,5 @@
           .col-xs-12.col-sm-6.col-md-4= f.input :status, readonly: true
           .col-xs-12.col-sm-6.col-md-4= f.input :exit_note, required: true, input_html: { rows: 5, class: 'exit_note' }, label: t('.exit_note')
   .ibox-footer
-    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn'
