@@ -16,7 +16,7 @@
     .form-group.btn.btn-default.btn-sm
       = check_box_tag 'forms', 'true', checkbox_forms, class: 'i-checks'
       %label= t('.forms')
-  - if enable_assessment_setting?
+  - if enable_any_csi_tools?
     .col-xs-12.col-md-3
       .form-group.btn.btn-default.btn-sm
         = check_box_tag 'assessments', 'true', checkbox_assessments, class: 'i-checks'

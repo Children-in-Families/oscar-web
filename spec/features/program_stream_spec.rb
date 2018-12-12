@@ -237,7 +237,7 @@ feature 'program_stream' do
       expect(page).not_to have_content(program_stream.name)
     end
 
-    scenario 'can delete program stream has been exited' do
+    xscenario 'can delete program stream has been exited' do
       find("a[href='#{program_stream_path(program_stream_1)}'][data-method='delete']").click
       expect(page).not_to have_content(program_stream_1.name)
     end

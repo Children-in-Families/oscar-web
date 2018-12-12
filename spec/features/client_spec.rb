@@ -124,14 +124,13 @@ describe 'Client' do
 
     scenario 'Created by .. on ..' do
       user = whodunnit_client(client.id)
-      date = client.created_at.strftime('%d %B %Y')
-      expect(page).to have_content("Created by #{user} on #{date}")
+      expect(page).to have_content("Created by #{user} on #{date_format(client.created_at)}")
     end
 
     scenario 'information' do
       expect(page).to have_content(client.given_name)
       expect(page).to have_content(client.gender.capitalize)
-      expect(page).to have_content(client.date_of_birth.strftime('%d %B %Y'))
+      expect(page).to have_content(date_format(client.date_of_birth))
     end
 
     scenario 'tasks link' do
@@ -144,7 +143,7 @@ describe 'Client' do
       end
 
       scenario 'disable assessment tool' do
-        setting.update(disable_assessment: true)
+        setting.update(enable_default_assessment: false, enable_custom_assessment: false)
         visit current_path
         expect(page).not_to have_link('Assessments', href: client_assessments_path(client))
       end
@@ -214,8 +213,8 @@ describe 'Client' do
 
       scenario 'Case Notes' do
         visit client_case_notes_path(client)
-        expect(page).not_to have_link('New case note', href: new_client_case_note_path(client))
-        expect(page).to have_link(nil, href: edit_client_case_note_path(client, case_note))
+        expect(page).not_to have_link('New case note', href: new_client_case_note_path(client, custom: false))
+        expect(page).to have_link(nil, href: edit_client_case_note_path(client, case_note, custom: case_note.custom))
       end
 
       scenario 'Case history' do
@@ -492,8 +491,8 @@ describe 'Client' do
         find("a[href='#{client_case_notes_path(client)}']").click
         expect(client_case_notes_path(client)).to have_content(current_path)
 
-        find("a[href='#{edit_client_case_note_path(client, case_note)}']").click
-        expect(edit_client_case_note_path(client, case_note)).to have_content(current_path)
+        find("a[href='#{edit_client_case_note_path(client, case_note, custom: case_note.custom)}']").click
+        expect(edit_client_case_note_path(client, case_note, custom: case_note.custom)).to have_content(current_path)
       end
 
       scenario 'assessments' do

@@ -1,5 +1,5 @@
-- Domain.order_by_identity.each do |domain|
-  %li
-    .visibility.col-sm-12
-      = check_box_tag "#{domain.convert_identity}_", domain.convert_identity, checked = default_setting("#{domain.convert_identity}_", @client_default_columns) || params[:"#{domain.convert_identity}_"].present?, class: 'i-checks'
-      = label_tag "#{domain.convert_identity}_", domain.identity
+%li
+  .visibility.col-sm-12
+    - domain_text = domain.custom_domain ? "custom_#{domain.convert_identity}_" : "#{domain.convert_identity}_"
+    = check_box_tag domain_text, domain.convert_identity, checked = default_setting(domain_text, @client_default_columns) || params[:"#{domain_text}"].present?, class: 'i-checks'
+    = label_tag "#{domain.convert_identity}_", domain.identity

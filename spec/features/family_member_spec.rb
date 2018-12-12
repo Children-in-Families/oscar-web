@@ -11,7 +11,7 @@ describe 'FamilyMember' do
 
     scenario 'family members fields' do
       expect(page).to have_content(family_member.adult_name)
-      expect(page).to have_content(family_member.date_of_birth.strftime('%d %B %Y'))
+      expect(page).to have_content(date_format(family_member.date_of_birth))
       expect(page).to have_content(family_member.occupation)
       expect(page).to have_content(family_member.relation)
     end

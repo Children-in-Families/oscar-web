@@ -18,22 +18,53 @@ class UserNotification
 
   def upcoming_csi_assessments
     client_ids = []
-    csi_count = 0
-    clients = @user.clients.active_accepted_status
+    custom_client_ids = []
+    clients = @user.clients.joins(:assessments).active_accepted_status
     clients.each do |client|
-      next if client.assessments.empty? || client.uneligible_age?
-      repeat_notifications = client.repeat_notifications_schedule
-      if(repeat_notifications.include?(Date.today))
-        client_ids << client.id
-        csi_count += 1
+      if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
+        if client_ids.exclude?(client.id)
+          repeat_notifications = client.repeat_notifications_schedule
+          if(repeat_notifications.include?(Date.today))
+            client_ids << client.id
+          end
+        end
+      end
+      if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
+        if custom_client_ids.exclude?(client.id)
+          repeat_notifications = client.repeat_notifications_schedule(false)
+          if(repeat_notifications.include?(Date.today))
+            custom_client_ids << client.id
+          end
+        end
       end
     end
-    clients = clients.where(id: client_ids)
-    { csi_count: csi_count, clients: clients }
+    default_clients = clients.where(id: client_ids).uniq
+    custom_clients = clients.where(id: custom_client_ids).uniq
+    { clients: default_clients, custom_clients: custom_clients }
   end
 
   def any_upcoming_csi_assessments?
-    upcoming_csi_assessments[:csi_count] >= 1
+    upcoming_csi_assessments_count >= 1
+  end
+
+  def any_upcoming_custom_csi_assessments?
+    upcoming_custom_csi_assessments_count >= 1
+  end
+
+  def upcoming_csi_assessments_count
+    client_upcoming_csi_assessments.count
+  end
+
+  def upcoming_custom_csi_assessments_count
+    client_upcoming_custom_csi_assessments.count
+  end
+
+  def client_upcoming_csi_assessments
+    upcoming_csi_assessments[:clients]
+  end
+
+  def client_upcoming_custom_csi_assessments
+    upcoming_csi_assessments[:custom_clients]
   end
 
   def overdue_tasks_count
@@ -84,6 +115,22 @@ class UserNotification
 
   def any_due_today_assessments?
     due_today_assessments_count >= 1
+  end
+
+  def overdue_custom_assessments_count
+    @assessments[:custom_overdue_count]
+  end
+
+  def any_overdue_custom_assessments?
+    overdue_custom_assessments_count >= 1
+  end
+
+  def due_today_custom_assessments_count
+    @assessments[:custom_due_today_count]
+  end
+
+  def any_due_today_custom_assessments?
+    due_today_custom_assessments_count >= 1
   end
 
   # def ec_notification(day)
@@ -238,7 +285,7 @@ class UserNotification
 
   def count
     count_notification = 0
-
+    setting = Setting.first
     # if @user.admin? || @user.ec_manager?
     #   (83..90).each do |item|
     #     count_notification += 1 if ec_notification(item).present?
@@ -259,8 +306,10 @@ class UserNotification
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
-      count_notification += 1 if (any_overdue_assessments? || any_due_today_assessments?) && enable_assessment_setting?
-      count_notification += 1 if any_upcoming_csi_assessments? && enable_assessment_setting?
+      count_notification += 1 if setting.enable_default_assessment && (any_overdue_assessments? || any_due_today_assessments?)
+      count_notification += 1 if setting.enable_custom_assessment && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
+      count_notification += 1 if any_upcoming_csi_assessments? && Setting.first.enable_default_assessment
+      count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
     end
@@ -272,11 +321,6 @@ class UserNotification
   def program_streams_by_user
     program_ids = ClientEnrollment.where(client_id: @clients.ids).active.pluck(:program_stream_id).uniq
     ProgramStream.where(id: program_ids).where.not(rules: '{}')
-  end
-
-  def enable_assessment_setting?
-    setting = Setting.first.try(:disable_assessment)
-    setting.nil? ? true : !setting
   end
 
   def get_referrals(referral_type)

@@ -17,9 +17,15 @@ class CaseNotesController < AdminController
   end
 
   def new
-    @case_note = @client.case_notes.new
-    @case_note.assessment = @client.assessments.latest_record
-    @case_note.populate_notes
+    if params[:custom] == 'true'
+      @case_note = @client.case_notes.new(custom: true)
+      @case_note.assessment = @client.assessments.custom_latest_record
+      @case_note.populate_notes
+    else
+      @case_note = @client.case_notes.new
+      @case_note.assessment = @client.assessments.default_latest_record
+      @case_note.populate_notes
+    end
   end
 
   def create
@@ -71,8 +77,8 @@ class CaseNotesController < AdminController
   def case_note_params
     # params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
 
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params
   end
 
