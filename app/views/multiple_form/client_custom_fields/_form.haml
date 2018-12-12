@@ -1,0 +1,35 @@
+.ibox
+  .multiple-form
+    = simple_form_for('custom_field_property', url: multiple_form_custom_field_client_custom_fields_url(@custom_field)) do |f|
+      = hidden_field_tag :custom_field_id, @custom_field.id
+      = hidden_field_tag :confirm
+      .ibox-title
+        %p
+          %strong= @custom_field.form_title
+      .ibox-content
+        %p
+          %i=t('.warning')
+        .row
+          .col-xs-12.col-sm-6
+            %div#client{ class: "form-group" }
+              %label.control-label
+                %abbr{ title: 'required' }= '*'
+                = t('.clients')
+              = f.input :clients, collection: @clients.map { |c| [c.name, c.slug] }, label: false, required: false, input_html: { multiple: true, class: 'clients' }, selected: @selectd_clients
+              %span.help-block.hidden
+                = t('cannot_be_blank')
+        = f.simple_fields_for :properties do |prop_f|
+          - @custom_field.fields.each do |field|
+            .row
+              .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
+                - field['label'] = convert_bracket(field['label'])
+                - unless field['type'] == 'file'
+                  = render "/multiple_form/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages, value: @custom_field_property.properties[field['label']]
+                - else
+                  = f.simple_fields_for :form_builder_attachments do |attachment|
+                    = render "/multiple_form/fields/#{field['type'].underscore}_field", f: attachment, property: field, entity: f
+
+      .ibox-footer
+        %button.btn.btn-primary.form-btn.complete-form
+          = t('save')
+        = link_to t('cancel'), root_path, class: 'btn btn-default form-btn'

@@ -1617,6 +1617,16 @@ en:
       active_progarm_streams_by_gender: Active Program Streams by client gender
       active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
+    custom_fields_tab:
+      link: Action
+      name: Name
+      next: Next
+      open_form: Open Form
+      previous: Previous
+    multiple_forms:
+      custom_forms: Custom Forms
+      multiple_forms: Add Form to Multiple Clients
+      tracking_forms: Tracking Forms
     duetoday:
       assessment: Assessment
       assessments: Assessments
@@ -1635,6 +1645,13 @@ en:
       tasks: Tasks
     program_stream:
       program_stream: Program Streams
+    program_streams_tab:
+      link: Action
+      next: Next
+      open_form: Open Form
+      previous: Previous
+      program_stream_name: Program Stream
+      tracking_name: Tracking Form Name
     third_party:
       ables: Ables
       agencies: Agencies
@@ -3411,6 +3428,28 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  multiple_form:
+    client_custom_fields:
+      create:
+        successfully_created: Form have been added to client(s) successfully
+      form:
+        clients: Clients
+        warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
+    client_trackings:
+      create:
+        successfully_created: Form have been added to client(s) successfully
+      form:
+        clients: Clients
+        warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
+    complete_form:
+      agree: 'Yes'
+      disagree: 'No'
+      want_to_complete_again: Do you want to complete this form again for more clients?
+    fields:
+      file_field:
+        allow_file_size: Allowed file types
+        max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   notifications:

@@ -1,0 +1,8 @@
+#custom-fields.tab-pane.active.margin-top-datatable{ role: 'tabpanel' }
+  .table-responsive
+    %table.table.table-bordered.table-hover.table-striped.custom-field-table#custom-fields-table{ data: { url: list_custom_fields_api_custom_fields_path, next: t('.next'), previous: t('.previous')  } }
+      %thead
+        %tr
+          %th.name= t('.name')
+          %th.link.text-center= t('.link')
+      %tbody

@@ -1,0 +1,36 @@
+.ibox
+  .multiple-form
+    = simple_form_for('client_enrollment_tracking', url: multiple_form_tracking_client_trackings_url(@tracking)) do |f|
+      = hidden_field_tag :tracking_id, @tracking.id
+      = hidden_field_tag :confirm
+      .ibox-title
+        %p
+          %strong= @tracking.name
+      .ibox-content
+        %p
+          %i=t('.warning')
+        .row
+          .col-xs-12.col-sm-6
+            %div#client{ class: "form-group" }
+              %label.control-label
+                %abbr{ title: 'required' }= '*'
+                = t('.clients')
+              = f.input :clients, collection: @clients.map { |c| [c.name, c.slug] }, label: false, required: false, input_html: { multiple: true, class: 'clients' }, selected: @selectd_clients
+              %span.help-block.hidden
+                = t('cannot_be_blank')
+        = f.simple_fields_for :properties do |prop_f|
+          - @tracking.fields.each do |field|
+            .row
+              .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
+                - field['label'] = convert_bracket(field['label'])
+                - unless field['type'] == 'file'
+                  = render "/multiple_form/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_enrollment_tracking.errors.messages, value: @client_enrollment_tracking.properties[field['label']]
+                - else
+                  = f.simple_fields_for :form_builder_attachments do |attachment|
+                    = render "/multiple_form/fields/#{field['type'].underscore}_field", f: attachment, property: field, entity: f
+
+
+      .ibox-footer
+        %button.btn.btn-primary.form-btn.complete-form
+          = t('save')
+        = link_to t('cancel'), root_path, class: 'btn btn-default form-btn'

@@ -9,6 +9,8 @@ CIF.DashboardsIndex = do ->
     _initSelect2()
     _openTaskListModal()
     _handleApplyFilter()
+    _initCustomFieldsDataTable()
+    _initTrackingDatatable()
 
   _handleApplyFilter = ->
     $('button#user-filter-submit').on 'click', (e) ->
@@ -65,5 +67,50 @@ CIF.DashboardsIndex = do ->
     title    = $(element).data('title')
     report = new CIF.ReportCreator(data, title, '', element)
     report.pieChart(option: true)
+
+  _initCustomFieldsDataTable = ->
+    self = $('#custom-fields-table')
+    $(self).DataTable
+      bFilter: false
+      sScrollY: '500'
+      bInfo: false
+      processing: true
+      serverSide: true
+      ajax: $(self).data('url')
+      columns:  [
+        null
+        bSortable: false, className: 'text-center'
+      ]
+      language:
+        paginate:
+          previous: $(self).data('previous')
+          next: $(self).data('next')
+      drawCallback: ->
+        _getDataTableId()
+
+  _initTrackingDatatable = ->
+    self = $('#program-streams-table')
+    $(self).DataTable
+      bFilter: false
+      sScrollY: '500'
+      bInfo: false
+      processing: true
+      serverSide: true
+      ajax: $(self).data('url')
+      columns: [
+        null
+        null
+        bSortable: false, className: 'text-center'
+      ]
+      language:
+        paginate:
+          previous: $(self).data('previous')
+          next: $(self).data('next')
+      drawCallback: ->
+        _getDataTableId()
+
+  _getDataTableId = ->
+    $('.paginate_button a').click ->
+      DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
 
   { init: _init }
