@@ -6,18 +6,27 @@ class DomainsController < AdminController
   before_action :validate_organization
 
   def index
-    @domains = Domain.all.page(params[:page]).per(10)
-    @results = Domain.count
+    @domains = Domain.csi_domains.page(params[:page_1]).per(10)
+    @custom_domains = Domain.custom_csi_domains.page(params[:page_2]).per(10)
+    @results = Domain.csi_domains.count
+    @custom_domain_results = Domain.custom_csi_domains.count
   end
 
   def new
-    @domain = Domain.new
+    if params[:copy] != 'true'
+      @domain = Domain.new
+    else
+      @domain     = Domain.find(params[:domain_id])
+      domain_attr = @domain.attributes.except('id')
+      @domain     = Domain.new(domain_attr)
+    end
   end
 
   def create
     @domain = Domain.new(domain_params)
+    @domain.custom_domain = true
     if @domain.save
-      redirect_to domains_path, notice: t('.successfully_created')
+      redirect_to domains_path(tab: 'custom_domain'), notice: t('.successfully_created')
     else
       render :new
     end
@@ -27,7 +36,9 @@ class DomainsController < AdminController
   end
 
   def update
+    # @domain.custom_domain = true
     if @domain.update_attributes(domain_params)
+      # redirect_to domains_path(tab: 'custom_domain'), notice: t('.successfully_updated')
       redirect_to domains_path, notice: t('.successfully_updated')
     else
       render :edit
@@ -55,7 +66,7 @@ class DomainsController < AdminController
   end
 
   def find_domain
-    @domain = Domain.find(params[:id])
+    @domain = Domain.custom_csi_domains.find(params[:id])
   end
 
   def find_domain_group

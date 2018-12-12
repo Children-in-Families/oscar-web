@@ -34,9 +34,13 @@ CIF.Data_trackersIndex = do ->
 
   _handleSetRules = ->
     rules = $('#rule-before').data('program-rules')
+    unless $.isEmptyObject(rules)
+      rules = {} if _.isEmpty(rules.rules)
     $('#program-rules-before').queryBuilder('setRules', rules) unless $.isEmptyObject(rules)
 
     rules = $('#rule-after').data('program-rules')
+    unless $.isEmptyObject(rules)
+      rules = {} if _.isEmpty(rules.rules)
     $('#program-rules-after').queryBuilder('setRules', rules) unless $.isEmptyObject(rules)
 
   _queryBuilderOption = (fieldList) ->

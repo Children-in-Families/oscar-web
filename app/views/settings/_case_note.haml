@@ -4,6 +4,8 @@
   .panel-body
     .row
       .col-xs-12.col-sm-4
+        %label.control-label
+          %abbr{ title: 'required' }= '*'
         %label.control-label= t('.max_case_note')
     .row
       .col-xs-12.col-sm-4
@@ -12,4 +14,3 @@
       .col-xs-12.col-sm-4
         .form-group
           = f.input :case_note_frequency, collection: [['Day', 'day'], ['Week', 'week'], ['Month', 'month'], ['Year', 'year']], input_html: {class: 'select2'}, label: false
-

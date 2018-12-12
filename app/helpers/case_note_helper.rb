@@ -1,7 +1,7 @@
 module CaseNoteHelper
   def edit_link(client, case_note)
     if case_notes_editable? && policy(case_note).edit?
-      link_to(edit_client_case_note_path(client, case_note), class: 'btn btn-primary') do
+      link_to(edit_client_case_note_path(client, case_note, custom: case_note.custom), class: 'btn btn-primary') do
         fa_icon('pencil')
       end
     else
@@ -15,17 +15,37 @@ module CaseNoteHelper
 
   def new_link
     if case_notes_editable? && policy(@client).create?
-      link_to new_client_case_note_path(@client) do
-        content_tag :div, class: 'btn btn-primary button' do
-          t('.new_case_note')
-        end
+      link_to new_client_case_note_path(@client, custom: false) do
+        @current_setting.default_assessment
       end
     else
-      link_to_if false, new_client_case_note_path(@client) do
-        content_tag :div, class: 'btn btn-primary button disabled' do
-          t('.new_case_note')
+      link_to_if false, '' do
+        content_tag :a, class: 'disabled' do
+          @current_setting.default_assessment
         end
       end
+    end
+  end
+
+  def new_custom_link
+    if case_notes_editable? && policy(@client).create?
+      link_to new_client_case_note_path(@client, custom: true) do
+        @current_setting.custom_assessment
+      end
+    else
+      link_to_if false, '' do
+        content_tag :a, class: 'disabled' do
+          @current_setting.custom_assessment
+        end
+      end
+    end
+  end
+
+  def fetch_domains(cd)
+    if params[:custom] == 'true'
+      cd.object.domain_group.domains.custom_csi_domains
+    else
+      cd.object.domain_group.domains.csi_domains
     end
   end
 

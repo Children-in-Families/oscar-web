@@ -30,7 +30,7 @@
                 .col-xs-11
                   = tasks_notification_label
         %li.divider
-      - if (@notification.any_overdue_assessments? || @notification.any_due_today_assessments?) && enable_assessment_setting?
+      - if Setting.first.enable_default_assessment && (@notification.any_overdue_assessments? || @notification.any_due_today_assessments?)
         %li
           %div.align-link
             = link_to dashboards_path(user_id: current_user.id, assessments: true) do
@@ -39,6 +39,17 @@
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
                   = assessments_notification_label
+        %li.divider
+
+      - if Setting.first.enable_custom_assessment && (@notification.any_overdue_custom_assessments? || @notification.any_due_today_custom_assessments?)
+        %li
+          %div.align-link
+            = link_to dashboards_path(user_id: current_user.id, assessments: true) do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = customized_assessments_notification_label
         %li.divider
         - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
           %li
@@ -69,15 +80,25 @@
                 .col-xs-11
                   = t('.client_case_note_due_today', count: @notification.client_case_note_due_today_count)
         %li.divider
-      - if @notification.any_upcoming_csi_assessments? && enable_assessment_setting?
+      - if Setting.first.enable_default_assessment && @notification.any_upcoming_csi_assessments?
         %li
           %div.align-link
-            = link_to notifications_path(assessment: 'upcoming') do
+            = link_to notifications_path(assessment: 'upcoming', default: true) do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
-                  = t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments[:csi_count])
+                  = "#{t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments_count)} #{Setting.first.default_assessment}"
+
+      - if Setting.first.enable_custom_assessment && @notification.any_upcoming_custom_csi_assessments?
+        %li
+          %div.align-link
+            = link_to notifications_path(assessment: 'upcoming', default: false) do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = "#{t('.upcoming_assessments_count', count: @notification.upcoming_custom_csi_assessments_count)} #{Setting.first.custom_assessment}"
         %li.divider
       -# - if current_user.admin? || current_user.ec_manager?
       -#   - (83..90).each do |day|

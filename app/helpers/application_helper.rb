@@ -45,7 +45,7 @@ module ApplicationHelper
 
   def remove_link(object, associated_objects = {}, btn_size = 'btn-xs')
     btn_status = associated_objects.values.sum.zero? ? nil : 'disabled'
-    link_to(object, method: 'delete',  data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
+    link_to(object, method: 'delete',  data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
       fa_icon('trash')
     end
   end
@@ -204,10 +204,6 @@ module ApplicationHelper
     current_user.custom_field_permissions.find_by(custom_field_id: value).editable
   end
 
-  def non_mho_tenant?
-    !current_organization.mho?
-  end
-
   def action_search?
     Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
   end
@@ -237,11 +233,29 @@ module ApplicationHelper
 
   def assessments_notification_label
     if @notification.any_overdue_assessments? && @notification.any_due_today_assessments?
-      "#{I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.due_today_assessments_count)}"
+      overdue_count = @notification.overdue_assessments_count
+      due_today_count = @notification.due_today_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
     elsif @notification.any_overdue_assessments?
-      I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)
+      count = @notification.overdue_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.default_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
     else
-      I18n.t('layouts.notification.due_today_assessments_count', count: @notification.due_today_assessments_count)
+      count = @notification.due_today_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.default_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
+    end
+  end
+
+  def customized_assessments_notification_label
+    if @notification.any_overdue_custom_assessments? && @notification.any_due_today_custom_assessments?
+      overdue_count = @notification.overdue_custom_assessments_count
+      due_today_count = @notification.due_today_custom_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: overdue_count)} #{Setting.first.custom_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today_count)}"
+    elsif @notification.any_overdue_custom_assessments?
+      count = @notification.overdue_custom_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.custom_assessment} #{I18n.t('layouts.notification.overdue_assessments', count: count)}"
+    else
+      count = @notification.due_today_custom_assessments_count
+      "#{I18n.t('layouts.notification.assessments_count', count: count)} #{Setting.first.custom_assessment} #{I18n.t('layouts.notification.due_today_assessments', count: count)}"
     end
   end
 
@@ -274,5 +288,21 @@ module ApplicationHelper
     else
       'Unknown'
     end
+  end
+
+  def enable_all_csi_tools?
+    enable_default_assessment? && enable_custom_assessment?
+  end
+
+  def enable_default_assessment?
+    Setting.first.try(:enable_default_assessment)
+  end
+
+  def enable_custom_assessment?
+    Setting.first.try(:enable_custom_assessment)
+  end
+
+  def enable_any_csi_tools?
+    enable_default_assessment? || enable_custom_assessment?
   end
 end

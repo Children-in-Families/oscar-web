@@ -41,9 +41,20 @@ module AssessmentHelper
     completed_date
   end
 
-  def check_previous_assessment_status(client)
-    return true if client.assessments.latest_record.nil?
-    client.assessments.latest_record.completed?
+  def is_domain_definition(domain)
+    domain.score_1_definition.present? || domain.score_2_definition.present? ||
+    domain.score_3_definition.present? || domain.score_4_definition.present?
   end
 
+  def score_definition(definition, score)
+    definition.present? ? simple_format(definition) : score
+  end
+
+  def get_domains(cd)
+    if params[:custom] == 'true'
+      cd.object.domain_group.custom_domain_identities
+    else
+      cd.object.domain_group.default_domain_identities
+    end
+  end
 end

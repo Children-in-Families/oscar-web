@@ -63,6 +63,7 @@
                     - elsif k == 'rules'
                       %a.btn.btn-info{ 'data-target' => '#before', 'data-toggle' => 'modal', type: 'button' }
                         = t('.more_detail')
+                      -# - rules = v[0].present? ? v[0]['rules'].empty? ? {} : v[0] : v[0]
                       #rule-before{'data-program-rules': v[0].to_json}
 
                     - else
@@ -87,6 +88,7 @@
                     - elsif k == 'rules'
                       %a.btn.btn-info{ 'data-target' => '#after', 'data-toggle' => 'modal', type: 'button' }
                         = t('.more_detail')
+                      -# - rules = v[1].present? ? v[1]['rules'].empty? ? {} : v[1] : v[1]
                       #rule-after{'data-program-rules': v[1].to_json}
                     - else
                       = version_value_format(v[1], k, v)
@@ -94,4 +96,3 @@
 
   = render 'shared/version_type/program_rule_before'
   = render 'shared/version_type/program_rule_after'
-

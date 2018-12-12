@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181030035922) do
+ActiveRecord::Schema.define(version: 20181112082013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,16 +94,18 @@ ActiveRecord::Schema.define(version: 20181030035922) do
   add_index "answers", ["client_id"], name: "index_answers_on_client_id", using: :btree
 
   create_table "assessment_domains", force: :cascade do |t|
-    t.text     "note",           default: ""
+    t.text     "note",               default: ""
     t.integer  "previous_score"
     t.integer  "score"
-    t.text     "reason",         default: ""
+    t.text     "reason",             default: ""
     t.integer  "assessment_id"
     t.integer  "domain_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "goal",           default: ""
-    t.string   "attachments",    default: [], array: true
+    t.text     "goal",               default: ""
+    t.string   "attachments",        default: [],    array: true
+    t.boolean  "goal_required",      default: true
+    t.boolean  "required_task_last", default: false
   end
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
@@ -121,6 +123,7 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.boolean  "completed",  default: false
+    t.boolean  "default",    default: true
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
@@ -181,6 +184,7 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.string   "interaction_type", default: ""
+    t.boolean  "custom",           default: false
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -578,6 +582,7 @@ ActiveRecord::Schema.define(version: 20181030035922) do
     t.text     "score_2_definition", default: ""
     t.text     "score_3_definition", default: ""
     t.text     "score_4_definition", default: ""
+    t.boolean  "custom_domain",      default: false
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
@@ -1160,25 +1165,31 @@ ActiveRecord::Schema.define(version: 20181030035922) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.string   "assessment_frequency"
+    t.string   "assessment_frequency",        default: "month"
     t.integer  "min_assessment"
-    t.integer  "max_assessment"
-    t.string   "country_name",            default: ""
+    t.integer  "max_assessment",              default: 6
+    t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",  default: [], array: true
-    t.string   "family_default_columns",  default: [], array: true
-    t.string   "partner_default_columns", default: [], array: true
-    t.string   "user_default_columns",    default: [], array: true
+    t.string   "client_default_columns",      default: [],                  array: true
+    t.string   "family_default_columns",      default: [],                  array: true
+    t.string   "partner_default_columns",     default: [],                  array: true
+    t.string   "user_default_columns",        default: [],                  array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "org_name",                default: ""
-    t.string   "old_commune",             default: ""
+    t.string   "org_name",                    default: ""
+    t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                     default: 18
+    t.integer  "age",                         default: 18
     t.integer  "commune_id"
-    t.boolean  "disable_assessment"
+    t.string   "custom_assessment",           default: "Custom Assessment"
+    t.boolean  "enable_custom_assessment",    default: false
+    t.boolean  "enable_default_assessment",   default: true
+    t.integer  "max_custom_assessment",       default: 6
+    t.string   "custom_assessment_frequency", default: "month"
+    t.integer  "custom_age",                  default: 18
+    t.string   "default_assessment",          default: "CSI Assessment"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
