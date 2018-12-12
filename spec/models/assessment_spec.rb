@@ -208,11 +208,12 @@ describe Assessment, 'callbacks' do
   end
 
   context '#must_be_enable' do
-    let(:default_csi){ build(:assessment) }
-    let(:custom_csi){ build(:assessment, default: false) }
-
+    before do
+      Setting.first.update(enable_custom_assessment: false)
+    end
     context 'new record' do
       context 'default csi' do
+        let(:default_csi){ build(:assessment) }
         it 'should not return error message' do
           expect(default_csi).to be_valid
           expect(default_csi.errors.full_messages).not_to include('Assessment tool must be enable in setting')
@@ -220,6 +221,7 @@ describe Assessment, 'callbacks' do
       end
 
       context 'custom csi' do
+        let(:custom_csi){ build(:assessment, default: false) }
         it 'should return error message' do
           expect(custom_csi).to be_invalid
           expect(custom_csi.errors.full_messages).to include('Assessment tool must be enable in setting')

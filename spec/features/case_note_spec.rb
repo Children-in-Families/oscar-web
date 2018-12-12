@@ -79,6 +79,9 @@ describe 'CaseNote' do
 
       context 'only one csi tool is enable' do
         scenario 'default csi' do
+          Setting.first.update(enable_default_assessment: true, enable_custom_assessment: false)
+          visit client_case_notes_path(client)
+
           expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: false))
         end
         scenario 'custom csi', js: true do
