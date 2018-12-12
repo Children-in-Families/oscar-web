@@ -1,0 +1,26 @@
+.col-xs-12.col-sm-4
+  .panel.panel-default.tasks-panel
+    .panel-body
+      .widget.style1.widget-tasks-panel{ 'data-target' => '#custom-field', 'data-toggle' => 'modal', type: 'button'}
+        .row.vertical-align
+          .col-xs-3
+            %i.fa.fa-folder-open-o.fa-3x
+          .col-xs-9.text-right
+            %span.text-font
+              = t('.multiple_forms')
+
+  #custom-field.modal.fade{ role: 'dialog' }
+    .modal-dialog#width-modal.modal-lg
+      .modal-content
+        .modal-body
+          %div
+            %ul.nav.nav-tabs{role: "tablist"}
+              %li.active{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#custom-fields", role: "tab"}
+                  = t('.custom_forms')
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#program-streams", role: "tab"}
+                  = t('.tracking_forms')
+            .tab-content
+              = render 'custom_fields_tab'
+              = render 'program_streams_tab'

@@ -6,7 +6,19 @@
         .ibox-tools
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
           - if can? :create, CaseNote
-            = new_link
+            - if enable_all_csi_tools?
+              .btn-group#case-note-selection
+                %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+                  = t('.new_case_note')
+                  %span.caret
+                %ul.dropdown-menu#case-note-dropdown
+                  %li
+                    = new_link
+                  %li
+                    = new_custom_link
+            - elsif case_notes_editable? && policy(@client).create?
+              = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_custom_assessment), class: 'btn btn-primary'
+
       .ibox-content
         - @case_notes.each do |case_note|
           .panel.panel-info
@@ -27,14 +39,15 @@
                 - if cdg.note.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
-                      %h5= cdg.domain_group.domain_identities
+                      %h5= cdg.domain_identities
                       - if case_note.assessment_id.present?
                         .ibox-tools
-                          - cdg.domain_group.domains.each do |domain|
+                          - cdg.domains(case_note).each do |domain|
                             - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
                             - next if ad.nil?
                             %a.collapse-link
-                              %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
+                              %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
+                                = ad.score
                     .ibox-content
                       .row
                         .col-xs-12
@@ -58,11 +71,10 @@
                           %p
                             %strong= "#{t('.goal')} :"
                           %ul
-                            - cdg.domain_group.domains.each do |domain|
+                            - cdg.domains(case_note).each do |domain|
                               - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                              - if assessment_domain.present?
-                                - goal = assessment_domain.goal
-                                %li= goal
+                              - if assessment_domain.present? && assessment_domain.goal?
+                                %li= assessment_domain.goal
                         - if cdg.attachments.any?
                           .col-xs-12.col-sm-6
                             .panel.panel-default

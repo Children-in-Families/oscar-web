@@ -28,7 +28,7 @@ feature 'custom_field_property' do
 
       scenario 'Created by .. on ..' do
         user = whodunnit_custom_field(custom_field_property.id)
-        date = custom_field_property.created_at.strftime('%d %B %Y')
+        date = date_format(custom_field_property.created_at)
         expect(page).to have_content("Created by #{user} on #{date}")
       end
     end

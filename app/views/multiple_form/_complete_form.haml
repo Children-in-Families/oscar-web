@@ -1,0 +1,9 @@
+#complete-form.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header.bg-warning
+      .modal-body
+        %p.text-center= t('.want_to_complete_again')
+      .modal-footer
+        %button.btn.btn-default#yes= t('.agree')
+        %button.btn.btn-default#no= t('.disagree')

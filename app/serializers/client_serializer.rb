@@ -2,15 +2,111 @@ class ClientSerializer < ActiveModel::Serializer
 
   attributes  :id, :given_name, :family_name, :gender, :code, :status, :date_of_birth, :grade,
               :current_province, :local_given_name, :local_family_name, :kid_id, :donors,
-              :current_address, :house_number, :street_number, :village, :commune, :district,
-              :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source,
+              :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
+              :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
               # :referral_phone, :live_with, :id_poor, :received_by,
-              :referral_phone, :live_with, :received_by,
+              :referral_phone, :live_with, :received_by, :main_school_contact,  :telephone_number,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :has_been_in_government_care, :relevant_referral_information,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms, :inactive_program_streams
+              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
+
+  def profile
+    object.profile.present? ? { uri: object.profile.url } : {}
+  end
+
+  def time_in_care
+    years = object.time_in_care[:years]
+    year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+    months = object.time_in_care[:months]
+    month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+    weeks = object.time_in_care[:weeks]
+    week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+    days = object.time_in_care[:days]
+    day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+    "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+  end
+
+  def family_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.family_name
+  end
+
+  def given_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.given_name
+  end
+
+  def local_given_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.local_given_name
+  end
+
+  def local_family_name
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.local_family_name
+  end
+
+  def gender
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.gender
+  end
+
+  def date_of_birth
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.date_of_birth
+  end
+
+  def live_with
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.live_with
+  end
+
+  def telephone_number
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.telephone_number
+  end
+
+  def birth_province
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: object.slug)
+    Organization.switch_to current_org
+    shared_client.birth_province
+  end
+
+  def enter_ngos
+    object.enter_ngos
+  end
+
+  def exit_ngos
+    object.exit_ngos
+  end
 
   def case_workers
     object.users
@@ -52,10 +148,6 @@ class ClientSerializer < ActiveModel::Serializer
     { overdue: overdue_tasks, today: today_tasks, upcoming: upcoming_tasks }
   end
 
-  def case_notes
-    object.case_notes.most_recents
-  end
-
   def foster_care
     CaseSerializer.new(object.cases.active.latest_foster).serializable_hash
   end
@@ -79,12 +171,12 @@ class ClientSerializer < ActiveModel::Serializer
     object.case_notes.most_recents.map do |case_note|
       formatted_case_note_domain_group = case_note.case_note_domain_groups.map do |cdg|
         next if cdg.domain_group.nil?
-        domain_scores = cdg.domain_group.domains.map do |domain|
+        domain_scores = cdg.domains(case_note).map do |domain|
           ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
           ad.try(:score)
           { domain_id: ad.domain_id, score: ad.score } if ad.present?
         end.compact
-        cdg.as_json.merge(domain_group_identities: cdg.domain_group.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
+        cdg.as_json.merge(domain_group_identities: cdg.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
       end
       case_note.as_json.merge(case_note_domain_group: formatted_case_note_domain_group)
     end

@@ -19,7 +19,11 @@ class NotificationsController < AdminController
         render 'client_enrollment_tracking_overdue'
       end
     elsif upcoming_assessment.presence == 'upcoming'
-      @upcoming_csi_clients_notification = @notification.upcoming_csi_assessments[:clients].order(:given_name, :family_name)
+      if params[:default] == 'true'
+        @upcoming_csi_clients_notification = @notification.client_upcoming_csi_assessments.order(:given_name, :family_name)
+      else
+        @upcoming_csi_clients_notification = @notification.client_upcoming_custom_csi_assessments.order(:given_name, :family_name)
+      end
       render 'upcoming_assessment'
     elsif case_note_overdue.present?
       if case_note_overdue == 'due_today'
