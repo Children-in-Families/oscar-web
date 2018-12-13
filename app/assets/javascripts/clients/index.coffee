@@ -33,7 +33,7 @@ CIF.ClientsIndex = do ->
     _addTourTip()
 
   _initCheckbox = ->
-    $('#report-builder-wizard-modal .i-checks').iCheck
+    $('#report-builder-wizard-modal .ichecks').iCheck
       checkboxClass: 'icheckbox_square-green'
 
   _initReportBuilderWizard = ->

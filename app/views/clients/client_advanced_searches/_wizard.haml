@@ -67,14 +67,18 @@
                   .col-xs-12
                     %p Which Forms from these program streams would you like to display information from?
                   .col-xs-4.form-group
-                    = check_box_tag :nil, '1', enrollment_check, { class: 'i-checks', id: 'wizard-enrollment-checkbox' }
-                    %label= t('.enrollment')
+                    -# = check_box_tag :nil, '1', enrollment_check, { class: 'i-checks', id: 'wizard-enrollment-checkbox' }
+                    = check_box_tag 'enrollment', 'true', enrollment_check, class: 'ichecks'
+                    %label.pointer{ for: 'enrollment' }= t('.enrollment')
+
                   .col-xs-4.form-group
-                    = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'wizard-tracking-checkbox' }
-                    %label= t('.tracking')
+                    -# = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'wizard-tracking-checkbox' }
+                    = check_box_tag 'tracking', 'true', tracking_check, class: 'ichecks'
+                    %label.pointer{ for: 'tracking' }= t('.tracking')
                   .col-xs-4.form-group
-                    = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
-                    %label= t('.exit_program')
+                    -# = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
+                    = check_box_tag 'exit_program', 'true', exit_form_check, class: 'ichecks'
+                    %label.pointer{ for: 'exit_program' }= t('.exit_program')
                 .row
                   .col-xs-12
                     %p Choose below which information you would like to display.
@@ -128,7 +132,7 @@
             %br
             %p You have already told the system that you want to display information from the following places:
             .chose-columns
-              
+
 
       -# .modal-footer
 
