@@ -12,7 +12,7 @@
               = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks', id: 'quantitative-type-checkbox' }
               %label= t('.quantitative')
     .col-xs-12.col-md-4
-      #custom-form-wrapper
+      .custom-form-wrapper
         .row
           .col-xs-12
             .form-group
@@ -23,7 +23,7 @@
             .form-group.custom-form{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'custom-form-select', class: 'form-control' } )
     .col-xs-12.col-md-4
-      #program-stream-wrapper
+      .program-stream-wrapper
         .row
           .col-xs-12
             .form-group

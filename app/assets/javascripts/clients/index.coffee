@@ -1,5 +1,7 @@
 CIF.ClientsIndex = do ->
   _init = ->
+    _initReportBuilderWizard()
+    _initCheckbox()
     _enableSelect2()
     _columnsVisibility()
     _fixedHeaderTableColumns()
@@ -30,6 +32,89 @@ CIF.ClientsIndex = do ->
     # _removeProgramStreamExitDate()
     _addTourTip()
 
+  _initCheckbox = ->
+    $('#report-builder-wizard-modal .i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+
+  _initReportBuilderWizard = ->
+    $('#report-builder-wizard-modal #filter_form').hide()
+    form = $('#advanced-search')
+    $('#report-builder-wizard').steps
+      headerTag: 'h3'
+      bodyTag: "section"
+      transitionEffect: "slideLeft"
+      autoFocus: true
+
+      onInit: ->
+        $('ul[role="tablist"]').hide()
+        _handleReportBuilderWizardDisplayBtns()
+
+      onFinished: (event, currentIndex) ->
+        form.submit()
+
+
+  _handleReportBuilderWizardDisplayBtns = ->
+    allSections = $('#report-builder-wizard-modal section')
+    choosenClasses = ['client-section', 'custom-form-section', 'program-stream-section', 'example-section']
+    for section in allSections
+      sectionClassName = section.classList[0]
+      if choosenClasses.includes(sectionClassName)
+        _handleCheckDisplayReport(section, sectionClassName)
+
+  _handleCheckDisplayReport = (element, sectionClassName) ->
+    $(element).find('.btn').on 'click', ->
+      btnValue = $(@).data('value')
+      if (sectionClassName == 'client-section') and (btnValue == 'yes')
+
+      else if (sectionClassName == 'custom-form-section') and (btnValue == 'yes')
+        $('.custom-form').show()
+      else if (sectionClassName == 'program-stream-section') and (btnValue == 'yes')
+        $('.program-stream').show()
+        $('.program-association').show()
+      else if (sectionClassName == 'example-section') and (btnValue == 'yes')
+        _insertQueryTutorailSteps()
+        $('#report-builder-wizard').steps('next')
+      else if (sectionClassName == 'example-section') and (btnValue == 'no')
+        $('#report-builder-wizard').steps('next')
+      else
+        # $('#report-builder-wizard').steps('next')
+  _insertQueryTutorailSteps = ->
+    firstTutorial = '<div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-danger">
+          <div class="panel-body">"I want to see this information for all clients who are Female AND who live in Battambang AND who are over 6 years old."</div>
+        </div>
+        <p>AND statements will only bring resutls for clients who match ALL the conditions of filter statement. In this example, this report will only show information for clients who</p>
+        <ul><li>- are female AND</li><li>- who live in Battambang AND</li><li>- who are over 6 years of age.</li></ul>
+        <br>
+        <p>Clients who only meet one or two of these conditions will not be displayed in the report.</p>
+      </div>
+    </div>'
+    secondTutorial = '<div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-danger">
+          <div class="panel-body">"I want to see this information for all clients who are between 12 and 18 years old OR who are Female."</div>
+        </div>
+        <p>OR statements will only bring resutls for clients who match ONE OR MORE of the conditions of filter statement. In this example, this report will only show information for clients who</p>
+        <ul><li>- are between 12 and 18 years old OR</li><li>- are female OR</li><li>- both of those conditions.</li></ul>
+      </div>
+    </div>'
+    thirdTutorial = '<div class="row">
+      <div class="col-xs-12">
+        <p>A common mistake with AND/OR Fitlers is to use an AND filter when you really mean OR. Consider the following example:</p>
+        <div class="panel panel-danger"><div class="panel-body">"I want to see this information for all clients who are from Battambang AND who are from Siem Reap."</div></div>
+        <p>People commonly put this filter togetther, assuming this will bring them information from all their clients who are from Battambang, and all their clients who are from Siem Reap. However, the system will instead try to find clients who are from both provinces at the same time, and find no results. The correct Fitlers would actually be:</p>
+        <div class="panel panel-danger"><div class="panel-body">"I want to see this information for all clients who are from Battambang OR who are from Siem Reap."</div></div>
+      </div>
+    </div>'
+    steps = [{ index: 6, html: firstTutorial }, { index: 7, html: secondTutorial }, { index: 8, html: thirdTutorial }]
+    for step in steps
+      nextBtn = step['index'] == 8 ? 'Okay, take me back to what i was doing.' : 'Okay...'
+      $('#report-builder-wizard').steps 'insert', step['index'],
+        content: step['html']
+        labels:
+          next: nextBtn
+
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
       $('select#client_grid_overdue_forms').select2('val', 'Yes')
@@ -42,6 +127,7 @@ CIF.ClientsIndex = do ->
 
   _hideOverdueAssessment = ->
     $('#client-advance-search-form .float-right').hide()
+    $('#report-builder-wizard-modal .float-right').hide()
 
   _overdueAssessmentSearch = ->
     $('#overdue-assessment.i-checks').on 'ifChecked', ->
@@ -79,7 +165,7 @@ CIF.ClientsIndex = do ->
 
     if $('#client-advance-search-form .visibility .checked').length == 0
       $('#client-advance-search-form .all-visibility #all_').iCheck('check')
-      $('#program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
+      $('.program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)

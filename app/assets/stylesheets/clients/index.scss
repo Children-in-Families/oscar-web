@@ -212,4 +212,9 @@ body[id='clients-index'] {
     // margin-top: 430px !important;
   }
 
+  #report-builder-wizard-modal {
+    #report-builder-wizard .content {
+      height: calc(100vh - 300px);
+    }
+  }
 }
