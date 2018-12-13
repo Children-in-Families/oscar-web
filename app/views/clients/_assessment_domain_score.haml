@@ -31,7 +31,7 @@
                 %tr
                   %th{:scope => "row"}= ordering += 1
                   %th= client.slug
-                  %td= "#{client.local_name} #{client.en_and_local_name}".squish
+                  %td= client.en_and_local_name
                   %td= "Assessment #{index + 1}"
                   %th= date_format(assessment.created_at)
                   - Domain.all.each do |domain|
