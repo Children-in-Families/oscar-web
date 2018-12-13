@@ -33,8 +33,9 @@ CIF.ClientsIndex = do ->
     _addTourTip()
 
   _initCheckbox = ->
-    $('#report-builder-wizard-modal .ichecks').iCheck
+    $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initReportBuilderWizard = ->
     $('#report-builder-wizard-modal #filter_form').hide()
@@ -161,10 +162,10 @@ CIF.ClientsIndex = do ->
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('#client-search-form .visibility .checked').length == 0
-      $('#client-search-form .all-visibility #all_').iCheck('check')
+      $('#client-search-form .all-visibility .all_').iCheck('check')
 
     if $('#client-advance-search-form .visibility .checked').length == 0
-      $('#client-advance-search-form .all-visibility #all_').iCheck('check')
+      $('#client-advance-search-form .all-visibility .all_').iCheck('check')
       $('.program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
 
   _handleAutoCollapse = ->
@@ -345,13 +346,13 @@ CIF.ClientsIndex = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-    allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('.all-visibility .all_')
 
     for checkBox in allCheckboxes
       $(checkBox).on 'ifChecked', ->
-        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
+        $(@).closest('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
       $(checkBox).on 'ifUnchecked', ->
-        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
+        $(@).closest('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _fixedHeaderTableColumns = ->
     sInfoShow = $('#sinfo').data('infoshow')
