@@ -151,7 +151,7 @@ class CIF.ClientAdvanceSearch
 
   handleHideCustomFormSelect: ->
     self = @
-    $('#custom-form-checkbox, #wizard-custom-form-checkbox').on 'ifUnchecked', ->
+    $('#custom-form-checkbox').on 'ifUnchecked', ->
       $('.custom-form-column ul.append-child li').remove()
 
       $('#custom-form-select option:selected, #wizard-custom-form-select option:selected').each ->
@@ -163,9 +163,9 @@ class CIF.ClientAdvanceSearch
       $('.custom-form').hide()
 
   handleShowCustomFormSelect: ->
-    if $('#custom-form-checkbox, #wizard-custom-form-checkbox').prop('checked')
+    if $('#custom-form-checkbox').prop('checked')
       $('.custom-form').show()
-    $('#custom-form-checkbox, #wizard-custom-form-checkbox').on 'ifChecked', ->
+    $('#custom-form-checkbox').on 'ifChecked', ->
       $('.custom-form').show()
 
   ######################################################################################################################
@@ -221,16 +221,16 @@ class CIF.ClientAdvanceSearch
 
   handleShowProgramStreamFilter: ->
     self = @
-    if $('#program-stream-checkbox, #wizard-program-stream-checkbox').prop('checked')
+    if $('#program-stream-checkbox').prop('checked')
       $('.program-stream').show()
     if self.enrollmentCheckbox.prop('checked') || self.trackingCheckbox.prop('checked') || self.exitCheckbox.prop('checked') || self.programSelected.length > 0
       $('.program-association').show()
-    $('#program-stream-checkbox, #wizard-program-stream-checkbox').on 'ifChecked', ->
+    $('#program-stream-checkbox').on 'ifChecked', ->
       $('.program-stream').show()
 
   handleHideProgramStreamSelect: ->
     self = @
-    $('#program-stream-checkbox, #wizard-program-stream-checkbox').on 'ifUnchecked', ->
+    $('#program-stream-checkbox').on 'ifUnchecked', ->
       $('.program-stream-column ul.append-child li').remove()
       self.programSelected = []
       $('.program-stream, .program-association').hide()

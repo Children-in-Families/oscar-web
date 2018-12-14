@@ -6,7 +6,7 @@
         %h4.modal-title Report Builder Wizard
       .modal-body
         #report-builder-wizard
-          %h3
+          %h3 Clients
           %section.client-section
             %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
             %br
@@ -23,7 +23,7 @@
                 #client-column
                   = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
 
-          %h3
+          %h3 Custom Forms
           %section.custom-form-section
             .custom-form-wrapper
               %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
@@ -47,14 +47,14 @@
                     %label= t('.custom_form_column')
                     = render 'clients/client_advanced_searches/custom_form_column'
 
-          %h3
+          %h3 Program Streams
           %section.program-stream-section
             .program-stream-wrapper
               %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
               %br
               .row
                 .col-xs-12
-                  %p Do you want to display information from any Custom Forms?
+                  %p Do you want to display information from any Program Stream Forms?
                   .btn.btn-primary{ 'data-value': 'yes'} Yes
                   .btn.btn-danger{ 'data-value': 'no'} No
               .program-stream
@@ -81,7 +81,7 @@
                     %label= t('.program_stream_column')
                     = render 'clients/client_advanced_searches/program_stream_column'
 
-          %h3
+          %h3 Referral Data
           %section.referral-data-section
             %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
             %br
@@ -92,7 +92,7 @@
                 .btn.btn-primary{ 'data-value': 'yes'} Yes
                 .btn.btn-danger{ 'data-value': 'no'} No
 
-          %h3
+          %h3 Example Section
           %section.example-section
             %p The next step in building a report is to filter your information.
             %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
@@ -112,7 +112,7 @@
                 "I want to see this informatioin for all clients who are between 12 and 18 years old
                 %br OR who are Female."
 
-          %h3
+          %h3 Example Section
           %section.example-section
             %p The next step in building a report is to filter your information.
             %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
@@ -121,14 +121,46 @@
             .btn.btn-primary{ 'data-value': 'yes'} Yes please.
             .btn.btn-danger{ 'data-value': 'no'} No thanks.
 
-          %h3
-          %section
+          %h3 Chose Columns
+          %section.chose-columns-section
             %p The next step in building a report is to filter your information.
             %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
             %br
             %p You have already told the system that you want to display information from the following places:
-            .chose-columns
-              
+            .row
+              .col-xs-4.client-chose-columns
+                %h4 Client Columns
+                %ul
+              .col-xs-4.custom-form-chose-columns
+                %h4 Custom Form Columns
+                %ul
+              .col-xs-4.program-stream-chose-columns
+                %h4 Program Stream Columns
+                %ul
+            %br
+            %p Do you want to filter your clients based on this same information, or add something else?
+            .btn.btn-primary{ 'data-value': 'yes'} I want to filter clients based on information in the forms I arledy chose.
+            .btn.btn-danger{ 'data-value': 'no'} I want to filter based on information from somewhere else.
+
+          %h3 Remind
+          %section.reminder-section
+            %p The next step in building a report is to filter your information.
+            %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+            %br
+            %p What other information would you like to use to filter your clients?
+            %ul
+              %li
+                = check_box_tag :custom_form_filter, class: 'i-checks'
+                = label_tag "Information on Custom Forms"
+              %li
+                = check_box_tag :program_stream_filter, class: 'i-checks'
+                = label_tag "Information on Program Stream Forms"
+              %li
+                = check_box_tag :quantitative_filter, class: 'i-checks'
+                = label_tag "Information from Point-of-Referral Data"
+
+
+
 
       -# .modal-footer
 

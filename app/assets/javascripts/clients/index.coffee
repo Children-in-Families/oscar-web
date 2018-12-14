@@ -49,13 +49,18 @@ CIF.ClientsIndex = do ->
         $('ul[role="tablist"]').hide()
         _handleReportBuilderWizardDisplayBtns()
 
+      onStepChanging: (event, currentIndex, newIndex) ->
+        nextStepTitle = $('#report-builder-wizard').steps('getStep', newIndex).title
+        _displayChoseColumns() if nextStepTitle == 'Chose Columns'
+        return true
+
       onFinished: (event, currentIndex) ->
         form.submit()
 
 
   _handleReportBuilderWizardDisplayBtns = ->
     allSections = $('#report-builder-wizard-modal section')
-    choosenClasses = ['client-section', 'custom-form-section', 'program-stream-section', 'example-section']
+    choosenClasses = ['client-section', 'custom-form-section', 'program-stream-section', 'referral-data-section', 'example-section', 'chose-columns-section']
     for section in allSections
       sectionClassName = section.classList[0]
       if choosenClasses.includes(sectionClassName)
@@ -67,14 +72,26 @@ CIF.ClientsIndex = do ->
       if (sectionClassName == 'client-section') and (btnValue == 'yes')
 
       else if (sectionClassName == 'custom-form-section') and (btnValue == 'yes')
+        $('#custom-form-checkbox').iCheck('check')
+        $('#custom_form_filter').iCheck('check')
         $('.custom-form').show()
       else if (sectionClassName == 'program-stream-section') and (btnValue == 'yes')
+        $('#program-stream-checkbox').iCheck('check')
+        $('#program_stream_filter').iCheck('check')
         $('.program-stream').show()
         $('.program-association').show()
+      else if (sectionClassName == 'referral-data-section') and (btnValue == 'yes')
+        $('#quantitative-type-checkbox').iCheck('check')
+        $('#quantitative_filter').iCheck('check')
       else if (sectionClassName == 'example-section') and (btnValue == 'yes')
         _insertQueryTutorailSteps()
         $('#report-builder-wizard').steps('next')
       else if (sectionClassName == 'example-section') and (btnValue == 'no')
+        $('#report-builder-wizard').steps('next')
+      else if (sectionClassName == 'chose-columns-section') and (btnValue == 'yes')
+        $('#report-builder-wizard').steps('next')
+        $('#report-builder-wizard').steps('next')
+      else if (sectionClassName == 'chose-columns-section') and (btnValue == 'no')
         $('#report-builder-wizard').steps('next')
       else
         # $('#report-builder-wizard').steps('next')
@@ -112,8 +129,20 @@ CIF.ClientsIndex = do ->
       nextBtn = step['index'] == 8 ? 'Okay, take me back to what i was doing.' : 'Okay...'
       $('#report-builder-wizard').steps 'insert', step['index'],
         content: step['html']
-        labels:
-          next: nextBtn
+
+  _displayChoseColumns = ->
+    clientColumns = $('section #client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    customFormColumns = $('section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    programStraemsColumns = $('section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    _appendChoseColumns(clientColumns, '.client-chose-columns') if clientColumns.length != 0
+    _appendChoseColumns(customFormColumns, '.custom-form-chose-columns') if customFormColumns.length != 0
+    _appendChoseColumns(programStraemsColumns, '.program-stream-chose-columns') if programStraemsColumns.length != 0
+
+  _appendChoseColumns = (columns, className) ->
+    $("#{className} ul li").remove()
+    for column in columns
+      columnName = $(column).text()
+      $("#{className} ul").append("<li>- #{columnName}</li>")
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
