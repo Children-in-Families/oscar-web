@@ -14,11 +14,11 @@ module AdvancedSearches
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       domain_scores_options = enable_assessment_setting? ? AdvancedSearches::DomainScoreFields.render : []
+      csi_options           = AdvancedSearches::CsiFields.render
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
 
       search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
-
-      search_fields.sort_by { |f| f[:label].downcase } + domain_scores_options + school_grade_options
+      search_fields.sort_by { |f| f[:label].downcase } + domain_scores_options + school_grade_options + csi_options
     end
 
     private

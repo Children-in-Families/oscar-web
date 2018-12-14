@@ -1,15 +1,20 @@
 module AdvancedSearches
-  class DomainScoreFields
+  class CsiFields
     extend AdvancedSearchHelper
 
     def self.render
-      domain_score_group  = format_header('csi_domain_scores')
-      csi_domain_options  = domain_options.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
-      # date_of_assessments = ['Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, domain_score_group) }
-      csi_domain_options
+      csi_group  = format_header('custom_csi_group')
+      csi_domain_options  = number_type_list.map { |item| number_filter_type(item, format_header(item), csi_group) }
+      date_of_assessments = ['Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, csi_group) }
+      
+      (date_of_assessments + csi_domain_options).sort_by { |f| f[:label].downcase }
     end
 
     private
+
+    def self.number_type_list
+      ['assessment_number', 'month_number']
+    end
 
     def self.domain_options
       Domain.order_by_identity.map { |domain| "domainscore_#{domain.id}_#{domain.identity}" }
@@ -25,7 +30,8 @@ module AdvancedSearches
         optgroup: group,
         label: label,
         type: 'date',
-        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty'],
+        # operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty'],
+        operators: ['equal', 'between'],
         plugin: 'datepicker',
         plugin_config: {
           format: 'yyyy-mm-dd',
@@ -41,10 +47,8 @@ module AdvancedSearches
         id: field_name,
         optgroup: group,
         label: label,
-        type: 'string',
-        input: 'select',
-        values: ['1', '2', '3', '4'],
-        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
+        type: 'integer',
+        operators: ['equal']
       }
     end
   end

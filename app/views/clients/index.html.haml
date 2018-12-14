@@ -87,3 +87,9 @@
             %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
         .ibox-footer.text-center
           = paginate @client_grid.assets
+.hide
+  = hidden_field(:hidden, :assessment_number, value: t('.assessment_number'))
+  = hidden_field(:hidden, :custom_csi_group, value: t('.custom_csi_group'))
+  = hidden_field(:hidden, :month_number, value: t('.month_number'))
+  = hidden_field(:hidden, :date_of_assessments, value: t('.date_of_assessments'))
+  = hidden_field(:hidden, :csi_domain_scores, value: t('.csi_domain_scores'))

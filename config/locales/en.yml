@@ -313,6 +313,7 @@ en:
       agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
+      assessment_number: Assessment#
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
       birth_province_id: Birth Province
@@ -330,6 +331,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
+      custom_csi_group: Custom CSI Group
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
@@ -370,6 +372,7 @@ en:
       local_family_name: Family Name
       local_given_name: Given Name
       main_school_contact: Main School Contact
+      month_number: Month#
       name: Name
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
@@ -1311,14 +1314,19 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       assessments: Assessments
+      assessment_number: Assessment#
       case_statistics: Case Statistics
       client_amount: Clients
       csi_domain_scores: CSI Domain Scores
+      custom_csi_group: Custom CSI Group
+      date_of_assessment: Date of Assessment
+      date_of_assessments: Date of Assessments
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
       load: Loading more...
       load_save_search: Load Saved Search
+      month_number: Month#
       most_recent: Most Recent
       popover_content: Please click Search button to see clients
       popover_done: Close

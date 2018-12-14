@@ -111,7 +111,10 @@ module AdvancedSearchHelper
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
       referred_from: I18n.t('advanced_search.fields.referred_from'),
-      time_in_care: I18n.t('advanced_search.fields.time_in_care')
+      time_in_care: I18n.t('advanced_search.fields.time_in_care'),
+      assessment_number: I18n.t('advanced_search.fields.assessment_number'),
+      month_number: I18n.t('advanced_search.fields.month_number'),
+      custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group')
     }
     translations[key.to_sym] || ''
   end

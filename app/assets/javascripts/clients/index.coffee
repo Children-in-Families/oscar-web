@@ -141,6 +141,8 @@ CIF.ClientsIndex = do ->
     advanceFilter.handleRemoveQuantitativFilter()
 
     advanceFilter.handleSearch()
+    advanceFilter.addgroupCallback()
+    advanceFilter.handleCsiSelectOption()
     advanceFilter.addRuleCallback()
     advanceFilter.filterSelectChange()
     advanceFilter.filterSelecting()

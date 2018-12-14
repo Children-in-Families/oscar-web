@@ -52,11 +52,26 @@ module AdvancedSearches
         values = referred_from_query
       when 'time_in_care'
         values = time_in_care_query
+      when 'assessment_number'
+        values = assessment_number_query
+      when 'month_number'
+        values = month_number_query
+      when 'assessment_completed_date'
+        values = assessment_completed_date_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def assessment_number_query
+    end
+
+    def month_number_query
+    end
+
+    def assessment_completed_date_query
+    end
 
     def referred_to_query
       clients = @clients.joins(:referrals)
