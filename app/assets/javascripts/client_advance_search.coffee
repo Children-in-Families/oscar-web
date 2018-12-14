@@ -259,66 +259,78 @@ class CIF.ClientAdvanceSearch
     $('#exit-form-checkbox').on 'ifChecked', ->
       self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL)
 
-
   addgroupCallback: ->
-    flagsObj = flags:
-                readonly: true
-                condition_readonly: false
-                no_add_group: true
-
+    self = @
     $('#builder').on 'click', '.btn-custom-group', (e) ->
       builder     = $('#builder')
       root        = builder.queryBuilder 'getModel'
-      group       = builder.queryBuilder('addGroup', root, false, false, flagsObj)
-      # debugger
-      # group       = builder.queryBuilder('setRules', group)
+      group       = builder.queryBuilder('addGroup', root, false, false, {no_add_group: true})
+
       groupId   = "##{group.id}"
-      $(groupId).addClass('csi-group')
-      
+      $(groupId).addClass('csi-group')  
+
       rule      = builder.queryBuilder('addRule', group)
       rule1     = builder.queryBuilder('addRule', group)
       rule2     = builder.queryBuilder('addRule', group)   
-      # $('option[value="month_number"]:selected').closest('.rules-group-container').addClass('hello')
 
-      # rule.filter     = builder.queryBuilder('getFilterById', 'domainscore_1_Food Security');
-      # rule.value      = ''
-      # rule1.filter    = builder.queryBuilder('getFilterById', 'assessment_number')
-      # rule2.filter    = builder.queryBuilder('getFilterById', 'date_of_assessments')
-      # rule2.operator  = builder.queryBuilder('getOperatorByType', 'between')
+      rule.filter     = builder.queryBuilder('getFilterById', 'domainscore_1_Food Security');
+      rule.value      = ''
+      rule1.filter    = builder.queryBuilder('getFilterById', 'assessment_number')
+      rule2.filter    = builder.queryBuilder('getFilterById', 'date_of_assessments')
+      rule2.operator  = builder.queryBuilder('getOperatorByType', 'between')
+  
+  handleCsiAfterSearch: ->
+    $('option[value^="domainscore_"]:selected').closest('.rules-group-container').addClass('csi-group')
+    $('option[value="month_number"]:selected').closest('.rules-group-container').addClass('csi-group')
+    $('option[value="assessment_number"]:selected').closest('.rules-group-container').addClass('csi-group')
+    $('option[value="date_of_assessments"]:selected').closest('.rules-group-container').addClass('csi-group')
+
   ######################################################################################################################
   
+  handleRule2SelectChange: ->
+    self = @
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
+
+    $(document).on 'change', select2Csi, (e)->
+      if e.val == 'date_of_assessments'
+        $(this).closest('.rules-list').find('.rule-container:nth-child(3) .rule-actions').children().click()
+      else
+        if $(this).closest('.rule-container').siblings().length < 2
+          $(this).closest('.csi-group').find('.btn-add-rule').click()
+          $(this).closest('.rules-list').find('.rule-container:nth-child(3) select').addClass('final-opt')
+          debugger
+          $('.final-opt')
+    return
+    
+
   handleCsiSelectOption: ->
     assessmentNumberTranslate = $('#hidden_assessment_number').val()
     customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
     monthNumberTranslate      = $('#hidden_month_number').val()
-    dateOfAssessmentTranslate = $('#hidden_date_of_assessment').val()
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
     csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-filter-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
-      # handleCsiOption(elements, 'CSI Domain Scores')
       handleCsiOption(elements, csiDomainScoresTranslate)
     
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
-      # handleCsiOption(elements, 'Custom CSI Group')
       handleCsiOption(elements, customCsiGroupTranslate)
 
-    select2Csi = '.csi-group .rules-list .rule-container:last-child .rule-filter-container > select'
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(3) .rule-filter-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
-      # handleCsiOption(elements, 'Custom CSI Group', 'third-child')
       handleCsiOption(elements, customCsiGroupTranslate, 'third-child')
 
   handleCsiOption = (elements, group, nthChild = undefined) ->
     customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
-    dateOfAssessmentTranslate = $('#hidden_date_of_assessment').val()
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
 
     $.each elements, (index, item) ->
-      # if item.firstElementChild.textContent == 'Custom CSI Group' && nthChild == 'third-child'
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'third-child'
-        debugger
         $.each $(item).children().last().children(), (index, el) ->
           if el.firstElementChild.textContent != dateOfAssessmentTranslate
             $(el).hide()

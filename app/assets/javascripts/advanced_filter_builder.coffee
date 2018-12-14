@@ -5,10 +5,6 @@ class CIF.AdvancedFilterBuilder
     @filterTranslation  = filterTranslation
     
   initRule: ->
-    # _addGroup = $.fn.queryBuilder.constructor::addGroup
-    # $.fn.queryBuilder.constructor::addGroup = (parent, addRule, data, flags) ->
-    #   debugger
-    #   _addGroup.call this, parent, addRule == true, data, flags
     $(@element).queryBuilder(@builderOption())
 
   builderOption: ->
