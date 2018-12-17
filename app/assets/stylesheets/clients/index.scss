@@ -212,9 +212,24 @@ body[id='clients-index'] {
     // margin-top: 430px !important;
   }
 
+  // Report Builder Wizard
+
   #report-builder-wizard-modal {
     #report-builder-wizard .content {
       height: calc(100vh - 300px);
+      overflow: scroll;
+    }
+
+    label.pointer {
+      cursor: pointer;
+    }
+
+    .custom-form .select2-input {
+      width: 100% !important;
+    }
+
+    .columns-visibility {
+      margin-bottom: 20px;
     }
   }
 }

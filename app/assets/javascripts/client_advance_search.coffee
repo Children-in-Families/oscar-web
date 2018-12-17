@@ -30,9 +30,9 @@ class CIF.ClientAdvanceSearch
 
   getTranslation: ->
     @filterTranslation =
-      addFilter: $('#builder').data('filter-translation-add-filter')
-      addGroup: $('#builder').data('filter-translation-add-group')
-      deleteGroup: $('#builder').data('filter-translation-delete-group')
+      addFilter: $('#builder, #wizard-builder').data('filter-translation-add-filter')
+      addGroup: $('#builder, #wizard-builder').data('filter-translation-add-group')
+      deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
 
   formatSpecialCharacter: (value) ->
     filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim()
@@ -68,10 +68,13 @@ class CIF.ClientAdvanceSearch
     builderFields = $(id).data('fields')
     # builderFields = $('#client-builder-fields').data('fields')
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
+    advanceSearchWizardBuilder = new CIF.AdvancedFilterBuilder($('#wizard-builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
+    advanceSearchWizardBuilder.initRule()
     @.basicFilterSetRule()
     @.initSelect2()
     @.initRuleOperatorSelect2($('#builder'))
+    @.initRuleOperatorSelect2($('#wizard-builder'))
 
   initSelect2: ->
     $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
@@ -111,6 +114,7 @@ class CIF.ClientAdvanceSearch
       success: (response) ->
         fieldList = response.client_advanced_searches
         $('#builder').queryBuilder('addFilter', fieldList)
+        $('#wizard-builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
 
@@ -215,6 +219,7 @@ class CIF.ClientAdvanceSearch
           $(optGroup).find('option').each ->
             values.push $(@).val()
     $('#builder').queryBuilder('removeFilter', values)
+    $('#wizard-builder').queryBuilder('removeFilter', values)
     @initSelect2()
 
   ######################################################################################################################
@@ -329,6 +334,7 @@ class CIF.ClientAdvanceSearch
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
       $('#builder').queryBuilder('addFilter', fields)
+      $('#wizard-builder').queryBuilder('addFilter', fields)
       self.initSelect2()
 
   handleRemoveQuantitativFilter: ->

@@ -33,7 +33,7 @@ CIF.ClientsIndex = do ->
     _addTourTip()
 
   _initCheckbox = ->
-    $('#report-builder-wizard-modal .i-checks').iCheck
+    $('#report-builder-wizard-modal .ichecks').iCheck
       checkboxClass: 'icheckbox_square-green'
 
   _initReportBuilderWizard = ->
@@ -71,30 +71,44 @@ CIF.ClientsIndex = do ->
       btnValue = $(@).data('value')
       if (sectionClassName == 'client-section') and (btnValue == 'yes')
 
-      else if (sectionClassName == 'custom-form-section') and (btnValue == 'yes')
-        $('#custom-form-checkbox').iCheck('check')
-        $('#custom_form_filter').iCheck('check')
-        $('.custom-form').show()
-      else if (sectionClassName == 'program-stream-section') and (btnValue == 'yes')
-        $('#program-stream-checkbox').iCheck('check')
-        $('#program_stream_filter').iCheck('check')
-        $('.program-stream').show()
-        $('.program-association').show()
-      else if (sectionClassName == 'referral-data-section') and (btnValue == 'yes')
-        $('#quantitative-type-checkbox').iCheck('check')
-        $('#quantitative_filter').iCheck('check')
-      else if (sectionClassName == 'example-section') and (btnValue == 'yes')
-        _insertQueryTutorailSteps()
+      else if sectionClassName == 'custom-form-section'
+        if btnValue == 'yes'
+          $('#custom-form-checkbox').iCheck('check')
+          $('#custom_form_filter').iCheck('check')
+        else if btnValue == 'no'
+          $('#custom-form-checkbox').iCheck('uncheck')
+          $('#custom_form_filter').iCheck('uncheck')
+          handleHideCustomFormSelect()
+      else if sectionClassName == 'program-stream-section'
+        if btnValue == 'yes'
+          $('#program-stream-checkbox').iCheck('check')
+          $('#program_stream_filter').iCheck('check')
+          $('.program-stream').show()
+          $('.program-association').show()
+        else if btnValue == 'no'
+          $('#program-stream-checkbox').iCheck('uncheck')
+          $('#program_stream_filter').iCheck('uncheck')
+          $('.program-stream').hide()
+          $('.program-association').hide()
+      else if sectionClassName == 'referral-data-section'
+        if btnValue == 'yes'
+          $('#quantitative-type-checkbox').iCheck('check')
+          $('#quantitative_filter').iCheck('check')
+        else if btnValue == 'no'
+          $('#quantitative-type-checkbox').iCheck('uncheck')
+          $('#quantitative_filter').iCheck('uncheck')
+      else if sectionClassName == 'example-section'
+        _insertQueryTutorailSteps() if btnValue == 'yes'
         $('#report-builder-wizard').steps('next')
-      else if (sectionClassName == 'example-section') and (btnValue == 'no')
-        $('#report-builder-wizard').steps('next')
-      else if (sectionClassName == 'chose-columns-section') and (btnValue == 'yes')
-        $('#report-builder-wizard').steps('next')
-        $('#report-builder-wizard').steps('next')
-      else if (sectionClassName == 'chose-columns-section') and (btnValue == 'no')
-        $('#report-builder-wizard').steps('next')
+      else if sectionClassName == 'chose-columns-section'
+        if btnValue == 'yes'
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
+        else if btnValue == 'no'
+          $('#report-builder-wizard').steps('next')
       else
         # $('#report-builder-wizard').steps('next')
+
   _insertQueryTutorailSteps = ->
     firstTutorial = '<div class="row">
       <div class="col-xs-12">
