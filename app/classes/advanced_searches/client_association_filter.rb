@@ -1,5 +1,6 @@
 module AdvancedSearches
   class ClientAssociationFilter
+    include ActionView::Helpers::DateHelper
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -56,8 +57,6 @@ module AdvancedSearches
         values = assessment_number_query
       when 'month_number'
         values = month_number_query
-      when 'assessment_completed_date'
-        values = assessment_completed_date_query
       end
       { id: sql_string, values: values }
     end
@@ -68,9 +67,6 @@ module AdvancedSearches
     end
 
     def month_number_query
-    end
-
-    def assessment_completed_date_query
     end
 
     def referred_to_query
