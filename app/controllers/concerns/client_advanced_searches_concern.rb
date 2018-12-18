@@ -25,7 +25,11 @@ module ClientAdvancedSearchesConcern
       f.xls do
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
         export_client_reports
-        send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+        if params[:type] == 'basic_info'
+          send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+        else
+          send_data @client_grid.to_spreadsheet, filename: "client_assessment_domain_report-#{Time.now}.xls"
+        end
       end
     end
   end

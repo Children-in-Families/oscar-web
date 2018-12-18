@@ -9,7 +9,7 @@
 
       .modal-body
         - if params['commit'].present? || params['client_advanced_search'].present?
-          = link_to current_url({format: 'xls', type: 'assessment_domain_score'}), class: 'btn btn-primary btn-export pull-right' do
+          = link_to current_url(format: 'xls', type: 'assessment_domain_score'), class: 'btn btn-primary btn-export pull-right' do
             %i.fa.fa-download
             = t('.export_to_xls')
         - assessment_domain_hash = {}
