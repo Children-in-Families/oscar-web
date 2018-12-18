@@ -47,6 +47,7 @@ CIF.ClientsIndex = do ->
 
       onInit: ->
         $('ul[role="tablist"]').hide()
+        $('.actions a[href="#finish"]').attr('id', 'wizard-search')
         _handleReportBuilderWizardDisplayBtns()
 
       onStepChanging: (event, currentIndex, newIndex) ->
@@ -78,7 +79,6 @@ CIF.ClientsIndex = do ->
         else if btnValue == 'no'
           $('#custom-form-checkbox').iCheck('uncheck')
           $('#custom_form_filter').iCheck('uncheck')
-          handleHideCustomFormSelect()
       else if sectionClassName == 'program-stream-section'
         if btnValue == 'yes'
           $('#program-stream-checkbox').iCheck('check')

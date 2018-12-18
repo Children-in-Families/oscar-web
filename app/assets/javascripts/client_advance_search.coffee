@@ -346,8 +346,10 @@ class CIF.ClientAdvanceSearch
 
   handleSearch: ->
     self = @
-    $('#search').on 'click', ->
-      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+    $('#search, #wizard-search').on 'click', (e)->
+      btnID = e.currentTarget.id
+      builderElement = if btnID == 'search' then '#builder' else '#wizard-builder'
+      basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
       programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
 
@@ -358,7 +360,7 @@ class CIF.ClientAdvanceSearch
         $('#client_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $(builderElement).find('.has-error').remove()
         $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
