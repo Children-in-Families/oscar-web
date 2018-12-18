@@ -261,15 +261,16 @@ class CIF.ClientAdvanceSearch
 
   addgroupCallback: ->
     self = @
-    window.customGroup = {}
+
     $('#builder').on 'click', '.btn-custom-group', (e) ->
       builder     = $('#builder')
       root        = builder.queryBuilder 'getModel'
-      group       = builder.queryBuilder('addGroup', root, false, false, {no_add_group: true})
+      group       = builder.queryBuilder('addGroup', root, false, false, {no_add_group: true, condition_readonly: true})
 
       groupId     = "##{group.id}"
       window.customGroup["#{group.id}"] = group
       $(groupId).addClass('csi-group')
+      $('.csi-group .group-conditions .btn-primary').attr('disabled', 'disabled')
 
       rule      = builder.queryBuilder('addRule', group)
       rule1     = builder.queryBuilder('addRule', group)
@@ -286,6 +287,8 @@ class CIF.ClientAdvanceSearch
     $('option[value="month_number"]:selected').closest('.rules-group-container').addClass('csi-group')
     $('option[value="assessment_number"]:selected').closest('.rules-group-container').addClass('csi-group')
     $('option[value="date_of_assessments"]:selected').closest('.rules-group-container').addClass('csi-group')
+    $('.csi-group .group-conditions .btn-primary').attr('disabled', 'disabled')
+    $('.csi-group .group-conditions .btn-primary:nth-child(2)').addClass('hide')
 
   ######################################################################################################################
 

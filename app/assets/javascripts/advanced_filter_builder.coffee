@@ -3,9 +3,11 @@ class CIF.AdvancedFilterBuilder
     @element            = element
     @fieldList          = fieldList
     @filterTranslation  = filterTranslation
-    
+
   initRule: ->
     $(@element).queryBuilder(@builderOption())
+    $('#builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
+      window.customGroup["#{addRule.id}"] = addRule if window.customGroup["#{addRule.id}"] == undefined
 
   builderOption: ->
     templates:

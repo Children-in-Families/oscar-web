@@ -1,5 +1,6 @@
 CIF.ClientsIndex = do ->
   _init = ->
+    window.customGroup = {}
     _enableSelect2()
     _columnsVisibility()
     _fixedHeaderTableColumns()

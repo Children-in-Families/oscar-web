@@ -64,9 +64,23 @@ module AdvancedSearches
     private
 
     def assessment_number_query
+      @clients.joins(:assessments).group(:id).having("COUNT(assessments) >= ?", @value).ids
     end
 
     def month_number_query
+      if @value == 1
+        clients = @clients.joins(:assessments).group(:id).having('COUNT(assessments) >= 1')
+      else
+        clients = @clients.joins(:assessments).distinct.where("assessments_count > 1")
+        clients = clients.includes(:assessments).all.reject do |client|
+          ordered_assessments = client.assessments.order(:created_at)
+          dates = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
+          date  = (ordered_assessments.first.created_at + (@value - 1).months).strftime("%b, %Y")
+
+          dates.exclude?(date)
+        end
+      end
+      clients.map(&:id)
     end
 
     def referred_to_query
