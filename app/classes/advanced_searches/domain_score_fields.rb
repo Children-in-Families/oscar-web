@@ -44,7 +44,7 @@ module AdvancedSearches
         type: 'string',
         input: 'select',
         values: ['1', '2', '3', '4'],
-        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
+        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty', 'average', 'has_changed']
       }
     end
   end

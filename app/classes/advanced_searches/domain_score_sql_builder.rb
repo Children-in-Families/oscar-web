@@ -32,6 +32,10 @@ module AdvancedSearches
         client_ids = Client.where.not(id: assessments.pluck(:client_id).uniq).pluck(:id).uniq
       when 'is_not_empty'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score IS NOT NULL', @domain_id)
+      # when 'average'
+      #   assessments = assessments.where('assessment_domains.domain_id =')
+      # when 'has_changed'
+
       end
       client_ids = assessments.pluck(:client_id).uniq unless @operator == 'is_empty'
       { id: sql_string, values: client_ids }
