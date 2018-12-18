@@ -39,7 +39,7 @@
                   .col-xs-12
                     %p Which Custom Forms would you like to show information from?
                     .form-group{ data: { value: custom_form_values } }
-                      = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'wizard-custom-form-select form-control' } )
+                      = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'wizard-custom-form-select form-control', class: '' } )
                 %br
                 .row
                   .col-xs-12
@@ -62,22 +62,22 @@
                   .col-xs-12
                     %p Which Program Streams are you interested in?
                     .form-group{ data: { value: program_stream_values } }
-                      = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control' } )
+                      = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control program-stream-select' } )
                 .row.program-association
                   .col-xs-12
                     %p Which Forms from these program streams would you like to display information from?
                   .col-xs-4.form-group
                     -# = check_box_tag :nil, '1', enrollment_check, { class: 'i-checks', id: 'wizard-enrollment-checkbox' }
-                    = check_box_tag 'enrollment', 'true', enrollment_check, class: 'i-checks', id: 'wizard-enrollment-checkbox'
+                    = check_box_tag 'enrollment', 'true', enrollment_check, class: 'i-checks enrollment-checkbox', id: 'wizard-enrollment-checkbox'
                     %label.pointer{ for: 'wizard-enrollment-checkbox' }= t('.enrollment')
 
                   .col-xs-4.form-group
                     -# = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'wizard-tracking-checkbox' }
-                    = check_box_tag 'tracking', 'true', tracking_check, class: 'i-checks', id: 'wizard-tracking-checkbox'
+                    = check_box_tag 'tracking', 'true', tracking_check, class: 'i-checks tracking-checkbox', id: 'wizard-tracking-checkbox'
                     %label.pointer{ for: 'wizard-tracking-checkbox' }= t('.tracking')
                   .col-xs-4.form-group
                     -# = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
-                    = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks', id: 'wizard-exit-form-checkbox'
+                    = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks exit-form-checkbox', id: 'wizard-exit-form-checkbox'
                     %label.pointer{ for: 'wizard-exit-form-checkbox' }= t('.exit_program')
                 .row
                   .col-xs-12
@@ -154,10 +154,10 @@
             %p What other information would you like to use to filter your clients?
             %ul
               %li
-                = check_box_tag :custom_form_filter, class: 'ichecks'
+                = check_box_tag :custom_form_filter, class: 'ichecks custom_form_filter'
                 = label_tag "Information on Custom Forms"
               %li
-                = check_box_tag :program_stream_filter, class: 'ichecks'
+                = check_box_tag :program_stream_filter, class: 'ichecks program_stream_filter'
                 = label_tag "Information on Program Stream Forms"
               %li
                 = check_box_tag :quantitative_filter, class: 'ichecks'

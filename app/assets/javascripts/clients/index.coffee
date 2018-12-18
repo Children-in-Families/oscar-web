@@ -74,21 +74,29 @@ CIF.ClientsIndex = do ->
 
       else if sectionClassName == 'custom-form-section'
         if btnValue == 'yes'
-          $('#custom-form-checkbox').iCheck('check')
-          $('#custom_form_filter').iCheck('check')
+          # $('#custom-form-checkbox').iCheck('check')
+          $('.custom-form-checkbox').iCheck('check')
+          # $('#custom_form_filter').iCheck('check')
+          $('.custom_form_filter').iCheck('check')
         else if btnValue == 'no'
-          $('#custom-form-checkbox').iCheck('uncheck')
-          $('#custom_form_filter').iCheck('uncheck')
+          # $('#custom-form-checkbox').iCheck('uncheck')
+          $('.custom-form-checkbox').iCheck('uncheck')
+          # $('#custom_form_filter').iCheck('uncheck')
+          $('.custom_form_filter').iCheck('uncheck')
           handleHideCustomFormSelect()
       else if sectionClassName == 'program-stream-section'
         if btnValue == 'yes'
-          $('#program-stream-checkbox').iCheck('check')
-          $('#program_stream_filter').iCheck('check')
+          # $('#program-stream-checkbox').iCheck('check')
+          $('.program-stream-checkbox').iCheck('check')
+          # $('#program_stream_filter').iCheck('check')
+          $('.program_stream_filter').iCheck('check')
           $('.program-stream').show()
           $('.program-association').show()
         else if btnValue == 'no'
-          $('#program-stream-checkbox').iCheck('uncheck')
-          $('#program_stream_filter').iCheck('uncheck')
+          # $('#program-stream-checkbox').iCheck('uncheck')
+          $('.program-stream-checkbox').iCheck('uncheck')
+          # $('#program_stream_filter').iCheck('uncheck')
+          $('.program_stream_filter').iCheck('uncheck')
           $('.program-stream').hide()
           $('.program-association').hide()
       else if sectionClassName == 'referral-data-section'
