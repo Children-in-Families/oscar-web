@@ -57,6 +57,8 @@ module AdvancedSearches
         values = assessment_number_query
       when 'month_number'
         values = month_number_query
+      when 'date_nearest'
+        values = date_nearest_query
       end
       { id: sql_string, values: values }
     end
@@ -81,6 +83,11 @@ module AdvancedSearches
         end
       end
       clients.map(&:id)
+    end
+    
+    def date_nearest_query
+      clients = @clients.joins(:assessments).where('date(assessments.created_at) < ?', @value.to_date)
+      clients.ids
     end
 
     def referred_to_query

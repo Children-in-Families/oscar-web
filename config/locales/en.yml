@@ -836,6 +836,7 @@ en:
       quantitative: Custom Referral Data
       tracking: Tracking
     index:
+      add_custom_group: Add Assessment Filter
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
@@ -1054,6 +1055,7 @@ en:
       referred_to: Referred to External Organisation
     client_advanced_searches:
       advanced_search:
+        add_custom_group: Add Assessment Filter
         add_new_filter: Add New Filter
         add_new_group: Add Group
         advanced_search: Report Builder

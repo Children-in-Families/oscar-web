@@ -35,9 +35,13 @@ module AdvancedSearches
       # when 'average'
       #   assessments = assessments.where('assessment_domains.domain_id =')
       # when 'has_changed'
-
+      #   assessments = Assessment.joins([:assessment_domains, :client])
+      #   assessments = assessments.where(assessment_domains: {domain_id: @domain_id, previous_score: @value.first, score: @value.last})
+      # when 'has_not_changed'
+      #   assessments = Assessment.joins([:assessment_domains, :client])
+      #   assessments = assessments.where.not(assessment_domains: {domain_id: @domain_id, previous_score: @value.first, score: @value.last})
       end
-      client_ids = assessments.pluck(:client_id).uniq unless @operator == 'is_empty'
+      client_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
       { id: sql_string, values: client_ids }
     end
   end

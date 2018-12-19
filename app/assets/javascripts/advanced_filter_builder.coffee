@@ -8,7 +8,7 @@ class CIF.AdvancedFilterBuilder
     $(@element).queryBuilder(@builderOption())
     $('#builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
       window.customGroup["#{addRule.id}"] = addRule if window.customGroup["#{addRule.id}"] == undefined
-
+      $('#builder_group_0').find('.rules-group-body .btn-custom-group').hide()
   builderOption: ->
     $('#builder').queryBuilder
       operators: $.fn.queryBuilder.constructor.DEFAULTS.operators.concat([
@@ -20,7 +20,13 @@ class CIF.AdvancedFilterBuilder
         }
         {
           type: 'has_changed'
-          nb_inputs: 1
+          nb_inputs: 2
+          multiple: false
+          apply_to: [ 'string' ]
+        }
+        {
+          type: 'has_not_changed'
+          nb_inputs: 2
           multiple: false
           apply_to: [ 'string' ]
         }
@@ -41,7 +47,7 @@ class CIF.AdvancedFilterBuilder
                 {{?}}
 
                 <button type="button" class="btn btn-xs btn-success btn-custom-group">
-                  Add CSI Filter
+                  <i class="{{= it.icons.add_group }}"></i> {{= it.translate("add_custom_group") }}
                 </button>
 
                 {{? it.level>1 }}
@@ -72,6 +78,7 @@ class CIF.AdvancedFilterBuilder
         delete_rule: ' '
         add_rule: @filterTranslation.addFilter
         add_group: @filterTranslation.addGroup
+        add_custom_group: 'Add Assessment Filter'
         delete_group: @filterTranslation.deleteGroup
         operators:
           is_empty: 'is blank'
@@ -86,6 +93,7 @@ class CIF.AdvancedFilterBuilder
           not_contains: 'excludes'
           average: 'average'
           has_changed: 'has changed'
+          has_not_changed: 'has not changed'
       filters: @fieldList
       plugins:
         'sortable': true
