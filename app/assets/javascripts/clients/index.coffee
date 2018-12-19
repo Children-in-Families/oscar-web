@@ -33,8 +33,17 @@ CIF.ClientsIndex = do ->
     _addTourTip()
 
   _initCheckbox = ->
-    $('#report-builder-wizard-modal .ichecks').iCheck
+    $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
+    $('.ichecks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
+
+  _hanldeCheckingOtherInfoCheckboxes = ->
+    if $('.custom-form-checkbox').is(':checked') then $('#custom_form_filter').iCheck('check')
+    if $('.program-stream-checkbox').is(':checked') then $('#program_stream_filter').iCheck('check')
+    if $('.quantitative-type-checkbox').is(':checked') then $('#quantitative_filter').iCheck('check')
 
   _initReportBuilderWizard = ->
     $('#report-builder-wizard-modal #filter_form').hide()
@@ -49,6 +58,7 @@ CIF.ClientsIndex = do ->
         $('ul[role="tablist"]').hide()
         $('.actions a[href="#finish"]').attr('id', 'wizard-search')
         _handleReportBuilderWizardDisplayBtns()
+        _hanldeCheckingOtherInfoCheckboxes()
 
       onStepChanging: (event, currentIndex, newIndex) ->
         nextStepTitle = $('#report-builder-wizard').steps('getStep', newIndex).title
@@ -57,7 +67,6 @@ CIF.ClientsIndex = do ->
 
       onFinished: (event, currentIndex) ->
         form.submit()
-
 
   _handleReportBuilderWizardDisplayBtns = ->
     allSections = $('#report-builder-wizard-modal section')
@@ -74,29 +83,37 @@ CIF.ClientsIndex = do ->
 
       else if sectionClassName == 'custom-form-section'
         if btnValue == 'yes'
-          $('#custom-form-checkbox').iCheck('check')
-          $('#custom_form_filter').iCheck('check')
+          # $('#custom-form-checkbox').iCheck('check')
+          $('.custom-form-checkbox').iCheck('check')
+          # $('#custom_form_filter').iCheck('check')
+          $('.custom_form_filter').iCheck('check')
         else if btnValue == 'no'
-          $('#custom-form-checkbox').iCheck('uncheck')
-          $('#custom_form_filter').iCheck('uncheck')
+          # $('#custom-form-checkbox').iCheck('uncheck')
+          $('.custom-form-checkbox').iCheck('uncheck')
+          # $('#custom_form_filter').iCheck('uncheck')
+          $('.custom_form_filter').iCheck('uncheck')
       else if sectionClassName == 'program-stream-section'
         if btnValue == 'yes'
-          $('#program-stream-checkbox').iCheck('check')
-          $('#program_stream_filter').iCheck('check')
+          # $('#program-stream-checkbox').iCheck('check')
+          $('.program-stream-checkbox').iCheck('check')
+          # $('#program_stream_filter').iCheck('check')
+          $('.program_stream_filter').iCheck('check')
           $('.program-stream').show()
           $('.program-association').show()
         else if btnValue == 'no'
-          $('#program-stream-checkbox').iCheck('uncheck')
-          $('#program_stream_filter').iCheck('uncheck')
+          # $('#program-stream-checkbox').iCheck('uncheck')
+          $('.program-stream-checkbox').iCheck('uncheck')
+          # $('#program_stream_filter').iCheck('uncheck')
+          $('.program_stream_filter').iCheck('uncheck')
           $('.program-stream').hide()
           $('.program-association').hide()
       else if sectionClassName == 'referral-data-section'
         if btnValue == 'yes'
-          $('#quantitative-type-checkbox').iCheck('check')
-          $('#quantitative_filter').iCheck('check')
+          $('.quantitative-type-checkbox').iCheck('check')
+          $('.quantitative_filter').iCheck('check')
         else if btnValue == 'no'
-          $('#quantitative-type-checkbox').iCheck('uncheck')
-          $('#quantitative_filter').iCheck('uncheck')
+          $('.quantitative-type-checkbox').iCheck('uncheck')
+          $('.quantitative_filter').iCheck('uncheck')
       else if sectionClassName == 'example-section'
         _insertQueryTutorailSteps() if btnValue == 'yes'
         $('#report-builder-wizard').steps('next')
@@ -145,7 +162,7 @@ CIF.ClientsIndex = do ->
         content: step['html']
 
   _displayChoseColumns = ->
-    clientColumns = $('section #client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    clientColumns = $('section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
     customFormColumns = $('section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
     programStraemsColumns = $('section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
     _appendChoseColumns(clientColumns, '.client-chose-columns') if clientColumns.length != 0
@@ -204,10 +221,10 @@ CIF.ClientsIndex = do ->
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('#client-search-form .visibility .checked').length == 0
-      $('#client-search-form .all-visibility #all_').iCheck('check')
+      $('#client-search-form .all-visibility .all_').iCheck('check')
 
     if $('#client-advance-search-form .visibility .checked').length == 0
-      $('#client-advance-search-form .all-visibility #all_').iCheck('check')
+      $('#client-advance-search-form .all-visibility .all_').iCheck('check')
       $('.program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
 
   _handleAutoCollapse = ->
@@ -286,11 +303,15 @@ CIF.ClientsIndex = do ->
 
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->
-      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input[type=checkbox]')
+      allCheckboxes = $('#client-search-form, #client-advance-search-wizard').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+    $('a#wizard-search').on 'click', ->
+      allCheckboxes = $('#client-advance-search-form, #client-search-form').find('#new_client_grid ul input[type=checkbox]')
       $(allCheckboxes).attr('disabled', true)
 
     $('input.datagrid-submit').on 'click', ->
-      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input[type=checkbox]')
+      allCheckboxes = $('#client-advance-search-form, #client-advance-search-wizard').find('#new_client_grid ul input[type=checkbox]')
       $(allCheckboxes).attr('disabled', true)
 
   _handleUncheckColumnVisibility = ->
@@ -388,13 +409,13 @@ CIF.ClientsIndex = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-    allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('.all-visibility .all_')
 
     for checkBox in allCheckboxes
       $(checkBox).on 'ifChecked', ->
-        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
+        $(@).closest('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
       $(checkBox).on 'ifUnchecked', ->
-        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
+        $(@).closest('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _fixedHeaderTableColumns = ->
     sInfoShow = $('#sinfo').data('infoshow')
