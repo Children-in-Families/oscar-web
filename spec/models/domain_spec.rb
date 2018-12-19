@@ -14,10 +14,64 @@ describe Domain, 'validations' do
 end
 
 describe Domain, 'methods' do
+  let!(:domain){
+    create(:domain, description: 'Food', local_description: 'អាហារ',
+                    score_1_definition: 'Poor', score_2_definition: 'Good', score_3_definition: 'Better', score_4_definition: 'Best',
+                    score_1_local_definition: 'ខ្សោយ', score_2_local_definition: 'ល្អ', score_3_local_definition: 'ល្អបង្គួរ', score_4_local_definition: 'ល្អណាស់'
+          )}
   context 'convert_identity' do
-    let!(:domain){ create(:domain) }
     it 'should return identity with underscore' do
       expect(domain.convert_identity).to eq(domain.identity.downcase.parameterize('_'))
+    end
+  end
+  context 'translate_description' do
+    it 'returns description when user change language to English' do
+      I18n.locale = :en
+      expect(domain.translate_description).to eq('Food')
+    end
+    it 'returns locale description when user change language to something else' do
+      I18n.locale = [:km, :my].sample
+      expect(domain.translate_description).to eq('អាហារ')
+    end
+  end
+  context 'translate_score_1_definition' do
+    it 'returns score 1 definition when user change language to English' do
+      I18n.locale = :en
+      expect(domain.translate_score_1_definition).to eq('Poor')
+    end
+    it 'returns score 1 local definition when user change language to something else' do
+      I18n.locale = [:km, :my].sample
+      expect(domain.translate_score_1_definition).to eq('ខ្សោយ')
+    end
+  end
+  context 'translate_score_2_definition' do
+    it 'returns score 2 definition when user change language to English' do
+      I18n.locale = :en
+      expect(domain.translate_score_2_definition).to eq('Good')
+    end
+    it 'returns score 2 local definition when user change language to something else' do
+      I18n.locale = [:km, :my].sample
+      expect(domain.translate_score_2_definition).to eq('ល្អ')
+    end
+  end
+  context 'translate_score_3_definition' do
+    it 'returns score 3 definition when user change language to English' do
+      I18n.locale = :en
+      expect(domain.translate_score_3_definition).to eq('Better')
+    end
+    it 'returns score 3 local definition when user change language to something else' do
+      I18n.locale = [:km, :my].sample
+      expect(domain.translate_score_3_definition).to eq('ល្អបង្គួរ')
+    end
+  end
+  context 'translate_score_4_definition' do
+    it 'returns score 4 definition when user change language to English' do
+      I18n.locale = :en
+      expect(domain.translate_score_4_definition).to eq('Best')
+    end
+    it 'returns local score 4 local definition when user change language to something else' do
+      I18n.locale = [:km, :my].sample
+      expect(domain.translate_score_4_definition).to eq('ល្អណាស់')
     end
   end
 end

@@ -29,11 +29,11 @@ class AssessmentDomain < ActiveRecord::Base
   end
 
   def score_definition
-    domain["score_#{score}_definition"]
+    domain.send("translate_score_#{score}_definition".to_sym)
   end
 
   def previous_score_definition
-    domain["score_#{previous_score}_definition"]
+    domain.send("translate_score_#{previous_score}_definition".to_sym)
   end
 
   def previous_score_color_class
