@@ -33,12 +33,10 @@ CIF.ClientsIndex = do ->
     _addTourTip()
 
   _initCheckbox = ->
-    $('.i-checks').iCheck
-      checkboxClass: 'icheckbox_square-green'
-      radioClass: 'iradio_square-green'
-    $('.ichecks').iCheck
-      checkboxClass: 'icheckbox_square-green'
-      radioClass: 'iradio_square-green'
+    $.map ['.i-checks', '.ichecks'], (element) ->
+      $(element).iCheck
+        checkboxClass: 'icheckbox_square-green'
+        radioClass: 'iradio_square-green'
 
   _hanldeCheckingOtherInfoCheckboxes = ->
     if $('.custom-form-checkbox').is(':checked') then $('#custom_form_filter').iCheck('check')
@@ -79,8 +77,11 @@ CIF.ClientsIndex = do ->
   _handleCheckDisplayReport = (element, sectionClassName) ->
     $(element).find('.btn').on 'click', ->
       btnValue = $(@).data('value')
-      if (sectionClassName == 'client-section') and (btnValue == 'yes')
-
+      if sectionClassName == 'client-section'
+        if btnValue == 'yes'
+          $('.client-column-picker').show()
+        else if btnValue == 'no'
+          $('.client-column-picker').hide()
       else if sectionClassName == 'custom-form-section'
         if btnValue == 'yes'
           # $('#custom-form-checkbox').iCheck('check')

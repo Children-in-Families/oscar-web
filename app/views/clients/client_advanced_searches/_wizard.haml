@@ -16,12 +16,13 @@
                 .btn.btn-primary{ 'data-value': 'yes'} Yes
                 .btn.btn-danger{ 'data-value': 'no'} No
             %br
-            .row
-              .col-xs-12
-                %p Choose below which information you would like to display.
-                %label= t('.client_column')
-                .client-column
-                  = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
+            .client-column-picker
+              .row
+                .col-xs-12
+                  %p Choose below which information you would like to display.
+                  %label= t('.client_column')
+                  .client-column
+                    = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
 
           %h3 Custom Forms
           %section.custom-form-section
