@@ -17,5 +17,5 @@
                 #message.text-danger
   .ibox-footer
     = hidden_field_tag :tracking_id, @tracking.id
-    = f.submit t('.save'), class: 'btn btn-primary form-btn'
+    = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = link_to t('.cancel'), report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking), class: 'btn btn-default form-btn'

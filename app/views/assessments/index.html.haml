@@ -8,7 +8,7 @@
       .ibox-content
         - @assessmets.each_with_index do |assessment, index|
           .row.margin-row
-            .col-xs-12.col-sm-9.middle-text
+            .col-xs-12.col-sm-8
               %h5
                 - if assessment.initial?
                   = t('.initial_assessment')
@@ -17,30 +17,66 @@
                 %b
                   = date_format(assessment.created_at)
                 %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
-            .col-xs-12.col-sm-3
-              .btn.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
+            .col-xs-12.col-sm-4
+              .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
                 = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)
-        .row.margin-row
-          .col-xs-12.col-sm-9
-            %h5
-              - if @client.assessments.any?
-                = t('.next_review')
-                %b
-                  = date_format(@client.next_assessment_date)
-              - else
-                = t('.initial_assessment')
-                %b
-                  = date_format(Date.today)
 
-          .col-xs-12.col-sm-3
-            - if can? :manage, Assessment
-              - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.uneligible_age?
-                = link_to new_client_assessment_path(@client) do
-                  .btn.btn-primary.button
-                    = t('.begin_now')
+        - if @current_setting.enable_default_assessment
+          .row.margin-row
+            .col-xs-12.col-sm-8
+              %h5
+                - if @client.assessments.defaults.any?
+                  = t('.next_review')
+                  %b
+                    = date_format(@client.next_assessment_date)
+                - else
+                  = t('.initial_assessment')
+                  %b
+                    = date_format(Date.today)
+            .col-xs-12.col-sm-4
+              - if policy(@default_assessment).create?
+                = link_to new_client_assessment_path(@client, default: true) do
+                  .btn.btn-block.btn-primary.button
+                    = "#{t('.begin_now')} #{@current_setting.default_assessment}"
               - else
-                .btn.btn-default.button.disabled#disabled_assessment_button
-                  = t('.begin_now')
+                .btn.btn-block.btn-default.button.disabled#disabled_assessment_button
+                  = "#{t('.begin_now')} #{@current_setting.default_assessment}"
+
+        - if @current_setting.enable_custom_assessment
+          .row.margin-row
+            .col-xs-12.col-sm-8
+              %h5
+                - if @client.assessments.customs.any?
+                  = t('.next_review')
+                  %b
+                    = date_format(@client.custom_next_assessment_date)
+                - else
+                  = t('.initial_assessment')
+                  %b
+                    = date_format(Date.today)
+            .col-xs-12.col-sm-4
+              - if policy(@custom_assessment).create?
+                - if @custom_domains.any?
+                  = link_to new_client_assessment_path(@client, default: false) do
+                    .btn.btn-block.btn-primary.button
+                      = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
+                - else
+                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                    .btn.btn-block.btn-primary.button
+                      = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
+
+                  #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                    .modal-dialog{:role => "document"}
+                      .modal-content
+                        .modal-header
+                          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                            %span{"aria-hidden" => "true"} ×
+                          %h4= t('.no_custom_domains_available')
+                        .modal-body.text-center
+                          = t('.please_add_custom_domains')
+              - else
+                .btn.btn-block.btn-default.button.disabled#disabled_assessment_button
+                  = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
 
       .ibox-footer
         .row

@@ -54,6 +54,14 @@ describe Setting, 'validation' do
     it { expect(subject.valid?).to be_falsey }
   end
 
+  context 'custom_assessment_name' do
+    subject { Setting.new(enable_custom_assessment: true, custom_assessment: 'custom CSI tool') }
+    it 'must not contain the term CSI' do
+      expect(subject.valid?).to be_falsey
+      expect(subject.errors[:custom_assessment]).to include('name is invalid')
+    end
+  end
+
   # context 'min assessment, max assessment and max case note greater than zero' do
   #   subject { Setting.new(min_assessment: 0, max_assessment: 0, max_case_note: 0) }
   #   it { expect(subject.valid?).to be_falsey }

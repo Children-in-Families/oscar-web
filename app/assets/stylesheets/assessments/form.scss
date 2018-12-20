@@ -55,6 +55,7 @@ body[id='assessments-update'] {
   }
   .tasks-list{
     margin-top: 16px;
+    padding: 0px;
   }
   ol li.list-group-item{
     list-style: decimal inside;
@@ -89,7 +90,10 @@ body[id='assessments-update'] {
     display: inline;
     border-radius: 3px;
   }
-
+  .wrap-text-style {
+    white-space: normal;
+    text-align: center;
+  }
   .score_option.is_error{
     border: 1px solid #a94442;
     border-radius: 2px;
@@ -147,6 +151,11 @@ body[id='assessments-update'] {
     padding-bottom: 140px;
   }
 
+  #end-of-assessment-msg {
+    border-radius: 4px;
+    padding: 15px;
+  }
+
   @media only screen and (max-device-width : 767px){
     .assessment-domain-item {
       span {
@@ -195,5 +204,26 @@ body[id='assessments-update'] {
   }
   .table.attachment-table tbody>tr>td.vert-align{
     vertical-align: middle;
+  }
+
+  .btn-option {
+    border: 1px solid #999999;
+  }
+
+  .goal-required-option, .task-required-option {
+    display: inline;
+    span {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    .radio_buttons.optional {
+      margin-left: 5px;
+      display: inline;
+    }
+
+    label {
+      padding-left: 0;
+    }
   }
 }

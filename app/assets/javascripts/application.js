@@ -61,11 +61,13 @@
 //= require table_scroll
 //= require filters
 //= require assessments/form
+//= require assessments/show
 //= require tasks/form
 //= require tasks/index
 //= require dashboards/index
 //= require districts/index
 //= require case_notes/form
+//= require case_notes/index
 //= require cases/form
 //= require calendars/index
 //= require clients/index
@@ -83,6 +85,7 @@
 //= require data_trackers/index
 //= require changelogs/index
 //= require domains/form
+//= require domains/index
 //= require custom_fields/form
 //= require custom_fields/index
 //= require custom_fields/show
@@ -105,3 +108,4 @@
 //= require format_special_characters
 //= require referrals/form
 //= require government_forms/form
+//= require multiple_form/form

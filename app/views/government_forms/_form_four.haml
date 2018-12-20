@@ -50,5 +50,5 @@
 
 
   .ibox-footer
-    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = link_to t('cancel'), client_government_forms_path(form: params[:form]), class: 'btn btn-default form-btn'

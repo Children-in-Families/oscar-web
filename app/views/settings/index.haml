@@ -4,8 +4,13 @@
       .ibox
         .ibox-title
           %h5.text-center= t('.csi_tools')
+          .ibox-tools
+            = f.input_field :enable_default_assessment, class: 'i-checks', as: :boolean
+            %label= t('.default_assessment')
+            = f.input_field :enable_custom_assessment, class: 'i-checks', as: :boolean
+            %label= t('.custom_assessment')
         .ibox-content
           = render 'assessment', f: f
           = render 'case_note', f: f
         .ibox-footer
-          = f.submit t('save'), class: 'btn btn-primary'
+          = f.submit t('save'), class: 'btn btn-primary', data: { disable_with: t('saving') }
