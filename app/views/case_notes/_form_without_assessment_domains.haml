@@ -2,10 +2,10 @@
   .panel.panel-default.assessment-domain-panel
     .panel-heading{:role => "tab"}
       %h5.panel-title
-        %a{ class: "collapsed", "aria-controls": "collapse#{domain_note.object.domain_group.name}-#{domain_note.object.domain_group.id}", "aria-expanded": domain_note.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{domain_note.object.domain_group.name}-#{domain_note.object.domain_group.id}", role: "button" }
-          %strong= "#{t('.domain')} #{domain_note.object.domain_group.name}"
+        %a{ class: "collapsed", "aria-controls": "collapse#{domain_note.object.domain_group.name.split(' ').join('-')}-#{domain_note.object.domain_group.id}", "aria-expanded": domain_note.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{domain_note.object.domain_group.name.split(' ').join('-')}-#{domain_note.object.domain_group.id}", role: "button" }
+          %strong= "#{t('.domain')} #{domain_note.object.domain_group.name.split(' ').join('-')}"
           = "(#{get_domains(domain_note)})"
-    .panel-collapse.collapse{ id: "collapse#{domain_note.object.domain_group.name}-#{domain_note.object.domain_group.id}", class: domain_note.object.domain_group.first_ordered? ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel"}
+    .panel-collapse.collapse{ id: "collapse#{domain_note.object.domain_group.name.split(' ').join('-')}-#{domain_note.object.domain_group.id}", class: domain_note.object.domain_group.first_ordered? ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel"}
       .panel-body
         .row
           .col-xs-12.col-md-6
