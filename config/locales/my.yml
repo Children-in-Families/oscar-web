@@ -1050,6 +1050,14 @@ my:
     answer_fields:
       answer: အေျဖ
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+    assessment_domain_score:
+      assessment_data: အကဲဖြတ်ဖို့ဒေတာ
+      assessment_date: အကဲဖြတ်သည့်ရက်စွဲ
+      assessment_number: 'အကဲဖြတ် #'
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      close: ပိတ်
+      export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
@@ -1132,6 +1140,14 @@ my:
       title: သတိေပးခ်က္
     create:
       successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    custom_assessment_domain_score:
+      assessment_data: အကဲဖြတ်ဖို့ဒေတာ
+      assessment_date: အကဲဖြတ်သည့်ရက်စွဲ
+      assessment_number: 'အကဲဖြတ် #'
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      close: ပိတ်
+      export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     destroy:
       successfully_deleted: အမႈသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
@@ -1335,10 +1351,13 @@ my:
       advanced_search: အဆင့္ျမင့္ ရွာေဖြမႈ
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      assessment_data: အကဲဖြတ်ဖို့ဒေတာ
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
       case_statistics: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ ပမာဏမ်ား
+      csi_assessment: CSI စိစစ္အကဲျဖတ္မႈမ်ား
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      custom_assessment: ထုံးစံအကဲဖြတ်
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
       export_to_xls: XLS အျဖစ္ ထုတ္သည္

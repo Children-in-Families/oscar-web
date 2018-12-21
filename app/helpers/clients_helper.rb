@@ -852,10 +852,10 @@ module ClientsHelper
     current_organization.short_name == 'fts' ? @client.code : @client.slug
   end
 
-  def to_spreadsheet
+  def to_spreadsheet(assessment_type)
     column_header = [
-                      I18n.t('datagrid.columns.clients.id'), I18n.t('client_advanced_searches.index.client_name'),
-                      I18n.t('client_advanced_searches.index.assessments'), I18n.t('datagrid.columns.clients.assessments_due_to'),
+                      I18n.t('clients.index.assessment_domain_score.client_id'), I18n.t('clients.index.assessment_domain_score.client_name'),
+                      I18n.t('clients.index.assessment_domain_score.assessment_number'), I18n.t('clients.index.assessment_domain_score.assessment_date'),
                       Domain.pluck(:name)
                     ]
     book = Spreadsheet::Workbook.new
@@ -864,11 +864,24 @@ module ClientsHelper
 
     ordering = 0
     assessment_domain_hash = {}
+
     assets.includes(assessments: :assessment_domains).each do |client|
-      client.assessments.each_with_index do |assessment, index|
+      assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
+      if assessment_type == 'default'
+        assessments = client.assessments.defaults
+        domains = Domain.csi_domains
+      elsif assessment_type == 'custom'
+        assessments = client.assessments.customs
+        domains = Domain.custom_csi_domains
+      else
+        assessments = client.assessments
+        domains = Domain.all
+      end
+
+      assessments.each_with_index do |assessment, index|
         assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
-        domain_scores = Domain.all.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
-        book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, "Assessment #{index + 1}", date_format(assessment.created_at), domain_scores].flatten
+        domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
+        book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
       end
     end
 

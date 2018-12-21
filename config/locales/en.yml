@@ -851,7 +851,6 @@ en:
       add_new_group: Add Group
       advanced_search: Report Builder
       assessment_data: Assessment Data
-      assessments: Assessments
       client_column: Client General Information
       client_name: Client Name
       csi_domain_scores: CSI Domain Scores
@@ -1044,6 +1043,14 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1126,6 +1133,14 @@ en:
       title: Warning
     create:
       successfully_created: Client has been successfully created.
+    custom_assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     destroy:
       successfully_deleted: Client has been successfully deleted.
     edit:
@@ -1328,10 +1343,13 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      assessment_data: Assessment Data
       assessments: Assessments
       case_statistics: Case Statistics
       client_amount: Clients
+      csi_assessment: CSI Assessment
       csi_domain_scores: CSI Domain Scores
+      custom_assessment: Custom Assessment
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS

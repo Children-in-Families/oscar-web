@@ -18,9 +18,29 @@
       = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
         %i.fa.fa-download
         = t('.export_to_xls')
-      = link_to '#', class: 'btn btn-primary btn-export', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
-        %i.fa.fa-external-link
-        = t('.assessment_data')
+      - if enable_all_csi_tools?
+        .btn-group
+          %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+            = t('.assessment_data')
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+                = t('.csi_assessment')
+            %li
+              = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score", 'data-toggle': 'modal' do
+                = t('.custom_assessment')
+          = render 'assessment_domain_score'
+          = render 'custom_assessment_domain_score'
+      - elsif enable_default_assessment?
+        = link_to '#', class: 'btn btn-primary', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+          = t('.assessment_data')
+        = render 'assessment_domain_score'
+      - elsif enable_custom_assessment?
+        = link_to '#', class: 'btn btn-primary', 'data-target': "#custom-assessment-domain-score", 'data-toggle': 'modal' do
+          = t('.assessment_data')
+        = render 'custom_assessment_domain_score'
+
     - if current_user.admin? || current_user.any_manager?
       - if params['commit'].present? || params['client_advanced_search'].present?
         %button.btn.btn-primary#client-statistic
@@ -89,5 +109,3 @@
             %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
         .ibox-footer.text-center
           = paginate @client_grid.assets
-
-= render 'assessment_domain_score'

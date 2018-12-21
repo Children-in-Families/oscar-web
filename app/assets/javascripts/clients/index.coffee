@@ -29,6 +29,14 @@ CIF.ClientsIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
     _addTourTip()
+    _addDataTableToAssessmentScoreData()
+
+  _addDataTableToAssessmentScoreData = ->
+    $('.assessment-score-data').DataTable
+      bFilter: false
+      processing: true
+      # scrollY: 500
+      scrollX: true
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
