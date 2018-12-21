@@ -29,6 +29,7 @@ class AssessmentDomain < ActiveRecord::Base
   end
 
   def score_definition
+    return '' if score.nil?
     domain.send("translate_score_#{score}_definition".to_sym)
   end
 
