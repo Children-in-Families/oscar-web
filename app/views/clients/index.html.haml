@@ -15,7 +15,7 @@
     %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
       = t('.save_search_settings')
     - if params['commit'].present? || params['client_advanced_search'].present?
-      = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
+      = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export clients-list' do
         %i.fa.fa-download
         = t('.export_to_xls')
       - if enable_all_csi_tools?
@@ -99,7 +99,7 @@
 
         .ibox-content
           .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
-            %table.table.table-bordered.table-striped.table-hover.clients
+            %table.table.table-bordered.table-striped.table-hover.clients#clients-list
               = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
               %thead
                 = datagrid_header(@client_grid)

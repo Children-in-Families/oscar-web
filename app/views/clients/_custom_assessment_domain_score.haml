@@ -9,11 +9,11 @@
 
       .modal-body
         - if params['commit'].present? || params['client_advanced_search'].present?
-          = link_to current_url(format: 'xls', type: 'custom_assessment'), class: 'btn btn-primary btn-export pull-right' do
+          = link_to current_url(format: 'xls', type: 'custom_assessment'), class: 'btn btn-primary btn-export pull-right custom-assessment-score' do
             %i.fa.fa-download
             = t('.export_to_xls')
         - assessment_domain_hash = {}
-        %table.table.table-bordered.table-striped.table-hover.assessment-score-data
+        %table.table.table-bordered.table-striped.table-hover.assessment-score-data#custom-assessment-score
           %thead
             %tr
               %th #
