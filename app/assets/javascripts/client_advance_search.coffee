@@ -294,7 +294,51 @@ class CIF.ClientAdvanceSearch
     $('#builder_group_0').removeClass('csi-group')
     $('.csi-group .group-conditions .btn-primary').attr('disabled', 'disabled')
     $('.csi-group .group-conditions .btn-primary:nth-child(2)').addClass('hide')
+
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
+    $(document).on 'change', select2Csi, (param)->
+      unless _.includes(param.val, 'has_changed') || _.includes(param.val, 'has_not_changed')
+        _changeOperator()
+        $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container select')
+      else
+        $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+        $(this).closest('.rule-container').find('.rule-value-container').find('input').show()
+    if $('option[value*="has_changed"]:selected').length < 1 || $('option[value*="has_not_changed"]:selected').length < 1
+      _changeOperator()
+      $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
+
   ######################################################################################################################
+  _changeOperator = ->
+    klasses = '.rule-container:nth-child(1) .rule-value-container input.form-control'
+    data = [
+      {
+        id: 1
+        tag: '1'
+      }
+      {
+        id: 2
+        tag: '2'
+      }
+      {
+        id: 3
+        tag: '3'
+      }
+      {
+        id: 4
+        tag: '4'
+      }
+    ]
+    if $('.csi-group').find(klasses).length
+      $(klasses).select2
+        data:
+          results: data
+          text: 'tag'
+        formatSelection: (item) ->
+          item.tag
+        formatResult: (item) ->
+          item.tag
+      $('.rule-container:nth-child(1) .rule-value-container .select2-container').attr("style", "width: 180px;")
 
   handleRule2SelectChange: ->
     self = @
@@ -311,8 +355,6 @@ class CIF.ClientAdvanceSearch
           rule        = builder.queryBuilder('addRule', group)
           rule.filter = builder.queryBuilder('getFilterById', 'date_of_assessments')
           rule.operator  = builder.queryBuilder('getOperatorByType', 'between')
-    return
-
 
   handleCsiSelectOption: ->
     assessmentNumberTranslate = $('#hidden_assessment_number').val()

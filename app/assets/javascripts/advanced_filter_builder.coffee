@@ -19,13 +19,25 @@ class CIF.AdvancedFilterBuilder
           apply_to: [ 'string' ]
         }
         {
-          type: 'has_changed'
+          type: 'assessment_has_changed'
+          nb_inputs: 2
+          multiple: false
+          apply_to: [ 'number' ]
+        }
+        {
+          type: 'assessment_has_not_changed'
+          nb_inputs: 2
+          multiple: false
+          apply_to: [ 'number' ]
+        }
+        {
+          type: 'month_has_changed'
           nb_inputs: 2
           multiple: false
           apply_to: [ 'string' ]
         }
         {
-          type: 'has_not_changed'
+          type: 'month_has_not_changed'
           nb_inputs: 2
           multiple: false
           apply_to: [ 'string' ]
@@ -92,8 +104,10 @@ class CIF.AdvancedFilterBuilder
           contains: 'includes'
           not_contains: 'excludes'
           average: 'average'
-          has_changed: 'has changed'
-          has_not_changed: 'has not changed'
+          assessment_has_changed: 'score has changed between assessment#'
+          assessment_has_not_changed: 'score has not changed between assessment#'
+          month_has_changed: 'score has changed between month#'
+          month_has_not_changed: 'score has not changed between month#'
       filters: @fieldList
       plugins:
         'sortable': true
