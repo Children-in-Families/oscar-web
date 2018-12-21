@@ -29,29 +29,14 @@ CIF.ClientsIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
     _addTourTip()
-    _extendDataTableSortNumber()
     _addDataTableToAssessmentScoreData()
-
-  _extendDataTableSortNumber = ->
-    $.extend $.fn.dataTableExt.oSort,
-      'formatted-num-pre': (a) ->
-        a = a.replace(/[^\d\.]/g, '')
-        parseFloat a
-      'formatted-num-asc': (a, b) ->
-        a - b
-      'formatted-num-desc': (a, b) ->
-        b - a
 
   _addDataTableToAssessmentScoreData = ->
     $('.assessment-score-data').DataTable
       bFilter: false
       processing: true
-      # scrollY: 500
       scrollX: true
-      columnDefs: [
-        # targets is the index of the table column, Client ID
-         { type: 'formatted-num', targets: 1 }
-       ]
+      order: [0, 'desc']
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->

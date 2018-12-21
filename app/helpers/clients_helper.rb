@@ -854,8 +854,8 @@ module ClientsHelper
 
   def to_spreadsheet(assessment_type)
     column_header = [
-                      I18n.t('clients.index.assessment_domain_score.client_id'), I18n.t('clients.index.assessment_domain_score.client_name'),
-                      I18n.t('clients.index.assessment_domain_score.assessment_number'), I18n.t('clients.index.assessment_domain_score.assessment_date'),
+                      I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
+                      I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
                       Domain.pluck(:name)
                     ]
     book = Spreadsheet::Workbook.new
@@ -865,7 +865,7 @@ module ClientsHelper
     ordering = 0
     assessment_domain_hash = {}
 
-    assets.includes(assessments: :assessment_domains).each do |client|
+    assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
       assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
       if assessment_type == 'default'
         assessments = client.assessments.defaults

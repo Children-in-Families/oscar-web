@@ -16,7 +16,6 @@
         %table.table.table-bordered.table-striped.table-hover.assessment-score-data#csi-assessment-score
           %thead
             %tr
-              %th #
               %th.client-id= t('.client_id')
               %th.client-name= t('.client_name')
               %th.assessment-number= t('.assessment_number')
@@ -24,12 +23,10 @@
               - Domain.csi_domains.each do |domain|
                 %th.assessment-score.text-center= domain.name
           %tbody.page
-            - ordering = 0
-            - @clients.includes(assessments: :assessment_domains).where(assessments: { default: true }).order('clients.id desc').each do |client|
+            - @clients.includes(assessments: :assessment_domains).where(assessments: { default: true }).each do |client|
               - client.assessments.defaults.each_with_index do |assessment, index|
                 - assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
                 %tr
-                  %th{:scope => "row"}= ordering += 1
                   %td.client-id= client.slug
                   %td.client-name= client.en_and_local_name
                   %td.assessment-number.text-center= index + 1
