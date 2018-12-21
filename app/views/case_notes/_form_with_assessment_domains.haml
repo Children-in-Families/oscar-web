@@ -2,7 +2,7 @@
   .panel-heading{:role => "tab"}
     %h5.panel-title
       %a{ class: "collapsed", "aria-controls": "collapse#{domain_note.object.domain_group.name.split(' ').join('-')}-#{domain_note.object.domain_group.id}", "aria-expanded": domain_note.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{domain_note.object.domain_group.name.split(' ').join('-')}-#{domain_note.object.domain_group.id}", role: "button" }
-        %strong= "#{t('.domain')} #{domain_note.object.domain_group.name.split(' ').join('-')}"
+        %strong= "#{t('.domain')} #{domain_note.object.domain_group.name}"
         = "(#{get_domains(domain_note)})"
         - domain_note.object.domains(@case_note).each do |domain|
           - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
