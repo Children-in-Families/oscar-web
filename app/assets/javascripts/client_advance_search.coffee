@@ -306,7 +306,9 @@ class CIF.ClientAdvanceSearch
     if $('option[value*="has_changed"]:selected').length < 1 || $('option[value*="has_not_changed"]:selected').length < 1
       _changeOperator()
       $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $('option[value*="has_not_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
       $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
+      $('option[value*="has_not_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
 
   ######################################################################################################################
   _changeOperator = ->
@@ -380,12 +382,14 @@ class CIF.ClientAdvanceSearch
   handleCsiOption = (elements, group, nthChild = undefined) ->
     customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
     dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
-
     $.each elements, (index, item) ->
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'second-child'
         $.each $(item).children().last().children(), (index, el) ->
           if el.firstElementChild.textContent == dateOfAssessmentTranslate
             $(el).hide()
+          if $('option[value*="has_changed"]:selected').length > 0 || $('option[value*="has_not_changed"]:selected').length > 0
+            if el.firstElementChild.textContent == 'Date Nearest'
+              $(el).hide()
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'third-child'
         $.each $(item).children().last().children(), (index, el) ->
           if el.firstElementChild.textContent != dateOfAssessmentTranslate

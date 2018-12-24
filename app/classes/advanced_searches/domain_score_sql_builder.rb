@@ -49,12 +49,38 @@ module AdvancedSearches
         end
         return { id: sql_string, values: clients.map(&:id) }
       when 'month_has_changed'
-
+        clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
+        clients = clients.all.reject do |client|
+          ordered_assessments = client.assessments.order(:created_at)
+          start_date  = (ordered_assessments.first.created_at + (@value.first.to_i - 1).months).beginning_of_month.to_date
+          end_date    = (ordered_assessments.first.created_at + (@value.last.to_i - 1).months).beginning_of_month.to_date
+          all_assessments = ordered_assessments.where("date(assessments.created_at) IN (?)", start_date..end_date)
+          assessments = all_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score IS NOT NULL", @domain_id)
+          (all_assessments.ids & assessments.ids).empty?
+        end
+        return { id: sql_string, values: clients.map(&:id)}
       when 'month_has_not_changed'
-
+        clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
+        clients = clients.all.reject do |client|
+          ordered_assessments = client.assessments.order(:created_at)
+          start_date  = (ordered_assessments.first.created_at + (@value.first.to_i - 1).months).beginning_of_month.to_date
+          end_date    = (ordered_assessments.first.created_at + (@value.last.to_i - 1).months).beginning_of_month.to_date
+          all_assessments = ordered_assessments.where("date(assessments.created_at) IN (?)", start_date..end_date)
+          assessments = all_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score IS NULL", @domain_id)
+          (all_assessments.ids & assessments.ids).empty?
+        end
+        return { id: sql_string, values: clients.map(&:id) }
       when 'average'
-
+        sum_score = 0
+        clients = Client.joins(:assessments).all.reject do |client|
+          client.assessments.includes(:assessment_domains).each do |assessment|
+            sum_score += assessment.assessment_domains.where(domain_id: @domain_id).sum(:score)
+          end
+          (sum_score / client.assessments.count).round != @value.to_i
+        end
+        return { id: sql_string, values: clients.map(&:id) }
       end
+
       client_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
       { id: sql_string, values: client_ids }
     end
