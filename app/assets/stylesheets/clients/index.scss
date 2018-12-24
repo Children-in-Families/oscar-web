@@ -52,6 +52,10 @@ body[id='clients-index'] {
     margin-bottom: 4px;
   }
 
+  .action-button-group .btn {
+    margin-top: 4px;
+  }
+
   @media screen and (max-width: 700px){
     .client-option {
       a {
