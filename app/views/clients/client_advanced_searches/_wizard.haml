@@ -16,7 +16,7 @@
                 .btn.btn-primary{ 'data-value': 'yes'} Yes
                 .btn.btn-danger{ 'data-value': 'no'} No
             %br
-            .client-column-picker
+            #wizard-client
               .row
                 .col-xs-12
                   %p Choose below which information you would like to display.
@@ -34,7 +34,7 @@
                   %p Do you want to display information from any Custom Forms?
                   .btn.btn-primary{ 'data-value': 'yes'} Yes
                   .btn.btn-danger{ 'data-value': 'no'} No
-              .custom-form
+              #wizard-custom-form
                 %br
                 .row
                   .col-xs-12
@@ -58,7 +58,7 @@
                   %p Do you want to display information from any Program Stream Forms?
                   .btn.btn-primary{ 'data-value': 'yes'} Yes
                   .btn.btn-danger{ 'data-value': 'no'} No
-              .program-stream
+              #wizard-program-stream
                 .row
                   .col-xs-12
                     %p Which Program Streams are you interested in?
@@ -74,11 +74,11 @@
 
                   .col-xs-4.form-group
                     -# = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'wizard-tracking-checkbox' }
-                    = check_box_tag 'tracking', 'true', tracking_check, class: 'i-checks tracking-checkbox', id: 'wizard-tracking-checkbox'
+                    = check_box_tag 'tracking', 'true', tracking_check, class: 'i-checks', id: 'wizard-tracking-checkbox'
                     %label.pointer{ for: 'wizard-tracking-checkbox' }= t('.tracking')
                   .col-xs-4.form-group
                     -# = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
-                    = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks exit-form-checkbox', id: 'wizard-exit-form-checkbox'
+                    = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks', id: 'wizard-exit-form-checkbox'
                     %label.pointer{ for: 'wizard-exit-form-checkbox' }= t('.exit_program')
                 .row
                   .col-xs-12
@@ -96,6 +96,25 @@
                 %p (This is the data you choose on Page 4 of the Add New Client Form).
                 .btn.btn-primary{ 'data-value': 'yes'} Yes
                 .btn.btn-danger{ 'data-value': 'no'} No
+            #wizard-referral-data
+              %br
+              .row
+                .col-xs-12
+                  %p Choose below which information you would like to display.
+                  %label= t('.referral_data')
+              .referral-data-column
+                %ul.check-columns-visibility
+                  %li.dropdown
+                    %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
+                      = t('datagrid.columns.select_columns')
+                      %span.caret
+                    %ul.dropdown-menu.columns-visibility.append-child
+                      - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+                        - next unless quantitative_type_readable?(quantitative_type.id)
+                        %li
+                          .visibility.col-sm-12
+                            = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
+                            = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
           %h3 Example
           %section.example-section
@@ -155,13 +174,13 @@
             %p What other information would you like to use to filter your clients?
             %ul
               %li
-                = check_box_tag :custom_form_filter, nil, false, class: 'ichecks custom_form_filter'
+                = check_box_tag :wizard_custom_form_filter, nil, custom_form_values.present?, class: 'ichecks'
                 = label_tag "Information on Custom Forms"
               %li
-                = check_box_tag :program_stream_filter, nil, false, class: 'ichecks program_stream_filter'
+                = check_box_tag :wizard_program_stream_filter, nil, program_stream_values.present?, class: 'ichecks'
                 = label_tag "Information on Program Stream Forms"
               %li
-                = check_box_tag :quantitative_filter, nil, false, class: 'ichecks quantitative_filter'
+                = check_box_tag :wizard_quantitative_filter, nil, quantitative_check, class: 'ichecks'
                 = label_tag "Information from Point-of-Referral Data"
 
           %h3 Query Builder

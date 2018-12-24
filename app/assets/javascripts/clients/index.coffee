@@ -31,17 +31,27 @@ CIF.ClientsIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
     _addTourTip()
+    _removeReferralDataColumnsInWizardClientColumn()
+    _handleShowCustomFormSelect()
+
+  _handleShowCustomFormSelect = ->
+    if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
+      $('#wizard-referral-data').show()
+    if $('#wizard-custom-form .custom-form-column .i-checks').is(':checked')
+      $('#wizard-custom-form').show()
+    if $('#wizard-program-stream .program-stream-column .i-checks').is(':checked')
+      $('#wizard-program-stream').show()
+    if $('#wizard-client .client-column .i-checks').is(':checked')
+      $('#wizard-client').show()
+
+  _removeReferralDataColumnsInWizardClientColumn = ->
+    $('#report-builder-wizard #referral-data').remove()
 
   _initCheckbox = ->
     $.map ['.i-checks', '.ichecks'], (element) ->
       $(element).iCheck
         checkboxClass: 'icheckbox_square-green'
         radioClass: 'iradio_square-green'
-
-  _hanldeCheckingOtherInfoCheckboxes = ->
-    if $('.custom-form-checkbox').is(':checked') then $('#custom_form_filter').iCheck('check')
-    if $('.program-stream-checkbox').is(':checked') then $('#program_stream_filter').iCheck('check')
-    if $('.quantitative-type-checkbox').is(':checked') then $('#quantitative_filter').iCheck('check')
 
   _initReportBuilderWizard = ->
     $('#report-builder-wizard-modal #filter_form').hide()
@@ -56,15 +66,59 @@ CIF.ClientsIndex = do ->
         $('ul[role="tablist"]').hide()
         $('.actions a[href="#finish"]').attr('id', 'wizard-search')
         _handleReportBuilderWizardDisplayBtns()
-        _hanldeCheckingOtherInfoCheckboxes()
+        _handleQueryFilters('#wizard_custom_form_filter', '#wizard-custom-form-select')
+        _handleQueryFilters('#wizard_program_stream_filter', '#wizard-program-stream-select')
+        _handleQueryFilters('#wizard_quantitative_filter')
 
       onStepChanging: (event, currentIndex, newIndex) ->
         nextStepTitle = $('#report-builder-wizard').steps('getStep', newIndex).title
         _displayChoseColumns() if nextStepTitle == 'Chose Columns'
         return true
 
-      onFinished: (event, currentIndex) ->
-        form.submit()
+  _handleRemoveCustomFormFilters = ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    for form in $('#wizard-custom-form-select :selected')
+      formLabel = $(form).text()
+      translation = $('#opt-group-translation').data('customForm')
+      setTimeout ( ->
+        advanceFilter.handleRemoveFilterBuilder(formLabel, translation, '#wizard-builder')
+        )
+
+  _handleRemoveProgramStreamFilters = ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    for form in $('#wizard-program-stream-select :selected')
+      formLabel = $(form).text()
+      enrollmentTranslation = $('#opt-group-translation').data('enrollment')
+      trackingTranslation = $('#opt-group-translation').data('tracking')
+      exitProgramTranslation = $('#opt-group-translation').data('exitProgram')
+      advanceFilter.handleRemoveFilterBuilder(formLabel, enrollmentTranslation, '#wizard-builder')
+      setTimeout ( ->
+        advanceFilter.handleRemoveFilterBuilder(formLabel, trackingTranslation, '#wizard-builder')
+        advanceFilter.handleRemoveFilterBuilder(formLabel, exitProgramTranslation, '#wizard-builder')
+        )
+
+  _handleQueryFilters = (checkBox, select) ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    $(checkBox).on 'ifUnchecked', (event) ->
+      if checkBox == '#wizard_quantitative_filter'
+        translation = $('#opt-group-translation').data('quantitative')
+        advanceFilter.handleRemoveFilterBuilder(translation, translation, '#wizard-builder')
+      _handleRemoveProgramStreamFilters()  if checkBox == '#wizard_program_stream_filter'
+      _handleRemoveCustomFormFilters()  if checkBox == '#wizard_custom_form_filter'
+
+    $(checkBox).on 'ifChecked', (event) ->
+      if checkBox == '#wizard_quantitative_filter'
+        fields = $('#quantitative-fields').data('fields')
+        $('#wizard-builder').queryBuilder('addFilter', fields)
+        advanceFilter.initSelect2()
+      else if checkBox == '#wizard_program_stream_filter'
+        formIds =  $(select).select2('val')
+        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_enrollment_field', '#wizard-builder') if $('#wizard-enrollment-checkbox').is(':checked')
+        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_tracking_field', '#wizard-builder') if $('#wizard-tracking-checkbox').is(':checked')
+        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_exit_program_field', '#wizard-builder') if $('#wizard-exit-form-checkbox').is(':checked')
+      else
+        formIds =  $(select).select2('val')
+        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_custom_field', '#wizard-builder')
 
   _handleReportBuilderWizardDisplayBtns = ->
     allSections = $('#report-builder-wizard-modal section')
@@ -79,42 +133,31 @@ CIF.ClientsIndex = do ->
       btnValue = $(@).data('value')
       if sectionClassName == 'client-section'
         if btnValue == 'yes'
-          $('.client-column-picker').show()
+          $('#wizard-client').show()
         else if btnValue == 'no'
-          $('.client-column-picker').hide()
+          $('#wizard-client').hide()
+          $('#wizard-client .client-column .i-checks').iCheck('uncheck')
       else if sectionClassName == 'custom-form-section'
         if btnValue == 'yes'
-          # $('#custom-form-checkbox').iCheck('check')
-          $('.custom-form-checkbox').iCheck('check')
-          # $('#custom_form_filter').iCheck('check')
-          $('.custom_form_filter').iCheck('check')
+          $('#wizard-custom-form').show()
         else if btnValue == 'no'
-          # $('#custom-form-checkbox').iCheck('uncheck')
-          $('.custom-form-checkbox').iCheck('uncheck')
-          # $('#custom_form_filter').iCheck('uncheck')
-          $('.custom_form_filter').iCheck('uncheck')
+          $('#wizard-custom-form').hide()
+          $('#wizard-custom-form-select').select2('val', '')
+          $('#wizard-custom-form ul.append-child li').remove()
       else if sectionClassName == 'program-stream-section'
         if btnValue == 'yes'
-          # $('#program-stream-checkbox').iCheck('check')
-          $('.program-stream-checkbox').iCheck('check')
-          # $('#program_stream_filter').iCheck('check')
-          $('.program_stream_filter').iCheck('check')
-          $('.program-stream').show()
-          $('.program-association').show()
+          $('#wizard-program-stream').show()
         else if btnValue == 'no'
-          # $('#program-stream-checkbox').iCheck('uncheck')
-          $('.program-stream-checkbox').iCheck('uncheck')
-          # $('#program_stream_filter').iCheck('uncheck')
-          $('.program_stream_filter').iCheck('uncheck')
-          $('.program-stream').hide()
-          $('.program-association').hide()
+          $('#wizard-program-stream').hide()
+          $('#wizard-program-stream-select').select2('val', '')
+          $('#wizard-program-stream ul.append-child li').remove()
+          $('#wizard-program-stream .i-checks').iCheck('uncheck')
       else if sectionClassName == 'referral-data-section'
         if btnValue == 'yes'
-          $('.quantitative-type-checkbox').iCheck('check')
-          $('.quantitative_filter').iCheck('check')
+          $('#wizard-referral-data').show()
         else if btnValue == 'no'
-          $('.quantitative-type-checkbox').iCheck('uncheck')
-          $('.quantitative_filter').iCheck('uncheck')
+          $('#wizard-referral-data').hide()
+          $('#wizard-referral-data .i-checks').iCheck('uncheck')
       else if sectionClassName == 'example-section'
         _insertQueryTutorailSteps() if btnValue == 'yes'
         $('#report-builder-wizard').steps('next')
@@ -125,7 +168,7 @@ CIF.ClientsIndex = do ->
         else if btnValue == 'no'
           $('#report-builder-wizard').steps('next')
       else
-        # $('#report-builder-wizard').steps('next')
+        $('#report-builder-wizard').steps('next')
 
   _insertQueryTutorailSteps = ->
     firstTutorial = '<div class="row">
@@ -278,6 +321,10 @@ CIF.ClientsIndex = do ->
     advanceFilter.triggerEnrollmentFields()
     advanceFilter.triggerTrackingFields()
     advanceFilter.triggerExitProgramFields()
+
+    advanceFilter.triggerEnrollmentColumnPickers()
+    advanceFilter.triggerTrackingColumnPickers()
+    advanceFilter.triggerExitProgramColumnPickers()
 
     advanceFilter.handleSelect2RemoveProgram()
     advanceFilter.handleUncheckedEnrollment()
