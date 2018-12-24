@@ -239,8 +239,13 @@ body[id='clients-index'] {
     .client-id, .client-name, .assessment-number, .assessment-date {
       min-width: 120px;
     }
+
     .assessment-score {
       min-width: 25px;
+    }
+
+    .dt-buttons {
+      float: right;
     }
   }
 }

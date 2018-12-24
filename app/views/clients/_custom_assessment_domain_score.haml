@@ -1,4 +1,4 @@
-.modal.fade.assessment-domain-score{ role: 'dialog', tabindex: '-1', id: 'custom-assessment-domain-score'}
+.modal.fade.assessment-domain-score{ role: 'dialog', tabindex: '-1', id: 'custom-assessment-domain-score', data: { 'filename' => "client_assessment_domain_report-#{Time.now}"  } }
   .modal-dialog{ role: 'document'}
     .modal-content
       .modal-header
@@ -8,10 +8,10 @@
           = t('.assessment_data')
 
       .modal-body
-        - if params['commit'].present? || params['client_advanced_search'].present?
-          = link_to current_url(format: 'xls', type: 'custom_assessment'), class: 'btn btn-primary btn-export pull-right custom-assessment-score' do
-            %i.fa.fa-download
-            = t('.export_to_xls')
+        -# - if params['commit'].present? || params['client_advanced_search'].present?
+        -#   = link_to current_url(format: 'xls', type: 'custom_assessment'), class: 'btn btn-primary btn-export pull-right custom-assessment-score' do
+        -#     %i.fa.fa-download
+        -#     = t('.export_to_xls')
         - assessment_domain_hash = {}
         %table.table.table-bordered.table-striped.table-hover.assessment-score-data#custom-assessment-score
           %thead

@@ -32,11 +32,18 @@ CIF.ClientsIndex = do ->
     _addDataTableToAssessmentScoreData()
 
   _addDataTableToAssessmentScoreData = ->
+    fileName = $('.assessment-domain-score').data('filename')
     $('.assessment-score-data').DataTable
       bFilter: false
       processing: true
       scrollX: true
       order: [0, 'desc']
+      dom: 'lBrtip',
+      buttons: [{
+                extend: 'excelHtml5'
+                filename: fileName
+                title: ''
+            }]
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
