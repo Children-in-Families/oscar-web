@@ -29,7 +29,18 @@ CIF.ClientsIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
     _addTourTip()
+    _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
+
+  _extendDataTableSort = ->
+    $.extend $.fn.dataTableExt.oSort,
+      'formatted-num-pre': (a) ->
+        a = if a == '-' or a == '' then 0 else a.replace(/[^\d\.]/g, '')
+        parseFloat a
+      'formatted-num-asc': (a, b) ->
+        a - b
+      'formatted-num-desc': (a, b) ->
+        b - a
 
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
@@ -38,6 +49,7 @@ CIF.ClientsIndex = do ->
       processing: true
       scrollX: true
       order: [0, 'desc']
+      columnDefs: [{ type: 'formatted-num', targets: 0 }]
       dom: 'lBrtip',
       buttons: [{
                 extend: 'excelHtml5'
