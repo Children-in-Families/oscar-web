@@ -86,8 +86,8 @@ module AdvancedSearches
     end
     
     def date_nearest_query
-      clients = @clients.joins(:assessments).where('date(assessments.created_at) < ?', @value.to_date)
-      clients.ids
+      assessment = Assessment.joins(:client).where('date(assessments.created_at) < ?', @value.to_date).order(created_at: :desc).first
+      assessment.client_id
     end
 
     def referred_to_query

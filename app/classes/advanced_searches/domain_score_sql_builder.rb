@@ -71,14 +71,11 @@ module AdvancedSearches
         end
         return { id: sql_string, values: clients.map(&:id) }
       when 'average'
-        sum_score = 0
-        clients = Client.joins(:assessments).all.reject do |client|
-          client.assessments.includes(:assessment_domains).each do |assessment|
-            sum_score += assessment.assessment_domains.where(domain_id: @domain_id).sum(:score)
-          end
-          (sum_score / client.assessments.count).round != @value.to_i
-        end
-        return { id: sql_string, values: clients.map(&:id) }
+        assessment_count = Assessment.joins(:assessment_domains).where(assessment_domains: { domain_id: @domain_id }).distinct.count
+        total_domain_scores = Assessment.includes(:assessment_domains).where(assessment_domains: { domain_id: @domain_id }).pluck('assessment_domains.score').sum
+        
+        clients = Client.joins(:assessments).distinct
+        return { id: sql_string, values: (total_domain_scores / assessment_count).round == @value.to_i ? clients.ids : [] }
       end
 
       client_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
