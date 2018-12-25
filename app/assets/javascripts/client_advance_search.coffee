@@ -270,6 +270,7 @@ class CIF.ClientAdvanceSearch
       group       = builder.queryBuilder('addGroup', root, false, false, {no_add_group: true, condition_readonly: true})
 
       groupId     = "##{group.id}"
+      localStorage.setItem("#{group.id}", group.id)
       window.customGroup["#{group.id}"] = group
       $(groupId).addClass('csi-group')
       $('.csi-group .group-conditions .btn-primary').attr('disabled', 'disabled')
@@ -283,16 +284,9 @@ class CIF.ClientAdvanceSearch
       rule1.filter    = builder.queryBuilder('getFilterById', 'assessment_number')
       rule2.filter    = builder.queryBuilder('getFilterById', 'date_of_assessments')
       rule2.operator  = builder.queryBuilder('getOperatorByType', 'between')
-
+      _changeOperator()
   handleCsiAfterSearch: ->
-    if ($('option[value^="domainscore_"]:selected').length && $('option[value="month_number"]:selected').length) || ($('option[value^="domainscore_"]:selected').length && $('option[value="assessment_number"]:selected').length) || ($('option[value^="domainscore_"]:selected').length && $('option[value="date_nearest"]:selected').length)
-      $('option[value^="domainscore_"]:selected').closest('.rules-group-container').addClass('csi-group')
-      $('option[value="month_number"]:selected').closest('.rules-group-container').addClass('csi-group')
-      $('option[value="assessment_number"]:selected').closest('.rules-group-container').addClass('csi-group')
-      $('option[value="date_of_assessments"]:selected').closest('.rules-group-container').addClass('csi-group')
-    
     $('#builder_group_0').removeClass('csi-group')
-    $('.csi-group .group-conditions .btn-primary').attr('disabled', 'disabled')
     $('.csi-group .group-conditions .btn-primary:nth-child(2)').addClass('hide')
 
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
@@ -305,6 +299,8 @@ class CIF.ClientAdvanceSearch
         $(this).closest('.rule-container').find('.rule-value-container').find('input').show()
     if $('option[value*="has_changed"]:selected').length < 1 || $('option[value*="has_not_changed"]:selected').length < 1
       _changeOperator()
+      $('option[value*="date_of_assessments"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $('option[value*="date_of_assessments"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
       $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
       $('option[value*="has_not_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
       $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()

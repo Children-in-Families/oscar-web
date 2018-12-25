@@ -30,6 +30,7 @@ CIF.ClientsIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
     _addTourTip()
+    _clearingLocalStorage()
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
@@ -398,5 +399,11 @@ CIF.ClientsIndex = do ->
       ])
       tour.init()
       tour.start()
+
+  _clearingLocalStorage = ->
+    $(document).on 'click', '#client-advance-search-form .ibox-footer a.btn-default', (event)->
+      $.each localStorage, (key, value) ->
+        if key.match(/builder_group_\d/g)
+          localStorage.removeItem(key)
 
   { init: _init }

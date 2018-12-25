@@ -23,7 +23,14 @@ module AdvancedSearches
           rules = @basic_rules["rules"].reject {|hash_value| hash_value["id"] != "active_program_stream" }
         end
 
-        operators = rules.flatten.map{|value| value["operator"] }.uniq if rules.present?
+        if rules.compact.any?{|rule| rule.has_key?('rules')}
+          rule_hash = {}
+          rules = rules.compact.first.each {|k, v| rule_hash[k] = v if k == 'rules'}
+          operators = rule_hash['rules'].map{|value| value["operator"] }.uniq if rules.present?
+        else
+          operators = rules.flatten.map{|value| value["operator"] }.uniq if rules.present?
+        end
+
         if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.presence.reject(&:nil?).sort == ["not_equal", "equal"].sort
           excluded_client_ids = rules.flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
           clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).where(query_array).reject do |client|
