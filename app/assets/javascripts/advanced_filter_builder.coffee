@@ -9,7 +9,6 @@ class CIF.AdvancedFilterBuilder
     $('#builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
       if $('body#clients-index').length
         if localStorage.getItem(addRule.id) == addRule.id
-          debugger
           addRule.$el.addClass('csi-group')
           $("##{addRule.id} .group-conditions label.btn-primary").attr('disabled', 'disabled')
 
@@ -17,7 +16,8 @@ class CIF.AdvancedFilterBuilder
       $('#builder_group_0').find('.rules-group-body .btn-custom-group').hide()
 
     $('#builder').on 'beforeDeleteGroup.queryBuilder', (parent, group) ->
-      localStorage.setItem("#{group.id}", null)
+      if $('body#clients-index').length
+        localStorage.setItem("#{group.id}", null)
 
   builderOption: ->
     $('#builder').queryBuilder
