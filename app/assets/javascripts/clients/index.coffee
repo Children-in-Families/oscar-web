@@ -77,27 +77,23 @@ CIF.ClientsIndex = do ->
 
   _handleRemoveCustomFormFilters = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
+    translation = $('#opt-group-translation').data('customForm')
     for form in $('#wizard-custom-form-select :selected')
       formLabel = $(form).text()
-      translation = $('#opt-group-translation').data('customForm')
-      setTimeout ( ->
-        advanceFilter.handleRemoveFilterBuilder(formLabel, translation, '#wizard-builder')
-        )
+      advanceFilter.handleRemoveFilterBuilder(formLabel, translation, '#wizard-builder')
 
   _handleRemoveProgramStreamFilters = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
+    enrollmentTranslation = $('#opt-group-translation').data('enrollment')
+    trackingTranslation = $('#opt-group-translation').data('tracking')
+    exitProgramTranslation = $('#opt-group-translation').data('exitProgram')
     for form in $('#wizard-program-stream-select :selected')
       formLabel = $(form).text()
-      enrollmentTranslation = $('#opt-group-translation').data('enrollment')
-      trackingTranslation = $('#opt-group-translation').data('tracking')
-      exitProgramTranslation = $('#opt-group-translation').data('exitProgram')
       advanceFilter.handleRemoveFilterBuilder(formLabel, enrollmentTranslation, '#wizard-builder')
-      setTimeout ( ->
-        advanceFilter.handleRemoveFilterBuilder(formLabel, trackingTranslation, '#wizard-builder')
-        advanceFilter.handleRemoveFilterBuilder(formLabel, exitProgramTranslation, '#wizard-builder')
-        )
+      advanceFilter.handleRemoveFilterBuilder(formLabel, trackingTranslation, '#wizard-builder')
+      advanceFilter.handleRemoveFilterBuilder(formLabel, exitProgramTranslation, '#wizard-builder')
 
-  _handleQueryFilters = (checkBox, select) ->
+  _handleQueryFilters = (checkBox, select = '') ->
     advanceFilter = new CIF.ClientAdvanceSearch()
     $(checkBox).on 'ifUnchecked', (event) ->
       if checkBox == '#wizard_quantitative_filter'
@@ -113,12 +109,12 @@ CIF.ClientsIndex = do ->
         advanceFilter.initSelect2()
       else if checkBox == '#wizard_program_stream_filter'
         formIds =  $(select).select2('val')
-        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_enrollment_field', '#wizard-builder') if $('#wizard-enrollment-checkbox').is(':checked')
-        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_tracking_field', '#wizard-builder') if $('#wizard-tracking-checkbox').is(':checked')
-        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_exit_program_field', '#wizard-builder') if $('#wizard-exit-form-checkbox').is(':checked')
+        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_enrollment_field') if $('#wizard-enrollment-checkbox').is(':checked')
+        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_tracking_field') if $('#wizard-tracking-checkbox').is(':checked')
+        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_exit_program_field') if $('#wizard-exit-form-checkbox').is(':checked')
       else
         formIds =  $(select).select2('val')
-        advanceFilter.addCustomBuildersFields(formIds, '/api/client_advanced_searches/get_custom_field', '#wizard-builder')
+        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_custom_field') unless _.isEmpty(formIds)
 
   _handleReportBuilderWizardDisplayBtns = ->
     allSections = $('#report-builder-wizard-modal section')
@@ -322,9 +318,9 @@ CIF.ClientsIndex = do ->
     advanceFilter.triggerTrackingFields()
     advanceFilter.triggerExitProgramFields()
 
-    advanceFilter.triggerEnrollmentColumnPickers()
-    advanceFilter.triggerTrackingColumnPickers()
-    advanceFilter.triggerExitProgramColumnPickers()
+    advanceFilter.triggerEnrollmentInWizard()
+    advanceFilter.triggerTrackingInWizard()
+    advanceFilter.triggerExitProgramInWizard()
 
     advanceFilter.handleSelect2RemoveProgram()
     advanceFilter.handleUncheckedEnrollment()
