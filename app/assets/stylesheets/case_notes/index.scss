@@ -19,4 +19,19 @@ body[id='case_notes-index'] {
   .margin-button {
     margin-bottom: 20px;
   }
+  #case-note-selection {
+    .dropdown-menu li a {
+      padding: 0 5px;
+      min-height: 0;
+    }
+  }
+  #case-note-dropdown {
+    right: 0;
+    left: auto;
+  }
+
+  li .disabled {
+    color: black !important;
+    cursor: not-allowed;
+  }
 }

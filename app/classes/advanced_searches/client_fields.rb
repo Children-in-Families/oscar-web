@@ -2,6 +2,7 @@ module AdvancedSearches
   class  ClientFields
     include AdvancedSearchHelper
     include ClientsHelper
+    include ApplicationHelper
 
     def initialize(options = {})
       @user = options[:user]
@@ -13,12 +14,13 @@ module AdvancedSearches
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
-      domain_scores_options = enable_assessment_setting? ? AdvancedSearches::DomainScoreFields.render : []
+      default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
+      custom_domain_scores_options = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
 
       search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
 
-      search_fields.sort_by { |f| f[:label].downcase } + domain_scores_options + school_grade_options
+      search_fields.sort_by { |f| f[:label].downcase } + default_domain_scores_options + custom_domain_scores_options + school_grade_options
     end
 
     private

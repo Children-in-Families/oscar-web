@@ -1,0 +1,7 @@
+%div{ class: "form-group #{field_with(field_props['label'],errors)}" }
+  %label.control-label{ class: required?(field_props['required'] || false) }
+    %abbr{ title: 'required' }= '*' if field_props['required'] || false
+    = field_props['label'].html_safe
+  = f.input field_props['label'], required: (field_props['required'] || false), input_html: { value: value, class: field_props['className'], placeholder: format_placeholder(field_props['placeholder']), title: field_props['description'], name: "#{f.object_name}[#{field_props['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')}]",  type: field_props['subtype'] }, label: false
+  %span.help-block.hidden
+    = t('cannot_be_blank')

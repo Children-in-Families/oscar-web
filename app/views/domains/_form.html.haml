@@ -34,5 +34,5 @@
         .col-xs-12
           = f.text_area :description, class: 'tinymce', label: t('.description'), input_html: { rows: 30 }
   .ibox-footer
-    = f.submit t('.save'), class: 'btn btn-primary form-btn'
+    = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = link_to t('.cancel'), domains_path, class: 'btn btn-default form-btn'

@@ -1,4 +1,42 @@
 body[id='dashboards-index'] {
+  #width-modal {
+    li.active {
+      margin-bottom: -1px;
+    }
+    li.active > a {
+      border-bottom: 2px solid #fff;
+    }
+
+    th.name,  td.name {
+      width: 60% !important;
+    }
+    th.program-stream-name, td.program-stream-name, th.tracking-name, td.tracking-name {
+      width: 40% !important;
+    }
+    th.link, td.link {
+      width: 20% !important;
+    }
+
+    table.custom-field-table, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+      width: 100% !important;
+    }
+
+    .dataTables_scrollHeadInner{
+      padding-right: 0 !important;
+    }
+
+    table.custom-field-table {
+      margin-bottom: 0;
+
+      th {
+        border-bottom-width: 0;
+      }
+    }
+  }
+
+  .margin-top-datatable {
+    margin-top: 10px;
+  }
   #users-task-panel {
     table.active_tasks {
       margin-bottom: 0;

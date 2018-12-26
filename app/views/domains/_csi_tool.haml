@@ -1,0 +1,11 @@
+#csi-tools.tab-pane.active{role: "tabpanel"}
+  .row
+    .col-xs-12
+      .ibox
+        .ibox-title.domain-ibox
+          %h5= @results
+          %span.label.label-info= t('.domains')
+
+        = render partial: 'domain_list', collection: @domains, as: :domain
+        .text-center
+          = paginate @domains, params: { tab: 'csi_domain' }, :param_name => 'page_1'

@@ -5,11 +5,10 @@ body[id=assessments-show] {
   }
 
   .domain-score {
-    margin-top: 10px;
-    .label {
-      display: inline-block;
-      font-size: 16px;
-    }
+    background: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    min-width: 80px;
   }
   .button {
     min-width: 100px;
@@ -20,6 +19,50 @@ body[id=assessments-show] {
   #assessment-info {
     .label-primary, .label-danger {
       float: none;
+    }
+    .table.table-borderless td, .table.table-borderless th {
+      border: none;
+    }
+    .table.table-borderless td:first-child {
+      width: 10%;
+    }
+    .table.table-borderless td:nth-child(2) {
+      width: 80%;
+    }
+    .panel.panel-danger, .panel.panel-success, .panel.panel-warning, .panel.panel-primary {
+      border-color: white;
+      .panel-heading {
+        border-radius: 20px;
+        color: inherit;
+      }
+    }
+
+    .panel-warning .panel-heading {
+      background-color: #fff3c6;
+      border: 2px solid #f7a54a;
+    }
+
+    .panel-success .panel-heading {
+      background-color: #a0d8ff;
+      border: 2px solid #21b9bb;
+    }
+
+    .panel-danger .panel-heading {
+      background-color: #ff7a7a;
+      border: 2px solid #ec4758;
+    }
+
+    .panel-primary .panel-heading {
+      background-color: #9effb6;
+      border: 2px solid #1ab394;
+    }
+
+    .no-padding-top {
+      padding-top: 0;
+    }
+
+    .no-padding-bottom {
+      padding-bottom: 0;
     }
   }
 }

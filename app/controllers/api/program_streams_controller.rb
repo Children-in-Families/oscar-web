@@ -30,5 +30,9 @@ module Api
       properties += file_uploader
       render json: properties
     end
+
+    def list_program_streams
+      render json: TrackingDatatable.new(view_context), root: :data
+    end
   end
 end

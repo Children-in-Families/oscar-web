@@ -89,7 +89,8 @@ module VersionHelper
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'country_origin' || k == 'archive_state' || k == 'attachments' || k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
+    keys = ['goal_required', 'required_task_last', 'country_origin', 'archive_state', 'attachments', 'admin', 'tokens', 'encrypted_password', 'uid', 'able']
+    keys.include?(k) || skipable_user_task_and_case?(k, item_type)
   end
 
   def skipable_user_task_and_case?(k, item_type)
@@ -133,6 +134,7 @@ module VersionHelper
     domain_color = {
       danger: 'Red',
       info: 'Blue',
+      success: 'Blue',
       primary: 'Green',
       warning: 'Yellow'
     }
@@ -170,7 +172,7 @@ module VersionHelper
   def version_values
     {
       free_text:            ['description', 'response', 'additional_note'],
-      booleans:             ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager', 'calendar_integration'],
+      booleans:             ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager', 'calendar_integration', 'default', 'completed', 'custom'],
       titleizeTexts:        ['gender', 'state', 'family_type', 'roles'],
       assessments:          ['assessment_id'],
       score_colors:         ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color'],

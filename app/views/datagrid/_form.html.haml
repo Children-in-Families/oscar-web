@@ -15,7 +15,7 @@
           %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
             = check_box_tag 'overdue-forms', 'overdue-forms', checked = check_params_has_over_forms, class: 'i-checks'
             %label=t('.has_overdue_forms')
-          - if enable_assessment_setting?
+          - if enable_any_csi_tools?
             %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
               = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
               %label=t('.has_overdue_assessment')
@@ -175,7 +175,7 @@
             .visibility.col-sm-12
               = check_box_tag 'case_note_type_', 'case_note_type', checked = default_setting('case_note_type_', @client_default_columns) || params[:case_note_type_].present?, class: 'i-checks'
               = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
-          - if enable_assessment_setting?
+          - if enable_default_assessment?
             %li.csi-header
               %strong= t('.csi_domain_scores')
             %li
@@ -186,7 +186,20 @@
               .visibility.col-sm-12
                 = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = default_setting('all_csi_assessments_', @client_default_columns) || params[:all_csi_assessments_].present?, class: 'i-checks'
                 = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
-            = render 'datagrid/domain_score_columns_picker'
+            = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
+
+          - if enable_custom_assessment?
+            %li.csi-header
+              %strong= t('.custom_csi_domain_scores')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = default_setting('date_of_custom_assessments_', @client_default_columns) || params[:date_of_custom_assessments_].present?, class: 'i-checks'
+                = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_custom_assessments')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = default_setting('all_custom_csi_assessments_', @client_default_columns) || params[:all_custom_csi_assessments_].present?, class: 'i-checks'
+                = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments')
+            = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
 
           %li.divider.col-xs-12
           %li

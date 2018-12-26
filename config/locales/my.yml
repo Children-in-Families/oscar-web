@@ -325,9 +325,10 @@ my:
       completed: ၿပီး
       created_at: ရက္စြဲကို ဖန္တီးရန္
       created_by: တည်ထောင်ထားတဲ့
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       current_address: လက္ရွိေနရပ္လိပ္စာ
       current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
+      custom_csi_domain_scores: Custom ဒိုမိန္း ရမွတ္မ်ား
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
@@ -489,15 +490,20 @@ my:
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
     form:
       add_task: လုပ္ငန္းအသစ္ ထပ္ထည့္ရန္။
+      add_task_confirm: သင်ဤအကဲဖြတ်၏နောက်ဆုံးခြေလှမ်းမှာတာဝန်များကိုထည့်သွင်းဖို့ပိုနှစ်သက်ပါ့မလား
       at_least_one_task_required: အနည္းဆံုး လုပ္ငန္းတစ္ခု ထည့္ရန္ လိုအပ္သည္။
       back: ေနာက္သို႔
       domain: ဒိုမိန္း
       finish: ၿပီးပါၿပီ။
+      finished_assessment_msg: ဤသည်အကဲဖြတ်ကယ်ဖို့အဆင်သင့်ပါ!
       goal: ရည္မွန္းခ်က္
       next: ေနာက္တစ္ခု
       previous: ေရွ႕တစ္ခု
-      reason: အေၾကာင္းျပခ်က္
+      reason: ရှုမွငျခွငျး, စောငျ့ရှောကျခွငျး
+      reason_placeholder: သင်ဤရမှတ်ရှေးပါပွီဘာကြောင့်ရှင်းပြပါ။
       save: သိမ္းသည္။
+      score_label: အများဆုံးနီးကပ်စွာသင့်ရဲ့လေ့လာရေးအပေါ် client ကိုရဲ့အခြေအနေကိုအခြေစိုက်စခန်းကိုဖော်ပြရန်အောက်ပါဖော်ပြချက်များအရာကိုရွေးချယ်ပါ။
+      set_goal: သင်တစ်ဦးရည်မှန်းချက်သတ်မှတ်ထားဖို့လိုပါသလား
       tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
     index:
       assessment_created_on: အကဲဖြတ်အပေါ်ဖန်တီးဖို့
@@ -506,16 +512,21 @@ my:
       begin_now: ယခုစမည္
       initial_assessment: ကနဦး အကဲျဖတ္ခ်က္
       next_review: သုံးလစဉ်ပြန်လည်သုံးသပ်ချက်
+      no_custom_domains_available: ရရှိနိုင်သောအဘယ်သူမျှမစိတ်ကြိုက်ဒိုမိန်း
+      please_add_custom_domains: သငျသညျဤ action လုပ်ဆောင်နိုင်မီအချို့ကိုသင်စိတ်ကြိုက်ဒိုမိန်းထည့်သွင်းဖို့လိုပေမည်
       three_month_assessment: သုံးလစဉ်အကဲဖြတ်
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:
       assessment_created_by: အသုံးပြုနေသူများကဖန်တီးအကဲဖြတ်
       assessment_completed_for: အဘို့အပြီးစီးခဲ့အကဲဖြတ်
       back_to_assessment_history: စိစစ္မႈသမုိင္းေၾကာင္းသို႔ ျပန္ထြက္၇န္
+      based_on: ခန့်မှန်းအရေအတွက်ပေါ်မှာအခြေခံပြီး
+      case_plan: စီမံကိန်း၏အမှု
       domain: ဒိုမိန္း
+      due_date: ရက္စြဲတြင္
       edit: ျပင္ဆင္ရန္
       goal: ရည္မွန္းခ်က္
-      initial_assessment_of: "၏ ကနဦးစိစစ္မႈ"
+      initial_assessment: ကနဦးခန့်မှန်းတွက်ချက်မှုအပေါ် အခြေခံ
       on_date: ရက္စြဲတြင္
       reason: အေၾကာင္းျပခ်က္
       score: ရမွတ္
@@ -749,6 +760,7 @@ my:
         accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       form:
         accept: လက္ခံသည္
+        accepting: လက်ခံ...
         accept_ngo_form: NGO ရိုက်ထည့်ပါ
         accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
         case_worker_or_staff: ဝန်ထမ်းများ
@@ -765,6 +777,7 @@ my:
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exiting: မထွက်...
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       form:
@@ -776,6 +789,7 @@ my:
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
+        exiting: မထွက်...
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         reject_client: client ကိုငြင်းပယ်
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
@@ -784,7 +798,7 @@ my:
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
     form_option:
       basic_fields: အမႈသည္အေျခခံအကြက္မ်ား
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       custom_form: အေကာက္ခြန္ ပံုစံ
       enrollment: စာရင္းသြင္းျခင္း
       exit_program: ထြက္သည့္ အစီအစဥ္
@@ -830,7 +844,7 @@ my:
   client_advanced_searches:
     form_option:
       basic_fields: အမႈသည္၏ အေျခခံ အေနအထားမ်ား
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       custom_form: အေကာက္ခြန္ပံုစံ
       enrollment: စာရင္းေပးသြင္းမႈ
       exit_program: ထြက္သည့္အစီအစဥ္
@@ -844,7 +858,7 @@ my:
       advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
       client_column: အမႈသည္အေျခခံေကာ္လံမ်ား
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       custom_form_column: အခြန္ပံုစံ ေကာ္လံမ်ား
       delete_group: ဖ်က္ရန္
       export_to_xls: XLS အျဖစ္ ထုတ္သည္။
@@ -1062,7 +1076,7 @@ my:
         advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         client_column: အမႈသည္၏ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
-        csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+        csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
         custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
         delete_group: ဖ်က္ရန္
         export_to_xls: XLS အျဖစ္ ထုတ္ရန္
@@ -1073,7 +1087,7 @@ my:
         search: ရွာေဖြရန္
       form_option:
         basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
-        csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+        csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
         custom_form: အေကာက္ခြန္ ပံုစံ
         enrollment: စာရင္းသြင္းျခင္း
         exit_program: ထြက္သည့္ အစီအစဥ္
@@ -1156,6 +1170,7 @@ my:
       exit_ngo: NGO မွ ထြက္ရန္
       exit_note: ထြက္သည့္ မွတ္တမ္း
       exit_status: အေနအထား
+      exiting: မထွက်...
     exit_ngo_form:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       exit_btn: ထြက္ရန္
@@ -1316,11 +1331,12 @@ my:
       active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
       advanced_search: အဆင့္ျမင့္ ရွာေဖြမႈ
-      all_csi_assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      all_csi_assessments: အားလုံးအကဲဖြတ်
+      all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
       case_statistics: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ ပမာဏမ်ား
-      csi_domain_scores: SCI ဒိုမိန္း ရမွတ္မ်ား
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
@@ -1403,6 +1419,7 @@ my:
       able_state: Able State
       accept: လက္ခံသည္
       accepted_date: NGO က လက္ခံသည္ ရက္စြဲ
+      accepting: လက်ခံ...
       add_client_to_case: အမႈသည္ကို အမႈျခင္းရာထဲသုိ႔ ထည့္သြင္းရန္
       add_ec_btn: EC ထဲသုိ႔ ထည့္ရန္
       add_fc_btn: FC ထဲသုိ႔ ထည့္ရန္
@@ -1612,6 +1629,16 @@ my:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+    custom_fields_tab:
+      link: link ကို
+      next: ေနာက္တစ္ခု
+      open_form: ပွင့်လင်းပုံစံ
+      previous: ေရွ႕တစ္ခု
+      name: နာမည္
+    multiple_forms:
+      custom_forms: ပုံစံများ
+      multiple_forms: ပုံစံအမျိုးမျိုး
+      tracking_forms: ခြေရာခံခြင်းပုံစံ
     duetoday:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
@@ -1630,6 +1657,13 @@ my:
       tasks: ရက်လွန်အလုပ်တခုကို
     program_stream:
       program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
+    program_streams_tab:
+      link: link ကို
+      next: ေနာက္တစ္ခု
+      open_form: ပွင့်လင်းပုံစံ
+      previous: ေရွ႕တစ္ခု
+      program_stream_name: အစီအမံစီဆင္းမႈ
+      tracking_name: ခြေရာခံနာမကိုအမှီ
     third_party:
       ables: Ables
       agencies: ေအဂ်င္စီမ်ား
@@ -1693,7 +1727,8 @@ my:
       show: ျပရန္
   datagrid:
     columns:
-      all_csi_assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား အားလံုး
+      all_csi_assessments: အားလုံးအကဲဖြတ်
+      all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
@@ -1718,7 +1753,8 @@ my:
         age: အသက္
         agencies_involved: ပါ၀င္ေသာ ေအဂ်င္စီမ်ား
         agency_names: ေအဂ်င္စီနာမည္
-        all_csi_assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား အားလံုး
+        all_csi_assessments: အားလုံးအကဲဖြတ်
+        all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
         any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
@@ -1738,12 +1774,13 @@ my:
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+        date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ခ႐ိုင္
         domain: ဒိုမိန္း
-        domains: CSI အားလံုး
+        domains: ဒိုမိန်း
         donor: အလွဴရွင္
         exit_circumstance: ထွက်ပေါက်အခြေအနေ
         exit_note: ထြက္သည့္မွတ္စု
@@ -1839,6 +1876,7 @@ my:
         village: ေက်းရြာ
         what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
+      date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
@@ -1993,6 +2031,7 @@ my:
         'yes': ဟုတ္ပါသည္
     form:
       csi_domain_scores: CSI ဒိုမိန္း အမွတ္မ်ား
+      custom_csi_domain_scores: Custom ဒိုမိန္း အမွတ္မ်ား
       filter_domains: စိစစ္မႈ ဒိုမိန္း
       has_overdue_assessment: ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ တစ္ခုရွိပါသည္။
       has_overdue_forms: ရက်လွန်ပုံစံများရှိပါတယ်
@@ -2532,9 +2571,22 @@ my:
   domains:
     create:
       successfully_created: ဒိုမိန္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    csi_tool:
+      add_new_domain: ဒိုမိန္းအသစ္
+    custom_csi_tool:
+      add_new_domain: ဒိုမိန္းအသစ္
     destroy:
       alert: ဒိုမိန္းအုုပ္စုကို ဖ်က္၍ မရပါ။
       successfully_deleted: ဒိုမိန္းအုပ္စုကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ
+    domain_list:
+      add_new_domain: ဒိုမိန္းအသစ္
+      changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+      domains: ဒိုမိန္းမ်ား
+      score_1: ရမွတ္ ၁
+      score_2: ရမွတ္ ၂
+      score_3: ရမွတ္ ၃
+      score_4: ရမွတ္ ၄
+      view: ျမင္ကြင္း
     edit:
       title: ဒိုမိန္းကို ျပင္ဆင္ရန္
     form:
@@ -2545,14 +2597,16 @@ my:
       interpretation: အဓိပ်ပါယျ
       name: နာမည္
       save: သိမ္းဆည္းသည္
+      saving: ချွေတာ...
       score_1: ရမွတ္ ၁
       score_2: ရမွတ္ ၂
       score_3: ရမွတ္ ၃
       score_4: ရမွတ္ ၄
     index:
-      add_new_domain: ဒိုမိန္းအသစ္
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
       changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+      csi_tool: အကဲဖြတ် tool ကို
+      custom_csi_tool: ထုံးစံအကဲဖြတ် tool ကို
       domains: ဒိုမိန္းမ်ား
       score_1: ရမွတ္ ၁
       score_2: ရမွတ္ ၂
@@ -3151,11 +3205,15 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  invalid_name: နာမကိုအမှီမမှန်ကန်
   invalid_program_enrollment_date: သင္ေရြးခ်ယ္လိုက္ေသာ စာရင္းသြင္းသည့္ေနက မွားေနပါသည္။ ေက်းဇူးျပဳ၍ သင္၏ ထြက္သည့္အစီအစဥ္ ေန႔ရက္မတုိင္မီ ရက္စြဲကို ေရြးခ်ယ္ပါ။
   invalid_program_exit_date: သင္ေရြးခ်ယ္လိုက္ေသာ ထြက္သည့္ ရက္စြဲသည္ မမွန္ပါ။ ေက်းဇူးျပဳ၍ သင္၏ စာရင္းသြင္းသည့္ေန႔ထက္ ေနာက္က်ေသာ ရက္စြဲကို ေရြးခ်ယ္ပါ။
   is_not_email: အီးေမးလ္မဟုတ္ပါ
   layouts:
     notification:
+      assessments_count:
+        one: သငျသညျ 1 ပြီ
+        other: သငျသညျ %{count} ပြီ
       check_tasks: လုပ္ငန္းမ်ားကို ေက်းဇူးျပဳ၍ စိစစ္ပါ
       click_here: ဤေနရာကို ကလစ္ႏွိပ္ပါ
       client_case_note_due_today:
@@ -3176,10 +3234,9 @@ my:
         few: "(အမႈသည္ အခ်ိဳ႕)"
         one: "(အမႈသည္ တစ္ဦး) "
         other: "(အမႈသည္ %{count} ဦး)"
-      due_today_assessments_count:
-        few: သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕လုပ္ရန္ ရွိပါသည္။
-        one: 'သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈလုပ္ရန္ တစ္ခု ရွိပါသည္။ '
-        other: သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈ %{count} လုပ္ရန္ ရွိပါသည္။
+      due_today_assessments:
+        one: ယနေ့ကြောင့်အကဲဖြတ်။
+        other: ယနေ့ကြောင့်အကဲဖြတ်။
       due_today_client_custom_field_count:
         few: 'ယေန႔ အမႈသည္ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ လုပ္ရန္ရွိပါသည္။ '
         one: ယေန႔ အမႈသည္အေကာက္ခြန္ပံုစံတစ္ခုလုပ္ရန္ရွိပါသည္။
@@ -3213,8 +3270,11 @@ my:
         other: သငျသညျသစ်တစ်ခုဖောက်သည်ရည်ညွှန်းပြီ%{count}
       no_task: အသိေပးစရာမရွိပါ
       overdue_and_due_today_count:
-        one: and 1 due today
-        other: and %{count} due today
+        one: နှင့် 1 ယနေ့ကြောင့်
+        other: နှင့် %{count} ယနေ့ကြောင့်
+      overdue_assessments:
+        one: အကဲဖြတ်ရက်ကျော်နေပြီ။
+        other: အကဲဖြတ်ရက်ကျော်နေပြီ။
       overdue_assessments_count:
         few: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕ ရွိေနပါသည္။
         one: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ ၁ ခု ရွိေနပါသည္။
@@ -3252,8 +3312,8 @@ my:
         other: သင်တစ်ဦးထပ်ဖောက်သည်ရည်ညွှန်းပြီ%{count}
       review_client: သင္၏ အမႈသည္စာရင္းေပးသြင္းမႈကို ျပန္လည္ ၾကည့္႐ႈရန္
       upcoming_assessments_count:
-        one: သင့်အနေဖြင့်လာမည့် CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
-        other: သင့်အနေဖြင့်လာမည့် %{count} CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
+        one: သင့်အနေဖြင့်လာမည့်အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
+        other: သင့်အနေဖြင့်လာမည့် %{count} အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
     side_menu:
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
       account: အေကာင့္
@@ -3261,7 +3321,7 @@ my:
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
       clients: အမႈဥည္မ်ား
       country: ႏုိင္ငံ
-      csi_tools: CSI ကိရိယာတခု
+      csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_fields: ပံုစံထုတ္စက္
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       default_columns: ပုံမှန်ကော်လံများ
@@ -3401,6 +3461,27 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
+  multiple_form:
+    client_custom_fields:
+      create:
+        successfully_created: ေနရာပိုင္ဆုိင္မႈသတ္မွတ္ပံုစံကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+      form:
+        clients: အမႈသည္
+        warning: ഈ ഫോം പൂരിപ്പിക്കുന്നത്, ഇവിടെ പറഞ്ഞിരിക്കുന്ന ഓരോ ക്ലയന്റിനുമായി ഈ ഫോമിന്റെ വ്യത്യസ്ത പകർപ്പിലേക്ക് ഈ ഉത്തരങ്ങൾ സംരക്ഷിക്കും. ഓരോ ക്ലൈന്റിനും സമാനമായ ഉത്തരം ലഭിക്കും. ഓരോ ക്ലയന്റ് വ്യത്യസ്ത ഉത്തരങ്ങൾ ഉണ്ടായിരിക്കേണ്ട ഫോമുകൾക്കായി ഈ സവിശേഷത ഉപയോഗിക്കരുത്.
+    client_trackings:
+      create:
+        successfully_created: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ
+      form:
+        clients: အမႈသည္
+        warning: ഈ ഫോം പൂരിപ്പിക്കുന്നത്, ഇവിടെ പറഞ്ഞിരിക്കുന്ന ഓരോ ക്ലയന്റിനുമായി ഈ ഫോമിന്റെ വ്യത്യസ്ത പകർപ്പിലേക്ക് ഈ ഉത്തരങ്ങൾ സംരക്ഷിക്കും. ഓരോ ക്ലൈന്റിനും സമാനമായ ഉത്തരം ലഭിക്കും. ഓരോ ക്ലയന്റ് വ്യത്യസ്ത ഉത്തരങ്ങൾ ഉണ്ടായിരിക്കേണ്ട ഫോമുകൾക്കായി ഈ സവിശേഷത ഉപയോഗിക്കരുത്.
+    complete_form:
+      agree: 'ဟုတ်ကဲ့'
+      disagree: 'အဘယ်သူမျှမ'
+      want_to_complete_again: သင်ပိုမို client များအတွက်နောက်တဖန်ဤပုံစံကိုဖြည့်စွက်ရန်လိုပါသလား?
+    fields:
+      file_field:
+        allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစား
+        max_file_size: "*အႀကီးဆံုးဖိုင္ဆုိဒ္ - တစ္ဖုိင္လွ်င္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
   mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   notifications:
@@ -4001,18 +4082,19 @@ my:
   reports:
     form:
       case_statistic: အမႈကိန္းဂဏန္း
-      csi_domain_scores: CSI ဒိုမိန္း ရင္းျမစ္မ်ား
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရင္းျမစ္မ်ား
       end_date: ၿပီးဆံုးသည့္ ရက္စြဲ
       search: ရွာေဖြသည္
       start_date: စတင္သည့္ရက္စြဲ
     index:
       case_statistics: အမႈကိန္းဂဏန္းမ်ား
       client_amount: အမႈသည္ပမာဏ
-      csi_domain_scores: CSI ဒိုမိန္းရမွတ္မ်ား
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္းရမွတ္မ်ား
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
   review_problem: ေက်းဇူးျပဳ၍ ေအာက္တြင္ေဖာ္ျပထားသည့္ ျပႆနာကို ျပန္လည္သံုးသပ္ေပးပါ
   rules_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့စည်းကမ်းများပြောင်းလဲသွားတယ်သို့မဟုတ်မထည့်သွင်းနိုင်
   save: သိမ္းဆည္းရန္
+  saving: ချွေတာ...
   sessions:
     create:
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
@@ -4020,11 +4102,14 @@ my:
   settings:
     assessment:
       age: အသက္
-      assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
-      disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
+      assessment: အကဲဖြတ်
+      custom_assessment: နာမတျောကို
+      default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
+      name: နာမတျောကို
       eligible: အောက်မှာ အမႈသည္ ကိုများအတွက်အရည်အချင်းပြည့်မီ
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
+      noted: 'မှတ်ချက်: USAID ကဟူသောဝေါဟာရကို CSI စိတ်ကြိုက်အကဲဖြတ်အတွက်အသုံးပြုမရကြောင်းမေတ္တာရပ်ခံခဲ့သည်။'
     case_note:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
       max_case_note: အများဆုံး
@@ -4043,7 +4128,9 @@ my:
       family_default_columns: မိသားစု
       partner_default_columns: လက္တြဲေဖာ္
     index:
-      csi_tools: CSI ကိရိယာတခု
+      csi_tools: ရရှိနိုင်အကဲဖြတ်
+      custom_assessment: နာမတျောကို
+      default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
     navigation:
       country: ႏုိင္ငံ
     update:
@@ -4452,7 +4539,7 @@ my:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
     assessment_permission:
-      assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      assessments: အကဲဖြတ်
       can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
       can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
     case_note_permission:
@@ -4556,8 +4643,8 @@ my:
       roles: ခြင့္ျပဳခ်က္ ျပဳလုပ္သည္
       start_date: စတင္သည့္ ရက္စြဲ
     permissions:
-      assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
-      assessmets: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      assessments: အကဲဖြတ်
+      assessmets: အကဲဖြတ်
       case_notes: အမႈမွတ္စုမ်ား
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား

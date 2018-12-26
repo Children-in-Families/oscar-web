@@ -2,6 +2,7 @@ class DashboardsController < AdminController
   before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
 
   def index
+    @setting = Setting.first
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
   end
 

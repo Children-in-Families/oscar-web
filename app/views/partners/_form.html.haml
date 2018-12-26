@@ -23,7 +23,7 @@
         .col-xs-12.col-sm-6.col-md-4
           = f.input :background, input_html: { style: 'height: 107px;' }, label: t('.background')
   .ibox-footer
-    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     - if @partner.persisted?
       = link_to t('cancel'), partner_path(@partner), class: 'btn btn-default form-btn'
     - else

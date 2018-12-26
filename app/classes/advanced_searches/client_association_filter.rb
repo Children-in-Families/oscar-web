@@ -31,7 +31,9 @@ module AdvancedSearches
       when 'case_note_type'
         values = advanced_case_note_query
       when 'date_of_assessments'
-        values = date_of_assessments_field_query
+        values = date_of_assessments_query(true)
+      when 'date_of_custom_assessments'
+        values = date_of_assessments_query(false)
       when 'accepted_date'
         values = enter_ngo_accepted_date_query
       when 'exit_date'
@@ -59,7 +61,7 @@ module AdvancedSearches
     private
 
     def referred_to_query
-      clients = @clients.joins(:referrals)
+      clients = @clients.joins(:referrals).distinct
       case @operator
       when 'equal'
         clients.where('referrals.referred_to = ?', @value).ids
@@ -73,7 +75,7 @@ module AdvancedSearches
     end
 
     def referred_from_query
-      clients = @clients.joins(:referrals)
+      clients = @clients.joins(:referrals).distinct
       case @operator
       when 'equal'
         clients.where('referrals.referred_from = ?', @value).ids
@@ -124,11 +126,13 @@ module AdvancedSearches
         exit_ngos = exit_ngos.where.not('? = ANY(exit_reasons)', @value.squish)
       when 'is_empty'
         exit_ngos = exit_ngos.where("(exit_reasons = '{}')")
+        client_ids = Client.includes(:exit_ngos).where(exit_ngos: { id: [exit_ngos.ids, nil] }).distinct.ids
+        return client_ids
       when 'is_not_empty'
         exit_ngos = exit_ngos.where.not("(exit_reasons = '{}')")
       end
 
-      @clients.joins(:exit_ngos).where(exit_ngos: { id: exit_ngos.ids }).ids.uniq
+      @clients.joins(:exit_ngos).where(exit_ngos: { id: exit_ngos.ids }).distinct.ids
     end
 
     def exit_ngo_exit_circumstance_query
@@ -139,7 +143,7 @@ module AdvancedSearches
       when 'not_equal'
         clients = clients.where.not(exit_ngos: { exit_circumstance: @value.squish })
       when 'is_empty'
-        clients = clients.where(exit_ngos: { exit_circumstance: '' })
+        clients = Client.includes(:exit_ngos).where(exit_ngos: { exit_circumstance: ['', nil] })
       when 'is_not_empty'
         clients = clients.where.not(exit_ngos: { exit_circumstance: '' })
       end
@@ -186,7 +190,7 @@ module AdvancedSearches
         clients = clients.where(exit_ngos: { exit_date: @value[0]..@value[1] })
       when 'is_empty'
         # clients have been exited but exit_date is blank
-        ids = clients.where(exit_ngos: { exit_date: nil }).ids.uniq
+        ids = Client.includes(:exit_ngos).where(exit_ngos: { exit_date: nil }).distinct.ids
         # clients haven't been exited
         ids = ids << @clients.where.not(id: clients.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
@@ -215,9 +219,9 @@ module AdvancedSearches
         clients = clients.where(enter_ngos: { accepted_date: @value[0]..@value[1] })
       when 'is_empty'
         # clients have been accepted but accepted_date is blank
-        ids = clients.where(enter_ngos: { accepted_date: nil }).ids.uniq
+        ids = Client.includes(:enter_ngos).where(enter_ngos: { accepted_date: nil }).distinct.ids
         # clients haven't been accepted
-        ids = ids << @clients.where.not(id: clients.ids).ids
+        ids = ids << @clients.where.not(id: clients.distinct.ids).ids
         clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
         clients = clients.where.not(enter_ngos: { accepted_date: nil })
@@ -225,8 +229,8 @@ module AdvancedSearches
       clients.ids
     end
 
-    def date_of_assessments_field_query
-      clients = @clients.joins(:assessments)
+    def date_of_assessments_query(type)
+      clients = @clients.joins(:assessments).where(assessments: { default: type })
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
@@ -243,7 +247,7 @@ module AdvancedSearches
       when 'between'
         clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
       when 'is_empty'
-        clients = clients.where(assessments: { created_at: nil })
+        clients = Client.includes(:assessments).where(assessments: { created_at: nil })
       when 'is_not_empty'
         clients = clients.where.not(assessments: { created_at: nil })
       end
@@ -425,9 +429,9 @@ module AdvancedSearches
       when 'not_equal'
         clients.where.not('client_enrollments.program_stream_id = ?', @value).distinct.ids
       when 'is_empty'
-        clients.where.not(id: clients.ids).ids
+        @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
-        clients.where(id: clients.ids).ids
+        clients.distinct.ids
       end
     end
 
@@ -439,9 +443,9 @@ module AdvancedSearches
       when 'not_equal'
         clients.where.not('client_enrollments.program_stream_id = ?', @value ).distinct.ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        clients.distinct.ids
       end
     end
 
@@ -453,9 +457,9 @@ module AdvancedSearches
       when 'not_equal'
         clients.where.not('agencies.id = ?', @value ).ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        clients.distinct.ids
       end
     end
 
@@ -467,7 +471,7 @@ module AdvancedSearches
       when 'not_equal'
         clients.where.not('donors.id = ?', @value ).ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
         @clients.where(id: clients.ids).ids
       end
@@ -528,17 +532,17 @@ module AdvancedSearches
 
     def user_id_field_query
       clients = @clients.joins(:users)
-      ids = clients.ids.uniq
+      ids = clients.distinct.ids
       case @operator
       when 'equal'
-        client_ids = Client.joins(:users).where('users.id = ?', @value).ids
+        client_ids = clients.where('users.id = ?', @value).distinct.ids
         client_ids & ids
       when 'not_equal'
         clients.where.not('users.id = ?', @value ).ids
       when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
+        @clients.where.not(id: ids).ids
       when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
+        @clients.where(id: ids).ids
       end
     end
 
@@ -562,9 +566,9 @@ module AdvancedSearches
       when 'between'
         clients.each { |client| client_ids << client.id if convert_time_in_care_to_days(client).between?(years_to_days.first, years_to_days.last) }
       when 'is_empty'
-        client_ids = @clients.where.not(id: clients.ids).ids
+        client_ids = @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
-        client_ids = clients.ids
+        client_ids = clients.distinct.ids
       end
       client_ids
     end

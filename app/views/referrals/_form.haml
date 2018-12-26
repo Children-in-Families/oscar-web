@@ -36,7 +36,7 @@
         .col-xs-12
           = render 'referrals/consent_form_fields', f: f
         .col-xs-12
-          = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
+          = f.submit t('save'), class: 'btn btn-primary form-btn btn-save', data: { disable_with: t('saving') }
           - if @referral.persisted?
             = link_to t('cancel'), client_referral_path(@client, @referral), class: 'btn btn-default form-btn'
           - else

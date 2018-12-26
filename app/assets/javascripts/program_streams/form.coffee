@@ -168,7 +168,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
+      $('#btn-save-draft').css('pointer-events', 'none')
+      btnSaving = $('.program-steps').data('saving')
+      $('#btn-save-draft').attr('disabled', 'disabled').text(btnSaving)
       $('#program-stream').submit()
+
 
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
@@ -339,6 +343,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if _preventProgramStreamWithoutTracking()
           messageWarning = $('#trackings').data('complete-tracking')
           return alert(messageWarning)
+
+        $('a[href="#finish"]').css('pointer-events', 'none')
+        btnSaving = $('.program-steps').data('saving')
+        $('a[href="#finish"]').addClass('btn btn-xs disabled').css('font-size', '95%').text(btnSaving)
         form.submit()
 
       labels:
@@ -386,7 +394,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
-    form = $('form#program-stream')
+    form               = $('form#program-stream')
     btnSaveTranslation = filterTranslation.save
     form.find("[aria-label=Pagination]").append("<li><span id='btn-save-draft' class='btn btn-primary btn-sm'>#{btnSaveTranslation}</span></li>")
 
