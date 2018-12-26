@@ -33,6 +33,8 @@ module AdvancedSearches
         values = advanced_case_note_query
       when 'date_of_assessments'
         values = date_of_assessments_field_query
+      when 'assessment_completed'
+        values = date_of_assessments_field_query
       when 'accepted_date'
         values = enter_ngo_accepted_date_query
       when 'exit_date'
@@ -86,8 +88,8 @@ module AdvancedSearches
     end
     
     def date_nearest_query
-      clients = @clients.joins(:assessments).where('date(assessments.created_at) < ?', @value.to_date)
-      clients.ids
+      clients = @clients.joins(:assessments).where('date(assessments.created_at) IN (?)', @value.to_date.beginning_of_month..@value.to_date)
+      clients.uniq.count
     end
 
     def referred_to_query

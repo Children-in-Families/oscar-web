@@ -282,9 +282,10 @@ class CIF.ClientAdvanceSearch
       rule.filter     = builder.queryBuilder('getFilterById', $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val())
       rule.value      = ''
       rule1.filter    = builder.queryBuilder('getFilterById', 'assessment_number')
-      rule2.filter    = builder.queryBuilder('getFilterById', 'date_of_assessments')
+      rule2.filter    = builder.queryBuilder('getFilterById', 'assessment_completed')
       rule2.operator  = builder.queryBuilder('getOperatorByType', 'between')
       _changeOperator()
+
   handleCsiAfterSearch: ->
     $('#builder_group_0').removeClass('csi-group')
     $('.csi-group .group-conditions .btn-primary:nth-child(2)').addClass('hide')
@@ -298,9 +299,10 @@ class CIF.ClientAdvanceSearch
         $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
         $(this).closest('.rule-container').find('.rule-value-container').find('input').show()
     if $('option[value*="has_changed"]:selected').length < 1 || $('option[value*="has_not_changed"]:selected').length < 1
+
       _changeOperator()
-      $('option[value*="date_of_assessments"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
-      $('option[value*="date_of_assessments"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
+      $('option[value*="assessment_completed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $('option[value*="assessment_completed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
       $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
       $('option[value*="has_not_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
       $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
@@ -308,7 +310,7 @@ class CIF.ClientAdvanceSearch
 
   ######################################################################################################################
   _changeOperator = ->
-    klasses = '.rule-container:nth-child(1) .rule-value-container input.form-control'
+    klasses = '.csi-group .rule-container:nth-child(1) .rule-value-container input.form-control'
     data = [
       {
         id: 1
@@ -327,7 +329,7 @@ class CIF.ClientAdvanceSearch
         tag: '4'
       }
     ]
-    if $('.csi-group').find(klasses).length
+    if $(klasses).length
       $(klasses).select2
         data:
           results: data
@@ -351,7 +353,7 @@ class CIF.ClientAdvanceSearch
           builder     = $('#builder')
           group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
           rule        = builder.queryBuilder('addRule', group)
-          rule.filter = builder.queryBuilder('getFilterById', 'date_of_assessments')
+          rule.filter = builder.queryBuilder('getFilterById', 'assessment_completed')
           rule.operator  = builder.queryBuilder('getOperatorByType', 'between')
 
   handleCsiSelectOption: ->
@@ -381,14 +383,14 @@ class CIF.ClientAdvanceSearch
     $.each elements, (index, item) ->
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'second-child'
         $.each $(item).children().last().children(), (index, el) ->
-          if el.firstElementChild.textContent == dateOfAssessmentTranslate
+          if el.firstElementChild.textContent == 'Assessment Completed' || el.firstElementChild.textContent == dateOfAssessmentTranslate
             $(el).hide()
           if $('option[value*="has_changed"]:selected').length > 0 || $('option[value*="has_not_changed"]:selected').length > 0
             if el.firstElementChild.textContent == 'Date Nearest'
               $(el).hide()
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'third-child'
         $.each $(item).children().last().children(), (index, el) ->
-          if el.firstElementChild.textContent != dateOfAssessmentTranslate
+          if el.firstElementChild.textContent != 'Assessment Completed'
             $(el).hide()
       if item.firstElementChild.textContent != group
         $(item).hide()

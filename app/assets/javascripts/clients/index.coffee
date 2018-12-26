@@ -31,6 +31,9 @@ CIF.ClientsIndex = do ->
     # _removeProgramStreamExitDate()
     _addTourTip()
     _clearingLocalStorage()
+    _handleDomainScoreInputValue()
+    _handleDomainScoreFilterValue()
+    _reloadFilter()
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
@@ -405,5 +408,75 @@ CIF.ClientsIndex = do ->
       $.each localStorage, (key, value) ->
         if key.match(/builder_group_\d/g)
           localStorage.removeItem(key)
+  
+  _selectOptionData = ->
+    data = [
+      {
+        id: 1
+        tag: '1'
+      }
+      {
+        id: 2
+        tag: '2'
+      }
+      {
+        id: 3
+        tag: '3'
+      }
+      {
+        id: 4
+        tag: '4'
+      }
+    ]
 
+  _handleDomainScoreInputValue = ->
+    select2CsiOperator = '#builder_group_0 .rules-list .rule-container .rule-operator-container select'
+    $(document).on 'change', select2CsiOperator, (param)->
+      filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
+      if filterSelected.match(/domainscore_/g)
+        _addSelectionOption(this, param)
+
+  _handleDomainScoreFilterValue = ->
+    select2CsiFilter = '#builder_group_0 .rules-list .rule-container .rule-filter-container select'
+    $(document).on 'change', select2CsiFilter, (param)->
+      if param.val.match(/domainscore_/g)
+        _addSelectionOption(this, param)
+
+  _reloadFilter = ->
+    selectedOptions = $('option[value^="domainscore_"]:selected')
+    if selectedOptions.length > 0
+      $.each selectedOptions, (index, item) ->
+        inputValue = $(item).closest('.rule-container').find('.rule-value-container').find('input')
+        closestRuleContainer = $(item).closest('.rule-container')
+        if (closestRuleContainer.find('.rule-operator-container select option[value*="has_changed"]:selected').length == 0 and closestRuleContainer.find('.rule-operator-container select option[value*="has_not_changed"]:selected').length == 0)
+          if inputValue.length
+            inputValue.select2
+              data:
+                results: _selectOptionData()
+                text: 'tag'
+              formatSelection: (item) ->
+                item.tag
+              formatResult: (item) ->
+                item.tag
+
+          $(item).closest('.rule-filter-container').parent().children().last().find('.select2-container').attr("style", "width: 180px;")
+
+  _addSelectionOption = (currentItem, param) ->
+    unless _.includes(param.val, 'has_changed') || _.includes(param.val, 'has_not_changed')
+      inputValue = $(currentItem).parent().siblings().closest('.rule-value-container').find('input')
+
+      if inputValue.length
+        inputValue.select2
+          data:
+            results: _selectOptionData()
+            text: 'tag'
+          formatSelection: (item) ->
+            item.tag
+          formatResult: (item) ->
+            item.tag
+
+        $(currentItem).parent().siblings().closest('.rule-value-container').find('.select2-container').attr("style", "width: 180px;")
+    else
+      $(currentItem).closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $(currentItem).closest('.rule-container').find('.rule-value-container').find('input').show()
   { init: _init }

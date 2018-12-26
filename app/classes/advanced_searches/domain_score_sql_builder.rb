@@ -1,10 +1,11 @@
 module AdvancedSearches
   class DomainScoreSqlBuilder
 
-    def initialize(domain_id, rule)
+    def initialize(domain_id, rule, basic_rule)
       @operator     = rule['operator']
       @value        = rule['value']
       @domain_id    = domain_id
+      @basic_rules  = basic_rule
     end
 
     def get_sql
@@ -71,14 +72,61 @@ module AdvancedSearches
         end
         return { id: sql_string, values: clients.map(&:id) }
       when 'average'
-        sum_score = 0
-        clients = Client.joins(:assessments).all.reject do |client|
-          client.assessments.includes(:assessment_domains).each do |assessment|
-            sum_score += assessment.assessment_domains.where(domain_id: @domain_id).sum(:score)
+        if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
+          if @basic_rules.any?{|rule| rule.kind_of?(Array)}
+            @basic_rules.each do |rule|
+              assess_number_rule = rule.reject{|rule| rule['field'] != 'assessment_number'} if rule.kind_of?(Array)
+            end
+          else
+            assess_number_rule = @basic_rules.reject{|rule| rule['field'] != 'assessment_number'}
           end
-          (sum_score / client.assessments.count).round != @value.to_i
+
+          assess_number_value = assess_number_rule[0]['value']
+
+          client_ids = []
+          clients = Client.joins(:assessments).all.each do |client|
+            assessment = client.assessments.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
+            next if assessment.blank?
+            score  = assessment.assessment_domains.where(domain_id: @domain_id).first.try(:score)
+            next if score.nil?
+            client_ids << client.id if score.to_i == @value.to_i
+          end
+        elsif @basic_rules.flatten.any?{|rule| rule['field'] == 'month_number'}
+          if @basic_rules.any?{|rule| rule.kind_of?(Array)}
+            @basic_rules.each do |rule|
+              month_number_rule = rule.reject{|rule| rule['field'] != 'month_number'} if rule.kind_of?(Array)
+            end
+          else
+            month_number_rule = @basic_rules.reject{|rule| rule['field'] != 'month_number'}
+          end
+
+          month_number_value = month_number_rule[0]['value']
+          client_ids = []
+          clients = Client.includes(:assessments).all.each do |client|
+            next if client.assessments.blank?
+            assessment_date = client.assessments.order(:created_at).first.created_at + (month_number_value.to_i - 1).month
+            assessment_date = assessment_date.beginning_of_month.to_date
+            assessments  = client.assessments.where("assessments.created_at IN (?)", assessment_date..assessment_date.end_of_month.to_date)
+            next if assessments.blank?
+            scores = assessments.includes(:assessment_domains).map do |assessment|
+                      next if assessment.assessment_domains.where(domain_id: @domain_id).blank?
+                      assessment.assessment_domains.where(domain_id: @domain_id).first.try(:score)
+                    end
+            client_ids << client.id if (scores.compact.sum / assessments.count ).round == @value.to_i
+          end
+        else
+          client_ids = []
+          clients = Client.includes(:assessments).all.each do |client|
+            next if client.assessments.blank?
+            scores = client.assessments.includes(:assessment_domains).map do |assessment|
+                      next if assessment.assessment_domains.where(domain_id: @domain_id).blank?
+                      assessment.assessment_domains.where(domain_id: @domain_id).first.try(:score)
+                    end
+            client_ids << client.id if (scores.compact.sum / client.assessments.count ).round == @value.to_i
+          end
         end
-        return { id: sql_string, values: clients.map(&:id) }
+
+        return { id: sql_string, values: client_ids.uniq }
       end
 
       client_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
