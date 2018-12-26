@@ -162,9 +162,15 @@
                 %h4 Program Stream Columns
                 %ul
             %br
-            %p Do you want to filter your clients based on this same information, or add something else?
-            .btn.btn-primary{ 'data-value': 'yes'} I want to filter clients based on information in the forms I arledy chose.
-            .btn.btn-danger{ 'data-value': 'no'} I want to filter based on information from somewhere else.
+            .row
+              .col-xs-8
+                %p Do you want to filter your clients based on this same information, or add something else?
+            .row
+              .col-xs-6
+                .btn.btn-block.btn-primary.wide-margin-bottom{ 'data-value': 'yes'} I want to filter clients based on information in the forms I arledy chose.
+            .row
+              .col-xs-6
+                .btn.btn-block.btn-danger.wide-margin-bottom{ 'data-value': 'no'} I want to filter based on information from somewhere else.
 
           %h3 Remind
           %section.reminder-section

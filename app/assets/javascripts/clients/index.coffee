@@ -213,7 +213,7 @@ CIF.ClientsIndex = do ->
     $("#{className} ul li").remove()
     for column in columns
       columnName = $(column).text()
-      $("#{className} ul").append("<li>- #{columnName}</li>")
+      $("#{className} ul").append("<li>#{columnName}</li>")
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
