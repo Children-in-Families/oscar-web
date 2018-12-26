@@ -42,8 +42,7 @@
                     .form-group{ data: { value: custom_form_values } }
                       = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
                 %br
-                .loader.hidden
-                .row#custom-form-column
+                .row
                   .col-xs-12
                     %p Choose below which information you would like to display.
                     %label= t('.custom_form_column')
@@ -65,6 +64,8 @@
                     %p Which Program Streams are you interested in?
                     .form-group{ data: { value: program_stream_values } }
                       = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control program-stream-select' } )
+                #ajax-loading-image
+                  = image_tag 'loading.gif'
                 .row.program-association
                   .col-xs-12
                     %p Which Forms from these program streams would you like to display information from?
@@ -81,8 +82,7 @@
                     -# = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
                     = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks', id: 'wizard-exit-form-checkbox'
                     %label.pointer{ for: 'wizard-exit-form-checkbox' }= t('.exit_program')
-                .loader.hidden
-                .row#program-stream-column
+                .row
                   .col-xs-12
                     %p Choose below which information you would like to display.
                     %label= t('.program_stream_column')
@@ -154,44 +154,41 @@
             %br
             %p You have already told the system that you want to display information from the following places:
             .row
-              .col-xs-4.client-chose-columns
+              .col-xs-6.client-chose-columns
                 %h4 Client Columns
                 %ul
-              .col-xs-4.custom-form-chose-columns
+              .col-xs-6.custom-form-chose-columns
                 %h4 Custom Form Columns
                 %ul
-              .col-xs-4.program-stream-chose-columns
+            .row
+              .col-xs-6.program-stream-chose-columns
                 %h4 Program Stream Columns
                 %ul
+              .col-xs-6.quantitative-chose-columns
+                %h4 Point of Referral Data Columns
+                %ul
             %br
-            .row
-              .col-xs-8
-                %p Do you want to filter your clients based on this same information, or add something else?
-            .row
-              .col-xs-6
-                .btn.btn-block.btn-primary.wide-margin-bottom{ 'data-value': 'yes'} I want to filter clients based on information in the forms I already chose.
-            .row
-              .col-xs-6
-                .btn.btn-block.btn-danger.wide-margin-bottom{ 'data-value': 'no'} I want to filter based on information from somewhere else.
+            %p Do you want to filter your clients based on this same information, or add something else?
+            .btn.btn-primary{ 'data-value': 'yes'} I want to filter clients based on information in the forms I arledy chose.
+            .btn.btn-danger{ 'data-value': 'no'} I want to filter based on information from somewhere else.
 
           %h3 Remind
           %section.reminder-section
-            #wizard-reminder
-              %p The next step in building a report is to filter your information.
-              %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
-              %br
-              %p What other information would you like to use to filter your clients?
-              %ul
-                %li
-                  = check_box_tag :wizard_custom_form_filter, nil, custom_form_values.present?, class: 'ichecks'
-                  = label_tag "Information on Custom Forms"
-                %li
-                  = check_box_tag :wizard_program_stream_filter, nil, program_stream_values.present?, class: 'ichecks'
-                  = label_tag "Information on Program Stream Forms"
-                %li
-                  = check_box_tag :wizard_quantitative_filter, nil, quantitative_check, class: 'ichecks'
-                  = label_tag "Information from Point-of-Referral Data"
-              .loader.hidden
+            %p The next step in building a report is to filter your information.
+            %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+            %br
+            %p What other information would you like to use to filter your clients?
+            %ul
+              %li
+                = check_box_tag :wizard_custom_form_filter, nil, custom_form_values.present?, class: 'ichecks'
+                = label_tag "Information on Custom Forms"
+              %li
+                = check_box_tag :wizard_program_stream_filter, nil, program_stream_values.present?, class: 'ichecks'
+                = label_tag "Information on Program Stream Forms"
+              %li
+                = check_box_tag :wizard_quantitative_filter, nil, quantitative_check, class: 'ichecks'
+                = label_tag "Information from Point-of-Referral Data"
+
           %h3 Query Builder
           %section.query-builder-section
             %p The next step in building a report is to filter your information.
