@@ -370,7 +370,7 @@ class CIF.ClientAdvanceSearch
   handleSelect2RemoveProgram: ->
     self = @
     programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
-    $('#client-advance-search-wizard .program-stream-select').on 'select2-removed', (element) ->
+    $('#client-advance-search-form .program-stream-select').on 'select2-removed', (element) ->
       programName = element.choice.text
       self.removeCheckboxColumnPickers(programStreamKeyword, programName, self)
 
@@ -386,6 +386,7 @@ class CIF.ClientAdvanceSearch
         $(programStreamAssociation).hide()
 
     $('#report-builder-wizard .program-stream-select').on 'select2-removed', (element) ->
+      programName = element.choice.text
       self.removeCheckboxColumnPickers(programStreamKeyword, programName, self)
 
       $.map self.programSelected, (val, i) ->
