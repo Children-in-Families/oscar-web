@@ -138,7 +138,6 @@ class CIF.ClientAdvanceSearch
       success: (response) ->
         fieldList = response.client_advanced_searches
         if (element == '#report-builder-wizard .custom-form-column' && $('#wizard_custom_form_filter').is(':checked')) || (element == '#report-builder-wizard .program-stream-column' && $('#wizard_program_stream_filter').is(':checked'))
-          debugger
           $('#wizard-builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
