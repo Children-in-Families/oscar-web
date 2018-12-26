@@ -37,12 +37,35 @@ CIF.ClientsIndex = do ->
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
       $('#wizard-referral-data').show()
+      yesBtn = $('#wizard-referral-data').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-referral-data').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
+
     if $('#wizard-custom-form .custom-form-column .i-checks').is(':checked')
       $('#wizard-custom-form').show()
+      yesBtn = $('#wizard-custom-form').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-custom-form').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
+
     if $('#wizard-program-stream .program-stream-column .i-checks').is(':checked')
       $('#wizard-program-stream').show()
+      yesBtn = $('#wizard-program-stream').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-program-stream').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
+
     if $('#wizard-client .client-column .i-checks').is(':checked')
       $('#wizard-client').show()
+      yesBtn = $('#wizard-client').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-client').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
 
   _removeReferralDataColumnsInWizardClientColumn = ->
     $('#report-builder-wizard #referral-data').remove()
@@ -139,6 +162,8 @@ CIF.ClientsIndex = do ->
 
   _handleCheckDisplayReport = (element, sectionClassName) ->
     $(element).find('.btn').on 'click', ->
+      $(this).removeClass('btn-default').addClass('btn-primary active')
+      $(this).siblings('.btn').removeClass('active btn-primary').addClass('btn-default')
       btnValue = $(@).data('value')
       if sectionClassName == 'client-section'
         if btnValue == 'yes'

@@ -306,7 +306,7 @@ class CIF.ClientAdvanceSearch
 
       if $('#wizard-tracking-checkbox').is(':checked')
         $('#program-stream-column').addClass('hidden')
-        $('.loader').removeClass('hidden')
+        $('#wizard-program-stream .loader').removeClass('hidden')
         addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(programId, self.TRACKING_URL)
         $.when(addCustomBuildersFields).then ->
           $('#program-stream-column').removeClass('hidden')
@@ -338,13 +338,13 @@ class CIF.ClientAdvanceSearch
       addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(self.programSelected, self.TRACKING_URL)
       $.when(addCustomBuildersFields).then ->
         $('#program-stream-column').removeClass('hidden')
-        $('.loader').addClass('hidden')
+        $('#wizard-program-stream .loader').addClass('hidden')
 
   triggerExitProgramInWizard: ->
     self = @
     $('#wizard-exit-form-checkbox').on 'ifChecked', ->
       $('#program-stream-column').addClass('hidden')
-      $('.loader').removeClass('hidden')
+      $('#wizard-program-stream .loader').removeClass('hidden')
       addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(self.programSelected, self.EXIT_PROGRAM_URL)
       $.when(addCustomBuildersFields).then ->
         $('#program-stream-column').removeClass('hidden')
