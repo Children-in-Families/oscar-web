@@ -218,9 +218,11 @@ CIF.ClientsIndex = do ->
     clientColumns = $('section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
     customFormColumns = $('section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
     programStraemsColumns = $('section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    quantitativesColumns = $('section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
     _appendChoseColumns(clientColumns, '.client-chose-columns') if clientColumns.length != 0
     _appendChoseColumns(customFormColumns, '.custom-form-chose-columns') if customFormColumns.length != 0
     _appendChoseColumns(programStraemsColumns, '.program-stream-chose-columns') if programStraemsColumns.length != 0
+    _appendChoseColumns(quantitativesColumns, '.quantitative-chose-columns') if quantitativesColumns.length != 0
 
   _appendChoseColumns = (columns, className) ->
     $("#{className} ul li").remove()
