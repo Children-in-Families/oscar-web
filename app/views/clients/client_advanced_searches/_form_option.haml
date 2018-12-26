@@ -19,7 +19,7 @@
             .form-group
               = check_box_tag :nil, '1', custom_form_values.present?, { class: 'i-checks custom-form-checkbox', id: 'custom-form-checkbox' }
               %label= t('.custom_form')
-        .row
+        .row.custom-form
           .col-xs-12
             .form-group#custom-form-data{ data: { value: custom_form_values } }
               = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'custom-form-select', class: 'form-control custom-form-select' } )
@@ -30,7 +30,7 @@
             .form-group
               = check_box_tag :nil, '1', program_stream_values.present?, { class: 'i-checks program-stream-checkbox', id: 'program-stream-checkbox' }
               %label= t('.program_stream')
-        .row
+        .row.program-stream
           .col-xs-12
             .form-group#program-stream-data{ data: { value: program_stream_values } }
               = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'program-stream-select', class: 'form-control program-stream-select' } )

@@ -103,18 +103,23 @@ CIF.ClientsIndex = do ->
       _handleRemoveCustomFormFilters()  if checkBox == '#wizard_custom_form_filter'
 
     $(checkBox).on 'ifChecked', (event) ->
+      $('#wizard-reminder .loader').removeClass('hidden')
       if checkBox == '#wizard_quantitative_filter'
         fields = $('#quantitative-fields').data('fields')
-        $('#wizard-builder').queryBuilder('addFilter', fields)
-        advanceFilter.initSelect2()
+        addCustomBuildersFields = $('#wizard-builder').queryBuilder('addFilter', fields)
+
       else if checkBox == '#wizard_program_stream_filter'
         formIds =  $(select).select2('val')
-        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_enrollment_field') if $('#wizard-enrollment-checkbox').is(':checked')
-        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_tracking_field') if $('#wizard-tracking-checkbox').is(':checked')
-        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_exit_program_field') if $('#wizard-exit-form-checkbox').is(':checked')
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_enrollment_field') if $('#wizard-enrollment-checkbox').is(':checked')
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_tracking_field') if $('#wizard-tracking-checkbox').is(':checked')
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_exit_program_field') if $('#wizard-exit-form-checkbox').is(':checked')
       else
         formIds =  $(select).select2('val')
-        advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_custom_field') unless _.isEmpty(formIds)
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_custom_field') unless _.isEmpty(formIds)
+
+      $.when(addCustomBuildersFields).then ->
+        advanceFilter.initSelect2()
+        $('#wizard-reminder .loader').addClass('hidden')
 
   _handleReportBuilderWizardDisplayBtns = ->
     allSections = $('#report-builder-wizard-modal section')

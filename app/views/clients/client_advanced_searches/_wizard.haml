@@ -42,7 +42,8 @@
                     .form-group{ data: { value: custom_form_values } }
                       = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
                 %br
-                .row
+                .loader.hidden
+                .row#custom-form-column
                   .col-xs-12
                     %p Choose below which information you would like to display.
                     %label= t('.custom_form_column')
@@ -80,7 +81,8 @@
                     -# = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
                     = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks', id: 'wizard-exit-form-checkbox'
                     %label.pointer{ for: 'wizard-exit-form-checkbox' }= t('.exit_program')
-                .row
+                .loader.hidden
+                .row#program-stream-column
                   .col-xs-12
                     %p Choose below which information you would like to display.
                     %label= t('.program_stream_column')
@@ -174,21 +176,22 @@
 
           %h3 Remind
           %section.reminder-section
-            %p The next step in building a report is to filter your information.
-            %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
-            %br
-            %p What other information would you like to use to filter your clients?
-            %ul
-              %li
-                = check_box_tag :wizard_custom_form_filter, nil, custom_form_values.present?, class: 'ichecks'
-                = label_tag "Information on Custom Forms"
-              %li
-                = check_box_tag :wizard_program_stream_filter, nil, program_stream_values.present?, class: 'ichecks'
-                = label_tag "Information on Program Stream Forms"
-              %li
-                = check_box_tag :wizard_quantitative_filter, nil, quantitative_check, class: 'ichecks'
-                = label_tag "Information from Point-of-Referral Data"
-
+            #wizard-reminder
+              %p The next step in building a report is to filter your information.
+              %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+              %br
+              %p What other information would you like to use to filter your clients?
+              %ul
+                %li
+                  = check_box_tag :wizard_custom_form_filter, nil, custom_form_values.present?, class: 'ichecks'
+                  = label_tag "Information on Custom Forms"
+                %li
+                  = check_box_tag :wizard_program_stream_filter, nil, program_stream_values.present?, class: 'ichecks'
+                  = label_tag "Information on Program Stream Forms"
+                %li
+                  = check_box_tag :wizard_quantitative_filter, nil, quantitative_check, class: 'ichecks'
+                  = label_tag "Information from Point-of-Referral Data"
+              .loader.hidden
           %h3 Query Builder
           %section.query-builder-section
             %p The next step in building a report is to filter your information.
@@ -200,32 +203,6 @@
             .row
               .col-xs-12
                 #wizard-builder.advanced-search-builder{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
-      -# .modal-footer
-
-        -# .row
-        -#   .col-xs-12
-        -#     = render 'clients/client_advanced_searches/form_option'
-        -# .row.column-picker
-        -#   .col-xs-12.col-md-4
-        -#     %label= t('.client_column')
-        -#     .client-column
-        -#       = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
-        -#   .col-xs-12.col-md-4
-        -#     %label= t('.custom_form_column')
-        -#     = render 'clients/client_advanced_searches/custom_form_column'
-        -#   .col-xs-12.col-md-4
-        -#     %label= t('.program_stream_column')
-        -#     = render 'clients/client_advanced_searches/program_stream_column'
-
-        -# .row
-        -#   .col-xs-12
-        -#     #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
-        -#     %span.basic-filter-error
-        -#       %i Please Select Field to Filter
-
-      -# .ibox-footer
-      -#   %button#search.btn.btn-primary= t('.search')
-      -#   = link_to t('.reset'), clients_path, class: 'btn btn-default'
 
 = simple_form_for :client_advanced_search, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
