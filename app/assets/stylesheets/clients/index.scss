@@ -224,6 +224,11 @@ body[id='clients-index'] {
 
   // Report Builder Wizard
 
+  #client-advance-search-wizard {
+    padding: 0;
+    border: none;
+  }
+
   #report-builder-wizard-modal {
     .modal-lg {
       width: 90%;
