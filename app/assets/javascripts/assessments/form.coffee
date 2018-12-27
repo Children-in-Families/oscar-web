@@ -16,6 +16,12 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _saveAssessment(form)
     _radioGoalAndTaskRequiredOption()
     _liveGoal()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _liveGoal = ->
     $('textarea.goal').change ->

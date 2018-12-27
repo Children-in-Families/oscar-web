@@ -3,6 +3,12 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
     _initSelect2()
     _handleAssessmentCheckbox()
     _ajaxChangeDistrict()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initSelect2 = ->
     $('select').select2()
