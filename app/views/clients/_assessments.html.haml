@@ -4,12 +4,12 @@
 -#       = date_format(a.created_at)
 
 - if params[:data] == 'recent'
-  - recent_record = object.assessments.latest_record.try(:created_at)
+  - recent_record = object.latest_record.try(:created_at)
   - if recent_record.present?
     %ul{'data-date_of_assessments': '' }
       %li= date_format(recent_record)
 - else
-  - if object.assessments.most_recents.any?
+  - if object.most_recents.any?
     %ul{'data-date_of_assessments': '' }
-      - date_filter(object.assessments.most_recents, 'date_of_assessments').each do |assessment|
+      - date_filter(object.most_recents, 'date_of_assessments').each do |assessment|
         %li= date_format(assessment.created_at)

@@ -20,13 +20,20 @@
                     %td.col-xs-3{ rowspan: overdue_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= date_format(task.completion_date)
-            - if @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && !client.uneligible_age?
+            - if @setting.enable_default_assessment && @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_default_csi?
               - assessment = client.assessments.latest_record
               - if assessment.present?
                 %tr
-                  %td.col-xs-3= t('.assessment')
+                  %td.col-xs-3= @setting.default_assessment
                   %td.col-xs-6.task-name.border-left-right
                   %td.col-xs-3= date_format(client.next_assessment_date)
+            - if @setting.enable_custom_assessment && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_custom_csi?
+              - assessment = client.assessments.latest_record
+              - if assessment.present?
+                %tr
+                  %td.col-xs-3= @setting.custom_assessment
+                  %td.col-xs-6.task-name.border-left-right
+                  %td.col-xs-3= date_format(client.custom_next_assessment_date)
             - if @form_params
               - custom_field_index = 0
               - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size

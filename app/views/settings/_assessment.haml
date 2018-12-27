@@ -1,28 +1,78 @@
-#assessment-setting.panel.panel-default
+#default-assessment-setting.panel.panel-default
   .panel-heading
     %h3
-      = t('.assessment')
-      .pull-right
-        = f.input_field :disable_assessment, class: 'i-checks', as: :boolean
-        %label= t('.disable_assessment')
+      = t('.default_assessment')
   .panel-body
     .row
       / .col-xs-12.col-sm-4
       /   %label.control-label= t('.min_assessment')
-      .col-xs-12.col-sm-4
+      .col-xs-12.col-sm-3
+        %label.control-label
+          %abbr{ title: 'required' }= '*'
+        %label.control-label= t('.name')
+      .col-xs-12.col-sm-3
+        %label.control-label
+          %abbr{ title: 'required' }= '*'
         %label.control-label= t('.max_assessment')
-      .col-xs-12.col-sm-push-4.col-sm-4
+      .col-xs-12.col-sm-push-3.col-sm-3
+        %label.control-label
+          %abbr{ title: 'required' }= '*'
         %label.control-label= t('.eligible')
     .row
       / .col-xs-12.col-sm-4
       /   .form-group
       /     = f.input :min_assessment, label: false
-      .col-xs-12.col-sm-4
+      .col-xs-12.col-sm-3
+        .form-group
+          = f.input :default_assessment, label: false, readonly: true
+      .col-xs-12.col-sm-3
         .form-group
           = f.input :max_assessment, label: false
-      .col-xs-12.col-sm-4
+      .col-xs-12.col-sm-3
         .form-group
           = f.input :assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
-      .col-xs-12.col-sm-4
+      .col-xs-12.col-sm-3
         .form-group
-          = f.input :age, placeholder: t('.age'), label: false
+          = f.input :age, placeholder: t('.age'), label: false, readonly: true
+
+#assessment-setting.panel.panel-default
+  .panel-heading
+    %h3
+      = t('.assessment')
+  .panel-body
+    .row
+      / .col-xs-12.col-sm-4
+      /   %label.control-label= t('.min_assessment')
+      .col-xs-12.col-sm-3
+        %label.control-label
+          %abbr{ title: 'required' }= '*'
+        %label.control-label= t('.custom_assessment')
+      .col-xs-12.col-sm-3
+        %label.control-label
+          %abbr{ title: 'required' }= '*'
+        %label.control-label= t('.max_assessment')
+      .col-xs-12.col-sm-push-3.col-sm-3
+        %label.control-label
+          %abbr{ title: 'required' }= '*'
+        %label.control-label= t('.eligible')
+
+    .row
+      / .col-xs-12.col-sm-4
+      /   .form-group
+      /     = f.input :min_assessment, label: false
+      .col-xs-12.col-sm-3
+        .form-group
+          = f.input :custom_assessment, label: false
+      .col-xs-12.col-sm-3
+        .form-group
+          = f.input :max_custom_assessment, label: false
+      .col-xs-12.col-sm-3
+        .form-group
+          = f.input :custom_assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
+      .col-xs-12.col-sm-3
+        .form-group
+          = f.input :custom_age, placeholder: t('.age'), label: false
+    .row
+      .col-xs-12
+        %p
+          %i= t('.noted')

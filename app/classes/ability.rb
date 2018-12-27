@@ -22,7 +22,6 @@ class Ability
       can :version, :all
       can :report, :all
     elsif user.case_worker?
-      can :manage, Assessment
       can :manage, Attachment
       can :manage, Case, exited: false
       can :manage, CaseNote
@@ -54,7 +53,6 @@ class Ability
       can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
       can :manage, User, id: user.id
       can :manage, Case
-      can :manage, Assessment
       can :manage, CaseNote
       can :manage, Family
       can :manage, Partner

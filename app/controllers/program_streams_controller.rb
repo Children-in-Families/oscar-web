@@ -8,6 +8,7 @@ class ProgramStreamsController < AdminController
   before_action :remove_html_tags, only: [:create, :update]
   before_action :complete_program_steam, only: [:new, :create]
   before_action :available_exclusive_programs, :available_mutual_dependence_programs, only: [:edit, :update]
+  before_action :fetch_domains, only: [:new, :create, :edit, :update]
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
@@ -198,8 +199,6 @@ class ProgramStreamsController < AdminController
     @exclusive_programs = @mutual_dependences = ProgramStream.where.not(id: @program_stream).complete.ordered
   end
 
-  private
-
   def search_program_streams
     results = []
     if params[:search].present?
@@ -248,5 +247,9 @@ class ProgramStreamsController < AdminController
     active_program_ids  = ClientEnrollment.active.where(client_id: active_client_ids).pluck(:program_stream_id)
     mutuals_available   = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).complete.ordered
     @mutual_dependences = active_client_ids.any? ? mutuals_available : all_programs
+  end
+
+  def fetch_domains
+    @csi_domains = Domain.csi_domains
   end
 end

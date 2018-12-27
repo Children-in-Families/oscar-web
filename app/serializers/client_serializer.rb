@@ -148,10 +148,6 @@ class ClientSerializer < ActiveModel::Serializer
     { overdue: overdue_tasks, today: today_tasks, upcoming: upcoming_tasks }
   end
 
-  def case_notes
-    object.case_notes.most_recents
-  end
-
   def foster_care
     CaseSerializer.new(object.cases.active.latest_foster).serializable_hash
   end
@@ -175,12 +171,12 @@ class ClientSerializer < ActiveModel::Serializer
     object.case_notes.most_recents.map do |case_note|
       formatted_case_note_domain_group = case_note.case_note_domain_groups.map do |cdg|
         next if cdg.domain_group.nil?
-        domain_scores = cdg.domain_group.domains.map do |domain|
+        domain_scores = cdg.domains(case_note).map do |domain|
           ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
           ad.try(:score)
           { domain_id: ad.domain_id, score: ad.score } if ad.present?
         end.compact
-        cdg.as_json.merge(domain_group_identities: cdg.domain_group.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
+        cdg.as_json.merge(domain_group_identities: cdg.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
       end
       case_note.as_json.merge(case_note_domain_group: formatted_case_note_domain_group)
     end

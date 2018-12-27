@@ -90,20 +90,43 @@ describe CaseNote, 'scopes' do
 end
 
 describe CaseNote, 'callbacks' do
+  before { Setting.first.update(enable_custom_assessment: true) }
   let!(:client){ create(:client) }
-  let!(:assessment){create(:assessment, created_at: Time.now - 6.month - 1.day, client: client)}
-  let!(:latest_assessment){create(:assessment, client: client)}
-  let!(:case_note){ create(:case_note, client: client)}
+  let!(:assessment){ create(:assessment, created_at: Time.now - 6.month - 1.day, client: client) }
+  let!(:custom_assessment_1){ create(:assessment, :custom, created_at: Time.now - 6.month - 1.day, client: client) }
+  let!(:latest_assessment){ create(:assessment, client: client) }
+  let!(:custom_latest_assessment_1){ create(:assessment, :custom, client: client) }
+  let!(:case_note){ create(:case_note, client: client) }
+  let!(:custom_case_note_1){ create(:case_note, :custom, client: client) }
   let!(:other_client){ create(:client) }
-  let!(:other_assessment){create(:assessment, client: other_client)}
+  let!(:other_assessment){ create(:assessment, client: other_client) }
+  let!(:other_custom_assessment_1){ create(:assessment, :custom, client: other_client) }
 
-  it 'should set assessment to latest assessment' do
-    expect(case_note.assessment).to eq(latest_assessment)
-  end
-  it 'should not set assessment to not latest assessment' do
-    expect(case_note.assessment).not_to eq(assessment)
-  end
-  it 'should not set assessment to latest assessment of other client' do
-    expect(case_note.assessment).not_to eq(other_assessment)
+  context 'before_create' do
+    context '#set_assessment' do
+      context 'default case note' do
+        it 'should set assessment to latest assessment' do
+          expect(case_note.assessment).to eq(latest_assessment)
+        end
+        it 'should not set assessment to not latest assessment' do
+          expect(case_note.assessment).not_to eq(assessment)
+        end
+        it 'should not set assessment to latest assessment of other client' do
+          expect(case_note.assessment).not_to eq(other_assessment)
+        end
+      end
+
+      context 'custom case note' do
+        it 'should set assessment to custom latest assessment' do
+          expect(custom_case_note_1.assessment).to eq(custom_latest_assessment_1)
+        end
+        it 'should not set assessment to not custom latest assessment' do
+          expect(custom_case_note_1.assessment).not_to eq(custom_assessment_1)
+        end
+        it 'should not set assessment to custom latest assessment of other client' do
+          expect(custom_case_note_1.assessment).not_to eq(other_custom_assessment_1)
+        end
+      end
+    end
   end
 end

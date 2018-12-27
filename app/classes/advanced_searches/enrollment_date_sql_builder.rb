@@ -24,9 +24,11 @@ module AdvancedSearches
       when 'greater_or_equal'
         client_enrollment_date = client_enrollments.where('enrollment_date >= ?', @value)
       when 'is_empty'
-        client_enrollment_date = client_enrollments.where(enrollment_date: nil)
+        client_ids = Client.joins(:client_enrollments).where.not(client_enrollments: { enrollment_date: nil }).distinct.ids
+        client_has_not_enrollment_ids = Client.where.not(id: client_ids).ids
+        return { id: sql_string, values: client_has_not_enrollment_ids }
       when 'is_not_empty'
-        client_enrollment_date = client_enrollments.where.not(enrollment_date: nil)
+        client_enrollment_date = ClientEnrollment.where.not(enrollment_date: nil)
       when 'between'
         client_enrollment_date = client_enrollments.where('enrollment_date BETWEEN ? AND ?', @value.first, @value.last)
       end

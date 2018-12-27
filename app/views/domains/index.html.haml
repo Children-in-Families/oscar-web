@@ -1,36 +1,15 @@
 .row
   .col-xs-12
-    .ibox
-      .ibox-title
-        %h5= @results
-        %span.label.label-info= t('.domains')
-        .ibox-tools
-          - if can? :manage, Domain
-            = link_to new_domain_path do
-              .btn.btn.btn-primary.btn-add
-                = t('.add_new_domain')
+    .ibox.min-margin-layout
       .ibox-content
-        - @domains.each do |domain|
-          .panel.panel-default
-            .panel-heading
-              .row
-                .col-xs-12.col-sm-8
-                  %h3
-                    = "#{t('.domains')} : #{domain.name} (#{domain.identity})"
-                  %h5
-                    %label{class: "label label-#{domain.score_1_color}"}= "#{t('.score_1')}"
-                    %label{class: "label label-#{domain.score_2_color}"}= "#{t('.score_2')}"
-                    %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
-                    %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
-                .col-xs-12.col-sm-4.text-right.actions
-                  - if can? :version, Domain
-                    = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
-                      = t('.changelog')
-                  - if can? :manage, Domain
-                    = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do
-                      = fa_icon('pencil')
-                    = remove_link(domain, {domain_task: domain.tasks.count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
-            .panel-body
-              %p= domain.description.html_safe
-      .ibox-footer.text-center
-        = paginate @domains
+        %div
+          %ul.nav.nav-tabs.csi-tab{role: "tablist"}
+            %li.active{role: "presentation"}
+              %a{"aria-controls" => "csi-tools", "data-toggle" => "tab", href: "#csi-tools", role: "tab"}= t('.csi_tool')
+            - if @custom_domains.present?
+              %li{role: "presentation"}
+                %a{"aria-controls" => "custom-csi-tools", "data-toggle" => "tab", href: "#custom-csi-tools", role: "tab"}= t('.custom_csi_tool')
+          .tab-content
+            = render 'csi_tool'
+            - if @custom_domains.present?
+              = render 'custom_csi_tool'

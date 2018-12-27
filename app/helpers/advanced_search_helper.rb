@@ -94,6 +94,7 @@ module AdvancedSearchHelper
       active_program_stream: I18n.t('advanced_search.fields.active_program_stream'),
       enrolled_program_stream: I18n.t('advanced_search.fields.enrolled_program_stream'),
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
+      custom_csi_domain_scores: I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments'),

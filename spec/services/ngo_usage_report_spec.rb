@@ -17,7 +17,7 @@ describe NgoUsageReport, 'generator' do
 
       expect(@report.ngo_info(Organization.current)).to eq({
         ngo_name: 'Organization Testing',
-        ngo_on_board: Date.today.strftime("%d %B %Y"),
+        ngo_on_board: date_format(Date.today),
         fcf: 'No',
         ngo_country: 'Cambodia'
       })

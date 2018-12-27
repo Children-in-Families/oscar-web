@@ -1,14 +1,15 @@
 module AdvancedSearches
   class CsiFields
     extend AdvancedSearchHelper
+    extend ApplicationHelper
 
     def self.render
       csi_group  = format_header('custom_csi_group')
       csi_domain_options  = number_type_list.map { |item| number_filter_type(item, format_header(item), csi_group) }
-      date_of_assessments = ['Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, csi_group) }
+      # date_of_assessments = ['Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, csi_group) }
       assessment_completed = ['Assessment Completed'].map{ |item| date_picker_assessment_completed(item.downcase.gsub(' ', '_'), item, csi_group) }
       date_nearest = ['Date Nearest'].map{ |item| date_nearest(item.downcase.gsub(' ', '_'), item, csi_group) }
-      (date_of_assessments + assessment_completed + csi_domain_options + date_nearest).sort_by { |f| f[:label].downcase }
+      ( assessment_completed + csi_domain_options + date_nearest).sort_by { |f| f[:label].downcase }
     end
 
     private

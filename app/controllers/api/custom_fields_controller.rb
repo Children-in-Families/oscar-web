@@ -14,7 +14,11 @@ module Api
     end
 
     def ngo_custom_fields
-      render json: ProgramStreamDatatable.new(view_context, params[:ngo_custom_field]), root: :data
+      render json: CustomFormTrackingDatatable.new(view_context, params[:ngo_custom_field]), root: :data
+    end
+
+    def list_custom_fields
+      render json: CustomFieldDatatable.new(view_context), root: :data
     end
 
     private

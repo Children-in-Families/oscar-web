@@ -15,4 +15,7 @@
               - @upcoming_csi_clients_notification.each do |client|
                 %tr{ data: { href: client_assessments_path(client) } }
                   %td= client.name
-                  %td= date_format(client.most_recent_csi_assessment)
+                  - if params[:default] == 'true'
+                    %td= date_format(client.most_recent_csi_assessment)
+                  - else
+                    %td= date_format(client.most_recent_custom_csi_assessment)
