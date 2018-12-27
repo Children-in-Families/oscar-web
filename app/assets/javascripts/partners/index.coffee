@@ -16,6 +16,7 @@ CIF.PartnersIndex = do ->
     _initCheckbox()
 
   _initCheckbox = ->
+    console.log 'hi'
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
