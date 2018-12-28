@@ -210,6 +210,7 @@ body[id='clients-index'] {
       }
     }
   }
+
   .popover[class*="tour-"].orphan .arrow{
     display: inline-block;
   }
@@ -220,6 +221,7 @@ body[id='clients-index'] {
     width: 227px;
     margin-left: 175px !important;
     // margin-top: 430px !important;
+    z-index: 1200;
   }
 
   // Report Builder Wizard
