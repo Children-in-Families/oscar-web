@@ -13,6 +13,12 @@ CIF.PartnersIndex = do ->
     _initAdavanceSearchFilter()
     _hidePartnerFilters()
     _setDefaultCheckColumnVisibilityAll()
+    _initCheckbox()
+
+  _initCheckbox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
@@ -37,7 +43,7 @@ CIF.PartnersIndex = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-    allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('.all-visibility .all_')
 
     for checkBox in allCheckboxes
       $(checkBox).on 'ifChecked', ->
@@ -74,10 +80,10 @@ CIF.PartnersIndex = do ->
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('#partner-search-form .visibility .checked').length == 0
-      $('#partner-search-form .all-visibility #all_').iCheck('check')
+      $('#partner-search-form .all-visibility .all_').iCheck('check')
 
     if $('#partner-advance-search-form .visibility .checked').length == 0
-      $('#partner-advance-search-form .all-visibility #all_').iCheck('check')
+      $('#partner-advance-search-form .all-visibility .all_').iCheck('check')
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)

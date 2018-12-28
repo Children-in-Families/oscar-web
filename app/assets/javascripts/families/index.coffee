@@ -13,6 +13,12 @@ CIF.FamiliesIndex = do ->
     _initAdavanceSearchFilter()
     _hideFamilyFilters()
     _setDefaultCheckColumnVisibilityAll()
+    _initCheckbox()
+
+  _initCheckbox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
@@ -56,16 +62,16 @@ CIF.FamiliesIndex = do ->
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('#family-search-form .visibility .checked').length == 0
-      $('#family-search-form .all-visibility #all_').iCheck('check')
+      $('#family-search-form .all-visibility .all_').iCheck('check')
 
     if $('#family-advance-search-form .visibility .checked').length == 0
-      $('#family-advance-search-form .all-visibility #all_').iCheck('check')
+      $('#family-advance-search-form .all-visibility .all_').iCheck('check')
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-    allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('.all-visibility .all_')
 
     for checkBox in allCheckboxes
       $(checkBox).on 'ifChecked', ->

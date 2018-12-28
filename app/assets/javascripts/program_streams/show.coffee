@@ -4,6 +4,12 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = CIF.NotificationsProgram_
     _initProgramRule()
     _handleDisabledInputs()
     _initSelect2()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initProgramRule = ->
     rules = $('#rules').data('program-rules')

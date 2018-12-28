@@ -2,6 +2,12 @@ CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = do ->
   _init = ->
     _initSelect2()
     _handleDisableManagerField()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initSelect2 = ->
     $('select').select2
