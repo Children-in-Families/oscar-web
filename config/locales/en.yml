@@ -501,7 +501,7 @@ en:
       next: Next
       previous: Previous
       reason: Observation
-      reason_placeholder: 'Explain why you have chosen this score'
+      reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
       set_goal: Would you like to set a goal?
