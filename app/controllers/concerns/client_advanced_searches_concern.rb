@@ -44,7 +44,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def program_stream_column
-    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] }
+    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def get_custom_form
@@ -53,12 +54,23 @@ module ClientAdvancedSearchesConcern
   end
 
   def program_stream_fields
-    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    else
+      @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    end
   end
 
   def client_builder_fields
-    @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
-    @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
+    @builder_fields = get_client_basic_fields
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @builder_fields = @builder_fields + program_stream_fields if @advanced_search_params[:wizard_program_stream_check].present?
+      @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
+      @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
+    else
+      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
+      @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
+    end
   end
 
   def get_program_streams
@@ -79,7 +91,11 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_fields
-    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @wizard_custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    else
+      @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    end
   end
 
   def get_custom_form_fields

@@ -15,7 +15,7 @@
             = render 'clients/client_advanced_searches/custom_form_column'
           .col-xs-12.col-md-4
             %label= t('.program_stream_column')
-            = render 'clients/client_advanced_searches/program_stream_column'
+            = render 'clients/client_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
 
         .row
           .col-xs-12
@@ -35,6 +35,13 @@
   = f.hidden_field :exit_form_check
   = f.hidden_field :basic_rules
   = f.hidden_field :quantitative_check
+  = f.hidden_field :wizard_custom_form_check
+  = f.hidden_field :wizard_program_stream_check
+  = f.hidden_field :wizard_quantitative_check
+  = f.hidden_field :wizard_enrollment_check
+  = f.hidden_field :wizard_tracking_check
+  = f.hidden_field :wizard_exit_form_check
+  = f.hidden_field :action_report_builder
   = hidden_field_tag :data, params[:data]
   / = f.hidden_field :overdue_assessment
   = hidden_field_tag :locale, "#{params[:locale]}"
