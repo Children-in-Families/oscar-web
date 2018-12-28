@@ -103,28 +103,61 @@ class Client < ActiveRecord::Base
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
-  def self.filter(options)
-    query = Client.all
-    query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
-    query = query.joins(:commune).where("communes.name_en iLIKE ?", "%#{options[:commune].split(' / ').last}%")                 if options[:commune].present?
-    query = query.joins(:village).where("villages.name_en iLIKE ?", "%#{options[:village].split(' / ').last}%")                 if options[:village].present?
-    query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")         if options[:current_province].present?
+  # def self.filter(options)
+  #   clients = includes(province: [districts: [communes: :villages]]).select(:id, :date_of_birth, :province_id)
+  #   # query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
+  #   # query = query.joins(:commune).where("communes.name_en iLIKE ?", "%#{options[:commune].split(' / ').last}%")                 if options[:commune].present?
+  #   # query = query.joins(:village).where("villages.name_en iLIKE ?", "%#{options[:village].split(' / ').last}%")                 if options[:village].present?
+  #   # query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")         if options[:current_province].present?
+  #   matched_fields = []
+  #   clients.each do |client|
 
-    query.pluck(:slug)
-  end
+  #   end
+
+  # end
 
   def self.find_shared_client(options)
-    current_org = Organization.current.short_name
+    big_results    = []
+    current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
-    shared_clients = SharedClient.all
-    shared_clients = shared_clients.where("given_name iLIKE ?", "%#{fetch_75_chars_of(options[:given_name])}%")                 if options[:given_name].present?
-    shared_clients = shared_clients.where("family_name iLIKE ?", "%#{fetch_75_chars_of(options[:family_name])}%")               if options[:family_name].present?
-    shared_clients = shared_clients.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
-    shared_clients = shared_clients.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
-    shared_clients = shared_clients.joins(:birth_province).where("provinces.name iLIKE ?", "%#{options[:birth_province]}%")     if options[:birth_province].present?
-    shared_clients = shared_clients.pluck(:slug)
+    shared_clients = SharedClient.order(:slug).select(:id, :slug, :local_given_name, :local_family_name, :given_name, :family_name, :birth_province_id).all
+    group_clients  = shared_clients.group_by{|client| client.slug.split('-').first }
+    group_clients.each do |tenant, clients|
+      Organization.switch_to tenant
+      clients.each do |client|
+        _ = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
+        big_results << [{
+                          slug: client.slug, 
+                          given_name: client.given_name,
+                          family_name: client.family_name,
+                          local_given_name: client.local_given_name,
+                          local_family_name: client.local_family_name,
+                          birth_province_name: client.birth_province_name,
+                          date_of_birth: _.date_of_birth,
+                          current_province: _.province_name,
+                          district: _.district.try(:name),
+                          commune: _.commune.try(:name),
+                          village: _.village.try(:name)
+                        }]
+      end
+    end
+
     Organization.switch_to current_org
-    shared_clients
+
+    matching_clients = big_results.flatten.reject do |result|
+      value1     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+      value2     = "#{result[:given_name]} #{result[:family_name]} #{result[:local_family_name]} #{result[:local_given_name]}".squish
+      field_name = compare_matching(value1, value2)
+      dob        = date_of_birth_matching(options[:date_of_birth], result[:date_of_birth])
+      cp         = client_address_matching(options[:current_province], result[:current_province])
+      cd         = client_address_matching(options[:district], result[:district])
+      cc         = client_address_matching(options[:commune], result[:commune])
+      cv         = client_address_matching(options[:village], result[:village])
+      bp         = birth_provinch_matching(options[:birth_province], result[:birth_province])
+
+      [field_name, dob, cp, cd, cc, cv, bp].compact.inject(:*) * 100 < 75
+    end
+    matching_clients
   end
 
   def family
@@ -134,6 +167,35 @@ class Client < ActiveRecord::Base
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
     value[0..(number_of_char-1)]
+  end
+
+  def self.client_address_matching(value1, value2)
+    return nil if value1.blank?
+    value1 == value2 ? 1 : 0.91
+  end
+
+  def self.birth_provinch_matching(value1, value2)
+    return nil if value1.blank?
+    value1 == value2 ? 1 : 0.85
+  end
+
+  def self.compare_matching(value1, value2)
+    return nil if value1.blank?
+    white      = Text::WhiteSimilarity.new
+    percentage = white.similarity(value1, value2)
+    percentage > 0 ? percentage : nil
+  end
+
+  def self.date_of_birth_matching(dob1, dob2)
+    return nil if dob1.blank? || dob2.nil?
+    percentage = 0
+    if dob1.to_date == dob2.to_date
+      percentage = 1
+    else
+      remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
+      percentage = 1 - (remain_day * 0.5)
+    end
+    percentage < 0 ? nil : percentage
   end
 
   def exit_ngo?

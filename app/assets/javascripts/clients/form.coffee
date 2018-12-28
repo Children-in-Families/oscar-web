@@ -113,8 +113,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         dataType: "JSON"
       }).success((json)->
         clientId  = $('#client_slug').val()
-        organizations   = json.organizations
-        if clientId == '' and organizations.length > 0
+        clients   = json.clients
+        if clientId == '' and clients.length > 0
+          debugger
           modalTitle      = $('#hidden_title').val()
           modalTextFirst  = $('#hidden_body_first').val()
           modalTextSecond = $('#hidden_body_second').val()
