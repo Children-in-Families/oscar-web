@@ -93,7 +93,8 @@ class CIF.ClientAdvanceSearch
     basicQueryRules = $('#builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
       $('#builder').queryBuilder('setRules', basicQueryRules)
-      $('#wizard-builder').queryBuilder('setRules', basicQueryRules)
+      if $('#wizard-builder').length > 0
+        $('#wizard-builder').queryBuilder('setRules', basicQueryRules)
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
     operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
