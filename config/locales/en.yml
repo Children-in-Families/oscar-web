@@ -630,7 +630,9 @@ en:
       domain: Domain
       goal: Goal
       new_case_note: New case note
+      no_custom_domains_available: No Custom Domains Available
       note: Note
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
       type: "Type (Note: Choose 'visit' only if you met with the client.)"
       you_need_to_create_assessment: You need to create assessment

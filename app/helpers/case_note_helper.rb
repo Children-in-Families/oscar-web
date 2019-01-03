@@ -28,7 +28,7 @@ module CaseNoteHelper
   end
 
   def new_custom_link
-    if case_notes_editable? && policy(@client).create? && Domain.custom_csi_domains.present?
+    if case_notes_editable? && policy(@client).create?
       link_to new_client_case_note_path(@client, custom: true) do
         @current_setting.custom_assessment
       end
