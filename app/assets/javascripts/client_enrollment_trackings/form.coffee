@@ -6,6 +6,12 @@ CIF.Client_enrolled_program_trackingsNew = CIF.Client_enrolled_program_trackings
     _initFileInput()
     _preventRequireFileUploader()
     _toggleCheckingRadioButton()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->

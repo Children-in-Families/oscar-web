@@ -5,7 +5,7 @@
 .well
   .row
     .col-xs-12.col-md-4
-      #custom-form-wrapper
+      .custom-form-wrapper
         .row
           .col-xs-12
             .form-group
@@ -14,6 +14,6 @@
         .row
           .col-xs-12
             .form-group.custom-form{ data: { value: custom_form_values } }
-              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'custom-form-select', class: 'form-control' } )
+              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, class: 'form-control custom-form-select' } )
 
 #opt-group-translation{ data: { basic_fields: t('.basic_fields'), custom_form: t('.custom_form') } }

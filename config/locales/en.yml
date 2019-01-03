@@ -501,7 +501,7 @@ en:
       next: Next
       previous: Previous
       reason: Observation
-      reason_placeholder: 'Explain why you have chosen this score'
+      reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
       set_goal: Would you like to set a goal?
@@ -1341,6 +1341,7 @@ en:
       read_less: read less
       read_more: read more
       report_builder: Report Builder
+      report_builder_wizard: Report Builder Wizard
       reports: Quick Graph
       results: Results
       sInfoShow: show results from

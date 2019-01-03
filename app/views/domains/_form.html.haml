@@ -12,27 +12,41 @@
       .row
         .col-xs-3
           = f.input :score_1_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_1'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-6
+        .col-xs-3
           = f.input :score_1_definition, label: t('.interpretation')
+        .col-xs-3
+          = f.input :score_1_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
       .row
         .col-xs-3
           = f.input :score_2_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_2'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-6
+        .col-xs-3
           = f.input :score_2_definition, label: t('.interpretation')
+        .col-xs-3
+          = f.input :score_2_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
       .row
         .col-xs-3
           = f.input :score_3_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_3'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-6
+        .col-xs-3
           = f.input :score_3_definition, label: t('.interpretation')
+        .col-xs-3
+          = f.input :score_3_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
       .row
         .col-xs-3
           = f.input :score_4_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_4'), include_blank: false, input_html: { class: 'select2' }
-        .col-xs-6
+        .col-xs-3
           = f.input :score_4_definition, label: t('.interpretation')
+        .col-xs-3
+          = f.input :score_4_local_definition, label: "#{t('.interpretation')} (#{country_langauge})"
       %hr
       .row
         .col-xs-12
-          = f.text_area :description, class: 'tinymce', label: t('.description'), input_html: { rows: 30 }
+          = f.label :description, t('.description')
+          = f.text_area :description, class: 'tinymce', rows: 30
+          %br
+      .row
+        .col-xs-12
+          = f.label :description, "#{t('.description')} (#{country_langauge})"
+          = f.text_area :local_description, class: 'tinymce', rows: 30
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = link_to t('.cancel'), domains_path, class: 'btn btn-default form-btn'

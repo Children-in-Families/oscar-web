@@ -42,11 +42,18 @@
             ថ្ងៃខែឆ្នាំកំណើត:
           %td
             - if @guardian.present?
-              - @guardian.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
-                - if index == 0
-                  %span.first= code
-                - else
-                  %span= code
+              - if @guardian.date_of_birth.present?
+                - @guardian.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
+                  - if index == 0
+                    %span.first= code
+                  - else
+                    %span= code
+              - else
+                - (1..6).each_with_index do |code, index|
+                  - if index == 0
+                    %span.first &nbsp;&nbsp;
+                  - else
+                    %span &nbsp;&nbsp;
             - else
               - (1..6).each_with_index do |code, index|
                 - if index == 0

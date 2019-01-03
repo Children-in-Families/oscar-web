@@ -8,6 +8,9 @@ class CIF.ClientAdvanceSearch
     @enrollmentCheckbox  = $('#enrollment-checkbox')
     @trackingCheckbox    = $('#tracking-checkbox')
     @exitCheckbox        = $('#exit-form-checkbox')
+    @wizardEnrollmentCheckbox    = $('#wizard-enrollment-checkbox')
+    @wizardTrackingCheckbox      = $('#wizard-tracking-checkbox')
+    @wizardExitCheckbox          = $('#wizard-exit-form-checkbox')
 
     @CUSTOM_FORM_URL      = '/api/client_advanced_searches/get_custom_field'
     @ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
@@ -25,14 +28,14 @@ class CIF.ClientAdvanceSearch
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
 
   setValueToBuilderSelected: ->
-    @customFormSelected = $('.custom-form').data('value')
-    @programSelected    = $('.program-stream').data('value')
+    @customFormSelected = $('#custom-form-data').data('value')
+    @programSelected    = $('#program-stream-data').data('value')
 
   getTranslation: ->
     @filterTranslation =
-      addFilter: $('#builder').data('filter-translation-add-filter')
-      addGroup: $('#builder').data('filter-translation-add-group')
-      deleteGroup: $('#builder').data('filter-translation-delete-group')
+      addFilter: $('#builder, #wizard-builder').data('filter-translation-add-filter')
+      addGroup: $('#builder, #wizard-builder').data('filter-translation-add-group')
+      deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
 
   formatSpecialCharacter: (value) ->
     filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim()
@@ -67,6 +70,10 @@ class CIF.ClientAdvanceSearch
   initBuilderFilter: (id)->
     builderFields = $(id).data('fields')
     # builderFields = $('#client-builder-fields').data('fields')
+    if $('#wizard-builder').length > 0
+      advanceSearchWizardBuilder = new CIF.AdvancedFilterBuilder($('#wizard-builder'), builderFields, @filterTranslation)
+      advanceSearchWizardBuilder.initRule()
+      @.initRuleOperatorSelect2($('#wizard-builder'))
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
     @.basicFilterSetRule()
@@ -74,7 +81,9 @@ class CIF.ClientAdvanceSearch
     @.initRuleOperatorSelect2($('#builder'))
 
   initSelect2: ->
-    $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
+    # $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
+    # $('.custom-form-select, .program-stream-select, .quantitative-case-select').select2()
+    $('select').select2()
     setTimeout ( ->
       $('.rule-filter-container select').select2(width: '250px')
       $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
@@ -84,6 +93,8 @@ class CIF.ClientAdvanceSearch
     basicQueryRules = $('#builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
       $('#builder').queryBuilder('setRules', basicQueryRules)
+      if $('#wizard-builder').length > 0
+        $('#wizard-builder').queryBuilder('setRules', basicQueryRules)
 
   initRuleOperatorSelect2: (rowBuilderRule) ->
     operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
@@ -96,14 +107,24 @@ class CIF.ClientAdvanceSearch
 
   customFormSelectChange: ->
     self = @
-    $('#custom-form-wrapper select').on 'select2-selecting', (element) ->
+    self.customFormSelected = []
+    $('.main-report-builder .custom-form-wrapper select').on 'select2-selecting', (element) ->
       self.customFormSelected.push(element.val)
       self.addCustomBuildersFields(element.val, self.CUSTOM_FORM_URL)
+
+    $('#report-builder-wizard .custom-form-wrapper select').on 'select2-selecting', (element) ->
+      $('#custom-form-column').addClass('hidden')
+      $('#wizard-custom-form .loader').removeClass('hidden')
+      self.customFormSelected.push(element.val)
+      addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(element.val, self.CUSTOM_FORM_URL)
+      $.when(addCustomBuildersFields).then ->
+        $('#custom-form-column').removeClass('hidden')
+        $('#wizard-custom-form .loader').addClass('hidden')
 
   addCustomBuildersFields: (ids, url) ->
     self = @
     action  = _.last(url.split('/'))
-    element = if action == 'get_custom_field' then '#custom-form-column' else '#program-stream-column'
+    element = if action == 'get_custom_field' then '.main-report-builder .custom-form-column' else '.main-report-builder .program-stream-column'
     $.ajax
       url: url
       data: { ids: ids }
@@ -111,6 +132,21 @@ class CIF.ClientAdvanceSearch
       success: (response) ->
         fieldList = response.client_advanced_searches
         $('#builder').queryBuilder('addFilter', fieldList)
+        self.initSelect2()
+        self.addFieldToColumnPicker(element, fieldList)
+
+  addCustomBuildersFieldsInWizard: (ids, url) ->
+    self = @
+    action  = _.last(url.split('/'))
+    element = if action == 'get_custom_field' then '#report-builder-wizard .custom-form-column' else '#report-builder-wizard .program-stream-column'
+    $.ajax
+      url: url
+      data: { ids: ids }
+      method: 'GET'
+      success: (response) ->
+        fieldList = response.client_advanced_searches
+        if (element == '#report-builder-wizard .custom-form-column' && $('#wizard_custom_form_filter').is(':checked')) || (element == '#report-builder-wizard .program-stream-column' && $('#wizard_program_stream_filter').is(':checked'))
+          $('#wizard-builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
 
@@ -146,14 +182,16 @@ class CIF.ClientAdvanceSearch
   handleHideCustomFormSelect: ->
     self = @
     $('#custom-form-checkbox').on 'ifUnchecked', ->
-      $('#custom-form-column ul.append-child li').remove()
+      $('.custom-form-column ul.append-child li').remove()
 
-      $('#custom-form-select option:selected').each ->
+      # $('#custom-form-select option:selected, #wizard-custom-form-select option:selected').each ->
+      $('select.custom-form-select option:selected').each ->
         formTitle = $(@).text()
         self.handleRemoveFilterBuilder(formTitle, self.CUSTOM_FORM_TRANSLATE)
 
       self.customFormSelected = []
-      $('.custom-form select').select2('val', '')
+      # $('.custom-form select').select2('val', '')
+      $('select.custom-form-select').select2('val', '')
       $('.custom-form').hide()
 
   handleShowCustomFormSelect: ->
@@ -166,22 +204,35 @@ class CIF.ClientAdvanceSearch
 
   customFormSelectRemove: ->
     self = @
-    $('#custom-form-wrapper select').on 'select2-removed', (element) ->
+    $('.main-report-builder .custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
       formTitle   = removeValue.trim()
       formTitle   = self.formatSpecialCharacter("#{formTitle} Custom Form")
 
-      self.removeCheckboxColumnPicker('#custom-form-column', formTitle)
+      self.removeCheckboxColumnPicker('.main-report-builder .custom-form-column', formTitle)
       $.map self.customFormSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.customFormSelected.splice(i, 1)
 
-      setTimeout ( ->
-        self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE)
-        ),100
+      self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE)
 
-  handleRemoveFilterBuilder: (resourceName, resourcelabel) ->
+    $('#report-builder-wizard .custom-form-wrapper select').on 'select2-removed', (element) ->
+      removeValue = element.choice.text
+      formTitle   = removeValue.trim()
+      formTitle   = self.formatSpecialCharacter("#{formTitle} Custom Form")
+
+      self.removeCheckboxColumnPicker('#report-builder-wizard .custom-form-column', formTitle)
+      $.map self.customFormSelected, (val, i) ->
+        if parseInt(val) == parseInt(element.val) then self.customFormSelected.splice(i, 1)
+
+      if $('#wizard_custom_form_filter').is(':checked')
+        self.handleRemoveFilterBuilder(removeValue, self.CUSTOM_FORM_TRANSLATE, '#wizard-builder')
+
+  handleRemoveFilterBuilder: (resourceName, resourcelabel, elementBuilder = '#builder') ->
     self = @
-    filterSelects = $('.rule-container .rule-filter-container select')
+    if elementBuilder == '#builder'
+      filterSelects = $('.main-report-builder .rule-container .rule-filter-container select')
+    else
+      filterSelects = $('#client-advance-search-wizard .rule-container .rule-filter-container select')
     for select in filterSelects
       optGroup  = $(':selected', select).parents('optgroup')
       if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != self.BASIC_FIELD_TRANSLATE and optGroup[0].label != self.DOMAIN_SCORES_TRANSLATE
@@ -190,7 +241,6 @@ class CIF.ClientAdvanceSearch
           container = $(select).parents('.rule-container')
           $(container).find('select').select2('destroy')
           $(container).find('.rule-header button').trigger('click')
-
     setTimeout ( ->
       if $('.rule-container .rule-filter-container select').length == 0
         $('button[data-add="rule"]').trigger('click')
@@ -209,40 +259,99 @@ class CIF.ClientAdvanceSearch
           $(optGroup).find('option').each ->
             values.push $(@).val()
     $('#builder').queryBuilder('removeFilter', values)
+    $('#wizard-builder').queryBuilder('removeFilter', values) if $('#wizard-builder').length > 0
     @initSelect2()
 
   ######################################################################################################################
 
   handleShowProgramStreamFilter: ->
     self = @
-    if $('#program-stream-checkbox').prop('checked')
-      $('.program-stream').show()
+    if $('.main-report-builder #program-stream-checkbox').prop('checked')
+      $('.main-report-builder .program-stream').show()
     if self.enrollmentCheckbox.prop('checked') || self.trackingCheckbox.prop('checked') || self.exitCheckbox.prop('checked') || self.programSelected.length > 0
-      $('.program-association').show()
-    $('#program-stream-checkbox').on 'ifChecked', ->
-      $('.program-stream').show()
+      $('.main-report-builder .program-stream').show()
+    $('.main-report-builder #program-stream-checkbox').on 'ifChecked', ->
+      $('.main-report-builder .program-stream').show()
 
   handleHideProgramStreamSelect: ->
     self = @
-    $('#program-stream-checkbox').on 'ifUnchecked', ->
-      $('#program-stream-column ul.append-child li').remove()
+    $('.main-report-builder .program-stream-checkbox').on 'ifUnchecked', ->
+      $('.main-report-builder .program-stream-column ul.append-child li').remove()
       self.programSelected = []
-      $('.program-stream, .program-association').hide()
-      $('.program-association input[type="checkbox"]').iCheck('uncheck')
-      $('#program-stream-select').select2("val", "")
+      $('.main-report-builder .program-association, .main-report-builder .program-stream').hide()
+      $('.main-report-builder .program-association input[type="checkbox"]').iCheck('uncheck')
+      $('.main-report-builder select.program-stream-select').select2("val", "")
 
   handleProgramSelectChange: ->
     self = @
-    $('#program-stream-select').on 'select2-selecting', (psElement) ->
+    $('.main-report-builder select.program-stream-select').on 'select2-selecting', (psElement) ->
       programId = psElement.val
       self.programSelected.push programId
-      $('.program-association').show()
-      if $('#enrollment-checkbox').prop('checked')
+      $('.main-report-builder .program-association').show()
+      if $('#enrollment-checkbox').is(':checked')
         self.addCustomBuildersFields(programId, self.ENROLLMENT_URL)
-      if $('#tracking-checkbox').prop('checked')
+      if $('#tracking-checkbox').is(':checked')
         self.addCustomBuildersFields(programId, self.TRACKING_URL)
-      if $('#exit-form-checkbox').prop('checked')
+      if $('#exit-form-checkbox').is(':checked')
         self.addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL)
+
+    $('#report-builder-wizard select.program-stream-select').on 'select2-selecting', (psElement) ->
+      programId = psElement.val
+      self.programSelected.push programId
+      $('#report-builder-wizard .program-association').show()
+      if $('#wizard-enrollment-checkbox').is(':checked')
+        $('#program-stream-column').addClass('hidden')
+        $('#wizard-program-stream .loader').removeClass('hidden')
+        addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(programId, self.ENROLLMENT_URL)
+        $.when(addCustomBuildersFields).then ->
+          $('#program-stream-column').removeClass('hidden')
+          $('#wizard-program-stream .loader').addClass('hidden')
+
+      if $('#wizard-tracking-checkbox').is(':checked')
+        $('#program-stream-column').addClass('hidden')
+        $('#wizard-program-stream .loader').removeClass('hidden')
+        addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(programId, self.TRACKING_URL)
+        $.when(addCustomBuildersFields).then ->
+          $('#program-stream-column').removeClass('hidden')
+          $('#wizard-program-stream .loader').addClass('hidden')
+
+      if $('#wizard-exit-form-checkbox').is(':checked')
+        $('#program-stream-column').addClass('hidden')
+        $('#wizard-program-stream .loader').removeClass('hidden')
+        addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(programId, self.EXIT_PROGRAM_URL)
+        $.when(addCustomBuildersFields).then ->
+          $('#program-stream-column').removeClass('hidden')
+          $('#wizard-program-stream .loader').addClass('hidden')
+
+  triggerEnrollmentInWizard: ->
+    self = @
+    $('#wizard-enrollment-checkbox').on 'ifChecked', ->
+      $('#program-stream-column').addClass('hidden')
+      $('#wizard-program-stream .loader').removeClass('hidden')
+      addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(self.programSelected, self.ENROLLMENT_URL)
+      $.when(addCustomBuildersFields).then ->
+        $('#program-stream-column').removeClass('hidden')
+        $('#wizard-program-stream .loader').addClass('hidden')
+
+  triggerTrackingInWizard: ->
+    self = @
+    $('#wizard-tracking-checkbox').on 'ifChecked', ->
+      $('#program-stream-column').addClass('hidden')
+      $('#wizard-program-stream .loader').removeClass('hidden')
+      addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(self.programSelected, self.TRACKING_URL)
+      $.when(addCustomBuildersFields).then ->
+        $('#program-stream-column').removeClass('hidden')
+        $('#wizard-program-stream .loader').addClass('hidden')
+
+  triggerExitProgramInWizard: ->
+    self = @
+    $('#wizard-exit-form-checkbox').on 'ifChecked', ->
+      $('#program-stream-column').addClass('hidden')
+      $('#wizard-program-stream .loader').removeClass('hidden')
+      addCustomBuildersFields = self.addCustomBuildersFieldsInWizard(self.programSelected, self.EXIT_PROGRAM_URL)
+      $.when(addCustomBuildersFields).then ->
+        $('#program-stream-column').removeClass('hidden')
+        $('#wizard-program-stream .loader').addClass('hidden')
 
   triggerEnrollmentFields: ->
     self = @
@@ -263,57 +372,100 @@ class CIF.ClientAdvanceSearch
 
   handleSelect2RemoveProgram: ->
     self = @
-    $('#program-stream-select').on 'select2-removed', (element) ->
+    programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
+    $('.main-report-builder .program-stream-select').on 'select2-removed', (element) ->
       programName = element.choice.text
-      programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
-      _.forEach programStreamKeyword, (value) ->
-        headerClass = self.formatSpecialCharacter("#{programName.trim()} #{value}")
-        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+      self.removeCheckboxColumnPickers(programStreamKeyword, programName, self)
 
       $.map self.programSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.programSelected.splice(i, 1)
 
       self.handleRemoveFilterBuilder(programName, self.ENROLLMENT_TRANSLATE)
-      setTimeout ( ->
-        self.handleRemoveFilterBuilder(programName, self.TRACKING_TRANSTATE)
-        self.handleRemoveFilterBuilder(programName, self.EXIT_PROGRAM_TRANSTATE)
-        )
+      self.handleRemoveFilterBuilder(programName, self.TRACKING_TRANSTATE)
+      self.handleRemoveFilterBuilder(programName, self.EXIT_PROGRAM_TRANSTATE)
       if $.isEmptyObject($(@).val())
-        programStreamAssociation = $('.program-association')
+        programStreamAssociation = $('#client-advance-search-wizard .program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
         $(programStreamAssociation).hide()
+
+    $('#report-builder-wizard .program-stream-select').on 'select2-removed', (element) ->
+      programName = element.choice.text
+      self.removeCheckboxColumnPickers(programStreamKeyword, programName, self)
+
+      $.map self.programSelected, (val, i) ->
+        if parseInt(val) == parseInt(element.val) then self.programSelected.splice(i, 1)
+      if $('#wizard_program_stream_filter').is(':checked')
+        self.handleRemoveFilterBuilder(programName, self.ENROLLMENT_TRANSLATE, '#wizard-builder')
+        self.handleRemoveFilterBuilder(programName, self.TRACKING_TRANSTATE, '#wizard-builder')
+        self.handleRemoveFilterBuilder(programName, self.EXIT_PROGRAM_TRANSTATE, '#wizard-builder')
+      if $.isEmptyObject($(@).val())
+        programStreamAssociation = $('#report-builder-wizard .program-association')
+        $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
+        $(programStreamAssociation).hide()
+
+  removeCheckboxColumnPickers: (keyWords, programName, self)->
+    _.forEach keyWords, (value) ->
+      headerClass = self.formatSpecialCharacter("#{programName.trim()} #{value}")
+      self.removeCheckboxColumnPicker('#report-builder-wizard #program-stream-column', headerClass)
 
   handleUncheckedEnrollment: ->
     self = @
     $('#enrollment-checkbox').on 'ifUnchecked', ->
-      for option in $('#program-stream-select option:selected')
+      for option in $('.main-report-builder select.program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
         headerClass   = self.formatSpecialCharacter("#{programName} Enrollment")
 
-        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+        self.removeCheckboxColumnPicker('.main-report-builder .program-stream-column', headerClass)
+        self.handleRemoveFilterBuilder(name, self.ENROLLMENT_TRANSLATE)
+
+    $('#wizard-enrollment-checkbox').on 'ifUnchecked', ->
+      for option in $('#report-builder-wizard select.program-stream-select option:selected')
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = self.formatSpecialCharacter("#{programName} Enrollment")
+
+        self.removeCheckboxColumnPicker('#report-builder-wizard .program-stream-column', headerClass)
         self.handleRemoveFilterBuilder(name, self.ENROLLMENT_TRANSLATE)
 
   handleUncheckedTracking: ->
     self = @
     $('#tracking-checkbox').on 'ifUnchecked', ->
-      for option in $('#program-stream-select option:selected')
+      for option in $('client-advance-search-form select.program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
         headerClass   = self.formatSpecialCharacter("#{programName} Tracking")
 
-        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+        self.removeCheckboxColumnPicker('.main-report-builder .program-stream-column', headerClass)
+        self.handleRemoveFilterBuilder(name, self.TRACKING_TRANSTATE)
+
+    $('#wizard-tracking-checkbox').on 'ifUnchecked', ->
+      for option in $('#report-builder-wizard select.program-stream-select option:selected')
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = self.formatSpecialCharacter("#{programName} Tracking")
+
+        self.removeCheckboxColumnPicker('#report-builder-wizard .program-stream-column', headerClass)
         self.handleRemoveFilterBuilder(name, self.TRACKING_TRANSTATE)
 
   handleUncheckedExitProgram: ->
     self = @
     $('#exit-form-checkbox').on 'ifUnchecked', ->
-      for option in $('#program-stream-select option:selected')
+      for option in $('client-advance-search-form select.program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
         headerClass   = self.formatSpecialCharacter("#{programName} Exit Program")
 
-        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+        self.removeCheckboxColumnPicker('.main-report-builder .program-stream-column', headerClass)
+        self.handleRemoveFilterBuilder(name, self.EXIT_PROGRAM_TRANSTATE)
+
+    $('#wizard-exit-form-checkbox').on 'ifUnchecked', ->
+      for option in $('#report-builder-wizard select.program-stream-select option:selected')
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = self.formatSpecialCharacter("#{programName} Exit Program")
+
+        self.removeCheckboxColumnPicker('#report-builder-wizard .program-stream-column', headerClass)
         self.handleRemoveFilterBuilder(name, self.EXIT_PROGRAM_TRANSTATE)
 
   ######################################################################################################################
@@ -323,6 +475,7 @@ class CIF.ClientAdvanceSearch
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
       $('#builder').queryBuilder('addFilter', fields)
+      $('#wizard-builder').queryBuilder('addFilter', fields)
       self.initSelect2()
 
   handleRemoveQuantitativFilter: ->
@@ -334,19 +487,21 @@ class CIF.ClientAdvanceSearch
 
   handleSearch: ->
     self = @
-    $('#search').on 'click', ->
-      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+    $('#search, #wizard-search').on 'click', (e)->
+      btnID = e.currentTarget.id
+      builderElement = if btnID == 'search' then '#builder' else '#wizard-builder'
+      basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
       programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
 
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
       $('#client_advanced_search_program_selected').val(programValues)
-      if $('#quantitative-type-checkbox').prop('checked')
+      if $('#quantitative-type-checkbox').prop('checked') || $('#wizard_quantitative_filter').prop('checked')
         $('#client_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $(builderElement).find('.has-error').remove()
         $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -384,9 +539,9 @@ class CIF.ClientAdvanceSearch
     trackingCheck   = $('#client_advanced_search_tracking_check')
     exitFormCheck   = $('#client_advanced_search_exit_form_check')
 
-    if @enrollmentCheckbox.prop('checked') then $(enrollmentCheck).val(1)
-    if @trackingCheckbox.prop('checked') then $(trackingCheck).val(1)
-    if @exitCheckbox.prop('checked') then $(exitFormCheck).val(1)
+    if @enrollmentCheckbox.is(":checked") || @wizardEnrollmentCheckbox.is(':checked') then $(enrollmentCheck).val(1)
+    if @trackingCheckbox.is(":checked") || @wizardTrackingCheckbox.is(':checked') then $(trackingCheck).val(1)
+    if @exitCheckbox.is(":checked") || @wizardExitCheckbox.is(':checked') then $(exitFormCheck).val(1)
 
   handleStringfyRules: (rules) ->
     rules = JSON.stringify(rules)
@@ -400,7 +555,7 @@ class CIF.ClientAdvanceSearch
 
   addRuleCallback: ->
     self = @
-    $('#builder').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
+    $('#builder, #wizard-builder').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
       self.initSelect2()
       self.handleSelectOptionChange(obj)
       self.referred_to_program()
@@ -498,10 +653,10 @@ class CIF.ClientAdvanceSearch
       trackingCheck   = $('#advanced_search_tracking_check')
       exitFormCheck   = $('#advanced_search_exit_form_check')
 
-      if self.enrollmentCheckbox.prop('checked') then $(enrollmentCheck).val(1)
-      if self.trackingCheckbox.prop('checked') then $(trackingCheck).val(1)
-      if self.exitCheckbox.prop('checked') then $(exitFormCheck).val(1)
-      if $('#quantitative-type-checkbox').prop('checked') then $('#advanced_search_quantitative_check').val(1)
+      if (self.enrollmentCheckbox.prop('checked') || self.wizardEnrollmentCheckbox.prop('checked')) then $(enrollmentCheck).val(1)
+      if (self.trackingCheckbox.prop('checked') || self.wizardTrackingCheckbox.prop('checked')) then $(trackingCheck).val(1)
+      if (self.exitCheckbox.prop('checked') || self.wizardExitCheckbox.prop('checked')) then $(exitFormCheck).val(1)
+      if ($('#quantitative-type-checkbox').prop('checked') || $('#wizard_quantitative_filter').prop('checked')) then $('#advanced_search_quantitative_check').val(1)
 
       $('#advanced_search_custom_forms').val(customFormValues)
       $('#advanced_search_program_streams').val(programValues)

@@ -26,7 +26,7 @@
         %ul.dropdown-menu.columns-visibility
           %li
             .all-visibility.col-sm-12
-              = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks'
+              = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks all_'
               = label_tag 'all_' do
                 %strong= t('datagrid.columns.show_all')
 
@@ -110,13 +110,13 @@
               .visibility.col-sm-12
                 = check_box_tag 'postal_code_', 'postal_code', checked = default_setting('postal_code_', @client_default_columns) || params[:postal_code_].present?, class: 'i-checks'
                 = label_tag 'postal_code_', t('datagrid.columns.postal_code')
-
-          - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
-            - next unless quantitative_type_readable?(quantitative_type.id)
-            %li
-              .visibility.col-sm-12
-                = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
-                = label_tag "#{quantitative_type.name}_", quantitative_type.name
+          #referral-data
+            - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+              - next unless quantitative_type_readable?(quantitative_type.id)
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
+                  = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
           %li
             .visibility.col-sm-12
@@ -221,7 +221,7 @@
         %ul.dropdown-menu.columns-visibility
           %li
             .all-visibility.col-sm-12
-              = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks'
+              = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks all_'
               = label_tag 'all_' do
                 %strong= t('datagrid.columns.show_all')
           - if controller_name == 'partners'

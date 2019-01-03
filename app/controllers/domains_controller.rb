@@ -3,7 +3,6 @@ class DomainsController < AdminController
 
   before_action :find_domain, only: [:edit, :update, :destroy]
   before_action :find_domain_group, except: [:index, :destroy]
-  before_action :validate_organization
 
   def index
     @domains = Domain.csi_domains.page(params[:page_1]).per(10)
@@ -62,7 +61,11 @@ class DomainsController < AdminController
   private
 
   def domain_params
-    params.require(:domain).permit(:name, :identity, :description, :domain_group_id, :score_1_color, :score_2_color, :score_3_color, :score_4_color, :score_1_definition, :score_2_definition, :score_3_definition, :score_4_definition)
+    params.require(:domain).permit(
+      :name, :identity, :description, :local_description, :domain_group_id,
+      :score_1_color, :score_2_color, :score_3_color, :score_4_color,
+      :score_1_definition, :score_2_definition, :score_3_definition, :score_4_definition,
+      :score_1_local_definition, :score_2_local_definition, :score_3_local_definition, :score_4_local_definition)
   end
 
   def find_domain
@@ -71,9 +74,5 @@ class DomainsController < AdminController
 
   def find_domain_group
     @domain_group = DomainGroup.order(:name)
-  end
-
-  def validate_organization
-    redirect_to root_url, alert: t('unauthorized.default') if (Rails.env.production? && current_organization.demo?)
   end
 end
