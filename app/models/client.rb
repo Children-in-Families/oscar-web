@@ -103,19 +103,6 @@ class Client < ActiveRecord::Base
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
-  # def self.filter(options)
-  #   clients = includes(province: [districts: [communes: :villages]]).select(:id, :date_of_birth, :province_id)
-  #   # query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
-  #   # query = query.joins(:commune).where("communes.name_en iLIKE ?", "%#{options[:commune].split(' / ').last}%")                 if options[:commune].present?
-  #   # query = query.joins(:village).where("villages.name_en iLIKE ?", "%#{options[:village].split(' / ').last}%")                 if options[:village].present?
-  #   # query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")         if options[:current_province].present?
-  #   matched_fields = []
-  #   clients.each do |client|
-
-  #   end
-
-  # end
-
   def self.find_shared_client(options)
     big_results    = []
     current_org    = Organization.current.short_name
@@ -143,8 +130,8 @@ class Client < ActiveRecord::Base
     end
 
     Organization.switch_to current_org
-
-    matching_clients = big_results.flatten.reject do |result|
+    similar_fields = []
+    matching_clients = big_results.flatten.each do |result|
       value1     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
       value2     = "#{result[:given_name]} #{result[:family_name]} #{result[:local_family_name]} #{result[:local_given_name]}".squish
       field_name = compare_matching(value1, value2)
@@ -155,9 +142,21 @@ class Client < ActiveRecord::Base
       cv         = client_address_matching(options[:village], result[:village])
       bp         = birth_provinch_matching(options[:birth_province], result[:birth_province])
 
-      [field_name, dob, cp, cd, cc, cv, bp].compact.inject(:*) * 100 < 75
+      match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
+      if match_percentages.compact.inject(:*) * 100 > 75
+        similar_fields << '#hidden_name_fields' if match_percentages[0].present?
+        similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
+        similar_fields << '#hidden_province' if match_percentages[2].present?
+        similar_fields << '#hidden_district' if match_percentages[3].present?
+        similar_fields << '#hidden_commune' if match_percentages[4].present?
+        similar_fields << '#hidden_village' if match_percentages[5].present?
+        similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+
+        return similar_fields.uniq if similar_fields.uniq.size == match_percentages.compact.length
+      end
     end
-    matching_clients
+
+    similar_fields.uniq
   end
 
   def family
@@ -181,7 +180,7 @@ class Client < ActiveRecord::Base
 
   def self.compare_matching(value1, value2)
     return nil if value1.blank?
-    white      = Text::WhiteSimilarity.new
+    white      = ::Text::WhiteSimilarity.new
     percentage = white.similarity(value1, value2)
     percentage > 0 ? percentage : nil
   end

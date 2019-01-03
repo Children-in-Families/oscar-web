@@ -101,6 +101,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       date_of_birth: $('#client_date_of_birth').val()
       birth_province: $('#client_birth_province_id').find(':selected').text()
       current_province: $('#client_province_id').find(':selected').text()
+      district: $('#client_district_id').find(':selected').text()
       village: $('#client_village_id').find(':selected').text()
       commune: $('#client_commune_id').find(':selected').text()
     }
@@ -113,18 +114,24 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         dataType: "JSON"
       }).success((json)->
         clientId  = $('#client_slug').val()
-        clients   = json.clients
-        if clientId == '' and clients.length > 0
-          debugger
+        similar_fields  = json.similar_fields
+        modalTextSecond = ''
+
+        if clientId == '' and similar_fields.length > 0
           modalTitle      = $('#hidden_title').val()
-          modalTextFirst  = $('#hidden_body_first').val()
-          modalTextSecond = $('#hidden_body_second').val()
+          modalTextFirst  = $('#hidden_body_first').val() + '<br/>'
           modalTextThird  = $('#hidden_body_third').val()
+          warning         = $('#hidden_body_second').val() + '<br/>'
           clientName      = $('#client_given_name').val()
 
+          i = 0
+          while i < similar_fields.length
+            text = $(similar_fields[i]).val()
+            modalTextSecond += '<li>' + text
+            i++
+
           modalText = []
-          for organization in organizations
-            modalText.push("<p>#{modalTextFirst} #{organization}#{modalTextSecond} #{organization} #{modalTextThird}<p/>")
+          modalText.push("<p> <strong>#{warning}</strong> #{modalTextFirst} #{modalTextSecond} <br/> #{modalTextThird}<p/>")
 
           $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
           $('#confirm-client-modal .modal-body').html(modalText)
