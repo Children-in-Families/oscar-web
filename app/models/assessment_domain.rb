@@ -23,8 +23,19 @@ class AssessmentDomain < ActiveRecord::Base
     end
   end
 
+
   def score_color_class
-    domain["score_#{score}_color"]
+    domain["score_#{score}_color"] || 'default'
+  end
+
+  def score_definition
+    return '' if score.nil?
+    domain.send("translate_score_#{score}_definition".to_sym)
+  end
+
+  def previous_score_definition
+    return '' if score.nil?
+    domain.send("translate_score_#{previous_score}_definition".to_sym)
   end
 
   def previous_score_color_class

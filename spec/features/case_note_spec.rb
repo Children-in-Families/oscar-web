@@ -19,7 +19,7 @@ describe 'CaseNote' do
       (1..n).each do |time|
         find('.case-note-task-btn').trigger('click')
         fill_in 'task_name', with: 'ABC'
-        fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%d %B %Y')
+        fill_in 'task_completion_date', with: date_format(Date.strptime(FFaker::Time.date))
         find('.add-task-btn').trigger('click')
         sleep 1
       end
@@ -73,12 +73,34 @@ describe 'CaseNote' do
       visit client_case_notes_path(client)
     end
 
-    scenario 'link new case note' do
-      expect(page).to have_link('New case note', href: new_client_case_note_path(client))
+    context 'New Case note link' do
+      let(:default_csi){ Setting.first.default_assessment }
+      let(:custom_csi){ Setting.first.custom_assessment }
+
+      context 'only one csi tool is enable' do
+        scenario 'default csi' do
+          Setting.first.update(enable_default_assessment: true, enable_custom_assessment: false)
+          visit client_case_notes_path(client)
+
+          expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: false))
+        end
+        scenario 'custom csi', js: true do
+          Setting.first.update(enable_default_assessment: false, enable_custom_assessment: true)
+          visit client_case_notes_path(client)
+          expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: true))
+        end
+      end
+      scenario 'both csi tools are enable', js: true do
+        Setting.first.update(enable_custom_assessment: true)
+        visit client_case_notes_path(client)
+        click_on 'New case note'
+        expect(page).to have_link(default_csi, href: new_client_case_note_path(client, custom: false))
+        expect(page).to have_link(custom_csi, href: new_client_case_note_path(client, custom: true))
+      end
     end
 
     scenario 'case note date' do
-      expect(page).to have_content case_note.meeting_date.strftime('%d %B %Y')
+      expect(page).to have_content date_format(case_note.meeting_date)
     end
 
     scenario 'case note domain' do

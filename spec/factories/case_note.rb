@@ -5,5 +5,9 @@ FactoryGirl.define do
     association :client, factory: :client
     association :assessment, factory: :assessment
     interaction_type 'Visit'
+
+    trait :custom do
+      custom true
+    end
   end
 end

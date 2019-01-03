@@ -12,7 +12,7 @@ class Client < ActiveRecord::Base
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments program_streams programexitdate enrollmentdate).freeze
+  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
 
@@ -173,8 +173,13 @@ class Client < ActiveRecord::Base
   end
 
   def next_assessment_date
-    return Date.today if assessments.count.zero?
-    (assessments.latest_record.created_at + assessment_duration('max')).to_date
+    return Date.today if assessments.defaults.empty?
+    (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
+  end
+
+  def custom_next_assessment_date
+    return Date.today if assessments.customs.empty?
+    (assessments.customs.latest_record.created_at + assessment_duration('max', false)).to_date
   end
 
   def next_appointment_date
@@ -187,8 +192,21 @@ class Client < ActiveRecord::Base
     next_appointment.created_at + 1.month
   end
 
-  def can_create_assessment?
-    return Date.today >= (assessments.latest_record.created_at + assessment_duration('min')).to_date if assessments.count == 1
+
+  def can_create_assessment?(default)
+    if default
+      if assessments.defaults.count == 1
+        return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
+      elsif assessments.defaults.count >= 2
+        return assessments.defaults.latest_record.completed?
+      end
+    else
+      if assessments.customs.count == 1
+        return (Date.today >= (assessments.customs.latest_record.created_at + assessment_duration('min', false)).to_date) && assessments.customs.latest_record.completed?
+      elsif assessments.customs.count >= 2
+        return assessments.customs.latest_record.completed?
+      end
+    end
     true
   end
 
@@ -349,25 +367,39 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      next if Setting.first.try(:disable_assessment)
+      next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment)
       clients = joins(:assessments).active_accepted_status
       clients.each do |client|
-        next if client.uneligible_age?
-        repeat_notifications = client.repeat_notifications_schedule
-
-        if(repeat_notifications.include?(Date.today))
-          CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
+          repeat_notifications = client.repeat_notifications_schedule
+          if(repeat_notifications.include?(Date.today))
+            CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+          end
+        end
+        if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
+          repeat_notifications = client.repeat_notifications_schedule(false)
+          if(repeat_notifications.include?(Date.today))
+            CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+          end
         end
       end
     end
   end
 
   def most_recent_csi_assessment
-    assessments.most_recents.first.created_at.to_date
+    assessments.defaults.most_recents.first.created_at.to_date
   end
 
-  def repeat_notifications_schedule
-    most_recent_csi   = most_recent_csi_assessment
+  def most_recent_custom_csi_assessment
+    assessments.customs.most_recents.first.created_at.to_date
+  end
+
+  def repeat_notifications_schedule(default = true)
+    if default
+      most_recent_csi   = most_recent_csi_assessment
+    else
+      most_recent_csi   = most_recent_custom_csi_assessment
+    end
 
     notification_date = most_recent_csi + 5.months + 15.days
     next_one_week     = notification_date + 1.week
@@ -382,11 +414,18 @@ class Client < ActiveRecord::Base
     [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
   end
 
-  def uneligible_age?
-    return false unless date_of_birth.present?
-    age = Setting.first.try(:age) || 18
+  def eligible_default_csi?
+    return true if date_of_birth.nil?
     client_age = age_as_years
-    client_age >= age ? true : false
+    age        = Setting.first.age || 18
+    client_age < age ? true : false
+  end
+
+  def eligible_custom_csi?
+    return true if date_of_birth.nil?
+    client_age = age_as_years
+    age        = Setting.first.custom_age || 18
+    client_age < age ? true : false
   end
 
   def country_origin_label
@@ -411,16 +450,21 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def assessment_duration(duration)
+  def assessment_duration(duration, default = true)
     if duration == 'max'
       setting = Setting.first
-      assessment_period = (setting.try(:max_assessment) || 6)
-      assessment_frequency = setting.try(:assessment_frequency) || 'month'
+      if default
+        assessment_period    = setting.max_assessment
+        assessment_frequency = setting.assessment_frequency
+      else
+        assessment_period    = setting.max_custom_assessment
+        assessment_frequency = setting.custom_assessment_frequency
+      end
     else
       assessment_period = 3
       assessment_frequency = 'month'
     end
-    assessment_period = assessment_period.send(assessment_frequency)
+    assessment_period.send(assessment_frequency)
   end
 
   def mark_referral_as_saved

@@ -2,7 +2,7 @@ module AdvancedSearches
   class ClientBaseSqlBuilder
     ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'case_note_type',
-                          'date_of_assessments', 'accepted_date',
+                          'date_of_assessments', 'date_of_custom_assessments', 'accepted_date',
                           'exit_date', 'exit_note', 'other_info_of_exit',
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_care']
 
@@ -42,9 +42,14 @@ module AdvancedSearches
             custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client').try(:id)
             @sql_string << "Clients.id IN (?)"
             @values << @clients.joins(:custom_fields).where('custom_fields.id = ?', custom_form_value).uniq.ids
+          elsif rule['operator'] == 'is_empty'
+            client_ids = Client.joins(:custom_fields).where(custom_fields: { form_title: form_builder.second }).ids
+            @sql_string << "clients.id NOT IN (?)"
+            @values << client_ids
           else
             custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Client')
             custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'client').get_sql
+
             @sql_string << custom_field[:id]
             @values << custom_field[:values]
           end
@@ -88,6 +93,7 @@ module AdvancedSearches
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(form_builder.second, rule).get_sql
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
+
         elsif field != nil
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)

@@ -10,16 +10,28 @@ class Domain < ActiveRecord::Base
   has_paper_trail
 
   validates :domain_group, presence: true
-  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_domain}
 
   default_scope { order('domain_group_id ASC, name ASC') }
 
   scope :assessment_domains_by_assessment_id, ->(id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
   scope :order_by_identity, -> { order(:identity) }
+  scope :csi_domains, -> { where(custom_domain: false) }
+  scope :custom_csi_domains, -> { where(custom_domain: true) }
 
-  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', info: 'Blue', primary: 'Green' }
+  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', success: 'Blue', primary: 'Green' }
 
   def convert_identity
     identity.downcase.parameterize('_')
+  end
+
+  def translate_description
+    I18n.locale == :en ? description : local_description
+  end
+
+  (1..4).each do |number|
+    define_method "translate_score_#{number}_definition" do
+      I18n.locale == :en ? send("score_#{number}_definition".to_sym) : send("score_#{number}_local_definition".to_sym)
+    end
   end
 end

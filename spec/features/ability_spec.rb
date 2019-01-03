@@ -54,10 +54,6 @@ describe 'Abilities' do
       should be_able_to(:read, Task)
     end
 
-    it 'can manage Assessment' do
-      should be_able_to(:manage, Assessment)
-    end
-
     it 'can manage CaseNote' do
       should be_able_to(:manage, CaseNote)
     end

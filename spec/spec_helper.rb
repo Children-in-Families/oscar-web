@@ -71,6 +71,7 @@ RSpec.configure do |config|
 
   config.include Requests::JsonHelpers, type: :request
   config.include DeviseTokenAuthHelpers, type: :request
+  config.include ApplicationHelper
 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
@@ -113,7 +114,7 @@ RSpec.configure do |config|
     Capybara.default_max_wait_time = 10
     Capybara.always_include_port = true
     Apartment::Tenant.switch! 'app'
-    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', disable_assessment: false, max_assessment: 6, age: 18)
+    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
     sub_domain = Organization.current.short_name
     Capybara.app_host = "http://#{sub_domain}.lvh.me"
   end
@@ -129,7 +130,7 @@ RSpec.configure do |config|
   config.before(:each) do
     DatabaseCleaner.start
     Apartment::Tenant.switch! 'app'
-    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', disable_assessment: false, max_assessment: 6)
+    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
   end
 
   config.after(:each) do
