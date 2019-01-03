@@ -94,7 +94,7 @@ module FsiImporter
         user.save(validate: false)
       end
 
-      ((workbook.first_row + 2)..workbook.last_row).each do |row|
+      ((workbook.first_row + 1)..workbook.last_row).each do |row|
         first_name      = workbook.row(row)[headers['First Name']]
         last_name       = workbook.row(row)[headers['Last Name']]
         email           = workbook.row(row)[headers['Email']].squish
