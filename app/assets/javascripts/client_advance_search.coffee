@@ -491,8 +491,12 @@ class CIF.ClientAdvanceSearch
       btnID = e.currentTarget.id
       builderElement = if btnID == 'search' then '#builder' else '#wizard-builder'
       basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+      if builderElement == '#builder'
+        customFormValues = "[#{$('#client-advance-search-form').find('.custom-form-select').select2('val')}]"
+        programValues = "[#{$('#client-advance-search-form').find('.program-stream-select').select2('val')}]"
+      else
+        customFormValues = "[#{$('#wizard-custom-form-select').select2('val')}]"
+        programValues = "[#{$('#wizard-program-stream-select').select2('val')}]"
 
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
