@@ -106,8 +106,9 @@ module AdvancedSearches
             next if client.assessments.blank?
             assessment_date = client.assessments.order(:created_at).first.created_at + (month_number_value.to_i - 1).month
             assessment_date = assessment_date.beginning_of_month.to_date
-            assessments  = client.assessments.where("assessments.created_at IN (?)", assessment_date..assessment_date.end_of_month.to_date)
+            assessments  = client.assessments.where("DATE(assessments.created_at) between ? AND ?", assessment_date, assessment_date.end_of_month)
             next if assessments.blank?
+
             scores = assessments.includes(:assessment_domains).map do |assessment|
                       next if assessment.assessment_domains.where(domain_id: @domain_id).blank?
                       assessment.assessment_domains.where(domain_id: @domain_id).first.try(:score)
