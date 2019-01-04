@@ -68,4 +68,18 @@ body[id=case_notes-create] {
   .assessment-domain-panel {
     margin-bottom: 5px;
   }
+
+  .ibox.case-note-domain-group {
+    border: 1px solid #e7eaec;
+    border-radius: 4px;
+    .ibox-title {
+      position: relative;
+      padding-bottom: 40px;
+      .ibox-tools {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+      }
+    }
+  }
 }

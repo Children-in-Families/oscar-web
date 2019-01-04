@@ -9,6 +9,12 @@ CIF.ClientsShow = do ->
     _ajaxCheckReferral()
     _initUploader()
     _initDatePicker()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initDatePicker = ->
     $('.accepted_date').datepicker

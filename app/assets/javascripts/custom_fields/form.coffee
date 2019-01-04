@@ -13,6 +13,12 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     _changeTimeOfFrequency()
     _convertFrequency()
     _removeSearchCustomFields()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _valTimeOfFrequency = ->
     $('#custom_field_time_of_frequency').val()

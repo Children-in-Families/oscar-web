@@ -305,4 +305,15 @@ module ApplicationHelper
   def enable_any_csi_tools?
     enable_default_assessment? || enable_custom_assessment?
   end
+
+  def country_langauge
+    return 'Swahili' if current_organization.short_name == 'cccu'
+    country = current_setting.try(:country_name)
+    case country
+    when 'cambodia' then 'Khmer'
+    when 'myanmar' then 'Burmese'
+    when 'thailand' then 'Thai'
+    when 'lesotho' then 'English'
+    end
+  end
 end

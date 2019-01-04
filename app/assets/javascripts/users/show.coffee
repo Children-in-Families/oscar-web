@@ -5,6 +5,12 @@ CIF.UsersShow = do ->
     _getClientPath()
     _autoCheckReadable()
     _autoUncheckEditable()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _fixedHeaderTableColumns = ->
     $('.clients-table').removeClass('table-responsive')

@@ -5,7 +5,8 @@ class CIF.AdvancedFilterBuilder
     @filterTranslation  = filterTranslation
 
   initRule: ->
-    $(@element).queryBuilder(@builderOption())
+    $('#builder').queryBuilder(@builderOption('#builder'))
+    $('#wizard-builder').queryBuilder(@builderOption('#wizard-builder'))
     $('#builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
       if $('body#clients-index').length
         if localStorage.getItem(addRule.id) == addRule.id
@@ -19,8 +20,8 @@ class CIF.AdvancedFilterBuilder
       if $('body#clients-index').length
         localStorage.setItem("#{group.id}", null)
 
-  builderOption: ->
-    $('#builder').queryBuilder
+  builderOption: (builderId)->
+    $(builderId).queryBuilder
       operators: $.fn.queryBuilder.constructor.DEFAULTS.operators.concat([
         {
           type: 'average'
