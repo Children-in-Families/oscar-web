@@ -403,9 +403,31 @@ class CIF.ClientAdvanceSearch
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
     $(document).on 'change', select2Csi, (param)->
       unless _.includes(param.val, 'has_changed') || _.includes(param.val, 'has_not_changed')
-        _changeOperator()
-        $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container select')
+        if $(@).closest('.rule-container').siblings().length < 2
+          builder     = $('#builder')
+          group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
+          rule        = builder.queryBuilder('addRule', group)
+          rule.filter = builder.queryBuilder('getFilterById', 'assessment_number')
+          wrapper = $('.csi-group .rules-list')
+          items = wrapper.children('.rule-container')
+          arr = [0, 2, 1]
+          wrapper.append $.map(arr, (v) ->
+            items[v]
+          )
+
+          _changeOperator()
+          $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container select')
       else
+        if $(@).closest('.rule-container').siblings().length > 1
+          $(@).closest('.rules-list').find('.rule-container:nth-child(2) .rule-actions').children().click()
+        else
+          $(@).closest('.rules-list').find('.rule-container:nth-child(2) .rule-actions').children().click()
+          builder     = $('#builder')
+          group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
+          rule        = builder.queryBuilder('addRule', group)
+          rule.filter = builder.queryBuilder('getFilterById', 'assessment_completed')
+
+
         $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
         $(this).closest('.rule-container').find('.rule-value-container').find('input').show()
     if $('option[value*="has_changed"]:selected').length < 1 || $('option[value*="has_not_changed"]:selected').length < 1
@@ -466,6 +488,17 @@ class CIF.ClientAdvanceSearch
           rule.filter = builder.queryBuilder('getFilterById', 'assessment_completed')
           rule.operator  = builder.queryBuilder('getOperatorByType', 'between')
 
+  hideCsiCustomGroupInRootBuilder: ->
+    customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
+    csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
+    select2Csi = '#builder_group_0 .rules-list .rule-container .rule-filter-container > select'
+    $(document).on 'select2-open', select2Csi, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if item.firstElementChild.textContent == customCsiGroupTranslate
+          $(item).hide()
+
   handleCsiSelectOption: ->
     assessmentNumberTranslate = $('#hidden_assessment_number').val()
     customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
@@ -490,13 +523,17 @@ class CIF.ClientAdvanceSearch
   handleCsiOption = (elements, group, nthChild = undefined) ->
     customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
     dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
+    csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
     $.each elements, (index, item) ->
+      last_children = $(item).children().last().children()
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'second-child'
-        $.each $(item).children().last().children(), (index, el) ->
-          if el.firstElementChild.textContent == 'Assessment Completed' || el.firstElementChild.textContent == dateOfAssessmentTranslate
+        $.each last_children, (index, el) ->
+          if el.firstElementChild.textContent == 'Assessment Completed'
             $(el).hide()
+
+        $.each last_children, (index, el) ->
           if $('option[value*="has_changed"]:selected').length > 0 || $('option[value*="has_not_changed"]:selected').length > 0
-            if el.firstElementChild.textContent == 'Date Nearest'
+            if el.firstElementChild.textContent != 'Assessment Completed'
               $(el).hide()
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'third-child'
         $.each $(item).children().last().children(), (index, el) ->
@@ -504,6 +541,10 @@ class CIF.ClientAdvanceSearch
             $(el).hide()
       if item.firstElementChild.textContent != group
         $(item).hide()
+      if item.firstElementChild.textContent == csiDomainScoresTranslate
+        $.each last_children, (index, el) ->
+          if el.firstElementChild.textContent == dateOfAssessmentTranslate
+            $(el).hide()
 
   handleSelect2RemoveProgram: ->
     self = @

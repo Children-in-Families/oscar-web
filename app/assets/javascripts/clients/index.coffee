@@ -38,6 +38,24 @@ CIF.ClientsIndex = do ->
     _reloadFilter()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
+    _reOrderRuleContainer()
+
+  _reOrderRuleContainer = ->
+    $.each $('.csi-group .rules-list'), (index, item)->
+      wrapper = $(item)
+      items = wrapper.children('.rule-container')
+      arr = []
+      last_index   = undefined
+      $.each items, (index, child) ->
+        if $("##{child.id} .rule-filter-container").find('option[value="assessment_completed"]:selected').length
+          last_index = index
+        else
+          arr.push(index)
+
+      arr.push(last_index)
+      wrapper.append $.map(arr, (v) ->
+        items[v]
+      )
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
@@ -361,6 +379,7 @@ CIF.ClientsIndex = do ->
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
+    advanceFilter.hideCsiCustomGroupInRootBuilder()
     $('.rule-operator-container').change ->
       advanceFilter.initSelect2()
 
