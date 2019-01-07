@@ -38,7 +38,7 @@ class CIF.ClientAdvanceSearch
       deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
 
   formatSpecialCharacter: (value) ->
-    filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim()
+    filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim() || value.trim()
     filedName.replace(/ /g, '_')
 
   removeCheckboxColumnPicker: (element, name) ->
