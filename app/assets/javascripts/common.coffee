@@ -23,11 +23,6 @@ CIF.Common =
     $('.i-check-orange').iCheck
       radioClass: 'iradio_square-orange'
 
-    if $('body#registrations-edit, body#registrations-update')
-      $('.i-checks').iCheck
-        checkboxClass: 'icheckbox_square-green'
-        radioClass: 'iradio_square-green'
-
   autoCollapseManagMenu: ->
     active = $('.nav-second-level').find('.active')
     navThirdActive = $('.nav-third-level').find('.active')

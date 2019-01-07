@@ -2467,6 +2467,7 @@ my:
         overdue_task_summary_notify: အသိပေးချက်အီးမေးလ်
         password: စကား၀ွက္
         password_confirmation: စကား၀ွက္အတည္ျပဳရန္
+        pin_number: ပင္နံပါတ္
         province: ခ႐ိုင္
         referral_notification: လွှဲပြောင်းသတိပေးချက်
         save: သိမ္းဆည္းရန္
