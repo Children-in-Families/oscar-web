@@ -316,4 +316,8 @@ module ApplicationHelper
     when 'lesotho' then 'English'
     end
   end
+
+  def gender_options
+    [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Prefer not to say', 'prefer not to say']]
+  end
 end

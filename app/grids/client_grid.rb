@@ -459,7 +459,7 @@ class ClientGrid < BaseGrid
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    gender = SharedClient.find_by(slug: object.slug).gender.try(:titleize)
+    gender = SharedClient.find_by(slug: object.slug).gender.try(:capitalize)
     Organization.switch_to current_org.short_name
     gender
   end

@@ -62,7 +62,7 @@ class UserGrid < BaseGrid
   date_column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
 
   column(:gender, header: -> { I18n.t('datagrid.columns.users.gender') }) do |object|
-    object.gender.try(:titleize)
+    object.gender.try(:capitalize)
   end
 
   column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') })
