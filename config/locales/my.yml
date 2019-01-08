@@ -330,7 +330,7 @@ my:
       current_address: လက္ရွိေနရပ္လိပ္စာ
       current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
       custom_csi_domain_scores: Custom ဒိုမိန္း ရမွတ္မ်ား
-      custom_csi_group: ထုံးစံ CSI အဖွဲ့တစ်ဖွဲ့
+      custom_csi_group: At
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
@@ -1342,8 +1342,8 @@ my:
       assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       case_statistics: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ ပမာဏမ်ား
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
-      custom_csi_group: ထုံးစံ CSI အဖွဲ့တစ်ဖွဲ့
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
+      custom_csi_group: At
       date_of_assessments: Date of Assessments
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ

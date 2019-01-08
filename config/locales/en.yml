@@ -332,7 +332,7 @@ en:
       current_address: Current Address
       current_province: Current Province
       custom_csi_domain_scores: Custom Domain Scores
-      custom_csi_group: Custom CSI Group
+      custom_csi_group: At
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
@@ -1336,7 +1336,7 @@ en:
       case_statistics: Case Statistics
       client_amount: Clients
       csi_domain_scores: CSI Domain Scores
-      custom_csi_group: Custom CSI Group
+      custom_csi_group: At
       date_of_assessment: Date of Assessment
       date_of_assessments: Date of Assessments
       domain_score: Domain Scores

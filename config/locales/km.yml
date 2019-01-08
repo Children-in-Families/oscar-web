@@ -332,7 +332,7 @@ km:
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
-      custom_csi_group: ការប៉ាន់ប្រមាណCSI
+      custom_csi_group: នៅ
       custom_form: ទម្រង់បែបបទ
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -1337,7 +1337,7 @@ km:
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
       client_amount: ចំនួនអតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      custom_csi_group: ការប៉ាន់ប្រមាណCSI
+      custom_csi_group: នៅ
       date_of_assessment: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_assessments: Date of Assessments
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ

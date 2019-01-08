@@ -494,7 +494,7 @@ class CIF.ClientAdvanceSearch
     dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
     select2Csi = '#builder_group_0 .rules-list .rule-container .rule-filter-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
-      elements = $('.select2-results .select2-results-dept-0')
+      elements = $('#builder_group_0 .select2-results .select2-results-dept-0')
       $.each elements, (index, item) ->
         if item.firstElementChild.textContent == customCsiGroupTranslate
           $(item).hide()
