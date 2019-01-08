@@ -402,10 +402,10 @@ class CIF.ClientAdvanceSearch
 
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
     $(document).on 'change', select2Csi, (param)->
+      group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
       unless _.includes(param.val, 'has_changed') || _.includes(param.val, 'has_not_changed')
-        if $(@).closest('.rule-container').siblings().length < 2
+        if $(@).closest('.rule-container').siblings().length < 2 && $("##{group.id} option[value='assessment_completed']:selected").length
           builder     = $('#builder')
-          group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
           rule        = builder.queryBuilder('addRule', group)
           rule.filter = builder.queryBuilder('getFilterById', 'assessment_number')
           wrapper = $('.csi-group .rules-list')

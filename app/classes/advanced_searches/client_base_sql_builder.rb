@@ -95,6 +95,11 @@ module AdvancedSearches
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
 
+        elsif field == 'all_domains'
+          domain_scores = AdvancedSearches::AllDomainScoreSqlBuilder.new(form_builder.second, rule, @basic_rules).get_sql
+          @sql_string << domain_scores[:id]
+          @values << domain_scores[:values]
+
         elsif field != nil
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)

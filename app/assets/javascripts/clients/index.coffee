@@ -659,17 +659,17 @@ CIF.ClientsIndex = do ->
     select2CsiOperator = '#builder_group_0 .rules-list .rule-container .rule-operator-container select'
     $(document).on 'change', select2CsiOperator, (param)->
       filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
-      if filterSelected.match(/domainscore_/g)
+      if filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g)
         _addSelectionOption(this, param)
 
   _handleDomainScoreFilterValue = ->
     select2CsiFilter = '#builder_group_0 .rules-list .rule-container .rule-filter-container select'
     $(document).on 'change', select2CsiFilter, (param)->
-      if param.val.match(/domainscore_/g)
+      if param.val.match(/domainscore_/g) || param.val.match(/all_domains/g)
         _addSelectionOption(this, param)
 
   _reloadFilter = ->
-    selectedOptions = $('option[value^="domainscore_"]:selected')
+    selectedOptions = $('option[value^="domainscore_"]:selected, option[value="all_domains"]:selected')
     if selectedOptions.length > 0
       $.each selectedOptions, (index, item) ->
         inputValue = $(item).closest('.rule-container').find('.rule-value-container').find('input')
@@ -690,7 +690,6 @@ CIF.ClientsIndex = do ->
   _addSelectionOption = (currentItem, param) ->
     unless _.includes(param.val, 'has_changed') || _.includes(param.val, 'has_not_changed')
       inputValue = $(currentItem).parent().siblings().closest('.rule-value-container').find('input')
-
       if inputValue.length
         inputValue.select2
           data:
