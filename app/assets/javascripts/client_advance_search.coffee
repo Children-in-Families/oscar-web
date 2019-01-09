@@ -39,7 +39,7 @@ class CIF.ClientAdvanceSearch
 
   formatSpecialCharacter: (value) ->
     filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim() || value.trim()
-    filedName.replace(/ /g, '_')
+    filedName.replace(/ /g, '__')
 
   removeCheckboxColumnPicker: (element, name) ->
     $("#{element} ul.append-child li.#{name}").remove()
@@ -159,7 +159,7 @@ class CIF.ClientAdvanceSearch
       $(customFormColumnPicker).append("<li class='dropdown-header #{headerClass}'>#{key}</li>")
       _.forEach values, (value) ->
         fieldName = value.id
-        keyword   = _.first(fieldName.split('_'))
+        keyword   = _.first(fieldName.split('__'))
         checkField  = fieldName
         label       = value.label
         $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
@@ -514,7 +514,7 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      customFormValues = "[#{$('#family-advance-search-form').find('.custom-form-select').select2('val')}]"
 
       $('#family_advanced_search_custom_form_selected').val(customFormValues)
 
@@ -528,7 +528,7 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      customFormValues = "[#{$('#partner-advance-search-form').find('.custom-form-select').select2('val')}]"
 
       $('#partner_advanced_search_custom_form_selected').val(customFormValues)
 
@@ -602,7 +602,7 @@ class CIF.ClientAdvanceSearch
   disableOptions: (element) ->
     self = @
     rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
-    if rule.split('_')[0] == 'domainscore'
+    if rule.split('__')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')

@@ -9,8 +9,9 @@ module AdvancedSearches
 
     def get_sql
       sql_string = 'clients.id IN (?)'
-      sub_query = 'SELECT MAX(assessments.created_at) from assessments where assessments.client_id = clients.id'
-      assessments = Assessment.joins([:assessment_domains, :client]).where("assessments.created_at = (#{sub_query})")
+      # sub_query = 'SELECT MAX(assessments.created_at) from assessments where assessments.client_id = clients.id'
+      # assessments = Assessment.joins([:assessment_domains, :client]).where("assessments.created_at = (#{sub_query})")
+      assessments = Assessment.joins([:assessment_domains, :client])
 
       case @operator
       when 'equal'

@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(selected_custom_form, rule, entity_type)
       @selected_custom_form = selected_custom_form
       field          = rule['field']
-      @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      @field         = field.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
       @value         = rule['value'].is_a?(Array) || rule['value'].is_a?(Fixnum) ? rule['value'] : rule['value'].gsub("'", "''")
       @type          = rule['type']

@@ -270,7 +270,7 @@ module ClientGridOptions
   def form_builder_report
     data = params[:data].presence
     column_form_builder.each do |field|
-      fields = field[:id].gsub('&qoute;', '"').split('_')
+      fields = field[:id].gsub('&qoute;', '"').split('__')
       @client_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
@@ -293,7 +293,7 @@ module ClientGridOptions
           if data == 'recent'
             properties = date_format(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date))
           else
-            properties = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('_')).map{|date| date_format(date.enrollment_date) }.join(' | ')
+            properties = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date_format(date.enrollment_date) }.join(' | ')
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -317,7 +317,7 @@ module ClientGridOptions
           if data == 'recent'
             properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('_')).map{|date| date_format(date.exit_date) }.join(' | ')
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map{|date| date_format(date.exit_date) }.join(' | ')
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
