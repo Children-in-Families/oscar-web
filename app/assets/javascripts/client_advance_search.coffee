@@ -494,10 +494,18 @@ class CIF.ClientAdvanceSearch
     dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
     select2Csi = '#builder_group_0 .rules-list .rule-container .rule-filter-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
-      elements = $('#builder_group_0 .select2-results .select2-results-dept-0')
+      elements = $('.select2-results .select2-results-dept-0')
       $.each elements, (index, item) ->
         if item.firstElementChild.textContent == customCsiGroupTranslate
           $(item).hide()
+
+    $(document).on 'select2-open', select2Csi, (e)->
+      selectCsiGroup = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
+      $(document).on 'select2-open', selectCsiGroup, (e)->
+        elements = $('.select2-results .select2-results-dept-0')
+        $.each elements, (index, item) ->
+          if item.firstElementChild.textContent == customCsiGroupTranslate
+            $(item).show()
 
   handleCsiSelectOption: ->
     assessmentNumberTranslate = $('#hidden_assessment_number').val()
@@ -519,6 +527,16 @@ class CIF.ClientAdvanceSearch
     $(document).on 'select2-open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       handleCsiOption(elements, customCsiGroupTranslate, 'third-child')
+
+  handleAllDomainOperatorOpen: ->
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
+    $(document).on 'select2-open', select2Csi, (e)->
+      group = window.customGroup[$(this).closest('.csi-group').attr('id')]
+      if $("##{group.id} option[value='all_domains']:selected").length > 0
+        elements = $('.select2-results .select2-results-dept-0')
+        $.each elements, (index, item) ->
+          if item.textContent.match(/has.*change|between/g)
+            $(item).hide()
 
   handleCsiOption = (elements, group, nthChild = undefined) ->
     customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()

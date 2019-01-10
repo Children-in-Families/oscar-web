@@ -380,6 +380,7 @@ CIF.ClientsIndex = do ->
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
     advanceFilter.hideCsiCustomGroupInRootBuilder()
+    advanceFilter.handleAllDomainOperatorOpen()
     $('.rule-operator-container').change ->
       advanceFilter.initSelect2()
 

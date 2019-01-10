@@ -1,15 +1,27 @@
 module AdvancedSearches
   class DomainScoreSqlBuilder
 
-    def initialize(domain_id, rule, basic_rule)
+    def initialize(field, rule, basic_rule)
+      @form_builder = field != nil ? field.split('_') : []
       @operator     = rule['operator']
       @value        = rule['value']
-      @domain_id    = domain_id
+      @domain_id    = @form_builder.second
       @basic_rules  = basic_rule
     end
 
     def get_sql
       sql_string = 'clients.id IN (?)'
+
+      case @form_builder.first
+      when 'domainscore'
+        values = domainscore_field_query
+      when 'all'
+        values = all_domains_query
+      end
+      { id: sql_string, values: values }
+    end
+
+    def domainscore_field_query
       sub_query = 'SELECT MAX(assessments.created_at) from assessments where assessments.client_id = clients.id'
       assessments = Assessment.joins([:assessment_domains, :client]).where("assessments.created_at = (#{sub_query})")
 
@@ -126,12 +138,149 @@ module AdvancedSearches
             client_ids << client.id if (scores.compact.sum / client.assessments.count ).round == @value.to_i
           end
         end
-
         return { id: sql_string, values: client_ids.uniq }
       end
 
       client_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
-      { id: sql_string, values: client_ids }
+    end
+
+    def all_domains_query
+      # assessments = Assessment.joins([:assessment_domains, :client])
+      case @operator
+      when 'equal'
+        return domainscore_query('equal')
+      when 'not_equal'
+        return domainscore_query('not_equal')
+      when 'less'
+        return domainscore_query('less')
+      when 'less_or_equal'
+        return domainscore_query('less_or_equal')
+      when 'greater'
+        return domainscore_query('greater')
+      when 'greater_or_equal'
+        return domainscore_query('greater_or_equal')
+      when 'is_empty'
+        return domainscore_query('is_empty')
+      when 'is_not_empty'
+        return domainscore_query('is_not_empty')
+      when 'average'
+        return domainscore_query('average')
+      end
+    end
+
+    def get_month_assessment_number(value)
+      assess_number_rule = []
+      if @basic_rules.any?{|rule| rule.kind_of?(Array)}
+        @basic_rules.each do |rule|
+          assess_number_rule = rule.reject{|rule| rule['field'] != value} if rule.kind_of?(Array)
+        end
+      else
+        assess_number_rule = @basic_rules.reject{|rule| rule['field'] != value}
+      end
+      assess_number_rule[0]['value']
+    end
+
+    def domainscore_query(operator)
+      if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
+        assess_number_value = get_month_assessment_number('assessment_number')
+        clients = Client.joins(assessments: :assessment_domains).reject do |client|
+          assessment = client.assessments.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
+          scores = assessment.assessment_domains.pluck(:score)
+          conditions = []
+          if operator == 'equal'
+            scores.exclude?(@value.to_i)
+            # scores.uniq != [@value.to_i]
+          elsif operator == 'not_equal'
+            scores.include?(@value.to_i)
+          elsif operator == 'less'
+            scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+            conditions.include?(true)
+          elsif operator == 'greater'
+            scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+            conditions.include?(true)
+          elsif operator == 'less_or_equal'
+            scores.compact.each {|score| conditions << (score > @value.to_i) }
+            conditions.include?(true)
+          elsif operator == 'greater_or_equal'
+            scores.compact.each {|score| conditions << (score < @value.to_i) }
+            conditions.include?(true)
+          elsif operator == 'is_empty'
+            scores.compact.any?
+          elsif operator == 'is_not_empty'
+            assessment.assessment_domains.size != scores.compact.size
+          elsif operator == 'average'
+            (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+          end
+        end
+        clients.map(&:id)
+      elsif @basic_rules.flatten.any?{|rule| rule['field'] == 'month_number'}
+        clients = Client.joins(assessments: :assessment_domains).reject do |client|
+          month_number_value = get_month_assessment_number('month_number')
+          assessment_date    = client.assessments.order(:created_at).first.created_at + (month_number_value.to_i - 1).month
+          assessment_date    = assessment_date.beginning_of_month.to_date
+          assessments        = client.assessments.where("DATE(assessments.created_at) between ? AND ?", assessment_date, assessment_date.end_of_month)
+          conditions = []
+          assessment = assessments.includes(:assessment_domains).each do |assessment|
+            scores = assessment.assessment_domains.pluck(:score)
+            if operator == 'equal'
+              conditions << true if scores.exclude?(@value.to_i)
+              # conditions << true if scores.uniq != [@value.to_i]
+            elsif operator == 'not_equal'
+              conditions << true if scores.include?(@value.to_i)
+            elsif operator == 'less'
+              scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+            elsif operator == 'greater'
+              scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+            elsif operator == 'less_or_equal'
+              scores.compact.each {|score| conditions << (score > @value.to_i) }
+            elsif operator == 'greater_or_equal'
+              scores.compact.each {|score| conditions << (score < @value.to_i) }
+            elsif operator == 'is_empty'
+              conditions << true if scores.compact.any?
+            elsif operator == 'is_not_empty'
+              conditions << true if assessment.assessment_domains.size != scores.compact.size
+            elsif operator == 'average'
+              conditions << (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+            end
+          end
+          conditions.include?(true)
+        end
+        clients.map(&:id)
+      else
+        client_ids = Client.includes(assessments: :assessment_domains).map do |client|
+          next if client.assessments.blank?
+          assessment = client.assessments.includes(:assessment_domains).reject do |assessment|
+            scores = assessment.assessment_domains.pluck(:score)
+            conditions = []
+            if operator == 'equal'
+              scores.exclude?(@value.to_i)
+              # scores.uniq != [@value.to_i]
+            elsif operator == 'not_equal'
+              scores.include?(@value.to_i)
+            elsif operator == 'less'
+              scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'greater'
+              scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'less_or_equal'
+              scores.compact.each {|score| conditions << (score > @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'greater_or_equal'
+              scores.compact.each {|score| conditions << (score < @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'is_empty'
+              scores.compact.any?
+            elsif operator == 'is_not_empty'
+              assessment.assessment_domains.size != scores.compact.size
+            elsif operator == 'average'
+              (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+            end
+          end
+          assessment.first.try(:client_id)
+        end
+        client_ids.compact
+      end
     end
   end
 end
