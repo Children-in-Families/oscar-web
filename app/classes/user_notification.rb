@@ -1,4 +1,5 @@
 class UserNotification
+  include ProgramStreamHelper
 
   attr_reader :all_count
 
@@ -77,6 +78,11 @@ class UserNotification
       rules = program_stream.rules
       client_ids = program_stream.client_enrollments.active.pluck(:client_id).uniq
       clients = Client.active_accepted_status.where(id: client_ids)
+
+      if rules['rules'].any?
+        format_rule(rules)
+      end
+
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
 
       if clients_after_filter.any?
