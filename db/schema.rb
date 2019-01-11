@@ -1562,7 +1562,7 @@ ActiveRecord::Schema.define(version: 20190111073828) do
     t.boolean  "domain_warning",                 default: false
     t.boolean  "referral_notification",          default: false
     t.string   "gender",                         default: ""
-    t.string   "created_from",                   default: "t"
+    t.string   "created_from",                   default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
