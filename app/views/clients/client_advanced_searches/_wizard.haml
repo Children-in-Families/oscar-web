@@ -243,6 +243,13 @@
             .row
               .col-xs-12
                 #wizard-builder.advanced-search-builder{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+            %br
+            .row
+              .col-xs-11
+                %h3#sql-string.text-center
+              .col-xs-1
+                .btn.btn-primary#show-sql
+                  Show me
 
 = simple_form_for :client_advanced_search, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected

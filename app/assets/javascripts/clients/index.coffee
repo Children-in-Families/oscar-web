@@ -33,6 +33,7 @@ CIF.ClientsIndex = do ->
     _addTourTip()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
+    _showWizardBuilderSql()
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
@@ -224,6 +225,16 @@ CIF.ClientsIndex = do ->
     for column in columns
       columnName = $(column).text()
       $("#{className} ul").append("<li>#{columnName}</li>")
+
+  _showWizardBuilderSql = ->
+    $('#show-sql').on 'click', ->
+      if $('#wizard-builder').queryBuilder('getSQL')
+        starterText = 'I only want to see information for clients who '
+        sqlString = $('#wizard-builder').queryBuilder('getSQL').sql
+        displayText = starterText + sqlString
+      else
+        displayText = 'The rules is either incomplete or blank.'
+      $('#sql-string').text(displayText)
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
