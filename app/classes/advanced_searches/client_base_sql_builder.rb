@@ -22,7 +22,7 @@ module AdvancedSearches
 
     def generate
       @basic_rules.each do |rule|
-        field    = rule['field']
+        field    = rule['id']
         operator = rule['operator']
         value    = rule['value']
         form_builder = field != nil ? field.split('_') : []

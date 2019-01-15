@@ -14,6 +14,7 @@ module AdvancedSearches
         id: field_name,
         optgroup: group,
         label: label,
+        field: label,
         type: 'string',
         input: 'select',
         values: values,

@@ -3,6 +3,7 @@ module AdvancedSearches
     def self.text_options(field_name, label, group)
       {
         id: field_name,
+        field: label,
         optgroup: group,
         label: label,
         type: 'string',
@@ -13,6 +14,7 @@ module AdvancedSearches
     def self.number_options(field_name, label, group)
       {
         id: field_name,
+        field: label,
         optgroup: group,
         label: label,
         type: 'integer',
@@ -23,6 +25,7 @@ module AdvancedSearches
     def self.date_picker_options(field_name, label, group)
       {
         id: field_name,
+        field: label,
         optgroup: group,
         label: label,
         type: 'date',
@@ -40,6 +43,7 @@ module AdvancedSearches
     def self.drop_list_options(field_name, label, values, group)
       {
         id: field_name,
+        field: label,
         optgroup: group,
         label: label,
         type: 'string',
@@ -52,6 +56,7 @@ module AdvancedSearches
     def self.has_this_form_drop_list_options(field_name, label, values, group)
       {
         id: field_name,
+        field: label,
         optgroup: group,
         label: label,
         input: 'select',

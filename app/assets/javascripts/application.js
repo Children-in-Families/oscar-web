@@ -26,6 +26,9 @@
 //= require form_builder/form-render.min
 //= require lodash/lodash.min.js
 //= require query_builder/query-builder.standalone.min.js
+// = require query_builder/utils
+// = require query_builder/model
+// = require query_builder/plugin
 //= require interact.js
 
 //= require tinymce
