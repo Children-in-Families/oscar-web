@@ -5,9 +5,7 @@ class CIF.AdvancedFilterBuilder
     @filterTranslation  = filterTranslation
 
   initRule: ->
-    $(@element).queryBuilder(@builderOption()).on 'afterCreateRuleInput.queryBuilder', (e, rule) ->
-      if rule.filter
-        rule.$el.find('input').parents('.rule-filter-container').addClass rule.filter.id
+    $(@element).queryBuilder(@builderOption())
 
   builderOption: ->
     inputs_separator: ' AND '

@@ -295,7 +295,7 @@ $.fn.queryBuilder.extend(/** @lends module:plugins.SqlSupport.prototype */ {
 
                     if (ope.nb_inputs !== 0) {
                         if (rule.input == 'select') {
-                          rule.value = $("." + rule.id).siblings('.rule-value-container').find("select option[value='"+ rule.value +"']").text();
+                            rule.value = _.find(rule.data.values)[rule.value]
                         }
 
                         if (!(rule.value instanceof Array)) {

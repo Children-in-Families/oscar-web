@@ -49,6 +49,7 @@ module AdvancedSearches
         type: 'string',
         input: 'select',
         values: values,
+        data: { values: values },
         operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
@@ -61,6 +62,7 @@ module AdvancedSearches
         label: label,
         input: 'select',
         values: values,
+        data: { values: values },
         operators: ['equal']
       }
     end

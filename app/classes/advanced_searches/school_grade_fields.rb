@@ -18,6 +18,7 @@ module AdvancedSearches
         type: 'string',
         input: 'select',
         values: values,
+        data: { values: values },
         operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty', 'between']
       }
     end
