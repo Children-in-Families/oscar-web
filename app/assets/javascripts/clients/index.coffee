@@ -228,13 +228,18 @@ CIF.ClientsIndex = do ->
 
   _showWizardBuilderSql = ->
     $('#show-sql').on 'click', ->
+      $('#sql-string').text('')
       if $('#wizard-builder').queryBuilder('getSQL')
-        starterText = 'I only want to see information for clients who '
+        starterText = "I only want to see information for clients who <br />"
         sqlString = $('#wizard-builder').queryBuilder('getSQL').sql
+        sqlString = sqlString.replace(/AND\s\(/g, '<br />AND<br />(').replace(/OR\s\(/g, '<br />OR<br />(')
+        sqlString = sqlString.replace(/\)\s\sAND/g, ')<br />AND<br />').replace(/\)\s\sOR/g, ')<br />OR<br />')
+        sqlString = sqlString.replace('<br /> <br />', '<br />')
+        sqlString = sqlString.replace(/AND/g, '<b>AND</b>').replace(/OR/g, '<b>OR</b>')
         displayText = starterText + sqlString
       else
         displayText = 'The rules is either incomplete or blank.'
-      $('#sql-string').text(displayText)
+      $('#sql-string').append(displayText)
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
