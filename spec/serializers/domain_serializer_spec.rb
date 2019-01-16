@@ -44,4 +44,34 @@ describe DomainSerializer, type: :serializer do
     expect(serializer).to have_json_path('domain/score_4')
     expect(serializer).to have_json_type(Object).at_path('domain/score_4')
   end
+
+  it 'local_description attribute' do
+    expect(serializer).to have_json_path('domain/local_description')
+    expect(serializer).to have_json_type(String).at_path('domain/local_description')
+  end
+
+  it 'score_1_local attribute' do
+    expect(serializer).to have_json_path('domain/score_1_local')
+    expect(serializer).to have_json_type(Object).at_path('domain/score_1_local')
+  end
+
+  it 'score_2_local attribute' do
+    expect(serializer).to have_json_path('domain/score_2_local')
+    expect(serializer).to have_json_type(Object).at_path('domain/score_2_local')
+  end
+
+  it 'score_3_local attribute' do
+    expect(serializer).to have_json_path('domain/score_3_local')
+    expect(serializer).to have_json_type(Object).at_path('domain/score_3_local')
+  end
+
+  it 'score_4_local attribute' do
+    expect(serializer).to have_json_path('domain/score_4_local')
+    expect(serializer).to have_json_type(Object).at_path('domain/score_4_local')
+  end
+
+  it 'custom_domain attribute' do
+    expect(serializer).to have_json_path('domain/custom_domain')
+    expect(serializer).to have_json_type(:boolean).at_path('domain/custom_domain')
+  end
 end
