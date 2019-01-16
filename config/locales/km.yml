@@ -1338,6 +1338,7 @@ km:
       client_amount: ចំនួនអតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_csi_group: នៅ
+      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       date_of_assessment: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_assessments: Date of Assessments
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ

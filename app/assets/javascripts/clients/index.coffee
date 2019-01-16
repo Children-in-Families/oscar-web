@@ -374,15 +374,14 @@ CIF.ClientsIndex = do ->
     advanceFilter.addRuleCallback()
     advanceFilter.filterSelectChange()
     advanceFilter.filterSelecting()
-    advanceFilter.opertatorSelecting()
-    advanceFilter.checkingForDisableOptions()
+    advanceFilter.disableOptions()
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
     advanceFilter.hideCsiCustomGroupInRootBuilder()
     advanceFilter.handleAllDomainOperatorOpen()
-    $('.rule-operator-container').change ->
-      advanceFilter.initSelect2()
+    # $('.rule-operator-container').change ->
+    #   advanceFilter.initSelect2()
 
   # _removeProgramStreamExitDate = ->
   #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()

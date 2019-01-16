@@ -329,7 +329,7 @@ my:
       csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       current_address: လက္ရွိေနရပ္လိပ္စာ
       current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
-      custom_csi_domain_scores: Custom ဒိုမိန္း ရမွတ္မ်ား
+      custom_csi_domain_scores: Custom ဒိုမိန္း အမွတ္မ်ား
       custom_csi_group: At
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
@@ -1344,6 +1344,7 @@ my:
       client_amount: အမႈသည္ ပမာဏမ်ား
       csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       custom_csi_group: At
+      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       date_of_assessments: Date of Assessments
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ

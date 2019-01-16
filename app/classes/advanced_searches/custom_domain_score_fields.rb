@@ -42,9 +42,9 @@ module AdvancedSearches
         optgroup: group,
         label: label,
         type: 'string',
-        input: 'select',
+        input: 'number',
         values: ['1', '2', '3', '4'],
-        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
+        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty', 'average', 'assessment_has_changed', 'assessment_has_not_changed', 'month_has_changed', 'month_has_not_changed']
       }
     end
   end

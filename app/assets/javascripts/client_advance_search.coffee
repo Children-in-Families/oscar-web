@@ -48,8 +48,9 @@ class CIF.ClientAdvanceSearch
   filterSelectChange: ->
     self = @
     $('.rule-filter-container select').on 'select2-close', ->
+      ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
       setTimeout ( ->
-        self.initSelect2()
+        $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
       )
 
   handleResizeWindow: ->
@@ -83,12 +84,21 @@ class CIF.ClientAdvanceSearch
     @.initRuleOperatorSelect2($('#builder'))
 
   initSelect2: ->
-    # $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
-    # $('.custom-form-select, .program-stream-select, .quantitative-case-select').select2()
-    $('select').select2()
+    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
+    $('#builder select').select2()
+    $('#wizard-builder select').select2()
     setTimeout ( ->
-      $('.rule-filter-container select').select2(width: '250px')
-      $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
+      ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder']
+      $.each ids, (index, item) ->
+        $("#{item} .rule-filter-container select").select2(width: '250px')
+        $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
+    )
+
+    $('.csi-group select').select2
+      minimumResultsForSearch: -1
+    setTimeout ( ->
+      $(".csi-group .rule-filter-container select").select2(width: '250px', minimumResultsForSearch: -1)
+      $(".csi-group .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
   basicFilterSetRule: ->
@@ -483,7 +493,7 @@ class CIF.ClientAdvanceSearch
       else
         if $(@).closest('.rule-container').siblings().length < 2
           builder     = $('#builder')
-          group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
+          group       = window.customGroup[$(@).closest('.csi-group').attr('id')]
           rule        = builder.queryBuilder('addRule', group)
           rule.filter = builder.queryBuilder('getFilterById', 'assessment_completed')
           rule.operator  = builder.queryBuilder('getOperatorByType', 'between')
@@ -513,10 +523,12 @@ class CIF.ClientAdvanceSearch
     monthNumberTranslate      = $('#hidden_month_number').val()
     dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
     csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
+    customCsiDomainScoresTranslate = $('#hidden_custom_csi_domain_scores').val()
+
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-filter-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
-      handleCsiOption(elements, csiDomainScoresTranslate)
+      handleCsiOption(elements, "#{csiDomainScoresTranslate}-#{customCsiDomainScoresTranslate}")
 
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
@@ -531,7 +543,7 @@ class CIF.ClientAdvanceSearch
   handleAllDomainOperatorOpen: ->
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
-      group = window.customGroup[$(this).closest('.csi-group').attr('id')]
+      group = window.customGroup[$(@).closest('.csi-group').attr('id')]
       if $("##{group.id} option[value='all_domains']:selected").length > 0
         elements = $('.select2-results .select2-results-dept-0')
         $.each elements, (index, item) ->
@@ -542,6 +554,9 @@ class CIF.ClientAdvanceSearch
     customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
     dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
     csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
+    customCsiDomainScoresTranslate = $('#hidden_custom_csi_domain_scores').val()
+    group = group.split('-')
+
     $.each elements, (index, item) ->
       last_children = $(item).children().last().children()
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'second-child'
@@ -553,11 +568,13 @@ class CIF.ClientAdvanceSearch
           if $('option[value*="has_changed"]:selected').length > 0 || $('option[value*="has_not_changed"]:selected').length > 0
             if el.firstElementChild.textContent != 'Assessment Completed'
               $(el).hide()
+            if el.firstElementChild.textContent == 'Assessment Completed'
+              $(item).addClass('hidden')
       if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'third-child'
         $.each $(item).children().last().children(), (index, el) ->
           if el.firstElementChild.textContent != 'Assessment Completed'
             $(el).hide()
-      if item.firstElementChild.textContent != group
+      if item.firstElementChild.textContent != group[0] and item.firstElementChild.textContent != group[1]
         $(item).hide()
       if item.firstElementChild.textContent == csiDomainScoresTranslate
         $.each last_children, (index, el) ->
@@ -761,8 +778,9 @@ class CIF.ClientAdvanceSearch
       rowBuilderRule = obj.$el[0]
       ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
       $(ruleFiltersSelect).on 'select2-close', ->
+        ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
         setTimeout ( ->
-          self.initSelect2()
+          $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
           self.initRuleOperatorSelect2(rowBuilderRule)
         )
 
@@ -776,58 +794,48 @@ class CIF.ClientAdvanceSearch
         ),10
 
   ######################################################################################################################
-
   filterSelecting: ->
-    self = @
-    $('.rule-filter-container select').on 'select2-selecting', ->
-      setTimeout ( ->
-        self.opertatorSelecting()
+    $(document).on 'select2-open', '.rule-value-container input.form-control', (e)->
+      ruleParentElement = $(this.parentElement.parentElement)
+      filterValue       = ruleParentElement.find('.rule-filter-container').find('option[value^="domainscore"]:selected')
+      allDomainFilter   = ruleParentElement.find('.rule-filter-container').find('option[value="all_domains"]:selected')
+      greaterOperator   = ruleParentElement.find('.rule-operator-container').find('option[value="greater"]:selected')
+      lessOperator      = ruleParentElement.find('.rule-operator-container').find('option[value="less"]:selected')
+
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if (filterValue.length == 1 || allDomainFilter.length == 1) and greaterOperator.length == 1
+          if item.textContent == '4'
+            $(item).addClass('not-allowed')
+        else if (filterValue.length == 1 || allDomainFilter.length == 1) and lessOperator.length == 1
+          if item.textContent == '1'
+            $(item).addClass('not-allowed')
+      item = elements.name
+      setTimeout( ->
+        $("select[name='#{item}'], .rule-value-container select").select2(width: 'resolve')
       )
 
-  opertatorSelecting: ->
-    self = @
-    $('.rule-operator-container select').on 'select2-selected', ->
-      self.disableOptions(@)
+  disableOptions: ->
+    $(document).on 'select2-selected', '.rule-operator-container select', (e)->
+      ruleParentElement = $(this.parentElement.parentElement)
+      schoolGradeFilter = ruleParentElement.find('.rule-filter-container').find('option[value="school_grade"]:selected')
+      betweenOperator   = ruleParentElement.find('.rule-operator-container').find('option[value="between"]:selected')
+      disableValue      = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8']
+      select            = ruleParentElement.find('.rule-value-container')
 
-  disableOptions: (element) ->
-    self = @
-    rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
-    if rule.split('_')[0] == 'domainscore'
-      ruleValueContainer = $(element).parent().siblings('.rule-value-container')
-      if $(element).find('option:selected').val() == 'greater'
-        $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
-        $(ruleValueContainer).find("option[value=1]").removeAttr('disabled')
-        if $(ruleValueContainer).find('option:selected').val() == '4'
-          $(ruleValueContainer).find('select').val('1').trigger('change')
-      else if $(element).find('option:selected').val() == 'less'
-        $(ruleValueContainer).find("option[value='1']").attr('disabled', 'disabled')
-        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
-        if $(ruleValueContainer).find("option:selected").val() == '1'
-          $(ruleValueContainer).find('select').val('2').trigger('change')
-      else
-        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
-        $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
-    else if rule == 'school_grade'
-      select = $(element).parent().siblings('.rule-value-container')
-      disableValue = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8']
-      if $(element).val() == 'between'
+      if schoolGradeFilter.length == 1 and betweenOperator.length == 1
         setTimeout( ->
           for value in disableValue
-            $(select).find("option[value='#{value}']").attr('disabled', 'true')
-          first_value_option = $(select).find('select:first').find(':selected').text()
+            $(select).find("option[value='#{value}']").attr('disabled', 'disabled')
+
+          first_value_option  = $(select).find('select:first').find(':selected').text()
           second_value_option = $(select).find('select:last').find(':selected').text()
           if disableValue.includes(first_value_option) && disableValue.includes(second_value_option)
             $(select).find('select').val('1').trigger('change')
-        , 100)
-
-    setTimeout( ->
-      self.initSelect2()
-    )
-
-  checkingForDisableOptions: ->
-    self = @
-    for element in $('.rule-operator-container select')
-      self.disableOptions(element)
+        )
+      setTimeout( ->
+        $(".rule-value-container select").select2(width: 'resolve')
+      )
 
   ######################################################################################################################
 
