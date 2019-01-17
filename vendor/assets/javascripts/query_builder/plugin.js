@@ -18,7 +18,7 @@ $.fn.queryBuilder.defaults({
         not_equal: { op: 'is not ?' },
         in: { op: 'includes ?', sep: ', ' },
         not_in: { op: 'excludes ?', sep: ', ' },
-        less: { op: 'less Than ?' },
+        less: { op: 'less than ?' },
         less_or_equal: { op: 'less than or equal ?' },
         greater: { op: 'greater than ? ' },
         greater_or_equal: { op: 'greater than or equal ?' },
@@ -33,7 +33,7 @@ $.fn.queryBuilder.defaults({
         is_empty: { op: 'is blank' },
         is_not_empty: { op: 'is not blank' },
         is_null: { op: 'is null' },
-        is_not_null: { op: 'is not Null' }
+        is_not_null: { op: 'is not null' }
     },
 
     // operators for SQL -> internal conversion
