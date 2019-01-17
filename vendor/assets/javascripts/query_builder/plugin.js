@@ -295,7 +295,7 @@ $.fn.queryBuilder.extend(/** @lends module:plugins.SqlSupport.prototype */ {
 
                     if (ope.nb_inputs !== 0) {
                         if (rule.input == 'select') {
-                            rule.value = _.find(rule.data.values)[rule.value]
+                            rule.value = _.find(rule.data.values, rule.value)[rule.value]
                         }
 
                         if (!(rule.value instanceof Array)) {
