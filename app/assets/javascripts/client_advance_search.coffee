@@ -501,7 +501,6 @@ class CIF.ClientAdvanceSearch
         programValues = if self.wizardProgramSelected.length > 0 then "[#{self.wizardProgramSelected}]"
         customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
 
-      debugger
       basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)

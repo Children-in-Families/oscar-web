@@ -40,7 +40,8 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_column
-    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
+    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def program_stream_column

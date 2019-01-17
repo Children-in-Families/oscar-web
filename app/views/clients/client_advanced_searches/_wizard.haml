@@ -47,7 +47,7 @@
                   .col-xs-12
                     %p Choose below which information you would like to display.
                     %label= t('.custom_form_column')
-                    = render 'clients/client_advanced_searches/custom_form_column'
+                    = render 'clients/client_advanced_searches/custom_form_column', custom_form_columns: @wizard_custom_form_columns
 
           %h3 Program Streams
           %section.program-stream-section

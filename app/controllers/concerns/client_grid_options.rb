@@ -355,8 +355,18 @@ module ClientGridOptions
 
   def column_form_builder
     forms = []
-    forms << @custom_form_fields if @custom_form_fields.present?
-    forms << @program_stream_fields if @program_stream_fields.present?
+    if @custom_form_fields.present?
+      forms << @custom_form_fields
+    elsif @wizard_custom_form_fields.present?
+      forms << @wizard_custom_form_fields
+    end
+
+    if @program_stream_fields.present?
+      forms << @program_stream_fields
+    elsif @wizard_program_stream_fields.present?
+      forms << @wizard_program_stream_fields
+    end
+
     forms.flatten
   end
 
