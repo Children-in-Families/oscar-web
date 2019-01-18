@@ -1118,7 +1118,7 @@ en:
     confirm_client:
       birth_province: Birth Province
       body_first: 'The client record you are saving has similarities to other records in OSCaR in the following fields:'
-      body_second: "Duplicate Checker feature is currently in Beta testing, please Email: #{ENV['SENDER_EMAIL']} if you have any issues with excessive false positive/negative results."
+      body_second: "Duplicate Checker feature is currently in Beta testing, please Email: %{sender_email} if you have any issues with excessive false positive/negative results."
       body_third: Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.
       close: Cancel
       commune: Commune/Sangkat
