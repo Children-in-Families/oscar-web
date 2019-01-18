@@ -580,6 +580,10 @@ class CIF.ClientAdvanceSearch
         $.each last_children, (index, el) ->
           if el.firstElementChild.textContent == dateOfAssessmentTranslate
             $(el).hide()
+      if item.firstElementChild.textContent == 'Custom Domain Scores'
+        $.each last_children, (index, el) ->
+          if el.firstElementChild.textContent == 'Date of Custom Assessments'
+            $(el).hide()
 
   handleSelect2RemoveProgram: ->
     self = @

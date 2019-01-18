@@ -90,7 +90,7 @@ module AdvancedSearches
           @sql_string << quantitative_filter[:id]
           @values << quantitative_filter[:values]
 
-        elsif form_builder.first == 'domainscore' || field == 'all_domains'
+        elsif form_builder.first == 'domainscore' || field == 'all_domains' || field == 'all_custom_domains'
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]

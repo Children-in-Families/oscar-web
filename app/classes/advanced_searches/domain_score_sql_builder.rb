@@ -7,6 +7,7 @@ module AdvancedSearches
       @value        = rule['value']
       @domain_id    = @form_builder.second
       @basic_rules  = basic_rule
+      @field        = field
     end
 
     def get_sql
@@ -181,76 +182,13 @@ module AdvancedSearches
     end
 
     def domainscore_query(operator)
-      if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
-        assess_number_value = get_month_assessment_number('assessment_number')
-        clients = Client.joins(assessments: :assessment_domains).reject do |client|
-          assessment = client.assessments.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
-          scores = assessment.assessment_domains.pluck(:score)
-          conditions = []
-          if operator == 'equal'
-            scores.exclude?(@value.to_i)
-            # scores.uniq != [@value.to_i]
-          elsif operator == 'not_equal'
-            scores.include?(@value.to_i)
-          elsif operator == 'less'
-            scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
-            conditions.include?(true)
-          elsif operator == 'greater'
-            scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
-            conditions.include?(true)
-          elsif operator == 'less_or_equal'
-            scores.compact.each {|score| conditions << (score > @value.to_i) }
-            conditions.include?(true)
-          elsif operator == 'greater_or_equal'
-            scores.compact.each {|score| conditions << (score < @value.to_i) }
-            conditions.include?(true)
-          elsif operator == 'is_empty'
-            scores.compact.any?
-          elsif operator == 'is_not_empty'
-            assessment.assessment_domains.size != scores.compact.size
-          elsif operator == 'average'
-            (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
-          end
-        end
-        clients.map(&:id)
-      elsif @basic_rules.flatten.any?{|rule| rule['field'] == 'month_number'}
-        clients = Client.joins(assessments: :assessment_domains).reject do |client|
-          month_number_value = get_month_assessment_number('month_number')
-          assessment_date    = client.assessments.order(:created_at).first.created_at + (month_number_value.to_i - 1).month
-          assessment_date    = assessment_date.beginning_of_month.to_date
-          assessments        = client.assessments.where("DATE(assessments.created_at) between ? AND ?", assessment_date, assessment_date.end_of_month)
-          conditions = []
-          assessment = assessments.includes(:assessment_domains).each do |assessment|
-            scores = assessment.assessment_domains.pluck(:score)
-            if operator == 'equal'
-              conditions << true if scores.exclude?(@value.to_i)
-              # conditions << true if scores.uniq != [@value.to_i]
-            elsif operator == 'not_equal'
-              conditions << true if scores.include?(@value.to_i)
-            elsif operator == 'less'
-              scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
-            elsif operator == 'greater'
-              scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
-            elsif operator == 'less_or_equal'
-              scores.compact.each {|score| conditions << (score > @value.to_i) }
-            elsif operator == 'greater_or_equal'
-              scores.compact.each {|score| conditions << (score < @value.to_i) }
-            elsif operator == 'is_empty'
-              conditions << true if scores.compact.any?
-            elsif operator == 'is_not_empty'
-              conditions << true if assessment.assessment_domains.size != scores.compact.size
-            elsif operator == 'average'
-              conditions << (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
-            end
-          end
-          conditions.include?(true)
-        end
-        clients.map(&:id)
-      else
-        client_ids = Client.includes(assessments: :assessment_domains).map do |client|
-          next if client.assessments.blank?
-          assessment = client.assessments.includes(:assessment_domains).reject do |assessment|
-            scores = assessment.assessment_domains.pluck(:score)
+      if @field == 'all_domains'
+        if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
+          assess_number_value = get_month_assessment_number('assessment_number')
+          clients = Client.joins(assessments: :assessment_domains).reject do |client|
+            assessment = client.assessments.defaults.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
+            scores = assessment.assessment_domains.pluck(:score) if assessment.present?
+            next if scores.blank?
             conditions = []
             if operator == 'equal'
               scores.exclude?(@value.to_i)
@@ -277,9 +215,179 @@ module AdvancedSearches
               (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
             end
           end
-          assessment.first.try(:client_id)
+          clients.map(&:id)
+        elsif @basic_rules.flatten.any?{|rule| rule['field'] == 'month_number'}
+          clients = Client.joins(assessments: :assessment_domains).reject do |client|
+            month_number_value = get_month_assessment_number('month_number')
+            assessment_date    = client.assessments.defaults.order(:created_at).first.created_at + (month_number_value.to_i - 1).month
+            assessment_date    = assessment_date.beginning_of_month.to_date
+            assessments        = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", assessment_date, assessment_date.end_of_month)
+            next if assessments.blank?
+            conditions = []
+            assessment = assessments.includes(:assessment_domains).each do |assessment|
+              scores = assessment.assessment_domains.pluck(:score)
+              if operator == 'equal'
+                conditions << true if scores.exclude?(@value.to_i)
+                # conditions << true if scores.uniq != [@value.to_i]
+              elsif operator == 'not_equal'
+                conditions << true if scores.include?(@value.to_i)
+              elsif operator == 'less'
+                scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+              elsif operator == 'greater'
+                scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+              elsif operator == 'less_or_equal'
+                scores.compact.each {|score| conditions << (score > @value.to_i) }
+              elsif operator == 'greater_or_equal'
+                scores.compact.each {|score| conditions << (score < @value.to_i) }
+              elsif operator == 'is_empty'
+                conditions << true if scores.compact.any?
+              elsif operator == 'is_not_empty'
+                conditions << true if assessment.assessment_domains.size != scores.compact.size
+              elsif operator == 'average'
+                conditions << (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+              end
+            end
+            conditions.include?(true)
+          end
+          clients.map(&:id)
+        else
+          client_ids = Client.includes(assessments: :assessment_domains).map do |client|
+            next if client.assessments.defaults.blank?
+            assessment = client.assessments.defaults.includes(:assessment_domains).reject do |assessment|
+              scores = assessment.assessment_domains.pluck(:score)
+              conditions = []
+              if operator == 'equal'
+                scores.exclude?(@value.to_i)
+                # scores.uniq != [@value.to_i]
+              elsif operator == 'not_equal'
+                scores.include?(@value.to_i)
+              elsif operator == 'less'
+                scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'greater'
+                scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'less_or_equal'
+                scores.compact.each {|score| conditions << (score > @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'greater_or_equal'
+                scores.compact.each {|score| conditions << (score < @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'is_empty'
+                scores.compact.any?
+              elsif operator == 'is_not_empty'
+                assessment.assessment_domains.size != scores.compact.size
+              elsif operator == 'average'
+                (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+              end
+            end
+            assessment.first.try(:client_id)
+          end
+          client_ids.compact
         end
-        client_ids.compact
+      elsif @field == 'all_custom_domains'
+        if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
+          assess_number_value = get_month_assessment_number('assessment_number')
+          clients = Client.joins(assessments: :assessment_domains).reject do |client|
+            assessment = client.assessments.customs.order(:created_at).limit(1).offset(assess_number_value.to_i - 1).first
+            scores = assessment.assessment_domains.pluck(:score) if assessment.present?
+            next if scores.blank?
+            conditions = []
+            if operator == 'equal'
+              scores.exclude?(@value.to_i)
+              # scores.uniq != [@value.to_i]
+            elsif operator == 'not_equal'
+              scores.include?(@value.to_i)
+            elsif operator == 'less'
+              scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'greater'
+              scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'less_or_equal'
+              scores.compact.each {|score| conditions << (score > @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'greater_or_equal'
+              scores.compact.each {|score| conditions << (score < @value.to_i) }
+              conditions.include?(true)
+            elsif operator == 'is_empty'
+              scores.compact.any?
+            elsif operator == 'is_not_empty'
+              assessment.assessment_domains.size != scores.compact.size
+            elsif operator == 'average'
+              (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+            end
+          end
+          clients.map(&:id)
+        elsif @basic_rules.flatten.any?{|rule| rule['field'] == 'month_number'}
+          clients = Client.joins(assessments: :assessment_domains).reject do |client|
+            month_number_value = get_month_assessment_number('month_number')
+            assessment_date    = client.assessments.customs.order(:created_at).first.created_at + (month_number_value.to_i - 1).month
+            assessment_date    = assessment_date.beginning_of_month.to_date if assessment_date.present?
+            assessments        = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", assessment_date, assessment_date.end_of_month)
+            next if assessments.blank?
+            conditions = []
+            assessment = assessments.includes(:assessment_domains).each do |assessment|
+              scores = assessment.assessment_domains.pluck(:score)
+              if operator == 'equal'
+                conditions << true if scores.exclude?(@value.to_i)
+                # conditions << true if scores.uniq != [@value.to_i]
+              elsif operator == 'not_equal'
+                conditions << true if scores.include?(@value.to_i)
+              elsif operator == 'less'
+                scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+              elsif operator == 'greater'
+                scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+              elsif operator == 'less_or_equal'
+                scores.compact.each {|score| conditions << (score > @value.to_i) }
+              elsif operator == 'greater_or_equal'
+                scores.compact.each {|score| conditions << (score < @value.to_i) }
+              elsif operator == 'is_empty'
+                conditions << true if scores.compact.any?
+              elsif operator == 'is_not_empty'
+                conditions << true if assessment.assessment_domains.size != scores.compact.size
+              elsif operator == 'average'
+                conditions << (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+              end
+            end
+            conditions.include?(true)
+          end
+          clients.map(&:id)
+        else
+          client_ids = Client.includes(assessments: :assessment_domains).map do |client|
+            next if client.assessments.customs.blank?
+            assessment = client.assessments.customs.includes(:assessment_domains).reject do |assessment|
+              scores = assessment.assessment_domains.pluck(:score)
+              conditions = []
+              if operator == 'equal'
+                scores.exclude?(@value.to_i)
+                # scores.uniq != [@value.to_i]
+              elsif operator == 'not_equal'
+                scores.include?(@value.to_i)
+              elsif operator == 'less'
+                scores.compact.each {|score| conditions << (score > @value.to_i or score == @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'greater'
+                scores.compact.each {|score| conditions << (score < @value.to_i or score == @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'less_or_equal'
+                scores.compact.each {|score| conditions << (score > @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'greater_or_equal'
+                scores.compact.each {|score| conditions << (score < @value.to_i) }
+                conditions.include?(true)
+              elsif operator == 'is_empty'
+                scores.compact.any?
+              elsif operator == 'is_not_empty'
+                assessment.assessment_domains.size != scores.compact.size
+              elsif operator == 'average'
+                (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+              end
+            end
+            assessment.first.try(:client_id)
+          end
+          client_ids.compact
+        end
       end
     end
   end
