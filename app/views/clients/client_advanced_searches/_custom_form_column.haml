@@ -1,4 +1,4 @@
-#custom-form-column
+.custom-form-column
   %ul.check-columns-visibility
     %li.dropdown
       %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
@@ -11,5 +11,6 @@
               = key
             - fields.each do |field|
               %li.visibility.checkbox-margin{ class: format_class_header(key) }
-                = check_box_tag "#{field[:id]}_", field[:id], params[:"#{field[:id]}_"].present?, class: 'i-checks'
+                - field_id = field[:id].gsub(' ', '_').gsub('/', '_')
+                = check_box_tag "#{field[:id]}_", field_id, params[:"#{field[:id]}_"].present?, class: 'i-checks', id: field_id, name: field_id
                 = label_tag "#{field[:id]}_", form_builder_format(field[:id])

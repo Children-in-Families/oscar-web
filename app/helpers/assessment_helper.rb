@@ -42,8 +42,8 @@ module AssessmentHelper
   end
 
   def is_domain_definition(domain)
-    domain.score_1_definition.present? || domain.score_2_definition.present? ||
-    domain.score_3_definition.present? || domain.score_4_definition.present?
+    domain.translate_score_1_definition.present? || domain.translate_score_2_definition.present? ||
+    domain.translate_score_3_definition.present? || domain.translate_score_4_definition.present?
   end
 
   def score_definition(definition, score)

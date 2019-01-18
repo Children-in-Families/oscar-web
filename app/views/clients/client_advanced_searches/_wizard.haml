@@ -1,0 +1,257 @@
+.modal.fade#report-builder-wizard-modal{role: 'dialog'}
+  .modal-dialog.modal-lg{role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
+        %h4.modal-title Report Builder Wizard
+      .modal-body
+        #report-builder-wizard
+          %h3 Clients
+          %section.client-section
+            %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
+            %br
+            .row
+              .col-xs-12
+                %p Do you want to display information from the Add New Client form, or other basic information?
+                .btn.btn-default{ 'data-value': 'yes'} Yes
+                .btn.btn-default{ 'data-value': 'no'} No
+            %br
+            #wizard-client
+              .row
+                .col-xs-12
+                  %p Choose below which information you would like to display.
+                  %label= t('.client_column')
+                  .client-column
+                    = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
+
+          %h3 Custom Forms
+          %section.custom-form-section
+            .custom-form-wrapper
+              %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
+              %br
+              .row
+                .col-xs-12
+                  %p Do you want to display information from any Custom Forms?
+                  .btn.btn-default{ 'data-value': 'yes'} Yes
+                  .btn.btn-default{ 'data-value': 'no'} No
+              #wizard-custom-form
+                %br
+                .row
+                  .col-xs-12
+                    %p Which Custom Forms would you like to show information from?
+                    .form-group{ data: { value: custom_form_values } }
+                      = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
+                %br
+                .loader.hidden
+                .row#custom-form-column
+                  .col-xs-12
+                    %p Choose below which information you would like to display.
+                    %label= t('.custom_form_column')
+                    = render 'clients/client_advanced_searches/custom_form_column'
+
+          %h3 Program Streams
+          %section.program-stream-section
+            .program-stream-wrapper
+              %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
+              %br
+              .row
+                .col-xs-12
+                  %p Do you want to display information from any Program Stream Forms?
+                  .btn.btn-default{ 'data-value': 'yes'} Yes
+                  .btn.btn-default{ 'data-value': 'no'} No
+              #wizard-program-stream
+                .row
+                  .col-xs-12
+                    %p Which Program Streams are you interested in?
+                    .form-group{ data: { value: program_stream_values } }
+                      = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control program-stream-select' } )
+                .row.program-association
+                  .col-xs-12
+                    %p Which Forms from these program streams would you like to display information from?
+                  .col-xs-4.form-group
+                    = check_box_tag :nil, '1', enrollment_check, { class: 'i-checks', id: 'wizard-enrollment-checkbox' }
+                    -# = check_box_tag 'enrollment', 'true', enrollment_check, class: 'i-checks enrollment-checkbox', id: 'wizard-enrollment-checkbox'
+                    %label.pointer{ for: 'wizard-enrollment-checkbox' }= t('.enrollment')
+
+                  .col-xs-4.form-group
+                    -# = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'wizard-tracking-checkbox' }
+                    = check_box_tag 'tracking', 'true', tracking_check, class: 'i-checks', id: 'wizard-tracking-checkbox'
+                    %label.pointer{ for: 'wizard-tracking-checkbox' }= t('.tracking')
+                  .col-xs-4.form-group
+                    -# = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
+                    = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks', id: 'wizard-exit-form-checkbox'
+                    %label.pointer{ for: 'wizard-exit-form-checkbox' }= t('.exit_program')
+                .loader.hidden
+                .row#program-stream-column
+                  .col-xs-12
+                    %p Choose below which information you would like to display.
+                    %label= t('.program_stream_column')
+                    = render 'clients/client_advanced_searches/program_stream_column'
+
+          %h3 Referral Data
+          %section.referral-data-section
+            %h4 Building a report takes a couple of steps. The first step is to choose what information you want to see in your table.
+            %br
+            .row
+              .col-xs-12
+                %p Do you want to display information from Point-of-Referral Data?
+                %p (This is the data you choose on Page 4 of the Add New Client Form).
+                .btn.btn-default{ 'data-value': 'yes'} Yes
+                .btn.btn-default{ 'data-value': 'no'} No
+            #wizard-referral-data
+              %br
+              .row
+                .col-xs-12
+                  %p Choose below which information you would like to display.
+                  %label= t('.referral_data')
+              .referral-data-column
+                %ul.check-columns-visibility
+                  %li.dropdown
+                    %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
+                      = t('datagrid.columns.select_columns')
+                      %span.caret
+                    %ul.dropdown-menu.columns-visibility.append-child
+                      - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+                        - next unless quantitative_type_readable?(quantitative_type.id)
+                        %li
+                          .visibility.col-sm-12
+                            = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
+                            = label_tag "#{quantitative_type.name}_", quantitative_type.name
+
+          %h3 Example
+          %section.example-section
+            %p The next step in building a report is to filter your information.
+            %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+            %br
+            %p Examples of a Filter Statement might include:
+            .panel.panel-danger
+              .panel-body "I want to see this informatioin for all clients who are under 16 years old."
+            %p or
+            .panel.panel-danger
+              .panel-body
+                "I want to see this informatioin for all clients who are Female
+                %br AND who live in Battambang
+                %br AND who are over 6 years old."
+            %p or
+            .panel.panel-danger
+              .panel-body
+                "I want to see this informatioin for all clients who are between 12 and 18 years old
+                %br OR who are Female."
+
+          %h3 Example
+          %section.example-section
+            %p The next step in building a report is to filter your information.
+            %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+            %br
+            %p Do you want some more information about AND statements and OR statements?
+            .btn.btn-default{ 'data-value': 'yes'} Yes please.
+            .btn.btn-default{ 'data-value': 'no'} No thanks.
+
+          %h3 Example 1
+          %section
+            .row
+              .col-xs-12
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are Female AND who live in Battambang AND who are over 6 years old."
+                %p AND statements will only bring resutls for clients who match ALL the conditions of filter statement. In this example, this report will only show information for clients who
+                %ul
+                  %li - are female AND
+                  %li - who live in Battambang AND
+                  %li - who are over 6 years of age.
+                %br
+                %p Clients who only meet one or two of these conditions will not be displayed in the report.
+
+          %h3 Example 2
+          %section
+            .row
+              .col-xs-12
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are between 12 and 18 years old OR who are Female."
+                %p OR statements will only bring resutls for clients who match ONE OR MORE of the conditions of filter statement. In this example, this report will only show information for clients who
+                %ul
+                  %li - are between 12 and 18 years old OR
+                  %li - are female OR
+                  %li - both of those conditions.
+
+          %h3 Example 3
+          %section
+            .row
+              .col-xs-12
+                %p A common mistake with AND/OR Fitlers is to use an AND filter when you really mean OR. Consider the following example:
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are from Battambang AND who are from Siem Reap."
+                %p People commonly put this filter together, assuming this will bring them information from all their clients who are from Battambang, and all their clients who are from Siem Reap. However, the system will instead try to find clients who are from both provinces at the same time, and find no results. The correct Fitlers would actually be:
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are from Battambang OR who are from Siem Reap."
+
+          %h3 Chose Columns
+          %section.chose-columns-section
+            %p The next step in building a report is to filter your information.
+            %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+            %br
+            %p You have already told the system that you want to display information from the following places:
+            .row
+              .col-xs-3.client-chose-columns
+                %h4 Client Columns
+                %ul
+              .col-xs-3.custom-form-chose-columns
+                %h4 Custom Form Columns
+                %ul
+              .col-xs-3.program-stream-chose-columns
+                %h4 Program Stream Columns
+                %ul
+              .col-xs-3.quantitative-chose-columns
+                %h4 Point of Referral Data Columns
+                %ul
+            %br
+            .row
+              .col-xs-8
+                %p Do you want to filter your clients based on this same information, or add something else?
+            .row
+              .col-xs-6
+                .btn.btn-block.btn-primary.wide-margin-bottom{ 'data-value': 'yes'} I want to filter clients based on information in the forms I already chose.
+            .row
+              .col-xs-6
+                .btn.btn-block.btn-danger.wide-margin-bottom{ 'data-value': 'no'} I want to filter based on information from somewhere else.
+
+          %h3 Remind
+          %section.reminder-section
+            #wizard-reminder
+              %p The next step in building a report is to filter your information.
+              %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+              %br
+              %p What other information would you like to use to filter your clients?
+              %ul
+                %li
+                  = check_box_tag :wizard_custom_form_filter, nil, custom_form_values.present?, class: 'ichecks'
+                  = label_tag "Information on Custom Forms"
+                %li
+                  = check_box_tag :wizard_program_stream_filter, nil, program_stream_values.present?, class: 'ichecks'
+                  = label_tag "Information on Program Stream Forms"
+                %li
+                  = check_box_tag :wizard_quantitative_filter, nil, quantitative_check, class: 'ichecks'
+                  = label_tag "Information from Point-of-Referral Data"
+              .loader.hidden
+          %h3 Query Builder
+          %section.query-builder-section
+            %p The next step in building a report is to filter your information.
+            %p In the previous step you choose which information you would like to display. In this step you will choose which clients you would like to see that information for.
+            %br
+            %p To choose a field to filter based on, start typing in search box below. Then choose a condition from the middle box, and choose or type your exact filter in the last box.
+            %br
+            %p You can add more Filters by clicking the 'Add Condition' button. You can also group conditions together to chain AND/OR statements more effectively. If you get stuck on how to do this, get in touch with OSCaR staff for assistance
+            .row
+              .col-xs-12
+                #wizard-builder.advanced-search-builder{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+
+= simple_form_for :client_advanced_search, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
+  = f.hidden_field :custom_form_selected
+  = f.hidden_field :program_selected
+  = f.hidden_field :enrollment_check
+  = f.hidden_field :tracking_check
+  = f.hidden_field :exit_form_check
+  = f.hidden_field :basic_rules
+  = f.hidden_field :quantitative_check
+  = hidden_field_tag :data, params[:data]
+  / = f.hidden_field :overdue_assessment
+  = hidden_field_tag :locale, "#{params[:locale]}"

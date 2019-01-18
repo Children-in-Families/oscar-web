@@ -11,6 +11,12 @@ CIF.DashboardsIndex = do ->
     _handleApplyFilter()
     _initCustomFieldsDataTable()
     _initTrackingDatatable()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _handleApplyFilter = ->
     $('button#user-filter-submit').on 'click', (e) ->

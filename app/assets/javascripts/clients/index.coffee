@@ -1,5 +1,7 @@
 CIF.ClientsIndex = do ->
   _init = ->
+    _initReportBuilderWizard()
+    _initCheckbox()
     _enableSelect2()
     _columnsVisibility()
     _fixedHeaderTableColumns()
@@ -31,6 +33,8 @@ CIF.ClientsIndex = do ->
     _addTourTip()
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
+    _removeReferralDataColumnsInWizardClientColumn()
+    _handleShowCustomFormSelect()
 
   _extendDataTableSort = ->
     $.extend $.fn.dataTableExt.oSort,
@@ -57,6 +61,197 @@ CIF.ClientsIndex = do ->
                 title: ''
             }]
 
+  _handleShowCustomFormSelect = ->
+    if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
+      $('#wizard-referral-data').show()
+      yesBtn = $('#wizard-referral-data').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-referral-data').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
+
+    if $('#wizard-custom-form .custom-form-column .i-checks').is(':checked')
+      $('#wizard-custom-form').show()
+      yesBtn = $('#wizard-custom-form').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-custom-form').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
+
+    if $('#wizard-program-stream .program-stream-column .i-checks').is(':checked')
+      $('#wizard-program-stream').show()
+      yesBtn = $('#wizard-program-stream').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-program-stream').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
+
+    if $('#wizard-client .client-column .i-checks').is(':checked')
+      $('#wizard-client').show()
+      yesBtn = $('#wizard-client').closest('section').find('.btn[data-value="yes"]')
+      $(yesBtn).removeClass('btn-default').addClass('btn-primary active')
+    # else
+    #   noBtn = $('#wizard-client').closest('section').find('.btn[data-value="no"]')
+    #   $(noBtn).removeClass('btn-default').addClass('btn-primary active')
+
+  _removeReferralDataColumnsInWizardClientColumn = ->
+    $('#report-builder-wizard #referral-data').remove()
+
+  _initCheckbox = ->
+    $.map ['.i-checks', '.ichecks'], (element) ->
+      $(element).iCheck
+        checkboxClass: 'icheckbox_square-green'
+        radioClass: 'iradio_square-green'
+
+  _initReportBuilderWizard = ->
+    $('#report-builder-wizard-modal #filter_form').hide()
+    form = $('#advanced-search')
+    $('#report-builder-wizard').steps
+      headerTag: 'h3'
+      bodyTag: "section"
+      transitionEffect: "slideLeft"
+      autoFocus: true
+
+      onInit: ->
+        $('ul[role="tablist"]').hide()
+        $('.actions a[href="#finish"]').attr('id', 'wizard-search')
+        _handleReportBuilderWizardDisplayBtns()
+        _handleQueryFilters('#wizard_custom_form_filter', '#wizard-custom-form-select')
+        _handleQueryFilters('#wizard_program_stream_filter', '#wizard-program-stream-select')
+        _handleQueryFilters('#wizard_quantitative_filter')
+
+      onStepChanging: (event, currentIndex, newIndex) ->
+        nextStepTitle = $('#report-builder-wizard').steps('getStep', newIndex).title
+        _displayChoseColumns() if nextStepTitle == 'Chose Columns'
+        return true
+
+  _handleRemoveCustomFormFilters = ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    translation = $('#opt-group-translation').data('customForm')
+    for form in $('#wizard-custom-form-select :selected')
+      formLabel = $(form).text()
+      advanceFilter.handleRemoveFilterBuilder(formLabel, translation, '#wizard-builder')
+
+  _handleRemoveProgramStreamFilters = ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    enrollmentTranslation = $('#opt-group-translation').data('enrollment')
+    trackingTranslation = $('#opt-group-translation').data('tracking')
+    exitProgramTranslation = $('#opt-group-translation').data('exitProgram')
+    for form in $('#wizard-program-stream-select :selected')
+      formLabel = $(form).text()
+      advanceFilter.handleRemoveFilterBuilder(formLabel, enrollmentTranslation, '#wizard-builder')
+      advanceFilter.handleRemoveFilterBuilder(formLabel, trackingTranslation, '#wizard-builder')
+      advanceFilter.handleRemoveFilterBuilder(formLabel, exitProgramTranslation, '#wizard-builder')
+
+  _handleQueryFilters = (checkBox, select = '') ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    $(checkBox).on 'ifUnchecked', (event) ->
+      if checkBox == '#wizard_quantitative_filter'
+        translation = $('#opt-group-translation').data('quantitative')
+        advanceFilter.handleRemoveFilterBuilder(translation, translation, '#wizard-builder')
+      _handleRemoveProgramStreamFilters()  if checkBox == '#wizard_program_stream_filter'
+      _handleRemoveCustomFormFilters()  if checkBox == '#wizard_custom_form_filter'
+
+    $(checkBox).on 'ifChecked', (event) ->
+      if checkBox == '#wizard_quantitative_filter'
+        $('#wizard-reminder .loader').removeClass('hidden')
+        fields = $('#quantitative-fields').data('fields')
+        addCustomBuildersFields = $('#wizard-builder').queryBuilder('addFilter', fields)
+        $.when(addCustomBuildersFields).then ->
+          advanceFilter.initSelect2()
+          $('#wizard-reminder .loader').addClass('hidden')
+      else if checkBox == '#wizard_program_stream_filter'
+        formIds =  $(select).select2('val')
+        return if _.isEmpty(formIds)
+        $('#wizard-reminder .loader').removeClass('hidden')
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_enrollment_field') if $('#wizard-enrollment-checkbox').is(':checked')
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_tracking_field') if $('#wizard-tracking-checkbox').is(':checked')
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_exit_program_field') if $('#wizard-exit-form-checkbox').is(':checked')
+        $.when(addCustomBuildersFields).then ->
+          advanceFilter.initSelect2()
+          $('#wizard-reminder .loader').addClass('hidden')
+      else
+        formIds =  $(select).select2('val')
+        return if _.isEmpty(formIds)
+        $('#wizard-reminder .loader').removeClass('hidden')
+        addCustomBuildersFields = advanceFilter.addCustomBuildersFieldsInWizard(formIds, '/api/client_advanced_searches/get_custom_field') unless _.isEmpty(formIds)
+        $.when(addCustomBuildersFields).then ->
+          advanceFilter.initSelect2()
+          $('#wizard-reminder .loader').addClass('hidden')
+
+  _handleReportBuilderWizardDisplayBtns = ->
+    allSections = $('#report-builder-wizard-modal section')
+    choosenClasses = ['client-section', 'custom-form-section', 'program-stream-section', 'referral-data-section', 'example-section', 'chose-columns-section']
+    for section in allSections
+      sectionClassName = section.classList[0]
+      if choosenClasses.includes(sectionClassName)
+        _handleCheckDisplayReport(section, sectionClassName)
+
+  _handleCheckDisplayReport = (element, sectionClassName) ->
+    $(element).find('.btn').on 'click', ->
+      $(this).removeClass('btn-default').addClass('btn-primary active')
+      $(this).siblings('.btn').removeClass('active btn-primary').addClass('btn-default')
+      btnValue = $(@).data('value')
+      if sectionClassName == 'client-section'
+        if btnValue == 'yes'
+          $('#wizard-client').show()
+        else if btnValue == 'no'
+          $('#wizard-client').hide()
+          $('#wizard-client .client-column .i-checks').iCheck('uncheck')
+      else if sectionClassName == 'custom-form-section'
+        if btnValue == 'yes'
+          $('#wizard-custom-form').show()
+        else if btnValue == 'no'
+          $('#wizard-custom-form').hide()
+          $('#wizard-custom-form-select').select2('val', '')
+          $('#wizard-custom-form ul.append-child li').remove()
+      else if sectionClassName == 'program-stream-section'
+        if btnValue == 'yes'
+          $('#wizard-program-stream').show()
+        else if btnValue == 'no'
+          $('#wizard-program-stream').hide()
+          $('#wizard-program-stream-select').select2('val', '')
+          $('#wizard-program-stream ul.append-child li').remove()
+          $('#wizard-program-stream .i-checks').iCheck('uncheck')
+      else if sectionClassName == 'referral-data-section'
+        if btnValue == 'yes'
+          $('#wizard-referral-data').show()
+        else if btnValue == 'no'
+          $('#wizard-referral-data').hide()
+          $('#wizard-referral-data .i-checks').iCheck('uncheck')
+      else if sectionClassName == 'example-section'
+        if btnValue == 'yes'
+          $('#report-builder-wizard').steps('next')
+        else if btnValue == 'no'
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
+      else if sectionClassName == 'chose-columns-section'
+        if btnValue == 'yes'
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
+        else if btnValue == 'no'
+          $('#report-builder-wizard').steps('next')
+      else
+        $('#report-builder-wizard').steps('next')
+
+  _displayChoseColumns = ->
+    clientColumns = $('section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    customFormColumns = $('section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    programStraemsColumns = $('section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    quantitativesColumns = $('section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    _appendChoseColumns(clientColumns, '.client-chose-columns') if clientColumns.length != 0
+    _appendChoseColumns(customFormColumns, '.custom-form-chose-columns') if customFormColumns.length != 0
+    _appendChoseColumns(programStraemsColumns, '.program-stream-chose-columns') if programStraemsColumns.length != 0
+    _appendChoseColumns(quantitativesColumns, '.quantitative-chose-columns') if quantitativesColumns.length != 0
+
+  _appendChoseColumns = (columns, className) ->
+    $("#{className} ul li").remove()
+    for column in columns
+      columnName = $(column).text()
+      $("#{className} ul").append("<li>#{columnName}</li>")
+
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
       $('select#client_grid_overdue_forms').select2('val', 'Yes')
@@ -69,6 +264,7 @@ CIF.ClientsIndex = do ->
 
   _hideOverdueAssessment = ->
     $('#client-advance-search-form .float-right').hide()
+    $('#report-builder-wizard-modal .float-right').hide()
 
   _overdueAssessmentSearch = ->
     $('#overdue-assessment.i-checks').on 'ifChecked', ->
@@ -102,11 +298,14 @@ CIF.ClientsIndex = do ->
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('#client-search-form .visibility .checked').length == 0
-      $('#client-search-form .all-visibility #all_').iCheck('check')
+      $('#client-search-form .all-visibility .all_').iCheck('check')
+
+    if $('#wizard-client .visibility .checked').length == 0
+      $('#wizard-client .all-visibility .all_').iCheck('check')
 
     if $('#client-advance-search-form .visibility .checked').length == 0
-      $('#client-advance-search-form .all-visibility #all_').iCheck('check')
-      $('#program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
+      $('#client-advance-search-form .all-visibility .all_').iCheck('check')
+      $('.program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)
@@ -159,6 +358,10 @@ CIF.ClientsIndex = do ->
     advanceFilter.triggerTrackingFields()
     advanceFilter.triggerExitProgramFields()
 
+    advanceFilter.triggerEnrollmentInWizard()
+    advanceFilter.triggerTrackingInWizard()
+    advanceFilter.triggerExitProgramInWizard()
+
     advanceFilter.handleSelect2RemoveProgram()
     advanceFilter.handleUncheckedEnrollment()
     advanceFilter.handleUncheckedTracking()
@@ -184,11 +387,15 @@ CIF.ClientsIndex = do ->
 
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->
-      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input[type=checkbox]')
+      allCheckboxes = $('#client-search-form, #client-advance-search-wizard').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+    $('a#wizard-search').on 'click', ->
+      allCheckboxes = $('#client-advance-search-form, #client-search-form').find('#new_client_grid ul input[type=checkbox]')
       $(allCheckboxes).attr('disabled', true)
 
     $('input.datagrid-submit').on 'click', ->
-      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input[type=checkbox]')
+      allCheckboxes = $('#client-advance-search-form, #client-advance-search-wizard').find('#new_client_grid ul input[type=checkbox]')
       $(allCheckboxes).attr('disabled', true)
 
   _handleUncheckColumnVisibility = ->
@@ -286,13 +493,13 @@ CIF.ClientsIndex = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-    allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('.all-visibility .all_')
 
     for checkBox in allCheckboxes
       $(checkBox).on 'ifChecked', ->
-        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
+        $(@).closest('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
       $(checkBox).on 'ifUnchecked', ->
-        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
+        $(@).closest('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _fixedHeaderTableColumns = ->
     sInfoShow = $('#sinfo').data('infoshow')

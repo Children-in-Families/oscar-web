@@ -8,6 +8,12 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _ajaxChangeDistrict()
     _handleCaseClosureSelectOptions()
     _initCocoonFields()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _ajaxChangeDistrict = ->
     mainAddress = $('#government_form_province_id, #government_form_district_id, #government_form_commune_id,
