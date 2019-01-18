@@ -205,4 +205,4 @@
             %p You can add more Filters by clicking the 'Add Condition' button. You can also group conditions together to chain AND/OR statements more effectively. If you get stuck on how to do this, get in touch with OSCaR staff for assistance
             .row
               .col-xs-12
-                #wizard-builder.advanced-search-builder{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+                #wizard-builder.advanced-search-builder{ 'data-basic-search-rules' => @wizard_basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
