@@ -23,7 +23,7 @@ module AdvancedSearches
           rules = @basic_rules["rules"].reject {|hash_value| hash_value["id"] != "active_program_stream" }
         end
 
-        operators = rules.flatten.map{|value| value["operator"] }.uniq if rules.present?
+        operators = rules.flatten.compact.map{|value| value["operator"] }.uniq if rules.present?
 
         if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.reject(&:nil?).sort == ["not_equal", "equal"].sort
           excluded_client_ids = rules.flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}

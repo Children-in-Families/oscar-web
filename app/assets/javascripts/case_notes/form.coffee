@@ -7,6 +7,12 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _handlePreventBlankInput()
     _initSelect2()
     _initScoreTooltip()
+    _initICheckBox()
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initScoreTooltip = ->
     $('.case-note-domain-score').tooltip
