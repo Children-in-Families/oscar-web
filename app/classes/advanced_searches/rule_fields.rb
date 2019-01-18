@@ -61,7 +61,7 @@ module AdvancedSearches
     end
 
     def case_note_type_options
-      CaseNote::INTERACTION_TYPE
+      CaseNote::INTERACTION_TYPE.map{|s| { s => s }  }
     end
 
     def exit_reasons_options
