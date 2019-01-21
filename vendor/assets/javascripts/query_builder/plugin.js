@@ -329,7 +329,7 @@ $.fn.queryBuilder.extend(/** @lends module:plugins.SqlSupport.prototype */ {
                                 v = v ? 1 : 0;
                             }
                             else if (!stmt && rule.type !== 'integer' && rule.type !== 'double' && rule.type !== 'boolean') {
-                                v = Utils.escapeString(v);
+                                // v = Utils.escapeString(v);
                             }
 
                             if (sql.mod) {

@@ -38,6 +38,7 @@ module AdvancedSearches
     end
 
     def self.number_filter_type(field_name, label, group)
+      values = ['1', '2', '3', '4'].map{|s| { s => s }  }
       {
         id: field_name,
         optgroup: group,
@@ -45,7 +46,8 @@ module AdvancedSearches
         field: label,
         type: 'string',
         input: 'select',
-        values: ['1', '2', '3', '4'],
+        values: values,
+        data: { values: values },
         operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
       }
     end
