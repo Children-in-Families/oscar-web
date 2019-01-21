@@ -156,6 +156,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      labelFields = $('[name="label"].fld-label')
+      for labelField in labelFields
+        labelField.textContent = labelField.textContent.replace(/;/g, '')
+
       if $('#trackings').is(':visible')
         _checkDuplicateTrackingName()
       if _preventProgramStreamWithoutTracking()
@@ -335,7 +339,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if $('#rule-tab').is(':visible')
           _handleRemoveProgramList()
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
-
+      onFinishing: () ->
+        labelFields = $('[name="label"].fld-label')
+        for labelField in labelFields
+          labelField.textContent = labelField.textContent.replace(/;/g, '')
       onFinished: (event, currentIndex) ->
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
