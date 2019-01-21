@@ -112,7 +112,8 @@ class Client < ActiveRecord::Base
     shared_clients = SharedClient.order(:slug).select(:id, :slug, :local_given_name, :local_family_name, :given_name, :family_name, :birth_province_id)
     group_clients  = shared_clients.group_by{|client| client.slug.split('-').first }
     group_clients.each do |tenant, clients|
-      next if tenant == 'aaa'
+      tenants = Organization.all.pluck(:short_name)
+      next if tenants.exclude?(tenant)
       Organization.switch_to tenant
       clients.each do |client|
         _ = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
