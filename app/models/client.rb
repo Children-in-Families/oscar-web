@@ -3,6 +3,8 @@ class Client < ActiveRecord::Base
   include NextClientEnrollmentTracking
   extend FriendlyId
 
+  require 'text'
+
   attr_reader :assessments_count
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
@@ -181,7 +183,7 @@ class Client < ActiveRecord::Base
 
   def self.compare_matching(value1, value2)
     return nil if value1.blank?
-    white      = ::Text::WhiteSimilarity.new
+    white      = Text::WhiteSimilarity.new
     percentage = white.similarity(value1, value2)
     percentage > 0 ? percentage : nil
   end
@@ -193,7 +195,7 @@ class Client < ActiveRecord::Base
       percentage = 1
     else
       remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
-      percentage = 1 - (remain_day * 0.5)
+      percentage = 1 - (remain_day * 0.5) if remain_day.present?
     end
     percentage < 0 ? nil : percentage
   end
