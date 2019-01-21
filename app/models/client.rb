@@ -146,16 +146,19 @@ class Client < ActiveRecord::Base
       bp         = birth_provinch_matching(options[:birth_province], result[:birth_province])
 
       match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
-      if match_percentages.compact.inject(:*) * 100 > 75
-        similar_fields << '#hidden_name_fields' if match_percentages[0].present?
-        similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
-        similar_fields << '#hidden_province' if match_percentages[2].present?
-        similar_fields << '#hidden_district' if match_percentages[3].present?
-        similar_fields << '#hidden_commune' if match_percentages[4].present?
-        similar_fields << '#hidden_village' if match_percentages[5].present?
-        similar_fields << '#hidden_birth_province' if match_percentages[6].present?
 
-        return similar_fields.uniq if similar_fields.uniq.size == match_percentages.compact.length
+      if match_percentages.compact.present?
+        if match_percentages.compact.inject(:*) * 100 > 75
+          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
+          similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
+          similar_fields << '#hidden_province' if match_percentages[2].present?
+          similar_fields << '#hidden_district' if match_percentages[3].present?
+          similar_fields << '#hidden_commune' if match_percentages[4].present?
+          similar_fields << '#hidden_village' if match_percentages[5].present?
+          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+
+          return similar_fields.uniq if similar_fields.uniq.size == match_percentages.compact.length
+        end
       end
     end
 
