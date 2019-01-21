@@ -584,7 +584,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _disableOptions = (element) ->
     self = @
     rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
-    if rule.split('_')[0] == 'domainscore'
+    if rule.split('__')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
