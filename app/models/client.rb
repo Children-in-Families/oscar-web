@@ -158,8 +158,6 @@ class Client < ActiveRecord::Base
           similar_fields << '#hidden_commune' if match_percentages[4].present?
           similar_fields << '#hidden_village' if match_percentages[5].present?
           similar_fields << '#hidden_birth_province' if match_percentages[6].present?
-
-          return similar_fields.uniq if similar_fields.uniq.size == match_percentages.compact.length
         end
       end
     end
