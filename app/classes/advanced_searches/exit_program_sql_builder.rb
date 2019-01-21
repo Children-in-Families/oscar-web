@@ -6,7 +6,7 @@ module AdvancedSearches
       field          = rule['field']
       @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
-      @value         = rule['value']
+      @value         = format_value(rule['value'])
       @input_type    = rule['input']
     end
 
