@@ -19,7 +19,7 @@ describe AdvancedSearches::ExitProgramFields, 'Method' do
     end
 
     it 'return field with id' do
-      expect(@fields[:id]).to include "exitprogram_#{program_stream.name}_age"
+      expect(@fields[:id]).to include "exitprogram__#{program_stream.name}__age"
     end
 
     it 'return field with optGroup' do
