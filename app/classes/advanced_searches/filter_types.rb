@@ -41,6 +41,8 @@ module AdvancedSearches
     end
 
     def self.drop_list_options(field_name, label, values, group)
+      foramted_data = format_data(field_name, values)
+      is_association = is_association?(field_name, values)
       {
         id: field_name,
         field: label,
@@ -49,12 +51,13 @@ module AdvancedSearches
         type: 'string',
         input: 'select',
         values: values,
-        data: { values: format_data(field_name, values), isAssociation: is_association?(field_name, values)},
+        data: { values: foramted_data, isAssociation: is_association},
         operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
 
     def self.has_this_form_drop_list_options(field_name, label, values, group)
+      foramted_data = format_data(field_name, values)
       {
         id: field_name,
         field: label,
@@ -62,7 +65,7 @@ module AdvancedSearches
         label: label,
         input: 'select',
         values: values,
-        data: { values: format_data(field_name, values), isAssociation: false },
+        data: { values: foramted_data, isAssociation: false },
         operators: ['equal']
       }
     end
@@ -87,11 +90,11 @@ module AdvancedSearches
         values.each do |value|
           next if Integer value.keys[0]
         end
-        return is_association = true
+        return true
       rescue
         special_case_fields = ['birth_province_id', 'gender', 'has_been_in_orphanage', 'has_been_in_government_care']
-        return is_association = true if field.in? special_case_fields
-        return is_association = false
+        return true if field.in? special_case_fields
+        return false
       end
     end
   end
