@@ -294,26 +294,10 @@ $.fn.queryBuilder.extend(/** @lends module:plugins.SqlSupport.prototype */ {
                     }
 
                     if (ope.nb_inputs !== 0) {
-                        if (rule.input === 'select' && (rule.id !== 'rated_for_id_poor' && rule.id !== 'exit_circumstance')) {
-                          if (rule.id === 'gender') {
-                            if (rule.value === 'male') {
-                              rule.value = 'Male'
-                            } else if (rule.value === 'female') {
-                              rule.value = 'Female'
-                            } else if (rule.value === 'unknown') {
-                              rule.value = 'Unknown'
+                        if (rule.input === 'select') {
+                            if (rule.data.isAssociation) {
+                                rule.value = _.find(rule.data.values, rule.value)[rule.value]
                             }
-                          } else if (rule.id === 'has_been_in_orphanage' || rule.id === 'has_been_in_government_care') {
-                            if (rule.value === 'true') {
-                              rule.value = 'Yes'
-                            } else if (rule.value === 'false') {
-                              rule.value = 'No'
-                            }
-                          } else if (rule.id === 'birth_province_id') {
-                            rule.value = _.find(rule.data.values, { value: rule.value }).label
-                          } else {
-                            rule.value = _.find(rule.data.values, rule.value)[rule.value]
-                          }
                         }
 
                         if (!(rule.value instanceof Array)) {
