@@ -238,7 +238,7 @@ CIF.ClientsIndex = do ->
         sqlString = sqlString.replace(/AND/g, '<b>AND</b>').replace(/OR/g, '<b>OR</b>')
         displayText = starterText + sqlString
       else
-        displayText = 'The rules is either incomplete or blank.'
+        displayText = 'The filter is either incomplete or blank.'
       $('#sql-string').append(displayText)
 
   _overdueFormsSearch = ->
