@@ -15,7 +15,7 @@ describe AdvancedSearches::DomainScoreFields, 'Method' do
     end
 
     it 'return field with id' do
-      expect(@domain_scores[:id]).to eq("domainscore_#{domain.id}_#{domain.identity}")
+      expect(@domain_scores[:id]).to eq("domainscore__#{domain.id}__#{domain.identity}")
     end
 
     it 'return field with optGroup' do
