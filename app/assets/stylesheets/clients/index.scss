@@ -62,6 +62,10 @@ body[id='clients-index'] {
     margin-bottom: 4px;
   }
 
+  .action-button-group .btn {
+    margin-top: 4px;
+  }
+
   @media screen and (max-width: 700px){
     .client-option {
       a {
@@ -229,6 +233,43 @@ body[id='clients-index'] {
   #client-advance-search-wizard {
     padding: 0;
     border: none;
+  }
+
+  .assessment-domain-score {
+    .modal-dialog {
+      width: 100%;
+      // height: 90%;
+      margin: 0 auto;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      // height: 90%;
+      // min-height: 90%;
+      // max-height: 90%;
+      min-width: 90%;
+      border-radius: 0;
+      overflow:auto;
+    }
+
+    table.assessment-score-data {
+      width: 100% !important;
+    }
+
+    .client-id, .client-name, .assessment-number, .assessment-date {
+      min-width: 120px;
+    }
+
+    .assessment-score {
+      min-width: 32px;
+    }
+
+    .dt-buttons {
+      float: right;
+    }
   }
 
   #report-builder-wizard-modal {

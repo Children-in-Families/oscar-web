@@ -15,7 +15,23 @@
                   %li
                     = new_link
                   %li
-                    = new_custom_link
+                    - if Domain.custom_csi_domains.any?
+                      = new_custom_link
+                    - else
+                      = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                        = @current_setting.custom_assessment
+
+                #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                  .modal-dialog{:role => "document"}
+                    .modal-content.panel-warning
+                      .modal-header.panel-heading
+                        %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+                        %h4.text-left
+                          %i.fa.fa-warning.fa-x2
+                          = t('.no_custom_domains_available')
+                      .modal-body.text-center
+                        = t('.please_add_custom_domains')
+
             - elsif case_notes_editable? && policy(@client).create?
               = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_custom_assessment), class: 'btn btn-primary'
 

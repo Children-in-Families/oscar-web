@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(tracking_id, rule)
       @tracking_id   = tracking_id
       field          = rule['field']
-      @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      @field         = field.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
       @value         = format_value(rule['value'])
       @type          = rule['type']

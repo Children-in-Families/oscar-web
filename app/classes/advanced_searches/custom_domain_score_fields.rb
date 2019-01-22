@@ -12,11 +12,11 @@ module AdvancedSearches
     private
 
     def self.domain_options
-      Domain.custom_csi_domains.order_by_identity.map { |domain| "domainscore_#{domain.id}_#{domain.identity}" }
+      Domain.custom_csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
     end
 
     def self.domain_score_format(label)
-      label.split('_').last
+      label.split('__').last
     end
 
     def self.date_picker_options(field_name, label, group)

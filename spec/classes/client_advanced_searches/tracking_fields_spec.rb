@@ -20,7 +20,7 @@ describe AdvancedSearches::TrackingFields, 'Method' do
 
     it 'return field with id' do
       tracking = program_stream.trackings.first
-      expect(@fields[:id]).to include "tracking_#{program_stream.name}_#{tracking.name}_e-mail"
+      expect(@fields[:id]).to include "tracking__#{program_stream.name}__#{tracking.name}__e-mail"
     end
 
     it 'return field with optGroup' do

@@ -630,7 +630,9 @@ km:
       domain: កត្តា
       goal: គោលដៅ
       new_case_note: កំណត់ត្រាថ្មី
+      no_custom_domains_available: មិនមានកត្តាផ្ទាល់ខ្លួន
       note: កំណត់ត្រា
+      please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
       present: វត្តមានឣ្នកចូលរួម
       type: ប្រភេទ
       you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
@@ -850,8 +852,10 @@ km:
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
       add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
       advanced_search: ការបង្កើតរបាយការណ៍
+      assessment_data: ទិន្នន័យវាយតម្លៃ
       assessments: ការប៉ាន់ប្រមាណ
       client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
+      client_name: ឈ្មោះកុមារ
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_form_column: ជួរឈរទម្រង់បែបបទ
       delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
@@ -1042,6 +1046,14 @@ km:
     answer_fields:
       answer: ចម្លើយ
       yes_no: បាទ/អត់ទេ
+    assessment_domain_score:
+      assessment_data: ទិន្នន័យពិន្ទុនៃការវាយតម្លៃ
+      assessment_date: កាលបរិច្ឆេទនៃការវាយតម្លៃ
+      assessment_number: 'ការវាយតម្លៃ #'
+      client_id: លេខសំគាល់អតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      close: បិទ
+      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
     case_history_detail:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       client: ឈ្មោះអតិថិជន
@@ -1124,6 +1136,14 @@ km:
       title: សូមប្រយ័ត្ន!
     create:
       successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ
+    custom_assessment_domain_score:
+      assessment_data: ទិន្នន័យពិន្ទុនៃការវាយតម្លៃ
+      assessment_date: កាលបរិច្ឆេទនៃការវាយតម្លៃ
+      assessment_number: 'ការវាយតម្លៃ #'
+      client_id: លេខសំគាល់អតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      close: បិទ
+      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     edit:
@@ -1327,10 +1347,13 @@ km:
       advanced_search: ការស្វែងរកដែលឆ្លាតវៃ
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      assessment_data: ទិន្នន័យពិន្ទុនៃការវាយតម្លៃ
       assessments: ការប៉ាន់ប្រមាណ
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
       client_amount: ចំនួនអតិថិជន
+      csi_assessment: ការប៉ាន់ប្រមាណ CSI
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS

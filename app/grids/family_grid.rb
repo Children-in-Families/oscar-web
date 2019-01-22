@@ -168,7 +168,7 @@ class FamilyGrid < BaseGrid
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
-      fields = column_builder[:id].gsub('&qoute;', '"').split('_')
+      fields = column_builder[:id].gsub('&qoute;', '"').split('__')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         if fields.last == 'Has This Form'
           properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]

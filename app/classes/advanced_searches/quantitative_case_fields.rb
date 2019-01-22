@@ -16,7 +16,7 @@ module AdvancedSearches
       end
       quantitative_cases = quantitative_types.map do |qt|
         AdvancedSearches::FilterTypes.drop_list_options(
-          "quantitative_#{qt.id}",
+          "quantitative__#{qt.id}",
           qt.name,
           quantitative_cases(qt),
           opt_group
