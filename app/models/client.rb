@@ -109,7 +109,7 @@ class Client < ActiveRecord::Base
     big_results    = []
     current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
-    shared_clients = SharedClient.order(:slug).select(:id, :slug, :local_given_name, :local_family_name, :given_name, :family_name, :birth_province_id)
+    shared_clients = SharedClient.where('slug ilike?', '%demo%').order(:slug).select(:id, :slug, :local_given_name, :local_family_name, :given_name, :family_name, :birth_province_id)
     group_clients  = shared_clients.group_by{|client| client.slug.split('-').first }
     group_clients.each do |tenant, clients|
       tenants = Organization.all.pluck(:short_name)
@@ -188,7 +188,7 @@ class Client < ActiveRecord::Base
     return nil if value1.blank?
     white      = Text::WhiteSimilarity.new
     percentage = white.similarity(value1, value2)
-    percentage > 0 ? percentage : nil
+    percentage < 0 ? 0 : percentage
   end
 
   def self.date_of_birth_matching(dob1, dob2)
@@ -198,8 +198,9 @@ class Client < ActiveRecord::Base
       percentage = 1
     else
       remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
-      percentage = 1 - (remain_day * 0.5) if remain_day.present?
+      percentage = 1 - (remain_day * 0.5)/100 if remain_day.present?
     end
+
     percentage < 0 ? nil : percentage
   end
 

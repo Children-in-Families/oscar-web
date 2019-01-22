@@ -1,7 +1,6 @@
 #confirm-client-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog', 'data-backdrop': 'static' }
   = hidden_field(:hidden, :title, value: t('.title'))
   = hidden_field(:hidden, :body_first, value: t('.body_first') )
-  = hidden_field(:hidden, :body_second, value: t('.body_second', sender_email: ENV['SENDER_EMAIL']) )
   = hidden_field(:hidden, :body_third, value: t('.body_third') )
   = hidden_field(:hidden, :name_fields, value: t('.name_fields') )
   = hidden_field(:hidden, :birth_province, value: t('.birth_province') )
@@ -18,6 +17,7 @@
         %h4.modal-title
       .modal-body
       .modal-footer
+        %p.warning-message= t('.body_second', sender_email: ENV['SENDER_EMAIL'])
         %button#confirm.btn.btn-warning{ type: 'button', 'data-confirm': t('.confirm') }
           = t('.confirm')
         %button.btn-modal-cancel.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }

@@ -121,7 +121,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           modalTitle      = $('#hidden_title').val()
           modalTextFirst  = $('#hidden_body_first').val() + '<br/>'
           modalTextThird  = $('#hidden_body_third').val()
-          warning         = $('#hidden_body_second').val() + '<br/>'
           clientName      = $('#client_given_name').val()
 
           i = 0
@@ -131,7 +130,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             i++
 
           modalText = []
-          modalText.push("<p> <strong>#{warning}</strong> #{modalTextFirst} #{modalTextSecond} <br/> #{modalTextThird}<p/>")
+          modalText.push("<p> #{modalTextFirst} #{modalTextSecond} <br/> #{modalTextThird}<p/>")
 
           $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
           $('#confirm-client-modal .modal-body').html(modalText)
