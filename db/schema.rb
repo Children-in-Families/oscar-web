@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181218071502) do
+ActiveRecord::Schema.define(version: 20190123075828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,8 +122,9 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",  default: false
-    t.boolean  "default",    default: true
+    t.boolean  "completed",          default: false
+    t.boolean  "requried_task_last", default: false
+    t.boolean  "default",            default: true
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
@@ -831,10 +832,10 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
+    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
-    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1186,8 +1187,8 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                         default: 18
     t.integer  "commune_id"
+    t.integer  "age",                         default: 18
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true
@@ -1195,6 +1196,7 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.string   "custom_assessment_frequency", default: "month"
     t.integer  "custom_age",                  default: 18
     t.string   "default_assessment",          default: "CSI Assessment"
+    t.boolean  "sharing_data",                default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
