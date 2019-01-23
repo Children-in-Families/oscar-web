@@ -74,7 +74,7 @@ module FamilyAdvancedSearchesConcern
 
   def form_builder_report
     @custom_form_fields.each do |field|
-      fields = field[:id].split('_')
+      fields = field[:id].split('__')
       @family_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |family|
         if fields.last == 'Has This Form'
           custom_field_properties = family.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count

@@ -36,6 +36,8 @@ CIF.ClientsIndex = do ->
     _handleDomainScoreInputValue()
     _handleDomainScoreFilterValue()
     _reloadFilter()
+    _extendDataTableSort()
+    _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
@@ -56,6 +58,31 @@ CIF.ClientsIndex = do ->
       wrapper.append $.map(arr, (v) ->
         items[v]
       )
+
+  _extendDataTableSort = ->
+    $.extend $.fn.dataTableExt.oSort,
+      'formatted-num-pre': (a) ->
+        a = if a == '-' or a == '' then 0 else a.replace(/[^\d\.]/g, '')
+        parseFloat a
+      'formatted-num-asc': (a, b) ->
+        a - b
+      'formatted-num-desc': (a, b) ->
+        b - a
+
+  _addDataTableToAssessmentScoreData = ->
+    fileName = $('.assessment-domain-score').data('filename')
+    $('.assessment-score-data').DataTable
+      bFilter: false
+      processing: true
+      scrollX: true
+      order: [0, 'desc']
+      columnDefs: [{ type: 'formatted-num', targets: 0 }]
+      dom: 'lBrtip',
+      buttons: [{
+                extend: 'excelHtml5'
+                filename: fileName
+                title: ''
+            }]
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')

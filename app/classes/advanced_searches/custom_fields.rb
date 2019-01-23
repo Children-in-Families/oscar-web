@@ -32,14 +32,14 @@ module AdvancedSearches
         custom_field.fields.each do |json_field|
           json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
-            @text_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            @text_type_list << "formbuilder__#{custom_field.form_title}__#{json_field['label']}"
           elsif json_field['type'] == 'number'
-            @number_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            @number_type_list << "formbuilder__#{custom_field.form_title}__#{json_field['label']}"
           elsif json_field['type'] == 'date'
-            @date_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            @date_type_list << "formbuilder__#{custom_field.form_title}__#{json_field['label']}"
           elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
             drop_list_values = []
-            drop_list_values << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            drop_list_values << "formbuilder__#{custom_field.form_title}__#{json_field['label']}"
             drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'].gsub('&amp;qoute;', '&quot;') }}
             @drop_down_type_list << drop_list_values
           end
@@ -49,11 +49,11 @@ module AdvancedSearches
 
     private
     def format_label(value)
-      value.split('_').last
+      value.split('__').last
     end
 
     def format_optgroup(value)
-      form_title = value.split('_').second
+      form_title = value.split('__').second
       key_word = format_header('custom_form')
       "#{form_title} | #{key_word}"
     end

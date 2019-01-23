@@ -34,18 +34,18 @@ module AdvancedSearches
       program_streams = ProgramStream.where(id: @program_ids)
 
       program_streams.each do |program_stream|
-        @exit_data_list << "programexitdate_#{program_stream.name}_Exit Date"
+        @exit_data_list << "programexitdate__#{program_stream.name}__Exit Date"
         program_stream.exit_program.each do |json_field|
           json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
-            @text_type_list << "exitprogram_#{program_stream.name}_#{json_field['label']}"
+            @text_type_list << "exitprogram__#{program_stream.name}__#{json_field['label']}"
           elsif json_field['type'] == 'number'
-            @number_type_list << "exitprogram_#{program_stream.name}_#{json_field['label']}"
+            @number_type_list << "exitprogram__#{program_stream.name}__#{json_field['label']}"
           elsif json_field['type'] == 'date'
-            @date_type_list << "exitprogram_#{program_stream.name}_#{json_field['label']}"
+            @date_type_list << "exitprogram__#{program_stream.name}__#{json_field['label']}"
           elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
             drop_list_values = []
-            drop_list_values << "exitprogram_#{program_stream.name}_#{json_field['label']}"
+            drop_list_values << "exitprogram__#{program_stream.name}__#{json_field['label']}"
             drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'].gsub('&amp;qoute;', '&quot;') }}
             @drop_down_type_list << drop_list_values
           end
@@ -55,11 +55,11 @@ module AdvancedSearches
 
     private
     def format_label(value)
-      value.split('_').last
+      value.split('__').last
     end
 
     def format_optgroup(value)
-      name = value.split('_').second
+      name = value.split('__').second
       key_word = format_header('exit_program')
       "#{name} | #{key_word}"
     end

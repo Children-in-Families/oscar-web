@@ -8,7 +8,7 @@ $(document).on 'ready page:load', ->
     $('.grid-form .datagrid-filter, .grid-form .domain-filter').each ->
       $(@).addClass 'form-group col-xs-12 col-sm-6 col-lg-4'
       $(@).children('input, select').addClass 'form-control'
-      
+
     $('.date-filter-group').each (index, element) ->
       $(@).children('input, select').addClass 'form-control'
 
@@ -16,7 +16,9 @@ $(document).on 'ready page:load', ->
     $('.grid-form .datagrid-actions input').addClass 'btn btn-primary'
     $('.grid-form .datagrid-actions a').addClass 'btn btn-default'
 
-    noResult       = $('table').find('.noresults')
-    noResultClient = $('table').find('.dataTables_empty')
-    if noResult.length == 1 or noResultClient.length == 1
-      $('.btn-export').addClass('disabled')
+    tables = $('table#clients-list, table#csi-assessment-score, table#custom-assessment-score')
+    for table in tables
+      noResultClient = $(table).find('.dataTables_empty')
+      if noResultClient.length == 1
+        data = $(table).attr('id')
+        $(".btn-export.#{data}").addClass('disabled')

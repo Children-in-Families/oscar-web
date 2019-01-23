@@ -120,5 +120,3 @@ class CIF.AdvancedFilterBuilder
           month_has_changed: 'score has changed between month#'
           month_has_not_changed: 'score has not changed between month#'
       filters: @fieldList
-      plugins:
-        'sortable': true

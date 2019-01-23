@@ -23,8 +23,7 @@ module AdvancedSearches
     end
 
     def domainscore_field_query
-      sub_query = 'SELECT MAX(assessments.created_at) from assessments where assessments.client_id = clients.id'
-      assessments = Assessment.joins([:assessment_domains, :client]).where("assessments.created_at = (#{sub_query})")
+      assessments = Assessment.joins([:assessment_domains, :client])
 
       case @operator
       when 'equal'
@@ -34,6 +33,7 @@ module AdvancedSearches
       when 'less'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score < ?', @domain_id, @value)
       when 'less_or_equal'
+        return if @domain_id.blank?
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score <= ?', @domain_id, @value)
       when 'greater'
         assessments = assessments.where('assessment_domains.domain_id = ? and assessment_domains.score > ?', @domain_id, @value)

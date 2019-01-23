@@ -182,12 +182,13 @@ module ClientsHelper
     value.is_a?(Array) ? value.delete_if(&:empty?).present? : value.present?
   end
 
+  # legacy method
   def form_builder_format_key(value)
     value.downcase.parameterize('_')
   end
 
   def form_builder_format(value)
-    value.split('_').last
+    value.split('__').last
   end
 
   def form_builder_format_header(value)
@@ -199,6 +200,7 @@ module ClientsHelper
     result.join(' | ')
   end
 
+  # legacy method
   def group_entity_by(value)
     value.group_by{ |field| field.split('_').first}
   end
@@ -211,6 +213,7 @@ module ClientsHelper
     keyword.downcase.parameterize('_')
   end
 
+  # legacy method
   def field_not_render(field)
     field.split('_').first
   end
@@ -851,4 +854,44 @@ module ClientsHelper
   def client_alias_id
     current_organization.short_name == 'fts' ? @client.code : @client.slug
   end
+
+  # we use dataTable export button instead
+  # def to_spreadsheet(assessment_type)
+  #   column_header = [
+  #                     I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
+  #                     I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
+  #                     Domain.pluck(:name)
+  #                   ]
+  #   book = Spreadsheet::Workbook.new
+  #   book.create_worksheet
+  #   book.worksheet(0).insert_row(0, column_header.flatten)
+  #
+  #   ordering = 0
+  #   assessment_domain_hash = {}
+  #
+  #   assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
+  #     assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
+  #     if assessment_type == 'default'
+  #       assessments = client.assessments.defaults
+  #       domains = Domain.csi_domains
+  #     elsif assessment_type == 'custom'
+  #       assessments = client.assessments.customs
+  #       domains = Domain.custom_csi_domains
+  #     else
+  #       assessments = client.assessments
+  #       domains = Domain.all
+  #     end
+  #
+  #     assessments.each_with_index do |assessment, index|
+  #       assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+  #       domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
+  #       book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
+  #     end
+  #   end
+  #
+  #   buffer = StringIO.new
+  #   book.write(buffer)
+  #   buffer.rewind
+  #   buffer.read
+  # end
 end

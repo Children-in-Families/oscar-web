@@ -20,7 +20,7 @@ module AdvancedSearches
           field    = rule['field']
           operator = rule['operator']
           value    = rule['value']
-          form_builder = field != nil ? field.split('_') : []
+          form_builder = field != nil ? field.split('__') : []
           if ASSOCIATION_FIELDS.include?(field)
             association_filter = AdvancedSearches::Families::FamilyAssociationFilter.new(@families, field, operator, value).get_sql
             @sql_string << association_filter[:id]
