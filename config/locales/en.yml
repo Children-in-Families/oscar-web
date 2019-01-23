@@ -501,7 +501,7 @@ en:
       next: Next
       previous: Previous
       reason: Observation
-      reason_placeholder: 'Explain why you have chosen this score'
+      reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
       save: Save
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
       set_goal: Would you like to set a goal?
@@ -630,7 +630,9 @@ en:
       domain: Domain
       goal: Goal
       new_case_note: New case note
+      no_custom_domains_available: No Custom Domains Available
       note: Note
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
       type: "Type (Note: Choose 'visit' only if you met with the client.)"
       you_need_to_create_assessment: You need to create assessment
@@ -850,8 +852,9 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
-      assessments: Assessments
+      assessment_data: Assessment Data
       client_column: Client General Information
+      client_name: Client Name
       csi_domain_scores: CSI Domain Scores
       custom_form_column: Custom form columns
       delete_group: Delete
@@ -1042,6 +1045,14 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1124,6 +1135,14 @@ en:
       title: Warning
     create:
       successfully_created: Client has been successfully created.
+    custom_assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     destroy:
       successfully_deleted: Client has been successfully deleted.
     edit:
@@ -1326,10 +1345,13 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      assessment_data: Assessment Data
       assessments: Assessments
       case_statistics: Case Statistics
       client_amount: Clients
+      csi_assessment: CSI Assessment
       csi_domain_scores: CSI Domain Scores
+      custom_assessment: Custom Assessment
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS

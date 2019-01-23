@@ -31,8 +31,35 @@ CIF.ClientsIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
     _addTourTip()
+    _extendDataTableSort()
+    _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
+
+  _extendDataTableSort = ->
+    $.extend $.fn.dataTableExt.oSort,
+      'formatted-num-pre': (a) ->
+        a = if a == '-' or a == '' then 0 else a.replace(/[^\d\.]/g, '')
+        parseFloat a
+      'formatted-num-asc': (a, b) ->
+        a - b
+      'formatted-num-desc': (a, b) ->
+        b - a
+
+  _addDataTableToAssessmentScoreData = ->
+    fileName = $('.assessment-domain-score').data('filename')
+    $('.assessment-score-data').DataTable
+      bFilter: false
+      processing: true
+      scrollX: true
+      order: [0, 'desc']
+      columnDefs: [{ type: 'formatted-num', targets: 0 }]
+      dom: 'lBrtip',
+      buttons: [{
+                extend: 'excelHtml5'
+                filename: fileName
+                title: ''
+            }]
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
@@ -193,8 +220,13 @@ CIF.ClientsIndex = do ->
           $('#wizard-referral-data').hide()
           $('#wizard-referral-data .i-checks').iCheck('uncheck')
       else if sectionClassName == 'example-section'
-        _insertQueryTutorailSteps() if btnValue == 'yes'
-        $('#report-builder-wizard').steps('next')
+        if btnValue == 'yes'
+          $('#report-builder-wizard').steps('next')
+        else if btnValue == 'no'
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
+          $('#report-builder-wizard').steps('next')
       else if sectionClassName == 'chose-columns-section'
         if btnValue == 'yes'
           $('#report-builder-wizard').steps('next')
@@ -203,41 +235,6 @@ CIF.ClientsIndex = do ->
           $('#report-builder-wizard').steps('next')
       else
         $('#report-builder-wizard').steps('next')
-
-  _insertQueryTutorailSteps = ->
-    firstTutorial = '<div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-danger">
-          <div class="panel-body">"I want to see this information for all clients who are Female AND who live in Battambang AND who are over 6 years old."</div>
-        </div>
-        <p>AND statements will only bring resutls for clients who match ALL the conditions of filter statement. In this example, this report will only show information for clients who</p>
-        <ul><li>- are female AND</li><li>- who live in Battambang AND</li><li>- who are over 6 years of age.</li></ul>
-        <br>
-        <p>Clients who only meet one or two of these conditions will not be displayed in the report.</p>
-      </div>
-    </div>'
-    secondTutorial = '<div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-danger">
-          <div class="panel-body">"I want to see this information for all clients who are between 12 and 18 years old OR who are Female."</div>
-        </div>
-        <p>OR statements will only bring resutls for clients who match ONE OR MORE of the conditions of filter statement. In this example, this report will only show information for clients who</p>
-        <ul><li>- are between 12 and 18 years old OR</li><li>- are female OR</li><li>- both of those conditions.</li></ul>
-      </div>
-    </div>'
-    thirdTutorial = '<div class="row">
-      <div class="col-xs-12">
-        <p>A common mistake with AND/OR Fitlers is to use an AND filter when you really mean OR. Consider the following example:</p>
-        <div class="panel panel-danger"><div class="panel-body">"I want to see this information for all clients who are from Battambang AND who are from Siem Reap."</div></div>
-        <p>People commonly put this filter togetther, assuming this will bring them information from all their clients who are from Battambang, and all their clients who are from Siem Reap. However, the system will instead try to find clients who are from both provinces at the same time, and find no results. The correct Fitlers would actually be:</p>
-        <div class="panel panel-danger"><div class="panel-body">"I want to see this information for all clients who are from Battambang OR who are from Siem Reap."</div></div>
-      </div>
-    </div>'
-    steps = [{ index: 6, html: firstTutorial }, { index: 7, html: secondTutorial }, { index: 8, html: thirdTutorial }]
-    for step in steps
-      nextBtn = step['index'] == 8 ? 'Okay, take me back to what i was doing.' : 'Okay...'
-      $('#report-builder-wizard').steps 'insert', step['index'],
-        content: step['html']
 
   _displayChoseColumns = ->
     clientColumns = $('section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')

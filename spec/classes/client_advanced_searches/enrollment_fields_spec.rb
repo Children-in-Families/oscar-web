@@ -18,7 +18,7 @@ describe AdvancedSearches::EnrollmentFields, 'Method' do
     end
 
     it 'return field with id' do
-      expect(@fields[:id]).to include "enrollment_#{program_stream.name}_age"
+      expect(@fields[:id]).to include "enrollment__#{program_stream.name}__age"
     end
 
     it 'return field with optGroup' do

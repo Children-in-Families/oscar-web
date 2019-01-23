@@ -10,4 +10,4 @@
       %h3= t('.rule')
       #program-rule{'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') } }
       %span.help-block.has-error= f.error(:rules)
-      = f.hidden_field :rules, { value: f.object.rules.to_json }
+      = f.hidden_field :rules, { value: f.object.rules? ? format_rule(f.object.rules).to_json : {} }

@@ -19,19 +19,19 @@
               .ibox-content
                 = ad.hidden_field :domain_id
                 .well
-                  = ad.object.domain.description.html_safe
+                  = ad.object.domain.translate_description.html_safe
                 = ad.input :reason, label: t('.reason'), placeholder: t('.reason_placeholder'), required: true, input_html: { class: 'reason' }
                 %label= t('.score_label')
                 - if is_domain_definition(domain)
                   .score_option.with-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 1 }
-                      %b= score_definition(domain.score_1_definition, 1)
+                      %b= score_definition(domain.translate_score_1_definition, 1)
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 2 }
-                      %b= score_definition(domain.score_2_definition, 2)
+                      %b= score_definition(domain.translate_score_2_definition, 2)
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 3 }
-                      %b= score_definition(domain.score_3_definition, 3)
+                      %b= score_definition(domain.translate_score_3_definition, 3)
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 4 }
-                      %b= score_definition(domain.score_4_definition, 4)
+                      %b= score_definition(domain.translate_score_4_definition, 4)
                     = ad.hidden_field :score, class: 'selected-score'
                 - else
                   .score_option.without-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }

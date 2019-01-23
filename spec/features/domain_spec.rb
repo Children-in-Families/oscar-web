@@ -76,7 +76,16 @@ describe 'Domain' do
     scenario 'valid' do
       fill_in 'Name', with: 'Domain Name 1'
       fill_in 'Identity', with: 'Domain Identity'
-      fill_in 'domain_score_1_definition', with: 'Score 1 Description'
+      fill_in 'domain_description', with: FFaker::Lorem.paragraph, visible: false
+      fill_in 'domain_local_description', with: FFaker::Lorem.paragraph, visible: false
+      fill_in 'domain_score_1_definition', with: FFaker::Lorem.paragraph
+      fill_in 'domain_score_1_local_definition', with: FFaker::Lorem.paragraph
+      fill_in 'domain_score_2_definition', with: FFaker::Lorem.paragraph
+      fill_in 'domain_score_2_local_definition', with: FFaker::Lorem.paragraph
+      fill_in 'domain_score_3_definition', with: FFaker::Lorem.paragraph
+      fill_in 'domain_score_3_local_definition', with: FFaker::Lorem.paragraph
+      fill_in 'domain_score_4_definition', with: FFaker::Lorem.paragraph
+      fill_in 'domain_score_4_local_definition', with: FFaker::Lorem.paragraph
       click_button 'Save'
       sleep 1
       find('a[href="#custom-csi-tools"]').trigger('click')

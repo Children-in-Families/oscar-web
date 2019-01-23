@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(clients, rule)
       @clients      = clients
       field         = rule['field']
-      @field_value  = field.split('_').last
+      @field_value  = field.split('__').last
       @operator     = rule['operator']
       @value        = rule['value']
     end

@@ -147,6 +147,43 @@
             .btn.btn-default{ 'data-value': 'yes'} Yes please.
             .btn.btn-default{ 'data-value': 'no'} No thanks.
 
+          %h3 Example 1
+          %section
+            .row
+              .col-xs-12
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are Female AND who live in Battambang AND who are over 6 years old."
+                %p AND statements will only bring resutls for clients who match ALL the conditions of filter statement. In this example, this report will only show information for clients who
+                %ul
+                  %li - are female AND
+                  %li - who live in Battambang AND
+                  %li - who are over 6 years of age.
+                %br
+                %p Clients who only meet one or two of these conditions will not be displayed in the report.
+
+          %h3 Example 2
+          %section
+            .row
+              .col-xs-12
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are between 12 and 18 years old OR who are Female."
+                %p OR statements will only bring resutls for clients who match ONE OR MORE of the conditions of filter statement. In this example, this report will only show information for clients who
+                %ul
+                  %li - are between 12 and 18 years old OR
+                  %li - are female OR
+                  %li - both of those conditions.
+
+          %h3 Example 3
+          %section
+            .row
+              .col-xs-12
+                %p A common mistake with AND/OR Fitlers is to use an AND filter when you really mean OR. Consider the following example:
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are from Battambang AND who are from Siem Reap."
+                %p People commonly put this filter together, assuming this will bring them information from all their clients who are from Battambang, and all their clients who are from Siem Reap. However, the system will instead try to find clients who are from both provinces at the same time, and find no results. The correct Fitlers would actually be:
+                .panel.panel-danger
+                  .panel-body "I want to see this information for all clients who are from Battambang OR who are from Siem Reap."
+
           %h3 Chose Columns
           %section.chose-columns-section
             %p The next step in building a report is to filter your information.
@@ -171,10 +208,10 @@
               .col-xs-8
                 %p Do you want to filter your clients based on this same information, or add something else?
             .row
-              .col-xs-7
+              .col-xs-6
                 .btn.btn-block.btn-primary.wide-margin-bottom{ 'data-value': 'yes'} I want to filter clients based on information in the forms I already chose.
             .row
-              .col-xs-7
+              .col-xs-6
                 .btn.btn-block.btn-danger.wide-margin-bottom{ 'data-value': 'no'} I want to filter based on information from somewhere else.
 
           %h3 Remind

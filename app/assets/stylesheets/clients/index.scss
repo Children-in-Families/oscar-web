@@ -62,6 +62,10 @@ body[id='clients-index'] {
     margin-bottom: 4px;
   }
 
+  .action-button-group .btn {
+    margin-top: 4px;
+  }
+
   @media screen and (max-width: 700px){
     .client-option {
       a {
@@ -210,6 +214,7 @@ body[id='clients-index'] {
       }
     }
   }
+
   .popover[class*="tour-"].orphan .arrow{
     display: inline-block;
   }
@@ -220,6 +225,101 @@ body[id='clients-index'] {
     width: 227px;
     margin-left: 175px !important;
     // margin-top: 430px !important;
+    z-index: 2001;
+  }
+
+  // Report Builder Wizard
+
+  #client-advance-search-wizard {
+    padding: 0;
+    border: none;
+  }
+
+  .assessment-domain-score {
+    .modal-dialog {
+      width: 100%;
+      // height: 90%;
+      margin: 0 auto;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      // height: 90%;
+      // min-height: 90%;
+      // max-height: 90%;
+      min-width: 90%;
+      border-radius: 0;
+      overflow:auto;
+    }
+
+    table.assessment-score-data {
+      width: 100% !important;
+    }
+
+    .client-id, .client-name, .assessment-number, .assessment-date {
+      min-width: 120px;
+    }
+
+    .assessment-score {
+      min-width: 32px;
+    }
+
+    .dt-buttons {
+      float: right;
+    }
+  }
+
+  #report-builder-wizard-modal {
+    .modal-lg {
+      width: 90%;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body input {
+      display: inline-block;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul {
+      padding-left: 15px;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul > li {
+      list-style: inside;
+    }
+
+    #report-builder-wizard .content {
+      height: calc(100vh - 300px);
+      overflow: scroll;
+    }
+
+    label.pointer {
+      cursor: pointer;
+    }
+
+    .custom-form .select2-input {
+      width: 100% !important;
+    }
+
+    .columns-visibility {
+      margin-bottom: 20px;
+    }
+
+    .chose-columns-section .wide-margin-bottom {
+      margin-bottom: 25px;
+      margin-left: 20px;
+    }
+
+    #wizard-program-stream {
+      margin-top: 10px;
+    }
+
+    .chose-columns-section {
+      .btn-block {
+        text-align: left;
+      }
+    }
   }
 
   // Report Builder Wizard

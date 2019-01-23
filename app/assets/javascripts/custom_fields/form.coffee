@@ -114,6 +114,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       }
 
     $("#custom-field-submit").click (event) ->
+      labelFields = $('[name="label"].fld-label')
+      for labelField in labelFields
+        labelField.textContent = labelField.textContent.replace(/;/g, '')
+
       specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
       fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
       $('#custom_field_fields').val(JSON.stringify(fields))

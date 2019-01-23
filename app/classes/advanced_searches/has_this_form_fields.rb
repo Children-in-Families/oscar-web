@@ -22,7 +22,7 @@ module AdvancedSearches
       custom_forms = CustomField.where(id: @custom_form_ids)
       custom_forms.each do |custom_form|
         drop_list_values = []
-        drop_list_values << "formbuilder_#{custom_form.form_title}_Has This Form"
+        drop_list_values << "formbuilder__#{custom_form.form_title}__Has This Form"
         drop_list_values << { custom_form.form_title => custom_form.form_title}
         @drop_down_type_list << drop_list_values
       end
@@ -30,11 +30,11 @@ module AdvancedSearches
 
     private
     def format_label(value)
-      value.split('_').last
+      value.split('__').last
     end
 
     def format_optgroup(value)
-      form_title = value.split('_').second
+      form_title = value.split('__').second
       key_word = format_header('custom_form')
       "#{form_title} | #{key_word}"
     end

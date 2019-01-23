@@ -4,9 +4,9 @@ module AdvancedSearches
     def initialize(selected_custom_form, rule, entity_type)
       @selected_custom_form = selected_custom_form
       field          = rule['field']
-      @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      @field         = field.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
-      @value         = rule['value'].is_a?(Array) || rule['value'].is_a?(Fixnum) ? rule['value'] : rule['value'].gsub("'", "''")
+      @value         = format_value(rule['value'])
       @type          = rule['type']
       @input_type    = rule['input']
       @entity_type   = entity_type
@@ -70,6 +70,10 @@ module AdvancedSearches
 
     def integer?
       @type == 'integer'
+    end
+
+    def format_value(value)
+      value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
     end
   end
 end

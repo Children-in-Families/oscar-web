@@ -18,9 +18,31 @@
     %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
       = t('.save_search_settings')
     - if params['commit'].present? || params['client_advanced_search'].present?
-      = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
+      = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export clients-list' do
         %i.fa.fa-download
         = t('.export_to_xls')
+      - if enable_all_csi_tools?
+        .btn-group
+          %button.btn.btn-primary.dropdown-toggle{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+            = t('.assessment_data')
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to '#', class: 'btn btn-default', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+                = t('.csi_assessment')
+            %li
+              = link_to '#', class: 'btn btn-default', 'data-target': "#custom-assessment-domain-score", 'data-toggle': 'modal' do
+                = t('.custom_assessment')
+          = render 'assessment_domain_score'
+          = render 'custom_assessment_domain_score'
+      - elsif enable_default_assessment?
+        = link_to '#', class: 'btn btn-primary', 'data-target': "#assessment-domain-score", 'data-toggle': 'modal' do
+          = t('.assessment_data')
+        = render 'assessment_domain_score'
+      - elsif enable_custom_assessment?
+        = link_to '#', class: 'btn btn-primary', 'data-target': "#custom-assessment-domain-score", 'data-toggle': 'modal' do
+          = t('.assessment_data')
+        = render 'custom_assessment_domain_score'
 
     - if current_user.admin? || current_user.any_manager?
       - if params['commit'].present? || params['client_advanced_search'].present?
@@ -28,7 +50,7 @@
           %i.fa.fa-line-chart
           %span= t('.reports')
 
-  .col-xs-12.col-md-3
+  .col-xs-12.col-md-2
     .pull-right.client-option
       - if can? :manage, Client
         = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
@@ -86,7 +108,7 @@
 
         .ibox-content
           .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
-            %table.table.table-bordered.table-striped.table-hover.clients
+            %table.table.table-bordered.table-striped.table-hover.clients#clients-list
               = content_tag :div, 'hidden_param', class: 'hide', id: 'hidden-param', data: { 'hidden-param': url_for(params) }
               %thead
                 = datagrid_header(@client_grid)
