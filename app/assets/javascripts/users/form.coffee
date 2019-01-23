@@ -1,4 +1,4 @@
-CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = do ->
+CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = CIF.RegistrationsEdit = CIF.RegistrationsUpdate = do ->
   _init = ->
     _initSelect2()
     _handleDisableManagerField()
