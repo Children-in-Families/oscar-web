@@ -117,7 +117,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         similar_fields  = json.similar_fields
         modalTextSecond = ''
 
-        if clientId == '' and similar_fields.length > 0
+        if similar_fields == null
+          $('#client-wizard-form').submit()
+        else if clientId == '' and similar_fields.length > 0
           modalTitle      = $('#hidden_title').val()
           modalTextFirst  = $('#hidden_body_first').val() + '<br/>'
           modalTextThird  = $('#hidden_body_third').val()

@@ -106,10 +106,15 @@ class Client < ActiveRecord::Base
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
   def self.find_shared_client(options)
+    skip_orgs = ['demo', 'cwd', 'myan', 'rok', 'shared', 'my']
+    return if skip_orgs.include?(Organization.current.short_name)
+
     big_results    = []
     current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
-    shared_clients = SharedClient.where('slug ilike?', '%demo%').order(:slug).select(:id, :slug, :local_given_name, :local_family_name, :given_name, :family_name, :birth_province_id)
+
+    shared_clients = SharedClient.where.not('slug ilike ?', '%demo%').or(SharedClient.where.not('slug ilike ?', '%cwd%')).or(SharedClient.where.not('slug ilike ?', '%myan%')).or(SharedClient.where.not('slug ilike ?', '%rok%')).or(SharedClient.where.not('slug ilike ?', '%my%'))
+    shared_clients = shared_clients.order(:slug)
     group_clients  = shared_clients.group_by{|client| client.slug.split('-').first }
     group_clients.each do |tenant, clients|
       tenants = Organization.all.pluck(:short_name)
