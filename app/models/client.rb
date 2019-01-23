@@ -106,8 +106,7 @@ class Client < ActiveRecord::Base
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
   def self.find_shared_client(options)
-    skip_orgs = ['demo', 'cwd', 'myan', 'rok', 'shared', 'my']
-    return if skip_orgs.include?(Organization.current.short_name)
+    return if Organization.none_oscar.include?(Organization.current)
 
     big_results    = []
     current_org    = Organization.current.short_name
