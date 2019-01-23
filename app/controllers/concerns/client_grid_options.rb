@@ -16,13 +16,15 @@ module ClientGridOptions
   end
 
   def export_client_reports
-    domain_score_report
+    default_all_csi_assessments
+    custom_all_csi_assessments
     form_builder_report if params[:client_advanced_search].present?
     csi_domain_score_report
     program_stream_report
     program_enrollment_date_report
     program_exit_date_report
-    date_of_assessments
+    default_date_of_assessments
+    custom_date_of_assessments
     case_note_date_report
     case_note_type_report
     accepted_date_report
@@ -184,39 +186,82 @@ module ClientGridOptions
     end
   end
 
-  def date_of_assessments
+  def default_date_of_assessments
     return unless @client_columns.visible_columns[:date_of_assessments_].present?
+    date_of_assessments('default')
+  end
+
+  def custom_date_of_assessments
+    return unless @client_columns.visible_columns[:date_of_custom_assessments_].present?
+    date_of_assessments('custom')
+  end
+
+  def date_of_assessments(type)
+    case type
+    when 'default'
+      records = 'client.assessments.defaults'
+      column = 'date_of_assessments'
+    when 'custom'
+      records = 'client.assessments.customs'
+      column = 'date_of_custom_assessments'
+    end
+
     if params[:data].presence == 'recent'
-      @client_grid.column(:date_of_assessments, header: I18n.t('datagrid.columns.clients.date_of_assessments')) do |client|
-        date_format(client.assessments.latest_record.try(:created_at)) if client.assessments.any?
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+        date_format(eval(records).latest_record.try(:created_at)) if records.any?
       end
     else
-      @client_grid.column(:date_of_assessments, header: I18n.t('datagrid.columns.clients.date_of_assessments')) do |client|
-        date_filter(client.assessments.most_recents, 'date_of_assessments').map{ |a| date_format(a.created_at) }.join(' | ') if client.assessments.any?
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+        date_filter(eval(records).most_recents, "#{column}").map{ |a| date_format(a.created_at) }.join(' | ') if eval(records).any?
       end
     end
   end
 
-  def domain_score_report
+  def default_all_csi_assessments
     return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:all_csi_assessments_].present?
+    domain_score_report('default')
+  end
+
+  def custom_all_csi_assessments
+    return unless params['type'] == 'basic_info' && @client_columns.visible_columns[:all_custom_csi_assessments_].present?
+    domain_score_report('custom')
+  end
+
+  def domain_score_report(type)
+    case type
+    when 'default'
+      records = 'client.assessments.defaults'
+      column = 'all_csi_assessments'
+    when 'custom'
+      records = 'client.assessments.customs'
+      column = 'all_custom_csi_assessments'
+    end
+
     if params[:data].presence == 'recent'
-      @client_grid.column(:all_csi_assessments, header: t('.all_csi_assessments')) do |client|
-        recent_assessment = client.assessments.latest_record
+      @client_grid.column(column.to_sym, header: t(".#{column}")) do |client|
+        recent_assessment = eval(records).latest_record
         "#{date_format(recent_assessment.created_at)} => #{recent_assessment.assessment_domains_score}" if recent_assessment.present?
       end
     else
-      @client_grid.column(:all_csi_assessments, header: t('.all_csi_assessments')) do |client|
-        client.assessments.map(&:basic_info).join("\x0D\x0A")
+      @client_grid.column(column.to_sym, header: t(".#{column}")) do |client|
+        eval(records).map(&:basic_info).join("\x0D\x0A")
       end
     end
-    @client_grid.column_names << :all_csi_assessments if @client_grid.column_names.any?
+    @client_grid.column_names << column.to_sym if @client_grid.column_names.any?
   end
 
   def csi_domain_score_report
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
-      @client_grid.column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity) do |client|
-        assessment = client.assessments.latest_record
+      if domain.custom_domain
+        column = "custom_#{domain.convert_identity}".to_sym
+        records = 'client.assessments.customs'
+      else
+        column = domain.convert_identity.to_sym
+        records = 'client.assessments.defaults'
+      end
+      @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
+        assessment = eval(records).latest_record
         assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
       end
     end

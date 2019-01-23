@@ -3,21 +3,29 @@ class DomainsController < AdminController
 
   before_action :find_domain, only: [:edit, :update, :destroy]
   before_action :find_domain_group, except: [:index, :destroy]
-  before_action :validate_organization
 
   def index
-    @domains = Domain.all.page(params[:page]).per(10)
-    @results = Domain.count
+    @domains = Domain.csi_domains.page(params[:page_1]).per(10)
+    @custom_domains = Domain.custom_csi_domains.page(params[:page_2]).per(10)
+    @results = Domain.csi_domains.count
+    @custom_domain_results = Domain.custom_csi_domains.count
   end
 
   def new
-    @domain = Domain.new
+    if params[:copy] != 'true'
+      @domain = Domain.new
+    else
+      @domain     = Domain.find(params[:domain_id])
+      domain_attr = @domain.attributes.except('id')
+      @domain     = Domain.new(domain_attr)
+    end
   end
 
   def create
     @domain = Domain.new(domain_params)
+    @domain.custom_domain = true
     if @domain.save
-      redirect_to domains_path, notice: t('.successfully_created')
+      redirect_to domains_path(tab: 'custom_domain'), notice: t('.successfully_created')
     else
       render :new
     end
@@ -27,7 +35,9 @@ class DomainsController < AdminController
   end
 
   def update
+    # @domain.custom_domain = true
     if @domain.update_attributes(domain_params)
+      # redirect_to domains_path(tab: 'custom_domain'), notice: t('.successfully_updated')
       redirect_to domains_path, notice: t('.successfully_updated')
     else
       render :edit
@@ -51,18 +61,18 @@ class DomainsController < AdminController
   private
 
   def domain_params
-    params.require(:domain).permit(:name, :identity, :description, :domain_group_id, :score_1_color, :score_2_color, :score_3_color, :score_4_color)
+    params.require(:domain).permit(
+      :name, :identity, :description, :local_description, :domain_group_id,
+      :score_1_color, :score_2_color, :score_3_color, :score_4_color,
+      :score_1_definition, :score_2_definition, :score_3_definition, :score_4_definition,
+      :score_1_local_definition, :score_2_local_definition, :score_3_local_definition, :score_4_local_definition)
   end
 
   def find_domain
-    @domain = Domain.find(params[:id])
+    @domain = Domain.custom_csi_domains.find(params[:id])
   end
 
   def find_domain_group
     @domain_group = DomainGroup.order(:name)
-  end
-
-  def validate_organization
-    redirect_to root_url, alert: t('unauthorized.default') if (Rails.env.production? && current_organization.demo?)
   end
 end

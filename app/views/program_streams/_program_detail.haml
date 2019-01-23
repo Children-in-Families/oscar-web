@@ -3,4 +3,4 @@
   #description
     = f.input :name, label: t('.name')
     = f.input :description, label: t('.description')
-    = f.association :domains, label_method: :identity, value_method: :id, multiple: true, label: t('.domain')
+    = f.association :domains, collection: @csi_domains, multiple: true, label_method: :identity, value_method: :id, label: t('.domain')

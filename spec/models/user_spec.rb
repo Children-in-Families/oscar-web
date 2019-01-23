@@ -392,6 +392,9 @@ describe User, 'methods' do
   let!(:strategic_overviewer){ create(:user, roles: 'strategic overviewer') }
   let!(:able_case_worker){ create(:user, roles: 'case worker') }
   let!(:able_client){ create(:client, users: [able_case_worker], able_state: 'Accepted') }
+  before do
+    Setting.first.update(enable_custom_assessment: false)
+  end
 
   context 'no_any_associated_objects?' do
     it { expect(admin.no_any_associated_objects?).to be_truthy }
@@ -414,8 +417,8 @@ describe User, 'methods' do
   end
 
   context 'assessment_either_overdue_or_due_today' do
-    it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0}) }
-    it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0}) }
+    it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0, custom_overdue_count: 0, custom_due_today_count: 0}) }
+    it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0, custom_overdue_count: 0, custom_due_today_count: 0}) }
   end
 
   context 'self_and_subordinates' do

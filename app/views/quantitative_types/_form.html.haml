@@ -16,5 +16,5 @@
             = link_to_add_association t('.add_quantitative_data'), f, :quantitative_cases, class: 'btn btn-info add-more'
         .modal-footer
           .pull-left
-            = f.submit t('.save') , class: 'btn btn-primary form-btn'
+            = f.submit t('.save') , class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
             %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')

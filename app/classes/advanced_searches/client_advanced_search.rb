@@ -25,7 +25,7 @@ module AdvancedSearches
 
         operators = rules.flatten.map{|value| value["operator"] }.uniq if rules.present?
 
-        if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.sort == ["not_equal", "equal"].sort
+        if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.reject(&:nil?).sort == ["not_equal", "equal"].sort
           excluded_client_ids = rules.flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
           clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).where(query_array).reject do |client|
             client_enrollment_ids = client.client_enrollments.map(&:program_stream_id)

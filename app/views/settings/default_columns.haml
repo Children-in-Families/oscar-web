@@ -22,4 +22,4 @@
                 = f.hidden_field :max_assessment
                 = f.hidden_field :assessment_frequency, collection: [['Day', 'day'], ['Week', 'week'], ['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }
         .ibox-footer
-          = f.submit t('save'), name: 'default_columns' ,class: 'btn btn-primary'
+          = f.submit t('save'), name: 'default_columns' ,class: 'btn btn-primary', data: { disable_with: t('saving') }

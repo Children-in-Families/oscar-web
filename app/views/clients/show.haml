@@ -46,7 +46,7 @@
                     .form-inputs
                       = f.hidden_field :accepted_date, value: Date.today
                     .form-actions
-                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client'
+                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client', data: { disable_with: t('.accepting') }
                 .col-xs-12
                   %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
 
@@ -106,7 +106,7 @@
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
-          - if non_mho_tenant? && enable_assessment_setting?
+          - if enable_any_csi_tools?
             = link_to client_assessments_path(@client) do
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
@@ -415,7 +415,6 @@
                       %td
                         .text-center
                           %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
-                          -# - if policy(case_history).edit?
                           - if current_user.admin?
                             - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
                               %button.btn.btn-outline.btn-success.btn-xs{'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal'}= fa_icon('pencil')
@@ -423,57 +422,6 @@
 
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)
-
-        -# - if @enter_ngos.any?
-        -#   .row
-        -#     .col-xs-12
-        -#       .table-responsive
-        -#         %table.table.table-bordered.table-striped.table-hover
-        -#           %thead
-        -#             %tr
-        -#               %th.custom_column_name= t('.accepted_date')
-        -#               %th.text-center.custom_column_manage= t('.manage')
-        -#           %tbody
-        -#             - @enter_ngos.each do |enter_ngo|
-        -#               %tr
-        -#                 %td= date_format(enter_ngo.accepted_date)
-        -#                 %td
-        -#                   .text-center
-        -#                     %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#enter-ngo-form-#{enter_ngo.id}", "data-toggle" => 'modal'}
-        -#                       = fa_icon('pencil')
-        -#                   = render 'client/enter_ngos/edit_form', client: @client, enter_ngo: enter_ngo
-        -#
-        -# - if @exit_ngos.any?
-        -#   .row
-        -#     .col-xs-12
-        -#       .table-responsive
-        -#         %table.table.table-bordered.table-striped.table-hover
-        -#           %thead
-        -#             %tr
-        -#               %th= t('.exit_date')
-        -#               %th= t('.exit_circumstance')
-        -#               %th= t('.exit_reasons')
-        -#               %th= t('.exit_note')
-        -#               %th= t('.other_info_of_exit')
-        -#               %th.text-center= t('.manage')
-        -#           %tbody
-        -#             - @exit_ngos.each do |exit_ngo|
-        -#               %tr
-        -#                 %td= date_format(exit_ngo.exit_date)
-        -#                 %td= exit_ngo.exit_circumstance
-        -#                 %td
-        -#                   %strong
-        -#                     %ul
-        -#                     - exit_reasons = exit_ngo.exit_reasons.reject(&:empty?)
-        -#                     - exit_reasons.each do |exit_reason|
-        -#                       %li= exit_reason
-        -#                 %td= exit_ngo.exit_note
-        -#                 %td= exit_ngo.other_info_of_exit
-        -#                 %td
-        -#                   .text-center
-        -#                     %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#exitFromNgo-#{exit_ngo.id}", "data-toggle" => 'modal'}
-        -#                       = fa_icon('pencil')
-        -#                   = render 'client/exit_ngos/edit_form', client: @client, exit_ngo: exit_ngo
 
 .row
   = render 'placement'

@@ -1,0 +1,18 @@
+-# = f.input :name, as: :hidden, input_html: { value: property['label'] }
+-# %label= property['label']
+-# = f.input :file, as: :file, label: false, input_html: { multiple: property['multiple'].present? }
+-# = hidden_field_tag("#{entity.object_name}[form_builder_attachments_attributes][#{field_props['name'].last(2)}][name]", field_props['label'])
+-# = file_field_tag("#{entity.object_name}[form_builder_attachments_attributes][#{field_props['name'].split('-').last}][file]", class: 'file', multiple: field_props['multiple'].present?)
+-# -# client_enrollment[form_builder_attachments_attributes][1][name]
+-# %p
+-#   %i.small Allowed file types: (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)
+-# %p
+-#   %i.small Maximum upload size: 30MB
+-# %div{ class: "form-group #{field_with(field_props['label'],errors)}" }
+-#   %label{ class: required?(field_props['required'] || false) }
+-#     %abbr= '*' if field_props['required'] || false
+-#     = field_props['label']
+-#     %div{ class: "input-group #{required?(field_props['required'])}" }
+-#       = f.input :file, as: :file, label: false, class: "form-control #{field_props['className']} #{required?(field_props['required'])}", input_html: { multiple: field_props['multiple'], name: "custom_field_property[properties][#{field_props['label']}]" }
+-#   %span.help-block
+-#     = field_message(field_props['label'], errors)

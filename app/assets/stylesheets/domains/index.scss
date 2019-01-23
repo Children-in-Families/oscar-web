@@ -12,4 +12,17 @@
   .actions a {
     margin-left: 4px;
   }
+  .ibox-title.domain-ibox{
+    border-top: 0px;
+  }
+  .csi-tab{
+    margin-bottom: 10px;
+    li.active a {
+      border-bottom-color: #fff;
+    }
+  }
+
+  .btn-option {
+    white-space: inherit;
+  }
 }

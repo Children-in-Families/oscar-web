@@ -1,28 +1,32 @@
-.panel.panel-default.assessment-domain-panel
-  .panel-heading{:role => "tab"}
-    %h5.panel-title
-      %a{ class: "collapsed", "aria-controls": "collapse#{cd.object.domain_group.name}", "aria-expanded": cd.object.domain_group.first_ordered? ? "true" : "false", "data-parent": "#accordion", "data-toggle": "collapse", href: "#collapse#{cd.object.domain_group.name}", role: "button" }
-        %strong= "#{t('.domain')} #{cd.object.domain_group.name}"
-        = "(#{cd.object.domain_group.domain_identities})"
+- if get_domains(domain_note).present?
+  .ibox.case-note-domain-group
+    .ibox-title
+      %h5
+        = "#{t('.domain')} #{domain_note.object.domain_group.name}"
+        = "(#{get_domains(domain_note)})"
+      .ibox-tools
+        %a.collapse-link
+          .btn.btn-outline.btn-primary
+            %i.fa{ class: "fa-chevron-#{domain_note.object.domain_group.first_ordered? ? 'up' : 'down'}" }
 
-  .panel-collapse.collapse{ id: "collapse#{cd.object.domain_group.name}", class: cd.object.domain_group.first_ordered? ? 'in' : '', "aria-labelledby": "headingOne", role: "tabpanel"}
-    .panel-body
+    .ibox-content{ class: "#{domain_note.object.domain_group.first_ordered? ? '' : 'collapse'}" }
       .row
         .col-xs-12.col-md-6
-          = cd.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
-          = cd.hidden_field :domain_group_id
+          = domain_note.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
+          = domain_note.hidden_field :domain_group_id
         .col-xs-12.col-md-6
-          - cd.object.domain_group.domains.each do |domain|
+          - domains = fetch_domains(domain_note)
+          - domains.each do |domain|
             - tasks = @case_note.client.tasks.where(domain_id: domain.id)
-            - if cd.object.persisted?
-              - tasks = tasks.by_case_note_domain_group(cd.object)
+            - if domain_note.object.persisted?
+              - tasks = tasks.by_case_note_domain_group(domain_note.object)
             .panel{ class: "panel-default task-domain-#{domain.id} #{hidden_class(tasks.incomplete.blank?)}" }
               .panel-heading
                 %strong= "#{t('.domain')} #{domain.name}"
-              = render 'tasks_list', { cd: cd, domain: domain, tasks: tasks }
+              = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
         .col-xs-12
-          = render 'attachment_fields', { cd: cd }
+          = render 'attachment_fields', { domain_note: domain_note }
       .row
         .col-xs-12
-          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
+          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{domain_note.object.domain_group.domains.pluck(:id, :name)}"}
             = t('.add_task')

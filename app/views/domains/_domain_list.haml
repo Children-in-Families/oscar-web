@@ -1,0 +1,29 @@
+.panel.panel-default
+  .panel-heading
+    .row
+      .col-xs-12.col-sm-8
+        %h3
+          = "#{t('.domains')} : #{domain.name} (#{domain.identity})"
+
+      .col-xs-12.col-sm-4.text-right.actions
+        - if can? :version, Domain
+          = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
+            = t('.changelog')
+        - if can? :manage, Domain
+          = link_to new_domain_path(domain_id: domain.id, copy: true), class: 'btn btn-outline btn-success margin-left' do
+            = fa_icon('copy')
+        - if domain.custom_domain?
+          = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do
+            = fa_icon('pencil')
+          = remove_link(domain, {domain_task: domain.tasks.count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
+  .panel-body
+    %p= domain.translate_description.html_safe
+  .penel-footer
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_1_color}" }
+      = score_definition(domain.translate_score_1_definition, 1)
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_2_color}" }
+      = score_definition(domain.translate_score_2_definition, 2)
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_3_color}" }
+      = score_definition(domain.translate_score_3_definition, 3)
+    .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_4_color}" }
+      = score_definition(domain.translate_score_4_definition, 4)

@@ -1,0 +1,8 @@
+%div{ class: "form-group i-checks #{field_with(field_props['label'],errors)}" }
+  %label.control-label{ class: required?(field_props['required'] || false) }
+    %abbr{ title: 'required' }= '*' if field_props['required'] || false
+    = field_props['label'].html_safe
+
+  = f.input field_props['label'], collection: field_props['values'].map { |f| [ format_placeholder(f['label']), f['label'], id: "custom_field_property_properties_#{field_props['label'].gsub('"', '&qoute;').html_safe}_#{f['label'].html_safe}"] }, as: :check_boxes, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{field_props['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')}][]", title: field_props['description']}, checked: value
+  %span.help-block.hidden
+    = t('cannot_be_blank')

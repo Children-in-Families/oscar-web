@@ -17,5 +17,5 @@
           = f.input :exit_form_check, as: :hidden
           = f.input :quantitative_check, as: :hidden
         .modal-footer
-          = f.submit t('save'), class: 'btn btn-primary form-btn', id: 'submit-query', disabled: true
+          = f.submit t('save'), class: 'btn btn-primary form-btn', id: 'submit-query', disabled: true, data: { disable_with: t('saving') }
           %button{ type: 'button', class: 'btn btn-default form-btn btn-cancel', 'data-dismiss': 'modal' }= t('cancel')

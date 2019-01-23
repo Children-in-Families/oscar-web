@@ -5,10 +5,14 @@ class DomainGroup < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
-  default_scope { order('name') }
+  default_scope { order(:id, :name) }
 
-  def domain_identities
-    domains.map(&:identity).join(', ')
+  def default_domain_identities
+    domains.csi_domains.map(&:identity).join(', ')
+  end
+
+  def custom_domain_identities
+    domains.custom_csi_domains.map(&:identity).join(', ')
   end
 
   def first_ordered?
