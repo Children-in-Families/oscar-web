@@ -496,10 +496,12 @@ class CIF.ClientAdvanceSearch
       btnID = e.currentTarget.id
       if btnID == 'search'
         builderElement = '#builder'
+        builderForm = '.main-report-builder'
         programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
         customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
       else
         builderElement = '#wizard-builder'
+        builderForm = '#report-builder-wizard'
         programValues = if self.wizardProgramSelected.length > 0 then "[#{self.wizardProgramSelected}]"
         customFormValues = if self.wizardCustomFormSelected.length > 0 then "[#{self.wizardCustomFormSelected}]"
 
@@ -519,7 +521,7 @@ class CIF.ClientAdvanceSearch
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $(builderElement).find('.has-error').remove()
         $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
-        self.handleSelectFieldVisibilityCheckBox()
+        self.handleSelectFieldVisibilityCheckBox(builderForm)
         $('#advanced-search').submit()
 
   handleFamilySearch: ->
@@ -563,8 +565,8 @@ class CIF.ClientAdvanceSearch
     rules = JSON.stringify(rules)
     return rules.replace(/null/g, '""')
 
-  handleSelectFieldVisibilityCheckBox: ->
-    checkedFields = $('.visibility .checked input, .all-visibility .checked input')
+  handleSelectFieldVisibilityCheckBox: (builder = '.main-report-builder')->
+    checkedFields = $(builder).find('.visibility .checked input, .all-visibility .checked input')
     $('form#advanced-search').append(checkedFields)
 
   ######################################################################################################################
