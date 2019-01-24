@@ -88,7 +88,7 @@ module AdvancedSearches
       end
       clients.map(&:id)
     end
-    
+
     def date_nearest_query
       clients = @clients.joins(:assessments).where('date(assessments.created_at) <= ?', @value.to_date)
       clients.uniq.ids

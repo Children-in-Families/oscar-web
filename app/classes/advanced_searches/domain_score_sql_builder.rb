@@ -2,7 +2,7 @@ module AdvancedSearches
   class DomainScoreSqlBuilder
 
     def initialize(field, rule, basic_rule)
-      @form_builder = field != nil ? field.split('_') : []
+      @form_builder = field != nil ? field.split('__') : []
       @operator     = rule['operator']
       @value        = rule['value']
       @domain_id    = @form_builder.second
@@ -12,11 +12,10 @@ module AdvancedSearches
 
     def get_sql
       sql_string = 'clients.id IN (?)'
-
       case @form_builder.first
       when 'domainscore'
         values = domainscore_field_query
-      when 'all'
+      when 'all_domains' || 'all_custom_domains'
         values = all_domains_query
       end
       { id: sql_string, values: values }
