@@ -184,7 +184,7 @@ CIF.ClientsIndex = do ->
     choosenClasses = ['client-section', 'custom-form-section', 'program-stream-section', 'referral-data-section', 'example-section', 'chose-columns-section']
     for section in allSections
       sectionClassName = section.classList[0]
-      if choosenClasses.includes(sectionClassName)
+      if _.includes(choosenClasses, sectionClassName)
         _handleCheckDisplayReport(section, sectionClassName)
 
   _handleCheckDisplayReport = (element, sectionClassName) ->
