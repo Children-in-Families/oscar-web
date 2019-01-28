@@ -4133,6 +4133,9 @@ km:
       country: ប្រទេស
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
+    research_module:
+      title: ការស្រាវជ្រាវ OSCaR
+      research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយការស្រាវជ្រាវ OSCaR
   shared:
     form_builder:
       file_field:
