@@ -22,7 +22,7 @@ module AdvancedSearches
           rules = @basic_rules["rules"].reject {|hash_value| hash_value["id"] != "active_program_stream" }
         end
 
-        if rules.compact.any?{|rule| rule.has_key?('rules')}
+        if rules.compact.any?{|rule| !rule.is_a?(Array) && rule.has_key?('rules')}
           rule_hash = {}
           rules = rules.compact.first.each {|k, v| rule_hash[k] = v if k == 'rules'}
           operators = rule_hash['rules'].map{|value| value["operator"] }.uniq if rules.present?

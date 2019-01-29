@@ -5,8 +5,9 @@ class CIF.AdvancedFilterBuilder
     @filterTranslation  = filterTranslation
 
   initRule: ->
-    $('#builder').queryBuilder(@builderOption('#builder'))
-    $('#wizard-builder').queryBuilder(@builderOption('#wizard-builder'))
+    $(@element.selector).queryBuilder(@builderOption(@element.selector))
+    # $('#builder').queryBuilder(@builderOption('#builder'))
+    # $('#wizard-builder').queryBuilder(@builderOption('#wizard-builder'))
     $('#builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
       if $('body#clients-index').length
         if localStorage.getItem(addRule.id) == addRule.id
