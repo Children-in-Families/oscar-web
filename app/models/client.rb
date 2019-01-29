@@ -109,9 +109,9 @@ class Client < ActiveRecord::Base
     big_results    = []
     current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
-
-    shared_clients = SharedClient.where.not('slug ilike ? OR slug ilike ? OR slug ilike ? OR slug ilike ? OR slug ilike ?', '%demo%', '%cwd%', '%myan%', '%rok%', '%my%').order(:slug)
-    group_clients  = shared_clients.group_by{|client| client.slug.split('-').first }
+    skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
+    shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
+    group_clients        = shared_clients.group_by{|client| client.slug.split('-').first }
     group_clients.each do |tenant, clients|
       tenants = Organization.all.pluck(:short_name)
       next if tenants.exclude?(tenant)
