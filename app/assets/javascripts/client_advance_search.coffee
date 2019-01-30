@@ -503,7 +503,15 @@ class CIF.ClientAdvanceSearch
     csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
     dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
     select2Csi = '#builder_group_0 .rules-list .rule-container .rule-filter-container > select'
+    wizardCsi  = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container > select'
+
     $(document).on 'select2-open', select2Csi, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if item.firstElementChild.textContent == customCsiGroupTranslate
+          $(item).hide()
+
+    $(document).on 'select2-open', wizardCsi, (e)->
       elements = $('.select2-results .select2-results-dept-0')
       $.each elements, (index, item) ->
         if item.firstElementChild.textContent == customCsiGroupTranslate
@@ -516,6 +524,19 @@ class CIF.ClientAdvanceSearch
         $.each elements, (index, item) ->
           if item.firstElementChild.textContent == customCsiGroupTranslate
             $(item).show()
+
+  removeOperatorInWizardBuilder: ->
+    wizardFilter   = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container > select'
+    wizardOperator = '#report-builder-wizard-modal .rules-list .rule-container .rule-operator-container > select'
+    $(document).on 'select2-selected', wizardFilter, (e)->
+      setTimeout (->
+        $(wizardOperator).select2(width: 'resolve')
+      ),
+    $(document).on 'select2-open', wizardOperator, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if item.textContent.match(/has.*change|average/g)
+          $(item).hide()
 
   handleCsiSelectOption: ->
     assessmentNumberTranslate = $('#hidden_assessment_number').val()

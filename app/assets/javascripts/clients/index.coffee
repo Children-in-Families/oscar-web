@@ -144,6 +144,7 @@ CIF.ClientsIndex = do ->
         _handleQueryFilters('#wizard_quantitative_filter')
 
       onStepChanging: (event, currentIndex, newIndex) ->
+        $('#report-builder-wizard-modal .btn-custom-group').hide()
         nextStepTitle = $('#report-builder-wizard').steps('getStep', newIndex).title
         _displayChoseColumns() if nextStepTitle == 'Chose Columns'
         return true
@@ -407,6 +408,7 @@ CIF.ClientsIndex = do ->
     advanceFilter.validateSaveQuery()
     advanceFilter.hideCsiCustomGroupInRootBuilder()
     advanceFilter.handleAllDomainOperatorOpen()
+    advanceFilter.removeOperatorInWizardBuilder()
     # $('.rule-operator-container').change ->
     #   advanceFilter.initSelect2()
 
@@ -684,14 +686,27 @@ CIF.ClientsIndex = do ->
 
   _handleDomainScoreInputValue = ->
     select2CsiOperator = '#builder_group_0 .rules-list .rule-container .rule-operator-container select'
+    wizardCsiFilter    = '#report-builder-wizard-modal .rules-list .rule-container .rule-operator-container select'
+
     $(document).on 'change', select2CsiOperator, (param)->
+      filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
+      if filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g)
+        _addSelectionOption(this, param)
+
+    $(document).on 'change', wizardCsiFilter, (param)->
       filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
       if filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g)
         _addSelectionOption(this, param)
 
   _handleDomainScoreFilterValue = ->
     select2CsiFilter = '#builder_group_0 .rules-list .rule-container .rule-filter-container select'
+    wizardCsiFilter  = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container select'
+
     $(document).on 'change', select2CsiFilter, (param)->
+      if param.val.match(/domainscore_/g) || param.val.match(/all_domains/g)
+        _addSelectionOption(this, param)
+
+    $(document).on 'change', wizardCsiFilter, (param)->
       if param.val.match(/domainscore_/g) || param.val.match(/all_domains/g)
         _addSelectionOption(this, param)
 
