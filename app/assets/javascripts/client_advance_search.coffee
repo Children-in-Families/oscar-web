@@ -526,6 +526,10 @@ class CIF.ClientAdvanceSearch
             $(item).show()
 
   removeOperatorInWizardBuilder: ->
+    $('#report-builder-wizard-modal .btn-custom-group').hide()
+    $('#wizard-builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
+      $('#report-builder-wizard-modal .btn-custom-group').hide()
+
     wizardFilter   = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container > select'
     wizardOperator = '#report-builder-wizard-modal .rules-list .rule-container .rule-operator-container > select'
     $(document).on 'select2-selected', wizardFilter, (e)->

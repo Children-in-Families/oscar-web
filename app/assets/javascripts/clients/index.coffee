@@ -144,7 +144,6 @@ CIF.ClientsIndex = do ->
         _handleQueryFilters('#wizard_quantitative_filter')
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        $('#report-builder-wizard-modal .btn-custom-group').hide()
         nextStepTitle = $('#report-builder-wizard').steps('getStep', newIndex).title
         _displayChoseColumns() if nextStepTitle == 'Chose Columns'
         return true
