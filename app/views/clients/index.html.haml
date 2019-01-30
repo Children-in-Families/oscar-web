@@ -72,7 +72,7 @@
 .row
   .col-xs-12
     .ibox-content#client-search-form.collapse
-      = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
+      = datagrid_form_for @client_grid, url: ad_search_clients_url, html: { class: 'grid-form' }, method: :post
 
 %input#params{ value: "#{params['client_advanced_search']}", type: 'hidden' }
 .row#client-statistic-body
@@ -102,9 +102,9 @@
           %span.label.label-info= t('.results')
           .ibox-tools
             - if params[:data] == 'recent'
-              = link_to t('.show_all'), url_for(params.merge({data: 'all'})), class: 'btn btn-primary', id: 'show-all'
+              = link_to t('.show_all'), url_for(params.merge({data: 'all'})), method: :post, class: 'btn btn-primary', id: 'show-all'
             - else
-              = link_to t('.most_recent'), url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', id: 'most-recent'
+              = link_to t('.most_recent'), url_for(params.merge({data: 'recent'})), method: :post , class: 'btn btn-primary', id: 'most-recent'
 
         .ibox-content
           .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
