@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :permission
 
   validates :roles, presence: true, inclusion: { in: ROLES }
-  validates :email, presence: true, uniqueness: { case_sensitive: false, scope: :created_from }, if: :unique_email_user
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
 
   scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value.squish}%") }
   scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value.squish}%") }
@@ -80,18 +80,6 @@ class User < ActiveRecord::Base
   after_save :reset_manager, if: 'roles_changed?'
   after_save :toggle_referral_notification
   after_create :build_permission
-
-  def email_required?
-    false
-  end
-
-  def email_changed?
-    false
-  end
-
-  def unique_email_user
-    true
-  end
 
   def build_permission
     unless self.admin? || self.strategic_overviewer?
