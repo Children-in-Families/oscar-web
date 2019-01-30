@@ -52,7 +52,7 @@ module AdvancedSearches
           assessments = client.assessments.joins(:assessment_domains).where('assessment_domains.domain_id = ? and assessment_domains.previous_score IS NOT NULL', @domain_id)
           (limit_assessments & assessments.ids).empty?
         end
-        return { id: sql_string, values: clients.map(&:id) }
+        return clients.map(&:id)
       when 'assessment_has_not_changed'
         clients = Client.includes(:assessments).distinct.reject do |client|
           next if client.assessments.blank?
@@ -60,7 +60,7 @@ module AdvancedSearches
           assessments = client.assessments.joins(:assessment_domains).where('assessment_domains.domain_id = ? and assessment_domains.previous_score IS NULL', @domain_id)
           (limit_assessments & assessments.ids).empty?
         end
-        return { id: sql_string, values: clients.map(&:id) }
+        return clients.map(&:id)
       when 'month_has_changed'
         clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
         clients = clients.all.reject do |client|
@@ -71,7 +71,7 @@ module AdvancedSearches
           assessments = all_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score IS NOT NULL", @domain_id)
           (all_assessments.ids & assessments.ids).empty?
         end
-        return { id: sql_string, values: clients.map(&:id)}
+        return clients.map(&:id)
       when 'month_has_not_changed'
         clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
         clients = clients.all.reject do |client|
@@ -82,7 +82,7 @@ module AdvancedSearches
           assessments = all_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score IS NULL", @domain_id)
           (all_assessments.ids & assessments.ids).empty?
         end
-        return { id: sql_string, values: clients.map(&:id) }
+        return clients.map(&:id)
       when 'average'
         if @basic_rules.flatten.any?{|rule| rule['field'] == 'assessment_number'}
           if @basic_rules.any?{|rule| rule.kind_of?(Array)}
@@ -138,7 +138,7 @@ module AdvancedSearches
             client_ids << client.id if (scores.compact.sum / client.assessments.count ).round == @value.to_i
           end
         end
-        return { id: sql_string, values: client_ids.uniq }
+        return client_ids.uniq
       end
 
       client_ids = assessments.uniq.pluck(:client_id) unless @operator == 'is_empty'
