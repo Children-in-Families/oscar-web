@@ -39,7 +39,7 @@ class ClientGrid < BaseGrid
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
-    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", "%#{value.squish}%").pluck(:slug)
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ? OR shared_clients.local_#{field} ILIKE ?", "%#{value.squish}%", "%#{value.squish}%").pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
   end
