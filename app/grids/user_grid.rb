@@ -50,6 +50,8 @@ class UserGrid < BaseGrid
 
   filter(:pin_code, :integer, header: -> { I18n.t('datagrid.columns.users.pin_number') } )
 
+  filter(:manager_id, :enum, select: User.managers.map{|u| [u.name, u.id]}, header: -> { I18n.t('datagrid.columns.users.manager') })
+
   column(:id, header: -> { I18n.t('datagrid.columns.users.id') })
 
   column(:name, html: true, order: 'LOWER(users.first_name), LOWER(users.last_name)',  header: -> { I18n.t('datagrid.columns.users.name') }) do |object|
@@ -90,6 +92,10 @@ class UserGrid < BaseGrid
   end
 
   column(:pin_code, header: -> { I18n.t('datagrid.columns.users.pin_number') })
+
+  column(:manager_id, header: -> { I18n.t('datagrid.columns.users.manager') }) do |object|
+    User.find_by(id: object.manager_id).try(:name)
+  end
 
   column(:manage, header: -> { I18n.t('datagrid.columns.users.manage') }, html: true, class: 'text-center') do |object|
     render partial: 'users/actions', locals: { object: object }
