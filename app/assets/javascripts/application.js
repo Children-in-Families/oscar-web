@@ -106,6 +106,7 @@
 //= require client_enrollment_trackings/form
 //= require organizations/index
 //= require settings/index
+//= require settings/research_module
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
