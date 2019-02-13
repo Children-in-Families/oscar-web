@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181218071502) do
+ActiveRecord::Schema.define(version: 20190130040342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -831,10 +831,10 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
+    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
-    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -1562,6 +1562,8 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.boolean  "domain_warning",                 default: false
     t.boolean  "referral_notification",          default: false
     t.string   "gender",                         default: ""
+    t.boolean  "enable_gov_log_in",              default: false
+    t.boolean  "enable_research_log_in",         default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
