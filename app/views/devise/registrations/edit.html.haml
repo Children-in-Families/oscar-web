@@ -16,6 +16,7 @@
                   = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'user[date_of_birth]', id: 'user_date_of_birth'
                   %span.input-group-addon
                     %i.fa.fa-calendar-check-o
+              .col-xs-12.col-md-4= f.input :gender, collection: User::GENDER_OPTIONS, label: t('.gender')
             .row
               .col-xs-12.col-md-4= f.input :job_title, label: t('.job_title')
               .col-xs-12.col-md-4= f.association :department, collection: @department, include_blank: false, label: t('.department')

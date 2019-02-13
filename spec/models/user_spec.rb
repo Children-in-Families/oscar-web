@@ -30,6 +30,7 @@ describe User, 'validations' do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES) }
+  it { is_expected.to validate_presence_of(:gender) }
 end
 
 describe User, 'callbacks' do
