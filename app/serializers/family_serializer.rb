@@ -4,7 +4,7 @@ class FamilySerializer < ActiveModel::Serializer
              :female_children_count, :male_children_count, :female_adult_count,
              :male_adult_count, :family_type, :status, :contract_date, :address,
              :district, :province, :commune, :village, :house, :street, :clients,
-             :additional_form, :add_forms, children: []
+             :additional_form, :add_forms, :children
 
   def clients
     Client.where(id: object.children).map do |client|
