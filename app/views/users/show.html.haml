@@ -102,10 +102,10 @@
                 %td
                   %strong
                     = @user.province.try(:name)
-              %tr
-                %td.spacing-first-col
-                  = t('.pin_number')
-                %td
-                  %strong
-                    = @user.pin_code
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = t('.pin_number')
+              -#   %td
+              -#     %strong
+              -#       = @user.pin_code
 = render 'clients'
