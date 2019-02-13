@@ -35,6 +35,7 @@ CIF.ClientsIndex = do ->
     _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
+    _showWizardBuilderSql()
 
   _extendDataTableSort = ->
     $.extend $.fn.dataTableExt.oSort,
@@ -251,6 +252,21 @@ CIF.ClientsIndex = do ->
     for column in columns
       columnName = $(column).text()
       $("#{className} ul").append("<li>#{columnName}</li>")
+
+  _showWizardBuilderSql = ->
+    $('#show-sql').on 'click', ->
+      $('#sql-string').text('')
+      if $('#wizard-builder').queryBuilder('getSQL')
+        starterText = "I only want to see information for clients who <br />"
+        sqlString = $('#wizard-builder').queryBuilder('getSQL').sql
+        sqlString = sqlString.replace(/AND\s\(/g, '<br />AND<br />(').replace(/OR\s\(/g, '<br />OR<br />(')
+        sqlString = sqlString.replace(/\)\s\sAND/g, ')<br />AND<br />').replace(/\)\s\sOR/g, ')<br />OR<br />')
+        sqlString = sqlString.replace('<br /> <br />', '<br />')
+        sqlString = sqlString.replace(/AND/g, '<b>AND</b>').replace(/OR/g, '<b>OR</b>')
+        displayText = starterText + sqlString
+      else
+        displayText = 'The filter is either incomplete or blank.'
+      $('#sql-string').append(displayText)
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
