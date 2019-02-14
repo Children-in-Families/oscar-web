@@ -242,14 +242,13 @@ class User < ActiveRecord::Base
   end
 
   def detach_manager
-    if ['admin', 'strategic overviewer'].include?(roles)
-      self.manager_id = nil
-    end
+    self.manager_id = nil
+    self.manager_ids = []
   end
 
   def reset_manager
     if roles_change.last == 'case worker' || roles_change.last == 'strategic overviewer'
-      User.where(manager_id: self).update_all(manager_id: nil)
+      User.where(manager_id: self).update_all(manager_id: nil, manager_ids: [])
     end
   end
 
