@@ -85,7 +85,7 @@ class FamiliesController < AdminController
   private
 
   def family_params
-    params['family']['children'].delete_if(&:empty?)
+    params['family']['children'].delete_if(&:blank?)
     params.require(:family).permit(
                             :name, :code, :case_history, :caregiver_information,
                             :significant_family_member_count, :household_income,
