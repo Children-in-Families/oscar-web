@@ -4,7 +4,7 @@ class SettingPolicy < ApplicationPolicy
   end
 
   def research_module?
-    user.admin? && Setting.first.country_name == 'cambodia'
+    user.admin? && Setting.first.country_name == 'cambodia' && !Organization.current.demo?
   end
 
   alias new? index?
