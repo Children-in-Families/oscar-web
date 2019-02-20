@@ -86,5 +86,43 @@ module FsiImporter
         User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: roles, manager_id: manager_id)
       end
     end
+
+    def update_users
+      emails = []
+      User.all.each do |user|
+        user.email = user.email.squish
+        user.save(validate: false)
+      end
+
+      ((workbook.first_row + 1)..workbook.last_row).each do |row|
+        first_name      = workbook.row(row)[headers['First Name']]
+        last_name       = workbook.row(row)[headers['Last Name']]
+        email           = workbook.row(row)[headers['Email']].squish
+        roles           = workbook.row(row)[headers['Permission Level']]
+        manager_name    = workbook.row(row)[headers['Manager']]
+
+        manager_id      = User.find_by(first_name: manager_name.split(' ').first.squish, last_name: manager_name.split(' ').last.squish ).try(:id) if manager_name.present?
+        password        = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
+
+        user = User.find_by(email: email)
+        if user.present?
+          emails << email
+          user.update_attributes(first_name: first_name, last_name: last_name, roles: roles.downcase, manager_id: manager_id, email: email)
+        else
+          if first_name == 'Chhorn' && last_name == 'Rerm'
+            User.find_by(first_name: first_name, last_name: last_name).update_attributes(first_name: first_name, last_name: last_name, roles: roles.downcase, manager_id: manager_id, email: email)
+            emails << email
+          else
+            emails << email
+            User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: roles.downcase, manager_id: manager_id)
+          end
+        end
+      end
+
+      User.all.each do |user|
+        next if emails.include?(user.email) || user.email == ENV['OSCAR_TEAM_EMAIL']
+        user.destroy
+      end
+    end
   end
 end

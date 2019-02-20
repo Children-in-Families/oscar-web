@@ -630,7 +630,9 @@ en:
       domain: Domain
       goal: Goal
       new_case_note: New case note
+      no_custom_domains_available: No Custom Domains Available
       note: Note
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
       type: "Type (Note: Choose 'visit' only if you met with the client.)"
       you_need_to_create_assessment: You need to create assessment
@@ -850,8 +852,9 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
-      assessments: Assessments
+      assessment_data: Assessment Data
       client_column: Client General Information
+      client_name: Client Name
       csi_domain_scores: CSI Domain Scores
       custom_form_column: Custom form columns
       delete_group: Delete
@@ -1042,6 +1045,14 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1124,6 +1135,14 @@ en:
       title: Warning
     create:
       successfully_created: Client has been successfully created.
+    custom_assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     destroy:
       successfully_deleted: Client has been successfully deleted.
     edit:
@@ -1326,10 +1345,13 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      assessment_data: Assessment Data
       assessments: Assessments
       case_statistics: Case Statistics
       client_amount: Clients
+      csi_assessment: CSI Assessment
       csi_domain_scores: CSI Domain Scores
+      custom_assessment: Custom Assessment
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
@@ -3325,6 +3347,7 @@ en:
       quantitative_types: Custom Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
+      research_module: Research Module
       settings: Settings
       users: Users
       view_calendar: View Calendar
@@ -4108,6 +4131,9 @@ en:
       default_assessment: Default Assessment Tool
     navigation:
       country: Country
+    research_module:
+      title: Research Module
+      research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
     update:
       successfully_updated: Setting have been successfully updated.
   shared:

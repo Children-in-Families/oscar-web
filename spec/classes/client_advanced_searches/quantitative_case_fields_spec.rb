@@ -19,7 +19,7 @@ describe AdvancedSearches::QuantitativeCaseFields, 'Method' do
     end
 
     it 'return field with id' do
-      expect(@fields[:id]).to include "quantitative_#{quantitative_case.id}"
+      expect(@fields[:id]).to include "quantitative__#{quantitative_case.id}"
     end
 
     it 'return field with optGroup' do

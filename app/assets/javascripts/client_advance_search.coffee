@@ -38,8 +38,8 @@ class CIF.ClientAdvanceSearch
       deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
 
   formatSpecialCharacter: (value) ->
-    filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim()
-    filedName.replace(/ /g, '_')
+    filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim() || value.trim()
+    filedName.replace(/ /g, '__')
 
   removeCheckboxColumnPicker: (element, name) ->
     $("#{element} ul.append-child li.#{name}").remove()
@@ -159,7 +159,7 @@ class CIF.ClientAdvanceSearch
       $(customFormColumnPicker).append("<li class='dropdown-header #{headerClass}'>#{key}</li>")
       _.forEach values, (value) ->
         fieldName = value.id
-        keyword   = _.first(fieldName.split('_'))
+        keyword   = _.first(fieldName.split('__'))
         checkField  = fieldName
         label       = value.label
         $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
@@ -491,8 +491,12 @@ class CIF.ClientAdvanceSearch
       btnID = e.currentTarget.id
       builderElement = if btnID == 'search' then '#builder' else '#wizard-builder'
       basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
-      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+      if builderElement == '#builder'
+        customFormValues = "[#{$('#client-advance-search-form').find('.custom-form-select').select2('val')}]"
+        programValues = "[#{$('#client-advance-search-form').find('.program-stream-select').select2('val')}]"
+      else
+        customFormValues = "[#{$('#wizard-custom-form-select').select2('val')}]"
+        programValues = "[#{$('#wizard-program-stream-select').select2('val')}]"
 
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
@@ -501,7 +505,7 @@ class CIF.ClientAdvanceSearch
         $('#client_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $(builderElement).find('.has-error').remove()
+        $(builderElement).find('.has-error').removeClass('has-error')
         $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -510,12 +514,12 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      customFormValues = "[#{$('#family-advance-search-form').find('.custom-form-select').select2('val')}]"
 
       $('#family_advanced_search_custom_form_selected').val(customFormValues)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $('#builder').find('.has-error').removeClass('has-error')
         $('#family_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -524,12 +528,12 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      customFormValues = "[#{$('#partner-advance-search-form').find('.custom-form-select').select2('val')}]"
 
       $('#partner_advanced_search_custom_form_selected').val(customFormValues)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $('#builder').find('.has-error').removeClass('has-error')
         $('#partner_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -598,7 +602,7 @@ class CIF.ClientAdvanceSearch
   disableOptions: (element) ->
     self = @
     rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
-    if rule.split('_')[0] == 'domainscore'
+    if rule.split('__')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
@@ -645,7 +649,7 @@ class CIF.ClientAdvanceSearch
         e.preventDefault()
         $('#save-query').modal('hide')
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $('#builder').find('.has-error').removeClass('has-error')
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
       programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
 

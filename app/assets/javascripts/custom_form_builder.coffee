@@ -255,6 +255,7 @@ class CIF.CustomFormBuilder
 
   preventClickEnterOrTab: (element) ->
     $(element).find('.fld-label').keypress (event) ->
-      if event.which == 13
+      if event.which == 13 or event.which == 59
         event.preventDefault()
-        alert('ENTER key is not allowed!')
+        key = if event.which == 13 then 'Enter key' else 'Semi-colon'
+        alert("#{key} is not allowed!")

@@ -9,70 +9,70 @@ describe AdvancedSearches::EntityCustomFormSqlBuilder, 'Method' do
 
   context '#generate' do
     it 'return client = query string' do
-      rules = {'id' => "Discription", 'field' => "formbuilder_#{custom_form.form_title}_Discription", 'type'=> "string", 'input'=> "text", 'operator'=> "equal", 'value'=> "Testing 1"}
+      rules = {'id' => "Discription", 'field' => "formbuilder__#{custom_form.form_title}__Discription", 'type'=> "string", 'input'=> "text", 'operator'=> "equal", 'value'=> "Testing 1"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form.id, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client != query string' do
-      rules = {'id' => "Discription", 'field' => "formbuilder_#{custom_form.form_title}_Discription", 'type' => "string", 'input' => "text", 'operator' => "not_equal", 'value' => "Testing"}
+      rules = {'id' => "Discription", 'field' => "formbuilder__#{custom_form.form_title}__Discription", 'type' => "string", 'input' => "text", 'operator' => "not_equal", 'value' => "Testing"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form.id, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client < query string' do
-      rules = {'id' => "Age", 'field' => "formbuilder_#{custom_form.form_title}_Age", 'type' => "number", 'input' => "text", 'operator' => "less", 'value' => "13"}
+      rules = {'id' => "Age", 'field' => "formbuilder__#{custom_form.form_title}__Age", 'type' => "number", 'input' => "text", 'operator' => "less", 'value' => "13"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client <= query string' do
-      rules = {'id' => "Age", 'field' => "formbuilder_#{custom_form.form_title}_Age", 'type' => "number", 'input' => "text", 'operator' => "less_or_equal", 'value' => "12"}
+      rules = {'id' => "Age", 'field' => "formbuilder__#{custom_form.form_title}__Age", 'type' => "number", 'input' => "text", 'operator' => "less_or_equal", 'value' => "12"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client > query string' do
-      rules = {'id' => "Age", 'field' => "formbuilder_#{custom_form.form_title}_Age", 'type' => "number", 'input' => "text", 'operator' => "greater", 'value' => "11"}
+      rules = {'id' => "Age", 'field' => "formbuilder__#{custom_form.form_title}__Age", 'type' => "number", 'input' => "text", 'operator' => "greater", 'value' => "11"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client >= query string' do
-      rules = {'id' => "Age", 'field' => "formbuilder_#{custom_form.form_title}_Age", 'type' => "number", 'input' => "text", 'operator' => "greater_or_equal", 'value' => "11"}
+      rules = {'id' => "Age", 'field' => "formbuilder__#{custom_form.form_title}__Age", 'type' => "number", 'input' => "text", 'operator' => "greater_or_equal", 'value' => "11"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client ILIKE query string' do
-      rules = {'id' => "Age", 'field' => "formbuilder_#{custom_form.form_title}_Age", 'type' => "number", 'input' => "text", 'operator' => "greater_or_equal", 'value' => "11"}
+      rules = {'id' => "Age", 'field' => "formbuilder__#{custom_form.form_title}__Age", 'type' => "number", 'input' => "text", 'operator' => "greater_or_equal", 'value' => "11"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client NOT ILIKE query string' do
-      rules = {'id' => "Discription", 'field' => "formbuilder_#{custom_form.form_title}_Discription", 'type' => "string", 'input' => "text", 'operator' => "not_contains", 'value' => "My Name"}
+      rules = {'id' => "Discription", 'field' => "formbuilder__#{custom_form.form_title}__Discription", 'type' => "string", 'input' => "text", 'operator' => "not_contains", 'value' => "My Name"}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form.id, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)
     end
 
     it 'return client IS NULL query string' do
-      rules = {'id' => "Discription", 'field' => "formbuilder_#{custom_form.form_title}_Discription", 'type' => "string", 'input' => "text", 'operator' => "is_empty", 'value' => ""}
+      rules = {'id' => "Discription", 'field' => "formbuilder__#{custom_form.form_title}__Discription", 'type' => "string", 'input' => "text", 'operator' => "is_empty", 'value' => ""}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form.id, rules, 'client').get_sql
       expect(filter_string[:id]).to include ''
       expect(filter_string[:values]).to eq([])
     end
 
     it 'return client BETWEEN query string' do
-      rules = {'id' => "Age", 'field' => "Age", 'type' => "formbuilder_#{custom_form.form_title}_number", 'input' => "text", 'operator' => "between", 'value' => ['0', '12']}
+      rules = {'id' => "Age", 'field' => "Age", 'type' => "formbuilder__#{custom_form.form_title}__number", 'input' => "text", 'operator' => "between", 'value' => ['0', '12']}
       filter_string = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form.id, rules, 'client').get_sql
       expect(filter_string[:id]).to include 'clients.id IN (?)'
       expect(filter_string[:values]).to include(client.id)

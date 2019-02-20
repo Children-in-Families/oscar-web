@@ -1,5 +1,7 @@
 module AdvancedSearches
   class ClientBaseSqlBuilder
+    include ProgramStreamHelper
+
     ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'case_note_type',
                           'date_of_assessments', 'date_of_custom_assessments', 'accepted_date',
@@ -15,17 +17,17 @@ module AdvancedSearches
       @values      = []
       @sql_string  = []
       @condition   = basic_rules['condition']
+      basic_rules  = format_rule(basic_rules)
       @basic_rules = basic_rules['rules'] || []
-
       @columns_visibility = []
     end
 
     def generate
       @basic_rules.each do |rule|
-        field    = rule['field']
+        field    = rule['id']
         operator = rule['operator']
         value    = rule['value']
-        form_builder = field != nil ? field.split('_') : []
+        form_builder = field != nil ? field.split('__') : []
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
           @sql_string << association_filter[:id]

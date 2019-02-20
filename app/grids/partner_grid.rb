@@ -91,7 +91,7 @@ class PartnerGrid < BaseGrid
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
-      fields = column_builder[:id].split('_')
+      fields = column_builder[:id].split('__')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.last == 'Has This Form'

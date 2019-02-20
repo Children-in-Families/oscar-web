@@ -26,6 +26,15 @@ module ClientAdvancedSearchesConcern
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
         export_client_reports
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+        # current_time = Time.now
+        # if params[:type] == 'basic_info'
+        #   export_client_reports
+        #   send_data @client_grid.to_xls, filename: "client_report-#{current_time}.xls"
+        # elsif params[:type] == 'csi_assessment'
+        #   send_data @client_grid.to_spreadsheet('default'), filename: "client_assessment_domain_report-#{current_time}.xls"
+        # elsif params[:type] == 'custom_assessment'
+        #   send_data @client_grid.to_spreadsheet('custom'), filename: "client_assessment_domain_report-#{current_time}.xls"
+        # end
       end
     end
   end

@@ -16,10 +16,10 @@ module AdvancedSearches
 
       def generate
         @basic_rules.each do |rule|
-          field    = rule['field']
+          field    = rule['id']
           operator = rule['operator']
           value    = rule['value']
-          form_builder = field != nil ? field.split('_') : []
+          form_builder = field != nil ? field.split('__') : []
           if form_builder.first == 'formbuilder'
             if form_builder.last == 'Has This Form'
               custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Partner').try(:id)

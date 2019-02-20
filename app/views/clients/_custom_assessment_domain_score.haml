@@ -1,0 +1,40 @@
+.modal.fade.assessment-domain-score{ role: 'dialog', tabindex: '-1', id: 'custom-assessment-domain-score', data: { 'filename' => "client_assessment_domain_report-#{Time.now}"  } }
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = t('.assessment_data')
+
+      .modal-body
+        -# - if params['commit'].present? || params['client_advanced_search'].present?
+        -#   = link_to current_url(format: 'xls', type: 'custom_assessment'), class: 'btn btn-primary btn-export pull-right custom-assessment-score' do
+        -#     %i.fa.fa-download
+        -#     = t('.export_to_xls')
+        - assessment_domain_hash = {}
+        %table.table.table-bordered.table-striped.table-hover.assessment-score-data#custom-assessment-score
+          %thead
+            %tr
+              %th.client-id= t('.client_id')
+              %th.client-name= t('.client_name')
+              %th.assessment-number= t('.assessment_number')
+              %th.assessment-date= t('.assessment_date')
+              - Domain.custom_csi_domains.each do |domain|
+                %th.assessment-score.text-center= domain.name
+          %tbody.page
+            - @clients.includes(assessments: :assessment_domains).where(assessments: { default: false }).each do |client|
+              - client.assessments.customs.each_with_index do |assessment, index|
+                - assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+                %tr
+                  %td.client-id= client.slug
+                  %td.client-name= client.en_and_local_name
+                  %td.assessment-number.text-center= index + 1
+                  %td.assessment-date= date_format(assessment.created_at)
+                  - Domain.custom_csi_domains.each do |domain|
+                    - if assessment_domain_hash.present?
+                      %td.assessment-score.text-center= assessment_domain_hash[domain.id]
+                    - else
+                      %td.assessment-score.text-center
+      .modal-footer
+        %button.btn.btn-default.form-btn{"data-dismiss" => "modal", :type => "button"}= t('.close')

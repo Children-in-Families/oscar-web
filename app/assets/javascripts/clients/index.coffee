@@ -31,8 +31,36 @@ CIF.ClientsIndex = do ->
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
     _addTourTip()
+    _extendDataTableSort()
+    _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
+    _showWizardBuilderSql()
+
+  _extendDataTableSort = ->
+    $.extend $.fn.dataTableExt.oSort,
+      'formatted-num-pre': (a) ->
+        a = if a == '-' or a == '' then 0 else a.replace(/[^\d\.]/g, '')
+        parseFloat a
+      'formatted-num-asc': (a, b) ->
+        a - b
+      'formatted-num-desc': (a, b) ->
+        b - a
+
+  _addDataTableToAssessmentScoreData = ->
+    fileName = $('.assessment-domain-score').data('filename')
+    $('.assessment-score-data').DataTable
+      bFilter: false
+      processing: true
+      scrollX: true
+      order: [0, 'desc']
+      columnDefs: [{ type: 'formatted-num', targets: 0 }]
+      dom: 'lBrtip',
+      buttons: [{
+                extend: 'excelHtml5'
+                filename: fileName
+                title: ''
+            }]
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
@@ -157,7 +185,7 @@ CIF.ClientsIndex = do ->
     choosenClasses = ['client-section', 'custom-form-section', 'program-stream-section', 'referral-data-section', 'example-section', 'chose-columns-section']
     for section in allSections
       sectionClassName = section.classList[0]
-      if choosenClasses.includes(sectionClassName)
+      if _.includes(choosenClasses, sectionClassName)
         _handleCheckDisplayReport(section, sectionClassName)
 
   _handleCheckDisplayReport = (element, sectionClassName) ->
@@ -224,6 +252,21 @@ CIF.ClientsIndex = do ->
     for column in columns
       columnName = $(column).text()
       $("#{className} ul").append("<li>#{columnName}</li>")
+
+  _showWizardBuilderSql = ->
+    $('#show-sql').on 'click', ->
+      $('#sql-string').text('')
+      if $('#wizard-builder').queryBuilder('getSQL')
+        starterText = "I only want to see information for clients who <br />"
+        sqlString = $('#wizard-builder').queryBuilder('getSQL').sql
+        sqlString = sqlString.replace(/AND\s\(/g, '<br />AND<br />(').replace(/OR\s\(/g, '<br />OR<br />(')
+        sqlString = sqlString.replace(/\)\s\sAND/g, ')<br />AND<br />').replace(/\)\s\sOR/g, ')<br />OR<br />')
+        sqlString = sqlString.replace('<br /> <br />', '<br />')
+        sqlString = sqlString.replace(/AND/g, '<b>AND</b>').replace(/OR/g, '<b>OR</b>')
+        displayText = starterText + sqlString
+      else
+        displayText = 'The filter is either incomplete or blank.'
+      $('#sql-string').append(displayText)
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->

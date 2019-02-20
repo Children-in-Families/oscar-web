@@ -73,7 +73,7 @@ module PartnerAdvancedSearchesConcern
 
   def form_builder_report
     @custom_form_fields.each do |field|
-      fields = field[:id].split('_')
+      fields = field[:id].split('__')
       @partner_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
         if fields.last == 'Has This Form'
           custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Partner'}).count

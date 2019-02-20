@@ -12,11 +12,11 @@ module AdvancedSearches
     private
 
     def self.domain_options
-      Domain.csi_domains.order_by_identity.map { |domain| "domainscore_#{domain.id}_#{domain.identity}" }
+      Domain.csi_domains.order_by_identity.map { |domain| "domainscore__#{domain.id}__#{domain.identity}" }
     end
 
     def self.domain_score_format(label)
-      label.split('_').last
+      label.split('__').last
     end
 
     def self.date_picker_options(field_name, label, group)
@@ -24,6 +24,7 @@ module AdvancedSearches
         id: field_name,
         optgroup: group,
         label: label,
+        field: label,
         type: 'date',
         operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty'],
         plugin: 'datepicker',
@@ -37,13 +38,16 @@ module AdvancedSearches
     end
 
     def self.number_filter_type(field_name, label, group)
+      values = ['1', '2', '3', '4'].map{ |s| { s => s }  }
       {
         id: field_name,
         optgroup: group,
         label: label,
+        field: label,
         type: 'string',
         input: 'select',
-        values: ['1', '2', '3', '4'],
+        values: values,
+        data: {values: values},
         operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
       }
     end

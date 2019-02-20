@@ -88,7 +88,7 @@
                   = t('.gender')
                 %td
                   %strong
-                    = @user.gender.try(:titleize)
+                    = @user.gender.try(:capitalize)
               %tr
                 %td.spacing-first-col
                   = t('.start_date')

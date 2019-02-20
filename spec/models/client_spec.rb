@@ -28,6 +28,7 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:enter_ngos).dependent(:destroy) }
   it { is_expected.to have_many(:referrals).dependent(:destroy) }
   it { is_expected.to have_many(:government_forms).dependent(:destroy) }
+  it { is_expected.to have_many(:users).through(:case_worker_clients).validate(false) }
 end
 
 describe Client, 'callbacks' do

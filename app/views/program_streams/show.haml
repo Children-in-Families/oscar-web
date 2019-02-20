@@ -59,7 +59,7 @@
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
                     = link_to edit_program_stream_path(@program_stream, tab: '2'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
-            #rules.panel-collapse.collapse{ data: { program_rules: @program_stream.rules.to_json}}
+            #rules.panel-collapse.collapse{ data: { program_rules: @program_stream.rules? ? format_rule(@program_stream.rules).to_json : {} }}
               .panel-body
                 %table.table.table-bordered
                   %tbody

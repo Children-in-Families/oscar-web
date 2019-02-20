@@ -67,11 +67,13 @@
 
                   #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                     .modal-dialog{:role => "document"}
-                      .modal-content
-                        .modal-header
+                      .modal-content.panel-warning
+                        .modal-header.panel-heading
                           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
                             %span{"aria-hidden" => "true"} ×
-                          %h4= t('.no_custom_domains_available')
+                          %h4
+                            %i.fa.fa-warning.fa-x2
+                            = t('.no_custom_domains_available')
                         .modal-body.text-center
                           = t('.please_add_custom_domains')
               - else

@@ -9,6 +9,9 @@
 //= require jquery.nicescroll.min
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require dataTables/buttons.html5.min
+//= require dataTables/dataTables.buttons.min
+//= require dataTables/jszip.min
 //= require thredded
 //= require select2
 
@@ -26,6 +29,9 @@
 //= require form_builder/form-render.min
 //= require lodash/lodash.min.js
 //= require query_builder/query-builder.standalone.min.js
+// = require query_builder/utils
+// = require query_builder/model
+// = require query_builder/plugin
 //= require interact.js
 
 //= require tinymce
@@ -103,6 +109,7 @@
 //= require client_enrollment_trackings/form
 //= require organizations/index
 //= require settings/index
+//= require settings/research_module
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
