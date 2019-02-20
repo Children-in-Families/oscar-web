@@ -130,13 +130,16 @@
             .panel.panel-danger
               .panel-body
                 "I want to see this informatioin for all clients who are Female
-                %br AND who live in Battambang
-                %br AND who are over 6 years old."
+                %br
+                AND who live in Battambang
+                %br
+                AND who are over 6 years old."
             %p or
             .panel.panel-danger
               .panel-body
                 "I want to see this informatioin for all clients who are between 12 and 18 years old
-                %br OR who are Female."
+                %br
+                OR who are Female."
 
           %h3 Example
           %section.example-section
@@ -243,3 +246,10 @@
             .row
               .col-xs-12
                 #wizard-builder.advanced-search-builder{ 'data-basic-search-rules' => @wizard_basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+            %br
+            .row.wide-mb
+              .col-xs-10
+                %h4#sql-string.text-center
+              .col-xs-2.text-right
+                .btn.btn-primary#show-sql
+                  Describe filter
