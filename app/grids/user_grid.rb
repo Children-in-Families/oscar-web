@@ -50,7 +50,11 @@ class UserGrid < BaseGrid
 
   filter(:pin_code, :integer, header: -> { I18n.t('datagrid.columns.users.pin_number') } )
 
-  filter(:manager_id, :enum, select: User.managers.map{|u| [u.name, u.id]}, header: -> { I18n.t('datagrid.columns.users.manager') })
+  filter(:manager_id, :enum, select: :managers, header: -> { I18n.t('datagrid.columns.users.manager') })
+
+  def managers
+    User.managers.map{ |u| [u.name, u.id] }
+  end
 
   column(:id, header: -> { I18n.t('datagrid.columns.users.id') })
 
