@@ -48,8 +48,6 @@ class UserGrid < BaseGrid
     User.province_are
   end
 
-  # filter(:pin_code, :integer, header: -> { I18n.t('datagrid.columns.users.pin_number') } )
-
   column(:id, header: -> { I18n.t('datagrid.columns.users.id') })
 
   column(:name, html: true, order: 'LOWER(users.first_name), LOWER(users.last_name)',  header: -> { I18n.t('datagrid.columns.users.name') }) do |object|
@@ -88,8 +86,6 @@ class UserGrid < BaseGrid
   column(:roles, header: -> { I18n.t('datagrid.columns.users.roles') }) do |object|
     object.roles.titleize
   end
-
-  # column(:pin_code, header: -> { I18n.t('datagrid.columns.users.pin_number') })
 
   column(:manage, header: -> { I18n.t('datagrid.columns.users.manage') }, html: true, class: 'text-center') do |object|
     render partial: 'users/actions', locals: { object: object }
