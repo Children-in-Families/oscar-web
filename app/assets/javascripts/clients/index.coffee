@@ -40,6 +40,7 @@ CIF.ClientsIndex = do ->
     _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
+<<<<<<< HEAD
     _reOrderRuleContainer()
 
   _reOrderRuleContainer = ->
@@ -58,6 +59,9 @@ CIF.ClientsIndex = do ->
       wrapper.append $.map(arr, (v) ->
         items[v]
       )
+=======
+    _showWizardBuilderSql()
+>>>>>>> b7eb2afe1540f6f4ff6afb8c23cd3e19c73277a8
 
   _extendDataTableSort = ->
     $.extend $.fn.dataTableExt.oSort,
@@ -207,7 +211,7 @@ CIF.ClientsIndex = do ->
     choosenClasses = ['client-section', 'custom-form-section', 'program-stream-section', 'referral-data-section', 'example-section', 'chose-columns-section']
     for section in allSections
       sectionClassName = section.classList[0]
-      if choosenClasses.includes(sectionClassName)
+      if _.includes(choosenClasses, sectionClassName)
         _handleCheckDisplayReport(section, sectionClassName)
 
   _handleCheckDisplayReport = (element, sectionClassName) ->
@@ -274,6 +278,21 @@ CIF.ClientsIndex = do ->
     for column in columns
       columnName = $(column).text()
       $("#{className} ul").append("<li>#{columnName}</li>")
+
+  _showWizardBuilderSql = ->
+    $('#show-sql').on 'click', ->
+      $('#sql-string').text('')
+      if $('#wizard-builder').queryBuilder('getSQL')
+        starterText = "I only want to see information for clients who <br />"
+        sqlString = $('#wizard-builder').queryBuilder('getSQL').sql
+        sqlString = sqlString.replace(/AND\s\(/g, '<br />AND<br />(').replace(/OR\s\(/g, '<br />OR<br />(')
+        sqlString = sqlString.replace(/\)\s\sAND/g, ')<br />AND<br />').replace(/\)\s\sOR/g, ')<br />OR<br />')
+        sqlString = sqlString.replace('<br /> <br />', '<br />')
+        sqlString = sqlString.replace(/AND/g, '<b>AND</b>').replace(/OR/g, '<b>OR</b>')
+        displayText = starterText + sqlString
+      else
+        displayText = 'The filter is either incomplete or blank.'
+      $('#sql-string').append(displayText)
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->

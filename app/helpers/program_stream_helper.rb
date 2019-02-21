@@ -6,8 +6,8 @@ module ProgramStreamHelper
         if rule['rules'].present?
           format_rule(rule)
         elsif rule['id'].include?('domainscore')
-          rule['id']    = rule['id'].gsub(/_/, '__')
-          rule['field'] = rule['field'].gsub(/_/, '__')
+          rule['id']    = rule['id'].gsub(/_/, '__') if rule['id'].exclude?('__')
+          rule['field'] = rule['field'].gsub(/_/, '__') if rule['field'].exclude?('__')
         end
       end
     end

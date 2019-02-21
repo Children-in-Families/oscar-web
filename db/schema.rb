@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20190108045307) do
+=======
+ActiveRecord::Schema.define(version: 20190130040342) do
+>>>>>>> b7eb2afe1540f6f4ff6afb8c23cd3e19c73277a8
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,8 +128,8 @@ ActiveRecord::Schema.define(version: 20190108045307) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",  default: false
-    t.boolean  "default",    default: true
+    t.boolean  "completed",          default: false
+    t.boolean  "default",            default: true
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
@@ -1188,8 +1192,8 @@ ActiveRecord::Schema.define(version: 20190108045307) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                         default: 18
     t.integer  "commune_id"
+    t.integer  "age",                         default: 18
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true
@@ -1197,6 +1201,7 @@ ActiveRecord::Schema.define(version: 20190108045307) do
     t.string   "custom_assessment_frequency", default: "month"
     t.integer  "custom_age",                  default: 18
     t.string   "default_assessment",          default: "CSI Assessment"
+    t.boolean  "sharing_data",                default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1564,6 +1569,8 @@ ActiveRecord::Schema.define(version: 20190108045307) do
     t.boolean  "domain_warning",                 default: false
     t.boolean  "referral_notification",          default: false
     t.string   "gender",                         default: ""
+    t.boolean  "enable_gov_log_in",              default: false
+    t.boolean  "enable_research_log_in",         default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

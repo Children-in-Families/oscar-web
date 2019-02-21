@@ -26,7 +26,7 @@ class ClientGrid < BaseGrid
     filter_shared_fileds('local_family_name', value, scope)
   end
 
-  filter(:gender, :enum, select: %w(Male Female Unknown), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+  filter(:gender, :enum, select: Client::GENDER_OPTIONS, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
     current_org = Organization.current
     Organization.switch_to 'shared'
     slugs = SharedClient.where(gender: value.downcase).pluck(:slug)
@@ -459,7 +459,7 @@ class ClientGrid < BaseGrid
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
-    gender = SharedClient.find_by(slug: object.slug).gender.try(:titleize)
+    gender = SharedClient.find_by(slug: object.slug).gender.try(:capitalize)
     Organization.switch_to current_org.short_name
     gender
   end

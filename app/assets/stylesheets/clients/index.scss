@@ -336,5 +336,11 @@ body[id='clients-index'] {
     pointer-events: none;
     background-color: #4e4a4a5e;
     color: white;
+  #sql-string {
+    line-height: 2;
+  }
+
+  .wide-mb {
+    margin-bottom: 20px;
   }
 }

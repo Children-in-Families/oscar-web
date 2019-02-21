@@ -25,6 +25,7 @@ module AdvancedSearches
         id: field_name,
         optgroup: group,
         label: label,
+        field: label,
         type: 'date',
         operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty'],
         plugin: 'datepicker',
@@ -38,10 +39,12 @@ module AdvancedSearches
     end
 
     def self.number_filter_type(field_name, label, group)
+      values = ['1', '2', '3', '4'].map{|s| { s => s }  }
       {
         id: field_name,
         optgroup: group,
         label: label,
+        field: label,
         type: 'string',
         input: 'number',
         values: ['1', '2', '3', '4'],
