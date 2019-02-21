@@ -3346,6 +3346,7 @@ en:
       quantitative_types: Custom Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
+      research_module: Research Module
       settings: Settings
       users: Users
       view_calendar: View Calendar
@@ -4129,6 +4130,9 @@ en:
       default_assessment: Default Assessment Tool
     navigation:
       country: Country
+    research_module:
+      title: Research Module
+      research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
     update:
       successfully_updated: Setting have been successfully updated.
   shared:
