@@ -81,9 +81,8 @@ module AdvancedSearches
         clients = clients.includes(:assessments).all.reject do |client|
           ordered_assessments = client.assessments.order(:created_at)
           dates = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date  = (ordered_assessments.first.created_at + (@value - 1).months).strftime("%b, %Y")
-
-          dates.exclude?(date)
+          dates = dates.uniq[@value-1]
+          dates.nil?
         end
       end
       clients.map(&:id)

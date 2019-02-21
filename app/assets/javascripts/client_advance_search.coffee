@@ -569,7 +569,7 @@ class CIF.ClientAdvanceSearch
     select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
     $(document).on 'select2-open', select2Csi, (e)->
       group = window.customGroup[$(@).closest('.csi-group').attr('id')]
-      if $("##{group.id} option[value='all_domains']:selected").length > 0
+      if $("##{group.id} option[value='all_domains']:selected").length > 0 || $("##{group.id} option[value='all_custom_domains']:selected").length > 0
         elements = $('.select2-results .select2-results-dept-0')
         $.each elements, (index, item) ->
           if item.textContent.match(/has.*change|between/g)
@@ -609,6 +609,19 @@ class CIF.ClientAdvanceSearch
         $.each last_children, (index, el) ->
           if el.firstElementChild.textContent == 'Date of Custom Assessments'
             $(el).hide()
+
+  hideAverageFromIndividualDomainScore: ->
+    select2Operator = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
+    $(document).on 'select2-open', select2Operator, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      if $(this.parentElement.parentElement).find('.rule-filter-container').find('option[value="all_domains"]:selected').length == 0 and $(this.parentElement.parentElement).find('.rule-filter-container').find('option[value="all_custom_domains"]:selected').length == 0
+        $.each elements, (index, item) ->
+          if item.firstElementChild.textContent == 'average'
+            $(item).hide()
+      else
+        $.each elements, (index, item) ->
+          if item.firstElementChild.textContent == 'average'
+            $(item).show()
 
   handleSelect2RemoveProgram: ->
     self = @

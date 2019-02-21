@@ -402,6 +402,7 @@ CIF.ClientsIndex = do ->
     advanceFilter.filterSelectChange()
     advanceFilter.filterSelecting()
     advanceFilter.disableOptions()
+    advanceFilter.hideAverageFromIndividualDomainScore()
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
