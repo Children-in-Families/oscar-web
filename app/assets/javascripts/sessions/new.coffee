@@ -1,6 +1,7 @@
 CIF.SessionsNew = CIF.SessionsCreate = do ->
   _init = ->
     _removeUnsupportLanguageNotification()
+    _initICheckBox()
 
   _removeUnsupportLanguageNotification = ->
     locale           = $('.alert-warning').data('locale')
@@ -11,5 +12,9 @@ CIF.SessionsNew = CIF.SessionsCreate = do ->
       $('.alert-warning').addClass('hidden')
     else
       localStorage.setItem('notifyByPanel', 'yes')
+
+  _initICheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
 
   { init: _init }
