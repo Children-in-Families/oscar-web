@@ -22,24 +22,39 @@ module AdvancedSearches
     end
 
     def domainscore_field_query
+      assessments       = []
+
       if @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_number'
-        assessments       = []
+        between_date_value= @basic_rules.third['value']
         assessment_number = @basic_rules.second['value']
         clients = Client.joins(:assessments).all.each do |client|
-          assessment  = client.assessments.order(:created_at).limit(1).offset(assessment_number.to_i - 1).first
-          assessments << assessment.try(:id)
+          ordered_assessments = client.assessments.order(:created_at)
+          dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
+          date_from           = between_date_value[0].to_date
+          date_to             = between_date_value[1].to_date
+          next unless dates[assessment_number.to_i-1].present?
+          next unless dates[assessment_number.to_i-1].to_date >= date_from && dates[assessment_number.to_i-1].to_date <= date_to
+
+          date                = dates[assessment_number.to_i-1].to_date
+          number_assessments  = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
+          assessments         << number_assessments.first.id
         end
         assessment_filter_domainscore_query(assessments.flatten)
       elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'month_number'
-        assessments  = []
+        between_date_value= @basic_rules.third['value']
         month_number = @basic_rules.second['value']
         clients = Client.includes(:assessments).all.each do |client|
           next if client.assessments.blank?
           ordered_assessments = client.assessments.order(:created_at)
           dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date                = dates.uniq[month_number-1]
-          assessments         = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
-          assessments        << assessments.ids
+          date_from           = between_date_value[0].to_date
+          date_to             = between_date_value[1].to_date
+          next unless dates.uniq[month_number.to_i-1].present?
+          next unless dates.uniq[assessment_number.to_i-1].to_date >= date_from && dates.uniq[assessment_number.to_i-1].to_date <= date_to
+
+          date                = dates.uniq[month_number.to_i-1]
+          month_assessments   = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
+          assessments        << month_assessments.ids
         end
         assessment_filter_domainscore_query(assessments.flatten)
       elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_completed'

@@ -77,7 +77,7 @@ module AdvancedSearches
       if @value == 1
         clients = @clients.joins(:assessments).group(:id).having('COUNT(assessments) >= 1')
       else
-        clients = @clients.joins(:assessments).distinct.where("assessments_count > 1")
+        clients = @clients.joins(:assessments).distinct
         clients = clients.includes(:assessments).all.reject do |client|
           ordered_assessments = client.assessments.order(:created_at)
           dates = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
