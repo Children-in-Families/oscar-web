@@ -3349,6 +3349,7 @@ km:
       quantitative_types: ពត៌មានបញ្ជូនបន្ថែម
       referral_sources: ប្រភពនៃការបញ្ជូន
       release_logs: Release logs
+      research_module: Research Module
       settings: ការកំណត់
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
@@ -4133,6 +4134,9 @@ km:
       country: ប្រទេស
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
+    research_module:
+      title: ការស្រាវជ្រាវ OSCaR
+      research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយការស្រាវជ្រាវ OSCaR
   shared:
     form_builder:
       file_field:

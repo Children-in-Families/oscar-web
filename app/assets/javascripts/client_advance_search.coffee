@@ -505,7 +505,7 @@ class CIF.ClientAdvanceSearch
         $('#client_advanced_search_quantitative_check').val(1)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $(builderElement).find('.has-error').remove()
+        $(builderElement).find('.has-error').removeClass('has-error')
         $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -519,7 +519,7 @@ class CIF.ClientAdvanceSearch
       $('#family_advanced_search_custom_form_selected').val(customFormValues)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $('#builder').find('.has-error').removeClass('has-error')
         $('#family_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -533,7 +533,7 @@ class CIF.ClientAdvanceSearch
       $('#partner_advanced_search_custom_form_selected').val(customFormValues)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $('#builder').find('.has-error').removeClass('has-error')
         $('#partner_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -649,7 +649,7 @@ class CIF.ClientAdvanceSearch
         e.preventDefault()
         $('#save-query').modal('hide')
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
-        $('#builder').find('.has-error').remove()
+        $('#builder').find('.has-error').removeClass('has-error')
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
       programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
 
