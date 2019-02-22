@@ -40,7 +40,6 @@ CIF.ClientsIndex = do ->
     _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
-<<<<<<< HEAD
     _reOrderRuleContainer()
 
   _reOrderRuleContainer = ->
@@ -59,9 +58,7 @@ CIF.ClientsIndex = do ->
       wrapper.append $.map(arr, (v) ->
         items[v]
       )
-=======
     _showWizardBuilderSql()
->>>>>>> b7eb2afe1540f6f4ff6afb8c23cd3e19c73277a8
 
   _extendDataTableSort = ->
     $.extend $.fn.dataTableExt.oSort,

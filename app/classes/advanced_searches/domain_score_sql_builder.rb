@@ -286,7 +286,7 @@ module AdvancedSearches
             elsif operator == 'is_not_empty'
               assessment.assessment_domains.size != scores.compact.size
             elsif operator == 'average'
-              (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+              (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
             end
           end
           clients.map(&:id)
@@ -320,7 +320,7 @@ module AdvancedSearches
               elsif operator == 'is_not_empty'
                 conditions << true if assessment.assessment_domains.size != scores.compact.size
               elsif operator == 'average'
-                conditions << true if (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+                conditions << true if (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
             conditions.include?(true)
@@ -354,7 +354,7 @@ module AdvancedSearches
               elsif operator == 'is_not_empty'
                 assessment.assessment_domains.size != scores.compact.size
               elsif operator == 'average'
-                (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+                (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
             assessment.first.try(:client_id)
@@ -391,7 +391,7 @@ module AdvancedSearches
             elsif operator == 'is_not_empty'
               assessment.assessment_domains.size != scores.compact.size
             elsif operator == 'average'
-              (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+              (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
             end
           end
           clients.map(&:id)
@@ -425,7 +425,7 @@ module AdvancedSearches
               elsif operator == 'is_not_empty'
                 conditions << true if assessment.assessment_domains.size != scores.compact.size
               elsif operator == 'average'
-                conditions << true if (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+                conditions << true if (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
             conditions.include?(true)
@@ -459,7 +459,7 @@ module AdvancedSearches
               elsif operator == 'is_not_empty'
                 assessment.assessment_domains.size != scores.compact.size
               elsif operator == 'average'
-                (scores.compact.sum / assessment.assessment_domains.size).round != @value.to_i
+                (scores.compact.sum.to_f / assessment.assessment_domains.size.to_f).round != @value.to_i
               end
             end
             assessment.first.try(:client_id)
