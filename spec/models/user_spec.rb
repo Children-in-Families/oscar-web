@@ -30,7 +30,34 @@ describe User, 'validations' do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES) }
-  it { is_expected.to validate_presence_of(:gender) }
+  context 'on_create' do
+    context 'gender' do
+      user = FactoryGirl.build(:user, gender: '')
+      it 'invalid' do
+        expect(user).to be_invalid
+      end
+      it 'valid' do
+        user.gender = 'male'
+        expect(user).to be_valid
+      end
+    end
+  end
+  context 'on_update' do
+    context 'gender' do
+      it 'valid' do
+        user = FactoryGirl.create(:user)
+        user.gender = ''
+        user.password = '123456789'
+        user.password_confirmation = '123456789'
+        expect(user).to be_valid
+      end
+      it 'invalid' do
+        user = FactoryGirl.create(:user)
+        user.gender = ''
+        expect(user).to be_invalid
+      end
+    end
+  end
 end
 
 describe User, 'callbacks' do
