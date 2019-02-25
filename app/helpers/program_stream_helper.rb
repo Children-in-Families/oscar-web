@@ -1,7 +1,7 @@
 module ProgramStreamHelper
 
   def format_rule(rules)
-    if rules['rules'].any?
+    if rules['rules'].present? && rules['rules'].any?
       rules['rules'].each do |rule|
         if rule['rules'].present?
           format_rule(rule)
