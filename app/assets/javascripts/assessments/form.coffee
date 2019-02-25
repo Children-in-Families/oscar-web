@@ -42,8 +42,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     previous = $('#rootwizard').data('previous')
     finish   = $('#rootwizard').data('finish')
     save     = $('#rootwizard').data('save')
-    $('#rootwizard a[href="#next"]').text(next)
-    $('#rootwizard a[href="#previous"]').text(previous)
+    cancel   = $('#rootwizard').data('cancel')
+
+    $('#rootwizard a[id="btn-cancel"]').text(cancel)
+    $('#rootwizard a[href="#next"]').addClass('btn btn-primary').text(next)
+    $('#rootwizard a[href="#previous"]').addClass('btn btn-default').text(previous)
     $('#rootwizard a[href="#save"]').text(save)
     $('#rootwizard a[href="#finish"]').text(finish)
 
@@ -166,6 +169,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onInit: (event, currentIndex) ->
         _formEdit(currentIndex)
+        _appendSaveCancel()
         _appendSaveButton()
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
@@ -226,6 +230,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveButton = ->
     unless $('#rootwizard').find('a[href="#finish"]:visible').length
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
+
+  _appendSaveCancel = ->
+    unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
+      assessmentHref = $('a.btn-back-default').first().attr('href')
+      $('#rootwizard').find("[aria-label=Pagination]").prepend("<li><a id='btn-cancel' href='#{assessmentHref}' class='btn btn-default' style='color: #aaaaaa; background: #eeeeee; border: 1px solid #acb3ac;'></a></li>")
 
   _saveAssessment = (form) ->
     $(document).on 'click', "#rootwizard a[href='#save']", ->
