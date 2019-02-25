@@ -299,7 +299,7 @@ my:
             password_confirmation:
               confirmation: မတူညီပါ။
             pin_code:
-              too_long: အများဆုံး 5 ဇာတ်ကောင်ဖြစ်ပါသည်
+              wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
   add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
