@@ -75,6 +75,7 @@ class User < ActiveRecord::Base
 
   before_save :assign_as_admin
   before_save :set_manager_ids
+  after_save :detach_manager, if: 'roles_changed?'
   after_save :toggle_referral_notification
   after_create :build_permission
 
@@ -235,6 +236,12 @@ class User < ActiveRecord::Base
       User.all
     elsif user.manager? || user.any_case_manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
+    end
+  end
+
+  def detach_manager
+    if roles.in?(['strategic overviewe', 'admin'])
+      User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
     end
   end
 
