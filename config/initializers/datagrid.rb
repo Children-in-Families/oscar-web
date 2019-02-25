@@ -12,8 +12,11 @@ Datagrid.module_eval do
     end
 
     header.each_with_index do |value, index|
-      if value.downcase.include?('date') || value.downcase.include?('កាលបរិច្ឆេទ') || value.downcase.include?('ថ្ងៃ') || value.downcase.include?('ေမြးဖြာသည့္') || value.downcase.include?('နေ့စှဲ')
-        book.worksheet(0).column(index).default_format = date_format
+      date_string = ['date', 'កាលបរិច្ឆេទ', 'កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង', 'ថ្ងៃ', 'ေမြးဖြာသည့္', 'နေ့စှဲ', 'ေမြးရက္၊ လ၊ ႏွစ္', 'ရက္စြဲ']
+      date_string.each do |date|
+        if value.downcase.include?(date)
+          book.worksheet(0).column(index).default_format = date_format
+        end
       end
     end
 
