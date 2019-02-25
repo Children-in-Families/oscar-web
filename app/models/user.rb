@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :gender, presence: true
+  validates :pin_code, length: { maximum: 5 }, numericality: { greater_than_or_equal_to: 0 }
 
   scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value.squish}%") }
   scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value.squish}%") }

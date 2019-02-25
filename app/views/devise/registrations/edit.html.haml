@@ -16,10 +16,11 @@
                   = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'user[date_of_birth]', id: 'user_date_of_birth'
                   %span.input-group-addon
                     %i.fa.fa-calendar-check-o
-              .col-xs-12.col-md-4= f.input :gender, collection: User::GENDER_OPTIONS, label: t('.gender')
             .row
+              .col-xs-12.col-md-4= f.input :gender, collection: User::GENDER_OPTIONS, label: t('.gender')
               .col-xs-12.col-md-4= f.input :job_title, label: t('.job_title')
               .col-xs-12.col-md-4= f.association :department, collection: @department, include_blank: false, label: t('.department')
+            .row
               .col-xs-12.col-md-4.form-group.date.optional.user_start_date
                 %label.date.optional.control-label{ for: 'user_start_date' }= t('.start_date')
 
@@ -27,17 +28,9 @@
                   = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'user[start_date]', id: 'user_start_date'
                   %span.input-group-addon
                     %i.fa.fa-calendar-check-o
-            .row
+
               .col-xs-12.col-md-4= f.association :province, collection: @province, include_blank: false, label: t('.province')
               .col-xs-12.col-md-4= f.input :mobile, label: t('.mobile')
-              .col-xs-12.col-md-4= f.input :email, required: true, label: t('.email')
-              - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-                %span.help-block
-                  Currently waiting confirmation for: #{resource.unconfirmed_email}
-            .row
-              .col-xs-12.col-md-4= f.input :password, autocomplete: 'off', hint: t('.leave_blank_if_you_dont_want_to_change'), required: false, label: t('.password')
-              .col-xs-12.col-md-4= f.input :password_confirmation, required: false, label: t('.password_confirmation')
-              .col-xs-12.col-md-4= f.input :current_password, hint: t('.we_need_your_current_password_to_confirm_your_changes'), required: true, label: t('.current_password')
             .row
               - if current_user.admin? || current_user.manager?
                 .col-xs-12.col-sm-6.col-md-4
@@ -58,7 +51,17 @@
                 .i-checks.calendar-integration
                   %label= t('.calendar_integration')
                   = f.input :calendar_integration, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+            .row
               .col-xs-12.col-sm-6.col-md-4= f.input :pin_code, label: t('.pin_number')
+              .col-xs-12.col-md-4= f.input :email, required: true, label: t('.email')
+              - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+                %span.help-block
+                  Currently waiting confirmation for: #{resource.unconfirmed_email}
+
+              .col-xs-12.col-md-4= f.input :password, autocomplete: 'off', hint: t('.leave_blank_if_you_dont_want_to_change'), required: false, label: t('.password')
+            .row
+              .col-xs-12.col-md-4= f.input :password_confirmation, required: false, label: t('.password_confirmation')
+              .col-xs-12.col-md-4= f.input :current_password, hint: t('.we_need_your_current_password_to_confirm_your_changes'), required: true, label: t('.current_password')
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary form-btn'
 -#           - link_text = resource.otp_module_enabled? ? t('.disable_two_factor_authentication') : t('.enable_two_factor_authentication')

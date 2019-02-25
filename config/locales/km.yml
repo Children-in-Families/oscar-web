@@ -300,6 +300,8 @@ km:
               too_short: អប្បបរមា៨តួអក្សរ
             password_confirmation:
               confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មីមិនត្រឹមត្រូវ
+            pin_code:
+              too_long: អតិបរមា៥តួ
             roles:
               blank: មិនអាចរំលង
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
