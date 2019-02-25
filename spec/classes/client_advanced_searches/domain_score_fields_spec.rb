@@ -11,7 +11,7 @@ describe AdvancedSearches::DomainScoreFields, 'Method' do
     end
 
     it 'return all fields' do
-      expect(@domain_scores.size).to equal 7
+      expect(@domain_scores.size).to equal 9
     end
 
     it 'return field with id' do
