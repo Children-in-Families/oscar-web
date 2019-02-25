@@ -50,6 +50,10 @@ class Organization < ActiveRecord::Base
     short_name == 'cwd'
   end
 
+  def cccu?
+    short_name == 'cccu'
+  end
+
   def available_for_referral?
     if Rails.env.production?
       Organization.oscar.pluck(:short_name).include?(self.short_name)

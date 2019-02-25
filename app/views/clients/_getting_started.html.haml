@@ -36,7 +36,7 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.input :family_name, label: t('.family_name')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :gender, collection: [['Male', 'male'], ['Female', 'female'], ['Unknown', 'unknown']], label: t('.gender')
+        = f.input :gender, collection: Client::GENDER_OPTIONS, label: t('.gender')
       .col-xs-12.col-sm-6.col-md-4
         = f.input :local_given_name, label: "#{t('.local_given_name')} #{country_scope_label_translation}"
       .col-xs-12.col-sm-6.col-md-4

@@ -14,8 +14,8 @@ class UserGrid < BaseGrid
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.users.id') })
 
-  filter(:gender, :enum, select: %w(Male Female),  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
-    scope.send(value.downcase.pluralize)
+  filter(:gender, :enum, select: User::GENDER_OPTIONS,  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
+    scope.where(gender: value.downcase)
   end
 
   filter(:mobile, :string,  header: -> { I18n.t('datagrid.columns.users.mobile') }) do |value, scope|
@@ -62,7 +62,7 @@ class UserGrid < BaseGrid
   date_column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
 
   column(:gender, header: -> { I18n.t('datagrid.columns.users.gender') }) do |object|
-    object.gender.try(:titleize)
+    object.gender.try(:capitalize)
   end
 
   column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') })
