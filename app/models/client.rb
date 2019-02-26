@@ -546,7 +546,6 @@ class Client < ActiveRecord::Base
     client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
     suburb = self.suburb
     state_name = self.state_name
-    birth_province = Province.find_by(id: self.birth_province_id).try(:name)
 
     Organization.switch_to 'shared'
     if suburb.present?
@@ -554,9 +553,6 @@ class Client < ActiveRecord::Base
       client['birth_province_id'] = province.id
     elsif state_name.present?
       province = Province.find_or_create_by(name: state_name, country: 'myanmar')
-      client['birth_province_id'] = province.id
-    elsif birth_province.present?
-      province = Province.find_by(name: birth_province)
       client['birth_province_id'] = province.id
     end
     shared_client = SharedClient.find_by(slug: client['slug'])
