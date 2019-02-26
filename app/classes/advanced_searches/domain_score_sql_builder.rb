@@ -21,23 +21,39 @@ module AdvancedSearches
       { id: sql_string, values: values }
     end
 
+    def return_dates(custom_domain, client)
+      if custom_domain == true
+        ordered_assessments = client.assessments.customs.order(:created_at)
+      else
+        ordered_assessments = client.assessments.defaults.order(:created_at)
+      end
+      dates = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
+    end
+
     def domainscore_field_query
       assessments       = []
+      custom_domain     = Domain.find(@domain_id).try(:custom_domain)
 
       if @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_number'
         between_date_value= @basic_rules.third['value']
         assessment_number = @basic_rules.second['value']
+
         clients = Client.joins(:assessments).all.each do |client|
-          ordered_assessments = client.assessments.order(:created_at)
-          dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date_from           = between_date_value[0].to_date
-          date_to             = between_date_value[1].to_date
+          dates     = return_dates(custom_domain, client)
+          date_from = between_date_value[0].to_date
+          date_to   = between_date_value[1].to_date
           next unless dates[assessment_number.to_i-1].present?
           next unless dates[assessment_number.to_i-1].to_date >= date_from && dates[assessment_number.to_i-1].to_date <= date_to
 
-          date                = dates[assessment_number.to_i-1].to_date
-          number_assessments  = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
-          assessments         << number_assessments.first.id
+          date      = dates[assessment_number.to_i-1].to_date
+          if date.present?
+            if custom_domain == true
+              number_assessments  = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            else
+              number_assessments  = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            end
+            assessments         << number_assessments.first.id if number_assessments.present?
+          end
         end
         assessment_filter_domainscore_query(assessments.flatten)
       elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'month_number'
@@ -45,16 +61,21 @@ module AdvancedSearches
         month_number = @basic_rules.second['value']
         clients = Client.includes(:assessments).all.each do |client|
           next if client.assessments.blank?
-          ordered_assessments = client.assessments.order(:created_at)
-          dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date_from           = between_date_value[0].to_date
-          date_to             = between_date_value[1].to_date
+          dates     = return_dates(custom_domain, client)
+          date_from = between_date_value[0].to_date
+          date_to   = between_date_value[1].to_date
           next unless dates.uniq[month_number.to_i-1].present?
           next unless dates.uniq[assessment_number.to_i-1].to_date >= date_from && dates.uniq[assessment_number.to_i-1].to_date <= date_to
 
-          date                = dates.uniq[month_number.to_i-1]
-          month_assessments   = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
-          assessments        << month_assessments.ids
+          date      = dates.uniq[month_number.to_i-1]
+          if date.present?
+            if custom_domain == true
+              month_assessments   = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            else
+              month_assessments   = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            end
+            assessments        << month_assessments.ids if month_assessments.present?
+          end
         end
         assessment_filter_domainscore_query(assessments.flatten)
       elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_completed'
@@ -68,67 +89,88 @@ module AdvancedSearches
       return if @value.first == @value.last
       client_ids = []
       between_date_value = @basic_rules.second['value']
+      custom_domain      = Domain.find(@domain_id).try(:custom_domain)
 
       case @operator
       when 'assessment_has_changed'
         Client.includes(:assessments).distinct.each do |client|
           next if (client.assessments.blank? || client.assessments.count < @value.last.to_i)
-          ordered_assessments = client.assessments.order(:created_at)
-          dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date_from           = between_date_value[0].to_date
-          date_to             = between_date_value[1].to_date
+          dates     = return_dates(custom_domain, client)
+          date_from = between_date_value[0].to_date
+          date_to   = between_date_value[1].to_date
           next unless dates[@value.first.to_i-1].present? && dates[@value.last.to_i-1].present?
           next unless (dates[@value.first.to_i-1].to_date >= date_from && dates[@value.last.to_i-1].to_date <= date_to)
 
-          date                = dates.uniq[@value.last.to_i-1]
-          number_assessments  = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
-          number_assessments  = number_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score != assessment_domains.score", @domain_id) if number_assessments.present?
-          client_ids          << client.id if number_assessments.present?
+          date      = dates.uniq[@value.last.to_i-1]
+          if date.present?
+            if custom_domain == true
+              number_assessments = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            else
+              number_assessments = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            end
+            number_assessments  = number_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score != assessment_domains.score", @domain_id) if number_assessments.present?
+            client_ids          << client.id if number_assessments.present?
+          end
         end
       when 'assessment_has_not_changed'
         Client.includes(:assessments).distinct.each do |client|
           next if (client.assessments.blank? || client.assessments.count < @value.last.to_i)
-          ordered_assessments = client.assessments.order(:created_at)
-          dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date_from           = between_date_value[0].to_date
-          date_to             = between_date_value[1].to_date
+          dates     = return_dates(custom_domain, client)
+          date_from = between_date_value[0].to_date
+          date_to   = between_date_value[1].to_date
           next unless dates[@value.first.to_i-1].present? && dates[@value.last.to_i-1].present?
           next unless (dates[@value.first.to_i-1].to_date >= date_from && dates[@value.last.to_i-1].to_date <= date_to)
 
-          date                = dates.uniq[@value.last.to_i-1]
-          number_assessments  = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
-          number_assessments  = number_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND (assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score)", @domain_id) if number_assessments.present?
-          client_ids          << client.id if number_assessments.present?
+          date      = dates.uniq[@value.last.to_i-1]
+          if date.present?
+            if custom_domain == true
+              number_assessments  = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            else
+              number_assessments  = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            end
+            number_assessments  = number_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND (assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score)", @domain_id) if number_assessments.present?
+            client_ids          << client.id if number_assessments.present?
+          end
         end
       when 'month_has_changed'
         clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
         clients.all.each do |client|
-          ordered_assessments = client.assessments.order(:created_at)
-          dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date_from           = between_date_value[0].to_date
-          date_to             = between_date_value[1].to_date
+          dates     = return_dates(custom_domain, client)
+          date_from = between_date_value[0].to_date
+          date_to   = between_date_value[1].to_date
           next unless dates.uniq[@value.first.to_i-1].present? && dates.uniq[@value.last.to_i-1].present?
           next unless (dates.uniq[@value.first.to_i-1].to_date >= date_from && dates.uniq[@value.last.to_i-1].to_date <= date_to)
 
-          date                = dates.uniq[@value.last.to_i-1]
-          month_assessments   = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
-          month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score != assessment_domains.score", @domain_id) if month_assessments.present?
-          client_ids          << client.id if month_assessments.present?
+          date      = dates.uniq[@value.last.to_i-1]
+          if date.present?
+            if custom_domain == true
+              month_assessments = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            else
+              month_assessments = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            end
+            month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND assessment_domains.previous_score != assessment_domains.score", @domain_id) if month_assessments.present?
+            client_ids          << client.id if month_assessments.present?
+          end
         end
       when 'month_has_not_changed'
         clients = Client.joins(:assessments).group(:id).having('COUNT(assessments) > 1')
         clients.all.each do |client|
-          ordered_assessments = client.assessments.order(:created_at)
-          dates               = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
-          date_from           = between_date_value[0].to_date
-          date_to             = between_date_value[1].to_date
+          dates     = return_dates(custom_domain, client)
+          date_from = between_date_value[0].to_date
+          date_to   = between_date_value[1].to_date
           next unless dates.uniq[@value.first.to_i-1].present? && dates.uniq[@value.last.to_i-1].present?
           next unless (date_from >= dates.uniq[@value.first.to_i-1].to_date && dates.uniq[@value.last.to_i-1].to_date <= date_to)
 
-          date                = dates.uniq[@value.last.to_i-1]
-          month_assessments   = client.assessments.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month) if date.present?
-          month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND (assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score)", @domain_id) if month_assessments.present?
-          client_ids          << client.id if month_assessments.present?
+          date      = dates.uniq[@value.last.to_i-1]
+          if date.present?
+            if custom_domain == true
+              month_assessments = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            else
+              month_assessments = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
+            end
+            month_assessments   = month_assessments.joins(:assessment_domains).where("assessment_domains.domain_id = ? AND (assessment_domains.previous_score IS NULL OR assessment_domains.previous_score = assessment_domains.score)", @domain_id) if month_assessments.present?
+            client_ids          << client.id if month_assessments.present?
+          end
         end
       end
       return client_ids.uniq
