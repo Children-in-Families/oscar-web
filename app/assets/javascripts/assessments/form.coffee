@@ -234,7 +234,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveCancel = ->
     unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
       assessmentHref = $('a.btn-back-default').first().attr('href')
-      $('#rootwizard').find("[aria-label=Pagination]").prepend("<li><a id='btn-cancel' href='#{assessmentHref}' class='btn btn-default' style='color: #aaaaaa; background: #eeeeee; border: 1px solid #acb3ac;'></a></li>")
+      $('#rootwizard').find("[aria-label=Pagination]").prepend("<li><a id='btn-cancel' href='#{assessmentHref}' class='btn btn-default' style='color: #343a40; background: white; border: 1px solid #acb3ac;'></a></li>")
 
   _saveAssessment = (form) ->
     $(document).on 'click', "#rootwizard a[href='#save']", ->
