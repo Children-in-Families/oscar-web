@@ -32,7 +32,7 @@
           %a.collapse-link
             .btn.btn-outline.btn-primary
               %i.fa.fa-chevron-up
-          - if can? :manage, :all
+          - if can? :manage, @user
             %small
               = link_to edit_user_path(@user) do
                 .btn.btn-outline.btn-success

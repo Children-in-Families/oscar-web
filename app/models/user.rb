@@ -76,10 +76,8 @@ class User < ActiveRecord::Base
   scope :referral_notification_email,    -> { where(referral_notification: true) }
 
   before_save :assign_as_admin
-
-  before_save :detach_manager, if: 'roles_changed?'
-  before_save :set_manager_ids, if: 'manager_id_changed?'
-  after_save :reset_manager, if: 'roles_changed?'
+  before_save :set_manager_ids
+  after_save :detach_manager, if: 'roles_changed?'
   after_save :toggle_referral_notification
   after_create :build_permission
 
@@ -244,19 +242,14 @@ class User < ActiveRecord::Base
   end
 
   def detach_manager
-    if ['admin', 'strategic overviewer'].include?(roles)
-      self.manager_id = nil
-    end
-  end
-
-  def reset_manager
-    if roles_change.last == 'case worker' || roles_change.last == 'strategic overviewer'
-      User.where(manager_id: self).update_all(manager_id: nil)
+    if roles.in?(['strategic overviewe', 'admin'])
+      User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
     end
   end
 
   def set_manager_ids
-    if manager_id.nil?
+    if manager_id.nil? || roles.in?(['strategic overviewer', 'admin'])
+      self.manager_id = nil
       self.manager_ids = []
       return if manager_id_was == self.id
       update_manager_ids(self)
