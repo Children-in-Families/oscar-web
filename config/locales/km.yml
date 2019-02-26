@@ -300,6 +300,8 @@ km:
               too_short: អប្បបរមា៨តួអក្សរ
             password_confirmation:
               confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មីមិនត្រឹមត្រូវ
+            pin_code:
+              wrong_length: ត្រូវតែមាន៥តួ
             roles:
               blank: មិនអាចរំលង
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
@@ -2485,6 +2487,7 @@ km:
         overdue_task_summary_notify: ការជូនដំណឹងតាមរយៈអ៊ីម៉ែល
         password: លេខកូដសំងាត់
         password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
+        pin_number: លេខ Pin
         province: ខេត្ត
         referral_notification: ការជូនដំណឹងអំពីការបញ្ជូន
         save: រក្សាទុក

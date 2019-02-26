@@ -298,6 +298,8 @@ my:
               too_short: တိုလြန္းေနသည္။
             password_confirmation:
               confirmation: မတူညီပါ။
+            pin_code:
+              wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
   add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
@@ -2491,6 +2493,7 @@ my:
         overdue_task_summary_notify: အသိပေးချက်အီးမေးလ်
         password: စကား၀ွက္
         password_confirmation: စကား၀ွက္အတည္ျပဳရန္
+        pin_number: ပင္နံပါတ္
         province: ခ႐ိုင္
         referral_notification: လွှဲပြောင်းသတိပေးချက်
         save: သိမ္းဆည္းရန္
