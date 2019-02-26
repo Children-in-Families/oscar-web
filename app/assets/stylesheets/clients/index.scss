@@ -322,6 +322,63 @@ body[id='clients-index'] {
     }
   }
 
+  // Report Builder Wizard
+
+  #client-advance-search-wizard {
+    padding: 0;
+    border: none;
+  }
+
+  #report-builder-wizard-modal {
+    .modal-lg {
+      width: 90%;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body input {
+      display: inline-block;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul {
+      padding-left: 15px;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul > li {
+      list-style: inside;
+    }
+
+    #report-builder-wizard .content {
+      height: calc(100vh - 300px);
+      overflow: scroll;
+    }
+
+    label.pointer {
+      cursor: pointer;
+    }
+
+    .custom-form .select2-input {
+      width: 100% !important;
+    }
+
+    .columns-visibility {
+      margin-bottom: 20px;
+    }
+
+    .chose-columns-section .wide-margin-bottom {
+      margin-bottom: 25px;
+      margin-left: 20px;
+    }
+
+    #wizard-program-stream {
+      margin-top: 10px;
+    }
+
+    .chose-columns-section {
+      .btn-block {
+        text-align: left;
+      }
+    }
+  }
+
   .action-button-group .btn {
     margin-top: 4px;
   }

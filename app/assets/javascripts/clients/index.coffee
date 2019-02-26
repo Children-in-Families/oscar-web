@@ -325,7 +325,7 @@ CIF.ClientsIndex = do ->
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)
-
+    return if params.includes('wizard-builder')
     if params.includes('client_advanced_search')
       $("button[data-target='#client-advance-search-form']").trigger('click')
     else

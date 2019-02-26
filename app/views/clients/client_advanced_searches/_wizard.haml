@@ -39,15 +39,15 @@
                 .row
                   .col-xs-12
                     %p Which Custom Forms would you like to show information from?
-                    .form-group{ data: { value: custom_form_values } }
-                      = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
+                    .form-group#wizard-custom-form-data{ data: { value: custom_form_values('#wizard-builder') } }
+                      = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), custom_form_values('#wizard-builder')), { multiple: true, id: 'wizard-custom-form-select', class: 'form-control' } )
                 %br
                 .loader.hidden
                 .row#custom-form-column
                   .col-xs-12
                     %p Choose below which information you would like to display.
                     %label= t('.custom_form_column')
-                    = render 'clients/client_advanced_searches/custom_form_column'
+                    = render 'clients/client_advanced_searches/custom_form_column', custom_form_columns: @wizard_custom_form_columns
 
           %h3 Program Streams
           %section.program-stream-section
@@ -63,30 +63,30 @@
                 .row
                   .col-xs-12
                     %p Which Program Streams are you interested in?
-                    .form-group{ data: { value: program_stream_values } }
-                      = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control program-stream-select' } )
+                    .form-group#wizard-program-stream-data{ data: { value: program_stream_values('#wizard-builder') } }
+                      = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id), program_stream_values('#wizard-builder')), { multiple: true, id: 'wizard-program-stream-select', class: 'form-control program-stream-select' } )
                 .row.program-association
                   .col-xs-12
                     %p Which Forms from these program streams would you like to display information from?
                   .col-xs-4.form-group
-                    = check_box_tag :nil, '1', enrollment_check, { class: 'i-checks', id: 'wizard-enrollment-checkbox' }
+                    = check_box_tag :nil, '1', wizard_enrollment_checked?, { class: 'i-checks', id: 'wizard-enrollment-checkbox' }
                     -# = check_box_tag 'enrollment', 'true', enrollment_check, class: 'i-checks enrollment-checkbox', id: 'wizard-enrollment-checkbox'
                     %label.pointer{ for: 'wizard-enrollment-checkbox' }= t('.enrollment')
 
                   .col-xs-4.form-group
                     -# = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'wizard-tracking-checkbox' }
-                    = check_box_tag 'tracking', 'true', tracking_check, class: 'i-checks', id: 'wizard-tracking-checkbox'
+                    = check_box_tag 'tracking', 'true', wizard_tracking_checked?, class: 'i-checks', id: 'wizard-tracking-checkbox'
                     %label.pointer{ for: 'wizard-tracking-checkbox' }= t('.tracking')
                   .col-xs-4.form-group
                     -# = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'wizard-exit-form-checkbox' }
-                    = check_box_tag 'exit_program', 'true', exit_form_check, class: 'i-checks', id: 'wizard-exit-form-checkbox'
+                    = check_box_tag 'exit_program', 'true', wizard_exit_form_checked?, class: 'i-checks', id: 'wizard-exit-form-checkbox'
                     %label.pointer{ for: 'wizard-exit-form-checkbox' }= t('.exit_program')
                 .loader.hidden
                 .row#program-stream-column
                   .col-xs-12
                     %p Choose below which information you would like to display.
                     %label= t('.program_stream_column')
-                    = render 'clients/client_advanced_searches/program_stream_column'
+                    = render 'clients/client_advanced_searches/program_stream_column', program_stream_columns: @wizard_program_stream_columns
 
           %h3 Referral Data
           %section.referral-data-section
@@ -226,13 +226,13 @@
               %p What other information would you like to use to filter your clients?
               %ul
                 %li
-                  = check_box_tag :wizard_custom_form_filter, nil, custom_form_values.present?, class: 'ichecks'
+                  = check_box_tag :wizard_custom_form_filter, nil, wizard_custom_form_checked?, class: 'ichecks'
                   = label_tag "Information on Custom Forms"
                 %li
-                  = check_box_tag :wizard_program_stream_filter, nil, program_stream_values.present?, class: 'ichecks'
+                  = check_box_tag :wizard_program_stream_filter, nil, wizard_program_stream_checked?, class: 'ichecks'
                   = label_tag "Information on Program Stream Forms"
                 %li
-                  = check_box_tag :wizard_quantitative_filter, nil, quantitative_check, class: 'ichecks'
+                  = check_box_tag :wizard_quantitative_filter, nil, wizard_quantitative_checked?, class: 'ichecks'
                   = label_tag "Information from Point-of-Referral Data"
               .loader.hidden
           %h3 Query Builder
@@ -245,7 +245,7 @@
             %p You can add more Filters by clicking the 'Add Condition' button. You can also group conditions together to chain AND/OR statements more effectively. If you get stuck on how to do this, get in touch with OSCaR staff for assistance
             .row
               .col-xs-12
-                #wizard-builder.advanced-search-builder{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+                #wizard-builder.advanced-search-builder{ 'data-basic-search-rules' => @wizard_basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
             %br
             .row.wide-mb
               .col-xs-10
@@ -253,15 +253,3 @@
               .col-xs-2.text-right
                 .btn.btn-primary#show-sql
                   Describe filter
-
-= simple_form_for :client_advanced_search, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
-  = f.hidden_field :custom_form_selected
-  = f.hidden_field :program_selected
-  = f.hidden_field :enrollment_check
-  = f.hidden_field :tracking_check
-  = f.hidden_field :exit_form_check
-  = f.hidden_field :basic_rules
-  = f.hidden_field :quantitative_check
-  = hidden_field_tag :data, params[:data]
-  / = f.hidden_field :overdue_assessment
-  = hidden_field_tag :locale, "#{params[:locale]}"
