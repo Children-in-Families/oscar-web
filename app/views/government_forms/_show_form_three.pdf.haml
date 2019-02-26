@@ -111,7 +111,7 @@
           %th.text-center{ style: 'width: 40px;' } អនុវត្តពេលណា
       %tbody
         - @government_form.government_form_children_plans.each_with_index do |form, index|
-          - if index <= 6
+          - if index <= 5
             %tr
               %td= form.try(:children_plan_name)
               %td
@@ -145,7 +145,7 @@
           %th.text-center{ style: 'width: 40px;' } អនុវត្តពេលណា
       %tbody
         - @government_form.government_form_children_plans.each_with_index do |form, index|
-          - if index > 6
+          - if index > 5
             %tr
               %td= form.try(:children_plan_name)
               %td
@@ -178,7 +178,7 @@
           %th.text-center{ style: 'width: 100px; vertical-align: middle;' } លទ្ធផល
       %tbody
         - @government_form.government_form_family_plans.each_with_index do |form, index|
-          - if index <= 5
+          - if index <= 4
             %tr{style: 'page-break-inside: avoid;'}
               %td= form.try(:family_plan_name)
               %td
@@ -190,7 +190,7 @@
               %td
                 .comment{style: 'min-height: 85px; max-height: 85px;s'}
                   %p= form.try(:result)
-
+  .footer{ style: 'page-break-after: always;' }
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
     II.
@@ -209,7 +209,7 @@
           %th.text-center{ style: 'width: 100px; vertical-align: middle;' } លទ្ធផល
       %tbody
         - @government_form.government_form_family_plans.each_with_index do |form, index|
-          - if index > 5
+          - if index > 4
             %tr{style: 'page-break-inside: avoid;'}
               %td= form.try(:family_plan_name)
               %td
@@ -221,8 +221,8 @@
               %td
                 .comment{style: 'min-height: 85px; max-height: 85px;'}
                   %p= form.try(:result)
-
-.panel.panel-no-margin.panel-borderless
+  .footer{ style: 'page-break-after: always;' }
+.panel.panel-no-margin.panel-borderless{style: 'border-top: 1px solid black;'}
   .panel-body.panel-border{style: 'border-radius: 3px;'}
     .row{style: 'margin-top: 5px;'}
       .col-xs-6
