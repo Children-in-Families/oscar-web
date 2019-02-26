@@ -117,8 +117,8 @@ class Client < ActiveRecord::Base
       next if tenants.exclude?(tenant)
       Organization.switch_to tenant
       clients.each do |client|
-        _ = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
-        next if _.nil?
+        client_in_tenant = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
+        next if client_in_tenant.nil?
         big_results << [{
                           slug: client.slug, 
                           given_name: client.given_name,
@@ -126,11 +126,11 @@ class Client < ActiveRecord::Base
                           local_given_name: client.local_given_name,
                           local_family_name: client.local_family_name,
                           birth_province_name: client.birth_province_name,
-                          date_of_birth: _.try(&:date_of_birth),
-                          current_province: _.try(&:province_name),
-                          district: _.district.try(:name),
-                          commune: _.commune.try(:name),
-                          village: _.village.try(:name)
+                          date_of_birth: client_in_tenant.try(&:date_of_birth),
+                          current_province: client_in_tenant.try(&:province_name),
+                          district: client_in_tenant.district.try(:name),
+                          commune: client_in_tenant.commune.try(:name),
+                          village: client_in_tenant.village.try(:name)
                         }]
       end
     end
