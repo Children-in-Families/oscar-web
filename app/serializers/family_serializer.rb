@@ -2,7 +2,8 @@ class FamilySerializer < ActiveModel::Serializer
   attributes :id, :name, :code, :case_history, :caregiver_information,
              :significant_family_member_count, :household_income, :dependable_income,
              :female_children_count, :male_children_count, :female_adult_count,
-             :male_adult_count, :family_type, :contract_date, :address, :province,
+             :male_adult_count, :family_type, :contract_date, :address,
+             :province, :district, :commune, :village, :house, :street,
              :clients, :additional_form, :add_forms, :children, :status
 
   def clients

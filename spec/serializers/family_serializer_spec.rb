@@ -113,4 +113,14 @@ describe FamilySerializer, type: :serializer do
     expect(serializer).to have_json_path('family/status')
     expect(serializer).to have_json_type(String).at_path('family/status')
   end
+
+  it 'house attribute' do
+    expect(serializer).to have_json_path('family/house')
+    expect(serializer).to have_json_type(String).at_path('family/house')
+  end
+
+  it 'street attribute' do
+    expect(serializer).to have_json_path('family/street')
+    expect(serializer).to have_json_type(String).at_path('family/street')
+  end
 end
