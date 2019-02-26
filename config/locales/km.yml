@@ -315,6 +315,7 @@ km:
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
       agency_name: ឈ្មោះអង្គភាព
       agency_names: ឈ្មោះអង្គភាព
+      assessment_number: ការប៉ាន់ប្រមាណ#
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
       birth_province: ស្រុកកំណើត
       birth_province_id: ស្រុកកំណើត
@@ -333,6 +334,7 @@ km:
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      custom_csi_group: នៅ
       custom_form: ទម្រង់បែបបទ
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -373,6 +375,7 @@ km:
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
+      month_number: ខែ#
       name: ឈ្មោះ
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
@@ -851,6 +854,7 @@ km:
       quantitative: ពត៌មានបញ្ជូនបន្ថែម
       tracking: តាមដាន
     index:
+      add_custom_group: បន្ថែមការស្វែងរកការប៉ាន់ប្រមាណ
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
       add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
       advanced_search: ការបង្កើតរបាយការណ៍
@@ -1079,6 +1083,7 @@ km:
       referred_to: បញ្ជូនទៅអង្គការដទៃ
     client_advanced_searches:
       advanced_search:
+        add_custom_group: បន្ថែមការស្វែងរកការប៉ាន់ប្រមាណ
         add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
         add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
         advanced_search: ការបង្កើតរបាយការណ៍
@@ -1362,16 +1367,22 @@ km:
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       assessment_data: ទិន្នន័យពិន្ទុនៃការវាយតម្លៃ
       assessments: ការប៉ាន់ប្រមាណ
+      assessment_number: ការប៉ាន់ប្រមាណ#
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
       client_amount: ចំនួនអតិថិជន
       csi_assessment: ការប៉ាន់ប្រមាណ CSI
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      custom_csi_group: នៅ
+      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      date_of_assessment: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      date_of_assessments: Date of Assessments
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       load: កំពុងផ្ទុក...
       load_save_search: ទាញយកលក្ខខ័ណ្ឌស្វែងរក
+      month_number: ខែ#
       most_recent: ថ្មីបំផុត
       popover_content: សូមចុចប៊ូតុងស្វែងរកដើម្បីមើលអតិថិជន
       popover_done: បិទ

@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.boolean  "required_task_last", default: false
   end
 
+  add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
+
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
     t.integer  "assessment_domain_id"
     t.integer  "progress_note_id"
@@ -122,8 +124,8 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",          default: false
-    t.boolean  "default",            default: true
+    t.boolean  "completed",  default: false
+    t.boolean  "default",    default: true
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
@@ -1176,6 +1178,7 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
+    t.boolean  "disable_assessment"
     t.string   "client_default_columns",      default: [],                  array: true
     t.string   "family_default_columns",      default: [],                  array: true
     t.string   "partner_default_columns",     default: [],                  array: true
@@ -1186,8 +1189,8 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "commune_id"
     t.integer  "age",                         default: 18
+    t.integer  "commune_id"
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true

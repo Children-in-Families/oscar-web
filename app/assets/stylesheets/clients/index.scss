@@ -228,6 +228,12 @@ body[id='clients-index'] {
     z-index: 2001;
   }
 
+  .csi-group {
+    .btn-add-rule, .rule-actions, .drag-handle, .btn-custom-group, .btn-default-group {
+      display: none;
+    }
+  }
+
   // Report Builder Wizard
 
   #client-advance-search-wizard {
@@ -381,6 +387,12 @@ body[id='clients-index'] {
 
   .action-button-group .btn {
     margin-top: 4px;
+  }
+
+  .not-allowed {
+    pointer-events: none;
+    background-color: #4e4a4a5e;
+    color: white;
   }
 
   #sql-string {
