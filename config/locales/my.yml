@@ -299,6 +299,7 @@ my:
             password_confirmation:
               confirmation: မတူညီပါ။
             pin_code:
+              not_an_integer: မကိန်း
               wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။

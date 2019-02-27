@@ -32,7 +32,7 @@ describe User, 'validations' do
   it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES) }
   it { is_expected.to validate_presence_of(:gender) }
   it { is_expected.to validate_length_of(:pin_code).is_equal_to(5) }
-  it { is_expected.to validate_numericality_of(:pin_code).is_greater_than_or_equal_to(0) }
+  it { is_expected.to validate_numericality_of(:pin_code).only_integer.is_greater_than_or_equal_to(0) }
   it { is_expected.to allow_value('').for(:pin_code) }
 end
 
