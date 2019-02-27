@@ -87,15 +87,10 @@ class UserGrid < BaseGrid
     object.roles.titleize
   end
 
-<<<<<<< HEAD
-  column(:pin_code, header: -> { I18n.t('datagrid.columns.users.pin_number') })
-
   column(:manager_id, header: -> { I18n.t('datagrid.columns.users.manager') }) do |object|
     User.find_by(id: object.manager_id).try(:name)
   end
 
-=======
->>>>>>> origin/add-pin-number-field-user-edit-profile
   column(:manage, header: -> { I18n.t('datagrid.columns.users.manage') }, html: true, class: 'text-center') do |object|
     render partial: 'users/actions', locals: { object: object }
   end
