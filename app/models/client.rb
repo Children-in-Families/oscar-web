@@ -147,7 +147,7 @@ class Client < ActiveRecord::Base
       cd         = client_address_matching(options[:district], result[:district])
       cc         = client_address_matching(options[:commune], result[:commune])
       cv         = client_address_matching(options[:village], result[:village])
-      bp         = birth_provinch_matching(options[:birth_province], result[:birth_province])
+      bp         = birth_provinch_matching(options[:birth_province], result[:birth_province_name])
 
       match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
 
