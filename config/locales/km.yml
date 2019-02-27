@@ -301,6 +301,7 @@ km:
             password_confirmation:
               confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មីមិនត្រឹមត្រូវ
             pin_code:
+              not_an_integer: អនុញ្ញាតតែលេខប៉ុណ្ណោះ
               wrong_length: ត្រូវតែមាន៥តួ
             roles:
               blank: មិនអាចរំលង
