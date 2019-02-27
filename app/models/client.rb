@@ -119,6 +119,11 @@ class Client < ActiveRecord::Base
       clients.each do |client|
         client_in_tenant = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
         next if client_in_tenant.nil?
+        if client.birth_province_id.present?
+          Organization.switch_to 'shared'
+          client.birth_province_name == Province.find(client.birth_province_id).try(:name)
+          Organization.switch_to tenant
+        end
         big_results << [{
                           slug: client.slug, 
                           given_name: client.given_name,
