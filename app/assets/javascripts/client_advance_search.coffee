@@ -272,7 +272,7 @@ class CIF.ClientAdvanceSearch
     if $('.main-report-builder #program-stream-checkbox').prop('checked')
       $('.main-report-builder .program-stream').show()
     if self.enrollmentCheckbox.prop('checked') || self.trackingCheckbox.prop('checked') || self.exitCheckbox.prop('checked') || self.programSelected.length > 0
-      $('.main-report-builder .program-stream').show()
+      $('.main-report-builder .program-association').show()
     if self.wizardEnrollmentCheckbox.prop('checked') || self.wizardTrackingCheckbox.prop('checked') || self.wizardExitCheckbox.prop('checked') || self.wizardProgramSelected.length > 0
       $('#report-builder-wizard .program-association').show()
     $('.main-report-builder #program-stream-checkbox').on 'ifChecked', ->
