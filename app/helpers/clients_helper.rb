@@ -210,7 +210,7 @@ module ClientsHelper
     name   = values.first.strip
     label  = values.last.strip
     keyword = "#{name} #{label}"
-    keyword.downcase.parameterize('_')
+    keyword.downcase.parameterize('__')
   end
 
   # legacy method
