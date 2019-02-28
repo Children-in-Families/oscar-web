@@ -11,15 +11,15 @@ namespace :users_permission do
         user.create_permission
 
         CustomField.all.each do |cf|
-          user.custom_field_permissions.create(custom_field_id: cf.id)
+          user.custom_field_permissions.find_or_create(custom_field_id: cf.id)
         end
   
         ProgramStream.all.each do |ps|
-          user.program_stream_permissions.create(program_stream_id: ps.id)
+          user.program_stream_permissions.find_or_create(program_stream_id: ps.id)
         end
   
         QuantitativeType.all.each do |qt|          
-          user.quantitative_type_permissions.create(quantitative_type_id: qt.id)
+          user.quantitative_type_permissions.find_or_create(quantitative_type_id: qt.id)
         end
       end
     end
