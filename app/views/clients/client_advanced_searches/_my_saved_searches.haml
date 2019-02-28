@@ -5,15 +5,15 @@
         %tr
           %th.name= t('.name')
           %th.description= t('.description')
-          %th.date= t('.date')
-          %th.load-query= t('.load')
-          %th.action= t('.action')
+          %th.date.text-center= t('.date')
+          %th.load-query.text-center= t('.load')
+          %th.action.text-center= t('.action')
       %tbody
         - @my_advanced_searches.each do |advanced_search|
           %tr
             %td.name= advanced_search.name
             %td.description= advanced_search.description
-            %td.date= date_format(advanced_search.created_at)
+            %td.date.text-center= date_format(advanced_search.created_at)
             %td.load-query.text-center
               = link_to clients_path(save_search_params(advanced_search.search_params)), class: 'btn btn-xs btn-success btn-outline' do
                 = fa_icon('clipboard')

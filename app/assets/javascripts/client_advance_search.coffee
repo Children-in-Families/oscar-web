@@ -110,7 +110,6 @@ class CIF.ClientAdvanceSearch
 
   customFormSelectChange: ->
     self = @
-    self.customFormSelected = []
     $('.main-report-builder .custom-form-wrapper select').on 'select2-selecting', (element) ->
       self.customFormSelected.push(element.val)
       self.addCustomBuildersFields(element.val, self.CUSTOM_FORM_URL)
