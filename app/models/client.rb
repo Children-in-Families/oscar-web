@@ -122,8 +122,13 @@ class Client < ActiveRecord::Base
         next if client_in_tenant.nil?
         if client.birth_province_id.present?
           Organization.switch_to 'shared'
-          client.birth_province_name == Province.find(client.birth_province_id).try(:name)
-          Organization.switch_to tenant
+          begin
+            client.birth_province_name == Province.find(client.birth_province_id).try(:name)
+            Organization.switch_to tenant
+          rescue => exception
+            client.birth_province_id == nil
+            Organization.switch_to tenant
+          end
         end
         big_results << [{
                           slug: client.slug, 
