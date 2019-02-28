@@ -2,6 +2,15 @@ body[id='clients-index'] {
   @import 'iCheck/custom';
   @import 'clients/client_grid';
 
+  #load-save-search {
+    th.date {
+      min-width: 100px;
+    }
+    th.action, th.load-query {
+      min-width: 70px;
+    }
+  }
+
   .loader {
     margin: auto;
     border: 5px solid #f3f3f3; /* Light grey */
