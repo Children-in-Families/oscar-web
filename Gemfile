@@ -32,6 +32,9 @@ gem 'cancancan',              '~> 1.13', '>= 1.13.1'
 gem 'pundit',                 '~> 1.1'
 gem 'tinymce-rails',          '~> 4.5.6'
 gem 'bootstrap-datepicker-rails', '~> 1.5'
+
+#select2-rails gem is modified in select2.js using gem open to config its dropdown behaviour to only dropdown below
+#change enoughRoomAbove = (offset.top - dropHeight) >= $window.scrollTop() to enoughRoomAbove = false,
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'devise_token_auth',      '~> 0.1.37'
 gem 'omniauth',               '~> 1.3', '>= 1.3.1'
