@@ -1,5 +1,27 @@
 CIF.ClientsIndex = do ->
   _init = ->
+    content = $('#content').val()
+    btnDone = $('#btn-done').val()
+    tour = new Tour(
+      debug: true
+      storage: false
+      steps: [
+        {
+          element: '#client-search-form'
+          content: content
+          placement: 'bottom'
+          orphan: true
+          template: "<div class='popover tour'>
+                    <div class='arrow'></div>
+                    <div class='popover-content'></div>
+                    <div class='popover-navigation pull-right' style='padding: 5px;' >
+                      <button class='btn btn-default' data-role='end' id='btn-done-done'>#{btnDone}</button>
+                    </div>
+                </div>"
+
+        }
+    ])
+
     _initReportBuilderWizard()
     _initCheckbox()
     _enableSelect2()
@@ -17,7 +39,7 @@ CIF.ClientsIndex = do ->
     _getClientPath()
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
-    _toggleCollapseFilter()
+    _toggleCollapseFilter(tour)
     _handleAutoCollapse()
     _overdueAssessmentSearch()
     _removeOverdueAssessmentSearch()
@@ -30,7 +52,7 @@ CIF.ClientsIndex = do ->
     _removeOverdueFormsSearch()
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
-    _addTourTip()
+    _addTourTip(tour)
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
@@ -337,12 +359,13 @@ CIF.ClientsIndex = do ->
     $(dataFilters).hide()
     $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
 
-  _toggleCollapseFilter = ->
+  _toggleCollapseFilter = (tour) ->
     $('#client-search-form').on 'show.bs.collapse', ->
       $('#client-statistic-body').hide()
       $('#client-advance-search-form').collapse('hide')
 
     $('#client-advance-search-form').on 'show.bs.collapse', ->
+      tour.end()
       $('#client-statistic-body').hide()
       $('#client-search-form').collapse('hide')
 
@@ -618,29 +641,8 @@ CIF.ClientsIndex = do ->
         total += 1
     total = if total != 0 then total else ''
 
-  _addTourTip = ->
-    content = $('#content').val()
-    btnDone = $('#btn-done').val()
+  _addTourTip = (tour) ->
     if !$('#most-recent').length
-      tour = new Tour(
-        debug: true
-        storage: false
-        steps: [
-          {
-            element: '#client-search-form'
-            content: content
-            placement: 'bottom'
-            orphan: true
-            template: "<div class='popover tour'>
-                      <div class='arrow'></div>
-                      <div class='popover-content'></div>
-                      <div class='popover-navigation pull-right' style='padding: 5px;' >
-                        <button class='btn btn-default' data-role='end' id='btn-done-done'>#{btnDone}</button>
-                      </div>
-                  </div>"
-
-          }
-      ])
       tour.init()
       tour.start()
 
