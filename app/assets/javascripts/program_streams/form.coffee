@@ -606,7 +606,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         setTimeout( ->
           for value in disableValue
             $(select).find("option[value='#{value}']").attr('disabled', 'true')
-          $(select).find('select').val('1').trigger('change')
+          currentUrl = window.location.href
+          if currentUrl.includes('new')
+            $(select).find('select').val('1').trigger('change')
         , 100)
 
     setTimeout( ->
