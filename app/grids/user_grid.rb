@@ -59,7 +59,11 @@ class UserGrid < BaseGrid
   column(:first_name, header: -> { I18n.t('datagrid.columns.users.first_name') }, html: false)
   column(:last_name, header: -> { I18n.t('datagrid.columns.users.last_name') }, html: false)
 
-  date_column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
+  date_column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
+
+  column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.users.date_of_birth') }) do |object|
+    object.date_of_birth.present? ? object.date_of_birth : ''
+  end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.users.gender') }) do |object|
     object.gender.try(:capitalize)
@@ -79,7 +83,10 @@ class UserGrid < BaseGrid
     object.department.try(:name)
   end
 
-  date_column(:start_date, header: -> { I18n.t('datagrid.columns.users.start_date') })
+  date_column(:start_date, html: true, header: -> { I18n.t('datagrid.columns.users.start_date') })
+  column(:start_date, html: false, header: -> { I18n.t('datagrid.columns.users.start_date') }) do |object|
+    object.start_date.present? ? object.start_date : ''
+  end
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.users.province') }) do |object|
     object.province.try(:name)
