@@ -471,6 +471,7 @@ km:
     form_builder_attachments:
       destroy:
         successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
+        successfully_updated: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
   are_you_sure: តើអ្នកប្រាកដហើយ?
   assessments:
     add_task_form:
@@ -513,6 +514,7 @@ km:
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     index:
+      assessment_completed_on: ការប៉ាន់ប្រមាណដែលបានបំពេញ
       assessment_created_on: ការប៉ាន់ប្រមាណដែលបានបង្កើត
       assessment_history: ការប៉ាន់ប្រមាណចាស់ៗ
       back: ត្រលប់ក្រោយ
@@ -524,8 +526,9 @@ km:
       three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:
-      assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖
+      assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
       assessment_completed_for: ការប៉ាន់ប្រមាណសម្រាប់
+      assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖
       back_to_assessment_history: ត្រលប់ទៅការប៉ាន់ប្រមាណចាស់ៗ
       based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
       case_plan: គម្រងករណី
@@ -534,6 +537,7 @@ km:
       edit: កែតម្រូវ
       goal: គោលដៅ
       initial_assessment: ដោយផ្អែកលើការប៉ាន់ប្រមាណដំបូង
+      initial_assessment_of: ការប៉ាន់ប្រមាណដំបូងរបស់
       on_date: នៅថ្ងៃ
       reason: មូលហេតុ
       score: ពិន្ទុ
@@ -758,13 +762,16 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
+        accept: ទទួលយក
         accept_ngo_form: ទទួលចូលអង្គការ
         accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       form:
         accept: ទទួលយក
         accepting: កំពុងទទួលយក...
         accept_ngo_form: ទទួលចូលអង្គការ
         accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        accepting: កំពុងទទួលយក...
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       update:
         failed_update: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
@@ -774,13 +781,17 @@ km:
         failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
       edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញពីអង្គការ...
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_client: មិនទទួលយកអតិថិជន
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       form:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1446,6 +1457,7 @@ km:
       is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       other_information: ព័ត៌មានផ្សេងៗ
+      province: ខេត្ត
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
@@ -1562,6 +1574,7 @@ km:
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       program_streams: បញ្ជូនអតិថិជនក្នុងកម្មវិធីចម្បង
       progress_note: កំណត់សំគាល់ការរីកចំរើន
+      province: ខេត្តកំណើត
       province:
         cambodia: ខេត្តកំណើត
         lesotho: ខេត្តកំណើត
@@ -1590,15 +1603,17 @@ km:
       telephone_number: លេខទូរស័ព្ទ
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
-        year:
-          one: "%{count} ឆ្នាំ"
-          other: "%{count} ឆ្នាំ"
         month:
           one: "%{count} ខែ"
           other: "%{count} ខែ"
+        one: ប្រហែល%{count}ឆ្នាំ
+        other: ប្រហែល%{count}ឆ្នាំ
         week:
           one: "%{count} សប្តាហ៍"
           other: "%{count} សប្តាហ៍"
+        year:
+          one: "%{count} ឆ្នាំ"
+          other: "%{count} ឆ្នាំ"
       view_assessments: ការប៉ាន់ប្រមាណ
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
@@ -1692,6 +1707,10 @@ km:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
+    multiple_forms:
+      custom_forms: ទម្រង់បែបបទ
+      multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
+      tracking_forms: ទម្រង់បែបបទតាមដាន
     overdue:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -1817,8 +1836,8 @@ km:
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
-        date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+        date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ស្រុក/ខណ្ឌ
@@ -2648,6 +2667,7 @@ km:
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
     index:
+      add_new_domain: បន្ថែមកត្តាថ្មី
       are_you_sure: តើអ្នកប្រាកដហើយ?
       changelog: ប្រវត្តិនៃកំណែ
       csi_tool: ឧបករណ៍ការវាយតម្លៃលំនាំដើម
@@ -2819,6 +2839,7 @@ km:
       read_less: អានតិច
       read_more: អានបន្ថែម
       relation: ទំនាក់ទំនងជាមួយកុមារ
+      remove_member: លុបសមាជិក
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       status: ស្ថានភាព
       street: ផ្លូវ
@@ -3277,6 +3298,9 @@ km:
       due_today_assessments:
         one: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_assessments_count:
+        one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_client_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -4131,10 +4155,12 @@ km:
       assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃផ្ទាល់ខ្លួន
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃលំនាំដើម CSI
+      disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
       name: ឈ្មោះ
       eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
       min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
+      name: ឈ្មោះ
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការវាយតម្លៃតាមតម្រូវការ។'
     case_note:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
@@ -4236,6 +4262,7 @@ km:
         material: របស់របរ/សំភារៈ
         no_modification: មិនមានប្រវត្តិកំណែ
         'on': របស់
+        organisation_type: ប្រភេទឣង្គភាព
         organization_type: ប្រភេទឣង្គភាព
         partner: ដៃគូ
         partner_custom_field: ទម្រង់បែបបទរបស់ដៃគូ
