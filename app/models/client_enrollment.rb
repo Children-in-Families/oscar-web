@@ -1,4 +1,6 @@
 class ClientEnrollment < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :client
   belongs_to :program_stream
 
