@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190130040342) do
+ActiveRecord::Schema.define(version: 20190220024711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,10 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.boolean  "required_task_last", default: false
   end
 
+  add_index "assessment_domains", ["assessment_id"], name: "index_assessment_domains_on_assessment_id", using: :btree
+  add_index "assessment_domains", ["domain_id"], name: "index_assessment_domains_on_domain_id", using: :btree
+  add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
+
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
     t.integer  "assessment_domain_id"
     t.integer  "progress_note_id"
@@ -122,11 +126,12 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.boolean  "completed",          default: false
-    t.boolean  "default",            default: true
+    t.boolean  "completed",  default: false
+    t.boolean  "default",    default: true
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
+  add_index "assessments", ["default"], name: "index_assessments_on_default", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -296,6 +301,7 @@ ActiveRecord::Schema.define(version: 20190130040342) do
 
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
+  add_index "client_enrollments", ["status"], name: "index_client_enrollments_on_status", using: :btree
 
   create_table "client_interviewees", force: :cascade do |t|
     t.integer  "client_id"
@@ -317,6 +323,16 @@ ActiveRecord::Schema.define(version: 20190130040342) do
 
   add_index "client_needs", ["client_id"], name: "index_client_needs_on_client_id", using: :btree
   add_index "client_needs", ["need_id"], name: "index_client_needs_on_need_id", using: :btree
+
+  create_table "client_partners", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "client_partners", ["client_id"], name: "index_client_partners_on_client_id", using: :btree
+  add_index "client_partners", ["partner_id"], name: "index_client_partners_on_partner_id", using: :btree
 
   create_table "client_problems", force: :cascade do |t|
     t.integer  "rank"
@@ -990,6 +1006,7 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.datetime "updated_at"
     t.integer  "cases_count",               default: 0
     t.integer  "organization_type_id"
+    t.string   "partner_type",              default: [], array: true
   end
 
   add_index "partners", ["organization_type_id"], name: "index_partners_on_organization_type_id", using: :btree
@@ -1552,9 +1569,9 @@ ActiveRecord::Schema.define(version: 20190130040342) do
     t.integer  "organization_id"
     t.boolean  "disable",                        default: false
     t.datetime "expires_at"
+    t.boolean  "calendar_integration",           default: false
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
-    t.boolean  "calendar_integration",           default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
@@ -1650,6 +1667,8 @@ ActiveRecord::Schema.define(version: 20190130040342) do
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"
   add_foreign_key "client_needs", "needs"
+  add_foreign_key "client_partners", "clients"
+  add_foreign_key "client_partners", "partners"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
   add_foreign_key "client_right_government_forms", "client_rights"
