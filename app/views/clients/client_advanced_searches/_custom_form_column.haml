@@ -11,8 +11,5 @@
               = key
             - fields.each do |field|
               %li.visibility.checkbox-margin{ class: format_class_header(key) }
-                - field_id = field[:id].gsub(' ', '_').gsub('/', '_')
-                -# - binding.pry
-                -# = check_box_tag "#{field[:id]}_", field_id, params[:"#{field[:id]}_"].present?, class: 'i-checks', id: "#{field_id}_", name: "#{field_id}_"
-                = check_box_tag "#{field[:id]}_", field_id, params["#{field[:id]}_"].present? || params["#{field_id}_"].present?, class: 'i-checks', id: "#{field_id}_", name: "#{field_id}_"
+                = check_box_tag "#{field[:id]}_", field[:id], params[:"#{field[:id]}_"].present?, class: 'i-checks'
                 = label_tag "#{field[:id]}_", form_builder_format(field[:id])
