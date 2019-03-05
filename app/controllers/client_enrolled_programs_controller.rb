@@ -75,9 +75,9 @@ class ClientEnrolledProgramsController < AdminController
 
   def program_stream_order_by_enrollment
     if current_user.admin? || current_user.strategic_overviewer?
-      all_programs = ProgramStream.all
+      all_programs = ProgramStream.with_deleted.all
     else
-      all_programs = ProgramStream.where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
+      all_programs = ProgramStream.with_deleted.where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
     end
     all_programs.active_enrollments(@client).complete
   end

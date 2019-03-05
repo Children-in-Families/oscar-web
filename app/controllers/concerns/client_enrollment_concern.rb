@@ -59,7 +59,7 @@ module ClientEnrollmentConcern
   end
 
   def find_program_stream
-    @program_stream = ProgramStream.find(params[:program_stream_id])
+    @program_stream = ProgramStream.with_deleted.find(params[:program_stream_id])
   end
 
   def get_attachments
