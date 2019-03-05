@@ -40,8 +40,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def build_permission
-    User.all.each do |user|
-      next if user.strategic_overviewer?
+    User.non_strategic_overviewers.each do |user|
       self.program_stream_permissions.find_or_create_by(user: user)
     end
   end
