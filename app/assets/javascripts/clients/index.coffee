@@ -8,9 +8,10 @@ CIF.ClientsIndex = do ->
       storage: false
       steps: [
         {
-          element: '#client-search-form'
+          element: 'input#client-grid-search-btn.btn.btn-primary.datagrid-submit'
           content: content
           placement: 'bottom'
+          smartPlacement: true
           orphan: true
           template: "<div class='popover tour'>
                     <div class='arrow'></div>

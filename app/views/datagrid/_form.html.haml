@@ -267,7 +267,7 @@
             = f.datagrid_filter filter, partials: options[:partials]
     .row
       .datagrid-actions
-        = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'
+        = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
         - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
         - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
         = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-outline datagrid-reset'
