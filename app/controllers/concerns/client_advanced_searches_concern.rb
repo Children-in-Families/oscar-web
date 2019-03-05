@@ -171,7 +171,8 @@ module ClientAdvancedSearchesConcern
   def basic_params
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
       @wizard_basic_filter_params  = @advanced_search_params[:basic_rules]
-    elsif params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    else
+      # elsif params.dig(:client_advanced_search, :action_report_builder) == '#builder'
       @basic_filter_params  = @advanced_search_params[:basic_rules]
     end
   end

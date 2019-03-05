@@ -2474,6 +2474,7 @@ en:
         enable: Enable
         enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: First Name
+        gender: Gender
         header: Edit Personal Information
         job_title: Job Title
         last_name: Last Name
