@@ -48,7 +48,7 @@
 //= require slimscroll/jquery.slimscroll.min.js
 //= require toastr/toastr.min.js
 //= require bootstrap-tour/bootstrap-tour.js
-//= require jquery-chariot/release/chariot.js
+//= require chariot/chariot.min.js
 
 //LOAD MODULE
 //= require namespace
