@@ -1,0 +1,40 @@
+{
+  "name": "chariot-tooltips",
+  "homepage": "chariot.zendesk.com",
+  "authors": [
+    "Ronald Fung <ronaldyc.fung@gmail.com>",
+    "Herbert Siojo <herbert.siojo@gmail.com>"
+  ],
+  "description": "A library for creating beautifully simple onboarding tutorials.",
+  "main": [
+    "release/chariot.js",
+    "release/chariot.css"
+  ],
+  "dependencies": {
+    "jquery": "2.0.0"
+  },
+  "moduleType": [
+    "amd",
+    "node",
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "chariot",
+    "onboarding",
+    "tutorial",
+    "tooltips"
+  ],
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "**/.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:zendesk/chariot-tooltips.git"
+  },
+  "license": "LICENSE.txt"
+}
