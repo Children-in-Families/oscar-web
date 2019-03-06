@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 20190301045414) do
     t.boolean  "required_task_last", default: false
   end
 
+  add_index "assessment_domains", ["assessment_id"], name: "index_assessment_domains_on_assessment_id", using: :btree
+  add_index "assessment_domains", ["domain_id"], name: "index_assessment_domains_on_domain_id", using: :btree
   add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
@@ -129,6 +131,7 @@ ActiveRecord::Schema.define(version: 20190301045414) do
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
+  add_index "assessments", ["default"], name: "index_assessments_on_default", using: :btree
 
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
@@ -300,6 +303,7 @@ ActiveRecord::Schema.define(version: 20190301045414) do
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
   add_index "client_enrollments", ["deleted_at"], name: "index_client_enrollments_on_deleted_at", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
+  add_index "client_enrollments", ["status"], name: "index_client_enrollments_on_status", using: :btree
 
   create_table "client_interviewees", force: :cascade do |t|
     t.integer  "client_id"
