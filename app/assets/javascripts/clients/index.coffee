@@ -11,6 +11,7 @@ CIF.ClientsIndex = do ->
           element: '#client-search-form'
           content: content
           placement: 'bottom'
+          smartPlacement: true
           orphan: true
           template: "<div class='popover tour'>
                     <div class='arrow'></div>
@@ -676,24 +677,6 @@ CIF.ClientsIndex = do ->
     if !$('#most-recent').length
       tour.init()
       tour.start()
-
-    # content = $('#content').val()
-    # btnDone = $('#btn-done').val()
-    # info = $('#info').val()
-    # chariot.startTutorial([
-    #   {
-    #     selectors: "div.datagrid-actions",
-    #     tooltip: {
-    #       position: 'bottom',
-    #       title: info,
-    #       text: content
-    #     },
-    #   }
-    # ]);
-
-    # setTimeout (->
-    #   $('.btn-inverse').html btnDone
-    # ),
 
   _clearingLocalStorage = ->
     $(document).on 'click', '#client-advance-search-form .ibox-footer a.btn-default', (event)->
