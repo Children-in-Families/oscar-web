@@ -31,8 +31,8 @@ class ProgramStreamsController < AdminController
   end
 
   def show
-    @program_exclusive = ProgramStream.filter(@program_stream.program_exclusive)
-    @mutual_dependence = ProgramStream.filter(@program_stream.mutual_dependence)
+    @program_exclusive = ProgramStream.without_deleted.filter(@program_stream.program_exclusive)
+    @mutual_dependence = ProgramStream.without_deleted.filter(@program_stream.mutual_dependence)
     @program_stream = @program_stream.decorate
   end
 
@@ -64,7 +64,11 @@ class ProgramStreamsController < AdminController
   end
 
   def destroy
-    @program_stream.destroy
+    if @program_stream.client_enrollments.size > 0
+      @program_stream.destroy
+    else
+      @program_stream.really_destroy!
+    end
     redirect_to program_streams_path, notice: t('.successfully_deleted')
   end
 
@@ -81,7 +85,7 @@ class ProgramStreamsController < AdminController
   private
 
   def find_program_stream
-    @program_stream = ProgramStream.find(params[:id])
+    @program_stream = ProgramStream.without_deleted.find(params[:id])
   end
 
   def remove_html_tags
@@ -125,7 +129,7 @@ class ProgramStreamsController < AdminController
     program_stream_id = params[:program_stream_id]
     ngo = Organization.find_by(full_name: @ngo_name)
     Organization.switch_to ngo.short_name
-    program_stream = ProgramStream.where(id: program_stream_id).includes(:trackings).first
+    program_stream = ProgramStream.without_deleted.where(id: program_stream_id).includes(:trackings).first
     program_exclusive = ProgramStream.filter(program_stream.program_exclusive)
     mutual_dependence = ProgramStream.filter(program_stream.mutual_dependence)
 
@@ -140,7 +144,7 @@ class ProgramStreamsController < AdminController
     organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.oscar.order(:full_name)
     program_streams = organizations.map do |org|
       Organization.switch_to org.short_name
-      ProgramStream.all.reload
+      ProgramStream.without_deleted.all.reload
     end
     Organization.switch_to(current_org_name)
     program_streams.flatten
@@ -166,7 +170,7 @@ class ProgramStreamsController < AdminController
     column == "quantity" ? "#{column}" : "lower(#{column})"
     (order_string = "#{column} #{sort_by}") if column.present?
 
-    ProgramStream.ordered_by(order_string)
+    ProgramStream.without_deleted.ordered_by(order_string)
   end
 
   def program_stream_ordered(org = '')
