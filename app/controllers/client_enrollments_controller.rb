@@ -66,7 +66,7 @@ class ClientEnrollmentsController < AdminController
       delete_form_builder_attachment(@client_enrollment, name, index)
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
-      @client_enrollment.destroy
+      @client_enrollment.really_destroy!
       redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
     end
   end
