@@ -92,7 +92,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
       Organization.switch_to current_org
       provinces.flatten
     end
@@ -179,6 +179,11 @@ module AdvancedSearches
         {
           text_fields: ['street_line1', 'street_line2'],
           drop_down_fields: [['township_id', townships], ['state_id', states]]
+        }
+      when 'uganda'
+        {
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
       end
     end

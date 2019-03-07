@@ -436,7 +436,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.dynamic_local_name
-    country = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.country_name
+    country = Setting.first.country_name
     I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
   end
 
@@ -564,6 +564,36 @@ class ClientGrid < BaseGrid
     country = Setting.first.try(:country_name) || 'cambodia'
     case country
     when 'cambodia'
+      column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
+
+      column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_number') })
+
+      column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
+
+      column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+        object.village.try(:code_format)
+      end
+
+      column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+        object.commune.try(:name)
+      end
+
+      column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+        object.district_name
+      end
+
+      column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+        object.province_name
+      end
+
+      column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
+        current_org = Organization.current
+        Organization.switch_to 'shared'
+        birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+        Organization.switch_to current_org.short_name
+        birth_province
+      end
+    when 'uganda'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
       column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_number') })

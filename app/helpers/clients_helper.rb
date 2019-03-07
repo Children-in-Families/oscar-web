@@ -159,7 +159,7 @@ module ClientsHelper
       current_address << client.district_name.split(' / ').last if client.district.present?
       current_address << client.province_name.split(' / ').last if client.province.present?
     end
-    current_address << 'Cambodia'
+    current_address << selected_country.titleize
   end
 
   def format_array_value(value)
@@ -278,6 +278,8 @@ module ClientsHelper
       current_address << client.township_name if client.township.present?
       current_address << client.state_name if client.state.present?
       current_address << 'Myanmar'
+    when 'uganda'
+      current_address = merged_address(client)
     else
       current_address = merged_address(client)
     end
@@ -838,7 +840,7 @@ module ClientsHelper
 
   def country_scope_label_translation
     if I18n.locale.to_s == 'en'
-      country_name = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.try(:country_name)
+      country_name = Setting.first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
       when 'thailand' then '(Thai)'
