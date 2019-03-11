@@ -13,4 +13,8 @@ class CaseNoteDomainGroupSerializer < ActiveModel::Serializer
   def domain_group_identities
     object.domain_identities
   end
+
+  def attachments
+    object.attachments? ? object.attachments : []
+  end
 end
