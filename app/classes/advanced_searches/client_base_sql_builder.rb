@@ -1,5 +1,7 @@
 module AdvancedSearches
   class ClientBaseSqlBuilder
+    include ProgramStreamHelper
+
     ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'case_note_type',
                           'date_of_assessments', 'date_of_custom_assessments', 'accepted_date',
@@ -15,14 +17,14 @@ module AdvancedSearches
       @values      = []
       @sql_string  = []
       @condition   = basic_rules['condition']
+      basic_rules  = format_rule(basic_rules)
       @basic_rules = basic_rules['rules'] || []
-
       @columns_visibility = []
     end
 
     def generate
       @basic_rules.each do |rule|
-        field    = rule['field']
+        field    = rule['id']
         operator = rule['operator']
         value    = rule['value']
         form_builder = field != nil ? field.split('__') : []
@@ -55,13 +57,15 @@ module AdvancedSearches
           end
 
         elsif form_builder.first == 'enrollment'
-          program_stream = ProgramStream.find_by(name: form_builder.second)
+          program_name   = form_builder.second.gsub("&qoute;", '"')
+          program_stream = ProgramStream.find_by(name: program_name)
           enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
           @sql_string << enrollment_fields[:id]
           @values << enrollment_fields[:values]
 
         elsif form_builder.first == 'enrollmentdate'
-          program_stream = ProgramStream.find_by(name: form_builder.second)
+          program_name   = form_builder.second.gsub("&qoute;", '"')
+          program_stream = ProgramStream.find_by(name: program_name)
           enrollment_date = AdvancedSearches::EnrollmentDateSqlBuilder.new(program_stream.id, rule).get_sql
           @sql_string << enrollment_date[:id]
           @values << enrollment_date[:values]

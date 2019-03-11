@@ -361,7 +361,7 @@ module AdvancedSearches
       return [] if @basic_rules.blank?
       basic_rules   = JSON.parse(@basic_rules)
       filter_values = basic_rules['rules']
-      clients       = Client.joins(:case_notes)
+      clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
 
       sub_rule_index = nil
       filter_values.each_with_index {|param, index| sub_rule_index = index if param.has_key?('condition')}

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
+  GENDER_OPTIONS = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Prefer not to say', 'prefer not to say']]
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -51,6 +52,7 @@ class User < ActiveRecord::Base
 
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :gender, presence: true
 
   scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value.squish}%") }
   scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value.squish}%") }
@@ -82,7 +84,7 @@ class User < ActiveRecord::Base
   after_create :build_permission
 
   def build_permission
-    unless self.admin? || self.strategic_overviewer?
+    unless self.strategic_overviewer?
       self.create_permission
 
       CustomField.all.each do |cf|

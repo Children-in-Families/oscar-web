@@ -76,6 +76,7 @@ describe 'CaseNote' do
     context 'New Case note link' do
       let(:default_csi){ Setting.first.default_assessment }
       let(:custom_csi){ Setting.first.custom_assessment }
+      let!(:custom_domain){ create(:domain, :custom) }
 
       context 'only one csi tool is enable' do
         scenario 'default csi' do

@@ -12,4 +12,14 @@ class QuantitativeType < ActiveRecord::Base
   accepts_nested_attributes_for :quantitative_cases, reject_if: :all_blank, allow_destroy: true
 
   scope :name_like, ->(name) { where('quantitative_types.name iLIKE ?', "%#{name}%") }
+
+  after_create :build_permission
+
+  private
+
+  def build_permission
+    User.non_strategic_overviewers.each do |user|
+      self.quantitative_type_permissions.find_or_create_by(user_id: user.id)
+    end
+  end
 end

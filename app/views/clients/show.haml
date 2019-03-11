@@ -21,7 +21,7 @@
                 %strong= @client.slug
               %td
                 = "#{t('.gender')} :"
-                %strong= @client.gender.try(:titleize)
+                %strong= @client.gender.try(:capitalize)
             %tr
               %td
                 = "#{t('.date_of_birth')} :"
