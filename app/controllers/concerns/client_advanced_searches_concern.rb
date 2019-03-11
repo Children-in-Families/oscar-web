@@ -39,6 +39,12 @@ module ClientAdvancedSearchesConcern
     end
   end
 
+  def format_advanced_search_params
+    ad_params = params[:client_advanced_search]
+    return unless ad_params.is_a? String
+    params[:client_advanced_search] = Rack::Utils.parse_nested_query(ad_params)
+  end
+
   def build_advanced_search
     @advanced_search = AdvancedSearch.new
   end
