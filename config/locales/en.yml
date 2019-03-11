@@ -4028,9 +4028,10 @@ en:
       date_of_referral: Date of Referral
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
       name_of_referee: Case Worker Making the Referral
+      ngo_name: NGO Name
       referral_phone: Contact Phone Number
       referral_reason: What is the reason for this referral?
-      referred_from: Reffered from
+      referred_from: Referred from
       referred_to: Referred to
       save: Save
       save_and_download: Save & Download
@@ -4060,6 +4061,7 @@ en:
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
       name_of_referee: Case Worker Making the Referral
+      ngo_name: NGO Name
       pdf:
         haml:
           client_id: Client ID
