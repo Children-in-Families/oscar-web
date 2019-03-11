@@ -1,5 +1,5 @@
 class CaseNoteDomainGroupSerializer < ActiveModel::Serializer
-  attributes :note, :case_note_id, :domain_group_id, :id, :domain_scores
+  attributes :note, :case_note_id, :domain_group_id, :id, :domain_scores, :attachments, :completed_tasks
 
   has_many :tasks
 
