@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :calendars
 
-  mount Thredded::Engine => '/forum'
+  # mount Thredded::Engine => '/forum'
 
   get '/quantitative_data' => 'clients#quantitative_case'
 
