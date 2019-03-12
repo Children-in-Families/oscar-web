@@ -1,7 +1,7 @@
 class ImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
-
+  process :auto_orient
   version :thumb do
     process resize_to_limit: [nil, 200]
     process quality: 100
@@ -22,5 +22,11 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   def extension_white_list
     %w(jpg jpeg gif png)
+  end
+
+  def auto_orient
+    manipulate! do |img|
+      img = img.auto_orient
+    end
   end
 end
