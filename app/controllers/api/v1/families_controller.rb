@@ -3,7 +3,7 @@ module Api
     class FamiliesController < Api::V1::BaseApiController
 
       def index
-        render json: Family.all
+        render json: current_user.families
       end
 
       def create
