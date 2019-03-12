@@ -132,7 +132,7 @@ Rails.application.routes.draw do
       resources :tasks, except: [:new]
     end
     # resources :surveys
-
+    get :book, on: :member
     get 'version' => 'clients#version'
   end
 

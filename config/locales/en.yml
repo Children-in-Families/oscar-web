@@ -1053,6 +1053,8 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
+    book:
+      book: Client Book For
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1450,6 +1452,7 @@ en:
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
+      book: client book
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History
