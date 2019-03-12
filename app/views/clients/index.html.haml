@@ -102,9 +102,9 @@
           %span.label.label-info= t('.results')
           .ibox-tools
             - if params[:data] == 'recent'
-              = button_to t('.show_all'), url_for(params.merge({data: 'all'})), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'show-all'
+              = button_to t('.show_all'), ad_search_clients_path, params: params.merge({data: 'all'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'show-all'
             - else
-              = button_to t('.most_recent'), url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'most-recent'
+              = button_to t('.most_recent'), ad_search_clients_path, params: params.merge({data: 'recent'}), class: 'btn btn-primary', form_class: 'hidden-post-form', id: 'most-recent'
 
         .ibox-content
           .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
