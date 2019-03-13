@@ -77,7 +77,9 @@ class UsersController < AdminController
 
   def disable
     @user = User.find(params[:user_id])
-    redirect_to users_path, notice: t('.successfully_disable') if @user.update_attributes(disable: !@user.disable)
+    @user.disable = !@user.disable
+    @user.save(validate: false)
+    redirect_to users_path, notice: t('.successfully_disable')
   end
 
   private

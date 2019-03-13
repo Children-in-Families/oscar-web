@@ -2,6 +2,39 @@ body[id='clients-index'] {
   @import 'iCheck/custom';
   @import 'clients/client_grid';
 
+  .pagination > li > form {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: #337ab7;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+    input {
+      background-color: transparent;
+      border-width: 0;
+      margin: 0;
+      padding: 0;
+    }
+    &:hover {
+      z-index: 2;
+      color: #23527c;
+      background-color: #eeeeee;
+      border-color: #ddd;
+    }
+  }
+
+  #load-save-search {
+    th.date {
+      min-width: 100px;
+    }
+    th.action, th.load-query {
+      min-width: 70px;
+    }
+  }
+
   .loader {
     margin: auto;
     border: 5px solid #f3f3f3; /* Light grey */
@@ -91,6 +124,10 @@ body[id='clients-index'] {
   .btn-export {
     margin-top: 0;
     margin-right: 4px;
+  }
+
+  .hidden-post-form {
+    display: inline-block;
   }
 
   .btn-group.group-actions {
@@ -270,6 +307,63 @@ body[id='clients-index'] {
     .dt-buttons {
       float: right;
     }
+  }
+
+  #report-builder-wizard-modal {
+    .modal-lg {
+      width: 90%;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body input {
+      display: inline-block;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul {
+      padding-left: 15px;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul > li {
+      list-style: inside;
+    }
+
+    #report-builder-wizard .content {
+      height: calc(100vh - 300px);
+      overflow: scroll;
+    }
+
+    label.pointer {
+      cursor: pointer;
+    }
+
+    .custom-form .select2-input {
+      width: 100% !important;
+    }
+
+    .columns-visibility {
+      margin-bottom: 20px;
+    }
+
+    .chose-columns-section .wide-margin-bottom {
+      margin-bottom: 25px;
+      margin-left: 20px;
+    }
+
+    #wizard-program-stream {
+      margin-top: 10px;
+    }
+
+    .chose-columns-section {
+      .btn-block {
+        text-align: left;
+      }
+    }
+  }
+
+  // Report Builder Wizard
+
+  #client-advance-search-wizard {
+    padding: 0;
+    border: none;
   }
 
   #report-builder-wizard-modal {

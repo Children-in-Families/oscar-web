@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
   after_create :build_permission
 
   def build_permission
-    unless self.admin? || self.strategic_overviewer?
+    unless self.strategic_overviewer?
       self.create_permission
 
       CustomField.all.each do |cf|

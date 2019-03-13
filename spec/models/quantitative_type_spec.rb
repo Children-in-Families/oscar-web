@@ -19,3 +19,19 @@ describe QuantitativeType, 'scopes' do
     end
   end
 end
+
+describe QuantitativeType, 'callbacks' do
+  describe 'after_create' do
+    context '#build_permission' do
+      let!(:quantitative_type) { create(:quantitative_type) }
+      let!(:user) { create(:user) }
+
+      it 'create records in quantitative type permission' do
+        expect(user.quantitative_type_permissions.first.user_id).to eq(user.id)
+        expect(user.quantitative_type_permissions.first.quantitative_type_id).to eq(quantitative_type.id)
+        expect(user.quantitative_type_permissions.first.readable).to eq(true)
+        expect(user.quantitative_type_permissions.first.editable).to eq(true)
+      end
+    end
+  end
+end

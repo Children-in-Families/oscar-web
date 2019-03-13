@@ -1,6 +1,6 @@
 module ClientAdvancedSearchesConcern
   def advanced_search
-    basic_rules  = JSON.parse @basic_filter_params
+    basic_rules  = JSON.parse @basic_filter_params || @wizard_basic_filter_params
     # overdue_assessment   = @advanced_search_params[:overdue_assessment]
     # clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), overdue_assessment)
     $param_rules        = find_params_advanced_search
@@ -39,6 +39,12 @@ module ClientAdvancedSearchesConcern
     end
   end
 
+  def format_advanced_search_params
+    ad_params = params[:client_advanced_search]
+    return unless ad_params.is_a? String
+    params[:client_advanced_search] = Rack::Utils.parse_nested_query(ad_params)
+  end
+
   def build_advanced_search
     @advanced_search = AdvancedSearch.new
   end
@@ -49,11 +55,13 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_column
-    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] }
+    @custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_custom_form_columns = custom_form_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def program_stream_column
-    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] }
+    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    @wizard_program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
   end
 
   def get_custom_form
@@ -62,12 +70,23 @@ module ClientAdvancedSearchesConcern
   end
 
   def program_stream_fields
-    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    else
+      @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    end
   end
 
   def client_builder_fields
-    @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
-    @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
+    @builder_fields = get_client_basic_fields
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @builder_fields = @builder_fields + program_stream_fields if @advanced_search_params[:wizard_program_stream_check].present?
+      @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
+      @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
+    else
+      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
+      @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
+    end
   end
 
   def get_program_streams
@@ -88,7 +107,11 @@ module ClientAdvancedSearchesConcern
   end
 
   def custom_form_fields
-    @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @wizard_custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    else
+      @custom_form_fields = get_custom_form_fields + get_has_this_form_fields
+    end
   end
 
   def get_custom_form_fields
@@ -152,6 +175,11 @@ module ClientAdvancedSearchesConcern
   end
 
   def basic_params
-    @basic_filter_params  = @advanced_search_params[:basic_rules]
+    if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
+      @wizard_basic_filter_params  = @advanced_search_params[:basic_rules]
+    else
+      # elsif params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+      @basic_filter_params  = @advanced_search_params[:basic_rules]
+    end
   end
 end

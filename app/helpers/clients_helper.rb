@@ -171,7 +171,7 @@ module ClientsHelper
   end
 
   def check_is_string_date?(property)
-    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? date_format(property.to_date) : property
+    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? property.to_date : property
   end
 
   def format_properties_value(value)
@@ -210,7 +210,7 @@ module ClientsHelper
     name   = values.first.strip
     label  = values.last.strip
     keyword = "#{name} #{label}"
-    keyword.downcase.parameterize('_')
+    keyword.downcase.parameterize('__')
   end
 
   # legacy method

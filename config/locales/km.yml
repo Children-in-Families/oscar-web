@@ -2479,6 +2479,7 @@ km:
         enable: បើកដំណើរការ
         enable_two_factor_authentication: បើកការផ្ទៀងផ្ទាត់ជំហានទីពីរ
         first_name: នាមខ្លួនជាអក្សរឡាតាំង
+        gender: ភេទ
         header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
         job_title: មុខតំណែង
         last_name: នាមត្រកូល

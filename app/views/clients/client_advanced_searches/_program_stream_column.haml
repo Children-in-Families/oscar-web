@@ -11,8 +11,8 @@
         -# %li.visibility.checkbox-margin
         -#   = check_box_tag 'program_exit_date_', 'program_exit_date', checked = params['program_exit_date_'].present?, class: 'i-checks'
         -#   = columns_visibility 'program_exit_date'
-        - if @program_stream_columns.present?
-          - @program_stream_columns.each do |key, fields|
+        - if program_stream_columns.present?
+          - program_stream_columns.each do |key, fields|
             %li.dropdown-header{ class: format_class_header(key) }
               = key
             - fields.each do |field|

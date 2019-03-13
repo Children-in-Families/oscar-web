@@ -39,7 +39,7 @@ class ClientGrid < BaseGrid
   def self.filter_shared_fileds(field, value, scope)
     current_org = Organization.current
     Organization.switch_to 'shared'
-    slugs = SharedClient.where("shared_clients.#{field} ILIKE ?", "%#{value.squish}%").pluck(:slug)
+    slugs = SharedClient.where("shared_clients.#{field} ILIKE ? OR shared_clients.local_#{field} ILIKE ?", "%#{value.squish}%", "%#{value.squish}%").pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
   end
@@ -499,7 +499,11 @@ class ClientGrid < BaseGrid
     end
   end
 
-  date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
+  date_column(:follow_up_date, html: true, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
+
+  column(:follow_up_date, html: false, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') }) do |object|
+    object.follow_up_date.present? ? object.follow_up_date : ''
+  end
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
@@ -537,7 +541,7 @@ class ClientGrid < BaseGrid
     object.agencies.pluck(:name).join(', ')
   end
 
-  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
+  column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
     date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
@@ -545,11 +549,23 @@ class ClientGrid < BaseGrid
     date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
   end
 
+  column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
+    Organization.switch_to current_org.short_name
+    date_of_birth.present? ? date_of_birth : ''
+  end
+
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  date_column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') })
+  date_column(:created_at, html: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
+
+  column(:created_at, html: false, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
+    object.created_at.present? ? object.created_at.to_date.to_formatted_s : ''
+  end
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
@@ -652,7 +668,11 @@ class ClientGrid < BaseGrid
     object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
-  date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
+  date_column(:initial_referral_date, html: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
+
+  column(:initial_referral_date, html: false, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') }) do |object|
+    object.initial_referral_date.present? ? object.initial_referral_date.to_date.to_formatted_s : ''
+  end
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 

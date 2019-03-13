@@ -2485,6 +2485,7 @@ my:
         enable: Enable
         enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: နာမည္ပထမဆံုးအလံုး
+        gender: က်ားမ
         header: ပုဂၢလိကအခ်က္အလက္မ်ားကို ျပင္ဆင္ရန္
         job_title: အလုပ္အမည္
         last_name: နာမည္ေနာက္ဆံုးအလံုး
