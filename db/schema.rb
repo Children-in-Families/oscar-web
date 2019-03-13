@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190220024711) do
+ActiveRecord::Schema.define(version: 20190301045414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,9 +297,11 @@ ActiveRecord::Schema.define(version: 20190220024711) do
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.date     "enrollment_date"
+    t.datetime "deleted_at"
   end
 
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
+  add_index "client_enrollments", ["deleted_at"], name: "index_client_enrollments_on_deleted_at", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
   add_index "client_enrollments", ["status"], name: "index_client_enrollments_on_status", using: :btree
 
@@ -580,7 +582,10 @@ ActiveRecord::Schema.define(version: 20190220024711) do
     t.integer  "domain_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "domain_program_streams", ["deleted_at"], name: "index_domain_program_streams_on_deleted_at", using: :btree
 
   create_table "domains", force: :cascade do |t|
     t.string   "name",                     default: ""
@@ -951,9 +956,11 @@ ActiveRecord::Schema.define(version: 20190220024711) do
     t.datetime "updated_at",                        null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
+    t.datetime "deleted_at"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
+  add_index "leave_programs", ["deleted_at"], name: "index_leave_programs_on_deleted_at", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
@@ -1036,8 +1043,10 @@ ActiveRecord::Schema.define(version: 20190220024711) do
     t.boolean  "editable",          default: true
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "program_stream_permissions", ["deleted_at"], name: "index_program_stream_permissions_on_deleted_at", using: :btree
   add_index "program_stream_permissions", ["program_stream_id"], name: "index_program_stream_permissions_on_program_stream_id", using: :btree
   add_index "program_stream_permissions", ["user_id"], name: "index_program_stream_permissions_on_user_id", using: :btree
 
@@ -1055,7 +1064,10 @@ ActiveRecord::Schema.define(version: 20190220024711) do
     t.integer  "program_exclusive", default: [],                 array: true
     t.integer  "mutual_dependence", default: [],                 array: true
     t.boolean  "tracking_required", default: false
+    t.datetime "archived_at"
   end
+
+  add_index "program_streams", ["archived_at"], name: "index_program_streams_on_archived_at", using: :btree
 
   create_table "progress_note_types", force: :cascade do |t|
     t.string   "note_type",  default: ""
@@ -1530,8 +1542,10 @@ ActiveRecord::Schema.define(version: 20190220024711) do
     t.integer  "program_stream_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "trackings", ["deleted_at"], name: "index_trackings_on_deleted_at", using: :btree
   add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 

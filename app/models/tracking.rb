@@ -1,6 +1,8 @@
 class Tracking < ActiveRecord::Base
   include UpdateFieldLabelsFormBuilder
   FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
+  acts_as_paranoid
+
   belongs_to :program_stream
   has_many :client_enrollment_trackings, dependent: :restrict_with_error
   has_many :client_enrollments, through: :client_enrollment_trackings
