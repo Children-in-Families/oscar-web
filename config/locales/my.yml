@@ -314,6 +314,7 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_name: ေအဂ်င္စီနာမည္
       agency_names: ေအဂ်င္စီနာမည္
+      assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       basic_fields: အမႈသည္အေျခခံအေနအထား
       birth_province: ေမြးရပ္ျပည္နယ္
       birth_province_id: ေမြးရပ္ျပည္နယ္
@@ -331,7 +332,8 @@ my:
       csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       current_address: လက္ရွိေနရပ္လိပ္စာ
       current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
-      custom_csi_domain_scores: Custom ဒိုမိန္း ရမွတ္မ်ား
+      custom_csi_domain_scores: Custom ဒိုမိန္း အမွတ္မ်ား
+      custom_csi_group: At
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
@@ -372,6 +374,7 @@ my:
       local_family_name: မ်ိဳး႐ိုးနံမည္ (ေဒသသံုး)
       local_given_name: ေမြးနာမည္ (ေဒသသံုး)
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
+      month_number: လ#
       name: အမည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
@@ -859,6 +862,7 @@ my:
       quantitative: ပမာဏအမ်ိဳးအစား
       tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
     index:
+      add_custom_group: အကဲဖြတ်ရှာဖွေရေးဖန်တီး
       add_new_filter: စိစစ္မႈအသစ္ျဖည့္ရန္
       add_new_group: အဖြဲ႕ထည့္ရန္
       advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
@@ -1087,6 +1091,7 @@ my:
       referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
       advanced_search:
+        add_custom_group: အကဲဖြတ်ရှာဖွေရေးဖန်တီး
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
         add_new_group: အဖြဲ႕ထပ္ထည့္ရန္
         advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
@@ -1359,16 +1364,21 @@ my:
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       assessment_data: အကဲဖြတ်ဖို့ဒေတာ
       assessments: စိစစ္အကဲျဖတ္မႈမ်ား
+      assessment_number: စိစစ္အကဲျဖတ္မႈမ်ား#
       case_statistics: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ ပမာဏမ်ား
       csi_assessment: CSI စိစစ္အကဲျဖတ္မႈမ်ား
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       custom_assessment: ထုံးစံအကဲဖြတ်
+      custom_csi_group: At
+      custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      date_of_assessments: Date of Assessments
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
       load: ဆက္လက္ လုပ္ေဆာင္ေနသည္
       load_save_search: သိမ္းဆည္းထားသည့္ ရွာေဖြမႈမ်ားကို ျပပါ။
+      month_number: လ#
       most_recent: လတ်တလော
       popover_content: ဤနေရာတွင်ကလစ်နှိပ်ပါ ကျေးဇူးပြု.
       popover_done: ပိတ်

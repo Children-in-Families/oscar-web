@@ -313,6 +313,7 @@ en:
       agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
+      assessment_number: Assessment#
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
       birth_province_id: Birth Province
@@ -331,6 +332,7 @@ en:
       current_address: Current Address
       current_province: Current Province
       custom_csi_domain_scores: Custom Domain Scores
+      custom_csi_group: At
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
@@ -371,6 +373,7 @@ en:
       local_family_name: Family Name
       local_given_name: Given Name
       main_school_contact: Main School Contact
+      month_number: Month#
       name: Name
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
@@ -850,6 +853,7 @@ en:
       quantitative: Custom Referral Data
       tracking: Tracking
     index:
+      add_custom_group: Add Assessment Filter
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
@@ -1077,6 +1081,7 @@ en:
       referred_to: Referred to External Organisation
     client_advanced_searches:
       advanced_search:
+        add_custom_group: Add Assessment Filter
         add_new_filter: Add New Filter
         add_new_group: Add Group
         advanced_search: Report Builder
@@ -1348,16 +1353,22 @@ en:
       all_custom_csi_assessments: All Custom Assessments
       assessment_data: Assessment Data
       assessments: Assessments
+      assessment_number: Assessment#
       case_statistics: Case Statistics
       client_amount: Clients
       csi_assessment: CSI Assessment
       csi_domain_scores: CSI Domain Scores
       custom_assessment: Custom Assessment
+      custom_csi_domain_scores: Custom Domain Scores
+      custom_csi_group: At
+      date_of_assessment: Date of Assessment
+      date_of_assessments: Date of Assessments
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
       load: Loading more...
       load_save_search: Load Saved Search
+      month_number: Month#
       most_recent: Most Recent
       popover_content: Please click Search button to see clients
       popover_done: Close

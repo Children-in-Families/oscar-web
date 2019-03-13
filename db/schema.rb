@@ -1205,6 +1205,7 @@ ActiveRecord::Schema.define(version: 20190301045414) do
     t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
+    t.boolean  "disable_assessment"
     t.string   "client_default_columns",      default: [],                  array: true
     t.string   "family_default_columns",      default: [],                  array: true
     t.string   "partner_default_columns",     default: [],                  array: true
@@ -1215,8 +1216,8 @@ ActiveRecord::Schema.define(version: 20190301045414) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "commune_id"
     t.integer  "age",                         default: 18
+    t.integer  "commune_id"
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true
