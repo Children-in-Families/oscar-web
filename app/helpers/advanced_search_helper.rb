@@ -1,13 +1,13 @@
 module AdvancedSearchHelper
   include ClientsHelper
 
-  def custom_form_values
-    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present?
+  def custom_form_values(report_builder = '#builder')
+    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && report_builder == advanced_search_params[:action_report_builder]
     has_custom_form_selected ? eval(advanced_search_params[:custom_form_selected]) : []
   end
 
-  def program_stream_values
-    has_program_selected = has_advanced_search? && advanced_search_params[:program_selected].present?
+  def program_stream_values(report_builder = '#builder')
+    has_program_selected = has_advanced_search? && advanced_search_params[:program_selected].present? && report_builder == advanced_search_params[:action_report_builder]
     has_program_selected ? eval(advanced_search_params[:program_selected]) : []
   end
 
@@ -25,6 +25,30 @@ module AdvancedSearchHelper
 
   def exit_form_check
     has_advanced_search? && advanced_search_params[:exit_form_check].present? ? true : false
+  end
+
+  def wizard_enrollment_checked?
+    has_advanced_search? && advanced_search_params[:wizard_enrollment_check].present? ? true : false
+  end
+
+  def wizard_tracking_checked?
+    has_advanced_search? && advanced_search_params[:wizard_tracking_check].present? ? true : false
+  end
+
+  def wizard_exit_form_checked?
+    has_advanced_search? && advanced_search_params[:wizard_exit_form_check].present? ? true : false
+  end
+
+  def wizard_custom_form_checked?
+    has_advanced_search? && advanced_search_params[:wizard_custom_form_check].present? ? true : false
+  end
+
+  def wizard_program_stream_checked?
+    has_advanced_search? && advanced_search_params[:wizard_program_stream_check].present? ? true : false
+  end
+
+  def wizard_quantitative_checked?
+    has_advanced_search? && advanced_search_params[:wizard_quantitative_check].present? ? true : false
   end
 
   def has_advanced_search?
@@ -169,5 +193,13 @@ module AdvancedSearchHelper
       start_date:                               I18n.t('datagrid.columns.partners.start_date'),
     }
     translations[key.to_sym] || ''
+  end
+
+  def save_search_params(search_params)
+    json_rules = JSON.parse(search_params[:client_advanced_search][:basic_rules])
+    rules = format_rule(json_rules)
+    search_params[:client_advanced_search][:basic_rules] = rules.to_json
+    report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
+    search_params.deep_merge!(report_builder)
   end
 end

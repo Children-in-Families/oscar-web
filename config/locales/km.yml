@@ -300,6 +300,9 @@ km:
               too_short: អប្បបរមា៨តួអក្សរ
             password_confirmation:
               confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មីមិនត្រឹមត្រូវ
+            pin_code:
+              not_an_integer: អនុញ្ញាតតែលេខប៉ុណ្ណោះ
+              wrong_length: ត្រូវតែមាន៥តួ
             roles:
               blank: មិនអាចរំលង
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
@@ -497,6 +500,7 @@ km:
       add_task_confirm: តើអ្នកចង់បន្ថែមភារកិច្ចនៅជំហានចុងក្រោយនៃការវាយតម្លៃនេះទេ?
       at_least_one_task_required: យ៉ាងហោចណាស់ត្រូវបង្កើតកាតព្វកិច្ចមួយ
       back: ត្រលប់ក្រោយ
+      cancel: ទុកជាមោឃៈ
       domain: កត្តា
       finish: រក្សាទុក
       finished_assessment_msg: ការវាយតម្លៃនេះរួចរាល់ក្នុងការរក្សាទុក!
@@ -1553,6 +1557,7 @@ km:
         lesotho: ខេត្តកំណើត
         myanmar: ខេត្តកំណើត
         thailand: ខេត្តកំណើត
+        uganda: ខេត្តកំណើត
       received_by: បុគ្គលិកទទួលករណី
       refer_client: បញ្ជូនអតិថិជន
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
@@ -2487,6 +2492,7 @@ km:
         enable: បើកដំណើរការ
         enable_two_factor_authentication: បើកការផ្ទៀងផ្ទាត់ជំហានទីពីរ
         first_name: នាមខ្លួនជាអក្សរឡាតាំង
+        gender: ភេទ
         header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
         job_title: មុខតំណែង
         last_name: នាមត្រកូល
@@ -2495,6 +2501,7 @@ km:
         overdue_task_summary_notify: ការជូនដំណឹងតាមរយៈអ៊ីម៉ែល
         password: លេខកូដសំងាត់
         password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
+        pin_number: លេខ Pin
         province: ខេត្ត
         referral_notification: ការជូនដំណឹងអំពីការបញ្ជូន
         save: រក្សាទុក

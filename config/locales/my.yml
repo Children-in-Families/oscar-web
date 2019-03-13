@@ -298,6 +298,9 @@ my:
               too_short: တိုလြန္းေနသည္။
             password_confirmation:
               confirmation: မတူညီပါ။
+            pin_code:
+              not_an_integer: မကိန်း
+              wrong_length: 5 ဇာတ်ကောင်ဖြစ်ရပါမည်
             roles:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
   add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
@@ -496,6 +499,7 @@ my:
       add_task_confirm: သင်ဤအကဲဖြတ်၏နောက်ဆုံးခြေလှမ်းမှာတာဝန်များကိုထည့်သွင်းဖို့ပိုနှစ်သက်ပါ့မလား
       at_least_one_task_required: အနည္းဆံုး လုပ္ငန္းတစ္ခု ထည့္ရန္ လိုအပ္သည္။
       back: ေနာက္သို႔
+      cancel: ပယ္ဖ်က္ရန္
       domain: ဒိုမိန္း
       finish: ၿပီးပါၿပီ။
       finished_assessment_msg: ဤသည်အကဲဖြတ်ကယ်ဖို့အဆင်သင့်ပါ!
@@ -1558,6 +1562,7 @@ my:
         lesotho: Birth Suburb
         myanmar: ေမြးဖြားရာ ခ႐ိုင္
         thailand: Birth Province
+        uganda: Birth Province
       received_by: မွ လက္ခံသည္
       refer_client: ရည်ညွှန်း
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
@@ -2492,6 +2497,7 @@ my:
         enable: Enable
         enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: နာမည္ပထမဆံုးအလံုး
+        gender: က်ားမ
         header: ပုဂၢလိကအခ်က္အလက္မ်ားကို ျပင္ဆင္ရန္
         job_title: အလုပ္အမည္
         last_name: နာမည္ေနာက္ဆံုးအလံုး
@@ -2500,6 +2506,7 @@ my:
         overdue_task_summary_notify: အသိပေးချက်အီးမေးလ်
         password: စကား၀ွက္
         password_confirmation: စကား၀ွက္အတည္ျပဳရန္
+        pin_number: ပင္နံပါတ္
         province: ခ႐ိုင္
         referral_notification: လွှဲပြောင်းသတိပေးချက်
         save: သိမ္းဆည္းရန္

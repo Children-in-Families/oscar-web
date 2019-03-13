@@ -496,6 +496,7 @@ en:
       add_task: Add Task
       add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
       at_least_one_task_required: At least one task is required
+      cancel: Cancel
       back: Back
       domain: Domain
       finish: Done
@@ -1551,6 +1552,7 @@ en:
         lesotho: Birth Suburb
         myanmar: Birth State
         thailand: Birth Province
+        uganda: Birth Province
       received_by: Referral Received By
       refer_client: Refer Client
       referee_phone_number: Referee Phone Number
@@ -2485,6 +2487,7 @@ en:
         enable: Enable
         enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: First Name
+        gender: Gender
         header: Edit Personal Information
         job_title: Job Title
         last_name: Last Name
@@ -2493,6 +2496,7 @@ en:
         overdue_task_summary_notify: Notification Email
         password: Password
         password_confirmation: Confirm Password
+        pin_number: Pin Number
         province: Province
         referral_notification: Referral Notification
         save: Save

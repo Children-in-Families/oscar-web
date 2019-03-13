@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :gender, presence: true
+  validates :pin_code, length: { is: 5 }, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_blank: true
 
   scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value.squish}%") }
   scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value.squish}%") }
@@ -84,7 +85,7 @@ class User < ActiveRecord::Base
   after_create :build_permission
 
   def build_permission
-    unless self.admin? || self.strategic_overviewer?
+    unless self.strategic_overviewer?
       self.create_permission
 
       CustomField.all.each do |cf|
