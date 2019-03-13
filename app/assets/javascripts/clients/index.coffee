@@ -324,9 +324,9 @@ CIF.ClientsIndex = do ->
       $('.program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
 
   _handleAutoCollapse = ->
-    params = window.location.search.substr(1)
-    return if params.includes('wizard-builder')
-    if params.includes('client_advanced_search')
+    action = $('#search-action').data('action') || 'client_grid'
+    return if action == '#wizard-builder'
+    if action == '#builder'
       $("button[data-target='#client-advance-search-form']").trigger('click')
     else
       $("button[data-target='#client-search-form']").trigger('click')
