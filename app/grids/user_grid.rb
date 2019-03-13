@@ -102,7 +102,7 @@ class UserGrid < BaseGrid
     object.roles.titleize
   end
 
-  column(:pin_code, header: -> { I18n.t('datagrid.columns.users.pin_number') })
+  # column(:pin_code, header: -> { I18n.t('datagrid.columns.users.pin_number') })
 
   column(:manager_id, header: -> { I18n.t('datagrid.columns.users.manager') }) do |object|
     User.find_by(id: object.manager_id).try(:name)

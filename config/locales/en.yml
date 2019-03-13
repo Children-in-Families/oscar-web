@@ -2484,6 +2484,7 @@ en:
         overdue_task_summary_notify: Notification Email
         password: Password
         password_confirmation: Confirm Password
+        pin_number: Pin Number
         province: Province
         referral_notification: Referral Notification
         save: Save
