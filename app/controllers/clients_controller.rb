@@ -170,6 +170,10 @@ class ClientsController < AdminController
 
   def book
     @case_notes = @client.case_notes.by_date_asc.page(params[:page]).per(1)
+
+    @default_assessment = @client.assessments.new
+    @custom_assessment  = @client.assessments.new(default: false)
+    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
   end
 
   private
