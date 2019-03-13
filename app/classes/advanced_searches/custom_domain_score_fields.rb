@@ -6,7 +6,8 @@ module AdvancedSearches
       domain_score_group  = format_header('custom_csi_domain_scores')
       csi_domain_options  = domain_options.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
       date_of_assessments = ['Date of Custom Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, domain_score_group) }
-      date_of_assessments + csi_domain_options
+      all_custom_domains         = ['All Custom Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
+      date_of_assessments + csi_domain_options + all_custom_domains
     end
 
     private
@@ -45,10 +46,9 @@ module AdvancedSearches
         label: label,
         field: label,
         type: 'string',
-        input: 'select',
-        values: values,
-        data: { values: values },
-        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
+        input: 'number',
+        values: ['1', '2', '3', '4'],
+        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty', 'average', 'assessment_has_changed', 'assessment_has_not_changed', 'month_has_changed', 'month_has_not_changed']
       }
     end
   end

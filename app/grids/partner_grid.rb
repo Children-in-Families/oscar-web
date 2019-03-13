@@ -78,7 +78,12 @@ class PartnerGrid < BaseGrid
     object.organization_type_name
   end
 
-  date_column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
+  date_column(:start_date, html: true, header: -> { I18n.t('datagrid.columns.partners.start_date') })
+
+  column(:start_date, html: false, header: -> {I18n.t('datagrid.columns.partners.start_date') }) do |object|
+    object.start_date.present? ? object.start_date : ''
+  end
+
   column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
   column(:engagement, header: -> { I18n.t('datagrid.columns.partners.engagement') })
   column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })

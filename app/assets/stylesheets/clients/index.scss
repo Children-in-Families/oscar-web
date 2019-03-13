@@ -2,6 +2,30 @@ body[id='clients-index'] {
   @import 'iCheck/custom';
   @import 'clients/client_grid';
 
+  .pagination > li > form {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    text-decoration: none;
+    color: #337ab7;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+    input {
+      background-color: transparent;
+      border-width: 0;
+      margin: 0;
+      padding: 0;
+    }
+    &:hover {
+      z-index: 2;
+      color: #23527c;
+      background-color: #eeeeee;
+      border-color: #ddd;
+    }
+  }
+
   #load-save-search {
     th.date {
       min-width: 100px;
@@ -100,6 +124,10 @@ body[id='clients-index'] {
   .btn-export {
     margin-top: 0;
     margin-right: 4px;
+  }
+
+  .hidden-post-form {
+    display: inline-block;
   }
 
   .btn-group.group-actions {
@@ -230,11 +258,17 @@ body[id='clients-index'] {
 
   .tour-tour{
     left: 0px !important;
-    // top: 0px !important;
+    // top: 420px !important;
     width: 227px;
     margin-left: 175px !important;
     // margin-top: 430px !important;
     z-index: 2001;
+  }
+
+  .csi-group {
+    .btn-add-rule, .rule-actions, .drag-handle, .btn-custom-group, .btn-default-group {
+      display: none;
+    }
   }
 
   // Report Builder Wizard
@@ -390,6 +424,12 @@ body[id='clients-index'] {
 
   .action-button-group .btn {
     margin-top: 4px;
+  }
+
+  .not-allowed {
+    pointer-events: none;
+    background-color: #4e4a4a5e;
+    color: white;
   }
 
   #sql-string {
