@@ -825,8 +825,6 @@ module ClientsHelper
 
   def render_case_history(case_history, case_history_name)
     case case_history_name
-    when 'client'
-      render 'client/edit_intial_referral_date', client: @client
     when 'enter_ngos'
       render 'client/enter_ngos/edit_form', client: @client, enter_ngo: case_history
     when 'exit_ngos'
