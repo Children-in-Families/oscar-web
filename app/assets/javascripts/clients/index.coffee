@@ -54,16 +54,11 @@ CIF.ClientsIndex = do ->
     _removeOverdueFormsSearch()
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
-<<<<<<< HEAD
-    _addTourTip()
     _clearingLocalStorage()
     _handleDomainScoreInputValue()
     _handleDomainScoreFilterValue()
     _reloadFilter()
-=======
-    # _addTourTip()
     _addTourTip(tour)
->>>>>>> bd69e7e55b7769f2250d57546e2f3d730c606858
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
@@ -687,7 +682,7 @@ CIF.ClientsIndex = do ->
       $.each localStorage, (key, value) ->
         if key.match(/builder_group_\d/g)
           localStorage.removeItem(key)
-  
+
   _selectOptionData = ->
     data = [
       {
