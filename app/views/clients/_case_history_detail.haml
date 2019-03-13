@@ -5,7 +5,7 @@
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = case_history_label(object.class.table_name)
+          = case_history_label(object)
 
       .modal-body
         %table.table.table-bordered
