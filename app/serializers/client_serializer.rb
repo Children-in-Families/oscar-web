@@ -1,10 +1,11 @@
 class ClientSerializer < ActiveModel::Serializer
+  include ClientsHelper
 
   attributes  :id, :given_name, :family_name, :gender, :code, :status, :date_of_birth, :grade,
               :current_province, :local_given_name, :local_family_name, :kid_id, :donors,
-              :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
+              :current_address, :country_address, :house_number, :street_number, :village, :commune, :district, :profile,
               :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
-              # :referral_phone, :live_with, :id_poor, :received_by,
+              # :referral_phone, :live_witr, :id_poor, :received_by,
               :referral_phone, :live_with, :received_by, :main_school_contact,  :telephone_number,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :has_been_in_government_care, :relevant_referral_information, :rated_for_id_poor,
@@ -126,6 +127,10 @@ class ClientSerializer < ActiveModel::Serializer
 
   def organization
     object.organization
+  end
+
+  def country_address
+    country_address_field(object)
   end
 
   def additional_form
