@@ -1,5 +1,5 @@
 set :stage, 'production'
-
+set :branch, proc { `git rev-parse --abbrev-ref stable`.chomp }
 # TODO: Deploy one after another by commentting out one
 
 # OSCaR

@@ -171,7 +171,7 @@ module ClientsHelper
   end
 
   def check_is_string_date?(property)
-    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? date_format(property.to_date) : property
+    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? property.to_date : property
   end
 
   def format_properties_value(value)
@@ -649,16 +649,16 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
 
-    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i]
+    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments' }
 
       if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
-        klass     = 'leave_programs'
+        klass = 'leave_programs'
       elsif class_name[/^(enrollmentdate)/i].present? || column.header == I18n.t('datagrid.columns.clients.program_streams')
-        klass     = 'client_enrollments'
+        klass = 'client_enrollments'
       else
-        klass     = klass_name[class_name.to_sym]
+        klass = klass_name[class_name.to_sym]
       end
 
       if class_name[/^(programexitdate)/i].present?
@@ -682,10 +682,18 @@ module ClientsHelper
           elsif class_name[/^(enrollmentdate)/i].present?
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
-          elsif class_name[/^(date_of_assessments)/i]
+          elsif class_name[/^(date_of_assessments)/i].present?
             count += client.send(klass.to_sym).defaults.count
-          elsif class_name[/^(date_of_custom_assessments)/i]
+          elsif class_name[/^(date_of_custom_assessments)/i].present?
             count += client.send(klass.to_sym).customs.count
+          elsif class_name[/^(formbuilder)/i].present?
+            fields = column.name.to_s.gsub('&qoute;', '"').split('__')
+            format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+            if fields.last == 'Has This Form'
+              count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value).count
+            end
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
           end

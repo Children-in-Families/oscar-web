@@ -57,7 +57,7 @@ module AdvancedSearches
           end
 
         elsif form_builder.first == 'enrollment'
-          program_name = form_builder.second.gsub("&qoute;", '"')
+          program_name   = form_builder.second.gsub("&qoute;", '"')
           program_stream = ProgramStream.find_by(name: program_name)
           enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
           @sql_string << enrollment_fields[:id]
