@@ -410,7 +410,7 @@
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
                     %tr
-                      %td= case_history_label(case_history_name)
+                      %td= case_history_label(case_history)
                       %td= date_format(case_history.new_date)
                       %td
                         .text-center

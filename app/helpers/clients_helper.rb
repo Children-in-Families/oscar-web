@@ -707,7 +707,7 @@ module ClientsHelper
   end
 
   def case_history_label(value)
-    label = case value
+    label = case value.class.table_name
             when 'enter_ngos' then t('.accepted_date')
             when 'exit_ngos' then t('.exit_date')
             when 'client_enrollments' then "#{value.program_stream.name} Entry"
