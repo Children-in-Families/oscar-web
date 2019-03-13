@@ -493,6 +493,7 @@ en:
       add_task: Add Task
       add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
       at_least_one_task_required: At least one task is required
+      cancel: Cancel
       back: Back
       domain: Domain
       finish: Done
