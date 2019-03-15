@@ -1,7 +1,6 @@
 class FamilySerializer < ActiveModel::Serializer
-  include FamiliesHelper
 
-  attributes :id, :name, :code, :case_history, :caregiver_information, :significant_family_member_count, :household_income, :dependable_income, :female_children_count, :male_children_count, :female_adult_count, :male_adult_count, :family_type, :contract_date, :address, :country_address, :province, :clients, :additional_form, :add_forms
+  attributes :id, :name, :code, :case_history, :caregiver_information, :significant_family_member_count, :household_income, :dependable_income, :female_children_count, :male_children_count, :female_adult_count, :male_adult_count, :family_type, :contract_date, :address, :province, :clients, :additional_form, :add_forms
 
   def clients
     Client.where(id: object.children).map do |client|
@@ -35,9 +34,5 @@ class FamilySerializer < ActiveModel::Serializer
       end
       custom_field.as_json.merge(custom_field_properties: custom_field_property_file_upload.as_json)
     end
-  end
-
-  def country_address
-    merged_address_family(object)
   end
 end
