@@ -7,7 +7,7 @@
 # database schema. If you need to create the application database on another
 # system, you should be using db:schema:load, not running all the migrations
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# you'll ags, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
 
@@ -1191,6 +1191,7 @@ ActiveRecord::Schema.define(version: 20190311025303) do
     t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
+    t.boolean  "disable_assessment"
     t.string   "client_default_columns",      default: [],                  array: true
     t.string   "family_default_columns",      default: [],                  array: true
     t.string   "partner_default_columns",     default: [],                  array: true
