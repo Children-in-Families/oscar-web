@@ -173,7 +173,7 @@ class ClientsController < AdminController
 
     @default_assessment = @client.assessments.new
     @custom_assessment  = @client.assessments.new(default: false)
-    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
+    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at).page(params[:page]).per(1))
   end
 
   private
