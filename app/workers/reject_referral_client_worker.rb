@@ -6,7 +6,7 @@ class RejectReferralClientWorker
     referral = Referral.find referral_id
     Organization.switch_to referral.referred_from
 
-    user = User.find referral.referee_id
+    user = User.notify_email.find referral.referee_id
     RejectReferralClientMailer.client_rejection_email(staff_member, referred_to, referral).deliver_now if user.present? && !user.disable?
   end
 end
