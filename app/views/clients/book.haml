@@ -15,144 +15,68 @@
                   %a.collapse-link
                     %i.fa.fa-chevron-up
               .ibox-content
-                - @case_notes.each do |case_note|
-                  .panel.panel-info
-                    .panel-heading
-                      .row
-                        .col-xs-8
-                          %h3= display_case_note_attendee(case_note)
-                          %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format case_note.created_at}"
-                        .col-xs-4.text-right
-                          %h4
-                            = I18n.t('case_notes.index.case_note_on')
-                            = date_format(case_note.meeting_date) if case_note.meeting_date
-                    .panel-body
-                      - case_note.case_note_domain_groups.each do |cdg|
-                        - if cdg.note.present?
-                          .ibox.border-left-right.border-bottom
-                            .ibox-title
-                              %h5= cdg.domain_identities
-                              - if case_note.assessment_id.present?
-                                .ibox-tools
-                                  - cdg.domains(case_note).each do |domain|
-                                    - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                                    - next if ad.nil?
-                                    %a.collapse-link
-                                      %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
-                                        = ad.score
-                            .ibox-content
-                              .row
-                                .col-xs-12
-                                  .panel.panel-default
-                                    .panel-heading
-                                      %h4= I18n.t('case_notes.index.note')
-                                    .panel-body
-                                      = simple_format cdg.note
-                                - if cdg.completed_tasks.any?
-                                  .col-xs-12.col-sm-6
-                                    .panel.panel-default
-                                      .panel-heading
-                                        %h4= I18n.t('case_notes.index.completed_tasks')
-                                      .panel-body.no-padding
-                                        %ul.list-group
-                                          - cdg.completed_tasks.each_with_index do |task, index|
-                                            %li.list-group-item
-                                              = "#{index + 1}. "
-                                              = task.name
-                                .col-xs-12.col-sm-6
-                                  %p
-                                    %strong= "#{I18n.t('case_notes.index.goal')} :"
-                                  %ul
+                - group_client_associations.each do |date, association|
+                  - if association.class.name.downcase == 'assessment'
+                    = render 'clients/books/assessments', assessments: association
+                  - else
+                    .panel.panel-info
+                      .panel-heading
+                        .row
+                          .col-xs-8
+                            %h3= display_case_note_attendee(case_note)
+                            %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format case_note.created_at}"
+                          .col-xs-4.text-right
+                            %h4
+                              = I18n.t('case_notes.index.case_note_on')
+                              = date_format(case_note.meeting_date) if case_note.meeting_date
+                      .panel-body
+                        - case_note.case_note_domain_groups.each do |cdg|
+                          - if cdg.note.present?
+                            .ibox.border-left-right.border-bottom
+                              .ibox-title
+                                %h5= cdg.domain_identities
+                                - if case_note.assessment_id.present?
+                                  .ibox-tools
                                     - cdg.domains(case_note).each do |domain|
-                                      - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                                      - if assessment_domain.present? && assessment_domain.goal?
-                                        %li= assessment_domain.goal
-                                - if cdg.attachments.any?
-                                  .col-xs-12.col-sm-6
+                                      - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                                      - next if ad.nil?
+                                      %a.collapse-link
+                                        %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
+                                          = ad.score
+                              .ibox-content
+                                .row
+                                  .col-xs-12
                                     .panel.panel-default
                                       .panel-heading
-                                        %h4= I18n.t('case_notes.index.attachments')
+                                        %h4= I18n.t('case_notes.index.note')
                                       .panel-body
-                                        = render 'attachment', cdg: cdg
-                .text-center
-                  = paginate @case_notes
-
-        .row#assessment
-          .col-xs-12
-            .ibox
-              .ibox-title
-                %h5= I18n.t('data_trackers.index.assessments')
-                .ibox-tools
-                  %a.collapse-link
-                    %i.fa.fa-chevron-up
-              .ibox-content
-                - @assessmets.each_with_index do |assessment, index|
-                  .row
-                    .col-xs-12
-                      %p
-                        %b= "#{I18n.t('assessments.show.case_plan')} #{assessment.client.name}"
-                        %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
-                        %br
-                        - if assessment.index_of == 0
-                          = "#{I18n.t('assessments.show.initial_assessment')}"
-                        - else
-                          = "#{I18n.t('assessments.show.based_on')} #{assessment.index_of + 1}"
-                        %br
-                        = "#{I18n.t('assessments.show.assessment_created_by')} #{whodunnit('Assessment', assessment)} #{I18n.t('assessments.show.on_date')} #{date_format(assessment.created_at)}"
-                  - assessment.assessment_domains_in_order.each do |ad|
-                    .row
-                      .col-xs-12
-                        %div{class: "panel panel-#{ad.score_color_class}"}
-                          .panel-heading
-                            %table.table.table-borderless
-                              %tbody
-                                %tr
-                                  %td.no-padding-bottom
-                                    %b= "#{I18n.t('assessments.show.domain')} #{ad.domain.name}:"
-                                  %td.no-padding-bottom
-                                    %b= ad.domain.identity
-                                  %td{rowspan: 4}
-                                    .domain-score.text-center
-                                      - unless assessment.initial?
-                                        %button{ 'data-original-title': "#{simple_format(ad.previous_score_definition)}", type: 'button', class: "btn btn-#{ad.previous_score_color_class} btn-xs", 'data-toggle': 'tooltip' }
-                                          = "#{ad.previous_score}"
-                                        %span{style: 'color:black;'} &#8594;
-                                      %button{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-xs", 'data-toggle': 'tooltip' }
-                                        = "#{ad.score}"
-                                %tr
-                                  %td.no-padding-top
-                                    %b= "#{I18n.t('assessments.show.score')} #{ad.score}:"
-                                  %td.no-padding-top
-                                    %b= simple_format(ad.score_definition)
-                                %tr
-                                  %td
-                                    %b= "#{I18n.t('assessments.show.reason')}:"
-                                  %td
-                                    = ad.reason
-                                %tr
-                                  %td
-                                    %b= "#{I18n.t('assessments.show.goal')}:"
-                                  %td
-                                    = ad.try(:goal)
-                                - incomplete_tasks = @client.tasks.by_domain_id(ad.domain_id).incomplete
-                                - if incomplete_tasks.any?
-                                  %tr
-                                    %td
-                                      %b= "#{I18n.t('assessments.show.task')}:"
-                                    %td
-                                      - incomplete_tasks.each do |task|
-                                        %li= "#{task.name} (#{I18n.t('assessments.show.due_date')}: #{date_format(task.completion_date)})"
-                                %tr
-                                  %td
-                                  %td
-                                    - if ad.attachments.any?
-                                      %br
-                                      %button.btrn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= I18n.t('assessments.show.show_attachment')
-                          - if ad.attachments.any?
-                            = render 'attachment', { ad: ad }
-
-                .text-center
-                  = paginate @assessmets
+                                        = simple_format cdg.note
+                                  - if cdg.completed_tasks.any?
+                                    .col-xs-12.col-sm-6
+                                      .panel.panel-default
+                                        .panel-heading
+                                          %h4= I18n.t('case_notes.index.completed_tasks')
+                                        .panel-body.no-padding
+                                          %ul.list-group
+                                            - cdg.completed_tasks.each_with_index do |task, index|
+                                              %li.list-group-item
+                                                = "#{index + 1}. "
+                                                = task.name
+                                  .col-xs-12.col-sm-6
+                                    %p
+                                      %strong= "#{I18n.t('case_notes.index.goal')} :"
+                                    %ul
+                                      - cdg.domains(case_note).each do |domain|
+                                        - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                                        - if assessment_domain.present? && assessment_domain.goal?
+                                          %li= assessment_domain.goal
+                                  - if cdg.attachments.any?
+                                    .col-xs-12.col-sm-6
+                                      .panel.panel-default
+                                        .panel-heading
+                                          %h4= I18n.t('case_notes.index.attachments')
+                                        .panel-body
+                                          = render 'attachment', cdg: cdg
 
 
 

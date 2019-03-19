@@ -169,11 +169,9 @@ class ClientsController < AdminController
   end
 
   def book
-    @case_notes = @client.case_notes.by_date_asc.page(params[:page]).per(1)
-
-    @default_assessment = @client.assessments.new
-    @custom_assessment  = @client.assessments.new(default: false)
-    @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at).page(params[:page]).per(1))
+    @case_notes = @client.case_notes.most_recents
+    @assessments = @client.assessments.order(created_at: :desc)
+    @tasks      = @client.tasks.order(created_at: :desc)
   end
 
   private

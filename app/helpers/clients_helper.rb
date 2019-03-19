@@ -855,6 +855,10 @@ module ClientsHelper
     current_organization.short_name == 'fts' ? @client.code : @client.slug
   end
 
+  def group_client_associations
+    [*@assessments, *@case_notes].group_by{|association| date_format(association.created_at) }
+  end
+
   # we use dataTable export button instead
   # def to_spreadsheet(assessment_type)
   #   column_header = [
