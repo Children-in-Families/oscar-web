@@ -81,9 +81,9 @@ class UsersController < AdminController
     @user.disable = !@user.disable
     @user.save(validate: false)
     if user_disable_status == false
-      @user.update_attributes(deactivated_at: Date.today)
+      @user.update_attributes(deactivated_at: DateTime.now.in_time_zone(Time.zone))
     elsif user_disable_status == true
-      @user.update_attributes(activated_at: Date.today)
+      @user.update_attributes(activated_at: DateTime.now.in_time_zone(Time.zone))
     end
     redirect_to users_path, notice: t('.successfully_disable')
   end
