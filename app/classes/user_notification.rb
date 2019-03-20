@@ -21,6 +21,9 @@ class UserNotification
     client_ids = []
     custom_client_ids = []
     clients = @user.clients.joins(:assessments).active_accepted_status
+    if @user.deactivated_at.present? && clients.present?
+      clients = clients.where('created_at > ?', @user.activated_at)
+    end
     clients.each do |client|
       if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
         if client_ids.exclude?(client.id)
@@ -69,7 +72,11 @@ class UserNotification
   end
 
   def overdue_tasks_count
-    @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+    if @user.deactivated_at.nil?
+      @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+    else
+      @user.tasks.where('created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+    end
   end
 
   def review_program_streams
@@ -96,7 +103,11 @@ class UserNotification
   end
 
   def due_today_tasks_count
-    @user.tasks.today_incomplete.exclude_exited_ngo_clients.size
+    if @user.deactivated_at.nil?
+      @user.tasks.today_incomplete.exclude_exited_ngo_clients.size
+    else
+      @user.tasks.where('created_at > ?', @user.activated_at).today_incomplete.exclude_exited_ngo_clients.size
+    end
   end
 
   def any_due_today_tasks?
@@ -328,7 +339,12 @@ class UserNotification
   def get_referrals(referral_type)
     existing_client_referrals = []
     new_client_referrals = []
-    referrals = Referral.received.unsaved
+
+    if @user.deactivated_at.nil?
+      referrals = Referral.received.unsaved
+    else
+      referrals = Referral.received.unsaved.where('created_at > ?', @user.activated_at)
+    end
 
     referrals.each do |referral|
       referral_slug = referral.slug
