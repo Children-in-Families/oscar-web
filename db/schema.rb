@@ -7,11 +7,11 @@
 # database schema. If you need to create the application database on another
 # system, you should be using db:schema:load, not running all the migrations
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll ags, the slower it'll run and the greater likelihood for issues).
+# you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190311025303) do
+ActiveRecord::Schema.define(version: 20190320030908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,8 @@ ActiveRecord::Schema.define(version: 20190311025303) do
     t.boolean  "goal_required",      default: true
     t.boolean  "required_task_last", default: false
   end
+
+  add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
     t.integer  "assessment_domain_id"
@@ -1154,6 +1156,7 @@ ActiveRecord::Schema.define(version: 20190311025303) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "clients_count", default: 0
+    t.string   "name_en",       default: ""
   end
 
   create_table "referrals", force: :cascade do |t|
@@ -1189,7 +1192,6 @@ ActiveRecord::Schema.define(version: 20190311025303) do
     t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.boolean  "disable_assessment"
     t.string   "client_default_columns",      default: [],                  array: true
     t.string   "family_default_columns",      default: [],                  array: true
     t.string   "partner_default_columns",     default: [],                  array: true

@@ -274,12 +274,13 @@
                 %td
                   %strong
                     = @client.telephone_number
-              %tr
-                %td.spacing-first-col
-                  = t('.is_the_client_rated_for_id_poor')
-                %td
-                  %strong
-                    = @client.rated_for_id_poor
+              - if Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.is_the_client_rated_for_id_poor')
+                  %td
+                    %strong
+                      = @client.rated_for_id_poor
 
               %tr
                 %td.spacing-first-col
@@ -299,15 +300,23 @@
                 %td
                   %strong
                     = @client.time_in_care
+              - unless Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.referral_source')
+                  %td
+                    %strong
+                      = @client.referral_source
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
-              %tr
-                %td.spacing-first-col
-                  = t('.referral_source')
-                %td
-                  %strong
-                    = @client.referral_source
+              - if Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.referral_source')
+                  %td
+                    %strong
+                      = @client.referral_source
 
               %tr
                 %td.spacing-first-col
