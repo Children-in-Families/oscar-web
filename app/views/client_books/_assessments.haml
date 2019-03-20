@@ -7,19 +7,19 @@
           %a.collapse-link
             %i.fa.fa-chevron-up
       .ibox-content
-        - assessmets.each_with_index do |assessment, index|
-          .row
-            .col-xs-12
-              %p
-                %b= "#{I18n.t('assessments.show.case_plan')} #{assessment.client.name}"
-                %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
-                %br
-                - if assessment.index_of == 0
-                  = "#{I18n.t('assessments.show.initial_assessment')}"
-                - else
-                  = "#{I18n.t('assessments.show.based_on')} #{assessment.index_of + 1}"
-                %br
-                = "#{I18n.t('assessments.show.assessment_created_by')} #{whodunnit('Assessment', assessment)} #{I18n.t('assessments.show.on_date')} #{date_format(assessment.created_at)}"
+        - assessments.each_with_index do |assessment, index|
+        .row
+          .col-xs-12
+            %p
+              %b= "#{I18n.t('assessments.show.case_plan')} #{assessment.client.name}"
+              %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
+              %br
+              - if assessment.index_of == 0
+                = "#{I18n.t('assessments.show.initial_assessment')}"
+              - else
+                = "#{I18n.t('assessments.show.based_on')} #{assessment.index_of + 1}"
+              %br
+              = "#{I18n.t('assessments.show.assessment_created_by')} #{whodunnit('Assessment', assessment)} #{I18n.t('assessments.show.on_date')} #{date_format(assessment.created_at)}"
           - assessment.assessment_domains_in_order.each do |ad|
             .row
               .col-xs-12

@@ -11,7 +11,7 @@ class ClientsController < AdminController
   before_action :build_advanced_search, only: [:index]
   before_action :fetch_advanced_search_queries, only: [:index]
 
-  before_action :find_client, only: [:show, :edit, :update, :destroy, :book]
+  before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :assign_client_attributes, only: [:show, :edit]
   before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
@@ -166,12 +166,6 @@ class ClientsController < AdminController
     page = params[:per_page] || 20
     @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
     @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
-  end
-
-  def book
-    @case_notes = @client.case_notes.most_recents
-    @assessments = @client.assessments.order(created_at: :desc)
-    @tasks      = @client.tasks.order(created_at: :desc)
   end
 
   private
