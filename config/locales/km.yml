@@ -640,6 +640,7 @@ km:
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
       goal: គោលដៅ
+      incompleted_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       new_case_note: កំណត់ត្រាថ្មី
       no_custom_domains_available: មិនមានកត្តាផ្ទាល់ខ្លួន
       note: កំណត់ត្រា

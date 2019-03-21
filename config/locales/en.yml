@@ -637,6 +637,7 @@ en:
       completed_tasks: Completed Tasks
       domain: Domain
       goal: Goal
+      incompleted_tasks: Incompleted Tasks
       new_case_note: New case note
       no_custom_domains_available: No Custom Domains Available
       note: Note
