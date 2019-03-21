@@ -22,7 +22,7 @@ class UserNotification
     custom_client_ids = []
     clients = @user.clients.joins(:assessments).active_accepted_status
     if @user.deactivated_at.present? && clients.present?
-      clients = clients.where('created_at > ?', @user.activated_at)
+      clients = clients.where('clients.created_at > ?', @user.activated_at)
     end
     clients.each do |client|
       if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
