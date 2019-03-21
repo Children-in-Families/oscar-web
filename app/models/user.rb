@@ -190,14 +190,14 @@ class User < ActiveRecord::Base
         if setting.enable_default_assessment? && setting.enable_custom_assessment?
           client_next_asseement_date = client.next_assessment_date(self.activated_at)
           client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at)
-          if client_next_asseement_date.to_date < Date.today && client_next_asseement_date.present?
+          if client_next_asseement_date.present? && client_next_asseement_date.to_date < Date.today
             overdue << client
-          elsif client_next_asseement_date.to_date == Date.today && client_next_asseement_date.present?
+          elsif client_next_asseement_date.present? && client_next_asseement_date.to_date == Date.today
             due_today << client
           end
-          if client_custom_next_assessment_date.to_date < Date.today && client_custom_next_assessment_date.present?
+          if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
             customized_overdue << client
-          elsif client_custom_next_assessment_date.to_date == Date.today && client_custom_next_assessment_date.present?
+          elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
             customized_due_today << client
           end
         elsif setting.enable_default_assessment?

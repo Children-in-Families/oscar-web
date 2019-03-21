@@ -175,13 +175,13 @@ class Client < ActiveRecord::Base
 
   def next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.defaults.empty?
-    return nil if assessments.defaults.latest_record.created_at < user_activated_date if user_activated_date.present?
+    return nil if user_activated_date.present? && assessments.defaults.latest_record.created_at < user_activated_date
     (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
 
   def custom_next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.customs.empty?
-    return nil if assessments.customs.latest_record.created_at < user_activated_date if user_activated_date.present?
+    return nil if user_activated_date.present? && assessments.customs.latest_record.created_at < user_activated_date
     (assessments.customs.latest_record.created_at + assessment_duration('max', false)).to_date
   end
 
