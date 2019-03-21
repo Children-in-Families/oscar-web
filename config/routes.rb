@@ -20,7 +20,6 @@ Rails.application.routes.draw do
   mount Thredded::Engine => '/forum'
 
   get '/quantitative_data' => 'clients#quantitative_case'
-  get 'clients/:client_id/book' => 'client_books#index'
 
   resources :agencies, except: [:show] do
     get 'version' => 'agencies#version'
@@ -91,6 +90,7 @@ Rails.application.routes.draw do
   end
 
   get '/data_trackers' => 'data_trackers#index'
+  get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
 
   resources :clients do
     resources :referrals

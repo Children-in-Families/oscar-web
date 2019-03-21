@@ -1,4 +1,4 @@
-body[id='clients-book'] {
+body[id='client_books-index'] {
   .margin-score {
     display: inline-block;
     font-size: 20px;
@@ -7,6 +7,13 @@ body[id='clients-book'] {
   }
 
   #assessment {
+    .ibox-title {
+      display: block;
+      h5 {
+        display: block;
+        float: none;
+      }
+    }
     .domain-detail {
       background-color: #f5f5f5;
       width: 380px;

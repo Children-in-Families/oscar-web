@@ -2,12 +2,21 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= I18n.t('data_trackers.index.assessments')
+        %h5
+          = "#{I18n.t('assessments.show.assessment_created_by')}:"
+          = date_format(assessment.created_at)
+          = "#{whodunnit('Assessment', assessment)} #{I18n.t('assessments.show.on_date')}"
+        %h5
+          - if assessment.index_of == 0
+            = "#{I18n.t('assessments.show.initial_assessment')}"
+          - else
+            = "#{I18n.t('assessments.show.based_on')} #{assessment.index_of + 1}"
+          = assessment.client.name
+        / %h5= I18n.t('data_trackers.index.assessments')
         .ibox-tools
           %a.collapse-link
             %i.fa.fa-chevron-up
       .ibox-content
-        - assessments.each_with_index do |assessment, index|
         .row
           .col-xs-12
             %p

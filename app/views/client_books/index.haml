@@ -2,24 +2,15 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{t('.book')} #{@client.name}"
+        %h5= "#{I18n.t('clients.show.book')} #{@client.name}"
         .ibox-tools
           = link_to I18n.t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
       .ibox-content
-        .row
-          .col-xs-12
-            .ibox
-              .ibox-title
-                %h5= I18n.t('data_trackers.index.case_notes')
-                .ibox-tools
-                  %a.collapse-link
-                    %i.fa.fa-chevron-up
-              .ibox-content
-                - group_client_associations.each do |date, associations|
-                  - associations.each do |association|
-                    - if association.class.name.downcase == 'assessmentdecorator'
-                      = render 'assessments', assessment: association
-                    - else
-                      = render 'case_notes', case_note: association
+        - group_client_associations.each do |date, associations|
+          - associations.each do |association|
+            - if association.class.name.downcase == 'assessmentdecorator'
+              = render 'assessments', assessment: association
+            - else
+              = render 'case_notes', case_note: association
 
 
