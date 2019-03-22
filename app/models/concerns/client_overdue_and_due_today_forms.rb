@@ -8,8 +8,8 @@ module ClientOverdueAndDueTodayForms
       client_active_enrollments = client.client_enrollments.active
 
       if self.deactivated_at.present?
-        custom_fields = custom_fields.where('created_at > ?', self.activated_at) if custom_fields.present?
-        client_active_enrollments = client_active_enrollments.where('created_at > ?', self.activated_at) if client_active_enrollments.present?
+        custom_fields = custom_fields.where('custom_fields.created_at > ?', self.activated_at) if custom_fields.present?
+        client_active_enrollments = client_active_enrollments.where('client_enrollments.created_at > ?', self.activated_at) if client_active_enrollments.present?
       end
 
       custom_fields.each do |custom_field|
