@@ -75,7 +75,7 @@ class UserNotification
     if @user.deactivated_at.nil?
       @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
     else
-      @user.tasks.where('created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+      @user.tasks.where('tasks.created_at > ?', @user.activated_at).overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
     end
   end
 
@@ -106,7 +106,7 @@ class UserNotification
     if @user.deactivated_at.nil?
       @user.tasks.today_incomplete.exclude_exited_ngo_clients.size
     else
-      @user.tasks.where('created_at > ?', @user.activated_at).today_incomplete.exclude_exited_ngo_clients.size
+      @user.tasks.where('tasks.created_at > ?', @user.activated_at).today_incomplete.exclude_exited_ngo_clients.size
     end
   end
 
