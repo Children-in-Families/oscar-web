@@ -3,13 +3,13 @@ class CaseWorkerMailer < ApplicationMailer
 
   def tasks_due_tomorrow_of(user)
     @user = user
-    return if @user.disable?
+    return if @user.disable? || @user.task_notify == false
     mail(to: @user.email, subject: 'Incomplete Tasks Due Tomorrow')
   end
 
   def overdue_tasks_notify(user, short_name)
     @user = user
-    return if @user.disable?
+    return if @user.disable? || @user.task_notify == false
     @overdue_tasks = user.tasks.where(client_id: user.clients.active_accepted_status.ids).overdue_incomplete_ordered
     @short_name = short_name
     return unless @overdue_tasks.present?
@@ -32,6 +32,7 @@ class CaseWorkerMailer < ApplicationMailer
 
   def forms_notifity(user, short_name)
     @user = user
+    return if @user.disable? || @user.task_notify == false
     forms = overdue_and_due_today_forms(user.clients.active_accepted_status)
     @overdue_forms = forms[:overdue_forms]
     @today_forms = forms[:today_forms]

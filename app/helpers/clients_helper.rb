@@ -148,7 +148,7 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.house_number')} #{client.house_number}" if client.house_number.present?
     current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
 
-    if locale == :km
+    if I18n.locale.to_s == 'km'
       current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village.name_kh}" if client.village.present?
       current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune.name_kh}" if client.commune.present?
       current_address << client.district_name.split(' / ').first if client.district.present?
@@ -396,7 +396,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-    return object unless params.key?(:client_advanced_search)
+    return object unless params[:client_advanced_search].present?
     @data   = eval params[:client_advanced_search][:basic_rules]
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
@@ -458,8 +458,7 @@ module ClientsHelper
   end
 
   def case_note_query(object, rule)
-    return object if !params.key?(:client_advanced_search)
-
+    return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
     data    = eval params[:client_advanced_search][:basic_rules]
@@ -722,6 +721,7 @@ module ClientsHelper
             when 'exit_ngos' then t('.exit_date')
             when 'client_enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
+            when 'clients' then t('.initial_referral_date')
             when 'referrals'
               if value.referred_to == current_organization.short_name
                 "#{t('.internal_referral')}: #{value.referred_from_ngo}"

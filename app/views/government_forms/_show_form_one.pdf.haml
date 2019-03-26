@@ -70,7 +70,7 @@
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #BEDCE7;' }
     %u ព័ត៌មានបឋមអំពីកុមារ:
-  .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
+  .panel-body.border-label{style: 'border-bottom: 1px solid black; padding-bottom: 7px;'}
     %table
       %tbody
         %tr
@@ -172,6 +172,7 @@
                 លេខទូរស័ព្ទ:
               .col-xs-10
                 %input{style: 'width:96.6%; float: right;', value: @client.telephone_number }
+  .footer{ style: 'page-break-after: always;' }
   %div#panel-top-bottom-dotted{style: 'border: 1px solid black; border-bottom: 1px dotted black;'}
     ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
     - ird = @client.initial_referral_date.present? ? @client.initial_referral_date.strftime('%d%m%y') : '000000'
@@ -186,7 +187,6 @@
         ប្រភពព័ត៌មាន:
       .col-xs-10
         %input{style: 'width:100%; float:left;', value: @government_form.source_info }
-%p{style: 'page-break-after:always;'}
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #F2F2F2;' }
     ប្រភេទកុមារ:

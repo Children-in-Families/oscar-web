@@ -58,7 +58,7 @@ module AdvancedSearches
           end
 
         elsif form_builder.first == 'enrollment'
-          program_name   = form_builder.second.gsub("&qoute;", '"')
+          program_name = form_builder.second.gsub("&qoute;", '"')
           program_stream = ProgramStream.find_by(name: program_name)
           enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
           @sql_string << enrollment_fields[:id]
@@ -76,7 +76,6 @@ module AdvancedSearches
             @sql_string << "Clients.id IN (?)"
             @values << []
           end
-
         elsif form_builder.first == 'tracking'
           tracking = Tracking.joins(:program_stream).where(program_streams: {name: form_builder.second}, trackings: {name: form_builder.third}).last
           tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql

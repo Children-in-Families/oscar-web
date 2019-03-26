@@ -68,7 +68,7 @@
               %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
           %tbody
             - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
-              - if index <= 5
+              - if index <= 4
                 %tr{ style: 'page-break-inside: avoid;' }
                   %td{ style: 'border:1px solid black;' }
                     .comment{ style: 'min-height: 30px;' }
@@ -102,7 +102,7 @@
               %th{ style: 'border:1px solid black; text-align: center; vertical-align: middle;' } មតិយោបល់
           %tbody
             - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
-              - if index > 5
+              - if index > 4
                 %tr{ style: 'page-break-inside: avoid;' }
                   %td{ style: 'border:1px solid black;' }
                     .comment{ style: 'min-height: 30px;' }
@@ -191,8 +191,8 @@
                     .comment{ style: 'min-height: 42px;' }
                       %p= member.relation
             - member_count = @client.family.try(:family_members).try(:count).to_i
-            - if member_count < 7
-              - (1..(7 - member_count)).each do |_|
+            - if member_count < 6
+              - (1..(6 - member_count)).each do |_|
                 %tr{ style: 'page-break-inside: avoid;'  }
                   %td{ style: 'border:1px solid black;' }
                     .comment{ style: 'min-height: 42px;' }

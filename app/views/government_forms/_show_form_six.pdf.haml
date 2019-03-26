@@ -169,7 +169,7 @@
           %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
       %tbody
         - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
-          - if index <= 5
+          - if index <= 4
             %tr{ style: 'page-break-inside: avoid;' }
               %td
                 = status.children_status_name
@@ -191,7 +191,7 @@
           %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
       %tbody
         - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
-          - if index > 5
+          - if index > 4
             %tr{ style: 'page-break-inside: avoid;' }
               %td
                 = status.children_status_name

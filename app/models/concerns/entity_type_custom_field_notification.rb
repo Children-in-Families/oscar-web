@@ -2,7 +2,11 @@ module EntityTypeCustomFieldNotification
   def entity_type_custom_field_notification(entities)
     entity_due_today = []
     entity_overdue = []
+
     entities = entities.joins(:custom_fields).where.not(custom_fields: { frequency: '' })
+    if self.deactivated_at.present? && entities.present?
+      entities = entities.joins(:custom_fields).where('custom_fields.created_at > ?', self.activated_at)
+    end
 
     entities.each do |entity|
       entity.custom_fields.where.not(custom_fields: { frequency: '' }).uniq.each do |custom_field|

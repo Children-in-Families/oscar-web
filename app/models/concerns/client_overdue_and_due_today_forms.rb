@@ -5,6 +5,13 @@ module ClientOverdueAndDueTodayForms
     upcoming_forms = []
     clients.each do |client|
       custom_fields = client.custom_fields.where.not(frequency: '')
+      client_active_enrollments = client.client_enrollments.active
+
+      if self.deactivated_at.present?
+        custom_fields = custom_fields.where('custom_fields.created_at > ?', self.activated_at) if custom_fields.present?
+        client_active_enrollments = client_active_enrollments.where('client_enrollments.created_at > ?', self.activated_at) if client_active_enrollments.present?
+      end
+
       custom_fields.each do |custom_field|
         if client.next_custom_field_date(client, custom_field) < Date.today
           overdue_forms << [custom_field.form_title, custom_field.custom_field_properties.where(custom_formable_id: client.id).last.created_at]
@@ -15,7 +22,6 @@ module ClientOverdueAndDueTodayForms
         end
       end
 
-      client_active_enrollments = client.client_enrollments.active
       client_active_enrollments.each do |client_active_enrollment|
         trackings = client_active_enrollment.trackings.where.not(frequency: '')
         trackings.each do |tracking|

@@ -12,6 +12,10 @@
           %tbody
             - case_history = object.class.table_name
             - case case_history
+            - when "clients"
+              %tr
+                %td= t('.initial_referral_date')
+                %td= date_format(object.initial_referral_date)
             - when 'enter_ngos'
               %tr
                 %td= t('.accepted_date')
