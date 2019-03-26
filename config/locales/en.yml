@@ -864,6 +864,24 @@ en:
       reset: Reset
       results: Results
       search: Search
+  client_books:
+    by: By
+    completed: Completed
+    created: Created
+    incomplete: Incomplete
+    assessments:
+      assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+    case_notes:
+      case_note: Case Note
+    index:
+      book: Client book
+    tasks:
+      task: Task
+      domain: Domain
+      overdue_tasks: Overdue
+      today_tasks: Today
+      upcoming_tasks: Upcoming
   client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
@@ -1452,7 +1470,6 @@ en:
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
-      book: client book
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History

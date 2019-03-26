@@ -2,15 +2,16 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{I18n.t('clients.show.book')} #{@client.name}"
+        %h5= "#{t('.book')} #{@client.name}"
         .ibox-tools
           = link_to I18n.t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
       .ibox-content
         - group_client_associations.each do |date, associations|
           - associations.each do |association|
             - if association.class.name.downcase == 'assessmentdecorator'
-              = render 'assessments', assessment: association
-            - else
-              = render 'case_notes', case_note: association
-
+              = render 'assessments', assessment: association, date: date
+            - elsif association.class.name.downcase == 'casenote'
+              = render 'case_notes', case_note: association, date: date
+            - elsif association.class.name.downcase == 'task'
+              = render 'tasks', task: association, date: date
 

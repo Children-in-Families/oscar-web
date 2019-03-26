@@ -6,12 +6,18 @@ body[id='client_books-index'] {
     margin-top: -4px;
   }
 
-  #assessment {
+  #assessment, #case-note, #task {
     .ibox-title {
+      position: relative;
       display: block;
       h5 {
         display: block;
         float: none;
+      }
+      .ibox-tools {
+        position: absolute;
+        top: 34%;
+        right: 0;
       }
     }
     .domain-detail {
@@ -44,6 +50,9 @@ body[id='client_books-index'] {
     .table.table-borderless td:nth-child(2) {
       width: 80%;
     }
+  }
+
+  #assessment {
     .panel.panel-danger, .panel.panel-success, .panel.panel-warning, .panel.panel-primary {
       border-color: white;
       .panel-heading {
