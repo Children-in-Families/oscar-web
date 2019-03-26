@@ -322,16 +322,6 @@ ActiveRecord::Schema.define(version: 20190322023721) do
   add_index "client_needs", ["client_id"], name: "index_client_needs_on_client_id", using: :btree
   add_index "client_needs", ["need_id"], name: "index_client_needs_on_need_id", using: :btree
 
-  create_table "client_partners", force: :cascade do |t|
-    t.integer  "client_id"
-    t.integer  "partner_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "client_partners", ["client_id"], name: "index_client_partners_on_client_id", using: :btree
-  add_index "client_partners", ["partner_id"], name: "index_client_partners_on_partner_id", using: :btree
-
   create_table "client_problems", force: :cascade do |t|
     t.integer  "rank"
     t.integer  "client_id"
@@ -1009,7 +999,6 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.datetime "updated_at"
     t.integer  "cases_count",               default: 0
     t.integer  "organization_type_id"
-    t.string   "partner_type",              default: [], array: true
   end
 
   add_index "partners", ["organization_type_id"], name: "index_partners_on_organization_type_id", using: :btree
@@ -1212,8 +1201,8 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "commune_id"
     t.integer  "age",                         default: 18
+    t.integer  "commune_id"
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true
@@ -1581,9 +1570,9 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.integer  "organization_id"
     t.boolean  "disable",                        default: false
     t.datetime "expires_at"
-    t.boolean  "calendar_integration",           default: false
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
+    t.boolean  "calendar_integration",           default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
@@ -1596,8 +1585,10 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.boolean  "enable_research_log_in",         default: false
     t.datetime "activated_at"
     t.datetime "deactivated_at"
+    t.datetime "deleted_at"
   end
 
+  add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
@@ -1681,8 +1672,6 @@ ActiveRecord::Schema.define(version: 20190322023721) do
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"
   add_foreign_key "client_needs", "needs"
-  add_foreign_key "client_partners", "clients"
-  add_foreign_key "client_partners", "partners"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
   add_foreign_key "client_right_government_forms", "client_rights"
