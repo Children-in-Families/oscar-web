@@ -131,7 +131,7 @@ namespace :update_text_and_translate_CSI do
           dm.update_columns('score_3_local_definition' => domain[:score_3_local_definition])
           dm.update_columns('score_4_local_definition' => domain[:score_4_local_definition])
         end
-      end   
+      end
     end
   end
 end
