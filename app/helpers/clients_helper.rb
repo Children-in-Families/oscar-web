@@ -856,7 +856,13 @@ module ClientsHelper
   end
 
   def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@program_stream].group_by{|association| date_format(association.created_at) }
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollments].group_by do |association|
+      if association.class.name.downcase != 'clientenrollment'
+        date_format(association.created_at)
+      else
+        date_format(association.enrollment_date)
+      end
+    end
   end
 
   # we use dataTable export button instead

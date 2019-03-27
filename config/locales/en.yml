@@ -865,15 +865,19 @@ en:
       results: Results
       search: Search
   client_books:
-    by: By
-    completed: Completed
-    created: Created
-    incomplete: Incomplete
     assessments:
       assessment: CSI Assessment
       custom_assessment: Custom Assessment
+    by: By
     case_notes:
       case_note: Case Note
+    client_enrollments:
+      enrollment: Enrollment
+    completed: Completed
+    created: Created
+    enrolled_program_trackings:
+      tracking: Tracking
+    incomplete: Incomplete
     index:
       book: Client book
     tasks:

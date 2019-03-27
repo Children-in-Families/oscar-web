@@ -14,4 +14,8 @@
               = render 'case_notes', case_note: association, date: date
             - elsif association.class.name.downcase == 'task'
               = render 'tasks', task: association, date: date
+            - elsif association.class.name.downcase == 'clientenrollment'
+              = render 'client_enrollments', client_enrollment: association, date: date
+            - elsif association.class.name.downcase == 'clientenrollmenttracking'
+              = render 'enrolled_program_trackings', enrollment_tracking: association, date: date
 
