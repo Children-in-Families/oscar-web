@@ -51,7 +51,7 @@ module ClientAdvancedSearchesConcern
 
   def fetch_advanced_search_queries
     @my_advanced_searches    = current_user.advanced_searches.order(:name)
-    @other_advanced_searches = AdvancedSearch.non_of(current_user).order(:name)
+    @other_advanced_searches = AdvancedSearch.includes(:user).non_of(current_user).order(:name)
   end
 
   def custom_form_column
