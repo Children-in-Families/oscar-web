@@ -38,7 +38,11 @@
               %td= t('.referred_to')
               %td
                 %strong= @referral.referred_to_ngo
-
+            - if @referral.ngo_name.present?
+              %tr
+                %td= t('.ngo_name')
+                %td
+                  %strong= @referral.ngo_name
             %tr
               %td= t('.name_of_referee')
               %td

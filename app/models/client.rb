@@ -17,6 +17,7 @@ class Client < ActiveRecord::Base
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
+  GENDER_OPTIONS  = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Unknown', 'unknown']]
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
@@ -52,7 +53,7 @@ class Client < ActiveRecord::Base
   has_many :client_enrollments, dependent: :destroy
   has_many :program_streams, through: :client_enrollments
   has_many :case_worker_clients, dependent: :destroy
-  has_many :users, through: :case_worker_clients
+  has_many :users, through: :case_worker_clients, validate: false
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
   has_many :referrals, dependent: :destroy

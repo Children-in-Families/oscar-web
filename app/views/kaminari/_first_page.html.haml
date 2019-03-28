@@ -1,2 +1,6 @@
 %li
-  = link_to_unless current_page.first?, raw(t 'views.pagination.first'), url, :remote => remote
+  - if params[:controller] == 'clients'
+    - unless current_page.first?
+      = button_to raw(t 'views.pagination.first'), ad_search_clients_path, params: params, :remote => remote, form_class: 'hidden-post-form'
+  - else
+    = link_to_unless current_page.first?, raw(t 'views.pagination.first'), url, :remote => remote

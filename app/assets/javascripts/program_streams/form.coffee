@@ -156,6 +156,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      labelFields = $('[name="label"].fld-label')
+      for labelField in labelFields
+        labelField.textContent = labelField.textContent.replace(/;/g, '')
+
       if $('#trackings').is(':visible')
         _checkDuplicateTrackingName()
       if _preventProgramStreamWithoutTracking()
@@ -178,10 +182,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     rules = $('#program_stream_rules').val()
     rules = JSON.parse(rules)
     $('#program-rule').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
+    $('#rule-tab select').select2(width: 'resolved')
 
   _addRuleCallback = ->
     $('#program-rule').on 'afterCreateRuleFilters.queryBuilder', ->
-      $('#rule-tab select').select2(width: '250px')
+      $('#rule-tab select').select2(width: 'resolved')
       _handleSelectOptionChange()
       _filterSelecting()
 
@@ -213,7 +218,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         builder.initRule()
         setTimeout (->
           _handleSelectTab()
-          $('#rule-tab select').select2(width: '250px')
+          $('#rule-tab select').select2(width: 'resolved')
           _opertatorSelecting()
           ), 100
         _handleSetRules()
@@ -335,7 +340,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if $('#rule-tab').is(':visible')
           _handleRemoveProgramList()
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
-
+      onFinishing: () ->
+        labelFields = $('[name="label"].fld-label')
+        for labelField in labelFields
+          labelField.textContent = labelField.textContent.replace(/;/g, '')
       onFinished: (event, currentIndex) ->
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
@@ -573,11 +581,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _opertatorSelecting = ->
     $('.rule-operator-container select').on 'select2-selected', ->
       _disableOptions(@)
+      _setDefaultBetweenSchoolGrade(@)
 
   _disableOptions = (element) ->
     self = @
     rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
-    if rule.split('_')[0] == 'domainscore'
+    if rule.split('__')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
@@ -599,11 +608,20 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         setTimeout( ->
           for value in disableValue
             $(select).find("option[value='#{value}']").attr('disabled', 'true')
-          $(select).find('select').val('1').trigger('change')
         , 100)
 
     setTimeout( ->
       _initSelect2()
     )
+
+  _setDefaultBetweenSchoolGrade = (element) ->
+    self = @
+    rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
+    if rule == 'school_grade'
+      select = $(element).parent().siblings('.rule-value-container')
+      if $(element).val() == 'between'
+        setTimeout( ->
+          $(select).find('select').val('1').trigger('change')
+        , 100)
 
   { init: _init }

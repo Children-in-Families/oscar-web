@@ -32,7 +32,7 @@
           %a.collapse-link
             .btn.btn-outline.btn-primary
               %i.fa.fa-chevron-up
-          - if can? :manage, :all
+          - if can? :manage, @user
             %small
               = link_to edit_user_path(@user) do
                 .btn.btn-outline.btn-success
@@ -88,7 +88,7 @@
                   = t('.gender')
                 %td
                   %strong
-                    = @user.gender.try(:titleize)
+                    = @user.gender.try(:capitalize)
               %tr
                 %td.spacing-first-col
                   = t('.start_date')
@@ -102,10 +102,5 @@
                 %td
                   %strong
                     = @user.province.try(:name)
-              %tr
-                %td.spacing-first-col
-                  = t('.pin_number')
-                %td
-                  %strong
-                    = @user.pin_code
+
 = render 'clients'

@@ -18,7 +18,12 @@ class Dashboard
       {
         name: p.name,
         y: p.client_enrollments.active.pluck(:client_id).uniq.count,
-        url: clients_path('client_advanced_search[basic_rules]': url.to_json)
+        url: clients_path(
+          'client_advanced_search': {
+            action_report_builder: '#builder',
+            basic_rules: url.to_json
+          }
+        )
       }
     end
   end
@@ -174,7 +179,12 @@ class Dashboard
       {
         name: "#{p.name} (#{gender})",
         y: active_client_ids.size,
-        url: clients_path('client_advanced_search[basic_rules]': url.to_json)
+        url: clients_path(
+          client_advanced_search: {
+            action_report_builder: '#builder',
+            basic_rules: url.to_json
+          }
+        )
       }
     end
   end

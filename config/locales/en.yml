@@ -313,6 +313,7 @@ en:
       agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
+      assessment_number: Assessment#
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
       birth_province_id: Birth Province
@@ -331,6 +332,7 @@ en:
       current_address: Current Address
       current_province: Current Province
       custom_csi_domain_scores: Custom Domain Scores
+      custom_csi_group: At
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
@@ -371,6 +373,7 @@ en:
       local_family_name: Family Name
       local_given_name: Given Name
       main_school_contact: Main School Contact
+      month_number: Month#
       name: Name
       name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
@@ -465,6 +468,7 @@ en:
     form_builder_attachments:
       destroy:
         successfully_deleted: Attachment has been successfully deleted.
+        successfully_updated: Attachment has been successfully updated.
   are_you_sure: Are you sure you want to delete?
   assessments:
     add_task_form:
@@ -493,6 +497,7 @@ en:
       add_task: Add Task
       add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
       at_least_one_task_required: At least one task is required
+      cancel: Cancel
       back: Back
       domain: Domain
       finish: Done
@@ -508,6 +513,7 @@ en:
       tasks_arising: 'Tasks arising:'
     index:
       assessment_created_on: Assessment created on
+      assessment_completed_on: Assessment completed on
       assessment_history: Assessment History
       back: Back
       begin_now: Add New
@@ -518,8 +524,9 @@ en:
       three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:
-      assessment_created_by: Completed by
+      assessment_completed_by: Assessment completed by
       assessment_completed_for: Assessment for
+      assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
       case_plan: Case Plan for
@@ -528,6 +535,7 @@ en:
       edit: Edit
       goal: Goal
       initial_assessment: Based on Initial Assessment
+      initial_assessment_of: Initial Assessment Of
       on_date: 'on'
       reason: Observations
       score: Score
@@ -610,7 +618,7 @@ en:
       save: Save
       tasks: Tasks
       tasks_arising: Tasks Arising
-      type: "Type (Note: Choose 'visit' only if you met with the client.)"
+      type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
@@ -630,9 +638,11 @@ en:
       domain: Domain
       goal: Goal
       new_case_note: New case note
+      no_custom_domains_available: No Custom Domains Available
       note: Note
+      please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
       present: Who was there during the visit or conversation?
-      type: "Type (Note: Choose 'visit' only if you met with the client.)"
+      type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       you_need_to_create_assessment: You need to create assessment
     show:
       case_note_on: Case note on
@@ -750,8 +760,10 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
+        accept: Accept
         accept_ngo_form: Enter NGO Form
         accepted_date: Accepted Date
+        case_worker_or_staff: Case Worker / Staff
       form:
         accept: Accept
         accepting: Accepting...
@@ -766,13 +778,17 @@ en:
         failed_create: Failed to update the client.
         successfully_created: Client has been successfully updated.
       edit_form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
         exit_circumstance: Exit Circumstance
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
         exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
         exiting: Exiting...
         other_info_of_exit: Other - More Information
+        reject_client: Reject Client
         rejected_note: Rejected Note
       form:
         case_worker_or_staff: Case Worker / Staff
@@ -847,11 +863,14 @@ en:
       quantitative: Custom Referral Data
       tracking: Tracking
     index:
+      add_custom_group: Add Assessment Filter
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
+      assessment_data: Assessment Data
       assessments: Assessments
       client_column: Client General Information
+      client_name: Client Name
       csi_domain_scores: CSI Domain Scores
       custom_form_column: Custom form columns
       delete_group: Delete
@@ -1042,6 +1061,14 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1065,6 +1092,7 @@ en:
       referred_to: Referred to External Organisation
     client_advanced_searches:
       advanced_search:
+        add_custom_group: Add Assessment Filter
         add_new_filter: Add New Filter
         add_new_group: Add Group
         advanced_search: Report Builder
@@ -1135,6 +1163,14 @@ en:
       village: Village
     create:
       successfully_created: Client has been successfully created.
+    custom_assessment_domain_score:
+      assessment_data: Assessment Score Data
+      assessment_date: Assessment Date
+      assessment_number: 'Assessment #'
+      client_id: Client ID
+      client_name: Client Name
+      close: Close
+      export_to_xls: Export to XLS
     destroy:
       successfully_deleted: Client has been successfully deleted.
     edit:
@@ -1221,6 +1257,7 @@ en:
       from: From
       gender: Gender
       general_question: General Question
+      getting_started: Getting Started
       given_name: Given Name (English)
       gov_caseworker_comment: Caseworker comment
       gov_caseworker_comment_section: Caseworker comment on needs and challenges of the client
@@ -1337,18 +1374,28 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      assessment_data: Assessment Data
       assessments: Assessments
+      assessment_number: Assessment#
       case_statistics: Case Statistics
       client_amount: Clients
+      csi_assessment: CSI Assessment
       csi_domain_scores: CSI Domain Scores
+      custom_assessment: Custom Assessment
+      custom_csi_domain_scores: Custom Domain Scores
+      custom_csi_group: At
+      date_of_assessment: Date of Assessment
+      date_of_assessments: Date of Assessments
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
       load: Loading more...
       load_save_search: Load Saved Search
+      month_number: Month#
       most_recent: Most Recent
       popover_content: Please click Search button to see clients
       popover_done: Close
+      popover_info: Notice
       read_less: read less
       read_more: read more
       report_builder: Report Builder
@@ -1408,6 +1455,7 @@ en:
       is_the_client_rated_for_id_poor: Is the Client Rated for ID Poor
       other_detail: Other Details
       other_information: Other Information
+      province: Client Birth Province
       relevant_referral_information: Relevant Referral Information / Notes
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
@@ -1524,11 +1572,13 @@ en:
       primary_carer_phone_number: Primary Carer Phone Number
       program_streams: Enroll Client to Program Streams
       progress_note: Progress Note
+      province: Birth Province
       province:
         cambodia: Birth Province
         lesotho: Birth Suburb
         myanmar: Birth State
         thailand: Birth Province
+        uganda: Birth Province
       received_by: Referral Received By
       refer_client: Refer Client
       referee_phone_number: Referee Phone Number
@@ -1552,15 +1602,17 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
-        year:
-          one: "%{count} year"
-          other: "%{count} years"
         month:
           one: "%{count} month"
           other: "%{count} months"
+        one: Around %{count} year
+        other: Around %{count} years
         week:
           one: "%{count} week"
           other: "%{count} weeks"
+        year:
+          one: "%{count} year"
+          other: "%{count} years"
       view_assessments: Assessments
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
@@ -2463,6 +2515,7 @@ en:
         enable: Enable
         enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: First Name
+        gender: Gender
         header: Edit Personal Information
         job_title: Job Title
         last_name: Last Name
@@ -2471,6 +2524,7 @@ en:
         overdue_task_summary_notify: Notification Email
         password: Password
         password_confirmation: Confirm Password
+        pin_number: Pin Number
         province: Province
         referral_notification: Referral Notification
         save: Save
@@ -2608,6 +2662,7 @@ en:
       score_3: Score 3
       score_4: Score 4
     index:
+      add_new_domain: Add New Domain
       are_you_sure: Are you sure you want to delete?
       changelog: Changelog
       csi_tool: Assessment Tools
@@ -2666,6 +2721,7 @@ en:
     messages:
       already_confirmed: was already confirmed, please try signing in
       already_in_use: already in use
+      blank: Blank
       confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
       expired: has expired, please request a new one
       not_email: Not an email
@@ -2778,6 +2834,7 @@ en:
       read_less: read less
       read_more: read more
       relation: Relationship with Children
+      remove_member: Remove Member
       significant_family_member_count: Significant Family Member Count
       status: Status
       street: Street
@@ -3236,6 +3293,9 @@ en:
       due_today_assessments:
         one: due today.
         other: due today.
+      due_today_assessments_count:
+        one: You have 1 assessment due today.
+        other: You have %{count} assessments due today.
       due_today_client_custom_field_count:
         one: There is 1 client custom form due today.
         other: There are %{count} client custom forms due today.
@@ -3335,6 +3395,7 @@ en:
       quantitative_types: Custom Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
+      research_module: Research Module
       settings: Settings
       users: Users
       view_calendar: View Calendar
@@ -3679,11 +3740,11 @@ en:
     enrollment:
       custom_fields: Custom Forms
       enrollment_form: Enrollment
-      note: "Note: The Date of Enrollment field is added automatically to this enrollment form, so you don't need to add it."
+      note: 'Note: The Date of Enrollment field is added automatically to this enrollment form, so you don''t need to add it.'
     exit_field:
       custom_fields: Custom Forms
       exit_form: Exit Form
-      note: "Note: The Date of Exit field is added automatically to this enrollment form, so you don't need to add it."
+      note: 'Note: The Date of Exit field is added automatically to this enrollment form, so you don''t need to add it.'
     form:
       finish: Save
       next: Next
@@ -4015,9 +4076,10 @@ en:
       date_of_referral: Date of Referral
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
       name_of_referee: Case Worker Making the Referral
+      ngo_name: NGO Name
       referral_phone: Contact Phone Number
       referral_reason: What is the reason for this referral?
-      referred_from: Reffered from
+      referred_from: Referred from
       referred_to: Referred to
       save: Save
       save_and_download: Save & Download
@@ -4047,6 +4109,7 @@ en:
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
       name_of_referee: Case Worker Making the Referral
+      ngo_name: NGO Name
       pdf:
         haml:
           client_id: Client ID
@@ -4090,10 +4153,12 @@ en:
       assessment: Customized Assessment Frequency Settings
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
+      disable_assessment: We are not using CSI Assessment Tool
       name: Name
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
+      name: Name
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
     case_note:
       case_note: Maximum time between case notes for client
@@ -4118,6 +4183,9 @@ en:
       default_assessment: Default Assessment Tool
     navigation:
       country: Country
+    research_module:
+      title: Research Module
+      research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
     update:
       successfully_updated: Setting have been successfully updated.
   shared:
@@ -4161,6 +4229,7 @@ en:
         date_deleted: Date
         no_modification: There are no any changelog.
         'on': 'on'
+        organisation_type: Organisation Type
         value_of: Value of
       common:
         able_screening_question: Able Screening Question
@@ -4628,6 +4697,7 @@ en:
       start_date: Start Date
     permissions:
       assessments: Assessments
+      assessmets: CSI Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
       custom_programs: Program Stream

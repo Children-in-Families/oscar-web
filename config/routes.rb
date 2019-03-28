@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :calendars
 
-  mount Thredded::Engine => '/forum'
+  # mount Thredded::Engine => '/forum'
 
   get '/quantitative_data' => 'clients#quantitative_case'
 
@@ -95,6 +95,7 @@ Rails.application.routes.draw do
     resources :referrals
 
     collection do
+      post '/ad_search', to: 'clients#index'
       get :advanced_search
     end
 
@@ -259,6 +260,7 @@ Rails.application.routes.draw do
       resources :referral_sources, only: [:index]
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
+      resources :settings, only: [:index]
     end
   end
 
@@ -287,6 +289,7 @@ Rails.application.routes.draw do
   resources :settings, except: [:destroy] do
     collection do
       get 'default_columns' => 'settings#default_columns'
+      get 'research_module' => 'settings#research_module'
     end
   end
 end

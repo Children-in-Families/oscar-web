@@ -36,14 +36,14 @@ module AdvancedSearches
         tracking.fields.each do |json_field|
           json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
-            @text_type_list << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
+            @text_type_list << "tracking__#{program_name}__#{tracking_name}__#{json_field['label']}"
           elsif json_field['type'] == 'number'
-            @number_type_list << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
+            @number_type_list << "tracking__#{program_name}__#{tracking_name}__#{json_field['label']}"
           elsif json_field['type'] == 'date'
-            @date_type_list << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
+            @date_type_list << "tracking__#{program_name}__#{tracking_name}__#{json_field['label']}"
           elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
             drop_list_values = []
-            drop_list_values << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
+            drop_list_values << "tracking__#{program_name}__#{tracking_name}__#{json_field['label']}"
             drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'].gsub('&amp;qoute;', '&quot;') }}
             @drop_down_type_list << drop_list_values
           end
@@ -53,11 +53,11 @@ module AdvancedSearches
 
     private
     def format_label(value)
-      value.split('_').last
+      value.split('__').last
     end
 
     def format_optgroup(value)
-      label = value.split('_')
+      label = value.split('__')
       program_name = label.second
       tracking_name = label.third
       key_word = format_header('tracking')

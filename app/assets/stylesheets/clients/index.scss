@@ -2,6 +2,55 @@ body[id='clients-index'] {
   @import 'iCheck/custom';
   @import 'clients/client_grid';
 
+  .pagination > {
+    .active > form {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: white;
+      cursor: default;
+      z-index: 2;
+    }
+
+    li:first-child > form > input {
+      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+
+    li:last-child > form > input {
+      border-bottom-right-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+
+    li > form {
+      position: relative;
+      float: left;
+      color: #337ab7;
+      background-color: #fff;
+      input {
+        border: 1px solid #ddd;
+        margin-left: -1px;
+        padding: 6px 12px;
+        line-height: 1.42857143;
+        background-color: transparent;
+      }
+      &:hover {
+        z-index: 2;
+        color: #23527c;
+        background-color: #eeeeee;
+        border-color: #ddd;
+      }
+    }
+  }
+
+  #load-save-search {
+    th.date {
+      min-width: 100px;
+    }
+    th.action, th.load-query {
+      min-width: 70px;
+    }
+  }
+
   .loader {
     margin: auto;
     border: 5px solid #f3f3f3; /* Light grey */
@@ -62,6 +111,10 @@ body[id='clients-index'] {
     margin-bottom: 4px;
   }
 
+  .action-button-group .btn {
+    margin-top: 4px;
+  }
+
   @media screen and (max-width: 700px){
     .client-option {
       a {
@@ -87,6 +140,10 @@ body[id='clients-index'] {
   .btn-export {
     margin-top: 0;
     margin-right: 4px;
+  }
+
+  .hidden-post-form {
+    display: inline-block;
   }
 
   .btn-group.group-actions {
@@ -217,11 +274,111 @@ body[id='clients-index'] {
 
   .tour-tour{
     left: 0px !important;
-    // top: 0px !important;
+    // top: 420px !important;
     width: 227px;
     margin-left: 175px !important;
     // margin-top: 430px !important;
     z-index: 2001;
+  }
+
+  .csi-group {
+    .btn-add-rule, .rule-actions, .drag-handle, .btn-custom-group, .btn-default-group {
+      display: none;
+    }
+  }
+
+  // Report Builder Wizard
+
+  #client-advance-search-wizard {
+    padding: 0;
+    border: none;
+  }
+
+  .assessment-domain-score {
+    .modal-dialog {
+      width: 100%;
+      // height: 90%;
+      margin: 0 auto;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      // height: 90%;
+      // min-height: 90%;
+      // max-height: 90%;
+      min-width: 90%;
+      border-radius: 0;
+      overflow:auto;
+    }
+
+    table.assessment-score-data {
+      width: 100% !important;
+    }
+
+    .client-id, .client-name, .assessment-number, .assessment-date {
+      min-width: 120px;
+    }
+
+    .assessment-score {
+      min-width: 32px;
+    }
+
+    .dt-buttons {
+      float: right;
+    }
+  }
+
+  #report-builder-wizard-modal {
+    .modal-lg {
+      width: 90%;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body input {
+      display: inline-block;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul {
+      padding-left: 15px;
+    }
+
+    #report-builder-wizard.wizard > .content > .chose-columns-section.body ul > li {
+      list-style: inside;
+    }
+
+    #report-builder-wizard .content {
+      height: calc(100vh - 300px);
+      overflow: scroll;
+    }
+
+    label.pointer {
+      cursor: pointer;
+    }
+
+    .custom-form .select2-input {
+      width: 100% !important;
+    }
+
+    .columns-visibility {
+      margin-bottom: 20px;
+    }
+
+    .chose-columns-section .wide-margin-bottom {
+      margin-bottom: 25px;
+      margin-left: 20px;
+    }
+
+    #wizard-program-stream {
+      margin-top: 10px;
+    }
+
+    .chose-columns-section {
+      .btn-block {
+        text-align: left;
+      }
+    }
   }
 
   // Report Builder Wizard
@@ -283,5 +440,19 @@ body[id='clients-index'] {
 
   .action-button-group .btn {
     margin-top: 4px;
+  }
+
+  .not-allowed {
+    pointer-events: none;
+    background-color: #4e4a4a5e;
+    color: white;
+  }
+
+  #sql-string {
+    line-height: 2;
+  }
+
+  .wide-mb {
+    margin-bottom: 20px;
   }
 }

@@ -20,7 +20,10 @@
                 %tr
                   %td= referral.client_name
                   %td{ class: referred_from_hidden?(referral) }= referral.referred_from_ngo
-                  %td{ class: referred_to_hidden?(referral) }= referral.referred_to_ngo
+                  - if referral.referred_to_ngo == 'External Referral'
+                    %td{ class: referred_to_hidden?(referral) }= referral.ngo_name
+                  - else
+                    %td{ class: referred_to_hidden?(referral) }= referral.referred_to_ngo
                   %td= date_format(referral.date_of_referral)
                   %td.text-center
                     -# - if policy(referral).edit?

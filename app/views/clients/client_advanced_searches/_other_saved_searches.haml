@@ -1,4 +1,4 @@
-#other-saved-searches.tab-pane{ role: "tabpanel" }
+#other-saved-searches.tab-pane.fade
   .table-responsive
     %table.table.table-bordered.table-striped.table-hover
       %thead
@@ -18,5 +18,5 @@
             %td.date
               = date_format(advanced_search.created_at)
             %td.load-query.text-center
-              = link_to clients_path(advanced_search.search_params), class: 'btn btn-xs btn-success btn-outline' do
+              = link_to clients_path(save_search_params(advanced_search.search_params)), class: 'btn btn-xs btn-success btn-outline' do
                 = fa_icon('clipboard')

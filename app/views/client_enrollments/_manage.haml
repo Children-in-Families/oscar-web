@@ -2,5 +2,5 @@
   - if program_stream.enroll?(@client)
     - if program_stream.maximum_client?
       .label.label-info= t('.full_program')
-    - else
+    - elsif program_stream.archived_at.nil?
       = client_enrollment_new_link(program_stream)

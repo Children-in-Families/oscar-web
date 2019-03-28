@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
+  GENDER_OPTIONS = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Prefer not to say', 'prefer not to say']]
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -51,6 +52,8 @@ class User < ActiveRecord::Base
 
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :gender, presence: true
+  validates :pin_code, length: { is: 5 }, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_blank: true
 
   scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value.squish}%") }
   scope :last_name_like,  ->(value) { where('last_name iLIKE ?', "%#{value.squish}%") }
@@ -74,15 +77,13 @@ class User < ActiveRecord::Base
   scope :referral_notification_email,    -> { where(referral_notification: true) }
 
   before_save :assign_as_admin
-
-  before_save :detach_manager, if: 'roles_changed?'
-  before_save :set_manager_ids, if: 'manager_id_changed?'
-  after_save :reset_manager, if: 'roles_changed?'
+  before_save :set_manager_ids
+  after_save :detach_manager, if: 'roles_changed?'
   after_save :toggle_referral_notification
   after_create :build_permission
 
   def build_permission
-    unless self.admin? || self.strategic_overviewer?
+    unless self.strategic_overviewer?
       self.create_permission
 
       CustomField.all.each do |cf|
@@ -242,19 +243,14 @@ class User < ActiveRecord::Base
   end
 
   def detach_manager
-    if ['admin', 'strategic overviewer'].include?(roles)
-      self.manager_id = nil
-    end
-  end
-
-  def reset_manager
-    if roles_change.last == 'case worker' || roles_change.last == 'strategic overviewer'
-      User.where(manager_id: self).update_all(manager_id: nil)
+    if roles.in?(['strategic overviewe', 'admin'])
+      User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
     end
   end
 
   def set_manager_ids
-    if manager_id.nil?
+    if manager_id.nil? || roles.in?(['strategic overviewer', 'admin'])
+      self.manager_id = nil
       self.manager_ids = []
       return if manager_id_was == self.id
       update_manager_ids(self)

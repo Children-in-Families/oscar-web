@@ -6,7 +6,7 @@
       .ibox-content.program-show
         .row
           .col-xs-12
-            #rules{ data: { program_rules: @program_stream.rules.to_json }}
+            #rules{ data: { program_rules: format_rule(@program_stream.rules).to_json }}
             #program-rules
         .row
           .col-xs-12.mini-margin

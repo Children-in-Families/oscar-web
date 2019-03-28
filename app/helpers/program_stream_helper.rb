@@ -1,4 +1,20 @@
 module ProgramStreamHelper
+
+  def format_rule(rules)
+    if rules['rules'].present? && rules['rules'].any?
+      forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'programexitdate', 'exitprogram', 'quantitative']
+      rules['rules'].each do |rule|
+        if rule['rules'].present?
+          format_rule(rule)
+        elsif forms_prefixed.any?{ |form| rule['id'].include?(form) }
+          rule['id']    = rule['id'].gsub(/_/, '__') if rule['id'].exclude?('__')
+          rule['field'] = rule['field'].gsub(/_/, '__') if rule['field'].exclude?('__')
+        end
+      end
+    end
+    rules
+  end
+
   def html_column(full_width)
     full_width ? '' : 'col-md-6'
   end

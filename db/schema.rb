@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181218071502) do
+ActiveRecord::Schema.define(version: 20190311025303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,8 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.boolean  "goal_required",      default: true
     t.boolean  "required_task_last", default: false
   end
+
+  add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
 
   create_table "assessment_domains_progress_notes", force: :cascade do |t|
     t.integer  "assessment_domain_id"
@@ -292,9 +294,11 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.date     "enrollment_date"
+    t.datetime "deleted_at"
   end
 
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
+  add_index "client_enrollments", ["deleted_at"], name: "index_client_enrollments_on_deleted_at", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
 
   create_table "client_interviewees", force: :cascade do |t|
@@ -317,6 +321,16 @@ ActiveRecord::Schema.define(version: 20181218071502) do
 
   add_index "client_needs", ["client_id"], name: "index_client_needs_on_client_id", using: :btree
   add_index "client_needs", ["need_id"], name: "index_client_needs_on_need_id", using: :btree
+
+  create_table "client_partners", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "client_partners", ["client_id"], name: "index_client_partners_on_client_id", using: :btree
+  add_index "client_partners", ["partner_id"], name: "index_client_partners_on_partner_id", using: :btree
 
   create_table "client_problems", force: :cascade do |t|
     t.integer  "rank"
@@ -564,7 +578,10 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "domain_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "domain_program_streams", ["deleted_at"], name: "index_domain_program_streams_on_deleted_at", using: :btree
 
   create_table "domains", force: :cascade do |t|
     t.string   "name",                     default: ""
@@ -831,10 +848,10 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "assessment_commune_id"
     t.integer  "primary_carer_commune_id"
     t.integer  "primary_carer_village_id"
+    t.text     "recent_issues_and_progress", default: ""
     t.string   "other_case_closure"
     t.text     "brief_case_history"
     t.integer  "case_closure_id"
-    t.text     "recent_issues_and_progress", default: ""
   end
 
   add_index "government_forms", ["client_id"], name: "index_government_forms_on_client_id", using: :btree
@@ -935,9 +952,11 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.datetime "updated_at",                        null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
+    t.datetime "deleted_at"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
+  add_index "leave_programs", ["deleted_at"], name: "index_leave_programs_on_deleted_at", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
@@ -990,6 +1009,7 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.datetime "updated_at"
     t.integer  "cases_count",               default: 0
     t.integer  "organization_type_id"
+    t.string   "partner_type",              default: [], array: true
   end
 
   add_index "partners", ["organization_type_id"], name: "index_partners_on_organization_type_id", using: :btree
@@ -1019,8 +1039,10 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.boolean  "editable",          default: true
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "program_stream_permissions", ["deleted_at"], name: "index_program_stream_permissions_on_deleted_at", using: :btree
   add_index "program_stream_permissions", ["program_stream_id"], name: "index_program_stream_permissions_on_program_stream_id", using: :btree
   add_index "program_stream_permissions", ["user_id"], name: "index_program_stream_permissions_on_user_id", using: :btree
 
@@ -1038,7 +1060,10 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "program_exclusive", default: [],                 array: true
     t.integer  "mutual_dependence", default: [],                 array: true
     t.boolean  "tracking_required", default: false
+    t.datetime "archived_at"
   end
+
+  add_index "program_streams", ["archived_at"], name: "index_program_streams_on_archived_at", using: :btree
 
   create_table "progress_note_types", force: :cascade do |t|
     t.string   "note_type",  default: ""
@@ -1159,6 +1184,7 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "client_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "ngo_name",         default: ""
   end
 
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
@@ -1186,8 +1212,8 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                         default: 18
     t.integer  "commune_id"
+    t.integer  "age",                         default: 18
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true
@@ -1195,6 +1221,7 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.string   "custom_assessment_frequency", default: "month"
     t.integer  "custom_age",                  default: 18
     t.string   "default_assessment",          default: "CSI Assessment"
+    t.boolean  "sharing_data",                default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1512,8 +1539,10 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "program_stream_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "trackings", ["deleted_at"], name: "index_trackings_on_deleted_at", using: :btree
   add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
@@ -1551,9 +1580,9 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.integer  "organization_id"
     t.boolean  "disable",                        default: false
     t.datetime "expires_at"
+    t.boolean  "calendar_integration",           default: false
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
-    t.boolean  "calendar_integration",           default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
@@ -1562,6 +1591,8 @@ ActiveRecord::Schema.define(version: 20181218071502) do
     t.boolean  "domain_warning",                 default: false
     t.boolean  "referral_notification",          default: false
     t.string   "gender",                         default: ""
+    t.boolean  "enable_gov_log_in",              default: false
+    t.boolean  "enable_research_log_in",         default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -1647,6 +1678,8 @@ ActiveRecord::Schema.define(version: 20181218071502) do
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"
   add_foreign_key "client_needs", "needs"
+  add_foreign_key "client_partners", "clients"
+  add_foreign_key "client_partners", "partners"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
   add_foreign_key "client_right_government_forms", "client_rights"

@@ -1,5 +1,5 @@
 class SettingsController < AdminController
-  before_action :find_setting, only: [:index, :default_columns]
+  before_action :find_setting, only: [:index, :default_columns, :research_module]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -36,8 +36,11 @@ class SettingsController < AdminController
       end
     else
       if @setting.update_attributes(setting_params)
-        url = params[:default_columns].present? ? default_columns_settings_path : settings_path
-        redirect_to url, notice: t('.successfully_updated')
+        if params[:default_columns].present? || params[:research_module].present?
+          redirect_to :back, notice: t('.successfully_updated')
+        else
+          redirect_to settings_path, notice: t('.successfully_updated')
+        end
       else
         render :index
       end
@@ -51,6 +54,10 @@ class SettingsController < AdminController
     @partner_default_columns = partner_default_columns
   end
 
+  def research_module
+    authorize @current_setting
+  end
+
   private
 
   def country_address_fields
@@ -60,7 +67,7 @@ class SettingsController < AdminController
   end
 
   def setting_params
-    params.require(:setting).permit(:custom_assessment_frequency, :assessment_frequency, :max_custom_assessment, :max_assessment, :enable_custom_assessment, :enable_default_assessment, :age, :custom_age, :default_assessment, :custom_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:custom_assessment_frequency, :assessment_frequency, :max_custom_assessment, :max_assessment, :enable_custom_assessment, :enable_default_assessment, :age, :custom_age, :default_assessment, :custom_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, :sharing_data, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def find_setting
@@ -110,6 +117,8 @@ class SettingsController < AdminController
       %w(suburb_ directions_ description_house_landmark_)
     when 'myanmar'
       %w(street_line1_ street_line2_ township_ state_)
+    when 'uganda'
+      %w(province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_)
     else
       %w(province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_)
     end

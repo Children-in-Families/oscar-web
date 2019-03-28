@@ -40,7 +40,7 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['created_by', user_select_options ],
-        ['gender', { male: 'Male', female: 'Female', unknown: 'Unknown' }],
+        ['gender', { male: 'Male', female: 'Female', other: 'Other', unknown: 'Unknown' }],
         ['status', client_status],
         ['agency_name', agencies_options],
         ['received_by_id', user_select_options],
@@ -61,7 +61,7 @@ module AdvancedSearches
     end
 
     def case_note_type_options
-      CaseNote::INTERACTION_TYPE
+      CaseNote::INTERACTION_TYPE.map{|s| { s => s }  }
     end
 
     def exit_reasons_options
@@ -80,7 +80,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
       Organization.switch_to current_org
       provinces.flatten
     end

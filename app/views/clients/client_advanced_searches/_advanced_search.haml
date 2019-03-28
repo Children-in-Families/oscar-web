@@ -12,22 +12,23 @@
               = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
           .col-xs-12.col-md-4
             %label= t('.custom_form_column')
-            = render 'clients/client_advanced_searches/custom_form_column'
+            = render 'clients/client_advanced_searches/custom_form_column', custom_form_columns: @custom_form_columns
           .col-xs-12.col-md-4
             %label= t('.program_stream_column')
-            = render 'clients/client_advanced_searches/program_stream_column'
+            = render 'clients/client_advanced_searches/program_stream_column', program_stream_columns: @program_stream_columns
 
         .row
           .col-xs-12
-            #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+            #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), add_custom_group: t('.add_custom_group'), delete_group: t('.delete_group') }}
             %span.basic-filter-error
               %i Please Select Field to Filter
+        #search-action{ data: { action: params.dig(:client_advanced_search, :action_report_builder)} }
 
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), clients_path, class: 'btn btn-default'
 
-= simple_form_for :client_advanced_search, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
+= simple_form_for :client_advanced_search, url: :ad_search_clients, method: 'POST', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
   = f.hidden_field :program_selected
   = f.hidden_field :enrollment_check
@@ -35,6 +36,13 @@
   = f.hidden_field :exit_form_check
   = f.hidden_field :basic_rules
   = f.hidden_field :quantitative_check
+  = f.hidden_field :wizard_custom_form_check
+  = f.hidden_field :wizard_program_stream_check
+  = f.hidden_field :wizard_quantitative_check
+  = f.hidden_field :wizard_enrollment_check
+  = f.hidden_field :wizard_tracking_check
+  = f.hidden_field :wizard_exit_form_check
+  = f.hidden_field :action_report_builder
   = hidden_field_tag :data, params[:data]
   / = f.hidden_field :overdue_assessment
   = hidden_field_tag :locale, "#{params[:locale]}"

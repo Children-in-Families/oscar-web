@@ -14,8 +14,8 @@ class UserGrid < BaseGrid
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.users.id') })
 
-  filter(:gender, :enum, select: %w(Male Female),  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
-    scope.send(value.downcase.pluralize)
+  filter(:gender, :enum, select: User::GENDER_OPTIONS,  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
+    scope.where(gender: value.downcase)
   end
 
   filter(:mobile, :string,  header: -> { I18n.t('datagrid.columns.users.mobile') }) do |value, scope|
@@ -50,6 +50,12 @@ class UserGrid < BaseGrid
 
   filter(:pin_code, :integer, header: -> { I18n.t('datagrid.columns.users.pin_number') } )
 
+  filter(:manager_id, :enum, select: :managers, header: -> { I18n.t('datagrid.columns.users.manager') })
+
+  def managers
+    User.managers.map{ |u| [u.name, u.id] }
+  end
+
   column(:id, header: -> { I18n.t('datagrid.columns.users.id') })
 
   column(:name, html: true, order: 'LOWER(users.first_name), LOWER(users.last_name)',  header: -> { I18n.t('datagrid.columns.users.name') }) do |object|
@@ -59,10 +65,14 @@ class UserGrid < BaseGrid
   column(:first_name, header: -> { I18n.t('datagrid.columns.users.first_name') }, html: false)
   column(:last_name, header: -> { I18n.t('datagrid.columns.users.last_name') }, html: false)
 
-  date_column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
+  date_column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
+
+  column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.users.date_of_birth') }) do |object|
+    object.date_of_birth.present? ? object.date_of_birth : ''
+  end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.users.gender') }) do |object|
-    object.gender.try(:titleize)
+    object.gender.try(:capitalize)
   end
 
   column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') })
@@ -79,7 +89,10 @@ class UserGrid < BaseGrid
     object.department.try(:name)
   end
 
-  date_column(:start_date, header: -> { I18n.t('datagrid.columns.users.start_date') })
+  date_column(:start_date, html: true, header: -> { I18n.t('datagrid.columns.users.start_date') })
+  column(:start_date, html: false, header: -> { I18n.t('datagrid.columns.users.start_date') }) do |object|
+    object.start_date.present? ? object.start_date : ''
+  end
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.users.province') }) do |object|
     object.province.try(:name)
@@ -89,7 +102,11 @@ class UserGrid < BaseGrid
     object.roles.titleize
   end
 
-  column(:pin_code, header: -> { I18n.t('datagrid.columns.users.pin_number') })
+  # column(:pin_code, header: -> { I18n.t('datagrid.columns.users.pin_number') })
+
+  column(:manager_id, header: -> { I18n.t('datagrid.columns.users.manager') }) do |object|
+    User.find_by(id: object.manager_id).try(:name)
+  end
 
   column(:manage, header: -> { I18n.t('datagrid.columns.users.manage') }, html: true, class: 'text-center') do |object|
     render partial: 'users/actions', locals: { object: object }

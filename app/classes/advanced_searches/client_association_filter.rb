@@ -1,5 +1,6 @@
 module AdvancedSearches
   class ClientAssociationFilter
+    include ActionView::Helpers::DateHelper
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -32,6 +33,8 @@ module AdvancedSearches
         values = advanced_case_note_query
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
+      when 'assessment_completed'
+        values = date_of_assessments_query(nil)
       when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
@@ -54,11 +57,41 @@ module AdvancedSearches
         values = referred_from_query
       when 'time_in_care'
         values = time_in_care_query
+      when 'assessment_number'
+        values = assessment_number_query
+      when 'month_number'
+        values = month_number_query
+      when 'date_nearest'
+        values = date_nearest_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def assessment_number_query
+      @clients.joins(:assessments).group(:id).having("COUNT(assessments) >= ?", @value).ids
+    end
+
+    def month_number_query
+      if @value == 1
+        clients = @clients.joins(:assessments).group(:id).having('COUNT(assessments) >= 1')
+      else
+        clients = @clients.joins(:assessments).distinct
+        clients = clients.includes(:assessments).all.reject do |client|
+          ordered_assessments = client.assessments.order(:created_at)
+          dates = ordered_assessments.map(&:created_at).map{|date| date.strftime("%b, %Y") }
+          dates = dates.uniq[@value-1]
+          dates.nil?
+        end
+      end
+      clients.map(&:id)
+    end
+
+    def date_nearest_query
+      clients = @clients.joins(:assessments).where('date(assessments.created_at) <= ?', @value.to_date)
+      clients.uniq.ids
+    end
 
     def referred_to_query
       clients = @clients.joins(:referrals).distinct
@@ -230,7 +263,11 @@ module AdvancedSearches
     end
 
     def date_of_assessments_query(type)
-      clients = @clients.joins(:assessments).where(assessments: { default: type })
+      if type.nil?
+        clients = @clients.joins(:assessments)
+      else
+        clients = @clients.joins(:assessments).where(assessments: { default: type })
+      end
       case @operator
       when 'equal'
         clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
@@ -361,7 +398,7 @@ module AdvancedSearches
       return [] if @basic_rules.blank?
       basic_rules   = JSON.parse(@basic_rules)
       filter_values = basic_rules['rules']
-      clients       = Client.joins(:case_notes)
+      clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
 
       sub_rule_index = nil
       filter_values.each_with_index {|param, index| sub_rule_index = index if param.has_key?('condition')}

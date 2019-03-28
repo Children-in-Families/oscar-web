@@ -1,10 +1,11 @@
 class ProgramStream < ActiveRecord::Base
   include UpdateFieldLabelsFormBuilder
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
+  acts_as_paranoid without_default_scope: true, column: :archived_at
 
   has_many   :domain_program_streams, dependent: :destroy
   has_many   :domains, through: :domain_program_streams
-  has_many   :client_enrollments, dependent: :restrict_with_error
+  has_many   :client_enrollments, dependent: :destroy
   has_many   :clients, through: :client_enrollments
   has_many   :trackings, dependent: :destroy
   has_many   :leave_programs, dependent: :destroy
@@ -39,8 +40,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def build_permission
-    User.all.each do |user|
-      next if user.admin? || user.strategic_overviewer?
+    User.non_strategic_overviewers.each do |user|
       self.program_stream_permissions.find_or_create_by(user: user)
     end
   end

@@ -159,7 +159,7 @@ module ClientsHelper
       current_address << client.district_name.split(' / ').last if client.district.present?
       current_address << client.province_name.split(' / ').last if client.province.present?
     end
-    current_address << 'Cambodia'
+    current_address << selected_country.titleize
   end
 
   def format_array_value(value)
@@ -171,7 +171,7 @@ module ClientsHelper
   end
 
   def check_is_string_date?(property)
-    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? date_format(property.to_date) : property
+    (DateTime.strptime(property, '%Y-%m-%d') rescue nil).present? ? property.to_date : property
   end
 
   def format_properties_value(value)
@@ -182,12 +182,13 @@ module ClientsHelper
     value.is_a?(Array) ? value.delete_if(&:empty?).present? : value.present?
   end
 
+  # legacy method
   def form_builder_format_key(value)
     value.downcase.parameterize('_')
   end
 
   def form_builder_format(value)
-    value.split('_').last
+    value.split('__').last
   end
 
   def form_builder_format_header(value)
@@ -199,6 +200,7 @@ module ClientsHelper
     result.join(' | ')
   end
 
+  # legacy method
   def group_entity_by(value)
     value.group_by{ |field| field.split('_').first}
   end
@@ -208,9 +210,10 @@ module ClientsHelper
     name   = values.first.strip
     label  = values.last.strip
     keyword = "#{name} #{label}"
-    keyword.downcase.parameterize('_')
+    keyword.downcase.parameterize('__')
   end
 
+  # legacy method
   def field_not_render(field)
     field.split('_').first
   end
@@ -275,6 +278,8 @@ module ClientsHelper
       current_address << client.township_name if client.township.present?
       current_address << client.state_name if client.state.present?
       current_address << 'Myanmar'
+    when 'uganda'
+      current_address = merged_address(client)
     else
       current_address = merged_address(client)
     end
@@ -646,16 +651,16 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
 
-    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i]
+    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments' }
 
       if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
-        klass     = 'leave_programs'
+        klass = 'leave_programs'
       elsif class_name[/^(enrollmentdate)/i].present? || column.header == I18n.t('datagrid.columns.clients.program_streams')
-        klass     = 'client_enrollments'
+        klass = 'client_enrollments'
       else
-        klass     = klass_name[class_name.to_sym]
+        klass = klass_name[class_name.to_sym]
       end
 
       if class_name[/^(programexitdate)/i].present?
@@ -679,10 +684,18 @@ module ClientsHelper
           elsif class_name[/^(enrollmentdate)/i].present?
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
-          elsif class_name[/^(date_of_assessments)/i]
+          elsif class_name[/^(date_of_assessments)/i].present?
             count += client.send(klass.to_sym).defaults.count
-          elsif class_name[/^(date_of_custom_assessments)/i]
+          elsif class_name[/^(date_of_custom_assessments)/i].present?
             count += client.send(klass.to_sym).customs.count
+          elsif class_name[/^(formbuilder)/i].present?
+            fields = column.name.to_s.gsub('&qoute;', '"').split('__')
+            format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+            if fields.last == 'Has This Form'
+              count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
+            else
+              count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value).count
+            end
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
           end
@@ -707,7 +720,7 @@ module ClientsHelper
     label = case value.class.table_name
             when 'enter_ngos' then t('.accepted_date')
             when 'exit_ngos' then t('.exit_date')
-            when 'client_enrollments' then "#{value.program_stream.name} Entry"
+            when 'client_enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
             when 'referrals'
               if value.referred_to == current_organization.short_name
@@ -835,7 +848,7 @@ module ClientsHelper
 
   def country_scope_label_translation
     if I18n.locale.to_s == 'en'
-      country_name = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.try(:country_name)
+      country_name = Setting.first.try(:country_name)
       case country_name
       when 'cambodia' then '(Khmer)'
       when 'thailand' then '(Thai)'
@@ -851,4 +864,44 @@ module ClientsHelper
   def client_alias_id
     current_organization.short_name == 'fts' ? @client.code : @client.slug
   end
+
+  # we use dataTable export button instead
+  # def to_spreadsheet(assessment_type)
+  #   column_header = [
+  #                     I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
+  #                     I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
+  #                     Domain.pluck(:name)
+  #                   ]
+  #   book = Spreadsheet::Workbook.new
+  #   book.create_worksheet
+  #   book.worksheet(0).insert_row(0, column_header.flatten)
+  #
+  #   ordering = 0
+  #   assessment_domain_hash = {}
+  #
+  #   assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
+  #     assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
+  #     if assessment_type == 'default'
+  #       assessments = client.assessments.defaults
+  #       domains = Domain.csi_domains
+  #     elsif assessment_type == 'custom'
+  #       assessments = client.assessments.customs
+  #       domains = Domain.custom_csi_domains
+  #     else
+  #       assessments = client.assessments
+  #       domains = Domain.all
+  #     end
+  #
+  #     assessments.each_with_index do |assessment, index|
+  #       assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+  #       domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
+  #       book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
+  #     end
+  #   end
+  #
+  #   buffer = StringIO.new
+  #   book.write(buffer)
+  #   buffer.rewind
+  #   buffer.read
+  # end
 end

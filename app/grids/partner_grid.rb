@@ -78,7 +78,12 @@ class PartnerGrid < BaseGrid
     object.organization_type_name
   end
 
-  date_column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
+  date_column(:start_date, html: true, header: -> { I18n.t('datagrid.columns.partners.start_date') })
+
+  column(:start_date, html: false, header: -> {I18n.t('datagrid.columns.partners.start_date') }) do |object|
+    object.start_date.present? ? object.start_date : ''
+  end
+
   column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
   column(:engagement, header: -> { I18n.t('datagrid.columns.partners.engagement') })
   column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })
@@ -91,7 +96,7 @@ class PartnerGrid < BaseGrid
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
-      fields = column_builder[:id].split('_')
+      fields = column_builder[:id].split('__')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.last == 'Has This Form'

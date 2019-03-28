@@ -14,13 +14,13 @@ module AdvancedSearches
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
-      default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
-      custom_domain_scores_options = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
+      csi_options           = AdvancedSearches::CsiFields.render
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
-
-      search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
-
-      search_fields.sort_by { |f| f[:label].downcase } + default_domain_scores_options + custom_domain_scores_options + school_grade_options
+      default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
+      custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
+ 
+      search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
+      search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options
     end
 
     private
@@ -40,7 +40,7 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['created_by', user_select_options ],
-        ['gender', { male: 'Male', female: 'Female', unknown: 'Unknown' }],
+        ['gender', { male: 'Male', female: 'Female', other: 'Other', unknown: 'Unknown' }],
         ['status', client_status],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
@@ -67,7 +67,7 @@ module AdvancedSearches
     end
 
     def case_note_type_options
-      CaseNote::INTERACTION_TYPE
+      CaseNote::INTERACTION_TYPE.map{|s| { s => s }  }
     end
 
     def active_program_options
@@ -92,7 +92,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
       Organization.switch_to current_org
       provinces.flatten
     end
@@ -179,6 +179,11 @@ module AdvancedSearches
         {
           text_fields: ['street_line1', 'street_line2'],
           drop_down_fields: [['township_id', townships], ['state_id', states]]
+        }
+      when 'uganda'
+        {
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
       end
     end

@@ -136,7 +136,12 @@ class FamilyGrid < BaseGrid
   column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
-  date_column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+
+  date_column(:contract_date, html: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+  column(:contract_date, html: false, header: -> { I18n.t('datagrid.columns.families.contract_date') }) do |object|
+    object.contract_date.present? ? object.contract_date : ''
+  end
+
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 
@@ -168,7 +173,7 @@ class FamilyGrid < BaseGrid
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
-      fields = column_builder[:id].gsub('&qoute;', '"').split('_')
+      fields = column_builder[:id].gsub('&qoute;', '"').split('__')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         if fields.last == 'Has This Form'
           properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]
