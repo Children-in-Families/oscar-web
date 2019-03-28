@@ -8,6 +8,7 @@ class ClientBooksController < AdminController
     @tasks       = @client.tasks
     @assessments = AssessmentDecorator.decorate_collection(@client.assessments.order(created_at: :desc))
     @client_enrollments = program_stream_order_by_enrollment
+    @case_histories = case_history
   end
 
   private
@@ -20,5 +21,14 @@ class ClientBooksController < AdminController
       @enrollments.map do |enrollment|
         [enrollment, enrollment.leave_program, enrollment.client_enrollment_trackings]
       end.flatten.compact
+    end
+
+    def case_history
+      enter_ngos = @client.enter_ngos
+      exit_ngos  = @client.exit_ngos
+      cps_enrollments = @client.client_enrollments.map(&:attributes)
+      cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
+      referrals = @client.referrals
+      case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals)
     end
 end

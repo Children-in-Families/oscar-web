@@ -856,11 +856,11 @@ module ClientsHelper
   end
 
   def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@client_enrollments].group_by do |association|
-      if association.class.name.downcase != 'clientenrollment'
-        date_format(association.created_at)
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
+        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
       else
-        date_format(association.enrollment_date)
+        date_format(association.created_at)
       end
     end
   end
