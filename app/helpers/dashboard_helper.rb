@@ -40,27 +40,27 @@ module DashboardHelper
   end
 
   def overdue_assessments_any?(client)
-    client.next_assessment_date < Date.today
+    client.next_assessment_date(@user.activated_at) < Date.today if client.next_assessment_date(@user.activated_at).present?
   end
 
   def duetoday_assessments_any?(client)
-    client.next_assessment_date == Date.today
+    client.next_assessment_date(@user.activated_at) == Date.today if client.next_assessment_date(@user.activated_at).present?
   end
 
   def upcoming_assessments_any?(client)
-    client.next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
+    client.next_assessment_date(@user.activated_at).between?(Date.tomorrow, 3.months.from_now) if client.next_assessment_date(@user.activated_at).present?
   end
 
   def overdue_custom_assessments_any?(client)
-    client.custom_next_assessment_date < Date.today
+    client.custom_next_assessment_date(@user.activated_at) < Date.today if client.custom_next_assessment_date(@user.activated_at).present?
   end
 
   def duetoday_custom_assessments_any?(client)
-    client.custom_next_assessment_date == Date.today
+    client.custom_next_assessment_date(@user.activated_at) == Date.today if client.custom_next_assessment_date(@user.activated_at)
   end
 
   def upcoming_custom_assessments_any?(client)
-    client.custom_next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
+    client.custom_next_assessment_date(@user.activated_at).between?(Date.tomorrow, 3.months.from_now) if client.custom_next_assessment_date(@user.activated_at).present?
   end
 
   def skipped_overdue_tasks?(tasks)
