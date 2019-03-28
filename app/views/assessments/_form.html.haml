@@ -25,13 +25,13 @@
                 - rd = random.shuffle
                 - if is_domain_definition(domain)
                   .score_option.with-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
-                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 1 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[0] }
                       %b= score_definition(domain.send("translate_score_#{rd[0]}_definition").to_s, random)
-                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 2 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[1] }
                       %b= score_definition(domain.send("translate_score_#{rd[1]}_definition").to_s, random)
-                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 3 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[2] }
                       %b= score_definition(domain.send("translate_score_#{rd[2]}_definition").to_s, random)
-                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 4 }
+                    .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[3] }
                       %b= score_definition(domain.send("translate_score_#{rd[3]}_definition").to_s, random)
                     = ad.hidden_field :score, class: 'selected-score'
                 - else
