@@ -13,7 +13,8 @@ class AdvancedSearch < ActiveRecord::Base
                                 tracking_check: tracking_check,
                                 exit_form_check: exit_form_check,
                                 basic_rules: queries.to_json,
-                                quantitative_check: quantitative_check }
+                                quantitative_check: quantitative_check,
+                                action_report_builder: '#builder' }
                                 }.merge(field_visible)
   end
 
