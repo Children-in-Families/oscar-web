@@ -2537,6 +2537,7 @@ km:
       updated: គណនី របស់អ្នកត្រូវបានធ្វើការកែប្រែ ដោយជោគជ័យ
     sessions:
       already_signed_out: បានចេញដោយជោគជ័យ
+      not_confirmed: គណនីរបស់អ្នកមិនទាន់ដំណើរការនៅឡើយទេ
       new:
         email: អ៊ីម៉ែល
         leave_this_blank_if_it_is_not_enabled: ទុកវាឲ្យនៅទទេប្រសិនបើវាមិនត្រូវបានបើក

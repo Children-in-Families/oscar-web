@@ -2538,6 +2538,7 @@ my:
       updated: သင့္အေကာင့္ကို အသစ္ထပ္ျဖည့္ၿပီးပါၿပီ။
     sessions:
       already_signed_out: ေအာင္ျမင္စြာ ျပန္ထြက္ၿပီးပါၿပီ။
+      not_confirmed: သင့်အကောင့်သေး activated မပါ
       new:
         email: အီးေမးလ္
         leave_this_blank_if_it_is_not_enabled: ထွက်သွား ဒီကွက်လပ်တစ်ခုကိုဖွင့်မပြုလုပ်လျှင်
