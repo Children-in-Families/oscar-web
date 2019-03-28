@@ -65,6 +65,7 @@ gem 'sidekiq',                '~> 4.1.0'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
 gem 'where-or',               '~> 0.1.6'
 gem 'dotiw',                  '~> 4.0.1'
+gem 'text',                   '~> 1.3', '>= 1.3.1'
 gem 'paranoia',               '~> 2.4', '>= 2.4.1'
 
 group :development, :test do

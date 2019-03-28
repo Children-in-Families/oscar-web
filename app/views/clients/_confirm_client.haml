@@ -1,15 +1,23 @@
 #confirm-client-modal.modal.fade{ 'aria-hidden' => 'true', role: 'dialog', 'data-backdrop': 'static' }
   = hidden_field(:hidden, :title, value: t('.title'))
   = hidden_field(:hidden, :body_first, value: t('.body_first') )
-  = hidden_field(:hidden, :body_second, value: t('.body_second') )
   = hidden_field(:hidden, :body_third, value: t('.body_third') )
-  .modal-dialog
+  = hidden_field(:hidden, :name_fields, value: t('.name_fields') )
+  = hidden_field(:hidden, :birth_province, value: t('.birth_province') )
+  = hidden_field(:hidden, :date_of_birth, value: t('.date_of_birth') )
+  = hidden_field(:hidden, :commune, value: t('.commune') )
+  = hidden_field(:hidden, :village, value: t('.village') )
+  = hidden_field(:hidden, :province, value: t('.province') )
+  = hidden_field(:hidden, :district, value: t('.district') )
+
+  .modal-dialog#existing-client-warning
     .modal-content.panel-warning
       .modal-header.panel-heading
         %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
         %h4.modal-title
-      .modal-body.text-center
+      .modal-body
       .modal-footer
+        %p.warning-message= t('.body_second', sender_email: ENV['SENDER_EMAIL'])
         %button#confirm.btn.btn-warning{ type: 'button', 'data-confirm': t('.confirm') }
           = t('.confirm')
         %button.btn-modal-cancel.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
