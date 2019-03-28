@@ -21,20 +21,22 @@
                   = ad.object.domain.translate_description.html_safe
                 = ad.input :reason, label: t('.reason'), placeholder: t('.reason_placeholder'), required: true, input_html: { class: 'reason' }
                 %label= t('.score_label')
+                - random = [1,2,3,4]
+                - rd = random.shuffle
                 - if is_domain_definition(domain)
                   .score_option.with-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 1 }
-                      %b= score_definition(domain.translate_score_1_definition, 1)
+                      %b= score_definition(domain.send("translate_score_#{rd[0]}_definition").to_s, random)
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 2 }
-                      %b= score_definition(domain.translate_score_2_definition, 2)
+                      %b= score_definition(domain.send("translate_score_#{rd[1]}_definition").to_s, random)
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 3 }
-                      %b= score_definition(domain.translate_score_3_definition, 3)
+                      %b= score_definition(domain.send("translate_score_#{rd[2]}_definition").to_s, random)
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': 4 }
-                      %b= score_definition(domain.translate_score_4_definition, 4)
+                      %b= score_definition(domain.send("translate_score_#{rd[3]}_definition").to_s, random)
                     = ad.hidden_field :score, class: 'selected-score'
                 - else
                   .score_option.without-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
-                    = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)], :first, :last
+                    = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)].shuffle, :first , :last
                 = ad.label :goal, required: true, label: t('.goal')
                 / .col-xs-12.col-sm-6.col-md-4
                 .goal-required-option{ id: "i-checks-#{domain.name.downcase.split.join('-')}", class: ad.object.score == 4 ? '' : 'hidden' }

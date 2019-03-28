@@ -77,7 +77,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).addClass("btn-#{scoreColor}")
+      $(@).addClass("btn-default")
+      #$(@).addClass("btn-#{scoreColor}")
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
@@ -122,7 +123,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).children('label').addClass("label-#{scoreColor} active-label")
+      $(@).children('label').addClass("label-secondary active-label")
+      #$(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
