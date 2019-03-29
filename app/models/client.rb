@@ -111,7 +111,12 @@ class Client < ActiveRecord::Base
     current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
     skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
-    shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
+    if skip_orgs_percentage.any?
+      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
+    else
+      shared_clients       = SharedClient.all
+    end
+
     group_clients        = shared_clients.group_by{|client| client.slug.split('-').first }
     group_clients.each do |tenant, clients|
       tenants = Organization.all.pluck(:short_name)
