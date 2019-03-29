@@ -396,7 +396,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-    return object unless params.key?(:client_advanced_search)
+    return object unless params[:client_advanced_search].present?
     @data   = eval params[:client_advanced_search][:basic_rules]
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
@@ -458,8 +458,7 @@ module ClientsHelper
   end
 
   def case_note_query(object, rule)
-    return object if !params.key?(:client_advanced_search)
-
+    return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
     data    = eval params[:client_advanced_search][:basic_rules]

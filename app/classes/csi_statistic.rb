@@ -56,7 +56,7 @@ class CsiStatistic
 
     default_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.csi_domains.includes(:assessment_domains).each do |domain|
+    Domain.csi_domains.each do |domain|
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|
@@ -88,7 +88,7 @@ class CsiStatistic
 
     custom_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.custom_csi_domains.includes(:assessment_domains).each do |domain|
+    Domain.custom_csi_domains.each do |domain|
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|

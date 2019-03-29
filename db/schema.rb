@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190321033057) do
+ActiveRecord::Schema.define(version: 20190322023721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -321,6 +321,16 @@ ActiveRecord::Schema.define(version: 20190321033057) do
 
   add_index "client_needs", ["client_id"], name: "index_client_needs_on_client_id", using: :btree
   add_index "client_needs", ["need_id"], name: "index_client_needs_on_need_id", using: :btree
+
+  create_table "client_partners", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "partner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "client_partners", ["client_id"], name: "index_client_partners_on_client_id", using: :btree
+  add_index "client_partners", ["partner_id"], name: "index_client_partners_on_partner_id", using: :btree
 
   create_table "client_problems", force: :cascade do |t|
     t.integer  "rank"
@@ -999,6 +1009,7 @@ ActiveRecord::Schema.define(version: 20190321033057) do
     t.datetime "updated_at"
     t.integer  "cases_count",               default: 0
     t.integer  "organization_type_id"
+    t.string   "partner_type",              default: [], array: true
   end
 
   add_index "partners", ["organization_type_id"], name: "index_partners_on_organization_type_id", using: :btree
@@ -1201,8 +1212,8 @@ ActiveRecord::Schema.define(version: 20190321033057) do
     t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                         default: 18
     t.integer  "commune_id"
+    t.integer  "age",                         default: 18
     t.string   "custom_assessment",           default: "Custom Assessment"
     t.boolean  "enable_custom_assessment",    default: false
     t.boolean  "enable_default_assessment",   default: true
@@ -1296,6 +1307,7 @@ ActiveRecord::Schema.define(version: 20190321033057) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.string   "relation",                  default: ""
+    t.string   "case_note_id",              default: ""
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
@@ -1569,9 +1581,9 @@ ActiveRecord::Schema.define(version: 20190321033057) do
     t.integer  "organization_id"
     t.boolean  "disable",                        default: false
     t.datetime "expires_at"
+    t.boolean  "calendar_integration",           default: false
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
-    t.boolean  "calendar_integration",           default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
@@ -1669,6 +1681,8 @@ ActiveRecord::Schema.define(version: 20190321033057) do
   add_foreign_key "client_interviewees", "interviewees"
   add_foreign_key "client_needs", "clients"
   add_foreign_key "client_needs", "needs"
+  add_foreign_key "client_partners", "clients"
+  add_foreign_key "client_partners", "partners"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
   add_foreign_key "client_right_government_forms", "client_rights"
