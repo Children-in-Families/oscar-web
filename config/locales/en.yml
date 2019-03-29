@@ -1238,7 +1238,7 @@ en:
       exit_date: NGO Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
-      family_name: Family Name (English)
+      family_name: Family Name (Latin)
       finish: Finish
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
@@ -1247,7 +1247,7 @@ en:
       gender: Gender
       general_question: General Question
       getting_started: Getting Started
-      given_name: Given Name (English)
+      given_name: Given Name (Latin)
       gov_caseworker_comment: Caseworker comment
       gov_caseworker_comment_section: Caseworker comment on needs and challenges of the client
       gov_caseworker_name: Caseworker name
@@ -1508,13 +1508,13 @@ en:
       exit_reasons: Reason for Exit / Case Rejection
       external_referral: External Referral
       families: Families
-      family_name: Family Name (English)
+      family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
       gender: Gender
       general_info: About Client
-      given_name: Given Name (English)
+      given_name: Given Name (Latin)
       government_form_five: Follow up the Child in Alternative Care Form
       government_form_four: Placement-Reintegration Form
       government_form_one: Initial Information Form
@@ -2127,12 +2127,12 @@ en:
     date_of_birth: Date of Birth
     district: District/Khan
     donor: Donor
-    family_name: Family Name (English)
+    family_name: Family Name (Latin)
     follow_up_by: First Follow-Up By
     follow_up_date: First Follow-Up Date
     followed_up_by: First Follow-Up By
     gender: Gender
-    given_name: Given Name (English)
+    given_name: Given Name (Latin)
     has_been_in_government_care: Has the client lived in government care
     has_been_in_orphanage: Has the client lived in an orphanage
     house_number: House
