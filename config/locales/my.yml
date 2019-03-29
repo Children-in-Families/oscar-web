@@ -1079,6 +1079,7 @@ my:
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     case_history_detail:
+      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
       client_id: မွတ္ပံုတင္

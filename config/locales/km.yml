@@ -1075,6 +1075,7 @@ km:
       close: បិទ
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
     case_history_detail:
+      initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       client: ឈ្មោះអតិថិជន
       client_id: លេខសំគាល់អតិថិជន
