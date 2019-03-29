@@ -1343,12 +1343,12 @@ en:
     getting_started:
       case_worker_or_staff: Case Worker / Staff
       date_of_birth: Date of Birth
-      family_name: Family Name (English)
+      family_name: Family Name (Latin)
       first_followed_up_by: First Follow-Up By
       first_followed_up_date: First Follow-Up Date
       gender: Gender
       getting_started: Getting Started
-      given_name: Given Name (English)
+      given_name: Given Name (Latin)
       initial_referral_date: Initial Referral Date
       living_detail: Living Details
       local_family_name: Family Name
@@ -1844,14 +1844,14 @@ en:
         exit_note: NGO Exit Note
         exit_reasons: Reason For Exit
         family_id: Family ID
-        family_name: Family Name (English)
+        family_name: Family Name (Latin)
         follow_up_by: First Follow-Up By
         follow_up_date: First Follow-Up Date
         followed_up_by: First Follow-Up By
         form_title: Form Title
         frequency: Frequency
         gender: Gender
-        given_name: Given Name (English)
+        given_name: Given Name (Latin)
         has_been_in_government_care: Has the client lived in government care
         has_been_in_orphanage: Has the client lived in an orphanage
         has_date_of_birth: Has Date of Birth
