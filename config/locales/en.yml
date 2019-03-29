@@ -2541,7 +2541,6 @@ en:
       updated: Your account has been updated successfully.
     sessions:
       already_signed_out: Signed out successfully.
-      not_confirmed: Your account is not activated yet.
       new:
         email: Email
         leave_this_blank_if_it_is_not_enabled: Leave this blank if it is not enabled
@@ -2561,6 +2560,9 @@ en:
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
+  devise_token_auth:
+   sessions:
+     not_confirmed: Your account is not activated yet.
   districts:
     create:
       failed_create: Failed to create a district.
