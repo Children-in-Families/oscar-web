@@ -721,6 +721,7 @@ module ClientsHelper
             when 'exit_ngos' then t('.exit_date')
             when 'client_enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
+            when 'clients' then t('.initial_referral_date')
             when 'referrals'
               if value.referred_to == current_organization.short_name
                 "#{t('.internal_referral')}: #{value.referred_from_ngo}"

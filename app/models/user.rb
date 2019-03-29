@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
 
+  acts_as_paranoid
+
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
   GENDER_OPTIONS = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Prefer not to say', 'prefer not to say']]
