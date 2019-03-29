@@ -62,7 +62,7 @@ class UsersController < AdminController
 
   def destroy
     if @user.no_any_associated_objects?
-      @user.destroy
+      @user.really_destroy!
       redirect_to users_url, notice: t('.successfully_deleted')
     else
       redirect_to users_url, alert: t('.alert')
