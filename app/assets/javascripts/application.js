@@ -116,3 +116,4 @@
 //= require referrals/form
 //= require government_forms/form
 //= require multiple_form/form
+//= require registrations/form

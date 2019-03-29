@@ -1,5 +1,5 @@
 describe 'User' do
-  let!(:admin){ create(:user, :admin) }
+  let!(:admin){ create(:user, :admin, pin_number: '11223') }
   let!(:used_user){ create(:user) }
   let!(:user){ create(:user) }
   let!(:strategic_overviewer){ create(:user, :strategic_overviewer) }
@@ -7,6 +7,46 @@ describe 'User' do
 
   let!(:custom_field){ create(:custom_field) }
   let!(:program_stream){ create(:program_stream) }
+
+  feature 'List' do
+    before do
+      login_as(admin)
+    end
+    scenario 'pin_number must not be visible' do
+      visit users_path
+      expect(page).not_to have_content('11223')
+    end
+  end
+
+  feature 'Show' do
+    before do
+      login_as(admin)
+    end
+    scenario 'pin_number must not be visible' do
+      visit user_path(admin)
+      expect(page).not_to have_content('11223')
+    end
+  end
+
+  feature 'New' do
+    before do
+      login_as(admin)
+    end
+    scenario 'pin_number must not be visible' do
+      visit new_user_path
+      expect(page).not_to have_css('#user_pin_number')
+    end
+  end
+
+  feature 'Edit' do
+    before do
+      login_as(admin)
+    end
+    scenario 'pin_number must not be visible' do
+      visit edit_user_path(admin)
+      expect(page).not_to have_css('#user_pin_number')
+    end
+  end
 
   feature 'List Managers' do
     before do

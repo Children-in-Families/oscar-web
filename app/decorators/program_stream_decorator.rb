@@ -2,7 +2,7 @@ class ProgramStreamDecorator < Draper::Decorator
   delegate_all
 
   def enrollment_status_value(client)
-    enrollments = model.client_enrollments.enrollments_by(client).order(:created_at)
+    enrollments = model.client_enrollments.with_deleted.enrollments_by(client).order(:created_at)
     return unless enrollments.present?
     enrollments.last.status
   end

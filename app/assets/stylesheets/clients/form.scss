@@ -67,4 +67,8 @@ body[id='clients-edit'], body[id='clients-update']{
     pointer-events: none;
     cursor: not-allowed;
   }
+  .warning-message{
+    text-align: left;
+    font-weight: bold;
+  }
 }
