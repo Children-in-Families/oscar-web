@@ -283,8 +283,8 @@ client_types.each do |client_type|
 end
 
 referral_sources.each do |referral_source|
-  km_referral = referral_source.split('*').first.squish
-  en_referral = referral_source.include?('*') ? referral_source.split('*').last.squish : ''
+  km_referral = referral_source.split('--').first.squish
+  en_referral = referral_source.include?('--') ? referral_source.split('--').last.squish : ''
   ReferralSource.create_with(name_en: en_referral).find_or_create_by(name: km_referral)
 end
 
