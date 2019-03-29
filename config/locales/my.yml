@@ -644,6 +644,7 @@ my:
       completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
       goal: ရည္မွန္းခ်က္
+      incompleted_tasks: မပြည့်စုံတာဝန်များကို
       new_case_note: အမႈျခင္းရာမွတ္စုအသစ္
       no_custom_domains_available: ရရှိနိုင်သောအဘယ်သူမျှမစိတ်ကြိုက်ဒိုမိန်း
       note: မွတ္စု
