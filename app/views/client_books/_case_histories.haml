@@ -3,7 +3,7 @@
     .ibox
       .ibox-title
         %h5
-          = I18n.t('client_books.completed')
+          = I18n.t('client_books.created')
           = date
           = I18n.t('client_books.by')
           - if object.class.name.downcase == 'hash'
@@ -12,7 +12,7 @@
           - else
             = whodunnit(object.class.to_s, object.id)
         %h5
-          = "#{t('.case_note')} for"
+          = "#{t('.case_history')} (#{case_history_label(object)}) for #{@client.en_and_local_name}"
 
         .ibox-tools
           %a.collapse-link

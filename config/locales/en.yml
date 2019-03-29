@@ -886,6 +886,10 @@ en:
       assessment: CSI Assessment
       custom_assessment: Custom Assessment
     by: By
+    case_histories:
+      accepted_date: NGO Accept Date
+      case_history: Case Histories
+      exit_date: NGO Exit Date
     case_notes:
       case_note: Case Note
     client_enrollments:
@@ -897,6 +901,7 @@ en:
     incomplete: Incomplete
     index:
       book: Client book
+    for: For
     tasks:
       task: Task
       domain: Domain
@@ -1512,6 +1517,7 @@ en:
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
+      book: Client book
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History

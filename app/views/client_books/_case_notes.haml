@@ -15,7 +15,7 @@
             %i.fa.fa-chevron-up
       .ibox-content
         %p= display_case_note_attendee(case_note)
-        - case_note.case_note_domain_groups.each do |cdg|
+        - case_note.case_note_domain_groups.includes(:case_note, :domain_group).each do |cdg|
           - if cdg.note.present?
             .ibox.border-left-right.border-bottom
               .ibox-title
