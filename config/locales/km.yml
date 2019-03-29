@@ -885,6 +885,33 @@ km:
       reset: សំអាត
       results: លទ្ធផល
       search: ស្វែងរក
+  client_books:
+    assessments:
+      assessment: ការប៉ាន់ប្រមាណ CSI
+      custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+    by: ដោយ
+    case_histories:
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      case_history: ប្រវត្តិនៃករណី
+      exit_date: ថ្ងៃចាកចេញពីអង្គការ
+    case_notes:
+      case_note: កំណត់ត្រាករណី
+    client_enrollments:
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+    completed: បានបំពេញ
+    created: បានបង្កើត
+    enrolled_program_trackings:
+      tracking: តាមដាន
+    incomplete: មិនទានបំពេញចប់
+    index:
+      book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
+    for: សំរាប់
+    tasks:
+      task: កាតព្វកិច្ច
+      domain: កត្តា
+      overdue_tasks: កាតព្វកិច្ចផុតកំណត់
+      today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
+      upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
   client_enrolled_program_trackings:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -1493,6 +1520,7 @@ km:
       agency_names: ឈ្មោះអង្គភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
       birth_province: ស្រុកកំណើត
+      book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
       cambodia: កម្ពុជា
       case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី

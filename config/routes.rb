@@ -90,6 +90,7 @@ Rails.application.routes.draw do
   end
 
   get '/data_trackers' => 'data_trackers#index'
+  get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
 
   resources :clients do
     resources :referrals
@@ -133,7 +134,6 @@ Rails.application.routes.draw do
       resources :tasks, except: [:new]
     end
     # resources :surveys
-
     get 'version' => 'clients#version'
   end
 
