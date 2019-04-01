@@ -18,5 +18,8 @@
               = render 'client_enrollments', client_enrollment: association, date: date
             - elsif association.class.name.downcase == 'clientenrollmenttracking'
               = render 'enrolled_program_trackings', enrollment_tracking: association, date: date
+            - elsif association.class.name.downcase == 'customfieldproperty'
+              = render 'custom_field_properties', custom_field_property: association, date: date
             - else
               = render 'case_histories', object: association, date: date
+

@@ -866,13 +866,13 @@ module ClientsHelper
   end
 
   def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories].group_by do |association|
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
       if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
         association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
       else
         date_format(association.created_at)
       end
-    end
+    end.sort.to_h
   end
 
   # we use dataTable export button instead
