@@ -293,4 +293,8 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
     end
   end
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end
