@@ -5,7 +5,16 @@ body[id='client_books-index'] {
     margin-left: 15px;
     margin-top: -4px;
   }
-
+  #jum-to-text {
+    display: inline-block;
+  }
+  #jum-to-date-picker {
+    display: inline-block;
+    width: 200px;
+    .input-group.date {
+      margin-bottom: -28px;
+    }
+  }
   #assessment, #case-note, #task, #enrollment-tracking, #client-enrollment, #case-history, #custom_field_property {
     .ibox-title {
       position: relative;

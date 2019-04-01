@@ -4,6 +4,13 @@
       .ibox-title
         %h5= "#{t('.book')} #{@client.name}"
         .ibox-tools
+          %p#jum-to-text Jump to date:
+          #jum-to-date-picker.form-group
+            .input-group.jump-to-date
+              %span.input-group-addon
+                %i.fa.fa-calendar
+              %input.form-control{:type => "text"}/
+
           = link_to I18n.t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
       .ibox-content
         - group_client_associations.each do |date, associations|
