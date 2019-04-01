@@ -86,7 +86,7 @@ group :staging, :demo, :production do
   gem 'asset_sync'
 end
 
-group :staging do
+group :staging, :demo do
   gem 'mail_interceptor', '~> 0.0.7'
 end
 
