@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.text     "goal",               default: ""
     t.string   "attachments",        default: [],    array: true
     t.boolean  "goal_required",      default: true
-    t.boolean  "required_task_last", default: false
+    t.boolean  "requried_task_last", default: false
   end
 
   add_index "assessment_domains", ["score"], name: "index_assessment_domains_on_score", using: :btree
@@ -1583,6 +1583,8 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "activated_at"
+    t.datetime "deactivated_at"
     t.datetime "deleted_at"
   end
 
