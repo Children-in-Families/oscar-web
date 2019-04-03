@@ -18,9 +18,9 @@ class ClientBooksController < AdminController
     end
 
     def program_stream_order_by_enrollment
-      @enrollments = @client.client_enrollments
+      @enrollments = @client.client_enrollments.includes(:leave_program)
       @enrollments.map do |enrollment|
-        [enrollment, enrollment.leave_program, enrollment.client_enrollment_trackings]
+        [enrollment, enrollment.leave_program, enrollment.client_enrollment_trackings.includes(:tracking)]
       end.flatten.compact
     end
 

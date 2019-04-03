@@ -900,6 +900,8 @@ my:
       exit_date: ထြက္သည့္မွတ္စု
     case_notes:
       case_note: အမႈမွတ္စု
+    custom_field_properties:
+      client_custom_fields: အမႈသည္၏ သတ္မွတ္ ပံုစံမ်ား
     client_enrollments:
       enrollment: စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္
     completed: ပြီးစီး

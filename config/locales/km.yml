@@ -900,6 +900,8 @@ km:
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
     completed: បានបំពេញ
     created: បានបង្កើត
+    custom_field_properties:
+      client_custom_fields: ទម្រង់បែបបទរបស់អតិថិជន
     enrolled_program_trackings:
       tracking: តាមដាន
     incomplete: មិនទានបំពេញចប់
