@@ -872,7 +872,7 @@ module ClientsHelper
       else
         date_format(association.created_at)
       end
-    end.sort.to_h
+    end.sort_by{|k, v| k.to_date }.reverse.to_h
   end
 
   # we use dataTable export button instead
