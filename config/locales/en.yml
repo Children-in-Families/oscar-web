@@ -896,6 +896,8 @@ en:
       enrollment: Enrollment
     completed: Completed
     created: Created
+    custom_field_properties:
+      client_custom_fields: Client Custom Forms
     enrolled_program_trackings:
       tracking: Tracking
     incomplete: Incomplete

@@ -5,8 +5,17 @@ body[id='client_books-index'] {
     margin-left: 15px;
     margin-top: -4px;
   }
-
-  #assessment, #case-note, #task, #enrollment-tracking, #client-enrollment, #case-history {
+  #jum-to-text {
+    display: inline-block;
+  }
+  #jum-to-date-picker {
+    display: inline-block;
+    width: 200px;
+    .input-group.date {
+      margin-bottom: -28px;
+    }
+  }
+  .assessment, .case-note, .task, .enrollment-tracking, .client-enrollment, .case-history, .custom_field_property {
     .ibox-title {
       position: relative;
       display: block;
@@ -52,7 +61,7 @@ body[id='client_books-index'] {
     }
   }
 
-  #assessment {
+  .assessment {
     .panel.panel-danger, .panel.panel-success, .panel.panel-warning, .panel.panel-primary {
       border-color: white;
       .panel-heading {
@@ -88,5 +97,22 @@ body[id='client_books-index'] {
     .no-padding-bottom {
       padding-bottom: 0;
     }
+  }
+
+  .back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    display:none;
+    z-index: 1500;
+  }
+
+  .back-to-top:hover {
+    cursor: pointer;
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    display:inline !important;
   }
 }
