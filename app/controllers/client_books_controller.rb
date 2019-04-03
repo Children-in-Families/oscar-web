@@ -28,9 +28,9 @@ class ClientBooksController < AdminController
       enter_ngos = @client.enter_ngos
       exit_ngos  = @client.exit_ngos
       cps_enrollments = @client.client_enrollments.map(&:attributes)
-      cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
+      cps_leave_programs = LeaveProgram.joins(:client_enrollment).distinct.where("client_enrollments.client_id = ?", @client.id)
       referrals = @client.referrals
-      case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals)
+      case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).flatten.uniq
     end
 
     def custom_field_property
