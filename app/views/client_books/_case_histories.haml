@@ -13,7 +13,7 @@
             - else
               = whodunnit(object.class.to_s, object.id)
           %h5
-            = "#{t('.case_history')} (#{case_history_label(object)}) for #{@client.en_and_local_name}"
+            = "#{t('.case_history')} (#{case_history_label(object)}) for #{@client.en_and_local_name}".gsub('()', '').squish
 
           .ibox-tools
             %a.collapse-link
