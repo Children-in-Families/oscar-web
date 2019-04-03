@@ -1,7 +1,7 @@
 .row
   .col-xs-12
     .assessment{ data: {"anchor-date": date} }
-      .ibox
+      .ibox.collapsed
         .ibox-title
           %h5
             = assessment.completed? ? "#{I18n.t('client_books.completed')}:" : "#{I18n.t('client_books.created')}:"
