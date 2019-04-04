@@ -881,6 +881,35 @@ en:
       reset: Reset
       results: Results
       search: Search
+  client_books:
+    assessments:
+      assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+    by: By
+    case_histories:
+      accepted_date: NGO Accept Date
+      case_history: Case Histories
+      exit_date: NGO Exit Date
+    case_notes:
+      case_note: Case Note
+    client_enrollments:
+      enrollment: Enrollment
+    completed: Completed
+    created: Created
+    custom_field_properties:
+      client_custom_fields: Client Custom Forms
+    enrolled_program_trackings:
+      tracking: Tracking
+    incomplete: Incomplete
+    index:
+      book: Client book
+    for: For
+    tasks:
+      task: Task
+      domain: Domain
+      overdue_tasks: Overdue
+      today_tasks: Today
+      upcoming_tasks: Upcoming
   client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
@@ -1070,6 +1099,8 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
+    book:
+      book: Client Book For
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1488,6 +1519,7 @@ en:
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
+      book: Client book
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History

@@ -50,4 +50,8 @@ module CustomFieldPropertiesHelper
   def client_custom_field?
     @custom_formable.class.name == 'Client'
   end
+
+  def remove_field_prop_unicode(field_props)
+    field = field_props['label'].gsub(/\&gt\;|\&lt\;|\&amp\;|\"/, '&lt;' => '<', '&gt;' => '>', '&amp;' => '&', '"' => '%22')
+  end
 end
