@@ -4,15 +4,15 @@
       .ibox.collapsed
         .ibox-title
           %h5
-            = "#{I18n.t('client_books.created')}:"
-            = date
-            = I18n.t('client_books.by')
-            = whodunnit('CustomFieldProperty', custom_field_property.id)
-          %h5
             = t('.client_custom_fields')
             = "(#{custom_field_property.custom_field.form_title})"
             = I18n.t('client_books.for')
             = @client.en_and_local_name
+          %h5
+            = "#{I18n.t('client_books.created')}:"
+            = date
+            = I18n.t('client_books.by')
+            = whodunnit('CustomFieldProperty', custom_field_property.id)
           .ibox-tools
             %a.collapse-link
               %i.fa.fa-chevron-up

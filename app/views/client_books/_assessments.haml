@@ -4,11 +4,6 @@
       .ibox.collapsed
         .ibox-title
           %h5
-            = assessment.completed? ? "#{I18n.t('client_books.completed')}:" : "#{I18n.t('client_books.created')}:"
-            = date
-            = I18n.t('client_books.by')
-            = "#{whodunnit('Assessment', assessment)} #{I18n.t('assessments.show.on_date')}"
-          %h5
             - if assessment.index_of == 0
               = "#{t('.assessment')} for" if assessment.default == true
               = "#{t('.custom_assessment')} for" if assessment.default == false
@@ -16,6 +11,11 @@
               = "#{t('.assessment')} #{assessment.index_of + 1} - for" if assessment.default == true
               = "#{t('.custom_assessment')} #{assessment.index_of + 1} - for" if assessment.default == false
             = assessment.client.name
+          %h5
+            = assessment.completed? ? "#{I18n.t('client_books.completed')}:" : "#{I18n.t('client_books.created')}:"
+            = date
+            = I18n.t('client_books.by')
+            = "#{whodunnit('Assessment', assessment)} #{I18n.t('assessments.show.on_date')}"
           / %h5= I18n.t('data_trackers.index.assessments')
           .ibox-tools
             %a.collapse-link
