@@ -3,7 +3,7 @@
     .case-history{ data: {"anchor-date": date} }
       .ibox.collapsed
         .ibox-title
-          - object = ClientEnrollment.find(object["id"])
+          - object = ClientEnrollment.find(object["id"]) if object.class.name.downcase == 'hash'
           %h5
             = "#{t('.case_history')} (#{case_history_label(object)}) for #{@client.en_and_local_name}".gsub('()', '').squish
           %h5
