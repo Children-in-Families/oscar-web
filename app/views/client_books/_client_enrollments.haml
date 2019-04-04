@@ -4,12 +4,12 @@
       .ibox.collapsed
         .ibox-title
           %h5
+            = "#{t('.enrollment')} - #{@client.en_and_local_name}"
+          %h5
             = "#{I18n.t('client_books.completed')}:"
             = date
             = I18n.t('client_books.by')
             = whodunnit('ClientEnrollment', client_enrollment.id)
-          %h5
-            = "#{t('.enrollment')} - #{@client.en_and_local_name}"
           .ibox-tools
             %a.collapse-link
               %i.fa.fa-chevron-up
