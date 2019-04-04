@@ -4,13 +4,13 @@
       .ibox.collapsed
         .ibox-title
           %h5
+            = "#{t('.case_note')} for"
+            = case_note.client.name
+          %h5
             = I18n.t('client_books.completed')
             = date
             = I18n.t('client_books.by')
             = whodunnit('CaseNote', case_note.id)
-          %h5
-            = "#{t('.case_note')} for"
-            = case_note.client.name
           .ibox-tools
             %a.collapse-link
               %i.fa.fa-chevron-up
