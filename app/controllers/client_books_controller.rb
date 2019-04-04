@@ -5,7 +5,6 @@ class ClientBooksController < AdminController
 
   def index
     @case_notes  = @client.case_notes.most_recents
-    @tasks       = @client.tasks.includes(:client, :domain)
     @assessments = AssessmentDecorator.decorate_collection(@client.assessments.order(created_at: :desc))
     @client_enrollments = program_stream_order_by_enrollment
     @case_histories = case_history
