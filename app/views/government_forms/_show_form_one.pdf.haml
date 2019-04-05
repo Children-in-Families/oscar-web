@@ -185,7 +185,7 @@
       .col-xs-2
         ប្រភពព័ត៌មាន:
       .col-xs-10
-        %input{style: 'width:100%; float:left;', value: @government_form.source_info }
+        %input{style: 'width:100%; float:left;', value: truncate(@government_form.source_info, length: 75, separator: '....') }
 %p{style: 'page-break-after:always;'}
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #F2F2F2;' }
@@ -427,7 +427,7 @@
     .row{style: 'margin: 0;'}
       .col-xs-12{style: 'border-bottom: 1px solid black;'}
         %br
-        .comment{style: 'min-height: 50px;'}
+        .comment{style: 'min-height: 50px; word-break: break-all;'}
           %p= @government_form.case_worker_comment
     .row{style: 'margin: 0;'}
       .col-xs-12

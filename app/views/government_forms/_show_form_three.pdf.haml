@@ -115,14 +115,14 @@
             %tr
               %td= form.try(:children_plan_name)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:goal)
+                .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                  %p= truncate(form.try(:goal), length:24, separator:'....')
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:action)
+                .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                  %p= truncate(form.try(:action), length:34, separator:'....')
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:who)
+                .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                  %p= truncate(form.try(:who), length:34, separator:'....')
               %td
                 .comment{style: 'min-height: 15px; max-height: 17px;'}
                   %p= form.try(:completion_date)
@@ -149,14 +149,14 @@
             %tr
               %td= form.try(:children_plan_name)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:goal)
+                .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                  %p= truncate(form.try(:goal), length:24, separator:'....')
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:action)
+                .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                  %p= truncate(form.try(:action), length:34, separator:'....')
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:who)
+                .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                  %p= truncate(form.try(:who), length:34, separator:'....')
               %td
                 .comment{style: 'min-height: 15px; max-height: 17px;'}
                   %p= form.try(:completion_date)
@@ -182,14 +182,14 @@
             %tr{style: 'page-break-inside: avoid;'}
               %td= form.try(:family_plan_name)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:goal)
+                .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                  %p= truncate(form.try(:goal), length: 57, separator: '....')
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:action)
+                .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                  %p= truncate(form.try(:action), length: 200, separator: '....')
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;s'}
-                  %p= form.try(:result)
+                .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                  %p= truncate(form.try(:result), length:57, separator:'....')
 
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
@@ -213,14 +213,14 @@
             %tr{style: 'page-break-inside: avoid;'}
               %td= form.try(:family_plan_name)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:goal)
+                .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                  %p= truncate(form.try(:goal), length:57, separator:'....')
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:action)
+                .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                  %p= truncate(form.try(:action), length: 213, separator:'...')
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:result)
+                .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                  %p= truncate(form.try(:result), length:57, separator:'....')
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-radius: 3px;'}
