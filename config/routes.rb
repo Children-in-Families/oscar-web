@@ -242,7 +242,7 @@ Rails.application.routes.draw do
         resources :case_notes, only: [:create, :update, :delete, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
-        scope module: 'client' do
+        scope module: 'clients' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
         end

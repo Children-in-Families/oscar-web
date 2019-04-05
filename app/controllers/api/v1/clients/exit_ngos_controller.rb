@@ -1,6 +1,6 @@
 module Api
   module V1
-    class Client::ExitNgosController < Api::V1::BaseApiController
+    class Clients::ExitNgosController < Api::V1::BaseApiController
       before_action :find_client_by_slug
 
       def create
@@ -26,7 +26,7 @@ module Api
       private
 
       def find_client_by_slug
-        @client = ::Client.accessible_by(current_ability).friendly.find(params[:client_id])
+        @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
       end
 
       def exit_ngo_params
