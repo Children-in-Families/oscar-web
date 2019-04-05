@@ -896,13 +896,17 @@ my:
     case_histories:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
+      enrollment_to: ရန်စာရင်းသွင်း
       exit_date: ထြက္သည့္မွတ္စု
+      exited_from: ကနေမထွက်
+      referred_from: ကနေရည်ညွှန်း
     case_notes:
       case_note: အမႈမွတ္စု
     custom_field_properties:
-      client_custom_fields: အမႈသည္၏ သတ္မွတ္ ပံုစံမ်ား
+      custom_form: အခြန္ပံုစံမ်ား
     client_enrollments:
       enrollment: စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္
+      enrollment_to: ရန်စာရင်းသွင်း
     completed: ပြီးစီး
     created: ဖန်တီး
     enrolled_program_trackings:
@@ -910,6 +914,7 @@ my:
     incomplete: မစုံလင်သော
     index:
       book: ဖောက်သည် စာအုပ်
+      jump_to: ရက်စွဲကိုဤနေရာသို့သွားရန်
     for: အဘို့
     tasks:
       task: ရက်လွန်အလုပ်တခုကို
@@ -1125,7 +1130,7 @@ my:
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
-      referred_from: ကနေရည်ညွှန်း
+      referred_from: ကနေရည်ညွှန်းကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
       advanced_search:

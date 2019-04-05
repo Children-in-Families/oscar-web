@@ -889,20 +889,25 @@ en:
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
+      enrollment_to: Enrollment to
       exit_date: NGO Exit Date
+      exited_from: Exit from
+      referred_from: Referred from External Organisation
     case_notes:
       case_note: Case Note
     client_enrollments:
       enrollment: Enrollment
+      enrollment_to: Enrollment to
     completed: Completed
     created: Created
     custom_field_properties:
-      client_custom_fields: Client Custom Forms
+      custom_form: Custom Forms
     enrolled_program_trackings:
       tracking: Tracking
     incomplete: Incomplete
     index:
       book: Client book
+      jump_to: Jump to date
     for: For
     tasks:
       task: Task

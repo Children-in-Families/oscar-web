@@ -5,7 +5,10 @@
         .ibox-title
           - object = ClientEnrollment.find(object["id"]) if object.class.name.downcase == 'hash'
           %h5
-            = "#{t('.case_history')} (#{case_history_label(object)}) for #{@client.en_and_local_name}".gsub('()', '').squish
+            - if object.class.table_name == 'hash'
+              = "#{t('.enrollment_to')} (#{case_history_label(object)}) for #{@client.en_and_local_name}".gsub('()', '').squish
+            - elsif object.class.table_name == 'leave_programs'
+              = "#{t('.exited_from')} (#{case_history_label(object)}) for #{@client.en_and_local_name}".gsub('()', '').squish
           %h5
             = I18n.t('client_books.created')
             = date
@@ -24,26 +27,6 @@
                 %tbody
                   - case_history = object.class.table_name
                   - case case_history
-                  - when 'enter_ngos'
-                    %tr
-                      %td= t('.accepted_date')
-                      %td= date_format(object.accepted_date)
-                  - when 'exit_ngos'
-                    %tr
-                      %td= t('.exit_date')
-                      %td= date_format(object.exit_date)
-                    %tr
-                      %td= t('.exit_circumstance')
-                      %td= object.exit_circumstance
-                    %tr
-                      %td= t('.other_info_of_exit')
-                      %td= object.other_info_of_exit
-                    %tr
-                      %td= t('.exit_reasons')
-                      %td= object.exit_reasons if object.exit_reasons.any?
-                    %tr
-                      %td= t('.exit_note')
-                      %td= object.exit_note
                   - when 'hash'
                     %tr
                       %td= t('.enrollment_date')
@@ -84,32 +67,4 @@
                                 = render 'shared/form_builder/list_attachment', label: key, resource: object
                               - else
                                 = display_custom_properties(object.properties[key])
-                  - when 'referrals'
-                    %tr
-                      %td= t('.client_id')
-                      %td= object.slug
-                    %tr
-                      %td= t('.client')
-                      %td= object.client_name
-                    %tr
-                      %td= t('.date_of_referral')
-                      %td= date_format(object.date_of_referral)
-                    %tr
-                      %td= t('.referred_from')
-                      %td= object.referred_from_ngo
-                    %tr
-                      %td= t('.referred_to')
-                      %td= object.referred_to_ngo
-                    %tr
-                      %td= t('.name_of_referee')
-                      %td= object.name_of_referee
-                    %tr
-                      %td= t('.referee_phone_number')
-                      %td= object.referral_phone
-                    %tr
-                      %td= t('.referral_reasons')
-                      %td= object.referral_reason
-                    %tr
-                      %td= t('.consent_form')
-                      %td
-                        = link_to t('.preview_download'), object.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
+

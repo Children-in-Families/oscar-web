@@ -4,7 +4,7 @@
       .ibox-title
         %h5= "#{t('.book')} #{@client.name}"
         .ibox-tools
-          %p#jum-to-text Jump to date:
+          %p#jum-to-text= "#{I18n.t('client_books.index.jump_to')}:"
           #jum-to-date-picker.form-group
             .input-group.date
               %span.input-group-addon
