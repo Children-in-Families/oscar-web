@@ -18,6 +18,8 @@ class Tracking < ActiveRecord::Base
 
   default_scope { order(:created_at) }
 
+  delegate :name, to: :program_stream, prefix: true, allow_nil: true
+
   def form_builder_field_uniqueness
     return unless fields.present?
     labels = []

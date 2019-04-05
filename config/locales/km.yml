@@ -893,20 +893,25 @@ km:
     case_histories:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       case_history: ប្រវត្តិនៃករណី
+      enrollment_to: ចូលទៅ ទម្រង់បែបបទចុះឈ្មោះ
       exit_date: ថ្ងៃចាកចេញពីអង្គការ
+      exited_from: ចាកចេញពី
+      referred_from: បញ្ជូនមកពីអង្គការ
     case_notes:
       case_note: កំណត់ត្រាករណី
     client_enrollments:
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+      enrollment_to: ចូលទៅ ទម្រង់បែបបទចុះឈ្មោះ
     completed: បានបំពេញ
     created: បានបង្កើត
     custom_field_properties:
-      client_custom_fields: ទម្រង់បែបបទរបស់អតិថិជន
+      custom_form: ទម្រង់បែបបទ
     enrolled_program_trackings:
       tracking: តាមដាន
     incomplete: មិនទានបំពេញចប់
     index:
       book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
+      jump_to: ទៅកាន់កាលបរិច្ឆេទ
     for: សំរាប់
     tasks:
       task: កាតព្វកិច្ច
