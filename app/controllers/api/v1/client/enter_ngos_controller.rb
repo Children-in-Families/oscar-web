@@ -1,7 +1,7 @@
 module Api
   module V1
     class Client::EnterNgosController < Api::V1::BaseApiController
-      before_action :find_client
+      before_action :find_client_by_slug
 
       def create
         enter_ngo = @client.enter_ngos.new(enter_ngo_params)
@@ -24,7 +24,7 @@ module Api
 
       private
 
-      def find_client
+      def find_client_by_slug
         @client = ::Client.accessible_by(current_ability).friendly.find(params[:client_id])
       end
 
