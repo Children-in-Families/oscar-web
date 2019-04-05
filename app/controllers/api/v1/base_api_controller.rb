@@ -7,12 +7,12 @@ module Api
       private
 
       def find_client
-        @client = Client.accessible_by(current_ability).find(params[:client_id])
+        @client = ::Client.accessible_by(current_ability).find(params[:client_id])
       end
 
       def find_entity
         if params[:client_id].present?
-          @custom_formable = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+          @custom_formable = ::Client.accessible_by(current_ability).friendly.find(params[:client_id])
         elsif params[:family_id].present?
           @custom_formable = Family.find(params[:family_id])
         elsif params[:partner_id].present?
