@@ -650,7 +650,7 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
 
-    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i]
+    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments' }
 
@@ -662,10 +662,21 @@ module ClientsHelper
         klass = klass_name[class_name.to_sym]
       end
 
+      ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
       if class_name[/^(programexitdate)/i].present?
-        ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
         count += date_filter(object, class_name).flatten.count
+      elsif class_name[/^(tracking)/i]
+        property_field = column.header.split('|').third
+        format_field_value = property_field.present? ? property_field.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').squish : ""
+        trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.header.split('|').second.squish }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
+        rule = get_rule(params, column.header.split('|').third.squish)
+        if rule.presence && rule.dig(:type) == 'date'
+          trackings = date_condition_filter(rule, trackings)
+        elsif rule.presence
+          trackings = string_condition_filter(rule, trackings.flatten) || []
+        end
+        count += trackings.size
       else
         @clients.each do |client|
           if class_name == 'case_note_type'
@@ -865,43 +876,64 @@ module ClientsHelper
     current_organization.short_name == 'fts' ? @client.code : @client.slug
   end
 
-  # we use dataTable export button instead
-  # def to_spreadsheet(assessment_type)
-  #   column_header = [
-  #                     I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
-  #                     I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
-  #                     Domain.pluck(:name)
-  #                   ]
-  #   book = Spreadsheet::Workbook.new
-  #   book.create_worksheet
-  #   book.worksheet(0).insert_row(0, column_header.flatten)
-  #
-  #   ordering = 0
-  #   assessment_domain_hash = {}
-  #
-  #   assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
-  #     assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
-  #     if assessment_type == 'default'
-  #       assessments = client.assessments.defaults
-  #       domains = Domain.csi_domains
-  #     elsif assessment_type == 'custom'
-  #       assessments = client.assessments.customs
-  #       domains = Domain.custom_csi_domains
-  #     else
-  #       assessments = client.assessments
-  #       domains = Domain.all
-  #     end
-  #
-  #     assessments.each_with_index do |assessment, index|
-  #       assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
-  #       domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
-  #       book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
-  #     end
-  #   end
-  #
-  #   buffer = StringIO.new
-  #   book.write(buffer)
-  #   buffer.rewind
-  #   buffer.read
-  # end
+  def date_condition_filter(rule, properties)
+    if rule
+      case rule[:operator]
+      when 'equal'
+        properties = properties.select{|value| value.to_date == rule[:value].to_date  }
+      when 'not_equal'
+        properties = properties.select{|value| value.to_date != rule[:value].to_date  }
+      when 'less'
+        properties = properties.select{|value| value.to_date < rule[:value].to_date  }
+      when 'less_or_equal'
+        properties = properties.select{|value| value.to_date <= rule[:value].to_date  }
+      when 'greater'
+        properties = properties.select{|value| value.to_date > rule[:value].to_date  }
+      when 'greater_or_equal'
+        properties = properties.select{|value| value.to_date >= rule[:value].to_date  }
+      when 'is_empty'
+        properties = []
+      when 'is_not_empty'
+        properties
+      when 'between'
+        properties = properties.select{|value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  }
+      end
+    end
+    properties
+  end
+
+  def string_condition_filter(rule, properties)
+    case rule[:operator]
+    when 'equal'
+      properties = properties.select{|value| value == rule[:value]  }
+    when 'not_equal'
+      properties = properties.select{|value| value != rule[:value]  }
+    when 'less'
+      properties = properties.select{|value| value < rule[:value]  }
+    when 'less_or_equal'
+      properties = properties.select{|value| value <= rule[:value]  }
+    when 'greater'
+      properties = properties.select{|value| value > rule[:value]  }
+    when 'greater_or_equal'
+      properties = properties.select{|value| value >= rule[:value]  }
+    when 'contains'
+      properties.include?(rule[:value])
+    when 'not_contains'
+      properties.exclude?(rule[:value])
+    when 'is_empty'
+      properties = []
+    when 'is_not_empty'
+      properties
+    when 'between'
+      properties = properties.select{|value| value.to_i >= rule[:value].first && value.to_i <= rule[:value].last  }
+    end
+  end
+
+
+  def get_rule(params, field)
+    base_rules = eval params.dig('client_advanced_search', 'basic_rules')
+    rules = base_rules.dig(:rules) if base_rules.presence
+    index = rules.index{|rule| rule[:field] == field } if rules.presence
+    rule  = rules[index] if index.presence
+  end
 end
