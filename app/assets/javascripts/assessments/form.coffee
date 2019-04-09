@@ -586,6 +586,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         if element == ''
           location.href = "#score-required"
         else if element.includes('assessment_assessment_domains_attributes')
+          location.href = "##{element}"
           location.href = "#required-scroll"
         else
           location.href = "##{element}"
