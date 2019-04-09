@@ -12,6 +12,8 @@ class ClientSerializer < ActiveModel::Serializer
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
               :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
 
+  has_many :assessments
+
   def profile
     object.profile.present? ? { uri: object.profile.url } : {}
   end
