@@ -97,5 +97,23 @@ module AdvancedSearches
         return false
       end
     end
+
+    def self.active_client_options(field_name, label, group)
+      {
+        id: field_name,
+        field: label,
+        optgroup: group,
+        label: label,
+        type: 'date',
+        operators: ['equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between'],
+        plugin: 'datepicker',
+        plugin_config: {
+          format: 'yyyy-mm-dd',
+          todayBtn: 'linked',
+          todayHighlight: true,
+          autoclose: true
+        }
+      }
+    end
   end
 end

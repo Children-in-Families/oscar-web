@@ -1,6 +1,9 @@
 module AdvancedSearches
   class ClientAssociationFilter
     include ActionView::Helpers::DateHelper
+    include Mongoid::Document
+    include Mongoid::Timestamps
+
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -63,11 +66,67 @@ module AdvancedSearches
         values = month_number_query
       when 'date_nearest'
         values = date_nearest_query
+      when 'active_client'
+        values = active_client_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def active_client_query
+      db         = Mongoid::Clients.default
+      tenant     = Organization.current.short_name
+      collection = db[:client_histories]
+      client_ids = []
+
+      case @operator
+      when 'equal'
+        first_date = @value.to_date
+        last_date = @value.to_date + 1.day
+        object = collection.find({"created_at": { "$gte": first_date, "$lt": last_date}, "tenant": tenant, "object.status": "Active"})
+        object.each do |obj|
+          client_ids << obj[:object][:id]
+        end
+        client_ids.flatten.uniq
+      when 'between'
+        first_date = @value.first.to_date
+        last_date = @value.last.to_date
+        object = collection.find({"created_at": { "$gte": first_date, "$lte": last_date}, "tenant": tenant, "object.status": "Active"})
+        object.each do |obj|
+          client_ids << obj[:object][:id]
+        end
+        client_ids.flatten.uniq
+      when 'less'
+        first_date = @value.to_date
+        object = collection.find({"created_at": { "$lt": first_date}, "tenant": tenant, "object.status": "Active"})
+        object.each do |obj|
+          client_ids << obj[:object][:id]
+        end
+        client_ids.flatten.uniq
+      when 'less_or_equal'
+        first_date = @value.to_date
+        object = collection.find({"created_at": { "$lte": first_date}, "tenant": tenant, "object.status": "Active"})
+        object.each do |obj|
+          client_ids << obj[:object][:id]
+        end
+        client_ids.flatten.uniq
+      when 'greater'
+        first_date = @value.to_date
+        object = collection.find({"created_at": { "$gt": first_date}, "tenant": tenant, "object.status": "Active"})
+        object.each do |obj|
+          client_ids << obj[:object][:id]
+        end
+        client_ids.flatten.uniq
+      when 'greater_or_equal'
+        first_date = @value.to_date
+        object = collection.find({"created_at": { "$gte": first_date}, "tenant": tenant, "object.status": "Active"})
+        object.each do |obj|
+          client_ids << obj[:object][:id]
+        end
+        client_ids.flatten.uniq
+      end
+    end
 
     def assessment_number_query
       @clients.joins(:assessments).group(:id).having("COUNT(assessments) >= ?", @value).ids

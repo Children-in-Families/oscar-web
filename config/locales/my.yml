@@ -308,6 +308,7 @@ my:
     fields:
       able: Able
       able_state: Able အေနအထား
+      active_client: Active Client
       active_program_stream: အစီအမံစီဆင္းမႈ
       address: လိပ္စာ
       age: အသက္

@@ -307,6 +307,7 @@ en:
     fields:
       able: Able
       able_state: Able State
+      active_client: Active Client
       active_program_stream: Active Program Stream
       address: Address
       age: Age

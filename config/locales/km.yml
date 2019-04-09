@@ -310,6 +310,7 @@ km:
     fields:
       able: ឣតិថិជនក្នុងកម្មវិធី អែបល
       able_state: ស្ថានភាព អែបល
+      active_client: Active Client
       active_program_stream: កំពុងចូលរួមកម្មវិធីចម្បង
       address: ឣាសយដ្ឋាន
       age: អាយុ
