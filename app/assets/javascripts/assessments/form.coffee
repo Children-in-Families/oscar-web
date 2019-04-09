@@ -243,6 +243,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       newIndex = currentIndex + 1
       if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
         _filedsValidator(currentIndex, newIndex)
+        _scrollToError(form)
         return false
       else
         form.submit (e) ->
