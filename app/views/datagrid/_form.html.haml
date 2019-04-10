@@ -151,10 +151,11 @@
             .visibility.col-sm-12
               = check_box_tag 'main_school_contact_', 'main_school_contact', checked = default_setting('main_school_contact_', @client_default_columns) || params[:main_school_contact_].present?, class: 'i-checks'
               = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
-              = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
+          - if Setting.first.country_name == "cambodia"
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
+                = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
           %li
             .visibility.col-sm-12
               = check_box_tag 'name_of_referee_', 'name_of_referee', checked = default_setting('name_of_referee_', @client_default_columns) || params[:name_of_referee_].present?, class: 'i-checks'

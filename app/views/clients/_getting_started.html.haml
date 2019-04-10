@@ -51,7 +51,7 @@
         .col-xs-12.col-sm-6.col-md-4
           = f.input :birth_province_id, collection: @birth_provinces, as: :grouped_select, group_label_method: :first, group_method: :last,  label: t(".province.#{@client.country_origin_label}")
       .col-xs-12.col-sm-6.col-md-4
-        = f.association :referral_source, collection: @referral_source, label: t('.referral_source')
+        = f.association :referral_source, collection: referral_source_name(@referral_source), label: t('.referral_source')
       .col-xs-12.col-sm-6.col-md-4
         = f.input :name_of_referee, label: t('.name_of_referee')
       .col-xs-12.col-sm-6.col-md-4

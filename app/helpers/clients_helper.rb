@@ -875,6 +875,19 @@ module ClientsHelper
     end.sort_by{|k, v| k.to_date }.reverse.to_h
   end
 
+  def referral_source_name(referral_source)
+    if Setting.first.country_name == 'cambodia'
+      referral_source.map{|ref| [ref.name, ref.id] }
+    else
+      referral_source.map do |ref|
+        if ref.name_en.blank?
+          [ref.name, ref.id]
+        else
+          [ref.name_en, ref.id]
+        end
+      end
+    end
+  end
   # we use dataTable export button instead
   # def to_spreadsheet(assessment_type)
   #   column_header = [
