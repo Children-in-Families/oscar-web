@@ -880,13 +880,6 @@ class ClientGrid < BaseGrid
             properties = properties[format_field_value] if properties.present?
           else
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-            rule = get_rule(params, fields.last)
-            if rule.presence && rule.dig(:type) == 'date'
-              properties = date_condition_filter(rule, properties)
-            elsif rule.presence
-              properties = string_condition_filter(rule, properties.flatten)
-            end
-            properties
           end
         elsif fields.first == 'programexitdate'
           ids = object.client_enrollments.inactive.ids
@@ -904,6 +897,14 @@ class ClientGrid < BaseGrid
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
         end
+
+        rule = get_rule(params, fields.last)
+        if rule.presence && rule.dig(:type) == 'date'
+          properties = date_condition_filter(rule, properties)
+        elsif rule.presence
+          properties = string_condition_filter(rule, properties.flatten)
+        end
+
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('__').split(' ').first }
         else
