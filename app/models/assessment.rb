@@ -76,7 +76,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def assessment_domains_in_order
-    assessment_domains.order('created_at')
+    assessment_domains.includes(:domain).order('created_at')
   end
 
   def eligible_client_age

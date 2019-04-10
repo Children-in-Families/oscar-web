@@ -6,7 +6,7 @@ class GovernmentFormNeed < ActiveRecord::Base
   belongs_to :government_form
   belongs_to :need
 
-  default_scope { order(:created_at) }
+  default_scope { includes(:need).order(:created_at) }
 
   delegate :name, to: :need, prefix: true, allow_nil: true
 end
