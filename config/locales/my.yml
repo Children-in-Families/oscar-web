@@ -4064,6 +4064,7 @@ my:
     edit:
       title: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ျပင္ဆင္ရန္
     form:
+      ancestry: အမျိုးအစား
       cancel: ပယ္ဖ်က္ရန္
       description: ေဖာ္ျပခ်က္
       name: နာမည္
