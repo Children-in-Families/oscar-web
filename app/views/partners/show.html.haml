@@ -62,12 +62,12 @@
                 %td
                   %strong
                     = @partner.contact_person_mobile.phony_formatted(normalize: :KH, format: :international) if @partner.contact_person_mobile
-              %tr
-                %td.spacing-first-col
-                  = t('.affiliation')
-                %td
-                  %strong
-                    = @partner.affiliation
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = t('.affiliation')
+              -#   %td
+              -#     %strong
+              -#       = @partner.affiliation
               %tr
                 %td.spacing-first-col
                   = t('.engagement')
