@@ -1,12 +1,12 @@
 module ReferralSourceHelper
   def edit_referral(referral_source)
     if ReferralSource::REFERRAL_SOURCES.include?(referral_source.name)
-      link_to '#', {class: 'btn btn-outline btn-success btn-xs disabled', "data-target" => "#referral_sourceModal-#{referral_source.id}", "data-toggle" => "modal", :type => "button"} do
+      link_to '#', {class: 'btn btn-outline btn-success btn-xs disabled btn-edit', "data-target" => "#referral_sourceModal-#{referral_source.id}", "data-toggle" => "modal", :type => "button"} do
         fa_icon('pencil')
       end
     else
       if can? :version, ReferralSource
-        link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#referral_sourceModal-#{referral_source.id}", "data-toggle" => "modal", :type => "button"} do
+        link_to '#', {class: 'btn btn-outline btn-success btn-xs btn-edit', "data-target" => "#referral_sourceModal-#{referral_source.id}", "data-toggle" => "modal", :type => "button"} do
           fa_icon('pencil')
         end
       end

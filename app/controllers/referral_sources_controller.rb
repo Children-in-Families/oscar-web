@@ -43,7 +43,7 @@ class ReferralSourcesController < AdminController
   private
 
   def referral_source_params
-    params.require(:referral_source).permit(:name, :description)
+    params.require(:referral_source).permit(:name, :description, :ancestry)
   end
 
   def find_referral_source
