@@ -407,17 +407,4 @@ module ClientGridOptions
   def form_builder_params
     params[:form_builder].present? ? nil : column_form_builder
   end
-
-  def property_filter(properties, field_name)
-    results = []
-    rule = get_rule(params, field_name)
-    if rule.presence && rule.dig(:type) == 'date'
-      results = date_condition_filter(rule, properties)
-    elsif rule.presence && rule[:input] == 'select'
-      results = select_condition_filter(rule, properties.flatten)
-    elsif rule.presence
-      results = string_condition_filter(rule, properties.flatten)
-    end
-    results = results.presence ? results : properties
-  end
 end

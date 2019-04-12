@@ -671,13 +671,8 @@ module ClientsHelper
         property_field = column.header.split('|').third
         format_field_value = property_field.present? ? property_field.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').strip : ""
         trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.header.split('|').second.strip }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-        rule = get_rule(params, column.header.split('|').third.strip)
-        if rule.presence && rule.dig(:type) == 'date'
-          trackings = date_condition_filter(rule, trackings)
-        elsif rule.presence
-          trackings = string_condition_filter(rule, trackings.flatten) || []
-        end
-        count += trackings.size
+        trackings = property_filter(trackings, column.header.split('|').third.strip)
+        count += trackings.flatten.reject(&:blank?).count
       else
         @clients.each do |client|
           if class_name == 'case_note_type'
@@ -706,22 +701,12 @@ module ClientsHelper
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
               custom_fields = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
-              rule = get_rule(params, column.header.split('|').third.squish)
-              if rule.presence && rule.dig(:type) == 'date'
-                custom_fields = date_condition_filter(rule, custom_fields)
-              elsif rule.presence
-                custom_fields = string_condition_filter(rule, custom_fields) || []
-              end
+              custom_fields = property_filter(custom_fields, column.header.split('|').third.strip)
               count += custom_fields.size
             end
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
-            rule = get_rule(params, column.header.squish)
-            if rule.presence && rule.dig(:type) == 'date'
-              quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
-            elsif rule.presence
-              quantitative_type_values = referral_condition_filter(rule, quantitative_type_values.flatten)
-            end
+            quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.strip)
             count += quantitative_type_values.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
@@ -917,6 +902,19 @@ module ClientsHelper
       end
     end
     properties
+  end
+
+  def property_filter(properties, field_name)
+    results = []
+    rule = get_rule(params, field_name)
+    if rule.presence && rule.dig(:type) == 'date'
+      results = date_condition_filter(rule, properties)
+    elsif rule.presence && rule[:input] == 'select'
+      results = select_condition_filter(rule, properties.flatten)
+    elsif rule.presence
+      results = string_condition_filter(rule, properties.flatten)
+    end
+    results = results.presence ? results : properties
   end
 
   def string_condition_filter(rule, properties)

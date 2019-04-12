@@ -906,12 +906,7 @@ class ClientGrid < BaseGrid
           end
         end
 
-        rule = get_rule(params, fields.last)
-        if rule.presence && rule.dig(:type) == 'date'
-          properties = date_condition_filter(rule, properties)
-        elsif rule.presence
-          properties = string_condition_filter(rule, properties.flatten)
-        end
+        properties = property_filter(properties, fields.last)
 
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('__').split(' ').first }
