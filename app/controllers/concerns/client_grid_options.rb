@@ -18,7 +18,10 @@ module ClientGridOptions
   def export_client_reports
     default_all_csi_assessments
     custom_all_csi_assessments
-    form_builder_report if params[:client_advanced_search].present?
+    if params[:client_advanced_search].present?
+      custom_referral_data_report
+      form_builder_report
+    end
     csi_domain_score_report
     program_stream_report
     program_enrollment_date_report
@@ -267,10 +270,30 @@ module ClientGridOptions
     end
   end
 
+  def custom_referral_data_report
+    quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).distinct
+    quantitative_types.each do |quantitative_type|
+      if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
+        @client_grid.column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }) do |object|
+          quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
+          rule = get_rule(params, quantitative_type.name.squish)
+          if rule.presence && rule.dig(:type) == 'date'
+            quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
+          elsif rule.presence
+            quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+          end
+          quantitative_type_values.join(', ')
+        end
+      end
+    end
+  end
+
   def form_builder_report
     data = params[:data].presence
     column_form_builder.each do |field|
       fields = field[:id].gsub('&qoute;', '"').split('__')
+      rule = get_rule(params, fields.last)
       @client_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
@@ -279,6 +302,7 @@ module ClientGridOptions
               properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
               properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
+              properties = property_filter(properties, format_field_value)
               properties = format_array_value(properties[format_field_value]) if properties.present?
             end
           else
@@ -286,6 +310,7 @@ module ClientGridOptions
               properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
               custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              custom_field_properties = property_filter(custom_field_properties, format_field_value)
               custom_field_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
             end
           end
@@ -293,14 +318,18 @@ module ClientGridOptions
           if data == 'recent'
             properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
           else
-            properties = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date.enrollment_date }.join(' | ')
+            properties = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }), fields.join('__')).map{|date| date.enrollment_date }
+            properties = property_filter(properties, format_field_value)
+            properties.join(' | ')
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
             enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
+            enrollment_properties = property_filter(enrollment_properties, format_field_value)
             enrollment_properties = format_array_value(enrollment_properties[format_field_value]) if enrollment_properties.present?
           else
             enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
+            enrollment_properties = property_filter(enrollment_properties, format_field_value)
             enrollment_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
           end
         elsif fields.first == 'tracking'
@@ -310,6 +339,7 @@ module ClientGridOptions
             enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
           else
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
+            enrollment_tracking_properties = property_filter(enrollment_tracking_properties, format_field_value)
             enrollment_tracking_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
           end
         elsif fields.first == 'programexitdate'
@@ -317,15 +347,19 @@ module ClientGridOptions
           if data == 'recent'
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
           else
-            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map{|date| date.exit_date }.join(' | ')
+            properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map{|date| date.exit_date }
+            properties = property_filter(properties, format_field_value)
+            properties.join(' | ')
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
           if data == 'recent'
             leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:properties)
+            leave_program_properties = property_filter(leave_program_properties, format_field_value)
             leave_program_properties = format_array_value(leave_program_properties[format_field_value]) if leave_program_properties.present?
           else
             leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
+            leave_program_properties = property_filter(leave_program_properties, format_field_value)
             leave_program_properties.map{ |properties| check_is_string_date?(properties) }.join(' | ')
           end
         end
@@ -372,5 +406,18 @@ module ClientGridOptions
 
   def form_builder_params
     params[:form_builder].present? ? nil : column_form_builder
+  end
+
+  def property_filter(properties, field_name)
+    results = []
+    rule = get_rule(params, field_name)
+    if rule.presence && rule.dig(:type) == 'date'
+      results = date_condition_filter(rule, properties)
+    elsif rule.presence && rule[:input] == 'select'
+      results = select_condition_filter(rule, properties.flatten)
+    elsif rule.presence
+      results = string_condition_filter(rule, properties.flatten)
+    end
+    results = results.presence ? results : properties
   end
 end
