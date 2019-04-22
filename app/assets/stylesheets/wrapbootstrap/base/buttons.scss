@@ -11,6 +11,10 @@
   min-width: 120px;
 }
 
+.btn-secondary.btn-outline {
+  color: $gainsboro;
+}
+
 .btn-primary.btn-outline {
   color: $navy;
 }
@@ -30,13 +34,34 @@
 .btn-danger.btn-outline {
   color: $red;
 }
-
+.btn-secondary.btn-outline:hover,
 .btn-primary.btn-outline:hover,
 .btn-success.btn-outline:hover,
 .btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
   color: #fff;
+}
+
+.btn-secondary {
+  background-color: $gainsboro;
+  border-color: $gainsboro;
+  color: #393939;
+}
+
+.btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .open .dropdown-toggle.btn-secondary, .btn-secondary:active:focus, .btn-secondary:active:hover, .btn-secondary.active:hover, .btn-secondary.active:focus {
+  background-color: darken($gainsboro, 3%);
+  border-color: darken($gainsboro, 3%);
+  color: #393939;
+}
+
+.btn-secondary:active, .btn-secondary.active, .open .dropdown-toggle.btn-secondary {
+  background-image: none;
+}
+
+.btn-secondary.disabled, .btn-secondary.disabled:hover, .btn-secondary.disabled:focus, .btn-secondary.disabled:active, .btn-secondary.disabled.active, .btn-secondary[disabled], .btn-secondary[disabled]:hover, .btn-secondary[disabled]:focus, .btn-secondary[disabled]:active, .btn-secondary.active[disabled], fieldset[disabled] .btn-secondary, fieldset[disabled] .btn-secondary:hover, fieldset[disabled] .btn-secondary:focus, fieldset[disabled] .btn-secondary:active, fieldset[disabled] .btn-secondary.active {
+  background-color: lighten($gainsboro, 4%);
+  border-color: lighten($gainsboro, 4%);
 }
 
 .btn-primary {

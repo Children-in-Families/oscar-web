@@ -80,6 +80,7 @@
 //= require report_creator
 //= require clients/show
 //= require clients/form
+//= require clients/book
 //= require families/index
 //= require families/form
 //= require families/show
@@ -117,3 +118,4 @@
 //= require multiple_form/form
 //= require registrations/form
 //= require referral_sources/index
+//= require client_books/index
