@@ -499,7 +499,11 @@ class ClientGrid < BaseGrid
           if rule.presence && rule.dig(:type) == 'date'
             quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
           elsif rule.presence
-            quantitative_type_values = referral_condition_filter(rule, quantitative_type_values.flatten)
+            if rule.dig(:input) == 'select'
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+            else
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten)
+            end
           end
           quantitative_type_values.join(', ')
         end

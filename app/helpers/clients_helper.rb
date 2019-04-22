@@ -942,6 +942,7 @@ module ClientsHelper
     when 'between'
       properties = properties.select{|value| value.to_i >= rule[:value].first.strip && value.to_i <= rule[:value].last.strip  }
     end
+    properties
   end
 
   def select_condition_filter(rule, properties)
@@ -955,6 +956,7 @@ module ClientsHelper
     when 'is_not_empty'
       properties
     end
+    properties
   end
 
   def get_rule(params, field)
