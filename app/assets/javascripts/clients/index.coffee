@@ -285,20 +285,21 @@ CIF.ClientsIndex = do ->
         $('#report-builder-wizard').steps('next')
 
   _displayChoseColumns = ->
-    clientColumns = $('section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
-    customFormColumns = $('section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
-    programStraemsColumns = $('section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
-    quantitativesColumns = $('section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    clientColumns = $('#report-builder-wizard section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    customFormColumns = $('#report-builder-wizard section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    programStraemsColumns = $('#report-builder-wizard section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    quantitativesColumns = $('#report-builder-wizard section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
     _appendChoseColumns(clientColumns, '.client-chose-columns') if clientColumns.length != 0
     _appendChoseColumns(customFormColumns, '.custom-form-chose-columns') if customFormColumns.length != 0
     _appendChoseColumns(programStraemsColumns, '.program-stream-chose-columns') if programStraemsColumns.length != 0
     _appendChoseColumns(quantitativesColumns, '.quantitative-chose-columns') if quantitativesColumns.length != 0
 
   _appendChoseColumns = (columns, className) ->
-    $("#{className} ul li").remove()
+    $("#report-builder-wizard #{className} ul li").remove()
+
     for column in columns
       columnName = $(column).text()
-      $("#{className} ul").append("<li>#{columnName}</li>")
+      $("#report-builder-wizard #{className} ul").append("<li>#{columnName}</li>")
 
   _showWizardBuilderSql = ->
     $('#show-sql').on 'click', ->
