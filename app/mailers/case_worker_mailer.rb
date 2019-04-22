@@ -33,7 +33,13 @@ class CaseWorkerMailer < ApplicationMailer
   def forms_notifity(user, short_name)
     @user = user
     return if @user.disable? || @user.task_notify == false
-    forms = overdue_and_due_today_forms(user.clients.active_accepted_status)
+    if user.activated_at.present?
+      clients = user.clients.where(created_at > user.activated_at).active_accepted_status
+    else
+      clients = user.clients.active_accepted_status
+    end
+
+    forms = overdue_and_due_today_forms(clients)
     @overdue_forms = forms[:overdue_forms]
     @today_forms = forms[:today_forms]
     @upcoming_forms = forms[:upcoming_forms]
