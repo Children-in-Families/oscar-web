@@ -13,7 +13,7 @@ class PartnerColumnsVisibility
       contact_person_mobile_:                    :contact_person_mobile,
       address_:                                  :address,
       organization_type_:                        :organization_type,
-      affiliation_:                              :affiliation,
+      # affiliation_:                              :affiliation,
       province_id_:                              :province,
       engagement_:                               :engagement,
       background_:                               :background,

@@ -42,7 +42,11 @@ class UserReminder
     case_workers_by_manager = User.non_devs.non_locked.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq.group_by(&:manager_id)
     case_workers_by_manager.each do |manager_id, case_workers|
       if manager_id.present?
-        manager = User.non_devs.find manager_id
+        begin
+          manager = User.non_devs.find manager_id
+        rescue Exception => e
+          next
+        end
         manager_ids = manager.manager_ids.present? ? manager.manager_ids : Array(manager.id)
         return if main_manager_id == manager_ids.last
         if manager_ids.any?

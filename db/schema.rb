@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190318021414) do
+ActiveRecord::Schema.define(version: 20190322023721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1296,6 +1296,7 @@ ActiveRecord::Schema.define(version: 20190318021414) do
     t.datetime "updated_at"
     t.integer  "client_id"
     t.string   "relation",                  default: ""
+    t.string   "case_note_id",              default: ""
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
@@ -1584,8 +1585,10 @@ ActiveRecord::Schema.define(version: 20190318021414) do
     t.boolean  "enable_research_log_in",         default: false
     t.datetime "activated_at"
     t.datetime "deactivated_at"
+    t.datetime "deleted_at"
   end
 
+  add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

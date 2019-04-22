@@ -1,7 +1,7 @@
 namespace :change_client_profile do
-  desc 'Faking client data in development and staging'
+  desc 'Faking client data in development, staging and demo environment.'
   task update: :environment do |task, args|
-    if Rails.env.development? || Rails.env.staging?
+    if Rails.env.development? || Rails.env.staging? || Rails.env.demo?
       Organization.all.each do |org|
         next if org.short_name == 'shared'
         Organization.switch_to org.short_name

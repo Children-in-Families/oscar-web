@@ -1,7 +1,9 @@
-- _method = params[:controller] == 'clients' ? 'post' : 'get'
 - if page.current?
   %li.active
-    = content_tag :a, page, remote: remote, rel: (page.next? ? 'next' : (page.prev? ? 'prev' : nil)), method: _method
+    = content_tag :a, page, remote: remote, rel: (page.next? ? 'next' : (page.prev? ? 'prev' : nil))
 - else
   %li
-    = link_to page, url, remote: remote, rel: (page.next? ? 'next' : (page.prev? ? 'prev' : nil)), method: _method
+    - if params[:controller] == 'clients'
+      = button_to page, ad_search_clients_path, params: params, remote: remote, rel: (page.next? ? 'next' : (page.prev? ? 'prev' : nil)), form_class: 'hidden-post-form'
+    - else
+      = link_to page, url, remote: remote, rel: (page.next? ? 'next' : (page.prev? ? 'prev' : nil))

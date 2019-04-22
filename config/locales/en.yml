@@ -637,6 +637,7 @@ en:
       completed_tasks: Completed Tasks
       domain: Domain
       goal: Goal
+      incompleted_tasks: Incompleted Tasks
       new_case_note: New case note
       no_custom_domains_available: No Custom Domains Available
       note: Note
@@ -880,6 +881,40 @@ en:
       reset: Reset
       results: Results
       search: Search
+  client_books:
+    assessments:
+      assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+    by: By
+    case_histories:
+      accepted_date: NGO Accept Date
+      case_history: Case Histories
+      enrollment_to: Enrollment to
+      exit_date: NGO Exit Date
+      exited_from: Exit from
+      referred_from: Referred from External Organisation
+    case_notes:
+      case_note: Case Note
+    client_enrollments:
+      enrollment: Enrollment
+      enrollment_to: Enrollment to
+    completed: Completed
+    created: Created
+    custom_field_properties:
+      custom_form: Custom Forms
+    enrolled_program_trackings:
+      tracking: Tracking
+    incomplete: Incomplete
+    index:
+      book: Client book
+      jump_to: Jump to date
+    for: For
+    tasks:
+      task: Task
+      domain: Domain
+      overdue_tasks: Overdue
+      today_tasks: Today
+      upcoming_tasks: Upcoming
   client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
@@ -1069,6 +1104,8 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
+    book:
+      book: Client Book For
     case_history_detail:
       accepted_date: NGO Accept Date
       client: Client
@@ -1144,12 +1181,23 @@ en:
       close: Close
       question: Q
     confirm_client:
-      body_first: The client you are registering has many attributes that match a client who is already registered at
-      body_second: ". You may wish to contact"
-      body_third: to discuss this.
+      birth_province: Birth Province
+      body_first: 'The client record you are saving has similarities to other records in OSCaR in the following fields:'
+      body_second: "Duplicate Checker feature is currently in Beta testing, please Email: %{sender_email} if you have any issues with excessive false positive/negative results."
+      body_third: Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.
       close: Cancel
+      commune: Commune/Sangkat
       confirm: Save Anyway
+      date_of_birth: Date of Birth
+      district: District/Khan
+      family_name: Family Name
+      given_name: Given Name
+      local_family_name: Family Name
+      local_given_name: Given Name
+      name_fields: Name Fields
+      province: Current Province
       title: Warning
+      village: Village
     create:
       successfully_created: Client has been successfully created.
     custom_assessment_domain_score:
@@ -1476,6 +1524,7 @@ en:
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
+      book: Client book
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History
@@ -2548,6 +2597,9 @@ en:
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
+  devise_token_auth:
+   sessions:
+     not_confirmed: Your account is not activated yet.
   districts:
     create:
       failed_create: Failed to create a district.

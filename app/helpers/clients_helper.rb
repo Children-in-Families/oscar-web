@@ -396,7 +396,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-    return object unless params.key?(:client_advanced_search)
+    return object unless params[:client_advanced_search].present?
     @data   = eval params[:client_advanced_search][:basic_rules]
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
@@ -458,8 +458,7 @@ module ClientsHelper
   end
 
   def case_note_query(object, rule)
-    return object if !params.key?(:client_advanced_search)
-
+    return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
     data    = eval params[:client_advanced_search][:basic_rules]
@@ -722,6 +721,7 @@ module ClientsHelper
             when 'exit_ngos' then t('.exit_date')
             when 'client_enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
+            when 'clients' then t('.initial_referral_date')
             when 'referrals'
               if value.referred_to == current_organization.short_name
                 "#{t('.internal_referral')}: #{value.referred_from_ngo}"
@@ -863,6 +863,16 @@ module ClientsHelper
 
   def client_alias_id
     current_organization.short_name == 'fts' ? @client.code : @client.slug
+  end
+
+  def group_client_associations
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
+        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
+      else
+        date_format(association.created_at)
+      end
+    end.sort_by{|k, v| k.to_date }.reverse.to_h
   end
 
   # we use dataTable export button instead
