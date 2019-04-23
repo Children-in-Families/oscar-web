@@ -8,6 +8,7 @@ class ReferralSource < ActiveRecord::Base
   before_destroy :restrict_delete
 
   scope :parent_categories,       ->        { where(name: REFERRAL_SOURCES) }
+  scope :child_referrals,          ->        { where.not(name: REFERRAL_SOURCES) }
 
   private
     def restrict_update

@@ -1157,6 +1157,7 @@ ActiveRecord::Schema.define(version: 20190410023836) do
     t.datetime "updated_at"
     t.integer  "clients_count", default: 0
     t.string   "ancestry"
+    t.string   "name_en",       default: ""
   end
 
   add_index "referral_sources", ["ancestry"], name: "index_referral_sources_on_ancestry", using: :btree

@@ -4111,6 +4111,7 @@ my:
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
       description: ေဖာ္ျပခ်က္
       manage: စီမံသည္
+      referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       referral_source_name: လႊဲေျပာင္းသည့္ရင္းျမစ္နာမည္
       referral_sources: လႊဲေျပာင္းသည့္ရင္းျမစ္မ်ား
       view: ျမင္ကြင္း

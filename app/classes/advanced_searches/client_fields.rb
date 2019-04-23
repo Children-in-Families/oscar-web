@@ -18,7 +18,7 @@ module AdvancedSearches
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
       custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
- 
+
       search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
       search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options
     end
@@ -55,7 +55,7 @@ module AdvancedSearches
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
-        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2'}],
+        *rated_id_poor,
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
         ['referred_from', referral_from_options]
@@ -185,6 +185,14 @@ module AdvancedSearches
           text_fields: ['house_number', 'street_number'],
           drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
+      end
+    end
+
+    def rated_id_poor
+      if Setting.first.country_name == 'cambodia'
+        [['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2'}]]
+      else
+        []
       end
     end
   end
