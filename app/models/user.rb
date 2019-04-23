@@ -258,8 +258,19 @@ class User < ActiveRecord::Base
       update_manager_ids(self)
     else
       manager_ids = User.find(self.manager_id).manager_ids
-      update_manager_ids(self, manager_ids.push(self.manager_id).compact.uniq)
-      binding.pry
+      find_all_manager_ids(self, self.manager_ids)
+      # update_manager_ids(self, manager_ids.push(self.manager_id).compact.uniq)
+    end
+  end
+
+  def find_all_manager_ids(user, manager_ids_array = [])
+    manager_ids_array << user.manager_id if user.manager.present?
+    if manager.blank?
+      user.manager_ids = manager_ids_array.flatten.compact.uniq
+      user.save
+    else
+      manager_ids_array << user.manager.manager_ids
+      manager.find_all_manager_ids(user.manager, manager_ids_array.flatten.compact.uniq)
     end
   end
 
