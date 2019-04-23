@@ -194,6 +194,10 @@ my:
             name:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        enter_ngo:
+          attributes:
+            user_ids:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         family:
           attributes:
             family_type:

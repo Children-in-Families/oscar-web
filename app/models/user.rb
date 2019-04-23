@@ -245,7 +245,7 @@ class User < ActiveRecord::Base
   end
 
   def detach_manager
-    if roles.in?(['strategic overviewe', 'admin'])
+    if roles.in?(['strategic overviewer', 'admin'])
       User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
     end
   end
@@ -258,7 +258,8 @@ class User < ActiveRecord::Base
       update_manager_ids(self)
     else
       manager_ids = User.find(self.manager_id).manager_ids
-      update_manager_ids(self, manager_ids.unshift(self.manager_id).compact.uniq)
+      update_manager_ids(self, manager_ids.push(self.manager_id).compact.uniq)
+      binding.pry
     end
   end
 
@@ -270,7 +271,7 @@ class User < ActiveRecord::Base
     if case_workers.present?
       case_workers.each do |case_worker|
         next if case_worker.id == self.id
-        update_manager_ids(case_worker, manager_ids.unshift(user.id).compact.uniq)
+        update_manager_ids(case_worker, manager_ids.push(user.id).compact.uniq)
       end
     end
   end
