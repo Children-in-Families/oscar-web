@@ -79,7 +79,7 @@ body[id='client_advanced_searches-index'] {
     }
 
     th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
-    th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province,
+    th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.referral_source_category,
     th.rejected_note, th.user, th.donor {
       min-width: 250px;
     }

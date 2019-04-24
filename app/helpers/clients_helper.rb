@@ -113,8 +113,9 @@ module ClientsHelper
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
       created_at:                    t('datagrid.columns.clients.created_at'),
       created_by:                    t('datagrid.columns.clients.created_by'),
-      referred_to:                    t('datagrid.columns.clients.referred_to'),
-      referred_from:                    t('datagrid.columns.clients.referred_from')
+      referred_to:                   t('datagrid.columns.clients.referred_to'),
+      referred_from:                 t('datagrid.columns.clients.referred_from'),
+      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -364,7 +365,8 @@ module ClientsHelper
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
       referred_from_: t('datagrid.columns.clients.referred_from'),
-      time_in_care_: t('datagrid.columns.clients.time_in_care')
+      time_in_care_: t('datagrid.columns.clients.time_in_care'),
+      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
     }
 
     Domain.order_by_identity.each do |domain|
@@ -876,7 +878,7 @@ module ClientsHelper
   end
 
   def referral_source_name(referral_source)
-    if Setting.first.country_name == 'cambodia'
+    if I18n.locale == :km
       referral_source.map{|ref| [ref.name, ref.id] }
     else
       referral_source.map do |ref|
@@ -886,6 +888,14 @@ module ClientsHelper
           [ref.name_en, ref.id]
         end
       end
+    end
+  end
+
+  def referral_source_category(id)
+    if I18n.locale == :km
+      ReferralSource.find_by(id).try(:name)
+    else
+      ReferralSource.find_by(id).try(:name_en)
     end
   end
   # we use dataTable export button instead

@@ -392,6 +392,7 @@ my:
       received_by_id: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲေျပာင္းရမည့္သူ
+      referral_source_category_id: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       referral_source_id: လႊဲေျပာင္းရမည့္သူ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
@@ -1408,6 +1409,7 @@ my:
       referral_information: လွှဲပြောင်းသတင်းအချက်အလက်များ
       referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
       referral_source: လႊဲရမည့္ ရင္းျမစ္
+      referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       remove_profile: ရုပ်ပုံကိုဖယ်ရှား
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
@@ -1953,6 +1955,7 @@ my:
         received_by: မွ လက္ခံသည္
         referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
         referral_source: လႊဲရမည့္ ရင္းျမစ္
+        referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
         referred_from: ကနေရည်ညွှန်း
         referred_to: ရည်ညွှန်း
         reject_note: ျငင္းပယ္သည့္ မွတ္စု

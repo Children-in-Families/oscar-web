@@ -13,7 +13,7 @@
             %label
               %abbr{ title: 'required' } *
               = t('.ancestry')
-            = f.input :ancestry, collection: ReferralSource.parent_categories, label: false
+            = f.input :ancestry, collection: referral_source_name(ReferralSource.parent_categories), label: false
             = f.input :description, input_html: { rows: '10' }, label: t('.description')
         .modal-footer
           .pull-left

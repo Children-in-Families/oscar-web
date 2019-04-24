@@ -71,7 +71,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, :gender, presence: true
+  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, :gender, :referral_source_category_id, presence: true
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
@@ -89,7 +89,8 @@ class Client < ActiveRecord::Base
   scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :referral_source_category,                 ->        { joins(:referral_source).where('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :referral_source_category_kh,              ->        { joins(:referral_source).where('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :referral_source_category_en,              ->        { joins(:referral_source).where('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name_en', 'referral_sources.id').uniq }
   scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }

@@ -25,16 +25,11 @@
             %tbody
               - @referral_sources.each do |referral_source|
                 %tr
-                  - if Setting.first.country_name != "cambodia"
-                    - if referral_source.name_en.present?
-                      %td= referral_source.name_en
-                      %td= referral_source.parent.try(:name_en)
-                    - else
-                      %td= referral_source.name
-                      %td= referral_source.parent.try(:name)
-                  - else
-                    %td= referral_source.name
+                  %td= referral_source.name
+                  - if I18n.locale == :km
                     %td= referral_source.parent.try(:name)
+                  - else
+                    %td= referral_source.parent.try(:name_en)
                   %td= referral_source.description
                   %td.text-center= edit_referral(referral_source)
                   %td.text-center= remove_referral(referral_source)

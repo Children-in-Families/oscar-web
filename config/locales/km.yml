@@ -394,6 +394,7 @@ km:
       received_by_id: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
@@ -1404,6 +1405,7 @@ km:
       referral_information: ព័ត៌មានការបញ្ជូន
       referral_received_by: បុគ្គលិកទទួលករណី
       referral_source: ប្រភពយោង
+      referral_source_category: ប្រភេទនៃប្រភពយោង
       remove_profile: លុបរូបថត
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
@@ -1952,6 +1954,7 @@ km:
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
+        referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
         referred_from: បញ្ជូនមកពីអង្គការ
         referred_to: បញ្ជូនទៅអង្គការដទៃ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក

@@ -391,6 +391,7 @@ en:
       received_by_id: Received By
       referral_phone: Referee Phone Number
       referral_source: Referral Source
+      referral_source_category_id: Referral Source Category
       referral_source_id: Referral Source
       referred_from: Referred From
       referred_to: Referred To
@@ -1401,6 +1402,7 @@ en:
       referral_information: Referral Information
       referral_received_by: Referral Received By
       referral_source: Referral Source
+      referral_source_category: Referral Source Category
       remove_profile: Remove Photo
       specific_point: Specific Point-of-Referral Data
       staff_responsibilities: Staff Responsibilities
@@ -1945,6 +1947,7 @@ en:
         received_by: Referral Received By
         referral_phone: Referee Phone Number
         referral_source: Referral Source
+        referral_source_category: Referral Source Category
         referred_from: Referred From
         referred_to: Referred To
         reject_note: Note on referral rejection
