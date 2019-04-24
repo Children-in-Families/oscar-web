@@ -19,6 +19,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _handReadonlySpecificPoint()
     _initUploader()
     _enableDoneButton()
+    _ajaxCheckReferralSource()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -90,6 +91,25 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             townships = response.townships
             for township in townships
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
+
+  _ajaxCheckReferralSource = ->
+    $('#client_referral_source_category_id').on 'change', ->
+      referral_source_category_id = $(@).val()
+      $('select#client_referral_source_id').val(null).trigger('change')
+      $('select#client_referral_source_id option[value!=""]').remove()
+      if referral_source_category_id != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/referral_sources"
+          data: referral_source_category_id
+          dataType: 'JSON'
+          success: (response) ->
+            referral_sources = response.referral_sources
+            for referral_source in referral_sources
+              $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
+
+  _ajaxCheckReferralSourceCategory = ->
+
 
   _ajaxCheckExistClient = ->
     $("a[href='#finish']").text(filterTranslation.done).append('...').attr("disabled","disabled");
