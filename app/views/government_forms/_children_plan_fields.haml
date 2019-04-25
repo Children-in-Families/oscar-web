@@ -5,11 +5,17 @@
       %strong= f.object.children_plan_name
     .row
       .col-xs-3
-        = f.input :goal, label: 'គោលដៅ'
+        = f.input :goal, label: 'គោលដៅ', input_html: { class: 'CharacterCount' }
+        %span.countdown 0
+        \/ 24 Character(s) Remaining
       .col-xs-3
-        = f.input :action, label: 'សកម្មភាពលម្អិត'
+        = f.input :action, label: 'សកម្មភាពលម្អិត', input_html: { class: 'CharacterCount' }
+        %span.countdown 0
+        \/ 38 Character(s) Remaining
       .col-xs-3
-        = f.input :who, label: 'អ្នកអនុវត្ត'
+        = f.input :who, label: 'អ្នកអនុវត្ត', input_html: { class: 'CharacterCount' }
+        %span.countdown 0
+        \/ 38 Character(s) Remaining
       .col-xs-3.form-group.date.optional
         %label.date.optional.control-label
           = 'អនុវត្តពេលណា'

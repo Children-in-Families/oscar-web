@@ -55,7 +55,9 @@
         %hr
         %h3= 'ប្រភពព័ត៌មាន'
       .col-xs-12
-        = f.input :source_info, label: false
+        = f.input :source_info, label: false, input_html: { class: 'CharacterCount' }
+        %span.countdown 0
+        \/ 83 Character(s) Remaining
       .col-xs-12
         %hr
         %h3= 'ប្រភេទកុមារ'
@@ -92,7 +94,9 @@
         %hr
         %h3= 'មតិយោបល់អ្នកកាន់ករណី'
       .col-xs-12
-        = f.input :case_worker_comment, label: false
+        = f.input :case_worker_comment, label: false, input_html: { class: 'CharacterCount' }
+        %span.countdown 0
+        \ Character(s) Remaining
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }

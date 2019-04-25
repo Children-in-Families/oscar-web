@@ -9,6 +9,7 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _handleCaseClosureSelectOptions()
     _initCocoonFields()
     _initICheckBox()
+    _initCharacterCounter()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -183,5 +184,13 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
       $('.add_action_results').click()
       i++;
     $('.link-action-result').addClass 'hide'
+
+  _initCharacterCounter = ->
+    $('.CharacterCount').on ' propertychange keyup input paste ', (e) ->
+      maxLength = 96
+      charLength = e.currentTarget.value.length
+      if charLength <= 0
+        e.value.substring(0, maxLength)
+      $(this).parent('.form-group').next('span').text if charLength <= 0 then 0 else charLength
 
   { init: _init }
