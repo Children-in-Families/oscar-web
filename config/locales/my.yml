@@ -1410,6 +1410,7 @@ my:
       referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
       referral_source: လႊဲရမည့္ ရင္းျမစ္
       referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
+      referral_source_category_reminder: လွှဲပြောင်းအရင်းအမြစ်အမျိုးအစားကို update လုပ်ဖို့ကယ်တင် click နှိပ်ပေးပါ
       remove_profile: ရုပ်ပုံကိုဖယ်ရှား
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား

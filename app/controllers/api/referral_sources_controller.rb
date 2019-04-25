@@ -4,9 +4,18 @@ module Api
     load_and_authorize_resource
 
     def get_referral_sources
-      binding.pry
-      # referral_sources = ReferralSource.where(ancestry: params[:referral_source_category_id])
-      render json: referral_source
+      referral_sources = ReferralSource.find_by(id: params[:ref_category_id]).children
+      render json: referral_sources
+    end
+
+    def referral_source_category
+      referral_source_category = ReferralSource.find_by(id: params[:ref_source_id]).parent
+      render json: referral_source_category
+    end
+
+    def get_all_referral_sources
+      referral_sources = ReferralSource.child_referrals
+      render json: referral_sources
     end
   end
 end

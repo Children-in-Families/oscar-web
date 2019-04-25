@@ -893,9 +893,9 @@ module ClientsHelper
 
   def referral_source_category(id)
     if I18n.locale == :km
-      ReferralSource.find_by(id).try(:name)
+      ReferralSource.find_by(id: id).try(:name)
     else
-      ReferralSource.find_by(id).try(:name_en)
+      ReferralSource.find_by(id: id).try(:name_en)
     end
   end
   # we use dataTable export button instead

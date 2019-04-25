@@ -20,6 +20,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _initUploader()
     _enableDoneButton()
     _ajaxCheckReferralSource()
+    _ajaxCheckReferralSourceCategory()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -100,8 +101,17 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if referral_source_category_id != ''
         $.ajax
           method: 'GET'
-          url: "/api/referral_sources"
-          data: referral_source_category_id
+          url: "/api/referral_sources/get_referral_sources"
+          data: {ref_category_id: referral_source_category_id}
+          dataType: 'JSON'
+          success: (response) ->
+            referral_sources = response.referral_sources
+            for referral_source in referral_sources
+              $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
+      else if referral_source_category_id == ''
+        $.ajax
+          method: 'GET'
+          url: "/api/referral_sources/get_all_referral_sources"
           dataType: 'JSON'
           success: (response) ->
             referral_sources = response.referral_sources
@@ -109,7 +119,30 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
 
   _ajaxCheckReferralSourceCategory = ->
-
+    if $('#client_referral_source_id').val() != '' && $('#client_referral_source_category_id').val() == ''
+      referral_source_id = $('#client_referral_source_id').val()
+      $.ajax
+        method: 'GET'
+        url: "/api/referral_sources/referral_source_category"
+        data: {ref_source_id: referral_source_id}
+        dataType: 'JSON'
+        success: (response) ->
+          if location.href.includes("locale=km")
+            $('select#client_referral_source_category_id').select2('data', {id: response.id, text: response.name})
+          else
+            $('select#client_referral_source_category_id').select2('data', {id: response.id, text: response.name_en})
+          $('.ref-source-cat-reminder').removeClass('hide')
+    else
+      referral_source_category_id = $('#client_referral_source_category_id').val()
+      $.ajax
+        method: 'GET'
+        url: "/api/referral_sources/get_referral_sources"
+        data: {ref_category_id: referral_source_category_id}
+        dataType: 'JSON'
+        success: (response) ->
+          referral_sources = response.referral_sources
+          for referral_source in referral_sources
+            $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
 
   _ajaxCheckExistClient = ->
     $("a[href='#finish']").text(filterTranslation.done).append('...').attr("disabled","disabled");
