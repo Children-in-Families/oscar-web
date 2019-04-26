@@ -960,6 +960,7 @@ module ClientsHelper
   end
 
   def get_rule(params, field)
+    return unless params.dig('client_advanced_search')
     base_rules = eval params.dig('client_advanced_search', 'basic_rules')
     rules = base_rules.dig(:rules) if base_rules.presence
     index = rules.index{|rule| rule[:field].strip == field } if rules.presence
