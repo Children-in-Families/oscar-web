@@ -56,6 +56,8 @@ describe 'Multi Form' do
       scenario 'valid' do
         visit new_multiple_form_custom_field_client_custom_field_path(client_form_1)
         find("select#custom_field_property_clients option[value='#{client_1.slug}']", visible: false).select_option
+        fill_in 'custom_field_property_properties_Name', with: FFaker::Lorem.name
+        save_and_open_page
         click_on 'Save'
         wait_for_ajax
         expect(page).to have_content('Form have been added to client(s) successfully')
@@ -75,6 +77,7 @@ describe 'Multi Form' do
         fill_in 'client_enrollment_tracking_properties_age', with: 2
         fill_in 'client_enrollment_tracking_properties_description', with: FFaker::Lorem.paragraph
         fill_in 'client_enrollment_tracking_properties_e-mail', with: FFaker::Internet.email
+        save_and_open_page
         click_on 'Save'
         wait_for_ajax
         expect(page).to have_content('Form have been added to client(s) successfully')

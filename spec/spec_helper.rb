@@ -51,6 +51,7 @@ end
 
 
 RSpec.configure do |config|
+  config.expect_with(:rspec) { |c| c.syntax = [:should , :expect] }
   config.include Mongoid::Matchers
   config.include Warden::Test::Helpers
   config.include FactoryGirl::Syntax::Methods
