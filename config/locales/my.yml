@@ -99,6 +99,8 @@ my:
         update:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
   activerecord:
+    default: &default
+      blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
     errors:
       models:
         able_screening_question:
@@ -254,6 +256,8 @@ my:
             name:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        referral:
+          <<: *default
         referral_source:
           attributes:
             name:

@@ -101,6 +101,8 @@ en:
         update:
           successfully_updated: Successfully updated
   activerecord:
+    default: &default
+      blank: can't be blank
     errors:
       models:
         able_screening_question:
@@ -256,7 +258,10 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        referral:
+          <<: *default
         referral_source:
+          <<: *default
           attributes:
             name:
               blank: can't be blank

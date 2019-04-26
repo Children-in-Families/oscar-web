@@ -101,6 +101,8 @@ km:
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
+    default: &default
+      blank: មិនអាចរំលង
     errors:
       models:
         able_screening_question:
@@ -256,6 +258,8 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        referral:
+          <<: *default
         referral_source:
           attributes:
             name:
