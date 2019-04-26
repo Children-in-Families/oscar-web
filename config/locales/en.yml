@@ -196,6 +196,10 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        enter_ngo:
+          attributes:
+            user_ids:
+              blank: can't be blank
         family:
           attributes:
             family_type:
