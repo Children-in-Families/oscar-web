@@ -2,7 +2,7 @@ module AdvancedSearchHelper
   include ClientsHelper
 
   def custom_form_values(report_builder = '#builder')
-    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && report_builder == advanced_search_params[:action_report_builder]
+    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
     has_custom_form_selected ? eval(advanced_search_params[:custom_form_selected]) : []
   end
 
