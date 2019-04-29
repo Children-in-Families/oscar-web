@@ -19,7 +19,7 @@ describe LeaveProgram, 'Leave Program' do
       within('#new_leave_program') do
         find('.numeric').set(4)
         find('#exit_date').set(Date.today)
-        find('#leave_program_properties_description').set('Good client')
+        find('#leave_program-properties-description').set('Good client')
         find('input[type="email"]').set('test@example.com')
 
         click_button 'Save'
@@ -33,7 +33,7 @@ describe LeaveProgram, 'Leave Program' do
     scenario 'Invalid' do
       within('#new_leave_program') do
         find('.numeric').set(6)
-        find('#leave_program_properties_description').set('')
+        find('#leave_program-properties-description').set('')
         find('input[type="email"]').set('testexample')
 
         click_button 'Save'
@@ -77,14 +77,14 @@ describe LeaveProgram, 'Leave Program' do
 
     scenario 'success' do
       find('#exit_date').set(Date.today)
-      find('#leave_program_properties_description').set('this is editing')
+      find('#leave_program-properties-description').set('this is editing')
       find('input[type="submit"]').click
       expect(page).to have_content(date_format(Date.today))
       expect(page).to have_content('this is editing')
     end
 
     scenario 'fail' do
-      find('#leave_program_properties_description').set('')
+      find('#leave_program-properties-description').set('')
       find('input[type="submit"]').click
       expect(page).to have_css('div.form-group.has-error')
     end
