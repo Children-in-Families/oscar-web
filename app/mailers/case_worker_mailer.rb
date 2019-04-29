@@ -36,7 +36,7 @@ class CaseWorkerMailer < ApplicationMailer
     return if recievers.empty?
     assessment = @client.assessments.most_recents.first
     default = assessment.try(:default)
-    @overdue_date = assessment.created_at + 7
+    @overdue_date = assessment.created_at.to_date + 7
     if default
       @name = Setting.first.default_assessment
     else
