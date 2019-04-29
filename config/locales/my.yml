@@ -121,6 +121,8 @@ my:
             name:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -130,11 +132,14 @@ my:
             start_date:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
             meeting_date:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:

@@ -123,6 +123,8 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -132,11 +134,14 @@ en:
             start_date:
               blank: can't be blank
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: can't be blank
             meeting_date:
               blank: can't be blank
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:

@@ -10,16 +10,17 @@ describe AdvancedSearches::DomainScoreSqlBuilder, 'Method' do
 
   context '#get_sql' do
     it 'return clients with operator (equal)' do
-      rules = { 'field'=> "domainscore_#{domain.id}_#{domain.identity} (#{domain.name})", 'operator'=> 'equal', 'value'=> '4' }
-      client_filter = AdvancedSearches::DomainScoreSqlBuilder.new(domain.id, rules).get_sql
-
+      rules = { 'id'=> 'all_domains', 'field'=> "domainscore__#{domain.id}__#{domain.identity} (#{domain.name})", 'operator'=> 'equal', 'value'=> '4' }
+      field = rules['id']
+      client_filter = AdvancedSearches::DomainScoreSqlBuilder.new(field, rules, rules).get_sql
       expect(client_filter[:id]).to include('clients.id IN (?)')
       expect(client_filter[:values]).to include(client.id)
     end
 
     it 'return clients with operator (not_equal)' do
-      rules = { 'field'=> "domainscore_#{domain.id}_#{domain.identity} (#{domain.name})", 'operator'=> 'not_equal', 'value'=> '4' }
-      client_filter = AdvancedSearches::DomainScoreSqlBuilder.new(domain.id, rules).get_sql
+      rules = { 'id'=> 'all_domains', 'field'=> "domainscore__#{domain.id}__#{domain.identity} (#{domain.name})", 'operator'=> 'not_equal', 'value'=> '4' }
+      field = rules['id']
+      client_filter = AdvancedSearches::DomainScoreSqlBuilder.new(field, rules, rules).get_sql
 
       expect(client_filter[:id]).to include('clients.id IN (?)')
       expect(client_filter[:values]).to include(client2.id)
@@ -27,8 +28,9 @@ describe AdvancedSearches::DomainScoreSqlBuilder, 'Method' do
     end
 
     it 'return clients with operator (between)' do
-      rules = { 'field'=> "domainscore_#{domain.id}_#{domain.identity} (#{domain.name})", 'operator'=> 'between', 'value'=> ['3', '4'] }
-      client_filter = AdvancedSearches::DomainScoreSqlBuilder.new(domain.id, rules).get_sql
+      rules = { 'id'=> 'all_domains', 'field'=> "domainscore__#{domain.id}__#{domain.identity} (#{domain.name})", 'operator'=> 'between', 'value'=> ['3', '4'] }
+      field = rules['id']
+      client_filter = AdvancedSearches::DomainScoreSqlBuilder.new(field, rules, rules).get_sql
 
       expect(client_filter[:id]).to include 'clients.id IN (?)'
       expect(client_filter[:values]).to include(client.id, client2.id)

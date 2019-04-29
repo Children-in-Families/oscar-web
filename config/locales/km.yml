@@ -123,6 +123,8 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -132,11 +134,14 @@ km:
             start_date:
               blank: មិនអាចរំលង
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: មិនអាចរំលង
             meeting_date:
               blank: មិនអាចរំលង
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:

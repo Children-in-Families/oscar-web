@@ -78,7 +78,6 @@ describe Task do
         find("select#user_id option[value='#{subordinate.id}']", visible: false).select_option
         click_button('Apply')
         sleep 1
-        save_and_open_screenshot
         expect(page).to have_content(sub_task.name)
       end
     end
