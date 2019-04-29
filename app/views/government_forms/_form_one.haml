@@ -68,9 +68,13 @@
         %hr
         %h3= 'មូលហេតុនៃការបញ្ជូន និង តម្រូវការ'
       .col-xs-12.col-sm-6
-        = f.input :summary_info_of_referral, label: 'ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ជូនកុមារមករកសេវា'
+        = f.input :summary_info_of_referral, label: 'ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ជូនកុមារមករកសេវា', input_html: { class: 'CharacterCount' }
+        %span.countdown 0
+        \/ 201 Character(s) Remaining
       .col-xs-12.col-sm-6
-        = f.input :guardian_comment, label: 'យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ'
+        = f.input :guardian_comment, label: 'យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ', input_html: { class: 'CharacterCount' }
+        %span.countdown 0
+        \/ 201 Character(s) Remaining
       .col-xs-12
         %hr
         %h3= 'យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ'
