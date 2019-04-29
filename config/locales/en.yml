@@ -296,6 +296,7 @@ en:
                 other: must be greater than %{count}
               taken: has already been taken
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: This field is required

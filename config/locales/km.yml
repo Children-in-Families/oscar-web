@@ -295,6 +295,7 @@ km:
                 other: ត្រូវតែធំជាង %{count}
               taken: ត្រូវបានប្រើរួចហើយ
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: មិនអាចរំលង

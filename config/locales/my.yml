@@ -293,6 +293,7 @@ my:
                 other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: ဤကြက္လပ္ကိုျဖည့္ရန္လိုအပ္ပါသည္။
