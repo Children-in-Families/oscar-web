@@ -136,7 +136,7 @@ class Client < ActiveRecord::Base
           end
         end
         big_results << [{
-                          slug: client.slug, 
+                          slug: client.slug,
                           given_name: client.given_name,
                           family_name: client.family_name,
                           local_given_name: client.local_given_name,
@@ -465,6 +465,29 @@ class Client < ActiveRecord::Base
           repeat_notifications = client.repeat_notifications_schedule(false)
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+          end
+        end
+      end
+    end
+  end
+
+  def self.notify_incomplete_daily_csi_assessment
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      if Setting.first.enable_default_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: true })
+        clients.each do |client|
+          if client.eligible_default_csi? && client.assessments.defaults.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          end
+        end
+      end
+
+      if Setting.first.enable_custom_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: false })
+        clients.each do |client|
+          if client.eligible_custom_csi? && client.assessments.customs.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
           end
         end
       end
