@@ -59,7 +59,7 @@ module AssessmentHelper
   end
 
   def completed_initial_assessment?(type)
-    return true if @client.assessments.count == 0
+    return true if eval("@client.assessments.#{type}.count") == 0
     eval("@client.assessments.#{type}.order(created_at: :asc).first.completed")
   end
 end
