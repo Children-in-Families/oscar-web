@@ -49,6 +49,11 @@
 //= require toastr/toastr.min.js
 //= require bootstrap-tour/bootstrap-tour.js
 
+// LADDA
+//= require ladda/spin.min
+//= require ladda/ladda.min
+//= require ladda/ladda.jquery.min
+
 //LOAD MODULE
 //= require namespace
 //= require util
