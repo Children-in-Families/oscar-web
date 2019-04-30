@@ -85,7 +85,7 @@ CIF.Common =
 
     $('input[type="submit"]').on 'click', ->
       imagePath = $('.file-caption-main input').attr('value')
-      if $('.form-group.file .file-preview table > tbody.file-preview-thumbnails').children().length == 0 || imagePath.length > 0
+      if $('.form-group.file .file-preview table > tbody.file-preview-thumbnails').children().length == 0 && imagePath.length == 0
         $(@).removeAttr('data-disable-with')
       else
         $(@).attr('data-disable-with', "#{$(this).val()}...")
