@@ -11,11 +11,11 @@ describe AdvancedSearches::DomainScoreFields, 'Method' do
     end
 
     it 'return all fields' do
-      expect(@domain_scores.size).to equal 9
+      expect(@domain_scores.size).to equal 8
     end
 
     it 'return field with id' do
-      expect(@domain_scores[:id]).to eq("domainscore__#{domain.id}__#{domain.identity}")
+      expect(@domain_scores[:id]).to eq("all_domains")
     end
 
     it 'return field with optGroup' do
@@ -23,7 +23,7 @@ describe AdvancedSearches::DomainScoreFields, 'Method' do
     end
 
     it 'return field with label' do
-      expect(@domain_scores[:label]).to eq("#{domain.identity}")
+      expect(@domain_scores[:label]).to eq("All Domains")
     end
   end
 end

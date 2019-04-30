@@ -101,6 +101,8 @@ km:
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
+    default: &default
+      blank: មិនអាចរំលង
     errors:
       models:
         able_screening_question:
@@ -121,6 +123,8 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -130,11 +134,14 @@ km:
             start_date:
               blank: មិនអាចរំលង
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: មិនអាចរំលង
             meeting_date:
               blank: មិនអាចរំលង
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:
@@ -196,6 +203,10 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        enter_ngo:
+          attributes:
+            user_ids:
+              blank: មិនអាចរំលង
         family:
           attributes:
             family_type:
@@ -252,6 +263,8 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        referral:
+          <<: *default
         referral_source:
           attributes:
             name:
@@ -282,6 +295,7 @@ km:
                 other: ត្រូវតែធំជាង %{count}
               taken: ត្រូវបានប្រើរួចហើយ
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: មិនអាចរំលង
@@ -885,6 +899,40 @@ km:
       reset: សំអាត
       results: លទ្ធផល
       search: ស្វែងរក
+  client_books:
+    assessments:
+      assessment: ការប៉ាន់ប្រមាណ CSI
+      custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+    by: ដោយ
+    case_histories:
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      case_history: ប្រវត្តិនៃករណី
+      enrollment_to: ចូលទៅ ទម្រង់បែបបទចុះឈ្មោះ
+      exit_date: ថ្ងៃចាកចេញពីអង្គការ
+      exited_from: ចាកចេញពី
+      referred_from: បញ្ជូនមកពីអង្គការ
+    case_notes:
+      case_note: កំណត់ត្រាករណី
+    client_enrollments:
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+      enrollment_to: ចូលទៅ ទម្រង់បែបបទចុះឈ្មោះ
+    completed: បានបំពេញ
+    created: បានបង្កើត
+    custom_field_properties:
+      custom_form: ទម្រង់បែបបទ
+    enrolled_program_trackings:
+      tracking: តាមដាន
+    incomplete: មិនទានបំពេញចប់
+    index:
+      book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
+      jump_to: ទៅកាន់កាលបរិច្ឆេទ
+    for: សំរាប់
+    tasks:
+      task: កាតព្វកិច្ច
+      domain: កត្តា
+      overdue_tasks: កាតព្វកិច្ចផុតកំណត់
+      today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
+      upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
   client_enrolled_program_trackings:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -1493,6 +1541,7 @@ km:
       agency_names: ឈ្មោះអង្គភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
       birth_province: ស្រុកកំណើត
+      book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
       cambodia: កម្ពុជា
       case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី

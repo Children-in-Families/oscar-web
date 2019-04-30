@@ -107,7 +107,7 @@ describe "Assessment" do
 
     def with_tasks(n)
       choose('1')
-      expect(page).to have_css('.label-danger')
+      expect(page).to have_css('.task_required')
       expect(page).to have_css('.assessment-task-btn')
       add_tasks(n)
     end
@@ -127,7 +127,7 @@ describe "Assessment" do
       fill_in 'assessment_assessment_domains_attributes_0_reason', with: FFaker::Lorem.paragraph
       fill_in "goal-text-area-#{domain.name.downcase.split.join('-')}", with: FFaker::Lorem.paragraph
 
-      click_link 'Done'
+      click_link 'Save'
       sleep 1
       expect(page).to have_content(domain.name)
       expect(page.find('.domain-score')).to have_content('4')
@@ -139,7 +139,7 @@ describe "Assessment" do
 
       fill_in 'assessment_assessment_domains_attributes_0_reason', with: FFaker::Lorem.paragraph
 
-      click_link 'Done'
+      click_link 'Save'
       expect(page).to have_content('This field is required')
     end
 

@@ -10,6 +10,7 @@ describe 'Abilities' do
   end
 
   context 'manager permissions' do
+    let!(:user_2){ create(:user, :manager, id: 2) }
     let!(:user){ create(:user, :manager, id: 1, manager_ids: [1,2]) }
 
     it 'can manage Agency' do
@@ -38,8 +39,9 @@ describe 'Abilities' do
 
     it 'can manage User' do
       field = '"users"."id"'
+      user_2.update(manager_id: user.id)
       value = User.where('manager_ids && ARRAY[?]', user.id).map(&:id).first
-      ability.model_adapter(User, :manage).conditions.should ==  %Q[(#{field} = #{user.id}) OR (#{field} = #{value})]
+      ability.model_adapter(User, :manage).conditions.should ==  %Q[(#{field} = #{user.id}) OR (#{field} = #{value || 0})]
     end
 
     it 'can manage Case' do

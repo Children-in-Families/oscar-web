@@ -99,6 +99,8 @@ my:
         update:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
   activerecord:
+    default: &default
+      blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
     errors:
       models:
         able_screening_question:
@@ -119,6 +121,8 @@ my:
             name:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -128,11 +132,14 @@ my:
             start_date:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
             meeting_date:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:
@@ -194,6 +201,10 @@ my:
             name:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        enter_ngo:
+          attributes:
+            user_ids:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         family:
           attributes:
             family_type:
@@ -250,6 +261,8 @@ my:
             name:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        referral:
+          <<: *default
         referral_source:
           attributes:
             name:
@@ -280,6 +293,7 @@ my:
                 other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: ဤကြက္လပ္ကိုျဖည့္ရန္လိုအပ္ပါသည္။
@@ -889,6 +903,40 @@ my:
       reset: အကုန္ျပန္ျပင္သည္။
       results: ရလာဒ္မ်ား
       search: ရွာေဖြသည္။
+  client_books:
+    assessments:
+      assessment: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      custom_assessment: ထုံးစံအကဲဖြတ်
+    by: အားဖြင့်
+    case_histories:
+      accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+      case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
+      enrollment_to: ရန်စာရင်းသွင်း
+      exit_date: ထြက္သည့္မွတ္စု
+      exited_from: ကနေမထွက်
+      referred_from: ကနေရည်ညွှန်း
+    case_notes:
+      case_note: အမႈမွတ္စု
+    custom_field_properties:
+      custom_form: အခြန္ပံုစံမ်ား
+    client_enrollments:
+      enrollment: စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္
+      enrollment_to: ရန်စာရင်းသွင်း
+    completed: ပြီးစီး
+    created: ဖန်တီး
+    enrolled_program_trackings:
+      tracking: ေနာက္ေၾကာင္းမ်ား
+    incomplete: မစုံလင်သော
+    index:
+      book: ဖောက်သည် စာအုပ်
+      jump_to: ရက်စွဲကိုဤနေရာသို့သွားရန်
+    for: အဘို့
+    tasks:
+      task: ရက်လွန်အလုပ်တခုကို
+      domain: ဒိုမိန္း
+      overdue_tasks: အခ်ိန္လြန္ေနေသာ လုပ္ငန္းမ်ား
+      today_tasks: ယေန႔ လုပ္ရမည့္ လုပ္ငန္းမ်ား
+      upcoming_tasks: လုပ္ေဆာင္ရမည့္ လုပ္ငန္းမ်ား
   client_enrolled_program_trackings:
     action:
       new_tracking: ေနာက္ေၾကာင္းအသစ္
@@ -1098,7 +1146,7 @@ my:
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
-      referred_from: ကနေရည်ညွှန်း
+      referred_from: ကနေရည်ညွှန်းကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
       advanced_search:
@@ -1496,6 +1544,7 @@ my:
       agency_names: ေအဂ်င္စီနာမည္
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       birth_province: ေမြးရာ ခ႐ိုင္
+      book: ဖောက်သည် စာအုပ်
       cambodia: ကေမာၻဒီးယား
       case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
