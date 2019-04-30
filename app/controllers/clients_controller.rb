@@ -4,7 +4,7 @@ class ClientsController < AdminController
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
 
-  before_action :format_advanced_search_params, only: :index
+  before_action :format_search_params, only: :index
   before_action :get_quantitative_fields, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
@@ -150,6 +150,7 @@ class ClientsController < AdminController
   end
 
   def destroy
+    @client.client_enrollments.each(&:really_destroy!)
     @client.reload.destroy
 
     redirect_to clients_url, notice: t('.successfully_deleted')

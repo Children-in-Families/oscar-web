@@ -65,6 +65,7 @@ gem 'sidekiq',                '~> 4.1.0'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
 gem 'where-or',               '~> 0.1.6'
 gem 'dotiw',                  '~> 4.0.1'
+gem 'text',                   '~> 1.3', '>= 1.3.1'
 gem 'paranoia',               '~> 2.4', '>= 2.4.1'
 
 group :development, :test do
@@ -85,12 +86,13 @@ group :staging, :demo, :production do
   gem 'asset_sync'
 end
 
-group :staging do
+group :staging, :demo do
   gem 'mail_interceptor', '~> 0.0.7'
 end
 
 group :development do
   gem 'letter_opener',        '~> 1.4.1'
+  gem 'letter_opener_web',    '~> 1.3', '>= 1.3.4'
   gem 'rubocop',              '~> 0.47.1', require: false
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'

@@ -396,7 +396,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-    return object unless params.key?(:client_advanced_search)
+    return object unless params[:client_advanced_search].present?
     @data   = eval params[:client_advanced_search][:basic_rules]
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
@@ -458,8 +458,7 @@ module ClientsHelper
   end
 
   def case_note_query(object, rule)
-    return object if !params.key?(:client_advanced_search)
-
+    return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
     data    = eval params[:client_advanced_search][:basic_rules]
@@ -722,6 +721,7 @@ module ClientsHelper
             when 'exit_ngos' then t('.exit_date')
             when 'client_enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
+            when 'clients' then t('.initial_referral_date')
             when 'referrals'
               if value.referred_to == current_organization.short_name
                 "#{t('.internal_referral')}: #{value.referred_from_ngo}"
@@ -878,43 +878,14 @@ module ClientsHelper
       end
     end
   end
-  # we use dataTable export button instead
-  # def to_spreadsheet(assessment_type)
-  #   column_header = [
-  #                     I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
-  #                     I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
-  #                     Domain.pluck(:name)
-  #                   ]
-  #   book = Spreadsheet::Workbook.new
-  #   book.create_worksheet
-  #   book.worksheet(0).insert_row(0, column_header.flatten)
-  #
-  #   ordering = 0
-  #   assessment_domain_hash = {}
-  #
-  #   assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
-  #     assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
-  #     if assessment_type == 'default'
-  #       assessments = client.assessments.defaults
-  #       domains = Domain.csi_domains
-  #     elsif assessment_type == 'custom'
-  #       assessments = client.assessments.customs
-  #       domains = Domain.custom_csi_domains
-  #     else
-  #       assessments = client.assessments
-  #       domains = Domain.all
-  #     end
-  #
-  #     assessments.each_with_index do |assessment, index|
-  #       assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
-  #       domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
-  #       book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
-  #     end
-  #   end
-  #
-  #   buffer = StringIO.new
-  #   book.write(buffer)
-  #   buffer.rewind
-  #   buffer.read
-  # end
+
+  def group_client_associations
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
+        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
+      else
+        date_format(association.created_at)
+      end
+    end.sort_by{|k, v| k.to_date }.reverse.to_h
+  end
 end
