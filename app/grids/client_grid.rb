@@ -490,10 +490,22 @@ class ClientGrid < BaseGrid
 
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
-    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).distinct
+    quantitative_types.each do |quantitative_type|
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
-        column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }) do |object|
-          object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value).join(', ')
+        column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }, html: true) do |object|
+          quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
+          rule = get_rule(params, quantitative_type.name.squish)
+          if rule.presence && rule.dig(:type) == 'date'
+            quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
+          elsif rule.presence
+            if rule.dig(:input) == 'select'
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+            else
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten)
+            end
+          end
+          quantitative_type_values.join(', ')
         end
       end
     end
@@ -897,6 +909,9 @@ class ClientGrid < BaseGrid
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
         end
+
+        properties = property_filter(properties, fields.last)
+
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('__').split(' ').first }
         else

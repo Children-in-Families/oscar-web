@@ -11,7 +11,8 @@ module AdvancedSearches
 
     def get_sql
       sql_string = 'clients.id IN (?)'
-      clients = @clients.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: @field_value })
+      quantitative = QuantitativeType.find_by(name: @field_value)
+      clients = @clients.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: quantitative.id })
 
       case @operator
       when 'equal'
