@@ -650,7 +650,7 @@ module ClientsHelper
     count = 0
     class_name  = header_classes(grid, column)
 
-    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i]
+    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments' }
 
@@ -666,6 +666,13 @@ module ClientsHelper
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
         count += date_filter(object, class_name).flatten.count
+      elsif class_name[/^(tracking)/i]
+        ids = @clients.map { |client| client.client_enrollments.ids }.flatten.uniq
+        property_field = column.header.split('|').third
+        format_field_value = property_field.present? ? property_field.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').strip : ""
+        trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.header.split('|').second.strip }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
+        trackings = property_filter(trackings, column.header.split('|').third.strip)
+        count += trackings.flatten.reject(&:blank?).count
       else
         @clients.each do |client|
           if class_name == 'case_note_type'
@@ -693,8 +700,14 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value).count
+              custom_fields = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              custom_fields = property_filter(custom_fields, column.header.split('|').third.strip)
+              count += custom_fields.size
             end
+          elsif class_name == 'quantitative-type'
+            quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
+            quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
+            count += quantitative_type_values.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).flatten.count
           end
@@ -863,6 +876,95 @@ module ClientsHelper
 
   def client_alias_id
     current_organization.short_name == 'fts' ? @client.code : @client.slug
+  end
+
+  def date_condition_filter(rule, properties)
+    if rule
+      case rule[:operator]
+      when 'equal'
+        properties = properties.select{|value| value.to_date == rule[:value].to_date  }
+      when 'not_equal'
+        properties = properties.select{|value| value.to_date != rule[:value].to_date  }
+      when 'less'
+        properties = properties.select{|value| value.to_date < rule[:value].to_date  }
+      when 'less_or_equal'
+        properties = properties.select{|value| value.to_date <= rule[:value].to_date  }
+      when 'greater'
+        properties = properties.select{|value| value.to_date > rule[:value].to_date  }
+      when 'greater_or_equal'
+        properties = properties.select{|value| value.to_date >= rule[:value].to_date  }
+      when 'is_empty'
+        properties = []
+      when 'is_not_empty'
+        properties
+      when 'between'
+        properties = properties.select{|value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  }
+      end
+    end
+    properties
+  end
+
+  def property_filter(properties, field_name)
+    results = []
+    rule = get_rule(params, field_name)
+    if rule.presence && rule.dig(:type) == 'date'
+      results = date_condition_filter(rule, properties)
+    elsif rule.presence && rule[:input] == 'select'
+      results = select_condition_filter(rule, properties.flatten)
+    elsif rule.presence
+      results = string_condition_filter(rule, properties.flatten)
+    end
+    results = results.presence ? results : properties
+  end
+
+  def string_condition_filter(rule, properties)
+    case rule[:operator]
+    when 'equal'
+      properties = properties.select{|value| value == rule[:value].strip  }
+    when 'not_equal'
+      properties = properties.select{|value| value != rule[:value].strip  }
+    when 'less'
+      properties = properties.select{|value| value < rule[:value].strip  }
+    when 'less_or_equal'
+      properties = properties.select{|value| value <= rule[:value].strip  }
+    when 'greater'
+      properties = properties.select{|value| value > rule[:value].strip  }
+    when 'greater_or_equal'
+      properties = properties.select{|value| value >= rule[:value].strip  }
+    when 'contains'
+      properties.include?(rule[:value].strip)
+    when 'not_contains'
+      properties.exclude?(rule[:value].strip)
+    when 'is_empty'
+      properties = []
+    when 'is_not_empty'
+      properties
+    when 'between'
+      properties = properties.select{|value| value.to_i >= rule[:value].first.strip && value.to_i <= rule[:value].last.strip  }
+    end
+    properties
+  end
+
+  def select_condition_filter(rule, properties)
+    case rule[:operator]
+    when 'equal'
+      properties = properties.select{|value| value == rule[:data][:values].map{|hash| hash[rule[:value].to_sym] }.compact.first  }
+    when 'not_equal'
+      properties = properties.select{|value| value != rule[:data][:values].map{|hash| hash[rule[:value].to_sym] }.compact.first  }
+    when 'is_empty'
+      properties = []
+    when 'is_not_empty'
+      properties
+    end
+    properties
+  end
+
+  def get_rule(params, field)
+    return unless params.dig('client_advanced_search').present?
+    base_rules = eval params.dig('client_advanced_search', 'basic_rules')
+    rules = base_rules.dig(:rules) if base_rules.presence
+    index = rules.index{|rule| rule[:field].strip == field } if rules.presence
+    rule  = rules[index] if index.presence
   end
 
   def referral_source_name(referral_source)
