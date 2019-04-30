@@ -33,7 +33,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    @user.clients.active_accepted_status.includes(:tasks, :custom_field_properties, :client_enrollments).each do |client|
+    @user.clients.active_accepted_status.each do |client|
       overdue_tasks = []
       today_tasks = []
       upcoming_tasks = []

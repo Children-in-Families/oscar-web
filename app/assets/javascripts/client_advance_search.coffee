@@ -780,7 +780,8 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = "[#{$('#family-advance-search-form').find('.custom-form-select').select2('val')}]"
+      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#family_advanced_search_custom_form_selected').val(customFormValues)
 
@@ -794,7 +795,8 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = "[#{$('#partner-advance-search-form').find('.custom-form-select').select2('val')}]"
+      # customFormValues = "[#{$('#partner-advance-search-form').find('#custom-form-select').select2('val')}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#partner_advanced_search_custom_form_selected').val(customFormValues)
 

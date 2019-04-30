@@ -24,7 +24,13 @@
             %tbody
               - @referral_sources.each do |referral_source|
                 %tr
-                  %td= referral_source.name
+                  - if Setting.first.country_name != "cambodia"
+                    - if referral_source.name_en.present?
+                      %td= referral_source.name_en
+                    - else
+                      %td= referral_source.name
+                  - else
+                    %td= referral_source.name
                   %td= referral_source.description
                   %td.text-center= edit_referral(referral_source)
                   %td.text-center= remove_referral(referral_source)

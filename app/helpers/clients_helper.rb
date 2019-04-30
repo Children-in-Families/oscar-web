@@ -966,4 +966,28 @@ module ClientsHelper
     index = rules.index{|rule| rule[:field].strip == field } if rules.presence
     rule  = rules[index] if index.presence
   end
+
+  def referral_source_name(referral_source)
+    if Setting.first.country_name == 'cambodia'
+      referral_source.map{|ref| [ref.name, ref.id] }
+    else
+      referral_source.map do |ref|
+        if ref.name_en.blank?
+          [ref.name, ref.id]
+        else
+          [ref.name_en, ref.id]
+        end
+      end
+    end
+  end
+
+  def group_client_associations
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
+        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
+      else
+        date_format(association.created_at)
+      end
+    end.sort_by{|k, v| k.to_date }.reverse.to_h
+  end
 end
