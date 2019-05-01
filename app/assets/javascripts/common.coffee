@@ -69,7 +69,7 @@ CIF.Common =
       imagePath = $('.file-caption-main input').attr('value')
       if imagePath.length > 0
         $('.form-group.file .file-input.theme-explorer').removeClass('file-input-new')
-        imagePreview = "<tr class='file-preview-frame explorer-frame  kv-preview-thumb' id='preview-1556610233023-0' data-fileindex='0' data-template='image'><td class='kv-file-content'>
+        imagePreview = "<tr class='file-preview-frame explorer-frame  kv-preview-thumb' data-fileindex='0' data-template='image'><td class='kv-file-content'>
             <img src='#{imagePath}' class='file-preview-image kv-preview-data rotate-1' title='romchong_ads.jpg' alt='romchong_ads.jpg' style='width:auto;height:60px;'>
             </td>
             <td class='file-details-cell'><div class='explorer-caption' title='romchong_ads.jpg'>romchong_ads.jpg</div>  <samp>(64.8 KB)</samp></td><td class='file-actions-cell'><div class='file-upload-indicator' title='Not uploaded yet'><i class='glyphicon glyphicon-hand-down text-warning'></i></div>
