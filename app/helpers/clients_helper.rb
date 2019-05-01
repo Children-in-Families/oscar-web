@@ -948,7 +948,13 @@ module ClientsHelper
   def select_condition_filter(rule, properties)
     case rule[:operator]
     when 'equal'
-      properties = properties.select{|value| value == rule[:data][:values].map{|hash| hash[rule[:value].to_sym] }.compact.first  }
+      properties = properties.select do |value|
+        if rule[:data][:values].is_a?(Hash)
+          value == rule[:data][:values][rule[:value].to_sym]
+        else
+          value == rule[:data][:values].map{ |hash| hash[rule[:value].to_sym] }.compact.first
+        end
+      end
     when 'not_equal'
       properties = properties.select{|value| value != rule[:data][:values].map{|hash| hash[rule[:value].to_sym] }.compact.first  }
     when 'is_empty'
