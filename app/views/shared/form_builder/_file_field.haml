@@ -4,7 +4,8 @@
     %abbr{ title: 'repuired' }
       = '*' if property['required'].present? && f.object.file.empty?
     = property['label'].html_safe
-  = f.input :file, as: :file, label: false, required: property['required'].present?, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][file][]", multiple: property['multiple'].present? }
+
+  = f.input :file, as: :file, label: false, required: property['required'].present?, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][file][]", multiple: property['multiple'].present?, value: f.object.file }
   %span.help-block.hidden
     =t('cannot_be_blank')
   %p
