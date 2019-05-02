@@ -101,6 +101,8 @@ en:
         update:
           successfully_updated: Successfully updated
   activerecord:
+    default: &default
+      blank: can't be blank
     errors:
       models:
         able_screening_question:
@@ -121,6 +123,8 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -130,11 +134,14 @@ en:
             start_date:
               blank: can't be blank
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: can't be blank
             meeting_date:
               blank: can't be blank
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:
@@ -256,7 +263,10 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        referral:
+          <<: *default
         referral_source:
+          <<: *default
           attributes:
             name:
               blank: can't be blank
@@ -286,6 +296,7 @@ en:
                 other: must be greater than %{count}
               taken: has already been taken
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: This field is required

@@ -878,6 +878,115 @@ module ClientsHelper
     current_organization.short_name == 'fts' ? @client.code : @client.slug
   end
 
+  def date_condition_filter(rule, properties)
+    if rule
+      case rule[:operator]
+      when 'equal'
+        properties = properties.select{|value| value.to_date == rule[:value].to_date  }
+      when 'not_equal'
+        properties = properties.select{|value| value.to_date != rule[:value].to_date  }
+      when 'less'
+        properties = properties.select{|value| value.to_date < rule[:value].to_date  }
+      when 'less_or_equal'
+        properties = properties.select{|value| value.to_date <= rule[:value].to_date  }
+      when 'greater'
+        properties = properties.select{|value| value.to_date > rule[:value].to_date  }
+      when 'greater_or_equal'
+        properties = properties.select{|value| value.to_date >= rule[:value].to_date  }
+      when 'is_empty'
+        properties = []
+      when 'is_not_empty'
+        properties
+      when 'between'
+        properties = properties.select{|value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  }
+      end
+    end
+    properties
+  end
+
+  def property_filter(properties, field_name)
+    results = []
+    rule = get_rule(params, field_name)
+    if rule.presence && rule.dig(:type) == 'date'
+      results = date_condition_filter(rule, properties)
+    elsif rule.presence && rule[:input] == 'select'
+      results = select_condition_filter(rule, properties.flatten)
+    elsif rule.presence
+      results = string_condition_filter(rule, properties.flatten)
+    end
+    results = results.presence ? results : properties
+  end
+
+  def string_condition_filter(rule, properties)
+    case rule[:operator]
+    when 'equal'
+      properties = properties.select{|value| value == rule[:value].strip  }
+    when 'not_equal'
+      properties = properties.select{|value| value != rule[:value].strip  }
+    when 'less'
+      properties = properties.select{|value| value < rule[:value].strip  }
+    when 'less_or_equal'
+      properties = properties.select{|value| value <= rule[:value].strip  }
+    when 'greater'
+      properties = properties.select{|value| value > rule[:value].strip  }
+    when 'greater_or_equal'
+      properties = properties.select{|value| value >= rule[:value].strip  }
+    when 'contains'
+      properties.include?(rule[:value].strip)
+    when 'not_contains'
+      properties.exclude?(rule[:value].strip)
+    when 'is_empty'
+      properties = []
+    when 'is_not_empty'
+      properties
+    when 'between'
+      properties = properties.select{|value| value.to_i >= rule[:value].first.strip && value.to_i <= rule[:value].last.strip  }
+    end
+    properties
+  end
+
+  def select_condition_filter(rule, properties)
+    case rule[:operator]
+    when 'equal'
+      properties = properties.select do |value|
+        if rule[:data][:values].is_a?(Hash)
+          value == rule[:data][:values][rule[:value].to_sym]
+        else
+          value == rule[:data][:values].map{ |hash| hash[rule[:value].to_sym] }.compact.first
+        end
+      end
+    when 'not_equal'
+      properties = properties.select{|value| value != rule[:data][:values].map{|hash| hash[rule[:value].to_sym] }.compact.first  }
+    when 'is_empty'
+      properties = []
+    when 'is_not_empty'
+      properties
+    end
+    properties
+  end
+
+  def get_rule(params, field)
+    return unless params.dig('client_advanced_search').present?
+    base_rules = eval params.dig('client_advanced_search', 'basic_rules')
+    rules = base_rules.dig(:rules) if base_rules.presence
+    index = rules.index{|rule| rule[:field].strip == field } if rules.presence
+    rule  = rules[index] if index.presence
+  end
+
+  def referral_source_name(referral_source)
+    if Setting.first.country_name == 'cambodia'
+      referral_source.map{|ref| [ref.name, ref.id] }
+    else
+      referral_source.map do |ref|
+        if ref.name_en.blank?
+          [ref.name, ref.id]
+        else
+          [ref.name_en, ref.id]
+        end
+      end
+    end
+  end
+
   def group_client_associations
     [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
       if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
