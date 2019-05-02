@@ -67,6 +67,7 @@ CIF.Common =
     imagePath = undefined
     setTimeout (->
       imagePath = $('.file-caption-main input').attr('value')
+      return if imagePath == undefined
       if imagePath.length > 0
         $('.form-group.file .file-input.theme-explorer').removeClass('file-input-new')
         imagePreview = "<tr class='file-preview-frame explorer-frame  kv-preview-thumb' data-fileindex='0' data-template='image'><td class='kv-file-content'>
@@ -85,6 +86,7 @@ CIF.Common =
 
     $('input[type="submit"]').on 'click', ->
       imagePath = $('.file-caption-main input').attr('value')
+      return if imagePath == undefined
       if $('.form-group.file .file-preview table > tbody.file-preview-thumbnails').children().length == 0 && imagePath.length == 0
         $(@).removeAttr('data-disable-with')
       else
