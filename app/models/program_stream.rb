@@ -13,6 +13,9 @@ class ProgramStream < ActiveRecord::Base
   has_many   :program_stream_permissions, dependent: :destroy
   has_many   :users, through: :program_stream_permissions
 
+  has_many   :program_stream_services, dependent: :destroy
+  has_many   :services, through: :program_stream_services
+
   has_paper_trail
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
