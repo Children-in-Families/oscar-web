@@ -1406,7 +1406,6 @@ km:
       referral_received_by: បុគ្គលិកទទួលករណី
       referral_source: ប្រភពយោង
       referral_source_category: ប្រភេទនៃប្រភពយោង
-      referral_source_category_reminder: សូមចុចប៊ូតុងរក្សាទុកដើម្បីរក្សាព័ត៌មានអំពីប្រភេទនៃប្រភពយោង
       remove_profile: លុបរូបថត
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
@@ -1769,6 +1768,11 @@ km:
       previous: ទំព័រមុន
       program_stream_name: កម្មវិធី
       tracking_name: ទម្រង់បែបបទតាមដាន
+    referral_source_category_reminder:
+      ancestry: ប្រភេទ
+      name: ឈ្មោះ
+      referral_source_reminder: សូមបន្ថែមព័ត៌មានប្រភេទសម្រាប់ប្រភពយោង
+      remind_later: រំលឹកខ្ញុំពេលក្រោយ
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
       agencies: អង្គភាព

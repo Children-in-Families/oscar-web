@@ -133,12 +133,13 @@ module AdvancedSearches
     end
 
     def referral_source_category_options
+      ref_cat_ids = Client.pluck(:referral_source_category_id).compact.uniq
       if I18n.locale == :km
-        referral_source_clients = @user.admin? ? Client.referral_source_category_kh : Client.where(user_id: @user.id).referral_source_category_kh
-        referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
+        ref_cat_kh_names = ReferralSource.where(id: ref_cat_ids).pluck(:name, :id)
+        ref_cat_kh_names.sort.map{|s| {s[1].to_s => s[0]}}
       else
-        referral_source_clients = @user.admin? ? Client.referral_source_category_en : Client.where(user_id: @user.id).referral_source_category_en
-        referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
+        ref_cat_en_names = ReferralSource.where(id: ref_cat_ids).pluck(:name_en, :id)
+        ref_cat_en_names.sort.map{|s| {s[1].to_s => s[0]}}
       end
     end
 

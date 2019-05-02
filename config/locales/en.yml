@@ -1403,7 +1403,6 @@ en:
       referral_received_by: Referral Received By
       referral_source: Referral Source
       referral_source_category: Referral Source Category
-      referral_source_category_reminder: Please click save to update referral source category
       remove_profile: Remove Photo
       specific_point: Specific Point-of-Referral Data
       staff_responsibilities: Staff Responsibilities
@@ -1762,6 +1761,11 @@ en:
       previous: Previous
       program_stream_name: Program Stream
       tracking_name: Tracking Form Name
+    referral_source_category_reminder:
+      ancestry: Category
+      name: Name
+      referral_source_reminder: Please Add Category information for Referral Source
+      remind_later: Remind me later
     third_party:
       ables: Ables
       agencies: Agencies

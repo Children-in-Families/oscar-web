@@ -1410,7 +1410,6 @@ my:
       referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
       referral_source: လႊဲရမည့္ ရင္းျမစ္
       referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
-      referral_source_category_reminder: လွှဲပြောင်းအရင်းအမြစ်အမျိုးအစားကို update လုပ်ဖို့ကယ်တင် click နှိပ်ပေးပါ
       remove_profile: ရုပ်ပုံကိုဖယ်ရှား
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
@@ -1770,6 +1769,11 @@ my:
       previous: ေရွ႕တစ္ခု
       program_stream_name: အစီအမံစီဆင္းမႈ
       tracking_name: ခြေရာခံနာမကိုအမှီ
+    referral_source_category_reminder:
+      ancestry: အမျိုးအစား
+      name: နာမတျောကို
+      referral_source_reminder: ရည်ညွန်းရင်းမြစ်များအတွက် Category သတင်းအချက်အလက် Add ပေးပါ
+      remind_later: နောက်ပိုင်းမှာငါ့ကိုသတိပေး
     third_party:
       ables: Ables
       agencies: ေအဂ်င္စီမ်ား

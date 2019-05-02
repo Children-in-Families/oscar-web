@@ -119,20 +119,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
 
   _ajaxCheckReferralSourceCategory = ->
-    if $('#client_referral_source_id').val() != '' && $('#client_referral_source_category_id').val() == ''
-      referral_source_id = $('#client_referral_source_id').val()
-      $.ajax
-        method: 'GET'
-        url: "/api/referral_sources/referral_source_category"
-        data: {ref_source_id: referral_source_id}
-        dataType: 'JSON'
-        success: (response) ->
-          if location.href.includes("locale=km")
-            $('select#client_referral_source_category_id').select2('data', {id: response.id, text: response.name})
-          else
-            $('select#client_referral_source_category_id').select2('data', {id: response.id, text: response.name_en})
-          $('.ref-source-cat-reminder').removeClass('hide')
-    else
+    if $('#client_referral_source_id').val() == '' && $('#client_referral_source_category_id').val() != ''
       referral_source_category_id = $('#client_referral_source_category_id').val()
       $.ajax
         method: 'GET'

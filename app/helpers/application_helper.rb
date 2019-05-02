@@ -317,4 +317,17 @@ module ApplicationHelper
     end
   end
 
+  def referral_source_name(referral_source)
+    if I18n.locale == :km
+      referral_source.map{|ref| [ref.name, ref.id] }
+    else
+      referral_source.map do |ref|
+        if ref.name_en.blank?
+          [ref.name, ref.id]
+        else
+          [ref.name_en, ref.id]
+        end
+      end
+    end
+  end
 end

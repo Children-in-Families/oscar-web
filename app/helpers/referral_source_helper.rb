@@ -30,18 +30,4 @@ module ReferralSourceHelper
   def view_referral_change_log(referral_source)
     link_to t('.view'), referral_source_version_path(referral_source)
   end
-
-  def referral_source_name(referral_source)
-    if I18n.locale == :km
-      referral_source.map{|ref| [ref.name, ref.id] }
-    else
-      referral_source.map do |ref|
-        if ref.name_en.blank?
-          [ref.name, ref.id]
-        else
-          [ref.name_en, ref.id]
-        end
-      end
-    end
-  end
 end

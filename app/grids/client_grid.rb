@@ -123,9 +123,9 @@ class ClientGrid < BaseGrid
 
   def referral_source_category_options
     if I18n.locale == :km
-      current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_category_kh : Client.referral_source_category_kh
+      ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name, :id)
     else
-      current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_category_en : Client.referral_source_category_en
+      ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
     end
   end
 
