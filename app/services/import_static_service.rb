@@ -14,7 +14,7 @@ module ImportStaticService
         Organization.switch_to short_name
         header_letters.each do |letter|
           fields = workbook.column(letter)
-          values = fields.compact!
+          values = fields.compact
           value  = values.shift
           service = Service.create(name: value)
           values.each do |name|

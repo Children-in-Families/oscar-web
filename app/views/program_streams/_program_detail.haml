@@ -4,3 +4,4 @@
     = f.input :name, label: t('.name')
     = f.input :description, label: t('.description')
     = f.association :domains, collection: @csi_domains, multiple: true, label_method: :identity, value_method: :id, label: t('.domain')
+    = f.association :services, collection: Service.names, multiple: true, label_method: :identity, value_method: :id, label: t('.type_of_service')
