@@ -48,10 +48,9 @@
                 .row
                   .col-sm-12.col-md-12
                     .form-group
-                      - if @client.tasks.by_domain_id(domain).incomplete.empty?
-                        %p.text-danger.task_required
-                          %abbr{ title: 'required' } *
-                          = t('.at_least_one_task_required')
+                      %p.text-danger.task_required
+                        %abbr{ title: 'required' } *
+                        = t('.at_least_one_task_required')
                       %div{ class: "task-arising" }
                         %label.control-label
                           = t('.tasks_arising')
