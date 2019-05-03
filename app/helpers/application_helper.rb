@@ -330,4 +330,8 @@ module ApplicationHelper
       end
     end
   end
+
+  def ref_cat_name(referral_source_cat)
+    ReferralSource.find_by(id: referral_source_cat).try(:name)
+  end
 end
