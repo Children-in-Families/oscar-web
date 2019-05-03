@@ -113,8 +113,9 @@ module ClientsHelper
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
       created_at:                    t('datagrid.columns.clients.created_at'),
       created_by:                    t('datagrid.columns.clients.created_by'),
-      referred_to:                    t('datagrid.columns.clients.referred_to'),
-      referred_from:                    t('datagrid.columns.clients.referred_from')
+      referred_to:                   t('datagrid.columns.clients.referred_to'),
+      referred_from:                 t('datagrid.columns.clients.referred_from'),
+      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -364,7 +365,8 @@ module ClientsHelper
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
       referred_from_: t('datagrid.columns.clients.referred_from'),
-      time_in_care_: t('datagrid.columns.clients.time_in_care')
+      time_in_care_: t('datagrid.columns.clients.time_in_care'),
+      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
     }
 
     Domain.order_by_identity.each do |domain|
@@ -973,20 +975,6 @@ module ClientsHelper
     rule  = rules[index] if index.presence
   end
 
-  def referral_source_name(referral_source)
-    if Setting.first.country_name == 'cambodia'
-      referral_source.map{|ref| [ref.name, ref.id] }
-    else
-      referral_source.map do |ref|
-        if ref.name_en.blank?
-          [ref.name, ref.id]
-        else
-          [ref.name_en, ref.id]
-        end
-      end
-    end
-  end
-
   def group_client_associations
     [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
       if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
@@ -998,7 +986,7 @@ module ClientsHelper
   end
 
   def referral_source_name(referral_source)
-    if Setting.first.country_name == 'cambodia'
+    if I18n.locale == :km
       referral_source.map{|ref| [ref.name, ref.id] }
     else
       referral_source.map do |ref|
@@ -1011,92 +999,50 @@ module ClientsHelper
     end
   end
 
-  def date_condition_filter(rule, properties)
-    if rule
-      case rule[:operator]
-      when 'equal'
-        properties = properties.select{|value| value.to_date == rule[:value].to_date  }
-      when 'not_equal'
-        properties = properties.select{|value| value.to_date != rule[:value].to_date  }
-      when 'less'
-        properties = properties.select{|value| value.to_date < rule[:value].to_date  }
-      when 'less_or_equal'
-        properties = properties.select{|value| value.to_date <= rule[:value].to_date  }
-      when 'greater'
-        properties = properties.select{|value| value.to_date > rule[:value].to_date  }
-      when 'greater_or_equal'
-        properties = properties.select{|value| value.to_date >= rule[:value].to_date  }
-      when 'is_empty'
-        properties = []
-      when 'is_not_empty'
-        properties
-      when 'between'
-        properties = properties.select{|value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  }
-      end
+  def referral_source_category(id)
+    if I18n.locale == :km
+      ReferralSource.find_by(id: id).try(:name)
+    else
+      ReferralSource.find_by(id: id).try(:name_en)
     end
-    properties
   end
-
-  def property_filter(properties, field_name)
-    results = []
-    rule = get_rule(params, field_name)
-    if rule.presence && rule.dig(:type) == 'date'
-      results = date_condition_filter(rule, properties)
-    elsif rule.presence && rule[:input] == 'select'
-      results = select_condition_filter(rule, properties.flatten)
-    elsif rule.presence
-      results = string_condition_filter(rule, properties.flatten)
-    end
-    results = results.presence ? results : properties
-  end
-
-  def string_condition_filter(rule, properties)
-    case rule[:operator]
-    when 'equal'
-      properties = properties.select{|value| value == rule[:value].strip  }
-    when 'not_equal'
-      properties = properties.select{|value| value != rule[:value].strip  }
-    when 'less'
-      properties = properties.select{|value| value < rule[:value].strip  }
-    when 'less_or_equal'
-      properties = properties.select{|value| value <= rule[:value].strip  }
-    when 'greater'
-      properties = properties.select{|value| value > rule[:value].strip  }
-    when 'greater_or_equal'
-      properties = properties.select{|value| value >= rule[:value].strip  }
-    when 'contains'
-      properties.include?(rule[:value].strip)
-    when 'not_contains'
-      properties.exclude?(rule[:value].strip)
-    when 'is_empty'
-      properties = []
-    when 'is_not_empty'
-      properties
-    when 'between'
-      properties = properties.select{|value| value.to_i >= rule[:value].first.strip && value.to_i <= rule[:value].last.strip  }
-    end
-    properties
-  end
-
-  def select_condition_filter(rule, properties)
-    case rule[:operator]
-    when 'equal'
-      properties = properties.select{|value| value == rule[:data][:values].map{|hash| hash[rule[:value].to_sym] }.compact.first  }
-    when 'not_equal'
-      properties = properties.select{|value| value != rule[:data][:values].map{|hash| hash[rule[:value].to_sym] }.compact.first  }
-    when 'is_empty'
-      properties = []
-    when 'is_not_empty'
-      properties
-    end
-    properties
-  end
-
-  def get_rule(params, field)
-    return unless params.dig('client_advanced_search').present?
-    base_rules = eval params.dig('client_advanced_search', 'basic_rules')
-    rules = base_rules.dig(:rules) if base_rules.presence
-    index = rules.index{|rule| rule[:field].strip == field } if rules.presence
-    rule  = rules[index] if index.presence
-  end
+  # we use dataTable export button instead
+  # def to_spreadsheet(assessment_type)
+  #   column_header = [
+  #                     I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
+  #                     I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
+  #                     Domain.pluck(:name)
+  #                   ]
+  #   book = Spreadsheet::Workbook.new
+  #   book.create_worksheet
+  #   book.worksheet(0).insert_row(0, column_header.flatten)
+  #
+  #   ordering = 0
+  #   assessment_domain_hash = {}
+  #
+  #   assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
+  #     assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
+  #     if assessment_type == 'default'
+  #       assessments = client.assessments.defaults
+  #       domains = Domain.csi_domains
+  #     elsif assessment_type == 'custom'
+  #       assessments = client.assessments.customs
+  #       domains = Domain.custom_csi_domains
+  #     else
+  #       assessments = client.assessments
+  #       domains = Domain.all
+  #     end
+  #
+  #     assessments.each_with_index do |assessment, index|
+  #       assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+  #       domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
+  #       book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
+  #     end
+  #   end
+  #
+  #   buffer = StringIO.new
+  #   book.write(buffer)
+  #   buffer.rewind
+  #   buffer.read
+  # end
 end

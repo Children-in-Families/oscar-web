@@ -4,6 +4,7 @@ class DashboardsController < AdminController
   def index
     @setting = Setting.first
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
+    @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
   end
 
   private
