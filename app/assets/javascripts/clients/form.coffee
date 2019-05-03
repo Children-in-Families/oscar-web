@@ -92,6 +92,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
+    $('.loader-default').addClass('is-active')
     $("a[href='#finish']").text(filterTranslation.done).append('...').attr("disabled","disabled");
     data = {
       given_name: $('#client_given_name').val()
@@ -113,6 +114,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         data: data
         dataType: "JSON"
       }).success((json)->
+        $('.loader-default').removeClass('is-active')
         clientId  = $('#client_slug').val()
         similar_fields  = json.similar_fields
         modalTextSecond = ''
@@ -144,6 +146,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       )
     else
       $('#client-wizard-form').submit()
+      $('.loader-default').removeClass('is-active')
 
   _clientSelectOption = ->
     $('select').select2

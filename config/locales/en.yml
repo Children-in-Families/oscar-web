@@ -3734,6 +3734,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  processing: Processing...
   program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous rules.
   program_streams:
     actions:
