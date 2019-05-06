@@ -2066,6 +2066,7 @@ en:
         domain: Associated Domains
         name: Name
         quantity: Quantity
+        type_of_service: Type of service
       progress_notes:
         additional_notes: Additional Notes
         changelogs: Changelog
