@@ -34,7 +34,7 @@ class CaseWorkerMailer < ApplicationMailer
     @user = user
     return if @user.disable? || @user.task_notify == false
     if user.activated_at.present?
-      clients = user.clients.where(created_at > user.activated_at).active_accepted_status
+      clients = user.clients.where('clients.created_at > ?', user.activated_at).active_accepted_status
     else
       clients = user.clients.active_accepted_status
     end
