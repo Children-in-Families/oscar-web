@@ -6,7 +6,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   TRACKING = ''
   DATA_TABLE_ID = ''
   @formBuilder = []
-  @window.department = (td)->
+  @window.getServiceData = (td)->
     data = {id: td.children[0].value, text: td.children[0].text }
 
     newOption = new Option(data.text, data.id, true, true)
@@ -662,7 +662,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       createHeaderElement = (options, indexes)->
         html = ""
         indexes.forEach (entry) ->
-          html += "<th><b><option value='#{options[entry][1]}'>#{options[entry][0]}</option></b></th>"
+          html += "<th><b>#{options[entry][0]}</b></th>"
         html
 
       createRowElement = (options, indexes) ->
@@ -670,7 +670,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         indexes.forEach (entries) ->
           td = ""
           entries.forEach (index) ->
-            td += "<td width='' onclick='department(this)'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+            td += "<td width='' onclick='getServiceData(this)'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
 
           html += "<tr>#{td}</tr>"
         html
@@ -695,8 +695,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
         $('#select2-drop .select2-results').html $(html)
         # $('.select2-results').prepend "#{html}"
-        $('.select2-results').addClass 'stock'
-        headerIsAppend = true
         return
 
 

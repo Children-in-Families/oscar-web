@@ -317,4 +317,7 @@ module ApplicationHelper
     end
   end
 
+  def just_signed_in
+    current_user.current_sign_in_at.strftime("%F %H:%m") == Time.zone.now.strftime("%F %H:%m")
+  end
 end

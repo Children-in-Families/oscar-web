@@ -9,3 +9,33 @@
     - if can? :read, Family
       = render 'family'
     = render 'third_party'
+#program-stream-service
+  #program-stream-service-modal{class: just_signed_in ? 'modal inmodal fade just-login' : 'modal inmodal fade just-login', "aria-hidden" => just_signed_in ? 'false' : 'true', :role => "dialog", :tabindex => "-1", data: {show: 'true'} }
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-header
+          %button.close{"data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+            %span.sr-only Close
+          %h4.modal-title Modal title
+          %small.font-bold Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        = form_tag program_stream_services_path, class: 'form-inline' do
+          .modal-body
+            - @program_streams.each do |program|
+              = fields_for 'program_streams[]', program do |p|
+                .row
+                  .form-group.col.col-md-3
+                    = p.label t('.name')
+                    = p.text_field :name, class: 'form-control', style: "width: 100%;"
+                  .form-group.col.col-md-9
+                    .type-of-service{ data: {custom: services.to_json } }
+                      = p.label t('.type_of_service')
+                      %select.select.optional.form-control{:multiple => "multiple", name: "program_streams[#{p.object.id}][service_ids][]", id: "program_stream_service_id_#{p.object.id}"}
+                        - services.each do |service|
+                          %option{:value => "#{service.last}"}
+                            = service.first
+
+          .modal-footer
+            %button.btn.btn-white{"data-dismiss" => "modal", :type => "button"} Close
+            = submit_tag 'Save Changes', class: 'btn btn-primary'
+

@@ -1,4 +1,11 @@
 CIF.DashboardsIndex = do ->
+  @window.getService = (td, select_id)->
+    data = {id: td.children[0].value, text: td.children[0].text }
+
+    newOption = new Option(data.text, data.id, true, true)
+    # Append it to the select
+    $(".type-of-service select##{select_id.id}").append(newOption).trigger 'change'
+
   _init = ->
     # _clientGenderChart()
     # _clientStatusChart()
@@ -12,6 +19,8 @@ CIF.DashboardsIndex = do ->
     _initCustomFieldsDataTable()
     _initTrackingDatatable()
     _initICheckBox()
+    _handleProgramStreamServiceShow()
+    _handleProgramStreamServiceSelect2()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -118,5 +127,53 @@ CIF.DashboardsIndex = do ->
   _getDataTableId = ->
     $('.paginate_button a').click ->
       DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
+
+  _handleProgramStreamServiceShow = ->
+    $('#program-stream-service-modal.just-login').modal('show')
+    $('#program-stream-service-modal button[data-dismiss=modal]').click ->
+      $('.modal.in').removeClass('just-login')
+      return
+
+  _handleProgramStreamServiceSelect2 = ->
+    $('.type-of-service select').select2
+      width: '100%'
+
+    createHeaderElement = (options, indexes)->
+      html = ""
+      indexes.forEach (entry) ->
+        html += "<th><b>#{options[entry][0]}</b></th>"
+      html
+
+    createRowElement = (options, indexes, select_id) ->
+      html = ""
+      indexes.forEach (entries) ->
+        td = ""
+        entries.forEach (index) ->
+          td += "<td width='' onclick='getService(this, #{select_id})'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+
+        html += "<tr>#{td}</tr>"
+      html
+
+    $('.type-of-service select').on 'select2-open', (e) ->
+      arr = []
+      i = 0
+      while i < $('.type-of-service').data('custom').length
+        arr.push i
+        i++
+
+      options = $('.type-of-service').data('custom')
+      results = []
+      chunk_size = 11
+      while arr.length > 0
+        results.push arr.splice(0, chunk_size)
+
+      indexes = results.shift()
+      th  = createHeaderElement(options, indexes)
+      row = createRowElement(options, results, @id)
+
+      html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
+      $('#select2-drop .select2-results').html $(html)
+      # $('.select2-results').prepend "#{html}"
+      return
 
   { init: _init }

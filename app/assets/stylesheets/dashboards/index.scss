@@ -64,4 +64,32 @@ body[id='dashboards-index'] {
       max-width: 85%;
     }
   }
+
+  #program-stream-service{
+    .modal-dialog {
+      width: 80%;
+      height: 70%;
+      margin: 5% auto;
+      padding: 0;
+    }
+
+    .modal-content {
+      height: auto;
+      min-height: 70%;
+      border-radius: 0;
+    }
+  }
+
+  #select2-drop {
+    height: 349px;
+    .select2-results {
+      max-height: 340px;
+      height: 374px;
+      overflow-x: scroll;
+      overflow-y: scroll;
+    }
+    .select2-results table tbody tr td {
+      cursor: pointer;
+    }
+  }
 }
