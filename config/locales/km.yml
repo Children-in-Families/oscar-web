@@ -3747,6 +3747,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  processing: កំពុងដំណើរការ...
   program_exclusive_has_been_modified: កម្មវិធីផ្តាច់មុខមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   program_streams:
     actions:

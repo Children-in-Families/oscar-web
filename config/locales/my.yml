@@ -3769,6 +3769,7 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  processing: လုပ်ဆောင်နေသည်
   program_exclusive_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့အစီအစဉ်ကိုသီးသန့်ပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   program_streams:
     actions:
