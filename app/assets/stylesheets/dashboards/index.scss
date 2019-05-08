@@ -78,6 +78,12 @@ body[id='dashboards-index'] {
       min-height: 70%;
       border-radius: 0;
     }
+
+    .simple_form.program-stream {
+      input[type='submit'] {
+        margin-top: 25px;
+      }
+    }
   }
 
   #select2-drop {

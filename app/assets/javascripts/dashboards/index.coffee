@@ -3,6 +3,7 @@ CIF.DashboardsIndex = do ->
     data = {id: td.children[0].value, text: td.children[0].text }
 
     newOption = new Option(data.text, data.id, true, true)
+
     # Append it to the select
     $(".type-of-service select##{select_id.id}").append(newOption).trigger 'change'
 
@@ -21,6 +22,7 @@ CIF.DashboardsIndex = do ->
     _initICheckBox()
     _handleProgramStreamServiceShow()
     _handleProgramStreamServiceSelect2()
+    _updateProgramStream()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -134,6 +136,7 @@ CIF.DashboardsIndex = do ->
       $('.modal.in').removeClass('just-login')
       return
 
+
   _handleProgramStreamServiceSelect2 = ->
     $('.type-of-service select').select2
       width: '100%'
@@ -175,5 +178,31 @@ CIF.DashboardsIndex = do ->
       $('#select2-drop .select2-results').html $(html)
       # $('.select2-results').prepend "#{html}"
       return
+
+    $('.type-of-service select').on 'select2-close', (e)->
+      # uniqueArray = [...new Set($(this).val())]
+      return
+
+  _updateProgramStream = ->
+    $('form.simple_form.program-stream').on 'submit', (e)->
+      e.preventDefault
+      $.ajax
+        type: 'POST'
+        url: "/api/#{$(@).attr('action')}"
+        data: $(this).serialize()
+        dataType: 'JSON'
+        success: (json) ->
+          value = $.extend({}, json, text: json.name)
+          console.log value
+          return
+        error: (response) ->
+          $('.error-name').text ''
+          $('.error-color').text ''
+          $('.create-lot-type').removeAttr 'disabled'
+          if response.responseJSON.errors.name
+            $('.error-name').text response.responseJSON.errors.name.join(' , ')
+          if response.responseJSON.errors.color
+            $('.error-color').text response.responseJSON.errors.color.join(' , ')
+          return
 
   { init: _init }

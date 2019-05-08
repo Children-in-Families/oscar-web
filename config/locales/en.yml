@@ -1759,6 +1759,9 @@ en:
       families: Active Families
       foster: Foster
       kinship: Kinship
+    index:
+      remind_me: Remind me later
+      program_stream: Program Streams
     overdue:
       assessment: Assessment
       assessments: Assessments
@@ -3815,6 +3818,7 @@ en:
       ngo_programs: All NGOs' Program Streams
       program_list: Program Streams Listing
       search: Search
+      type_of_service: Type of service
     my_ngo_custom_fields:
       next: Next
       previous: Previous

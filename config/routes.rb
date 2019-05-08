@@ -220,7 +220,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :program_streams, only: [] do
+    resources :program_streams, only: [:update] do
       get :enrollment_fields
       get :exit_program_fields
       get :tracking_fields

@@ -697,5 +697,4 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         # $('.select2-results').prepend "#{html}"
         return
 
-
   { init: _init }
