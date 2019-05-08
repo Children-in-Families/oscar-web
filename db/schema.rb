@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190501085914) do
+ActiveRecord::Schema.define(version: 20190423041510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1612,6 +1612,8 @@ ActiveRecord::Schema.define(version: 20190501085914) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "activated_at"
+    t.datetime "deactivated_at"
     t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"

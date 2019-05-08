@@ -23,6 +23,35 @@ CIF.DashboardsIndex = do ->
     _handleProgramStreamServiceShow()
     _handleProgramStreamServiceSelect2()
     _updateProgramStream()
+    _enableSaveReferralSource()
+    _clickSaveReferral()
+    _loadModalReminder()
+
+  _loadModalReminder = ->
+    if localStorage.getItem('from login') == 'true'
+      if $('.check-ref-sources').text() == 'referral_sources'
+        $('#referral-source-category-reminder').modal 'show'
+        localStorage.setItem('from login', false)
+
+  _enableSaveReferralSource = ->
+    $('.referral_source_ancestry .select').on 'select2-selected', (e) ->
+      classNames = this.className.split(' ')
+      saveBtnClass = ".save-" + classNames[2]
+      $(saveBtnClass).removeAttr 'disabled'
+    $('.referral_source_ancestry .select').on 'select2-removed', (e) ->
+      classNames = this.className.split(' ')
+      saveBtnClass = ".save-" + classNames[2]
+      $(saveBtnClass).attr('disabled', 'disabled')
+
+  _clickSaveReferral = ->
+   $('.save-referral-btn').on 'click', (e) ->
+    tickClass = $(this).siblings()[0].classList[2]
+    btnSave = this.classList[3]
+
+    setTimeout ( ->
+      $(".#{btnSave}").addClass('hide')
+      $(".#{tickClass}").removeClass('hide')
+    ), 500
 
   _initICheckBox = ->
     $('.i-checks').iCheck

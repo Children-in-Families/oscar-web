@@ -1,4 +1,8 @@
 #home-index
+  - if @referral_sources.any? && @current_user.admin?
+    %p.check-ref-sources.hide referral_sources
+
+  = render 'dashboards/referral_source_category_reminder'
   .row
     = render 'active_tasks_side'
     = render 'multiple_forms'

@@ -7,6 +7,11 @@ CIF.Common =
     @autoCollapseManagMenu()
     @textShortener()
     @checkValidationErrorExistOnSaving()
+    @addLocalstorageAttribute()
+
+  addLocalstorageAttribute: ->
+    $('.btn-login').on 'click', ->
+      localStorage.setItem('from login', true)
 
   textShortener: ->
     if $('.clients-table').is(':visible')

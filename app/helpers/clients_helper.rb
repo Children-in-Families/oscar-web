@@ -113,8 +113,9 @@ module ClientsHelper
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
       created_at:                    t('datagrid.columns.clients.created_at'),
       created_by:                    t('datagrid.columns.clients.created_by'),
-      referred_to:                    t('datagrid.columns.clients.referred_to'),
-      referred_from:                    t('datagrid.columns.clients.referred_from')
+      referred_to:                   t('datagrid.columns.clients.referred_to'),
+      referred_from:                 t('datagrid.columns.clients.referred_from'),
+      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -148,7 +149,7 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.house_number')} #{client.house_number}" if client.house_number.present?
     current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
 
-    if locale == :km
+    if I18n.locale.to_s == 'km'
       current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village.name_kh}" if client.village.present?
       current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune.name_kh}" if client.commune.present?
       current_address << client.district_name.split(' / ').first if client.district.present?
@@ -364,7 +365,8 @@ module ClientsHelper
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
       referred_from_: t('datagrid.columns.clients.referred_from'),
-      time_in_care_: t('datagrid.columns.clients.time_in_care')
+      time_in_care_: t('datagrid.columns.clients.time_in_care'),
+      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
     }
 
     Domain.order_by_identity.each do |domain|
@@ -973,8 +975,18 @@ module ClientsHelper
     rule  = rules[index] if index.presence
   end
 
+  def group_client_associations
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
+        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
+      else
+        date_format(association.created_at)
+      end
+    end.sort_by{|k, v| k.to_date }.reverse.to_h
+  end
+
   def referral_source_name(referral_source)
-    if Setting.first.country_name == 'cambodia'
+    if I18n.locale == :km
       referral_source.map{|ref| [ref.name, ref.id] }
     else
       referral_source.map do |ref|
@@ -987,13 +999,50 @@ module ClientsHelper
     end
   end
 
-  def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
-      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
-        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
-      else
-        date_format(association.created_at)
-      end
-    end.sort_by{|k, v| k.to_date }.reverse.to_h
+  def referral_source_category(id)
+    if I18n.locale == :km
+      ReferralSource.find_by(id: id).try(:name)
+    else
+      ReferralSource.find_by(id: id).try(:name_en)
+    end
   end
+  # we use dataTable export button instead
+  # def to_spreadsheet(assessment_type)
+  #   column_header = [
+  #                     I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
+  #                     I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
+  #                     Domain.pluck(:name)
+  #                   ]
+  #   book = Spreadsheet::Workbook.new
+  #   book.create_worksheet
+  #   book.worksheet(0).insert_row(0, column_header.flatten)
+  #
+  #   ordering = 0
+  #   assessment_domain_hash = {}
+  #
+  #   assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
+  #     assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
+  #     if assessment_type == 'default'
+  #       assessments = client.assessments.defaults
+  #       domains = Domain.csi_domains
+  #     elsif assessment_type == 'custom'
+  #       assessments = client.assessments.customs
+  #       domains = Domain.custom_csi_domains
+  #     else
+  #       assessments = client.assessments
+  #       domains = Domain.all
+  #     end
+  #
+  #     assessments.each_with_index do |assessment, index|
+  #       assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
+  #       domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
+  #       book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
+  #     end
+  #   end
+  #
+  #   buffer = StringIO.new
+  #   book.write(buffer)
+  #   buffer.rewind
+  #   buffer.read
+  # end
 end
