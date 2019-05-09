@@ -40,6 +40,6 @@ module ProgramStreamHelper
   end
 
   def format_placeholder(value)
-    value.parameterize.gsub('-', ' ').gsub('&amp;qoute;', '&quot;').html_safe if value.present?
+    value.gsub('-', ' ').gsub('&amp;qoute;', '&quot;').html_safe if value.present?
   end
 end
