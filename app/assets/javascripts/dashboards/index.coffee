@@ -163,7 +163,8 @@ CIF.DashboardsIndex = do ->
     $('#program-stream-service-modal.modal-popup').modal('show')
 
     $('#referral-source-category-reminder button[data-dismiss=modal]').click ->
-      $('#program-stream-service-modal').modal('show')
+      $('#program-stream-service-modal').modal('show') if $('#program-stream-service-modal .modal-body .row').length > 0
+      return
 
     $('#program-stream-service-modal button[data-dismiss=modal]').click ->
       $('.modal.in').removeClass('just-login')
