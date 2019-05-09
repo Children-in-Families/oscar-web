@@ -5,14 +5,11 @@
       %strong= f.object.family_plan_name
     .row
       .col-xs-4
-        = f.input :goal, label: 'គោលដៅ', input_html: { class: 'CharacterCount' }
-        %span.countdown 0
-        \/ 73 Character(s) Remaining
+        = f.input :goal, label: 'គោលដៅ', input_html: { class: 'characterCount', data: {count: 84} }
+        %span.countup= "#{f.object.goal.length} / 84 Character(s) Remaining"
       .col-xs-4
-        = f.input :action, label: 'ផែនការសកម្មភាព', input_html: { class: 'CharacterCount' }
-        %span.countdown 0
-        \/ 221 Character(s) Remaining
+        = f.input :action, label: 'ផែនការសកម្មភាព', input_html: { class: 'characterCount', data: {count: 260} }
+        %span.countup= "#{f.object.action.length} / 260 Character(s) Remaining"
       .col-xs-4
-        = f.input :result, label: 'លទ្ធផល', input_html: { class: 'CharacterCount' }
-        %span.countdown 0
-        \/ 73 Character(s) Remaining
+        = f.input :result, label: 'លទ្ធផល', input_html: { class: 'characterCount', data: {count: 81} }
+        %span.countup= "#{f.object.result.length} / 82 Character(s) Remaining"

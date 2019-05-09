@@ -186,11 +186,17 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     $('.link-action-result').addClass 'hide'
 
   _initCharacterCounter = ->
-    $('.CharacterCount').on ' propertychange keyup input paste ', (e) ->
-      maxLength = 96
-      charLength = e.currentTarget.value.length
-      if charLength <= 0
-        e.value.substring(0, maxLength)
-      $(this).parent('.form-group').next('span').text if charLength <= 0 then 0 else charLength
+    $('.characterCount').on 'propertychange keyup input paste', ->
+      maxLength = $(@).data('count')
+      charLength = $(@).val().length
+      countingElement = $(@).parent().siblings()[0]
+
+      if charLength > maxLength
+        $(@).css('background','#f8d7da')
+        $(countingElement).html("You have exceeded the recommended character count for this field.")
+      else
+        newText = "#{charLength} / #{maxLength} Character(s) Remaining"
+        $(@).css('background','#FFFFFF ')
+        $(countingElement).html(newText)
 
   { init: _init }

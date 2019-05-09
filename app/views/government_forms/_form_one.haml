@@ -55,9 +55,8 @@
         %hr
         %h3= 'ប្រភពព័ត៌មាន'
       .col-xs-12
-        = f.input :source_info, label: false, input_html: { class: 'CharacterCount' }
-        %span.countdown 0
-        \/ 83 Character(s) Remaining
+        = f.input :source_info, label: false, input_html: { class: 'characterCount', data: {count: 99} }
+        %span.countup= "#{f.object.source_info.length} / 99 Character(s) Remaining"
       .col-xs-12
         %hr
         %h3= 'ប្រភេទកុមារ'
@@ -68,13 +67,11 @@
         %hr
         %h3= 'មូលហេតុនៃការបញ្ជូន និង តម្រូវការ'
       .col-xs-12.col-sm-6
-        = f.input :summary_info_of_referral, label: 'ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ជូនកុមារមករកសេវា', input_html: { class: 'CharacterCount' }
-        %span.countdown 0
-        \/ 201 Character(s) Remaining
+        = f.input :summary_info_of_referral, label: 'ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ជូនកុមារមករកសេវា', input_html: { class: 'characterCount', data: {count: 237} }
+        %span.countup= "#{f.object.summary_info_of_referral.length} / 237 Character(s) Remaining"
       .col-xs-12.col-sm-6
-        = f.input :guardian_comment, label: 'យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ', input_html: { class: 'CharacterCount' }
-        %span.countdown 0
-        \/ 201 Character(s) Remaining
+        = f.input :guardian_comment, label: 'យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ', input_html: { class: 'characterCount', data: {count: 237} }
+        %span.countup="#{f.object.guardian_comment.length} / 237 Character(s) Remaining"
       .col-xs-12
         %hr
         %h3= 'យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ'
@@ -98,9 +95,8 @@
         %hr
         %h3= 'មតិយោបល់អ្នកកាន់ករណី'
       .col-xs-12
-        = f.input :case_worker_comment, label: false, input_html: { class: 'CharacterCount' }
-        %span.countdown 0
-        \ Character(s) Remaining
+        = f.input :case_worker_comment, label: false, input_html: { class: 'characterCount', data: {count: 356} }
+        %span.countup= "#{f.object.case_worker_comment.length} / 356 Character(s) Remaining"
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
