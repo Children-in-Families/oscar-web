@@ -160,8 +160,11 @@ CIF.DashboardsIndex = do ->
       DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
 
   _handleProgramStreamServiceShow = ->
+    $('#program-stream-service-modal.modal-popup').modal('show')
+
     $('#referral-source-category-reminder button[data-dismiss=modal]').click ->
-      $('#program-stream-service-modal.just-login').modal('show')
+      $('#program-stream-service-modal').modal('show')
+
     $('#program-stream-service-modal button[data-dismiss=modal]').click ->
       $('.modal.in').removeClass('just-login')
       return
