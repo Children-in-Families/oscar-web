@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190423041510) do
+ActiveRecord::Schema.define(version: 20190509031724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1236,8 +1236,10 @@ ActiveRecord::Schema.define(version: 20190423041510) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.string   "country_origin",    default: ""
+    t.string   "duplicate_checker"
   end
 
+  add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "sponsors", force: :cascade do |t|
@@ -1588,9 +1590,9 @@ ActiveRecord::Schema.define(version: 20190423041510) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
