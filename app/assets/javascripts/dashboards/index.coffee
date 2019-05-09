@@ -250,7 +250,7 @@ CIF.DashboardsIndex = do ->
           data: $(this).serialize()
           dataType: 'JSON'
           success: (json) ->
-            successImg = '<img class="img-circle" src="/assets/success.png" alt="success">'
+            successImg = $("#edit_program_stream_#{json.program_stream.id} .save-success-#{json.program_stream.id}").removeClass('hide')
             $("#edit_program_stream_#{json.program_stream.id} input[type='submit']").replaceWith(successImg)
             return
           error: (response) ->
