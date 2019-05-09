@@ -635,20 +635,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     if $('li').hasClass('first current')
       # $('#type-of-service select').select2()
 
-      serviceFormatResult = (service) ->
-        # $('#type-of-service select').
-        # html = '<table class="table table-bordered" style="margin-bottom: 0px;">
-        #           <tbody>
-        #             <tr>
-        #               <td width="20%">' + service.text + '</td>
-        #               <td width="10%">' + service.text + '</td>
-        #               <td width="20%">' + service.text + '</td>
-        #               <td width="10%">' + service.text + '</td>
-        #               <td width="20%">' + service.text + '</td>
-        #               <td width="20%">' + service.text + '</td>
-        #             </tr >
-        #           </tbody>
-        #         </table>'
 
       serviceFormatSelection = (service) ->
         service.text
@@ -696,5 +682,23 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $('#select2-drop .select2-results').html $(html)
         # $('.select2-results').prepend "#{html}"
         return
+
+      removeError = (element) ->
+        element.removeClass('has-error')
+        element.find('.help-block').remove()
+
+      $('#type-of-service select').on 'select2-close', (e)->
+        uniqueArray = _.compact(_.uniq($(this).val()))
+
+        if uniqueArray.length > 3
+          $(this.parentElement).append "<p class='help-block'>#{$('input#confirm-question').val()}</p>" if $(this.parentElement).find('.help-block').length == 0
+          $(this.parentElement).addClass('has-error')
+
+        return
+
+      $('#type-of-service select').on 'select2-removed', ->
+        uniqueArray = _.compact(_.uniq($(this).val()))
+        if uniqueArray.length <= 3
+          removeError($(this.parentElement))
 
   { init: _init }

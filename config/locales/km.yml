@@ -1775,6 +1775,13 @@ km:
       tasks: កាតព្វកិច្ច
     program_stream:
       program_stream: កម្មវិធីចម្បង
+    program_stream_services:
+      ​name: ឈ្មោះ
+      program_stream: កម្មវិធីចម្បង
+      program_stream_sub: សូមបន្ថែម 'ប្រភេទសេវាកម្ម' ទៅកម្មវិធីចម្បងនីមួយៗ។
+      remind_me: រំលឹកខ្ញុំពេលក្រោយ
+      service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ?
+      type_of_service: ប្រភេទសេវាកម្ម
     program_streams_tab:
       link: តំណ
       next: ទំព័របន្ទាប់
@@ -2080,6 +2087,7 @@ km:
         domain: កត្តា
         name: ឈ្មោះកម្មវិធី
         quantity: បរិមាណ
+        type_of_service: ប្រភេទសេវាកម្
       progress_notes:
         additional_notes: កំណត់បន្ថែម
         changelogs: ប្រវត្តិកំណែ
@@ -3847,6 +3855,8 @@ km:
       detail: ពត័មានកម្មវិធីលម្អិត
       domain: កត្តា
       name: ឈ្មោះកម្មវិធី
+      service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ?
+      type_of_service: ប្រភេទសេវាកម្
     program_rule:
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
       add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី

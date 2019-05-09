@@ -67,22 +67,31 @@ body[id='dashboards-index'] {
 
   #program-stream-service{
     .modal-dialog {
-      width: 80%;
-      height: 70%;
-      margin: 5% auto;
+      width: 70%;
       padding: 0;
     }
 
-    .modal-content {
-      height: auto;
-      min-height: 70%;
-      border-radius: 0;
-    }
+    // .modal-content {
+    //   height: auto;
+    //   min-height: 70%;
+    //   border-radius: 0;
+    // }
 
     .simple_form.program-stream {
       input[type='submit'] {
         margin-top: 25px;
       }
+    }
+
+    .disabled.program_stream_name {
+      label, input {
+        color: #333333 !important;
+      }
+    }
+
+    img {
+      width: 50px;
+      margin-top: 16px;
     }
   }
 

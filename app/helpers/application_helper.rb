@@ -317,10 +317,6 @@ module ApplicationHelper
     end
   end
 
-  def just_signed_in
-    current_user.current_sign_in_at.strftime("%F %H:%m") == Time.zone.now.strftime("%F %H:%m")
-  end
-
   def referral_source_name(referral_source)
     if I18n.locale == :km
       referral_source.map{|ref| [ref.name, ref.id] }

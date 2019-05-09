@@ -1761,9 +1761,6 @@ en:
       families: Active Families
       foster: Foster
       kinship: Kinship
-    index:
-      remind_me: Remind me later
-      program_stream: Program Streams
     overdue:
       assessment: Assessment
       assessments: Assessments
@@ -1772,6 +1769,13 @@ en:
       tasks: Tasks
     program_stream:
       program_stream: Program Streams
+    program_stream_services:
+      name: Name
+      program_stream: Program Streams
+      program_stream_sub: Please add 'Type of services' to each program stream.
+      remind_me: Remind me later
+      service_confirm_question: Are you sure your program does this many things?
+      type_of_service: Type of service
     program_streams_tab:
       link: Action
       next: Next
@@ -3827,7 +3831,6 @@ en:
       ngo_programs: All NGOs' Program Streams
       program_list: Program Streams Listing
       search: Search
-      type_of_service: Type of service
     my_ngo_custom_fields:
       next: Next
       previous: Previous
@@ -3847,6 +3850,8 @@ en:
       detail: Program Details
       domain: Associated Domains
       name: Name
+      service_confirm_question: Are you sure your program does this many things?
+      type_of_service: Type of service
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group

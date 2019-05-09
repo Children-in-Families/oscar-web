@@ -160,7 +160,8 @@ CIF.DashboardsIndex = do ->
       DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
 
   _handleProgramStreamServiceShow = ->
-    $('#program-stream-service-modal.just-login').modal('show')
+    $('#referral-source-category-reminder button[data-dismiss=modal]').click ->
+      $('#program-stream-service-modal.just-login').modal('show')
     $('#program-stream-service-modal button[data-dismiss=modal]').click ->
       $('.modal.in').removeClass('just-login')
       return
@@ -208,30 +209,58 @@ CIF.DashboardsIndex = do ->
       # $('.select2-results').prepend "#{html}"
       return
 
+    removeError = (element) ->
+      element.removeClass('has-error')
+      element.find('.help-block').remove()
+
     $('.type-of-service select').on 'select2-close', (e)->
-      # uniqueArray = [...new Set($(this).val())]
+      uniqueArray = _.compact(_.uniq($(this).val()))
+      if uniqueArray.length > 0
+        removeError($(this.parentElement))
+        arrId = this.id.split('_')
+        $("#edit_program_stream_#{arrId[arrId.length - 1]} input[type='submit']").removeAttr('disabled')
+
+      if uniqueArray.length > 3
+        $(this.parentElement).append "<p class='help-block'>#{$('input#confirm-question').val()}</p>" if $(this.parentElement).find('.help-block').length == 0
+        $(this.parentElement).addClass('has-error')
+
       return
+
+    $('.type-of-service select').on 'select2-removed', ->
+      uniqueArray = _.compact(_.uniq($(this).val()))
+      if uniqueArray.length <= 3
+        removeError($(this.parentElement))
+
+      if uniqueArray.length == 0
+        arrId = this.id.split('_')
+        $("#edit_program_stream_#{arrId[arrId.length - 1]} input[type='submit']").attr('disabled', 'disabled')
 
   _updateProgramStream = ->
     $('form.simple_form.program-stream').on 'submit', (e)->
       e.preventDefault
-      $.ajax
-        type: 'POST'
-        url: "/api/#{$(@).attr('action')}"
-        data: $(this).serialize()
-        dataType: 'JSON'
-        success: (json) ->
-          value = $.extend({}, json, text: json.name)
-          console.log value
-          return
-        error: (response) ->
-          $('.error-name').text ''
-          $('.error-color').text ''
-          $('.create-lot-type').removeAttr 'disabled'
-          if response.responseJSON.errors.name
-            $('.error-name').text response.responseJSON.errors.name.join(' , ')
-          if response.responseJSON.errors.color
-            $('.error-color').text response.responseJSON.errors.color.join(' , ')
-          return
+
+      uniqueArray = _.compact(_.uniq($("##{this.id} select").val()))
+      if uniqueArray.length > 0
+        $.ajax
+          type: 'POST'
+          url: "/api/#{$(@).attr('action')}"
+          data: $(this).serialize()
+          dataType: 'JSON'
+          success: (json) ->
+            successImg = '<img class="img-circle" src="/assets/success.png" alt="success">'
+            $("#edit_program_stream_#{json.program_stream.id} input[type='submit']").replaceWith(successImg)
+            return
+          error: (response) ->
+            $('.error-name').text ''
+            $('.error-color').text ''
+            if response.responseJSON.errors.name
+              $('.error-name').text response.responseJSON.errors.name.join(' , ')
+            if response.responseJSON.errors.color
+              $('.error-color').text response.responseJSON.errors.color.join(' , ')
+            return
+      else
+        $("##{this.id} .program_stream_services").append "<p class='help-block'>#{$("input#blank").val()}</p>" if $("##{this.id} .program_stream_services .help-block").length == 0
+        $("##{this.id} .program_stream_services").addClass('has-error')
+
 
   { init: _init }
