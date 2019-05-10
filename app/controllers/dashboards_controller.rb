@@ -3,8 +3,20 @@ class DashboardsController < AdminController
 
   def index
     @setting = Setting.first
+    @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil })
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
     @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
+  end
+
+  def update_program_stream_service
+    programs = params.require(:program_streams)
+    programs.each do |program|
+      program_stream = ProgramStream.find(program.first)
+      next if program.last["service_ids"].nil?
+      program_stream.update(service_ids: program.last["service_ids"].uniq)
+    end
+
+    redirect_to dashboards_path
   end
 
   private
