@@ -17,6 +17,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _radioGoalAndTaskRequiredOption()
     _liveGoal()
     _initICheckBox()
+    _initTaskRequire()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -83,6 +84,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        _initTaskRequire()
 
         if scoreColor == 'success'
           $(".domain-#{domainId} .task_required").addClass('hidden')
@@ -196,6 +198,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
+        _initTaskRequire()
 
         if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
           $("#rootwizard a[href='#save']").remove()
@@ -590,5 +593,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           location.href = "#required-scroll"
         else
           location.href = "##{element}"
+
+  _initTaskRequire = ->
+    currentIndex = $("#rootwizard").steps("getCurrentIndex")
+    tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
+
+    if tasksList.length
+      $("#rootwizard-p-#{currentIndex} .task_required").addClass('hidden')
+    else
+      $("#rootwizard-p-#{currentIndex} .task_required").removeClass('hidden')
 
   { init: _init }
