@@ -1774,7 +1774,7 @@ en:
       program_stream: Program Streams
       program_stream_sub: Please add 'Type of services' to each program stream.
       remind_me: Remind me later
-      service_confirm_question: Are you sure your program does this many things?
+      service_confirm_question: Are you sure your program does this many things? If it does, keep choosing services, but if not, try to keep it simple!
       type_of_service: Type of service
     program_streams_tab:
       link: Action
@@ -3850,7 +3850,7 @@ en:
       detail: Program Details
       domain: Associated Domains
       name: Name
-      service_confirm_question: Are you sure your program does this many things?
+      service_confirm_question: Are you sure your program does this many things? If it does, keep choosing services, but if not, try to keep it simple!
       type_of_service: Type of service
     program_rule:
       add_new_filter: Add New Filter
