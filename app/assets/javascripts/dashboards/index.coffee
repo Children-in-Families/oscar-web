@@ -242,25 +242,20 @@ CIF.DashboardsIndex = do ->
   _updateProgramStream = ->
     $('form.simple_form.program-stream').on 'submit', (e)->
       e.preventDefault
-
       uniqueArray = _.compact(_.uniq($("##{this.id} select").val()))
       if uniqueArray.length > 0
         $.ajax
           type: 'POST'
-          url: "/api/#{$(@).attr('action')}"
+          url: $(@).attr('action')
           data: $(this).serialize()
           dataType: 'JSON'
           success: (json) ->
             successImg = $("#edit_program_stream_#{json.program_stream.id} .save-success-#{json.program_stream.id}").removeClass('hide')
             $("#edit_program_stream_#{json.program_stream.id} input[type='submit']").replaceWith(successImg)
             return
-          error: (response) ->
-            $('.error-name').text ''
-            $('.error-color').text ''
-            if response.responseJSON.errors.name
-              $('.error-name').text response.responseJSON.errors.name.join(' , ')
-            if response.responseJSON.errors.color
-              $('.error-color').text response.responseJSON.errors.color.join(' , ')
+          error: (response, status, msg) ->
+            $("form[action='#{@url}'] .program_stream_services").append "<p class='help-block'>Failed to update program stream.</p>" if $(this.parentElement).find('.help-block').length == 0
+            $("form[action='#{@url}'] .program_stream_services").addClass('has-error')
             return
       else
         $("##{this.id} .program_stream_services").append "<p class='help-block'>#{$("input#blank").val()}</p>" if $("##{this.id} .program_stream_services .help-block").length == 0
