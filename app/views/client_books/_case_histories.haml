@@ -9,8 +9,6 @@
               = "#{t('.enrollment_to')} (#{case_history_label(object)}) for #{@client.en_and_local_name}".gsub('()', '').squish
             - elsif object.class.table_name == 'leave_programs'
               = "#{t('.exited_from')} (#{case_history_label(object)}) for #{@client.en_and_local_name}".gsub('()', '').squish
-            - else
-              - binding.pry
 
           %h5
             = I18n.t('client_books.created')
