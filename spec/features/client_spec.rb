@@ -274,7 +274,9 @@ describe 'Client' do
     let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
                              local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
                              province: province) }
-    let!(:referral_source){ create(:referral_source) }
+    let!(:referral_source_parent){ create(:referral_source) }
+    let!(:referral_source){ create(:referral_source, ancestry: referral_source_parent.id)}
+
     before do
       login_as(admin)
       visit new_client_path
@@ -284,6 +286,7 @@ describe 'Client' do
       find(".client_received_by_id select option[value='#{user.id}']", visible: false).select_option
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
       fill_in 'client_initial_referral_date', with: Date.today
+      find(".client_referral_source_category_id select option[value='#{referral_source_parent.id}']", visible: false).select_option
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
       fill_in 'client_name_of_referee', with: 'Thida'
       fill_in 'client_given_name', with: 'Kema'
@@ -308,6 +311,7 @@ describe 'Client' do
     scenario 'warning', js: true do
       find(".client_received_by_id select option[value='#{user.id}']", visible: false).select_option
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
+      find(".client_referral_source_category_id select option[value='#{referral_source_parent.id}']", visible: false).select_option
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
       fill_in 'client_name_of_referee', with: FFaker::Name.name
       fill_in 'client_initial_referral_date', with: Date.today
