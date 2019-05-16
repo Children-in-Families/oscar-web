@@ -26,6 +26,7 @@ class ProgramStream < ActiveRecord::Base
   validate  :presence_of_label
   validate  :form_builder_field_uniqueness
   validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
+  validates :services, presence: true
 
   before_save :set_program_completed
   after_update :auto_update_exit_program, :auto_update_enrollment

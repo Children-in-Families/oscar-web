@@ -329,7 +329,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
           form.valid()
           name = $('#program_stream_name').val() == ''
-          return false if name
+          services = $('#type-of-service select').val() == null
+          serviceSelect2 = $('.program_stream_services')
+          _handleServiceValidation(services, serviceSelect2)
+
+          return false if name || services
         else if $('#trackings').is(':visible')
           _checkDuplicateTrackingName()
           return true if $('#trackings').hasClass('hide-tracking-form')
@@ -368,6 +372,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         finish: self.filterTranslation.finish
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
+
+  _handleServiceValidation = (services, serviceSelect2) ->
+    if services
+      serviceSelect2.append("<label class='error'>Field cannot be blank.</label>")
+      serviceSelect2.addClass('has-error')
+      $('#type-of-service select').addClass('error')
+    else
+      serviceSelect2.remove("label.error")
+      serviceSelect2.removeClass('has-error')
+      $('#type-of-service select').removeClass('error')
 
   _handleCheckingInvalidRuleValue = ->
     invalidIntValues = $('.rule-value-container input[type=number].error').size()
