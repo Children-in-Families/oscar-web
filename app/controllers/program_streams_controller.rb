@@ -89,7 +89,6 @@ class ProgramStreamsController < AdminController
   end
 
   def remove_html_tags
-    return if params.dig(:program_stream, :trackings_attributes).blank?
     enrollment = params[:program_stream][:enrollment]
     params[:program_stream][:enrollment] = strip_tags(enrollment)
 

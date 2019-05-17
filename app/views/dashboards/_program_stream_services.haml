@@ -12,7 +12,7 @@
           = hidden_field_tag 'blank', I18n.t('activerecord.default.blank')
           = hidden_field_tag 'confirm-question', I18n.t('dashboards.program_stream_services.service_confirm_question')
           - @program_streams.each do |object|
-            = simple_form_for object, remote: true, html: { class: 'program-stream' } do |f|
+            = simple_form_for object, url: api_program_stream_path(object), remote: true, html: { class: 'program-stream' } do |f|
               .row
                 .col-sm-12.col-md-3
                   = f.input :name, disabled: true, label: t('.name')

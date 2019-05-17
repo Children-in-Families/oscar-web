@@ -1,5 +1,4 @@
-require 'rails_helper'
-
-RSpec.describe ProgramStreamService, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe ProgramStreamService, 'associations' do
+  it { is_expected.to belong_to(:program_stream) }
+  it { is_expected.to belong_to(:service) }
 end
