@@ -43,7 +43,7 @@ module ProgramStreamHelper
     value.parameterize.gsub('-', ' ').gsub('&amp;qoute;', '&quot;').html_safe if value.present?
   end
 
-  def services
+  def services(parent_include = true)
     service_parents = Service.only_parents
     parents = service_parents.map do |service|
       [service.name, service.id]
@@ -55,7 +55,7 @@ module ProgramStreamHelper
     ids = service_children.ids
     children = find_children(service_parents, ids, children)
 
-    parents + children
+    results = parent_include ?  parents + children : children
   end
 
   def find_children(service_parents, ids, children)

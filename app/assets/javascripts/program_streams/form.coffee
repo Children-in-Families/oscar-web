@@ -649,6 +649,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     if $('li').hasClass('first current')
       # $('#type-of-service select').select2()
 
+      format = (state) ->
+        if !state.id
+          return state.text
 
       serviceFormatSelection = (service) ->
         service.text
