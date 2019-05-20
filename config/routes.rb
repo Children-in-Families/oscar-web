@@ -267,13 +267,7 @@ Rails.application.routes.draw do
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
-      resources :translations do
-        collection do
-          get 'english' => 'translations#english', as: :english
-          get 'khmer' => 'translations#khmer', as: :khmer
-          get 'myanma' => 'translations#myanma', as: :myanma
-        end
-      end
+      get 'translation/:lang' => 'translations#translation'
     end
   end
 
