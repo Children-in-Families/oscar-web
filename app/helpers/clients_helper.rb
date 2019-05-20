@@ -920,17 +920,17 @@ module ClientsHelper
   def string_condition_filter(rule, properties)
     case rule[:operator]
     when 'equal'
-      properties = properties.select{|value| value == rule[:value].strip  }
+      properties = rule[:type] != 'integer' ? properties.select{|value| value == rule[:value].strip  } : properties.select{|value| value.to_i == rule[:value]  }
     when 'not_equal'
-      properties = properties.select{|value| value != rule[:value].strip  }
+      properties = rule[:type] != 'integer' ? properties.select{|value| value != rule[:value].strip  } : properties.select{|value| value.to_i != rule[:value]  }
     when 'less'
-      properties = properties.select{|value| value < rule[:value].strip  }
+      properties = rule[:type] != 'integer' ? properties.select{|value| value < rule[:value].strip  } : properties.select{|value| value.to_i < rule[:value]  }
     when 'less_or_equal'
-      properties = properties.select{|value| value <= rule[:value].strip  }
+      properties = rule[:type] != 'integer' ? properties.select{|value| value <= rule[:value].strip  } : properties.select{|value| value.to_i <= rule[:value]  }
     when 'greater'
-      properties = properties.select{|value| value > rule[:value].strip  }
+      properties = rule[:type] != 'integer' ? properties.select{|value| value > rule[:value].strip  } : properties.select{|value| value.to_i > rule[:value]  }
     when 'greater_or_equal'
-      properties = properties.select{|value| value >= rule[:value].strip  }
+      properties = rule[:type] != 'integer' ? properties.select{|value| value >= rule[:value].strip  } : properties.select{|value| value.to_i >= rule[:value]  }
     when 'contains'
       properties.include?(rule[:value].strip)
     when 'not_contains'
@@ -940,7 +940,7 @@ module ClientsHelper
     when 'is_not_empty'
       properties
     when 'between'
-      properties = properties.select{|value| value.to_i >= rule[:value].first.strip && value.to_i <= rule[:value].last.strip  }
+      properties = rule[:type] != 'integer' ? properties.select{|value| value.to_i >= rule[:value].first.strip && value.to_i <= rule[:value].last.strip  } : properties.select{|value| value.to_i >= rule[:value].first && value.to_i <= rule[:value].last  }
     end
     properties
   end
