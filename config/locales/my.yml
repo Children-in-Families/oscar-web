@@ -930,6 +930,8 @@ my:
     index:
       book: ဖောက်သည် စာအုပ်
       jump_to: ရက်စွဲကိုဤနေရာသို့သွားရန်
+    leave_programs:
+      exited_from: ကနေမထွက်
     for: အဘို့
     tasks:
       task: ရက်လွန်အလုပ်တခုကို

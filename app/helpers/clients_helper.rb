@@ -988,12 +988,20 @@ module ClientsHelper
   end
 
   def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
-      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
-        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment'
+        created_date = association.created_at
+        enrollment_date = association.enrollment_date
+        distance_between_dates = (enrollment_date.to_date - created_date.to_date).to_i
+        created_date + distance_between_dates.day
+      elsif association.class.name.downcase == 'leaveprogram'
+        created_date = association.created_at
+        exit_date = association.exit_date
+        distance_between_dates = (exit_date.to_date - created_date.to_date).to_i
+        created_date + distance_between_dates.day
       else
-        date_format(association.created_at)
+        association.created_at
       end
-    end.sort_by{|k, v| k.to_date }.reverse.to_h
+    end.sort_by{|k, v| k }.reverse.to_h
   end
 end

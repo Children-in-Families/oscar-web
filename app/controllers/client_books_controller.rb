@@ -6,8 +6,9 @@ class ClientBooksController < AdminController
   def index
     @case_notes  = @client.case_notes.most_recents
     @assessments = AssessmentDecorator.decorate_collection(@client.assessments.order(created_at: :desc))
-    @client_enrollments = program_stream_order_by_enrollment
-    @case_histories = case_history
+    @client_enrollments = program_stream_order_by_enrollment[:enrollments].compact
+    @client_enrollment_trackings = program_stream_order_by_enrollment[:enrollment_trackings].flatten.compact
+    @client_enrollment_leave_programs = program_stream_order_by_enrollment[:enrollment_leave_programs].compact
     @custom_field_properties = @client.custom_field_properties
   end
 
@@ -17,10 +18,16 @@ class ClientBooksController < AdminController
     end
 
     def program_stream_order_by_enrollment
-      @enrollments = @client.client_enrollments.includes(:leave_program)
-      @enrollments.map do |enrollment|
-        [enrollment, enrollment.leave_program, enrollment.client_enrollment_trackings.includes(:tracking)]
-      end.flatten.compact
+      results = {
+        enrollments: [], enrollment_trackings: [], enrollment_leave_programs: []
+      }
+      enrollments = @client.client_enrollments.includes(:leave_program)
+      enrollments.each do |enrollment|
+        results[:enrollments] << enrollment
+        results[:enrollment_trackings] << enrollment.client_enrollment_trackings.includes(:tracking)
+        results[:enrollment_leave_programs] << enrollment.leave_program
+      end
+      results
     end
 
     def case_history

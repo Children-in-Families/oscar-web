@@ -7,7 +7,7 @@
             = "#{t('.enrollment_to')} (#{client_enrollment.program_stream_name}) - #{@client.en_and_local_name}"
           %h5
             = "#{I18n.t('client_books.completed')}:"
-            = date
+            = date_format(date)
             = I18n.t('client_books.by')
             = whodunnit('ClientEnrollment', client_enrollment.id)
           .ibox-tools
@@ -16,6 +16,9 @@
         .ibox-content
           .table-responsive
             %table.table.table-bordered
+              %tr
+                %td= t('.enrollment_date')
+                %td= date_format(client_enrollment.enrollment_date)
               - client_enrollment.program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
                 - unless type == 'separateLine'
                   - if type == 'paragraph'

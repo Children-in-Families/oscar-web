@@ -926,6 +926,8 @@ km:
     index:
       book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
       jump_to: ទៅកាន់កាលបរិច្ឆេទ
+    leave_programs:
+      exited_from: ចាកចេញពី
     for: សំរាប់
     tasks:
       task: កាតព្វកិច្ច
