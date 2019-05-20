@@ -189,7 +189,7 @@
           %input{style: 'width:100%; float:left; font-size: 7px;', value: @government_form.source_info }
         - else
           %input{style: 'width:100%; float:left;', value: @government_form.source_info }
-%p{style: 'page-break-after:always;'}
+
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #F2F2F2;' }
     ប្រភេទកុមារ:
@@ -280,10 +280,10 @@
         អាជ្ញាធរដែនដី
         %br
         %div.other-label
-          = render ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+          = render ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id)) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
           ផ្សេងៗ
-        %div{ class: "other #{ 'empty' if @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.include?(@client.referral_source_name)}" }
-          = @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name)
+        %div{ class: "other #{ 'empty' if @client.referral_source_category_id.present? if ReferralSource::REFERRAL_SOURCES.include?(ref_cat_name(@client.referral_source_category_id))}" }
+          = ref_cat_name(@client.referral_source_category_id) if ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id))
 
 .panel.panel-default{style: 'margin:0;'}
   %label.panel-label{ style: 'background-color: #FFFD54;' }
