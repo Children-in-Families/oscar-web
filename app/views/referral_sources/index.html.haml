@@ -15,6 +15,7 @@
             %thead
               %tr
                 %th.custom_column_name= t('.referral_source_name')
+                %th.custom_column_name= t('.referral_source_category')
                 %th.custom_column_description= t('.description')
                 - if can? :manage, ReferralSource
                   %th.text-center.custom_column_manage{:colspan => "2"}
@@ -24,13 +25,11 @@
             %tbody
               - @referral_sources.each do |referral_source|
                 %tr
-                  - if Setting.first.country_name != "cambodia"
-                    - if referral_source.name_en.present?
-                      %td= referral_source.name_en
-                    - else
-                      %td= referral_source.name
+                  %td= referral_source.name
+                  - if I18n.locale == :km
+                    %td= referral_source.parent.try(:name)
                   - else
-                    %td= referral_source.name
+                    %td= referral_source.parent.try(:name_en)
                   %td= referral_source.description
                   %td.text-center= edit_referral(referral_source)
                   %td.text-center= remove_referral(referral_source)

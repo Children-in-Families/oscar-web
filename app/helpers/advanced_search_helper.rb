@@ -139,7 +139,8 @@ module AdvancedSearchHelper
       time_in_care: I18n.t('advanced_search.fields.time_in_care'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number'),
       month_number: I18n.t('advanced_search.fields.month_number'),
-      custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group')
+      custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
+      referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id')
     }
     translations[key.to_sym] || ''
   end

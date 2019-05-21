@@ -115,9 +115,18 @@ class ClientGrid < BaseGrid
   # Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id })
 
   filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.clients.referral_source') })
+  filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') })
 
   def referral_source_options
     current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_is : Client.referral_source_is
+  end
+
+  def referral_source_category_options
+    if I18n.locale == :km
+      ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name, :id)
+    else
+      ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
+    end
   end
 
   filter(:followed_up_by_id, :enum, select: :is_followed_up_by_options, header: -> { I18n.t('datagrid.columns.clients.follow_up_by') })
@@ -722,6 +731,14 @@ class ClientGrid < BaseGrid
 
   column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
+  end
+
+  column(:referral_source_category, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
+    if I18n.locale == :km
+      ReferralSource.find_by(id: object.referral_source_category_id).try(:name)
+    else
+      ReferralSource.find_by(id: object.referral_source_category_id).try(:name_en)
+    end
   end
 
   # column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|

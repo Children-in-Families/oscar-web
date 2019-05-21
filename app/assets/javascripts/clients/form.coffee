@@ -19,6 +19,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _handReadonlySpecificPoint()
     _initUploader()
     _enableDoneButton()
+    _ajaxCheckReferralSource()
+    _ajaxCheckReferralSourceCategory()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -90,6 +92,44 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             townships = response.townships
             for township in townships
               $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
+
+  _ajaxCheckReferralSource = ->
+    $('#client_referral_source_category_id').on 'change', ->
+      referral_source_category_id = $(@).val()
+      $('select#client_referral_source_id').val(null).trigger('change')
+      $('select#client_referral_source_id option[value!=""]').remove()
+      if referral_source_category_id != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/referral_sources/get_referral_sources"
+          data: {ref_category_id: referral_source_category_id}
+          dataType: 'JSON'
+          success: (response) ->
+            referral_sources = response.referral_sources
+            for referral_source in referral_sources
+              $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
+      else if referral_source_category_id == ''
+        $.ajax
+          method: 'GET'
+          url: "/api/referral_sources/get_all_referral_sources"
+          dataType: 'JSON'
+          success: (response) ->
+            referral_sources = response.referral_sources
+            for referral_source in referral_sources
+              $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
+
+  _ajaxCheckReferralSourceCategory = ->
+    if $('#client_referral_source_id').val() == '' && $('#client_referral_source_category_id').val() != ''
+      referral_source_category_id = $('#client_referral_source_category_id').val()
+      $.ajax
+        method: 'GET'
+        url: "/api/referral_sources/get_referral_sources"
+        data: {ref_category_id: referral_source_category_id}
+        dataType: 'JSON'
+        success: (response) ->
+          referral_sources = response.referral_sources
+          for referral_source in referral_sources
+            $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
 
   _ajaxCheckExistClient = ->
     $('.loader-default').addClass('is-active')
@@ -205,14 +245,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           client_name_of_referee        = $('#client_name_of_referee').val() == ''
           client_gender                 = $('#client_gender').val() == ''
           clientIsExited                = $('#client_status').val() == 'Exited'
+          client_referral_source_category_id = $('#client_referral_source_category_id').val() == ''
 
           if clientIsExited
-            if client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender
+            if client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender or client_referral_source_category_id
               return false
             else
               return true
           else
-            if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender
+            if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee or client_gender or client_referral_source_category_id
               return false
             else
               return true
@@ -335,6 +376,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         "client[referral_source_id]":ruleRequired
         "client[name_of_referee]": ruleRequired
         "client[gender]": ruleRequired
+        "client[referral_source_category_id]": ruleRequired
 
       }
       messages: {
@@ -344,9 +386,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         "client[referral_source_id]": requiredMessage
         "client[name_of_referee]": requiredMessage
         "client[gender]": requiredMessage
+        "client[referral_source_category_id]": requiredMessage
       }
 
-    $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender').change ->
+    $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id, #client_gender, #client_referral_source_category_id').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
 

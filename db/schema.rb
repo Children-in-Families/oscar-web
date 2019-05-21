@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190322023721) do
+ActiveRecord::Schema.define(version: 20190423041510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -471,6 +471,7 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.string   "profile"
+    t.integer  "referral_source_category_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1157,7 +1158,10 @@ ActiveRecord::Schema.define(version: 20190322023721) do
     t.datetime "updated_at"
     t.integer  "clients_count", default: 0
     t.string   "name_en",       default: ""
+    t.string   "ancestry"
   end
+
+  add_index "referral_sources", ["ancestry"], name: "index_referral_sources_on_ancestry", using: :btree
 
   create_table "referrals", force: :cascade do |t|
     t.string   "slug",             default: ""
