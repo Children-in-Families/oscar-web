@@ -406,6 +406,7 @@ my:
       received_by_id: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲေျပာင္းရမည့္သူ
+      referral_source_category_id: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       referral_source_id: လႊဲေျပာင္းရမည့္သူ
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
@@ -1424,6 +1425,7 @@ my:
       referral_information: လွှဲပြောင်းသတင်းအချက်အလက်များ
       referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
       referral_source: လႊဲရမည့္ ရင္းျမစ္
+      referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       remove_profile: ရုပ်ပုံကိုဖယ်ရှား
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
@@ -1783,6 +1785,11 @@ my:
       previous: ေရွ႕တစ္ခု
       program_stream_name: အစီအမံစီဆင္းမႈ
       tracking_name: ခြေရာခံနာမကိုအမှီ
+    referral_source_category_reminder:
+      ancestry: အမျိုးအစား
+      name: နာမတျောကို
+      referral_source_reminder: ရည်ညွန်းရင်းမြစ်များအတွက် Category သတင်းအချက်အလက် Add ပေးပါ
+      remind_later: နောက်ပိုင်းမှာငါ့ကိုသတိပေး
     third_party:
       ables: Ables
       agencies: ေအဂ်င္စီမ်ား
@@ -1969,6 +1976,7 @@ my:
         received_by: မွ လက္ခံသည္
         referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
         referral_source: လႊဲရမည့္ ရင္းျမစ္
+        referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
         referred_from: ကနေရည်ညွှန်း
         referred_to: ရည်ညွှန်း
         reject_note: ျငင္းပယ္သည့္ မွတ္စု
@@ -3763,6 +3771,7 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  processing: လုပ်ဆောင်နေသည်
   program_exclusive_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့အစီအစဉ်ကိုသီးသန့်ပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   program_streams:
     actions:
@@ -4115,6 +4124,7 @@ my:
     edit:
       title: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ျပင္ဆင္ရန္
     form:
+      ancestry: အမျိုးအစား
       cancel: ပယ္ဖ်က္ရန္
       description: ေဖာ္ျပခ်က္
       name: နာမည္
@@ -4126,6 +4136,7 @@ my:
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
       description: ေဖာ္ျပခ်က္
       manage: စီမံသည္
+      referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       referral_source_name: လႊဲေျပာင္းသည့္ရင္းျမစ္နာမည္
       referral_sources: လႊဲေျပာင္းသည့္ရင္းျမစ္မ်ား
       view: ျမင္ကြင္း

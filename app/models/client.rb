@@ -71,7 +71,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, :gender, presence: true
+  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, :gender, :referral_source_category_id, presence: true
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
@@ -88,7 +88,7 @@ class Client < ActiveRecord::Base
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,                       ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
   scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
@@ -257,13 +257,15 @@ class Client < ActiveRecord::Base
     "#{local_family_name} #{local_given_name}"
   end
 
-  def next_assessment_date
+  def next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.defaults.empty?
+    return nil if user_activated_date.present? && assessments.defaults.latest_record.created_at < user_activated_date
     (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
 
-  def custom_next_assessment_date
+  def custom_next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.customs.empty?
+    return nil if user_activated_date.present? && assessments.customs.latest_record.created_at < user_activated_date
     (assessments.customs.latest_record.created_at + assessment_duration('max', false)).to_date
   end
 
@@ -295,8 +297,9 @@ class Client < ActiveRecord::Base
     true
   end
 
-  def next_case_note_date
+  def next_case_note_date(user_activated_date = nil)
     return Date.today if case_notes.count.zero? || case_notes.latest_record.try(:meeting_date).nil?
+    return nil if case_notes.latest_record.created_at < user_activated_date if user_activated_date.present?
     setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
@@ -465,6 +468,29 @@ class Client < ActiveRecord::Base
           repeat_notifications = client.repeat_notifications_schedule(false)
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+          end
+        end
+      end
+    end
+  end
+
+  def self.notify_incomplete_daily_csi_assessment
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      if Setting.first.enable_default_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: true })
+        clients.each do |client|
+          if client.eligible_default_csi? && client.assessments.defaults.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          end
+        end
+      end
+
+      if Setting.first.enable_custom_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: false })
+        clients.each do |client|
+          if client.eligible_custom_csi? && client.assessments.customs.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
           end
         end
       end
