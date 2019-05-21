@@ -167,7 +167,7 @@ CIF.DashboardsIndex = do ->
       return
 
     $('#program-stream-service-modal button[data-dismiss=modal]').click ->
-      $('.modal.in').removeClass('just-login')
+      $('.modal.in').removeClass('modal-popup')
       return
 
 
