@@ -13,7 +13,7 @@
             = assessment.client.name
           %h5
             = assessment.completed? ? "#{I18n.t('client_books.completed')}:" : "#{I18n.t('client_books.created')}:"
-            = date
+            = date_format(date)
             = I18n.t('client_books.by')
             = "#{whodunnit('Assessment', assessment)} #{I18n.t('assessments.show.on_date')}"
           / %h5= I18n.t('data_trackers.index.assessments')

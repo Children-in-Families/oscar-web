@@ -924,6 +924,8 @@ en:
     index:
       book: Client book
       jump_to: Jump to date
+    leave_programs:
+      exited_from: Exited From
     for: For
     tasks:
       task: Task

@@ -1000,6 +1000,24 @@ module ClientsHelper
     end
   end
 
+  def group_client_associations
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment'
+        created_date = association.created_at
+        enrollment_date = association.enrollment_date
+        distance_between_dates = (enrollment_date.to_date - created_date.to_date).to_i
+        created_date + distance_between_dates.day
+      elsif association.class.name.downcase == 'leaveprogram'
+        created_date = association.created_at
+        exit_date = association.exit_date
+        distance_between_dates = (exit_date.to_date - created_date.to_date).to_i
+        created_date + distance_between_dates.day
+      else
+        association.created_at
+      end
+    end.sort_by{|k, v| k }.reverse.to_h
+  end
+
   def referral_source_category(id)
     if I18n.locale == :km
       ReferralSource.find_by(id: id).try(:name)

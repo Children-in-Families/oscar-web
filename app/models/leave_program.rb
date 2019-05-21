@@ -1,5 +1,5 @@
 class LeaveProgram < ActiveRecord::Base
-  acts_as_paranoid
+  acts_as_paranoid without_default_scope: true
 
   belongs_to :client_enrollment
   belongs_to :program_stream
