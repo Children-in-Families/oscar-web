@@ -301,21 +301,24 @@
                 %td
                   %strong
                     = @client.time_in_care
+              - unless Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.referral_source')
+                  %td
+                    %strong
+                      = @client.referral_source
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
-              %tr
-                %td.spacing-first-col
-                  = t('.referral_source_category')
-                %td
-                  %strong
-                    = referral_source_category(@client.referral_source_category_id)
-              %tr
-                %td.spacing-first-col
-                  = t('.referral_source')
-                %td
-                  %strong
-                    = @client.referral_source
+              - if Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.referral_source')
+                  %td
+                    %strong
+                      = @client.referral_source
+
               %tr
                 %td.spacing-first-col
                   = t('.received_by')

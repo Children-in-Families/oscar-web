@@ -248,6 +248,11 @@ Rails.application.routes.draw do
         resources :case_notes, only: [:create, :update, :delete, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
+        scope module: 'clients' do
+          resources :exit_ngos, only: [:create, :update]
+          resources :enter_ngos, only: [:create, :update]
+        end
+
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
         end
@@ -256,6 +261,7 @@ Rails.application.routes.draw do
           resources :leave_programs, only: [:create, :update, :destroy]
         end
       end
+
       resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
       resources :districts, only: [:index]

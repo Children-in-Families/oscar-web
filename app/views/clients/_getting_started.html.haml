@@ -53,7 +53,7 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.input :referral_source_category_id, collection: @referral_source_category, label: t('.referral_source_category')
       .col-xs-12.col-sm-6.col-md-4
-        = f.association :referral_source, collection: @referral_source, label: t('.referral_source')
+        = f.association :referral_source, collection: referral_source_name(@referral_source), label: t('.referral_source')
     .row
       .col-xs-12.col-sm-6.col-md-4
         = f.input :name_of_referee, label: t('.name_of_referee')

@@ -14,7 +14,7 @@ module ReferralSourceHelper
   end
 
   def remove_referral(referral_source)
-    if ReferralSource::REFERRAL_SOURCES.include?(referral_source.name)
+    if ReferralSource::REFERRAL_SOURCES.include?(referral_source.name) || referral_source.clients.count > 0
       link_to(referral_source, method: 'delete',  data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger btn-xs disabled") do
         fa_icon('trash')
       end

@@ -33,7 +33,6 @@ module AdvancedSearches
     def domainscore_field_query
       assessments       = []
       custom_domain     = Domain.find(@domain_id).try(:custom_domain)
-
       if @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_number'
         between_date_value= @basic_rules.third['value']
         assessment_number = @basic_rules.second['value']

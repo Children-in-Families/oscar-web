@@ -101,6 +101,8 @@ km:
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
+    default: &default
+      blank: មិនអាចរំលង
     errors:
       models:
         able_screening_question:
@@ -121,6 +123,8 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -130,11 +134,14 @@ km:
             start_date:
               blank: មិនអាចរំលង
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: មិនអាចរំលង
             meeting_date:
               blank: មិនអាចរំលង
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:
@@ -196,6 +203,10 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        enter_ngo:
+          attributes:
+            user_ids:
+              blank: មិនអាចរំលង
         family:
           attributes:
             family_type:
@@ -252,6 +263,8 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        referral:
+          <<: *default
         referral_source:
           attributes:
             name:
@@ -282,6 +295,7 @@ km:
                 other: ត្រូវតែធំជាង %{count}
               taken: ត្រូវបានប្រើរួចហើយ
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: មិនអាចរំលង
@@ -3733,6 +3747,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  processing: កំពុងដំណើរការ...
   program_exclusive_has_been_modified: កម្មវិធីផ្តាច់មុខមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   program_streams:
     actions:

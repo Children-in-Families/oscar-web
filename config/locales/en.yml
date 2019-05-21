@@ -101,6 +101,8 @@ en:
         update:
           successfully_updated: Successfully updated
   activerecord:
+    default: &default
+      blank: can't be blank
     errors:
       models:
         able_screening_question:
@@ -121,6 +123,8 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        assessment_domain:
+          <<: *default
         case:
           attributes:
             exit_date:
@@ -130,11 +134,14 @@ en:
             start_date:
               blank: can't be blank
         case_note:
+          <<: *default
           attributes:
             attendee:
               blank: can't be blank
             meeting_date:
               blank: can't be blank
+        case_note_domain_group:
+          <<: *default
         changelog:
           attributes:
             change_version:
@@ -196,6 +203,10 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        enter_ngo:
+          attributes:
+            user_ids:
+              blank: can't be blank
         family:
           attributes:
             family_type:
@@ -252,7 +263,10 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        referral:
+          <<: *default
         referral_source:
+          <<: *default
           attributes:
             name:
               blank: can't be blank
@@ -282,6 +296,7 @@ en:
                 other: must be greater than %{count}
               taken: has already been taken
         task:
+          <<: *default
           attributes:
             completion_date:
               blank: This field is required
@@ -352,7 +367,7 @@ en:
       exit_reasons: Reason For Exit
       family: Family
       family_id: Family ID
-      family_name: Family Name (English)
+      family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
@@ -360,7 +375,7 @@ en:
       form_title: Form Title
       frequency: Frequency
       gender: Gender
-      given_name: Given Name (English)
+      given_name: Given Name (Latin)
       grade: School Grade
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
@@ -1287,7 +1302,7 @@ en:
       exit_date: NGO Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
-      family_name: Family Name (English)
+      family_name: Family Name (Latin)
       finish: Finish
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
@@ -1296,7 +1311,7 @@ en:
       gender: Gender
       general_question: General Question
       getting_started: Getting Started
-      given_name: Given Name (English)
+      given_name: Given Name (Latin)
       gov_caseworker_comment: Caseworker comment
       gov_caseworker_comment_section: Caseworker comment on needs and challenges of the client
       gov_caseworker_name: Caseworker name
@@ -1380,12 +1395,12 @@ en:
     getting_started:
       case_worker_or_staff: Case Worker / Staff
       date_of_birth: Date of Birth
-      family_name: Family Name (English)
+      family_name: Family Name (Latin)
       first_followed_up_by: First Follow-Up By
       first_followed_up_date: First Follow-Up Date
       gender: Gender
       getting_started: Getting Started
-      given_name: Given Name (English)
+      given_name: Given Name (Latin)
       initial_referral_date: Initial Referral Date
       living_detail: Living Details
       local_family_name: Family Name
@@ -1559,13 +1574,13 @@ en:
       exit_reasons: Reason for Exit / Case Rejection
       external_referral: External Referral
       families: Families
-      family_name: Family Name (English)
+      family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
       gender: Gender
       general_info: About Client
-      given_name: Given Name (English)
+      given_name: Given Name (Latin)
       government_form_five: Follow up the Child in Alternative Care Form
       government_form_four: Placement-Reintegration Form
       government_form_one: Initial Information Form
@@ -1888,14 +1903,14 @@ en:
         exit_note: NGO Exit Note
         exit_reasons: Reason For Exit
         family_id: Family ID
-        family_name: Family Name (English)
+        family_name: Family Name (Latin)
         follow_up_by: First Follow-Up By
         follow_up_date: First Follow-Up Date
         followed_up_by: First Follow-Up By
         form_title: Form Title
         frequency: Frequency
         gender: Gender
-        given_name: Given Name (English)
+        given_name: Given Name (Latin)
         has_been_in_government_care: Has the client lived in government care
         has_been_in_orphanage: Has the client lived in an orphanage
         has_date_of_birth: Has Date of Birth
@@ -2184,12 +2199,12 @@ en:
     date_of_birth: Date of Birth
     district: District/Khan
     donor: Donor
-    family_name: Family Name (English)
+    family_name: Family Name (Latin)
     follow_up_by: First Follow-Up By
     follow_up_date: First Follow-Up Date
     followed_up_by: First Follow-Up By
     gender: Gender
-    given_name: Given Name (English)
+    given_name: Given Name (Latin)
     has_been_in_government_care: Has the client lived in government care
     has_been_in_orphanage: Has the client lived in an orphanage
     house_number: House
@@ -3727,6 +3742,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  processing: Processing...
   program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous rules.
   program_streams:
     actions:
