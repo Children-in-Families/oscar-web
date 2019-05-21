@@ -8,7 +8,7 @@
             = case_note.client.name
           %h5
             = I18n.t('client_books.completed')
-            = date
+            = date_format(date)
             = I18n.t('client_books.by')
             = whodunnit('CaseNote', case_note.id)
           .ibox-tools
