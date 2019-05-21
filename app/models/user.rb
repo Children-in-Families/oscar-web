@@ -153,34 +153,71 @@ class User < ActiveRecord::Base
     due_today = []
     customized_overdue   = []
     customized_due_today = []
-    clients.active_accepted_status.each do |client|
-      next if !client.eligible_default_csi? && !client.eligible_custom_csi?
-      if setting.enable_default_assessment? && setting.enable_custom_assessment?
-        client_next_asseement_date = client.next_assessment_date.to_date
-        client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
-        if client_next_asseement_date < Date.today
-          overdue << client
-        elsif client_next_asseement_date == Date.today
-          due_today << client
+
+    if self.deactivated_at.nil?
+      clients.active_accepted_status.each do |client|
+        next if !client.eligible_default_csi? && !client.eligible_custom_csi?
+        if setting.enable_default_assessment? && setting.enable_custom_assessment?
+          client_next_asseement_date = client.next_assessment_date.to_date
+          client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
+          if client_next_asseement_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date == Date.today
+            due_today << client
+          end
+          if client_custom_next_assessment_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date == Date.today
+            customized_due_today << client
+          end
+        elsif setting.enable_default_assessment?
+          client_next_asseement_date = client.next_assessment_date.to_date
+          if client_next_asseement_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date == Date.today
+            due_today << client
+          end
+        elsif setting.enable_custom_assessment?
+          client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
+          if client_custom_next_assessment_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date == Date.today
+            customized_due_today << client
+          end
         end
-        if client_custom_next_assessment_date < Date.today
-          customized_overdue << client
-        elsif client_custom_next_assessment_date == Date.today
-          customized_due_today << client
-        end
-      elsif setting.enable_default_assessment?
-        client_next_asseement_date = client.next_assessment_date.to_date
-        if client_next_asseement_date < Date.today
-          overdue << client
-        elsif client_next_asseement_date == Date.today
-          due_today << client
-        end
-      elsif setting.enable_custom_assessment?
-        client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
-        if client_custom_next_assessment_date < Date.today
-          customized_overdue << client
-        elsif client_custom_next_assessment_date == Date.today
-          customized_due_today << client
+      end
+    else
+      clients.active_accepted_status.each do |client|
+        next if !client.eligible_default_csi? && !client.eligible_custom_csi?
+        if setting.enable_default_assessment? && setting.enable_custom_assessment?
+          client_next_asseement_date = client.next_assessment_date(self.activated_at)
+          client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at)
+          if client_next_asseement_date.present? && client_next_asseement_date.to_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date.present? && client_next_asseement_date.to_date == Date.today
+            due_today << client
+          end
+          if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
+            customized_due_today << client
+          end
+        elsif setting.enable_default_assessment?
+          client_next_asseement_date = client.next_assessment_date(self.activated_at)
+          next if client_next_asseement_date.nil?
+          if client_next_asseement_date.to_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date.to_date == Date.today
+            due_today << client
+          end
+        elsif setting.enable_custom_assessment?
+          client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at)
+          next if client_custom_next_assessment_date.nil?
+          if client_custom_next_assessment_date.to_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date.to_date == Date.today
+            customized_due_today << client
+          end
         end
       end
     end
@@ -219,20 +256,39 @@ class User < ActiveRecord::Base
   end
 
   def client_forms_overdue_or_due_today
-    overdue_and_due_today_forms(clients.active_accepted_status)
+    if self.deactivated_at.present?
+      active_accepted_clients = clients.where(created_at > self.activated_at).active_accepted_status
+    else
+      active_accepted_clients = clients.active_accepted_status
+    end
+    overdue_and_due_today_forms(active_accepted_clients)
   end
 
   def case_note_overdue_and_due_today
     overdue   = []
     due_today = []
-    clients.active_accepted_status.each do |client|
-      client_next_case_note_date = client.next_case_note_date.to_date
-      if client_next_case_note_date < Date.today
-        overdue << client
-      elsif client_next_case_note_date == Date.today
-        due_today << client
+
+    if self.deactivated_at.nil?
+      clients.active_accepted_status.each do |client|
+        client_next_case_note_date = client.next_case_note_date.to_date
+        if client_next_case_note_date < Date.today
+          overdue << client
+        elsif client_next_case_note_date == Date.today
+          due_today << client
+        end
+      end
+    else
+      clients.active_accepted_status.each do |client|
+        client_next_case_note_date = client.next_case_note_date(self.activated_at)
+        next if client_next_case_note_date.nil?
+        if client_next_case_note_date.to_date < Date.today
+          overdue << client
+        elsif client_next_case_note_date.to_date == Date.today
+          due_today << client
+        end
       end
     end
+
     { client_overdue: overdue, client_due_today: due_today }
   end
 

@@ -1588,6 +1588,8 @@ ActiveRecord::Schema.define(version: 20190423041510) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "activated_at"
+    t.datetime "deactivated_at"
     t.datetime "deleted_at"
   end
 
