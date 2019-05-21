@@ -437,8 +437,6 @@ feature 'program_stream' do
         first("input[type='submit']", visible: true).click
         wait_for_ajax
 
-        binding.pry
-        save_and_open_screenshot
         expect(page).to have_content('Program Streams')
       end
     end
