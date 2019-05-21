@@ -471,6 +471,29 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def self.notify_incomplete_daily_csi_assessment
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      if Setting.first.enable_default_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: true })
+        clients.each do |client|
+          if client.eligible_default_csi? && client.assessments.defaults.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          end
+        end
+      end
+
+      if Setting.first.enable_custom_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: false })
+        clients.each do |client|
+          if client.eligible_custom_csi? && client.assessments.customs.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          end
+        end
+      end
+    end
+  end
+
   def most_recent_csi_assessment
     assessments.defaults.most_recents.first.created_at.to_date
   end

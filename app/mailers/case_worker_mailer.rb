@@ -30,6 +30,22 @@ class CaseWorkerMailer < ApplicationMailer
     mail(to: recievers, subject: "Upcoming #{@name}", bcc: dev_email)
   end
 
+  def notify_incomplete_daily_csi_assessments(client)
+    @client   = client
+    recievers = client.users.non_locked.notify_email.pluck(:email)
+    return if recievers.empty?
+    assessment = @client.assessments.most_recents.first
+    default = assessment.try(:default)
+    @overdue_date = assessment.created_at.to_date + 7
+    if default
+      @name = Setting.first.default_assessment
+    else
+      @name = Setting.first.custom_assessment
+    end
+    dev_email = ENV['DEV_EMAIL']
+    mail(to: recievers, subject: "Incomplete #{@name}", bcc: dev_email)
+  end
+
   def forms_notifity(user, short_name)
     @user = user
     forms = overdue_and_due_today_forms(user.clients.active_accepted_status)
