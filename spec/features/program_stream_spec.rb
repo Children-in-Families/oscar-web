@@ -399,4 +399,48 @@ feature 'program_stream' do
       expect(page).to have_content('No Result Found')
     end
   end
+
+  feature 'Popup program stream in dashboard index page', js: true do
+    before do
+      create_list(:program_stream, 5)
+      login_as(admin)
+    end
+
+    scenario 'A modal popup if program stream has no services attached' do
+      ProgramStream.all.each do |program_stream|
+        program_stream.services = []
+        program_stream.save(validate: false)
+      end
+
+      visit root_path
+      within('#program-stream-service-modal') do
+        expect(page).to have_content('Program Streams')
+      end
+    end
+
+    scenario 'A modal popup if program stream has services attached' do
+      visit root_path
+
+      expect(page).not_to have_css(:id, text: 'Program Streams')
+    end
+
+    scenario 'update program stream in the modal popup' do
+      ProgramStream.all.each do |program_stream|
+        program_stream.services = []
+        program_stream.save(validate: false)
+      end
+
+      visit root_path
+      within('#program-stream-service-modal') do
+        program_stream = Service.only_children.first
+        first(".program_stream_services select option[value='#{program_stream.id}']", visible: false).select_option
+        first("input[type='submit']", visible: true).click
+        wait_for_ajax
+
+        binding.pry
+        save_and_open_screenshot
+        expect(page).to have_content('Program Streams')
+      end
+    end
+  end
 end
