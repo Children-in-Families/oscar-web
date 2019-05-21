@@ -432,12 +432,17 @@ feature 'program_stream' do
 
       visit root_path
       within('#program-stream-service-modal') do
-        program_stream = Service.only_children.first
-        first(".program_stream_services select option[value='#{program_stream.id}']", visible: false).select_option
-        first("input[type='submit']", visible: true).click
+        program_stream = ProgramStream.find_by(name: 'Program Stream Search')
+        service = Service.only_children.first
+
+        first(".program_stream_services select option[value='#{service.id}']", visible: false).select_option
+
+        page.execute_script("$('input[type=\"submit\"]:first').removeAttr('disabled')")
+
+        page.execute_script("$('input[type=\"submit\"]:first').click()")
         wait_for_ajax
 
-        expect(page).to have_content('Program Streams')
+        expect(program_stream.services.pluck(:name)).to include(service.name)
       end
     end
   end
