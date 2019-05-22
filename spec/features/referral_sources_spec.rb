@@ -1,5 +1,6 @@
 describe 'Referral Sources' do
   let!(:admin){ create(:user, roles: 'admin') }
+  let!(:another_admin){ create(:user, roles: 'admin', email: 'admin@test.com', password: '123456789', password_confirmation: '123456789')}
   let!(:referral_source){ create(:referral_source) }
   let!(:other_referral_source){ create(:referral_source) }
   let!(:referral_source_1){ create(:referral_source, name: 'អង្គការមិនមែនរដ្ឋាភិបាល') }
@@ -95,6 +96,30 @@ describe 'Referral Sources' do
       find("a[href='#{referral_source_path(referral_source)}'][data-method='delete']").click
       wait_for_ajax
       expect(page).not_to have_content(referral_source.name)
+    end
+  end
+
+  feature 'remind to add referral source category', js: true do
+    scenario 'success', js: true do
+      visit root_path
+      find("a[href='#{destroy_user_session_path}']").click
+      page.visit('/users/sign_in')
+      fill_in 'Email', with: 'admin@test.com'
+      fill_in 'Password', with: '123456789'
+      page.find("input[type='submit'][value='Log in']").click
+      expect(page).to have_content('Please Add Category information for Referral Source')
+    end
+
+    scenario 'not success', js: true do
+      referral_source.update_columns(ancestry: referral_source_1.id)
+      other_referral_source.update_columns(ancestry: referral_source_1.id)
+      visit root_path
+      find("a[href='#{destroy_user_session_path}']").click
+      page.visit('/users/sign_in')
+      fill_in 'Email', with: 'admin@test.com'
+      fill_in 'Password', with: '123456789'
+      page.find("input[type='submit'][value='Log in']").click
+      expect(page).not_to have_content('Please Add Category information for Referral Source')
     end
   end
 end
