@@ -5,8 +5,13 @@ module Api
       require 'json'
 
       def translation
-        yml = File.open(Rails.root.join("config/locales/#{params[:lang]}.yml"), 'r').read
-        render json: JSON.dump(YAML::load(yml))
+        if ['en', 'km', 'yml'].include?(params[:lang])
+          yml = File.open(Rails.root.join("config/locales/#{params[:lang]}.yml"), 'r').read
+          render json: JSON.dump(YAML::load(yml))
+        else
+          yml = File.open(Rails.root.join("config/locales/en.yml"), 'r').read
+          render json: JSON.dump(YAML::load(yml))
+        end
       end
     end
   end
