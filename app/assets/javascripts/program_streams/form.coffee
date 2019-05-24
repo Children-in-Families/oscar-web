@@ -457,7 +457,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           labelFields = $(elementId).find('label.field-label')
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
-            if fields.includes(text)
+
+            if labelField != undefined
+              inputValue = $(labelField).siblings('.prev-holder').find('input[type="text"], textarea, select[id^="select-"] option:selected, input.checkbox-group:checked').val() || ""
+
+            if fields.includes(text) && inputValue.length > 0
               _removeActionFormBuilder(labelField)
 
   _hideActionInTracking = (fields) ->
@@ -472,7 +476,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(tracking).find('.ibox-footer .remove_fields').remove()
       $(labelFields).each (index, label) ->
         text = label.textContent.allReplace(specialCharacters)
-        if fields[name].includes(text)
+
+        if label != undefined
+          inputValue = $(label).siblings('.prev-holder').find('input, textarea, select[id^="select-"] option:selected, input.checkbox-group:checked').val() || ""
+
+        if fields[name].includes(text) && inputValue.length > 0
           _removeActionFormBuilder(label)
 
   _removeActionFormBuilder = (label) ->

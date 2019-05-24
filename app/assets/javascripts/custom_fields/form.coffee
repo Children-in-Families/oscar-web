@@ -168,7 +168,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     labelFields = $('label.field-label')
     for labelField in labelFields
       text = labelField.textContent.allReplace(specialCharacters)
-      if fields.includes(text)
+      if labelField != undefined
+        inputValue = $(labelField).siblings('.prev-holder').find('input, textarea, select[id^="select-"] option:selected, input.checkbox-group:checked').val() || ""
+
+      if fields.includes(text) && inputValue.length > 0
         _removeActionFormBuilder(labelField)
 
   _removeActionFormBuilder = (label) ->
