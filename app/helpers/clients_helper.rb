@@ -975,16 +975,6 @@ module ClientsHelper
     rule  = rules[index] if index.presence
   end
 
-  def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
-      if association.class.name.downcase == 'clientenrollment' || association.class.name.downcase == 'hash'
-        association.class.name.downcase == 'hash' ? date_format(association["enrollment_date"]) : date_format(association.enrollment_date)
-      else
-        date_format(association.created_at)
-      end
-    end.sort_by{|k, v| k.to_date }.reverse.to_h
-  end
-
   def referral_source_name(referral_source)
     if I18n.locale == :km
       referral_source.map{|ref| [ref.name, ref.id] }
@@ -999,6 +989,24 @@ module ClientsHelper
     end
   end
 
+  def group_client_associations
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+      if association.class.name.downcase == 'clientenrollment'
+        created_date = association.created_at
+        enrollment_date = association.enrollment_date
+        distance_between_dates = (enrollment_date.to_date - created_date.to_date).to_i
+        created_date + distance_between_dates.day
+      elsif association.class.name.downcase == 'leaveprogram'
+        created_date = association.created_at
+        exit_date = association.exit_date
+        distance_between_dates = (exit_date.to_date - created_date.to_date).to_i
+        created_date + distance_between_dates.day
+      else
+        association.created_at
+      end
+    end.sort_by{|k, v| k }.reverse.to_h
+  end
+
   def referral_source_category(id)
     if I18n.locale == :km
       ReferralSource.find_by(id: id).try(:name)
@@ -1006,43 +1014,4 @@ module ClientsHelper
       ReferralSource.find_by(id: id).try(:name_en)
     end
   end
-  # we use dataTable export button instead
-  # def to_spreadsheet(assessment_type)
-  #   column_header = [
-  #                     I18n.t('clients.assessment_domain_score.client_id'), I18n.t('clients.assessment_domain_score.client_name'),
-  #                     I18n.t('clients.assessment_domain_score.assessment_number'), I18n.t('clients.assessment_domain_score.assessment_date'),
-  #                     Domain.pluck(:name)
-  #                   ]
-  #   book = Spreadsheet::Workbook.new
-  #   book.create_worksheet
-  #   book.worksheet(0).insert_row(0, column_header.flatten)
-  #
-  #   ordering = 0
-  #   assessment_domain_hash = {}
-  #
-  #   assets.includes(assessments: :assessment_domains).reorder(id: :desc).each do |client|
-  #     assessments = assessment_type == 'default' ? client.assessments.defaults : assessment_type == 'custom' ? client.assessments.customs : client.assessments
-  #     if assessment_type == 'default'
-  #       assessments = client.assessments.defaults
-  #       domains = Domain.csi_domains
-  #     elsif assessment_type == 'custom'
-  #       assessments = client.assessments.customs
-  #       domains = Domain.custom_csi_domains
-  #     else
-  #       assessments = client.assessments
-  #       domains = Domain.all
-  #     end
-  #
-  #     assessments.each_with_index do |assessment, index|
-  #       assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
-  #       domain_scores = domains.map { |domain| assessment_domain_hash.present? ? assessment_domain_hash[domain.id] : '' }
-  #       book.worksheet(0).insert_row (ordering += 1), [client.slug, client.en_and_local_name, index + 1, date_format(assessment.created_at), domain_scores].flatten
-  #     end
-  #   end
-  #
-  #   buffer = StringIO.new
-  #   book.write(buffer)
-  #   buffer.rewind
-  #   buffer.read
-  # end
 end
