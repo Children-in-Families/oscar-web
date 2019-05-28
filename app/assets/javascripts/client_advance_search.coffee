@@ -97,7 +97,9 @@ class CIF.ClientAdvanceSearch
     )
 
     $('.csi-group select').select2(minimumResultsForSearch: -1).on 'select2-open', ->
-      $('html, body').animate { scrollTop: $("##{$(@).closest('.csi-group').attr('id')}").offset().top }, "fast"
+      console.log $(@).closest('.csi-group').offset().top
+      if $(@).closest('.csi-group').offset().top > 840
+        $('html, body').animate { scrollTop: $("##{$(@).closest('.csi-group').attr('id')}").offset().top }, "fast"
       return
 
     setTimeout ( ->
