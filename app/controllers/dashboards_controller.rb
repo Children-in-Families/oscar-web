@@ -15,7 +15,6 @@ class DashboardsController < AdminController
       next if program.last["service_ids"].nil?
       program_stream.update(service_ids: program.last["service_ids"].uniq)
     end
-
     redirect_to dashboards_path
   end
 

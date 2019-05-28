@@ -192,6 +192,7 @@ CIF.DashboardsIndex = do ->
       html
 
     $('.type-of-service select').on 'select2-open', (e) ->
+      $('#select2-drop').addClass('drop')
       arr = []
       i = 0
       while i < $('.type-of-service').data('custom').length
