@@ -169,6 +169,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 
     for labelField in labelFields
       text = labelField.textContent.allReplace(specialCharacters)
+
       if fields.includes(text)
         _removeActionFormBuilder(labelField)
 
