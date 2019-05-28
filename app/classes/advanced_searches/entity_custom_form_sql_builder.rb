@@ -36,13 +36,13 @@ module AdvancedSearches
           properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'less'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'less_or_equal'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } <= '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } <= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'greater'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } > '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } > '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'greater_or_equal'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
+        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'contains'
         properties_result = custom_field_properties.where("properties ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
       when 'not_contains'
@@ -60,7 +60,7 @@ module AdvancedSearches
           properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
         end
       when 'between'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
+        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
       entity_ids = properties_result.pluck(:custom_formable_id).uniq
       { id: sql_string, values: entity_ids }
