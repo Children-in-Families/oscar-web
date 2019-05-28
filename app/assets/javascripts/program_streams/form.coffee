@@ -466,6 +466,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveField = (url, elementId) ->
     return false if @programStreamId == ''
     specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+
     $.ajax
       method: 'GET'
       url: url
@@ -496,7 +497,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $(labelFields).each (index, label) ->
         text = label.textContent.allReplace(specialCharacters)
 
-        if fields.includes(text)
+        if fields[name].includes(text)
           _removeActionFormBuilder(label)
 
   _removeActionFormBuilder = (label) ->
