@@ -264,6 +264,7 @@ Rails.application.routes.draw do
 
       resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
+      resources :birth_provinces, only: [:index]
       resources :districts, only: [:index]
       resources :communes, only: [:index]
       resources :villages, only: [:index]
