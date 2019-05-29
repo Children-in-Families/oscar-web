@@ -1401,11 +1401,10 @@ my:
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
     getting_started:
-      case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
       family_name: မိသားစုအမည် (အင်္ဂလိပ်)
-      first_followed_up_by: ပထမဦးဆုံးအနေဖြင့်ဖွင့်နောက်တော်သို့လိုက်
-      first_followed_up_date: ပထမဦးဆုံးအရက်စွဲတက်နောက်တော်သို့လိုက်
+      followed_up_by_id: ပထမဦးဆုံးအနေဖြင့်ဖွင့်နောက်တော်သို့လိုက်
+      follow_up_date: ပထမဦးဆုံးအရက်စွဲတက်နောက်တော်သို့လိုက်
       gender: က်ားမ
       getting_started: စတင်ခဲ့သည်
       given_name: ပေးထားသောအမည် (အင်္ဂလိပ်)
@@ -1421,15 +1420,16 @@ my:
         lesotho: Birth Suburb
         myanmar: ေမြးဖြားရာ ခ႐ိုင္
         thailand: Birth Province
-      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      received_by_id: လက်ခံရရှိသောလွှဲပြောင်း
       referral_information: လွှဲပြောင်းသတင်းအချက်အလက်များ
-      referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
+      referral_phone: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_source: လႊဲရမည့္ ရင္းျမစ္
       referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
       remove_profile: ရုပ်ပုံကိုဖယ်ရှား
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
       text-hint: သူ / သူမဖြည့်စွက်ရန် Task ကြောင့်ဤကိစ္စတွင်အလုပ်သမားဖယ်ရှားပစ်ရန် လုပ်. မရပါ။
+      users: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
     index:
       active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
@@ -1493,30 +1493,30 @@ my:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       contact_details: အဆက်အသွယ်အသေးစိတ်
       current_address: လက္ရွိ လိပ္စာ
+      live_with: မူလတန်းစောင့်ရှောက်သူအမည်အား
       living_detail: အသကျရှငျအသေးစိတ်
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
-      primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
-      primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       schooling: သင်ကြားခြင်း
+      telephone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
       what3words: What3words
     new:
       download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       new_client_title: အမႈသည္အသစ္
       referral_has_already_been_saved: ရည်ညွန်းပြီးသားကိုသိမ်းပြီးပါပြီ
     other_detail:
-      agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
+      agencies: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
-      custom_id_number1: Custom ID Number1
-      custom_id_number2: Custom ID Number2
-      donor: အလွဴရွင္
+      code: Custom ID Number1
+      donors: အလွဴရွင္
       has_been_in_government_care: အစိုးရ၏ ေစာင့္ေရွာက္မႈ ခံယူဖူး
       has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူး
-      is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
+      kid_id: Custom ID Number2
       other_detail: အခြားအသေးစိတျ
       other_information: အခြားအချက်အလက်
       province: ခ႐ိုင္
+      rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
@@ -2851,7 +2851,7 @@ my:
       address: လိပ္စာ
       caregiver_information: ေစာင့္ေရွာက္သူ သတင္းအခ်က္အလက္
       case_history: အမႈသမိုင္း
-      clients: အမႈသည္မ်ား
+      children: အမႈသည္မ်ား
       code: မိသားစု မွတ္ပံုတင္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       contract_date: ဆက္သြယ္ရန္ ရက္စြဲ
@@ -4733,7 +4733,7 @@ my:
       id: မွတ္ပံုတင္
       job_title: အလုပ္အကိုင္
       last_name: နာမည္ ေနာက္ဆံုးအလံုး
-      manager: မန္ေနဂ်ာ
+      manager_id: မန္ေနဂ်ာ
       mobile: မိုဘိုင္းဖုန္း
       password: စကား၀ွက္
       password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
@@ -4757,7 +4757,7 @@ my:
       id: မွတ္ပံုတင္
       job_title: 'အလုပ္အကိုင္ '
       last_name: နာမည္ ေနာက္ဆံုးအလံုး
-      manager: မန္ေနဂ်ာ
+      manager_id: မန္ေနဂ်ာ
       mobile: မိုုဘိုင္းဖုန္း
       password: စကား၀ွက္
       password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
@@ -4789,7 +4789,7 @@ my:
       id: မွတ္ပံုတင္
       job_title: အလုပ္အကိုင္
       last_name: နာမည္ေနာက္ဆံုးအလုံး
-      manager: မန္ေနဂ်ာ
+      manager_id: မန္ေနဂ်ာ
       mobile: မိုဘိုင္းဖုန္း
       new_user_title: အသံုးျပဳသူအသစ္
       password: စကား၀ွက္
@@ -4828,7 +4828,7 @@ my:
       id: မွတ္ပံုတင္
       job_title: အလုပ္အကိုင္
       last_name: နာမည္ ေနာက္ဆံုးအလံုး
-      manager: 'မန္ေနဂ်ာ '
+      manager_id: 'မန္ေနဂ်ာ '
       mobile: မိုဘိုင္းဖုန္း
       password: စကား၀ွက္
       password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
