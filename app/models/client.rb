@@ -73,7 +73,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
