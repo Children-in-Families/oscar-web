@@ -6,7 +6,6 @@ class FamilySerializer < ActiveModel::Serializer
              :province, :district, :commune, :village, :house, :street,
              :clients, :additional_form, :add_forms, :children, :status
 
-
   def clients
     Client.where(id: object.children).map do |client|
       formatted_client = client.as_json(except: [:birth_province_id, :received_by_id, :followed_up_by_id, :province_id, :referral_source_id, :donor_id])
