@@ -62,7 +62,7 @@ class UsersController < AdminController
 
   def destroy
     if @user.no_any_associated_objects?
-      @user.destroy
+      @user.really_destroy!
       redirect_to users_url, notice: t('.successfully_deleted')
     else
       redirect_to users_url, alert: t('.alert')
@@ -77,8 +77,14 @@ class UsersController < AdminController
 
   def disable
     @user = User.find(params[:user_id])
+    user_disable_status = @user.disable
     @user.disable = !@user.disable
     @user.save(validate: false)
+    if user_disable_status == false
+      @user.update_attributes(deactivated_at: DateTime.now.in_time_zone(Time.zone))
+    elsif user_disable_status == true
+      @user.update_attributes(activated_at: DateTime.now.in_time_zone(Time.zone))
+    end
     redirect_to users_path, notice: t('.successfully_disable')
   end
 

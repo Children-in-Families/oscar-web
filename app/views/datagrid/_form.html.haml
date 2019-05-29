@@ -151,10 +151,11 @@
             .visibility.col-sm-12
               = check_box_tag 'main_school_contact_', 'main_school_contact', checked = default_setting('main_school_contact_', @client_default_columns) || params[:main_school_contact_].present?, class: 'i-checks'
               = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
-              = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
+          - if Setting.first.country_name == "cambodia"
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
+                = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
           %li
             .visibility.col-sm-12
               = check_box_tag 'name_of_referee_', 'name_of_referee', checked = default_setting('name_of_referee_', @client_default_columns) || params[:name_of_referee_].present?, class: 'i-checks'
@@ -267,7 +268,7 @@
             = f.datagrid_filter filter, partials: options[:partials]
     .row
       .datagrid-actions
-        = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'
+        = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
         - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
         - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
         = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-outline datagrid-reset'

@@ -97,9 +97,9 @@ class ClientSerializer < ActiveModel::Serializer
   def birth_province
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
-    shared_client = SharedClient.find_by(slug: object.slug)
+    birth_province = SharedClient.find_by(slug: object.slug).birth_province
     Organization.switch_to current_org
-    shared_client.birth_province
+    birth_province
   end
 
   def enter_ngos

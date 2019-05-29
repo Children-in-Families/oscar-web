@@ -1,4 +1,6 @@
 class LeaveProgram < ActiveRecord::Base
+  acts_as_paranoid without_default_scope: true
+
   belongs_to :client_enrollment
   belongs_to :program_stream
   has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy

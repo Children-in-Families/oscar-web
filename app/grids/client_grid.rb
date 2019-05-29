@@ -115,9 +115,18 @@ class ClientGrid < BaseGrid
   # Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id })
 
   filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.clients.referral_source') })
+  filter(:referral_source_category_id, :enum, select: :referral_source_category_options, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') })
 
   def referral_source_options
     current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_is : Client.referral_source_is
+  end
+
+  def referral_source_category_options
+    if I18n.locale == :km
+      ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name, :id)
+    else
+      ReferralSource.where(id: Client.pluck(:referral_source_category_id).compact).pluck(:name_en, :id)
+    end
   end
 
   filter(:followed_up_by_id, :enum, select: :is_followed_up_by_options, header: -> { I18n.t('datagrid.columns.clients.follow_up_by') })
@@ -436,7 +445,7 @@ class ClientGrid < BaseGrid
   end
 
   def self.dynamic_local_name
-    country = Organization.current.short_name == 'cccu' ? 'uganda' : Setting.first.country_name
+    country = Setting.first.country_name
     I18n.locale.to_s == 'en' ? COUNTRY_LANG[country] : ''
   end
 
@@ -490,16 +499,32 @@ class ClientGrid < BaseGrid
 
   dynamic do
     quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
-    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+    quantitative_types = QuantitativeType.joins(:quantitative_cases).distinct
+    quantitative_types.each do |quantitative_type|
       if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
-        column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }) do |object|
-          object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value).join(', ')
+        column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }, html: true) do |object|
+          quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
+          rule = get_rule(params, quantitative_type.name.squish)
+          if rule.presence && rule.dig(:type) == 'date'
+            quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
+          elsif rule.presence
+            if rule.dig(:input) == 'select'
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+            else
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten)
+            end
+          end
+          quantitative_type_values.join(', ')
         end
       end
     end
   end
 
-  date_column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
+  date_column(:follow_up_date, html: true, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
+
+  column(:follow_up_date, html: false, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') }) do |object|
+    object.follow_up_date.present? ? object.follow_up_date : ''
+  end
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
@@ -537,7 +562,7 @@ class ClientGrid < BaseGrid
     object.agencies.pluck(:name).join(', ')
   end
 
-  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
+  column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
     current_org = Organization.current
     Organization.switch_to 'shared'
     date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
@@ -545,11 +570,23 @@ class ClientGrid < BaseGrid
     date_of_birth.present? ? date_of_birth.strftime("%d %B %Y") : ''
   end
 
+  column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') }) do |object|
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    date_of_birth = SharedClient.find_by(slug: object.slug).date_of_birth
+    Organization.switch_to current_org.short_name
+    date_of_birth.present? ? date_of_birth : ''
+  end
+
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  date_column(:created_at, header: -> { I18n.t('datagrid.columns.clients.created_at') })
+  date_column(:created_at, html: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
+
+  column(:created_at, html: false, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
+    object.created_at.present? ? object.created_at.to_date.to_formatted_s : ''
+  end
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
@@ -564,6 +601,36 @@ class ClientGrid < BaseGrid
     country = Setting.first.try(:country_name) || 'cambodia'
     case country
     when 'cambodia'
+      column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
+
+      column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_number') })
+
+      column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
+
+      column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+        object.village.try(:code_format)
+      end
+
+      column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+        object.commune.try(:name)
+      end
+
+      column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+        object.district_name
+      end
+
+      column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+        object.province_name
+      end
+
+      column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
+        current_org = Organization.current
+        Organization.switch_to 'shared'
+        birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
+        Organization.switch_to current_org.short_name
+        birth_province
+      end
+    when 'uganda'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
       column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_number') })
@@ -652,7 +719,11 @@ class ClientGrid < BaseGrid
     object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
 
-  date_column(:initial_referral_date, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
+  date_column(:initial_referral_date, html: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
+
+  column(:initial_referral_date, html: false, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') }) do |object|
+    object.initial_referral_date.present? ? object.initial_referral_date.to_date.to_formatted_s : ''
+  end
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
@@ -660,6 +731,14 @@ class ClientGrid < BaseGrid
 
   column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
+  end
+
+  column(:referral_source_category, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
+    if I18n.locale == :km
+      ReferralSource.find_by(id: object.referral_source_category_id).try(:name)
+    else
+      ReferralSource.find_by(id: object.referral_source_category_id).try(:name_en)
+    end
   end
 
   # column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
@@ -847,6 +926,9 @@ class ClientGrid < BaseGrid
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
         end
+
+        properties = property_filter(properties, fields.last)
+
         if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('__').split(' ').first }
         else

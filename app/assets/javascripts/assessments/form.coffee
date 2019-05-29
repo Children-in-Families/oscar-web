@@ -42,8 +42,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     previous = $('#rootwizard').data('previous')
     finish   = $('#rootwizard').data('finish')
     save     = $('#rootwizard').data('save')
-    $('#rootwizard a[href="#next"]').text(next)
-    $('#rootwizard a[href="#previous"]').text(previous)
+    cancel   = $('#rootwizard').data('cancel')
+
+    $('#rootwizard a[id="btn-cancel"]').text(cancel)
+    $('#rootwizard a[href="#next"]').addClass('btn btn-primary').text(next)
+    $('#rootwizard a[href="#previous"]').addClass('btn btn-default').text(previous)
     $('#rootwizard a[href="#save"]').text(save)
     $('#rootwizard a[href="#finish"]').text(finish)
 
@@ -68,13 +71,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'btn-danger btn-warning btn-primary btn-success'
+      labelColors = 'btn-danger btn-warning btn-primary btn-success btn-secondary'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).data('score')
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).addClass("btn-#{scoreColor}")
+      $(@).addClass("btn-secondary")
+      #$(@).addClass("btn-#{scoreColor}")
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
@@ -113,13 +117,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(@).children('label').addClass('active-label')
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'label-danger label-warning label-primary label-success'
+      labelColors = 'label-danger label-warning label-primary label-success label-default'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).children('label').text()
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).children('label').addClass("label-#{scoreColor} active-label")
+      $(@).children('label').addClass("label-default active-label")
+      # $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
@@ -166,6 +171,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onInit: (event, currentIndex) ->
         _formEdit(currentIndex)
+        _appendSaveCancel()
         _appendSaveButton()
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
@@ -227,6 +233,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     unless $('#rootwizard').find('a[href="#finish"]:visible').length
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
 
+  _appendSaveCancel = ->
+    unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
+      assessmentHref = $('a.btn-back-default').first().attr('href')
+      $('#rootwizard').find("[aria-label=Pagination]").prepend("<li><a id='btn-cancel' href='#{assessmentHref}' class='btn btn-default' style='color: #343a40; background: white; border: 1px solid #acb3ac;'></a></li>")
+
   _saveAssessment = (form) ->
     $(document).on 'click', "#rootwizard a[href='#save']", ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
@@ -255,10 +266,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreColor  = scoreOption.data("score-#{chosenScore}")
 
     # score without def
-    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
+    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
 
     btnScore = scoreOption.find('input:hidden').val()
-    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
+    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-secondary")
+    # $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
     domainName = $(@).data('goal-option')
     name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
     radioName = '\'' + name

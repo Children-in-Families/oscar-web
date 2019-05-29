@@ -1,4 +1,6 @@
 :concurrency: 1
+demo:
+  :concurrency: 2
 staging:
   :concurrency: 2
 production:

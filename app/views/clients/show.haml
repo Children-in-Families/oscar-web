@@ -94,7 +94,9 @@
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
                 - ngos.each do |value, key|
                   %li= link_to value, new_client_referral_url(@client, ngo: key), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-
+          = link_to client_books_path(@client) do
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
+              = t('.book')
           - if @client.client_enrollments.active.count > 0
             = render 'remaining_programs', client: @client
           - else
@@ -114,7 +116,6 @@
           - if can? :manage, CaseNote
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?) }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
-
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
@@ -274,12 +275,13 @@
                 %td
                   %strong
                     = @client.telephone_number
-              %tr
-                %td.spacing-first-col
-                  = t('.is_the_client_rated_for_id_poor')
-                %td
-                  %strong
-                    = @client.rated_for_id_poor
+              - if Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.is_the_client_rated_for_id_poor')
+                  %td
+                    %strong
+                      = @client.rated_for_id_poor
 
               %tr
                 %td.spacing-first-col
@@ -299,15 +301,23 @@
                 %td
                   %strong
                     = @client.time_in_care
+              - unless Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.referral_source')
+                  %td
+                    %strong
+                      = @client.referral_source
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
-              %tr
-                %td.spacing-first-col
-                  = t('.referral_source')
-                %td
-                  %strong
-                    = @client.referral_source
+              - if Setting.first.country_name == "cambodia"
+                %tr
+                  %td.spacing-first-col
+                    = t('.referral_source')
+                  %td
+                    %strong
+                      = @client.referral_source
 
               %tr
                 %td.spacing-first-col
@@ -419,10 +429,15 @@
                             - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
                               %button.btn.btn-outline.btn-success.btn-xs{'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal'}= fa_icon('pencil')
                             = case_history_links(case_history, case_history_name)
-
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)
-
+                %tr
+                  %td= t('.initial_referral_date')
+                  %td= date_format(@client.initial_referral_date)
+                  %td
+                    .text-center
+                      %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
+                    = render 'case_history_detail', object: @client, index: 'initial_referral_date'
 .row
   = render 'placement'
   = render 'referrals/confirm_referral'

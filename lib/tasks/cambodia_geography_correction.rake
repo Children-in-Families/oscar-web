@@ -22,6 +22,9 @@ def correct_provinces
   rtk_pro = Province.find_by(name: 'រតនគីរី / Ratanakiri')
   rtk_pro.update(name: 'រតនគិរី / Ratanak Kiri') if rtk_pro.present?
 
+  sr_pro = Province.find_by(name: 'សៀមរាប/Seam Reap')
+  sr_pro.update(name: 'សៀមរាប / Siemreap') if sr_pro.present?
+
   sr_pro = Province.find_by(name: 'សៀមរាប / Siem Reap')
   sr_pro.update(name: 'សៀមរាប / Siemreap') if sr_pro.present?
 

@@ -12,6 +12,10 @@
           %tbody
             - case_history = object.class.table_name
             - case case_history
+            - when "clients"
+              %tr
+                %td= t('.initial_referral_date')
+                %td= date_format(object.initial_referral_date)
             - when 'enter_ngos'
               %tr
                 %td= t('.accepted_date')
@@ -36,22 +40,23 @@
               %tr
                 %td= t('.enrollment_date')
                 %td= date_format(object.enrollment_date)
-              - object.program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
-                - unless type == 'separateLine'
-                  - if type == 'paragraph'
-                    %tr
-                      %td{colspan: '2'}
-                        = key.html_safe
-                  - else
-                    %tr
-                      %td
-                        = key.html_safe
-                      %td
-                        - key = convert_bracket(key)
-                        - if type == 'file'
-                          = render 'shared/form_builder/list_attachment', label: key, resource: object
-                        - else
-                          = display_custom_properties(object.properties[key])
+              - if object.program_stream
+                - object.program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+                  - unless type == 'separateLine'
+                    - if type == 'paragraph'
+                      %tr
+                        %td{colspan: '2'}
+                          = key.html_safe
+                    - else
+                      %tr
+                        %td
+                          = key.html_safe
+                        %td
+                          - key = convert_bracket(key)
+                          - if type == 'file'
+                            = render 'shared/form_builder/list_attachment', label: key, resource: object
+                          - else
+                            = display_custom_properties(object.properties[key])
             - when 'leave_programs'
               %tr
                 %td= t('.exit_program_date')

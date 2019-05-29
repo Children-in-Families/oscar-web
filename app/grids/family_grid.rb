@@ -136,7 +136,12 @@ class FamilyGrid < BaseGrid
   column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
-  date_column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+
+  date_column(:contract_date, html: true, header: -> { I18n.t('datagrid.columns.families.contract_date') })
+  column(:contract_date, html: false, header: -> { I18n.t('datagrid.columns.families.contract_date') }) do |object|
+    object.contract_date.present? ? object.contract_date : ''
+  end
+
   column(:house, header: -> { I18n.t('datagrid.columns.families.house') })
   column(:street, header: -> { I18n.t('datagrid.columns.families.street') })
 

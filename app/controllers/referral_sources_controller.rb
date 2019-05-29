@@ -4,8 +4,8 @@ class ReferralSourcesController < AdminController
   before_action :find_referral_source, only: [:update, :destroy]
 
   def index
-    @referral_sources = ReferralSource.order(:name).page(params[:page]).per(10)
-    @results          = ReferralSource.count
+    @referral_sources = ReferralSource.child_referrals.order(:name).page(params[:page]).per(10)
+    @results          = ReferralSource.child_referrals.count
   end
 
   def create
@@ -43,7 +43,7 @@ class ReferralSourcesController < AdminController
   private
 
   def referral_source_params
-    params.require(:referral_source).permit(:name, :description)
+    params.require(:referral_source).permit(:name, :description, :ancestry)
   end
 
   def find_referral_source

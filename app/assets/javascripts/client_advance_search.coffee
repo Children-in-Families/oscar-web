@@ -35,6 +35,7 @@ class CIF.ClientAdvanceSearch
 
   getTranslation: ->
     @filterTranslation =
+      addCustomGroup: $('#builder').data('filter-translation-add-custom-group')
       addFilter: $('#builder, #wizard-builder').data('filter-translation-add-filter')
       addGroup: $('#builder, #wizard-builder').data('filter-translation-add-group')
       deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
@@ -49,8 +50,9 @@ class CIF.ClientAdvanceSearch
   filterSelectChange: ->
     self = @
     $('.rule-filter-container select').on 'select2-close', ->
+      ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
       setTimeout ( ->
-        self.initSelect2()
+        $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
       )
 
   handleResizeWindow: ->
@@ -76,6 +78,7 @@ class CIF.ClientAdvanceSearch
       advanceSearchWizardBuilder = new CIF.AdvancedFilterBuilder($('#wizard-builder'), builderFields, @filterTranslation)
       advanceSearchWizardBuilder.initRule()
       @.initRuleOperatorSelect2($('#wizard-builder'))
+
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
     @.basicFilterSetRule()
@@ -83,12 +86,21 @@ class CIF.ClientAdvanceSearch
     @.initRuleOperatorSelect2($('#builder'))
 
   initSelect2: ->
-    # $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
-    # $('.custom-form-select, .program-stream-select, .quantitative-case-select').select2()
-    $('select').select2()
+    $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
+    $('#builder select').select2()
+    $('#wizard-builder select').select2()
     setTimeout ( ->
-      $('.rule-filter-container select').select2(width: '250px')
-      $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
+      ids = ['#custom-form-select', '#wizard-custom-form-select', '#program-stream-select', '#wizard-program-stream-select', '#quantitative-case-select', '#wizard-builder', '#builder']
+      $.each ids, (index, item) ->
+        $("#{item} .rule-filter-container select").select2(width: '250px')
+        $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
+    )
+
+    $('.csi-group select').select2
+      minimumResultsForSearch: -1
+    setTimeout ( ->
+      $(".csi-group .rule-filter-container select").select2(width: '250px', minimumResultsForSearch: -1)
+      $(".csi-group .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
   basicFilterSetRule: ->
@@ -372,7 +384,248 @@ class CIF.ClientAdvanceSearch
     $('#exit-form-checkbox').on 'ifChecked', ->
       self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL)
 
+  addgroupCallback: ->
+    self = @
+
+    $('#builder').on 'click', '.btn-custom-group', (e) ->
+      csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
+      builder     = $('#builder')
+      root        = builder.queryBuilder 'getModel'
+      group       = builder.queryBuilder('addGroup', root, false, false, {no_add_group: true, condition_readonly: true})
+
+      groupId     = "##{group.id}"
+      localStorage.setItem("#{group.id}", group.id)
+      window.customGroup["#{group.id}"] = group
+      $(groupId).addClass('csi-group')
+      $('.csi-group .group-conditions .btn-primary').attr('disabled', 'disabled')
+
+      rule      = builder.queryBuilder('addRule', group)
+      rule1     = builder.queryBuilder('addRule', group)
+      rule2     = builder.queryBuilder('addRule', group)
+
+      rule.filter     = builder.queryBuilder('getFilterById', $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val())
+      rule.value      = ''
+      rule1.filter    = builder.queryBuilder('getFilterById', 'assessment_number')
+      rule2.filter    = builder.queryBuilder('getFilterById', 'assessment_completed')
+      rule2.operator  = builder.queryBuilder('getOperatorByType', 'between')
+      _changeOperator()
+
+  handleCsiAfterSearch: ->
+    $('#builder_group_0').removeClass('csi-group')
+    $('.csi-group .group-conditions .btn-primary:nth-child(2)').addClass('hide')
+
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
+    $(document).on 'change', select2Csi, (param)->
+      group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
+      unless _.includes(param.val, 'has_changed') || _.includes(param.val, 'has_not_changed')
+        if $(@).closest('.rule-container').siblings().length < 2 && $("##{group.id} option[value='assessment_completed']:selected").length
+          builder     = $('#builder')
+          rule        = builder.queryBuilder('addRule', group)
+          rule.filter = builder.queryBuilder('getFilterById', 'assessment_number')
+          wrapper = $('.csi-group .rules-list')
+          items = wrapper.children('.rule-container')
+          arr = [0, 2, 1]
+          wrapper.append $.map(arr, (v) ->
+            items[v]
+          )
+
+          _changeOperator()
+          $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container select')
+      else
+        if $(@).closest('.rule-container').siblings().length > 1
+          $(@).closest('.rules-list').find('.rule-container:nth-child(2) .rule-actions').children().click()
+        else
+          $(@).closest('.rules-list').find('.rule-container:nth-child(2) .rule-actions').children().click()
+          builder     = $('#builder')
+          group       = window.customGroup[$(this).closest('.csi-group').attr('id')]
+          rule        = builder.queryBuilder('addRule', group)
+          rule.filter = builder.queryBuilder('getFilterById', 'assessment_completed')
+
+
+        $(this).closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+        $(this).closest('.rule-container').find('.rule-value-container').find('input').show()
+    if $('option[value*="has_changed"]:selected').length < 1 || $('option[value*="has_not_changed"]:selected').length < 1
+
+      _changeOperator()
+      $('option[value*="assessment_completed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $('option[value*="assessment_completed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
+      $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $('option[value*="has_not_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $('option[value*="has_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
+      $('option[value*="has_not_changed"]:selected').closest('.rule-container').find('.rule-value-container').find('input').show()
+
   ######################################################################################################################
+  _changeOperator = ->
+    klasses = '.csi-group .rule-container:nth-child(1) .rule-value-container input.form-control'
+    data = [
+      {
+        id: 1
+        tag: '1'
+      }
+      {
+        id: 2
+        tag: '2'
+      }
+      {
+        id: 3
+        tag: '3'
+      }
+      {
+        id: 4
+        tag: '4'
+      }
+    ]
+    if $(klasses).length
+      $(klasses).select2
+        data:
+          results: data
+          text: 'tag'
+        formatSelection: (item) ->
+          item.tag
+        formatResult: (item) ->
+          item.tag
+      $('.rule-container:nth-child(1) .rule-value-container .select2-container').attr("style", "width: 180px;")
+
+  handleRule2SelectChange: ->
+    self = @
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
+
+    $(document).on 'change', select2Csi, (e)->
+      if e.val == 'date_nearest'
+        $(@).closest('.rules-list').find('.rule-container:nth-child(3) .rule-actions').children().click()
+      else
+        if $(@).closest('.rule-container').siblings().length < 2
+          builder     = $('#builder')
+          group       = window.customGroup[$(@).closest('.csi-group').attr('id')]
+          rule        = builder.queryBuilder('addRule', group)
+          rule.filter = builder.queryBuilder('getFilterById', 'assessment_completed')
+          rule.operator  = builder.queryBuilder('getOperatorByType', 'between')
+
+  hideCsiCustomGroupInRootBuilder: ->
+    customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
+    csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
+    select2Csi = '#builder_group_0 .rules-list .rule-container .rule-filter-container > select'
+    wizardCsi  = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container > select'
+
+    $(document).on 'select2-open', select2Csi, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if item.firstElementChild.textContent == customCsiGroupTranslate
+          $(item).hide()
+
+    $(document).on 'select2-open', wizardCsi, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if item.firstElementChild.textContent == customCsiGroupTranslate
+          $(item).hide()
+
+    $(document).on 'select2-open', select2Csi, (e)->
+      selectCsiGroup = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
+      $(document).on 'select2-open', selectCsiGroup, (e)->
+        elements = $('.select2-results .select2-results-dept-0')
+        $.each elements, (index, item) ->
+          if item.firstElementChild.textContent == customCsiGroupTranslate
+            $(item).show()
+
+  removeOperatorInWizardBuilder: ->
+    $('#report-builder-wizard-modal .btn-custom-group').hide()
+    $('#wizard-builder').on 'afterAddGroup.queryBuilder', (parent, addRule, level) ->
+      $('#report-builder-wizard-modal .btn-custom-group').hide()
+
+    wizardFilter   = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container > select'
+    wizardOperator = '#report-builder-wizard-modal .rules-list .rule-container .rule-operator-container > select'
+    $(document).on 'select2-selected', wizardFilter, (e)->
+      setTimeout (->
+        $(wizardOperator).select2(width: 'resolve')
+      ),
+    $(document).on 'select2-open', wizardOperator, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if item.textContent.match(/has.*change|average/g)
+          $(item).hide()
+
+  handleCsiSelectOption: ->
+    assessmentNumberTranslate = $('#hidden_assessment_number').val()
+    customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
+    monthNumberTranslate      = $('#hidden_month_number').val()
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
+    csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
+    customCsiDomainScoresTranslate = $('#hidden_custom_csi_domain_scores').val()
+
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-filter-container > select'
+    $(document).on 'select2-open', select2Csi, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      handleCsiOption(elements, "#{csiDomainScoresTranslate}-#{customCsiDomainScoresTranslate}")
+
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(2) .rule-filter-container > select'
+    $(document).on 'select2-open', select2Csi, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      handleCsiOption(elements, customCsiGroupTranslate, 'second-child')
+
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(3) .rule-filter-container > select'
+    $(document).on 'select2-open', select2Csi, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      handleCsiOption(elements, customCsiGroupTranslate, 'third-child')
+
+  handleAllDomainOperatorOpen: ->
+    select2Csi = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
+    $(document).on 'select2-open', select2Csi, (e)->
+      group = window.customGroup[$(@).closest('.csi-group').attr('id')]
+      if $("##{group.id} option[value='all_domains']:selected").length > 0 || $("##{group.id} option[value='all_custom_domains']:selected").length > 0
+        elements = $('.select2-results .select2-results-dept-0')
+        $.each elements, (index, item) ->
+          if item.textContent.match(/has.*change|between/g)
+            $(item).hide()
+
+  handleCsiOption = (elements, group, nthChild = undefined) ->
+    customCsiGroupTranslate   = $('#hidden_custom_csi_group').val()
+    dateOfAssessmentTranslate = $('#hidden_date_of_assessments').val()
+    csiDomainScoresTranslate  = $('#hidden_csi_domain_scores').val()
+    customCsiDomainScoresTranslate = $('#hidden_custom_csi_domain_scores').val()
+    group = group.split('-')
+
+    $.each elements, (index, item) ->
+      last_children = $(item).children().last().children()
+      if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'second-child'
+        $.each last_children, (index, el) ->
+          if el.firstElementChild.textContent == 'Assessment Completed'
+            $(el).hide()
+
+        $.each last_children, (index, el) ->
+          if $('option[value*="has_changed"]:selected').length > 0 || $('option[value*="has_not_changed"]:selected').length > 0
+            if el.firstElementChild.textContent != 'Assessment Completed'
+              $(el).hide()
+            if el.firstElementChild.textContent == 'Assessment Completed'
+              $(item).addClass('hidden')
+      if item.firstElementChild.textContent == customCsiGroupTranslate && nthChild == 'third-child'
+        $.each $(item).children().last().children(), (index, el) ->
+          if el.firstElementChild.textContent != 'Assessment Completed'
+            $(el).hide()
+      if item.firstElementChild.textContent != group[0] and item.firstElementChild.textContent != group[1]
+        $(item).hide()
+      if item.firstElementChild.textContent == csiDomainScoresTranslate
+        $.each last_children, (index, el) ->
+          if el.firstElementChild.textContent == dateOfAssessmentTranslate
+            $(el).hide()
+      if item.firstElementChild.textContent == 'Custom Domain Scores'
+        $.each last_children, (index, el) ->
+          if el.firstElementChild.textContent == 'Date of Custom Assessments'
+            $(el).hide()
+
+  hideAverageFromIndividualDomainScore: ->
+    select2Operator = '.csi-group .rules-list .rule-container:nth-child(1) .rule-operator-container > select'
+    $(document).on 'select2-open', select2Operator, (e)->
+      elements = $('.select2-results .select2-results-dept-0')
+      if $(this.parentElement.parentElement).find('.rule-filter-container').find('option[value="all_domains"]:selected').length == 0 and $(this.parentElement.parentElement).find('.rule-filter-container').find('option[value="all_custom_domains"]:selected').length == 0
+        $.each elements, (index, item) ->
+          if item.firstElementChild.textContent == 'average'
+            $(item).hide()
+      else
+        $.each elements, (index, item) ->
+          if item.firstElementChild.textContent == 'average'
+            $(item).show()
 
   handleSelect2RemoveProgram: ->
     self = @
@@ -478,8 +731,8 @@ class CIF.ClientAdvanceSearch
     self = @
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
-      $('#builder').queryBuilder('addFilter', fields)
-      $('#wizard-builder').queryBuilder('addFilter', fields)
+      $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
+      $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
       self.initSelect2()
 
   handleRemoveQuantitativFilter: ->
@@ -527,7 +780,8 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = "[#{$('#family-advance-search-form').find('.custom-form-select').select2('val')}]"
+      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#family_advanced_search_custom_form_selected').val(customFormValues)
 
@@ -541,7 +795,8 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = "[#{$('#partner-advance-search-form').find('.custom-form-select').select2('val')}]"
+      # customFormValues = "[#{$('#partner-advance-search-form').find('#custom-form-select').select2('val')}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#partner_advanced_search_custom_form_selected').val(customFormValues)
 
@@ -584,8 +839,9 @@ class CIF.ClientAdvanceSearch
       rowBuilderRule = obj.$el[0]
       ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
       $(ruleFiltersSelect).on 'select2-close', ->
+        ruleParentId = $(@).closest("div[id^='builder_rule']").attr('id')
         setTimeout ( ->
-          self.initSelect2()
+          $("##{ruleParentId} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
           self.initRuleOperatorSelect2(rowBuilderRule)
         )
 
@@ -599,58 +855,48 @@ class CIF.ClientAdvanceSearch
         ),10
 
   ######################################################################################################################
-
   filterSelecting: ->
-    self = @
-    $('.rule-filter-container select').on 'select2-selecting', ->
-      setTimeout ( ->
-        self.opertatorSelecting()
+    $(document).on 'select2-open', '.rule-value-container input.form-control', (e)->
+      ruleParentElement = $(this.parentElement.parentElement)
+      filterValue       = ruleParentElement.find('.rule-filter-container').find('option[value^="domainscore"]:selected')
+      allDomainFilter   = ruleParentElement.find('.rule-filter-container').find('option[value="all_domains"]:selected')
+      greaterOperator   = ruleParentElement.find('.rule-operator-container').find('option[value="greater"]:selected')
+      lessOperator      = ruleParentElement.find('.rule-operator-container').find('option[value="less"]:selected')
+
+      elements = $('.select2-results .select2-results-dept-0')
+      $.each elements, (index, item) ->
+        if (filterValue.length == 1 || allDomainFilter.length == 1) and greaterOperator.length == 1
+          if item.textContent == '4'
+            $(item).addClass('not-allowed')
+        else if (filterValue.length == 1 || allDomainFilter.length == 1) and lessOperator.length == 1
+          if item.textContent == '1'
+            $(item).addClass('not-allowed')
+      item = elements.name
+      setTimeout( ->
+        $("select[name='#{item}'], .rule-value-container select").select2(width: 'resolve')
       )
 
-  opertatorSelecting: ->
-    self = @
-    $('.rule-operator-container select').on 'select2-selected', ->
-      self.disableOptions(@)
+  disableOptions: ->
+    $(document).on 'select2-selected', '.rule-operator-container select', (e)->
+      ruleParentElement = $(this.parentElement.parentElement)
+      schoolGradeFilter = ruleParentElement.find('.rule-filter-container').find('option[value="school_grade"]:selected')
+      betweenOperator   = ruleParentElement.find('.rule-operator-container').find('option[value="between"]:selected')
+      disableValue      = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8']
+      select            = ruleParentElement.find('.rule-value-container')
 
-  disableOptions: (element) ->
-    self = @
-    rule = $(element).parent().siblings('.rule-filter-container').find('option:selected').val()
-    if rule.split('__')[0] == 'domainscore'
-      ruleValueContainer = $(element).parent().siblings('.rule-value-container')
-      if $(element).find('option:selected').val() == 'greater'
-        $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
-        $(ruleValueContainer).find("option[value=1]").removeAttr('disabled')
-        if $(ruleValueContainer).find('option:selected').val() == '4'
-          $(ruleValueContainer).find('select').val('1').trigger('change')
-      else if $(element).find('option:selected').val() == 'less'
-        $(ruleValueContainer).find("option[value='1']").attr('disabled', 'disabled')
-        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
-        if $(ruleValueContainer).find("option:selected").val() == '1'
-          $(ruleValueContainer).find('select').val('2').trigger('change')
-      else
-        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
-        $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
-    else if rule == 'school_grade'
-      select = $(element).parent().siblings('.rule-value-container')
-      disableValue = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8']
-      if $(element).val() == 'between'
+      if schoolGradeFilter.length == 1 and betweenOperator.length == 1
         setTimeout( ->
           for value in disableValue
-            $(select).find("option[value='#{value}']").attr('disabled', 'true')
-          first_value_option = $(select).find('select:first').find(':selected').text()
+            $(select).find("option[value='#{value}']").attr('disabled', 'disabled')
+
+          first_value_option  = $(select).find('select:first').find(':selected').text()
           second_value_option = $(select).find('select:last').find(':selected').text()
           if disableValue.includes(first_value_option) && disableValue.includes(second_value_option)
             $(select).find('select').val('1').trigger('change')
-        , 100)
-
-    setTimeout( ->
-      self.initSelect2()
-    )
-
-  checkingForDisableOptions: ->
-    self = @
-    for element in $('.rule-operator-container select')
-      self.disableOptions(element)
+        )
+      setTimeout( ->
+        $(".rule-value-container select").select2(width: 'resolve')
+      )
 
   ######################################################################################################################
 

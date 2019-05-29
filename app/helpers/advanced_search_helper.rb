@@ -2,7 +2,7 @@ module AdvancedSearchHelper
   include ClientsHelper
 
   def custom_form_values(report_builder = '#builder')
-    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && report_builder == advanced_search_params[:action_report_builder]
+    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
     has_custom_form_selected ? eval(advanced_search_params[:custom_form_selected]) : []
   end
 
@@ -136,7 +136,11 @@ module AdvancedSearchHelper
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
       referred_from: I18n.t('advanced_search.fields.referred_from'),
-      time_in_care: I18n.t('advanced_search.fields.time_in_care')
+      time_in_care: I18n.t('advanced_search.fields.time_in_care'),
+      assessment_number: I18n.t('advanced_search.fields.assessment_number'),
+      month_number: I18n.t('advanced_search.fields.month_number'),
+      custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
+      referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id')
     }
     translations[key.to_sym] || ''
   end

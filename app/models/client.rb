@@ -3,6 +3,8 @@ class Client < ActiveRecord::Base
   include NextClientEnrollmentTracking
   extend FriendlyId
 
+  require 'text'
+
   attr_reader :assessments_count
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
@@ -12,7 +14,7 @@ class Client < ActiveRecord::Base
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate).freeze
+  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
   GENDER_OPTIONS  = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Unknown', 'unknown']]
@@ -69,7 +71,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, :gender, presence: true
+  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, :gender, :referral_source_category_id, presence: true
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
@@ -86,7 +88,7 @@ class Client < ActiveRecord::Base
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,                       ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :referral_source_is,                       ->        { joins(:referral_source).where.not('referral_sources.name in (?)', ReferralSource::REFERRAL_SOURCES).pluck('referral_sources.name', 'referral_sources.id').uniq }
   scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
@@ -104,28 +106,80 @@ class Client < ActiveRecord::Base
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
-  def self.filter(options)
-    query = Client.all
-    query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
-    query = query.joins(:commune).where("communes.name_en iLIKE ?", "%#{options[:commune].split(' / ').last}%")                 if options[:commune].present?
-    query = query.joins(:village).where("villages.name_en iLIKE ?", "%#{options[:village].split(' / ').last}%")                 if options[:village].present?
-    query = query.joins(:province).where("provinces.name iLIKE ?", "%#{options[:current_province]}%")         if options[:current_province].present?
-
-    query.pluck(:slug)
-  end
-
   def self.find_shared_client(options)
-    current_org = Organization.current.short_name
+    big_results    = []
+    current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
-    shared_clients = SharedClient.all
-    shared_clients = shared_clients.where("given_name iLIKE ?", "%#{fetch_75_chars_of(options[:given_name])}%")                 if options[:given_name].present?
-    shared_clients = shared_clients.where("family_name iLIKE ?", "%#{fetch_75_chars_of(options[:family_name])}%")               if options[:family_name].present?
-    shared_clients = shared_clients.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
-    shared_clients = shared_clients.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
-    shared_clients = shared_clients.joins(:birth_province).where("provinces.name iLIKE ?", "%#{options[:birth_province]}%")     if options[:birth_province].present?
-    shared_clients = shared_clients.pluck(:slug)
+    skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
+    if skip_orgs_percentage.any?
+      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
+    else
+      shared_clients       = SharedClient.all
+    end
+
+    group_clients        = shared_clients.group_by{|client| client.slug.split('-').first }
+    group_clients.each do |tenant, clients|
+      tenants = Organization.all.pluck(:short_name)
+      next if tenants.exclude?(tenant)
+      Organization.switch_to tenant
+      clients.each do |client|
+        client_in_tenant = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
+        next if client_in_tenant.nil?
+        if client.birth_province_id.present?
+          Organization.switch_to 'shared'
+          begin
+            client.birth_province_name == Province.find(client.birth_province_id).try(:name)
+            Organization.switch_to tenant
+          rescue => exception
+            client.birth_province_id == nil
+            Organization.switch_to tenant
+          end
+        end
+        big_results << [{
+                          slug: client.slug,
+                          given_name: client.given_name,
+                          family_name: client.family_name,
+                          local_given_name: client.local_given_name,
+                          local_family_name: client.local_family_name,
+                          birth_province_name: client.birth_province_name,
+                          date_of_birth: client_in_tenant.try(&:date_of_birth),
+                          current_province: client_in_tenant.try(&:province_name),
+                          district: client_in_tenant.district.try(:name),
+                          commune: client_in_tenant.commune.try(:name),
+                          village: client_in_tenant.village.try(:name)
+                        }]
+      end
+    end
+
     Organization.switch_to current_org
-    shared_clients
+    similar_fields = []
+    matching_clients = big_results.flatten.each do |result|
+      value1     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+      value2     = "#{result[:given_name]} #{result[:family_name]} #{result[:local_family_name]} #{result[:local_given_name]}".squish
+      field_name = compare_matching(value1, value2)
+      dob        = date_of_birth_matching(options[:date_of_birth], result[:date_of_birth])
+      cp         = client_address_matching(options[:current_province], result[:current_province])
+      cd         = client_address_matching(options[:district], result[:district])
+      cc         = client_address_matching(options[:commune], result[:commune])
+      cv         = client_address_matching(options[:village], result[:village])
+      bp         = birth_provinch_matching(options[:birth_province], result[:birth_province_name])
+
+      match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
+
+      if match_percentages.compact.present?
+        if match_percentages.compact.inject(:*) * 100 >= 75
+          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
+          similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
+          similar_fields << '#hidden_province' if match_percentages[2].present?
+          similar_fields << '#hidden_district' if match_percentages[3].present?
+          similar_fields << '#hidden_commune' if match_percentages[4].present?
+          similar_fields << '#hidden_village' if match_percentages[5].present?
+          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+        end
+      end
+    end
+
+    similar_fields.uniq
   end
 
   def family
@@ -135,6 +189,36 @@ class Client < ActiveRecord::Base
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
     value[0..(number_of_char-1)]
+  end
+
+  def self.client_address_matching(value1, value2)
+    return nil if value1.blank?
+    value1 == value2 ? 1 : 0.91
+  end
+
+  def self.birth_provinch_matching(value1, value2)
+    return nil if value1.blank?
+    value1 == value2 ? 1 : 0.85
+  end
+
+  def self.compare_matching(value1, value2)
+    return nil if value1.blank?
+    white      = Text::WhiteSimilarity.new
+    percentage = white.similarity(value1, value2)
+    percentage < 0 ? 0 : percentage
+  end
+
+  def self.date_of_birth_matching(dob1, dob2)
+    return nil if dob1.blank? || dob2.nil?
+    percentage = 0
+    if dob1.to_date == dob2.to_date
+      percentage = 1
+    else
+      remain_day = (dob1.to_date > dob2.to_date) ? (dob1.to_date - dob2.to_date) : (dob2.to_date - dob1.to_date)
+      percentage = 1 - (remain_day * 0.5)/100 if remain_day.present?
+    end
+
+    percentage < 0 ? nil : percentage
   end
 
   def exit_ngo?
@@ -173,13 +257,15 @@ class Client < ActiveRecord::Base
     "#{local_family_name} #{local_given_name}"
   end
 
-  def next_assessment_date
+  def next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.defaults.empty?
+    return nil if user_activated_date.present? && assessments.defaults.latest_record.created_at < user_activated_date
     (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
 
-  def custom_next_assessment_date
+  def custom_next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.customs.empty?
+    return nil if user_activated_date.present? && assessments.customs.latest_record.created_at < user_activated_date
     (assessments.customs.latest_record.created_at + assessment_duration('max', false)).to_date
   end
 
@@ -211,8 +297,9 @@ class Client < ActiveRecord::Base
     true
   end
 
-  def next_case_note_date
+  def next_case_note_date(user_activated_date = nil)
     return Date.today if case_notes.count.zero? || case_notes.latest_record.try(:meeting_date).nil?
+    return nil if case_notes.latest_record.created_at < user_activated_date if user_activated_date.present?
     setting = Setting.first
     max_case_note = setting.try(:max_case_note) || 30
     case_note_frequency = setting.try(:case_note_frequency) || 'day'
@@ -381,6 +468,29 @@ class Client < ActiveRecord::Base
           repeat_notifications = client.repeat_notifications_schedule(false)
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+          end
+        end
+      end
+    end
+  end
+
+  def self.notify_incomplete_daily_csi_assessment
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      if Setting.first.enable_default_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: true })
+        clients.each do |client|
+          if client.eligible_default_csi? && client.assessments.defaults.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          end
+        end
+      end
+
+      if Setting.first.enable_custom_assessment
+        clients = joins(:assessments).where(assessments: { completed: false, default: false })
+        clients.each do |client|
+          if client.eligible_custom_csi? && client.assessments.customs.any?
+            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
           end
         end
       end

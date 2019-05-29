@@ -62,7 +62,7 @@ class ClientEnrolledProgramsController < AdminController
       delete_form_builder_attachment(@client_enrollment, name, index)
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
-      @client_enrollment.destroy
+      @client_enrollment.really_destroy!
       redirect_to report_client_client_enrolled_programs_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
     end
   end
@@ -75,9 +75,9 @@ class ClientEnrolledProgramsController < AdminController
 
   def program_stream_order_by_enrollment
     if current_user.admin? || current_user.strategic_overviewer?
-      all_programs = ProgramStream.all
+      all_programs = ProgramStream.with_deleted.all
     else
-      all_programs = ProgramStream.where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
+      all_programs = ProgramStream.with_deleted.where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
     end
     all_programs.active_enrollments(@client).complete
   end

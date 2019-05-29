@@ -1,5 +1,28 @@
 CIF.ClientsIndex = do ->
   _init = ->
+    window.customGroup = {}
+    content = $('#content').val()
+    btnDone = $('#btn-done').val()
+    tour = new Tour(
+      debug: true
+      storage: false
+      steps: [
+        {
+          element: '#client-search-form'
+          content: content
+          placement: 'bottom'
+          smartPlacement: true
+          orphan: true
+          template: "<div class='popover tour'>
+                    <div class='arrow'></div>
+                    <div class='popover-content'></div>
+                    <div class='popover-navigation pull-right' style='padding: 5px;' >
+                      <button class='btn btn-default' data-role='end' id='btn-done-done'>#{btnDone}</button>
+                    </div>
+                </div>"
+
+        }
+    ])
     _initReportBuilderWizard()
     _initCheckbox()
     _enableSelect2()
@@ -17,7 +40,8 @@ CIF.ClientsIndex = do ->
     _getClientPath()
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
-    _toggleCollapseFilter()
+    # _toggleCollapseFilter()
+    _toggleCollapseFilter(tour)
     _handleAutoCollapse()
     _overdueAssessmentSearch()
     _removeOverdueAssessmentSearch()
@@ -30,11 +54,33 @@ CIF.ClientsIndex = do ->
     _removeOverdueFormsSearch()
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
-    _addTourTip()
+    _clearingLocalStorage()
+    _handleDomainScoreInputValue()
+    _handleDomainScoreFilterValue()
+    _reloadFilter()
+    _addTourTip(tour)
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
+    _reOrderRuleContainer()
+
+  _reOrderRuleContainer = ->
+    $.each $('.csi-group .rules-list'), (index, item)->
+      wrapper = $(item)
+      items = wrapper.children('.rule-container')
+      arr = []
+      last_index   = undefined
+      $.each items, (index, child) ->
+        if $("##{child.id} .rule-filter-container").find('option[value="assessment_completed"]:selected').length
+          last_index = index
+        else
+          arr.push(index)
+
+      arr.push(last_index)
+      wrapper.append $.map(arr, (v) ->
+        items[v]
+      )
     _showWizardBuilderSql()
 
   _extendDataTableSort = ->
@@ -238,20 +284,21 @@ CIF.ClientsIndex = do ->
         $('#report-builder-wizard').steps('next')
 
   _displayChoseColumns = ->
-    clientColumns = $('section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
-    customFormColumns = $('section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
-    programStraemsColumns = $('section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
-    quantitativesColumns = $('section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    clientColumns = $('#report-builder-wizard section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    customFormColumns = $('#report-builder-wizard section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    programStraemsColumns = $('#report-builder-wizard section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    quantitativesColumns = $('#report-builder-wizard section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
     _appendChoseColumns(clientColumns, '.client-chose-columns') if clientColumns.length != 0
     _appendChoseColumns(customFormColumns, '.custom-form-chose-columns') if customFormColumns.length != 0
     _appendChoseColumns(programStraemsColumns, '.program-stream-chose-columns') if programStraemsColumns.length != 0
     _appendChoseColumns(quantitativesColumns, '.quantitative-chose-columns') if quantitativesColumns.length != 0
 
   _appendChoseColumns = (columns, className) ->
-    $("#{className} ul li").remove()
+    $("#report-builder-wizard #{className} ul li").remove()
+
     for column in columns
       columnName = $(column).text()
-      $("#{className} ul").append("<li>#{columnName}</li>")
+      $("#report-builder-wizard #{className} ul").append("<li>#{columnName}</li>")
 
   _showWizardBuilderSql = ->
     $('#show-sql').on 'click', ->
@@ -337,12 +384,13 @@ CIF.ClientsIndex = do ->
     $(dataFilters).hide()
     $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
 
-  _toggleCollapseFilter = ->
+  _toggleCollapseFilter = (tour) ->
     $('#client-search-form').on 'show.bs.collapse', ->
       $('#client-statistic-body').hide()
       $('#client-advance-search-form').collapse('hide')
 
     $('#client-advance-search-form').on 'show.bs.collapse', ->
+      tour.end()
       $('#client-statistic-body').hide()
       $('#client-search-form').collapse('hide')
 
@@ -387,16 +435,23 @@ CIF.ClientsIndex = do ->
     advanceFilter.handleRemoveQuantitativFilter()
 
     advanceFilter.handleSearch()
+    advanceFilter.addgroupCallback()
+    advanceFilter.handleCsiSelectOption()
+    advanceFilter.handleCsiAfterSearch()
+    advanceFilter.handleRule2SelectChange()
     advanceFilter.addRuleCallback()
     advanceFilter.filterSelectChange()
     advanceFilter.filterSelecting()
-    advanceFilter.opertatorSelecting()
-    advanceFilter.checkingForDisableOptions()
+    advanceFilter.disableOptions()
+    advanceFilter.hideAverageFromIndividualDomainScore()
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
-    $('.rule-operator-container').change ->
-      advanceFilter.initSelect2()
+    advanceFilter.hideCsiCustomGroupInRootBuilder()
+    advanceFilter.handleAllDomainOperatorOpen()
+    advanceFilter.removeOperatorInWizardBuilder()
+    # $('.rule-operator-container').change ->
+    #   advanceFilter.initSelect2()
 
   # _removeProgramStreamExitDate = ->
   #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
@@ -618,30 +673,97 @@ CIF.ClientsIndex = do ->
         total += 1
     total = if total != 0 then total else ''
 
-  _addTourTip = ->
-    content = $('#content').val()
-    btnDone = $('#btn-done').val()
+  _addTourTip = (tour) ->
     if !$('#most-recent').length
-      tour = new Tour(
-        debug: true
-        storage: false
-        steps: [
-          {
-            element: '#client-search-form'
-            content: content
-            placement: 'bottom'
-            orphan: true
-            template: "<div class='popover tour'>
-                      <div class='arrow'></div>
-                      <div class='popover-content'></div>
-                      <div class='popover-navigation pull-right' style='padding: 5px;' >
-                        <button class='btn btn-default' data-role='end' id='btn-done-done'>#{btnDone}</button>
-                      </div>
-                  </div>"
-
-          }
-      ])
       tour.init()
       tour.start()
 
+  _clearingLocalStorage = ->
+    $(document).on 'click', '#client-advance-search-form .ibox-footer a.btn-default', (event)->
+      $.each localStorage, (key, value) ->
+        if key.match(/builder_group_\d/g)
+          localStorage.removeItem(key)
+
+  _selectOptionData = ->
+    data = [
+      {
+        id: 1
+        tag: '1'
+      }
+      {
+        id: 2
+        tag: '2'
+      }
+      {
+        id: 3
+        tag: '3'
+      }
+      {
+        id: 4
+        tag: '4'
+      }
+    ]
+
+  _handleDomainScoreInputValue = ->
+    select2CsiOperator = '#builder_group_0 .rules-list .rule-container .rule-operator-container select'
+    wizardCsiFilter    = '#report-builder-wizard-modal .rules-list .rule-container .rule-operator-container select'
+
+    $(document).on 'change', select2CsiOperator, (param)->
+      filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
+      if filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g)
+        _addSelectionOption(this, param)
+
+    $(document).on 'change', wizardCsiFilter, (param)->
+      filterSelected = $(this).parent().siblings().closest('.rule-filter-container').find('select option:selected').val()
+      if filterSelected.match(/domainscore_/g) || filterSelected.match(/all_domains/g)
+        _addSelectionOption(this, param)
+
+  _handleDomainScoreFilterValue = ->
+    select2CsiFilter = '#builder_group_0 .rules-list .rule-container .rule-filter-container select'
+    wizardCsiFilter  = '#report-builder-wizard-modal .rules-list .rule-container .rule-filter-container select'
+
+    $(document).on 'change', select2CsiFilter, (param)->
+      if param.val.match(/domainscore_/g) || param.val.match(/all_domains/g)
+        _addSelectionOption(this, param)
+
+    $(document).on 'change', wizardCsiFilter, (param)->
+      if param.val.match(/domainscore_/g) || param.val.match(/all_domains/g)
+        _addSelectionOption(this, param)
+
+  _reloadFilter = ->
+    selectedOptions = $('option[value^="domainscore_"]:selected, option[value="all_domains"]:selected')
+    if selectedOptions.length > 0
+      $.each selectedOptions, (index, item) ->
+        inputValue = $(item).closest('.rule-container').find('.rule-value-container').find('input')
+        closestRuleContainer = $(item).closest('.rule-container')
+        if (closestRuleContainer.find('.rule-operator-container select option[value*="has_changed"]:selected').length == 0 and closestRuleContainer.find('.rule-operator-container select option[value*="has_not_changed"]:selected').length == 0)
+          if inputValue.length
+            inputValue.select2
+              data:
+                results: _selectOptionData()
+                text: 'tag'
+              formatSelection: (item) ->
+                item.tag
+              formatResult: (item) ->
+                item.tag
+
+          $(item).closest('.rule-filter-container').parent().children().last().find('.select2-container').attr("style", "width: 180px;")
+
+  _addSelectionOption = (currentItem, param) ->
+    unless _.includes(param.val, 'has_changed') || _.includes(param.val, 'has_not_changed')
+      inputValue = $(currentItem).parent().siblings().closest('.rule-value-container').find('input')
+      if inputValue.length
+        inputValue.select2
+          data:
+            results: _selectOptionData()
+            text: 'tag'
+          formatSelection: (item) ->
+            item.tag
+          formatResult: (item) ->
+            item.tag
+
+        $(currentItem).parent().siblings().closest('.rule-value-container').find('.select2-container').attr("style", "width: 180px;")
+    else
+      $(currentItem).closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
+      $(currentItem).closest('.rule-container').find('.rule-value-container').find('input').show()
   { init: _init }

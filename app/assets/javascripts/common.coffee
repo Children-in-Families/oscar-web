@@ -6,6 +6,12 @@ CIF.Common =
     @initNotification()
     @autoCollapseManagMenu()
     @textShortener()
+    @addLocalstorageAttribute()
+
+  addLocalstorageAttribute: ->
+    $('.btn-login').on 'click', ->
+      localStorage.setItem('from login', true)
+    @checkValidationErrorExistOnSaving()
 
   textShortener: ->
     if $('.clients-table').is(':visible')
@@ -22,10 +28,6 @@ CIF.Common =
 
     $('.i-check-orange').iCheck
       radioClass: 'iradio_square-orange'
-
-    # $('.i-checks').iCheck
-    #   checkboxClass: 'icheckbox_square-green'
-    #   radioClass: 'iradio_square-green'
 
   autoCollapseManagMenu: ->
     active = $('.nav-second-level').find('.active')
@@ -65,3 +67,51 @@ CIF.Common =
         toastr.success(messageInfo.message, '', messageOption)
       else if messageInfo.messageType == 'alert'
         toastr.error(messageInfo.message, '', messageOption)
+
+  checkValidationErrorExistOnSaving: ->
+    imagePath = undefined
+    setTimeout (->
+      imagePath = $('.file-caption-main input').attr('value')
+      return if imagePath == undefined
+      if imagePath.length > 0
+        $('.form-group.file .file-input.theme-explorer').removeClass('file-input-new')
+        imagePreview = "<tr class='file-preview-frame explorer-frame  kv-preview-thumb' data-fileindex='0' data-template='image'><td class='kv-file-content'>
+            <img src='#{imagePath}' class='file-preview-image kv-preview-data rotate-1' title='romchong_ads.jpg' alt='romchong_ads.jpg' style='width:auto;height:60px;'>
+            </td>
+            <td class='file-details-cell'><div class='explorer-caption' title='romchong_ads.jpg'>romchong_ads.jpg</div>  <samp>(64.8 KB)</samp></td><td class='file-actions-cell'><div class='file-upload-indicator' title='Not uploaded yet'><i class='glyphicon glyphicon-hand-down text-warning'></i></div>
+              <div class='file-actions'>
+              <div class='file-footer-buttons'>
+              <button type='button' class='kv-file-zoom btn btn-xs btn-default' title='View Details'><i class='glyphicon glyphicon-zoom-in'></i></button>      </div>
+              </div>
+            </td>
+          </tr>"
+
+        $('.form-group.file .file-preview table > tbody.file-preview-thumbnails').append(imagePreview)
+    ), 1000
+
+    $('input[type="submit"]').on 'click', ->
+      imagePath = $('.file-caption-main input').attr('value')
+      return if imagePath == undefined
+      if $('.form-group.file .file-preview table > tbody.file-preview-thumbnails').children().length == 0 && imagePath.length == 0
+        $(@).removeAttr('data-disable-with')
+      else
+        $(@).attr('data-disable-with', "#{$(this).val()}...")
+
+      return
+
+    Ladda.bind '.ladda-button', timeout: 60000
+    $(".ladda-button").on 'click', ->
+        # Bind normal buttons
+        # Bind progress buttons and simulate loading progress
+        Ladda.bind '.progress-demo .ladda-button', callback: (instance) ->
+          progress = 0
+          interval = setInterval((->
+            progress = Math.min(progress + Math.random() * 0.1, 1)
+            instance.setProgress progress
+            if progress == 1
+              instance.stop()
+              clearInterval interval
+            return
+          ), 200)
+          return
+

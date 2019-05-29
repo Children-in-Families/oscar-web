@@ -26,11 +26,12 @@
         %tbody
           - @program_streams.each do |ps|
             - next unless program_stream_readable?(ps.id)
+            - next if ps.client_enrollments.enrollments_by(@client.id).blank? && ps.archived_at.present?
             %tr
               %td.status
                 = render 'status', program_stream: ps
               %td.name
-                = link_to ps.name, program_stream_path(ps, client: true)
+                = link_to_if ps.archived_at.nil?, ps.name, program_stream_path(ps, client: true)
               %td.domain
                 - ps.domains_format.each do |domain|
                   %strong.label.label-default= domain

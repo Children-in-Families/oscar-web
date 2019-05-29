@@ -1,6 +1,8 @@
 class Tracking < ActiveRecord::Base
   include UpdateFieldLabelsFormBuilder
   FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
+  acts_as_paranoid
+
   belongs_to :program_stream
   has_many :client_enrollment_trackings, dependent: :restrict_with_error
   has_many :client_enrollments, through: :client_enrollment_trackings
@@ -15,6 +17,8 @@ class Tracking < ActiveRecord::Base
   after_update :auto_update_trackings
 
   default_scope { order(:created_at) }
+
+  delegate :name, to: :program_stream, prefix: true, allow_nil: true
 
   def form_builder_field_uniqueness
     return unless fields.present?

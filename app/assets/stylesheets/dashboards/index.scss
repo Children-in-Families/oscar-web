@@ -64,4 +64,27 @@ body[id='dashboards-index'] {
       max-width: 85%;
     }
   }
+
+  .referral-source-category-dialog{
+    overflow-y: initial !important
+  }
+
+  .referral-body{
+    height: 400px;
+    overflow-y: auto;
+  }
+
+  .save-referral-btn {
+    margin-top: 25px;
+  }
+
+  .save-success {
+    margin-top: 25px;
+    margin-left: 30px;
+  }
+
+  .modal-header{
+    background-color: #1ab394;
+    color: white;
+  }
 }

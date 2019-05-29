@@ -56,7 +56,8 @@ module AdvancedSearches
         ['rated_for_id_poor', { 'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2' }],
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
-        ['referred_from', referral_from_options]
+        ['referred_from', referral_from_options],
+        ['referral_source_category_id', referral_source_category_options]
       ]
     end
 
@@ -80,7 +81,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
       Organization.switch_to current_org
       provinces.flatten
     end
@@ -110,7 +111,15 @@ module AdvancedSearches
     end
 
     def referral_source_options
-      ReferralSource.order(:name).map { |s| { s.id.to_s => s.name } }
+      ReferralSource.child_referrals.order(:name).map { |s| { s.id.to_s => s.name } }
+    end
+
+    def referral_source_category_options
+      if I18n.locale == :km
+        ReferralSource.parent_categories.order(:name).map { |s| { s.id.to_s => s.name } }
+      else
+        ReferralSource.parent_categories.order(:name_en).map { |s| { s.id.to_s => s.name } }
+      end
     end
 
     def agencies_options

@@ -1,7 +1,7 @@
 namespace :change_assessment_data do
   desc 'Faking Assessment data in development and staging'
   task update: :environment do |task, args|
-    if Rails.env.development? || Rails.env.staging?
+    if Rails.env.development? || Rails.env.staging? || Rails.env.demo?
       Organization.all.each do |org|
         next if org.short_name == 'shared'
         dummy_text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."

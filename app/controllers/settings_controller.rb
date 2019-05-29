@@ -117,6 +117,8 @@ class SettingsController < AdminController
       %w(suburb_ directions_ description_house_landmark_)
     when 'myanmar'
       %w(street_line1_ street_line2_ township_ state_)
+    when 'uganda'
+      %w(province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_)
     else
       %w(province_id_ birth_province_id_ district_ commune_ house_number_ village_ street_number_)
     end

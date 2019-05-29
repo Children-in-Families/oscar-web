@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :calendars
 
-  mount Thredded::Engine => '/forum'
+  # mount Thredded::Engine => '/forum'
 
   get '/quantitative_data' => 'clients#quantitative_case'
 
@@ -90,6 +90,7 @@ Rails.application.routes.draw do
   end
 
   get '/data_trackers' => 'data_trackers#index'
+  get 'clients/:client_id/book' => 'client_books#index', as: 'client_books'
 
   resources :clients do
     resources :referrals
@@ -133,7 +134,6 @@ Rails.application.routes.draw do
       resources :tasks, except: [:new]
     end
     # resources :surveys
-
     get 'version' => 'clients#version'
   end
 
@@ -164,6 +164,12 @@ Rails.application.routes.draw do
   namespace :api do
     resources :referrals do
       get :compare, on: :collection
+    end
+
+    resources :referral_sources do
+      get :get_referral_sources, on: :collection
+      get :get_all_referral_sources, on: :collection
+      get :referral_source_category, on: :collection
     end
 
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
@@ -242,6 +248,11 @@ Rails.application.routes.draw do
         resources :case_notes, only: [:create, :update, :delete, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
+        scope module: 'clients' do
+          resources :exit_ngos, only: [:create, :update]
+          resources :enter_ngos, only: [:create, :update]
+        end
+
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
         end
@@ -250,8 +261,10 @@ Rails.application.routes.draw do
           resources :leave_programs, only: [:create, :update, :destroy]
         end
       end
+
       resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
+      resources :birth_provinces, only: [:index]
       resources :districts, only: [:index]
       resources :communes, only: [:index]
       resources :villages, only: [:index]
@@ -291,5 +304,9 @@ Rails.application.routes.draw do
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
     end
+  end
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 end
