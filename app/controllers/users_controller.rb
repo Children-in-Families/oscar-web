@@ -23,11 +23,10 @@ class UsersController < AdminController
   end
 
   def create
-    @user = User.new(user_params)
-    @user.case_worker_clients.build(client_id: params[:user][:client_ids])
+    @user = User.new(user_params.merge({client_ids: []}))
 
     if @user.save
-
+      @user.update_attributes(user_params)
       redirect_to @user, notice: t('.successfully_created')
     else
       render :new
@@ -96,8 +95,8 @@ class UsersController < AdminController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
                                 :job_title, :department_id, :mobile, :date_of_birth,
-                                :province_id, :email, :password,:password_confirmation, :gender,
-                                :manager_id, :calendar_integration, :pin_code, custom_field_ids: [],
+                                :province_id, :email, :password, :password_confirmation, :gender,
+                                :manager_id, :calendar_integration, :pin_code, client_ids: [],
                                 case_worker_attributes: [:id, :client_id, :readable, :editable],
                                 custom_field_permissions_attributes: [:id, :custom_field_id, :readable, :editable],
                                 program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
@@ -113,7 +112,6 @@ class UsersController < AdminController
     @department = Department.order(:name)
     @province   = Province.order(:name)
     @managers   = User.managers.order(:first_name, :last_name)
-    @clients    = Client.all
     @managers   = @managers.where.not('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: @user.id }) if params[:action] == 'edit' || params[:action] == 'update'
   end
 end

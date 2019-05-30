@@ -51,7 +51,6 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :program_stream_permissions
   accepts_nested_attributes_for :quantitative_type_permissions
   accepts_nested_attributes_for :permission
-  accepts_nested_attributes_for :case_worker_clients
 
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
