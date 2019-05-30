@@ -20,7 +20,7 @@
         .col-xs-12
           = f.input :client_name, readonly: true, input_html: { value: @client.en_and_local_name }, label: t('.client_name')
         .col-xs-12
-          = f.input :slug, readonly: true, input_html: { value: @client.slug }, label: t('.client_id')
+          = f.input :slug, readonly: true, input_html: { value: @client.archived_slug }, label: t('.client_id')
         .col-xs-12
           = f.input :referred_from, readonly: true, input_html: { value: Organization.current.full_name }, label: t('.referred_from')
         - if params[:ngo] == 'external referral' || @referral.referred_to == 'external referral'

@@ -13,7 +13,7 @@ class Client < ActiveRecord::Base
   mount_uploader :profile, ImageUploader
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
-  CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
+  CLIENT_STATUSES = ['Ac2cepted', 'Active', 'Exited', 'Referred'].freeze
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
@@ -112,18 +112,18 @@ class Client < ActiveRecord::Base
     Organization.switch_to 'shared'
     skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
     if skip_orgs_percentage.any?
-      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
+      shared_clients       = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
     else
       shared_clients       = SharedClient.all
     end
 
-    group_clients        = shared_clients.group_by{|client| client.slug.split('-').first }
+    group_clients        = shared_clients.group_by{|client| client.archived_slug.split('-').first }
     group_clients.each do |tenant, clients|
       tenants = Organization.all.pluck(:short_name)
       next if tenants.exclude?(tenant)
       Organization.switch_to tenant
       clients.each do |client|
-        client_in_tenant = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
+        client_in_tenant = includes(:province, :district, :commune, :village).find_by(archived_slug: client.archived_slug)
         next if client_in_tenant.nil?
         if client.birth_province_id.present?
           Organization.switch_to 'shared'
@@ -136,7 +136,7 @@ class Client < ActiveRecord::Base
           end
         end
         big_results << [{
-                          slug: client.slug,
+                          archived_slug: client.archived_slug,
                           given_name: client.given_name,
                           family_name: client.family_name,
                           local_given_name: client.local_given_name,
@@ -373,7 +373,7 @@ class Client < ActiveRecord::Base
 
   def set_slug_as_alias
     return if slug.present?
-    paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    paper_trail.without_versioning { |obj| obj.update_columns(slug: id, archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
 
   def time_in_care
@@ -579,13 +579,13 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = Referral.find_by(slug: slug, saved: false)
+    referral = Referral.find_by(slug: archived_slug, saved: false)
     referral.update_attributes(client_id: id, saved: true) if referral.present?
   end
 
   def create_or_update_shared_client
     current_org = Organization.current
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin)
     suburb = self.suburb
     state_name = self.state_name
 
@@ -597,7 +597,7 @@ class Client < ActiveRecord::Base
       province = Province.find_or_create_by(name: state_name, country: 'myanmar')
       client['birth_province_id'] = province.id
     end
-    shared_client = SharedClient.find_by(slug: client['slug'])
+    shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
   end
