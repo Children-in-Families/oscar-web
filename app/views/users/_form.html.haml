@@ -38,7 +38,7 @@
         -#   .col-xs-12.col-sm-6.col-md-4= f.input :otp_module, disabled: @user.otp_module_disabled?, as: :select, collection: [[t('.enable'), 'otp_module_enabled'], [t('.disable'), 'otp_module_disabled']], label: t('.two_factor_authentication'), include_blank: false
         .col-xs-12
           %label= t('.clients')
-          = f.association :clients, label_method: :latin_name_with_id, value_method: :id, include_blank: false, multi: true, label: false
+          = f.association :clients, label_method: :latin_name_with_id, value_method: :id, multi: true, label: false
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     - if @user.persisted?
