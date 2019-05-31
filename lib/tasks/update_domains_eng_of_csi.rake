@@ -83,7 +83,7 @@ namespace :update_domains_eng_of_csi do
         if dom.present?
           dom.description = domain[:description]
           dom.score_2_definition = domain[:score_2_definition]
-          dom.save
+          dom.save(validate: fasle)
           dom.update_columns('description' => domain[:description])
           dom.update_columns('score_2_definition' => domain[:score_2_definition])
         end
