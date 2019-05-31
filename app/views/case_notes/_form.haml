@@ -36,7 +36,7 @@
                     .col-xs-12
                       #attendee-message.text-danger
                 .col-xs-12.col-md-6
-                  = f.input :interaction_type, collection: CaseNote::INTERACTION_TYPE, label: t('.type')
+                  = f.input :interaction_type, collection: t('.type_options').values, label: t('.type')
                   .row
                     .col-xs-12
                       #interaction-type.text-danger

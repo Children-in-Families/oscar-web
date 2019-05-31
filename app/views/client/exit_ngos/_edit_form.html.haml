@@ -29,7 +29,7 @@
                       %i.fa.fa-calendar-check-o
 
               .form-inputs.i-checks
-                = f.input :exit_reasons, as: :check_boxes, collection: ExitNgo::EXIT_REASONS, label: t('.exit_reasons')
+                = f.input :exit_reasons, as: :check_boxes, collection: t('.exit_reason_options').values, label: t('.exit_reasons')
               .form-inputs
                 = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
