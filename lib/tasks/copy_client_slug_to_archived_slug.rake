@@ -4,7 +4,7 @@ namespace :client_archived_slug do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
 
-      if short_name == 'shared'
+      if org.short_name == 'shared'
         SharedClient.all.each do |client|
           next if client.archived_slug.present?
           client.archived_slug = client.slug
