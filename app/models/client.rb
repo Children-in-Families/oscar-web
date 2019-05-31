@@ -372,8 +372,11 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    return if slug.present?
-    paper_trail.without_versioning { |obj| obj.update_columns(slug: id, archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    if archived_slug.present?
+      paper_trail.without_versioning { |obj| obj.update_columns(slug: id) }
+    else
+      paper_trail.without_versioning { |obj| obj.update_columns(slug: id, archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    end
   end
 
   def time_in_care
