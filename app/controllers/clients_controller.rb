@@ -106,7 +106,7 @@ class ClientsController < AdminController
       referral_source_id = find_referral_source_by_referral
 
       Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(archived_slug: @referral.slug).attributes
+      attributes = SharedClient.find_by(archived_slug: @referral.slug).attributes.except('duplicate_checker')
       attributes = fetch_referral_attibutes(attributes, referral_source_id)
 
       Organization.switch_to current_org.short_name
