@@ -50,7 +50,8 @@ module CaseNoteHelper
   end
 
   def display_case_note_attendee(case_note)
-    case_note.interaction_type.present? ? "#{I18n.t('case_notes.index.present')} #{case_note.attendee} ( #{case_note.interaction_type} )" : "#{I18n.t('case_notes.index.present')} #{case_note.attendee}"
+    type = I18n.t("case_notes.form.type_options.#{case_note.interaction_type.downcase.split(' ').join('_').gsub('3', '')}")
+    case_note.interaction_type.present? ? "#{I18n.t('case_notes.index.present')} #{case_note.attendee} ( #{type} )" : "#{I18n.t('case_notes.index.present')} #{case_note.attendee}"
   end
 
   def case_notes_readable?

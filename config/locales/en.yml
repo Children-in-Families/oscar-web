@@ -636,9 +636,9 @@ en:
       tasks_arising: Tasks Arising
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
-        visit: Visit
+        visit: Visi
         non_face_to_face: Non face to face
-        third_party: 3rd Party
+        rd_party: 3rd Party
         other: Other
     form_with_assessment_domains:
       add_task: Add Task
@@ -828,6 +828,15 @@ en:
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
