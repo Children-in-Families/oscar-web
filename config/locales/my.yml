@@ -641,6 +641,11 @@ my:
       tasks: လုပ္ငန္းမ်ား
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
       type: အမ်ိဳးအစား
+      type_options:
+        visit: Visit
+        non_face_to_face: Non face to face
+        rd_party: 3rd Party
+        other: Other
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
       domain: ဒိုမိန္း
@@ -808,6 +813,15 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: Other
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...
@@ -819,6 +833,15 @@ my:
         exit_btn: ထြက္ရန္
         exit_circumstance: ထွက်ပေါက်အခြေအနေ
         exit_date: ထြက္သည့္ရက္စြဲ
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: Other
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်

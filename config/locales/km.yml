@@ -637,6 +637,11 @@ km:
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
       type: ប្រភេទ
+      type_options:
+        visit: សួរសុខទុក្ខ
+        non_face_to_face: Non face to face
+        rd_party: 3rd Party
+        other: Other
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
@@ -804,6 +809,15 @@ km:
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញពីអង្គការ...
@@ -817,6 +831,15 @@ km:
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញ...
