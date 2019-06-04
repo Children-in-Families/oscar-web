@@ -201,7 +201,7 @@ CIF.DashboardsIndex = do ->
 
       options = $('.type-of-service').data('custom')
       results = []
-      chunk_size = 11
+      chunk_size = 13
       while arr.length > 0
         results.push arr.splice(0, chunk_size)
 

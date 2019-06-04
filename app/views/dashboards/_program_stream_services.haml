@@ -1,5 +1,5 @@
 #program-stream-service
-  #program-stream-service-modal{class: just_sign_in? && current_user.admin? && @program_streams.presence && @referral_sources.blank? ? 'modal inmodal fade modal-popup' : 'modal inmodal fade', "aria-hidden": 'true', role: "dialog", tabindex: "-1" }
+  #program-stream-service-modal{class: just_sign_in? && current_user.admin? && @program_streams.presence && @referral_sources.blank? ? 'modal inmodal fade modal-popup' : 'modal inmodal fade modal-popup', "aria-hidden": 'true', role: "dialog", tabindex: "-1" }
     .modal-dialog.modal-lg{:style => 'overflow-y: scroll; max-height:85%; margin-top: 100px; margin-bottom: 50px;'}
       .modal-content
         .modal-header
