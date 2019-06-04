@@ -635,6 +635,11 @@ en:
       tasks: Tasks
       tasks_arising: Tasks Arising
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
+      type_options:
+        visit: Visi
+        non_face_to_face: Non face to face
+        rd_party: 3rd Party
+        other: Other
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
@@ -801,6 +806,15 @@ en:
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
@@ -814,6 +828,15 @@ en:
         exit_date: Exit Date
         exit_ngo: Exit Client from NGO
         exit_note: Exit Note
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
         exiting: Exiting...
@@ -4233,7 +4256,6 @@ en:
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
       disable_assessment: We are not using CSI Assessment Tool
-      name: Name
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
@@ -4340,6 +4362,7 @@ en:
         material: Equipment/Material
         no_modification: There are no any changelog.
         'on': 'on'
+        organisation_type: Organisation Type
         organization_type: Organisation Type
         partner: Partner
         partner_custom_field: Partner Custom Forms

@@ -637,6 +637,11 @@ km:
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
       type: ប្រភេទ
+      type_options:
+        visit: សួរសុខទុក្ខ
+        non_face_to_face: Non face to face
+        rd_party: 3rd Party
+        other: Other
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
@@ -804,6 +809,15 @@ km:
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញពីអង្គការ...
@@ -817,6 +831,15 @@ km:
         exit_date: ថ្ងៃចាកចេញ
         exit_ngo: ចាកចេញពីអង្គការ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
         exiting: កំពុងចាកចេញ...
@@ -1776,9 +1799,9 @@ km:
       overdue_tasks: ភារកិច្ចហួសកំណត់
       tasks: កាតព្វកិច្ច
     program_stream:
-      program_stream: កម្មវិធីចម្បង
+      program_stream: កម្មវិធីចម្បងីចម្បង
     program_stream_services:
-      ​name: ឈ្មោះ
+      name: ឈ្មោះ
       program_stream: កម្មវិធីចម្បង
       program_stream_sub: សូមបន្ថែម 'ប្រភេទសេវាកម្ម' ទៅកម្មវិធីចម្បងនីមួយៗ។
       remind_me: រំលឹកខ្ញុំពេលក្រោយ
@@ -3401,12 +3424,12 @@ km:
         one: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន1
         other: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន%{count}
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
-      overdue_assessments:
-        one: មិនទាន់បានធ្វើ
-        other: មិនទាន់បានធ្វើ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ហើយនិងមានចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      overdue_assessments:
+        one: មិនទាន់បានធ្វើ
+        other: មិនទាន់បានធ្វើ
       overdue_assessments_count:
         one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ
         other: អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ
@@ -3639,9 +3662,9 @@ km:
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
-      referral_clients:  អតិថិជនដែលត្រូវបានបញ្ជូនមក
+      referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមក
     repeat_referrals:
-      referral_clients:  អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
+      referral_clients: អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
     upcoming_assessment:
       client: អតិថិជន
       most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ
@@ -4238,7 +4261,6 @@ km:
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃលំនាំដើម CSI
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
-      name: ឈ្មោះ
       eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
       min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
@@ -4267,11 +4289,11 @@ km:
       default_assessment: ឧបករណ៍ការវាយតម្លៃលំនាំដើម
     navigation:
       country: ប្រទេស
+    research_module:
+      research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយការស្រាវជ្រាវ OSCaR
+      title: ការស្រាវជ្រាវ OSCaR
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
-    research_module:
-      title: ការស្រាវជ្រាវ OSCaR
-      research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយការស្រាវជ្រាវ OSCaR
   shared:
     form_builder:
       file_field:
@@ -4313,6 +4335,7 @@ km:
         date_deleted: កាលបរិច្ឆេទនៃការលុប
         no_modification: មិនមានប្រវត្តិកំណែ
         'on': របស់
+        organisation_type: ប្រភេទអង្គការ
         value_of: តម្លៃនៃ
       common:
         able_screening_question: សំនួរ Able Screening

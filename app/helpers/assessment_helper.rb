@@ -62,4 +62,18 @@ module AssessmentHelper
     return true if eval("@client.assessments.#{type}.count") == 0
     eval("@client.assessments.#{type}.order(created_at: :asc).first.completed")
   end
+
+  def domain_translation_header(ad)
+    text = ad.domain.local_description[/<strong>.*<\/strong>/].gsub(/<strong>|<\/strong>/, '')
+    domain_number = text[/[^\(.*]*/]
+    domain_name   = text[/\(.*/]
+
+    if I18n.locale == :km
+      content_tag(:nil) do
+        content_tag(:td, content_tag(:b, "#{domain_number}:"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, domain_name), class: "no-padding-bottom")
+      end
+    else
+      content_tag(:td, content_tag(:b, "#{I18n.t('.domains.domain_list.domains')} #{ad.domain.name}:"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, ad.domain.identity), class: "no-padding-bottom")
+    end
+  end
 end

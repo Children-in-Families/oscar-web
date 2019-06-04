@@ -29,10 +29,7 @@
                   %table.table.table-borderless
                     %tbody
                       %tr
-                        %td.no-padding-bottom
-                          %b= "#{t('.domain')} #{ad.domain.name}:"
-                        %td.no-padding-bottom
-                          %b= ad.domain.identity
+                        = domain_translation_header(ad)
                         %td{rowspan: 4}
                           .domain-score.text-center
                             - unless @assessment.initial?

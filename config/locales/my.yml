@@ -641,6 +641,11 @@ my:
       tasks: လုပ္ငန္းမ်ား
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
       type: အမ်ိဳးအစား
+      type_options:
+        visit: Visit
+        non_face_to_face: Non face to face
+        rd_party: 3rd Party
+        other: Other
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
       domain: ဒိုမိန္း
@@ -808,6 +813,15 @@ my:
         exit_date: ထြက္သည့္ရက္စြဲ
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: Other
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         exit_status: အေနအထား
         exiting: မထွက်...
@@ -819,6 +833,15 @@ my:
         exit_btn: ထြက္ရန္
         exit_circumstance: ထွက်ပေါက်အခြေအနေ
         exit_date: ထြက္သည့္ရက္စြဲ
+        exit_reason_options:
+          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          move_out_within_international: Client is/moved outside NGO target area (International)
+          client_refuse_service: Client refused service
+          no_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_died: Client died
+          not_required_support: Client does not require / no longer requires support
+          agency_lack_resource: Agency lacks sufficient resources
+          other: Other
         exit_ngo: NGOမွ ထြက္ရန္
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
@@ -1130,7 +1153,6 @@ my:
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     case_history_detail:
-      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
       client_id: မွတ္ပံုတင္
@@ -1144,12 +1166,13 @@ my:
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       external_referral: ထွက်လွှဲပြောင်း
       internal_referral: ကနေပြောင်းရွှေ့
+      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
-      referred_from: ကနေရည်ညွှန်းကနေရည်ညွှန်း
+      referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
       advanced_search:
@@ -1756,10 +1779,6 @@ my:
       open_form: ပွင့်လင်းပုံစံ
       previous: ေရွ႕တစ္ခု
       name: နာမည္
-    multiple_forms:
-      custom_forms: ပုံစံများ
-      multiple_forms: ပုံစံအမျိုးမျိုး
-      tracking_forms: ခြေရာခံခြင်းပုံစံ
     duetoday:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
@@ -1770,6 +1789,10 @@ my:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
+    multiple_forms:
+      custom_forms: ပုံစံများ
+      multiple_forms: ပုံစံအမျိုးမျိုး
+      tracking_forms: ခြေရာခံခြင်းပုံစံ
     overdue:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
@@ -1907,8 +1930,8 @@ my:
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
-        date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+        date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ခ႐ိုင္
@@ -3622,8 +3645,8 @@ my:
         clients: အမႈသည္
         warning: ഈ ഫോം പൂരിപ്പിക്കുന്നത്, ഇവിടെ പറഞ്ഞിരിക്കുന്ന ഓരോ ക്ലയന്റിനുമായി ഈ ഫോമിന്റെ വ്യത്യസ്ത പകർപ്പിലേക്ക് ഈ ഉത്തരങ്ങൾ സംരക്ഷിക്കും. ഓരോ ക്ലൈന്റിനും സമാനമായ ഉത്തരം ലഭിക്കും. ഓരോ ക്ലയന്റ് വ്യത്യസ്ത ഉത്തരങ്ങൾ ഉണ്ടായിരിക്കേണ്ട ഫോമുകൾക്കായി ഈ സവിശേഷത ഉപയോഗിക്കരുത്.
     complete_form:
-      agree: 'ဟုတ်ကဲ့'
-      disagree: 'အဘယ်သူမျှမ'
+      agree: ဟုတ်ကဲ့
+      disagree: အဘယ်သူမျှမ
       want_to_complete_again: သင်ပိုမို client များအတွက်နောက်တဖန်ဤပုံစံကိုဖြည့်စွက်ရန်လိုပါသလား?
     fields:
       file_field:
@@ -4260,7 +4283,6 @@ my:
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
-      name: နာမတျောကို
       eligible: အောက်မှာ အမႈသည္ ကိုများအတွက်အရည်အချင်းပြည့်မီ
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
@@ -4289,6 +4311,9 @@ my:
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
     navigation:
       country: ႏုိင္ငံ
+    research_module:
+      research_module_label:
+      title:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
@@ -4332,6 +4357,7 @@ my:
         date_deleted: ရက္စြဲ
         no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
         'on': ေပၚတြင္
+        organisation_type:
         value_of: "၏ တန္ဖိုး"
       common:
         able_screening_question: Able Screening ေမးခြန္း

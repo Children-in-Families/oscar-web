@@ -1016,4 +1016,12 @@ module ClientsHelper
       ReferralSource.find_by(id: id).try(:name_en)
     end
   end
+
+  def translate_exit_reasons(reasons)
+    reason_translations = I18n.backend.send(:translations)[:en][:client][:exit_ngos][:edit_form][:exit_reason_options]
+    current_translations = I18n.t('client.exit_ngos.edit_form.exit_reason_options')
+    reasons.map do |reason|
+      current_translations[reason_translations.key(reason)]
+    end.join(', ')
+  end
 end
