@@ -1528,9 +1528,8 @@ km:
     other_detail:
       agencies: អង្គភាពពាក់ព័ន្ធ
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
-      custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
-      donor: ម្ចាស់ជំនួយ
+      code: លេខកូដផ្ទាល់ខ្លួនទី១
+      donors: ម្ចាស់ជំនួយ
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
       kid_id: លេខកូដផ្ទាល់ខ្លួនទី២
