@@ -101,7 +101,7 @@ en:
         update:
           successfully_updated: Successfully updated
   activerecord:
-    default: &default
+    default:
       blank: can't be blank
     errors:
       models:
@@ -124,7 +124,7 @@ en:
               blank: can't be blank
               taken: has already been taken
         assessment_domain:
-          <<: *default
+          blank: can't be blank
         case:
           attributes:
             exit_date:
@@ -134,14 +134,14 @@ en:
             start_date:
               blank: can't be blank
         case_note:
-          <<: *default
+          blank: can't be blank
           attributes:
             attendee:
               blank: can't be blank
             meeting_date:
               blank: can't be blank
         case_note_domain_group:
-          <<: *default
+          blank: can't be blank
         changelog:
           attributes:
             change_version:
@@ -264,9 +264,9 @@ en:
               blank: can't be blank
               taken: has already been taken
         referral:
-          <<: *default
+          blank: can't be blank
         referral_source:
-          <<: *default
+          blank: can't be blank
           attributes:
             name:
               blank: can't be blank
@@ -296,7 +296,7 @@ en:
                 other: must be greater than %{count}
               taken: has already been taken
         task:
-          <<: *default
+          blank: can't be blank
           attributes:
             completion_date:
               blank: This field is required
@@ -317,6 +317,9 @@ en:
               confirmation: does not match
             roles:
               blank: can't be blank
+            pin_code:
+              not_an_integer:
+              wrong_length:
   add_event_success: Event has been added to calendar successfully.
   advanced_search:
     fields:
@@ -1168,6 +1171,7 @@ en:
       referral_reasons: Referral Reasons
       referred_from: Referred from External Organisation
       referred_to: Referred to External Organisation
+      initial_referral_date:
     client_advanced_searches:
       advanced_search:
         add_custom_group: Add Assessment Filter
@@ -1514,6 +1518,8 @@ en:
       live_with: Primary Carer Name
       living_detail: Living Details
       main_school_contact: Main School Contact
+      primary_carer_name: Primary Carer Name
+      primary_carer_phone_number: Primary Carer Phone Number
       school_grade: School Grade
       school_name: School Name
       schooling: Schooling
@@ -2654,8 +2660,8 @@ en:
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
   devise_token_auth:
-   sessions:
-     not_confirmed: Your account is not activated yet.
+    sessions:
+      not_confirmed: Your account is not activated yet.
   districts:
     create:
       failed_create: Failed to create a district.
@@ -3624,7 +3630,6 @@ en:
       file_field:
         allow_file_size: Allowed file types
         max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   notifications:
