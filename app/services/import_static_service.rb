@@ -9,16 +9,16 @@ module ImportStaticService
 
     def import
       column_letters = ('A'..'Z').to_a
-      header_letters = column_letters[0..10]
+      header_letters = column_letters[0..12]
       Organization.all.pluck(:short_name).each do |short_name|
         Organization.switch_to short_name
         header_letters.each do |letter|
           fields = workbook.column(letter)
           values = fields.compact
           value  = values.shift
-          service = Service.create(name: value)
+          service = Service.find_or_create_by(name: value)
           values.each do |name|
-            Service.create(name: name, parent_id: service.id)
+            Service.find_or_create_by(name: name, parent_id: service.id)
           end
         end
       end

@@ -691,7 +691,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
         options = $('#type-of-service').data('custom')
         results = []
-        chunk_size = 11
+        chunk_size = 13
         while arr.length > 0
           results.push arr.splice(0, chunk_size)
 
