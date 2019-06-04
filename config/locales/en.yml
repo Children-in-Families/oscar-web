@@ -636,7 +636,7 @@ en:
       tasks_arising: Tasks Arising
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
-        visit: Visi
+        visit: Visit
         non_face_to_face: Non face to face
         rd_party: 3rd Party
         other: Other
