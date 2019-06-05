@@ -471,6 +471,7 @@ ActiveRecord::Schema.define(version: 20190509031724) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.string   "profile"
+    t.integer  "referral_source_category_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1157,7 +1158,10 @@ ActiveRecord::Schema.define(version: 20190509031724) do
     t.datetime "updated_at"
     t.integer  "clients_count", default: 0
     t.string   "name_en",       default: ""
+    t.string   "ancestry"
   end
+
+  add_index "referral_sources", ["ancestry"], name: "index_referral_sources_on_ancestry", using: :btree
 
   create_table "referrals", force: :cascade do |t|
     t.string   "slug",             default: ""
@@ -1587,6 +1591,8 @@ ActiveRecord::Schema.define(version: 20190509031724) do
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
     t.datetime "deleted_at"
+    t.datetime "activated_at"
+    t.datetime "deactivated_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

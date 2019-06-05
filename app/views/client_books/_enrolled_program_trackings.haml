@@ -7,7 +7,7 @@
             = "#{t('.tracking')} (#{enrollment_tracking.program_stream_name}), (#{enrollment_tracking.tracking.try(:name)}) - #{@client.en_and_local_name}"
           %h5
             = "#{I18n.t('client_books.completed')}:"
-            = date
+            = date_format(date)
             = I18n.t('client_books.by')
             = whodunnit('ClientEnrollmentTracking', enrollment_tracking.id)
           .ibox-tools

@@ -8,7 +8,7 @@ class Dashboard
     @partners = Partner.all
     @agencies = Agency.all
     @staff    = User.all
-    @referral_sources = ReferralSource.all
+    @referral_sources = ReferralSource.child_referrals.all
     @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).uniq
   end
 

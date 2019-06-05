@@ -408,6 +408,7 @@ km:
       received_by_id: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
@@ -926,6 +927,8 @@ km:
     index:
       book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
       jump_to: ទៅកាន់កាលបរិច្ឆេទ
+    leave_programs:
+      exited_from: ចាកចេញពី
     for: សំរាប់
     tasks:
       task: កាតព្វកិច្ច
@@ -1394,11 +1397,10 @@ km:
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
     getting_started:
-      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
       family_name: នាមត្រកូល (ភាសាអង់គ្លេស)
-      first_followed_up_by: បុគ្គលិកតាមដានករណី
-      first_followed_up_date: កាលបរិច្ឆេទតាមដានដំបូង
+      followed_up_by_id: បុគ្គលិកតាមដានករណី
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       gender: ភេទ
       getting_started: ព័ត៌មានបឋម
       given_name: នាមខ្លួន (ភាសាអង់គ្លេស)
@@ -1414,14 +1416,16 @@ km:
         lesotho: ខេត្តកំណើត
         myanmar: ខេត្តកំណើត
         thailand: ខេត្តកំណើត
-      referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      received_by_id: បុគ្គលិកទទួលករណី
       referral_information: ព័ត៌មានការបញ្ជូន
-      referral_received_by: បុគ្គលិកទទួលករណី
+      referral_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_source: ប្រភពយោង
+      referral_source_category: ប្រភេទនៃប្រភពយោង
       remove_profile: លុបរូបថត
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
       text-hint: មិនអាចដកបុគ្គលិកកាន់ករណីនេះបានទេ ព្រោះគាត់មានកាតព្វកិច្ចមួយចំនួនដែលមិនទាន់បានបញ្ចប់
+      users: បុគ្គលិកគ្រប់គ្រងករណី
     index:
       active_programs: ក្រាបកម្មវិធីចម្បង
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -1486,30 +1490,30 @@ km:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
       current_address: អាស័យដ្ឋានបច្ចុប្បន្ន
+      live_with: អ្នកមើលថែចំបង
       living_detail: ព័ត៌មានរស់នៅលំអិត
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
-      primary_carer_name: អ្នកមើលថែចំបង
-      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       school_grade: កំរិត
       school_name: ឈ្មោះសាលារៀន
       schooling: សាលារៀន
+      telephone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       what3words: What3words
     new:
       download_supporting_document: ទាញយកឯកសារផ្គត់ផ្គង់
       new_client_title: បន្ថែមអតិថិជនថ្មី
       referral_has_already_been_saved: ការបញ្ជូនត្រូវបានរក្សាទុករួចហើយ
     other_detail:
-      agencies_involved: អង្គភាពពាក់ព័ន្ធ
+      agencies: អង្គភាពពាក់ព័ន្ធ
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
-      custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
-      donor: ម្ចាស់ជំនួយ
+      code: លេខកូដផ្ទាល់ខ្លួនទី១
+      donors: ម្ចាស់ជំនួយ
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
-      is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
+      kid_id: លេខកូដផ្ទាល់ខ្លួនទី២
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       other_information: ព័ត៌មានផ្សេងៗ
       province: ខេត្ត
+      rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
@@ -1780,6 +1784,11 @@ km:
       previous: ទំព័រមុន
       program_stream_name: កម្មវិធី
       tracking_name: ទម្រង់បែបបទតាមដាន
+    referral_source_category_reminder:
+      ancestry: ប្រភេទ
+      name: ឈ្មោះ
+      referral_source_reminder: សូមបន្ថែមព័ត៌មានប្រភេទសម្រាប់ប្រភពយោង
+      remind_later: រំលឹកខ្ញុំពេលក្រោយ
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
       agencies: អង្គភាព
@@ -1966,6 +1975,7 @@ km:
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
+        referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
         referred_from: បញ្ជូនមកពីអង្គការ
         referred_to: បញ្ជូនទៅអង្គការដទៃ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -2831,7 +2841,7 @@ km:
       address: ឣាសយដ្ឋាន
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
       case_history: ប្រវត្តិគ្រួសារ
-      clients: អតិថិជន
+      children: អតិថិជន
       code: លេខសំគាល់គ្រួសារ
       commune: ឃុំ/សង្កាត់
       contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
@@ -3739,6 +3749,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  processing: កំពុងដំណើរការពិនិត្យភាពស្ទួន។ សូមរង់ចាំ
   program_exclusive_has_been_modified: កម្មវិធីផ្តាច់មុខមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   program_streams:
     actions:
@@ -4091,6 +4102,7 @@ km:
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     form:
+      ancestry: ប្រភេទ
       cancel: ទុកជាមោឃៈ
       description: ការបរិយាយ
       name: ឈ្មោះប្រភពនៃការបញ្ជូន
@@ -4102,6 +4114,7 @@ km:
       changelogs: ប្រវត្តិនៃកំណែ
       description: ការបរិយាយ
       manage: សកម្មភាព
+      referral_source_category: ប្រភេទឈ្មោះប្រភពនៃការបញ្ជូន
       referral_source_name: ឈ្មោះប្រភពនៃការបញ្ជូន
       referral_sources: ប្រភពនៃការបញ្ជូន
       view: មើល
@@ -4688,7 +4701,7 @@ km:
       id: លេខសំគាល់
       job_title: មុខតំណែង
       last_name: នាមត្រកូល
-      manager: អ្នកគ្រប់គ្រង
+      manager_id: អ្នកគ្រប់គ្រង
       mobile: លេខទូរស័ព្ទ
       password: ពាក្យសម្ងាត់
       password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់
@@ -4712,7 +4725,7 @@ km:
       id: លេខសំគាល់
       job_title: មុខតំណែង
       last_name: នាមត្រកូល
-      manager: អ្នកគ្រប់គ្រង
+      manager_id: អ្នកគ្រប់គ្រង
       mobile: លេខទូរស័ព្ទ
       password: ពាក្យសម្ងាត់
       password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់
@@ -4744,7 +4757,7 @@ km:
       id: លេខសំគាល់
       job_title: មុខតំណែង
       last_name: នាមត្រកូល
-      manager: អ្នកគ្រប់គ្រង
+      manager_id: អ្នកគ្រប់គ្រង
       mobile: លេខទូរស័ព្ទ
       new_user_title: បង្កើតអ្នកប្រើប្រាស់ថ្មី
       password: ពាក្យសម្ងាត់
@@ -4783,7 +4796,7 @@ km:
       id: លេខសំគាល់
       job_title: មុខតំណែង
       last_name: នាមត្រកូល
-      manager: អ្នកគ្រប់គ្រង
+      manager_id: អ្នកគ្រប់គ្រង
       mobile: លេខទូរស័ព្ទ
       password: ពាក្យសម្ងាត់
       password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់

@@ -7,12 +7,12 @@
     %legend= t('.staff_responsibilities')
     .row
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :received_by_id, collection: @users, label: t('.referral_received_by')
+        = f.input :received_by_id, collection: @users, label: t('.received_by_id')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :followed_up_by_id, collection: @users, label: t('.first_followed_up_by')
+        = f.input :followed_up_by_id, collection: @users, label: t('.followed_up_by_id')
       .col-xs-12.col-sm-6.col-md-4
         = hidden_field(:hidden, :text, value: t('.text-hint'))
-        = f.association :users, collection: case_workers_option(@client.id), label: t('.case_worker_or_staff'), include_blank: false, multiple: true, required: !@client.exit_ngo? || @client.referred?
+        = f.association :users, collection: case_workers_option(@client.id), label: t('.users'), include_blank: false, multiple: true, required: !@client.exit_ngo? || @client.referred?
     .row
       .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date{ class: ('has-error' if f.error :initial_referral_date) }
         %label.date.optional.control-label{ for: 'client_initial_referral_date' }
@@ -24,7 +24,7 @@
             %i.fa.fa-calendar-check-o
         = f.error :initial_referral_date
       .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_follow_up_date
-        %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.first_followed_up_date')
+        %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.follow_up_date')
         .input-group.date
           = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
           %span.input-group-addon
@@ -51,11 +51,14 @@
         .col-xs-12.col-sm-6.col-md-4
           = f.input :birth_province_id, collection: @birth_provinces, as: :grouped_select, group_label_method: :first, group_method: :last,  label: t(".province.#{@client.country_origin_label}")
       .col-xs-12.col-sm-6.col-md-4
+        = f.input :referral_source_category_id, collection: @referral_source_category, label: t('.referral_source_category')
+      .col-xs-12.col-sm-6.col-md-4
         = f.association :referral_source, collection: referral_source_name(@referral_source), label: t('.referral_source')
+    .row
       .col-xs-12.col-sm-6.col-md-4
         = f.input :name_of_referee, label: t('.name_of_referee')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :referral_phone, label: t('.referee_phone_number')
+        = f.input :referral_phone, label: t('.referral_phone')
     .row
       .col-xs-12
         %label= t('.profile')

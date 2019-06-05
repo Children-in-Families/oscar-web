@@ -58,7 +58,8 @@ module AdvancedSearches
         *rated_id_poor,
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
-        ['referred_from', referral_from_options]
+        ['referred_from', referral_from_options],
+        ['referral_source_category_id', referral_source_category_options]
       ]
     end
 
@@ -129,6 +130,17 @@ module AdvancedSearches
     def referral_source_options
       referral_source_clients = @user.admin? ? Client.referral_source_is : Client.where(user_id: @user.id).referral_source_is
       referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def referral_source_category_options
+      ref_cat_ids = Client.pluck(:referral_source_category_id).compact.uniq
+      if I18n.locale == :km
+        ref_cat_kh_names = ReferralSource.where(id: ref_cat_ids).pluck(:name, :id)
+        ref_cat_kh_names.sort.map{|s| {s[1].to_s => s[0]}}
+      else
+        ref_cat_en_names = ReferralSource.where(id: ref_cat_ids).pluck(:name_en, :id)
+        ref_cat_en_names.sort.map{|s| {s[1].to_s => s[0]}}
+      end
     end
 
     def followed_up_by_options

@@ -166,6 +166,12 @@ Rails.application.routes.draw do
       get :compare, on: :collection
     end
 
+    resources :referral_sources do
+      get :get_referral_sources, on: :collection
+      get :get_all_referral_sources, on: :collection
+      get :referral_source_category, on: :collection
+    end
+
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
     resources :form_builder_attachments, only: :destroy
 
@@ -258,6 +264,7 @@ Rails.application.routes.draw do
 
       resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
+      resources :birth_provinces, only: [:index]
       resources :districts, only: [:index]
       resources :communes, only: [:index]
       resources :villages, only: [:index]
@@ -267,6 +274,7 @@ Rails.application.routes.draw do
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
+      get 'translations/:lang' => 'translations#translation'
     end
   end
 

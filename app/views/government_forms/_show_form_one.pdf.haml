@@ -235,52 +235,52 @@
   .panel-body.border-label.border-label{style: 'padding: 0 0 5px 0;'}
     .row
       .col-xs-3{style: 'min-height:136px; width: 30%;'}
-        = render @client.referral_source_name == 'ក្រសួង សអយ/មន្ទីរ សអយ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'ក្រសួង សអយ/មន្ទីរ សអយ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         ក្រសួង សអយ/មន្ទីរ សអយ
         %br
-        = render @client.referral_source_name == 'អង្គការមិនមែនរដ្ឋាភិបាល' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'អង្គការមិនមែនរដ្ឋាភិបាល' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         អង្គការមិនមែនរដ្ឋាភិបាល
         %br
-        = render @client.referral_source_name == 'មន្ទីរពេទ្យ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'មន្ទីរពេទ្យ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         មន្ទីរពេទ្យ
         %br
-        = render @client.referral_source_name == 'នគរបាល' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'នគរបាល' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         នគរបាល
         %br
-        = render @client.referral_source_name == 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         តុលាការ/ប្រព័ន្ធយុត្តិធម៌
         %br
       .col-xs-5{style: 'min-height:136px; width: 35%;'}
-        = render @client.referral_source_name == 'រកឃើញនៅតាមទីសាធារណៈ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'រកឃើញនៅតាមទីសាធារណៈ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         រកឃើញនៅតាមទីសាធារណៈ
         %br
-        = render @client.referral_source_name == 'ស្ថាប័នរដ្ឋ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'ស្ថាប័នរដ្ឋ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         ស្ថាប័នរដ្ឋ
         %br
-        = render @client.referral_source_name == 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         មណ្ឌលថែទាំបណ្ដោះអាសន្ន
         %br
-        = render @client.referral_source_name == 'ទូរស័ព្ទទាន់ហេតុការណ៍' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'ទូរស័ព្ទទាន់ហេតុការណ៍' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         ទូរស័ព្ទទាន់ហេតុការណ៍
         %br
-        = render @client.referral_source_name == 'មកដោយខ្លួនឯង' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'មកដោយខ្លួនឯង' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         មកដោយខ្លួនឯង
         %br
       .col-xs-4{style: 'min-height:136px; width: 35%;'}
-        = render @client.referral_source_name == 'គ្រួសារ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'គ្រួសារ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         គ្រួសារ
         %br
-        = render @client.referral_source_name == 'មិត្តភក្ដិ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'មិត្តភក្ដិ' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         មិត្តភក្ដិ
         %br
-        = render @client.referral_source_name == 'អាជ្ញាធរដែនដី' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+        = render ref_cat_name(@client.referral_source_category_id) == 'អាជ្ញាធរដែនដី' ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
         អាជ្ញាធរដែនដី
         %br
         %div.other-label
-          = render ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-          ផ្សេងៗ
-        %div{ class: "other #{ 'empty' if @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.include?(@client.referral_source_name)}" }
-          = @client.referral_source_name if ReferralSource::REFERRAL_SOURCES.exclude?(@client.referral_source_name)
+          = render ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id)) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
+          ផ្សេងៗ        
+        %div{ class: "other #{ 'empty' if @client.referral_source_category_id.present? if ReferralSource::REFERRAL_SOURCES.include?(ref_cat_name(@client.referral_source_category_id))}" }
+          = ref_cat_name(@client.referral_source_category_id) if ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id))
 
 .panel.panel-default{style: 'margin:0;'}
   %label.panel-label{ style: 'background-color: #FFFD54;' }

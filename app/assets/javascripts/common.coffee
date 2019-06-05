@@ -6,6 +6,11 @@ CIF.Common =
     @initNotification()
     @autoCollapseManagMenu()
     @textShortener()
+    @addLocalstorageAttribute()
+
+  addLocalstorageAttribute: ->
+    $('.btn-login').on 'click', ->
+      localStorage.setItem('from login', true)
     @checkValidationErrorExistOnSaving()
 
   textShortener: ->
