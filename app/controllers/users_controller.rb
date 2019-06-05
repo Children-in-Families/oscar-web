@@ -53,12 +53,14 @@ class UsersController < AdminController
   end
 
   def edit
+    @client_ids = @user.clients.ids
   end
 
   def update
     if @user.update_attributes(user_params)
       redirect_to @user, notice: t('.successfully_updated')
     else
+      @client_ids = user_params[:client_ids]
       render :edit
     end
   end
