@@ -101,7 +101,7 @@ km:
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
-    default: &default
+    default:
       blank: មិនអាចរំលង
     errors:
       models:
@@ -124,7 +124,7 @@ km:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
         assessment_domain:
-          <<: *default
+          blank: មិនអាចរំលង
         case:
           attributes:
             exit_date:
@@ -134,14 +134,14 @@ km:
             start_date:
               blank: មិនអាចរំលង
         case_note:
-          <<: *default
+          blank: មិនអាចរំលង
           attributes:
             attendee:
               blank: មិនអាចរំលង
             meeting_date:
               blank: មិនអាចរំលង
         case_note_domain_group:
-          <<: *default
+          blank: មិនអាចរំលង
         changelog:
           attributes:
             change_version:
@@ -264,12 +264,13 @@ km:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
         referral:
-          <<: *default
+          blank: មិនអាចរំលង
         referral_source:
           attributes:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+          blank:
         setting:
           attributes:
             max_assessment:
@@ -295,7 +296,7 @@ km:
                 other: ត្រូវតែធំជាង %{count}
               taken: ត្រូវបានប្រើរួចហើយ
         task:
-          <<: *default
+          blank: មិនអាចរំលង
           attributes:
             completion_date:
               blank: មិនអាចរំលង
@@ -1513,6 +1514,7 @@ km:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
       current_address: អាស័យដ្ឋានបច្ចុប្បន្ន
+      current_address: អាស័យដ្ឋានបច្ចុប្បន្នានបច្ចុប្បន្ន
       live_with: អ្នកមើលថែចំបង
       living_detail: ព័ត៌មានរស់នៅលំអិត
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
@@ -1521,6 +1523,8 @@ km:
       schooling: សាលារៀន
       telephone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       what3words: What3words
+      primary_carer_name: ឈ្មោះអ្នកថែទាំចម្បង
+      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
     new:
       download_supporting_document: ទាញយកឯកសារផ្គត់ផ្គង់
       new_client_title: បន្ថែមអតិថិជនថ្មី
@@ -1716,6 +1720,8 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+    book:
+      book:
   created_by: បង្កើត​ឡើង​ដោយ
   custom_field_properties:
     attachment:
@@ -2660,8 +2666,8 @@ km:
       send_paranoid_instructions: បើគណនីរបស់អ្នក មានរួចហើយ, អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីដោះសោ វានៅក្នុងពេល ពីរឬបីនាទីខាងមុខ
       unlocked: គណនីរបស់អ្នកត្រូវ បានដោះសោ ដោយជោគជ័យ។ សូមចូលទៅ បន្ត
   devise_token_auth:
-   sessions:
-     not_confirmed: គណនីរបស់អ្នកមិនទាន់ដំណើរការនៅឡើយទេ។
+    sessions:
+      not_confirmed: គណនីរបស់អ្នកមិនទាន់ដំណើរការនៅឡើយទេ។
   districts:
     create:
       failed_create: ស្រុកមិនត្រូវបានបង្កើតដោយជោគជ័យ
