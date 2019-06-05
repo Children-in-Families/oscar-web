@@ -64,7 +64,7 @@ module AssessmentHelper
   end
 
   def domain_translation_header(ad)
-    if I18n.locale == :km
+    if I18n.locale == :km && !ad.domain.custom_domain
       text = ad.domain.local_description[/<strong>.*<\/strong>/].gsub(/<strong>|<\/strong>/, '')
       domain_number = text[/[^\(.*]*/]
       domain_name   = text[/\(.*/]
