@@ -645,6 +645,46 @@ describe Client, 'scopes' do
       expect(Client.find_by_family_id(family.id)).to eq [client]
     end
   end
+
+  context 'check duplicate client' do
+    let!(:client) { create(:client, given_name: 'Jane', family_name: 'Soo', local_given_name: 'Jane', local_family_name: 'Soo', date_of_birth: "2010-10-10") }
+
+    client_params = { :given_name=>"Jane",
+                      :family_name=>"Soo",
+                      :local_given_name=>"Jane",
+                      :local_family_name=>"Soo",
+                      :date_of_birth=>"2010-10-10",
+                      :birth_province=>"",
+                      :current_province=>"",
+                      :district=>"",
+                      :village=>"",
+                      :commune=>"",
+                      :controller=>"api/clients",
+                      :action=>"compare"
+                    }
+
+    client2_params = {  :given_name=>"Jane",
+                        :family_name=>"Nana",
+                        :local_given_name=>"Nana",
+                        :local_family_name=>"Nana",
+                        :date_of_birth=>"2010-11-10",
+                        :birth_province=>"",
+                        :current_province=>"",
+                        :district=>"",
+                        :village=>"",
+                        :commune=>"",
+                        :controller=>"api/clients",
+                        :action=>"compare"
+                      }
+
+    it 'should return similar fields' do
+      expect(Client.find_shared_client(client_params)).to eq ['#hidden_name_fields', '#hidden_date_of_birth']
+    end
+
+    it 'should not return any similar fields' do
+      expect(Client.find_shared_client(client2_params)).to eq []
+    end
+  end
 end
 
 describe 'validations' do
