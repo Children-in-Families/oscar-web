@@ -32,7 +32,6 @@
 // = require query_builder/utils
 // = require query_builder/model
 // = require query_builder/plugin
-//= require interact.js
 
 //= require tinymce
 //= require moment
@@ -122,4 +121,5 @@
 //= require government_forms/form
 //= require multiple_form/form
 //= require registrations/form
+//= require referral_sources/index
 //= require client_books/index

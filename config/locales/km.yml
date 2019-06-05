@@ -408,6 +408,7 @@ km:
       received_by_id: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
@@ -1420,6 +1421,7 @@ km:
       referral_information: ព័ត៌មានការបញ្ជូន
       referral_received_by: បុគ្គលិកទទួលករណី
       referral_source: ប្រភពយោង
+      referral_source_category: ប្រភេទនៃប្រភពយោង
       remove_profile: លុបរូបថត
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
@@ -1782,6 +1784,11 @@ km:
       previous: ទំព័រមុន
       program_stream_name: កម្មវិធី
       tracking_name: ទម្រង់បែបបទតាមដាន
+    referral_source_category_reminder:
+      ancestry: ប្រភេទ
+      name: ឈ្មោះ
+      referral_source_reminder: សូមបន្ថែមព័ត៌មានប្រភេទសម្រាប់ប្រភពយោង
+      remind_later: រំលឹកខ្ញុំពេលក្រោយ
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
       agencies: អង្គភាព
@@ -1968,6 +1975,7 @@ km:
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
+        referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
         referred_from: បញ្ជូនមកពីអង្គការ
         referred_to: បញ្ជូនទៅអង្គការដទៃ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -3741,6 +3749,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  processing: កំពុងដំណើរការពិនិត្យភាពស្ទួន។ សូមរង់ចាំ
   program_exclusive_has_been_modified: កម្មវិធីផ្តាច់មុខមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   program_streams:
     actions:
@@ -4093,6 +4102,7 @@ km:
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     form:
+      ancestry: ប្រភេទ
       cancel: ទុកជាមោឃៈ
       description: ការបរិយាយ
       name: ឈ្មោះប្រភពនៃការបញ្ជូន
@@ -4104,6 +4114,7 @@ km:
       changelogs: ប្រវត្តិនៃកំណែ
       description: ការបរិយាយ
       manage: សកម្មភាព
+      referral_source_category: ប្រភេទឈ្មោះប្រភពនៃការបញ្ជូន
       referral_source_name: ឈ្មោះប្រភពនៃការបញ្ជូន
       referral_sources: ប្រភពនៃការបញ្ជូន
       view: មើល
