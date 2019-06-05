@@ -29,6 +29,7 @@ class UsersController < AdminController
       @user.update_attributes(user_params)
       redirect_to @user, notice: t('.successfully_created')
     else
+      @client_ids = user_params[:client_ids]
       render :new
     end
   end
