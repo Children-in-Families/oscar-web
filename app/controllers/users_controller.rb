@@ -23,10 +23,13 @@ class UsersController < AdminController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(user_params.merge({client_ids: []}))
+
     if @user.save
+      @user.update_attributes(user_params)
       redirect_to @user, notice: t('.successfully_created')
     else
+      @client_ids = user_params[:client_ids]
       render :new
     end
   end
@@ -93,8 +96,9 @@ class UsersController < AdminController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
                                 :job_title, :department_id, :mobile, :date_of_birth,
-                                :province_id, :email, :password,:password_confirmation, :gender,
-                                :manager_id, :calendar_integration, :pin_code, custom_field_ids: [],
+                                :province_id, :email, :password, :password_confirmation, :gender,
+                                :manager_id, :calendar_integration, :pin_code, client_ids: [],
+                                case_worker_attributes: [:id, :client_id, :readable, :editable],
                                 custom_field_permissions_attributes: [:id, :custom_field_id, :readable, :editable],
                                 program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
                                 quantitative_type_permissions_attributes: [:id, :quantitative_type_id, :readable, :editable],
