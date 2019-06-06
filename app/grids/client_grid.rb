@@ -7,7 +7,7 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    Client.all
+    Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :enter_ngos, :exit_ngos, :users).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
