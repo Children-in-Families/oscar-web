@@ -1,7 +1,8 @@
 = simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
   = hidden_field_tag :client_id, @client.id
   = hidden_field_tag :client_status, @client.status
-  / = f.hidden_field :slug, input_html: { value: @client.slug }
+  = f.hidden_field :slug, input_html: { value: @client.slug }
+  = f.hidden_field :archived_slug, input_html: { value: @client.archived_slug }
   = f.hidden_field :status, input_html: { value: @client.status }
   = f.hidden_field :country_origin, input_html: { value: @client.country_origin }
 

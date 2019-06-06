@@ -373,9 +373,13 @@ class Client < ActiveRecord::Base
 
   def set_slug_as_alias
     if archived_slug.present?
-      paper_trail.without_versioning { |obj| obj.update_columns(slug: id) }
+      if slug.in? Client.pluck(:slug)
+        random_char = slug.split('-')[0]
+        paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
+      end
     else
-      paper_trail.without_versioning { |obj| obj.update_columns(slug: id, archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+      random_char = ('a'..'z').to_a.sample(3).join()
+      paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
     end
   end
 
