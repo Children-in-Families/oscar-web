@@ -1395,11 +1395,10 @@ en:
       support_amount: Support Amount
       support_note: Support Note
     getting_started:
-      case_worker_or_staff: Case Worker / Staff
       date_of_birth: Date of Birth
       family_name: Family Name (Latin)
-      first_followed_up_by: First Follow-Up By
-      first_followed_up_date: First Follow-Up Date
+      followed_up_by_id: First Follow-Up By
+      follow_up_date: First Follow-Up Date
       gender: Gender
       getting_started: Getting Started
       given_name: Given Name (Latin)
@@ -1415,15 +1414,16 @@ en:
         lesotho: Birth Suburb
         myanmar: Birth State
         thailand: Birth Province
-      referee_phone_number: Referee Phone Number
+      received_by_id: Referral Received By
       referral_information: Referral Information
-      referral_received_by: Referral Received By
+      referral_phone: Referee Phone Number
       referral_source: Referral Source
       referral_source_category: Referral Source Category
       remove_profile: Remove Photo
       specific_point: Specific Point-of-Referral Data
       staff_responsibilities: Staff Responsibilities
       text-hint: Unable to remove this case worker because he/she has some remaining tasks to complete.
+      users: Case Worker / Staff
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
@@ -1488,30 +1488,30 @@ en:
       case_worker_or_staff: Case Worker / Staff
       contact_details: Contact Details
       current_address: Current Address
+      live_with: Primary Carer Name
       living_detail: Living Details
       main_school_contact: Main School Contact
-      primary_carer_name: Primary Carer Name
-      primary_carer_phone_number: Primary Carer Phone Number
       school_grade: School Grade
       school_name: School Name
       schooling: Schooling
+      telephone_number: Primary Carer Phone Number
       what3words: What3words
     new:
       download_supporting_document: Download Supporting Document
       new_client_title: New Client
       referral_has_already_been_saved: Referral has already been saved
     other_detail:
-      agencies_involved: Other Agencies Involved
+      agencies: Other Agencies Involved
       case_worker_or_staff: Case Worker / Staff
-      custom_id_number1: Custom ID Number 1
-      custom_id_number2: Custom ID Number 2
-      donor: Donor
+      code: Custom ID Number 1
+      donors: Donor
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
-      is_the_client_rated_for_id_poor: Is the Client Rated for ID Poor
+      kid_id: Custom ID Number 2
       other_detail: Other Details
       other_information: Other Information
       province: Client Birth Province
+      rated_for_id_poor: Is the Client Rated for ID Poor
       relevant_referral_information: Relevant Referral Information / Notes
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
@@ -2843,7 +2843,7 @@ en:
       address: Address
       caregiver_information: Caregiver Information
       case_history: Case History
-      clients: Clients
+      children: Clients
       code: Family ID
       commune: Commune
       contract_date: Contract Date
@@ -3752,7 +3752,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
-  processing: Processing...
+  processing: Duplicate Checker Running. Please give us a moment!
   program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous rules.
   program_streams:
     actions:
@@ -4708,7 +4708,7 @@ en:
       id: ID
       job_title: Job Title
       last_name: Last Name
-      manager: Manager
+      manager_id: Manager
       mobile: Mobile
       password: Password
       password_confirmation: Password Confirmation
@@ -4732,7 +4732,7 @@ en:
       id: ID
       job_title: Job Title
       last_name: Last Name
-      manager: Manager
+      manager_id: Manager
       mobile: Mobile
       password: Password
       password_confirmation: Password Confirmation
@@ -4764,7 +4764,7 @@ en:
       id: ID
       job_title: Job Title
       last_name: Last Name
-      manager: Manager
+      manager_id: Manager
       mobile: Mobile
       new_user_title: New User
       password: Password
@@ -4803,7 +4803,7 @@ en:
       id: ID
       job_title: Job Title
       last_name: Last Name
-      manager: Manager
+      manager_id: Manager
       mobile: Mobile
       password: Password
       password_confirmation: Password Confirmation

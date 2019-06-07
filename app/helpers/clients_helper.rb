@@ -991,15 +991,17 @@ module ClientsHelper
 
   def group_client_associations
     [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
-      if association.class.name.downcase == 'clientenrollment'
+      class_name = association.class.name.downcase
+      if class_name == 'clientenrollment' || class_name == 'leaveprogram' || class_name == 'casenote'
         created_date = association.created_at
-        enrollment_date = association.enrollment_date
-        distance_between_dates = (enrollment_date.to_date - created_date.to_date).to_i
-        created_date + distance_between_dates.day
-      elsif association.class.name.downcase == 'leaveprogram'
-        created_date = association.created_at
-        exit_date = association.exit_date
-        distance_between_dates = (exit_date.to_date - created_date.to_date).to_i
+        date_field = if class_name == 'clientenrollment'
+          association.enrollment_date
+        elsif class_name == 'leaveprogram'
+          association.exit_date
+        elsif class_name == 'casenote'
+          association.meeting_date
+        end
+        distance_between_dates = (date_field.to_date - created_date.to_date).to_i
         created_date + distance_between_dates.day
       else
         association.created_at
