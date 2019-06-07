@@ -9,6 +9,12 @@ module Api
       render json: client_statistics
     end
 
+    def find_client_case_worker
+      client = Client.find(params[:id])
+      user_ids = client.users.non_strategic_overviewers.where.not(id: params[:user_id]).ids
+      render json: { user_ids:  user_ids }
+    end
+
     private
 
     def find_client_in_organization
