@@ -18,7 +18,7 @@ namespace :client_archived_slug do
         referrals = client.referrals
         if referrals.present?
           referrals.each do |referral|
-            next if referral.referred_from == org.short_name
+            next if referral.referred_from == org.short_name || !referral.referred_from.in?(Organization.pluck(:short_name))
             Organization.switch_to referral.referred_from
             client_slug = Client.find_by(archived_slug: referral.slug).slug
             Organization.switch_to org.short_name
