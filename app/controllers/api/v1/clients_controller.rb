@@ -51,7 +51,7 @@ module Api
                 :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id, :village_id, :commune_id,
                 :has_been_in_orphanage, :has_been_in_government_care,
                 :relevant_referral_information, :province_id, :profile,
-                :state_id, :township_id, :rejected_note, :live_with,
+                :state_id, :township_id, :rejected_note, :live_with, :rated_for_id_poor,
                 :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
                 :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
                 :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,

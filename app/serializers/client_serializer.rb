@@ -7,7 +7,7 @@ class ClientSerializer < ActiveModel::Serializer
               # :referral_phone, :live_witr, :id_poor, :received_by,
               :referral_phone, :live_with, :received_by, :main_school_contact,  :telephone_number,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
-              :has_been_in_government_care, :relevant_referral_information,
+              :has_been_in_government_care, :relevant_referral_information, :rated_for_id_poor,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
               :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
