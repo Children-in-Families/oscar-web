@@ -20,6 +20,8 @@ class Assessment < ActiveRecord::Base
   scope :most_recents, -> { order(created_at: :desc) }
   scope :defaults, -> { where(default: true) }
   scope :customs, -> { where(default: false) }
+  scope :completed, -> { where(completed: true) }
+  scope :incompleted, -> { where(completed: false) }
 
   DUE_STATES        = ['Due Today', 'Overdue']
 

@@ -42,4 +42,34 @@ module ProgramStreamHelper
   def format_placeholder(value)
     value.parameterize.gsub('-', ' ').gsub('&amp;qoute;', '&quot;').html_safe if value.present?
   end
+
+  def services(parent_include = true)
+    service_parents = Service.only_parents
+    parents = service_parents.map do |service|
+      [service.name, service.id]
+    end
+
+    service_children = Service.only_children
+    children = []
+
+    ids = service_children.ids
+    children = find_children(service_parents, ids, children)
+
+    results = parent_include ?  parents + children : children
+  end
+
+  def find_children(service_parents, ids, children)
+    the_ids = ids
+    return children if ids.blank?
+    service_parents.ids.map do |parent_id|
+      child = Service.where(id: the_ids).find_by(parent_id: parent_id)
+      if child
+        children << [child.name, child.id]
+        the_ids.delete(child.id)
+      else
+        children << ['', '']
+      end
+    end
+    find_children(service_parents, the_ids, children)
+  end
 end

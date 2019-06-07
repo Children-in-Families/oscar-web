@@ -21,4 +21,12 @@ module GovernmentFormsHelper
     when 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ' then 'six'
     end
   end
+
+  def profile_photo(client_profile)
+    if client_profile.present?
+      wicked_pdf_image_tag @client.profile.photo, alt: @client.profile.file.filename, class: 'pull-right', width: 100
+    else
+      wicked_pdf_image_tag 'picture.png', id: 'client_photo', class: 'pull-right', width: 100
+    end
+  end
 end
