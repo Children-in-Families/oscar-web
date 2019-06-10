@@ -13,7 +13,7 @@ class Client < ActiveRecord::Base
   mount_uploader :profile, ImageUploader
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
-  CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
+  CLIENT_STATUSES = ['Ac2cepted', 'Active', 'Exited', 'Referred'].freeze
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
@@ -115,7 +115,7 @@ class Client < ActiveRecord::Base
     Organization.switch_to 'shared'
     skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
     if skip_orgs_percentage.any?
-      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
+      shared_clients       = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
     else
       shared_clients       = SharedClient.all.pluck(:duplicate_checker)
     end
@@ -347,8 +347,15 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    return if slug.present?
-    paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    if archived_slug.present?
+      if slug.in? Client.pluck(:slug)
+        random_char = slug.split('-')[0]
+        paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
+      end
+    else
+      random_char = ('a'..'z').to_a.sample(3).join()
+      paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    end
   end
 
   def time_in_care
@@ -526,7 +533,7 @@ class Client < ActiveRecord::Base
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
     client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin)
     suburb = self.suburb
     state_name = self.state_name
 
@@ -543,7 +550,7 @@ class Client < ActiveRecord::Base
     client_birth_province = Province.find_by(id: self.birth_province_id).try(&:name)
 
     client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{self.try(&:district_name)} & #{self.try(&:province_name)} & #{client_birth_province} & #{self.try(&:date_of_birth)}"
-    shared_client = SharedClient.find_by(slug: client['slug'])
+    shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
   end
@@ -580,7 +587,7 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = Referral.find_by(slug: slug, saved: false)
+    referral = Referral.find_by(slug: archived_slug, saved: false)
     referral.update_attributes(client_id: id, saved: true) if referral.present?
   end
 

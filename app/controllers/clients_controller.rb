@@ -106,7 +106,7 @@ class ClientsController < AdminController
       referral_source_id = find_referral_source_by_referral
 
       Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(slug: @referral.slug).attributes
+      attributes = SharedClient.find_by(archived_slug: @referral.slug).attributes.except('duplicate_checker')
       attributes = fetch_referral_attibutes(attributes, referral_source_id)
 
       Organization.switch_to current_org.short_name
@@ -179,7 +179,7 @@ class ClientsController < AdminController
   def assign_client_attributes
     current_org = Organization.current
     Organization.switch_to 'shared'
-    client_record = SharedClient.find_by(slug: @client.slug)
+    client_record = SharedClient.find_by(archived_slug: @client.archived_slug)
     if client_record.present?
       @client.given_name = client_record.given_name
       @client.family_name = client_record.family_name
@@ -198,7 +198,7 @@ class ClientsController < AdminController
     remove_blank_exit_reasons
     params.require(:client)
           .permit(
-            :slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
+            :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,
