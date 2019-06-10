@@ -50,6 +50,14 @@ module Api
       end
     end
 
+    def update
+      if @program_stream.update_attributes(program_stream_params)
+        render json: @program_stream
+      else
+        render json: @program_stream.errors, status: :unprocessable_entity
+      end
+    end
+
     def list_program_streams
       render json: TrackingDatatable.new(view_context), root: :data
     end
