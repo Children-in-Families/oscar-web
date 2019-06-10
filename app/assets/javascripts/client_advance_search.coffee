@@ -81,9 +81,11 @@ class CIF.ClientAdvanceSearch
 
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
+    advanceSearchBuilder.setRuleFromSavedSearch()
     @.basicFilterSetRule()
     @.initSelect2()
     @.initRuleOperatorSelect2($('#builder'))
+
 
   initSelect2: ->
     $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()

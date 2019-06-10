@@ -398,7 +398,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-    return object unless params[:client_advanced_search].present?
+    return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
     @data   = eval params[:client_advanced_search][:basic_rules]
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
@@ -968,7 +968,7 @@ module ClientsHelper
   end
 
   def get_rule(params, field)
-    return unless params.dig('client_advanced_search').present?
+    return unless params.dig('client_advanced_search').present? && params.dig('client_advanced_search', 'basic_rules').present?
     base_rules = eval params.dig('client_advanced_search', 'basic_rules')
     rules = base_rules.dig(:rules) if base_rules.presence
     index = rules.index{|rule| rule[:field].strip == field } if rules.presence
