@@ -971,10 +971,22 @@ module ClientsHelper
     return unless params.dig('client_advanced_search').present? && params.dig('client_advanced_search', 'basic_rules').present?
     base_rules = eval params.dig('client_advanced_search', 'basic_rules')
     rules = base_rules.dig(:rules) if base_rules.presence
-    index = rules.index{|rule| rule[:field].strip == field } if rules.presence
+
+    if rules.presence
+      index = rules.index do |rule|
+        if rule.has_key?(:rules)
+          find_rules_index(rule[:rules], field)
+        else
+          rule[:field].strip == field
+        end
+      end
+    end
     rule  = rules[index] if index.presence
   end
 
+  def find_rules_index(rules, field)
+    index = rules.index{ |rule| rule[:field].strip == field }
+  end
 
   def group_client_associations
     [*@assessments, *@case_notes, *@tasks, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
