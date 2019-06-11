@@ -4736,11 +4736,13 @@ my:
       last_name: နာမည္ ေနာက္ဆံုးအလံုး
       manager_id: မန္ေနဂ်ာ
       mobile: မိုုဘိုင္းဖုန္း
+      overdue_summary: ရက်လွန်အကျဉ်းချုပ်
       password: စကား၀ွက္
       password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
       password_hint: စကား၀ွက္ကို မေျပာင္းလိုလွ်င္ ကြက္လပ္ခ်န္ခဲ့ပါ
       pin_number: ပင္နံပါတ္
       province: ျပည္နယ္
+      referral_notification: လွှဲပြောင်းသတိပေးချက်
       roles: ခြင့္ျပဳခ်က္လုပ္
       start_date: စတင္သည့္ ရက္စြဲ
     index:

@@ -4711,11 +4711,13 @@ en:
       last_name: Last Name
       manager_id: Manager
       mobile: Mobile
+      overdue_summary: Overdue Summary
       password: Password
       password_confirmation: Password Confirmation
       password_hint: Leave it blank if you don't want to change password
       pin_number: Pin Number
       province: Province
+      referral_notification: Referral Notification
       roles: Permission Set
       start_date: Start Date
     index:
