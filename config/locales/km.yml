@@ -403,8 +403,8 @@ km:
       program_stream: កម្មវិធីចម្បង
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
-      quantitative: ពត៌មានបញ្ជូនបន្ថែម
-      rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
+      quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
+      rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
