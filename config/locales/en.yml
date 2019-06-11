@@ -1924,6 +1924,8 @@ en:
         assessments: Assessments
         assessments_due_to: Assessments Due To
         birth_province: Client Birth Province
+        birth_province_en: Client Birth Province (English)
+        birth_province_kh: Client Birth Province (Khmer)
         cambodia: Cambodia
         case_note_date: Case Note Date
         case_note_type: Case Note Type
@@ -1933,17 +1935,23 @@ en:
         changelogs: Changelog
         code: Custom ID Number1
         commune: Commune/Sangkat
+        commune_en: Address - Commune/Sangkat (English)
+        commune_kh: Address - Commune/Sangkat (Khmer)
         completed: Completed
         created_at: Created Date
         created_by: Created By
         current_address: Current Address
         current_province: Current Province
+        current_province_en: Current Province (English)
+        current_province_kh: Current Province (Khmer)
         date_of_assessments: Date of Assessments
         date_of_birth: Date of Birth
         date_of_custom_assessments: Date of Custom Assessment
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: District/Khan
+        district_en: Address - District/Khan (English)
+        district_kh: Address - District/Khan (Khmer)
         domain: Domain
         domains: All CSI
         donor: Donor
@@ -2040,6 +2048,8 @@ en:
         type: Attached with
         view: View
         village: Village
+        village_en: Address - Village (English)
+        village_kh: Address - Village (Khmer)
         what3words: What3words
       date_of_assessments: Date of Assessments
       date_of_custom_assessments: Date of Custom Assessment
@@ -4775,11 +4785,13 @@ en:
       manager: Manager
       manager_id: Manager
       mobile: Mobile
+      overdue_summary: Overdue Summary
       password: Password
       password_confirmation: Password Confirmation
       password_hint: Leave it blank if you don't want to change password
       pin_number: Pin Number
       province: Province
+      referral_notification: Referral Notification
       roles: Permission Set
       start_date: Start Date
     index:
@@ -4861,6 +4873,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+    warning_message: This client has no other care worker, and all clients must have at least one case worker. Please assign a new case worker to this client before removing their current case worker.
   views:
     pagination:
       first: "&laquo; First"
