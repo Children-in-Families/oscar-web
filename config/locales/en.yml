@@ -4854,6 +4854,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+    warning_message: This client has no other care worker, and all clients must have at least one case worker. Please assign a new case worker to this client before removing their current case worker.
   views:
     pagination:
       first: "&laquo; First"

@@ -26,7 +26,7 @@ class UsersController < AdminController
     @user = User.new(user_params.merge({client_ids: []}))
 
     if @user.save
-      @user.update_attributes(user_params)
+      @user.update_attributes(user_params) unless @user.strategic_overviewer?
       redirect_to @user, notice: t('.successfully_created')
     else
       @client_ids = user_params[:client_ids]
