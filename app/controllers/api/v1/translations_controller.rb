@@ -12,31 +12,9 @@ module Api
         end
 
         translations = {
-          "en" => {
-            "clients" => json[0]["en"]["clients"],
-            "families" => json[0]["en"]["families"],
-            "users" => json[0]["en"]["users"],
-            "asssessments" => json[0]["en"]["assessments"],
-            "tasks" => json[0]["en"]["tasks"],
-            "case_notes" => json[0]["en"]["case_notes"]
-          },
-          "km" => {
-            "clients" => json[1]["km"]["clients"],
-            "families" => json[1]["km"]["families"],
-            "users" => json[1]["km"]["users"],
-            "asssessments" => json[1]["km"]["assessments"],
-            "tasks" => json[1]["km"]["tasks"],
-            "case_notes" => json[1]["km"]["case_notes"]
-          },
-
-          "my" => {
-            "clients" => json[2]["my"]["clients"],
-            "families" => json[2]["my"]["families"],
-            "users" => json[2]["my"]["users"],
-            "asssessments" => json[2]["my"]["assessments"],
-            "tasks" => json[2]["my"]["tasks"],
-            "case_notes" => json[2]["my"]["case_notes"]
-          }
+          "en" => json[0]["en"],
+          "km" => json[1]["km"],
+          "my" => json[2]["my"]
         }
 
         render json: translations
