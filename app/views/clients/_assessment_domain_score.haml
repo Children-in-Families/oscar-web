@@ -23,7 +23,7 @@
               - Domain.csi_domains.each do |domain|
                 %th.assessment-score.text-center= domain.name
           %tbody.page
-            - @clients.includes(assessments: :assessment_domains).where(assessments: { default: true }).each do |client|
+            - @clients.includes(assessments: :assessment_domains, :referral_sources).where(assessments: { default: true }).each do |client|
               - client.assessments.defaults.each_with_index do |assessment, index|
                 - assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
                 %tr
