@@ -2764,6 +2764,19 @@ km:
     destroy:
       alert: កត្តាមិនអាចលុបបានទេ
       successfully_deleted: កត្តាត្រូវបានលុបចោលដោយជោគជ័យ
+    domain_identies:
+      care: (សុវត្ថិភាពស្បៀងអាហារ)
+      emotional_health: (ឣាហាររូបត្ថម្ភ និងការលូតលាស់)
+      food_security: (ជម្រក/លំនៅ ដ្ឋាន)
+      health_care_services: (ការថែទាំ)
+      legal_protection: (ការការពារ ពីការរំលោភបំពាន និងការកេងប្រវ័ញ្ច)
+      nutrition_and_growth: (កិច្ចគាំពារផ្លូវច្បាប់)
+      performance: (សុខមាលភាព)
+      protection_from_abuse_and_exploitation: (សេវាថែទាំសុខភាព)
+      shelter: (សុខភាពផ្លូវចិត្ត)
+      social_behaviour: (អាកប្បកិរិយាក្នុងសង្គម)
+      wellness: (ការប្រព្រឹត្ត) ការអភិវឌ្ឍផ្នែកចលករ និងពុទ្ធិ
+      work_and_education: (ការអប់រំ នឹងការងារ)
     domain_list:
       add_new_domain: បន្ថែមកត្តាថ្មី
       changelog: ប្រវត្តិនៃកំណែ
@@ -2773,6 +2786,19 @@ km:
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
       view: មើល
+    domain_names:
+      a1: ១ក
+      b1: ១ខ
+      a2: ២ក
+      b2: ២ខ
+      a3: ៣ក
+      b3: ៣ខ
+      a4: ៤ក
+      b4: ៤ខ
+      a5: ៥ក
+      b5: ៥ខ
+      a6: ៦ក
+      b6: ៦ខ
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     form:
@@ -2793,7 +2819,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       changelog: ប្រវត្តិនៃកំណែ
       csi_tool: ឧបករណ៍ការប៉ាន់ប្រមាណលំនាំដើម
-      custom_csi_tool: ឧបករណ៍ការបា៉ន់ប្រមាណផ្ទាល់ខ្លួន
+      custom_csi_tool: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       domains: កត្តា
       score_1: ពិន្ទុ 1
       score_2: ពិន្ទុ 2
@@ -3416,8 +3442,8 @@ km:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
         other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
       client_quantity:
-        one: "(អតិថិជនចំនួន 1)"
-        other: "(អតិថិជនចំនួន %{count})"
+        one: (អតិថិជនចំនួន 1)
+        other: (អតិថិជនចំនួន %{count})
       due_today_assessments:
         one: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
