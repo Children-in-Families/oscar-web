@@ -2758,6 +2758,19 @@ en:
     destroy:
       alert: Domain cannot be deleted.
       successfully_deleted: Domain has been successfully deleted.
+    domain_identies:
+      care: Care
+      emotional_health: Emotional Health
+      food_security: Food Security
+      health_care_services: Health Care Services
+      legal_protection: Legal Protection
+      nutrition_and_growth: Nutrition and Growth
+      performance: Performance
+      protection_from_abuse_and_exploitation: Protection from Abuse and Exploitation
+      shelter: Shelter
+      social_behaviour: Social Behaviour
+      wellness: Wellness
+      work_and_education: Work and Education
     domain_list:
       add_new_domain: Add New Domain
       changelog: Changelog
@@ -2767,6 +2780,19 @@ en:
       score_3: Score 3
       score_4: Score 4
       view: View
+    domain_names:
+      a1: A1
+      b1: B1
+      a2: A2
+      b2: B2
+      a3: A3
+      b3: B3
+      a4: A4
+      b4: B4
+      a5: A5
+      b5: B5
+      a6: A6
+      b6: B6
     edit:
       title: Edit Domain
     form:

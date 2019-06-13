@@ -6,12 +6,14 @@
       #rootwizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
         = f.simple_fields_for 'assessment_domains', order_assessment do |ad|
           - domain = ad.object.domain
-          %h4= domain.name
+          %h4= t("domains.domain_names.#{domain.name.downcase.reverse}")
           %div{ class: "assessment-domain-item domain-#{domain.id}" }
             .ibox
               .ibox-title
                 %h5= "#{@assessment.client.name}"
-                %label.label.label-success= "#{t('.domain')} #{domain.name}"
+                %label.label.label-success
+                  = t('.domain')
+                  = t("domains.domain_names.#{domain.name.downcase.reverse}")
                 .ibox-tools
                   = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
                     = t('.back')
