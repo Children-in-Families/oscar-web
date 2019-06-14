@@ -77,7 +77,7 @@ class SettingsController < AdminController
 
   def client_default_columns
     columns = []
-    sub_columns = %w(time_in_care_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
+    sub_columns = %w(time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
       family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_)
     filter_columns = ClientGrid.new.filters.map(&:name)
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,

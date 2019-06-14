@@ -26,14 +26,30 @@ class ClientDecorator < Draper::Decorator
     # model.birth_province.name if model.birth_province
   end
 
-  def time_in_care
-    if model.time_in_care.present?
-      time_in_care = model.time_in_care
-      years = h.t('.time_in_care_around.year', count: time_in_care[:years]) if time_in_care[:years] > 0
-      months = h.t('.time_in_care_around.month', count: time_in_care[:months]) if time_in_care[:months] > 0
-      weeks = h.t('.time_in_care_around.week', count: time_in_care[:weeks]) if time_in_care[:weeks] > 0
+  def time_in_ngo
+    if model.time_in_ngo.present?
+      time_in_ngo = model.time_in_ngo
+      years = h.t('.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
+      months = h.t('.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
+      weeks = h.t('.time_in_care_around.week', count: time_in_ngo[:weeks]) if time_in_ngo[:weeks] > 0
       [years, months, weeks].join(' ')
     end
+  end
+
+  def time_in_cps
+    cps_lists = []
+    if model.time_in_cps.present?
+      model.time_in_cps.each do |cps|
+        unless cps[1].blank?
+          years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if cps[1][:years] > 0
+          months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if cps[1][:months] > 0
+          weeks = I18n.t('clients.show.time_in_care_around.week', count: cps[1][:weeks]) if cps[1][:weeks] > 0
+          time_in_cps = [years, months, weeks].join(' ')
+          cps_lists << [cps[0], time_in_cps].join(': ')
+        end
+      end
+    end
+    cps_lists.join(", ")
   end
 
   def referral_date
