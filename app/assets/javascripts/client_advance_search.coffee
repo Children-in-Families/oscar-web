@@ -98,8 +98,12 @@ class CIF.ClientAdvanceSearch
         $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
-    $('.csi-group select').select2
-      minimumResultsForSearch: -1
+    $('.csi-group select').select2(minimumResultsForSearch: -1).on 'select2-open', ->
+      selectWrapper = $(@).closest('.csi-group')
+      if selectWrapper.offset().top > 840
+        $('html, body').animate { scrollTop: selectWrapper.offset().top }, "fast"
+      return
+
     setTimeout ( ->
       $(".csi-group .rule-filter-container select").select2(width: '250px', minimumResultsForSearch: -1)
       $(".csi-group .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')

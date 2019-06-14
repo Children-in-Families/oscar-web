@@ -58,6 +58,7 @@ CIF.ClientsIndex = do ->
     _handleDomainScoreInputValue()
     _handleDomainScoreFilterValue()
     _reloadFilter()
+    # _addTourTip()
     _addTourTip(tour)
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
@@ -683,7 +684,7 @@ CIF.ClientsIndex = do ->
       $.each localStorage, (key, value) ->
         if key.match(/builder_group_\d/g)
           localStorage.removeItem(key)
-
+  
   _selectOptionData = ->
     data = [
       {
