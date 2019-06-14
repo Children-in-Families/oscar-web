@@ -22,17 +22,24 @@ class ClientsController < AdminController
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
-    if has_params?
+    if has_params? || params[:advanced_search_id]
       advanced_search
     else
       columns_visibility
       respond_to do |f|
         f.html do
           next unless params['commit'].present?
-          client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-          @results                = client_grid.assets.size
-          $client_data            = client_grid.assets
-          @clients                = client_grid.assets
+          if current_user.admin?
+            @results = Client.count
+            $client_data = Client.all
+            $clients = $client_data
+          else
+            client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+            @results                = client_grid.assets.size
+            $client_data            = client_grid.assets
+            @clients                = client_grid.assets
+          end
+
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
