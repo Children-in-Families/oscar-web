@@ -10,7 +10,7 @@ class ClientSerializer < ActiveModel::Serializer
               :has_been_in_government_care, :relevant_referral_information, :rated_for_id_poor,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
+              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :time_in_cps
 
   has_many :assessments
 
@@ -18,17 +18,47 @@ class ClientSerializer < ActiveModel::Serializer
     object.profile.present? ? { uri: object.profile.url } : {}
   end
 
-  def time_in_care
-    years = object.time_in_care[:years]
+  def time_in_ngo
+    years = object.time_in_ngo[:years]
     year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
-    months = object.time_in_care[:months]
+    months = object.time_in_ngo[:months]
     month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-    weeks = object.time_in_care[:weeks]
+    weeks = object.time_in_ngo[:weeks]
     week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
-    days = object.time_in_care[:days]
+    days = object.time_in_ngo[:days]
     day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
     "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
   end
+
+  def time_in_cps
+    cps_lists = {}
+    object.time_in_cps.each do |cps|
+      unless cps[1].blank?
+        years = cps[1][:years]
+        year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+        months = cps[1][:months]
+        month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+        weeks = cps[1][:weeks]
+        week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+        days = cps[1][:days]
+        day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+        cps_lists["#{cps[0]}"] = "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+      end
+    end
+    cps_lists
+  end
+
+  # def time_in_care
+  #   years = object.time_in_care[:years]
+  #   year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+  #   months = object.time_in_care[:months]
+  #   month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+  #   weeks = object.time_in_care[:weeks]
+  #   week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+  #   days = object.time_in_care[:days]
+  #   day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+  #   "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+  # end
 
   def family_name
     current_org = Organization.current.short_name
