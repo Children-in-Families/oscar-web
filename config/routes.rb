@@ -10,7 +10,8 @@ Rails.application.routes.draw do
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
-  get '/dashboards'     => 'dashboards#index'
+  get '/dashboards'     => 'dashboards#index', as: 'dashboards'
+  post '/program_stream_services' => 'dashboards#update_program_stream_service', as: 'program_stream_services'
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
   get '/calendar/sync'  => 'calendars#sync'
@@ -225,7 +226,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :program_streams, only: [] do
+    resources :program_streams, only: [:update] do
       get :enrollment_fields
       get :exit_program_fields
       get :tracking_fields
@@ -264,6 +265,7 @@ Rails.application.routes.draw do
 
       resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
+      resources :birth_provinces, only: [:index]
       resources :districts, only: [:index]
       resources :communes, only: [:index]
       resources :villages, only: [:index]
@@ -274,6 +276,7 @@ Rails.application.routes.draw do
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
       get 'case_worker/:id/cache' => 'case_worker#get_data'
+      get 'translations/:lang' => 'translations#translation'
     end
   end
 
