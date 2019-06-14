@@ -351,27 +351,22 @@ class Client < ActiveRecord::Base
     days = 0
     date_time_in_ngo = { years: 0, months: 0, weeks: 0, days: 0 }
 
-    if self.exit_ngos.any?
-      exit_dates  = self.exit_ngos.order(:exit_date).pluck(:exit_date)
-      enter_dates = self.enter_ngos.order(:accepted_date).pluck(:accepted_date)
-      self.enter_ngos.each_with_index do |enter_ngo, index|
+    if exit_ngos.any?
+      exit_dates  = exit_ngos.order(:exit_date).pluck(:exit_date)
+      enter_dates = enter_ngos.order(:accepted_date).pluck(:accepted_date)
+      Client.find(self.id).enter_ngos.each_with_index do |enter_ngo, index|
         if enter_dates.size > exit_dates.size
           if exit_dates[index + 1].present?
-            # days += (exit_dates[index] - enter_ngo.accepted_date).to_i
             date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
           else
-            # days += (Date.today - enter_ngo.accepted_date).to_i
             date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngo.accepted_date)
           end
         elsif exit_dates.size == enter_dates.size
-          # days += (exit_dates[index] - enter_ngo.accepted_date).to_i
           date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
         end
       end
-      # days
     else
-      # days = (Date.today - self.enter_ngos.first.accepted_date).to_i
-      date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, Date.today, self.enter_ngos.first.accepted_date)
+      date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
     end
 
     date_time_in_ngo.store(:years, 0) unless date_time_in_ngo[:years].present?
@@ -416,7 +411,6 @@ class Client < ActiveRecord::Base
       detail_cps["#{enrollment.program_stream_name}"] = date_time_in_cps
     end
 
-    # binding.pry if detail_cps[1].nil?
     detail_cps.values.first.store(:years, 0) unless detail_cps.values.first[:years].present?
     detail_cps.values.first.store(:months, 0) unless detail_cps.values.first[:months].present?
     detail_cps.values.first.store(:weeks, 0) unless detail_cps.values.first[:weeks].present?
@@ -678,6 +672,7 @@ class Client < ActiveRecord::Base
   end
 
   def calculate_time_in_care(date_time_in_care, from_time, to_time)
+    return if from_time.nil? || to_time.nil?
     to_time = to_time + date_time_in_care[:years].years unless date_time_in_care[:years].nil?
     to_time = to_time + date_time_in_care[:months].months unless date_time_in_care[:months].nil?
     to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?
