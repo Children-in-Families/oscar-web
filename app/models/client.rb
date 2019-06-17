@@ -399,34 +399,47 @@ class Client < ActiveRecord::Base
       enroll_date     = enrollment.enrollment_date
       current_or_exit = enrollment.leave_program.try(:exit_date) || Date.today
 
-      if enrollment[index - 1].present? && enrollment[index - 1].program_stream_name == enrollment.program_stream_name
+      if enrollments[index - 1].present? && enrollments[index - 1].program_stream_name == enrollment.program_stream_name
         date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
       else
         date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
         date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
       end
 
-      # time_in_cps = (current_or_exit - enroll_date).to_i
-      # detail_cps["#{enrollment.program_stream_name}"].present? ? detail_cps["#{enrollment.program_stream_name}"] += time_in_cps : detail_cps["#{enrollment.program_stream_name}"] = time_in_cps
-      detail_cps["#{enrollment.program_stream_name}"] = date_time_in_cps
+      if detail_cps["#{enrollment.program_stream_name}"].present?
+        detail_cps["#{enrollment.program_stream_name}"][:years].present? ? detail_cps["#{enrollment.program_stream_name}"][:years] : detail_cps["#{enrollment.program_stream_name}"][:years] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:months].present? ? detail_cps["#{enrollment.program_stream_name}"][:months] : detail_cps["#{enrollment.program_stream_name}"][:months] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:weeks].present? ? detail_cps["#{enrollment.program_stream_name}"][:weeks] : detail_cps["#{enrollment.program_stream_name}"][:weeks] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:days].present? ? detail_cps["#{enrollment.program_stream_name}"][:days] : detail_cps["#{enrollment.program_stream_name}"][:days] = 0
+
+        detail_cps["#{enrollment.program_stream_name}"][:years] += date_time_in_cps[:years].present? ? date_time_in_cps[:years] : 0
+        detail_cps["#{enrollment.program_stream_name}"][:months] += date_time_in_cps[:months].present? ? date_time_in_cps[:months] : 0
+        detail_cps["#{enrollment.program_stream_name}"][:weeks] += date_time_in_cps[:weeks].present? ? date_time_in_cps[:weeks] : 0
+        detail_cps["#{enrollment.program_stream_name}"][:days] += date_time_in_cps[:days].present? ? date_time_in_cps[:days] : 0
+      else
+        detail_cps["#{enrollment.program_stream_name}"] = date_time_in_cps
+      end
     end
 
-    detail_cps.values.first.store(:years, 0) unless detail_cps.values.first[:years].present?
-    detail_cps.values.first.store(:months, 0) unless detail_cps.values.first[:months].present?
-    detail_cps.values.first.store(:weeks, 0) unless detail_cps.values.first[:weeks].present?
-    detail_cps.values.first.store(:days, 0) unless detail_cps.values.first[:days].present?
+    detail_cps.values.map do |value|
+      next if value.blank?
+      value.store(:years, 0) unless value[:years].present?
+      value.store(:months, 0) unless value[:months].present?
+      value.store(:weeks, 0) unless value[:weeks].present?
+      value.store(:days, 0) unless value[:days].present?
 
-    if detail_cps.values.first[:days] > 0
-      detail_cps.values.first[:weeks] = detail_cps.values.first[:weeks] + 1
-      detail_cps.values.first[:days] = 0
-    end
-    if detail_cps.values.first[:weeks] >= 4
-      detail_cps.values.first[:weeks] = detail_cps.values.first[:weeks] - 4
-      detail_cps.values.first[:months] = detail_cps.values.first[:months] + 1
-    end
-    if detail_cps.values.first[:months] >= 12
-      detail_cps.values.first[:months] = detail_cps.values.first[:months] - 12
-      detail_cps.values.first[:years] = detail_cps.values.first[:years] + 1
+      if value[:days] > 0
+        value[:weeks] = value[:weeks] + 1
+        value[:days] = 0
+      end
+      if value[:weeks] >= 4
+        value[:weeks] = value[:weeks] - 4
+        value[:months] = value[:months] + 1
+      end
+      if value[:months] >= 12
+        value[:months] = value[:months] - 12
+        value[:years] = value[:years] + 1
+      end
     end
 
     detail_cps
