@@ -56,7 +56,7 @@ class CsiStatistic
 
     default_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.csi_domains.each do |domain|
+    Domain.csi_domains.includes(:assessment_domains).each do |domain|
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|
@@ -72,12 +72,18 @@ class CsiStatistic
   def default_assessment_amount
     data = []
     return data unless @clients.any?
+
     clients = @clients.joins(:assessments).where(assessments: { default: true }).order('assessments.created_at')
-    max_count = clients.map { |a| a.assessments.defaults.size }.max.to_i
-    max_count.times do |i|
-      data << clients.map { |c| c.assessments.defaults[i].id if c.assessments.defaults[i].present? }
-    end
-    data
+    assessments_count = Client.maximum('assessments_count')
+    client = Client.find_by(assessments_count: assessments_count)
+    assessment_max_count = client.assessments.defaults.count
+    # max_count = clients.map { |a| a.assessments.defaults.size }.max.to_i
+    # clients.includes(:assessments)
+    # assessment_max_count.times do |i|
+    #   data << clients.includes(:assessments).map { |c| c.assessments.defaults[i].id if c.assessments.defaults[i].present? }
+    # end
+    # binding.pry
+    data = clients.includes(:assessments).map { |c| c.assessments.defaults.ids }
   end
 
   def fetch_custom_assessment_domain_score
@@ -88,7 +94,7 @@ class CsiStatistic
 
     custom_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.custom_csi_domains.each do |domain|
+    Domain.custom_csi_domains.includes(:assessment_domains).each do |domain|
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|
@@ -104,11 +110,13 @@ class CsiStatistic
   def custom_assessment_amount
     data = []
     return data unless @clients.any?
-    clients = @clients.joins(:assessments).where(assessments: { default: false }).order('assessments.created_at')
-    max_count = clients.map { |a| a.assessments.customs.size }.max.to_i
-    max_count.times do |i|
-      data << clients.map { |c| c.assessments.customs[i].id if c.assessments.customs[i].present? }
-    end
-    data
+    clients = @clients.includes(:assessments).where(assessments: { default: false }).order('assessments.created_at')
+    assessments_count = Client.maximum('assessments_count')
+    client = Client.find_by(assessments_count: assessments_count)
+    assessment_max_count = client.assessments.customs.count
+    # max_count.times do |i|
+    #   data << clients.map { |c| c.assessments.customs[i].id if c.assessments.customs[i].present? }
+    # end
+    data = clients.includes(:assessments).map { |c| c.assessments.customs.ids }
   end
 end
