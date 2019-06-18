@@ -348,45 +348,55 @@ class Client < ActiveRecord::Base
   end
 
   def time_in_ngo
-    days = 0
     date_time_in_ngo = { years: 0, months: 0, weeks: 0, days: 0 }
+    detail_time_in_ngo = []
 
     if exit_ngos.any?
       exit_dates  = exit_ngos.order(:exit_date).pluck(:exit_date)
       enter_dates = enter_ngos.order(:accepted_date).pluck(:accepted_date)
       Client.find(self.id).enter_ngos.each_with_index do |enter_ngo, index|
         if enter_dates.size > exit_dates.size
-          if exit_dates[index + 1].present?
-            date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
+          if exit_dates[index + 1].present? || exit_dates[index].present?
+            detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
           else
-            date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngo.accepted_date)
+            detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngo.accepted_date)
           end
         elsif exit_dates.size == enter_dates.size
-          date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
+          detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
         end
       end
     else
-      date_time_in_ngo = calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
+      detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
     end
 
-    date_time_in_ngo.store(:years, 0) unless date_time_in_ngo[:years].present?
-    date_time_in_ngo.store(:months, 0) unless date_time_in_ngo[:months].present?
-    date_time_in_ngo.store(:weeks, 0) unless date_time_in_ngo[:weeks].present?
-    date_time_in_ngo.store(:days, 0) unless date_time_in_ngo[:days].present?
 
-    if date_time_in_ngo[:days] > 0
-      date_time_in_ngo[:weeks] = date_time_in_ngo[:weeks] + 1
-      date_time_in_ngo[:days] = 0
+    detail_time = { years: 0, months: 0, weeks: 0, days: 0 }
+
+    detail_time_in_ngo.each do |time|
+      detail_time[:years] += time[:years].present? ? time[:years] : 0
+      detail_time[:months] += time[:months].present? ? time[:months] : 0
+      detail_time[:weeks] += time[:weeks].present? ? time[:weeks] : 0
+      detail_time[:days] += time[:days].present? ? time[:days] : 0
     end
-    if date_time_in_ngo[:weeks] >= 4
-      date_time_in_ngo[:weeks] = date_time_in_ngo[:weeks] - 4
-      date_time_in_ngo[:months] = date_time_in_ngo[:months] + 1
+
+    detail_time.store(:years, 0) unless detail_time[:years].present?
+    detail_time.store(:months, 0) unless detail_time[:months].present?
+    detail_time.store(:weeks, 0) unless detail_time[:weeks].present?
+    detail_time.store(:days, 0) unless detail_time[:days].present?
+
+    if detail_time[:days] > 0
+      detail_time[:weeks] = detail_time[:weeks] + 1
+      detail_time[:days] = 0
     end
-    if date_time_in_ngo[:months] >= 12
-      date_time_in_ngo[:months] = date_time_in_ngo[:months] - 12
-      date_time_in_ngo[:years] = date_time_in_ngo[:years] + 1
+    if detail_time[:weeks] >= 4
+      detail_time[:weeks] = detail_time[:weeks] - 4
+      detail_time[:months] = detail_time[:months] + 1
     end
-    date_time_in_ngo
+    if detail_time[:months] >= 12
+      detail_time[:months] = detail_time[:months] - 12
+      detail_time[:years] = detail_time[:years] + 1
+    end
+    detail_time
   end
 
   def time_in_cps
