@@ -40,12 +40,34 @@
                   .row
                     .col-xs-12
                       #interaction-type.text-danger
+
+          .row
+            .col-xs-12
+              .form-group
+                %label.control-label= t('.domain_groups')
+                = f.collection_select(:domain_group_ids, @domain_groups, :id, :domain_name, {selected: @selected_domain_group_ids}, {multiple: true})
+
+          .row
+            .col-xs-12
+              = simple_fields_for :additional_fields do |ff|
+                = ff.input :note, as: :text, label: false, input_html: { value: @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
+
+          .row
+            .col-xs-12
+              - url = "/api/domain_groups/get_domains_by_domain_groups?custom=#{params[:custom]}"
+              .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-url': url}
+                = t('.add_task')
+
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
             - if case_note_domain.object.any_assessment_domains?(@case_note)
               = render 'form_with_assessment_domains', { domain_note: case_note_domain }
             - else
               = render 'form_without_assessment_domains', { domain_note: case_note_domain }
+
+          .row
+            .col-xs-12
+              = render 'attachment_fields', { domain_note: f }
 
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }

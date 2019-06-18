@@ -18,4 +18,8 @@ class DomainGroup < ActiveRecord::Base
   def first_ordered?
     name == DomainGroup.first.name
   end
+
+  def domain_name
+    "Domain #{name}"
+  end
 end

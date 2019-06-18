@@ -1,0 +1,19 @@
+module Api
+  class DomainGroupsController < Api::ApplicationController
+    def get_domains_by_domain_groups
+      data = get_domains.pluck(:id, :name)
+      render json: { data: data }
+    end
+
+    private
+
+    def get_domains
+      domain_groups = JSON.parse(params[:domain_group_ids])
+      if params[:custom] == 'true'
+        Domain.where(domain_group_id: domain_groups).custom_csi_domains
+      else
+        Domain.where(domain_group_id: domain_groups).csi_domains
+      end
+    end
+  end
+end
