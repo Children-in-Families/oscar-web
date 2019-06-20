@@ -29,16 +29,10 @@ class ClientsController < AdminController
       respond_to do |f|
         f.html do
           next unless params['commit'].present?
-          if current_user.admin?
-            @results = Client.count
-            $client_data = Client.all
-            $clients = $client_data
-          else
-            client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-            @results                = client_grid.assets.size
-            $client_data            = client_grid.assets
-            @clients                = client_grid.assets
-          end
+          client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          @results                = client_grid.assets.size
+          @clients                = client_grid.assets
+          $client_data            = @clients
 
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
