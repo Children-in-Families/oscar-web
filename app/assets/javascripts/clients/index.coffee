@@ -96,18 +96,56 @@ CIF.ClientsIndex = do ->
 
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
-    $('.assessment-score-data').DataTable
+    # url = $('#hidden_api_assessment').data('assessment-params')
+    # columns = $('#hidden_assessment_domain_headers').data('headers')
+    #csi-assessment-score, #custom-assessment-score
+    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
+    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
+
+  _handleAjaxRequestToAssessment = (tableId, fileName)->
+    url = $("#{tableId} .api-assessment-path").data('assessment-params')
+    columns = $("#{tableId} .assessment-domain-headers").data('headers')
+
+    table = $(tableId).DataTable
       bFilter: false
       processing: true
+      serverSide: true
+      ajax: url
+      oLanguage: {
+        sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
+      }
       scrollX: true
       order: [0, 'desc']
       columnDefs: [{ type: 'formatted-num', targets: 0 }]
-      dom: 'lBrtip',
-      buttons: [{
-                extend: 'excelHtml5'
-                filename: fileName
-                title: ''
-            }]
+      columns: columns
+      dom: 'lBrtip'
+      # buttons: [{
+      #   extend: 'excelHtml5'
+      #   filename: fileName
+      #   title: ''
+      #   exportOptions: { modifier: { page: 'all', search: 'none' } }
+      # }]
+      lengthMenu: [
+        [
+          10
+          25
+          -1
+        ]
+        [
+          10
+          25
+          'All'
+        ]
+      ]
+      buttons: [ {
+        filename: fileName
+        extend: 'excel'
+        text: '<span class="fa fa-file-excel-o"></span> Excel Export'
+        exportOptions: modifier:
+          search: 'applied'
+          order: 'applied'
+        }
+      ]
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
@@ -684,7 +722,7 @@ CIF.ClientsIndex = do ->
       $.each localStorage, (key, value) ->
         if key.match(/builder_group_\d/g)
           localStorage.removeItem(key)
-  
+
   _selectOptionData = ->
     data = [
       {

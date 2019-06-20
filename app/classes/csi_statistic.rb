@@ -55,15 +55,25 @@ class CsiStatistic
     series = []
 
     default_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
+    assessment_domains = Hash.new { |h, k| h[k] = [] }
 
-    Domain.csi_domains.includes(:assessment_domains).each do |domain|
-      assessment_by_value = []
+    assessments_by_index.each do |a_ids|
+      domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
+      domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
+      # assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    end
 
-      assessments_by_index.each do |a_ids|
-        a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
-        assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
-      end
-      series << { name: domain.name, data: assessment_by_value }
+    # Domain.csi_domains.includes(:assessment_domains).each do |domain|
+    #   assessment_by_value = []
+
+    #   assessments_by_index.each do |a_ids|
+    #     a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
+    #     assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    #   end
+    #   series << { name: domain.name, data: assessment_by_value }
+    # end
+    Domain.csi_domains.pluck(:id, :name).each do |id, name|
+      series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
     end
 
     [assessments, series]
@@ -94,14 +104,24 @@ class CsiStatistic
 
     custom_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.custom_csi_domains.includes(:assessment_domains).each do |domain|
-      assessment_by_value = []
+    assessment_domains = Hash.new { |h, k| h[k] = [] }
 
-      assessments_by_index.each do |a_ids|
-        a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
-        assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
-      end
-      series << { name: domain.name, data: assessment_by_value }
+    assessments_by_index.each do |a_ids|
+      domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
+      domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
+      # assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    end
+    # Domain.custom_csi_domains.includes(:assessment_domains).each do |domain|
+    #   assessment_by_value = []
+
+    #   assessments_by_index.each do |a_ids|
+    #     a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
+    #     assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    #   end
+    #   series << { name: domain.name, data: assessment_by_value }
+    # end
+    Domain.custom_csi_domains.pluck(:id, :name).each do |id, name|
+      series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
     end
 
     [assessments, series]

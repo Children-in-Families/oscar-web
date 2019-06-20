@@ -76,4 +76,12 @@ module AssessmentHelper
       content_tag(:td, content_tag(:b, "#{I18n.t('.domains.domain_list.domains')} #{ad.domain.name}:"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, ad.domain.identity), class: "no-padding-bottom")
     end
   end
+
+  def assess_header_mapping(domain_ids)
+    assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date']
+    classNames = ['client-id', 'client-name', 'ssessment-number text-center', 'assessment-date', 'assessment-score text-center']
+    [*assessment_domain_headers, *domain_ids].zip(classNames).map do |field_header, class_name|
+      { data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
+    end
+  end
 end
