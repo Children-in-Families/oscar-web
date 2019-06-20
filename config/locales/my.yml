@@ -1915,6 +1915,8 @@ my:
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
         birth_province: ေမြးရာ ခ႐ိုင္
+        birth_province_en: client မွေးဖွားခြင်းပြည်နယ် (အင်္ဂလိပ်)
+        birth_province_kh: client မွေးဖွားခြင်းပြည်နယ် (ခမာ)
         cambodia: ကေမာၻဒီးယား
         case_note_date: အမႈ မွတ္စု ရက္စြဲ
         case_note_type: အမႈ မွတ္စု အမ်ိဳးအစား
@@ -1924,17 +1926,23 @@ my:
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
         code: Custom ID Number1
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+        commune_en: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (အင်္ဂလိပ်)
+        commune_kh: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (ခမာ)
         completed: ၿပီးစီးၿပီျဖစ္ေသာ
         created_at: ရက္စြဲကို ဖန္တီးရန္
         created_by: တည်ထောင်ထားတဲ့
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
+        current_province_en: လက်ရှိပြည်နယ် (အင်္ဂလိပ်)
+        current_province_kh: လက်ရှိပြည်နယ် (ခမာ)
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ခ႐ိုင္
+        district_en: လိပ်စာ - ခရိုင် / Khan က (အင်္ဂလိပ်)
+        district_kh: လိပ်စာ - ခရိုင် / Khan က (ခမာ)
         domain: ဒိုမိန္း
         domains: ဒိုမိန်း
         donor: အလွဴရွင္
@@ -2031,6 +2039,8 @@ my:
         type: အမ်ိဳးအစား
         view: ျမင္ကြင္း
         village: ေက်းရြာ
+        village_en: လိပ်စာ - ကျေးရွာ (အင်္ဂလိပ်)
+        village_kh: လိပ်စာ - ကျေးရွာ (ခမာ)
         what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
       date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
