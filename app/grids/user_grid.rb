@@ -47,6 +47,12 @@ class UserGrid < BaseGrid
   def province_options
     User.province_are
   end
+  
+  filter(:manager_id, :enum, select: :managers, header: -> { I18n.t('datagrid.columns.users.manager') })
+
+  def managers
+    User.managers.map{ |u| [u.name, u.id] }
+  end
 
   filter(:manager_id, :enum, select: :managers, header: -> { I18n.t('datagrid.columns.users.manager') })
 
