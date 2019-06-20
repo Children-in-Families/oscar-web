@@ -856,33 +856,33 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
-    # if enable_default_assessment?
-    #   column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
-    #     # render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
-    #   end
+    if enable_default_assessment?
+      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
+        render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
+      end
 
-    #   Domain.csi_domains.order_by_identity.each do |domain|
-    #     identity = domain.identity
-    #     column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-    #       assessment = client.assessments.defaults.latest_record
-    #       assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
-    #     end
-    #   end
-    # end
+      Domain.csi_domains.order_by_identity.each do |domain|
+        identity = domain.identity
+        column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+          assessment = client.assessments.defaults.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        end
+      end
+    end
 
-    # if enable_custom_assessment?
-    #   column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
-    #     # render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
-    #   end
+    if enable_custom_assessment?
+      column(:all_custom_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_custom_csi_assessments') }, html: true) do |object|
+        render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.customs }
+      end
 
-    #   Domain.custom_csi_domains.order_by_identity.each do |domain|
-    #     identity = domain.identity
-    #     column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-    #       assessment = client.assessments.customs.latest_record
-    #       assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
-    #     end
-    #   end
-    # end
+      Domain.custom_csi_domains.order_by_identity.each do |domain|
+        identity = domain.identity
+        column("custom_#{domain.convert_identity}".to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+          assessment = client.assessments.customs.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        end
+      end
+    end
   end
 
   dynamic do
