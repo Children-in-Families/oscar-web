@@ -466,6 +466,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveField = (url, elementId) ->
     return false if @programStreamId == ''
     specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+
     $.ajax
       method: 'GET'
       url: url
@@ -476,6 +477,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
+
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
@@ -491,8 +493,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       labelFields = $(tracking).find('label.field-label')
       if fields[name].length <= labelFields.length
         $(tracking).find('.ibox-footer .remove_fields').remove()
+
       $(labelFields).each (index, label) ->
         text = label.textContent.allReplace(specialCharacters)
+
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
 
