@@ -9,5 +9,8 @@ FactoryGirl.define do
     enrollment default_field
     exit_program default_field
     quantity 10
+    after(:build) do |ps|
+      ps.services << create(:service)
+    end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190423041510) do
+ActiveRecord::Schema.define(version: 20190509031724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -717,9 +717,9 @@ ActiveRecord::Schema.define(version: 20190423041510) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
-    t.string   "goal",               default: ""
-    t.string   "action",             default: ""
-    t.string   "who",                default: ""
+    t.text     "goal",               default: ""
+    t.text     "action",             default: ""
+    t.text     "who",                default: ""
     t.integer  "government_form_id"
     t.integer  "children_plan_id"
     t.datetime "created_at",                      null: false
@@ -733,9 +733,9 @@ ActiveRecord::Schema.define(version: 20190423041510) do
   add_index "government_form_children_plans", ["government_form_id"], name: "index_government_form_children_plans_on_government_form_id", using: :btree
 
   create_table "government_form_family_plans", force: :cascade do |t|
-    t.string   "goal",               default: ""
-    t.string   "action",             default: ""
-    t.string   "result",             default: ""
+    t.text     "goal",               default: ""
+    t.text     "action",             default: ""
+    t.text     "result",             default: ""
     t.integer  "government_form_id"
     t.integer  "family_plan_id"
     t.datetime "created_at",                      null: false
@@ -803,10 +803,10 @@ ActiveRecord::Schema.define(version: 20190423041510) do
     t.string   "primary_carer_street",       default: ""
     t.integer  "primary_carer_district_id"
     t.integer  "primary_carer_province_id"
-    t.string   "source_info",                default: ""
-    t.string   "summary_info_of_referral",   default: ""
-    t.string   "guardian_comment",           default: ""
-    t.string   "case_worker_comment",        default: ""
+    t.text     "source_info",                default: ""
+    t.text     "summary_info_of_referral",   default: ""
+    t.text     "guardian_comment",           default: ""
+    t.text     "case_worker_comment",        default: ""
     t.string   "other_interviewee",          default: ""
     t.string   "other_client_type",          default: ""
     t.string   "other_need",                 default: ""
@@ -1036,6 +1036,18 @@ ActiveRecord::Schema.define(version: 20190423041510) do
   add_index "program_stream_permissions", ["program_stream_id"], name: "index_program_stream_permissions_on_program_stream_id", using: :btree
   add_index "program_stream_permissions", ["user_id"], name: "index_program_stream_permissions_on_user_id", using: :btree
 
+  create_table "program_stream_services", force: :cascade do |t|
+    t.datetime "deleted_at"
+    t.integer  "program_stream_id"
+    t.integer  "service_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "program_stream_services", ["deleted_at"], name: "index_program_stream_services_on_deleted_at", using: :btree
+  add_index "program_stream_services", ["program_stream_id"], name: "index_program_stream_services_on_program_stream_id", using: :btree
+  add_index "program_stream_services", ["service_id"], name: "index_program_stream_services_on_service_id", using: :btree
+
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -1189,6 +1201,18 @@ ActiveRecord::Schema.define(version: 20190423041510) do
     t.datetime "updated_at",              null: false
   end
 
+  create_table "services", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "services", ["deleted_at"], name: "index_services_on_deleted_at", using: :btree
+  add_index "services", ["name"], name: "index_services_on_name", using: :btree
+  add_index "services", ["parent_id"], name: "index_services_on_parent_id", using: :btree
+
   create_table "settings", force: :cascade do |t|
     t.string   "assessment_frequency",        default: "month"
     t.integer  "min_assessment"
@@ -1236,8 +1260,10 @@ ActiveRecord::Schema.define(version: 20190423041510) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.string   "country_origin",    default: ""
+    t.string   "duplicate_checker"
   end
 
+  add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "sponsors", force: :cascade do |t|
@@ -1588,9 +1614,9 @@ ActiveRecord::Schema.define(version: 20190423041510) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -1728,6 +1754,8 @@ ActiveRecord::Schema.define(version: 20190423041510) do
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"
   add_foreign_key "program_stream_permissions", "users"
+  add_foreign_key "program_stream_services", "program_streams"
+  add_foreign_key "program_stream_services", "services"
   add_foreign_key "progress_notes", "clients"
   add_foreign_key "progress_notes", "locations"
   add_foreign_key "progress_notes", "materials"

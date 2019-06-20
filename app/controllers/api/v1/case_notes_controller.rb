@@ -5,6 +5,7 @@ module Api
 
       def create
         case_note = @client.case_notes.new(case_note_params)
+        case_note.assessment = @client.assessments.custom_latest_record
         if case_note.save
           case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
           render json: case_note

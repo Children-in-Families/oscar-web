@@ -175,4 +175,17 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
       margin-left: 0 !important;
     }
   }
+
+  #select2-drop {
+    height: 349px;
+    .select2-results {
+      max-height: 340px;
+      height: 374px;
+      overflow-x: scroll;
+      overflow-y: scroll;
+    }
+    .select2-results table tbody tr td {
+      cursor: pointer;
+    }
+  }
 }
