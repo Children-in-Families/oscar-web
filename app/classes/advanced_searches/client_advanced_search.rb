@@ -26,8 +26,10 @@ module AdvancedSearches
           rule_hash = {}
           rules = rules.compact.first.each {|k, v| rule_hash[k] = v if k == 'rules'}
           operators = rule_hash['rules'].map{|value| value["operator"] }.uniq if rules.present?
+        elsif rules.present?
+          operators = rules.flatten.compact.map{|value| value["operator"] }.uniq if rules.present?
         else
-          operators = rules.flatten.map{|value| value["operator"] }.uniq if rules.present?
+          operators = @basic_rules["rules"].flatten.compact.map{|value| value["operator"] }.uniq if rules.present?
         end
 
         if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.presence.reject(&:nil?).sort == ["not_equal", "equal"].sort

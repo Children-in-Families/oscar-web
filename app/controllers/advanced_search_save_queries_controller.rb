@@ -7,7 +7,7 @@ class AdvancedSearchSaveQueriesController < AdminController
     @advanced_search = AdvancedSearch.new(advanced_search_params)
     @advanced_search.user_id = current_user.id
     if @advanced_search.save
-      redirect_to clients_path(save_search_params(@advanced_search.search_params)), notice: t('.successfully_created')
+      redirect_to clients_path(save_search_params(@advanced_search.search_params).merge(advanced_search_id: @advanced_search.id)), notice: t('.successfully_created')
     else
       redirect_to clients_path, alert: t('.failed_create')
     end
@@ -18,7 +18,7 @@ class AdvancedSearchSaveQueriesController < AdminController
 
   def update
     if @advanced_search.update_attributes(advanced_search_params)
-      redirect_to clients_path(save_search_params(@advanced_search.search_params)), notice: t('.successfully_updated')
+      redirect_to clients_path(save_search_params(@advanced_search.search_params).merge(advanced_search_id: @advanced_search.id)), notice: t('.successfully_updated')
     else
       render :edit
     end
