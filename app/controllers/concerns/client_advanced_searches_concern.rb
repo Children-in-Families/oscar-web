@@ -1,10 +1,14 @@
 module ClientAdvancedSearchesConcern
   def advanced_search
-    basic_rules  = JSON.parse @basic_filter_params || @wizard_basic_filter_params
+    if params[:advanced_search_id]
+      advanced_search = AdvancedSearch.find(params[:advanced_search_id])
+      basic_rules = advanced_search.queries
+    else
+      basic_rules  = JSON.parse @basic_filter_params || @wizard_basic_filter_params
+    end
     # overdue_assessment   = @advanced_search_params[:overdue_assessment]
     # clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), overdue_assessment)
     $param_rules        = find_params_advanced_search
-
     clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
     @clients_by_user     = clients.filter
