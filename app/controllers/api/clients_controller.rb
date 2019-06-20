@@ -17,7 +17,8 @@ module Api
       assessments = Assessment.includes(:assessment_domains, :client).where(assessments: { default: params[:default] }, client_id: params[:client_ids].split('/')).where.not(client_id: nil)
       assessments_count = assessments.count
 
-      assessment_data = params[:length] != '-1' ? assessments.page(params[:draw]).per(params[:length]) : assessments
+      assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
+
       assessment_data.each do |assessment|
         assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
         domain_scores = domains.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
@@ -44,6 +45,14 @@ module Api
       @csi_statistics = CsiStatistic.new($client_data).assessment_domain_score.to_json
       @enrollments_statistics = ActiveEnrollmentStatistic.new($client_data).statistic_data.to_json
       { text: "#{@csi_statistics} & #{@enrollments_statistics}" }
+    end
+
+    def page
+      params[:start].to_i/per_page + 1
+    end
+
+    def per_page
+      params[:length].to_i > 0 ? params[:length].to_i : 10
     end
   end
 end
