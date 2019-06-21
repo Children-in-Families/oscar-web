@@ -354,7 +354,7 @@ class Client < ActiveRecord::Base
     if exit_ngos.any?
       exit_dates  = exit_ngos.order(:exit_date).pluck(:exit_date)
       enter_dates = enter_ngos.order(:accepted_date).pluck(:accepted_date)
-      Client.find(self.id).enter_ngos.each_with_index do |enter_ngo, index|
+      Client.find(self.id).enter_ngos.order(accepted_date: :asc).each_with_index do |enter_ngo, index|
         if enter_dates.size > exit_dates.size
           if exit_dates[index + 1].present? || exit_dates[index].present?
             detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
