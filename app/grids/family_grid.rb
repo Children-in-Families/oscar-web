@@ -17,7 +17,7 @@ class FamilyGrid < BaseGrid
     scope.family_id_like(value)
   end
 
-  filter(:family_type, :enum, select: Family::TYPES, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |value, scope|
+  filter(:family_type, :enum, select: :mapping_family_type_translation, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |value, scope|
     scope.by_family_type(value)
   end
 
@@ -51,6 +51,10 @@ class FamilyGrid < BaseGrid
 
   filter(:house, :string, header: -> { I18n.t('datagrid.columns.families.house') }) do |value, scope|
     scope.house_like(value)
+  end
+
+  def mapping_family_type_translation
+    [I18n.t('default_family_fields.family_type_list').values, I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values].transpose
   end
 
   def commune_options
