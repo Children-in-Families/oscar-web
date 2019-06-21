@@ -39,7 +39,7 @@ module AdvancedSearches
     end
 
     def family_type_options
-      Family::TYPES
+      Family.mapping_family_type_translation.to_h
     end
 
     def status_options

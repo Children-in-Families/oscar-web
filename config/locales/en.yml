@@ -420,6 +420,31 @@ en:
       relevant_referral_information: Relevant Referral Information
       road: Road
       school_grade: School Grade
+      school_grade_list:
+        grade_1: '1'
+        grade_10: '10'
+        grade_11: '11'
+        grade_12: '12'
+        grade_2: '2'
+        grade_3: '3'
+        grade_4: '4'
+        grade_5: '5'
+        grade_6: '6'
+        grade_7: '7'
+        grade_8: '8'
+        grade_9: '9'
+        kindergarten_1: Kindergarten 1
+        kindergarten_2: Kindergarten 2
+        kindergarten_3: Kindergarten 3
+        kindergarten_4: Kindergarten 4
+        year_1: Year 1
+        year_2: Year 2
+        year_3: Year 3
+        year_4: Year 4
+        year_5: Year 5
+        year_6: Year 6
+        year_7: Year 7
+        year_8: Year 8
       school_name: School Name
       slug: ID
       state: State
@@ -2318,6 +2343,17 @@ en:
     contract_date: Contract Date
     dependable_income: Dependable Income
     family_type: Family Type
+    family_type_list:
+      birth_family_both_parents: Birth Family (Both Parents)
+      birth_family_only_father: Birth Family (Only Father)
+      birth_family_only_mother: Birth Family (Only Mother)
+      child_headed_household: Child-Headed Household
+      domestically_adopted: Domestically Adopted
+      extended_family_kinship_care: Extended Family / Kinship Care
+      long_term_foster_care: Long Term Foster Care
+      no_family: No Family
+      short_term_emergency_foster_care: Short Term / Emergency Foster Care
+      the_othe: Other
     female_adult_count: Female Adult Count
     female_children_count: Female Children Count
     household_income: Monthly Household Income
