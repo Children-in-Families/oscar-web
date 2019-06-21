@@ -384,17 +384,22 @@ class Client < ActiveRecord::Base
     detail_time.store(:weeks, 0) unless detail_time[:weeks].present?
     detail_time.store(:days, 0) unless detail_time[:days].present?
 
-    if detail_time[:days] > 0
+    if detail_time[:days] / 7 > 0
+      detail_time[:weeks] = detail_time[:weeks] + detail_time[:days] / 7
+      detail_time[:days] = detail_time[:days] % 7
+    else
       detail_time[:weeks] = detail_time[:weeks] + 1
       detail_time[:days] = 0
     end
-    if detail_time[:weeks] >= 4
-      detail_time[:weeks] = detail_time[:weeks] - 4
-      detail_time[:months] = detail_time[:months] + 1
+
+    if detail_time[:weeks] / 4 > 0
+      detail_time[:weeks] = detail_time[:weeks] - (detail_time[:weeks] / 4) * 4
+      detail_time[:months] = detail_time[:months] + detail_time[:weeks] / 4
     end
-    if detail_time[:months] >= 12
-      detail_time[:months] = detail_time[:months] - 12
-      detail_time[:years] = detail_time[:years] + 1
+
+    if detail_time[:months] / 12 > 0
+      detail_time[:months] = detail_time[:months] - (detail_time[:months] / 12 ) * 12
+      detail_time[:years] = detail_time[:years] + detail_time[:months] / 12
     end
     detail_time
   end
