@@ -373,13 +373,13 @@ km:
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
-      followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
+      followed_up_by: បុគ្គលិកតាមដានករណី
       followed_up_by_id: បុគ្គលិកតាមដានករណី
       form_title: ឈ្មោះទម្រង់បែបបទ
       frequency: ភាពញឹកញាប់
       gender: ភេទ
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
-      grade: កំរិតថ្នាក់
+      grade: កម្រិតថ្នាក់
       has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
       has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
       house_number: ផ្ទះលេខ
@@ -404,7 +404,7 @@ km:
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
       quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
-      rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
+      rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
@@ -419,7 +419,7 @@ km:
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       road: Road
-      school_grade: កំរិតថ្នាក់
+      school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
       slug: លេខសម្គាល់
       state: State
@@ -429,7 +429,7 @@ km:
       street_number: ផ្លូវ
       subdistrict: Subdistrict
       suburb: Suburb
-      telephone_number: លេខទូរស័ព្ទ
+      telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       time_in_care: រយៈពេលមើលថែទាំ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       township: Township
@@ -813,7 +813,7 @@ km:
           agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
           client_died: អតិថិជនបានទទួលមរណៈភាព
           client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
-          move_out_within_cambodia: អតិថីជននៅក្រៅ / ចាក់ចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
           move_out_within_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
           no_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
           not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
@@ -835,9 +835,9 @@ km:
           agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
           client_died: អតិថិជនបានទទួលមរណៈភាព
           client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
-          move_out_within_cambodia: អតិថីជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
-          move_out_within_international: អតិថិជននៅក្រៅ/ចាក់ចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
-          no_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្
+          move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
+          move_out_within_international: អតិថិជននៅក្រៅ/ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          no_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
           not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
           other_reason: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
@@ -855,7 +855,7 @@ km:
       custom_form: ទម្រង់បែបបទ
       enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
-      filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+      filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
       program_stream: កម្មវិធីចម្បង
       quantitative: ពត៌មានបញ្ជូនបន្ថែម
       tracking: តាមដាន
@@ -901,7 +901,7 @@ km:
       custom_form: ទម្រង់បែបបទ
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
-      filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+      filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
       program_stream: កម្មវិធីចម្បង
       quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
       tracking: តាមដាន
@@ -1195,7 +1195,7 @@ km:
         custom_form: ទម្រង់បែបបទ
         enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
         exit_program: ចាកចេញពីកម្មវិធី
-        filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+        filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
         program_stream: កម្មវិធីចម្បង
         quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
         tracking: តាមដាន
@@ -1335,7 +1335,7 @@ km:
       finish: រក្សាទុក
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
-      followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
+      followed_up_by: បុគ្គលិកតាមដានករណី
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូរទៅ
@@ -1374,7 +1374,7 @@ km:
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
-      is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
+      is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
@@ -1388,13 +1388,13 @@ km:
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
-      school_grade: កំរិតថ្នាក់
+      school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
       street_number: ផ្លូវ
-      telephone_number: លេខទូរស័ព្ទ
+      telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       to: ទៅដល់
       village: ភូមិ
       year: ឆ្នាំ
@@ -1433,7 +1433,7 @@ km:
       getting_started: ព័ត៌មានបឋម
       given_name: នាមខ្លួន (ភាសាអង់គ្លេស)
       initial_referral_date: កាលបរិច្ឆេទនៃការបញ្ជូនដំបូង
-      living_detail: ព័ត៎មានរស់នៅលំអិត
+      living_detail: ព័ត៌មានរស់នៅលំអិត
       local_family_name: នាមត្រកូល (ភាសាខ្មែរ)
       local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
@@ -1520,12 +1520,12 @@ km:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
       current_address: អាសយដ្ឋានបច្ចុប្បន្ន
-      live_with: អ្នកមើលថែចំបង
+      live_with: ឈ្មោះអ្នកថែទាំចម្បង
       living_detail: ព័ត៌មានរស់នៅលំអិត
       main_school_contact: ជនបង្គោលសម្រាប់ទំនាក់ទំនងនៅសាលារៀន
       primary_carer_name: ឈ្មោះអ្នកថែទាំចម្បង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
-      school_grade: កំរិត
+      school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
       schooling: សាលារៀន
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
@@ -1545,12 +1545,12 @@ km:
       donors: ម្ចាស់ជំនួយ
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
-      is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
+      is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       kid_id: លេខកូដផ្ទាល់ខ្លួនទី២
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       other_information: ព័ត៌មានផ្សេងៗ
       province: ខេត្ត/ក្រុង
-      rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
+      rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី / កំណត់សំគាល់
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
@@ -1573,9 +1573,9 @@ km:
       add_fc_btn: បន្ថែមចូលទៅ FC
       add_form: បន្ថែមទម្រង់បែបបទ
       add_kc_btn: បន្ថែមចូលទៅ KC
-      additional_details: ពត៌មានលំអិតបន្ថែម
+      additional_details: ព័ត៌មានលំអិតបន្ថែម
       additional_forms: ទម្រង់បែបបទរបស់អតិថិជនដែលកំពុងប្រើ
-      additional_info: ពត៌មានលំអិតបន្ថែម
+      additional_info: ព័ត៌មានលំអិតបន្ថែម
       address: ឣាសយដ្ឋាន
       age: អាយុ
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
@@ -1598,7 +1598,7 @@ km:
       custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
       date: កាលបរិចេ្ឆទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
-      detail: ពត៌មានលំអិត
+      detail: ព័ត៌មានលំអិត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       edit_exit_information: កែសម្រួលព័ត៌មាននៃការចាកចេញ
@@ -1618,7 +1618,7 @@ km:
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
-      followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
+      followed_up_by: បុគ្គលិកតាមដានករណី
       gender: ភេទ
       general_info: អំពីអតិថិជន
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
@@ -1637,7 +1637,7 @@ km:
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       internal_referral: ផ្ទេរចូលពី
-      is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
+      is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
@@ -1666,7 +1666,7 @@ km:
         support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
       primary_carer_name: ឈ្មោះអ្នកថែទាំចម្បង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
-      program_streams: បញ្ជូនអតិថិជនក្នុងកម្មវិធីចម្បង
+      program_streams: បញ្ជូលអតិថិជនក្នុងកម្មវិធីចម្បង
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       province: ខេត្តកំណើត
       province:
@@ -1688,7 +1688,7 @@ km:
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
-      school_grade: កំរិតថ្នាក់
+      school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
@@ -1838,7 +1838,7 @@ km:
       agencies: អង្គភាព
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
-      staffs: បុគ្គលិកបច្ចុប្បន្ន
+      staffs: អ្នកប្រើបា្រស់
     upcoming:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -1966,7 +1966,7 @@ km:
         family_name: នាមត្រកូលជាអក្សរឡាតាំង
         follow_up_by: បុគ្គលិកតាមដានករណី
         follow_up_date: កាលបរិច្ឆេទតាមដាន
-        followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
+        followed_up_by: បុគ្គលិកតាមដានករណី
         form_title: ឈ្មោះទម្រង់បែបបទ
         frequency: ភាពញឹកញាប់
         gender: ភេទ
@@ -2022,7 +2022,7 @@ km:
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
-        rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
+        rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
         reason_for_family_separation: ការបែកចេញពីគ្រួសារ
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
@@ -2034,7 +2034,7 @@ km:
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
         road: Road
-        school_grade: កំរិតថ្នាក់
+        school_grade: កម្រិតថ្នាក់
         school_name: ឈ្មោះសាលារៀន
         state: State
         status: ស្ថានភាព
@@ -2159,7 +2159,7 @@ km:
         kc_name: ឈ្មោះរបស់ KC
         staff_information: ពត៌មានរបស់បុគ្គលិក
         visit_date: ថ្ងៃមកជួប
-      rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរទេ
+      rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       reason_for_family_separation: មូលហេតុនៃការបែកចេញពីគ្រួសារ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       select_columns: ជ្រើសរើសជួរឈរ
@@ -2285,7 +2285,7 @@ km:
     referral_source: ប្រភពនៃការបញ្ជូន
     reject_note: កំណត់ហេតុនៃការមិនទទួលយក
     relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
-    school_grade: កំរិតថ្នាក់
+    school_grade: កម្រិតថ្នាក់
     school_name: ឈ្មោះសាលារៀន
     state: ទទួល/បដិសេធ
     status: ស្ថានភាព
@@ -2603,7 +2603,7 @@ km:
       password_change:
         subject: ពាក្យសម្ងាត់ត្រូវបានផ្លាស់ប្តូរ
       reset_password_instructions:
-        subject: សេចក្តីណែនាំពីការកំណត់ឡើងវិញនៃពាក្យសំងាត់
+        subject: សេចក្តីណែនាំពីការកំណត់ឡើងវិញនៃពាក្យសម្ងាត់
       unlock_instructions:
         subject: សេចក្តីណែនាំពីការដោះសោរ
     omniauth_callbacks:
@@ -2614,7 +2614,7 @@ km:
         change_my_password: ផ្លាស់ប្ដូរពាក្យសម្ងាត់របស់ខ្ញុំ
         change_your_password: ផ្លាស់ប្ដូរពាក្យសម្ងាត់របស់អ្នក
         confirm_your_new_password: បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
-        new_password: លេខកូដថ្មី
+        new_password: ពាក្យសម្ងាត់ថ្មី
       new:
         email: អ៊ីម៉ែល
         forget_password: តើឣ្នកភ្លេចពាក្យសម្ងាត់?
@@ -2629,7 +2629,7 @@ km:
       edit:
         are_you_sure: តើអ្នកប្រាកដហើយ?
         calendar_integration: ការដាក់បញ្ចូលប្រតិទិន
-        current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
+        current_password: ពាក្យសម្ងាត់បច្ចុប្បន្ន
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
         department: កម្មវិធី
@@ -2640,13 +2640,13 @@ km:
         enable_two_factor_authentication: បើកការផ្ទៀងផ្ទាត់ជំហានទីពីរ
         first_name: នាមខ្លួនជាអក្សរឡាតាំង
         gender: ភេទ
-        header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
+        header: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
         job_title: មុខតំណែង
         last_name: នាមត្រកូល
         leave_blank_if_you_dont_want_to_change: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
         mobile: លេខទូរស័ព្ទ
         overdue_task_summary_notify: ការជូនដំណឹងតាមរយៈអ៊ីម៉ែល
-        password: លេខកូដសំងាត់
+        password: ពាក្យសម្ងាត់
         password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
         pin_number: លេខ Pin
         province: ខេត្ត
@@ -2819,7 +2819,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       changelog: ប្រវត្តិនៃកំណែ
       csi_tool: ឧបករណ៍ការប៉ាន់ប្រមាណលំនាំដើម
-      custom_csi_tool: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      custom_csi_tool: ឧបករណ៍ការបា៉ន់ប្រមាណផ្ទាល់ខ្លួន
       domains: កត្តា
       score_1: ពិន្ទុ 1
       score_2: ពិន្ទុ 2
@@ -2909,7 +2909,7 @@ km:
       form_option:
         basic_fields: ពត៌មានទូទៅរបសគ្រួសារ
         custom_form: ទម្រង់បែបបទ
-        filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+        filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
     family_member_fields:
       adult_name: ឈ្មោះមនុស្សពេញវ័យ
       date_of_birth: ថ្ងៃខែ​ឆ្នាំ​កំណើត
@@ -2960,7 +2960,7 @@ km:
     show:
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យគ្រួសារ
       additional_forms: ទម្រង់បែបបទរបស់គ្រួសារដែលកំពុងប្រើ
-      additional_info: ពត៌មានលំអិតបន្ថែម
+      additional_info: ព័ត៌មានលំអិតបន្ថែម
       address: ឣាសយដ្ឋាន
       adult_name: ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -3442,8 +3442,8 @@ km:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
         other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
       client_quantity:
-        one: (អតិថិជនចំនួន 1)
-        other: (អតិថិជនចំនួន %{count})
+        one: "(អតិថិជនចំនួន 1)"
+        other: "(អតិថិជនចំនួន %{count})"
       due_today_assessments:
         one: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -3529,7 +3529,7 @@ km:
       domains: កត្តា
       donors: ម្ចាស់ជំនួយ
       edit_org_setting: កែសម្រួលព័ត៌មានអង្គការ
-      edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
+      edit_profile: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
       en: English
       families: គ្រួសារ
       interventions: ចំនុចដែលត្រូវធ្វើ
@@ -3555,7 +3555,7 @@ km:
       view_calendar: មើលប្រតិទិន
     top_navbar:
       burmese: Burmese
-      edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
+      edit_profile: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
       english: English
       khmer: ខ្មែរ
       language: ជ្រើសភាសា
@@ -3807,11 +3807,11 @@ km:
       form_option:
         basic_fields: ពត៌មានទូទៅរបសគ្រួសារ
         custom_form: ទម្រង់បែបបទ
-        filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+        filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
     show:
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យដៃគូ
       additional_forms: ទម្រង់បែបបទរបស់ដៃគូដែលកំពុងប្រើ
-      additional_info: ពត៌មានលំអិតបន្ថែម
+      additional_info: ព័ត៌មានលំអិតបន្ថែម
       address: ឣាសយដ្ឋាន
       affiliation: ការទាក់ទងគ្នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -3928,7 +3928,7 @@ km:
       quantity: បរិមាណ
     program_detail:
       description: ការពិពណ៌នាពីកម្មវិធី
-      detail: ពត័មានកម្មវិធីលម្អិត
+      detail: ព័ត័មានកម្មវិធីលម្អិត
       domain: កត្តា
       name: ឈ្មោះកម្មវិធី
       service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ? បើមិនដូច្នោះទេចូរជ្រើសរើសការជ្រើសរើសសេវាកម្មប៉ុន្តែបើមិនដូច្នោះចូរព្យាយាមរក្សាវាឱ្យសាមញ្ញ!
@@ -3962,7 +3962,7 @@ km:
       back: ត្រលប់ក្រោយ
       copy: ចម្លងជូន
       description: ការបរិយាយ
-      detail: ពត័មានកម្មវិធីលម្អិត
+      detail: ព័ត័មានកម្មវិធីលម្អិត
       domain: កត្តា
       enrolled: ចំនួនដែលចូលរូមកម្មវិធី
       enrollment: ចុះឈ្មោះ
@@ -4247,7 +4247,7 @@ km:
       client_name: ឈ្មោះអតិថិជន
       consent_form: ទម្រង់យល់ព្រម
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
-      detail: ពត៌មានលំអិត
+      detail: ព័ត៌មានលំអិត
       edit_btn: កែសម្រួល
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       referral_forms: ទម្រង់បញ្ជូន
@@ -4444,7 +4444,7 @@ km:
         before: មុនកំណែ
         change: បានធ្វើកំណែប្រែខាងក្រោម លើ
         date_deleted: កាលបរិច្ឆេទនៃការលុប
-        more_detail: ពត៌មានបន្ថែម
+        more_detail: ព័ត៌មានបន្ថែម
         no_modification: មិនមានប្រវត្តិកំណែ
         'on': របស់
         program_stream: កម្មវិធីចម្បង
@@ -4545,7 +4545,7 @@ km:
       problem_solving_score: បុគ្គលិកសហគមន៌របស់ខ្ញុំជួយខ្ញុំដោះស្រាយបញ្ហាខ្ញុំ។
       support_score: ខ្ញុំពេញចិត្តនឹងជំនួយដែលអង្គការកុមារក្នុងគ្រួសារឲ្យខ្ញុំ។
       survey_answer: ចំម្លើយ
-      survey_detail: ពត៌មានលំអិតនៃការស្ទង់មតិ
+      survey_detail: ព័ត៌មានលំអិតនៃការស្ទង់មតិ
       survey_question: សំនួរ
       trust_score: ខ្ញុំអាចទុកចិត្តជាមួយបុគ្គលិកសហគមន៌របស់ខ្ញុំបាន។
       user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ
@@ -4790,7 +4790,7 @@ km:
       mobile: លេខទូរស័ព្ទ
       password: ពាក្យសម្ងាត់
       password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់
-      password_hint: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
+      password_hint: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរពាក្យសម្ងាត់
       pin_number: លេខ Pin
       province: ខេត្ត\ក្រុង
       roles: តួនាទី
