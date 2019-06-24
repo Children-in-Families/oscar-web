@@ -20,6 +20,6 @@ class DomainGroup < ActiveRecord::Base
   end
 
   def domain_name
-    "Domain #{name}"
+    "Domain #{name} (#{default_domain_identities})"
   end
 end

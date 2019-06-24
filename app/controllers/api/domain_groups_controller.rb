@@ -1,7 +1,7 @@
 module Api
   class DomainGroupsController < Api::ApplicationController
     def get_domains_by_domain_groups
-      data = get_domains.pluck(:id, :name)
+      data = get_domains.map {|domain| [domain.id, "#{domain.name}: #{domain.identity}"] }
       render json: { data: data }
     end
 
