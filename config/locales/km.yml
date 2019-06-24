@@ -421,30 +421,30 @@ km:
       road: Road
       school_grade: កម្រិតថ្នាក់
       school_grade_list:
-        grade_1: '1'
-        grade_10: '10'
-        grade_11: '11'
-        grade_12: '12'
-        grade_2: '2'
-        grade_3: '3'
-        grade_4: '4'
-        grade_5: '5'
-        grade_6: '6'
-        grade_7: '7'
-        grade_8: '8'
-        grade_9: '9'
-        kindergarten_1: Kindergarten 1
-        kindergarten_2: Kindergarten 2
-        kindergarten_3: Kindergarten 3
-        kindergarten_4: Kindergarten 4
-        year_1: Year 1
-        year_2: Year 2
-        year_3: Year 3
-        year_4: Year 4
-        year_5: Year 5
-        year_6: Year 6
-        year_7: Year 7
-        year_8: Year 8
+        grade_1: ថ្នាក់ទី ១
+        grade_10: ថ្នាក់ទី ១០
+        grade_11: ថ្នាក់ទី ១១
+        grade_12: ថ្នាក់ទី ១២
+        grade_2: ថ្នាក់ទី ២
+        grade_3: ថ្នាក់ទី ៣
+        grade_4: ថ្នាក់ទី ៤
+        grade_5: ថ្នាក់ទី ៥
+        grade_6: ថ្នាក់ទី ៦
+        grade_7: ថ្នាក់ទី ៧
+        grade_8: ថ្នាក់ទី ៨
+        grade_9: ថ្នាក់ទី ៩
+        kindergarten_1: ថ្នាក់មតេយ្យកម្រិត ១
+        kindergarten_2: ថ្នាក់មតេយ្យកម្រិត ២
+        kindergarten_3: ថ្នាក់មតេយ្យកម្រិត ៣
+        kindergarten_4: ថ្នាក់មតេយ្យកម្រិត ៤
+        year_1: ឆ្នាំទី ១
+        year_2: ឆ្នាំទី ២
+        year_3: ឆ្នាំទី ៣
+        year_4: ឆ្នាំទី ៤
+        year_5: ឆ្នាំទី ៥
+        year_6: ឆ្នាំទី ៦
+        year_7: ឆ្នាំទី ៧
+        year_8: ឆ្នាំទី ៨
       school_name: ឈ្មោះសាលារៀន
       slug: លេខសម្គាល់
       state: State
@@ -974,7 +974,7 @@ km:
     for: សំរាប់
     incomplete: មិនទានបំពេញចប់
     index:
-      book: សៀវភៅអតិថិជនបច្ចុប្បន្ន
+      book: បណ្តុំព័ត៌មានអតិថិជន
       jump_to: ទៅកាន់កាលបរិច្ឆេទ
     leave_programs:
       exited_from: ចាកចេញពី
@@ -1813,10 +1813,6 @@ km:
       next: ទំព័របន្ទាប់
       open_form: បើកទម្រង់
       previous: ទំព័រមុន
-    multiple_forms:
-      custom_forms: ទម្រង់បែបបទ
-      multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
-      tracking_forms: ទម្រង់បែបបទតាមដាន
     duetoday:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -2348,15 +2344,15 @@ km:
     dependable_income: ប្រាក់ចំណូលទៀងទាត់
     family_type: ប្រភេទគ្រួសារ
     family_type_list:
-      birth_family_both_parents: Birth Family (Both Parents)
-      birth_family_only_father: Birth Family (Only Father)
-      birth_family_only_mother: Birth Family (Only Mother)
-      child_headed_household: Child-Headed Household
-      domestically_adopted: Domestically Adopted
-      extended_family_kinship_care: Extended Family / Kinship Care
-      long_term_foster_care: Long Term Foster Care
-      no_family: No Family
-      short_term_emergency_foster_care: Short Term / Emergency Foster Care
+      birth_family_both_parents: គ្រួសារកំណើត (មានឳពុកម្តាយ)
+      birth_family_only_father: គ្រួសារកំណើត (មានតែឳពុក)
+      birth_family_only_mother: គ្រួសារកំណើត (មានតែម្តាយ)
+      child_headed_household: កុមារគឺជាអ្នកចិញ្ចឹមគ្រួសារ
+      domestically_adopted: គ្រួសារស្មុំកូនក្នុងស្រុក
+      extended_family_kinship_care: គ្រួសារសាច់ញាតិ / ថែទាំតាមរយៈគ្រួសារសាច់ញាតិ
+      long_term_foster_care: ថែទាំតាមរយៈគ្រួសារមិនជាប់សាច់ញាតិរយៈពេលវែង
+      no_family: មិនមានគ្រួសារ
+      short_term_emergency_foster_care: ថែទាំតាមរយៈគ្រួសារសង្រ្គោះបឋម / រយៈពេលខ្លី
       the_other: ផ្សេងៗ
     female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
     female_children_count: ចំនួនក្មេងស្រី
@@ -2801,18 +2797,18 @@ km:
       alert: កត្តាមិនអាចលុបបានទេ
       successfully_deleted: កត្តាត្រូវបានលុបចោលដោយជោគជ័យ
     domain_identies:
-      care: (សុវត្ថិភាពស្បៀងអាហារ)
-      emotional_health: (ឣាហាររូបត្ថម្ភ និងការលូតលាស់)
-      food_security: (ជម្រក/លំនៅ ដ្ឋាន)
-      health_care_services: (ការថែទាំ)
-      legal_protection: (ការការពារ ពីការរំលោភបំពាន និងការកេងប្រវ័ញ្ច)
-      nutrition_and_growth: (កិច្ចគាំពារផ្លូវច្បាប់)
-      performance: (សុខមាលភាព)
-      protection_from_abuse_and_exploitation: (សេវាថែទាំសុខភាព)
-      shelter: (សុខភាពផ្លូវចិត្ត)
-      social_behaviour: (អាកប្បកិរិយាក្នុងសង្គម)
-      wellness: (ការប្រព្រឹត្ត) ការអភិវឌ្ឍផ្នែកចលករ និងពុទ្ធិ
-      work_and_education: (ការអប់រំ នឹងការងារ)
+      care: "(សុវត្ថិភាពស្បៀងអាហារ)"
+      emotional_health: "(ឣាហាររូបត្ថម្ភ និងការលូតលាស់)"
+      food_security: "(ជម្រក/លំនៅ ដ្ឋាន)"
+      health_care_services: "(ការថែទាំ)"
+      legal_protection: "(ការការពារ ពីការរំលោភបំពាន និងការកេងប្រវ័ញ្ច)"
+      nutrition_and_growth: "(កិច្ចគាំពារផ្លូវច្បាប់)"
+      performance: "(សុខមាលភាព)"
+      protection_from_abuse_and_exploitation: "(សេវាថែទាំសុខភាព)"
+      shelter: "(សុខភាពផ្លូវចិត្ត)"
+      social_behaviour: "(អាកប្បកិរិយាក្នុងសង្គម)"
+      wellness: "(ការប្រព្រឹត្ត) ការអភិវឌ្ឍផ្នែកចលករ និងពុទ្ធិ"
+      work_and_education: "(ការអប់រំ នឹងការងារ)"
     domain_list:
       add_new_domain: បន្ថែមកត្តាថ្មី
       changelog: ប្រវត្តិនៃកំណែ
@@ -2824,16 +2820,16 @@ km:
       view: មើល
     domain_names:
       a1: ១ក
-      b1: ១ខ
       a2: ២ក
-      b2: ២ខ
       a3: ៣ក
-      b3: ៣ខ
       a4: ៤ក
-      b4: ៤ខ
       a5: ៥ក
-      b5: ៥ខ
       a6: ៦ក
+      b1: ១ខ
+      b2: ២ខ
+      b3: ៣ខ
+      b4: ៤ខ
+      b5: ៥ខ
       b6: ៦ខ
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា

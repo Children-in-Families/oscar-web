@@ -312,18 +312,6 @@ th-TH:
               wrong_length:
             roles:
               blank:
-        assessment_domain:
-          blank:
-        case_note_domain_group:
-          blank:
-        enter_ngo:
-          attributes:
-            user_ids:
-              blank:
-        referral:
-          blank:
-    default:
-      blank:
   add_event_success:
   advanced_search:
     fields:
@@ -425,18 +413,18 @@ th-TH:
       road:
       school_grade:
       shcool_grade_list:
-        grade_1: '1'
-        grade_10: '10'
-        grade_11: '11'
-        grade_12: '12'
-        grade_2: '2'
-        grade_3: '3'
-        grade_4: '4'
-        grade_5: '5'
-        grade_6: '6'
-        grade_7: '7'
-        grade_8: '8'
-        grade_9: '9'
+        grade_1: 1
+        grade_10: 10
+        grade_11: 11
+        grade_12: 12
+        grade_2: 2
+        grade_3: 3
+        grade_4: 4
+        grade_5: 5
+        grade_6: 6
+        grade_7: 7
+        grade_8: 8
+        grade_9: 9
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
         kindergarten_3: Kindergarten 3
@@ -671,6 +659,7 @@ th-TH:
         non_face_to_face:
         rd_party:
         visit:
+        other_option:
     form_with_assessment_domains:
       add_task:
       domain:
@@ -841,7 +830,7 @@ th-TH:
           move_out_within_international:
           no_meet_service_criteria:
           not_required_support:
-          other_option:
+          other_reason:
         exit_reasons:
         exit_status:
         exiting:
@@ -863,13 +852,13 @@ th-TH:
           move_out_within_international:
           no_meet_service_criteria:
           not_required_support:
+          other_reason:
         exit_reasons:
         exit_status:
         exiting:
         other_info_of_exit:
         reject_client:
         rejected_note:
-        other_option:
       update:
         failed_update:
         successfully_updated:
@@ -1554,8 +1543,6 @@ th-TH:
       schooling:
       telephone_number:
       what3words:
-      live_with:
-      telephone_number:
     new:
       download_supporting_document:
       new_client_title:
@@ -1578,11 +1565,6 @@ th-TH:
       province:
       rated_for_id_poor:
       relevant_referral_information:
-      agencies:
-      code:
-      donors:
-      kid_id:
-      rated_for_id_poor:
     placement:
       view_legacy_quarterly_reports:
     referral_form:
@@ -1939,6 +1921,8 @@ th-TH:
         assessments:
         assessments_due_to:
         birth_province:
+        birth_province_en:
+        birth_province_kh:
         cambodia:
         case_note_date:
         case_note_type:
@@ -1948,17 +1932,23 @@ th-TH:
         changelogs:
         code:
         commune:
+        commune_en:
+        commune_kh:
         completed:
         created_at:
         created_by:
         current_address:
         current_province:
+        current_province_en:
+        current_province_kh:
         date_of_assessments:
         date_of_birth:
         date_of_custom_assessments:
         description_house_landmark:
         directions:
         district:
+        district_en:
+        district_kh:
         domain:
         domains:
         donor:
@@ -2055,6 +2045,8 @@ th-TH:
         type:
         view:
         village:
+        village_en:
+        village_kh:
         what3words:
       date_of_assessments:
       date_of_custom_assessments:
@@ -2789,19 +2781,6 @@ th-TH:
       social_behaviour: Social Behaviour
       wellness: Wellness
       work_and_education: Work and Education
-    domain_names:
-      a1: A1
-      b1: B1
-      a2: A2
-      b2: B2
-      a3: A3
-      b3: B3
-      a4: A4
-      b4: B4
-      a5: A5
-      b5: B5
-      a6: A6
-      b6: B6
     domain_list:
       add_new_domain:
       changelog:
@@ -2811,6 +2790,19 @@ th-TH:
       score_3:
       score_4:
       view:
+    domain_names:
+      a1: A1
+      a2: A2
+      a3: A3
+      a4: A4
+      a5: A5
+      a6: A6
+      b1: B1
+      b2: B2
+      b3: B3
+      b4: B4
+      b5: B5
+      b6: B6
     edit:
       title:
     form:
@@ -4761,11 +4753,13 @@ th-TH:
       manager:
       manager_id:
       mobile:
+      overdue_summary:
       password:
       password_confirmation:
       password_hint:
       pin_number:
       province:
+      referral_notification:
       roles:
       start_date:
     index:
@@ -4847,6 +4841,7 @@ th-TH:
     version:
       back:
       modification_of:
+    warning_message:
   views:
     pagination:
       first:
@@ -4859,4 +4854,3 @@ th-TH:
     next_label:
     page_gap:
     previous_label:
-
