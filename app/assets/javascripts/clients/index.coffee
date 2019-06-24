@@ -101,12 +101,16 @@ CIF.ClientsIndex = do ->
     #csi-assessment-score, #custom-assessment-score
     _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
     _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
+    $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+      return
 
   _handleAjaxRequestToAssessment = (tableId, fileName)->
     url = $("#{tableId} .api-assessment-path").data('assessment-params')
     columns = $("#{tableId} .assessment-domain-headers").data('headers')
 
     table = $(tableId).DataTable
+      autoWidth:true
       bFilter: false
       processing: true
       serverSide: true
@@ -145,7 +149,13 @@ CIF.ClientsIndex = do ->
           search: 'applied'
           order: 'applied'
         }
-      ]
+      ],
+      'drawCallback': (oSettings) ->
+        $('.dataTables_scrollHeadInner').css 'width': '100%'
+        $(tableId).css 'width': '100%'
+        return
+
+
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')

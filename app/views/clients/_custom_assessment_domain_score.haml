@@ -15,15 +15,6 @@
         - domain_ids = []
         %table.table.table-bordered.table-striped.table-hover.assessment-score-data#custom-assessment-score
           = hidden_field(:hidden, :custom_api_assessment, class: 'api-assessment-path', data: { 'assessment-params': assessments_api_clients_path(client_ids: @clients.ids.to_param, default: false) })
-          %thead
-            %tr
-              %th.client-id= t('.client_id')
-              %th.client-name= t('.client_name')
-              %th.assessment-number= t('.assessment_number')
-              %th.assessment-date= t('.assessment_date')
-              - Domain.custom_csi_domains.each do |domain|
-                - domain_ids << "domain_#{domain.id}"
-                %th.assessment-score.text-center= domain.name
-          = hidden_field(:hidden, :custom_assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping(domain_ids).to_json } )
+          = hidden_field(:hidden, :custom_assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping(false).to_json } )
       .modal-footer
         %button.btn.btn-default.form-btn{"data-dismiss" => "modal", :type => "button"}= t('.close')
