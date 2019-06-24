@@ -419,18 +419,18 @@ my:
       road: Road
       school_grade: ေက်ာင္းအဆင့္
       school_grade_list:
-        grade_1: '1'
-        grade_10: '10'
-        grade_11: '11'
-        grade_12: '12'
-        grade_2: '2'
-        grade_3: '3'
-        grade_4: '4'
-        grade_5: '5'
-        grade_6: '6'
-        grade_7: '7'
-        grade_8: '8'
-        grade_9: '9'
+        grade_1: 1
+        grade_10: 10
+        grade_11: 11
+        grade_12: 12
+        grade_2: 2
+        grade_3: 3
+        grade_4: 4
+        grade_5: 5
+        grade_6: 6
+        grade_7: 7
+        grade_8: 8
+        grade_9: 9
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
         kindergarten_3: Kindergarten 3
@@ -671,7 +671,7 @@ my:
         non_face_to_face: Non face to face
         rd_party: 3rd Party
         visit: Visit
-        type_options: Other
+        other_option: Other
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
       domain: ဒိုမိန္း
@@ -983,7 +983,6 @@ my:
       jump_to: ရက်စွဲကိုဤနေရာသို့သွားရန်
     leave_programs:
       exited_from: ကနေမထွက်
-    for: အဘို့
     tasks:
       domain: ဒိုမိန္း
       overdue_tasks: အခ်ိန္လြန္ေနေသာ လုပ္ငန္းမ်ား
@@ -1814,7 +1813,6 @@ my:
       next: ေနာက္တစ္ခု
       open_form: ပွင့်လင်းပုံစံ
       previous: ေရွ႕တစ္ခု
-      name: နာမည္
     duetoday:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
@@ -2822,16 +2820,16 @@ my:
       view: ျမင္ကြင္း
     domain_names:
       a1: A1
-      b1: B1
       a2: A2
-      b2: B2
       a3: A3
-      b3: B3
       a4: A4
-      b4: B4
       a5: A5
-      b5: B5
       a6: A6
+      b1: B1
+      b2: B2
+      b3: B3
+      b4: B4
+      b5: B5
       b6: B6
     edit:
       title: ဒိုမိန္းကို ျပင္ဆင္ရန္

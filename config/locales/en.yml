@@ -421,18 +421,18 @@ en:
       road: Road
       school_grade: School Grade
       school_grade_list:
-        grade_1: '1'
-        grade_10: '10'
-        grade_11: '11'
-        grade_12: '12'
-        grade_2: '2'
-        grade_3: '3'
-        grade_4: '4'
-        grade_5: '5'
-        grade_6: '6'
-        grade_7: '7'
-        grade_8: '8'
-        grade_9: '9'
+        grade_1: 1
+        grade_10: 10
+        grade_11: 11
+        grade_12: 12
+        grade_2: 2
+        grade_3: 3
+        grade_4: 4
+        grade_5: 5
+        grade_6: 6
+        grade_7: 7
+        grade_8: 8
+        grade_9: 9
         kindergarten_1: Kindergarten 1
         kindergarten_2: Kindergarten 2
         kindergarten_3: Kindergarten 3
@@ -665,6 +665,7 @@ en:
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
         non_face_to_face: Non face to face
+        other_option:
         rd_party: 3rd Party
         visit: Visit
         other_option: Other
@@ -869,6 +870,7 @@ en:
         exit_status: Status
         exiting: Exiting...
         other_info_of_exit: Other - More Information
+        other_option:
         reject_client: Reject Client
         rejected_note: Rejected Note
       update:
