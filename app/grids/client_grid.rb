@@ -877,14 +877,31 @@ class ClientGrid < BaseGrid
   #   object.assessments.most_recents.map{ |a| a.created_at.to_date }.join(' | ') if object.assessments.any?
   # end
 
-  column(:time_in_care, header: -> { I18n.t('datagrid.columns.clients.time_in_care') }) do |object|
-    if object.time_in_care.present?
-      time_in_care = object.time_in_care
-      years = I18n.t('clients.show.time_in_care_around.year', count: time_in_care[:years]) if time_in_care[:years] > 0
-      months = I18n.t('clients.show.time_in_care_around.month', count: time_in_care[:months]) if time_in_care[:months] > 0
-      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_care[:weeks]) if time_in_care[:weeks] > 0
+  column(:time_in_ngo, header: -> { I18n.t('datagrid.columns.clients.time_in_ngo') }) do |object|
+    if object.time_in_ngo.present?
+      time_in_ngo = object.time_in_ngo
+      years = I18n.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
+      months = I18n.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
+      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_ngo[:weeks]) if time_in_ngo[:weeks] > 0
       [years, months, weeks].join(' ')
     end
+  end
+
+  column(:time_in_cps, header: -> { I18n.t('datagrid.columns.clients.time_in_cps') }) do |object|
+    cps_lists = []
+    if object.time_in_cps.present?
+      time_in_cps = object.time_in_cps
+      time_in_cps.each do |cps|
+        unless cps[1].blank?
+          years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
+          months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
+          weeks = I18n.t('clients.show.time_in_care_around.week', count: cps[1][:weeks]) if (cps[1][:weeks].present? && cps[1][:weeks] > 0)
+          time_in_cps = [years, months, weeks].join(' ')
+          cps_lists << [cps[0], time_in_cps].join(': ')
+        end
+      end
+    end
+    cps_lists.join(", ")
   end
 
   dynamic do

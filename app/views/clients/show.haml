@@ -297,10 +297,16 @@
                     = @client.kid_id
               %tr
                 %td.spacing-first-col
-                  = t('.time_in_care')
+                  = t('.time_in_ngo')
                 %td
                   %strong
-                    = @client.time_in_care
+                    = @client.time_in_ngo
+              %tr
+                %td.spacing-first-col
+                  = t('.time_in_cps')
+                %td
+                  %strong
+                    = @client.time_in_cps
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
