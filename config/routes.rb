@@ -238,6 +238,12 @@ Rails.application.routes.draw do
 
     # resources :referral_sources
 
+    resources :domain_groups, only: [] do
+      collection do
+        get :get_domains_by_domain_groups
+      end
+    end
+
     namespace :v1, default: { format: :json } do
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]

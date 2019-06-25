@@ -21,7 +21,8 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       html: true
 
   _initSelect2 = ->
-    $('#case_note_interaction_type').select2()
+    $('#case_note_interaction_type, #case_note_domain_group_ids').select2
+      width: '100%'
 
   _initUploader = ->
     $('.file .optional').fileinput
@@ -54,8 +55,9 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
             _initNotification(response.message)
 
   _hideCompletedTasks = ->
-    $('input.task').each ->
-      $(this).parents('span.checkbox').addClass('hidden') if $(this).data('completed')
+    $('.i-checks.task').each ->
+      dataCompleted = $(this).find('span.hidden')[0]
+      $(this).addClass('hidden') if dataCompleted == true
 
   _handleNewTask = ->
     _addTaskToServer()
@@ -153,11 +155,18 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
   _addDomainToSelect =  ->
     $('.case-note-task-btn').on 'click', (e) ->
       _clearForm()
-      domains = $(e.target).data('domains')
-      $('#task_domain_id').html('')
-
-      domains.map (domain) ->
-        $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
+      url = $(e.target).data('url')
+      doamin_group_ids = encodeURIComponent(JSON.stringify($('#case_note_domain_group_ids').select2('val')))
+      urlString = $(e.target).data('url') + '&domain_group_ids=' + doamin_group_ids
+      $.ajax
+        dataType: "json"
+        url: urlString
+        method: 'GET'
+        success: (response) ->
+          domains = response.data
+          $('#task_domain_id').html('')
+          domains.map (domain) ->
+            $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
 
   _handlePreventBlankInput = ->
     $('#case-note-submit-btn').on 'click', (e)  ->
