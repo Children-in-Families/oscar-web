@@ -34,13 +34,14 @@ module Api
       assessment_data.each do |assessment|
         assessment_domain_hash = assessment.assessment_domains.pluck(:domain_id, :score).to_h if assessment.assessment_domains.present?
         domain_scores = domains.ids.map { |domain_id| assessment_domain_hash.present? ? ["domain_#{domain_id}", assessment_domain_hash[domain_id]] : ["domain_#{domain_id}", ''] }
-        client_hash = { slug: assessment.client.slug,
+        client_hash = { slug: assessment.client_slug,
           name: assessment.client.en_and_local_name,
-          'assessment-number': assessment.client.assessments.count, date: assessment.created_at.strftime('%d %B %Y')
+          'assessment-number': assessment.count, date: assessment.date.strftime('%d %B %Y')
         }
         client_hash.merge!(domain_scores.to_h)
         client_data << client_hash
       end
+
       client_data
     end
 
@@ -49,8 +50,9 @@ module Api
     end
 
     def fetch_assessments
-      assessments = Assessment.includes(:assessment_domains, :client).where(assessments: { default: params[:default] }, client_id: params[:client_ids].split('/'))
-      assessments = assessments.joins(:client).order("#{sort_column} #{sort_direction}")
+      assessments = Assessment.joins(:client).where(assessments: { default: params[:default] }, client_id: params[:client_ids].split('/')).select("assessments.id, clients.assessments_count as count, clients.id as client_id, clients.slug as client_slug, assessments.created_at as date")
+      assessments = assessments.order("#{sort_column} #{sort_direction}")
+
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end
 
@@ -68,7 +70,7 @@ module Api
 
     def sort_column
       domains_fields = domains.map { |domain|  "assessment_domains.score" }
-      columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", "clients.given_name", "clients.assessments_count", "assessments.created_at", *domains_fields]
+      columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", "clients.given_name", "assessments_count", "assessments.created_at", *domains_fields]
       columns[params[:order]['0']['column'].to_i]
     end
 

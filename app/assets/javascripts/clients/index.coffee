@@ -119,7 +119,6 @@ CIF.ClientsIndex = do ->
         sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
       }
       scrollX: true
-      order: [0, 'desc']
       columnDefs: [{ type: 'formatted-num', targets: 0 }]
       columns: columns
       dom: 'lBrtip'
