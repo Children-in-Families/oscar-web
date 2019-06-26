@@ -51,6 +51,26 @@
                       = edit_link(@client, case_note)
 
             .panel-body
+              - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join(' ')
+              .row
+                .col-xs-12
+                  .panel.panel-default
+                    .panel-heading
+                      %h4= t('.note')
+                    .panel-body
+                      = simple_format combined_notes
+
+              - domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+              - domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
+
+              .row
+                .col-xs-12
+                  .panel.panel-default
+                    .panel-heading
+                      %h4= "Domain Groups"
+                    .panel-body
+                      = select_tag "", options_for_select(domain_groups, domain_group_ids), multiple: true, disabled: true
+
               - case_note.case_note_domain_groups.each do |cdg|
                 - list_goals = []
                 - task_added = []
@@ -73,13 +93,6 @@
                                 = ad.score
                     .ibox-content
                       .row
-                        - if cdg.note.present?
-                          .col-xs-12
-                            .panel.panel-default
-                              .panel-heading
-                                %h4= t('.note')
-                              .panel-body
-                                = simple_format cdg.note
                         - if cdg.completed_tasks.any?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
@@ -93,24 +106,35 @@
                                       = task.name
                         - if list_goals.present?
                           .col-xs-12.col-sm-6
-                            %p
-                              %strong= "#{t('.goal')} :"
-                            %ul
-                              - list_goals.flatten.each do |goal|
-                                %li= goal
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('.goal')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - list_goals.flatten.each_with_index do |goal, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = goal
+
                       .row
                         - if task_added.flatten.present?
                           .col-xs-12.col-sm-6
                             %p
                               %strong Task Added
-                      .row
-                        - if cdg.attachments.any?
-                          .col-xs-12.col-sm-6
-                            .panel.panel-default
-                              .panel-heading
-                                %h4= t('.attachments')
-                              .panel-body
-                                = render 'attachment', cdg: cdg
+
+              .row
+                - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
+                - case_note.case_note_domain_groups.each do |cdg|
+                  - next if cdg.attachments.blank?
+                  - attachment_names = cdg.attachments.map{|a| a.file.file.split('/').last }
+                  - next if file_names.exclude? attachment_names
+                  - file_names.delete(attachment_names)
+                  .col-xs-12.col-sm-6
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('.attachments')
+                      .panel-body
+                        = render 'attachment', cdg: cdg
       .ibox-footer
         .text-center
           = paginate @case_notes
