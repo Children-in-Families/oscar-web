@@ -79,7 +79,7 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
-  before_save :create_case_worker
+  after_save :create_case_worker_client_offline
   # after_update :notify_managers, if: :exiting_ngo?
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -109,8 +109,8 @@ class Client < ActiveRecord::Base
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
-  def create_case_worker
-    CaseWorker.initial
+  def create_case_worker_client_offline
+    CaseWorkerClientOffline.initial(self)
   end
 
   def self.find_shared_client(options)

@@ -275,7 +275,7 @@ Rails.application.routes.draw do
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
-      get 'case_worker/:id/cache' => 'case_worker#get_data'
+      get 'case_worker_clients_cache' => 'case_worker_client_offline#get_data'
       get 'translations/:lang' => 'translations#translation'
     end
   end
