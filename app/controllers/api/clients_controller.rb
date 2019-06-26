@@ -37,8 +37,8 @@ module Api
 
         client_hash = { slug: assessment.client.slug,
           name: assessment.client.en_and_local_name,
-          'assessment-number': assessment.count,
-          date: assessment.date.strftime('%d %B %Y')
+          'assessment-number': assessment.client.assessments.count,
+          date: assessment.created_at.strftime('%d %B %Y')
         }
         client_hash.merge!(domain_scores.to_h)
         client_data << client_hash
@@ -54,7 +54,7 @@ module Api
     def fetch_assessments
       # .select("assessments.id, clients.assessments_count as count, clients.id as client_id, clients.slug as client_slug, assessments.created_at as date")
       assessments = Assessment.joins(:client).where(assessments: { default: params[:default] }, client_id: params[:client_ids].split('/'))
-      assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains)
+      assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
     end
@@ -73,7 +73,7 @@ module Api
 
     def sort_column
       domains_fields = domains.map { |domain|  "assessment_domains.score" }
-      columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", "clients.given_name", "assessments_count", "assessments.created_at", *domains_fields]
+      columns = ["regexp_replace(clients.slug, '\\D*', '', 'g')::int", "clients.given_name", "clients.assessments_count", "assessments.created_at", *domains_fields]
       columns[params[:order]['0']['column'].to_i]
     end
 
