@@ -197,10 +197,15 @@ module AdvancedSearchHelper
   end
 
   def save_search_params(search_params)
-    json_rules = JSON.parse(search_params[:client_advanced_search][:basic_rules])
-    rules = format_rule(json_rules)
-    search_params[:client_advanced_search][:basic_rules] = rules.to_json
-    report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
-    search_params.deep_merge!(report_builder)
+    if search_params.dig(:client_advanced_search, :basic_rules).nil?
+      report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
+      search_params.deep_merge!(report_builder)
+    else
+      json_rules = JSON.parse(search_params[:client_advanced_search][:basic_rules])
+      rules = format_rule(json_rules)
+      search_params[:client_advanced_search][:basic_rules] = rules.to_json
+      report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
+      search_params.deep_merge!(report_builder)
+    end
   end
 end

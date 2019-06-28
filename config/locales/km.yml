@@ -1919,6 +1919,8 @@ km:
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលធ្វើការប៉ាន់ប្រមាណ
         birth_province: ស្រុកកំណើត
+        birth_province_en: ស្រុកកំណើត (ឡាតាំង)
+        birth_province_kh: ស្រុកកំណើត (ខ្មែរ)
         cambodia: កម្ពុជា
         case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
         case_note_type: ប្រភេទកំណត់ត្រាករណី
@@ -1928,17 +1930,23 @@ km:
         changelogs: ប្រវត្តិកំណែ
         code: លេខកូដផ្ទាល់ខ្លួនទី១
         commune: ឃុំ/សង្កាត់
+        commune_en: អាស័យដ្ឋាន - ឃុំ/សង្កាត់ (ឡាតាំង)
+        commune_kh: អាស័យដ្ឋាន​ - ឃុំ/សង្កាត់ (ខ្មែរ)
         completed: ពេញលេញហើយឬនៅ?
         created_at: កាលបរិច្ឆេទ
         created_by: បង្កើត​ឡើង​ដោយ
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
+        current_province_en: ខេត្តបច្ចុប្បន្ន (ឡាតាំង)
+        current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ស្រុក/ខណ្ឌ
+        district_en: អាស័យដ្ឋាន - ស្រុក/ខណ្ឌ (ឡាតាំង)
+        district_kh: អាស័យដ្ឋាន - ស្រុក/ខណ្ឌ (ខ្មែរ)
         domain: កត្តា
         domains: កត្តាការវាយតម្លៃទាំងអស់
         donor: ម្ចាស់ជំនួយ
@@ -2035,6 +2043,8 @@ km:
         type: ប្រើប្រាស់ជាមួយ
         view: មើល
         village: ភូមិ
+        village_en: អាស័យដ្ឋាន - ភូមិ (ឡាតាំង)
+        village_kh: អាស័យដ្ឋាន - ភូមិ (ខ្មែរ)
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន

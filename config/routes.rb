@@ -235,6 +235,8 @@ Rails.application.routes.draw do
       end
     end
 
+    # resources :referral_sources
+
     namespace :v1, default: { format: :json } do
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
@@ -271,7 +273,11 @@ Rails.application.routes.draw do
       resources :villages, only: [:index]
       resources :donors, only: [:index]
       resources :agencies, only: [:index]
-      resources :referral_sources, only: [:index]
+      resources :referral_sources do
+        collection do
+          get 'categories' => 'referral_sources#referral_source_parents'
+        end
+      end
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
