@@ -136,7 +136,9 @@ namespace :demo_production do
     end
     Domain.custom_csi_domains.delete_all
     ReferralSource.where.not(name: REFERRAL_SOURCES).delete_all
-    User.where.not(id: oscar_user_id).destroy_all
+    User.where.not(id: oscar_user_id).each do |u|
+      u.really_destroy!
+    end
     OrganizationType.delete_all
     PaperTrail::Version.destroy_all
     puts 'Done'
