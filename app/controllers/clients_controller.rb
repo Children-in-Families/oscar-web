@@ -111,6 +111,7 @@ class ClientsController < AdminController
       attributes = fetch_referral_attibutes(attributes, referral_source_id)
 
       Organization.switch_to current_org.short_name
+      attributes = attributes.except("duplicate_checker")
       @client = Client.new(attributes)
     else
       @client = Client.new
