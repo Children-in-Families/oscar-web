@@ -413,10 +413,11 @@ th-TH:
       road:
       school_grade:
       shcool_grade_list:
+        kindergarten_1: Kindergarten 1
+        kindergarten_2: Kindergarten 2
+        kindergarten_3: Kindergarten 3
+        kindergarten_4: Kindergarten 4
         grade_1: 1
-        grade_10: 10
-        grade_11: 11
-        grade_12: 12
         grade_2: 2
         grade_3: 3
         grade_4: 4
@@ -425,10 +426,9 @@ th-TH:
         grade_7: 7
         grade_8: 8
         grade_9: 9
-        kindergarten_1: Kindergarten 1
-        kindergarten_2: Kindergarten 2
-        kindergarten_3: Kindergarten 3
-        kindergarten_4: Kindergarten 4
+        grade_10: 10
+        grade_11: 11
+        grade_12: 12
         year_1: Year 1
         year_2: Year 2
         year_3: Year 3
@@ -2260,6 +2260,11 @@ th-TH:
     follow_up_date:
     followed_up_by:
     gender:
+    gender_list:
+      female: Female
+      male: Male
+      other_gender: Other
+      unknown: Unknown
     given_name:
     has_been_in_government_care:
     has_been_in_orphanage:
@@ -4762,6 +4767,11 @@ th-TH:
       referral_notification:
       roles:
       start_date:
+    gender_list:
+      female: Female
+      male: Male
+      other_gender: Other
+      prefer_not_to_say: Prefer not to say
     index:
       add_new_user:
       export_xls:

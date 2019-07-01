@@ -419,10 +419,11 @@ my:
       road: Road
       school_grade: ေက်ာင္းအဆင့္
       school_grade_list:
+        kindergarten_1: Kindergarten 1
+        kindergarten_2: Kindergarten 2
+        kindergarten_3: Kindergarten 3
+        kindergarten_4: Kindergarten 4
         grade_1: 1
-        grade_10: 10
-        grade_11: 11
-        grade_12: 12
         grade_2: 2
         grade_3: 3
         grade_4: 4
@@ -431,10 +432,9 @@ my:
         grade_7: 7
         grade_8: 8
         grade_9: 9
-        kindergarten_1: Kindergarten 1
-        kindergarten_2: Kindergarten 2
-        kindergarten_3: Kindergarten 3
-        kindergarten_4: Kindergarten 4
+        grade_10: 10
+        grade_11: 11
+        grade_12: 12
         year_1: Year 1
         year_2: Year 2
         year_3: Year 3
@@ -2278,6 +2278,11 @@ my:
     follow_up_date: ဆက္လက္ေဆာင္ရြက္သည့္ ရက္စြဲ
     followed_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္။
     gender: က်ား/မ
+    gender_list:
+      female: Female
+      male: Male
+      other_gender: Other
+      unknown: Unknown
     given_name: ေမြးနာမည္
     has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈ ခံယူဖူး
     has_been_in_orphanage: မိဘမဲ့ ျဖစ္ဖူး
@@ -4865,6 +4870,11 @@ my:
       province: ျပည္နယ္
       roles: ခြင့္ျပဳခ်က္လုပ္
       start_date: စတင္သည့္ ရက္စြဲ
+    gender_list:
+      female: Female
+      male: Male
+      other_gender: Other
+      prefer_not_to_say: Prefer not to say
     index:
       add_new_user: အသံုးျပဳသူအသစ္ ထည့္ရန္
       export_xls: XLS အျဖစ္ ထုတ္ရန္

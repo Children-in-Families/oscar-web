@@ -16,8 +16,8 @@ class Client < ActiveRecord::Base
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type).freeze
 
-  GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].sort.freeze
-  GENDER_OPTIONS  = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Unknown', 'unknown']]
+  GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
+  GENDER_OPTIONS  = ['male', 'female', 'other', 'unknown']
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true

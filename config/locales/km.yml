@@ -421,10 +421,11 @@ km:
       road: Road
       school_grade: កម្រិតថ្នាក់
       school_grade_list:
+        kindergarten_1: ថ្នាក់មតេយ្យកម្រិត ១
+        kindergarten_2: ថ្នាក់មតេយ្យកម្រិត ២
+        kindergarten_3: ថ្នាក់មតេយ្យកម្រិត ៣
+        kindergarten_4: ថ្នាក់មតេយ្យកម្រិត ៤
         grade_1: ថ្នាក់ទី ១
-        grade_10: ថ្នាក់ទី ១០
-        grade_11: ថ្នាក់ទី ១១
-        grade_12: ថ្នាក់ទី ១២
         grade_2: ថ្នាក់ទី ២
         grade_3: ថ្នាក់ទី ៣
         grade_4: ថ្នាក់ទី ៤
@@ -433,10 +434,9 @@ km:
         grade_7: ថ្នាក់ទី ៧
         grade_8: ថ្នាក់ទី ៨
         grade_9: ថ្នាក់ទី ៩
-        kindergarten_1: ថ្នាក់មតេយ្យកម្រិត ១
-        kindergarten_2: ថ្នាក់មតេយ្យកម្រិត ២
-        kindergarten_3: ថ្នាក់មតេយ្យកម្រិត ៣
-        kindergarten_4: ថ្នាក់មតេយ្យកម្រិត ៤
+        grade_10: ថ្នាក់ទី ១០
+        grade_11: ថ្នាក់ទី ១១
+        grade_12: ថ្នាក់ទី ១២
         year_1: ឆ្នាំទី ១
         year_2: ឆ្នាំទី ២
         year_3: ឆ្នាំទី ៣
@@ -2288,6 +2288,11 @@ km:
     follow_up_date: កាលបរិច្ឆេទតាមដាន
     followed_up_by: បុគ្គលិកតាមដានករណី
     gender: ភេទ
+    gender_list:
+      female: ស្រី
+      male: ប្រុស
+      other_gender: ផ្សេងៗ
+      unknown: អត់ទាន់ដឹង
     given_name: នាមខ្លួនជាអក្សរឡាតាំង
     has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
@@ -4854,6 +4859,11 @@ km:
       referral_notification: ការជូនដំណឹងអំពីការបញ្ជូន
       roles: តួនាទី
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+    gender_list:
+      female: ស្រី
+      male: ប្រុស
+      other_gender: ផ្សេងៗ
+      prefer_not_to_say: Prefer not to say
     index:
       add_new_user: បន្ថែមឣ្នកប្រើថ្មី
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
