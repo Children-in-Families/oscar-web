@@ -79,7 +79,7 @@
                   - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
                   - if assessment_domain.present? && assessment_domain.goal?
                     - list_goals << assessment_domain.goal
-                - if cdg.note.present? || cdg.completed_tasks.any? || list_goals.present? || cdg.attachments.any? || task_added.flatten.present?
+                - if cdg.completed_tasks.any? || list_goals.present? || task_added.flatten.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
                       %h5= cdg.domain_identities
