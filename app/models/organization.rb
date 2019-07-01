@@ -9,6 +9,7 @@ class Organization < ActiveRecord::Base
   scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
   scope :oscar, -> { visible.where.not(short_name: 'demo') }
   scope :visible, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my', 'tutorials', 'demo']) }
+  scope :test_ngos, -> { where(short_name: ['demo', 'tutorials']) }
   scope :cambodian, -> { where(country: 'cambodia') }
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
 
@@ -59,7 +60,7 @@ class Organization < ActiveRecord::Base
     if Rails.env.production?
       Organization.oscar.pluck(:short_name).include?(self.short_name)
     else
-      Organization.visible.pluck(:short_name).include?(self.short_name)
+      Organization.test_ngos.pluck(:short_name).include?(self.short_name) || Organization.visible.pluck(:short_name).include?(self.short_name)
     end
   end
 end
