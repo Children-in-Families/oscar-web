@@ -40,7 +40,7 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['created_by', user_select_options ],
-        ['gender', { male: 'Male', female: 'Female', other: 'Other', unknown: 'Unknown' }],
+        ['gender', gender_list],
         ['status', client_status],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
@@ -61,6 +61,10 @@ module AdvancedSearches
         ['referred_from', referral_from_options],
         ['referral_source_category_id', referral_source_category_options]
       ]
+    end
+
+    def gender_list
+      [Client::GENDER_OPTIONS, I18n.t('default_client_fields.gender_list').values].transpose.to_h
     end
 
     def exit_reasons_options

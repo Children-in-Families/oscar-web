@@ -421,10 +421,11 @@ en:
       road: Road
       school_grade: School Grade
       school_grade_list:
+        kindergarten_1: Kindergarten 1
+        kindergarten_2: Kindergarten 2
+        kindergarten_3: Kindergarten 3
+        kindergarten_4: Kindergarten 4
         grade_1: 1
-        grade_10: 10
-        grade_11: 11
-        grade_12: 12
         grade_2: 2
         grade_3: 3
         grade_4: 4
@@ -433,10 +434,9 @@ en:
         grade_7: 7
         grade_8: 8
         grade_9: 9
-        kindergarten_1: Kindergarten 1
-        kindergarten_2: Kindergarten 2
-        kindergarten_3: Kindergarten 3
-        kindergarten_4: Kindergarten 4
+        grade_10: 10
+        grade_11: 11
+        grade_12: 12
         year_1: Year 1
         year_2: Year 2
         year_3: Year 3
@@ -2296,6 +2296,11 @@ en:
     follow_up_date: First Follow-Up Date
     followed_up_by: First Follow-Up By
     gender: Gender
+    gender_list:
+      female: Female
+      male: Male
+      other_gender: Other
+      unknown: Unknown
     given_name: Given Name (Latin)
     has_been_in_government_care: Has the client lived in government care
     has_been_in_orphanage: Has the client lived in an orphanage
@@ -4864,6 +4869,11 @@ en:
       referral_notification: Referral Notification
       roles: Permission Set
       start_date: Start Date
+    gender_list:
+      female: Female
+      male: Male
+      other_gender: Other
+      prefer_not_to_say: Prefer not to say
     index:
       add_new_user: Add New User
       export_xls: Export to XLS
