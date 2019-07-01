@@ -21,7 +21,7 @@ class EnrollmentDatatable < ApplicationDatatable
 
   def link_enrollment(program_stream)
     link_to new_multiple_form_program_stream_client_enrollment_path(program_stream), class: 'btn btn-primary btn-sm' do
-      I18n.t('dashboards.program_streams_tab.enroll')
+      I18n.t('dashboards.program_enrollment_tab.enroll')
     end
   end
 
