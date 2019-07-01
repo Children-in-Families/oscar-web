@@ -126,7 +126,7 @@
                 - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
                 - case_note.case_note_domain_groups.each do |cdg|
                   - next if cdg.attachments.blank?
-                  - attachment_names = cdg.attachments.map{|a| a.file.file.split('/').last }
+                  - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
                   - next if file_names.exclude? attachment_names
                   - file_names.delete(attachment_names)
                   .col-xs-12.col-sm-6
