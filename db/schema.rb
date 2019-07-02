@@ -695,9 +695,9 @@ ActiveRecord::Schema.define(version: 20190627075723) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
-    t.string   "goal",               default: ""
-    t.string   "action",             default: ""
-    t.string   "who",                default: ""
+    t.text     "goal",               default: ""
+    t.text     "action",             default: ""
+    t.text     "who",                default: ""
     t.integer  "government_form_id"
     t.integer  "children_plan_id"
     t.datetime "created_at",                      null: false
@@ -711,9 +711,9 @@ ActiveRecord::Schema.define(version: 20190627075723) do
   add_index "government_form_children_plans", ["government_form_id"], name: "index_government_form_children_plans_on_government_form_id", using: :btree
 
   create_table "government_form_family_plans", force: :cascade do |t|
-    t.string   "goal",               default: ""
-    t.string   "action",             default: ""
-    t.string   "result",             default: ""
+    t.text     "goal",               default: ""
+    t.text     "action",             default: ""
+    t.text     "result",             default: ""
     t.integer  "government_form_id"
     t.integer  "family_plan_id"
     t.datetime "created_at",                      null: false
@@ -781,10 +781,10 @@ ActiveRecord::Schema.define(version: 20190627075723) do
     t.string   "primary_carer_street",       default: ""
     t.integer  "primary_carer_district_id"
     t.integer  "primary_carer_province_id"
-    t.string   "source_info",                default: ""
-    t.string   "summary_info_of_referral",   default: ""
-    t.string   "guardian_comment",           default: ""
-    t.string   "case_worker_comment",        default: ""
+    t.text     "source_info",                default: ""
+    t.text     "summary_info_of_referral",   default: ""
+    t.text     "guardian_comment",           default: ""
+    t.text     "case_worker_comment",        default: ""
     t.string   "other_interviewee",          default: ""
     t.string   "other_client_type",          default: ""
     t.string   "other_need",                 default: ""
