@@ -1731,13 +1731,13 @@ en:
     partner_tab:
       partner_form: Partner Form
       action: Action      
+    program_stream:
+      program_stream: Program Streams
     program_enrollment_tab:
       program_you_enroll: Which program do you want to enroll a client into?
       program_stream: Program Stream Name
       action: Action
       enroll : Enroll Client
-    program_stream:
-      program_stream: Program Streams
     program_streams_tab:
       link: Action
       next: Next
