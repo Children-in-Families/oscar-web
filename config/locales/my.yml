@@ -454,6 +454,8 @@ my:
       suburb: Suburb
       telephone_number: တယ်လီဖုန်းနံပါတ်
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
+      time_in_cps: ေစာင့္ေရွာက္သည့္ကာလ
+      time_in_ngo: NGO များတွင်အချိန်
       time_of_frequency: အႀကိမ္အေရအတြက္
       township: မြို့နယ်
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
@@ -1734,6 +1736,8 @@ my:
         year:
           one: "%{count} ခုနှစ်"
           other: "%{count} နှစ်ပေါင်း"
+      time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
+      time_in_ngo: Time in NGO
       view_assessments: စိစစ္အကဲျဖတ္ခ်က္မ်ား
       view_case_notes: အမႈမွတ္စုမ်ား
       view_ec_history_btn_link: ECသမုိင္းေၾကာင္း
@@ -1949,6 +1953,8 @@ my:
         assessments: စိစစ္အကဲျဖတ္မႈမ်ား
         assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
         birth_province: ေမြးရာ ခ႐ိုင္
+        birth_province_en: client မွေးဖွားခြင်းပြည်နယ် (အင်္ဂလိပ်)
+        birth_province_kh: client မွေးဖွားခြင်းပြည်နယ် (ခမာ)
         cambodia: ကေမာၻဒီးယား
         case_note_date: အမႈ မွတ္စု ရက္စြဲ
         case_note_type: အမႈ မွတ္စု အမ်ိဳးအစား
@@ -1958,17 +1964,23 @@ my:
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
         code: Custom ID Number1
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+        commune_en: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (အင်္ဂလိပ်)
+        commune_kh: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (ခမာ)
         completed: ၿပီးစီးၿပီျဖစ္ေသာ
         created_at: ရက္စြဲကို ဖန္တီးရန္
         created_by: တည်ထောင်ထားတဲ့
         current_address: လက္ရွိလိပ္စာ
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
+        current_province_en: လက်ရှိပြည်နယ် (အင်္ဂလိပ်)
+        current_province_kh: လက်ရှိပြည်နယ် (ခမာ)
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ခ႐ိုင္
+        district_en: လိပ်စာ - ခရိုင် / Khan က (အင်္ဂလိပ်)
+        district_kh: လိပ်စာ - ခရိုင် / Khan က (ခမာ)
         domain: ဒိုမိန္း
         domains: ဒိုမိန်း
         donor: အလွဴရွင္
@@ -2059,12 +2071,16 @@ my:
         telephone_number: တယ်လီဖုန်းနံပါတ်
         thailand: ထိုင္းႏုိင္ငံ
         time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
+        time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
+        time_in_ngo: NGO များတွင်အချိန်
         time_of_frequency: အႀကိမ္ အေရအတြက္
         total: စုစုေပါင္း
         township: မြို့နယ်
         type: အမ်ိဳးအစား
         view: ျမင္ကြင္း
         village: ေက်းရြာ
+        village_en: လိပ်စာ - ကျေးရွာ (အင်္ဂလိပ်)
+        village_kh: လိပ်စာ - ကျေးရွာ (ခမာ)
         what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
       date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
@@ -2178,6 +2194,8 @@ my:
       support_amount: ေထာက္ပံ့သည့္ပမာဏ
       support_note: ေထာက္ပံ့မႈ မွတ္စု
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
+      time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
+      time_in_ngo: NGO များတွင်အချိန်
       trackings:
         action: လုပ္ေဆာင္မႈ
         frequency: အႀကိမ္ေရ
@@ -4863,11 +4881,13 @@ my:
       manager: မန္ေနဂ်ာ
       manager_id: မန္ေနဂ်ာ
       mobile: မိုုဘိုင္းဖုန္း
+      overdue_summary: ရက်လွန်အကျဉ်းချုပ်
       password: စကား၀ွက္
       password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
       password_hint: စကား၀ွက္ကို မေျပာင္းလိုလွ်င္ ကြက္လပ္ခ်န္ခဲ့ပါ
       pin_number: ပင္နံပါတ္
       province: ျပည္နယ္
+      referral_notification: လွှဲပြောင်းသတိပေးချက်
       roles: ခြင့္ျပဳခ်က္လုပ္
       start_date: စတင္သည့္ ရက္စြဲ
     gender_list:
@@ -4954,6 +4974,7 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+    warning_message: ကလေးများအခြားမည်သည့်သူနာပြုဝန်ထမ်းရှိသည်မဟုတ်ကြဘူးများနှင့်ကလေးအားလုံးအနည်းဆုံးပြုပြင်ထိန်းသိမ်းမှုန်ထမ်းများရှိရမည်။ သူတို့စွန့်ခွာခြင်းမပြုမီကလေးတွေဖို့တာဝန်သစ်ကိုသူနာပြုဝန်ထမ်း။
   views:
     pagination:
       first: ပထမ
@@ -4966,3 +4987,4 @@ my:
     next_label: ေနာက္စာမ်က္ႏွာ
     page_gap: "..."
     previous_label: ေရွ႕စာမ်က္ႏွာ
+

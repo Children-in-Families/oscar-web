@@ -456,6 +456,8 @@ en:
       suburb: Suburb
       telephone_number: Primary Carer Phone Number
       time_in_care: Time in Care
+      time_in_cps: Time in Custom Program Stream
+      time_in_ngo: Time in NGO
       time_of_frequency: Time of Frequency
       township: Township
       tracking: Tracking
@@ -665,7 +667,6 @@ en:
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
         non_face_to_face: Non face to face
-        other_option:
         rd_party: 3rd Party
         visit: Visit
         other_option: Other
@@ -1736,6 +1737,8 @@ en:
         year:
           one: "%{count} year"
           other: "%{count} years"
+      time_in_cps: Time in Custom Program Stream
+      time_in_ngo: Time in NGO
       view_assessments: Assessments
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
@@ -2069,6 +2072,8 @@ en:
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
         time_in_care: Time in Care
+        time_in_cps: Time in Custom Program Stream
+        time_in_ngo: Time in NGO
         time_of_frequency: Time of Frequency
         total: Total
         township: Township
@@ -2190,6 +2195,8 @@ en:
       support_amount: Support Amount
       support_note: Support Note
       time_in_care: Time in Care
+      time_in_cps: Time in Custom Program Stream
+      time_in_ngo: Time in NGO
       trackings:
         action: Action
         frequency: Frequency
@@ -2827,16 +2834,16 @@ en:
       view: View
     domain_names:
       a1: A1
-      b1: B1
       a2: A2
-      b2: B2
       a3: A3
-      b3: B3
       a4: A4
-      b4: B4
       a5: A5
-      b5: B5
       a6: A6
+      b1: B1
+      b2: B2
+      b3: B3
+      b4: B4
+      b5: B5
       b6: B6
     edit:
       title: Edit Domain

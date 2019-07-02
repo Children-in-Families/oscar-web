@@ -456,6 +456,8 @@ km:
       suburb: Suburb
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       time_in_care: រយៈពេលមើលថែទាំ
+      time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+      time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       township: Township
       tracking: តាមដាន
@@ -1734,6 +1736,8 @@ km:
         year:
           one: "%{count} ឆ្នាំ"
           other: "%{count} ឆ្នាំ"
+      time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+      time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
       view_assessments: ការប៉ាន់ប្រមាណ
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
@@ -2067,6 +2071,8 @@ km:
         telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
         thailand: ថៃ
         time_in_care: រយៈពេលមើលថែទាំ
+        time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+        time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
         township: Township
@@ -2188,6 +2194,8 @@ km:
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
       time_in_care: រយៈពេលមើលថែទាំ
+      time_in_cps:
+      time_in_ngo:
       trackings:
         action: សកម្មភាព
         frequency: ភាពញឹកញាប់
@@ -4956,3 +4964,4 @@ km:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."
     previous_label: ទំព័រមុន
+
