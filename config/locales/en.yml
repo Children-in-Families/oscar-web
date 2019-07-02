@@ -1666,15 +1666,15 @@ en:
     assessment_tab:
       assessment: Assessment
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
-      client_you_like: Which client would you like to complete as assessment for?
+      client_you_like: Which client would you like to complete as Assessment for?
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment
     case_note_tab:
       case_note: Case Note
-      case_note_you_add: Which Case Note would you like ? (CSI or Custom Assessment)
+      case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment
-      client_you_complete_for: Which client would you like to complete as Case Note for ?
+      client_you_complete_for: Which client would you like to complete as Case Note for?
     client:
       ables: Ables
       clients: Active Clients
@@ -1688,9 +1688,12 @@ en:
       active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
     client_tab:
-      client_form: Client Form
       action: Action
+      client_form: Client Form
+      next: Next
+      previous: Previous
     custom_fields_tab:
+      form_add: Which form would you like to add ?
       link: Action
       name: Name
       next: Next
@@ -1707,8 +1710,10 @@ en:
       foster: Foster
       kinship: Kinship
     family_tab:
-      family_form: Family Form
       action: Action      
+      family_form: Family Form
+      next: Next
+      previous: Previous
     multiple_forms:
       add_new_document: Add New Document
       assessment: Assessment
@@ -1729,11 +1734,15 @@ en:
       overdue_tasks: Overdue Tasks
       tasks: Tasks
     partner_tab:
+      action: Action
+      next: Next
       partner_form: Partner Form
-      action: Action      
+      previous: Previous      
     program_stream:
       program_stream: Program Streams
     program_enrollment_tab:
+      next: Next
+      previous: Previous
       program_you_enroll: Which program do you want to enroll a client into?
       program_stream: Program Stream Name
       action: Action
@@ -1754,8 +1763,10 @@ en:
       referral_sources: Referral Sources
       staffs: Staff Members
     user_tab:
-      user_form: User Form
       action: Action
+      next: Next
+      previous: Previous
+      user_form: User Form
     upcoming:
       assessment: Assessment
       assessments: Assessments

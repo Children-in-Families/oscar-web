@@ -1,19 +1,19 @@
 #custom-fields.tab-pane.margin-top-datatable{ role: 'tabpanel' }
   %div
-    %h2.text-center Which form would you like to add?
+    %h2.text-center= I18n.t('dashboards.custom_fields_tab.form_add')
     %ul.nav.nav-tabs{role: "tablist"}
       %li.active{role: "presentation"}
         %a{"data-toggle": "tab", href: "#client", role: "tab"}
-          = t('.client')
+          = I18n.t('dashboards.multiple_forms.client')
       %li{role: "presentation"}
         %a{"data-toggle": "tab", href: "#family", role: "tab"}
-          = t('.family')
+          = I18n.t('dashboards.multiple_forms.family')
       %li{role: "presentation"}
         %a{"data-toggle": "tab", href: "#partner", role: "tab"}
-          = t('.partner')
+          = I18n.t('dashboards.multiple_forms.partners')
       %li{role: "presentation"}
         %a{"data-toggle": "tab", href: "#user", role: "tab"}
-          = t('.user')
+          = I18n.t('dashboards.multiple_forms.user')
     .tab-content
       = render 'client_tab'
       = render 'family_tab'

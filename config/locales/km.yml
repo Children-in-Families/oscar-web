@@ -1692,9 +1692,12 @@ km:
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
     client_tab:
-      client_form: ទម្រង់អតិថិជន
       action: សកម្មភាព
+      client_form: ទម្រង់អតិថិជន
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     custom_fields_tab:
+      form_add: តើអ្នកចង់បន្ថែមបែបណា?
       link: តំណ
       name: ឈ្មោះ
       next: ទំព័របន្ទាប់
@@ -1713,6 +1716,8 @@ km:
     family_tab:
       action: សកម្មភាព
       family_form: ទម្រង់គ្រួសារ
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
       assessment: ការវាយតម្លៃ
@@ -1735,11 +1740,15 @@ km:
       overdue_tasks: ភារកិច្ចហួសកំណត់
       tasks: កាតព្វកិច្ច
     partner_tab:
-      partner_form: ទម្រង់ដៃគូ
       action: សកម្មភាព
+      next: ទំព័របន្ទាប់
+      partner_form: ទម្រង់ដៃគូ
+      previous: ទំព័រមុន
     program_stream:
       program_stream: កម្មវិធីចម្បង
     program_enrollment_tab:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
       program_you_enroll: តើអ្នកចង់ចុះឈ្មោះកម្មវិធីមួយណា?
       program_stream: ឈ្មោះកម្មវិធីស្ទ្រីម
       action: សកម្មភាព
@@ -1760,8 +1769,10 @@ km:
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិកបច្ចុប្បន្ន
     user_tab:
-      user_form: ទម្រង់អ្នកប្រើ
       action: សកម្មភាព
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      user_form: ទម្រង់អ្នកប្រើ
     upcoming:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
