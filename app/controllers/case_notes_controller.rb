@@ -89,9 +89,9 @@ class CaseNotesController < AdminController
     attachments = params.dig(:case_note, :attachments)
     domain_group_ids = params.dig(:case_note, :domain_group_ids)
     case_note_domain_groups = default_params[:case_note_domain_groups_attributes]
-
     domain_group_ids.each do |id|
       ('0'..'5').each do |index|
+        next if case_note_domain_groups[index].nil?
         if id == case_note_domain_groups[index]['domain_group_id']
           case_note_domain_groups[index]['note'] = note
           case_note_domain_groups[index]['attachments'] = attachments if params[:action] == 'create'
