@@ -3,7 +3,9 @@
     .row
       .col-xs-12.col-sm-8
         %h3
-          = translate_domain_header(domain)
+          = t('domains.domain_list.domains') + ":"
+          = t("domains.domain_names.#{domain.name.downcase.reverse}")
+          = t("domains.domain_identies.#{domain.identity.strip.parameterize('_')}")
 
       .col-xs-12.col-sm-4.text-right.actions
         - if can? :version, Domain
