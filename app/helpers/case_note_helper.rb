@@ -64,4 +64,10 @@ module CaseNoteHelper
     return false if current_user.strategic_overviewer?
     current_user.permission.case_notes_editable
   end
+
+  def translate_domain_name(domains)
+    domains.map do |domain|
+      [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
+    end
+  end
 end

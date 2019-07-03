@@ -25,7 +25,7 @@ module AdvancedSearches
 
 
     def self.school_grade_options
-      Client::GRADES.map{|s| { s => s }  }
+      [[Client::GRADES, I18n.t('advanced_search.fields.school_grade_list').values].transpose.to_h]
     end
   end
 end
