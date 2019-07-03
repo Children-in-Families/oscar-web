@@ -26,7 +26,7 @@ class AdvancedSearchSaveQueriesController < AdminController
 
   def destroy
     @advanced_search.destroy
-    redirect_to request.referrer, notice: t('.successfully_deleted')
+    redirect_to clients_path, notice: t('.successfully_deleted')
   end
 
   private
