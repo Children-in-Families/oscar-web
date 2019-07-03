@@ -13,6 +13,11 @@ class CaseWorkerClientOffline
   def self.initial(client)
     Mongoid.raise_not_found_error = false
     attributes = client.attributes
+    attributes.each do |attr|
+      if attributes[attr.first].class == Date && attributes[attr.first].present?
+        attributes[attr.first] = attributes[attr.first].to_date.to_s
+      end
+    end
     attributes = attributes.merge('assessments' => client.assessments.map { |a| a.attributes} )
     attributes = attributes.merge('case_notes' => client.case_notes.map { |c| c.attributes } )
     attributes = attributes.merge('tasks' => client.tasks.map { |t| t.attributes} )
@@ -39,6 +44,18 @@ class CaseWorkerClientOffline
 
     attributes = attributes.merge('client_enrollments' => attributes_client_enrollments)
     attributes = attributes.merge('custom_formable' => attributes_custom_formable)
+    attributes.each do |attrs|
+      if ['case_notes', 'tasks', 'client_enrollments'].include?(attrs.first)
+        attrs.last.each_with_index do |attr, index|
+          attr.each do |b|
+            if attributes[attrs.first][index][b.first].class == Date && attributes[attrs.first][index][b.first].present?
+              attributes[attrs.first][index][b.first] = attributes[attrs.first][index][b.first].to_date.to_s
+            end
+          end
+        end
+      end
+    end
+
     create(object: attributes, slug_id: client.archived_slug)
   end
 end
