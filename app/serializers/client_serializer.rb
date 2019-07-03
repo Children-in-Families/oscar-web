@@ -19,19 +19,22 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def time_in_ngo
-    years = object.time_in_ngo[:years]
-    year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
-    months = object.time_in_ngo[:months]
-    month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-    weeks = object.time_in_ngo[:weeks]
-    week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
-    days = object.time_in_ngo[:days]
-    day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
-    "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+    if object.time_in_ngo.present?
+      years = object.time_in_ngo[:years]
+      year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+      months = object.time_in_ngo[:months]
+      month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+      weeks = object.time_in_ngo[:weeks]
+      week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+      days = object.time_in_ngo[:days]
+      day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+      "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+    end
   end
 
   def time_in_cps
     cps_lists = {}
+    return cps_lists if object.time_in_cps.nil?
     object.time_in_cps.each do |cps|
       unless cps[1].blank?
         years = cps[1][:years]
