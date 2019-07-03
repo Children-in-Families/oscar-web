@@ -348,6 +348,7 @@ class Client < ActiveRecord::Base
   end
 
   def time_in_ngo
+    return {} if self.status == 'Referred'
     date_time_in_ngo = { years: 0, months: 0, weeks: 0, days: 0 }
     detail_time_in_ngo = []
 
