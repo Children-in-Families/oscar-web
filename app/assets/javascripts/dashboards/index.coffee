@@ -9,13 +9,10 @@ CIF.DashboardsIndex = do ->
     _initSelect2()
     _openTaskListModal()
     _handleApplyFilter()
-    _initCustomFieldsDataTable()
-    _initTrackingDatatable()
     _initICheckBox()
-    _initFamilyDatatable()
-    _initPartnerDatatable()
-    _initUserDatatable()
-    _initProgramEnrollmentDatatable()
+    _initTrackingDatatable()
+    _handleMultiForm()
+
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -78,31 +75,17 @@ CIF.DashboardsIndex = do ->
     report = new CIF.ReportCreator(data, title, '', element)
     report.pieChart(option: true)
 
-  _initCustomFieldsDataTable = ->
-    self = $('#custom-fields-table')
-    $(self).DataTable
-      bFilter: false
-      sScrollY: '500'
-      bInfo: false
-      processing: true
-      serverSide: true
-      ajax: $(self).data('url')
-      columns:  [
-        null
-        bSortable: false, className: 'text-center'
-      ]
-      language:
-        paginate:
-          previous: $(self).data('previous')
-          next: $(self).data('next')
-      drawCallback: ->
-        _getDataTableId()
+  _handleMultiForm = ->
+    _initMultiFormDatatable('#custom-fields-table')
+    _initMultiFormDatatable('#family-table')
+    _initMultiFormDatatable('#partner-table')
+    _initMultiFormDatatable('#user-table')
+    _initMultiFormDatatable('#program-enrollment-table')
 
   _initTrackingDatatable = ->
     self = $('#program-streams-table')
     $(self).DataTable
       bFilter: false
-      sScrollY: '500'
       bInfo: false
       processing: true
       serverSide: true
@@ -119,71 +102,10 @@ CIF.DashboardsIndex = do ->
       drawCallback: ->
         _getDataTableId()
 
-  _initFamilyDatatable = ->
-    self = $('#family-table')
+  _initMultiFormDatatable = (tableId) ->
+    self = $(tableId)
     $(self).DataTable
       bFilter: false
-      sScrollY: '500'
-      bInfo: false
-      processing: true
-      serverSide: true
-      ajax: $(self).data('url')
-      columns: [
-        null
-        bSortable: false, className: 'text-center'
-      ]
-      language:
-        paginate:
-          previous: $(self).data('previous')
-          next: $(self).data('next')
-      drawCallback: ->
-        _getDataTableId()
-
-  _initPartnerDatatable = ->
-    self = $('#partner-table')
-    $(self).DataTable
-      bFilter: false
-      sScrollY: '500'
-      bInfo: false
-      processing: true
-      serverSide: true
-      ajax: $(self).data('url')
-      columns: [
-        null
-        bSortable: false, className: 'text-center'
-      ]
-      language:
-        paginate:
-          previous: $(self).data('previous')
-          next: $(self).data('next')
-      drawCallback: ->
-        _getDataTableId()
-
-  _initUserDatatable = ->
-    self = $('#user-table')
-    $(self).DataTable
-      bFilter: false
-      sScrollY: '500'
-      bInfo: false
-      processing: true
-      serverSide: true
-      ajax: $(self).data('url')
-      columns: [
-        null
-        bSortable: false, className: 'text-center'
-      ]
-      language:
-        paginate:
-          previous: $(self).data('previous')
-          next: $(self).data('next')
-      drawCallback: ->
-        _getDataTableId()
-
-  _initProgramEnrollmentDatatable = ->
-    self = $('#program-enrollment-table')
-    $(self).DataTable
-      bFilter: false
-      sScrollY: '500'
       bInfo: false
       processing: true
       serverSide: true
