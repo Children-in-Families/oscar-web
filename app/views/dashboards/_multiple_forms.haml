@@ -1,7 +1,7 @@
 .col-xs-12.col-sm-4
   .panel.panel-default.tasks-panel
     .panel-body
-      .widget.style1.widget-tasks-panel{ 'data-target' => '#custom-field', 'data-toggle' => 'modal', type: 'button'}
+      .widget.style1.widget-tasks-panel{ 'data-target' => '#multiple-form-modal', 'data-toggle' => 'modal', type: 'button'}
         .row.vertical-align
           .col-xs-3
             %i.fa.fa-folder-open-o.fa-3x
@@ -9,7 +9,7 @@
             %span.text-font
               = t('.add_new_document')
 
-  #custom-field.modal.fade{ role: 'dialog' }
+  #multiple-form-modal.modal.fade{ role: 'dialog' }
     .modal-dialog#width-modal.modal-lg
       .modal-content
         .modal-body

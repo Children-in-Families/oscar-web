@@ -64,4 +64,25 @@ body[id='dashboards-index'] {
       max-width: 85%;
     }
   }
+
+  #multiple-form-modal{
+    .modal-dialog {
+        width: 80%;
+        // height: 90%;
+        margin: 0 auto;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    .modal-content {
+      // height: 90%;
+      // min-height: 90%;
+      // max-height: 90%;
+      min-width: 90%;
+      border-radius: 0;
+      overflow:auto;
+    }
+  }
 }
