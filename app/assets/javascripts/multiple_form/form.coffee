@@ -1,4 +1,4 @@
-CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsNew = CIF.Client_custom_fieldsCreate = do ->
+CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsNew = CIF.Client_custom_fieldsCreate = CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = do ->
 
   _init = ->
     _initSelect2()

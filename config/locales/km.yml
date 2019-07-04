@@ -1799,6 +1799,18 @@ km:
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     active_tasks_side:
       active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
+    assessment_tab:
+      assessment: ការវាយតម្លៃ
+      assessment_you_like: តើអ្នកចង់បានការវាយតម្លៃមួយណា? (CSI ឬការវាយតម្លៃផ្ទាល់ខ្លួន)
+      client_you_like: តើភ្ញៀវណាដែលអ្នកចង់បំពេញដូចការវាយតំលៃ?
+      csi_assessment: ការវាយតំលៃ CSI
+      custom_assessment: ការវាយតម្លៃផ្ទាល់ខ្លួន
+    case_note_tab:
+      case_note: ចំណាំករណី
+      case_note_you_add: តើកំណត់សម្គាល់ណាដែលអ្នកចង់បាន? (CSI ឬការវាយតម្លៃផ្ទាល់ខ្លួន)
+      csi_assessment: ការវាយតំលៃ CSI
+      custom_assessment: ការវាយតម្លៃផ្ទាល់ខ្លួន
+      client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញដូចគ្នានឹងករណីចំណាំ?
     client:
       ables: Ables
       clients: អតិថិជនបច្ចុប្បន្ន
@@ -1811,7 +1823,13 @@ km:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទដែលបាននិងកំពុងចូលរួមកម្មវិធី
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
+    client_tab:
+      action: សកម្មភាព
+      client_form: ទម្រង់អតិថិជន
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     custom_fields_tab:
+      form_add: តើអ្នកចង់បន្ថែមបែបណា?
       link: តំណ
       name: ឈ្មោះ
       next: ទំព័របន្ទាប់
@@ -1827,16 +1845,37 @@ km:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
+    family_tab:
+      action: សកម្មភាព
+      family_form: ទម្រង់គ្រួសារ
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     multiple_forms:
+      add_new_document: បន្ថែមឯកសារថ្មី
+      assessment: ការវាយតម្លៃ
+      case_note: ចំណាំករណី
+      client: អតិថិជន
       custom_forms: ទម្រង់បែបបទ
+      family: គ្រួសារ
+      form: ទម្រង់
+      kind_of_document: តើឯកសារប្រភេទណាដែលអ្នកចង់បន្ថែម?
       multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
-      tracking_forms: ទម្រង់បែបបទតាមដាន
+      partners: ដៃគូ
+      program_enrollment: ចុះឈ្មោះចូលរៀន
+      record: កត់ត្រា
+      tracking_forms: តាមដានទម្រង់
+      user: អ្នក​ប្រើ
     overdue:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
       overdue_tasks: ភារកិច្ចហួសកំណត់
       tasks: កាតព្វកិច្ច
+    partner_tab:
+      action: សកម្មភាព
+      next: ទំព័របន្ទាប់
+      partner_form: ទម្រង់ដៃគូ
+      previous: ទំព័រមុន
     program_stream:
       program_stream: កម្មវិធីចម្បងីចម្បង
     program_stream_services:
@@ -1846,6 +1885,13 @@ km:
       remind_me: រំលឹកខ្ញុំពេលក្រោយ
       service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ? បើមិនដូច្នោះទេចូរជ្រើសរើសការជ្រើសរើសសេវាកម្មប៉ុន្តែបើមិនដូច្នោះចូរព្យាយាមរក្សាវាឱ្យសាមញ្ញ!
       type_of_service: ប្រភេទសេវាកម្ម
+    program_enrollment_tab:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      program_you_enroll: តើអ្នកចង់ចុះឈ្មោះកម្មវិធីមួយណា?
+      program_stream: ឈ្មោះកម្មវិធីស្ទ្រីម
+      action: សកម្មភាព
+      enroll : ចុះឈ្មោះអតិថិជន
     program_streams_tab:
       link: តំណ
       next: ទំព័របន្ទាប់
@@ -1853,6 +1899,8 @@ km:
       previous: ទំព័រមុន
       program_stream_name: កម្មវិធី
       tracking_name: ទម្រង់បែបបទតាមដាន
+    record_tab:
+      record_you_add: តើអ្នកចង់បន្ថែមកំណត់ត្រាបែបណា?
     referral_source_category_reminder:
       ancestry: ប្រភេទ
       name: ឈ្មោះ
@@ -1870,6 +1918,11 @@ km:
       forms: ទម្រង់បែបបទ
       tasks: កាតព្វកិច្ច
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    user_tab:
+      action: សកម្មភាព
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      user_form: ទម្រង់អ្នកប្រើ
     users_filter:
       apply: អនុវត្ត
       assessments: ការប៉ាន់ប្រមាណ

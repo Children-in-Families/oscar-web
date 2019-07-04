@@ -1,0 +1,8 @@
+#partner.tab-pane.margin-top-datatable{ role: 'tabpanel' }
+  .table-responsive
+    %table.table.table-bordered.table-hover.table-striped.custom-field-table#partner-table{ data: { url: list_custom_fields_api_custom_fields_path(type: 'partner_forms'), next: t('.next'), previous: t('.previous')  } }
+      %thead
+        %tr
+          %th.partner-form= t('.partner_form')
+          %th.link.text-center= t('.action')
+      %tbody

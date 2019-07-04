@@ -64,5 +64,9 @@ module Api
         params[:program_stream][:service_ids] = params[:program_stream][:service_ids].uniq
         params.require(:program_stream).permit(:name, service_ids: [])
       end
+
+      def list_program_enrollments
+        render json: EnrollmentDatatable.new(view_context), root: :data
+      end
   end
 end

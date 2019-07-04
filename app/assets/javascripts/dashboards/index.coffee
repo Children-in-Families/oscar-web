@@ -26,6 +26,10 @@ CIF.DashboardsIndex = do ->
     _enableSaveReferralSource()
     _clickSaveReferral()
     _loadModalReminder()
+    _initFamilyDatatable()
+    _initPartnerDatatable()
+    _initUserDatatable()
+    _initProgramEnrollmentDatatable()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -145,6 +149,86 @@ CIF.DashboardsIndex = do ->
       ajax: $(self).data('url')
       columns: [
         null
+        null
+        bSortable: false, className: 'text-center'
+      ]
+      language:
+        paginate:
+          previous: $(self).data('previous')
+          next: $(self).data('next')
+      drawCallback: ->
+        _getDataTableId()
+
+  _initFamilyDatatable = ->
+    self = $('#family-table')
+    $(self).DataTable
+      bFilter: false
+      sScrollY: '500'
+      bInfo: false
+      processing: true
+      serverSide: true
+      ajax: $(self).data('url')
+      columns: [
+        null
+        bSortable: false, className: 'text-center'
+      ]
+      language:
+        paginate:
+          previous: $(self).data('previous')
+          next: $(self).data('next')
+      drawCallback: ->
+        _getDataTableId()
+
+  _initPartnerDatatable = ->
+    self = $('#partner-table')
+    $(self).DataTable
+      bFilter: false
+      sScrollY: '500'
+      bInfo: false
+      processing: true
+      serverSide: true
+      ajax: $(self).data('url')
+      columns: [
+        null
+        bSortable: false, className: 'text-center'
+      ]
+      language:
+        paginate:
+          previous: $(self).data('previous')
+          next: $(self).data('next')
+      drawCallback: ->
+        _getDataTableId()
+
+  _initUserDatatable = ->
+    self = $('#user-table')
+    $(self).DataTable
+      bFilter: false
+      sScrollY: '500'
+      bInfo: false
+      processing: true
+      serverSide: true
+      ajax: $(self).data('url')
+      columns: [
+        null
+        bSortable: false, className: 'text-center'
+      ]
+      language:
+        paginate:
+          previous: $(self).data('previous')
+          next: $(self).data('next')
+      drawCallback: ->
+        _getDataTableId()
+
+  _initProgramEnrollmentDatatable = ->
+    self = $('#program-enrollment-table')
+    $(self).DataTable
+      bFilter: false
+      sScrollY: '500'
+      bInfo: false
+      processing: true
+      serverSide: true
+      ajax: $(self).data('url')
+      columns: [
         null
         bSortable: false, className: 'text-center'
       ]

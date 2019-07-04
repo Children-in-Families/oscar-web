@@ -18,6 +18,7 @@ class CaseNotesController < AdminController
   end
 
   def new
+    @from_controller = params[:from]
     if params[:custom] == 'true'
       @case_note = @client.case_notes.new(custom: true)
       @case_note.assessment = @client.assessments.custom_latest_record
@@ -33,8 +34,13 @@ class CaseNotesController < AdminController
     @case_note = @client.case_notes.new(case_note_params)
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+
       create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
-      redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
+      if params[:from_controller] == "dashboards"
+        redirect_to root_path, notice: t('.successfully_created')
+      else
+        redirect_to client_path(@client), notice: t('.successfully_created')
+      end
     else
       render :new
     end

@@ -6,17 +6,28 @@ CIF.Common =
     @initNotification()
     @autoCollapseManagMenu()
     @textShortener()
+    @intAssessmentClientSelected()
     @addLocalstorageAttribute()
-
-  addLocalstorageAttribute: ->
-    $('.btn-login').on 'click', ->
-      localStorage.setItem('from login', true)
     @checkValidationErrorExistOnSaving()
-    @addLocalstorageAttribute()
 
   addLocalstorageAttribute: ->
     $('.btn-login').on 'click', ->
       localStorage.setItem('from login', true)
+
+  intAssessmentClientSelected: ->
+    $('#client-select-assessment').on 'select2-selected', (e) ->
+      idClient = e.val
+      csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
+      a = document.getElementById('csi-assessment-link').href = csiLink
+      customLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=false&from=dashboards"
+      a = document.getElementById('custom-assessment-link').href = customLink
+
+    $('#client-select-case-note').on 'select2-selected', (e) ->
+      id = e.val
+      csiLink = "/clients/#{id}/case_notes/new?country=cambodia&custom=false&from=dashboards"
+      a = document.getElementById('csi-case-note-link').href = csiLink
+      customLink = "/clients/#{id}/case_notes/new?country=cambodia&custom=true&from=dashboards"
+      a = document.getElementById('custom-case-note-link').href = customLink
 
   textShortener: ->
     if $('.clients-table').is(':visible')
