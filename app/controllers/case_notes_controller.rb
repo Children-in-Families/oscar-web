@@ -93,15 +93,23 @@ class CaseNotesController < AdminController
   def assign_params_to_case_note_domain_groups_params(default_params)
     note = params.dig(:additional_fields, :note)
     attachments = params.dig(:case_note, :attachments)
-    domain_group_ids = params.dig(:case_note, :domain_group_ids)
+    domain_group_ids = params.dig(:case_note, :domain_group_ids).reject(&:blank?)
     case_note_domain_groups = default_params[:case_note_domain_groups_attributes]
-    domain_group_ids.each do |id|
-      ('0'..'5').each do |index|
-        next if case_note_domain_groups[index].nil?
-        if id == case_note_domain_groups[index]['domain_group_id']
-          case_note_domain_groups[index]['note'] = note
-          case_note_domain_groups[index]['attachments'] = attachments if params[:action] == 'create'
-        end
+
+    selected_case_note_domain_groups = case_note_domain_groups.select{|key, value| domain_group_ids.include? value["domain_group_id"]}
+    selected_case_note_domain_groups.values.each do |value|
+      value['note'] = note
+      value['attachments'] = attachments if params[:action] == 'create'
+    end
+
+    non_selected_case_note_domain_groups = case_note_domain_groups.select{|key, value| domain_group_ids.exclude? value["domain_group_id"]}
+    non_selected_case_note_domain_groups.values.each do |value|
+      value['note'] = ''
+      next if params[:action] == 'create'
+      cndg_id = value['id'].to_i
+      cndg_attachments = CaseNoteDomainGroup.find(cndg_id).attachments
+      cndg_attachments.each_with_index do |attachment, index|
+        remove_attachment_at_index(index, cndg_id)
       end
     end
     default_params
@@ -117,8 +125,9 @@ class CaseNotesController < AdminController
     end
   end
 
-  def remove_attachment_at_index(index)
-    case_note_domain_group = CaseNoteDomainGroup.find(params[:case_note_domain_group_id])
+  def remove_attachment_at_index(index, case_note_domain_group_id = '')
+    case_note_domain_group_id = params[:case_note_domain_group_id] || case_note_domain_group_id
+    case_note_domain_group = CaseNoteDomainGroup.find(case_note_domain_group_id)
     remain_attachment = case_note_domain_group.attachments
     deleted_attachment = remain_attachment.delete_at(index)
     deleted_attachment.try(:remove_images!)
