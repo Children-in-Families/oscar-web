@@ -9,6 +9,11 @@ namespace :demo_production do
     oscar_user_id = User.find_by(first_name: 'OSCaR', last_name: 'Team').id
     
     clients_without_program_stream_custom_form.each do |client|
+      client.birth_province_id = nil
+      client.village_id = nil
+      client.commune_id = nil
+      client.district_id = nil
+      client.province_id = nil
       client.user_ids = []
       client.family_ids = []
       client.donor_ids = []
@@ -19,20 +24,27 @@ namespace :demo_production do
       client.received_by_id = nil
       client.received_by_id = oscar_user_id
       client.user_ids = [oscar_user_id]
+      client.government_forms.destroy_all
       client.save(validate: false)
     end
 
     selected_clients = clients_without_program_stream_custom_form.order("RANDOM()").limit(20)
     to_delete_clients = Client.where.not(id: selected_clients.ids)
-    ProgramStream.all.each do |p|
-      p.really_destroy!
-    end
+    # ProgramStream.all.each do |p|
+    #   p.really_destroy!
+    # end
     ClientEnrollment.all.each do |ce|
       ce.leave_program.delete if ce.leave_program.present?
       ce.really_destroy!
     end
 
     to_delete_clients.each do |client|
+      client.birth_province_id = nil
+      client.village_id = nil
+      client.commune_id = nil
+      client.district_id = nil
+      client.province_id = nil
+      client.government_forms.destroy_all
       client.client_enrollments.really_destroy! if client.client_enrollments.present?
       client.case_worker_clients.destroy_all
       client.assessments.each do |a|
@@ -59,9 +71,9 @@ namespace :demo_production do
           binding.pry
         end
       end
-      client.program_streams.each do |ps|
-        ps.really_destroy!
-      end
+      # client.program_streams.each do |ps|
+      #   ps.really_destroy!
+      # end
 
       begin
         client.delete
@@ -124,23 +136,48 @@ namespace :demo_production do
       binding.pry
     end
 
-    begin
-      ProgramStream.destroy_all
-    rescue => exception
-      binding.pry
-    end
-    CustomField.all.each do |cf|
-      cf.custom_field_properties.delete_all
-      cf.custom_field_permissions.delete_all
-      cf.delete
-    end
+    # begin
+    #   ProgramStream.destroy_all
+    # rescue => exception
+    #   binding.pry
+    # end
+    # CustomField.all.each do |cf|
+    #   cf.custom_field_properties.delete_all
+    #   cf.custom_field_permissions.delete_all
+    #   cf.delete
+    # end
     Domain.custom_csi_domains.delete_all
     ReferralSource.where.not(name: REFERRAL_SOURCES).delete_all
-    User.where.not(id: oscar_user_id).each do |u|
-      u.really_destroy!
-    end
+    # User.where.not(id: oscar_user_id).each do |u|
+    #   u.really_destroy!
+    # end
     OrganizationType.delete_all
     PaperTrail::Version.destroy_all
+
+    Setting.first.delete
+    setting = Setting.first_or_create(country_name: 'cambodia', min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
+    setting.update(org_name: Organization.current.full_name) if setting.org_name.blank? && Organization.current.present?
+    Province.all.each do |p|
+      p.districts.all.each do |d|
+        d.communes.all.each do |c|
+          c.villages.all.each do |v|
+            v.delete
+          end
+          c.delete
+        end
+        d.delete
+      end
+      p.delete
+    end
+    Village.destroy_all
+    Commune.destroy_all
+    District.destroy_all
+    Province.destroy_all
+
+    Rake::Task['provinces:import'].invoke
+    Rake::Task['districts:import'].invoke
+    Rake::Task['communes_and_villages:import'].invoke
+    Rake::Task['communes_and_villages:import'].reenable
     puts 'Done'
   end
 end

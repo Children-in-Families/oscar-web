@@ -12,7 +12,6 @@ module ClientAdvancedSearchesConcern
     clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
     @clients_by_user     = clients.filter
-
     columns_visibility
     custom_form_column
     program_stream_column
