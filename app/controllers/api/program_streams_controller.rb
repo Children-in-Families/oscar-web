@@ -50,6 +50,10 @@ module Api
       end
     end
 
+    def list_program_enrollments
+      render json: EnrollmentDatatable.new(view_context), root: :data
+    end
+
     def list_program_streams
       render json: TrackingDatatable.new(view_context), root: :data
     end
@@ -63,10 +67,6 @@ module Api
       def program_stream_params
         params[:program_stream][:service_ids] = params[:program_stream][:service_ids].uniq
         params.require(:program_stream).permit(:name, service_ids: [])
-      end
-
-      def list_program_enrollments
-        render json: EnrollmentDatatable.new(view_context), root: :data
       end
   end
 end
