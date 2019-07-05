@@ -10,7 +10,8 @@ Rails.application.routes.draw do
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
-  get '/dashboards'     => 'dashboards#index'
+  get '/dashboards'     => 'dashboards#index', as: 'dashboards'
+  post '/program_stream_services' => 'dashboards#update_program_stream_service', as: 'program_stream_services'
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
   get '/calendar/sync'  => 'calendars#sync'
@@ -198,6 +199,8 @@ Rails.application.routes.draw do
     resources :clients do
       get :compare, on: :collection
       get :render_client_statistics, on: :collection
+      get :find_client_case_worker, on: :member
+      get :assessments, on: :collection
     end
     resources :custom_fields do
       collection do
@@ -225,7 +228,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :program_streams, only: [] do
+    resources :program_streams, only: [:update] do
       get :enrollment_fields
       get :exit_program_fields
       get :tracking_fields
@@ -233,6 +236,8 @@ Rails.application.routes.draw do
         get :list_program_streams
       end
     end
+
+    # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
       resources :organizations, only: [:index]
@@ -270,7 +275,11 @@ Rails.application.routes.draw do
       resources :villages, only: [:index]
       resources :donors, only: [:index]
       resources :agencies, only: [:index]
-      resources :referral_sources, only: [:index]
+      resources :referral_sources do
+        collection do
+          get 'categories' => 'referral_sources#referral_source_parents'
+        end
+      end
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]

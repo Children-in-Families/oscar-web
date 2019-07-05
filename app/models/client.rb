@@ -29,6 +29,8 @@ class Client < ActiveRecord::Base
   delegate :name, to: :state, prefix: true, allow_nil: true
   delegate :name_kh, to: :commune, prefix: true, allow_nil: true
   delegate :name_kh, to: :village, prefix: true, allow_nil: true
+  delegate :name_en, to: :commune, prefix: true, allow_nil: true
+  delegate :name_en, to: :village, prefix: true, allow_nil: true
 
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
@@ -108,62 +110,31 @@ class Client < ActiveRecord::Base
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
 
   def self.find_shared_client(options)
-    big_results    = []
+    similar_fields = []
+    shared_clients = []
     current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
     skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
     if skip_orgs_percentage.any?
-      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage)
+      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
     else
-      shared_clients       = SharedClient.all
-    end
-
-    group_clients        = shared_clients.group_by{|client| client.slug.split('-').first }
-    group_clients.each do |tenant, clients|
-      tenants = Organization.all.pluck(:short_name)
-      next if tenants.exclude?(tenant)
-      Organization.switch_to tenant
-      clients.each do |client|
-        client_in_tenant = includes(:province, :district, :commune, :village).find_by(slug: client.slug)
-        next if client_in_tenant.nil?
-        if client.birth_province_id.present?
-          Organization.switch_to 'shared'
-          begin
-            client.birth_province_name == Province.find(client.birth_province_id).try(:name)
-            Organization.switch_to tenant
-          rescue => exception
-            client.birth_province_id == nil
-            Organization.switch_to tenant
-          end
-        end
-        big_results << [{
-                          slug: client.slug,
-                          given_name: client.given_name,
-                          family_name: client.family_name,
-                          local_given_name: client.local_given_name,
-                          local_family_name: client.local_family_name,
-                          birth_province_name: client.birth_province_name,
-                          date_of_birth: client_in_tenant.try(&:date_of_birth),
-                          current_province: client_in_tenant.try(&:province_name),
-                          district: client_in_tenant.district.try(:name),
-                          commune: client_in_tenant.commune.try(:name),
-                          village: client_in_tenant.village.try(:name)
-                        }]
-      end
+      shared_clients       = SharedClient.all.pluck(:duplicate_checker)
     end
 
     Organization.switch_to current_org
-    similar_fields = []
-    matching_clients = big_results.flatten.each do |result|
-      value1     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
-      value2     = "#{result[:given_name]} #{result[:family_name]} #{result[:local_family_name]} #{result[:local_given_name]}".squish
-      field_name = compare_matching(value1, value2)
-      dob        = date_of_birth_matching(options[:date_of_birth], result[:date_of_birth])
-      cp         = client_address_matching(options[:current_province], result[:current_province])
-      cd         = client_address_matching(options[:district], result[:district])
-      cc         = client_address_matching(options[:commune], result[:commune])
-      cv         = client_address_matching(options[:village], result[:village])
-      bp         = birth_provinch_matching(options[:birth_province], result[:birth_province_name])
+
+    shared_clients.compact.each do |client|
+      client = client.split('&')
+      input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+      client_name_field    = client[0].squish
+
+      field_name = compare_matching(input_name_field, client_name_field)
+      dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
+      cp         = client_address_matching(options[:current_province], client[4].squish)
+      cd         = client_address_matching(options[:district], client[3].squish)
+      cc         = client_address_matching(options[:commune], client[2].squish)
+      cv         = client_address_matching(options[:village], client[1].squish)
+      bp         = birth_province_matching(options[:birth_province], client[5].squish)
 
       match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
 
@@ -197,7 +168,7 @@ class Client < ActiveRecord::Base
     value1 == value2 ? 1 : 0.91
   end
 
-  def self.birth_provinch_matching(value1, value2)
+  def self.birth_province_matching(value1, value2)
     return nil if value1.blank?
     value1 == value2 ? 1 : 0.85
   end
@@ -210,7 +181,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.date_of_birth_matching(dob1, dob2)
-    return nil if dob1.blank? || dob2.nil?
+    return nil if dob1.blank? || dob2.nil? || dob1.nil? || dob2.blank?
     percentage = 0
     if dob1.to_date == dob2.to_date
       percentage = 1
@@ -256,6 +227,10 @@ class Client < ActiveRecord::Base
 
   def local_name
     "#{local_family_name} #{local_given_name}"
+  end
+
+  def latin_name_with_id
+    "#{given_name} #{family_name} (#{id})"
   end
 
   def next_assessment_date(user_activated_date = nil)
@@ -548,6 +523,32 @@ class Client < ActiveRecord::Base
     Family.where('children && ARRAY[?]', id).last
   end
 
+  def create_or_update_shared_client
+    current_org = Organization.current
+    client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
+    client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
+    suburb = self.suburb
+    state_name = self.state_name
+
+    Organization.switch_to 'shared'
+    if suburb.present?
+      province = Province.find_or_create_by(name: suburb, country: 'lesotho')
+      client['birth_province_id'] = province.id
+    elsif state_name.present?
+      province = Province.find_or_create_by(name: state_name, country: 'myanmar')
+      client['birth_province_id'] = province.id
+    end
+
+    name_field = "#{self.given_name} #{self.family_name} #{self.local_given_name} #{self.local_family_name}".squish
+    client_birth_province = Province.find_by(id: self.birth_province_id).try(&:name)
+
+    client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{self.try(&:district_name)} & #{self.try(&:province_name)} & #{client_birth_province} & #{self.try(&:date_of_birth)}"
+    shared_client = SharedClient.find_by(slug: client['slug'])
+    shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
+    Organization.switch_to current_org.short_name
+  end
+
   private
 
   def create_client_history
@@ -582,25 +583,6 @@ class Client < ActiveRecord::Base
   def mark_referral_as_saved
     referral = Referral.find_by(slug: slug, saved: false)
     referral.update_attributes(client_id: id, saved: true) if referral.present?
-  end
-
-  def create_or_update_shared_client
-    current_org = Organization.current
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
-    suburb = self.suburb
-    state_name = self.state_name
-
-    Organization.switch_to 'shared'
-    if suburb.present?
-      province = Province.find_or_create_by(name: suburb, country: 'lesotho')
-      client['birth_province_id'] = province.id
-    elsif state_name.present?
-      province = Province.find_or_create_by(name: state_name, country: 'myanmar')
-      client['birth_province_id'] = province.id
-    end
-    shared_client = SharedClient.find_by(slug: client['slug'])
-    shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
-    Organization.switch_to current_org.short_name
   end
 
   def set_country_origin

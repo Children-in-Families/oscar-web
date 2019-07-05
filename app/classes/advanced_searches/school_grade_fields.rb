@@ -25,7 +25,12 @@ module AdvancedSearches
 
 
     def self.school_grade_options
-      [[Client::GRADES, I18n.t('advanced_search.fields.school_grade_list').values].transpose.to_h]
+      current_translations = I18n.t('advanced_search.fields.school_grade_list')
+      Client::GRADES.map do|s|
+        translations = I18n.backend.send(:translations)[:en][:advanced_search][:fields]
+        key = translations[:school_grade_list].key(s.to_i > 0 ? s.to_i : s)
+        { s => current_translations[key] }
+      end
     end
   end
 end

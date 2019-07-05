@@ -667,6 +667,7 @@ en:
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
         non_face_to_face: Non face to face
+        other_option:
         rd_party: 3rd Party
         visit: Visit
         other_option: Other
@@ -1555,8 +1556,6 @@ en:
       live_with: Primary Carer Name
       living_detail: Living Details
       main_school_contact: Main School Contact
-      primary_carer_name: Primary Carer Name
-      primary_carer_phone_number: Primary Carer Phone Number
       school_grade: School Grade
       school_name: School Name
       schooling: Schooling
