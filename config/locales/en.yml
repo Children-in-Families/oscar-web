@@ -666,10 +666,9 @@ en:
       tasks_arising: Tasks Arising
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
-        non_face_to_face: Non face to face
-        other_option:
-        rd_party: 3rd Party
         visit: Visit
+        non_face_to_face: Non face to face
+        rd_party: 3rd Party
         other_option: Other
     form_with_assessment_domains:
       add_task: Add Task
@@ -1545,6 +1544,10 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+    level:
+      level_no: 'No'
+      level_1: Level 1
+      level_2: Level 2
     living_detail:
       case_worker_or_staff: Case Worker / Staff
       contact_details: Contact Details
@@ -1552,6 +1555,8 @@ en:
       live_with: Primary Carer Name
       living_detail: Living Details
       main_school_contact: Main School Contact
+      primary_carer_name: Primary Carer Name
+      primary_carer_phone_number: Primary Carer Phone Number
       school_grade: School Grade
       school_name: School Name
       schooling: Schooling
@@ -2886,16 +2891,16 @@ en:
       view: View
     domain_names:
       a1: A1
-      b1: B1
       a2: A2
-      b2: B2
       a3: A3
-      b3: B3
       a4: A4
-      b4: B4
       a5: A5
-      b5: B5
       a6: A6
+      b1: B1
+      b2: B2
+      b3: B3
+      b4: B4
+      b5: B5
       b6: B6
     edit:
       title: Edit Domain

@@ -18,6 +18,7 @@ class Client < ActiveRecord::Base
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
   GENDER_OPTIONS  = ['male', 'female', 'other', 'unknown']
+  CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true

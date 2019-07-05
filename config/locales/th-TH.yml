@@ -448,6 +448,8 @@ th-TH:
       suburb:
       telephone_number:
       time_in_care:
+      time_in_cps:
+      time_in_ngo:
       time_of_frequency:
       township:
       tracking:
@@ -656,9 +658,9 @@ th-TH:
       tasks_arising:
       type:
       type_options:
+        visit:
         non_face_to_face:
         rd_party:
-        visit:
         other_option:
     form_with_assessment_domains:
       add_task:
@@ -1529,6 +1531,10 @@ th-TH:
       start_date:
       support_amount:
       support_note:
+    level:
+      level_no: 'No'
+      level_1: Level 1
+      level_2: Level 2
     living_detail:
       case_worker_or_staff:
       contact_details:
@@ -1706,6 +1712,8 @@ th-TH:
       telephone_number:
       time_in_care:
       time_in_care_around:
+      time_in_cps:
+      time_in_ngo:
       view_assessments:
       view_case_notes:
       view_ec_history_btn_link:
@@ -2039,6 +2047,8 @@ th-TH:
         telephone_number:
         thailand:
         time_in_care:
+        time_in_cps:
+        time_in_ngo:
         time_of_frequency:
         total:
         township:
@@ -2160,6 +2170,8 @@ th-TH:
       support_amount:
       support_note:
       time_in_care:
+      time_in_cps:
+      time_in_ngo:
       trackings:
         action:
         frequency:
