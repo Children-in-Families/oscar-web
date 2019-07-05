@@ -1544,6 +1544,10 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+    level:
+      level_no: 'No'
+      level_1: Level 1
+      level_2: Level 2
     living_detail:
       case_worker_or_staff: Case Worker / Staff
       contact_details: Contact Details

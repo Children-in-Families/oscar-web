@@ -1477,7 +1477,7 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
       referral_received_by: បុគ្គលិកទទួលករណី
       referral_source: ប្រភពនៃការបញ្ជូន
-      referral_source_category: ប្រភេទនៃប្រភពយោង
+      referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
       remove_profile: លុបរូបថត
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
@@ -1543,6 +1543,10 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+    level:
+      level_no: មិនមាន
+      level_1: កម្រិត ១
+      level_2: កម្រិត ២
     living_detail:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត

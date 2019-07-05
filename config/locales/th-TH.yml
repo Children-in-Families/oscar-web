@@ -1531,6 +1531,10 @@ th-TH:
       start_date:
       support_amount:
       support_note:
+    level:
+      level_no: 'No'
+      level_1: Level 1
+      level_2: Level 2
     living_detail:
       case_worker_or_staff:
       contact_details:
