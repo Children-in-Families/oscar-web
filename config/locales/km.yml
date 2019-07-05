@@ -372,7 +372,7 @@ km:
       family_id: លេខសម្គាល់គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
-      follow_up_date: កាលបរិច្ឆេទតាមដាន
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
       followed_up_by_id: បុគ្គលិកតាមដានករណី
       form_title: ឈ្មោះទម្រង់បែបបទ
@@ -666,9 +666,9 @@ km:
       tasks_arising: កាតព្វកិច្ចកើតឡើង
       type: ប្រភេទ (សំគាល់ៈ ជ្រើសយក "សួរសុខទុក្ខ" លុះត្រាតែអ្នកបានជួបជាមួយអតិថិជនផ្ទាល់)
       type_options:
+        visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
         rd_party: បុគ្គលទី៣
-        visit: ជួបជាមួយអតិថិជនផ្ទាល់
         other_option: ផ្សេងៗ
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
@@ -1361,7 +1361,7 @@ km:
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       finish: រក្សាទុក
       follow_up_by: បុគ្គលិកតាមដានករណី
-      follow_up_date: កាលបរិច្ឆេទតាមដាន
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
       from: ចាប់ពី
       gender: ភេទ
@@ -1451,14 +1451,14 @@ km:
     getting_started:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
-      family_name: នាមត្រកូល (ភាសាអង់គ្លេស)
+      family_name: នាមត្រកូលជាអក្សរឡាតាំង
       first_followed_up_by: បុគ្គលិកតាមដានករណី
       first_followed_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by_id: បុគ្គលិកតាមដានករណី
       gender: ភេទ
       getting_started: ព័ត៌មានបឋម
-      given_name: នាមខ្លួន (ភាសាអង់គ្លេស)
+      given_name: នាមខ្លួនជាអក្សរឡាតាំង
       initial_referral_date: កាលបរិច្ឆេទនៃការបញ្ជូនដំបូង
       living_detail: ព័ត៌មានរស់នៅលំអិត
       local_family_name: នាមត្រកូល (ភាសាខ្មែរ)
@@ -1648,7 +1648,7 @@ km:
       families: គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
-      follow_up_date: កាលបរិច្ឆេទតាមដាន
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
       gender: ភេទ
       general_info: អំពីអតិថិជន
@@ -1712,6 +1712,7 @@ km:
       referral_forms: បែបបទបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដទៃ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       reject: មិនទទួលយក
@@ -1994,7 +1995,7 @@ km:
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូលជាអក្សរឡាតាំង
         follow_up_by: បុគ្គលិកតាមដានករណី
-        follow_up_date: កាលបរិច្ឆេទតាមដាន
+        follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
         followed_up_by: បុគ្គលិកតាមដានករណី
         form_title: ឈ្មោះទម្រង់បែបបទ
         frequency: ភាពញឹកញាប់
@@ -2297,7 +2298,7 @@ km:
     donor: ម្ចាស់ជំនួយ
     family_name: នាមត្រកូលជាអក្សរឡាតាំង
     follow_up_by: បុគ្គលិកតាមដានករណី
-    follow_up_date: កាលបរិច្ឆេទតាមដាន
+    follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
     followed_up_by: បុគ្គលិកតាមដានករណី
     gender: ភេទ
     gender_list:

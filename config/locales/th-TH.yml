@@ -658,9 +658,9 @@ th-TH:
       tasks_arising:
       type:
       type_options:
+        visit:
         non_face_to_face:
         rd_party:
-        visit:
         other_option:
     form_with_assessment_domains:
       add_task:

@@ -670,9 +670,9 @@ my:
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
       type: အမ်ိဳးအစား
       type_options:
+        visit: Visit
         non_face_to_face: Non face to face
         rd_party: 3rd Party
-        visit: Visit
         other_option: Other
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
@@ -4991,4 +4991,3 @@ my:
     next_label: ေနာက္စာမ်က္ႏွာ
     page_gap: "..."
     previous_label: ေရွ႕စာမ်က္ႏွာ
-
