@@ -2815,18 +2815,18 @@ en:
       alert: Domain cannot be deleted.
       successfully_deleted: Domain has been successfully deleted.
     domain_identies:
-      care: Care
-      emotional_health: Emotional Health
-      food_security: Food Security
-      health_care_services: Health Care Services
-      legal_protection: Legal Protection
-      nutrition_and_growth: Nutrition and Growth
-      performance: Performance
-      protection_from_abuse_and_exploitation: Protection from Abuse and Exploitation
-      shelter: Shelter
-      social_behaviour: Social Behaviour
-      wellness: Wellness
-      work_and_education: Work and Education
+      care_2b: Care
+      emotional_health_5b: Emotional Health
+      food_security_1a: Food Security
+      health_care_services_4b: Health Care Services
+      legal_protection_3b: Legal Protection
+      nutrition_and_growth_1b: Nutrition and Growth
+      performance_6a: Performance
+      protection_from_abuse_and_exploitation_3a: Protection from Abuse and Exploitation
+      shelter_2a: Shelter
+      social_behaviour_5b: Social Behaviour
+      wellness_4a: Wellness
+      work_and_education_6b: Work and Education
     domain_list:
       add_new_domain: Add New Domain
       changelog: Changelog
@@ -2837,18 +2837,18 @@ en:
       score_4: Score 4
       view: View
     domain_names:
-      a1: A1
-      a2: A2
-      a3: A3
-      a4: A4
-      a5: A5
-      a6: A6
-      b1: B1
-      b2: B2
-      b3: B3
-      b4: B4
-      b5: B5
-      b6: B6
+      a1: 1A
+      a2: 2A
+      a3: 3A
+      a4: 4A
+      a5: 5A
+      a6: 6A
+      b1: 1B
+      b2: 2B
+      b3: 3B
+      b4: 4B
+      b5: 5B
+      b6: 6B
     edit:
       title: Edit Domain
     form:

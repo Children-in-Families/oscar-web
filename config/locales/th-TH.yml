@@ -2808,18 +2808,18 @@ th-TH:
       score_4:
       view:
     domain_names:
-      a1: A1
-      a2: A2
-      a3: A3
-      a4: A4
-      a5: A5
-      a6: A6
-      b1: B1
-      b2: B2
-      b3: B3
-      b4: B4
-      b5: B5
-      b6: B6
+      a1: 1A
+      a2: 2A
+      a3: 3A
+      a4: 4A
+      a5: 5A
+      a6: 6A
+      b1: 1B
+      b2: 2B
+      b3: 3B
+      b4: 4B
+      b5: 5B
+      b6: 6B
     edit:
       title:
     form:
