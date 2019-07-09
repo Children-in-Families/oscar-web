@@ -34,7 +34,11 @@ class CaseNotesController < AdminController
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
-      redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
+      if params[:from_controller] == "dashboards"
+        redirect_to root_path, notice: t('.successfully_created')
+      else
+        redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
+      end
     else
       render :new
     end
