@@ -64,4 +64,15 @@ module CaseNoteHelper
     return false if current_user.strategic_overviewer?
     current_user.permission.case_notes_editable
   end
+
+  def tag_domain_group(case_note)
+    domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+    domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
+    options_for_select(domain_groups, domain_group_ids)
+  end
+
+  def case_note_tasks(case_note, cdg)
+    domains = cdg.domains(case_note).select(:id)
+    tasks   = case_note.client.tasks.upcoming.where(domain_id: domains.pluck(:id))
+  end
 end
