@@ -7,7 +7,25 @@ class ClientGrid < BaseGrid
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
-    Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :enter_ngos, :exit_ngos, :users).order('clients.status, clients.given_name')
+    # Client.includes(:village, :commune, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :enter_ngos, :exit_ngos, :users).order('clients.status, clients.given_name')
+    # associations = []
+    # association_columns = column_names + datagrid_attributes
+    # association_columns = association_columns.map(&:to_s).map{|column| column.gsub(/(\_id)$/i, '').to_sym }
+    # belongs_to_associations = Client.reflect_on_all_associations(:belongs_to)
+    # has_many_associations   = Client.reflect_on_all_associations(:has_many)
+
+    # associations << belongs_to_associations.map do |association|
+    #   association.class_name.titleize.downcase.split(' ').join('_').to_sym if association.name.in?(association_columns)
+    # end
+
+    # associations << has_many_associations.map do |association|
+    #   association.name if association.name.in?(association_columns) || association.name == :users
+    # end
+    # associations = associations.flatten.compact.uniq
+    # associations.delete(:user)
+
+    # Client.includes(associations).order('clients.status, clients.given_name')
+    Client.all
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -26,12 +44,16 @@ class ClientGrid < BaseGrid
     filter_shared_fileds('local_family_name', value, scope)
   end
 
-  filter(:gender, :enum, select: Client::GENDER_OPTIONS, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+  filter(:gender, :enum, select: :gender_list, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
     current_org = Organization.current
     Organization.switch_to 'shared'
     slugs = SharedClient.where(gender: value.downcase).pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
+  end
+
+  def gender_list
+    [I18n.t('default_client_fields.gender_list').values, Client::GENDER_OPTIONS].transpose
   end
 
   filter(:created_at, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
@@ -866,7 +888,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
+    # render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
   column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments') }, html: true) do |object|

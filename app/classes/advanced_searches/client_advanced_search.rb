@@ -20,20 +20,21 @@ module AdvancedSearches
           rules << @basic_rules["rules"].last['rules']
         else
           rules = @basic_rules["rules"].reject {|hash_value| hash_value["id"] != "active_program_stream" }
+          rules = rules.present? ? rules : @basic_rules
         end
 
         if rules.compact.any?{|rule| !rule.is_a?(Array) && rule.has_key?('rules')}
           rule_hash = {}
           rules = rules.compact.first.each {|k, v| rule_hash[k] = v if k == 'rules'}
           operators = rule_hash['rules'].map{|value| value["operator"] }.uniq if rules.present?
-        elsif rules.present?
+        elsif rules.present? && rules.is_a?(Array)
           operators = rules.flatten.compact.map{|value| value["operator"] }.uniq if rules.present?
         else
           operators = @basic_rules["rules"].flatten.compact.map{|value| value["operator"] }.uniq if rules.present?
         end
 
         if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.presence.reject(&:nil?).sort == ["not_equal", "equal"].sort
-          if rules.has_key?('rules')
+          if rules.is_a?(Hash) && rules.has_key?(:rules)
             excluded_client_ids = rules['rules'].flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
           else
             excluded_client_ids = rules.flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
