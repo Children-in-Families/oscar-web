@@ -49,24 +49,21 @@ module CvcdImporter
       headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_category_id', 'received_by_id', 'initial_referral_date', 'followed_up_by_id', 'follow_up_date', 'telephone_number', 'district_id', 'commune_id', 'house_number', 'village_id', 'school_name', 'school_grade', 'main_school_contact', 'birth_province_id', 'donor_id', 'code', 'user_ids']
 
       (2..sheet.last_row).each_with_index do |row_index, index|
-        data       = sheet.row(row_index) 
+        data       = sheet.row(row_index)
         data[4]    = data[4].squish.downcase
         data[5]    = format_date_of_birth(data[5])
-        data[6]    = find_referral_source(data[6])
-        data[7]    = data[7].split.join("")
-        data[9]    = find_or_create_user(data[9].squish).id
+        data[6]    = find_referral_source(data[6].squish)
+        data[7]    = data[7].present? ? find_or_create_user(data[7].squish).id : nil
+        data[9]    = data[9].present? ? find_or_create_user(data[9].squish).id : nil
         data[10]   = format_date_of_birth(data[10])
-        data[12]   = find_district(data[12])
-        data[13]   = find_commune(data[13])
-        if data[15].present?
-          data[15]   = find_village(data[15])
-        else
-          nil
-        end
+        data[11]   = data[11].to_s
+        data[12]   = data[12].present? ? find_district(data[12]) : nil
+        data[13]   = data[13].present? ? find_commune(data[13].squish) : nil
+        data[15]   = data[15].present? ? find_village(data[15]) : nil
         data[17]   = check_nil_cell(data[17])[/^\d{1,2}/] ? check_nil_cell(data[17])[/^\d{1,2}/] : check_nil_cell(data[17])
         if data[19].present?
           data[19]   = data[19].split('/').last.squish
-          data[19]   = find_province(data[19].squish) 
+          data[19]   = find_province(data[19].squish)
         else
           nil
         end
@@ -74,7 +71,7 @@ module CvcdImporter
         data[22]   = find_user(data[22])
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
         begin
-          clients << [headers, data.reject(&:nil?)].transpose.to_h
+          clients << [headers, data].transpose.to_h
         rescue IndexError => e
           if Rails.env == 'development'
             binding.pry
@@ -150,7 +147,7 @@ module CvcdImporter
     end
 
     def find_commune(name)
-      communes = Commune.where("name_en ilike?","%#{name}")
+      communes = Commune.where("name_en ilike?","%#{name.squish}")
       commune = communes.select{|d| d.name.gsub(/.*\//, '').squish == name }
       begin
         commune.first.id
