@@ -11,7 +11,7 @@ module ImportStaticService
     def import
       column_letters = ('A'..'Z').to_a
       header_letters = column_letters[0..12]
-      Organization.switch_to "#{@org_shortname}"
+      Organization.switch_to @org_shortname
       header_letters.each do |letter|
         fields = workbook.column(letter)
         values = fields.compact
