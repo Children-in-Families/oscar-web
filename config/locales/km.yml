@@ -2868,18 +2868,18 @@ km:
       alert: កត្តាមិនអាចលុបបានទេ
       successfully_deleted: កត្តាត្រូវបានលុបចោលដោយជោគជ័យ
     domain_identies:
-      care: "(សុវត្ថិភាពស្បៀងអាហារ)"
-      emotional_health: "(ឣាហាររូបត្ថម្ភ និងការលូតលាស់)"
-      food_security: "(ជម្រក/លំនៅ ដ្ឋាន)"
-      health_care_services: "(ការថែទាំ)"
-      legal_protection: "(ការការពារ ពីការរំលោភបំពាន និងការកេងប្រវ័ញ្ច)"
-      nutrition_and_growth: "(កិច្ចគាំពារផ្លូវច្បាប់)"
-      performance: "(សុខមាលភាព)"
-      protection_from_abuse_and_exploitation: "(សេវាថែទាំសុខភាព)"
-      shelter: "(សុខភាពផ្លូវចិត្ត)"
-      social_behaviour: "(អាកប្បកិរិយាក្នុងសង្គម)"
-      wellness: "(ការប្រព្រឹត្ត) ការអភិវឌ្ឍផ្នែកចលករ និងពុទ្ធិ"
-      work_and_education: "(ការអប់រំ នឹងការងារ)"
+      care_2b: "(ការថែទាំ)"
+      emotional_health_5a: "(សុខភាពផ្លូវចិត្ត)"
+      food_security_1a: "(សុវត្ថិភាពស្បៀងអាហារ)"
+      health_care_services_4b: "(សេវាថែទាំសុខភាព)"
+      legal_protection_3b: "(កិច្ចគាំពារផ្លូវច្បាប់)"
+      nutrition_and_growth_1b: "(ឣាហាររូបត្ថម្ភ និងការលូតលាស់)"
+      performance_6a: "(ការប្រព្រឹត្ត) ការអភិវឌ្ឍផ្នែកចលករ និងពុទ្ធិ"
+      protection_from_abuse_and_exploitation_3a: "(ការការពារ ពីការរំលោភបំពាន និងការកេងប្រវ័ញ្ច)"
+      shelter_2a: "(ជម្រក/លំនៅ ដ្ឋាន)"
+      social_behaviour_5b: "(អាកប្បកិរិយាក្នុងសង្គម)"
+      wellness_4a: "(សុខមាលភាព)"
+      work_and_education_6b: "(ការអប់រំ នឹងការងារ)"
     domain_list:
       add_new_domain: បន្ថែមកត្តាថ្មី
       changelog: ប្រវត្តិនៃកំណែ
