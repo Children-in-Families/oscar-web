@@ -67,7 +67,7 @@ module CvcdImporter
         else
           nil
         end
-        data[20]   = find_donor(data[20])
+        data[20]   = data[20].present? ? find_donor(data[20].squish) : nil
         data[22]   = find_user(data[22])
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
         begin
@@ -83,6 +83,8 @@ module CvcdImporter
 
       clients.each do |client|
         client = Client.new(client)
+        phnom_penh = Province.find_by(name: 'ភ្នំពេញ / Phnom Penh').id
+        client.province_id = phnom_penh
         client.save(validate: false)
       end
       puts 'Create clients done!!!!!!'
@@ -134,9 +136,9 @@ module CvcdImporter
     end
 
     def find_donor(name)
-      donors = Donor.where("name ilike ?", "%#{name}")
+      donor = Donor.find_or_create_by(name: name)
       begin
-        donors.first.id
+        donor.id
       rescue NoMethodError => e
         if Rails.env == 'development'
           binding.pry

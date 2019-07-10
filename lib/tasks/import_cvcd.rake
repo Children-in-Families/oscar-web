@@ -6,9 +6,6 @@ namespace :cvcd do
 
     Rake::Task['basic_data:import'].invoke
 
-    import     = MoveDistrict::Import.new('cvcd')
-    import.districts
-
     import     = CvcdImporter::Import.new('Users')
     import.users
 
