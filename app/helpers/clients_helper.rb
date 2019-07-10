@@ -463,6 +463,7 @@ module ClientsHelper
     return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
+    return object if params[:client_advanced_search][:basic_rules].nil?
     data    = eval params[:client_advanced_search][:basic_rules]
 
     result1                = mapping_param_value(data, 'case_note_date')
