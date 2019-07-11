@@ -39,13 +39,12 @@ module MslImporter
 
       users.each do |user|
         user = User.new(user)
-        binding.pry
         user.save(validate: false)
       end
 
       managers.each do |manager|
-        user = User.find_by(email: manager.split(', ').squish.first)
-        user.manager_id = User.create_with(email: FFaker::Internet.email, password: password).find_or_create_by(first_name:  manager.split(', ').squish.last).try(:id)
+        user = User.find_by(email: manager.split(', ').first.squish)
+        user.manager_id = User.create_with(email: FFaker::Internet.email, password: password).find_or_create_by(first_name:  manager.split(', ').last.squish).try(:id)
         user.save(validate: false)
       end
 
@@ -60,7 +59,7 @@ module MslImporter
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
       headers     = ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'referral_phone', 'received_by_id', 
-                    'initial_referral_date', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'province_id', 'district_id', 'commune_id', 'house_number', 'street', 'village_id', 'school_name', 
+                    'initial_referral_date', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'province_id', 'district_id', 'commune_id', 'house_number', 'street_number', 'village_id', 'school_name', 
                     'school_grade', 'birth_province_id']
 
       (2..sheet.last_row).each_with_index do |row_index, index|
@@ -69,7 +68,7 @@ module MslImporter
         data[5]    = format_date_of_birth(data[5])
 
         #create referral source
-        data[6]    = ReferralSource.new(name: data[6].squish).try(:id)
+        data[6]    = create_referral_source(data[6])
 
         #received by
         data[9]    = data[9].present? ? find_or_create_user(data[9].squish).id : nil
@@ -84,11 +83,11 @@ module MslImporter
         data[13]   = data[13].present? ? [find_or_create_user(data[13].squish).id] : []
 
         #province_id
-        data[14]   = Province.find_by('name ilike ?', "%#{data[14].squish}").try(:id)
-        data[15]   = District.find_by('name_kh ilike ?', "%#{data[15].squish}").try(:id)
-        data[16]   = Commune.find_by('name_kh ilike ?', "%#{data[16].squish}").try(:id)
-        data[19]   = Village.find_by('name_kh ilike ?', "%#{data[19].squish}").try(:id)
-        data[22]   = Province.find_by('name ilike ?', "%#{data[22].squish}").try(:id)
+        data[14]   = Province.where('name ilike ?', "%#{data[14].squish}%").first.try(:id)
+        data[15]   = District.where('name ilike ?', "%#{data[15].squish}%").first.try(:id)
+        data[16]   = Commune.where('name_kh ilike ?', "%#{data[16].squish}%").first.try(:id)
+        data[19]   = data[19].present? ? Village.where('name_kh ilike ?', "%#{data[19]}%").first.try(:id) : nil
+        data[22]   = Province.where('name ilike ?', "%#{data[22].squish}%").first.try(:id)
 
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
         begin
@@ -105,8 +104,18 @@ module MslImporter
       clients.each do |client|
         client = Client.new(client)
         client.save(validate: false)
+        if client.given_name == 'Sreythy'
+          client.has_been_in_orphanage = false
+          client.has_been_in_government_care = false
+          client.rated_for_id_poor = 'No'
+          client.save(validate: false)
+        end
       end
       puts 'Create clients done!!!!!!'
+    end
+
+    def create_referral_source(name)
+      ReferralSource.find_or_create_by(name: name.squish).try(:id)
     end
 
     def find_or_create_user(user_data)
