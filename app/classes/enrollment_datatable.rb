@@ -12,7 +12,7 @@ class EnrollmentDatatable < ApplicationDatatable
   end
 
   def fetch_programs
-    ProgramStream.page(page).per(per_page)
+    ProgramStream.order(:name).page(page).per(per_page)
   end
 
   def column_enrollments

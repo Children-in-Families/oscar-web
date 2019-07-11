@@ -9,10 +9,11 @@
             %span.text-font
               = t('.add_new_document')
 
-  #multiple-form-modal.modal.fade{ role: 'dialog' }
+  #multiple-form-modal.modal.fade{ "aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1", data: {backdrop: 'static', keyboard: 'false'} }
     .modal-dialog#width-modal.modal-lg
       .modal-content
         .modal-body
+          %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
           %div
             %h2.text-center=t('.kind_of_document')
             %ul.nav.nav-tabs{role: "tablist"}
