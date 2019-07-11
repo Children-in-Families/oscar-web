@@ -2,16 +2,16 @@ module ImportStaticService
   class DateService
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/services/service.xlsx')
+    def initialize(sheet_name, org_shortname, path = 'vendor/data/services/service.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
+      @org_shortname = org_shortname
     end
 
     def import
       column_letters = ('A'..'Z').to_a
       header_letters = column_letters[0..12]
-      # Organization.all.pluck(:short_name).each do |short_name|
-      Organization.switch_to 'tutorials'
+      Organization.switch_to @org_shortname
       header_letters.each do |letter|
         fields = workbook.column(letter)
         values = fields.compact
