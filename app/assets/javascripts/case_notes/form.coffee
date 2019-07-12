@@ -3,7 +3,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _initUploader()
     _handleDeleteAttachment()
     _handleNewTask()
-    _hideCompletedTasks()
+    # _hideCompletedTasks()
     _handlePreventBlankInput()
     _initSelect2()
     _initScoreTooltip()

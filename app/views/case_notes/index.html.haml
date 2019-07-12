@@ -59,17 +59,13 @@
                       %h4= t('.note')
                     .panel-body
                       = simple_format combined_notes
-
-              - domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
-              - domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
-
               .row
                 .col-xs-12
                   .panel.panel-default
                     .panel-heading
                       %h4= "Domain Groups"
                     .panel-body
-                      = select_tag "", options_for_select(domain_groups, domain_group_ids), multiple: true, disabled: true
+                      = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
 
               - case_note.case_note_domain_groups.each do |cdg|
                 - list_goals = []
@@ -104,6 +100,35 @@
                                     %li.list-group-item
                                       = "#{index + 1}. "
                                       = task.name
+
+                        - today_tasks = case_note_today_tasks(case_note, cdg)
+                        - if today_tasks.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('tasks.index.today_tasks')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - today_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      %p Task Added
+                                      = "#{index + 1}. "
+                                      = task.name
+
+                        - ongoing_tasks = case_note_ongoing_tasks(case_note, cdg)
+                        - if ongoing_tasks.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('case_notes.form.on_going_tasks')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - ongoing_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      %p Task Added
+                                      = "#{index + 1}. "
+                                      = task.name
+
                         - if list_goals.present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
@@ -116,11 +141,6 @@
                                       = "#{index + 1}. "
                                       = goal
 
-                      .row
-                        - if task_added.flatten.present?
-                          .col-xs-12.col-sm-6
-                            %p
-                              %strong Task Added
 
               .row
                 - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
