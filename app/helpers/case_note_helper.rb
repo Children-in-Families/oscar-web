@@ -71,8 +71,13 @@ module CaseNoteHelper
     options_for_select(domain_groups, domain_group_ids)
   end
 
-  def case_note_tasks(case_note, cdg)
+  def case_note_ongoing_tasks(case_note, cdg)
     domains = cdg.domains(case_note).select(:id)
     tasks   = case_note.client.tasks.upcoming.where(domain_id: domains.pluck(:id))
+  end
+
+  def case_note_today_tasks(case_note, cdg)
+    domains = cdg.domains(case_note).select(:id)
+    tasks   = case_note.client.tasks.today.where(domain_id: domains.pluck(:id))
   end
 end
