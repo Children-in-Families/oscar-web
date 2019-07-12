@@ -406,13 +406,15 @@ class Client < ActiveRecord::Base
     end
 
     if detail_time[:weeks] / 4 > 0
-      detail_time[:weeks] = detail_time[:weeks] - (detail_time[:weeks] / 4) * 4
-      detail_time[:months] = detail_time[:months] + detail_time[:weeks] / 4
+      week_time = detail_time[:weeks]
+      detail_time[:weeks] = detail_time[:weeks] - ((detail_time[:weeks] / 4) * 4)
+      detail_time[:months] = detail_time[:months] + week_time / 4
     end
 
     if detail_time[:months] / 12 > 0
+      month_time = detail_time[:months]
       detail_time[:months] = detail_time[:months] - (detail_time[:months] / 12 ) * 12
-      detail_time[:years] = detail_time[:years] + detail_time[:months] / 12
+      detail_time[:years] = detail_time[:years] + month_time / 12
     end
     detail_time
   end
