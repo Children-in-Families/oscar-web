@@ -6,7 +6,7 @@ namespace :incompleted_assessment do
       Organization.switch_to org.short_name
       incompleted_assessment = []
       Assessment.incompleted.each do |assessment|
-        incompleted_assessment << assessment.id if (assessment.created_at.to_date + 6.days) > Date.today
+        incompleted_assessment << assessment.id if (assessment.created_at.to_date + 6.days) < Date.today
       end
       Assessment.where(id: incompleted_assessment).delete_all if incompleted_assessment.present?
       
