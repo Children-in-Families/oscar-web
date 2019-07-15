@@ -5,7 +5,7 @@ class ActiveEnrollmentStatistic
 
   def statistic_data
     enrollment_dates       = @enrollments.order('enrollment_date').map(&:short_enrollment_date).uniq
-    enrollments_by_program = @enrollments.order('enrollment_date').group_by(&:program_stream_id).sort
+    enrollments_by_program = @enrollments.order('enrollment_date').group_by(&:program_stream_id).reject { |k, v| k.nil? }.sort
     data_series            = []
 
     enrollments_by_program.each do |program_id, enrollment|

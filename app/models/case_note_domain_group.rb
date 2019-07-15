@@ -15,6 +15,10 @@ class CaseNoteDomainGroup < ActiveRecord::Base
     tasks.completed
   end
 
+  def on_going_tasks
+    tasks.upcoming
+  end
+
   def any_assessment_domains?(case_note)
     domains = case_note.custom? ? domain_group.domains.custom_csi_domains : domain_group.domains.csi_domains
     domains.assessment_domains_by_assessment_id(case_note.assessment_id).any?
