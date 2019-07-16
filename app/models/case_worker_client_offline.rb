@@ -21,6 +21,7 @@ class CaseWorkerClientOffline
     attributes = attributes.merge('assessments' => client.assessments.map { |a| a.attributes} )
     attributes = attributes.merge('case_notes' => client.case_notes.map { |c| c.attributes } )
     attributes = attributes.merge('tasks' => client.tasks.map { |t| t.attributes} )
+    attributes = attributes.merge('quantitative_cases' => client.quantitative_cases.group_by(&:quantitative_type).map { |q| { quantitative_case: q.last.map{ |qcase| qcase.value }, quantitative_type_id: q.first.id,  quantitative_type: q.first.name}})
     attributes_client_enrollments = client.client_enrollments.map { |ce| ce.attributes}
     attributes_custom_formable = client.custom_field_properties.map { |cfp| cfp.attributes}
 
