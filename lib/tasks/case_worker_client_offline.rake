@@ -1,4 +1,4 @@
-namespace :case_worker_client do
+namespace :case_worker_client_offline do
   desc 'create case worker clients in mongod'
   task create: :environment do
     Organization.all.each do |org|
