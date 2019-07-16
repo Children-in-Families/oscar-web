@@ -4674,6 +4674,7 @@ en:
       tasks_of: Tasks Of
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: Blocked

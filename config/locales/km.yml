@@ -4668,6 +4668,7 @@ km:
       tasks_of: កាតព្វកិច្ចរបស់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: ត្រូវបានបិទ

@@ -4526,6 +4526,7 @@ th-TH:
       tasks_of:
       today_tasks:
       upcoming_tasks:
+    task_added:
   thredded:
     content_moderation_states:
       content_blocked_notice:
