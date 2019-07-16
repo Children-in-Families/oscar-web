@@ -67,7 +67,7 @@ module CaseNoteHelper
 
   def tag_domain_group(case_note)
     domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
-    domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
+    domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name(case_note.custom), dg.id] }
     options_for_select(domain_groups, domain_group_ids)
   end
 
