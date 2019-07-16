@@ -162,13 +162,15 @@ class CaseNotesController < AdminController
   end
 
   def fetch_domain_group
-    @domain_groups = if params[:action].in? ['edit', 'update']
-      @case_note.domain_groups
+    @domain_groups = []
+    if params[:action].in? ['edit', 'update']
+      @domain_groups = @case_note.domain_groups
     else
       domains = params[:custom] == 'true' ? 'custom_csi_domains' : 'csi_domains'
-      domain_group_ids = eval("Domain.#{domains}").pluck(:domain_group_id).uniq
-      DomainGroup.where(id: domain_group_ids)
+      domain_group_ids = Domain.send("#{domains}").pluck(:domain_group_id).uniq
+      @domain_groups = DomainGroup.where(id: domain_group_ids)
     end
+
     case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group: @domain_groups)
     @case_note_domain_group_note = case_note_domain_groups.where.not(note: '').try(:first).try(:note)
     @selected_domain_group_ids = case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
