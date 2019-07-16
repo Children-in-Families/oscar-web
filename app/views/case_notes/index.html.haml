@@ -68,14 +68,8 @@
                       = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
 
               - case_note.case_note_domain_groups.each do |cdg|
-                - list_goals = []
-                - task_added = []
-                - cdg.domains(case_note).each do |domain|
-                  - task_added << case_note.client.tasks.where(domain_id: domain.id, relation: 'case_note', case_note_id: cdg.case_note_id)
-                  - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                  - if assessment_domain.present? && assessment_domain.goal?
-                    - list_goals << assessment_domain.goal
-                - if cdg.completed_tasks.any? || list_goals.present? || task_added.flatten.present?
+                - list_goals, ongoing_tasks, today_tasks = list_goals_and_tasks(cdg, case_note)
+                - if cdg.completed_tasks.any? || list_goals.present? || ongoing_tasks.flatten.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
                       %h5= cdg.domain_identities
@@ -101,21 +95,20 @@
                                       = "#{index + 1}. "
                                       = task.name
 
-                        - today_tasks = case_note_today_tasks(case_note, cdg)
-                        - if today_tasks.present?
+                        - the_latest_tasks = today_tasks.flatten
+                        - if the_latest_tasks.present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
                               .panel-heading
-                                %h4= t('tasks.index.today_tasks')
+                                %h4= t('tasks.task_added')
                               .panel-body.no-padding
                                 %ul.list-group
-                                  - today_tasks.each_with_index do |task, index|
+                                  - the_latest_tasks.each_with_index do |task, index|
                                     %li.list-group-item
-                                      %p Task Added
                                       = "#{index + 1}. "
                                       = task.name
 
-                        - ongoing_tasks = case_note_ongoing_tasks(case_note, cdg)
+                        - ongoing_tasks = case_note_ongoing_tasks(ongoing_tasks)
                         - if ongoing_tasks.present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
@@ -125,7 +118,6 @@
                                 %ul.list-group
                                   - ongoing_tasks.each_with_index do |task, index|
                                     %li.list-group-item
-                                      %p Task Added
                                       = "#{index + 1}. "
                                       = task.name
 
