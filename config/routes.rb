@@ -174,7 +174,7 @@ Rails.application.routes.draw do
     end
 
     # mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
-    mount_devise_token_auth_for 'User', at: '/v2/auth', skip: [:passwords]
+    # mount_devise_token_auth_for 'User', at: '/v2/auth', skip: [:passwords]
     resources :form_builder_attachments, only: :destroy
 
     resources :provinces, only: :index do
@@ -241,6 +241,7 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
+      mount_devise_token_auth_for 'User', at: 'auth', skip: [:passwords]
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
@@ -289,6 +290,7 @@ Rails.application.routes.draw do
     end
 
     namespace :v2, default: { format: :json } do
+      mount_devise_token_auth_for 'User', at: 'auth', skip: [:passwords]
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
