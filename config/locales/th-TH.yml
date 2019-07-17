@@ -2786,18 +2786,18 @@ th-TH:
       alert:
       successfully_deleted:
     domain_identies:
-      care: Care
-      emotional_health: Emotional Health
-      food_security: Food Security
-      health_care_services: Health Care Services
-      legal_protection: Legal Protection
-      nutrition_and_growth: Nutrition and Growth
-      performance: Performance
-      protection_from_abuse_and_exploitation: Protection from Abuse and Exploitation
-      shelter: Shelter
-      social_behaviour: Social Behaviour
-      wellness: Wellness
-      work_and_education: Work and Education
+      care_2b: Care
+      emotional_health_5a: Emotional Health
+      food_security_1a: Food Security
+      health_care_services_4b: Health Care Services
+      legal_protection_3b: Legal Protection
+      nutrition_and_growth_1b: Nutrition and Growth
+      performance_6a: Performance
+      protection_from_abuse_and_exploitation_3a: Protection from Abuse and Exploitation
+      shelter_2a: Shelter
+      social_behaviour_5b: Social Behaviour
+      wellness_4a: Wellness
+      work_and_education_6b: Work and Education
     domain_list:
       add_new_domain:
       changelog:
