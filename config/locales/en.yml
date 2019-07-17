@@ -1804,6 +1804,18 @@ en:
       upcoming_tasks: Upcoming
     active_tasks_side:
       active_tasks: Active Tasks
+    assessment_tab:
+      assessment: Assessment
+      assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
+      client_you_like: Which client would you like to complete as Assessment for?
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+    case_note_tab:
+      case_note: Case Note
+      case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+      client_you_complete_for: Which client would you like to complete as Case Note for?
     client:
       ables: Ables
       clients: Active Clients
@@ -1816,7 +1828,13 @@ en:
       active_progarm_streams_by_gender: Active Program Streams by client gender
       active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
+    client_tab:
+      action: Action
+      client_form: Client Form
+      next: Next
+      previous: Previous
     custom_fields_tab:
+      form_add: Which form would you like to add ?
       link: Action
       name: Name
       next: Next
@@ -1832,16 +1850,44 @@ en:
       families: Active Families
       foster: Foster
       kinship: Kinship
+    family_tab:
+      action: Action
+      family_form: Family Form
+      next: Next
+      previous: Previous
     multiple_forms:
+      add_new_document: Add New Document
+      assessment: Assessment
+      case_note: Case Note
+      client: Client
       custom_forms: Custom Forms
+      family: Family
+      form: Form
+      kind_of_document: What kind of document would you like to add?
       multiple_forms: Add Form to Multiple Clients
+      partners: Partner
+      program_enrollment: Program Enrollment
+      record: Record
       tracking_forms: Tracking Forms
+      user: User
     overdue:
       assessment: Assessment
       assessments: Assessments
       forms: Forms
       overdue_tasks: Overdue Tasks
       tasks: Tasks
+    partner_tab:
+      action: Action
+      next: Next
+      partner_form: Partner Form
+      previous: Previous
+    program_enrollment_tab:
+      next: Next
+      previous: Previous
+      program_you_enroll: Which program do you want to enroll a client into?
+      program_stream: Program Stream Name
+      action: Action
+      enroll : Enroll Client
     program_stream:
       program_stream: Program Streams
     program_stream_services:
@@ -1863,6 +1909,8 @@ en:
       name: Name
       referral_source_reminder: Please Add Category information for Referral Source
       remind_later: Remind me later
+    record_tab:
+      record_you_add: What kind of record would you like to add?
     third_party:
       ables: Ables
       agencies: Agencies
@@ -1875,6 +1923,11 @@ en:
       forms: Forms
       tasks: Tasks
       upcoming_tasks: Upcoming Tasks
+    user_tab:
+      action: Action
+      next: Next
+      previous: Previous
+      user_form: User Form
     users_filter:
       apply: Apply
       assessments: Assessment
@@ -2816,7 +2869,7 @@ en:
       successfully_deleted: Domain has been successfully deleted.
     domain_identies:
       care_2b: Care
-      emotional_health_5b: Emotional Health
+      emotional_health_5a: Emotional Health
       food_security_1a: Food Security
       health_care_services_4b: Health Care Services
       legal_protection_3b: Legal Protection
@@ -3723,6 +3776,12 @@ en:
       form:
         clients: Clients
         warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
+    client_enrollments:
+      create:
+        successfully_created: Form have been added to client(s) successfully
+      form:
+        clients: Clients
+        warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
     complete_form:
       agree: 'Yes'
       disagree: 'No'
@@ -4615,6 +4674,7 @@ en:
       tasks_of: Tasks Of
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: Blocked
