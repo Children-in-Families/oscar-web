@@ -22,7 +22,7 @@
           %strong= "#{t('.goal')} :"
         %ul
           - domain_note.object.domains(@case_note).each do |domain|
-            - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
+            - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
             - if assessment_domain.present? && assessment_domain.goal?
               %li= assessment_domain.goal
       .col-xs-12.col-md-6
