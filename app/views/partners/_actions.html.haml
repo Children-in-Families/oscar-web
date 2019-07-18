@@ -1,4 +1,5 @@
-- if can? [:manage, :create], Partner
+- if can? :update, Partner
   = link_to edit_partner_path(object), class: 'btn btn-outline btn-success btn-xs' do
     = fa_icon('pencil')
+- if can? :destroy, Partner
   = remove_link(object, { partner_case: object.cases.count})

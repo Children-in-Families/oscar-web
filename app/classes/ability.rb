@@ -33,8 +33,7 @@ class Ability
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :manage, GovernmentForm
-      can :create, Partner
-      can :read, Partner
+      can [:read, :create, :update], Partner
       can :manage, Referral
       can :create, Task
       can :read, Task
