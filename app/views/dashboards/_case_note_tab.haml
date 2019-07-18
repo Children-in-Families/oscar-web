@@ -15,4 +15,9 @@
         %li
           = link_to t('.csi_assessment'), '#', id: 'csi-case-note-link'
         %li
-          = link_to t('.custom_assessment'), '#', id: 'custom-case-note-link'
+          - if Domain.custom_csi_domains.any?
+            = link_to t('.custom_assessment'), '#', id: 'custom-case-note-link'
+          - else
+            = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+              = @current_setting.custom_assessment
+              

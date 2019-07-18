@@ -18,12 +18,12 @@
               = f.input :client_id, collection: @clients.map { |c| [c.name, c.id] }, label: false, required: false, input_html: { multiple: true, class: 'clients' }, selected: @selected_clients
               %span.help-block.hidden
                 = t('cannot_be_blank')
-          .col-xs-12.col-md-6.form-group.date.optional{ class: ('has-error' if f.error :enrollment_date) }
+          .col-xs-12.col-md-6.form-group.date.optional#enrollmentdate{ class: ('has-error' if f.error :enrollment_date) }
             %label.date.optional.control-label
               %abbr{ title: 'required' } *
               = t('.enrollment_date')
             .input-group.date
-              = f.input_field :enrollment_date, as: :string, class: 'date optional form-control date-picker', id: 'enrollment_date'
+              = f.input_field :enrollment_date, as: :string, class: 'date optional form-control date-picker enrollmentdate', id: 'enrollment_date'
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
             = f.error :enrollment_date
@@ -38,11 +38,6 @@
                 - else
                   = f.simple_fields_for :form_builder_attachments do |attachment|
                     = render "/multiple_form/fields/#{enrollment['type'].underscore}_field", f: attachment, property: enrollment, entity: f
-                -# - unless enrollment['type'] == 'file'
-                -#   = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
-                -# - else
-                -#   = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(enrollment['label']) ||  @attachments.build do |attachment|
-                -#     = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, resource: @client_enrollment
                 .row
                   .col-xs-12
                     #message.text-danger
