@@ -1805,17 +1805,17 @@ km:
     active_tasks_side:
       active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
     assessment_tab:
-      assessment: ការវាយតម្លៃ
-      assessment_you_like: តើអ្នកចង់បានការវាយតម្លៃមួយណា? (CSI ឬការវាយតម្លៃផ្ទាល់ខ្លួន)
-      client_you_like: តើភ្ញៀវណាដែលអ្នកចង់បំពេញដូចការវាយតំលៃ?
-      csi_assessment: ការវាយតំលៃ CSI
-      custom_assessment: ការវាយតម្លៃផ្ទាល់ខ្លួន
+      assessment: ការប៉ាន់ប្រម៉ាណ
+      assessment_you_like: តើការប៉ាន់ប្រម៉ាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន)
+      client_you_like: តើអតិថិជនណាដែលអ្នកចង់បំពេញការប៉ាន់ប្រម៉ាណ?
+      csi_assessment: ការប៉ាន់ប្រម៉ាណ CSI
+      custom_assessment: ការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន
     case_note_tab:
-      case_note: ចំណាំករណី
-      case_note_you_add: តើកំណត់សម្គាល់ណាដែលអ្នកចង់បាន? (CSI ឬការវាយតម្លៃផ្ទាល់ខ្លួន)
-      csi_assessment: ការវាយតំលៃ CSI
-      custom_assessment: ការវាយតម្លៃផ្ទាល់ខ្លួន
-      client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញដូចគ្នានឹងករណីចំណាំ?
+      case_note: កំណត់ត្រាករណី
+      case_note_you_add: តើកំណត់ត្រាករណីនេះប្រើជាមួយការប៉ាន់ប្រម៉ាណណា?(CSI​ ឬការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន)
+      csi_assessment: ការប៉ាន់ប្រម៉ាណ CSI
+      custom_assessment: ការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន
+      client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញកំណត់ត្រាករណី?
     client:
       ables: Ables
       clients: អតិថិជនបច្ចុប្បន្ន
@@ -1857,8 +1857,8 @@ km:
       previous: ទំព័រមុន
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
-      assessment: ការវាយតម្លៃ
-      case_note: ចំណាំករណី
+      assessment: ការប៉ាន់ប្រម៉ាណ
+      case_note: កំណត់ត្រាករណី
       client: អតិថិជន
       custom_forms: ទម្រង់បែបបទ
       family: គ្រួសារ
@@ -1866,9 +1866,9 @@ km:
       kind_of_document: តើឯកសារប្រភេទណាដែលអ្នកចង់បន្ថែម?
       multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
       partners: ដៃគូ
-      program_enrollment: ចុះឈ្មោះចូលរៀន
+      program_enrollment: បញ្ជូលក្នុងកម្មវិធី
       record: កត់ត្រា
-      tracking_forms: តាមដានទម្រង់
+      tracking_forms: ទម្រង់តាមដាន
       user: អ្នក​ប្រើ
     overdue:
       assessment: ការប៉ាន់ប្រមាណ
@@ -1893,17 +1893,17 @@ km:
     program_enrollment_tab:
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
-      program_you_enroll: តើអ្នកចង់ចុះឈ្មោះកម្មវិធីមួយណា?
-      program_stream: ឈ្មោះកម្មវិធីស្ទ្រីម
+      program_you_enroll: តើកម្មវិធីមួយណាដែលអ្នកចង់បញ្ជូលអតិថិជន?
+      program_stream: ឈ្មោះកម្មវិធីចម្បង
       action: សកម្មភាព
       enroll : ចុះឈ្មោះអតិថិជន
     program_streams_tab:
-      link: តំណ
+      link: សកម្មភាព
       next: ទំព័របន្ទាប់
       open_form: បើកទម្រង់
       previous: ទំព័រមុន
-      program_stream_name: កម្មវិធី
-      tracking_name: ទម្រង់បែបបទតាមដាន
+      program_stream_name: កម្មវិធីចម្បង
+      tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
     record_tab:
       record_you_add: តើអ្នកចង់បន្ថែមកំណត់ត្រាបែបណា?
     referral_source_category_reminder:
@@ -3776,6 +3776,10 @@ km:
       form:
         clients: អតិថិជន
         warning: ការបំពេញទម្រង់បែបបទនេះនឹងរក្សាទុកពត៌មានទាំងនេះដាច់ដោយឡែកសម្រាប់អតិថិជននីមួយៗដែលបានជ្រើសរើសនៅទីនេះ។ អតិថិជននីមួយៗនឹងមានពត៌មានដូចៗគ្នា។ សូមកុំប្រើទម្រង់មួយនេះ បើអតិថិជននីមួយៗមានពត៌មានខុសៗគ្នា។
+    client_enrollments:
+      create:
+        client_not_valid: អតិថិជនមិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
+        successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកនៅក្នុងអតិថិជនដោយជោគជ័យ
     complete_form:
       agree: បាទ/ចាស
       disagree: ទេ

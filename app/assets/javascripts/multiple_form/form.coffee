@@ -35,6 +35,7 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     preventSelect()
     preventRadioButton()
     _preventClient()
+    _preventEnrollmentDate()
 
   _confirm = ->
     form = $('.multiple-form form')
@@ -61,6 +62,15 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
       else
         $('#client').removeClass('has-error')
         $('#client').find('.help-block').addClass('hidden')
+
+  _preventEnrollmentDate = ->
+    $('.complete-form').on 'click', (e) ->
+      values = $('input.enrollmentdate').val()
+      if _.isEmpty(values)
+        $('#enrollmentdate').addClass('has-error')
+        e.preventDefault()
+      else
+        $('#enrollmentdate').removeClass('has-error')
 
   preventFileUploader = ->
     $('.complete-form').on 'click', (e) ->

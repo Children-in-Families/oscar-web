@@ -19,7 +19,7 @@ module ClientEnrollmentConcern
   end
 
   def client_filtered
-    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, Client.all).filter
+    @client_filter ||= AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, Client.all).filter
   end
 
   def ordered_program
@@ -35,8 +35,8 @@ module ClientEnrollmentConcern
     end
   end
 
-  def valid_client?
-    client_filtered.ids.include? @client.id
+  def valid_client?(client=nil)
+    client_filtered.ids.include?(client ? client.id : @client.id)
   end
 
   def valid_program?
