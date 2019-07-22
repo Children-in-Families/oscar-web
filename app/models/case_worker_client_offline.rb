@@ -13,13 +13,15 @@ class CaseWorkerClientOffline
   def self.initial(client)
     Mongoid.raise_not_found_error = false
     attributes = client.attributes
+    attributes['profile'] = client.profile.url
     attributes.each do |attr|
       if attributes[attr.first].class == Date && attributes[attr.first].present?
         attributes[attr.first] = attributes[attr.first].to_date.to_s
       end
     end
-    attributes = attributes.merge('assessments' => client.assessments.map { |a| a.attributes} )
-    attributes = attributes.merge('case_notes' => client.case_notes.map { |c| c.attributes } )
+
+    attributes = attributes.merge('assessments' => client.assessments.group_by(&:assessment_domains).map{ |a| { assessment: a.last.map{ |ass| ass.attributes}, assessment_domains: a.first.map{ |ad| ad.attributes}}})
+    attributes = attributes.merge('case_notes' => client.case_notes.group_by(&:case_note_domain_groups).map{ |c| { case_note: c.last.map{ |ca| ca.attributes}, case_note_domain_groups: c.first.map{ |cd| cd.attributes}}})
     attributes = attributes.merge('tasks' => client.tasks.map { |t| t.attributes} )
     attributes = attributes.merge('quantitative_cases' => client.quantitative_cases.group_by(&:quantitative_type).map { |q| { quantitative_case: q.last.map{ |qcase| qcase.value }, quantitative_type_id: q.first.id,  quantitative_type: q.first.name}})
     attributes_client_enrollments = client.client_enrollments.map { |ce| ce.attributes}

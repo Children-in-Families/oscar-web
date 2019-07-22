@@ -888,7 +888,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
-    # render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
+    render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
   column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments') }, html: true) do |object|
