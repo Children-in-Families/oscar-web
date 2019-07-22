@@ -1,8 +1,8 @@
 namespace :change_casenote_data do
   desc 'Faking case note data in development and staging'
-  task update: :environment do |task, args|
+  task :update, [:short_name] => :environment do |task, args|
     if Rails.env.development? || Rails.env.staging? || Rails.env.demo?
-      Organization.switch_to 'tlc'
+      Organization.switch_to args.short_name
       dummy_text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
       interaction_types = ['Visit', 'Non face to face', '3rd Party', 'Other']
       CaseNote.includes(:case_note_domain_groups).all.each do |case_note|

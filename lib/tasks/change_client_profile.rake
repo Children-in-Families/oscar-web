@@ -1,8 +1,8 @@
 namespace :change_client_profile do
   desc 'Faking client data in development, staging and demo environment.'
-  task update: :environment do |task, args|
+  task :update, [:short_name] => :environment do |task, args|
     if Rails.env.development? || Rails.env.staging? || Rails.env.demo?
-      Organization.switch_to 'tlc'
+      Organization.switch_to args.short_name
       province_ids = Province.ids
       district_ids = []
       commune_ids  = []
