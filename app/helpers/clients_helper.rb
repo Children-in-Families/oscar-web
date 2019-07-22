@@ -366,6 +366,8 @@ module ClientsHelper
       referred_to_: t('datagrid.columns.clients.referred_to'),
       referred_from_: t('datagrid.columns.clients.referred_from'),
       time_in_care_: t('datagrid.columns.clients.time_in_care'),
+      time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
+      time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
     }
 
