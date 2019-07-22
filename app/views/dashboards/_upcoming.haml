@@ -5,6 +5,7 @@
         %h5= t('.upcoming_tasks')
   .panel-body
     - @clients.each do |client, upcoming_forms|
+      - next if upcoming_forms.blank?
       - upcoming_tasks = upcoming_forms[:upcoming_tasks]
       - client_next_default_assessment = client.next_assessment_date(@user.activated_at)
       - client_next_custom_assessment = client.custom_next_assessment_date(@user.activated_at)
