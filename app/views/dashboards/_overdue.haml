@@ -5,6 +5,7 @@
         %h5= t('.overdue_tasks')
   .panel-body
     - @clients.each do |client, overdue_forms|
+      - next if overdue_forms.blank?
       - overdue_tasks = overdue_forms[:overdue_tasks]
       - client_overdue_default_assessment = client.next_assessment_date(@user.activated_at)
       - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at)
