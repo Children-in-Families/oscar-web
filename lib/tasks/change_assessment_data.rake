@@ -1,9 +1,9 @@
 namespace :change_assessment_data do
   desc 'Faking Assessment data in development and staging'
-  task update: :environment do |task, args|
+  task :update, [:short_name] => :environment do |task, args|
     if Rails.env.development? || Rails.env.staging? || Rails.env.demo?
       dummy_text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-      Organization.switch_to 'tlc'
+      Organization.switch_to args.short_name
       Assessment.all.each do |assessment|
         assessment.assessment_domains.each do |domain|
           domain.score  = 4
