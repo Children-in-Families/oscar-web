@@ -365,9 +365,9 @@ module ClientsHelper
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
       referred_from_: t('datagrid.columns.clients.referred_from'),
+      time_in_care_: t('datagrid.columns.clients.time_in_care'),
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
-      time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
     }
 
@@ -465,6 +465,7 @@ module ClientsHelper
     return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
+    return object if params[:client_advanced_search][:basic_rules].nil?
     data    = eval params[:client_advanced_search][:basic_rules]
 
     result1                = mapping_param_value(data, 'case_note_date')
