@@ -21,7 +21,8 @@ module CfiInitialReferralDate
         id = workbook.row(row)[headers['ID']]
         date = workbook.row(row)[headers['Initial Referral Date']]
         client = Client.find_by(slug: id.squish)
-        client.update(initial_referral_date: date)
+        client.initial_referral_date = date
+        client.save(validate: false)
 
         puts "#{client.id} - #{client.initial_referral_date}"
       end
