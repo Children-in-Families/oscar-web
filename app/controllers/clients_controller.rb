@@ -4,7 +4,7 @@ class ClientsController < AdminController
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
 
-  before_action :format_advanced_search_params, only: :index
+  before_action :format_search_params, only: :index
   before_action :get_quantitative_fields, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
@@ -22,7 +22,7 @@ class ClientsController < AdminController
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
-    if has_params?
+    if has_params? || params[:advanced_search_id]
       advanced_search
     else
       columns_visibility
@@ -31,8 +31,9 @@ class ClientsController < AdminController
           next unless params['commit'].present?
           client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           @results                = client_grid.assets.size
-          $client_data            = client_grid.assets
           @clients                = client_grid.assets
+          $client_data            = @clients
+
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
@@ -106,7 +107,7 @@ class ClientsController < AdminController
       referral_source_id = find_referral_source_by_referral
 
       Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(slug: @referral.slug).attributes
+      attributes = SharedClient.find_by(slug: @referral.slug).attributes.except('duplicate_checker')
       attributes = fetch_referral_attibutes(attributes, referral_source_id)
 
       Organization.switch_to current_org.short_name
@@ -150,6 +151,7 @@ class ClientsController < AdminController
   end
 
   def destroy
+    @client.client_enrollments.each(&:really_destroy!)
     @client.reload.destroy
 
     redirect_to clients_url, notice: t('.successfully_deleted')
@@ -210,7 +212,7 @@ class ClientsController < AdminController
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id,
+            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -232,13 +234,13 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
-
+    @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
+    @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields
   end
 

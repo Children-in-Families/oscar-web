@@ -41,6 +41,11 @@ RSpec.describe Organization, type: :model do
       orgs = Organization.without_shared.pluck(:short_name)
       expect(orgs).not_to include('shared')
     end
+
+    it '.skip_dup_checking_orgs' do
+      orgs = Organization.skip_dup_checking_orgs.pluck(:short_name)
+      expect(['demo', 'cwd', 'myan', 'rok', 'my']).to include(*orgs)
+    end
   end
 
   describe 'Validation' do

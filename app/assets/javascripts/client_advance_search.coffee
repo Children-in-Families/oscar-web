@@ -81,9 +81,11 @@ class CIF.ClientAdvanceSearch
 
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
+    advanceSearchBuilder.setRuleFromSavedSearch()
     @.basicFilterSetRule()
     @.initSelect2()
     @.initRuleOperatorSelect2($('#builder'))
+
 
   initSelect2: ->
     $('#custom-form-select, #wizard-custom-form-select, #program-stream-select, #wizard-program-stream-select, #quantitative-case-select').select2()
@@ -96,8 +98,12 @@ class CIF.ClientAdvanceSearch
         $("#{item} .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
     )
 
-    $('.csi-group select').select2
-      minimumResultsForSearch: -1
+    $('.csi-group select').select2(minimumResultsForSearch: -1).on 'select2-open', ->
+      selectWrapper = $(@).closest('.csi-group')
+      if selectWrapper.offset().top > 840
+        $('html, body').animate { scrollTop: selectWrapper.offset().top }, "fast"
+      return
+
     setTimeout ( ->
       $(".csi-group .rule-filter-container select").select2(width: '250px', minimumResultsForSearch: -1)
       $(".csi-group .rule-operator-container select, .rule-value-container select").select2(width: 'resolve')
@@ -731,8 +737,8 @@ class CIF.ClientAdvanceSearch
     self = @
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
-      $('#builder').queryBuilder('addFilter', fields)
-      $('#wizard-builder').queryBuilder('addFilter', fields)
+      $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
+      $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
       self.initSelect2()
 
   handleRemoveQuantitativFilter: ->
@@ -780,7 +786,8 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = "[#{$('#family-advance-search-form').find('.custom-form-select').select2('val')}]"
+      # customFormValues = "[#{$('#family-advance-search-form').find('#custom-form-select').select2('val')}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#family_advanced_search_custom_form_selected').val(customFormValues)
 
@@ -794,7 +801,8 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      customFormValues = "[#{$('#partner-advance-search-form').find('.custom-form-select').select2('val')}]"
+      # customFormValues = "[#{$('#partner-advance-search-form').find('#custom-form-select').select2('val')}]"
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
 
       $('#partner_advanced_search_custom_form_selected').val(customFormValues)
 
@@ -882,7 +890,7 @@ class CIF.ClientAdvanceSearch
       disableValue      = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8']
       select            = ruleParentElement.find('.rule-value-container')
 
-      if schoolGradeFilter.length == 1 and betweenOperator.length == 1  
+      if schoolGradeFilter.length == 1 and betweenOperator.length == 1
         setTimeout( ->
           for value in disableValue
             $(select).find("option[value='#{value}']").attr('disabled', 'disabled')

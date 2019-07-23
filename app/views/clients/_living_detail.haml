@@ -7,9 +7,9 @@
     %legend= t('.contact_details')
     .row
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :live_with, label: t('.primary_carer_name')
+        = f.input :live_with, label: t('.live_with')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :telephone_number, label: t('.primary_carer_phone_number')
+        = f.input :telephone_number, label: t('.telephone_number')
 
       = render "clients/address_forms/#{selected_country}_address_form", f: f
       .col-xs-12.col-sm-6.col-md-4.form-group
@@ -24,6 +24,6 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.input :school_name, label: t('.school_name')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :school_grade, label: t('.school_grade'), collection: Client::GRADES
+        = f.input :school_grade, label: t('.school_grade'), collection: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose, label_method: :second, value_method: :first
       .col-xs-12.col-sm-6.col-md-4
         = f.input :main_school_contact, label: t('.main_school_contact')

@@ -7,6 +7,8 @@ describe ProgramStream, 'associations' do
   it { is_expected.to have_many(:leave_programs).dependent(:destroy) }
   it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
   it { is_expected.to have_many(:users).through(:program_stream_permissions) }
+  it { is_expected.to have_many(:program_stream_services).dependent(:destroy) }
+  it { is_expected.to have_many(:services).through(:program_stream_services) }
 end
 
 describe ProgramStream, 'scope' do
@@ -134,10 +136,10 @@ end
 
 describe ProgramStream, 'validate rules edition' do
   context 'ProgramStream has rules' do
-    let!(:client) { create(:client, gender: 'male') }
+    let(:client) { create(:client, gender: 'male') }
     rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
-    let!(:program_stream) { create(:program_stream, rules: rules ) }
-    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
+    let(:program_stream) { create(:program_stream, rules: rules ) }
+    let(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
 
     it 'unable to save program stream' do
       wrong_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Active', 'operator'=>'equal' }], 'condition'=>'AND' }

@@ -12,6 +12,10 @@
           %tbody
             - case_history = object.class.table_name
             - case case_history
+            - when "clients"
+              %tr
+                %td= t('.initial_referral_date')
+                %td= date_format(object.initial_referral_date)
             - when 'enter_ngos'
               %tr
                 %td= t('.accepted_date')
@@ -28,7 +32,7 @@
                 %td= object.other_info_of_exit
               %tr
                 %td= t('.exit_reasons')
-                %td= object.exit_reasons if object.exit_reasons.any?
+                %td= translate_exit_reasons(object.exit_reasons) if object.exit_reasons.any?
               %tr
                 %td= t('.exit_note')
                 %td= object.exit_note

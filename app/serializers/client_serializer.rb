@@ -4,13 +4,15 @@ class ClientSerializer < ActiveModel::Serializer
               :current_province, :local_given_name, :local_family_name, :kid_id, :donors,
               :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
               :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
-              # :referral_phone, :live_with, :id_poor, :received_by,
+              # :referral_phone, :live_witr, :id_poor, :received_by,
               :referral_phone, :live_with, :received_by, :main_school_contact,  :telephone_number,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
-              :has_been_in_government_care, :relevant_referral_information,
+              :has_been_in_government_care, :relevant_referral_information, :rated_for_id_poor,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
+              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :referral_source_category_id
+
+  has_many :assessments
 
   def profile
     object.profile.present? ? { uri: object.profile.url } : {}
@@ -95,9 +97,9 @@ class ClientSerializer < ActiveModel::Serializer
   def birth_province
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
-    shared_client = SharedClient.find_by(slug: object.slug)
+    birth_province = SharedClient.find_by(slug: object.slug).birth_province
     Organization.switch_to current_org
-    shared_client.birth_province
+    birth_province
   end
 
   def enter_ngos

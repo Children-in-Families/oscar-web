@@ -18,7 +18,7 @@ module AdvancedSearches
       school_grade_options  = AdvancedSearches::SchoolGradeFields.render
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
       custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
- 
+
       search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
       search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options
     end
@@ -40,7 +40,7 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['created_by', user_select_options ],
-        ['gender', { male: 'Male', female: 'Female', other: 'Other', unknown: 'Unknown' }],
+        ['gender', gender_list],
         ['status', client_status],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
@@ -55,11 +55,16 @@ module AdvancedSearches
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
-        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2'}],
+        *rated_id_poor,
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
-        ['referred_from', referral_from_options]
+        ['referred_from', referral_from_options],
+        ['referral_source_category_id', referral_source_category_options]
       ]
+    end
+
+    def gender_list
+      [Client::GENDER_OPTIONS, I18n.t('default_client_fields.gender_list').values].transpose.to_h
     end
 
     def exit_reasons_options
@@ -131,6 +136,17 @@ module AdvancedSearches
       referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
+    def referral_source_category_options
+      ref_cat_ids = Client.pluck(:referral_source_category_id).compact.uniq
+      if I18n.locale == :km
+        ref_cat_kh_names = ReferralSource.where(id: ref_cat_ids).pluck(:name, :id)
+        ref_cat_kh_names.sort.map{|s| {s[1].to_s => s[0]}}
+      else
+        ref_cat_en_names = ReferralSource.where(id: ref_cat_ids).pluck(:name_en, :id)
+        ref_cat_en_names.sort.map{|s| {s[1].to_s => s[0]}}
+      end
+    end
+
     def followed_up_by_options
       followed_up_clients = @user.admin? || @user.manager? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
       followed_up_clients.sort.map{|s| {s[1].to_s => s[0]}}
@@ -185,6 +201,14 @@ module AdvancedSearches
           text_fields: ['house_number', 'street_number'],
           drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
+      end
+    end
+
+    def rated_id_poor
+      if Setting.first.country_name == 'cambodia'
+        [['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2'}]]
+      else
+        []
       end
     end
   end

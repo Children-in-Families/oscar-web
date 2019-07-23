@@ -1,0 +1,33 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{t('.book')} #{@client.name}"
+        .ibox-tools
+          %p#jum-to-text= "#{I18n.t('client_books.index.jump_to')}:"
+          #jum-to-date-picker.form-group
+            .input-group.date
+              %span.input-group-addon
+                %i.fa.fa-calendar
+              %input.date-picker.form-control{:type => "text"}/
+
+          = link_to I18n.t('case_notes.index.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
+      .ibox-content
+        - group_client_associations.each do |date, associations|
+          - associations.each do |association|
+            - if association.class.name.downcase == 'assessmentdecorator'
+              = render 'assessments', assessment: association, date: date
+            - elsif association.class.name.downcase == 'casenote'
+              = render 'case_notes', case_note: association, date: date
+            - elsif association.class.name.downcase == 'clientenrollment'
+              = render 'client_enrollments', client_enrollment: association, date: date
+            - elsif association.class.name.downcase == 'clientenrollmenttracking'
+              = render 'enrolled_program_trackings', enrollment_tracking: association, date: date
+            - elsif association.class.name.downcase == 'leaveprogram'
+              = render 'leave_programs', leave_program: association, date: date
+            - elsif association.class.name.downcase == 'customfieldproperty'
+              = render 'custom_field_properties', custom_field_property: association, date: date
+
+%a#back-to-top.btn.btn-primary.btn-lg.back-to-top{"data-placement" => "top", "data-toggle" => "tooltip", :href => "#", :role => "button", :title => "Back to Top"}
+  %span.glyphicon.glyphicon-chevron-up
+

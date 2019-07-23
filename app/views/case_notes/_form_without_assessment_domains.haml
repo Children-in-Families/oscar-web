@@ -22,11 +22,17 @@
               - tasks = tasks.by_case_note_domain_group(domain_note.object)
             .panel{ class: "panel-default task-domain-#{domain.id} #{hidden_class(tasks.incomplete.blank?)}" }
               .panel-heading
-                %strong= "#{t('.domain')} #{domain.name}"
+                %strong
+                  = t('.domain')
+                  = t("domains.domain_names.#{domain.name.downcase.reverse}")
               = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
         .col-xs-12
           = render 'attachment_fields', { domain_note: domain_note }
       .row
         .col-xs-12
-          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{domain_note.object.domain_group.domains.pluck(:id, :name)}"}
-            = t('.add_task')
+          - if params[:custom] == 'true'
+            .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{domain_note.object.domain_group.domains.custom_csi_domains.pluck(:id, :name)}"}
+              = t('.add_task')
+          - else
+            .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domain_group.domains)}"}
+              = t('.add_task')

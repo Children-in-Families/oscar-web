@@ -8,7 +8,10 @@ class DomainGroup < ActiveRecord::Base
   default_scope { order(:id, :name) }
 
   def default_domain_identities
-    domains.csi_domains.map(&:identity).join(', ')
+    domains.csi_domains.map(&:identity).map do |identity|
+      domain_identity = I18n.t("domains.domain_identies.#{identity.strip.parameterize('_')}")
+      domain_identity.gsub(/\(|\)/, '')
+    end.join(', ')
   end
 
   def custom_domain_identities

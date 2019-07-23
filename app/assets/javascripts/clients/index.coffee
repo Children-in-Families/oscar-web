@@ -58,6 +58,7 @@ CIF.ClientsIndex = do ->
     _handleDomainScoreInputValue()
     _handleDomainScoreFilterValue()
     _reloadFilter()
+    # _addTourTip()
     _addTourTip(tour)
     _extendDataTableSort()
     _addDataTableToAssessmentScoreData()
@@ -95,18 +96,65 @@ CIF.ClientsIndex = do ->
 
   _addDataTableToAssessmentScoreData = ->
     fileName = $('.assessment-domain-score').data('filename')
-    $('.assessment-score-data').DataTable
+    # url = $('#hidden_api_assessment').data('assessment-params')
+    # columns = $('#hidden_assessment_domain_headers').data('headers')
+    #csi-assessment-score, #custom-assessment-score
+    _handleAjaxRequestToAssessment("#csi-assessment-score", fileName)
+    _handleAjaxRequestToAssessment("#custom-assessment-score", fileName) if $("#custom-assessment-score")
+    $('.assessment-domain-score').on 'shown.bs.modal', (e) ->
+      $($.fn.dataTable.tables(true)).DataTable().columns.adjust()
+      return
+
+  _handleAjaxRequestToAssessment = (tableId, fileName)->
+    url = $("#{tableId} .api-assessment-path").data('assessment-params')
+    columns = $("#{tableId} .assessment-domain-headers").data('headers')
+
+    table = $(tableId).DataTable
+      autoWidth:true
       bFilter: false
       processing: true
+      serverSide: true
+      ajax: url
+      oLanguage: {
+        sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
+      }
       scrollX: true
-      order: [0, 'desc']
       columnDefs: [{ type: 'formatted-num', targets: 0 }]
-      dom: 'lBrtip',
-      buttons: [{
-                extend: 'excelHtml5'
-                filename: fileName
-                title: ''
-            }]
+      columns: columns
+      dom: 'lBrtip'
+      # buttons: [{
+      #   extend: 'excelHtml5'
+      #   filename: fileName
+      #   title: ''
+      #   exportOptions: { modifier: { page: 'all', search: 'none' } }
+      # }]
+      lengthMenu: [
+        [
+          10
+          25
+          -1
+        ]
+        [
+          10
+          25
+          'All'
+        ]
+      ]
+      buttons: [ {
+        filename: fileName
+        extend: 'excel'
+        text: '<span class="fa fa-file-excel-o"></span> Excel Export'
+        exportOptions: modifier:
+          search: 'applied'
+          order: 'applied'
+        }
+      ],
+      'drawCallback': (oSettings) ->
+        $('.dataTables_scrollHeadInner').css 'width': '100%'
+        $(tableId).css 'width': '100%'
+        return
+
+
 
   _handleShowCustomFormSelect = ->
     if $('#wizard-referral-data .referral-data-column .i-checks').is(':checked')
@@ -284,20 +332,21 @@ CIF.ClientsIndex = do ->
         $('#report-builder-wizard').steps('next')
 
   _displayChoseColumns = ->
-    clientColumns = $('section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
-    customFormColumns = $('section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
-    programStraemsColumns = $('section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
-    quantitativesColumns = $('section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    clientColumns = $('#report-builder-wizard section .client-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
+    customFormColumns = $('#report-builder-wizard section .custom-form-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    programStraemsColumns = $('#report-builder-wizard section .program-stream-column ul.columns-visibility input:checked').parents('li.visibility').find('label')
+    quantitativesColumns = $('#report-builder-wizard section .referral-data-column ul.columns-visibility input:checked').parents("li:not(.dropdown)").find('label')
     _appendChoseColumns(clientColumns, '.client-chose-columns') if clientColumns.length != 0
     _appendChoseColumns(customFormColumns, '.custom-form-chose-columns') if customFormColumns.length != 0
     _appendChoseColumns(programStraemsColumns, '.program-stream-chose-columns') if programStraemsColumns.length != 0
     _appendChoseColumns(quantitativesColumns, '.quantitative-chose-columns') if quantitativesColumns.length != 0
 
   _appendChoseColumns = (columns, className) ->
-    $("#{className} ul li").remove()
+    $("#report-builder-wizard #{className} ul li").remove()
+
     for column in columns
       columnName = $(column).text()
-      $("#{className} ul").append("<li>#{columnName}</li>")
+      $("#report-builder-wizard #{className} ul").append("<li>#{columnName}</li>")
 
   _showWizardBuilderSql = ->
     $('#show-sql').on 'click', ->

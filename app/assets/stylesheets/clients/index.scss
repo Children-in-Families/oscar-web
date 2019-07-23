@@ -312,6 +312,11 @@ body[id='clients-index'] {
       min-width: 90%;
       border-radius: 0;
       overflow:auto;
+      .dataTables_processing {
+        z-index: 999;
+        background: none;
+        border: none;
+      }
     }
 
     table.assessment-score-data {
