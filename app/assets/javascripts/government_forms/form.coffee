@@ -193,7 +193,7 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
 
       if charLength > maxLength
         $(@).css('background','#f8d7da')
-        $(countingElement).html("You have exceeded the recommended character count for this field.")
+        $(countingElement).html(" #{charLength} / #{maxLength} character(s) used. You have exceeded the recommended character count for this field.")
       else
         newText = "#{charLength} / #{maxLength} Character(s) Remaining"
         $(@).css('background','#FFFFFF ')

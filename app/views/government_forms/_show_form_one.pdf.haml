@@ -186,7 +186,7 @@
       .col-xs-2
         ប្រភពព័ត៌មាន:
       .col-xs-10
-        - if @government_form.source_info.length > 99
+        - if @government_form.source_info.length > 70
           %input{style: 'width:100%; float:left; font-size: 7px;', value: @government_form.source_info }
         - else
           %input{style: 'width:100%; float:left;', value: @government_form.source_info }
