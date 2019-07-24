@@ -186,7 +186,11 @@
       .col-xs-2
         ប្រភពព័ត៌មាន:
       .col-xs-10
-        %input{style: 'width:100%; float:left;', value: @government_form.source_info }
+        - if @government_form.source_info.length > 70
+          %input{style: 'width:100%; float:left; font-size: 7px;', value: @government_form.source_info }
+        - else
+          %input{style: 'width:100%; float:left;', value: @government_form.source_info }
+
 .panel.panel-default.panel-no-margin
   %label.panel-label{ style: 'background-color: #F2F2F2;' }
     ប្រភេទកុមារ:
@@ -290,14 +294,22 @@
       %label.panel-label{ style: 'background-color: #D8D8D8;' }
         ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ចូនកុមារមករកសេវា:
       .panel-body.border-label
-        .comment{style: 'min-height: 30px;'}
-          %p= @government_form.summary_info_of_referral
+        - if @government_form.summary_info_of_referral.length > 237
+          .comment{style: 'min-height: 30px; font-size: 9px;'}
+            %p= @government_form.summary_info_of_referral
+        - else
+          .comment{style: 'min-height: 30px;'}
+            %p= @government_form.summary_info_of_referral
     .panel.panel-default{style: 'margin:0;'}
       %label.panel-label{ style: 'background-color: #D8D8D8;' }
         យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ:
       .panel-body.border-label
-        .comment{style: 'min-height: 30px;'}
-          %p= @government_form.guardian_comment
+        - if @government_form.guardian_comment.length > 237
+          .comment{style: 'min-height: 30px; font-size: 9px;'}
+            %p= @government_form.guardian_comment
+        - else
+          .comment{style: 'min-height: 30px;'}
+            %p= @government_form.guardian_comment
   %label.panel-label{ style: 'background-color: #F2C59F;' }
     យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ:
   .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
@@ -427,7 +439,7 @@
     .row{style: 'margin: 0;'}
       .col-xs-12{style: 'border-bottom: 1px solid black;'}
         %br
-        .comment{style: 'min-height: 50px;'}
+        .comment{style: 'min-height: 50px; word-break: break-all;'}
           %p= @government_form.case_worker_comment
     .row{style: 'margin: 0;'}
       .col-xs-12
