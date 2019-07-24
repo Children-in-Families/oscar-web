@@ -13,6 +13,9 @@ class ProgramStream < ActiveRecord::Base
   has_many   :program_stream_permissions, dependent: :destroy
   has_many   :users, through: :program_stream_permissions
 
+  has_many   :program_stream_services, dependent: :destroy
+  has_many   :services, through: :program_stream_services
+
   has_paper_trail
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
@@ -23,6 +26,7 @@ class ProgramStream < ActiveRecord::Base
   validate  :presence_of_label
   validate  :form_builder_field_uniqueness
   validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
+  validates :services, presence: true
 
   before_save :set_program_completed
   after_update :auto_update_exit_program, :auto_update_enrollment

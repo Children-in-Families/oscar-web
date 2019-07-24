@@ -180,6 +180,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       onStepChanging: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
+        _scrollToError(event)
         _taskRequiredAtEnd(currentIndex)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
           return true
@@ -244,6 +245,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       newIndex = currentIndex + 1
       if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
         _filedsValidator(currentIndex, newIndex)
+        _scrollToError(form)
         return false
       else
         form.submit (e) ->
@@ -576,5 +578,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $('#end-of-assessment-msg').addClass('hidden')
     else
       $('#end-of-assessment-msg').removeClass('hidden')
+
+  _scrollToError = (element) ->
+    if $('.error').length > 0
+      $.each $('.error'), (index, item) ->
+        element = $(item).context.id
+        if element == ''
+          location.href = "#score-required"
+        else if element.includes('assessment_assessment_domains_attributes')
+          location.href = "##{element}"
+          location.href = "#required-scroll"
+        else
+          location.href = "##{element}"
 
   { init: _init }

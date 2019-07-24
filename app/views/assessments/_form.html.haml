@@ -6,12 +6,14 @@
       #rootwizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
         = f.simple_fields_for 'assessment_domains', order_assessment do |ad|
           - domain = ad.object.domain
-          %h4= domain.name
+          %h4= t("domains.domain_names.#{domain.name.downcase.reverse}")
           %div{ class: "assessment-domain-item domain-#{domain.id}" }
             .ibox
               .ibox-title
                 %h5= "#{@assessment.client.name}"
-                %label.label.label-success= "#{t('.domain')} #{domain.name}"
+                %label.label.label-success
+                  = t('.domain')
+                  = t("domains.domain_names.#{domain.name.downcase.reverse}")
                 .ibox-tools
                   = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
                     = t('.back')
@@ -19,10 +21,12 @@
                 = ad.hidden_field :domain_id
                 .well
                   = ad.object.domain.translate_description.html_safe
+                #required-scroll
                 = ad.input :reason, label: t('.reason'), placeholder: t('.reason_placeholder'), required: true, input_html: { class: 'reason' }
                 %label= t('.score_label')
                 - random = [1,2,3,4]
                 - rd = random.shuffle
+                #score-required
                 - if is_domain_definition(domain)
                   .score_option.with-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
                     .btn-option.btn.btn-block.wrap-text-style{ 'data-score': rd[0] }
@@ -50,9 +54,10 @@
                 .row
                   .col-sm-12.col-md-12
                     .form-group
-                      %p.text-danger.task_required
-                        %abbr{ title: 'required' } *
-                        = t('.at_least_one_task_required')
+                      - if @client.tasks.by_domain_id(domain).incomplete.empty?
+                        %p.text-danger.task_required
+                          %abbr{ title: 'required' } *
+                          = t('.at_least_one_task_required')
                       %div{ class: "task-arising" }
                         %label.control-label
                           = t('.tasks_arising')

@@ -50,7 +50,8 @@ module CaseNoteHelper
   end
 
   def display_case_note_attendee(case_note)
-    case_note.interaction_type.present? ? "#{I18n.t('case_notes.index.present')} #{case_note.attendee} ( #{case_note.interaction_type} )" : "#{I18n.t('case_notes.index.present')} #{case_note.attendee}"
+    type = I18n.t("case_notes.form.type_options.#{case_note.interaction_type.downcase.split(' ').join('_').gsub('3', '')}")
+    case_note.interaction_type.present? ? "#{I18n.t('case_notes.index.present')} #{case_note.attendee} ( #{type} )" : "#{I18n.t('case_notes.index.present')} #{case_note.attendee}"
   end
 
   def case_notes_readable?
@@ -62,5 +63,11 @@ module CaseNoteHelper
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
     current_user.permission.case_notes_editable
+  end
+
+  def translate_domain_name(domains)
+    domains.map do |domain|
+      [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
+    end
   end
 end

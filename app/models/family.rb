@@ -87,6 +87,10 @@ class Family < ActiveRecord::Base
     write_attribute(:name, name.try(:strip))
   end
 
+  def self.mapping_family_type_translation
+    [I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values, I18n.t('default_family_fields.family_type_list').values].transpose
+  end
+
   private
 
   def client_must_only_belong_to_a_family

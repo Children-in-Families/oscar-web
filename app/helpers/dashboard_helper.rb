@@ -162,4 +162,8 @@ module DashboardHelper
       true
     end
   end
+
+  def just_sign_in?
+    current_user.current_sign_in_at.to_time.to_i >= (Time.now - 3.second).to_i
+  end
 end

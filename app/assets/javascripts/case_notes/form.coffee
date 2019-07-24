@@ -8,6 +8,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _initSelect2()
     _initScoreTooltip()
     _initICheckBox()
+    _scrollToError()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -206,5 +207,14 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       if url.search(pattern) >= 0
         return url.replace(pattern, '$1' + paramValue + '$2')
       url + (if url.indexOf('?') > 0 then '&' else '?') + paramName + '=' + paramValue
+
+  _scrollToError = ->
+    $('#case-note-submit-btn').on 'click', (e) ->
+      if $('.case_note_meeting_date').hasClass('has-error')
+        location.href = '#case_note_meeting_date'
+      else if $('.case_note_attendee').hasClass('has-error')
+        location.href = '#case_note_attendee'
+      else if $('.case_note_interaction_type').hasClass('has-error')
+        location.href = '#s2id_case_note_interaction_type'
 
   { init: _init }

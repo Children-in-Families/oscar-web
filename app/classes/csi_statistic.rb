@@ -55,15 +55,25 @@ class CsiStatistic
     series = []
 
     default_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
+    assessment_domains = Hash.new { |h, k| h[k] = [] }
 
-    Domain.csi_domains.each do |domain|
-      assessment_by_value = []
+    assessments_by_index.each do |a_ids|
+      domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
+      domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
+      # assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    end
 
-      assessments_by_index.each do |a_ids|
-        a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
-        assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
-      end
-      series << { name: domain.name, data: assessment_by_value }
+    # Domain.csi_domains.includes(:assessment_domains).each do |domain|
+    #   assessment_by_value = []
+
+    #   assessments_by_index.each do |a_ids|
+    #     a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
+    #     assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    #   end
+    #   series << { name: domain.name, data: assessment_by_value }
+    # end
+    Domain.csi_domains.pluck(:id, :name).each do |id, name|
+      series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
     end
 
     [assessments, series]
@@ -72,12 +82,18 @@ class CsiStatistic
   def default_assessment_amount
     data = []
     return data unless @clients.any?
+
     clients = @clients.joins(:assessments).where(assessments: { default: true }).order('assessments.created_at')
-    max_count = clients.map { |a| a.assessments.defaults.size }.max.to_i
-    max_count.times do |i|
-      data << clients.map { |c| c.assessments.defaults[i].id if c.assessments.defaults[i].present? }
-    end
-    data
+    assessments_count = Client.maximum('assessments_count')
+    client = Client.find_by(assessments_count: assessments_count)
+    assessment_max_count = client.assessments.defaults.count
+    # max_count = clients.map { |a| a.assessments.defaults.size }.max.to_i
+    # clients.includes(:assessments)
+    # assessment_max_count.times do |i|
+    #   data << clients.includes(:assessments).map { |c| c.assessments.defaults[i].id if c.assessments.defaults[i].present? }
+    # end
+    # binding.pry
+    data = clients.includes(:assessments).map { |c| c.assessments.defaults.ids }
   end
 
   def fetch_custom_assessment_domain_score
@@ -88,14 +104,24 @@ class CsiStatistic
 
     custom_assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.custom_csi_domains.each do |domain|
-      assessment_by_value = []
+    assessment_domains = Hash.new { |h, k| h[k] = [] }
 
-      assessments_by_index.each do |a_ids|
-        a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
-        assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
-      end
-      series << { name: domain.name, data: assessment_by_value }
+    assessments_by_index.each do |a_ids|
+      domain_scores = AssessmentDomain.where(assessment_id: a_ids).pluck(:domain_id, :score)
+      domain_scores.each{|domain_id, score| assessment_domains[domain_id.to_s] << score }
+      # assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    end
+    # Domain.custom_csi_domains.includes(:assessment_domains).each do |domain|
+    #   assessment_by_value = []
+
+    #   assessments_by_index.each do |a_ids|
+    #     a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score).compact
+    #     assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
+    #   end
+    #   series << { name: domain.name, data: assessment_by_value }
+    # end
+    Domain.custom_csi_domains.pluck(:id, :name).each do |id, name|
+      series << { name: name, data:  assessment_domains[id.to_s].map(&:to_f) }
     end
 
     [assessments, series]
@@ -104,11 +130,13 @@ class CsiStatistic
   def custom_assessment_amount
     data = []
     return data unless @clients.any?
-    clients = @clients.joins(:assessments).where(assessments: { default: false }).order('assessments.created_at')
-    max_count = clients.map { |a| a.assessments.customs.size }.max.to_i
-    max_count.times do |i|
-      data << clients.map { |c| c.assessments.customs[i].id if c.assessments.customs[i].present? }
-    end
-    data
+    clients = @clients.includes(:assessments).where(assessments: { default: false }).order('assessments.created_at')
+    assessments_count = Client.maximum('assessments_count')
+    client = Client.find_by(assessments_count: assessments_count)
+    assessment_max_count = client.assessments.customs.count
+    # max_count.times do |i|
+    #   data << clients.map { |c| c.assessments.customs[i].id if c.assessments.customs[i].present? }
+    # end
+    data = clients.includes(:assessments).map { |c| c.assessments.customs.ids }
   end
 end
