@@ -21,7 +21,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
 
   def any_assessment_domains?(case_note)
     domains = case_note.custom? ? domain_group.domains.custom_csi_domains : domain_group.domains.csi_domains
-    domains.assessment_domains_by_assessment_id(case_note.assessment_id).any?
+    domains.assessment_domains_by_assessment_id(case_note.assessment_id).any? && Assessment.find_by(id: case_note.assessment_id).present?
   end
 
   def domains(case_note)
