@@ -217,7 +217,7 @@ module ClientGridOptions
 
     if params[:data].presence == 'recent'
       @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
-        eval(records).latest_record.try(:created_at).to_date.to_formatted_s if records.any?
+        eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
       end
     else
       @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|

@@ -92,7 +92,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.10.0)
     cancancan (1.13.1)
-    capistrano (3.11.0)
+    capistrano (3.9.0)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -721,6 +721,7 @@ DEPENDENCIES
   browser (~> 2.1)
   bullet (~> 5.4, >= 5.4.3)
   cancancan (~> 1.13, >= 1.13.1)
+  capistrano (= 3.9.0)
   capistrano-foreman
   capistrano-passenger (~> 0.1.1)
   capistrano-rails (~> 1.1.1)
