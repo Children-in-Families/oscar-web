@@ -100,7 +100,8 @@ group :development do
   gem 'capistrano-rvm',       '~> 0.1.2'
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
-  gem 'rack-mini-profiler', '~> 1.0'
+  gem 'rack-mini-profiler',   '~> 1.0'
+  gem 'brakeman',             '~> 4.6', '>= 4.6.1'
 end
 
 group :test do
