@@ -131,7 +131,10 @@
           .col-xs-3
             ទំនាក់ទំនងជាមួយកុមារ:
           .col-xs-4
-            %input{ style: 'width: 100%;', value: @government_form.primary_carer_relationship }
+            - if @government_form.primary_carer_relationship.length > 20
+              %input{ style: 'width: 100%; font-size: 7px;', value: @government_form.primary_carer_relationship }
+            - else
+              %input{ style: 'width: 100%;', value: @government_form.primary_carer_relationship }
 
         .panel.panel-default.panel-no-margin.panel-margin-top{ style: 'margin-top: 3px;' }
           %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋាន:
@@ -186,7 +189,7 @@
       .col-xs-2
         ប្រភពព័ត៌មាន:
       .col-xs-10
-        - if @government_form.source_info.length > 70
+        - if @government_form.source_info.length > 50
           %input{style: 'width:100%; float:left; font-size: 7px;', value: @government_form.source_info }
         - else
           %input{style: 'width:100%; float:left;', value: @government_form.source_info }
@@ -439,8 +442,12 @@
     .row{style: 'margin: 0;'}
       .col-xs-12{style: 'border-bottom: 1px solid black;'}
         %br
-        .comment{style: 'min-height: 50px; word-break: break-all;'}
-          %p= @government_form.case_worker_comment
+        - if @government_form.case_worker_comment.length > 356
+          .comment{style: 'min-height: 100px; max-height: 100px; font-size: 7px; word-break: break-all;'}
+            %p= @government_form.case_worker_comment
+        - else
+          .comment{style: 'min-height: 100px; max-height: 100px; word-break: break-all;'}
+            %p= @government_form.case_worker_comment
     .row{style: 'margin: 0;'}
       .col-xs-12
         %br
