@@ -46,7 +46,7 @@
             .col-xs-12
               .form-group
                 %label.control-label= t('.domain_groups')
-                = f.collection_select(:domain_group_ids, @domain_groups, :id, lambda{ |object| object.domain_name(eval(params[:custom])) }, { selected: @selected_domain_group_ids }, { multiple: true })
+                = f.collection_select(:domain_group_ids, @domain_groups, :id, lambda{ |object| object.domain_name(params[:custom]) }, { selected: @selected_domain_group_ids }, { multiple: true })
 
           .row
             .col-xs-12
