@@ -1803,6 +1803,14 @@ km:
       foster_cares_html: ករណី <br/>Foster
       kinship_cares_html: ករណី <br/>Kinship
       males: ប្រុស
+    clients:
+      clients: អតិថិជន
+    client_search:
+      not_found: មិនមានលទ្ធផលដែលអ្នកកំពុងរក
+      please_enter_more: សូមវាយបញ្ចូលអក្សរ ១ ឬច្រើន
+      search_client: ស្វែងរកអតិថិជន
+      search_for_client: ស្វែងរកអតិថិជន
+      searching: កំពុងស្វែងរក
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទដែលបាននិងកំពុងចូលរួមកម្មវិធី
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
@@ -1825,14 +1833,6 @@ km:
       kinship: Kinship
     go_to_client:
       go_to_client: ចូលទៅរកអតិថិជន
-    client_search:
-      not_found: មិនមានលទ្ធផលដែលអ្នកកំពុងរក
-      please_enter_more: សូមវាយបញ្ចូលអក្សរ ១ ឬច្រើន
-      search_client: ស្វែងរកអតិថិជន
-      search_for_client: ស្វែងរកអតិថិជន
-      searching: កំពុងស្វែងរក
-    clients:
-      clients: អតិថិជន
     multiple_forms:
       custom_forms: ទម្រង់បែបបទ
       multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា

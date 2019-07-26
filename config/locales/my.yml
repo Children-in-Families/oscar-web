@@ -1803,6 +1803,14 @@ my:
       foster_cares_html: ေမြးစား <br/> ေစာင့္ေရွာက္မႈမ်ား
       kinship_cares_html: ေဆြမ်ိဳး <br/> ေစာင့္ေရွာက္မႈမ်ား
       males: အမ်ိဳးသားမ်ား
+    clients:
+      clients: အမႈသည္မ်ား
+    client_search:
+      not_found: Not matches Found
+      please_enter_more: Please enter 1 or more characters
+      search_client: Search Client
+      search_for_client: Search for Client
+      searching: Searching
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
@@ -1825,14 +1833,6 @@ my:
       kinship: ေဆြမ်ိဳး
     go_to_client:
       go_to_client: Go to Client
-    client_search:
-      not_found: Not matches Found
-      please_enter_more: Please enter 1 or more characters
-      search_client: Search Client
-      search_for_client: Search for Client
-      searching: Searching
-    clients:
-      clients: အမႈသည္မ်ား
     multiple_forms:
       custom_forms: ပုံစံများ
       multiple_forms: ပုံစံအမျိုးမျိုး
