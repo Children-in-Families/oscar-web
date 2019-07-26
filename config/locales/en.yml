@@ -1823,6 +1823,16 @@ en:
       families: Active Families
       foster: Foster
       kinship: Kinship
+    go_to_client:
+      go_to_client: Go to Client
+    client_search:
+      not_found: Not matches Found
+      please_enter_more: Please enter 1 or more characters
+      search_client: Search Client
+      search_for_client: Search for Client
+      searching: Searching
+    clients:
+      clients: Clients
     multiple_forms:
       custom_forms: Custom Forms
       multiple_forms: Add Form to Multiple Clients

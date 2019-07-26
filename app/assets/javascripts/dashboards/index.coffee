@@ -26,6 +26,7 @@ CIF.DashboardsIndex = do ->
     _enableSaveReferralSource()
     _clickSaveReferral()
     _loadModalReminder()
+    _handleSearchClient()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -262,5 +263,42 @@ CIF.DashboardsIndex = do ->
         $("##{this.id} .program_stream_services").append "<p class='help-block'>#{$("input#blank").val()}</p>" if $("##{this.id} .program_stream_services .help-block").length == 0
         $("##{this.id} .program_stream_services").addClass('has-error')
 
+  _handleSearchClient = ->
+    $('#client-search.modal').on 'shown.bs.modal', (e) ->
+      searchForClient = $("#search_for_client_format-input").val()
+      searchingClient = $("#searching_format-input").val()
+      notFoundClient = $("#not_found_format-input").val()
+      enterCharacters = $("#please_enter_more_char_format-input").val()
+      $('#search-client-select2').select2(
+        placeholder: searchForClient
+        minimumInputLength: 1
+        formatSearching: searchingClient
+        formatNoMatches: notFoundClient
+        formatInputTooShort: enterCharacters
+        ajax:
+          url: '/api/clients/search_client'
+          dataType: 'json'
+          quietMillis: 250
+          data: (term, page) ->
+            { q: term }
+          results: (data, page) ->
+            { results: data }
+          cache: true
+        initSelection: (element, callback) ->
+            id = $(element).select2('data', null)
+            return
+        formatResult: (client) ->
+          en_full_name = "#{client.given_name} #{client.family_name}"
+          local_full_name = "#{client.local_given_name} #{client.local_family_name}"
+          markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
+
+          return markup 
+        formatSelection: (client) ->
+          win = window.open("clients/#{client.slug}", '_blank')
+          if win
+            win.focus()
+          else
+            alert 'Please allow popups for this website'
+      )
 
   { init: _init }

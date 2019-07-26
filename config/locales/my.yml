@@ -1823,6 +1823,16 @@ my:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
+    go_to_client:
+      go_to_client: Go to Client
+    client_search:
+      not_found: Not matches Found
+      please_enter_more: Please enter 1 or more characters
+      search_client: Search Client
+      search_for_client: Search for Client
+      searching: Searching
+    clients:
+      clients: အမႈသည္မ်ား
     multiple_forms:
       custom_forms: ပုံစံများ
       multiple_forms: ပုံစံအမျိုးမျိုး

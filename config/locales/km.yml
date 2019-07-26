@@ -1823,6 +1823,16 @@ km:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
+    go_to_client:
+      go_to_client: ចូលទៅរកអតិថិជន
+    client_search:
+      not_found: មិនមានលទ្ធផលដែលអ្នកកំពុងរក
+      please_enter_more: សូមវាយបញ្ចូលអក្សរ ១ ឬច្រើន
+      search_client: ស្វែងរកអតិថិជន
+      search_for_client: ស្វែងរកអតិថិជន
+      searching: កំពុងស្វែងរក
+    clients:
+      clients: អតិថិជន
     multiple_forms:
       custom_forms: ទម្រង់បែបបទ
       multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
