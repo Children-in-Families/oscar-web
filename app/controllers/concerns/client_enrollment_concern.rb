@@ -26,7 +26,10 @@ module ClientEnrollmentConcern
     column = params[:order]
     descending = params[:descending] == 'true'
     if column.present? && column != 'status'
-      ordered = program_stream_order_by_enrollment.sort_by{ |ps| ps.send(column).to_s.downcase }
+      ordered = program_stream_order_by_enrollment.sort_by do |ps|
+        value = column == 'name' ? ps.name.to_s.downcase : ps.quantity.to_s.downcase
+      end
+
       descending ? ordered.reverse : ordered
     elsif column.present? && column == 'status'
       descending ? program_stream_order_by_enrollment.reverse : program_stream_order_by_enrollment

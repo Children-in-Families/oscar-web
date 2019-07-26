@@ -401,7 +401,7 @@ module ClientsHelper
   def client_advanced_search_data(object, rule)
     @data = {}
     return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
-    @data   = eval params[:client_advanced_search][:basic_rules]
+    @data   = JSON.parse(params[:client_advanced_search][:basic_rules], symbolize_names: true)
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
@@ -466,7 +466,7 @@ module ClientsHelper
     data    = {}
     rules   = %w( case_note_date case_note_type )
     return object if params[:client_advanced_search][:basic_rules].nil?
-    data    = eval params[:client_advanced_search][:basic_rules]
+    data    = JSON.parse(params[:client_advanced_search][:basic_rules], symbolize_names: true)
 
     result1                = mapping_param_value(data, 'case_note_date')
     result2                = mapping_param_value(data, 'case_note_type')
@@ -821,7 +821,8 @@ module ClientsHelper
   end
 
   def return_default_filter(object, rule, results)
-    rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
+    all_value_text = params.permit(:all_values)[:all_values]
+    rule.split(' ').include?(all_value_text) || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
   def case_workers_option(client_id)
@@ -975,7 +976,7 @@ module ClientsHelper
 
   def get_rule(params, field)
     return unless params.dig('client_advanced_search').present? && params.dig('client_advanced_search', 'basic_rules').present?
-    base_rules = eval params.dig('client_advanced_search', 'basic_rules')
+    base_rules = JSON.parse(params.dig('client_advanced_search', 'basic_rules'), symbolize_names: true)
     rules = base_rules.dig(:rules) if base_rules.presence
 
     if rules.presence

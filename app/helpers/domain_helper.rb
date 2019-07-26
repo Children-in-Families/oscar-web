@@ -6,4 +6,8 @@ module DomainHelper
       "#{t('.domains')} : #{domain.name} (#{domain.identity})"
     end
   end
+
+  def domain_translation_description(domain)
+    domain.translate_description
+  end
 end

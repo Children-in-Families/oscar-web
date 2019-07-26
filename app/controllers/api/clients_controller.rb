@@ -59,7 +59,7 @@ module Api
 
     def fetch_assessments
       # .select("assessments.id, clients.assessments_count as count, clients.id as client_id, clients.slug as client_slug, assessments.created_at as date")
-      assessments = Assessment.joins(:client).where(assessments: { default: params[:default] }, client_id: params[:client_ids].split('/'))
+      assessments = Assessment.joins(:client).where(assessments: { default: params[:default] }, client_id: ["client_id = ?", params[:client_ids].split('/')])
       assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments

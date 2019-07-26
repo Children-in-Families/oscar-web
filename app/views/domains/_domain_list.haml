@@ -19,7 +19,7 @@
             = fa_icon('pencil')
           = remove_link(domain, {domain_task: domain.tasks.count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
   .panel-body
-    %p= domain.translate_description.html_safe
+    %p= domain_translation_description(domain)
   .penel-footer
     .btn-option.btn-sm.btn.btn-block{ class: "btn-#{domain.score_1_color}" }
       = score_definition(domain.translate_score_1_definition, 1)
