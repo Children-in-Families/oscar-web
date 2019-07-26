@@ -232,10 +232,6 @@ class Client < ActiveRecord::Base
     "#{given_name} #{family_name} (#{id})"
   end
 
-  def latin_and_km_name_with_id
-    "#{given_name} #{family_name} | #{local_given_name} #{local_family_name} (#{id})"
-  end
-
   def next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.defaults.empty?
     return nil if user_activated_date.present? && assessments.defaults.latest_record.created_at < user_activated_date
