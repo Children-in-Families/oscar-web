@@ -9,7 +9,7 @@ class MultipleForm::ClientCustomFieldsController < AdminController
 
   def create
     @custom_field = CustomField.find(params[:custom_field_id])
-    record_type = eval("#{@custom_field.entity_type}")
+    record_type = @custom_field.entity_type.constantize
     records = record_type.where(id: params['custom_field_property']['selected_records'])
 
     records.each do |record|
@@ -53,7 +53,7 @@ class MultipleForm::ClientCustomFieldsController < AdminController
     if type == 'Client'
       Client.accessible_by(current_ability).active_accepted_status
     else
-      eval("#{type}").accessible_by(current_ability)
+      type.constantize.accessible_by(current_ability)
     end
   end
 end
