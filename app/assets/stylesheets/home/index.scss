@@ -1,5 +1,5 @@
 #home-index {
-  .widget-tasks-panel {
+  .widget-tasks-panel, .widget-go-client-panel {
     min-height: 98px;
     cursor: pointer;
   }
@@ -53,7 +53,7 @@
     }
   }
 
-  .client-panel, .family-panel, .program-stream-panel, .tasks-panel {
+  .client-panel, .family-panel, .program-stream-panel, .tasks-panel, .go-client-panel {
     .top-bar {
       margin-bottom: 15px;
     }
@@ -68,7 +68,8 @@
     .widget-family-panel,
     .widget-client-panel,
     .widget-tasks-panel,
-    .widget-program-panel {
+    .widget-program-panel,
+    .widget-go-client-panel {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       margin-bottom: 0;
@@ -123,7 +124,7 @@
     }
   }
   .text-font{
-    font-size: 1.5em
+    font-size: 1.5em;
   }
   .bottom-panel {
     h1 {

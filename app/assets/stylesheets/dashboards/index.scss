@@ -139,7 +139,7 @@ body[id='dashboards-index'] {
         display: flex;
         align-items: center;
         justify-content: center;
-      }
+    }
 
     .modal-content {
       height: 80%;
@@ -151,6 +151,13 @@ body[id='dashboards-index'] {
       .modal-body .tab-content {
         height: 70vh;
       }
+    }
+  }
+  
+  #search-client{
+    .heading-label {
+      background-color: #186e6d;
+      color: #fff;
     }
   }
 }
