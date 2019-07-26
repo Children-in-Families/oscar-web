@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190627075723) do
+ActiveRecord::Schema.define(version: 20190726070312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -695,9 +695,9 @@ ActiveRecord::Schema.define(version: 20190627075723) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
-    t.text     "goal",               default: ""
-    t.text     "action",             default: ""
-    t.text     "who",                default: ""
+    t.string   "goal",               default: ""
+    t.string   "action",             default: ""
+    t.string   "who",                default: ""
     t.integer  "government_form_id"
     t.integer  "children_plan_id"
     t.datetime "created_at",                      null: false
@@ -711,9 +711,9 @@ ActiveRecord::Schema.define(version: 20190627075723) do
   add_index "government_form_children_plans", ["government_form_id"], name: "index_government_form_children_plans_on_government_form_id", using: :btree
 
   create_table "government_form_family_plans", force: :cascade do |t|
-    t.text     "goal",               default: ""
-    t.text     "action",             default: ""
-    t.text     "result",             default: ""
+    t.string   "goal",               default: ""
+    t.string   "action",             default: ""
+    t.string   "result",             default: ""
     t.integer  "government_form_id"
     t.integer  "family_plan_id"
     t.datetime "created_at",                      null: false
@@ -781,10 +781,10 @@ ActiveRecord::Schema.define(version: 20190627075723) do
     t.string   "primary_carer_street",       default: ""
     t.integer  "primary_carer_district_id"
     t.integer  "primary_carer_province_id"
-    t.text     "source_info",                default: ""
-    t.text     "summary_info_of_referral",   default: ""
-    t.text     "guardian_comment",           default: ""
-    t.text     "case_worker_comment",        default: ""
+    t.string   "source_info",                default: ""
+    t.string   "summary_info_of_referral",   default: ""
+    t.string   "guardian_comment",           default: ""
+    t.string   "case_worker_comment",        default: ""
     t.string   "other_interviewee",          default: ""
     t.string   "other_client_type",          default: ""
     t.string   "other_need",                 default: ""
@@ -1208,6 +1208,10 @@ ActiveRecord::Schema.define(version: 20190627075723) do
     t.integer  "custom_age",                  default: 18
     t.string   "default_assessment",          default: "CSI Assessment"
     t.boolean  "sharing_data",                default: false
+    t.string   "custom_id1_latin",            default: ""
+    t.string   "custom_id1_local",            default: ""
+    t.string   "custom_id2_latin",            default: ""
+    t.string   "custom_id2_local",            default: ""
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
