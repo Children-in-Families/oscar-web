@@ -20,8 +20,10 @@ module CfiInitialReferralDate
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         id = workbook.row(row)[headers['ID']]
         date = workbook.row(row)[headers['Initial Referral Date']]
+        date = date.present? ? date : '2001-01-01'
         client = Client.find_by(slug: id.squish)
-        client.update(initial_referral_date: date)
+        client.initial_referral_date = date
+        client.save(validate: false)
 
         puts "#{client.id} - #{client.initial_referral_date}"
       end
