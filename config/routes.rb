@@ -381,6 +381,7 @@ Rails.application.routes.draw do
     collection do
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
+      get 'custom_labels' => 'settings#custom_labels'
     end
   end
 

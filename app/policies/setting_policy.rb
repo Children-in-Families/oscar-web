@@ -8,6 +8,11 @@ class SettingPolicy < ApplicationPolicy
     user.admin? && Setting.first.country_name == 'cambodia' && !current_org.demo? && !current_org.cccu?
   end
 
+  def custom_labels?
+    current_org = Organization.current
+    user.admin?
+  end
+
   alias new? index?
   alias create? index?
   alias edit? index?

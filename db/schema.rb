@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190726081937) do
+ActiveRecord::Schema.define(version: 20190729072304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -450,6 +450,7 @@ ActiveRecord::Schema.define(version: 20190726081937) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
+    t.string   "families",                         default: [],                      array: true
     t.string   "archived_slug"
     t.integer  "default_assessments_count",        default: 0,          null: false
     t.integer  "custom_assessments_count",         default: 0,          null: false
@@ -1211,6 +1212,10 @@ ActiveRecord::Schema.define(version: 20190726081937) do
     t.integer  "custom_age",                  default: 18
     t.string   "default_assessment",          default: "CSI Assessment"
     t.boolean  "sharing_data",                default: false
+    t.string   "custom_id1_latin",            default: ""
+    t.string   "custom_id1_local",            default: ""
+    t.string   "custom_id2_latin",            default: ""
+    t.string   "custom_id2_local",            default: ""
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1577,9 +1582,9 @@ ActiveRecord::Schema.define(version: 20190726081937) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
-    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
