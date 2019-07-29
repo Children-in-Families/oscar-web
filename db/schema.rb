@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190729072304) do
+ActiveRecord::Schema.define(version: 20190726081937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -450,7 +450,6 @@ ActiveRecord::Schema.define(version: 20190729072304) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
-    t.string   "families",                         default: [],                      array: true
     t.string   "archived_slug"
     t.integer  "default_assessments_count",        default: 0,          null: false
     t.integer  "custom_assessments_count",         default: 0,          null: false
