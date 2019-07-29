@@ -696,11 +696,20 @@ module ClientsHelper
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i].present?
-            data_filter = date_filter(client.assessments.defaults, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              binding.pry
+              data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+            else
+              assessment_count = client.default_assessments_count
+            end
+            count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(date_of_custom_assessments)/i].present?
-            data_filter = date_filter(client.assessments.customs, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              data_filter = date_filter(client.assessments.customs, "#{class_name}")
+            else
+              assessment_count = client.custom_assessments_count
+            end
+            count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(formbuilder)/i].present?
             fields = column.name.to_s.gsub('&qoute;', '"').split('__')
             format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')

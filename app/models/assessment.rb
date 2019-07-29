@@ -1,5 +1,6 @@
 class Assessment < ActiveRecord::Base
   belongs_to :client, counter_cache: true
+  counter_culture :client, column_name: proc { |model| model.default? ? 'default_assessments_count' : 'custom_assessments_count' }
 
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
