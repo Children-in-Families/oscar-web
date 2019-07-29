@@ -697,7 +697,6 @@ module ClientsHelper
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i].present?
             if params['all_values'] == class_name
-              binding.pry
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
             else
               assessment_count = client.default_assessments_count
