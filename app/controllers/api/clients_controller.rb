@@ -1,5 +1,9 @@
 module Api
   class ClientsController < Api::ApplicationController
+    def search_client
+      clients = Client.all.where("given_name ILIKE ? OR family_name ILIKE ? OR local_given_name ILIKE ? OR local_family_name ILIKE ? OR slug ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%").select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
+      render json: clients, serializer: false
+    end
 
     def compare
       render json: find_client_in_organization

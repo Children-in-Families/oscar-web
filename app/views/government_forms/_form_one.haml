@@ -38,7 +38,8 @@
           %label.string.optional.control-label{ for: ''}= 'ឈ្មោះ'
           %input.string.optional.form-control.readonly{ name: '', type: 'text', value: @client.live_with, readonly: 'readonly' }
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_relationship, label: 'ទំនាក់ទំនងជាមួយកុមារ'
+        = f.input :primary_carer_relationship, label: 'ទំនាក់ទំនងជាមួយកុមារ', input_html: { class: 'characterCount', data: {count: 20} }
+        %span.countup= "#{f.object.primary_carer_relationship.length} / 20 Character(s) Remaining"
       .col-xs-12.col-sm-4
         = f.input :primary_carer_province_id, as: :select, collection: @provinces, label: 'ខេត្ត/រាជធានី', input_html: { data: { type: 'provinces', 'subaddress' => 'primaryCarerDistrict' } }
       .col-xs-12.col-sm-4
@@ -55,8 +56,8 @@
         %hr
         %h3= 'ប្រភពព័ត៌មាន'
       .col-xs-12
-        = f.input :source_info, label: false, input_html: { class: 'characterCount', data: {count: 70} }
-        %span.countup= "#{f.object.source_info.length} / 70 Character(s) Remaining"
+        = f.input :source_info, label: false, input_html: { class: 'characterCount', data: {count: 50} }
+        %span.countup= "#{f.object.source_info.length} / 50 Character(s) Remaining"
       .col-xs-12
         %hr
         %h3= 'ប្រភេទកុមារ'
