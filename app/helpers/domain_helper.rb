@@ -8,6 +8,6 @@ module DomainHelper
   end
 
   def domain_translation_description(domain)
-    domain.translate_description
+    domain.translate_description.html_safe
   end
 end
