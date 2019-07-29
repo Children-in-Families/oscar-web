@@ -16,7 +16,7 @@ module Api
     end
 
     def assessments
-      @assessments_count ||= Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/')).count
+      @assessments_count ||= client_assessments.count
       render json: { recordsTotal:  @assessments_count, recordsFiltered: @assessments_count, data: data }
     end
 
@@ -54,15 +54,18 @@ module Api
     end
 
     def assessment_data
-      @assessments ||= fetch_assessments
+      @assessments_data ||= fetch_assessments
     end
 
     def fetch_assessments
       # .select("assessments.id, clients.assessments_count as count, clients.id as client_id, clients.slug as client_slug, assessments.created_at as date")
-      assessments = Assessment.joins(:client).where(default: params[:default], client_id: params[:client_ids].split('/'))
-      assessments = assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
+      assessments = client_assessments.includes(:assessment_domains).order("#{sort_column} #{sort_direction}").references(:assessment_domains, :client)
 
       assessment_data = params[:length] != '-1' ? assessments.page(page).per(per_page) : assessments
+    end
+
+    def client_assessments
+      @assessments ||= Assessment.joins(:client).where("assessments.default = ? AND assessments.client_id IN (?)", params[:default], $client_ids)
     end
 
     def domains

@@ -3,7 +3,7 @@ class ClientGrid < BaseGrid
   include ClientsHelper
   include ApplicationHelper
 
-  attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data, :assessment_field
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
@@ -25,7 +25,16 @@ class ClientGrid < BaseGrid
     # associations.delete(:user)
 
     # Client.includes(associations).order('clients.status, clients.given_name')
-    Client.all
+
+    if column_names.any?{ |name| name =~ /assessment/i }
+      Client.includes(:assessments, :province)
+    else
+      Client.all
+    end
+  end
+
+  def assessment_field_exist?
+    assessment_field
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|

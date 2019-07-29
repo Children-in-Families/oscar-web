@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'rails',                  '4.2.2'
+gem 'rails',                  '4.2.7.1'
 gem 'pg'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'sass-rails',             '~> 5.0'
+gem 'autoprefixer-rails',     '~> 7.2', '7.2.6'
+gem 'sass-rails',             '~> 5.0', '5.0.7'
 gem 'uglifier',               '>= 1.3.0'
 gem 'coffee-rails',           '~> 4.1.0'
 gem 'jbuilder',               '~> 2.0'
@@ -68,6 +69,7 @@ gem 'dotiw',                  '~> 4.0.1'
 gem 'text',                   '~> 1.3', '>= 1.3.1'
 gem 'paranoia',               '~> 2.4', '>= 2.4.1'
 gem 'ancestry',               '~> 3.0', '>= 3.0.5'
+gem 'counter_culture',        '~> 2.2', '>= 2.2.3'
 
 group :development, :test do
   gem 'pry'
@@ -101,7 +103,8 @@ group :development do
   gem 'capistrano-rvm',       '~> 0.1.2'
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
-  gem 'rack-mini-profiler', '~> 1.0'
+  gem 'rack-mini-profiler',   '~> 1.0'
+  gem 'brakeman',             '~> 4.6', '>= 4.6.1'
 end
 
 group :test do

@@ -24,7 +24,7 @@ class CsiStatistic
 
     assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.includes(:assessment_domains).each do |domain|
+    Domain.all.each do |domain|
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|
