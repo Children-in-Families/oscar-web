@@ -12,9 +12,9 @@
         -#   = link_to current_url(format: 'xls', type: 'custom_assessment'), class: 'btn btn-primary btn-export pull-right custom-assessment-score' do
         -#     %i.fa.fa-download
         -#     = t('.export_to_xls')
-        - domain_ids = []
+        - $client_ids = @clients.ids.uniq
         %table.table.table-bordered.table-striped.table-hover.assessment-score-data#custom-assessment-score
-          = hidden_field(:hidden, :custom_api_assessment, class: 'api-assessment-path', data: { 'assessment-params': assessments_api_clients_path(client_ids: @clients.ids.to_param, default: false) })
+          = hidden_field(:hidden, :custom_api_assessment, class: 'api-assessment-path', data: { 'assessment-params': assessments_api_clients_path(default: false) })
           = hidden_field(:hidden, :custom_assessment_domain_headers, class: 'assessment-domain-headers', data: { headers: assess_header_mapping(false).to_json } )
       .modal-footer
         %button.btn.btn-default.form-btn{"data-dismiss" => "modal", :type => "button"}= t('.close')
