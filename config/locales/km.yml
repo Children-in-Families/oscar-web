@@ -1805,16 +1805,16 @@ km:
     active_tasks_side:
       active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
     assessment_tab:
-      assessment: ការប៉ាន់ប្រម៉ាណ
-      assessment_you_like: តើការប៉ាន់ប្រម៉ាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន)
-      client_you_like: តើអតិថិជនណាដែលអ្នកចង់បំពេញការប៉ាន់ប្រម៉ាណ?
-      csi_assessment: ការប៉ាន់ប្រម៉ាណ CSI
-      custom_assessment: ការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន
+      assessment: ការប៉ាន់ប្រមាណ
+      assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
+      client_you_like: តើអតិថិជនណាដែលអ្នកចង់បំពេញការប៉ាន់ប្រមាណ?
+      csi_assessment: ការប៉ាន់ប្រមាណ CSI
+      custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
     case_note_tab:
       case_note: កំណត់ត្រាករណី
-      case_note_you_add: តើកំណត់ត្រាករណីនេះប្រើជាមួយការប៉ាន់ប្រម៉ាណណា?(CSI​ ឬការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន)
-      csi_assessment: ការប៉ាន់ប្រម៉ាណ CSI
-      custom_assessment: ការប៉ាន់ប្រម៉ាណផ្ទាល់ខ្លួន
+      case_note_you_add: តើកំណត់ត្រាករណីនេះប្រើជាមួយការប៉ាន់ប្រមាណណា?(CSI​ ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
+      csi_assessment: ការប៉ាន់ប្រមាណ CSI
+      custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញកំណត់ត្រាករណី?
     client:
       ables: Ables
@@ -1867,7 +1867,7 @@ km:
       go_to_client: ចូលទៅរកអតិថិជន
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
-      assessment: ការប៉ាន់ប្រម៉ាណ
+      assessment: ការប៉ាន់ប្រមាណ
       case_note: កំណត់ត្រាករណី
       client: អតិថិជន
       custom_forms: ទម្រង់បែបបទ
@@ -1876,7 +1876,7 @@ km:
       kind_of_document: តើឯកសារប្រភេទណាដែលអ្នកចង់បន្ថែម?
       multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
       partners: ដៃគូ
-      program_enrollment: បញ្ជូលក្នុងកម្មវិធី
+      program_enrollment: បញ្ចូលក្នុងកម្មវិធី
       record: កត់ត្រា
       tracking_forms: ទម្រង់តាមដាន
       user: អ្នក​ប្រើ
