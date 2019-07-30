@@ -116,7 +116,7 @@ class Client < ActiveRecord::Base
     Organization.switch_to 'shared'
     skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
     if skip_orgs_percentage.any?
-      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
+      shared_clients       = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
     else
       shared_clients       = SharedClient.all.pluck(:duplicate_checker)
     end
@@ -348,8 +348,15 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    return if slug.present?
-    paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    if archived_slug.present?
+      if slug.in? Client.pluck(:slug)
+        random_char = slug.split('-')[0]
+        paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
+      end
+    else
+      random_char = ('a'..'z').to_a.sample(3).join()
+      paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    end
   end
 
   def time_in_care
@@ -527,7 +534,7 @@ class Client < ActiveRecord::Base
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
     client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin)
     suburb = self.suburb
     state_name = self.state_name
 
@@ -544,7 +551,7 @@ class Client < ActiveRecord::Base
     client_birth_province = Province.find_by(id: self.birth_province_id).try(&:name)
 
     client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{self.try(&:district_name)} & #{self.try(&:province_name)} & #{client_birth_province} & #{self.try(&:date_of_birth)}"
-    shared_client = SharedClient.find_by(slug: client['slug'])
+    shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
   end
@@ -581,8 +588,27 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = Referral.find_by(slug: slug, saved: false)
+    referral = Referral.find_by(slug: archived_slug, saved: false)
     referral.update_attributes(client_id: id, saved: true) if referral.present?
+  end
+
+  def create_or_update_shared_client
+    current_org = Organization.current
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin)
+    suburb = self.suburb
+    state_name = self.state_name
+
+    Organization.switch_to 'shared'
+    if suburb.present?
+      province = Province.find_or_create_by(name: suburb, country: 'lesotho')
+      client['birth_province_id'] = province.id
+    elsif state_name.present?
+      province = Province.find_or_create_by(name: state_name, country: 'myanmar')
+      client['birth_province_id'] = province.id
+    end
+    shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
+    shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
+    Organization.switch_to current_org.short_name
   end
 
   def set_country_origin
