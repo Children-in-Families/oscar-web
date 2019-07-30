@@ -4,9 +4,12 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
 
+  acts_as_paranoid
+
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
-  GENDER_OPTIONS = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Prefer not to say', 'prefer not to say']]
+
+  GENDER_OPTIONS = ['male', 'female', 'other', 'prefer not to say']
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -151,34 +154,71 @@ class User < ActiveRecord::Base
     due_today = []
     customized_overdue   = []
     customized_due_today = []
-    clients.active_accepted_status.each do |client|
-      next if !client.eligible_default_csi? && !client.eligible_custom_csi?
-      if setting.enable_default_assessment? && setting.enable_custom_assessment?
-        client_next_asseement_date = client.next_assessment_date.to_date
-        client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
-        if client_next_asseement_date < Date.today
-          overdue << client
-        elsif client_next_asseement_date == Date.today
-          due_today << client
+
+    if self.deactivated_at.nil?
+      clients.active_accepted_status.each do |client|
+        next if !client.eligible_default_csi? && !client.eligible_custom_csi?
+        if setting.enable_default_assessment? && setting.enable_custom_assessment?
+          client_next_asseement_date = client.next_assessment_date.to_date
+          client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
+          if client_next_asseement_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date == Date.today
+            due_today << client
+          end
+          if client_custom_next_assessment_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date == Date.today
+            customized_due_today << client
+          end
+        elsif setting.enable_default_assessment?
+          client_next_asseement_date = client.next_assessment_date.to_date
+          if client_next_asseement_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date == Date.today
+            due_today << client
+          end
+        elsif setting.enable_custom_assessment?
+          client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
+          if client_custom_next_assessment_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date == Date.today
+            customized_due_today << client
+          end
         end
-        if client_custom_next_assessment_date < Date.today
-          customized_overdue << client
-        elsif client_custom_next_assessment_date == Date.today
-          customized_due_today << client
-        end
-      elsif setting.enable_default_assessment?
-        client_next_asseement_date = client.next_assessment_date.to_date
-        if client_next_asseement_date < Date.today
-          overdue << client
-        elsif client_next_asseement_date == Date.today
-          due_today << client
-        end
-      elsif setting.enable_custom_assessment?
-        client_custom_next_assessment_date = client.custom_next_assessment_date.to_date
-        if client_custom_next_assessment_date < Date.today
-          customized_overdue << client
-        elsif client_custom_next_assessment_date == Date.today
-          customized_due_today << client
+      end
+    else
+      clients.active_accepted_status.each do |client|
+        next if !client.eligible_default_csi? && !client.eligible_custom_csi?
+        if setting.enable_default_assessment? && setting.enable_custom_assessment?
+          client_next_asseement_date = client.next_assessment_date(self.activated_at)
+          client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at)
+          if client_next_asseement_date.present? && client_next_asseement_date.to_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date.present? && client_next_asseement_date.to_date == Date.today
+            due_today << client
+          end
+          if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
+            customized_due_today << client
+          end
+        elsif setting.enable_default_assessment?
+          client_next_asseement_date = client.next_assessment_date(self.activated_at)
+          next if client_next_asseement_date.nil?
+          if client_next_asseement_date.to_date < Date.today
+            overdue << client
+          elsif client_next_asseement_date.to_date == Date.today
+            due_today << client
+          end
+        elsif setting.enable_custom_assessment?
+          client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at)
+          next if client_custom_next_assessment_date.nil?
+          if client_custom_next_assessment_date.to_date < Date.today
+            customized_overdue << client
+          elsif client_custom_next_assessment_date.to_date == Date.today
+            customized_due_today << client
+          end
         end
       end
     end
@@ -217,20 +257,39 @@ class User < ActiveRecord::Base
   end
 
   def client_forms_overdue_or_due_today
-    overdue_and_due_today_forms(clients.active_accepted_status)
+    if self.deactivated_at.present?
+      active_accepted_clients = clients.where(created_at > self.activated_at).active_accepted_status
+    else
+      active_accepted_clients = clients.active_accepted_status
+    end
+    overdue_and_due_today_forms(active_accepted_clients)
   end
 
   def case_note_overdue_and_due_today
     overdue   = []
     due_today = []
-    clients.active_accepted_status.each do |client|
-      client_next_case_note_date = client.next_case_note_date.to_date
-      if client_next_case_note_date < Date.today
-        overdue << client
-      elsif client_next_case_note_date == Date.today
-        due_today << client
+
+    if self.deactivated_at.nil?
+      clients.active_accepted_status.each do |client|
+        client_next_case_note_date = client.next_case_note_date.to_date
+        if client_next_case_note_date < Date.today
+          overdue << client
+        elsif client_next_case_note_date == Date.today
+          due_today << client
+        end
+      end
+    else
+      clients.active_accepted_status.each do |client|
+        client_next_case_note_date = client.next_case_note_date(self.activated_at)
+        next if client_next_case_note_date.nil?
+        if client_next_case_note_date.to_date < Date.today
+          overdue << client
+        elsif client_next_case_note_date.to_date == Date.today
+          due_today << client
+        end
       end
     end
+
     { client_overdue: overdue, client_due_today: due_today }
   end
 
@@ -243,7 +302,7 @@ class User < ActiveRecord::Base
   end
 
   def detach_manager
-    if roles.in?(['strategic overviewe', 'admin'])
+    if roles.in?(['strategic overviewer', 'admin'])
       User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
     end
   end
@@ -255,20 +314,20 @@ class User < ActiveRecord::Base
       return if manager_id_was == self.id
       update_manager_ids(self)
     else
-      manager_ids = User.find(self.manager_id).manager_ids
-      update_manager_ids(self, manager_ids.unshift(self.manager_id).compact.uniq)
+      the_manager_ids = User.find(self.manager_id).manager_ids
+      update_manager_ids(self, the_manager_ids.push(self.manager_id).flatten.compact.uniq)
     end
   end
 
-  def update_manager_ids(user, manager_ids = [])
-    user.manager_ids = manager_ids
+  def update_manager_ids(user, the_manager_ids = [])
+    user.manager_ids = the_manager_ids
     user.save unless user.id == id
     return if user.case_worker?
     case_workers = User.where(manager_id: user.id)
     if case_workers.present?
       case_workers.each do |case_worker|
         next if case_worker.id == self.id
-        update_manager_ids(case_worker, manager_ids.unshift(user.id).compact.uniq)
+        update_manager_ids(case_worker, the_manager_ids.push(user.id).flatten.compact.uniq)
       end
     end
   end

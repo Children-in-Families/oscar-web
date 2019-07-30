@@ -26,14 +26,18 @@ describe 'Referral Sources' do
   end
   feature 'Create', js: true do
     let!(:another_referral_source) { create(:referral_source, name: 'Another Referral Source') }
+    let!(:referral_cat) { create(:referral_source, name: 'នគរបាល')}
     before do
       visit referral_sources_path
     end
-    scenario 'valid' do
+    scenario 'valid',  js: true do
       click_link('Add New Referral Source')
-      within('#new_referral_source') do
+      within('#referral_sourceModal-') do
         fill_in 'Name', with: 'Test'
-        click_button 'Save'
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        fill_in 'Name', with: 'Test'
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        page.find("input[type='submit'][value='Save']").click
       end
       wait_for_ajax
       expect(page).to have_content('Test')
@@ -42,13 +46,19 @@ describe 'Referral Sources' do
       click_link('Add New Referral Source')
       within('#new_referral_source') do
         fill_in 'Name', with: 'Another Referral Source'
-        click_button 'Save'
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        fill_in 'Name', with: 'Another Referral Source'
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        page.find("input[type='submit'][value='Save']").click
       end
       wait_for_ajax
       expect(page).to have_content('Another Referral Source', count: 1)
     end
   end
   feature 'Edit', js: true do
+    let!(:another_referral_source) { create(:referral_source, name: 'Another Referral Source') }
+    let!(:referral_cat) { create(:referral_source, name: 'នគរបាល', ancestry: another_referral_source.id)}
+
     before do
       visit referral_sources_path
     end
@@ -56,7 +66,10 @@ describe 'Referral Sources' do
       find("a[data-target='#referral_sourceModal-#{referral_source.id}']").click
       within("#referral_sourceModal-#{referral_source.id}") do
         fill_in 'Name', with: 'testing'
-        click_button 'Save'
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        fill_in 'Name', with: 'testing'
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        page.find("input[type='submit'][value='Save']").click
       end
       wait_for_ajax
       expect(page).to have_content('testing')
@@ -65,14 +78,13 @@ describe 'Referral Sources' do
       find("a[data-target='#referral_sourceModal-#{referral_source.id}']").click
       within("#referral_sourceModal-#{referral_source.id}") do
         fill_in 'Name', with: ''
-        click_button 'Save'
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        fill_in 'Name', with: ''
+        find(".referral_source_ancestry select option[value='#{referral_cat.id}']", visible: false).select_option
+        page.find("input[type='submit'][value='Save']").click
       end
       wait_for_ajax
       expect(page).to have_content(referral_source.name)
-    end
-
-    scenario 'cannot be updated' do
-      expect(page).to have_css("a[class='btn btn-outline btn-success btn-xs disabled'][data-target='#referral_sourceModal-#{referral_source_1.id}']")
     end
   end
   feature 'Delete' do
@@ -83,9 +95,6 @@ describe 'Referral Sources' do
       find("a[href='#{referral_source_path(referral_source)}'][data-method='delete']").click
       wait_for_ajax
       expect(page).not_to have_content(referral_source.name)
-    end
-    scenario 'disable delete' do
-      expect(page).to have_css("a[href='#{referral_source_path(referral_source_1)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

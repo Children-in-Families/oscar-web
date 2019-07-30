@@ -2,7 +2,7 @@ module AdvancedSearchHelper
   include ClientsHelper
 
   def custom_form_values(report_builder = '#builder')
-    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && report_builder == advanced_search_params[:action_report_builder]
+    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present? && (advanced_search_params[:action_report_builder].present? ? report_builder == advanced_search_params[:action_report_builder] : true)
     has_custom_form_selected ? eval(advanced_search_params[:custom_form_selected]) : []
   end
 
@@ -139,7 +139,8 @@ module AdvancedSearchHelper
       time_in_care: I18n.t('advanced_search.fields.time_in_care'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number'),
       month_number: I18n.t('advanced_search.fields.month_number'),
-      custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group')
+      custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
+      referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id')
     }
     translations[key.to_sym] || ''
   end
@@ -196,10 +197,15 @@ module AdvancedSearchHelper
   end
 
   def save_search_params(search_params)
-    json_rules = JSON.parse(search_params[:client_advanced_search][:basic_rules])
-    rules = format_rule(json_rules)
-    search_params[:client_advanced_search][:basic_rules] = rules.to_json
-    report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
-    search_params.deep_merge!(report_builder)
+    if search_params.dig(:client_advanced_search, :basic_rules).nil?
+      report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
+      search_params.deep_merge!(report_builder)
+    else
+      json_rules = JSON.parse(search_params[:client_advanced_search][:basic_rules])
+      rules = format_rule(json_rules)
+      search_params[:client_advanced_search][:basic_rules] = rules.to_json
+      report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
+      search_params.deep_merge!(report_builder)
+    end
   end
 end

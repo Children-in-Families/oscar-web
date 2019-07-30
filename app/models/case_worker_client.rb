@@ -1,6 +1,6 @@
 class CaseWorkerClient < ActiveRecord::Base
-  belongs_to :client
-  belongs_to :user
-
   has_paper_trail
+
+  belongs_to :user
+  belongs_to :client
 end

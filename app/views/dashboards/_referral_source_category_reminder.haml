@@ -1,0 +1,26 @@
+.modal.fade#referral-source-category-reminder.referral-modal{ "aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1", data: {backdrop: 'static', keyboard: 'false'} }
+  .modal-dialog.modal-lg.referral-source-category-dialog{:style => 'overflow-y: scroll; max-height:85%; margin-top: 100px; margin-bottom: 50px;'}
+    .modal-content
+      .modal-header
+        %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
+        %h4.modal-title= t('.referral_source_reminder')
+      .modal-body.referral-body
+        %section.client-section
+          - @referral_sources.each do |referral_source|
+            = simple_form_for referral_source, :remote => true do |f|
+              = error_notification(f)
+              .form-inputs
+                .col-xs-12
+                  .col-xs-5
+                    = f.input :name, label: t('.name')
+                  .col-xs-5
+                    %label
+                      %abbr{ title: 'required' } *
+                      = t('.ancestry')
+                    = f.input :ancestry, collection: referral_source_name(ReferralSource.parent_categories), label: false, input_html: { class: "#{referral_source.id}" }
+                  .col-xs-2
+                    = f.submit t('save'), class: "btn btn-primary form-btn save-#{referral_source.id} save-referral-btn", disabled: :disabled, data: { disable_with: "#{t('save')}..." }
+                    = image_tag 'success.png', class: "save-success hide save-success#{referral_source.id}"
+      .modal-footer
+        .pull-right
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.remind_later')

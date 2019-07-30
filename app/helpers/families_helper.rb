@@ -119,7 +119,7 @@ module FamiliesHelper
     current_address << "#{I18n.t('datagrid.columns.families.house')} #{object.house}" if object.house.present?
     current_address << "#{I18n.t('datagrid.columns.families.street')} #{object.street}" if object.street.present?
 
-    if locale == :km
+    if I18n.locale.to_s == 'km'
       current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_kh}" if object.village.present?
       current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_kh}" if object.commune.present?
       current_address << object.district_name.split(' / ').first if object.district.present?

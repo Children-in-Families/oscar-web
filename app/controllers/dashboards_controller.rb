@@ -3,8 +3,19 @@ class DashboardsController < AdminController
 
   def index
     @setting = Setting.first
+    @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil })
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
     @clients = Client.accessible_by(current_ability).active_accepted_status
+    @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
+  end
+
+  def update_program_stream_service
+    programs = params.require(:program_streams)
+    programs.each do |program|
+      program_stream = ProgramStream.find(program.first)
+      next if program.last["service_ids"].nil?
+      program_stream.update(service_ids: program.last["service_ids"].uniq)
+    end
   end
 
   private
@@ -34,7 +45,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    @user.clients.active_accepted_status.includes(:tasks, :custom_field_properties, :client_enrollments).each do |client|
+    @user.clients.active_accepted_status.each do |client|
       overdue_tasks = []
       today_tasks = []
       upcoming_tasks = []
@@ -44,7 +55,11 @@ class DashboardsController < AdminController
       overdue_forms = []
       today_forms = []
       upcoming_forms = []
-      if @task_params
+      if @task_params && @user.activated_at.present?
+        overdue_tasks << client.tasks.where('tasks.created_at > ?', @user.activated_at).incomplete.exclude_exited_ngo_clients.of_user(@user).overdue_incomplete
+        today_tasks << client.tasks.where('tasks.created_at > ?', @user.activated_at).incomplete.exclude_exited_ngo_clients.of_user(@user).today_incomplete
+        upcoming_tasks << client.tasks.where('tasks.created_at > ?', @user.activated_at).incomplete.exclude_exited_ngo_clients.of_user(@user).upcoming_within_three_months
+      elsif @task_params
         overdue_tasks << client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).overdue_incomplete
         today_tasks << client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).today_incomplete
         upcoming_tasks << client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).upcoming_within_three_months

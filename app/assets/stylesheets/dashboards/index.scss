@@ -86,5 +86,71 @@ body[id='dashboards-index'] {
         height: 70vh;
       }
     }
+
+  #program-stream-service{
+    .modal-dialog {
+      width: 70%;
+      padding: 0;
+    }
+
+    // .modal-content {
+    //   height: auto;
+    //   min-height: 70%;
+    //   border-radius: 0;
+    // }
+
+    .simple_form.program-stream {
+      input[type='submit'] {
+        margin-top: 25px;
+      }
+    }
+
+    .disabled.program_stream_name {
+      label, input {
+        color: #333333 !important;
+      }
+    }
+
+    img {
+      width: 50px;
+      margin-top: 16px;
+    }
+  }
+
+  #select2-drop.drop {
+    height: 349px;
+    .select2-results {
+      max-height: 340px;
+      height: 374px;
+      overflow-x: scroll;
+      overflow-y: scroll;
+    }
+    .select2-results table tbody tr td {
+      cursor: pointer;
+    }
+  }
+
+  .referral-source-category-dialog{
+    overflow-y: initial !important
+  }
+
+  .referral-body{
+    height: 400px;
+    overflow-y: auto;
+  }
+
+  .save-referral-btn {
+    margin-top: 25px;
+  }
+
+  .save-success {
+    margin-top: 25px;
+    margin-left: 30px;
+  }
+
+  .modal-header{
+    background-color: #1ab394;
+    color: white;
+
   }
 }

@@ -9,7 +9,7 @@ module AdvancedSearches
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_care',
                           'assessment_number', 'month_number', 'date_nearest', 'assessment_completed']
 
-    BLANK_FIELDS = ['created_at', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'district_id', 'subdistrict_id', 'township_id', 'state_id', 'commune_id', 'village_id']
+    BLANK_FIELDS = ['created_at', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'district_id', 'subdistrict_id', 'township_id', 'state_id', 'commune_id', 'village_id', 'referral_source_category_id']
     SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words)
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
 
@@ -58,7 +58,7 @@ module AdvancedSearches
           end
 
         elsif form_builder.first == 'enrollment'
-          program_name   = form_builder.second.gsub("&qoute;", '"')
+          program_name = form_builder.second.gsub("&qoute;", '"')
           program_stream = ProgramStream.find_by(name: program_name)
           enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
           @sql_string << enrollment_fields[:id]
@@ -76,7 +76,6 @@ module AdvancedSearches
             @sql_string << "Clients.id IN (?)"
             @values << []
           end
-
         elsif form_builder.first == 'tracking'
           tracking = Tracking.joins(:program_stream).where(program_streams: {name: form_builder.second}, trackings: {name: form_builder.third}).last
           tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql

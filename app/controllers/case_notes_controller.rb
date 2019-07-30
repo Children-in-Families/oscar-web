@@ -60,7 +60,7 @@ class CaseNotesController < AdminController
         add_more_attachments(d.second[:attachments], d.second[:id])
       end
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
-      create_bulk_task(params[:task]) if params.has_key?(:task)
+      create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit

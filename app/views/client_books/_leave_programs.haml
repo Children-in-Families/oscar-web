@@ -1,0 +1,37 @@
+.row
+  .col-xs-12
+    .client-enrollment{ data: {"anchor-date": date} }
+      .ibox.collapsed
+        .ibox-title
+          %h5
+            = "#{t('.exited_from')} (#{leave_program.program_stream.name}) - #{@client.en_and_local_name}"
+          %h5
+            = "#{I18n.t('client_books.completed')}:"
+            = date_format(date)
+            = I18n.t('client_books.by')
+            = whodunnit('LeaveProgram', leave_program.id)
+          .ibox-tools
+            %a.collapse-link
+              %i.fa.fa-chevron-up
+        .ibox-content
+          .table-responsive
+            %table.table.table-bordered
+              %tr
+                %td= t('.exit_program_date')
+                %td= date_format(leave_program.exit_date)
+              - leave_program.program_stream.exit_program.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+                - unless type == 'separateLine'
+                  - if type == 'paragraph'
+                    %tr
+                      %td.align-justify{colspan: '2'}
+                        = key.html_safe
+                  - else
+                    %tr
+                      %td.align-justify
+                        = key.html_safe
+                      %td.align-justify
+                        - key = convert_bracket(key)
+                        - if type == 'file'
+                          = render 'shared/form_builder/list_attachment', label: key, resource: leave_program
+                        - else
+                          = display_custom_properties(leave_program.properties[key])

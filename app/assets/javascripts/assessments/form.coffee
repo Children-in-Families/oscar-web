@@ -71,13 +71,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'btn-danger btn-warning btn-primary btn-success'
+      labelColors = 'btn-danger btn-warning btn-primary btn-success btn-secondary'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).data('score')
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).addClass("btn-#{scoreColor}")
+      $(@).addClass("btn-secondary")
+      #$(@).addClass("btn-#{scoreColor}")
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
@@ -116,13 +117,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(@).children('label').addClass('active-label')
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'label-danger label-warning label-primary label-success'
+      labelColors = 'label-danger label-warning label-primary label-success label-default'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).children('label').text()
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).children('label').addClass("label-#{scoreColor} active-label")
+      $(@).children('label').addClass("label-default active-label")
+      # $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
@@ -178,6 +180,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       onStepChanging: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
+        _scrollToError(event)
         _taskRequiredAtEnd(currentIndex)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
           return true
@@ -242,6 +245,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       newIndex = currentIndex + 1
       if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
         _filedsValidator(currentIndex, newIndex)
+        _scrollToError(form)
         return false
       else
         form.submit (e) ->
@@ -264,10 +268,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreColor  = scoreOption.data("score-#{chosenScore}")
 
     # score without def
-    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
+    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
 
     btnScore = scoreOption.find('input:hidden').val()
-    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
+    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-secondary")
+    # $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
     domainName = $(@).data('goal-option')
     name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
     radioName = '\'' + name
@@ -573,5 +578,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $('#end-of-assessment-msg').addClass('hidden')
     else
       $('#end-of-assessment-msg').removeClass('hidden')
+
+  _scrollToError = (element) ->
+    if $('.error').length > 0
+      $.each $('.error'), (index, item) ->
+        element = $(item).context.id
+        if element == ''
+          location.href = "#score-required"
+        else if element.includes('assessment_assessment_domains_attributes')
+          location.href = "##{element}"
+          location.href = "#required-scroll"
+        else
+          location.href = "##{element}"
 
   { init: _init }
