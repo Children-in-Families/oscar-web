@@ -1851,7 +1851,7 @@ en:
       foster: Foster
       kinship: Kinship
     family_tab:
-      action: Action
+      action: Action      
       family_form: Family Form
       next: Next
       previous: Previous
@@ -1897,6 +1897,9 @@ en:
       remind_me: Remind me later
       service_confirm_question: Are you sure your program does this many things? If it does, keep choosing services, but if not, try to keep it simple!
       type_of_service: Type of service
+      previous: Previous      
+    program_stream:
+      program_stream: Program Streams
     program_streams_tab:
       link: Action
       next: Next
@@ -1916,7 +1919,7 @@ en:
       agencies: Agencies
       partners: Partners
       referral_sources: Referral Sources
-      staffs: Users
+      staffs: Staff Members
     upcoming:
       assessment: Assessment
       assessments: Assessments
@@ -3778,6 +3781,7 @@ en:
         warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
     client_enrollments:
       create:
+        client_not_valid: Client doesn't match with this program conditions.
         successfully_created: Form have been added to client(s) successfully
       form:
         clients: Clients

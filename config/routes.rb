@@ -235,6 +235,9 @@ Rails.application.routes.draw do
       collection do
         get :list_program_streams
       end
+      collection do
+        get :list_program_enrollments
+      end
     end
 
     # resources :referral_sources
@@ -290,9 +293,15 @@ Rails.application.routes.draw do
   namespace :multiple_form do
     resources :custom_fields, only: [] do
       resources :client_custom_fields, only: [:create, :new]
+      resources :family_custom_fields, only: [:create, :new]
+      resources :partner_custom_fields, only: [:create, :new]
+      resources :user_custom_fields, only: [:create, :new]
     end
     resources :trackings, only: [] do
       resources :client_trackings, only: [:create, :new]
+    end
+    resources :program_streams do
+      resources :client_enrollments
     end
   end
 
