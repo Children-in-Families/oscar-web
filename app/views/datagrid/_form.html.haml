@@ -118,10 +118,20 @@
                   = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
                   = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
+          -# %li
+          -#   .visibility.col-sm-12
+          -#     = check_box_tag 'time_in_care_', 'time_in_care', checked = default_setting('time_in_care_', @client_default_columns) || params[:time_in_care_].present?, class: 'i-checks'
+          -#     = label_tag 'time_in_care_', t('datagrid.columns.time_in_care')
+          
           %li
             .visibility.col-sm-12
-              = check_box_tag 'time_in_care_', 'time_in_care', checked = default_setting('time_in_care_', @client_default_columns) || params[:time_in_care_].present?, class: 'i-checks'
-              = label_tag 'time_in_care_', t('datagrid.columns.time_in_care')
+              = check_box_tag 'time_in_cps_', 'time_in_cps', checked = default_setting('time_in_cps_', @client_default_columns) || params[:time_in_cps_].present?, class: 'i-checks'
+              = label_tag 'time_in_cps_', t('datagrid.columns.time_in_cps')
+
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'time_in_ngo_', 'time_in_ngo', checked = default_setting('time_in_ngo_', @client_default_columns) || params[:time_in_ngo_].present?, class: 'i-checks'
+              = label_tag 'time_in_ngo_', t('datagrid.columns.time_in_ngo')
 
           %li
             .visibility.col-sm-12

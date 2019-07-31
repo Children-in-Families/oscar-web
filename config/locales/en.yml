@@ -456,6 +456,8 @@ en:
       suburb: Suburb
       telephone_number: Primary Carer Phone Number
       time_in_care: Time in Care
+      time_in_cps: Time in Custom Program Stream
+      time_in_ngo: Time in NGO
       time_of_frequency: Time of Frequency
       township: Township
       tracking: Tracking
@@ -664,10 +666,9 @@ en:
       tasks_arising: Tasks Arising
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
-        non_face_to_face: Non face to face
-        other_option:
-        rd_party: 3rd Party
         visit: Visit
+        non_face_to_face: Non face to face
+        rd_party: 3rd Party
         other_option: Other
     form_with_assessment_domains:
       add_task: Add Task
@@ -1543,6 +1544,10 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+    level:
+      level_no: 'No'
+      level_1: Level 1
+      level_2: Level 2
     living_detail:
       case_worker_or_staff: Case Worker / Staff
       contact_details: Contact Details
@@ -1550,6 +1555,8 @@ en:
       live_with: Primary Carer Name
       living_detail: Living Details
       main_school_contact: Main School Contact
+      primary_carer_name: Primary Carer Name
+      primary_carer_phone_number: Primary Carer Phone Number
       school_grade: School Grade
       school_name: School Name
       schooling: Schooling
@@ -1734,6 +1741,8 @@ en:
         year:
           one: "%{count} year"
           other: "%{count} years"
+      time_in_cps: Time in Custom Program Stream
+      time_in_ngo: Time in NGO
       view_assessments: Assessments
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
@@ -1795,6 +1804,18 @@ en:
       upcoming_tasks: Upcoming
     active_tasks_side:
       active_tasks: Active Tasks
+    assessment_tab:
+      assessment: Assessment
+      assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
+      client_you_like: Which client would you like to complete as Assessment for?
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+    case_note_tab:
+      case_note: Case Note
+      case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+      client_you_complete_for: Which client would you like to complete as Case Note for?
     client:
       ables: Ables
       clients: Active Clients
@@ -1807,7 +1828,13 @@ en:
       active_progarm_streams_by_gender: Active Program Streams by client gender
       active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
+    client_tab:
+      action: Action
+      client_form: Client Form
+      next: Next
+      previous: Previous
     custom_fields_tab:
+      form_add: Which form would you like to add ?
       link: Action
       name: Name
       next: Next
@@ -1823,16 +1850,44 @@ en:
       families: Active Families
       foster: Foster
       kinship: Kinship
+    family_tab:
+      action: Action      
+      family_form: Family Form
+      next: Next
+      previous: Previous
     multiple_forms:
+      add_new_document: Add New Document
+      assessment: Assessment
+      case_note: Case Note
+      client: Client
       custom_forms: Custom Forms
+      family: Family
+      form: Form
+      kind_of_document: What kind of document would you like to add?
       multiple_forms: Add Form to Multiple Clients
+      partners: Partner
+      program_enrollment: Program Enrollment
+      record: Record
       tracking_forms: Tracking Forms
+      user: User
     overdue:
       assessment: Assessment
       assessments: Assessments
       forms: Forms
       overdue_tasks: Overdue Tasks
       tasks: Tasks
+    partner_tab:
+      action: Action
+      next: Next
+      partner_form: Partner Form
+      previous: Previous
+    program_enrollment_tab:
+      next: Next
+      previous: Previous
+      program_you_enroll: Which program do you want to enroll a client into?
+      program_stream: Program Stream Name
+      action: Action
+      enroll : Enroll Client
     program_stream:
       program_stream: Program Streams
     program_stream_services:
@@ -1842,6 +1897,9 @@ en:
       remind_me: Remind me later
       service_confirm_question: Are you sure your program does this many things? If it does, keep choosing services, but if not, try to keep it simple!
       type_of_service: Type of service
+      previous: Previous      
+    program_stream:
+      program_stream: Program Streams
     program_streams_tab:
       link: Action
       next: Next
@@ -1854,18 +1912,25 @@ en:
       name: Name
       referral_source_reminder: Please Add Category information for Referral Source
       remind_later: Remind me later
+    record_tab:
+      record_you_add: What kind of record would you like to add?
     third_party:
       ables: Ables
       agencies: Agencies
       partners: Partners
       referral_sources: Referral Sources
-      staffs: Users
+      staffs: Staff Members
     upcoming:
       assessment: Assessment
       assessments: Assessments
       forms: Forms
       tasks: Tasks
       upcoming_tasks: Upcoming Tasks
+    user_tab:
+      action: Action
+      next: Next
+      previous: Previous
+      user_form: User Form
     users_filter:
       apply: Apply
       assessments: Assessment
@@ -2067,6 +2132,8 @@ en:
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
         time_in_care: Time in Care
+        time_in_cps: Time in Custom Program Stream
+        time_in_ngo: Time in NGO
         time_of_frequency: Time of Frequency
         total: Total
         township: Township
@@ -2188,6 +2255,8 @@ en:
       support_amount: Support Amount
       support_note: Support Note
       time_in_care: Time in Care
+      time_in_cps: Time in Custom Program Stream
+      time_in_ngo: Time in NGO
       trackings:
         action: Action
         frequency: Frequency
@@ -2802,18 +2871,18 @@ en:
       alert: Domain cannot be deleted.
       successfully_deleted: Domain has been successfully deleted.
     domain_identies:
-      care: Care
-      emotional_health: Emotional Health
-      food_security: Food Security
-      health_care_services: Health Care Services
-      legal_protection: Legal Protection
-      nutrition_and_growth: Nutrition and Growth
-      performance: Performance
-      protection_from_abuse_and_exploitation: Protection from Abuse and Exploitation
-      shelter: Shelter
-      social_behaviour: Social Behaviour
-      wellness: Wellness
-      work_and_education: Work and Education
+      care_2b: Care
+      emotional_health_5a: Emotional Health
+      food_security_1a: Food Security
+      health_care_services_4b: Health Care Services
+      legal_protection_3b: Legal Protection
+      nutrition_and_growth_1b: Nutrition and Growth
+      performance_6a: Performance
+      protection_from_abuse_and_exploitation_3a: Protection from Abuse and Exploitation
+      shelter_2a: Shelter
+      social_behaviour_5b: Social Behaviour
+      wellness_4a: Wellness
+      work_and_education_6b: Work and Education
     domain_list:
       add_new_domain: Add New Domain
       changelog: Changelog
@@ -2824,18 +2893,18 @@ en:
       score_4: Score 4
       view: View
     domain_names:
-      a1: A1
-      b1: B1
-      a2: A2
-      b2: B2
-      a3: A3
-      b3: B3
-      a4: A4
-      b4: B4
-      a5: A5
-      b5: B5
-      a6: A6
-      b6: B6
+      a1: 1A
+      a2: 2A
+      a3: 3A
+      a4: 4A
+      a5: 5A
+      a6: 6A
+      b1: 1B
+      b2: 2B
+      b3: 3B
+      b4: 4B
+      b5: 5B
+      b6: 6B
     edit:
       title: Edit Domain
     form:
@@ -3707,6 +3776,13 @@ en:
         warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
     client_trackings:
       create:
+        successfully_created: Form have been added to client(s) successfully
+      form:
+        clients: Clients
+        warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
+    client_enrollments:
+      create:
+        client_not_valid: Client doesn't match with this program conditions.
         successfully_created: Form have been added to client(s) successfully
       form:
         clients: Clients
@@ -4619,6 +4695,7 @@ en:
       tasks_of: Tasks Of
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: Blocked

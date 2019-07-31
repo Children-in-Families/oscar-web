@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
-  GENDER_OPTIONS = ['male', 'female', 'other', 'prefer not to say']
+  GENDER_OPTIONS = ['female', 'male', 'other', 'prefer not to say']
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable

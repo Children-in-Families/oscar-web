@@ -1,4 +1,4 @@
-lock '3.4.0'
+lock '3.9.0'
 
 # set :application, 'children-in-families-web'
 set :application, 'oscar-web'
@@ -14,8 +14,6 @@ set :deploy_to, "/var/www/#{fetch(:application)}"
 
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets')
 set :linked_files, fetch(:linked_files, []).push('.env')
-
-set :scm, :git
 
 set :pty, false
 

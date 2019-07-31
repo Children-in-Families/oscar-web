@@ -14,6 +14,7 @@ class AssessmentsController < AdminController
   end
 
   def new
+    @from_controller = params[:from]
     @assessment = @client.assessments.new(default: default?)
     authorize @assessment
     @assessment.populate_notes(params[:default])
@@ -25,7 +26,11 @@ class AssessmentsController < AdminController
     authorize @assessment
     if @assessment.save
       create_bulk_task(params[:task].uniq) if params.has_key?(:task)
-      redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
+      if params[:from_controller] == "dashboards"
+        redirect_to root_path, notice: t('.successfully_created')
+      else
+        redirect_to client_path(@client), notice: t('.successfully_created')
+      end
     else
       render :new
     end

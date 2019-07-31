@@ -26,7 +26,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['family_id', 'age', 'time_in_care']
+      ['family_id', 'age', 'time_in_cps', 'time_in_ngo']
     end
 
     def text_type_list
@@ -53,7 +53,7 @@ module AdvancedSearches
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', { 'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral' }],
-        ['rated_for_id_poor', { 'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2' }],
+        ['rated_for_id_poor', [Client::CLIENT_LEVELS, I18n.t('clients.level').values].transpose.to_h],
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
         ['referred_from', referral_from_options],
