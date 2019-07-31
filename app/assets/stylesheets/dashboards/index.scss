@@ -27,7 +27,6 @@ body[id='dashboards-index'] {
 
     table.custom-field-table {
       margin-bottom: 0;
-
       th {
         border-bottom-width: 0;
       }
@@ -36,6 +35,9 @@ body[id='dashboards-index'] {
 
   .margin-top-datatable {
     margin-top: 10px;
+  }
+  .label-size {
+    font-size: 11px;
   }
   #users-task-panel {
     table.active_tasks {
@@ -62,6 +64,29 @@ body[id='dashboards-index'] {
     .modal-active-list-width {
       width: 100%;
       max-width: 85%;
+    }
+  }
+
+  #multiple-form-modal {
+    .modal-dialog {
+        width: 80%;
+        margin: 20px auto;
+        padding: 0 0 50px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    .modal-content {
+      height: 80%;
+      min-height: 80%;
+      max-height: 90%;
+      min-width: 90%;
+      border-radius: 0;
+      overflow:auto;
+      .modal-body .tab-content {
+        height: 70vh;
+      }
     }
   }
 
@@ -109,7 +134,7 @@ body[id='dashboards-index'] {
   }
 
   .referral-source-category-dialog{
-    overflow-y: initial !important
+    overflow-y: initial !important;
   }
 
   .referral-body{

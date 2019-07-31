@@ -1803,6 +1803,18 @@ my:
       upcoming_tasks: လုပ္ေဆာင္ရမည့္ လုပ္ငန္းမ်ား
     active_tasks_side:
       active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ား
+    assessment_tab:
+      assessment: ရက်လွန်အကဲဖြတ်
+      assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
+      client_you_like: Which client would you like to complete as Assessment for?
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+    case_note_tab:
+      case_note: အမႈမွတ္စု
+      case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+      client_you_complete_for: Which client would you like to complete as Case Note for?
     client:
       ables: Ables
       clients: လုပ္ေဆာင္မႈရွိေသးေသာ အမႈသည္မ်ား
@@ -1815,7 +1827,13 @@ my:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+    client_tab:
+      action: လုပ္ေဆာင္မႈ
+      client_form: Client Form
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
     custom_fields_tab:
+      form_add: Which form would you like to add ?
       link: link ကို
       name: နာမည္
       next: ေနာက္တစ္ခု
@@ -1831,18 +1849,46 @@ my:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
+    family_tab:
+      action: လုပ္ေဆာင္မႈ
+      family_form: Family Form
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
     multiple_forms:
+      add_new_document: Add New Document
+      assessment: ရက်လွန်အကဲဖြတ်
+      case_note: အမႈမွတ္စု
       custom_forms: ပုံစံများ
+      client: အမႈသည္
+      family: မိသားစု
+      form: Form
+      kind_of_document: What kind of document would you like to add?
       multiple_forms: ပုံစံအမျိုးမျိုး
+      partners: မိတ္ဖက္
+      program_enrollment: Program Enrollment
+      record: Record
       tracking_forms: ခြေရာခံခြင်းပုံစံ
+      user: အသံုးျပဳသူ
     overdue:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
       tasks: ရက်လွန်အလုပ်တခုကို
+    partner_tab:
+      action: လုပ္ေဆာင္မႈ
+      next: ေနာက္တစ္ခု
+      partner_form: Partner Form
+      previous: ေရွ႕တစ္ခု
     program_stream:
       program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
+    program_enrollment_tab:
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      program_you_enroll: Which program do you want to enroll a client into?
+      program_stream: အစီအမံစီဆင္းမႈ
+      action: လုပ္ေဆာင္မႈ
+      enroll : Enroll Client
     program_stream_services:
       name: နာမတျောကို
       program_stream: အစီအစဥ္စီးဆင္းမႈမ်ား
@@ -1857,6 +1903,8 @@ my:
       previous: ေရွ႕တစ္ခု
       program_stream_name: အစီအမံစီဆင္းမႈ
       tracking_name: ခြေရာခံနာမကိုအမှီ
+    record_tab:
+      record_you_add: What kind of record would you like to add?
     referral_source_category_reminder:
       ancestry: အမျိုးအစား
       name: နာမတျောကို
@@ -1868,6 +1916,11 @@ my:
       partners: မိတ္ဖက္မ်ား
       referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
       staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
+    user_tab:
+      action: လုပ္ေဆာင္မႈ
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      user_form: User Form
     upcoming:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
@@ -3739,6 +3792,13 @@ my:
     client_trackings:
       create:
         successfully_created: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ
+      form:
+        clients: အမႈသည္
+        warning: ഈ ഫോം പൂരിപ്പിക്കുന്നത്, ഇവിടെ പറഞ്ഞിരിക്കുന്ന ഓരോ ക്ലയന്റിനുമായി ഈ ഫോമിന്റെ വ്യത്യസ്ത പകർപ്പിലേക്ക് ഈ ഉത്തരങ്ങൾ സംരക്ഷിക്കും. ഓരോ ക്ലൈന്റിനും സമാനമായ ഉത്തരം ലഭിക്കും. ഓരോ ക്ലയന്റ് വ്യത്യസ്ത ഉത്തരങ്ങൾ ഉണ്ടായിരിക്കേണ്ട ഫോമുകൾക്കായി ഈ സവിശേഷത ഉപയോഗിക്കരുത്.
+    client_enrollments:
+      create:
+        client_not_valid: အမႈသည္သည္ ဤအစီီအစဥ္ စည္းမ်ဥ္းမ်ားႏွင့္ မကိုက္ညီပါ
+        successfully_created: အစိအစဥ္ စီစဥ္းမႈကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
       form:
         clients: အမႈသည္
         warning: ഈ ഫോം പൂരിപ്പിക്കുന്നത്, ഇവിടെ പറഞ്ഞിരിക്കുന്ന ഓരോ ക്ലയന്റിനുമായി ഈ ഫോമിന്റെ വ്യത്യസ്ത പകർപ്പിലേക്ക് ഈ ഉത്തരങ്ങൾ സംരക്ഷിക്കും. ഓരോ ക്ലൈന്റിനും സമാനമായ ഉത്തരം ലഭിക്കും. ഓരോ ക്ലയന്റ് വ്യത്യസ്ത ഉത്തരങ്ങൾ ഉണ്ടായിരിക്കേണ്ട ഫോമുകൾക്കായി ഈ സവിശേഷത ഉപയോഗിക്കരുത്.

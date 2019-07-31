@@ -1882,12 +1882,12 @@ en:
       partner_form: Partner Form
       previous: Previous
     program_enrollment_tab:
+      action: Action
+      enroll : Enroll Client
       next: Next
       previous: Previous
       program_you_enroll: Which program do you want to enroll a client into?
       program_stream: Program Stream Name
-      action: Action
-      enroll : Enroll Client
     program_stream:
       program_stream: Program Streams
     program_stream_services:
@@ -1904,6 +1904,8 @@ en:
       previous: Previous
       program_stream_name: Program Stream
       tracking_name: Tracking Form Name
+    record_tab:
+      record_you_add: What kind of record would you like to add?
     referral_source_category_reminder:
       ancestry: Category
       name: Name
@@ -1916,6 +1918,12 @@ en:
       agencies: Agencies
       partners: Partners
       referral_sources: Referral Sources
+      staffs: Staff Members
+    user_tab:
+      action: Action
+      next: Next
+      previous: Previous
+      user_form: User Form
       staffs: Users
     upcoming:
       assessment: Assessment
@@ -3778,6 +3786,7 @@ en:
         warning: Filling this form will save these answers to a separate copy of this form for each client specified here. Each client will have the SAME answers. DO NOT use this feature for forms where each client should have different answers.
     client_enrollments:
       create:
+        client_not_valid: Client doesn't match with this program conditions.
         successfully_created: Form have been added to client(s) successfully
       form:
         clients: Clients

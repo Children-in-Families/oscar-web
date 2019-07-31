@@ -2,16 +2,18 @@ class MultipleForm::ClientCustomFieldsController < AdminController
   include FormBuilderAttachments
 
   def new
-    @custom_field = CustomField.client_forms.find(params[:custom_field_id])
-    @clients = Client.accessible_by(current_ability).active_accepted_status
-    @custom_field_property = CustomFieldProperty.new(custom_formable_type: "Client")
+    @custom_field = CustomField.find(params[:custom_field_id])
+    @records = get_records_of_entity_type(@custom_field.entity_type)
+    @custom_field_property = CustomFieldProperty.new(custom_formable_type: @custom_field.entity_type)
   end
 
   def create
     @custom_field = CustomField.find(params[:custom_field_id])
-    clients = Client.where(slug: params['custom_field_property']['clients'])
-    clients.each do |client|
-      @custom_field_property = client.custom_field_properties.new(custom_field_property_params)
+    record_type = @custom_field.entity_type.constantize
+    records = record_type.where(id: params['custom_field_property']['selected_records'])
+
+    records.each do |record|
+      @custom_field_property = record.custom_field_properties.new(custom_field_property_params)
       @custom_field_property.user_id = current_user.id
       if @custom_field_property.valid?
         @custom_field_property.save
@@ -20,8 +22,8 @@ class MultipleForm::ClientCustomFieldsController < AdminController
       end
     end
     unless @custom_field_property.valid?
-      @clients = Client.accessible_by(current_ability).active_accepted_status
-      @selectd_clients = clients.pluck(:slug)
+      @records = get_records_of_entity_type(@custom_field.entity_type)
+      @selected_records = records.pluck(:id)
       render :new
     else
       if  params[:confirm] == 'true'
@@ -45,5 +47,13 @@ class MultipleForm::ClientCustomFieldsController < AdminController
     default_params = default_params.merge(properties: formatted_params) if formatted_params.present?
     default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if attachment_params.present?
     default_params
+  end
+
+  def get_records_of_entity_type(type)
+    if type == 'Client'
+      Client.accessible_by(current_ability).active_accepted_status
+    else
+      type.constantize.accessible_by(current_ability)
+    end
   end
 end

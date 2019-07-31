@@ -5,6 +5,7 @@ class DashboardsController < AdminController
     @setting = Setting.first
     @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil })
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
+    @clients = Client.accessible_by(current_ability).active_accepted_status
     @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
   end
 

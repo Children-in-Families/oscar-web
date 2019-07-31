@@ -1,6 +1,7 @@
 class CustomFieldDatatable < ApplicationDatatable
-  def initialize(view)
+  def initialize(view, type)
     @view = view
+    @type = type
     @fetch_custom_fields =  fetch_custom_fields
   end
 
@@ -18,7 +19,7 @@ class CustomFieldDatatable < ApplicationDatatable
   end
 
   def fetch_custom_fields
-    CustomField.client_forms.order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page)
+    eval("CustomField.#{@type}").order("lower(#{sort_column}) #{sort_direction}").page(page).per(per_page)
   end
 
   def columns
