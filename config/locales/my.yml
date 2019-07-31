@@ -1841,9 +1841,8 @@ my:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
-<<<<<<< HEAD
     family_tab:
-      action: လုပ္ေဆာင္မႈ      
+      action: လုပ္ေဆာင္မႈ
       family_form: Family Form
       next: ေနာက္တစ္ခု
       previous: ေရွ႕တစ္ခု

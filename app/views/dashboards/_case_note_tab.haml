@@ -1,6 +1,6 @@
 #case-note.tab-pane.margin-top-datatable{ role: 'tabpanel' }
   %br
-  .row
+  .row.label-size
     .col-xs-12.col-sm-6
       %label.control-label
         = t('.client_you_complete_for')
@@ -20,4 +20,3 @@
           - else
             = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
               = @current_setting.custom_assessment
-              

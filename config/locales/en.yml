@@ -1842,7 +1842,7 @@ en:
       foster: Foster
       kinship: Kinship
     family_tab:
-      action: Action      
+      action: Action
       family_form: Family Form
       next: Next
       previous: Previous
@@ -1871,7 +1871,7 @@ en:
       action: Action
       next: Next
       partner_form: Partner Form
-      previous: Previous      
+      previous: Previous
     program_stream:
       program_stream: Program Streams
     program_enrollment_tab:
@@ -1894,7 +1894,7 @@ en:
       open_form: Open Form
       previous: Previous
       program_stream_name: Program Stream
-      tracking_name: Tracking Form Name    program_stream_services:
+      tracking_name: Tracking Form Name
     record_tab:
       record_you_add: What kind of record would you like to add?
     referral_source_category_reminder:
