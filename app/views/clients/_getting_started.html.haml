@@ -59,6 +59,8 @@
         = f.input :name_of_referee, label: t('.name_of_referee')
       .col-xs-12.col-sm-6.col-md-4
         = f.input :referral_phone, label: t('.referral_phone')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :families, collection: @families.map { |family| [family.name] }, input_html: { multiple: true }, label: t('.families')
     .row
       .col-xs-12
         %label= t('.profile')

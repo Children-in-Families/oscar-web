@@ -450,6 +450,7 @@ ActiveRecord::Schema.define(version: 20190726070312) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
+    t.string   "archived_slug"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1233,6 +1234,7 @@ ActiveRecord::Schema.define(version: 20190726070312) do
     t.datetime "updated_at",                     null: false
     t.string   "country_origin",    default: ""
     t.string   "duplicate_checker"
+    t.string   "archived_slug"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
