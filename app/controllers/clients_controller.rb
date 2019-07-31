@@ -107,9 +107,13 @@ class ClientsController < AdminController
       referral_source_id = find_referral_source_by_referral
 
       Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(slug: @referral.slug).attributes.except('duplicate_checker')
-      attributes = fetch_referral_attibutes(attributes, referral_source_id)
-
+      attributes = SharedClient.find_by(archived_slug: @referral.slug).try(:attributes) || SharedClient.find_by(slug: @referral.slug).try(:attributes)
+      if attributes.present?
+        attributes = attributes.except('duplicate_checker')
+        attributes = fetch_referral_attibutes(attributes, referral_source_id)
+      else
+        attributes
+      end
       Organization.switch_to current_org.short_name
       @client = Client.new(attributes)
     else
@@ -222,7 +226,8 @@ class ClientsController < AdminController
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id]
+            client_problems_attributes: [:id, :rank, :problem_id],
+            family_ids: []
           )
   end
 
@@ -239,6 +244,7 @@ class ClientsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
+    @families        = Family.order(:name)
     @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields

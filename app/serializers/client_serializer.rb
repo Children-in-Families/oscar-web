@@ -10,7 +10,7 @@ class ClientSerializer < ActiveModel::Serializer
               :has_been_in_government_care, :relevant_referral_information, :rated_for_id_poor,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :referral_source_category_id, :time_in_ngo, :time_in_cps
+              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :time_in_cps, :referral_source_category_id
 
   has_many :assessments
 

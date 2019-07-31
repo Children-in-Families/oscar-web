@@ -58,6 +58,10 @@ module Api
       render json: TrackingDatatable.new(view_context), root: :data
     end
 
+    def list_program_enrollments
+      render json: EnrollmentDatatable.new(view_context), root: :data
+    end
+    
     private
 
       def find_program_stream

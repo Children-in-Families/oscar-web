@@ -6,9 +6,9 @@ CIF.Common =
     @initNotification()
     @autoCollapseManagMenu()
     @textShortener()
-    @intAssessmentClientSelected()
-    @addLocalstorageAttribute()
     @checkValidationErrorExistOnSaving()
+    @addLocalstorageAttribute()
+    @intAssessmentClientSelected()
 
   addLocalstorageAttribute: ->
     $('.btn-login').on 'click', ->
