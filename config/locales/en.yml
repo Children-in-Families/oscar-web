@@ -1824,6 +1824,14 @@ en:
       foster_cares_html: Foster <br/>Cares
       kinship_cares_html: Kinship <br/>Cares
       males: Males
+    clients:
+      clients: Clients
+    client_search:
+      not_found: Not matches Found
+      please_enter_more: Please enter 1 or more characters
+      search_client: Search Client
+      search_for_client: Search for Client
+      searching: Searching
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: Active Program Streams by client gender
       active_program_streams: Active Program Streams
@@ -1855,6 +1863,8 @@ en:
       family_form: Family Form
       next: Next
       previous: Previous
+    go_to_client:
+      go_to_client: Go to Client
     multiple_forms:
       add_new_document: Add New Document
       assessment: Assessment

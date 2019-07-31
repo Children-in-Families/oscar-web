@@ -67,29 +67,6 @@ body[id='dashboards-index'] {
     }
   }
 
-  #multiple-form-modal {
-    .modal-dialog {
-        width: 80%;
-        margin: 20px auto;
-        padding: 0 0 50px 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-    .modal-content {
-      height: 80%;
-      min-height: 80%;
-      max-height: 90%;
-      min-width: 90%;
-      border-radius: 0;
-      overflow:auto;
-      .modal-body .tab-content {
-        height: 70vh;
-      }
-    }
-  }
-
   #program-stream-service{
     .modal-dialog {
       width: 70%;
@@ -154,5 +131,35 @@ body[id='dashboards-index'] {
   .modal-header{
     background-color: #1ab394;
     color: white;
+  }
+
+  #search-client{
+    .heading-label {
+      background-color: #186e6d;
+      color: #fff;
+    }
+  }
+
+  #multiple-form-modal{
+    .modal-dialog {
+        width: 80%;
+        margin: 20px auto;
+        padding: 0 0 50px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    .modal-content {
+      height: 80%;
+      min-height: 80%;
+      max-height: 90%;
+      min-width: 90%;
+      border-radius: 0;
+      overflow:auto;
+      .modal-body .tab-content {
+        height: 70vh;
+      }
+    }
   }
 }
