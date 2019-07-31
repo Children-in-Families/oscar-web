@@ -27,3 +27,4 @@ dump.rdb
 dump.rdb
 vendor/data
 .vscode/
+brakeman_report*.html

@@ -211,7 +211,7 @@ module ClientsHelper
     name   = values.first.strip
     label  = values.last.strip
     keyword = "#{name} #{label}"
-    keyword.downcase.parameterize('__')
+    keyword.downcase.parameterize.gsub('-', '__')
   end
 
   # legacy method
@@ -365,7 +365,8 @@ module ClientsHelper
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
       referred_from_: t('datagrid.columns.clients.referred_from'),
-      time_in_care_: t('datagrid.columns.clients.time_in_care'),
+      time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
+      time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
     }
 
@@ -463,6 +464,7 @@ module ClientsHelper
     return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
+    return object if params[:client_advanced_search][:basic_rules].nil?
     data    = eval params[:client_advanced_search][:basic_rules]
 
     result1                = mapping_param_value(data, 'case_note_date')
@@ -693,9 +695,11 @@ module ClientsHelper
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i].present?
-            count += client.send(klass.to_sym).defaults.count
+            data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+            count += data_filter.flatten.count if data_filter
           elsif class_name[/^(date_of_custom_assessments)/i].present?
-            count += client.send(klass.to_sym).customs.count
+            data_filter = date_filter(client.assessments.customs, "#{class_name}")
+            count += data_filter.flatten.count if data_filter
           elsif class_name[/^(formbuilder)/i].present?
             fields = column.name.to_s.gsub('&qoute;', '"').split('__')
             format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
@@ -711,13 +715,14 @@ module ClientsHelper
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
             count += quantitative_type_values.count
           else
-            count += date_filter(client.send(klass.to_sym), class_name).flatten.count
+            count += date_filter(client.send(klass.to_sym), class_name).count
           end
         end
       end
 
       if count > 0 && class_name != 'case_note_type'
-        link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        # link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
           link_all

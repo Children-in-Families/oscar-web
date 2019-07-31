@@ -454,6 +454,8 @@ my:
       suburb: Suburb
       telephone_number: တယ်လီဖုန်းနံပါတ်
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
+      time_in_cps: ေစာင့္ေရွာက္သည့္ကာလ
+      time_in_ngo: NGO များတွင်အချိန်
       time_of_frequency: အႀကိမ္အေရအတြက္
       township: မြို့နယ်
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
@@ -668,9 +670,9 @@ my:
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
       type: အမ်ိဳးအစား
       type_options:
+        visit: Visit
         non_face_to_face: Non face to face
         rd_party: 3rd Party
-        visit: Visit
         other_option: Other
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
@@ -1546,6 +1548,10 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
+    level:
+      level_no: 'No'
+      level_1: Level 1
+      level_2: Level 2
     living_detail:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       contact_details: အဆက်အသွယ်အသေးစိတ်
@@ -1734,6 +1740,8 @@ my:
         year:
           one: "%{count} ခုနှစ်"
           other: "%{count} နှစ်ပေါင်း"
+      time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
+      time_in_ngo: Time in NGO
       view_assessments: စိစစ္အကဲျဖတ္ခ်က္မ်ား
       view_case_notes: အမႈမွတ္စုမ်ား
       view_ec_history_btn_link: ECသမုိင္းေၾကာင္း
@@ -1795,6 +1803,18 @@ my:
       upcoming_tasks: လုပ္ေဆာင္ရမည့္ လုပ္ငန္းမ်ား
     active_tasks_side:
       active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ား
+    assessment_tab:
+      assessment: ရက်လွန်အကဲဖြတ်
+      assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
+      client_you_like: Which client would you like to complete as Assessment for?
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+    case_note_tab:
+      case_note: အမႈမွတ္စု
+      case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
+      csi_assessment: CSI Assessment
+      custom_assessment: Custom Assessment
+      client_you_complete_for: Which client would you like to complete as Case Note for?
     client:
       ables: Ables
       clients: လုပ္ေဆာင္မႈရွိေသးေသာ အမႈသည္မ်ား
@@ -1815,7 +1835,13 @@ my:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+    client_tab:
+      action: လုပ္ေဆာင္မႈ
+      client_form: Client Form
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
     custom_fields_tab:
+      form_add: Which form would you like to add ?
       link: link ကို
       name: နာမည္
       next: ေနာက္တစ္ခု
@@ -1831,18 +1857,39 @@ my:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
+    family_tab:
+      action: လုပ္ေဆာင္မႈ
+      family_form: Family Form
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
     go_to_client:
       go_to_client: Go to Client
     multiple_forms:
+      add_new_document: Add New Document
+      assessment: ရက်လွန်အကဲဖြတ်
+      case_note: အမႈမွတ္စု
       custom_forms: ပုံစံများ
+      client: အမႈသည္
+      family: မိသားစု
+      form: Form
+      kind_of_document: What kind of document would you like to add?
       multiple_forms: ပုံစံအမျိုးမျိုး
+      partners: မိတ္ဖက္
+      program_enrollment: Program Enrollment
+      record: Record
       tracking_forms: ခြေရာခံခြင်းပုံစံ
+      user: အသံုးျပဳသူ
     overdue:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
       tasks: ရက်လွန်အလုပ်တခုကို
+    partner_tab:
+      action: လုပ္ေဆာင္မႈ
+      next: ေနာက္တစ္ခု
+      partner_form: Partner Form
+      previous: ေရွ႕တစ္ခု
     program_stream:
       program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
     program_stream_services:
@@ -1852,6 +1899,13 @@ my:
       remind_me: နောက်ပိုင်းမှာကြှနျုပျကိုသတိပေး
       service_confirm_question: သင့်ရဲ့ program ကိုဒီအရာများစွာကိုမသင်သေချာပါသလား? ကန်ဆောင်မှုများရွေးချယ်ရာတွင်စောင့်ရှောက်ပေမယ့်လျှင်မပါဘူးဆိုရင်, ရိုးရှင်းသောစောင့်ရှောက်ဖို့ကြိုးစား!
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
+    program_enrollment_tab:
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      program_you_enroll: Which program do you want to enroll a client into?
+      program_stream: အစီအမံစီဆင္းမႈ
+      action: လုပ္ေဆာင္မႈ
+      enroll : Enroll Client
     program_streams_tab:
       link: link ကို
       next: ေနာက္တစ္ခု
@@ -1864,12 +1918,19 @@ my:
       name: နာမတျောကို
       referral_source_reminder: ရည်ညွန်းရင်းမြစ်များအတွက် Category သတင်းအချက်အလက် Add ပေးပါ
       remind_later: နောက်ပိုင်းမှာငါ့ကိုသတိပေး
+    record_tab:
+      record_you_add: What kind of record would you like to add?
     third_party:
       ables: Ables
       agencies: ေအဂ်င္စီမ်ား
       partners: မိတ္ဖက္မ်ား
       referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
       staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
+    user_tab:
+      action: လုပ္ေဆာင္မႈ
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      user_form: User Form
     upcoming:
       assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
@@ -2077,6 +2138,8 @@ my:
         telephone_number: တယ်လီဖုန်းနံပါတ်
         thailand: ထိုင္းႏုိင္ငံ
         time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
+        time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
+        time_in_ngo: NGO များတွင်အချိန်
         time_of_frequency: အႀကိမ္ အေရအတြက္
         total: စုစုေပါင္း
         township: မြို့နယ်
@@ -2198,6 +2261,8 @@ my:
       support_amount: ေထာက္ပံ့သည့္ပမာဏ
       support_note: ေထာက္ပံ့မႈ မွတ္စု
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
+      time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
+      time_in_ngo: NGO များတွင်အချိန်
       trackings:
         action: လုပ္ေဆာင္မႈ
         frequency: အႀကိမ္ေရ
@@ -2812,18 +2877,18 @@ my:
       alert: ဒိုမိန္းအုုပ္စုကို ဖ်က္၍ မရပါ။
       successfully_deleted: ဒိုမိန္းအုပ္စုကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ
     domain_identies:
-      care: Care
-      emotional_health: Emotional Health
-      food_security: Food Security
-      health_care_services: Health Care Services
-      legal_protection: Legal Protection
-      nutrition_and_growth: Nutrition and Growth
-      performance: Performance
-      protection_from_abuse_and_exploitation: Protection from Abuse and Exploitation
-      shelter: Shelter
-      social_behaviour: Social Behaviour
-      wellness: Wellness
-      work_and_education: Work and Education
+      care_2b: Care
+      emotional_health_5a: Emotional Health
+      food_security_1a: Food Security
+      health_care_services_4b: Health Care Services
+      legal_protection_3b: Legal Protection
+      nutrition_and_growth_1b: Nutrition and Growth
+      performance_6a: Performance
+      protection_from_abuse_and_exploitation_3a: Protection from Abuse and Exploitation
+      shelter_2a: Shelter
+      social_behaviour_5b: Social Behaviour
+      wellness_4a: Wellness
+      work_and_education_6b: Work and Education
     domain_list:
       add_new_domain: ဒိုမိန္းအသစ္
       changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
@@ -2834,18 +2899,18 @@ my:
       score_4: ရမွတ္ ၄
       view: ျမင္ကြင္း
     domain_names:
-      a1: A1
-      a2: A2
-      a3: A3
-      a4: A4
-      a5: A5
-      a6: A6
-      b1: B1
-      b2: B2
-      b3: B3
-      b4: B4
-      b5: B5
-      b6: B6
+      a1: 1A
+      a2: 2A
+      a3: 3A
+      a4: 4A
+      a5: 5A
+      a6: 6A
+      b1: 1B
+      b2: 2B
+      b3: 3B
+      b4: 4B
+      b5: 5B
+      b6: 6B
     edit:
       title: ဒိုမိန္းကို ျပင္ဆင္ရန္
     form:
@@ -3737,6 +3802,13 @@ my:
     client_trackings:
       create:
         successfully_created: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ
+      form:
+        clients: အမႈသည္
+        warning: ഈ ഫോം പൂരിപ്പിക്കുന്നത്, ഇവിടെ പറഞ്ഞിരിക്കുന്ന ഓരോ ക്ലയന്റിനുമായി ഈ ഫോമിന്റെ വ്യത്യസ്ത പകർപ്പിലേക്ക് ഈ ഉത്തരങ്ങൾ സംരക്ഷിക്കും. ഓരോ ക്ലൈന്റിനും സമാനമായ ഉത്തരം ലഭിക്കും. ഓരോ ക്ലയന്റ് വ്യത്യസ്ത ഉത്തരങ്ങൾ ഉണ്ടായിരിക്കേണ്ട ഫോമുകൾക്കായി ഈ സവിശേഷത ഉപയോഗിക്കരുത്.
+    client_enrollments:
+      create:
+        client_not_valid: အမႈသည္သည္ ဤအစီီအစဥ္ စည္းမ်ဥ္းမ်ားႏွင့္ မကိုက္ညီပါ
+        successfully_created: အစိအစဥ္ စီစဥ္းမႈကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
       form:
         clients: အမႈသည္
         warning: ഈ ഫോം പൂരിപ്പിക്കുന്നത്, ഇവിടെ പറഞ്ഞിരിക്കുന്ന ഓരോ ക്ലയന്റിനുമായി ഈ ഫോമിന്റെ വ്യത്യസ്ത പകർപ്പിലേക്ക് ഈ ഉത്തരങ്ങൾ സംരക്ഷിക്കും. ഓരോ ക്ലൈന്റിനും സമാനമായ ഉത്തരം ലഭിക്കും. ഓരോ ക്ലയന്റ് വ്യത്യസ്ത ഉത്തരങ്ങൾ ഉണ്ടായിരിക്കേണ്ട ഫോമുകൾക്കായി ഈ സവിശേഷത ഉപയോഗിക്കരുത്.
@@ -4633,6 +4705,7 @@ my:
       tasks_of: လုပ္ငန္းမ်ား
       today_tasks: ယေန႔ လုပ္ငန္းမ်ား
       upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: ပိတ္ပစ္သည္၊ ဘေလာ့သည္
@@ -4883,11 +4956,13 @@ my:
       manager: မန္ေနဂ်ာ
       manager_id: မန္ေနဂ်ာ
       mobile: မိုုဘိုင္းဖုန္း
+      overdue_summary: ရက်လွန်အကျဉ်းချုပ်
       password: စကား၀ွက္
       password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
       password_hint: စကား၀ွက္ကို မေျပာင္းလိုလွ်င္ ကြက္လပ္ခ်န္ခဲ့ပါ
       pin_number: ပင္နံပါတ္
       province: ျပည္နယ္
+      referral_notification: လွှဲပြောင်းသတိပေးချက်
       roles: ခြင့္ျပဳခ်က္လုပ္
       start_date: စတင္သည့္ ရက္စြဲ
     gender_list:

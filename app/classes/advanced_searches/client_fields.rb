@@ -26,7 +26,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['family_id', 'age', 'time_in_care']
+      ['family_id', 'age', 'time_in_cps', 'time_in_ngo']
     end
 
     def text_type_list
@@ -206,7 +206,7 @@ module AdvancedSearches
 
     def rated_id_poor
       if Setting.first.country_name == 'cambodia'
-        [['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2'}]]
+        [['rated_for_id_poor', [Client::CLIENT_LEVELS, I18n.t('clients.level').values].transpose.to_h]]
       else
         []
       end

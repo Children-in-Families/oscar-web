@@ -129,6 +129,6 @@ class CIF.AdvancedFilterBuilder
     if advancedSearchId and advancedSearchId.length > 0
       rules = $("a[data-save-search-#{advancedSearchId}]").data("save-search-#{advancedSearchId}")
       $('button.client-advance-search').click()
-      $('#builder').queryBuilder('setRules', rules)
+      $('#builder').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
 
     return

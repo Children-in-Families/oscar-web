@@ -448,6 +448,8 @@ th-TH:
       suburb:
       telephone_number:
       time_in_care:
+      time_in_cps:
+      time_in_ngo:
       time_of_frequency:
       township:
       tracking:
@@ -656,9 +658,9 @@ th-TH:
       tasks_arising:
       type:
       type_options:
+        visit:
         non_face_to_face:
         rd_party:
-        visit:
         other_option:
     form_with_assessment_domains:
       add_task:
@@ -1529,6 +1531,10 @@ th-TH:
       start_date:
       support_amount:
       support_note:
+    level:
+      level_no: 'No'
+      level_1: Level 1
+      level_2: Level 2
     living_detail:
       case_worker_or_staff:
       contact_details:
@@ -1706,6 +1712,8 @@ th-TH:
       telephone_number:
       time_in_care:
       time_in_care_around:
+      time_in_cps:
+      time_in_ngo:
       view_assessments:
       view_case_notes:
       view_ec_history_btn_link:
@@ -2039,6 +2047,8 @@ th-TH:
         telephone_number:
         thailand:
         time_in_care:
+        time_in_cps:
+        time_in_ngo:
         time_of_frequency:
         total:
         township:
@@ -2160,6 +2170,8 @@ th-TH:
       support_amount:
       support_note:
       time_in_care:
+      time_in_cps:
+      time_in_ngo:
       trackings:
         action:
         frequency:
@@ -2774,18 +2786,18 @@ th-TH:
       alert:
       successfully_deleted:
     domain_identies:
-      care: Care
-      emotional_health: Emotional Health
-      food_security: Food Security
-      health_care_services: Health Care Services
-      legal_protection: Legal Protection
-      nutrition_and_growth: Nutrition and Growth
-      performance: Performance
-      protection_from_abuse_and_exploitation: Protection from Abuse and Exploitation
-      shelter: Shelter
-      social_behaviour: Social Behaviour
-      wellness: Wellness
-      work_and_education: Work and Education
+      care_2b: Care
+      emotional_health_5a: Emotional Health
+      food_security_1a: Food Security
+      health_care_services_4b: Health Care Services
+      legal_protection_3b: Legal Protection
+      nutrition_and_growth_1b: Nutrition and Growth
+      performance_6a: Performance
+      protection_from_abuse_and_exploitation_3a: Protection from Abuse and Exploitation
+      shelter_2a: Shelter
+      social_behaviour_5b: Social Behaviour
+      wellness_4a: Wellness
+      work_and_education_6b: Work and Education
     domain_list:
       add_new_domain:
       changelog:
@@ -2796,18 +2808,18 @@ th-TH:
       score_4:
       view:
     domain_names:
-      a1: A1
-      a2: A2
-      a3: A3
-      a4: A4
-      a5: A5
-      a6: A6
-      b1: B1
-      b2: B2
-      b3: B3
-      b4: B4
-      b5: B5
-      b6: B6
+      a1: 1A
+      a2: 2A
+      a3: 3A
+      a4: 4A
+      a5: 5A
+      a6: 6A
+      b1: 1B
+      b2: 2B
+      b3: 3B
+      b4: 4B
+      b5: 5B
+      b6: 6B
     edit:
       title:
     form:
@@ -4514,6 +4526,7 @@ th-TH:
       tasks_of:
       today_tasks:
       upcoming_tasks:
+    task_added:
   thredded:
     content_moderation_states:
       content_blocked_notice:

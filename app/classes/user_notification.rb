@@ -177,27 +177,27 @@ class UserNotification
   end
 
   def any_partner_custom_field_frequency_overdue?
-    partner_custom_field_frequency_overdue_count >= 1
+    partner_custom_field_frequency_overdue_count >= 1 if partner_custom_field_frequency_overdue_count
   end
 
   def any_partner_custom_field_frequency_due_today?
-    partner_custom_field_frequency_due_today_count >= 1
+    partner_custom_field_frequency_due_today_count >= 1 if partner_custom_field_frequency_due_today_count
   end
 
   def partner_custom_field_frequency_due_today_count
-    @partner_custom_field[:entity_due_today].count
+    @partner_custom_field[:entity_due_today].count if @partner_custom_field
   end
 
   def partner_custom_field_frequency_overdue_count
-    @partner_custom_field[:entity_overdue].count
+    @partner_custom_field[:entity_overdue].count if @partner_custom_field
   end
 
   def partner_custom_field_frequency_due_today
-    @partner_custom_field[:entity_due_today]
+    @partner_custom_field[:entity_due_today] if @partner_custom_field
   end
 
   def partner_custom_field_frequency_overdue
-    @partner_custom_field[:entity_overdue]
+    @partner_custom_field[:entity_overdue] if @partner_custom_field
   end
 
   def any_family_custom_field_frequency_overdue?
@@ -348,7 +348,7 @@ class UserNotification
 
     referrals.each do |referral|
       referral_slug = referral.slug
-      client = Client.find_by(slug: referral_slug)
+      client = Client.find_by(archived_slug: referral_slug)
       client.present? ? existing_client_referrals << referral : new_client_referrals << referral
     end
 
