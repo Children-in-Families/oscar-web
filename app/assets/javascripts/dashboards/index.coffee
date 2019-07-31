@@ -310,8 +310,7 @@ CIF.DashboardsIndex = do ->
         $('#search-client-select2').trigger("change")
         return
       ).blur ->
-        $('#s2id_search-client-select2 .select2-chosen').text(searchForClient) if $('#s2id_search-client-select2 .select2-chosen').val.length == 1
-        debugger
+        $('#s2id_search-client-select2 .select2-chosen').attr('style', 'color: #999999').text(searchForClient) if $('#s2id_search-client-select2 .select2-chosen').val().length == 0
         return
 
   { init: _init }
