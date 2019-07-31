@@ -33,9 +33,10 @@ class Ability
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :manage, GovernmentForm
+      can [:read, :create, :update], Partner
+      can :manage, Referral
       can :create, Task
       can :read, Task
-      can :manage, Referral
 
       family_ids = user.families.ids
       user.clients.each do |client|

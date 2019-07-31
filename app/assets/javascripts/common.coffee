@@ -10,6 +10,10 @@ CIF.Common =
     @checkValidationErrorExistOnSaving()
     @intAssessmentClientSelected()
 
+  addLocalstorageAttribute: ->
+    $('.btn-login').on 'click', ->
+      localStorage.setItem('from login', true)
+
   intAssessmentClientSelected: ->
     $('#client-select-assessment').on 'select2-selected', (e) ->
       idClient = e.val
@@ -24,10 +28,6 @@ CIF.Common =
       a = document.getElementById('csi-case-note-link').href = csiLink
       customLink = "/clients/#{id}/case_notes/new?country=cambodia&custom=true&from=dashboards"
       a = document.getElementById('custom-case-note-link').href = customLink
-
-  addLocalstorageAttribute: ->
-    $('.btn-login').on 'click', ->
-      localStorage.setItem('from login', true)
 
   textShortener: ->
     if $('.clients-table').is(':visible')

@@ -1882,13 +1882,6 @@ my:
       previous: ေရွ႕တစ္ခု
     program_stream:
       program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
-    program_enrollment_tab:
-      next: ေနာက္တစ္ခု
-      previous: ေရွ႕တစ္ခု
-      program_you_enroll: Which program do you want to enroll a client into?
-      program_stream: အစီအမံစီဆင္းမႈ
-      action: လုပ္ေဆာင္မႈ
-      enroll : Enroll Client
     program_stream_services:
       name: နာမတျောကို
       program_stream: အစီအစဥ္စီးဆင္းမႈမ်ား
@@ -1896,6 +1889,13 @@ my:
       remind_me: နောက်ပိုင်းမှာကြှနျုပျကိုသတိပေး
       service_confirm_question: သင့်ရဲ့ program ကိုဒီအရာများစွာကိုမသင်သေချာပါသလား? ကန်ဆောင်မှုများရွေးချယ်ရာတွင်စောင့်ရှောက်ပေမယ့်လျှင်မပါဘူးဆိုရင်, ရိုးရှင်းသောစောင့်ရှောက်ဖို့ကြိုးစား!
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
+    program_enrollment_tab:
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      program_you_enroll: Which program do you want to enroll a client into?
+      program_stream: အစီအမံစီဆင္းမႈ
+      action: လုပ္ေဆာင္မႈ
+      enroll : Enroll Client
     program_streams_tab:
       link: link ကို
       next: ေနာက္တစ္ခု

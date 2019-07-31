@@ -68,6 +68,5 @@ module Api
         params[:program_stream][:service_ids] = params[:program_stream][:service_ids].uniq
         params.require(:program_stream).permit(:name, service_ids: [])
       end
-
   end
 end
