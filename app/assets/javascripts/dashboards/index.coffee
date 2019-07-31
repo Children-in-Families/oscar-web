@@ -17,8 +17,6 @@ CIF.DashboardsIndex = do ->
     _initSelect2()
     _openTaskListModal()
     _handleApplyFilter()
-    _initCustomFieldsDataTable()
-    _initTrackingDatatable()
     _initICheckBox()
     _handleProgramStreamServiceShow()
     _handleProgramStreamServiceSelect2()
@@ -52,6 +50,9 @@ CIF.DashboardsIndex = do ->
       $(".#{btnSave}").addClass('hide')
       $(".#{tickClass}").removeClass('hide')
     ), 500
+    _initTrackingDatatable()
+    _handleMultiForm()
+
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -114,16 +115,23 @@ CIF.DashboardsIndex = do ->
     report = new CIF.ReportCreator(data, title, '', element)
     report.pieChart(option: true)
 
-  _initCustomFieldsDataTable = ->
-    self = $('#custom-fields-table')
+  _handleMultiForm = ->
+    _initMultiFormDatatable('#custom-fields-table')
+    _initMultiFormDatatable('#family-table')
+    _initMultiFormDatatable('#partner-table')
+    _initMultiFormDatatable('#user-table')
+    _initMultiFormDatatable('#program-enrollment-table')
+
+  _initTrackingDatatable = ->
+    self = $('#program-streams-table')
     $(self).DataTable
       bFilter: false
-      sScrollY: '500'
       bInfo: false
       processing: true
       serverSide: true
       ajax: $(self).data('url')
-      columns:  [
+      columns: [
+        null
         null
         bSortable: false, className: 'text-center'
       ]
@@ -134,17 +142,15 @@ CIF.DashboardsIndex = do ->
       drawCallback: ->
         _getDataTableId()
 
-  _initTrackingDatatable = ->
-    self = $('#program-streams-table')
+  _initMultiFormDatatable = (tableId) ->
+    self = $(tableId)
     $(self).DataTable
       bFilter: false
-      sScrollY: '500'
       bInfo: false
       processing: true
       serverSide: true
       ajax: $(self).data('url')
       columns: [
-        null
         null
         bSortable: false, className: 'text-center'
       ]

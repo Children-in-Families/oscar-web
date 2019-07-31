@@ -372,7 +372,7 @@ km:
       family_id: លេខសម្គាល់គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
-      follow_up_date: កាលបរិច្ឆេទតាមដាន
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
       followed_up_by_id: បុគ្គលិកតាមដានករណី
       form_title: ឈ្មោះទម្រង់បែបបទ
@@ -456,6 +456,8 @@ km:
       suburb: Suburb
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       time_in_care: រយៈពេលមើលថែទាំ
+      time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+      time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       township: Township
       tracking: តាមដាន
@@ -662,11 +664,11 @@ km:
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
-      type: ប្រភេទ (សំគាល់ៈ ជ្រើសយក "សួរសុខទុក្ខ" លុះត្រាតែអ្នកបានជួបជាមួយអតិថិជនផ្ទាល់)
+      type: ប្រភេទ
       type_options:
+        visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
         rd_party: បុគ្គលទី៣
-        visit: ជួបជាមួយអតិថិជនផ្ទាល់
         other_option: ផ្សេងៗ
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
@@ -1359,7 +1361,7 @@ km:
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       finish: រក្សាទុក
       follow_up_by: បុគ្គលិកតាមដានករណី
-      follow_up_date: កាលបរិច្ឆេទតាមដាន
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
       from: ចាប់ពី
       gender: ភេទ
@@ -1449,14 +1451,14 @@ km:
     getting_started:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
-      family_name: នាមត្រកូល (ភាសាអង់គ្លេស)
+      family_name: នាមត្រកូលជាអក្សរឡាតាំង
       first_followed_up_by: បុគ្គលិកតាមដានករណី
       first_followed_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by_id: បុគ្គលិកតាមដានករណី
       gender: ភេទ
       getting_started: ព័ត៌មានបឋម
-      given_name: នាមខ្លួន (ភាសាអង់គ្លេស)
+      given_name: នាមខ្លួនជាអក្សរឡាតាំង
       initial_referral_date: កាលបរិច្ឆេទនៃការបញ្ជូនដំបូង
       living_detail: ព័ត៌មានរស់នៅលំអិត
       local_family_name: នាមត្រកូល (ភាសាខ្មែរ)
@@ -1475,7 +1477,7 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី
       referral_received_by: បុគ្គលិកទទួលករណី
       referral_source: ប្រភពនៃការបញ្ជូន
-      referral_source_category: ប្រភេទនៃប្រភពយោង
+      referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
       remove_profile: លុបរូបថត
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
@@ -1541,6 +1543,10 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+    level:
+      level_no: មិនមាន
+      level_1: កម្រិត ១
+      level_2: កម្រិត ២
     living_detail:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
@@ -1643,7 +1649,7 @@ km:
       families: គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
-      follow_up_date: កាលបរិច្ឆេទតាមដាន
+      follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
       gender: ភេទ
       general_info: អំពីអតិថិជន
@@ -1707,6 +1713,7 @@ km:
       referral_forms: បែបបទបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
+      referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
       referred_from: បញ្ជូនមកពីអង្គការដទៃ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       reject: មិនទទួលយក
@@ -1735,6 +1742,8 @@ km:
         year:
           one: "%{count} ឆ្នាំ"
           other: "%{count} ឆ្នាំ"
+      time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+      time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
       view_assessments: ការប៉ាន់ប្រមាណ
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
@@ -1796,6 +1805,18 @@ km:
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     active_tasks_side:
       active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
+    assessment_tab:
+      assessment: ការប៉ាន់ប្រមាណ
+      assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
+      client_you_like: តើអតិថិជនណាដែលអ្នកចង់បំពេញការប៉ាន់ប្រមាណ?
+      csi_assessment: ការប៉ាន់ប្រមាណ CSI
+      custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+    case_note_tab:
+      case_note: កំណត់ត្រាករណី
+      case_note_you_add: តើកំណត់ត្រាករណីនេះប្រើជាមួយការប៉ាន់ប្រមាណណា?(CSI​ ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
+      csi_assessment: ការប៉ាន់ប្រមាណ CSI
+      custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញកំណត់ត្រាករណី?
     client:
       ables: Ables
       clients: អតិថិជនបច្ចុប្បន្ន
@@ -1808,7 +1829,13 @@ km:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទដែលបាននិងកំពុងចូលរួមកម្មវិធី
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
+    client_tab:
+      action: សកម្មភាព
+      client_form: ទម្រង់អតិថិជន
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     custom_fields_tab:
+      form_add: តើអ្នកចង់បន្ថែមបែបណា?
       link: តំណ
       name: ឈ្មោះ
       next: ទំព័របន្ទាប់
@@ -1824,16 +1851,37 @@ km:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
+    family_tab:
+      action: សកម្មភាព
+      family_form: ទម្រង់គ្រួសារ
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     multiple_forms:
+      add_new_document: បន្ថែមឯកសារថ្មី
+      assessment: ការប៉ាន់ប្រមាណ
+      case_note: កំណត់ត្រាករណី
+      client: អតិថិជន
       custom_forms: ទម្រង់បែបបទ
+      family: គ្រួសារ
+      form: ទម្រង់
+      kind_of_document: តើឯកសារប្រភេទណាដែលអ្នកចង់បន្ថែម?
       multiple_forms: បង្កើតទម្រង់ឲ្យអតិថិជនច្រើនព្រមគ្នា
-      tracking_forms: ទម្រង់បែបបទតាមដាន
+      partners: ដៃគូ
+      program_enrollment: បញ្ចូលក្នុងកម្មវិធី
+      record: កត់ត្រា
+      tracking_forms: ទម្រង់តាមដាន
+      user: អ្នក​ប្រើ
     overdue:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
       overdue_tasks: ភារកិច្ចហួសកំណត់
       tasks: កាតព្វកិច្ច
+    partner_tab:
+      action: សកម្មភាព
+      next: ទំព័របន្ទាប់
+      partner_form: ទម្រង់ដៃគូ
+      previous: ទំព័រមុន
     program_stream:
       program_stream: កម្មវិធីចម្បងីចម្បង
     program_stream_services:
@@ -1843,8 +1891,15 @@ km:
       remind_me: រំលឹកខ្ញុំពេលក្រោយ
       service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ? បើមិនដូច្នោះទេចូរជ្រើសរើសការជ្រើសរើសសេវាកម្មប៉ុន្តែបើមិនដូច្នោះចូរព្យាយាមរក្សាវាឱ្យសាមញ្ញ!
       type_of_service: ប្រភេទសេវាកម្ម
+    program_enrollment_tab:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      program_you_enroll: តើកម្មវិធីមួយណាដែលអ្នកចង់បញ្ជូលអតិថិជន?
+      program_stream: ឈ្មោះកម្មវិធីចម្បង
+      action: សកម្មភាព
+      enroll : ចុះឈ្មោះអតិថិជន
     program_streams_tab:
-      link: តំណ
+      link: សកម្មភាព
       next: ទំព័របន្ទាប់
       open_form: បើកទម្រង់
       previous: ទំព័រមុន
@@ -1855,12 +1910,21 @@ km:
       name: ឈ្មោះ
       referral_source_reminder: សូមបន្ថែមព័ត៌មានប្រភេទសម្រាប់ប្រភពនៃការបញ្ជូន
       remind_later: រំលឹកខ្ញុំពេលក្រោយ
+      program_stream_name: កម្មវិធីចម្បង
+      tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
+    record_tab:
+      record_you_add: តើអ្នកចង់បន្ថែមកំណត់ត្រាបែបណា?
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
       agencies: អង្គភាព
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
-      staffs: អ្នកប្រើបា្រស់
+      staffs: បុគ្គលិកបច្ចុប្បន្ន
+    user_tab:
+      action: សកម្មភាព
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      user_form: ទម្រង់អ្នកប្រើ
     upcoming:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -1987,7 +2051,7 @@ km:
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូលជាអក្សរឡាតាំង
         follow_up_by: បុគ្គលិកតាមដានករណី
-        follow_up_date: កាលបរិច្ឆេទតាមដាន
+        follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
         followed_up_by: បុគ្គលិកតាមដានករណី
         form_title: ឈ្មោះទម្រង់បែបបទ
         frequency: ភាពញឹកញាប់
@@ -2068,6 +2132,8 @@ km:
         telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
         thailand: ថៃ
         time_in_care: រយៈពេលមើលថែទាំ
+        time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
+        time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
         township: Township
@@ -2189,6 +2255,8 @@ km:
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
       time_in_care: រយៈពេលមើលថែទាំ
+      time_in_cps:
+      time_in_ngo:
       trackings:
         action: សកម្មភាព
         frequency: ភាពញឹកញាប់
@@ -2286,7 +2354,7 @@ km:
     donor: ម្ចាស់ជំនួយ
     family_name: នាមត្រកូលជាអក្សរឡាតាំង
     follow_up_by: បុគ្គលិកតាមដានករណី
-    follow_up_date: កាលបរិច្ឆេទតាមដាន
+    follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
     followed_up_by: បុគ្គលិកតាមដានករណី
     gender: ភេទ
     gender_list:
@@ -2803,18 +2871,18 @@ km:
       alert: កត្តាមិនអាចលុបបានទេ
       successfully_deleted: កត្តាត្រូវបានលុបចោលដោយជោគជ័យ
     domain_identies:
-      care: "(សុវត្ថិភាពស្បៀងអាហារ)"
-      emotional_health: "(ឣាហាររូបត្ថម្ភ និងការលូតលាស់)"
-      food_security: "(ជម្រក/លំនៅ ដ្ឋាន)"
-      health_care_services: "(ការថែទាំ)"
-      legal_protection: "(ការការពារ ពីការរំលោភបំពាន និងការកេងប្រវ័ញ្ច)"
-      nutrition_and_growth: "(កិច្ចគាំពារផ្លូវច្បាប់)"
-      performance: "(សុខមាលភាព)"
-      protection_from_abuse_and_exploitation: "(សេវាថែទាំសុខភាព)"
-      shelter: "(សុខភាពផ្លូវចិត្ត)"
-      social_behaviour: "(អាកប្បកិរិយាក្នុងសង្គម)"
-      wellness: "(ការប្រព្រឹត្ត) ការអភិវឌ្ឍផ្នែកចលករ និងពុទ្ធិ"
-      work_and_education: "(ការអប់រំ នឹងការងារ)"
+      care_2b: "(ការថែទាំ)"
+      emotional_health_5a: "(សុខភាពផ្លូវចិត្ត)"
+      food_security_1a: "(សុវត្ថិភាពស្បៀងអាហារ)"
+      health_care_services_4b: "(សេវាថែទាំសុខភាព)"
+      legal_protection_3b: "(កិច្ចគាំពារផ្លូវច្បាប់)"
+      nutrition_and_growth_1b: "(ឣាហាររូបត្ថម្ភ និងការលូតលាស់)"
+      performance_6a: "(ការប្រព្រឹត្ត) ការអភិវឌ្ឍផ្នែកចលករ និងពុទ្ធិ"
+      protection_from_abuse_and_exploitation_3a: "(ការការពារ ពីការរំលោភបំពាន និងការកេងប្រវ័ញ្ច)"
+      shelter_2a: "(ជម្រក/លំនៅ ដ្ឋាន)"
+      social_behaviour_5b: "(អាកប្បកិរិយាក្នុងសង្គម)"
+      wellness_4a: "(សុខមាលភាព)"
+      work_and_education_6b: "(ការអប់រំ នឹងការងារ)"
     domain_list:
       add_new_domain: បន្ថែមកត្តាថ្មី
       changelog: ប្រវត្តិនៃកំណែ
@@ -3711,6 +3779,10 @@ km:
       form:
         clients: អតិថិជន
         warning: ការបំពេញទម្រង់បែបបទនេះនឹងរក្សាទុកពត៌មានទាំងនេះដាច់ដោយឡែកសម្រាប់អតិថិជននីមួយៗដែលបានជ្រើសរើសនៅទីនេះ។ អតិថិជននីមួយៗនឹងមានពត៌មានដូចៗគ្នា។ សូមកុំប្រើទម្រង់មួយនេះ បើអតិថិជននីមួយៗមានពត៌មានខុសៗគ្នា។
+    client_enrollments:
+      create:
+        client_not_valid: អតិថិជនមិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
+        successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកនៅក្នុងអតិថិជនដោយជោគជ័យ
     complete_form:
       agree: បាទ/ចាស
       disagree: ទេ
@@ -4957,3 +5029,4 @@ km:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."
     previous_label: ទំព័រមុន
+

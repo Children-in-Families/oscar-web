@@ -257,10 +257,19 @@ body[id='clients-index'] {
   table.clients {
     th {
       position: relative;
-      a.all-values {
+      form.all-values {
         position: absolute;
         right: 5px;
         top: 10px;
+        color: #337ab7;
+        &:hover, &:focus {
+          color: #23527c;
+        }
+        input[type="submit"] {
+          padding: 0;
+          border: none;
+          background: none;
+        }
       }
       div.dataTables_sizing {
         display: none;

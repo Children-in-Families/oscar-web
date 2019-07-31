@@ -1,0 +1,19 @@
+#record.tab-pane.active.margin-top-datatable{ role: 'tabpanel' }
+  %h2.text-center= t('.record_you_add')
+  .row{:style => "margin-left: 35px;"}
+    %br
+    .col-xs-12.col-md-3
+      .client-option
+        - if can? :manage, Client
+          = link_to "#{I18n.t('clients.index.add_new_client')}", new_client_path, class: 'btn btn-primary'
+    .col-xs-12.col-md-3
+      - if can? :manage, Family
+        = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary'
+    .col-xs-12.col-md-3
+      - if can? :manage, Partner
+        = link_to "#{I18n.t('partners.index.add_new_partner')}", new_partner_path, class: 'btn btn-primary'
+    .col-xs-12.col-md-3
+      - if can? :manage, :all
+        = link_to "#{I18n.t('users.index.add_new_user')}", new_user_path, class: 'btn btn-primary'
+
+
