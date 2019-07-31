@@ -289,20 +289,27 @@ CIF.DashboardsIndex = do ->
             { results: data }
           cache: true
         initSelection: (element, callback) ->
-            id = $(element).select2('data', null)
+            id = $(element).select2('data', null).trigger("change")
             return
         formatResult: (client) ->
           en_full_name = "#{client.given_name} #{client.family_name}"
           local_full_name = "#{client.local_given_name} #{client.local_family_name}"
           markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
 
-          return markup 
+          return markup
         formatSelection: (client) ->
           win = window.open("clients/#{client.slug}", '_blank')
-          if win
-            win.focus()
-          else
-            alert 'Please allow popups for this website'
-      )
+          $('#search-client-select2').trigger("change")
+      ).on 'select2-blur select2-focus', ->
+        $(@).trigger("change")
+        return
+
+      $(window).focus(->
+        $('#search-client-select2').trigger("change")
+        return
+      ).blur ->
+        $('#s2id_search-client-select2 .select2-chosen').text(searchForClient) if $('#s2id_search-client-select2 .select2-chosen').val.length == 1
+        debugger
+        return
 
   { init: _init }

@@ -130,7 +130,14 @@ body[id='dashboards-index'] {
     background-color: #1ab394;
     color: white;
   }
-  
+
+  #search-client{
+    .heading-label {
+      background-color: #186e6d;
+      color: #fff;
+    }
+  }
+
   #multiple-form-modal{
     .modal-dialog {
         width: 80%;
@@ -151,13 +158,6 @@ body[id='dashboards-index'] {
       .modal-body .tab-content {
         height: 70vh;
       }
-    }
-  }
-  
-  #search-client{
-    .heading-label {
-      background-color: #186e6d;
-      color: #fff;
     }
   }
 }
