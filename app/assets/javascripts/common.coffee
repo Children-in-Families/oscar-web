@@ -6,8 +6,8 @@ CIF.Common =
     @initNotification()
     @autoCollapseManagMenu()
     @textShortener()
-    @checkValidationErrorExistOnSaving()
     @addLocalstorageAttribute()
+    @checkValidationErrorExistOnSaving()
     @intAssessmentClientSelected()
 
   addLocalstorageAttribute: ->

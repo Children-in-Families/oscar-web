@@ -27,7 +27,6 @@ body[id='dashboards-index'] {
 
     table.custom-field-table {
       margin-bottom: 0;
-
       th {
         border-bottom-width: 0;
       }
@@ -36,6 +35,9 @@ body[id='dashboards-index'] {
 
   .margin-top-datatable {
     margin-top: 10px;
+  }
+  .label-size {
+    font-size: 11px;
   }
   #users-task-panel {
     table.active_tasks {
@@ -109,7 +111,7 @@ body[id='dashboards-index'] {
   }
 
   .referral-source-category-dialog{
-    overflow-y: initial !important
+    overflow-y: initial !important;
   }
 
   .referral-body{

@@ -18,6 +18,8 @@ CIF.DashboardsIndex = do ->
     _openTaskListModal()
     _handleApplyFilter()
     _initICheckBox()
+    _initTrackingDatatable()
+    _handleMultiForm()
     _handleProgramStreamServiceShow()
     _updateProgramStream()
     _enableSaveReferralSource()

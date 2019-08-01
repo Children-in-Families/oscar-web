@@ -1914,13 +1914,13 @@ my:
       previous: ေရွ႕တစ္ခု
       program_stream_name: အစီအမံစီဆင္းမႈ
       tracking_name: ခြေရာခံနာမကိုအမှီ
+    record_tab:
+      record_you_add: What kind of record would you like to add?
     referral_source_category_reminder:
       ancestry: အမျိုးအစား
       name: နာမတျောကို
       referral_source_reminder: ရည်ညွန်းရင်းမြစ်များအတွက် Category သတင်းအချက်အလက် Add ပေးပါ
       remind_later: နောက်ပိုင်းမှာငါ့ကိုသတိပေး
-    record_tab:
-      record_you_add: What kind of record would you like to add?
     third_party:
       ables: Ables
       agencies: ေအဂ်င္စီမ်ား
