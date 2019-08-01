@@ -21,6 +21,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _enableDoneButton()
     _ajaxCheckReferralSource()
     _ajaxCheckReferralSourceCategory()
+    _allowSelectOnlyOneFamily()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -403,5 +404,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _enableDoneButton = ->
     $("a[href='#previous'], .btn-modal-cancel").on 'click', ->
       $("a[href='#finish']").removeAttr("disabled").text(filterTranslation.done);
+
+  _allowSelectOnlyOneFamily = ->
+    $('#client_family_ids').select2
+      maximumSelectionSize: 1
+    $('#client_family_ids').on 'select2-open', (e) ->
+      if $(this).select2('val').length > 0
+        e.preventDefault()
 
   { init: _init }
