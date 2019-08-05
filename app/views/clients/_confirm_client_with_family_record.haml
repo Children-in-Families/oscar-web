@@ -1,0 +1,26 @@
+#client-confirmation.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h3 
+          %strong Client Confirmation
+      .modal-body
+        %p Please choose one option below before you submit client information:
+        #clientOption
+          .row
+            .col-xs-12.col-sm-12.col-md-12
+              %input{:name => "clientConfirmation", :type => "radio", :value => "createNewFamilyRecord"}
+              Would you like to create a family record for this client? 
+            .col-xs-12.col-sm-12.col-md-12
+              %input{:name => "clientConfirmation", :type => "radio", :value => "attachExistingFamilyRecord", id: 'attach-family'}
+              Would you like to attach to Existing Family Record?
+              .family-option.hide
+                = simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
+                  .col-xs-12.col-sm-6.col-md-4
+                    = f.association :families, collection: @families, label_method: :name, value_method: :id, multiple: false, label: t('.family')
+            .col-xs-12.col-sm-12.col-md-12
+              %input{:name => "clientConfirmation", :type => "radio", :value => "no"}/
+              No
+      .modal-footer
+        %button.btn.btn-primary#clientConfirmation Save
+

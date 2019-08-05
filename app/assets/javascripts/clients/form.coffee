@@ -22,6 +22,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _ajaxCheckReferralSource()
     _ajaxCheckReferralSourceCategory()
     _allowSelectOnlyOneFamily()
+    _checkingFamilyRecord()
+    _openSelectClientForm()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -146,6 +148,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       district: $('#client_district_id').find(':selected').text()
       village: $('#client_village_id').find(':selected').text()
       commune: $('#client_commune_id').find(':selected').text()
+      family: $('#client_family_ids').find(':selected').text()
     }
 
     if data.date_of_birth != '' or data.given_name != '' or data.birth_province != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province != ''
@@ -188,6 +191,37 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     else
       $('#client-wizard-form').submit()
       $('.loader-default').removeClass('is-active')
+
+    # if data.family == ''
+    #   $('.loader-default').removeClass('is-active')
+    #   $('#client-confirmation').modal('show')
+    #   $('#clientConfirmation').click ->
+    #     clientOptionValue = $('input[name=clientConfirmation]:checked').val()
+    #     if clientOptionValue == "createNewFamilyRecord"
+    #       _compareExistingValue(data, 'go to family')
+    #     else if clientOptionValue == "attachExistingFamilyRecord"
+         
+    #     else
+
+  _checkingFamilyRecord = ->
+    family = $('#client_family_ids').find(':selected').text()
+    $('.save-edit-client').on 'click', (e) ->
+      e.preventDefault()
+      if family == ''
+        $('#client-confirmation').modal('show')
+        $('#clientConfirmation').click ->
+          clientOptionValue = $('input[name=clientConfirmation]:checked').val()
+          if clientOptionValue == "createNewFamilyRecord"
+            # $('#client-wizard-form').submit() 
+          else if clientOptionValue == "attachExistingFamilyRecord"
+            #add data of family
+            # _compareExistingValue(data)
+          else
+            $('#client-wizard-form').submit()
+  
+  _openSelectClientForm = ->
+    $('#attach-family input:radio').on 'click', ->
+      debugger
 
   _clientSelectOption = ->
     $('select').select2
