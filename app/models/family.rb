@@ -31,6 +31,8 @@ class Family < ActiveRecord::Base
 
   validate :client_must_only_belong_to_a_family
 
+  after_save :save_family_in_client
+
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
   scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value.squish}%") }
@@ -89,6 +91,16 @@ class Family < ActiveRecord::Base
 
   def self.mapping_family_type_translation
     [I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values, I18n.t('default_family_fields.family_type_list').values].transpose
+  end
+
+  def save_family_in_client
+    self.children.each do |child|
+      client = Client.find_by(id: child)
+      next if client.family_ids.include?(self.id)
+      client.families << self
+      client.families.uniq
+      client.save(validate: false)
+    end
   end
 
   private
