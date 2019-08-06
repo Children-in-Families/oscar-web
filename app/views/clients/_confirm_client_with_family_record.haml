@@ -9,17 +9,16 @@
         #clientOption
           .row
             .col-xs-12.col-sm-12.col-md-12
-              %input{:name => "clientConfirmation", :type => "radio", :value => "createNewFamilyRecord"}
+              %input#newFamily{:name => "clientConfirmation", :type => "radio", :value => "createNewFamilyRecord"}
               Would you like to create a family record for this client? 
             .col-xs-12.col-sm-12.col-md-12
-              %input{:name => "clientConfirmation", :type => "radio", :value => "attachExistingFamilyRecord", id: 'attach-family'}
+              %input#attachFamily{:name => "clientConfirmation", :type => "radio", :value => "attachExistingFamilyRecord"}
               Would you like to attach to Existing Family Record?
-              .family-option.hide
-                = simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
-                  .col-xs-12.col-sm-6.col-md-4
-                    = f.association :families, collection: @families, label_method: :name, value_method: :id, multiple: false, label: t('.family')
+              #family-option{:style => "display: none"}
+                .col-xs-12.col-sm-6.col-md-4
+                  = f.association :families, collection: @families, label_method: :name, value_method: :id, multiple: false, label: false
             .col-xs-12.col-sm-12.col-md-12
-              %input{:name => "clientConfirmation", :type => "radio", :value => "no"}/
+              %input#saveDirect{:name => "clientConfirmation", :type => "radio", :value => "no"}/
               No
       .modal-footer
         %button.btn.btn-primary#clientConfirmation Save
