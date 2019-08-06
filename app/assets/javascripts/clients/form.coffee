@@ -231,6 +231,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $("input[name='clientConfirmation']").click ->
       if $('#attachFamily').is(':checked')
         $('#family-option').show()
+        $('#client-confirmation #client_family_ids').select2('val', '')
       else
         $('#family-option').hide()
 
