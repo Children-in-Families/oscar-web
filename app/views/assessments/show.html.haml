@@ -17,10 +17,11 @@
                 = "#{t('.based_on')} #{@assessment.index_of + 1}"
               %br
               = "#{t('.assessment_created_by')} #{whodunnit('Assessment', @assessment)} #{t('.on_date')} #{date_format(@assessment.created_at)}"
-          .col-xs-1
+          .col-xl-1
             .pull-right
               - if policy(@assessment).edit?
                 = assessment_edit_link(@assessment.client, @assessment)
+              = assessment_destroy_link(@assessment.client, @assessment)
         - @assessment.assessment_domains_in_order.each do |ad|
           .row
             .col-xs-12
