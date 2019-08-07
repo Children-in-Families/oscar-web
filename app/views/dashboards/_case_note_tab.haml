@@ -4,7 +4,7 @@
     .col-xs-12.col-sm-6
       %label.control-label
         = t('.client_you_complete_for')
-      = select_tag "clients", options_from_collection_for_select(@clients, "id", "name"),{ class: "select form-group",   id: 'client-select-case-note', :prompt => ''}
+      = select_tag "clients", options_from_collection_for_select(@select_client_options, "id", "name"),{ class: "select form-group",   id: 'client-select-case-note', :prompt => ''}
     .col-xs-12.col-sm-6
       %label.control-label
         = t('.case_note_you_add')
