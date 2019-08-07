@@ -26,7 +26,6 @@ CIF.DashboardsIndex = do ->
     _clickSaveReferral()
     _loadModalReminder()
     _handleSearchClient()
-    _handleMultiForm()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
