@@ -26,7 +26,6 @@ CIF.DashboardsIndex = do ->
     _clickSaveReferral()
     _loadModalReminder()
     _handleSearchClient()
-    _initTrackingDatatable()
     _handleMultiForm()
 
   _loadModalReminder = ->
