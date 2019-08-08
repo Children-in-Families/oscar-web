@@ -1138,6 +1138,13 @@ km:
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   clients:
+    confirm_client_with_family_record: 
+      client_confirmation: ការស្នើសុំរបស់អតិថិជន
+      client_option: សូមជ្រើសរើសជម្រើសមួយនៅខាងក្រោមមុនពេលអ្នកបញ្ជូនព័ត៌មានអតិថិជន
+      create_family_record_option:  តើអ្នកចង់បង្កើតកំណត់ត្រាគ្រួសារសម្រាប់អតិថិជននេះទេ? 
+      attach_exist_family_record_option:  តើអ្នកចង់ភ្ជាប់ទៅនឹងកំណត់ត្រាគ្រួសារដែលមានស្រាប់ទេ?
+      no_option: ទេ
+      save: រក្សាទុក
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
     address_forms:

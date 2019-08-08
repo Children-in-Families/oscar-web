@@ -1139,6 +1139,13 @@ en:
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
+    confirm_client_with_family_record: 
+      client_confirmation: Client Confirmation
+      client_option: Please choose one option below before you submit client information
+      create_family_record_option:  Would you like to create a family record for this client? 
+      attach_exist_family_record_option:  Would you like to attach to Existing Family Record?
+      no_option: No.
+      save: Save
     actions:
       are_you_sure: Are you sure you want to delete?
     address_forms:

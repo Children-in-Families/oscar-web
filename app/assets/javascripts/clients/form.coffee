@@ -24,6 +24,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _allowSelectOnlyOneFamily()
     _checkingFamilyRecord()
     _openSelectClientForm()
+    _disableAndEnableButtonOtherOptionToCreateFamiyRecord()
+    _disableAndEnableButtonWhenOptionAttachFamilyRecord()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -223,18 +225,35 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           else if clientOptionValue == "attachExistingFamilyRecord"
             $('#client-wizard-form').submit()
           else
-            $('#client-wizard-form').submit()
+            # $('#clientConfirmation').removeClass('disabled')
+            $('#client-wizard-form').submit() 
       else
         $('#client-wizard-form').submit()
   
   _openSelectClientForm = ->
-    $("input[name='clientConfirmation']").click ->
+    $('.icheck-client-option').on 'ifChanged', (event) ->
       if $('#attachFamily').is(':checked')
         $('#family-option').show()
-        $('#client-confirmation #client_family_ids').select2('val', '')
+        $('#client-confirmation #client_family_ids').select2('val', '') 
       else
         $('#family-option').hide()
+       
+  
+  _disableAndEnableButtonOtherOptionToCreateFamiyRecord = ->
+    $('.icheck-client-option').on 'ifChanged', (event) ->
+      if $('.client-option').is(':checked') 
+        $('#clientConfirmation').removeClass('disabled')
+      else
+        $('#clientConfirmation').addClass('disabled')
+  
+  _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
+    $('#client-confirmation #client_family_ids').on 'change' , (e) ->
+      if $(this).val() != null 
+        $('#clientConfirmation').removeClass('disabled')
+      else
+        $('#clientConfirmation').addClass('disabled')
 
+    
   _clientSelectOption = ->
     $('select').select2
       minimumInputLength: 0
@@ -263,6 +282,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
+    $('.icheck-client-option').iCheck
+      radioClass: 'iradio_square-green'
+      
   _initDatePicker = ->
     $('.date-picker').datepicker
       autoclose: true,
@@ -454,6 +476,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _allowSelectOnlyOneFamily = ->
     $('#client_family_ids').select2
       maximumSelectionSize: 1
+
     $('#client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
@@ -461,8 +484,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client-confirmation #client_family_ids').select2
       maximumSelectionSize: 1
       width: 'style'
+
     $('#client-confirmation #client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
+
+    
 
   { init: _init }

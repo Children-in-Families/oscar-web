@@ -1143,6 +1143,13 @@ my:
     update:
       successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
   clients:
+    confirm_client_with_family_record: 
+      client_confirmation: client အတည်ပြုချက်
+      client_option: သငျသညျကို client သတင်းအချက်အလက်များတင်ပြမသွားခင်အောက်ကတဦးတည်း option ကိုရှေးခယျြ ကျေးဇူးပြု.
+      create_family_record_option:  သင်ဤ client ကိုတစ်မိသားစုစံချိန်ကိုဖန်တီးရန်လိုပါသလား
+      attach_exist_family_record_option:  သငျသညျရှိရင်းစွဲမိသားစုမှတ်တမ်းမှပူးတွဲလိုပါသလား
+      no_option: အဘယ်သူမျှမ
+      save: ကြော်ငြာကို Save လုပ်ရန်
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
     address_forms:
