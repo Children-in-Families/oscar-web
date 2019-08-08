@@ -538,6 +538,7 @@ km:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+      successfully_deleted_assessment: Assessment has been successfully deleted.
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
@@ -649,6 +650,7 @@ km:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
     destroy:
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+      successfully_deleted_case_note: Assessment has been successfully deleted.
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
@@ -682,6 +684,7 @@ km:
       goal: គោលដៅ
       note: កំណត់ត្រា
     index:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       back: ត្រលប់ក្រោយ
       case_note_lists: បញ្ជីកំណត់ត្រា

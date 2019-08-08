@@ -536,6 +536,7 @@ my:
       successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
+      successfully_deleted_assessment: Assessment has been successfully deleted.
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
     form:
       add_task: လုပ္ငန္းအသစ္ ထပ္ထည့္ရန္။
@@ -653,6 +654,7 @@ my:
       successfully_created: အမႈျခင္းရာ မွတ္ခ်က္ကို ျပဳလုပ္ၿပီးပါၿပီ။
     destroy:
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရပါ။
+      successfully_deleted_case_note: Assessment has been successfully deleted.
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
     form:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
@@ -686,6 +688,7 @@ my:
       goal: ရည္မွန္းခ်က္
       note: မွတ္စု
     index:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       attachments: တြဲထားသည္မ်ား
       back: ေနာက္သို႔
       case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း
