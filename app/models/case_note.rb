@@ -14,6 +14,8 @@ class CaseNote < ActiveRecord::Base
   accepts_nested_attributes_for :case_note_domain_groups
 
   scope :most_recents, -> { order(created_at: :desc) }
+  scope :most_recents_sort_case_note , -> {order(meeting_date: :desc)}
+  
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
 
   before_create :set_assessment
