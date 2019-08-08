@@ -31,7 +31,8 @@ class Family < ActiveRecord::Base
 
   validate :client_must_only_belong_to_a_family
 
-  after_save :save_family_in_client
+  before_save :save_family_in_client
+  after_save :delete_family_in_client
 
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
@@ -97,9 +98,21 @@ class Family < ActiveRecord::Base
     self.children.each do |child|
       client = Client.find_by(id: child)
       next if client.family_ids.include?(self.id)
+      # client.cases.destroy_all
       client.families << self
       client.families.uniq
       client.save(validate: false)
+    end
+  end
+
+  def delete_family_in_client
+    self.cases.each do |client_case|
+      client = Client.find_by(id: client_case.client_id)
+      if client.present? && client.family_ids.include?(self.id)
+        unless self.children.include?(client.id)
+          client.cases.find_by(family_id: self.id).delete
+        end
+      end
     end
   end
 
