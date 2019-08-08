@@ -8,7 +8,7 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
         if schema_search_path == "\"public\""
-          # create_all_donors
+          create_all_donors_organizations
           execute <<-SQL.squish
             DO
             $do$
@@ -33,7 +33,11 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
                   sch record;
                   client_r record;
                 BEGIN
-                  FOR sch IN SELECT organizations.short_name, organizations.full_name FROM "public".organizations WHERE short_name IN ('cif', 'mtp', 'demo')
+                  FOR sch IN
+                    SELECT organizations.full_name, organizations.short_name FROM "public"."all_donors"
+                    INNER JOIN "public"."all_donor_organizations" ON "public"."all_donor_organizations"."all_donor_id" = "public"."all_donors"."id"
+                    INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."all_donor_organizations"."organization_id"
+                    WHERE "public"."all_donors"."name" = 'Save the Children'
                   LOOP
                     sql := sql || format(
                                     'SELECT clients.id AS client_id, %L organization_name, clients.gender,
@@ -86,33 +90,47 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
     end
   end
 
-  def create_all_donors
-    donors = Organization.pluck(:id, :short_name).map do |org_id, short_name|
-      Organization.switch_to short_name
-      Donor.all.map do |donor|
-        [[org_id, short_name], [donor.id, donor.name]]
-      end
-    end
-
-    donor_names = donors.reject(&:blank?).map do |group|
-      group.flatten(1)[1..-1].map(&:last)
-    end
-
-    donor_values = donor_names.flatten.uniq.map{ |donor_name| { name: donor_name.strip } }
-
+  def create_all_donors_organizations
     Organization.switch_to 'public'
+    donors = ['Save the Children', 'Friends']
+    donor_organizations = {
+      'Save the Children' => [
+        'Children in Families',
+        'This Life Cambodia',
+        'First Step Cambodia',
+        "Cambodian Children's Trust",
+        "M'lop Tapang",
+        "Children's Future International",
+        'Kaliyan Mith',
+        'Mith Samlanh',
+        'Friends International',
+        'KMR',
+        'Holt',
+        'Tentative - Voice'
+      ],
+      'Friends' => [
+        'Kaliyan Mith',
+        'Mith Samlanh',
+        'Friends International'
+      ]
+    }
 
-    org_donors = donors.reject(&:blank?).map do |group|
-      org_donor = group.flatten(1).to_h.to_a
-      org, donors = org_donor[0], org_donor[1..-1]
+    donors.map{ |donor_name| { name: donor_name } }.each do |donor|
+      AllDonor.find_or_create_by(donor)
+    end
 
-      donors.to_h.values.uniq.map{ |donor_name| { name: donor_name.strip } }.each do |donor|
-        AllDonor.find_or_create_by(donor)
+    donor_orgs = []
+    AllDonor.all.pluck(:id, :name).each do |donor_id, donor_name|
+      organaization_names = donor_organizations[donor_name]
+      organaization_names.each do |org_name|
+        organization = Organization.where("LOWER(organizations.full_name) ILIKE (?)", "%#{org_name}%").first
+        next unless organization
+        donor_orgs << { all_donor_id: donor_id, organization_id: organization.id }
       end
+    end
 
-      donors.to_h.values.uniq.map{ |donor_name| { organization_id: org[0], all_donor_id: AllDonor.find_by(name: donor_name.strip).id } }.each do |donor_org|
-        AllDonorOrganization.find_or_create_by(donor_org)
-      end
+    donor_orgs.uniq.each do |donor_org|
+      AllDonorOrganization.find_or_create_by(donor_org)
     end
   end
 end
