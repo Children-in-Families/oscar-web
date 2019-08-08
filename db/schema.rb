@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190731070934) do
+ActiveRecord::Schema.define(version: 20190802065402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,20 @@ ActiveRecord::Schema.define(version: 20190731070934) do
   create_table "agency_clients", force: :cascade do |t|
     t.integer  "agency_id"
     t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "all_donor_organizations", force: :cascade do |t|
+    t.integer "all_donor_id"
+    t.integer "organization_id"
+  end
+
+  add_index "all_donor_organizations", ["all_donor_id"], name: "index_all_donor_organizations_on_all_donor_id", using: :btree
+  add_index "all_donor_organizations", ["organization_id"], name: "index_all_donor_organizations_on_organization_id", using: :btree
+
+  create_table "all_donors", force: :cascade do |t|
+    t.string   "name",       default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -1647,6 +1661,8 @@ ActiveRecord::Schema.define(version: 20190731070934) do
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "action_results", "government_forms"
   add_foreign_key "advanced_searches", "users"
+  add_foreign_key "all_donor_organizations", "all_donors"
+  add_foreign_key "all_donor_organizations", "organizations"
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
