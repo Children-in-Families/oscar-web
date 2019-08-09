@@ -157,9 +157,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('.loader-default').removeClass('is-active')
       $('#client-confirmation').modal('show')
       $('#clientConfirmation').click ->
+        clientId = $('#client-id').text()
         clientOptionValue = $('input[name=clientConfirmation]:checked').val()
         if clientOptionValue == "createNewFamilyRecord"
           localStorage.setItem('redirect_to_family', 'true')
+          localStorage.setItem('client_id', clientId)
           _compareExistingValue(data)
         else if clientOptionValue == "attachExistingFamilyRecord"
           _compareExistingValue(data)
@@ -214,13 +216,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _checkingFamilyRecord = ->
     $('.save-edit-client').on 'click', (e) ->
       e.preventDefault()
-      family = $('#client_family_ids').find(':selected').text()
+      clientId = $('#client-id').text()
+      family   = $('#client_family_ids').find(':selected').text()
       if family == ''
         $('#client-confirmation').modal('show')
         $('#clientConfirmation').click ->
           clientOptionValue = $('input[name=clientConfirmation]:checked').val()
           if clientOptionValue == "createNewFamilyRecord"
             localStorage.setItem('redirect_to_family', 'true')
+            localStorage.setItem('client_id', clientId)
             $('#client-wizard-form').submit()
           else if clientOptionValue == "attachExistingFamilyRecord"
             $('#client-wizard-form').submit()

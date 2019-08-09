@@ -1,4 +1,5 @@
 = simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
+  %p.hide#client-id= @client.id
   = hidden_field_tag :client_id, @client.id
   = hidden_field_tag :client_status, @client.status
   = f.hidden_field :slug, input_html: { value: @client.slug }
