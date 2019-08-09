@@ -670,6 +670,7 @@ en:
         non_face_to_face: Non face to face
         rd_party: 3rd Party
         other_option: Other
+        supervision: Supervision
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
