@@ -538,8 +538,8 @@ en:
       successfully_created: Assessment has been successfully created.
     destroy:
       fail_delete_attachment: Failed deleting attachment
-      successfully_deleted_assessment: Assessment has been successfully deleted.
       successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted_assessment: Assessment has been successfully deleted.
     form:
       add_task: Add Task
       add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
@@ -650,8 +650,8 @@ en:
       successfully_created: Case Note has successfully been created.
     destroy:
       fail_delete_attachment: Failed deleting attachment
-      successfully_deleted_case_note: Case Note has been successfully deleted.
       successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted_case_note: Case Note has been successfully deleted.
     form:
       add_task: Add Task
       back: Back
