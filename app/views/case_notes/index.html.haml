@@ -49,6 +49,8 @@
                     = date_format(case_note.meeting_date) if case_note.meeting_date
                     - if can? :manage, CaseNote
                       = edit_link(@client, case_note)
+                    - if current_user.admin?
+                      = destroy_link(@client, case_note)
 
             .panel-body
               - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join(' ')

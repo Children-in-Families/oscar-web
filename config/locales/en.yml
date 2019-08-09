@@ -529,7 +529,7 @@ en:
       preview_download: Preview & Download
     attachment_fields:
       allow_file_size: Allowed file types
-      are_you_sure: Are you sure you want to delete??
+      are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
@@ -539,6 +539,7 @@ en:
     destroy:
       fail_delete_attachment: Failed deleting attachment
       successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted_assessment: Assessment has been successfully deleted.
     form:
       add_task: Add Task
       add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
@@ -570,6 +571,7 @@ en:
       three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:
+      are_you_sure: Are you sure you want to delete?
       assessment_completed_by: Assessment completed by
       assessment_completed_for: Assessment for
       assessment_created_by: Completed by
@@ -649,6 +651,7 @@ en:
     destroy:
       fail_delete_attachment: Failed deleting attachment
       successfully_deleted: Attachment has been successfully deleted.
+      successfully_deleted_case_note: Case Note has been successfully deleted.
     form:
       add_task: Add Task
       back: Back
@@ -682,6 +685,7 @@ en:
       goal: Goal
       note: Note
     index:
+      are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       back: Back
       case_note_lists: Case note lists of
