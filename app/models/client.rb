@@ -688,13 +688,6 @@ class Client < ActiveRecord::Base
   end
 
   def disconnect_client_family_relation
-    self.cases.each do |client_case|
-      family = Family.find_by(id: client_case.family_id)
-      if family.present? && family.children.include?(self.id)
-        family.children = family.children - [self.id]
-        family.save(validate: false)
-      end
-    end
     cases.destroy_all
   end
 

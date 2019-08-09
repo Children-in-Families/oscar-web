@@ -225,16 +225,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           else if clientOptionValue == "attachExistingFamilyRecord"
             $('#client-wizard-form').submit()
           else
-            # $('#clientConfirmation').removeClass('disabled')
             $('#client-wizard-form').submit() 
       else
         $('#client-wizard-form').submit()
   
   _openSelectClientForm = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
+      $('#client-confirmation #client_family_ids').select2('val', '')
       if $('#attachFamily').is(':checked')
         $('#family-option').show()
-        $('#client-confirmation #client_family_ids').select2('val', '') 
       else
         $('#family-option').hide()
        
