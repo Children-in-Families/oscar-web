@@ -72,7 +72,7 @@ module AdvancedSearches
     end
 
     def case_note_type_options
-      CaseNote::INTERACTION_TYPE.map{|s| { s => s }  }
+      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map{|k, v| { k => v }  }
     end
 
     def active_program_options
