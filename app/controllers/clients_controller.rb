@@ -142,6 +142,14 @@ class ClientsController < AdminController
   end
 
   def update
+    @client.cases.each do |client_case|
+      family = Family.find_by(id: client_case.family_id)
+      if family.present? && family.children.include?(@client.id)
+        family.children = family.children - [@client.id]
+        family.save(validate: false)
+      end
+    end
+
     if @client.update_attributes(client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])

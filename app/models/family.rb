@@ -94,6 +94,16 @@ class Family < ActiveRecord::Base
     [I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values, I18n.t('default_family_fields.family_type_list').values].transpose
   end
 
+  private
+
+  def client_must_only_belong_to_a_family
+    clients = Family.where.not(id: self).pluck(:children).flatten.uniq
+    existed_clients = children & clients
+    existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
+    error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"
+    errors.add(:children, error_message) if existed_clients.present?
+  end
+
   def save_family_in_client
     self.children.each do |child|
       client = Client.find_by(id: child)
@@ -114,15 +124,5 @@ class Family < ActiveRecord::Base
         end
       end
     end
-  end
-
-  private
-
-  def client_must_only_belong_to_a_family
-    clients = Family.where.not(id: self).pluck(:children).flatten.uniq
-    existed_clients = children & clients
-    existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
-    error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"
-    errors.add(:children, error_message) if existed_clients.present?
   end
 end
