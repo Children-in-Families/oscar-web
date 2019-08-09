@@ -669,8 +669,8 @@ km:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
         rd_party: បុគ្គលទី៣
-        other_option: ផ្សេងៗ
         supervision: ជំនួប​គាំទ្រ​បច្ចេកទេស
+        other_option: ផ្សេងៗ
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា

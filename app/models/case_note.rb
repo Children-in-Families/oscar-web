@@ -1,5 +1,5 @@
 class CaseNote < ActiveRecord::Base
-  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Other', 'Supervision'].freeze
+  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party','Supervision','Other'].freeze
 
   belongs_to :client
   belongs_to :assessment

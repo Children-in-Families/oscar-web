@@ -669,8 +669,8 @@ en:
         visit: Visit
         non_face_to_face: Non face to face
         rd_party: 3rd Party
-        other_option: Other
         supervision: Supervision
+        other_option: Other
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
@@ -1488,7 +1488,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search
+      advanced_search: Advanced Search 
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       assessment_data: Assessment Data
