@@ -8,10 +8,7 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
         if schema_search_path == "\"public\""
-<<<<<<< HEAD
           create_all_donors_organizations
-=======
->>>>>>> create-joined-table-donor-organization-store-procedure-167564528
           execute <<-SQL.squish
             DO
             $do$
@@ -92,7 +89,6 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
       end
     end
   end
-<<<<<<< HEAD
 
   def create_all_donors_organizations
     Organization.switch_to 'public'
@@ -120,11 +116,11 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
     }
 
     donors.map{ |donor_name| { name: donor_name } }.each do |donor|
-      AllDonor.find_or_create_by(donor)
+      Donor.find_or_create_by(donor)
     end
 
     donor_orgs = []
-    AllDonor.all.pluck(:id, :name).each do |donor_id, donor_name|
+    Donor.all.pluck(:id, :name).each do |donor_id, donor_name|
       organaization_names = donor_organizations[donor_name]
       organaization_names.each do |org_name|
         organization = Organization.where("LOWER(organizations.full_name) ILIKE (?)", "%#{org_name}%").first
@@ -134,9 +130,7 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
     end
 
     donor_orgs.uniq.each do |donor_org|
-      AllDonorOrganization.find_or_create_by(donor_org)
+      DonorOrganization.find_or_create_by(donor_org)
     end
   end
-=======
->>>>>>> create-joined-table-donor-organization-store-procedure-167564528
 end
