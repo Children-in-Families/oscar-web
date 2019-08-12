@@ -3,8 +3,8 @@ class Organization < ActiveRecord::Base
 
   has_many :employees, class_name: 'User'
 
-  has_many :all_donor_organizations, dependent: :destroy
-  has_many :all_donors, through: :all_donor_organizations
+  has_many :donor_organizations, dependent: :destroy
+  has_many :donors, through: :donor_organizations
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }
   scope :without_cwd, -> { where.not(short_name: 'cwd') }

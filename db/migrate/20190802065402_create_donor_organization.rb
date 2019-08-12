@@ -1,14 +1,14 @@
-class CreateAllDonorOrganization < ActiveRecord::Migration
+class CreateDonorOrganization < ActiveRecord::Migration
   def change
-    create_table :all_donor_organizations do |t|
-      t.references :all_donor, index: true, foreign_key: true
+    create_table :donor_organizations do |t|
+      t.references :donor, index: true, foreign_key: true
       t.references :organization, index: true, foreign_key: true
     end
 
     reversible do |dir|
       dir.up do
         if schema_search_path == "\"public\""
-          create_all_donors_organizations
+          create_donors_organizations
           execute <<-SQL.squish
             DO
             $do$
@@ -34,18 +34,18 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
                   client_r record;
                 BEGIN
                   FOR sch IN
-                    SELECT organizations.full_name, organizations.short_name FROM "public"."all_donors"
-                    INNER JOIN "public"."all_donor_organizations" ON "public"."all_donor_organizations"."all_donor_id" = "public"."all_donors"."id"
-                    INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."all_donor_organizations"."organization_id"
-                    WHERE "public"."all_donors"."name" = 'Save the Children'
+                    SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
+                    INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
+                    INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
+                    WHERE "public"."donors"."name" = 'Save the Children'
                   LOOP
                     sql := sql || format(
-                                    'SELECT clients.id AS client_id, %L organization_name, clients.gender,
+                                    'SELECT clients.id AS client_id, %1$L organization_name, clients.gender,
                                     clients.date_of_birth, clients.status, clients.province_id, clients.district_id,
                                     clients.birth_province_id, clients.assessments_count, clients.follow_up_date,
                                     clients.initial_referral_date, clients.referral_source_category_id, clients.created_at,
-                                    clients.updated_at FROM %I.clients UNION ',
-                                    sch.full_name, sch.short_name);
+                                    clients.updated_at FROM %1$I.clients UNION ',
+                                    sch.short_name);
                   END LOOP;
 
                   FOR client_r IN EXECUTE left(sql, -7)
@@ -90,7 +90,7 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
     end
   end
 
-  def create_all_donors_organizations
+  def create_donors_organizations
     Organization.switch_to 'public'
     donors = ['Save the Children', 'Friends']
     donor_organizations = {
@@ -125,7 +125,7 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
       organaization_names.each do |org_name|
         organization = Organization.where("LOWER(organizations.full_name) ILIKE (?)", "%#{org_name}%").first
         next unless organization
-        donor_orgs << { all_donor_id: donor_id, organization_id: organization.id }
+        donor_orgs << { donor_id: donor_id, organization_id: organization.id }
       end
     end
 
