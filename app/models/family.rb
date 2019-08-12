@@ -31,8 +31,7 @@ class Family < ActiveRecord::Base
 
   validate :client_must_only_belong_to_a_family
 
-  before_save :save_family_in_client
-  after_save :delete_family_in_client
+  after_save :delete_family_in_client, :save_family_in_client
 
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
