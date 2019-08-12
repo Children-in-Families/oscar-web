@@ -539,6 +539,7 @@ km:
     destroy:
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_deleted_assessment: ការប៉ាន់ប្រមាណត្រូវបានលុបដោយជោគជ័យ
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_confirm: តើអ្នកចង់បន្ថែមភារកិច្ចនៅជំហានចុងក្រោយនៃការវាយតម្លៃនេះទេ?
@@ -570,6 +571,7 @@ km:
       three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
       assessment_completed_for: ការប៉ាន់ប្រមាណសម្រាប់
       assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖
@@ -649,6 +651,7 @@ km:
     destroy:
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_deleted_case_note: កំណតត្រាត្រូវបានលុបដោយជោគជ័យ
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       back: ត្រលប់ក្រោយ
@@ -669,6 +672,7 @@ km:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
         rd_party: បុគ្គលទី៣
+        supervision: ជំនួប​គាំទ្រ​បច្ចេកទេស
         other_option: ផ្សេងៗ
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
@@ -681,6 +685,7 @@ km:
       goal: គោលដៅ
       note: កំណត់ត្រា
     index:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       back: ត្រលប់ក្រោយ
       case_note_lists: បញ្ជីកំណត់ត្រា
@@ -1280,6 +1285,13 @@ km:
       client_name: ឈ្មោះអតិថិជន
       close: បិទ
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+    confirm_client_with_family_record: 
+      client_confirmation: ការស្នើសុំរបស់អតិថិជន
+      client_option: សូមជ្រើសរើសជម្រើសមួយនៅខាងក្រោមមុនពេលអ្នកបញ្ជូនព័ត៌មានអតិថិជន
+      create_family_record_option:  តើអ្នកចង់បង្កើតកំណត់ត្រាគ្រួសារសម្រាប់អតិថិជននេះទេ? 
+      attach_exist_family_record_option:  តើអ្នកចង់ភ្ជាប់ទៅនឹងកំណត់ត្រាគ្រួសារដែលមានស្រាប់ទេ?
+      no_option: ទេ
+      save: រក្សាទុក
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     edit:

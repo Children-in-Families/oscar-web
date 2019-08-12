@@ -15,6 +15,22 @@ module AssessmentHelper
     end
   end
 
+  def assessment_destroy_link(client, assessment)
+    if assessment_deleted?
+      link_to(client_assessment_path(assessment.client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+        content_tag :div, class: 'btn btn-outline btn-danger' do
+          fa_icon('trash')
+        end
+      end
+    else
+      link_to_if(false, client_assessment_path(assessment.client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+        content_tag :div, class: 'btn btn-outline btn-danger disabled' do
+          fa_icon('trash')
+        end
+      end
+    end
+  end
+
   def order_assessment
     if action_name == 'edit'
       @assessment.assessment_domains_in_order
@@ -30,6 +46,11 @@ module AssessmentHelper
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
     current_user.permission.assessments_editable
+  end
+
+  def assessment_deleted?
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
   end
 
   def assessment_completed_date(assessment)

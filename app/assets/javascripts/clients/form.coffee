@@ -22,6 +22,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _ajaxCheckReferralSource()
     _ajaxCheckReferralSourceCategory()
     _allowSelectOnlyOneFamily()
+    _checkingFamilyRecord()
+    _openSelectClientForm()
+    _disableAndEnableButtonOtherOptionToCreateFamiyRecord()
+    _disableAndEnableButtonWhenOptionAttachFamilyRecord()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -146,8 +150,28 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       district: $('#client_district_id').find(':selected').text()
       village: $('#client_village_id').find(':selected').text()
       commune: $('#client_commune_id').find(':selected').text()
+      family: $('#client_family_ids').find(':selected').text()
     }
 
+    if data.family == ''
+      $('.loader-default').removeClass('is-active')
+      $('#client-confirmation').modal('show')
+      $('#clientConfirmation').click ->
+        clientId = $('#client-id').text()
+        clientOptionValue = $('input[name=clientConfirmation]:checked').val()
+        if clientOptionValue == "createNewFamilyRecord"
+          localStorage.setItem('redirect_to_family', 'true')
+          localStorage.setItem('client_id', clientId)
+          _compareExistingValue(data)
+        else if clientOptionValue == "attachExistingFamilyRecord"
+          _compareExistingValue(data)
+        else
+          _compareExistingValue(data)
+    else
+      $('.loader-default').removeClass('is-active')
+      _compareExistingValue(data)
+
+  _compareExistingValue = (data) ->
     if data.date_of_birth != '' or data.given_name != '' or data.birth_province != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province != ''
       $.ajax({
         type: 'GET'
@@ -189,6 +213,50 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('#client-wizard-form').submit()
       $('.loader-default').removeClass('is-active')
 
+  _checkingFamilyRecord = ->
+    $('.save-edit-client').on 'click', (e) ->
+      e.preventDefault()
+      clientId = $('#client-id').text()
+      family   = $('#client_family_ids').find(':selected').text()
+      if family == ''
+        $('#client-confirmation').modal('show')
+        $('#clientConfirmation').click ->
+          clientOptionValue = $('input[name=clientConfirmation]:checked').val()
+          if clientOptionValue == "createNewFamilyRecord"
+            localStorage.setItem('redirect_to_family', 'true')
+            localStorage.setItem('client_id', clientId)
+            $('#client-wizard-form').submit()
+          else if clientOptionValue == "attachExistingFamilyRecord"
+            $('#client-wizard-form').submit()
+          else
+            $('#client-wizard-form').submit() 
+      else
+        $('#client-wizard-form').submit()
+  
+  _openSelectClientForm = ->
+    $('.icheck-client-option').on 'ifChanged', (event) ->
+      $('#client-confirmation #client_family_ids').select2('val', '')
+      if $('#attachFamily').is(':checked')
+        $('#family-option').show()
+      else
+        $('#family-option').hide()
+       
+  
+  _disableAndEnableButtonOtherOptionToCreateFamiyRecord = ->
+    $('.icheck-client-option').on 'ifChanged', (event) ->
+      if $('.client-option').is(':checked') 
+        $('#clientConfirmation').removeClass('disabled')
+      else
+        $('#clientConfirmation').addClass('disabled')
+  
+  _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
+    $('#client-confirmation #client_family_ids').on 'change' , (e) ->
+      if $(this).val() != null 
+        $('#clientConfirmation').removeClass('disabled')
+      else
+        $('#clientConfirmation').addClass('disabled')
+
+    
   _clientSelectOption = ->
     $('select').select2
       minimumInputLength: 0
@@ -217,6 +285,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
+    $('.icheck-client-option').iCheck
+      radioClass: 'iradio_square-green'
+      
   _initDatePicker = ->
     $('.date-picker').datepicker
       autoclose: true,
@@ -408,8 +479,19 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _allowSelectOnlyOneFamily = ->
     $('#client_family_ids').select2
       maximumSelectionSize: 1
+
     $('#client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
+
+    $('#client-confirmation #client_family_ids').select2
+      maximumSelectionSize: 1
+      width: 'style'
+
+    $('#client-confirmation #client_family_ids').on 'select2-open', (e) ->
+      if $(this).select2('val').length > 0
+        e.preventDefault()
+
+    
 
   { init: _init }

@@ -78,6 +78,7 @@ class Client < ActiveRecord::Base
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
+  before_update :disconnect_client_family_relation
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   after_save :create_case_worker_client_offline
@@ -689,6 +690,10 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     case_worker_clients.destroy_all
+  end
+
+  def disconnect_client_family_relation
+    cases.destroy_all
   end
 
   def assessment_duration(duration, default = true)
