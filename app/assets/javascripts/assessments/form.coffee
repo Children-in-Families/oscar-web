@@ -278,6 +278,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     radioName = '\'' + name
     goalRequiredValue = $("input[name=#{radioName}:checked").val()
     select = $(currentTab).find('textarea.goal')
+    task =  $('.list-group-item')
 
     if scoreColor == 'primary'
       if goalRequiredValue == 'false'
@@ -294,6 +295,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       else
         $(select).removeClass('valid').addClass('required')
 
+    if task.length > 0
+      $('.task_required').hide()
+    else
+      $('.task_required').show()
   _filedsValidator = (currentIndex, newIndex ) ->
     currentTab   = "#rootwizard-p-#{currentIndex}"
     scoreOption  = $("#{currentTab} .score_option")
@@ -340,6 +345,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
+      $('.task_required').hide()
       $('.add-task-btn').attr('disabled','disabled')
       e.preventDefault()
       actionUrl = undefined
@@ -391,10 +397,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _removeTask = ->
     $('a.remove-task').on 'click', (e) ->
+      # debugger
       _deleteTask(e)
 
   _deleteTask = (e) ->
-    $('.task_required').addClass 'text-required'
+    $('.task_required').show()
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
 
