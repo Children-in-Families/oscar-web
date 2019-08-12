@@ -8,7 +8,10 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
         if schema_search_path == "\"public\""
+<<<<<<< HEAD
           create_all_donors_organizations
+=======
+>>>>>>> create-joined-table-donor-organization-store-procedure-167564528
           execute <<-SQL.squish
             DO
             $do$
@@ -26,7 +29,7 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
             GRANT CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" TO "#{ENV['POWER_BI_GROUP']}";
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
-            CREATE OR REPLACE FUNCTION "public"."sp_oscar_dashboard_friends"()
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_friends"()
               RETURNS TABLE("client_id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
                 DECLARE
                   sql TEXT := '';
@@ -65,10 +68,10 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."sp_oscar_dashboard_friends"() TO "#{ENV['POWER_BI_GROUP']}";
-            ---REVOKE ALL ON ALL TABLES IN SCHEMA cif FROM public;
-            ---REVOKE ALL ON ALL TABLES IN SCHEMA demo FROM public;
-            ---REVOKE ALL ON ALL TABLES IN SCHEMA mtp FROM public;
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_friends"() TO "#{ENV['POWER_BI_GROUP']}";
+            REVOKE ALL ON ALL TABLES IN SCHEMA cif FROM public;
+            REVOKE ALL ON ALL TABLES IN SCHEMA demo FROM public;
+            REVOKE ALL ON ALL TABLES IN SCHEMA mtp FROM public;
           SQL
         end
       end
@@ -79,8 +82,8 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
             REVOKE CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" FROM "#{ENV['POWER_BI_GROUP']}";
             REVOKE USAGE ON SCHEMA public FROM "#{ENV['POWER_BI_GROUP']}";
 
-            REVOKE EXECUTE ON FUNCTION "public"."sp_oscar_dashboard_friends"() FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."sp_oscar_dashboard_friends"() CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_friends"() FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_friends"() CASCADE;
             DROP OWNED BY "#{ENV['POWER_BI_GROUP']}";
             DROP ROLE IF EXISTS "#{ENV['POWER_BI_GROUP']}";
             DROP USER IF EXISTS "#{ENV['READ_ONLY_DATABASE_USER']}";
@@ -89,6 +92,7 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
       end
     end
   end
+<<<<<<< HEAD
 
   def create_all_donors_organizations
     Organization.switch_to 'public'
@@ -133,4 +137,6 @@ class CreateAllDonorOrganization < ActiveRecord::Migration
       AllDonorOrganization.find_or_create_by(donor_org)
     end
   end
+=======
+>>>>>>> create-joined-table-donor-organization-store-procedure-167564528
 end
