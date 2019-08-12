@@ -55,7 +55,6 @@ class Ability
       can :manage, User, id: user.id
       can :manage, Case
       can :manage, CaseNote
-      can :manage, Family
       can :manage, Partner
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
@@ -68,6 +67,18 @@ class Ability
       can :create, Task
       can :read, Task
       can :manage, Referral
+
+      family_ids = user.families.ids
+      Client.where(user_id: subordinate_users).or(Client.where(user_id: exited_clients(subordinate_users))).includes(:families).each do |client|
+        family_ids << client.family.try(:id)
+      end
+
+      user.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+
+      can :create, Family
+      can :manage, Family, id: family_ids.compact
     end
   end
 
