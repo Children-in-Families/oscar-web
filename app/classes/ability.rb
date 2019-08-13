@@ -70,7 +70,14 @@ class Ability
       can :manage, Referral
 
       family_ids = user.families.ids
-      Client.where(user_id: subordinate_users).or(Client.where(user_id: exited_clients(subordinate_users))).includes(:families).each do |client|
+
+      User.where(id: subordinate_users).each do |user|
+        user.clients.each do |client|
+          family_ids << client.family.try(:id)
+        end
+      end
+
+      Client.where(id: exited_clients(subordinate_users)).each do |client|
         family_ids << client.family.try(:id)
       end
 
