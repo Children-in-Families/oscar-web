@@ -250,7 +250,13 @@ class User < ActiveRecord::Base
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
       family_ids = []
 
-      Client.where(user_id: subordinate_users).or(Client.where(user_id: exited_clients(subordinate_users))).includes(:families).each do |client|
+      User.where(id: subordinate_users).each do |user|
+        user.clients.each do |client|
+          family_ids << client.family.try(:id)
+        end
+      end
+
+      Client.where(id: exited_clients(subordinate_users)).each do |client|
         family_ids << client.family.try(:id)
       end
       self.clients.each do |client|
