@@ -238,14 +238,26 @@ class User < ActiveRecord::Base
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
-    if self.admin? || self.any_case_manager? || self.manager?
+    if self.admin? || self.manager?
       entity_type_custom_field_notification(Partner.all)
     end
   end
 
   def family_custom_field_frequency_overdue_or_due_today
-    if self.admin? || self.any_case_manager? || self.manager?
+    if self.admin?
       entity_type_custom_field_notification(Family.all)
+    elsif self.manager?
+      subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
+      family_ids = []
+
+      Client.where(user_id: subordinate_users).or(Client.where(user_id: exited_clients(subordinate_users))).includes(:families).each do |client|
+        family_ids << client.family.try(:id)
+      end
+      self.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
+      entity_type_custom_field_notification(families)
     elsif self.case_worker?
       family_ids = []
       self.clients.each do |client|
@@ -296,7 +308,7 @@ class User < ActiveRecord::Base
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
       User.all
-    elsif user.manager? || user.any_case_manager?
+    elsif user.manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     end
   end
@@ -369,5 +381,18 @@ class User < ActiveRecord::Base
   def toggle_referral_notification
     return unless roles_changed? && roles == 'admin'
     self.update_columns(referral_notification: true)
+  end
+
+  def exited_clients(users)
+    client_ids = []
+    users.each do |user|
+      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
+        next if version.changeset[:user_id].last != user
+        client_id = version.changeset[:client_id].last
+        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
+        client_ids << client_id if client_id.present?
+      end
+    end
+    client_ids.uniq
   end
 end
