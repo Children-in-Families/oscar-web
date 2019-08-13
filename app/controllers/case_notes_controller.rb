@@ -13,7 +13,7 @@ class CaseNotesController < AdminController
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
-    @case_notes = @client.case_notes.most_recents.page(params[:page]).per(1)
+    @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page]).per(1)
   end
 
   def new
