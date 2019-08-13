@@ -66,7 +66,7 @@ class AssessmentsController < AdminController
     elsif @assessment.present?
       @assessment.assessment_domains.delete_all
       @assessment.reload.destroy
-      redirect_to client_path(@client), notice: t('.successfully_deleted_assessment')
+      redirect_to client_assessments_path(@assessment.client), notice: t('.successfully_deleted_assessment')
     end
   end
 
