@@ -61,8 +61,8 @@ module ClientsHelper
   def columns_visibility(column)
     label_column = {
       slug:                          t('datagrid.columns.clients.id'),
-      kid_id:                        t('datagrid.columns.clients.kid_id'),
-      code:                          t('datagrid.columns.clients.code'),
+      kid_id:                        custom_id_translation('custom_id2'),
+      code:                          custom_id_translation('custom_id1'),
       age:                           t('datagrid.columns.clients.age'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
@@ -337,10 +337,10 @@ module ClientsHelper
       reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
       rejected_note_: t('datagrid.columns.clients.rejected_note'),
       family_: t('datagrid.columns.clients.placements.family'),
-      code_: t('datagrid.columns.clients.code'),
+      code_: custom_id_translation('custom_id1'),
       age_: t('datagrid.columns.clients.age'),
       slug_: t('datagrid.columns.clients.id'),
-      kid_id_: t('datagrid.columns.clients.kid_id'),
+      kid_id_: custom_id_translation('custom_id2'),
       family_id_: t('datagrid.columns.families.code'),
       case_note_date_: t('datagrid.columns.clients.case_note_date'),
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
@@ -1041,5 +1041,21 @@ module ClientsHelper
     reasons.map do |reason|
       current_translations[reason_translations.key(reason)]
     end.join(', ')
+  end
+
+  def custom_id_translation(type)
+    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
+      if type == 'custom_id1'
+        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : t('.custom_id_number1')
+      else
+        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : t('.custom_id_number2')
+      end
+    else
+      if type == 'custom_id1'
+        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : t('.custom_id_number1')
+      else
+        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : t('.custom_id_number2')
+      end
+    end
   end
 end
