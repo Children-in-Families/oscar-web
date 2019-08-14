@@ -664,14 +664,25 @@ class ClientGrid < BaseGrid
         end
 
         column(:province, html: false, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
-          object.province.try(:name_kh)
+          identify_province_khmer = object.province&.name&.count "/"
+          if identify_province_khmer == 1
+            province = object.province.name.split('/').first
+          elsif identify_province_khmer == 2
+             province = object.province&.name
+          end
+          
         end
 
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_kh') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
           birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
-          birth_province = birth_province.present? ? birth_province.split(' / ').first : nil
+          identity_birth_province = birth_province&.count "/"
+          if identity_birth_province == 1
+            birth_province = birth_province.split('/').first 
+          elsif identity_birth_province == 2
+            birth_province 
+          end
           Organization.switch_to current_org.short_name
           birth_province
         end
@@ -690,14 +701,25 @@ class ClientGrid < BaseGrid
         end
 
         column(:province, html: false, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
-          object.province.present? ? object.province.name.split(' / ').last : nil
+          identify_province = object.province&.name&.count "/"
+          if identify_province == 1
+            province = object.province.name.split('/').last
+          elsif identify_province == 2
+             province = object.province&.name
+          end
+
         end
 
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_en') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
-          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
-          birth_province = birth_province.present? ? birth_province.split(' / ').last : nil
+          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name      
+          identity_birth_province = birth_province&.count "/"
+          if identity_birth_province == 1
+            birth_province = birth_province.split('/').last 
+          elsif identity_birth_province == 2
+            birth_province 
+          end
           Organization.switch_to current_org.short_name
           birth_province
         end  
