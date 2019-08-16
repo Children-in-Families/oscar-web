@@ -258,7 +258,6 @@ class ClientsController < AdminController
     if current_user.admin?
       @families        = Family.order(:name)
     elsif current_user.manager?
-      binding.pry
       family_ids = current_user.families.ids
       User.where(id: subordinate_users).each do |user|
         user.clients.each do |client|

@@ -209,6 +209,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         else
           $('#client-wizard-form').submit()
       )
+      return false
     else
       $('#client-wizard-form').submit()
       $('.loader-default').removeClass('is-active')
