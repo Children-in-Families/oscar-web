@@ -6,7 +6,7 @@
     - if @notification.all_count >= 1
       %span.label.label-primary= @notification.all_count
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
-    - if can? :manage, Client
+    - if (can? :manage, Client) || @user&.strategic_overviewer? 
       - @notification.review_program_streams.each do |ps|
         %li
           %div.align-link
@@ -19,8 +19,8 @@
                     = t('.review_client')
                     = ps.first.name
                     = t('.client_quantity', count: ps.last.size)
-        %li.divider
-      - if @notification.any_overdue_tasks? || @notification.any_due_today_tasks?
+      %li.divider
+      - if @notification.any_overdue_tasks?
         %li
           %div.align-link
             = link_to dashboards_path(user_id: current_user.id, tasks: true) do
