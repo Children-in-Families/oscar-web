@@ -364,7 +364,7 @@ class Client < ActiveRecord::Base
   def generate_random_char
     Organization.switch_to 'shared'
     loop do
-      char = ('a'..'z').to_a.sample(3).join()
+      char = ('a'..'z').to_a.sample(4).join()
       break char unless SharedClient.find_by(slug: "#{char}-#{id}").present?
     end
   end
