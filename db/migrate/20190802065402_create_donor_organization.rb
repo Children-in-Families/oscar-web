@@ -66,7 +66,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
               ROWS 1000;
 
             GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_friends"() TO "#{ENV['POWER_BI_GROUP']}";
-            REVOKE ALL ON ALL TABLES IN SCHEMA  pg_catalog FROM public, "#{ENV['POWER_BI_GROUP']}";
+            -- REVOKE ALL ON ALL TABLES IN SCHEMA  pg_catalog FROM public, "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
       end

@@ -35,9 +35,11 @@ class FnOscarDashboardClientEnrollments < ActiveRecord::Migration
                 END LOOP;
               END
             $BODY$
-              LANGUAGE plpgsql VOLATILE
+              LANGUAGE plpgsql VOLATILE SECURITY DEFINER
               COST 100
-              ROWS 1000
+              ROWS 1000;
+
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_client_enrollments"() TO "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
       end
@@ -45,6 +47,7 @@ class FnOscarDashboardClientEnrollments < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_client_enrollments"() FROM "#{ENV['POWER_BI_GROUP']}";
             DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_client_enrollments"() CASCADE;
           SQL
         end
