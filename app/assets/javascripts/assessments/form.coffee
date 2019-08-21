@@ -407,9 +407,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         contentType: 'application/json'
         success: (response) ->
           currentTab = $(e.target).closest('.assessment-domain-item').attr('id')
+          $(e.target).parent().remove()
           domainId = $("##{currentTab}").find('.score_option').data('domain-id')
           _handleDisplayTaskWarningMessage("##{currentTab}", domainId)
-          $(e.target).parent().remove()
         error: (response, parsererror, error) ->
           console.log 'failed to delete the task.'
     else
@@ -543,7 +543,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       chosenScore = scoreOption.find('label input:checked').val()
 
     scoreColor = scoreOption.data("score-#{chosenScore}")
-    $(".domain-#{domainId} .task_required").show() if ['danger', 'warning'].indexOf(scoreColor) >= 0
+
+    $(".domain-#{domainId} .task_required").show() if ['danger', 'warning'].indexOf(scoreColor) >= 0 and $("#{currentTab} .task-arising ol li").length == 0
   _handleAppendDomainAtTheEnd = (currentIndex) ->
     if $("form#new_assessment").length
       currentTab   = "#rootwizard-p-#{currentIndex}"
