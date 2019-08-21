@@ -3661,6 +3661,7 @@ my:
       country: ႏုိင္ငံ
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_fields: ပံုစံထုတ္စက္
+      custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       default_columns: ပုံမှန်ကော်လံများ
       departments: ဌာနမ်ား
@@ -4476,6 +4477,22 @@ my:
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
     create:
       successfully_created: အောင်မြင်စွာဖန်တီး
+    custom_labels:
+      cambodia:
+        custom_id1_local: Custom ID1 (Khmer)
+        custom_id2_local: Custom ID2 (Khmer)
+      custom_id1_latin: Custom ID1 (Latin)
+      custom_id2_latin: Custom ID2 (Latin)
+      custom_labels: Custom Labels
+      myanma:
+        custom_id1_local: Custom ID1 (Burmese)
+        custom_id2_local: Custom ID2 (Burmese)
+      thailand:
+        custom_id1_local: Custom ID1 (Thai)
+        custom_id2_local: Custom ID2 (Thai)
+      uganda:
+        custom_id1_local: Custom ID1 (Swahili)
+        custom_id2_local: Custom ID2 (Swahili)
     default_columns:
       client_default_columns: အမႈသည္မ်ား
       default_columns: ပုံမှန်ကော်လံများ

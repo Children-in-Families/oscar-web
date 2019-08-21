@@ -19,7 +19,7 @@
               = render 'assessments', assessment: association, date: date
             - elsif association.class.name.downcase == 'casenote'
               = render 'case_notes', case_note: association, date: date
-            - elsif association.class.name.downcase == 'clientenrollment'
+            - elsif association.class.name.downcase == 'clientenrollment' && association.program_stream_id.present?
               = render 'client_enrollments', client_enrollment: association, date: date
             - elsif association.class.name.downcase == 'clientenrollmenttracking'
               = render 'enrolled_program_trackings', enrollment_tracking: association, date: date
