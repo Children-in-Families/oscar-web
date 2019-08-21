@@ -3,20 +3,21 @@
   = domain_note.hidden_field :domain_group_id
   - domains = fetch_domains(domain_note)
 
-.ibox.case-note-domain-group
-  .ibox-title
-    %h5
-      = "#{t('.domain')} #{domain_note.object.domain_group.name}"
-      = "(#{get_domains(domain_note)})"
+- if domain_note.object.domains(@case_note).any?{|domain| @case_note.client.tasks.where(domain_id: domain.id).present? }
+  .ibox.case-note-domain-group
+    .ibox-title
+      %h5
+        = "#{t('.domain')} #{domain_note.object.domain_group.name}"
+        = "(#{get_domains(domain_note)})"
 
-  .ibox-content
-    .row
-      .col-xs-12.col-md-6
-        - domain_note.object.domains(@case_note).each do |domain|
-          - tasks = @case_note.client.tasks.where(domain_id: domain.id)
-          - if domain_note.object.persisted?
-            - tasks = tasks.by_case_note_domain_group(domain_note.object)
-          .panel{ class: "panel-primary task-domain-#{ domain.id } #{hidden_class(tasks.blank?)}" }
-            .panel-heading
-              %strong= "#{t('.domain')} #{domain.name}: #{domain.identity}"
-            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
+    .ibox-content
+      .row
+        .col-xs-12.col-md-6
+          - domain_note.object.domains(@case_note).each do |domain|
+            - tasks = @case_note.client.tasks.where(domain_id: domain.id)
+            - if domain_note.object.persisted?
+              - tasks = tasks.by_case_note_domain_group(domain_note.object)
+            .panel{ class: "panel-primary task-domain-#{ domain.id } #{hidden_class(tasks.blank?)}" }
+              .panel-heading
+                %strong= "#{t('.domain')} #{domain.name}: #{domain.identity}"
+              = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }

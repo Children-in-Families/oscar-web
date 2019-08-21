@@ -627,6 +627,7 @@ en:
       back: Back
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Please select all Domain Groups you supported the client with in this case note.
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
@@ -660,6 +661,7 @@ en:
       case_note_on: Case note on
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Domain Groups
       goal: Goal
       incompleted_tasks: Incompleted Tasks
       new_case_note: New case note
