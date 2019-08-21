@@ -319,6 +319,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initProgramSteps = ->
     self = @
     form = $('#program-stream')
+   
     form.children('.program-steps').steps
       headerTag: 'h4'
       bodyTag: 'section'
@@ -351,6 +352,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if $('#rule-tab').is(':visible')
           _handleRemoveProgramList()
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
+
       onFinishing: () ->
         labelFields = $('[name="label"].fld-label')
         for labelField in labelFields
@@ -372,7 +374,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         finish: self.filterTranslation.finish
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
-
+              
   _handleServiceValidation = (services, serviceSelect2) ->
     if services
       serviceSelect2.append("<label class='error'>Field cannot be blank.</label>")
@@ -411,15 +413,17 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = JSON.parse($(element).children('span').text())
       _initProgramBuilder($(element), (dataElement || []))
+      
       if element.id == 'enrollment' and $('#program_stream_id').val() != ''
-        _preventRemoveField(ENROLLMENT_URL, '#enrollment')
+        _preventRemoveField(ENROLLMENT_URL, '#enrollment') 
       else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
         _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
+        
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = JSON.parse($(tracking).children('span').text())
-      _initProgramBuilder(tracking, (trackingValue || []))
+      _initProgramBuilder(tracking, (trackingValue || [])) 
     _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
@@ -477,7 +481,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
-
+          
+      
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
@@ -505,8 +510,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
     if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field') || $(parent).attr('class').includes('select-field')
-      $(parent).find('.option-label').attr('disabled', 'true')
-      $(parent).children('.frm-holder').find('.remove.btn').remove()
+      selectOptionClientEnrollmentToProgramStream = $("#ps_client_enrollment").val()
+      allSelectOptionToProgramStream = $('.sortable-options .ui-sortable-handle').children()
+      jQuery.map(allSelectOptionToProgramStream, (e) ->
+        if e.value == selectOptionClientEnrollmentToProgramStream and e.className.includes?('option-label')
+          $(e).attr('disabled', 'true')
+          # $(parent).children('.frm-holder').find('.remove.btn').remove()
+      )
+
     else if $(parent).attr('class').includes('number-field')
       $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
 
@@ -723,3 +734,4 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           removeError($(this.parentElement))
 
   { init: _init }
+
