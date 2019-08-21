@@ -646,6 +646,7 @@ th-TH:
       back:
       completed_tasks:
       domain:
+      domain_groups:
       label_note:
       meeting_detail:
       meeting_with:
@@ -679,6 +680,7 @@ th-TH:
       case_note_on:
       completed_tasks:
       domain:
+      domain_groups:
       goal:
       incompleted_tasks:
       new_case_note:

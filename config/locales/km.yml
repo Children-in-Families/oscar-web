@@ -657,6 +657,7 @@ km:
       back: ត្រលប់ក្រោយ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: Please select all Domain Groups you supported the client with in this case note.
       label_note: ចំណាំ
       meeting_detail: ព័ត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
@@ -692,6 +693,7 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: ក្រុមនៃកត្តា
       goal: គោលដៅ
       incompleted_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       new_case_note: កំណត់ត្រាថ្មី

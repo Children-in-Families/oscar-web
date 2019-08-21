@@ -661,6 +661,7 @@ my:
       back: ေနာက္သို႔
       completed_tasks: ၿပီးၿပီးသား လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
+      domain_groups: Please select all Domain Groups you supported the client with in this case note.
       label_note: မွတ္ခ်က္
       meeting_detail: အစည္းအေ၀း အေသးစိတ္
       meeting_with: ႏွင့္ အစည္းအေ၀း
@@ -696,6 +697,7 @@ my:
       case_note_on: ဆုိင္ရာ အမႈျခင္းရာမွတ္စု
       completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
+      domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       goal: ရည္မွန္းခ်က္
       incompleted_tasks: မပြည့်စုံတာဝန်များကို
       new_case_note: အမႈျခင္းရာမွတ္စုအသစ္
