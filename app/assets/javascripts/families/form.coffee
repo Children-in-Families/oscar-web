@@ -15,7 +15,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
   _initSelect2 = ->
     $('select').select2
       allowClear: true
-      _clearSelectedOption()
+      # _clearSelectedOption()
 
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
