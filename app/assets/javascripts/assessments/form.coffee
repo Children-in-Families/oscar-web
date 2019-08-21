@@ -413,8 +413,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         error: (response, parsererror, error) ->
           console.log 'failed to delete the task.'
     else
+      currentTab = $(e.target).closest('.assessment-domain-item').attr('id')
       $(e.target).parent().remove()
       $(e.target).hide()
+      domainId = $("##{currentTab}").find('.score_option').data('domain-id')
+      _handleDisplayTaskWarningMessage("##{currentTab}", domainId)
 
   _removeTaskError = ->
     task = '#assessment_domain_task'
