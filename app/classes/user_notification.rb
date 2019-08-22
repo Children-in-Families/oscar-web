@@ -310,6 +310,7 @@ class UserNotification
       count_notification += 1 if any_user_custom_field_frequency_due_today?
       count_notification += 1 if any_unsaved_referrals? && @user.referral_notification
       count_notification += 1 if any_repeat_referrals? && @user.referral_notification
+     
     end
     if @user.admin? || @user.any_case_manager?
       count_notification += 1 if any_partner_custom_field_frequency_overdue?
@@ -317,6 +318,7 @@ class UserNotification
       count_notification += 1 if any_family_custom_field_frequency_overdue?
       count_notification += 1 if any_family_custom_field_frequency_due_today?
     end
+    
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
@@ -326,8 +328,11 @@ class UserNotification
       count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
+    end 
+    if @user.admin? || @user.manager? || @user.any_case_manager?
+      count_notification += review_program_streams.size
     end
-    count_notification += review_program_streams.size
+    count_notification
   end
 
   private
