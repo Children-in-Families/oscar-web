@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190627075723) do
+ActiveRecord::Schema.define(version: 20190726070312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1209,6 +1209,10 @@ ActiveRecord::Schema.define(version: 20190627075723) do
     t.integer  "custom_age",                  default: 18
     t.string   "default_assessment",          default: "CSI Assessment"
     t.boolean  "sharing_data",                default: false
+    t.string   "custom_id1_latin",            default: ""
+    t.string   "custom_id1_local",            default: ""
+    t.string   "custom_id2_latin",            default: ""
+    t.string   "custom_id2_local",            default: ""
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

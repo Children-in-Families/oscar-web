@@ -6,7 +6,7 @@ class DashboardsController < AdminController
     @program_streams = ProgramStream.without_deleted.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil })
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
     @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
-    @clients = Client.accessible_by(current_ability).active_accepted_status
+    @select_client_options = Client.accessible_by(current_ability).active_accepted_status
   end
 
   def update_program_stream_service
@@ -94,8 +94,10 @@ class DashboardsController < AdminController
           end
         end
       end
-      clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq, overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq, upcoming_trackings: upcoming_trackings.uniq,
-        overdue_tasks: overdue_tasks.flatten.uniq, today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq }]
+      clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq, 
+                            overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq, 
+                            upcoming_trackings: upcoming_trackings.uniq, overdue_tasks: overdue_tasks.flatten.uniq, 
+                            today_tasks: today_tasks.flatten.uniq, upcoming_tasks: upcoming_tasks.flatten.uniq }]
     end
     clients
   end

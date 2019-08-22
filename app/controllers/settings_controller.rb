@@ -1,5 +1,5 @@
 class SettingsController < AdminController
-  before_action :find_setting, only: [:index, :default_columns, :research_module]
+  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -36,7 +36,7 @@ class SettingsController < AdminController
       end
     else
       if @setting.update_attributes(setting_params)
-        if params[:default_columns].present? || params[:research_module].present?
+        if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present?
           redirect_to :back, notice: t('.successfully_updated')
         else
           redirect_to settings_path, notice: t('.successfully_updated')
@@ -58,6 +58,10 @@ class SettingsController < AdminController
     authorize @current_setting
   end
 
+  def custom_labels
+    authorize @current_setting
+  end
+
   private
 
   def country_address_fields
@@ -67,7 +71,13 @@ class SettingsController < AdminController
   end
 
   def setting_params
-    params.require(:setting).permit(:custom_assessment_frequency, :assessment_frequency, :max_custom_assessment, :max_assessment, :enable_custom_assessment, :enable_default_assessment, :age, :custom_age, :default_assessment, :custom_assessment, :max_case_note, :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, :sharing_data, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:custom_assessment_frequency, :assessment_frequency, :max_custom_assessment, 
+                                    :max_assessment, :enable_custom_assessment, :enable_default_assessment, :age, 
+                                    :custom_age, :default_assessment, :custom_assessment, :max_case_note, 
+                                    :case_note_frequency, :org_name, :province_id, :district_id, :commune_id, 
+                                    :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
+                                    client_default_columns: [], family_default_columns: [],
+                                    partner_default_columns: [], user_default_columns: [])
   end
 
   def find_setting
