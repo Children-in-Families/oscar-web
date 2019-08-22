@@ -3,7 +3,7 @@ class DashboardsController < AdminController
 
   def index
     @setting = Setting.first
-    @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil })
+    @program_streams = ProgramStream.without_deleted.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil })
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
     @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
     @clients = Client.accessible_by(current_ability).active_accepted_status
