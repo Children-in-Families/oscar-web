@@ -214,7 +214,7 @@ class ProgramStreamsController < AdminController
       name   = params[:search]
       Organization.all.each do |org|
         Organization.switch_to(org.short_name)
-          program_streams = ProgramStream.by_name(name)
+          program_streams = ProgramStream.without_deleted.by_name(name)
           results << program_streams if program_streams.present?
       end
       Organization.switch_to(current_org_name)
