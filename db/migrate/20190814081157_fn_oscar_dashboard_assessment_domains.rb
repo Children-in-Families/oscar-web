@@ -3,10 +3,6 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
         if schema_search_path == "\"public\""
-          sql_query = "SELECT organizations.full_name, organizations.short_name FROM public.donors
-                    INNER JOIN public.donor_organizations ON public.donor_organizations.donor_id = public.donors.id
-                    INNER JOIN public.organizations ON public.organizations.id = public.donor_organizations.organization_id
-                    WHERE public.donors.name = %L"
           execute <<-SQL.squish
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(donor_name varchar DEFAULT 'Save the Children')
               RETURNS TABLE("id" int4, "organization_name" varchar, "domain_id" int4, "score" int4) AS $BODY$
@@ -16,7 +12,10 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
                 assmd_r record;
               BEGIN
                 FOR sch IN
-                  EXECUTE format('#{sql_query}', 'Save the Children')
+                  SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
+                  INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
+                  INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
+                  WHERE "public"."donors"."name" = donor_name
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.domain_id,
