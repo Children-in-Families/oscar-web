@@ -142,12 +142,9 @@ class ClientsController < AdminController
   end
 
   def update
-    @client.cases.each do |client_case|
-      family = Family.find_by(id: client_case.family_id)
-      if family.present? && family.children.include?(@client.id)
-        family.children = family.children - [@client.id]
-        family.save(validate: false)
-      end
+    Family.where('children @> ARRAY[?]::integer[]', [@client.id]).each do |family|
+      family.children = family.children - [@client.id]
+      family.save(validate: false)
     end
 
     if @client.update_attributes(client_params)
