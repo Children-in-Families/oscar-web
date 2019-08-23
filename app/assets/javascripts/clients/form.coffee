@@ -479,7 +479,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _allowSelectOnlyOneFamily = ->
     $('#client_family_ids').select2
+      minimumInputLength: 0
       maximumSelectionSize: 1
+      allowClear: true
+
+    $('#client_family_ids').on 'change', ->
+      $('#client-confirmation #client_family_ids').select2('val', '')
 
     $('#client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
