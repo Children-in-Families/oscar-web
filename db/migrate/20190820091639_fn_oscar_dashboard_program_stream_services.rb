@@ -4,7 +4,7 @@ class FnOscarDashboardProgramStreamServices < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_program_stream_services"()
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_program_stream_services"(donor_name varchar DEFAULT 'Save the Children')
               RETURNS TABLE("id" int4, "organization_name" varchar, "program_stream_id" int4, "service_id" int4) AS $BODY$
             DECLARE
               sql TEXT := '';
@@ -15,7 +15,7 @@ class FnOscarDashboardProgramStreamServices < ActiveRecord::Migration
                 SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                 INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                 INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                WHERE "public"."donors"."name" = 'Save the Children'
+                WHERE "public"."donors"."name" = donor_name
               LOOP
                 sql := sql || format(
                                 'SELECT %2$s.id, %1$L organization_name, %2$s.program_stream_id, %2$s.service_id FROM %1$I.%2$s UNION ',
@@ -36,7 +36,7 @@ class FnOscarDashboardProgramStreamServices < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_program_stream_services"() TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_program_stream_services"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
       end
@@ -44,8 +44,8 @@ class FnOscarDashboardProgramStreamServices < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_program_stream_services"() FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_program_stream_services"() CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_program_stream_services"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_program_stream_services"(varchar) CASCADE;
           SQL
         end
       end

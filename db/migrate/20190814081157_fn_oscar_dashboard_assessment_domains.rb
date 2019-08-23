@@ -8,7 +8,7 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
                     INNER JOIN public.organizations ON public.organizations.id = public.donor_organizations.organization_id
                     WHERE public.donors.name = %L"
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"()
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(donor_name varchar DEFAULT 'Save the Children')
               RETURNS TABLE("id" int4, "organization_name" varchar, "domain_id" int4, "score" int4) AS $BODY$
               DECLARE
                 sql TEXT := '';
@@ -38,7 +38,7 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"() TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
       end
@@ -46,8 +46,8 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"() FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_assessment_domains"() CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_assessment_domains"(varchar) CASCADE;
           SQL
         end
       end

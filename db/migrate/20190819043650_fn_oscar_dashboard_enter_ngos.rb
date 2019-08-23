@@ -4,7 +4,7 @@ class FnOscarDashboardEnterNgos < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_enter_ngos"()
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_enter_ngos"(donor_name varchar DEFAULT 'Save the Children')
               RETURNS TABLE("id" int4, "organization_name" varchar, "client_id" int4, "accepted_date" varchar) AS $BODY$
               DECLARE
                 sql TEXT := '';
@@ -15,7 +15,7 @@ class FnOscarDashboardEnterNgos < ActiveRecord::Migration
                   SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                   INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                  WHERE "public"."donors"."name" = 'Save the Children'
+                  WHERE "public"."donors"."name" = donor_name
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.client_id,
@@ -37,7 +37,7 @@ class FnOscarDashboardEnterNgos < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_enter_ngos"() TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_enter_ngos"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
       end
@@ -45,8 +45,8 @@ class FnOscarDashboardEnterNgos < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_enter_ngos"() FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_enter_ngos"() CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_enter_ngos"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_enter_ngos"(varchar) CASCADE;
           SQL
         end
       end
