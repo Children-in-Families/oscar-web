@@ -106,7 +106,8 @@ class Family < ActiveRecord::Base
   def save_family_in_client
     self.children.each do |child|
       client = Client.find_by(id: child)
-      next if client.present? && client.family_ids.include?(self.id)
+      next if client.nil?
+      next if client.family_ids.include?(self.id)
       # client.cases.destroy_all
       client.families << self
       client.families.uniq
