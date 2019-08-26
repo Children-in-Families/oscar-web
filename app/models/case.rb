@@ -116,7 +116,6 @@ class Case < ActiveRecord::Base
   end
 
   def update_client_status
-    binding.pry
     if new_record?
       client.status = client.status
     end
