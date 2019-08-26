@@ -83,9 +83,9 @@ class Case < ActiveRecord::Base
     client.cases.exclude_referred.current == self
   end
 
-  def fc_or_kc?
-    case_type == 'FC' || case_type == 'KC'
-  end
+  # def fc_or_kc?
+  #   case_type == 'FC' || case_type == 'KC'
+  # end
 
   def kc?
     case_type == 'KC'
@@ -116,6 +116,7 @@ class Case < ActiveRecord::Base
   end
 
   def update_client_status
+    binding.pry
     if new_record?
       client.status = client.status
     end

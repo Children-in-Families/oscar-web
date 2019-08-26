@@ -293,29 +293,29 @@ class Client < ActiveRecord::Base
     where('status = ? or user_id = ?', status, user.id)
   end
 
-  def has_no_ec_or_any_cases?
-    cases.emergencies.blank? || cases.active.blank?
-  end
+  # def has_no_ec_or_any_cases?
+  #   cases.emergencies.blank? || cases.active.blank?
+  # end
 
-  def has_no_active_kc_and_fc?
-    cases.kinships.active.blank? && cases.fosters.active.blank?
-  end
+  # def has_no_active_kc_and_fc?
+  #   cases.kinships.active.blank? && cases.fosters.active.blank?
+  # end
 
-  def has_kc_and_fc?
-    cases.kinships.present? && cases.fosters.present?
-  end
+  # def has_kc_and_fc?
+  #   cases.kinships.present? && cases.fosters.present?
+  # end
 
-  def has_no_kc_and_fc?
-    !has_kc_or_fc?
-  end
+  # def has_no_kc_and_fc?
+  #   !has_kc_or_fc?
+  # end
 
-  def has_exited_kc_and_fc?
-    cases.latest_kinship.exited && cases.latest_foster.exited
-  end
+  # def has_exited_kc_and_fc?
+  #   cases.latest_kinship.exited && cases.latest_foster.exited
+  # end
 
-  def has_kc_or_fc?
-    cases.kinships.present? || cases.fosters.present?
-  end
+  # def has_kc_or_fc?
+  #   cases.kinships.present? || cases.fosters.present?
+  # end
 
   def has_no_latest_kc_and_fc?
     !latest_case
