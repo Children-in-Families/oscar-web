@@ -57,10 +57,10 @@
               - url = "/api/domain_groups/get_domains_by_domain_groups?custom=#{params[:custom]}"
               .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-url': url}
                 = t('.add_task')
-
-          .row#on-going-task-label
-            .col-xs-12
-              %label{:for => "On going tasks"}= t('case_notes.form.on_going_tasks')
+          - if params[:action] != 'new'
+            .row
+              .col-xs-12
+                %label{:for => "On going tasks"}= t('case_notes.form.on_going_tasks')
 
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
