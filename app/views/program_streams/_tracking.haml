@@ -7,6 +7,8 @@
       = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
   #not-require-tracking
     = f.input :tracking_required, label: t('.not_require_tracking'), input_html: { class: 'i-checks' }
-- @program_stream.client_enrollments.each do |ps_client_enrollment|
-  - if ps_client_enrollment.properties["Select"].present? 
-    = hidden_field_tag :ps_client_enrollment, ps_client_enrollment.properties["Select"]
+
+- all_option_form_choosen(@program_stream)
+%div.hidden.tracking_select_option{"data-tracking-select-option" => "#{@select_option_tracking}"}
+%div.hidden.tracking_checkbox_option{"data-tracking_checkbox_option" => "#{@checkbox_option_tracking}"}
+%div.hidden.tracking_radio_option{"data-tracking_radio_option" => "#{@radio_option_tracking}"}

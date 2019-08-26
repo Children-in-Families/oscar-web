@@ -6,7 +6,10 @@
     %i= t('.note')
   .text-danger= @program_stream.errors[:enrollment].join(' and ')
   = f.hidden_field :enrollment
-  
-- @program_stream.client_enrollments.each do |ps_client_enrollment|
-  - if ps_client_enrollment.properties["Select"].present? 
-    = hidden_field_tag :ps_client_enrollment, ps_client_enrollment.properties["Select"]
+
+- all_option_form_choosen(@program_stream)
+%div.hidden.enrollment_select_option{"data-enrollment-select-option" => "#{@select_option_enrollment}"}
+%div.hidden.enrollment_checkbox_option{"data-enrollment_checkbox_option" => "#{@checkbox_option_enrollment}"}
+%div.hidden.enrollment_radio_option{"data-enrollment_radio_option" => "#{@radio_option_enrollment}"}
+
+
