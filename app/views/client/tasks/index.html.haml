@@ -21,7 +21,10 @@
                     %tr
                       %td.text-middle
                         = "#{t('.domain')}:"
-                        = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+                        - if task.domain.custom_domain?
+                          = t("domains.domain_names.#{task.domain.name.downcase}")
+                        - else
+                          = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
                       %td.task-name= task.name
                       %td.text-center.text-middle= date_format(task.completion_date)
                       - if current_user.admin?
@@ -46,7 +49,10 @@
                     %tr
                       %td.text-middle
                         = "#{t('.domain')}:"
-                        = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+                        - if task.domain.custom_domain?
+                          = t("domains.domain_names.#{task.domain.name.downcase}")
+                        - else
+                          = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
                       %td= task.name
                       %td.text-center.text-middle= date_format(task.completion_date)
                       - if current_user.admin?
@@ -70,7 +76,10 @@
                     %tr
                       %td.text-middle
                         = "#{t('.domain')}:"
-                        = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
+                        - if task.domain.custom_domain?
+                          = t("domains.domain_names.#{task.domain.name.downcase}")
+                        - else
+                          = t("domains.domain_names.#{task.domain.name.downcase.reverse}")
                       %td= task.name
                       %td.text-center.text-middle= date_format(task.completion_date)
                       - if current_user.admin?

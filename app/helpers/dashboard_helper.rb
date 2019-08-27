@@ -87,7 +87,7 @@ module DashboardHelper
     else
       skipped_assessments = !overdue_custom_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_custom_csi?
     end
-    skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
+    skipped_assessments = client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?)
     if skipped_assessments
       true
     elsif @assessment_params
