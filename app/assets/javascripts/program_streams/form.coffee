@@ -378,11 +378,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleRemoveUnusedOptionFormBuilder = ->
     if $('#enrollment').is(':visible')
-      _preventRemoveFieldFormBuilderProgramStream(ENROLLMENT_URL, '#enrollment')
+      _handlePreventRemoveFieldFormBuilderProgramStream(ENROLLMENT_URL, '#enrollment')
     else if $('#trackings').is(':visible')
-      _preventRemoveFieldFormBuilderProgramStream(TRACKING_URL, '#trackings')
+      _handlePreventRemoveFieldFormBuilderProgramStream(TRACKING_URL, '#trackings')
     else if $('#exit-program').is(':visible')
-      _preventRemoveFieldFormBuilderProgramStream(EXIT_PROGRAM_URL, '#exit-program')
+      _handlePreventRemoveFieldFormBuilderProgramStream(EXIT_PROGRAM_URL, '#exit-program')
     else 
       
               
@@ -525,7 +525,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     if $(parent).attr('class').includes('number-field')
       $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
 
-  _preventRemoveFieldFormBuilderProgramStream = (url, elementId) ->
+  _handlePreventRemoveFieldFormBuilderProgramStream = (url, elementId) ->
     return false if @programStreamId == ''
     specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
 
