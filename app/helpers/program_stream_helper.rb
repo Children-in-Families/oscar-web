@@ -74,25 +74,13 @@ module ProgramStreamHelper
   end
 
   private 
-
-  #enrollment
-
-    def all_option_form_choosen(program_stream)
+    #store option of each form builder for enrollment tab 
+    def custom_option_form_builder_enrollment(program_stream)
       all_option_form_choosen_by_client_enrollment(program_stream)
-      all_option_form_choosen_by_tracking(program_stream)
-      all_option_form_choosen_by_exit_program(program_stream)
       @select_option_enrollment   = all_option_form_choosen_by_client_enrollment(program_stream)["select"]&.reject(&:blank?)
       @checkbox_option_enrollment = all_option_form_choosen_by_client_enrollment(program_stream)["checkbox-group"]&.reject(&:blank?)
       @radio_option_enrollment    = all_option_form_choosen_by_client_enrollment(program_stream)["radio-group"]&.reject(&:blank?)
-      @select_option_tracking     = all_option_form_choosen_by_tracking(program_stream)["select"]&.reject(&:blank?)
-      @checkbox_option_tracking   = all_option_form_choosen_by_tracking(program_stream)["checkbox-group"]&.reject(&:blank?)
-      @radio_option_tracking      = all_option_form_choosen_by_tracking(program_stream)["radio-group"]&.reject(&:blank?)
-      @select_option_exiting      = all_option_form_choosen_by_exit_program(program_stream)["select"]&.reject(&:blank?)
-      @checkbox_option_exiting    = all_option_form_choosen_by_exit_program(program_stream)["checkbox-group"]&.reject(&:blank?)
-      @radio_option_exiting       = all_option_form_choosen_by_exit_program(program_stream)["radio-group"]&.reject(&:blank?)
     end
-
-    #Enrollment
     def all_option_form_choosen_by_client_enrollment(program_stream)
       all_option_form_by_type_and_label_enrollment(program_stream)
       all_option_form_program_stream_enrollment(program_stream)
@@ -135,7 +123,13 @@ module ProgramStreamHelper
       end
     end
 
-    #Tracking
+    #store option of each form builder for tracking tab 
+    def custom_option_form_builder_tracking(program_stream)
+      all_option_form_choosen_by_tracking(program_stream)
+      @select_option_tracking     = all_option_form_choosen_by_tracking(program_stream)["select"]&.reject(&:blank?)
+      @checkbox_option_tracking   = all_option_form_choosen_by_tracking(program_stream)["checkbox-group"]&.reject(&:blank?)
+      @radio_option_tracking      = all_option_form_choosen_by_tracking(program_stream)["radio-group"]&.reject(&:blank?)
+    end
     def all_option_form_choosen_by_tracking(program_stream)
       all_option_form_by_type_and_label_tracking(program_stream)
       all_option_form_program_stream_tracking(program_stream)
@@ -145,6 +139,7 @@ module ProgramStreamHelper
           next unless values.present?
           values.each do |v|
             @all_choosen_tracking_form_value_by_type[key] << choosen_option[v] if choosen_option[v]
+          
           end
         end
       end
@@ -181,7 +176,14 @@ module ProgramStreamHelper
         end
       end
     end
-    #Exit Program
+
+    #store option of each form builder for exit program tab 
+    def custom_option_form_builder_exit_program(program_stream)
+      all_option_form_choosen_by_exit_program(program_stream)
+      @select_option_exiting      = all_option_form_choosen_by_exit_program(program_stream)["select"]&.reject(&:blank?)
+      @checkbox_option_exiting    = all_option_form_choosen_by_exit_program(program_stream)["checkbox-group"]&.reject(&:blank?)
+      @radio_option_exiting       = all_option_form_choosen_by_exit_program(program_stream)["radio-group"]&.reject(&:blank?)
+    end
     def all_option_form_choosen_by_exit_program(program_stream)
       all_option_form_by_type_and_label_exit_program(program_stream)
       all_option_form_program_stream_exit_program(program_stream)

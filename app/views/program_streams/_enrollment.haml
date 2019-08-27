@@ -7,7 +7,7 @@
   .text-danger= @program_stream.errors[:enrollment].join(' and ')
   = f.hidden_field :enrollment
 
-- all_option_form_choosen(@program_stream)
+- custom_option_form_builder_enrollment(@program_stream)
 %div.hidden.enrollment_select_option{"data-enrollment-select-option" => "#{@select_option_enrollment}"}
 %div.hidden.enrollment_checkbox_option{"data-enrollment_checkbox_option" => "#{@checkbox_option_enrollment}"}
 %div.hidden.enrollment_radio_option{"data-enrollment_radio_option" => "#{@radio_option_enrollment}"}

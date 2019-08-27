@@ -327,7 +327,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       enableKeyNavigation: false
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        # _handleRemoveUnusedOptionFormBuilder()
         if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
           form.valid()
           name = $('#program_stream_name').val() == ''
@@ -567,88 +566,109 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _removeActionFormBuilderProgramStream = (label) ->
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-    allSelectOptionToProgramStream = $('.sortable-options .ui-sortable-handle').children()
-
+    
     if $('#enrollment').is(':visible')
-      if $(parent).attr('class').includes('checkbox-group-field') 
-          enrollmentCheckbox = $('div[data-enrollment_checkbox_option]').data('enrollment_checkbox_option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
-            enrollmentCheckbox.forEach (enrollment_checkbox_value) ->
-              if e.className.includes?('option-label') and (enrollment_checkbox_value == e.value ) and (e.className.includes?('option-label'))
-                $(e).attr('disabled', 'true')  
-                $(e).parent().children('a.remove.btn').remove()       
-          ) 
+      _removeActionFormBuilderEnrollment(label)
+    else if $('#trackings').is(':visible')
+      _removeActionFormBuilderTracking(label)
+    else if $('#exit-program').is(':visible')
+      _removeActionFormBuilderExitProgram(label)
+      
+     
+  _removeActionFormBuilderEnrollment= (label) ->
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+    if $(parent).attr('class').includes('checkbox-group-field') 
+        allCheckboxOption = $('#enrollment .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
+        enrollmentCheckbox = $('div[data-enrollment_checkbox_option]').data('enrollment_checkbox_option')
+        jQuery.map(allCheckboxOption, (e) ->
+          enrollmentCheckbox.forEach (enrollment_checkbox_value) ->
+            if enrollment_checkbox_value == e.value
+              $(e).attr('disabled', 'true')  
+              $(e).parent().children('a.remove.btn').remove()       
+        ) 
       else if $(parent).attr('class').includes('radio-group-field')
+          allRadioOption = $('#enrollment .radio-group-field .sortable-options .ui-sortable-handle .option-label')
           enrollmentRadio = $('div[data-enrollment_radio_option]').data('enrollment_radio_option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
+          jQuery.map(allRadioOption, (e) ->
             enrollmentRadio.forEach (enrollment_radio_value) ->
-              if e.className.includes?('option-label') and (enrollment_radio_value == e.value ) and (e.className.includes?('option-label'))
+              if enrollment_radio_value == e.value
                 $(e).attr('disabled', 'true')    
                 $(e).parent().children('a.remove.btn').remove()      
-  
           ) 
       else if $(parent).attr('class').includes('select-field')
+          allSelectOption  = $('#enrollment .select-field .sortable-options .ui-sortable-handle .option-label')
           enrollmentSelect = $('div[data-enrollment-select-option]').data('enrollment-select-option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
+          jQuery.map(allSelectOption, (e) ->
             enrollmentSelect.forEach (enrollment_selected_value) ->
-              if e.className.includes?('option-label') and (enrollment_selected_value == e.value ) and (e.className.includes?('option-label'))
+              if enrollment_selected_value == e.value 
                 $(e).attr('disabled', 'true')
                 $(e).parent().children('a.remove.btn').remove()       
           )  
-  
-    else if $('#trackings').is(':visible')
-      if $(parent).attr('class').includes('checkbox-group-field') 
-          trackingCheckbox = $('div[data-tracking_checkbox_option]').data('tracking_checkbox_option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
-            trackingCheckbox.forEach (tracking_checkbox_value) ->
-              if e.className.includes?('option-label') and (tracking_checkbox_value == e.value ) and (e.className.includes?('option-label'))
-                $(e).attr('disabled', 'true')
-                $(e).parent().children('a.remove.btn').remove()            
-          ) 
+  _removeActionFormBuilderTracking = (label) -> 
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+    
+    if $(parent).attr('class').includes('checkbox-group-field') 
+        allCheckboxOption = $('#trackings .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
+        trackingCheckbox = $('div[data-tracking_checkbox_option]').data('tracking_checkbox_option')
+        jQuery.map(allCheckboxOption, (e) ->
+          trackingCheckbox.forEach (tracking_checkbox_value) ->
+            if tracking_checkbox_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()            
+        ) 
       else if $(parent).attr('class').includes('radio-group-field')
+          allRadioOption = $('#trackings .radio-group-field .sortable-options .ui-sortable-handle .option-label')
           trackingRadio = $('div[data-tracking_radio_option]').data('tracking_radio_option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
+          jQuery.map(allRadioOption, (e) ->
             trackingRadio.forEach (tracking_radio_value) ->
-              if e.className.includes?('option-label') and (tracking_radio_value == e.value ) and (e.className.includes?('option-label'))
+              if tracking_radio_value == e.value
                 $(e).attr('disabled', 'true')
                 $(e).parent().children('a.remove.btn').remove()            
           ) 
       else if $(parent).attr('class').includes('select-field')
+          allSelectOption = $('#trackings .select-field .sortable-options .ui-sortable-handle .option-label')
           trackingSelect = $('div[data-tracking-select-option]').data('tracking-select-option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
+          jQuery.map(allSelectOption, (e) ->
             trackingSelect.forEach (tracking_selected_value) ->
-              if e.className.includes?('option-label') and (tracking_selected_value == e.value ) and (e.className.includes?('option-label'))
+              if tracking_selected_value == e.value
                 $(e).attr('disabled', 'true')
                 $(e).parent().children('a.remove.btn').remove()            
           ) 
 
-    else if $('#exit-program').is(':visible')
-      if $(parent).attr('class').includes('checkbox-group-field') 
-          exitingProgramCheckbox = $('div[data-exit_program_checkbox_option]').data('exit_program_checkbox_option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
-            exitingProgramCheckbox.forEach (exiting_checkbox_value) ->
-              if e.className.includes?('option-label') and (exiting_checkbox_value == e.value ) and (e.className.includes?('option-label'))
-                $(e).attr('disabled', 'true')
-                $(e).parent().children('a.remove.btn').remove()           
-          ) 
+  _removeActionFormBuilderExitProgram = (label) ->
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+
+    if $(parent).attr('class').includes('checkbox-group-field') 
+        allCheckboxOption = $('#exit-program .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
+        exitingProgramCheckbox = $('div[data-exit_program_checkbox_option]').data('exit_program_checkbox_option')
+        jQuery.map(allCheckboxOption, (e) ->
+          exitingProgramCheckbox.forEach (exiting_checkbox_value) ->
+            if exiting_checkbox_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()           
+        ) 
       else if $(parent).attr('class').includes('radio-group-field')
+          allRadioOption = $('#exit-program .radio-group-field .sortable-options .ui-sortable-handle .option-label')
           exitingProgramRadio = $('div[data-exit_program_radio_option]').data('exit_program_radio_option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
+          jQuery.map(allRadioOption, (e) ->
             exitingProgramRadio.forEach (exiting_radio_value) ->
-              if e.className.includes?('option-label') and (exiting_radio_value == e.value ) and (e.className.includes?('option-label'))
+              if exiting_radio_value == e.value
                 $(e).attr('disabled', 'true')
                 $(e).parent().children('a.remove.btn').remove()           
           ) 
       else if $(parent).attr('class').includes('select-field')
+          allSelectOption = $('#exit-program .select-field .sortable-options .ui-sortable-handle .option-label')
           exitingProgramSelect = $('div[data-exit_program-select-option]').data('exit_program-select-option')
-          jQuery.map(allSelectOptionToProgramStream, (e) ->
+          jQuery.map(allSelectOption, (e) ->
             exitingProgramSelect.forEach (exiting_selected_value) ->
-              if e.className.includes?('option-label') and (exiting_selected_value == e.value ) and (e.className.includes?('option-label'))
+              if exiting_selected_value == e.value
                 $(e).attr('disabled', 'true')
                 $(e).parent().children('a.remove.btn').remove()           
           )
-     
-  
+
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')
       select        = $(nestedField).find('.program_stream_trackings_frequency select')
