@@ -90,7 +90,7 @@ class CaseNotesController < AdminController
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params)
-    default_params
+    default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
   end
 
   def assign_params_to_case_note_domain_groups_params(default_params)
@@ -176,6 +176,5 @@ class CaseNotesController < AdminController
 
     case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group: @domain_groups)
     @case_note_domain_group_note = case_note_domain_groups.where.not(note: '').try(:first).try(:note)
-    @selected_domain_group_ids = case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
   end
 end
