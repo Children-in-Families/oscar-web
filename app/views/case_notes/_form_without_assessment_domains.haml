@@ -3,7 +3,8 @@
   = domain_note.hidden_field :domain_group_id
   - domains = fetch_domains(domain_note)
 
-- persisted_case_note =  domain_note.object.domains(@case_note).any?{|domain| @case_note.client.tasks.where(domain_id: domain.id).present? } && @case_note.persisted?
+- persisted_case_note =  domain_note.object.domains(@case_note).any?{|domain| @case_note.client.tasks.where(domain_id: domain.id).by_case_note_domain_group(domain_note.object).present? } && @case_note.persisted?
+
 .ibox.case-note-domain-group{ class: persisted_case_note ? 'show' : 'hidden' }
   .ibox-title
     %h5

@@ -948,15 +948,6 @@ ActiveRecord::Schema.define(version: 20190827045104) do
     t.datetime "updated_at"
   end
 
-  create_table "old_case_note_domain_groups", force: :cascade do |t|
-    t.text     "note",            default: ""
-    t.integer  "case_note_id"
-    t.integer  "domain_group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "attachments",     default: [], array: true
-  end
-
   create_table "organization_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
