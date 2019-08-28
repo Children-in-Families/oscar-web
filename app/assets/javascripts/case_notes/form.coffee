@@ -98,11 +98,11 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         _addElementToDom(taskName, taskDate, domainId, relation, actionUrl)
         $('.add-task-btn').removeAttr('disabled')
         $('#tasksFromModal').modal('hide')
+        _hideShowOnGoingTaskLable()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')
 
-      _hideShowOnGoingTaskLable()
 
   _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl) ->
     appendElement  = $(".domain-#{domainId} .task-arising");
@@ -230,6 +230,6 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         location.href = '#s2id_case_note_interaction_type'
 
   _hideShowOnGoingTaskLable = ->
-    if $('.case_note_case_note_domain_groups_tasks').length > 0 then $('#on-going-task-label').show() else $('#on-going-task-label').hide()
+    if $('.case_note_case_note_domain_groups_tasks:visible').length > 0 then $('#on-going-task-label').show() else $('#on-going-task-label').hide()
 
   { init: _init }
