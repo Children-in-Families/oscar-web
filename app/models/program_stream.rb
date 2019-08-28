@@ -75,7 +75,6 @@ class ProgramStream < ActiveRecord::Base
 
   def rules_edition
     if rules_changed?
-      binding.pry
       current_client_ids  = get_client_ids(rules).to_set
       previous_client_ids = get_client_ids(rules_was).to_set
 
