@@ -4,7 +4,6 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _handleDeleteAttachment()
     _handleNewTask()
     # _hideCompletedTasks()
-    _handlePreventBlankInput()
     _initSelect2()
     _initScoreTooltip()
     _initICheckBox()
@@ -65,10 +64,10 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _addDomainToSelect()
 
   _showError = (name, completion_date) ->
-    if completion_date != undefined and completion_date.length <= 0
-      $('#case_note_task .task_completion_date').addClass('has-error')
-    else
-      $('#case_note_task .task_completion_date').removeClass('has-error')
+    # if completion_date != undefined and completion_date.length <= 0
+    #   $('#case_note_task .task_completion_date').addClass('has-error')
+    # else
+    #   $('#case_note_task .task_completion_date').removeClass('has-error')
 
     if name != undefined and name.length <= 0
       $('#case_note_task .task_name').addClass('has-error')
@@ -171,29 +170,6 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
           domains.map (domain) ->
             $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
 
-  _handlePreventBlankInput = ->
-    $('#case-note-submit-btn').on 'click', (e)  ->
-      caseNoteMeetingDate = $('#case_note_meeting_date').val()
-      caseNoteAttendee = $('#case_note_attendee').val()
-      caseNoteInteractionType = $('#case_note_interaction_type').val()
-      elements = ['#case_note_meeting_date', '#case_note_attendee', '#case_note_interaction_type']
-      for element in elements
-        _handlePreventFieldCannotBeBlank(element, e)
-      if caseNoteMeetingDate != '' and caseNoteAttendee != '' and caseNoteInteractionType != ''
-        document.getElementById('case-note-form').onsubmit = ->
-          true
-
-  _handlePreventFieldCannotBeBlank = (element, e) ->
-    cannotBeBlank = $('#case-note-form').data('translate')
-    parent = $(element).parents('.form-group')
-    labelMessage = $(parent).siblings().find('.text-danger')
-    if $(element).val() == ''
-      $(parent).addClass('has-error')
-      $(labelMessage).text(cannotBeBlank)
-      e.preventDefault()
-    else
-      $(parent).removeClass('has-error')
-      $(labelMessage).text('')
 
   _initNotification = (message)->
     messageOption = {
@@ -221,13 +197,12 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       url + (if url.indexOf('?') > 0 then '&' else '?') + paramName + '=' + paramValue
 
   _scrollToError = ->
-    $('#case-note-submit-btn').on 'click', (e) ->
-      if $('.case_note_meeting_date').hasClass('has-error')
-        location.href = '#case_note_meeting_date'
-      else if $('.case_note_attendee').hasClass('has-error')
-        location.href = '#case_note_attendee'
-      else if $('.case_note_interaction_type').hasClass('has-error')
-        location.href = '#s2id_case_note_interaction_type'
+    if $('.case_note_meeting_date').hasClass('has-error')
+      location.href = '#case_note_meeting_date'
+    else if $('.case_note_attendee').hasClass('has-error')
+      location.href = '#case_note_attendee'
+    else if $('.case_note_interaction_type').hasClass('has-error')
+      location.href = '#s2id_case_note_interaction_type'
 
   _hideShowOnGoingTaskLable = ->
     if $('.case_note_case_note_domain_groups_tasks:visible').length > 0 then $('#on-going-task-label').show() else $('#on-going-task-label').hide()
