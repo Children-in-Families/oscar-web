@@ -613,7 +613,7 @@ module ClientsHelper
 
     return object if return_default_filter(object, rule, results)
 
-    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
+    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals'}
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
