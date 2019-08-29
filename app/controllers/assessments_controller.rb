@@ -2,7 +2,7 @@ class AssessmentsController < AdminController
   include CreateBulkTask
 
   before_action :find_client
-  before_action :find_assessment, only: [:edit, :update, :show]
+  before_action :find_assessment, only: [:edit, :update, :show, :destroy]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_assessment, only: [:show, :edit, :update]
   before_action :fetch_available_custom_domains, only: :index
@@ -63,6 +63,10 @@ class AssessmentsController < AdminController
       respond_to do |f|
         f.json { render json: { message: message }, status: '200' }
       end
+    elsif @assessment.present?
+      @assessment.assessment_domains.delete_all
+      @assessment.reload.destroy
+      redirect_to client_assessments_path(@assessment.client), notice: t('.successfully_deleted_assessment')
     end
   end
 

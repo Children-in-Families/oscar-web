@@ -537,6 +537,7 @@ my:
     destroy:
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+      successfully_deleted_assessment: Assessment has been successfully deleted.
     form:
       add_task: လုပ္ငန္းအသစ္ ထပ္ထည့္ရန္။
       add_task_confirm: သင်ဤအကဲဖြတ်၏နောက်ဆုံးခြေလှမ်းမှာတာဝန်များကိုထည့်သွင်းဖို့ပိုနှစ်သက်ပါ့မလား
@@ -568,6 +569,7 @@ my:
       three_month_assessment: သုံးလစဉ်အကဲဖြတ်
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       assessment_completed_by: က စိစစ္မႈကို ျဖည္ထားပါသည္။
       assessment_completed_for: အဘို့အပြီးစီးခဲ့အကဲဖြတ်
       assessment_created_by: အသုံးပြုနေသူများကဖန်တီးအကဲဖြတ်
@@ -653,6 +655,7 @@ my:
     destroy:
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရပါ။
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+      successfully_deleted_case_note: Assessment has been successfully deleted.
     form:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
       back: ေနာက္သို႔
@@ -673,6 +676,7 @@ my:
         visit: Visit
         non_face_to_face: Non face to face
         rd_party: 3rd Party
+        supervision: Supervision
         other_option: Other
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
@@ -685,6 +689,7 @@ my:
       goal: ရည္မွန္းခ်က္
       note: မွတ္စု
     index:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       attachments: တြဲထားသည္မ်ား
       back: ေနာက္သို႔
       case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း

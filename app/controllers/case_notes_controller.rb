@@ -74,6 +74,10 @@ class CaseNotesController < AdminController
       respond_to do |f|
         f.json { render json: { message: message }, status: '200' }
       end
+    elsif @case_note.present?
+      @case_note.case_note_domain_groups.delete_all
+      @case_note.reload.destroy
+      redirect_to client_case_notes_path(@case_note.client), notice: t('.successfully_deleted_case_note')
     end
   end
 
