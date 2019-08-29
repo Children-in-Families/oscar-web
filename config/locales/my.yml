@@ -352,12 +352,12 @@ my:
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
+      date_of_referral: ရည်ညွန်း၏နေ့စွဲ
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
-      date_of_referral: ရည်ညွန်း၏နေ့စွဲ
       enrolled_program_stream: စာရင်းသွင်းအစီအစဉ်ကိုစီး
       enrollment: စာရင္းသြင္းျခင္း
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
@@ -2044,6 +2044,7 @@ my:
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+        date_of_referral: ရည်ညွန်း၏နေ့စွဲ
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ခ႐ိုင္
@@ -2052,7 +2053,6 @@ my:
         domain: ဒိုမိန္း
         domains: ဒိုမိန်း
         donor: အလွဴရွင္
-        date_of_referral: ရည်ညွန်း၏နေ့စွဲ
         exit_circumstance: ထွက်ပေါက်အခြေအနေ
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်

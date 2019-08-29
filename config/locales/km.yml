@@ -354,12 +354,12 @@ km:
       custom_form: ទម្រង់បែបបទ
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      date_of_referral: ថ្ងៃបញ្ជូនអតិថិជន
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
-      date_of_referral: ថ្ងៃបញ្ជូនអតិថិជន
       enrolled_program_stream: ចូលរួមកម្មវិធីចម្បងរួចហើយ
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
@@ -2054,6 +2054,7 @@ km:
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+        date_of_referral: ថ្ងៃបញ្ជូនអតិថិជន
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ស្រុក/ខណ្ឌ
@@ -2062,7 +2063,6 @@ km:
         domain: កត្តា
         domains: កត្តាការវាយតម្លៃទាំងអស់
         donor: ម្ចាស់ជំនួយ
-        date_of_referral: កាលបរិច្ឆេទបញ្ជូន
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
         exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ

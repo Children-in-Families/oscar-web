@@ -319,7 +319,7 @@ class ClientGrid < BaseGrid
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
-  # add date of referral to select column
+  
   filter(:date_of_referral, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') })
 
   filter(:domain_2a, :dynamic, select: proc { get_domain('2A') }, header: -> { "#{ I18n.t('datagrid.columns.clients.domain')} 2A (Shelter)" }) do |(domain_id, operation, value), scope|
