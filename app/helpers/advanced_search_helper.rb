@@ -122,6 +122,7 @@ module AdvancedSearchHelper
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments'),
+      date_of_referral: I18n.t('advanced_search.fields.date_of_referral'),
       telephone_number: I18n.t('advanced_search.fields.telephone_number'),
       exit_circumstance: I18n.t('advanced_search.fields.exit_circumstance'),
       exit_reasons: I18n.t('advanced_search.fields.exit_reasons'),

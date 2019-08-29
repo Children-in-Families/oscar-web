@@ -357,6 +357,7 @@ my:
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
+      date_of_referral: ရည်ညွန်း၏နေ့စွဲ
       enrolled_program_stream: စာရင်းသွင်းအစီအစဉ်ကိုစီး
       enrollment: စာရင္းသြင္းျခင္း
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
@@ -2051,6 +2052,7 @@ my:
         domain: ဒိုမိန္း
         domains: ဒိုမိန်း
         donor: အလွဴရွင္
+        date_of_referral: ရည်ညွန်း၏နေ့စွဲ
         exit_circumstance: ထွက်ပေါက်အခြေအနေ
         exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်

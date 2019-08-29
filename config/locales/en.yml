@@ -359,6 +359,7 @@ en:
       district: District/Khan
       donor: Donor
       donor_id: Donor
+      date_of_referral: Date of Referral
       enrolled_program_stream: Enrolled Program Stream
       enrollment: Enrollment
       exit_circumstance: Exit Circumstance
@@ -2063,6 +2064,7 @@ en:
         domain: Domain
         domains: All CSI
         donor: Donor
+        date_of_referral: Date of Referral
         exit_circumstance: Exit Circumstance
         exit_note: NGO Exit Note
         exit_reasons: Reason For Exit

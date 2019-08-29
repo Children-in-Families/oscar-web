@@ -46,7 +46,6 @@ module AdvancedSearches
           return @clients.where(id: clients.map(&:id))
         end
       end
-
       @clients.where(query_array)
     end
 
