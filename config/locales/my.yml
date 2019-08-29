@@ -352,6 +352,7 @@ my:
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
+      date_of_referral: ရည်ညွန်း၏နေ့စွဲ
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: ခ႐ိုင္
@@ -2058,6 +2059,7 @@ my:
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+        date_of_referral: ရည်ညွန်း၏နေ့စွဲ
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ခ႐ိုင္

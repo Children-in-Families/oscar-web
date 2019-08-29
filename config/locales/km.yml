@@ -354,6 +354,7 @@ km:
       custom_form: ទម្រង់បែបបទ
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      date_of_referral: ថ្ងៃបញ្ជូនអតិថិជន
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: ស្រុក/ខណ្ឌ
@@ -2073,6 +2074,7 @@ km:
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+        date_of_referral: ថ្ងៃបញ្ជូនអតិថិជន
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ស្រុក/ខណ្ឌ
