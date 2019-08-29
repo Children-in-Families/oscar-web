@@ -83,9 +83,9 @@ class Case < ActiveRecord::Base
     client.cases.exclude_referred.current == self
   end
 
-  def fc_or_kc?
-    case_type == 'FC' || case_type == 'KC'
-  end
+  # def fc_or_kc?
+  #   case_type == 'FC' || case_type == 'KC'
+  # end
 
   def kc?
     case_type == 'KC'
