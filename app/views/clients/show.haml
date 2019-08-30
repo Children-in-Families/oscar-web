@@ -104,8 +104,8 @@
             = render 'remaining_programs', client: @client
           - else
             = render 'client/exit_ngos/form', client: @client
-          - if @client.cases.exclude_referred.current.present?
-            = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
+          -# - if @client.cases.exclude_referred.current.present?
+          -#   = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
