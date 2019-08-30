@@ -74,155 +74,112 @@ module ProgramStreamHelper
   end
 
   private 
-    #store option of each form builder for enrollment tab 
-    def custom_option_form_builder_enrollment(program_stream)
-      all_option_form_choosen_by_client_enrollment(program_stream)
-      @select_option_enrollment   = all_option_form_choosen_by_client_enrollment(program_stream)["select"]&.reject(&:blank?)
-      @checkbox_option_enrollment = all_option_form_choosen_by_client_enrollment(program_stream)["checkbox-group"]&.reject(&:blank?)
-      @radio_option_enrollment    = all_option_form_choosen_by_client_enrollment(program_stream)["radio-group"]&.reject(&:blank?)
+    
+    def form_builder_selection_options(program_stream, program_stream_step='trackings')
+      field_types        = group_field_types(program_stream, program_stream_step)
+      @select_field      = field_types["select"]
+      @checkbox_field    = field_types["checkbox-group"]
+      @radio_field       = field_types["radio-group"]
     end
-    def all_option_form_choosen_by_client_enrollment(program_stream)
-      all_option_form_by_type_and_label_enrollment(program_stream)
-      all_option_form_program_stream_enrollment(program_stream)
-      @all_choosen_enrollment_form_value_by_type = Hash.new{|h,k| h[k] = []} 
-      @all_choosen_option_form.each do |choosen_option|
-        @option_form.each do |key,values|
-          next unless values.present? 
-          values.each do |v|
-            @all_choosen_enrollment_form_value_by_type[key] << choosen_option[v] if choosen_option[v]
+
+    def group_field_types(program_stream, program_stream_step)
+      group_field_types = Hash.new{|h,k| h[k] = []} 
+      group_by_option_type_label = form_builder_group_by_options_type_label(program_stream, program_stream_step)
+      group_selection_field_types = group_selection_field_types(program_stream, program_stream_step)
+      group_selection_field_types&.compact.each do |selection_field_types|
+        group_by_option_type_label.each do |type,labels|
+          next unless labels.present?
+          labels.each do |label|
+            next if selection_field_types[label].blank?
+              group_field_types[type] << selection_field_types[label] 
           end
         end
       end
-      @all_choosen_enrollment_form_value_by_type =  @all_choosen_enrollment_form_value_by_type.transform_values(&:flatten)
-      @all_choosen_enrollment_form_value_by_type =  @all_choosen_enrollment_form_value_by_type.transform_values(&:uniq)
+      group_field_types =  group_field_types.transform_values(&:flatten)
+      group_field_types.transform_values(&:uniq)
     end
 
-    def all_option_form_by_type_and_label_enrollment(program_stream)
-      @all_choosen_option_form = []
-      program_stream.client_enrollments.each do |ps_client_enrollment|
-        choosen_option_form = ps_client_enrollment.properties if ps_client_enrollment.properties.present? 
-        @all_choosen_option_form << choosen_option_form
-      end
-    end
-
-    def all_option_form_program_stream_enrollment(program_stream)
-      @option_form = Hash.new{|h,k| h[k] = []} 
-      option_form_enrollment(program_stream)
-      @custom_option_form["type"].each_with_index do |type_option_enrollment,i|
-        @option_form[type_option_enrollment] << @custom_option_form["label"][i]
-      end
-    end
-
-    def option_form_enrollment(program_stream)
-      @custom_option_form = Hash.new{|h,k| h[k] = []} 
-      program_stream.enrollment.each do |enrollment|
-        enrollment.each do |k,v|
-          next unless k[/^(type|label)$/i]
-          @custom_option_form[k] << v 
-        end
-      end
-    end
-
-    #store option of each form builder for tracking tab 
-    def custom_option_form_builder_tracking(program_stream)
-      all_option_form_choosen_by_tracking(program_stream)
-      @select_option_tracking     = all_option_form_choosen_by_tracking(program_stream)["select"]&.reject(&:blank?)
-      @checkbox_option_tracking   = all_option_form_choosen_by_tracking(program_stream)["checkbox-group"]&.reject(&:blank?)
-      @radio_option_tracking      = all_option_form_choosen_by_tracking(program_stream)["radio-group"]&.reject(&:blank?)
-    end
-    def all_option_form_choosen_by_tracking(program_stream)
-      all_option_form_by_type_and_label_tracking(program_stream)
-      all_option_form_program_stream_tracking(program_stream)
-      @all_choosen_tracking_form_value_by_type = Hash.new{|h,k| h[k] = []} 
-      @all_choosen_option_form_tracking.each do |choosen_option|
-        @option_form_tracking.each do |key,values|
-          next unless values.present?
-          values.each do |v|
-            @all_choosen_tracking_form_value_by_type[key] << choosen_option[v] if choosen_option[v]
-          
+    def group_selection_field_types(program_stream, program_stream_step)
+      group_value_field_types = []
+      case program_stream_step
+      when 'trackings'
+        program_stream.client_enrollments.each do |client_enrollment|
+          client_enrollment.client_enrollment_trackings.each do |client_enrollment_tracking|
+            choosen_option_form_tracking = client_enrollment_tracking.properties if client_enrollment_tracking.properties.present?
+            group_value_field_types <<  choosen_option_form_tracking 
           end
         end
-      end
-      @all_choosen_tracking_form_value_by_type =  @all_choosen_tracking_form_value_by_type.transform_values(&:flatten)
-      @all_choosen_tracking_form_value_by_type =  @all_choosen_tracking_form_value_by_type.transform_values(&:uniq)
-    end
-
-    def all_option_form_by_type_and_label_tracking(program_stream)
-      @all_choosen_option_form_tracking = []
-      program_stream.client_enrollments.each do |ps_client_enrollment|
-        ps_client_enrollment.client_enrollment_trackings.each do |ps_client_enrollment_tracking|
-          choosen_option_form_tracking = ps_client_enrollment_tracking.properties if ps_client_enrollment_tracking.properties.present?
-          @all_choosen_option_form_tracking <<  choosen_option_form_tracking 
+       group_value_field_types 
+      when 'enrollment'
+        program_stream.client_enrollments.each do |client_enrollment|
+          choosen_option_form = client_enrollment.properties if client_enrollment.properties.present? 
+         group_value_field_types << choosen_option_form
         end
+       group_value_field_types
+      when 'exit_program'
+        program_stream.client_enrollments.each do |client_enrollment|
+          choosen_option_form_exit_program = client_enrollment.leave_program.properties if client_enrollment.leave_program&.properties.present?
+          group_value_field_types << choosen_option_form_exit_program
+        end
+        group_value_field_types&.reject(&:blank?)
+      else
+        []
       end
+      group_value_field_types
     end
 
-    def all_option_form_program_stream_tracking(program_stream)
-      @option_form_tracking = Hash.new{|h,k| h[k] = []} 
-      option_form_tracking(program_stream)
-      @custom_option_form_tracking["type"].each_with_index do |type_option_tracking,i|
-        @option_form_tracking[type_option_tracking] << @custom_option_form_tracking["label"][i]
+    def form_builder_group_by_options_type_label(program_stream, program_stream_step)
+      group_options_type_label = Hash.new{|h,k| h[k] = []} 
+      form_builder_option = form_builder_options(program_stream, program_stream_step)
+      form_builder_option["type"].each_with_index do |type_option_tracking,i|
+        group_options_type_label[type_option_tracking] << form_builder_option["label"][i]
       end
+      group_options_type_label
     end
 
-    def option_form_tracking(program_stream)
-      @custom_option_form_tracking = Hash.new{|h,k| h[k] = []} 
-      program_stream.trackings.each do |tracking|
-        tracking.fields.each do |tracking_field|
-          tracking_field.each do |k,v|
+    def form_builder_options(program_stream, program_stream_step)
+      form_builder_options = Hash.new{|h,k| h[k] = []}
+      case program_stream_step
+      when 'trackings'
+        program_stream.trackings.each do |tracking|
+          tracking.fields.each do |tracking_field|
+            tracking_field.each do |k,v|
+              next unless k[/^(type|label)$/i]
+              form_builder_options[k] << v 
+            end
+          end
+        end
+        return form_builder_options
+      when 'enrollment','exit_program'
+        program_stream.send(program_stream_step).each do |step|
+          step.each do |k,v|
             next unless k[/^(type|label)$/i]
-            @custom_option_form_tracking[k] << v 
+            form_builder_options[k] << v 
           end
         end
+        return form_builder_options
+      else 
+        {}
       end
+      form_builder_options
     end
+  end
 
-    #store option of each form builder for exit program tab 
-    def custom_option_form_builder_exit_program(program_stream)
-      all_option_form_choosen_by_exit_program(program_stream)
-      @select_option_exiting      = all_option_form_choosen_by_exit_program(program_stream)["select"]&.reject(&:blank?)
-      @checkbox_option_exiting    = all_option_form_choosen_by_exit_program(program_stream)["checkbox-group"]&.reject(&:blank?)
-      @radio_option_exiting       = all_option_form_choosen_by_exit_program(program_stream)["radio-group"]&.reject(&:blank?)
-    end
-    def all_option_form_choosen_by_exit_program(program_stream)
-      all_option_form_by_type_and_label_exit_program(program_stream)
-      all_option_form_program_stream_exit_program(program_stream)
-      @all_choosen_exit_program_form_value_by_type = Hash.new{|h,k| h[k] = []} 
-      @all_choosen_option_form_exit_program.compact.each do |choosen_option|
-        @option_form_exit_program.each do |key,values|
-          next unless values.present?
-          values.each do |v|
-            @all_choosen_exit_program_form_value_by_type[key] << choosen_option[v] if choosen_option[v].present?
-          end
-        end
-      end
-      @all_choosen_exit_program_form_value_by_type =  @all_choosen_exit_program_form_value_by_type.transform_values(&:flatten)
-      @all_choosen_exit_program_form_value_by_type =  @all_choosen_exit_program_form_value_by_type.transform_values(&:uniq)
-    end
 
-    def all_option_form_by_type_and_label_exit_program(program_stream)
-      @all_choosen_option_form_exit_program = []
-      program_stream.client_enrollments.each do |ps_client_enrollment|
-        choosen_option_form_exit_program = ps_client_enrollment.leave_program.properties if ps_client_enrollment.leave_program&.properties.present?
-        @all_choosen_option_form_exit_program << choosen_option_form_exit_program
-      end
-    end
 
-    def all_option_form_program_stream_exit_program(program_stream)
-      @option_form_exit_program = Hash.new{|h,k| h[k] = []} 
-      option_form_exit_program(program_stream)
-      @custom_option_form_exit_program["type"].each_with_index do |type_option_exit,i|
-        @option_form_exit_program[type_option_exit] <<  @custom_option_form_exit_program["label"][i]
-      end
-    end
 
-    def option_form_exit_program(program_stream)
-      @custom_option_form_exit_program = Hash.new{|h,k| h[k] = []} 
-      program_stream.exit_program.each do |exit_program|
-        exit_program.each do |k,v|
-          next unless k[/^(type|label)$/i]
-          @custom_option_form_exit_program[k] << v
-        end
-      end
-    end
-end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

@@ -8,7 +8,7 @@
   #not-require-tracking
     = f.input :tracking_required, label: t('.not_require_tracking'), input_html: { class: 'i-checks' }
 
-- custom_option_form_builder_tracking(@program_stream)
-%div.hidden.tracking_select_option{"data-tracking-select-option" => "#{@select_option_tracking}"}
-%div.hidden.tracking_checkbox_option{"data-tracking_checkbox_option" => "#{@checkbox_option_tracking}"}
-%div.hidden.tracking_radio_option{"data-tracking_radio_option" => "#{@radio_option_tracking}"}
+- form_builder_selection_options(@program_stream, 'trackings')
+%div.hidden.tracking_select_option{"data-tracking-select-option" => "#{@select_field}"}
+%div.hidden.tracking_checkbox_option{"data-tracking_checkbox_option" => "#{@checkbox_field}"}
+%div.hidden.tracking_radio_option{"data-tracking_radio_option" => "#{@radio_field}"}
