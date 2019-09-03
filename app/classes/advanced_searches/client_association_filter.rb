@@ -601,12 +601,13 @@ module AdvancedSearches
         client_ids & ids
       when 'not_equal'
         client_ids =[]
-        clients.each do |client|
+        @clients.each do |client|
           if client.user_ids.exclude?(@value.to_i)
             client_ids << client.id
           end
         end
         client_ids.flatten
+        # clients.where.not('users.id = ?', @value).distinct.ids
       when 'is_empty'
         @clients.where.not(id: ids).ids
       when 'is_not_empty'
