@@ -1735,6 +1735,9 @@ km:
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
+        day:
+          one: "%{count} ថ្ងៃ"
+          other: "%{count} ថ្ងៃ"
         month:
           one: "%{count} ខែ"
           other: "%{count} ខែ"
