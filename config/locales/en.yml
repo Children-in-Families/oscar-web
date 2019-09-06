@@ -1502,7 +1502,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search 
+      advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       assessment_data: Assessment Data
@@ -1746,6 +1746,9 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
+        day:
+          one: "%{count} day"
+          other: "%{count} days"
         month:
           one: "%{count} month"
           other: "%{count} months"
