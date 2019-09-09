@@ -27,7 +27,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_friends"(donor_name varchar DEFAULT 'Save the Children')
-              RETURNS TABLE("client_id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
+              RETURNS TABLE("id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "donor_id" int4, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "exit_date" varchar, "accepted_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
                 DECLARE
                   sql TEXT := '';
                   sch record;
@@ -40,7 +40,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     WHERE "public"."donors"."name" = donor_name
                   LOOP
                     sql := sql || format(
-                                    'SELECT clients.id AS client_id, %1$L organization_name, clients.gender,
+                                    'SELECT clients.id, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
                                     clients.date_of_birth, clients.status, clients.province_id, clients.district_id,
                                     clients.birth_province_id, clients.assessments_count, clients.follow_up_date,
                                     clients.initial_referral_date, clients.referral_source_category_id, clients.created_at,
@@ -50,7 +50,9 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
                   FOR client_r IN EXECUTE left(sql, -7)
                   LOOP
-                    client_id := client_r.client_id; organization_name := client_r.organization_name; gender := client_r.gender;
+                    id := client_r.id; organization_name := client_r.organization_name; gender := client_r.gender;
+                    donor_id := client_r.donor_id; exit_date := timezone('Asia/Bangkok', client_r.exit_date);
+                    accepted_date := timezone('Asia/Bangkok', client_r.accepted_date);
                     date_of_birth := date(client_r.date_of_birth); status := client_r.status;
                     province_id := client_r.province_id; district_id := client_r.district_id;
                     birth_province_id := client_r.birth_province_id; assessments_count := client_r.assessments_count;
