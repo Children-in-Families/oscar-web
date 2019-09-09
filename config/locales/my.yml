@@ -1745,6 +1745,9 @@ my:
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
       time_in_care_around:
         few: ႏွစ္အနည္းငယ္
+        day:
+          one: "%{count} တစ်ရက်"
+          other: "%{count} တစ်ရက်"
         month:
           one: "%{count} လ"
           other: "%{count} လများ"

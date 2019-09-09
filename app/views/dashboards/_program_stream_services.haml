@@ -11,14 +11,16 @@
         .modal-body
           = hidden_field_tag 'blank', I18n.t('activerecord.default.blank')
           = hidden_field_tag 'confirm-question', I18n.t('dashboards.program_stream_services.service_confirm_question')
+          - services_json = services.to_json
+          - services_no_parent = services(false)
           - @program_streams.each do |object|
             = simple_form_for object, url: api_program_stream_path(object), remote: true, html: { class: 'program-stream' } do |f|
               .row
                 .col-sm-12.col-md-3
                   = f.input :name, disabled: true, label: t('.name')
                 .col-sm-12.col-md-7
-                  .type-of-service{ data: {custom: services.to_json } }
-                    = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service'), input_html: {id: "program_stream_service_id_#{object.id}" }
+                  .type-of-service{ data: {custom: services_json } }
+                    = f.association :services, collection: services_no_parent, multiple: true, label: t('.type_of_service'), input_html: {id: "program_stream_service_id_#{object.id}" }
                 .col-sm-12.col-md-2
                   = f.submit t('save'), class: 'btn btn-primary form-btn', disabled: 'true', data: { disable_with: t('saving') }
                   = image_tag 'success.png', class: "img-circle hide save-success-#{object.id}"

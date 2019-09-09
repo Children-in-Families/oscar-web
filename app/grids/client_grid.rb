@@ -446,7 +446,7 @@ class ClientGrid < BaseGrid
   column(:code, header: -> { custom_id_translation('custom_id1') }) do |object|
     object.code ||= ''
   end
-  
+
   column(:kid_id, order:'clients.kid_id', header: -> { custom_id_translation('custom_id2') })
 
   def self.custom_id_translation(type)
@@ -697,7 +697,7 @@ class ClientGrid < BaseGrid
           elsif identify_province_khmer == 2
              province = object.province&.name
           end
-          
+
         end
 
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_kh') }) do |object|
@@ -706,15 +706,15 @@ class ClientGrid < BaseGrid
           birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
           identity_birth_province = birth_province&.count "/"
           if identity_birth_province == 1
-            birth_province = birth_province.split('/').first 
+            birth_province = birth_province.split('/').first
           elsif identity_birth_province == 2
-            birth_province 
+            birth_province
           end
           Organization.switch_to current_org.short_name
           birth_province
         end
-  
-      else 
+
+      else
         column(:village, html: false, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village_en') } ) do |object|
           object.village.try(:name_en)
         end
@@ -740,16 +740,16 @@ class ClientGrid < BaseGrid
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_en') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
-          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name      
+          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
           identity_birth_province = birth_province&.count "/"
           if identity_birth_province == 1
-            birth_province = birth_province.split('/').last 
+            birth_province = birth_province.split('/').last
           elsif identity_birth_province == 2
-            birth_province 
+            birth_province
           end
           Organization.switch_to current_org.short_name
           birth_province
-        end  
+        end
       end
     when 'uganda'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
@@ -959,8 +959,8 @@ class ClientGrid < BaseGrid
       time_in_ngo = object.time_in_ngo
       years = I18n.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
       months = I18n.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
-      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_ngo[:weeks]) if time_in_ngo[:weeks] > 0
-      [years, months, weeks].join(' ')
+      days = I18n.t('clients.show.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
+      [years, months, days].join(' ')
     end
   end
 
@@ -972,8 +972,8 @@ class ClientGrid < BaseGrid
         unless cps[1].blank?
           years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
           months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
-          weeks = I18n.t('clients.show.time_in_care_around.week', count: cps[1][:weeks]) if (cps[1][:weeks].present? && cps[1][:weeks] > 0)
-          time_in_cps = [years, months, weeks].join(' ')
+          days = I18n.t('clients.show.time_in_care_around.day', count: cps[1][:days]) if (cps[1][:days].present? && cps[1][:days] > 0)
+          time_in_cps = [years, months, days].join(' ')
           cps_lists << [cps[0], time_in_cps].join(': ')
         end
       end
