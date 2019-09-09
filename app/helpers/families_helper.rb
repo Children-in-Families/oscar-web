@@ -144,4 +144,10 @@ module FamiliesHelper
       FamilyMember::MY_RELATIONS
     end
   end
+
+  def family_type_translation(type)
+    return if type.nil?
+    type = type.downcase.gsub(/\(|\)/, '').gsub(/ \/ |-/, '_').gsub(' ', '_')
+    I18n.t("default_family_fields.family_type_list.#{type}")
+  end
 end
