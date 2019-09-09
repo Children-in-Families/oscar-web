@@ -101,6 +101,7 @@ module ClientsHelper
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
       date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
+      date_of_referral:              t('datagrid.columns.clients.date_of_referral'),
       date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
@@ -345,6 +346,7 @@ module ClientsHelper
       case_note_date_: t('datagrid.columns.clients.case_note_date'),
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
       date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
+      date_of_referral_: t('datagrid.columns.clients.date_of_referral'),
       all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
       date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments'),
       all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments'),
@@ -611,7 +613,7 @@ module ClientsHelper
 
     return object if return_default_filter(object, rule, results)
 
-    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
+    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals'}
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'

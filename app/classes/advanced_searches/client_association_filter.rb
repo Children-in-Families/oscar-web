@@ -65,11 +65,38 @@ module AdvancedSearches
         values = month_number_query
       when 'date_nearest'
         values = date_nearest_query
+      when 'date_of_referral'
+        values = date_of_referral_query
       end
       { id: sql_string, values: values }
     end
 
     private
+    
+    def date_of_referral_query
+      clients = @clients.joins(:referrals).distinct
+      case @operator
+      when 'equal'
+        clients = clients.where('date(referrals.date_of_referral) = ?', @value.to_date)
+      when 'not_equal'
+        clients = clients.where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
+      when 'less'
+        clients = clients.where('date(referrals.date_of_referral) < ?', @value.to_date)
+      when 'less_or_equal'
+        clients = clients.where('date(referrals.date_of_referral) <= ?', @value.to_date)
+      when 'greater'
+        clients = clients.where('date(referrals.date_of_referral) > ?', @value.to_date)
+      when 'greater_or_equal'
+        clients = clients.where('date(referrals.date_of_referral) >= ?', @value.to_date)
+      when 'between'
+        clients = clients.where('date(referrals.date_of_referral) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        clients = Client.includes(:referrals).where(referrals: { date_of_referral: nil })
+      when 'is_not_empty'
+        clients = clients.where.not(referrals: { date_of_referral: nil })
+      end
+      clients.ids
+    end
 
     def assessment_number_query
       @clients.joins(:assessments).group(:id).having("COUNT(assessments) >= ?", @value).ids

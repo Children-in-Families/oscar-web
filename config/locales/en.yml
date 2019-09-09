@@ -354,6 +354,7 @@ en:
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
+      date_of_referral: Date of Referral
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: District/Khan
@@ -2060,6 +2061,7 @@ en:
         date_of_assessments: Date of Assessments
         date_of_birth: Date of Birth
         date_of_custom_assessments: Date of Custom Assessment
+        date_of_referral: Date of Referral
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: District/Khan
