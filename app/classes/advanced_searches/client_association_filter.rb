@@ -505,7 +505,11 @@ module AdvancedSearches
       when 'equal'
         clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value ).distinct.ids
+        #client_not_equal_ids = (clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids + @clients.where.not(id: clients.distinct.ids).ids) - clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
+        client_have_enrollments = clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
+        client_not_enrollments = clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids
+        client_empty_enrollments = @clients.where.not(id: clients.distinct.ids).ids
+        client_not_equal_ids = (client_not_enrollments+ client_empty_enrollments ) - client_have_enrollments
       when 'is_empty'
         @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
@@ -693,10 +697,8 @@ module AdvancedSearches
         # clients = @clients.where(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
         clients = @clients.where("(EXTRACT(year FROM age(current_date, date_of_birth)) :: int) = ?", @value)
       when 'not_equal'
-        clients = @clients.where("(EXTRACT(year FROM age(current_date, date_of_birth)) :: int) = ?", @value)
         # clients = @clients.where.not(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
-        #clients = @clients.where("clients.date_of_birth is NULL OR (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) != ?", @value)
-        #clients = @clients.where("(EXTRACT(year FROM age(current_date, date_of_birth)) :: int) = ?", @value)
+        clients = @clients.where("clients.date_of_birth is NULL OR (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) != ?", @value)
       when 'less' 
         clients = @clients.where('date_of_birth > ?', date_value_format)
       when 'less_or_equal'
