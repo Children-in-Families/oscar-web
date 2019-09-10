@@ -26,7 +26,7 @@ class FnOscarDashboardDonors < ActiveRecord::Migration
               LOOP
                 id := ps_service_r.id;
                 organization_name := ps_service_r.organization_name;
-                name= ps_service_r.name;
+                name := ps_service_r.name;
                 code := ps_service_r.code;
                 RETURN NEXT;
               END LOOP;
