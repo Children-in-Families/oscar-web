@@ -72,7 +72,7 @@ module AdvancedSearches
     end
 
     private
-    
+
     def date_of_referral_query
       clients = @clients.joins(:referrals).distinct
       case @operator
@@ -423,68 +423,43 @@ module AdvancedSearches
       sub_case_note_date_query_array = ['']
       sub_case_note_type_query_array = ['']
 
-      @basic_rules  = $param_rules.present? ? $param_rules[:basic_rules] : {}
-      if $param_rules[:basic_rules].present?
-        basic_rules   = JSON.parse(@basic_rules)
-        filter_values = basic_rules['rules']
-        clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
+      @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules)
+      filter_values = basic_rules['rules']
+      clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
 
-        sub_rule_index = nil
-        filter_values.each_with_index {|param, index| sub_rule_index = index if param.has_key?('condition')}
+      sub_rule_index = nil
+      filter_values.each_with_index {|param, index| sub_rule_index = index if param.has_key?('condition')}
 
-        if sub_rule_index.present?
-          sub_case_note_date_sql_hash    = case_note_date_field_query(filter_values[sub_rule_index]['rules'])
-          sub_case_note_type_sql_hash    = case_note_type_field_query(filter_values[sub_rule_index]['rules'])
-          sub_case_note_date_query_array = mapping_query_string_with_query_value(sub_case_note_date_sql_hash, filter_values[sub_rule_index]['condition'])
-          sub_case_note_type_query_array = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, filter_values[sub_rule_index]['condition'])
-        end
-
-        case_note_date_sql_hash    = case_note_date_field_query(filter_values)
-        case_note_type_sql_hash    = case_note_type_field_query(filter_values)
-        case_note_date_query_array = mapping_query_string_with_query_value(case_note_date_sql_hash, basic_rules['condition'])
-        case_note_type_query_array = mapping_query_string_with_query_value(case_note_type_sql_hash, basic_rules['condition'])
-
-        if basic_rules['condition'] == 'AND'
-          results = clients.where(case_note_date_query_array)
-                           .where(sub_case_note_date_query_array)
-                           .where(case_note_type_query_array)
-                           .where(sub_case_note_type_query_array)
-        else
-          if sub_case_note_type_query_array.first.blank? && sub_case_note_date_query_array.first.blank?
-            results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array)
-          elsif sub_case_note_date_query_array.first.present? && sub_case_note_type_query_array.first.blank?
-            results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_date_query_array))
-          elsif sub_case_note_type_query_array.first.present? && sub_case_note_date_query_array.first.blank?
-            results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_type_query_array))
-          else
-            results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_type_query_array)).or(clients.where(sub_case_note_date_query_array))
-          end
-        end
-        results.present? ? results.ids.uniq : []
-      else
-        clients = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
-        case @operator
-        when 'equal'
-          client_ids = clients.where('date(case_notes.created_at) = ?', @value.to_date)
-        when 'not_equal'
-          client_ids = clients.where("date(case_notes.created_at) != ? OR case_notes.created_at IS NULL", @value.to_date)
-        when 'less'
-          client_ids = clients.where('date(case_notes.created_at) < ?', @value.to_date)
-        when 'less_or_equal'
-          client_ids = clients.where('date(case_notes.created_at) <= ?', @value.to_date)
-        when 'greater'
-          client_ids = clients.where('date(case_notes.created_at) > ?', @value.to_date)
-        when 'greater_or_equal'
-          client_ids = clients.where('date(case_notes.created_at) >= ?', @value.to_date)
-        when 'between'
-          client_ids = clients.where('date(case_notes.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
-        when 'is_empty'
-          client_ids = Client.includes(:case_notes).where(case_notes: { created_at: nil })
-        when 'is_not_empty'
-          client_ids = clients.where.not(case_notes: { created_at: nil })
-        end
-        client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
+      if sub_rule_index.present?
+        sub_case_note_date_sql_hash    = case_note_date_field_query(filter_values[sub_rule_index]['rules'])
+        sub_case_note_type_sql_hash    = case_note_type_field_query(filter_values[sub_rule_index]['rules'])
+        sub_case_note_date_query_array = mapping_query_string_with_query_value(sub_case_note_date_sql_hash, filter_values[sub_rule_index]['condition'])
+        sub_case_note_type_query_array = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, filter_values[sub_rule_index]['condition'])
       end
+
+      case_note_date_sql_hash    = case_note_date_field_query(filter_values)
+      case_note_type_sql_hash    = case_note_type_field_query(filter_values)
+      case_note_date_query_array = mapping_query_string_with_query_value(case_note_date_sql_hash, basic_rules['condition'])
+      case_note_type_query_array = mapping_query_string_with_query_value(case_note_type_sql_hash, basic_rules['condition'])
+
+      if basic_rules['condition'] == 'AND'
+        results = clients.where(case_note_date_query_array)
+                         .where(sub_case_note_date_query_array)
+                         .where(case_note_type_query_array)
+                         .where(sub_case_note_type_query_array)
+      else
+        if sub_case_note_type_query_array.first.blank? && sub_case_note_date_query_array.first.blank?
+          results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array)
+        elsif sub_case_note_date_query_array.first.present? && sub_case_note_type_query_array.first.blank?
+          results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_date_query_array))
+        elsif sub_case_note_type_query_array.first.present? && sub_case_note_date_query_array.first.blank?
+          results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_type_query_array))
+        else
+          results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_type_query_array)).or(clients.where(sub_case_note_date_query_array))
+        end
+      end
+      results.present? ? results.ids.uniq : []
     end
 
     def case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array)
