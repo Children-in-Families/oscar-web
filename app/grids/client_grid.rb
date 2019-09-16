@@ -570,7 +570,7 @@ class ClientGrid < BaseGrid
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
   end
 
-  column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+  column(:received_by, order: 'id', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
   end
 
@@ -841,11 +841,11 @@ class ClientGrid < BaseGrid
 
   column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
-  column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
+  column(:referral_source, order: 'id', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
   end
 
-  column(:referral_source_category, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
+  column(:referral_source_category, order: 'id', header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
     if I18n.locale == :km
       ReferralSource.find_by(id: object.referral_source_category_id).try(:name)
     else
