@@ -57,7 +57,7 @@ module Api
     def list_program_enrollments
       render json: EnrollmentDatatable.new(view_context), root: :data
     end
-    
+
     private
 
       def find_program_stream

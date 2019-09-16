@@ -34,7 +34,7 @@ module AdvancedSearches
         end
 
         if @basic_rules["condition"] == "AND" && rules.count > 1 && operators.presence.reject(&:nil?).sort == ["not_equal", "equal"].sort
-          if rules.is_a?(Hash) && rules.has_key?(:rules)
+          if rules.is_a?(Hash) && (rules.has_key?(:rules) || rules.has_key?("rules"))
             excluded_client_ids = rules['rules'].flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
           else
             excluded_client_ids = rules.flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
@@ -46,7 +46,6 @@ module AdvancedSearches
           return @clients.where(id: clients.map(&:id))
         end
       end
-
       @clients.where(query_array)
     end
 

@@ -352,6 +352,7 @@ my:
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
+      date_of_referral: ရည်ညွန်း၏နေ့စွဲ
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: ခ႐ိုင္
@@ -537,6 +538,7 @@ my:
     destroy:
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+      successfully_deleted_assessment: Assessment has been successfully deleted.
     form:
       add_task: လုပ္ငန္းအသစ္ ထပ္ထည့္ရန္။
       add_task_confirm: သင်ဤအကဲဖြတ်၏နောက်ဆုံးခြေလှမ်းမှာတာဝန်များကိုထည့်သွင်းဖို့ပိုနှစ်သက်ပါ့မလား
@@ -568,6 +570,7 @@ my:
       three_month_assessment: သုံးလစဉ်အကဲဖြတ်
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       assessment_completed_by: က စိစစ္မႈကို ျဖည္ထားပါသည္။
       assessment_completed_for: အဘို့အပြီးစီးခဲ့အကဲဖြတ်
       assessment_created_by: အသုံးပြုနေသူများကဖန်တီးအကဲဖြတ်
@@ -653,6 +656,7 @@ my:
     destroy:
       fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရပါ။
       successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+      successfully_deleted_case_note: Assessment has been successfully deleted.
     form:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
       back: ေနာက္သို႔
@@ -673,6 +677,7 @@ my:
         visit: Visit
         non_face_to_face: Non face to face
         rd_party: 3rd Party
+        supervision: Supervision
         other_option: Other
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
@@ -685,6 +690,7 @@ my:
       goal: ရည္မွန္းခ်က္
       note: မွတ္စု
     index:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       attachments: တြဲထားသည္မ်ား
       back: ေနာက္သို႔
       case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း
@@ -1824,6 +1830,14 @@ my:
       foster_cares_html: ေမြးစား <br/> ေစာင့္ေရွာက္မႈမ်ား
       kinship_cares_html: ေဆြမ်ိဳး <br/> ေစာင့္ေရွာက္မႈမ်ား
       males: အမ်ိဳးသားမ်ား
+    clients:
+      clients: အမႈသည္မ်ား
+    client_search:
+      not_found: Not matches Found
+      please_enter_more: Please enter 1 or more characters
+      search_client: Search Client
+      search_for_client: Search for Client
+      searching: Searching
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
@@ -1851,10 +1865,12 @@ my:
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
     family_tab:
-      action: လုပ္ေဆာင္မႈ      
+      action: လုပ္ေဆာင္မႈ
       family_form: Family Form
       next: ေနာက္တစ္ခု
       previous: ေရွ႕တစ္ခု
+    go_to_client:
+      go_to_client: Go to Client
     multiple_forms:
       add_new_document: Add New Document
       assessment: ရက်လွန်အကဲဖြတ်
@@ -1904,13 +1920,13 @@ my:
       previous: ေရွ႕တစ္ခု
       program_stream_name: အစီအမံစီဆင္းမႈ
       tracking_name: ခြေရာခံနာမကိုအမှီ
+    record_tab:
+      record_you_add: What kind of record would you like to add?
     referral_source_category_reminder:
       ancestry: အမျိုးအစား
       name: နာမတျောကို
       referral_source_reminder: ရည်ညွန်းရင်းမြစ်များအတွက် Category သတင်းအချက်အလက် Add ပေးပါ
       remind_later: နောက်ပိုင်းမှာငါ့ကိုသတိပေး
-    record_tab:
-      record_you_add: What kind of record would you like to add?
     third_party:
       ables: Ables
       agencies: ေအဂ်င္စီမ်ား
@@ -2034,6 +2050,7 @@ my:
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         date_of_custom_assessments: Custom စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+        date_of_referral: ရည်ညွန်း၏နေ့စွဲ
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ခ႐ိုင္
@@ -3644,6 +3661,7 @@ my:
       country: ႏုိင္ငံ
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_fields: ပံုစံထုတ္စက္
+      custom_labels: Custom Labels
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       default_columns: ပုံမှန်ကော်လံများ
       departments: ဌာနမ်ား
@@ -4459,6 +4477,22 @@ my:
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
     create:
       successfully_created: အောင်မြင်စွာဖန်တီး
+    custom_labels:
+      cambodia:
+        custom_id1_local: Custom ID1 (Khmer)
+        custom_id2_local: Custom ID2 (Khmer)
+      custom_id1_latin: Custom ID1 (Latin)
+      custom_id2_latin: Custom ID2 (Latin)
+      custom_labels: Custom Labels
+      myanma:
+        custom_id1_local: Custom ID1 (Burmese)
+        custom_id2_local: Custom ID2 (Burmese)
+      thailand:
+        custom_id1_local: Custom ID1 (Thai)
+        custom_id2_local: Custom ID2 (Thai)
+      uganda:
+        custom_id1_local: Custom ID1 (Swahili)
+        custom_id2_local: Custom ID2 (Swahili)
     default_columns:
       client_default_columns: အမႈသည္မ်ား
       default_columns: ပုံမှန်ကော်လံများ

@@ -115,18 +115,30 @@
             %tr
               %td= form.try(:children_plan_name)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:goal)
+                - if form.try(:goal).length > 16
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all; font-size: 7px;'}
+                    %p= form.try(:goal)
+                - else
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                    %p= form.try(:goal)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:action)
+                - if form.try(:action).length > 40
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all; font-size: 7px;'}
+                    %p= form.try(:action)
+                - else
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                    %p= form.try(:action)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:who)
+                - if form.try(:who).length > 9
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all; font-size: 7px;'}
+                    %p= form.try(:who)
+                - else
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                    %p= form.try(:who)
               %td
                 .comment{style: 'min-height: 15px; max-height: 17px;'}
                   %p= form.try(:completion_date)
-  .footer{ style: 'page-break-after: always;' }
+.footer{ style: 'page-break-after: always;' }
 .panel.panel-borderless{style: 'margin-bottom: 0px;'}
   .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
     I-
@@ -149,14 +161,26 @@
             %tr
               %td= form.try(:children_plan_name)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:goal)
+                - if form.try(:goal).length > 16
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all; font-size: 7px;'}
+                    %p= form.try(:goal)
+                - else
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                    %p= form.try(:goal)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:action)
+                - if form.try(:action).length > 40
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all; font-size: 7px;'}
+                    %p= form.try(:action)
+                - else
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                    %p= form.try(:action)
               %td
-                .comment{style: 'min-height: 15px; max-height: 17px;'}
-                  %p= form.try(:who)
+                - if form.try(:who).length > 9
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all; font-size: 7px;'}
+                    %p= form.try(:who)
+                - else
+                  .comment{style: 'min-height: 15px; max-height: 17px; word-break: break-all;'}
+                    %p= form.try(:who)
               %td
                 .comment{style: 'min-height: 15px; max-height: 17px;'}
                   %p= form.try(:completion_date)
@@ -182,15 +206,27 @@
             %tr{style: 'page-break-inside: avoid;'}
               %td= form.try(:family_plan_name)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:goal)
+                - if form.try(:goal).length > 42
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all; font-size: 8px;'}
+                    %p= form.try(:goal)
+                - else
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                    %p= form.try(:goal)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:action)
+                - if form.try(:action).length > 120
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all; font-size: 8px;'}
+                    %p= form.try(:action)
+                - else
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                    %p= form.try(:action)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;s'}
-                  %p= form.try(:result)
-  .footer{ style: 'page-break-after: always;' }
+                - if form.try(:result).length > 42
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all; font-size: 8px;'}
+                    %p= form.try(:result)
+                - else
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                    %p= form.try(:result)
+.footer{ style: 'page-break-after: always;' }
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
     II.
@@ -213,15 +249,28 @@
             %tr{style: 'page-break-inside: avoid;'}
               %td= form.try(:family_plan_name)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:goal)
+                - if form.try(:goal).length > 42
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all; font-size: 8px;'}
+                    %p= form.try(:goal)
+                - else
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                    %p= form.try(:goal)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:action)
+                - if form.try(:action).length > 120
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all; font-size: 8px;'}
+                    %p= form.try(:action)
+                - else
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                    %p= form.try(:action)
               %td
-                .comment{style: 'min-height: 85px; max-height: 85px;'}
-                  %p= form.try(:result)
-  .footer{ style: 'page-break-after: always;' }
+                - if form.try(:result).length > 42
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all; font-size: 8px;'}
+                    %p= form.try(:result)
+                - else
+                  .comment{style: 'min-height: 85px; max-height: 85px; word-break: break-all;'}
+                    %p= form.try(:result)
+
+.footer{ style: 'page-break-after: always;' }
 .panel.panel-no-margin.panel-borderless{style: 'border-top: 1px solid black;'}
   .panel-body.panel-border{style: 'border-radius: 3px;'}
     .row{style: 'margin-top: 5px;'}

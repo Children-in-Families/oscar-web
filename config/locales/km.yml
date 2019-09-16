@@ -354,6 +354,7 @@ km:
       custom_form: ទម្រង់បែបបទ
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      date_of_referral: ថ្ងៃបញ្ជូនអតិថិជន
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: ស្រុក/ខណ្ឌ
@@ -539,6 +540,7 @@ km:
     destroy:
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_deleted_assessment: ការប៉ាន់ប្រមាណត្រូវបានលុបដោយជោគជ័យ។
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_confirm: តើអ្នកចង់បន្ថែមភារកិច្ចនៅជំហានចុងក្រោយនៃការវាយតម្លៃនេះទេ?
@@ -570,12 +572,13 @@ km:
       three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
       assessment_completed_for: ការប៉ាន់ប្រមាណសម្រាប់
       assessment_created_by: ការប៉ាន់ប្រមាណបង្កើតដោយ៖
       back_to_assessment_history: ត្រលប់ទៅការប៉ាន់ប្រមាណចាស់ៗ
       based_on: ដោយផ្អែកលើការប៉ាន់ប្រមាណលេខ
-      case_plan: គម្រងករណី
+      case_plan: គម្រោងករណី
       domain: កត្តា
       due_date: កាលបរិច្ឆេទ
       edit: កែតម្រូវ
@@ -649,6 +652,7 @@ km:
     destroy:
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_deleted_case_note: កំណត់ត្រាករណីត្រូវបានលុបដោយជោគជ័យ។
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       back: ត្រលប់ក្រោយ
@@ -669,6 +673,7 @@ km:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
         rd_party: បុគ្គលទី៣
+        supervision: ជំនួប​គាំទ្រ​បច្ចេកទេស
         other_option: ផ្សេងៗ
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
@@ -681,6 +686,7 @@ km:
       goal: គោលដៅ
       note: កំណត់ត្រា
     index:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       back: ត្រលប់ក្រោយ
       case_note_lists: បញ្ជីកំណត់ត្រា
@@ -1825,6 +1831,14 @@ km:
       foster_cares_html: ករណី <br/>Foster
       kinship_cares_html: ករណី <br/>Kinship
       males: ប្រុស
+    clients:
+      clients: អតិថិជន
+    client_search:
+      not_found: មិនមានលទ្ធផលដែលអ្នកកំពុងរក
+      please_enter_more: សូមវាយបញ្ចូលអក្សរ ១ ឬច្រើន
+      search_client: ស្វែងរកអតិថិជន
+      search_for_client: ស្វែងរកអតិថិជន
+      searching: កំពុងស្វែងរក
     client_program_stream_by_gender:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទដែលបាននិងកំពុងចូលរួមកម្មវិធី
       active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
@@ -1856,6 +1870,8 @@ km:
       family_form: ទម្រង់គ្រួសារ
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
+    go_to_client:
+      go_to_client: ចូលទៅរកអតិថិជន
     multiple_forms:
       add_new_document: បន្ថែមឯកសារថ្មី
       assessment: ការប៉ាន់ប្រមាណ
@@ -1892,17 +1908,25 @@ km:
       service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ? បើមិនដូច្នោះទេចូរជ្រើសរើសការជ្រើសរើសសេវាកម្មប៉ុន្តែបើមិនដូច្នោះចូរព្យាយាមរក្សាវាឱ្យសាមញ្ញ!
       type_of_service: ប្រភេទសេវាកម្ម
     program_enrollment_tab:
+      action: សកម្មភាព
+      enroll : ចុះឈ្មោះអតិថិជន
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
       program_you_enroll: តើកម្មវិធីមួយណាដែលអ្នកចង់បញ្ជូលអតិថិជន?
       program_stream: ឈ្មោះកម្មវិធីចម្បង
-      action: សកម្មភាព
-      enroll : ចុះឈ្មោះអតិថិជន
+      program_stream_sub: សូមបន្ថែម 'ប្រភេទសេវាកម្ម' ទៅកម្មវិធីចម្បងនីមួយៗ។
+      remind_me: រំលឹកខ្ញុំពេលក្រោយ
+      service_confirm_question: តើអ្នកប្រាកដថាកម្មវិធីរបស់អ្នកធ្វើនេះច្រើនទេ? បើមិនដូច្នោះទេចូរជ្រើសរើសការជ្រើសរើសសេវាកម្មប៉ុន្តែបើមិនដូច្នោះចូរព្យាយាមរក្សាវាឱ្យសាមញ្ញ!
+      type_of_service: ប្រភេទសេវាកម្ម
     program_streams_tab:
       link: សកម្មភាព
       next: ទំព័របន្ទាប់
       open_form: បើកទម្រង់
       previous: ទំព័រមុន
+      program_stream_name: កម្មវិធីចម្បង
+      tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
+    record_tab:
+      record_you_add: តើអ្នកចង់បន្ថែមកំណត់ត្រាបែបណា?
       program_stream_name: កម្មវិធី
       tracking_name: ទម្រង់បែបបទតាមដាន
     referral_source_category_reminder:
@@ -1912,8 +1936,6 @@ km:
       remind_later: រំលឹកខ្ញុំពេលក្រោយ
       program_stream_name: កម្មវិធីចម្បង
       tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
-    record_tab:
-      record_you_add: តើអ្នកចង់បន្ថែមកំណត់ត្រាបែបណា?
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
       agencies: អង្គភាព
@@ -1925,6 +1947,7 @@ km:
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
       user_form: ទម្រង់អ្នកប្រើ
+      staffs: អ្នកប្រើបា្រស់
     upcoming:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
@@ -2037,6 +2060,7 @@ km:
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         date_of_custom_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+        date_of_referral: ថ្ងៃបញ្ជូនអតិថិជន
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: ស្រុក/ខណ្ឌ
@@ -3627,6 +3651,7 @@ km:
       country: ប្រទេស
       csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
       custom_fields: ទម្រង់បែបបទ
+      custom_labels: Custom Labels
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
       departments: កម្មវិធី
@@ -4439,6 +4464,22 @@ km:
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
     create:
       successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    custom_labels:
+      cambodia:
+        custom_id1_local: Custom ID1 (Khmer)
+        custom_id2_local: Custom ID2 (Khmer)
+      custom_id1_latin: Custom ID1 (Latin)
+      custom_id2_latin: Custom ID2 (Latin)
+      custom_labels: Custom Labels
+      myanma:
+        custom_id1_local: Custom ID1 (Burmese)
+        custom_id2_local: Custom ID2 (Burmese)
+      thailand:
+        custom_id1_local: Custom ID1 (Thai)
+        custom_id2_local: Custom ID2 (Thai)
+      uganda:
+        custom_id1_local: Custom ID1 (Swahili)
+        custom_id2_local: Custom ID2 (Swahili)
     default_columns:
       client_default_columns: អតិថិជន
       default_columns: ជួរឈរលំនាំដើម
