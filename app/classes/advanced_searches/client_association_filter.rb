@@ -176,7 +176,7 @@ module AdvancedSearches
     end
 
     def created_by_user_query
-      user    = ''
+      user    = ''                       
       clients = @clients.joins(:versions)
       user    = User.find(@value) if @value.present?
       client_ids = []
@@ -184,7 +184,7 @@ module AdvancedSearches
       when 'equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
           ids = clients.where("versions.event = ?", 'create').distinct.ids
-          client_ids << clients.where.not(id: ids).distinct.ids
+          client_ids << clients.where(id: ids).distinct.ids
           client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit iLike ?)", 'create', @value, 'create', '%rotati%').distinct.ids
           client_ids.flatten.uniq
         else
@@ -192,10 +192,12 @@ module AdvancedSearches
         end
       when 'not_equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
-          client_ids << clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).where.not("versions.event = ? AND versions.whodunnit iLike ?", 'create', '%rotati%').distinct.ids
+          ids = clients.where("versions.event = ?", 'create').distinct.ids
+          client_ids << clients.where.not(id: ids).distinct.ids
+          client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit iLike ?)", 'create', @value, 'create', '%rotati%').distinct.ids
           client_ids.flatten.uniq
         else
-          clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids
+          clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
         end
       when 'is_empty'
         []
@@ -530,7 +532,11 @@ module AdvancedSearches
       when 'equal'
         clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
       when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value ).distinct.ids
+        #client_not_equal_ids = (clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids + @clients.where.not(id: clients.distinct.ids).ids) - clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
+        client_have_enrollments = clients.where('client_enrollments.program_stream_id = ?', @value ).distinct.ids
+        client_not_enrollments = clients.where('client_enrollments.program_stream_id != ?', @value ).distinct.ids
+        client_empty_enrollments = @clients.where.not(id: clients.distinct.ids).ids
+        client_not_equal_ids = (client_not_enrollments+ client_empty_enrollments ) - client_have_enrollments
       when 'is_empty'
         @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
@@ -722,10 +728,12 @@ module AdvancedSearches
       date_value_format = convert_age_to_date(@value)
       case @operator
       when 'equal'
-        clients = @clients.where(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
+        # clients = @clients.where(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
+        clients = @clients.where("(EXTRACT(year FROM age(current_date, date_of_birth)) :: int) = ?", @value)
       when 'not_equal'
-        clients = @clients.where.not(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
-      when 'less'
+        # clients = @clients.where.not(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
+        clients = @clients.where("clients.date_of_birth is NULL OR (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) != ?", @value)
+      when 'less' 
         clients = @clients.where('date_of_birth > ?', date_value_format)
       when 'less_or_equal'
         clients = @clients.where('date_of_birth >= ?', date_value_format.last_year)
