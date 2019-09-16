@@ -1291,6 +1291,13 @@ my:
       client_name: ကေလးနာမည္
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
+    confirm_client_with_family_record: 
+      client_confirmation: client အတည်ပြုချက်
+      client_option: သငျသညျကို client သတင်းအချက်အလက်များတင်ပြမသွားခင်အောက်ကတဦးတည်း option ကိုရှေးခယျြ ကျေးဇူးပြု.
+      create_family_record_option:  သင်ဤ client ကိုတစ်မိသားစုစံချိန်ကိုဖန်တီးရန်လိုပါသလား
+      attach_exist_family_record_option:  သငျသညျရှိရင်းစွဲမိသားစုမှတ်တမ်းမှပူးတွဲလိုပါသလား
+      no_option: အဘယ်သူမျှမ
+      save: ကြော်ငြာကို Save လုပ်ရန်
     destroy:
       successfully_deleted: အမႈသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
@@ -1562,6 +1569,7 @@ my:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       contact_details: အဆက်အသွယ်အသေးစိတ်
       current_address: လက္ရွိ လိပ္စာ
+      family: Family
       live_with: မူလတန်းစောင့်ရှောက်သူအမည်အား
       living_detail: အသကျရှငျအသေးစိတ်
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်

@@ -142,6 +142,11 @@ class ClientsController < AdminController
   end
 
   def update
+    Family.where('children @> ARRAY[?]::integer[]', [@client.id]).each do |family|
+      family.children = family.children - [@client.id]
+      family.save(validate: false)
+    end
+
     if @client.update_attributes(client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
@@ -227,7 +232,8 @@ class ClientsController < AdminController
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id]
+            client_problems_attributes: [:id, :rank, :problem_id],
+            family_ids: []
           )
   end
 
@@ -244,6 +250,32 @@ class ClientsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
+
+    subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
+    if current_user.admin?
+      @families        = Family.order(:name)
+    elsif current_user.manager?
+      family_ids = current_user.families.ids
+      User.where(id: subordinate_users).each do |user|
+        user.clients.each do |client|
+          family_ids << client.family.try(:id)
+        end
+      end
+      Client.where(id: exited_clients(subordinate_users)).each do |client|
+        family_ids << client.family.try(:id)
+      end
+      current_user.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      @families = Family.where(id: family_ids)
+    elsif current_user.case_worker?
+      family_ids = current_user.families.ids
+      current_user.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      @families = Family.where(id: family_ids)
+    end
+
     @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields
@@ -306,5 +338,18 @@ class ClientsController < AdminController
     return if params[:referral_id].blank?
     find_referral_by_params
     redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
+  end
+
+  def exited_clients(users)
+    client_ids = []
+    users.each do |user|
+      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
+        next if version.changeset[:user_id].last != user
+        client_id = version.changeset[:client_id].last
+        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
+        client_ids << client_id if client_id.present?
+      end
+    end
+    client_ids.uniq
   end
 end
