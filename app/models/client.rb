@@ -361,56 +361,40 @@ class Client < ActiveRecord::Base
 
   def time_in_ngo
     return {} if self.status == 'Referred'
-    date_time_in_ngo = { years: 0, months: 0, weeks: 0, days: 0 }
-    detail_time_in_ngo = []
+    day_time_in_ngos = calculate_day_time_in_ngo
 
-    if exit_ngos.any?
-      exit_dates  = exit_ngos.order(:exit_date).pluck(:exit_date)
-      enter_dates = enter_ngos.order(:accepted_date).pluck(:accepted_date)
-      Client.find(self.id).enter_ngos.order(accepted_date: :asc).each_with_index do |enter_ngo, index|
-        if enter_dates.size > exit_dates.size
-          if exit_dates[index + 1].present? || exit_dates[index].present?
-            detail_time_in_ngo << custom_calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
-          else
-            detail_time_in_ngo << custom_calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngo.accepted_date)
-          end
-        elsif exit_dates.size == enter_dates.size
-          detail_time_in_ngo << custom_calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
-        end
+    if day_time_in_ngos.present?
+      years = day_time_in_ngos / 365
+      remaining_day_from_year = day_time_in_ngos % 365
+
+      months = remaining_day_from_year / 30
+      remaining_day_from_month = remaining_day_from_year % 30
+      detail_time_in_ngo = { years: years, months: months, days: remaining_day_from_month }
+    end
+  end
+
+  def calculate_day_time_in_ngo
+    enter_ngos = self.enter_ngos.order(accepted_date: :desc)
+
+    return 0 if (enter_ngos.size.zero?)
+
+    exit_ngos  = self.exit_ngos.order(exit_date: :desc).where("created_at >= ?", enter_ngos.last.created_at)
+    enter_ngo_dates = enter_ngos.pluck(:accepted_date)
+    exit_ngo_dates  = exit_ngos.pluck(:exit_date)
+
+
+    exit_ngo_dates.unshift(Date.today) if exit_ngo_dates.size < enter_ngo_dates.size
+
+    day_time_in_ngos = exit_ngo_dates.each_with_index.inject(0) do |sum, (exit_ngo_date, index)|
+      enter_ngo_date = enter_ngo_dates[index]
+      next_ngo_date = enter_ngo_dates[index + 1]
+      if next_ngo_date != enter_ngo_date
+        day_in_ngo = (exit_ngo_date - enter_ngo_date).to_i
+        sum += day_in_ngo < 0 ? 0 : day_in_ngo + 1
       end
-    else
-      detail_time_in_ngo << custom_calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
+      sum
     end
-
-    detail_time = { years: 0, months: 0, days: 0 }
-    detail_time_in_ngo.each do |time|
-      if time.present?
-        detail_time[:years] += time[:years].present? ? time[:years] : 0
-        detail_time[:months] += time[:months].present? ? time[:months] : 0
-        detail_time[:days] += time[:days].present? ? time[:days] : 0
-      end
-    end
-
-    detail_time.store(:years, 0) unless detail_time[:years].present?
-    detail_time.store(:months, 0) unless detail_time[:months].present?
-    detail_time.store(:days, 0) unless detail_time[:days].present?
-
-    if detail_time[:days] == 30
-      detail_time[:months] = detail_time[:months] + 1
-      detail_time[:days] = 0
-    elsif detail_time[:days] / 30 > 0
-      detail_time[:months] = detail_time[:months] + detail_time[:days] / 30
-      detail_time[:days]   = detail_time[:days] % 30
-    end
-
-    if detail_time[:months] == 12
-      detail_time[:years]  = detail_time[:years] + 1
-      detail_time[:months] = 0
-    elsif detail_time[:months] / 12 > 0
-      detail_time[:years]    = detail_time[:years] + detail_time[:months] / 12
-      detail_time[:months]   = detail_time[:months] % 12
-    end
-    detail_time
+    day_time_in_ngos
   end
 
   def time_in_cps
@@ -425,10 +409,10 @@ class Client < ActiveRecord::Base
 
       if enrollments[index - 1].present? && enrollments[index - 1].program_stream_name == enrollment.program_stream_name
         date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
-        date_time_in_cps = custom_calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
+        date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
       else
         date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
-        date_time_in_cps = custom_calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
+        date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
       end
 
       if detail_cps["#{enrollment.program_stream_name}"].present?
@@ -452,23 +436,26 @@ class Client < ActiveRecord::Base
       value.store(:months, 0) unless value[:months].present?
       value.store(:days, 0) unless value[:days].present?
 
-      if value[:days] == 30
-        value[:months] = value[:months] + 1
-        value[:days] = 0
-      elsif value[:days] / 30 > 0
-        value[:months] = value[:months] + value[:days] / 30
-        value[:days]   = value[:days] % 30
-      end
-      if value[:months] == 12
-        value[:years]  = value[:years] + 1
+      if value[:days] > 365
+        value[:years] = value[:years] + value[:days]/365
+        value[:days] = value[:days] % 365
+      elsif value[:days] == 365
+        value[:years]  = 1
+        value[:days]   = 0
         value[:months] = 0
-      elsif value[:months] / 12 > 0
-        value[:years]    = value[:years] + value[:months] / 12
-        value[:months]   = value[:months] % 12
+      end
+
+      if value[:days] > 30
+        value[:months] = value[:days] / 30
+        value[:days] = value[:days] % 30
+      elsif value[:days] == 30
+        value[:days] = 0
+        value[:months] = 1
       end
     end
     detail_cps
   end
+
 
   # def time_in_care
   #   date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
@@ -735,26 +722,9 @@ class Client < ActiveRecord::Base
     to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?
     to_time = to_time + date_time_in_care[:days].days unless date_time_in_care[:days].nil?
 
-    if from_time > to_time
-      times = ActionController::Base.helpers.distance_of_time_in_words_hash(from_time, to_time, :except => [:seconds, :minutes, :hours])
-    elsif from_time == to_time
-      times = {days: 0}
-    end
-  end
-
-  def custom_calculate_time_in_care(date_time_in_care, from_time, to_time)
-    times = calculate_time_in_care(date_time_in_care, from_time, to_time)
-    if times.present?
-      times[:days] = times[:days].present? ? times[:days] + 1 : 1
-      if times[:weeks].present? && times[:days].present?
-        times[:days] = times[:days] + (times[:weeks] * 7)
-      elsif times[:weeks].present?
-        times[:days] =  (times[:weeks] * 7)
-      else
-        times[:days]
-      end
-      times.delete(:weeks)
-      return times
-    end
+    from_time = from_time.to_date
+    to_time = to_time.to_date
+    time_days = (from_time - to_time).to_i + 1
+    times = {days: time_days}
   end
 end
