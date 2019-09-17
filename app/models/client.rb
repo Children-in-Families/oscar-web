@@ -382,12 +382,12 @@ class Client < ActiveRecord::Base
     enter_ngo_dates = enter_ngos.pluck(:accepted_date)
     exit_ngo_dates  = exit_ngos.pluck(:exit_date)
 
-
     exit_ngo_dates.unshift(Date.today) if exit_ngo_dates.size < enter_ngo_dates.size
 
     day_time_in_ngos = exit_ngo_dates.each_with_index.inject(0) do |sum, (exit_ngo_date, index)|
       enter_ngo_date = enter_ngo_dates[index]
       next_ngo_date = enter_ngo_dates[index + 1]
+
       if next_ngo_date != enter_ngo_date
         day_in_ngo = (exit_ngo_date - enter_ngo_date).to_i
         sum += day_in_ngo < 0 ? 0 : day_in_ngo + 1
@@ -435,6 +435,7 @@ class Client < ActiveRecord::Base
       value.store(:years, 0) unless value[:years].present?
       value.store(:months, 0) unless value[:months].present?
       value.store(:days, 0) unless value[:days].present?
+
 
       if value[:days] > 365
         value[:years] = value[:years] + value[:days]/365
@@ -724,7 +725,11 @@ class Client < ActiveRecord::Base
 
     from_time = from_time.to_date
     to_time = to_time.to_date
-    time_days = (from_time - to_time).to_i + 1
-    times = {days: time_days}
+    if from_time >= to_time
+      time_days = (from_time - to_time).to_i + 1
+      times = {days: time_days}
+    end
   end
 end
+
+
