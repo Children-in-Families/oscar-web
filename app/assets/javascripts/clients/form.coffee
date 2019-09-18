@@ -157,6 +157,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('.loader-default').removeClass('is-active')
       $('#client-confirmation').modal('show')
       $('#clientConfirmation').click ->
+        $('#clientConfirmation').text(filterTranslation.save).append('...').attr('disabled', 'disabled')
         clientId = $('#client-id').text()
         clientOptionValue = $('input[name=clientConfirmation]:checked').val()
         if clientOptionValue == "createNewFamilyRecord"
@@ -230,10 +231,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           else if clientOptionValue == "attachExistingFamilyRecord"
             $('#client-wizard-form').submit()
           else
-            $('#client-wizard-form').submit() 
+            $('#client-wizard-form').submit()
       else
         $('#client-wizard-form').submit()
-  
+
   _openSelectClientForm = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
       $('#client-confirmation #client_family_ids').select2('val', '')
@@ -241,23 +242,23 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         $('#family-option').show()
       else
         $('#family-option').hide()
-       
-  
+
+
   _disableAndEnableButtonOtherOptionToCreateFamiyRecord = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
-      if $('.client-option').is(':checked') 
-        $('#clientConfirmation').removeClass('disabled')
-      else
-        $('#clientConfirmation').addClass('disabled')
-  
-  _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
-    $('#client-confirmation #client_family_ids').on 'change' , (e) ->
-      if $(this).val() != null 
+      if $('.client-option').is(':checked')
         $('#clientConfirmation').removeClass('disabled')
       else
         $('#clientConfirmation').addClass('disabled')
 
-    
+  _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
+    $('#client-confirmation #client_family_ids').on 'change' , (e) ->
+      if $(this).val() != null
+        $('#clientConfirmation').removeClass('disabled')
+      else
+        $('#clientConfirmation').addClass('disabled')
+
+
   _clientSelectOption = ->
     $('select').select2
       minimumInputLength: 0
@@ -288,7 +289,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
     $('.icheck-client-option').iCheck
       radioClass: 'iradio_square-green'
-      
+
   _initDatePicker = ->
     $('.date-picker').datepicker
       autoclose: true,
@@ -498,6 +499,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if $(this).select2('val').length > 0
         e.preventDefault()
 
-    
+
 
   { init: _init }
