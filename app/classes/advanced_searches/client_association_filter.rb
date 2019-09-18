@@ -72,7 +72,7 @@ module AdvancedSearches
     end
 
     private
-    
+
     def date_of_referral_query
       clients = @clients.joins(:referrals).distinct
       case @operator

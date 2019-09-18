@@ -1289,7 +1289,7 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: Client Confirmation
       client_option: Would you like to create a family record for this client, or attach them to an existing family?
       create_family_record_option:  Create New Family Record
