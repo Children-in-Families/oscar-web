@@ -223,6 +223,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if family == ''
         $('#client-confirmation').modal('show')
         $('#clientConfirmation').click ->
+          $('#clientConfirmation').text(filterTranslation.save).append('...').attr('disabled', 'disabled')
           clientOptionValue = $('input[name=clientConfirmation]:checked').val()
           if clientOptionValue == "createNewFamilyRecord"
             localStorage.setItem('redirect_to_family', 'true')
