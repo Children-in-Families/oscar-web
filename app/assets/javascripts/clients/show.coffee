@@ -1,7 +1,6 @@
 CIF.ClientsShow = do ->
   _init = ->
     _initSelect2()
-
     _caseModalValidation()
     _exitNgoModalValidation()
     _editExitNgoModalValidation()
@@ -11,7 +10,7 @@ CIF.ClientsShow = do ->
     _initDatePicker()
     _initICheckBox()
     _checkIfNeedToRedirectToFamily()
-    _handleDisableDatePickerEnterAndExitNgo()
+    _handleDisableDatePickerWhenEditEnterAndExitNgo()
     _handleDisableDatePickerExitNgo()
 
   _initICheckBox = ->
@@ -27,7 +26,7 @@ CIF.ClientsShow = do ->
       orientation: 'bottom'
       disableTouchKeyboard: true
 
-  _handleDisableDatePickerEnterAndExitNgo = ->
+  _handleDisableDatePickerWhenEditEnterAndExitNgo = ->
     $('button.edit-case-history').on 'click', ->
       currentRow = $(this).closest('tr')[0]
       previousDate = $($(currentRow).next()[0]).data('date')
@@ -42,8 +41,9 @@ CIF.ClientsShow = do ->
 
   _handleDisableDatePickerExitNgo = ->
     $('button.exit-ngo-for-client').on 'click', ->
-      acceptedDate = $('#last_enter_ngo').val()
-      $('.exit_date').datepicker('setStartDate', acceptedDate)
+      lastAcceptedDate = $('#last_enter_ngo').val()
+      if !_.isEmpty(lastAcceptedDate)
+        $('.exit_date').datepicker('setStartDate', lastAcceptedDate)
 
   _initSelect2 = ->
     $('select').select2()

@@ -70,7 +70,6 @@
       .row
         .col-xs-12
           .btn-group.small-btn-margin
-            = hidden_field_tag :last_enter_ngo, @case_histories.first.accepted_date.to_s
             %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-client{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
               = t('.exit_ngo_btn')
               %span.caret
@@ -450,3 +449,5 @@
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
 
+- if @case_histories.present? && @case_histories.last.class.to_s == "EnterNgo"
+  = hidden_field_tag :last_enter_ngo, @case_histories.last.accepted_date
