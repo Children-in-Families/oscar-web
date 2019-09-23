@@ -178,7 +178,7 @@ module ClientAdvancedSearchesConcern
   def find_params_advanced_search
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
-      @advanced_search_params = advanced_search.queries
+      @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
     else
       @advanced_search_params = params[:client_advanced_search]
     end

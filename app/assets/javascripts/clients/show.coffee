@@ -1,7 +1,6 @@
 CIF.ClientsShow = do ->
   _init = ->
     _initSelect2()
-
     _caseModalValidation()
     _exitNgoModalValidation()
     _editExitNgoModalValidation()
@@ -11,6 +10,8 @@ CIF.ClientsShow = do ->
     _initDatePicker()
     _initICheckBox()
     _checkIfNeedToRedirectToFamily()
+    _handleDisableDatePickerWhenEditEnterAndExitNgo()
+    _handleDisableDatePickerExitNgo()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -18,12 +19,31 @@ CIF.ClientsShow = do ->
       radioClass: 'iradio_square-green'
 
   _initDatePicker = ->
-    $('.accepted_date').datepicker
-      autoclose: true,
-      format: 'yyyy-mm-dd',
-      todayHighlight: true,
-      orientation: 'bottom',
+    $('.enter_ngos, .exit_ngos, .exit_date').datepicker
+      autoclose: true
+      format: 'yyyy-mm-dd'
+      todayHighlight: true
+      orientation: 'bottom'
       disableTouchKeyboard: true
+
+  _handleDisableDatePickerWhenEditEnterAndExitNgo = ->
+    $('button.edit-case-history').on 'click', ->
+      currentRow = $(this).closest('tr')[0]
+      previousDate = $($(currentRow).next()[0]).data('date')
+      nextDate     = $($(currentRow).prev()[0]).data('date')
+      className    = $(this).data('class_name')
+
+      if _.isElement(currentRow) and !_.isEmpty(nextDate) and !_.isEmpty(previousDate)
+        $(".#{className}").datepicker('setStartDate', previousDate)
+        $(".#{className}").datepicker('setEndDate', nextDate)
+      else if _.isElement(currentRow) and !_.isEmpty(previousDate)
+        $(".#{className}").datepicker('setStartDate', previousDate)
+
+  _handleDisableDatePickerExitNgo = ->
+    $('button.exit-ngo-for-client').on 'click', ->
+      lastAcceptedDate = $('#last_enter_ngo').val()
+      if !_.isEmpty(lastAcceptedDate)
+        $('.exit_date').datepicker('setStartDate', lastAcceptedDate)
 
   _initSelect2 = ->
     $('select').select2()
