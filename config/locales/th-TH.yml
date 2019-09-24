@@ -643,6 +643,7 @@ th-TH:
       successfully_deleted:
     form:
       add_task:
+      add_task_message:
       back:
       completed_tasks:
       domain:

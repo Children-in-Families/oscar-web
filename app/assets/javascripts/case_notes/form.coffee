@@ -4,11 +4,13 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _handleDeleteAttachment()
     _handleNewTask()
     # _hideCompletedTasks()
-    _initSelect2()
+    _initSelect2CasenoteInteractionType()
+    _initSelect2CasenoteDomainGroups()
     _initScoreTooltip()
     _initICheckBox()
     _scrollToError()
     _hideShowOnGoingTaskLable()
+    _hideAddNewTask()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -20,9 +22,31 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       placement: 'top'
       html: true
 
-  _initSelect2 = ->
-    $('#case_note_interaction_type, #case_note_domain_group_ids').select2
+  _initSelect2CasenoteInteractionType = ->
+    $('#case_note_interaction_type').select2
       width: '100%'
+
+  _initSelect2CasenoteDomainGroups = ->
+    $('#case_note_domain_group_ids').select2(
+      width: '100%'
+    ).on('change', ->
+      _checkCasenoteSelectedValue(@)
+    ).on('select2-selecting', (e)->
+      if event.target.textContent.length > 0
+        $("#domain-#{e.val}").toggle('show') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
+    ).on 'select2-removed', (e)->
+      $("#domain-#{e.val}").toggle('hide') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
+
+  _checkCasenoteSelectedValue = (selectedObject)->
+    if $(selectedObject).children(":selected").length > 0
+      $('.case-note-task-btn').removeAttr('disabled')
+      $('#add-task-message').hide()
+      $('.case-note-task-btn').attr('data-target', "#tasksFromModal");
+    else
+      $('.case-note-task-btn').attr('disabled', true);
+      $('#add-task-message').show()
+      $('.case-note-task-btn').attr('data-target', "#");
+    return
 
   _initUploader = ->
     $('.file .optional').fileinput
@@ -206,5 +230,13 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _hideShowOnGoingTaskLable = ->
     if $('.case_note_case_note_domain_groups_tasks:visible').length > 0 then $('#on-going-task-label').show() else $('#on-going-task-label').hide()
+
+  _hideAddNewTask = ->
+    _checkCasenoteSelectedValue($('#case_note_domain_group_ids'))
+    $.each $('#case_note_domain_group_ids').select2('data'), (index, object) ->
+      $("#domain-#{object.id}").show()
+
+    $.each $('.case-note-domain-group'), (index, object)->
+      $("##{object.id}").show() if $("##{object.id}").find('span.checkbox').length > 0
 
   { init: _init }

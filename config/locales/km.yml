@@ -655,6 +655,7 @@ km:
       successfully_deleted_case_note: កំណត់ត្រាករណីត្រូវបានលុបដោយជោគជ័យ។
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      add_task_message: Please select the domain group before you can add the task.
       back: ត្រលប់ក្រោយ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា

@@ -82,4 +82,10 @@ body[id=case_notes-create] {
       }
     }
   }
+
+  #add-task-message {
+    display: inline-block;
+    margin-top: 15px;
+    display: none;
+  }
 }

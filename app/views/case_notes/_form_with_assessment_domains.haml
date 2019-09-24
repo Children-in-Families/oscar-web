@@ -1,7 +1,7 @@
 = domain_note.hidden_field :note
 = domain_note.hidden_field :domain_group_id
 
-.ibox.case-note-domain-group
+.ibox.case-note-domain-group{ id: "domain-#{domain_note.object.domain_group.id}" }
   .ibox-title
     %h5
       = "#{t('.domain')} #{domain_note.object.domain_group.name}"
@@ -33,3 +33,5 @@
             .panel-heading
               %strong= "#{t('.domain')} #{assessment_domain.domain.name}: #{assessment_domain.domain.identity}"
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
+      .col-xs-12
+        = render 'attachment_fields', { domain_note: domain_note }

@@ -242,8 +242,6 @@ Rails.application.routes.draw do
       end
     end
 
-    # resources :referral_sources
-
     resources :domain_groups, only: [] do
       collection do
         get :get_domains_by_domain_groups
