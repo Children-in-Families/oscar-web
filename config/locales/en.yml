@@ -1287,6 +1287,13 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
+    confirm_client_with_family_record: 
+      client_confirmation: Client Confirmation
+      client_option: Would you like to create a family record for this client, or attach them to an existing family?
+      create_family_record_option:  Create New Family Record
+      attach_exist_family_record_option:  Attach to Existing Family Record
+      no_option: 'No'
+      save: Save
     destroy:
       successfully_deleted: Client has been successfully deleted.
     edit:

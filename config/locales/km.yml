@@ -1286,6 +1286,13 @@ km:
       client_name: ឈ្មោះអតិថិជន
       close: បិទ
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+    confirm_client_with_family_record: 
+      client_confirmation: ការស្នើសុំរបស់អតិថិជន
+      client_option: តើអ្នកចង់បន្ថែមគ្រួសារថ្មីសម្រាប់អតិថិជននេះ ឬភ្ជាប់វាជាមួយគ្រួសារដែលមានស្រាប់ដែរឬទេ?
+      create_family_record_option:  បន្ថែមគ្រួសារថ្មី
+      attach_exist_family_record_option:  ភ្ជាប់ជាមួយគ្រួសារដែលមានស្រាប់
+      no_option: អត់ទេ
+      save: រក្សាទុក
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     edit:
