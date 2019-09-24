@@ -236,5 +236,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     $.each $('#case_note_domain_group_ids').select2('data'), (index, object) ->
       $("#domain-#{object.id}").show()
 
+    $.each $('.case-note-domain-group'), (index, object)->
+      $("##{object.id}").show() if $("##{object.id}").find('span.checkbox').length > 0
 
   { init: _init }
