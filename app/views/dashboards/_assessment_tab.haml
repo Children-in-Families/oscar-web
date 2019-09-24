@@ -5,16 +5,8 @@
       %label.control-label
         = t('.client_you_like')
       = select_tag "clients", options_from_collection_for_select(@select_client_options, "id", "name"),{ class: "select form-group", id: 'client-select-assessment', :prompt => '' }
-    .col-xs-12.col-sm-6
-      %label.control-label
-        = t('.assessment_you_like')
-      %button.btn.btn-block.btn-default.form-group.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
-        = t('.assessment')
-        %span.caret
-      %ul.dropdown-menu.btn-block
-        - if @current_setting.enable_default_assessment
-          %li
-            = link_to t('.csi_assessment'), '#', id: 'csi-assessment-link'
-        - if @current_setting.enable_custom_assessment
-          %li
-            = link_to t('.custom_assessment'), '#', id: 'custom-assessment-link'
+    .col-xs-12.col-md-6.resize-margin
+      - if @current_setting.enable_default_assessment
+        = link_to t('.csi_assessment'), '#', id: 'csi-assessment-link', class: 'btn btn-block btn btn-default'
+      - else
+        = link_to t('.csi_assessment'), '#', id: 'csi-assessment-link', class: 'btn btn-block btn btn-default disable'

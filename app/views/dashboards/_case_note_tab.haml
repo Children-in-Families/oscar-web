@@ -4,19 +4,6 @@
     .col-xs-12.col-sm-6
       %label.control-label
         = t('.client_you_complete_for')
-      = select_tag "clients", options_from_collection_for_select(@select_client_options, "id", "name"),{ class: "select form-group",   id: 'client-select-case-note', :prompt => ''}
-    .col-xs-12.col-sm-6
-      %label.control-label
-        = t('.case_note_you_add')
-      %button.btn.btn-block.btn-default.form-group.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
-        = t('.case_note')
-        %span.caret
-      %ul.dropdown-menu.btn-block
-        %li
-          = link_to t('.csi_assessment'), '#', id: 'csi-case-note-link'
-        %li
-          - if Domain.custom_csi_domains.any?
-            = link_to t('.custom_assessment'), '#', id: 'custom-case-note-link'
-          - else
-            = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-              = @current_setting.custom_assessment
+      = select_tag "clients", options_from_collection_for_select(@select_client_options, "id", "name"),{ class: "select form-group", id: 'client-select-case-note', :prompt => ''}
+    .col-xs-12.col-md-6.resize-margin
+      = link_to t('.csi_assessment'), '#', id: 'csi-case-note-link', class: 'btn btn-block btn btn-default'
