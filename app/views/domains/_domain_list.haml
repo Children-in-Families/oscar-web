@@ -3,8 +3,14 @@
     .row
       .col-xs-12.col-sm-8
         %h3
-          = translate_domain_header(domain)
-
+          - if !domain.custom_domain
+            = t('domains.domain_list.domains') + ":"
+            = t("domains.domain_names.#{domain.name.downcase.reverse}")
+            = t("domains.domain_identies.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
+          - else
+            = t('domains.domain_list.domains') + ":"
+            = domain.name
+            = domain.identity
       .col-xs-12.col-sm-4.text-right.actions
         - if can? :version, Domain
           = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do

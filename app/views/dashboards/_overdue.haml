@@ -5,56 +5,58 @@
         %h5= t('.overdue_tasks')
   .panel-body
     - @clients.each do |client, overdue_forms|
+      - next if overdue_forms.blank?
       - overdue_tasks = overdue_forms[:overdue_tasks]
       - client_overdue_default_assessment = client.next_assessment_date(@user.activated_at)
       - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at)
       - next if skipped_overdue_tasks?(overdue_tasks) && skipped_overdue_forms?(overdue_forms, client) && skipped_overdue_assessments?(client)
-      - next if client_overdue_default_assessment.blank? && client_overdue_custom_assessment.blank? && overdue_tasks.blank? && overdue_forms[:overdue_forms].blank? && overdue_forms[:overdue_trackings].blank?
-      .ibox.border-left-right.border-bottom
-        .ibox-title
-          %h5
-            = link_to client.name, client_path(client), target: :_blank
-        .ibox-content.no-padding
-          %table.table.table-striped.active_tasks
-            - if @task_params
-              - overdue_tasks.each_with_index do |task, index|
+      - next if client_overdue_default_assessment.blank? && client_overdue_custom_assessment.blank? && overdue_tasks.blank? && overdue_forms[:overdue_forms].blank? && overdue_forms[:overdue_trackings].blank? && !overdue_tasks.blank?
+      - if overdue_tasks.present? || overdue_forms[:overdue_forms].present? || overdue_forms[:overdue_trackings].present? || (@setting.enable_default_assessment && @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_default_csi?) || (@setting.enable_custom_assessment && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_custom_csi?)
+        .ibox.border-left-right.border-bottom
+          .ibox-title
+            %h5
+              = link_to client.name, client_path(client), target: :_blank
+          .ibox-content.no-padding
+            %table.table.table-striped.active_tasks
+              - if @task_params
+                - overdue_tasks.each_with_index do |task, index|
+                  %tr
+                    - if index == 0
+                      %td.col-xs-3{ rowspan: overdue_tasks.count }= t('.tasks')
+                    %td.col-xs-6.task-name.border-left-right= task.name
+                    %td.col-xs-3= date_format(task.completion_date)
+              - if @setting.enable_default_assessment && @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_default_csi?
                 %tr
-                  - if index == 0
-                    %td.col-xs-3{ rowspan: overdue_tasks.count }= t('.tasks')
-                  %td.col-xs-6.task-name.border-left-right= task.name
-                  %td.col-xs-3= date_format(task.completion_date)
-            - if @setting.enable_default_assessment && @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_default_csi?
-              %tr
-                %td.col-xs-3= @setting.default_assessment
-                %td.col-xs-6.task-name.border-left-right
-                %td.col-xs-3= date_format(client_overdue_default_assessment)
-            - if @setting.enable_custom_assessment && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_custom_csi?
-              %tr
-                %td.col-xs-3= @setting.custom_assessment
-                %td.col-xs-6.task-name.border-left-right
-                %td.col-xs-3= date_format(client_overdue_custom_assessment)
-            - if @form_params
-              - custom_field_index = 0
-              - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size
-              - overdue_forms[:overdue_forms].each_with_index do |(custom_field, next_custom_field_date), index|
+                  %td.col-xs-3= @setting.default_assessment
+                  %td.col-xs-6.task-name.border-left-right
+                  %td.col-xs-3= date_format(client_overdue_default_assessment)
+              - if @setting.enable_custom_assessment && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_custom_csi?
                 %tr
-                  - if index == 0
-                    %td.col-xs-3{ rowspan: row_count }= t('.forms')
-                  - if @user.activated_at.nil?
-                    %td.col-xs-6.task-name.border-left-right= custom_field.form_title
-                    %td.col-xs-3= date_format(next_custom_field_date)
-                  - elsif @user.activated_at? && next_custom_field_date > @user.activated_at
-                    %td.col-xs-6.task-name.border-left-right= custom_field.form_title
-                    %td.col-xs-3= date_format(next_custom_field_date)
-                  - custom_field_index = index + 1
-              - overdue_forms[:overdue_trackings].each do |tracking, next_client_enrollment_tracking_date|
-                %tr
-                  - if custom_field_index == 0
-                    %td.col-xs-3{rowspan: row_count}= t('.forms')
-                    - custom_field_index = custom_field_index + 1
-                  - if @user.activated_at.nil?
-                    %td.col-xs-6.task-name.border-left-right= tracking.name
-                    %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
-                  - elsif @user.activated_at? && next_client_enrollment_tracking_date > @user.activated_at
-                    %td.col-xs-6.task-name.border-left-right= tracking.name
-                    %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
+                  %td.col-xs-3= @setting.custom_assessment
+                  %td.col-xs-6.task-name.border-left-right
+                  %td.col-xs-3= date_format(client_overdue_custom_assessment)
+              - if @form_params
+                - custom_field_index = 0
+                - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size
+                - overdue_forms[:overdue_forms].each_with_index do |(custom_field, next_custom_field_date), index|
+                  %tr
+                    - if index == 0
+                      %td.col-xs-3{ rowspan: row_count }= t('.forms')
+                    - if @user.activated_at.nil?
+                      %td.col-xs-6.task-name.border-left-right= custom_field.form_title
+                      %td.col-xs-3= date_format(next_custom_field_date)
+                    - elsif @user.activated_at? && next_custom_field_date > @user.activated_at
+                      %td.col-xs-6.task-name.border-left-right= custom_field.form_title
+                      %td.col-xs-3= date_format(next_custom_field_date)
+                    - custom_field_index = index + 1
+                - overdue_forms[:overdue_trackings].each do |tracking, next_client_enrollment_tracking_date|
+                  %tr
+                    - if custom_field_index == 0
+                      %td.col-xs-3{rowspan: row_count}= t('.forms')
+                      - custom_field_index = custom_field_index + 1
+                    - if @user.activated_at.nil?
+                      %td.col-xs-6.task-name.border-left-right= tracking.name
+                      %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
+                    - elsif @user.activated_at? && next_client_enrollment_tracking_date > @user.activated_at
+                      %td.col-xs-6.task-name.border-left-right= tracking.name
+                      %td.col-xs-3= date_format(next_client_enrollment_tracking_date)

@@ -2,7 +2,7 @@ module Importer
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/basic_data_v6.xlsx')
+    def initialize(sheet_name, path = 'vendor/data/basic_data_v7.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
@@ -63,10 +63,12 @@ module Importer
 
     def referral_sources
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
-        name = workbook.row(row)[headers['Name']]
+        name = workbook.row(row)[headers['name']]
+        name_en = workbook.row(row)[headers['name_en']]
 
         ReferralSource.create(
-          name: name
+          name: name,
+          name_en: name_en
         )
       end
     end

@@ -319,7 +319,7 @@ setting = Setting.first_or_create(country_name: 'cambodia', min_assessment: 3, c
 
 setting.update(org_name: Organization.current.full_name) if setting.org_name.blank? && Organization.current.present?
 
-User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', enable_gov_log_in: true, enable_research_log_in: true, referral_notification: true, password: ENV['OSCAR_TEAM_PASSWORD']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
+User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', gender: 'other', enable_gov_log_in: true, enable_research_log_in: true, referral_notification: true, password: ENV['OSCAR_TEAM_PASSWORD']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
 
 # OSCaR Referral Source
 Organization.oscar.pluck(:full_name).each do |ngo|

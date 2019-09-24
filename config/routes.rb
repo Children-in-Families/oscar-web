@@ -199,6 +199,9 @@ Rails.application.routes.draw do
     resources :clients do
       get :compare, on: :collection
       get :render_client_statistics, on: :collection
+      get :find_client_case_worker, on: :member
+      get :assessments, on: :collection
+      get :search_client, on: :collection
     end
     resources :custom_fields do
       collection do
@@ -232,6 +235,9 @@ Rails.application.routes.draw do
       get :tracking_fields
       collection do
         get :list_program_streams
+      end
+      collection do
+        get :list_program_enrollments
       end
     end
 
@@ -277,7 +283,11 @@ Rails.application.routes.draw do
       resources :villages, only: [:index]
       resources :donors, only: [:index]
       resources :agencies, only: [:index]
-      resources :referral_sources, only: [:index]
+      resources :referral_sources do
+        collection do
+          get 'categories' => 'referral_sources#referral_source_parents'
+        end
+      end
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
@@ -288,9 +298,15 @@ Rails.application.routes.draw do
   namespace :multiple_form do
     resources :custom_fields, only: [] do
       resources :client_custom_fields, only: [:create, :new]
+      resources :family_custom_fields, only: [:create, :new]
+      resources :partner_custom_fields, only: [:create, :new]
+      resources :user_custom_fields, only: [:create, :new]
     end
     resources :trackings, only: [] do
       resources :client_trackings, only: [:create, :new]
+    end
+    resources :program_streams do
+      resources :client_enrollments
     end
   end
 
@@ -311,6 +327,7 @@ Rails.application.routes.draw do
     collection do
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
+      get 'custom_labels' => 'settings#custom_labels'
     end
   end
 

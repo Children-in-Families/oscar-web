@@ -37,7 +37,7 @@ class Case < ActiveRecord::Base
     if ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
       'Birth Family (Only Father)', 'Domestically Adopted',
       'Child-Headed Household', 'No Family', 'Other'].include?(family.family_type)
-      self.exited    = true
+      # self.exited    = true
       self.exit_date = Date.today
       self.exit_note = family.family_type
     end
@@ -83,9 +83,9 @@ class Case < ActiveRecord::Base
     client.cases.exclude_referred.current == self
   end
 
-  def fc_or_kc?
-    case_type == 'FC' || case_type == 'KC'
-  end
+  # def fc_or_kc?
+  #   case_type == 'FC' || case_type == 'KC'
+  # end
 
   def kc?
     case_type == 'KC'
@@ -117,21 +117,13 @@ class Case < ActiveRecord::Base
 
   def update_client_status
     if new_record?
-      client.status = ['EC', 'FC', 'KC'].include?(case_type) ? 'Active' : 'Referred'
-    elsif exited_from_cif
-      client.status = status
-    elsif exited && !exited_from_cif
-      if client.client_enrollments.active.empty?
-        client.status = exited_was ? client.status : 'Accepted'
-      else
-        client.status = exited_was ? client.status : 'Active'
-      end
+      client.status = client.status
     end
     client.save(validate: false)
   end
 
   def update_client_code
-    client.update_attributes(code: generate_client_code) if client.code.blank? && not_ec?
+    # client.update_attributes(code: generate_client_code) if client.code.blank? && not_ec?
   end
 
   def generate_client_code

@@ -84,6 +84,7 @@ class UserNotification
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
       client_ids = program_stream.client_enrollments.active.pluck(:client_id).uniq
+      client_ids = client_ids & @clients.ids
       clients = Client.active_accepted_status.where(id: client_ids)
 
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
@@ -177,27 +178,27 @@ class UserNotification
   end
 
   def any_partner_custom_field_frequency_overdue?
-    partner_custom_field_frequency_overdue_count >= 1
+    partner_custom_field_frequency_overdue_count >= 1 if partner_custom_field_frequency_overdue_count
   end
 
   def any_partner_custom_field_frequency_due_today?
-    partner_custom_field_frequency_due_today_count >= 1
+    partner_custom_field_frequency_due_today_count >= 1 if partner_custom_field_frequency_due_today_count
   end
 
   def partner_custom_field_frequency_due_today_count
-    @partner_custom_field[:entity_due_today].count
+    @partner_custom_field[:entity_due_today].count if @partner_custom_field
   end
 
   def partner_custom_field_frequency_overdue_count
-    @partner_custom_field[:entity_overdue].count
+    @partner_custom_field[:entity_overdue].count if @partner_custom_field
   end
 
   def partner_custom_field_frequency_due_today
-    @partner_custom_field[:entity_due_today]
+    @partner_custom_field[:entity_due_today] if @partner_custom_field
   end
 
   def partner_custom_field_frequency_overdue
-    @partner_custom_field[:entity_overdue]
+    @partner_custom_field[:entity_overdue] if @partner_custom_field
   end
 
   def any_family_custom_field_frequency_overdue?
@@ -309,6 +310,7 @@ class UserNotification
       count_notification += 1 if any_user_custom_field_frequency_due_today?
       count_notification += 1 if any_unsaved_referrals? && @user.referral_notification
       count_notification += 1 if any_repeat_referrals? && @user.referral_notification
+     
     end
     if @user.admin? || @user.any_case_manager?
       count_notification += 1 if any_partner_custom_field_frequency_overdue?
@@ -316,6 +318,7 @@ class UserNotification
       count_notification += 1 if any_family_custom_field_frequency_overdue?
       count_notification += 1 if any_family_custom_field_frequency_due_today?
     end
+    
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
@@ -325,8 +328,11 @@ class UserNotification
       count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
+    end 
+    if @user.admin? || @user.manager? || @user.any_case_manager?
+      count_notification += review_program_streams.size
     end
-    count_notification += review_program_streams.size
+    count_notification
   end
 
   private
@@ -348,7 +354,7 @@ class UserNotification
 
     referrals.each do |referral|
       referral_slug = referral.slug
-      client = Client.find_by(slug: referral_slug)
+      client = Client.find_by(archived_slug: referral_slug)
       client.present? ? existing_client_referrals << referral : new_client_referrals << referral
     end
 

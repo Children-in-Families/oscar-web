@@ -5,6 +5,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _cocoonCallback()
     _initDatePicker()
     _initIcheck()
+    _setClientOption()
 
   _initIcheck = ->
     $('.i-checks').iCheck
@@ -14,7 +15,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
   _initSelect2 = ->
     $('select').select2
       allowClear: true
-      _clearSelectedOption()
+      # _clearSelectedOption()
 
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
@@ -71,5 +72,11 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
           success: (response) ->
             for address in response.data
               subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
+
+  _setClientOption = ->
+    if localStorage.getItem('client_id').length > 0
+      clientId = localStorage.getItem('client_id')
+      $('#family_children').select2('val', clientId)
+      localStorage.removeItem('client_id')
 
   { init: _init }

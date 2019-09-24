@@ -17,7 +17,8 @@ class Client < ActiveRecord::Base
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
-  GENDER_OPTIONS  = [['Male', 'male'], ['Female', 'female'], ['Other', 'other'], ['Unknown', 'unknown']]
+  GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
+  CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
@@ -77,6 +78,7 @@ class Client < ActiveRecord::Base
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
+  before_update :disconnect_client_family_relation
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   # after_update :notify_managers, if: :exiting_ngo?
@@ -115,7 +117,7 @@ class Client < ActiveRecord::Base
     Organization.switch_to 'shared'
     skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
     if skip_orgs_percentage.any?
-      shared_clients       = SharedClient.where.not('slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
+      shared_clients       = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
     else
       shared_clients       = SharedClient.all.pluck(:duplicate_checker)
     end
@@ -228,6 +230,10 @@ class Client < ActiveRecord::Base
     "#{local_family_name} #{local_given_name}"
   end
 
+  def latin_name_with_id
+    "#{given_name} #{family_name} (#{id})"
+  end
+
   def next_assessment_date(user_activated_date = nil)
     return Date.today if assessments.defaults.empty?
     return nil if user_activated_date.present? && assessments.defaults.latest_record.created_at < user_activated_date
@@ -282,29 +288,29 @@ class Client < ActiveRecord::Base
     where('status = ? or user_id = ?', status, user.id)
   end
 
-  def has_no_ec_or_any_cases?
-    cases.emergencies.blank? || cases.active.blank?
-  end
+  # def has_no_ec_or_any_cases?
+  #   cases.emergencies.blank? || cases.active.blank?
+  # end
 
-  def has_no_active_kc_and_fc?
-    cases.kinships.active.blank? && cases.fosters.active.blank?
-  end
+  # def has_no_active_kc_and_fc?
+  #   cases.kinships.active.blank? && cases.fosters.active.blank?
+  # end
 
-  def has_kc_and_fc?
-    cases.kinships.present? && cases.fosters.present?
-  end
+  # def has_kc_and_fc?
+  #   cases.kinships.present? && cases.fosters.present?
+  # end
 
-  def has_no_kc_and_fc?
-    !has_kc_or_fc?
-  end
+  # def has_no_kc_and_fc?
+  #   !has_kc_or_fc?
+  # end
 
-  def has_exited_kc_and_fc?
-    cases.latest_kinship.exited && cases.latest_foster.exited
-  end
+  # def has_exited_kc_and_fc?
+  #   cases.latest_kinship.exited && cases.latest_foster.exited
+  # end
 
-  def has_kc_or_fc?
-    cases.kinships.present? || cases.fosters.present?
-  end
+  # def has_kc_or_fc?
+  #   cases.kinships.present? || cases.fosters.present?
+  # end
 
   def has_no_latest_kc_and_fc?
     !latest_case
@@ -343,60 +349,193 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    return if slug.present?
-    paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    org = Organization.current
+    if archived_slug.present?
+      if slug.in? Client.pluck(:slug)
+        random_char = slug.split('-')[0]
+        paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
+      end
+    else
+      random_char = generate_random_char
+      Organization.switch_to org.short_name
+      paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    end
   end
 
-  def time_in_care
-    date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
-    return date_time_in_care unless client_enrollments.any?
-    first_multi_enrolled_program_date = ''
-    last_multi_leave_program_date = ''
-    ordered_enrollments = client_enrollments.order(:enrollment_date)
-    ordered_enrollments.each_with_index do |enrollment, index|
-      current_enrollment_date = enrollment.enrollment_date
-      current_program_exit_date = enrollment.leave_program.try(:exit_date) || Date.today
+  def generate_random_char
+    Organization.switch_to 'shared'
+    loop do
+      char = ('a'..'z').to_a.sample(4).join()
+      break char unless SharedClient.find_by(slug: "#{char}-#{id}").present?
+    end
+  end
 
-      next_program_enrollment = ordered_enrollments[index + 1].nil? ? ordered_enrollments[index - 1] : ordered_enrollments[index + 1]
-      next_program_enrollment_date = next_program_enrollment.enrollment_date
-      next_program_exit_date = next_program_enrollment.leave_program.try(:exit_date) || Date.today
+  def time_in_ngo
+    return {} if self.status == 'Referred'
+    date_time_in_ngo = { years: 0, months: 0, weeks: 0, days: 0 }
+    detail_time_in_ngo = []
 
-      if current_program_exit_date <= next_program_enrollment_date
-        if first_multi_enrolled_program_date.present? && last_multi_leave_program_date.present?
-          date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
-
-          first_multi_enrolled_program_date = ''
-          last_multi_leave_program_date = ''
-        end
-        date_time_in_care = calculate_time_in_care(date_time_in_care, current_enrollment_date, current_program_exit_date)
-      else
-        first_multi_enrolled_program_date = current_enrollment_date if first_multi_enrolled_program_date == ''
-        last_multi_leave_program_date = current_program_exit_date > next_program_exit_date ? current_program_exit_date : next_program_exit_date
-
-        if index == ordered_enrollments.length - 1
-          date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
+    if exit_ngos.any?
+      exit_dates  = exit_ngos.order(:exit_date).pluck(:exit_date)
+      enter_dates = enter_ngos.order(:accepted_date).pluck(:accepted_date)
+      Client.find(self.id).enter_ngos.order(accepted_date: :asc).each_with_index do |enter_ngo, index|
+        if enter_dates.size > exit_dates.size
+          if exit_dates[index + 1].present? || exit_dates[index].present?
+            detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
+          else
+            detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngo.accepted_date)
+          end
+        elsif exit_dates.size == enter_dates.size
+          detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
         end
       end
+    else
+      detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
     end
-    date_time_in_care.store(:years, 0) unless date_time_in_care[:years].present?
-    date_time_in_care.store(:months, 0) unless date_time_in_care[:months].present?
-    date_time_in_care.store(:weeks, 0) unless date_time_in_care[:weeks].present?
-    date_time_in_care.store(:days, 0) unless date_time_in_care[:days].present?
 
-    if date_time_in_care[:days] > 0
-      date_time_in_care[:weeks] = date_time_in_care[:weeks] + 1
-      date_time_in_care[:days] = 0
+
+    detail_time = { years: 0, months: 0, weeks: 0, days: 0 }
+
+    detail_time_in_ngo.each do |time|
+      detail_time[:years] += time[:years].present? ? time[:years] : 0
+      detail_time[:months] += time[:months].present? ? time[:months] : 0
+      detail_time[:weeks] += time[:weeks].present? ? time[:weeks] : 0
+      detail_time[:days] += time[:days].present? ? time[:days] : 0
     end
-    if date_time_in_care[:weeks] >= 4
-      date_time_in_care[:weeks] = date_time_in_care[:weeks] - 4
-      date_time_in_care[:months] = date_time_in_care[:months] + 1
+
+    detail_time.store(:years, 0) unless detail_time[:years].present?
+    detail_time.store(:months, 0) unless detail_time[:months].present?
+    detail_time.store(:weeks, 0) unless detail_time[:weeks].present?
+    detail_time.store(:days, 0) unless detail_time[:days].present?
+
+    if detail_time[:days] / 7 > 0
+      detail_time[:weeks] = detail_time[:weeks] + detail_time[:days] / 7
+      detail_time[:days] = detail_time[:days] % 7
+    else
+      detail_time[:weeks] = detail_time[:weeks] + 1
+      detail_time[:days] = 0
     end
-    if date_time_in_care[:months] >= 12
-      date_time_in_care[:months] = date_time_in_care[:months] - 12
-      date_time_in_care[:years] = date_time_in_care[:years] + 1
+
+    if detail_time[:weeks] / 4 > 0
+      week_time = detail_time[:weeks]
+      detail_time[:weeks] = detail_time[:weeks] - ((detail_time[:weeks] / 4) * 4)
+      detail_time[:months] = detail_time[:months] + week_time / 4
     end
-    date_time_in_care
+
+    if detail_time[:months] / 12 > 0
+      month_time = detail_time[:months]
+      detail_time[:months] = detail_time[:months] - (detail_time[:months] / 12 ) * 12
+      detail_time[:years] = detail_time[:years] + month_time / 12
+    end
+    detail_time
   end
+
+  def time_in_cps
+    date_time_in_cps   = { years: 0, months: 0, weeks: 0, days: 0 }
+    return nil unless client_enrollments.present?
+    enrollments = client_enrollments.order(:program_stream_id)
+    detail_cps = {}
+
+    enrollments.each_with_index do |enrollment, index|
+      enroll_date     = enrollment.enrollment_date
+      current_or_exit = enrollment.leave_program.try(:exit_date) || Date.today
+
+      if enrollments[index - 1].present? && enrollments[index - 1].program_stream_name == enrollment.program_stream_name
+        date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
+      else
+        date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
+        date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
+      end
+
+      if detail_cps["#{enrollment.program_stream_name}"].present?
+        detail_cps["#{enrollment.program_stream_name}"][:years].present? ? detail_cps["#{enrollment.program_stream_name}"][:years] : detail_cps["#{enrollment.program_stream_name}"][:years] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:months].present? ? detail_cps["#{enrollment.program_stream_name}"][:months] : detail_cps["#{enrollment.program_stream_name}"][:months] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:weeks].present? ? detail_cps["#{enrollment.program_stream_name}"][:weeks] : detail_cps["#{enrollment.program_stream_name}"][:weeks] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:days].present? ? detail_cps["#{enrollment.program_stream_name}"][:days] : detail_cps["#{enrollment.program_stream_name}"][:days] = 0
+
+        detail_cps["#{enrollment.program_stream_name}"][:years] += date_time_in_cps[:years].present? ? date_time_in_cps[:years] : 0
+        detail_cps["#{enrollment.program_stream_name}"][:months] += date_time_in_cps[:months].present? ? date_time_in_cps[:months] : 0
+        detail_cps["#{enrollment.program_stream_name}"][:weeks] += date_time_in_cps[:weeks].present? ? date_time_in_cps[:weeks] : 0
+        detail_cps["#{enrollment.program_stream_name}"][:days] += date_time_in_cps[:days].present? ? date_time_in_cps[:days] : 0
+      else
+        detail_cps["#{enrollment.program_stream_name}"] = date_time_in_cps
+      end
+    end
+
+    detail_cps.values.map do |value|
+      next if value.blank?
+      value.store(:years, 0) unless value[:years].present?
+      value.store(:months, 0) unless value[:months].present?
+      value.store(:weeks, 0) unless value[:weeks].present?
+      value.store(:days, 0) unless value[:days].present?
+
+      if value[:days] > 0
+        value[:weeks] = value[:weeks] + 1
+        value[:days] = 0
+      end
+      if value[:weeks] >= 4
+        value[:weeks] = value[:weeks] - 4
+        value[:months] = value[:months] + 1
+      end
+      if value[:months] >= 12
+        value[:months] = value[:months] - 12
+        value[:years] = value[:years] + 1
+      end
+    end
+
+    detail_cps
+  end
+
+  # def time_in_care
+  #   date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
+  #   return date_time_in_care unless client_enrollments.any?
+  #   first_multi_enrolled_program_date = ''
+  #   last_multi_leave_program_date = ''
+  #   ordered_enrollments = client_enrollments.order(:enrollment_date)
+  #   ordered_enrollments.each_with_index do |enrollment, index|
+  #     current_enrollment_date = enrollment.enrollment_date
+  #     current_program_exit_date = enrollment.leave_program.try(:exit_date) || Date.today
+
+  #     next_program_enrollment = ordered_enrollments[index + 1].nil? ? ordered_enrollments[index - 1] : ordered_enrollments[index + 1]
+  #     next_program_enrollment_date = next_program_enrollment.enrollment_date
+  #     next_program_exit_date = next_program_enrollment.leave_program.try(:exit_date) || Date.today
+
+  #     if current_program_exit_date <= next_program_enrollment_date
+  #       if first_multi_enrolled_program_date.present? && last_multi_leave_program_date.present?
+  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
+
+  #         first_multi_enrolled_program_date = ''
+  #         last_multi_leave_program_date = ''
+  #       end
+  #       date_time_in_care = calculate_time_in_care(date_time_in_care, current_enrollment_date, current_program_exit_date)
+  #     else
+  #       first_multi_enrolled_program_date = current_enrollment_date if first_multi_enrolled_program_date == ''
+  #       last_multi_leave_program_date = current_program_exit_date > next_program_exit_date ? current_program_exit_date : next_program_exit_date
+
+  #       if index == ordered_enrollments.length - 1
+  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
+  #       end
+  #     end
+  #   end
+  #   date_time_in_care.store(:years, 0) unless date_time_in_care[:years].present?
+  #   date_time_in_care.store(:months, 0) unless date_time_in_care[:months].present?
+  #   date_time_in_care.store(:weeks, 0) unless date_time_in_care[:weeks].present?
+  #   date_time_in_care.store(:days, 0) unless date_time_in_care[:days].present?
+
+  #   if date_time_in_care[:days] > 0
+  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] + 1
+  #     date_time_in_care[:days] = 0
+  #   end
+  #   if date_time_in_care[:weeks] >= 4
+  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] - 4
+  #     date_time_in_care[:months] = date_time_in_care[:months] + 1
+  #   end
+  #   if date_time_in_care[:months] >= 12
+  #     date_time_in_care[:months] = date_time_in_care[:months] - 12
+  #     date_time_in_care[:years] = date_time_in_care[:years] + 1
+  #   end
+  #   date_time_in_care
+  # end
 
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
@@ -522,7 +661,7 @@ class Client < ActiveRecord::Base
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
     client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin)
     suburb = self.suburb
     state_name = self.state_name
 
@@ -539,7 +678,7 @@ class Client < ActiveRecord::Base
     client_birth_province = Province.find_by(id: self.birth_province_id).try(&:name)
 
     client[:duplicate_checker] = "#{name_field} & #{client_village} & #{client_commune} & #{self.try(&:district_name)} & #{self.try(&:province_name)} & #{client_birth_province} & #{self.try(&:date_of_birth)}"
-    shared_client = SharedClient.find_by(slug: client['slug'])
+    shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
   end
@@ -556,6 +695,10 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     case_worker_clients.destroy_all
+  end
+
+  def disconnect_client_family_relation
+    cases.destroy_all
   end
 
   def assessment_duration(duration, default = true)
@@ -576,7 +719,7 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = Referral.find_by(slug: slug, saved: false)
+    referral = Referral.find_by(slug: archived_slug, saved: false)
     referral.update_attributes(client_id: id, saved: true) if referral.present?
   end
 
@@ -587,6 +730,7 @@ class Client < ActiveRecord::Base
   end
 
   def calculate_time_in_care(date_time_in_care, from_time, to_time)
+    return if from_time.nil? || to_time.nil?
     to_time = to_time + date_time_in_care[:years].years unless date_time_in_care[:years].nil?
     to_time = to_time + date_time_in_care[:months].months unless date_time_in_care[:months].nil?
     to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?

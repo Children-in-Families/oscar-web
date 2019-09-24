@@ -33,3 +33,5 @@
             .panel-heading
               %strong= "#{t('.domain')} #{assessment_domain.domain.name}: #{assessment_domain.domain.identity}"
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
+      .col-xs-12
+        = render 'attachment_fields', { domain_note: domain_note }

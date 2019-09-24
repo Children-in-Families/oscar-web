@@ -15,6 +15,22 @@ module AssessmentHelper
     end
   end
 
+  def assessment_destroy_link(client, assessment)
+    if assessment_deleted?
+      link_to(client_assessment_path(assessment.client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+        content_tag :div, class: 'btn btn-outline btn-danger' do
+          fa_icon('trash')
+        end
+      end
+    else
+      link_to_if(false, client_assessment_path(assessment.client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+        content_tag :div, class: 'btn btn-outline btn-danger disabled' do
+          fa_icon('trash')
+        end
+      end
+    end
+  end
+
   def order_assessment
     if action_name == 'edit'
       @assessment.assessment_domains_in_order
@@ -30,6 +46,11 @@ module AssessmentHelper
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
     current_user.permission.assessments_editable
+  end
+
+  def assessment_deleted?
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
   end
 
   def assessment_completed_date(assessment)
@@ -74,6 +95,19 @@ module AssessmentHelper
       end
     else
       content_tag(:td, content_tag(:b, "#{I18n.t('.domains.domain_list.domains')} #{ad.domain.name}:"), class: "no-padding-bottom") + content_tag(:td, content_tag(:b, ad.domain.identity), class: "no-padding-bottom")
+    end
+  end
+
+  def assess_header_mapping(default=true)
+    domains = default ? Domain.csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] } : Domain.custom_csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
+    domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
+    assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number'), t('.assessment_date')]
+
+    assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date']
+    classNames = ['client-id', 'client-name', 'ssessment-number text-center', 'assessment-date', 'assessment-score text-center']
+
+    [*assessment_domain_headers, *domain_ids].zip(classNames, [*assessment_headers, *domain_headers]).map do |field_header, class_name, header_name|
+      { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
     end
   end
 end

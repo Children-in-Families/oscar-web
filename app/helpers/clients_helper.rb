@@ -61,8 +61,8 @@ module ClientsHelper
   def columns_visibility(column)
     label_column = {
       slug:                          t('datagrid.columns.clients.id'),
-      kid_id:                        t('datagrid.columns.clients.kid_id'),
-      code:                          t('datagrid.columns.clients.code'),
+      kid_id:                        custom_id_translation('custom_id2'),
+      code:                          custom_id_translation('custom_id1'),
       age:                           t('datagrid.columns.clients.age'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
@@ -101,6 +101,7 @@ module ClientsHelper
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
       date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
+      date_of_referral:              t('datagrid.columns.clients.date_of_referral'),
       date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
@@ -211,7 +212,7 @@ module ClientsHelper
     name   = values.first.strip
     label  = values.last.strip
     keyword = "#{name} #{label}"
-    keyword.downcase.parameterize('__')
+    keyword.downcase.parameterize.gsub('-', '__')
   end
 
   # legacy method
@@ -337,14 +338,15 @@ module ClientsHelper
       reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
       rejected_note_: t('datagrid.columns.clients.rejected_note'),
       family_: t('datagrid.columns.clients.placements.family'),
-      code_: t('datagrid.columns.clients.code'),
+      code_: custom_id_translation('custom_id1'),
       age_: t('datagrid.columns.clients.age'),
       slug_: t('datagrid.columns.clients.id'),
-      kid_id_: t('datagrid.columns.clients.kid_id'),
+      kid_id_: custom_id_translation('custom_id2'),
       family_id_: t('datagrid.columns.families.code'),
       case_note_date_: t('datagrid.columns.clients.case_note_date'),
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
       date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
+      date_of_referral_: t('datagrid.columns.clients.date_of_referral'),
       all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
       date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments'),
       all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments'),
@@ -365,7 +367,8 @@ module ClientsHelper
       created_by_: t('datagrid.columns.clients.created_by'),
       referred_to_: t('datagrid.columns.clients.referred_to'),
       referred_from_: t('datagrid.columns.clients.referred_from'),
-      time_in_care_: t('datagrid.columns.clients.time_in_care'),
+      time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
+      time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
     }
 
@@ -398,7 +401,7 @@ module ClientsHelper
 
   def client_advanced_search_data(object, rule)
     @data = {}
-    return object unless params[:client_advanced_search].present?
+    return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
     @data   = eval params[:client_advanced_search][:basic_rules]
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
@@ -463,6 +466,7 @@ module ClientsHelper
     return object unless params[:client_advanced_search].present?
     data    = {}
     rules   = %w( case_note_date case_note_type )
+    return object if params[:client_advanced_search][:basic_rules].nil?
     data    = eval params[:client_advanced_search][:basic_rules]
 
     result1                = mapping_param_value(data, 'case_note_date')
@@ -609,7 +613,7 @@ module ClientsHelper
 
     return object if return_default_filter(object, rule, results)
 
-    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
+    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals'}
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
@@ -693,9 +697,11 @@ module ClientsHelper
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i].present?
-            count += client.send(klass.to_sym).defaults.count
+            data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+            count += data_filter.flatten.count if data_filter
           elsif class_name[/^(date_of_custom_assessments)/i].present?
-            count += client.send(klass.to_sym).customs.count
+            data_filter = date_filter(client.assessments.customs, "#{class_name}")
+            count += data_filter.flatten.count if data_filter
           elsif class_name[/^(formbuilder)/i].present?
             fields = column.name.to_s.gsub('&qoute;', '"').split('__')
             format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
@@ -711,13 +717,14 @@ module ClientsHelper
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
             count += quantitative_type_values.count
           else
-            count += date_filter(client.send(klass.to_sym), class_name).flatten.count
+            count += date_filter(client.send(klass.to_sym), class_name).count
           end
         end
       end
 
       if count > 0 && class_name != 'case_note_type'
-        link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        # link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
           link_all
@@ -968,11 +975,24 @@ module ClientsHelper
   end
 
   def get_rule(params, field)
-    return unless params.dig('client_advanced_search').present?
+    return unless params.dig('client_advanced_search').present? && params.dig('client_advanced_search', 'basic_rules').present?
     base_rules = eval params.dig('client_advanced_search', 'basic_rules')
     rules = base_rules.dig(:rules) if base_rules.presence
-    index = rules.index{|rule| rule[:field].strip == field } if rules.presence
+
+    if rules.presence
+      index = rules.index do |rule|
+        if rule.has_key?(:rules)
+          find_rules_index(rule[:rules], field)
+        else
+          rule[:field].strip == field
+        end
+      end
+    end
     rule  = rules[index] if index.presence
+  end
+
+  def find_rules_index(rules, field)
+    index = rules.index{ |rule| rule[:field].strip == field }
   end
 
   def referral_source_name(referral_source)
@@ -1023,5 +1043,21 @@ module ClientsHelper
     reasons.map do |reason|
       current_translations[reason_translations.key(reason)]
     end.join(', ')
+  end
+
+  def custom_id_translation(type)
+    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
+      if type == 'custom_id1'
+        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : t('.custom_id_number1')
+      else
+        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : t('.custom_id_number2')
+      end
+    else
+      if type == 'custom_id1'
+        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : t('.custom_id_number1')
+      else
+        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : t('.custom_id_number2')
+      end
+    end
   end
 end

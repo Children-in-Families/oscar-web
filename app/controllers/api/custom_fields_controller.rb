@@ -5,12 +5,15 @@ module Api
     end
 
     def fields
+      properties = Hash.new { |h,k| h[k] = []}
       custom_field = CustomField.find params[:custom_field_id]
       custom_field_property_ids = CustomFieldProperty.by_custom_field(custom_field).ids
       file_uploader = FormBuilderAttachment.find_by_form_buildable(custom_field_property_ids, 'CustomFieldProperty').where("form_builder_attachments.file != '[]'").pluck(:name)
-      properties = custom_field.custom_field_properties.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
-      properties += file_uploader
-      render json: { fields: properties }
+      custom_field.custom_field_properties.pluck(:properties).map{|props| props.each{|k, v| properties[k] << v if v.first.present? } }
+
+      custom_field_keys = properties.keys
+      custom_field_keys = custom_field_keys += file_uploader
+      render json: { fields: custom_field_keys }
     end
 
     def ngo_custom_fields
@@ -18,7 +21,8 @@ module Api
     end
 
     def list_custom_fields
-      render json: CustomFieldDatatable.new(view_context), root: :data
+      form_type = params[:type]
+      render json: CustomFieldDatatable.new(view_context, form_type), root: :data
     end
 
     private

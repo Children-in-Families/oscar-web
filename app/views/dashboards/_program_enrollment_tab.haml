@@ -1,0 +1,9 @@
+#program-enrollment.tab-pane.margin-top-datatable{ role: 'tabpanel' }
+  %h2.text-center= t('.program_you_enroll')
+  .table-responsive
+    %table.table.table-bordered.table-hover.table-striped.custom-field-table#program-enrollment-table{ data: { url: list_program_enrollments_api_program_streams_path, next: t('.next'), previous: t('.previous')  } }
+      %thead
+        %tr
+          %th.program-stream= t('.program_stream')
+          %th.link.text-center= t('.action')
+      %tbody

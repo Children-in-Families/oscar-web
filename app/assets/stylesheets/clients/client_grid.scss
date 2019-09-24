@@ -35,7 +35,7 @@ body[id='client_advanced_searches-index'] {
     th,
     td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date,
-    td.cases, td.accepted_date, td.exit_date, td.created_at, td.created_by, td.referred_to, td.referred_from {
+    td.cases, td.accepted_date, td.exit_date, td.created_at, td.created_by, td.referred_to,td.date_of_referral, td.referred_from {
       text-align: center;
     }
 
@@ -59,7 +59,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 250px;
     }
 
-    th.created_at, th.created_by, th.referred_to, th.referred_from, th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code, th.time_in_care {
+    th.created_at, th.created_by, th.referred_to, th.referred_from, th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code, th.time_in_care, th.time_in_cps, th.time_in_ngo {
       min-width: 150px;
     }
 
@@ -79,7 +79,7 @@ body[id='client_advanced_searches-index'] {
     }
 
     th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
-    th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.referral_source_category,
+    th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.referral_source_category,th.date_of_referral,
     th.rejected_note, th.user, th.donor {
       min-width: 250px;
     }

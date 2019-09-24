@@ -14,8 +14,12 @@ class UserGrid < BaseGrid
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.users.id') })
 
-  filter(:gender, :enum, select: User::GENDER_OPTIONS,  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
+  filter(:gender, :enum, select: :gender_list,  header: -> { I18n.t('datagrid.columns.users.gender') }) do |value, scope|
     scope.where(gender: value.downcase)
+  end
+
+  def gender_list
+    [I18n.t('users.gender_list').values, User::GENDER_OPTIONS].transpose
   end
 
   filter(:mobile, :string,  header: -> { I18n.t('datagrid.columns.users.mobile') }) do |value, scope|
@@ -46,6 +50,12 @@ class UserGrid < BaseGrid
   filter(:province_id, :enum, select: :province_options,  header: -> { I18n.t('datagrid.columns.users.province') })
   def province_options
     User.province_are
+  end
+  
+  filter(:manager_id, :enum, select: :managers, header: -> { I18n.t('datagrid.columns.users.manager') })
+
+  def managers
+    User.managers.map{ |u| [u.name, u.id] }
   end
 
   column(:id, header: -> { I18n.t('datagrid.columns.users.id') })

@@ -65,7 +65,7 @@ module AdvancedSearchHelper
       family_name: I18n.t('advanced_search.fields.family_name'),
       local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
       local_family_name: "#{I18n.t('advanced_search.fields.local_family_name')} #{country_scope_label_translation}",
-      code: I18n.t('advanced_search.fields.code'),
+      code: custom_id_translation('custom_id1'),
       school_grade: I18n.t('advanced_search.fields.school_grade'),
       family_id: I18n.t('advanced_search.fields.family_id'),
       age: I18n.t('advanced_search.fields.age'),
@@ -122,6 +122,7 @@ module AdvancedSearchHelper
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments'),
+      date_of_referral: I18n.t('advanced_search.fields.date_of_referral'),
       telephone_number: I18n.t('advanced_search.fields.telephone_number'),
       exit_circumstance: I18n.t('advanced_search.fields.exit_circumstance'),
       exit_reasons: I18n.t('advanced_search.fields.exit_reasons'),
@@ -131,12 +132,14 @@ module AdvancedSearchHelper
       name_of_referee: I18n.t('advanced_search.fields.name_of_referee'),
       main_school_contact: I18n.t('advanced_search.fields.main_school_contact'),
       what3words: I18n.t('advanced_search.fields.what3words'),
-      kid_id: I18n.t('advanced_search.fields.kid_id'),
+      kid_id: custom_id_translation('custom_id2'),
       created_at: I18n.t('advanced_search.fields.created_at'),
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
       referred_from: I18n.t('advanced_search.fields.referred_from'),
-      time_in_care: I18n.t('advanced_search.fields.time_in_care'),
+      # time_in_care: I18n.t('advanced_search.fields.time_in_care'),
+      time_in_cps: I18n.t('advanced_search.fields.time_in_cps'),
+      time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number'),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
@@ -197,10 +200,31 @@ module AdvancedSearchHelper
   end
 
   def save_search_params(search_params)
-    json_rules = JSON.parse(search_params[:client_advanced_search][:basic_rules])
-    rules = format_rule(json_rules)
-    search_params[:client_advanced_search][:basic_rules] = rules.to_json
-    report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
-    search_params.deep_merge!(report_builder)
+    if search_params.dig(:client_advanced_search, :basic_rules).nil?
+      report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
+      search_params.deep_merge!(report_builder)
+    else
+      json_rules = JSON.parse(search_params[:client_advanced_search][:basic_rules])
+      rules = format_rule(json_rules)
+      search_params[:client_advanced_search][:basic_rules] = rules.to_json
+      report_builder = { client_advanced_search: { action_report_builder: '#builder' } }
+      search_params.deep_merge!(report_builder)
+    end
+  end
+
+  def custom_id_translation(type)
+    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
+      if type == 'custom_id1'
+        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
+      else
+        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
+      end
+    else
+      if type == 'custom_id1'
+        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
+      else
+        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
+      end
+    end
   end
 end

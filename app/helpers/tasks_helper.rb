@@ -22,4 +22,12 @@ module TasksHelper
       'primary'
     end
   end
+
+  def damain_task_translation(domain)
+    if domain.custom_domain == true
+      "#{domain.name} #{domain.identity}"
+    else
+      t("domains.domain_names.#{domain.name.downcase.reverse}") + " " + t("domains.domain_identies.#{domain.identity.strip.parameterize('_')}_#{domain.name.downcase}")
+    end
+  end
 end

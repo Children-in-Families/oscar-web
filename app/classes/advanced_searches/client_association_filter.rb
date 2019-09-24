@@ -55,19 +55,48 @@ module AdvancedSearches
         values = referred_to_query
       when 'referred_from'
         values = referred_from_query
-      when 'time_in_care'
-        values = time_in_care_query
+      when 'time_in_cps'
+        values = time_in_cps_query
+      when 'time_in_ngo'
+        values = time_in_ngo_query
       when 'assessment_number'
         values = assessment_number_query
       when 'month_number'
         values = month_number_query
       when 'date_nearest'
         values = date_nearest_query
+      when 'date_of_referral'
+        values = date_of_referral_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def date_of_referral_query
+      clients = @clients.joins(:referrals).distinct
+      case @operator
+      when 'equal'
+        clients = clients.where('date(referrals.date_of_referral) = ?', @value.to_date)
+      when 'not_equal'
+        clients = clients.where("date(referrals.date_of_referral) != ? OR referrals.date_of_referral IS NULL", @value.to_date)
+      when 'less'
+        clients = clients.where('date(referrals.date_of_referral) < ?', @value.to_date)
+      when 'less_or_equal'
+        clients = clients.where('date(referrals.date_of_referral) <= ?', @value.to_date)
+      when 'greater'
+        clients = clients.where('date(referrals.date_of_referral) > ?', @value.to_date)
+      when 'greater_or_equal'
+        clients = clients.where('date(referrals.date_of_referral) >= ?', @value.to_date)
+      when 'between'
+        clients = clients.where('date(referrals.date_of_referral) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        clients = Client.includes(:referrals).where(referrals: { date_of_referral: nil })
+      when 'is_not_empty'
+        clients = clients.where.not(referrals: { date_of_referral: nil })
+      end
+      clients.ids
+    end
 
     def assessment_number_query
       @clients.joins(:assessments).group(:id).having("COUNT(assessments) >= ?", @value).ids
@@ -394,9 +423,8 @@ module AdvancedSearches
       sub_case_note_date_query_array = ['']
       sub_case_note_type_query_array = ['']
 
-      @basic_rules  = $param_rules.present? ? $param_rules[:basic_rules] : {}
-      return [] if @basic_rules.blank?
-      basic_rules   = JSON.parse(@basic_rules)
+      @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules)
       filter_values = basic_rules['rules']
       clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
 
@@ -431,7 +459,6 @@ module AdvancedSearches
           results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_type_query_array)).or(clients.where(sub_case_note_date_query_array))
         end
       end
-
       results.present? ? results.ids.uniq : []
     end
 
@@ -583,7 +610,7 @@ module AdvancedSearches
       end
     end
 
-    def time_in_care_query
+    def time_in_cps_query
       client_ids = []
       clients = @clients.joins(:client_enrollments)
       years_to_days = @value.kind_of?(Array) ? [@value.first * 365, @value.last * 365] : @value * 365 if @value.present?
@@ -610,12 +637,52 @@ module AdvancedSearches
       client_ids
     end
 
+    def time_in_ngo_query
+      client_ids = []
+      clients = @clients.joins(:enter_ngos)
+      years_to_days = @value.kind_of?(Array) ? [@value.first * 365, @value.last * 365] : @value * 365 if @value.present?
+      case @operator
+      when 'equal'
+        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) == years_to_days }
+      when 'not_equal'
+        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) != years_to_days }
+      when 'less'
+        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) < years_to_days  }
+      when 'less_or_equal'
+        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) <= years_to_days  }
+      when 'greater'
+        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) > years_to_days  }
+      when 'greater_or_equal'
+        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) >= years_to_days  }
+      when 'between'
+        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client).between?(years_to_days.first, years_to_days.last) }
+      when 'is_empty'
+        client_ids = @clients.where.not(id: clients.distinct.ids).ids
+      when 'is_not_empty'
+        client_ids = clients.distinct.ids
+      end
+      client_ids
+    end
+
     def convert_time_in_care_to_days(client)
-      time_in_care = client.time_in_care
+      time_in_cps = client.time_in_cps
       days = 0
-      days += time_in_care[:years] * 365 if time_in_care[:years] > 0
-      days += time_in_care[:months] * 30 if time_in_care[:months] > 0
-      days += time_in_care[:weeks] * 7 if time_in_care[:weeks] > 0
+      time_in_cps.each do |cps|
+        unless cps[1].blank?
+          days += cps[1][:years] * 365 if (cps[1][:years].present? && cps[1][:years] > 0)
+          days += cps[1][:months] * 30 if (cps[1][:months].present? && cps[1][:months] > 0)
+          days += cps[1][:weeks] * 7 if (cps[1][:months].present? && cps[1][:weeks] > 0)
+        end
+      end
+      days
+    end
+
+    def convert_time_in_ngo_to_days(client)
+      time_in_ngo = client.time_in_ngo
+      days = 0
+      days += time_in_ngo[:years] * 365 if time_in_ngo[:years] > 0
+      days += time_in_ngo[:months] * 30 if time_in_ngo[:months] > 0
+      days += time_in_ngo[:weeks] * 7 if time_in_ngo[:weeks] > 0
       days
     end
 

@@ -123,3 +123,12 @@ class CIF.AdvancedFilterBuilder
       filters: @fieldList
       plugins:
         'sortable': { 'inherit_no_sortable': false, 'inherit_no_drop': false }
+
+  setRuleFromSavedSearch: ->
+    advancedSearchId = $('#advanced_search_id').val()
+    if advancedSearchId and advancedSearchId.length > 0
+      rules = $("a[data-save-search-#{advancedSearchId}]").data("save-search-#{advancedSearchId}")
+      $('button.client-advance-search').click()
+      $('#builder').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
+
+    return

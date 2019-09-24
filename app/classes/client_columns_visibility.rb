@@ -85,7 +85,10 @@ class ClientColumnsVisibility
       created_by_: :created_by,
       referred_to_: :referred_to,
       referred_from_: :referred_from,
-      time_in_care_: :time_in_care,
+      date_of_referral_: :date_of_referral,
+      # time_in_care_: :time_in_care,
+      time_in_ngo_: :time_in_ngo,
+      time_in_cps_: :time_in_cps,
       referral_source_category_id_: :referral_source_category
     }
   end
