@@ -124,7 +124,7 @@ module AdvancedSearches
     end
 
     def created_by_user_query
-      user    = ''                       
+      user    = ''
       clients = @clients.joins(:versions)
       user    = User.find(@value) if @value.present?
       client_ids = []
@@ -699,7 +699,7 @@ module AdvancedSearches
       when 'not_equal'
         # clients = @clients.where.not(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
         clients = @clients.where("clients.date_of_birth is NULL OR (EXTRACT(year FROM age(current_date, date_of_birth)) :: int) != ?", @value)
-      when 'less' 
+      when 'less'
         clients = @clients.where('date_of_birth > ?', date_value_format)
       when 'less_or_equal'
         clients = @clients.where('date_of_birth >= ?', date_value_format.last_year)
