@@ -27,15 +27,22 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       width: '100%'
 
   _initSelect2CasenoteDomainGroups = ->
+    $('.case_note_domain_groups .help-block').hide()
     $('#case_note_domain_group_ids').select2(
       width: '100%'
     ).on('change', ->
       _checkCasenoteSelectedValue(@)
-    ).on('select2-selecting', (e)->
-      if event.target.textContent.length > 0
-        $("#domain-#{e.val}").toggle('show') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
-    ).on 'select2-removed', (e)->
-      $("#domain-#{e.val}").toggle('hide') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
+    ).on 'select2-removing', (event)->
+      if $("#domain-#{event.val} .task-arising .list-group-item").length > 0
+        event.preventDefault()
+        $('.case_note_domain_groups .help-block').show('slow')
+      else
+        $('.case_note_domain_groups .help-block').hide('slow')
+      # $("#domain-#{e.val}").toggle('hide') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
+    # ).on('select2-selecting', (e)->
+    #   if event.target.textContent.length > 0
+    #     $("#domain-#{e.val}").toggle('show') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
+
 
   _checkCasenoteSelectedValue = (selectedObject)->
     if $(selectedObject).children(":selected").length > 0
@@ -122,6 +129,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('.add-task-btn').removeAttr('disabled')
         $('#tasksFromModal').modal('hide')
         _hideShowOnGoingTaskLable()
+        _hideAddNewTask()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')
@@ -237,6 +245,6 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       $("#domain-#{object.id}").show()
 
     $.each $('.case-note-domain-group'), (index, object)->
-      $("##{object.id}").show() if $("##{object.id}").find('span.checkbox').length > 0
+      $("##{object.id}").show('slow') if $("##{object.id}").find('span.checkbox').length > 0
 
   { init: _init }
