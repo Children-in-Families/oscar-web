@@ -56,6 +56,7 @@
               - url = "/api/domain_groups/get_domains_by_domain_groups?custom=#{params[:custom]}"
               .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-url': url}
                 = t('.add_task')
+              %p.text-muted.text-right#add-task-message.pull-right= t('case_notes.form.add_task_message')
 
           .row#on-going-task-label
             .col-xs-12

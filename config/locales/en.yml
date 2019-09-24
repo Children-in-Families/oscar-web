@@ -624,6 +624,7 @@ en:
       successfully_deleted: Attachment has been successfully deleted.
     form:
       add_task: Add Task
+      add_task_message: Please select the domain group before you can add the task.
       back: Back
       completed_tasks: Completed Tasks
       domain: Domain
