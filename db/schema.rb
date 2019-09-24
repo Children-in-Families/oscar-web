@@ -438,7 +438,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.string   "main_school_contact",              default: ""
     t.string   "rated_for_id_poor",                default: ""
     t.string   "what3words",                       default: ""
-    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_reasons",                     default: [],                      array: true
     t.string   "exit_circumstance",                default: ""
     t.string   "other_info_of_exit",               default: ""
     t.string   "suburb",                           default: ""
@@ -458,6 +458,8 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
+    t.integer  "default_assessments_count",        default: 0,          null: false
+    t.integer  "custom_assessments_count",         default: 0,          null: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
