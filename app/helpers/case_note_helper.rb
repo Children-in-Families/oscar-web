@@ -79,20 +79,6 @@ module CaseNoteHelper
     current_user.permission.case_notes_editable
   end
 
-<<<<<<< HEAD
-  def case_notes_deleted?
-    return true if current_user.admin?
-    return false if current_user.strategic_overviewer?
-  end
-
-  def translate_domain_name(domains)
-    domains.map do |domain|
-      [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
-    end
-  end
-
-=======
->>>>>>> casenote-layout
   def tag_domain_group(case_note)
     domain_group_ids = selected_domain_group_ids(case_note)
     domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name("#{case_note.custom}"), dg.id] }
@@ -127,8 +113,6 @@ module CaseNoteHelper
 
   def case_note_the_latest_tasks(tasks)
     tasks.reject{ |task| !task.created_at.today? }
-<<<<<<< HEAD
-=======
   end
 
   def case_notes_deleted?
@@ -140,6 +124,5 @@ module CaseNoteHelper
     domains.map do |domain|
       [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
     end
->>>>>>> casenote-layout
   end
 end
