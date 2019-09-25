@@ -667,6 +667,7 @@ en:
       on_date: On Date
       on_going_tasks: On Going Tasks
       present: Who was there during the visit or conversation?
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
       tasks: Tasks
       tasks_arising: Tasks Arising

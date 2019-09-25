@@ -671,6 +671,7 @@ my:
       on_date: ရက္စြဲ
       on_going_tasks: လုပ္ေဆာင္ဆဲ လုပ္ငန္းမ်ား
       present: လာေရာက္စဥ္ေသာ္လည္းေကာင္း၊ စကားေျပာေနစဥ္ေသာ္လည္း ေဘးတြင္ မည္သူရွိေနပါသနည္း
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: သိမ္းသည္။
       tasks: လုပ္ငန္းမ်ား
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
@@ -1294,7 +1295,7 @@ my:
       client_name: ကေလးနာမည္
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: client အတည်ပြုချက်
       client_option: သငျသညျကို client သတင်းအချက်အလက်များတင်ပြမသွားခင်အောက်ကတဦးတည်း option ကိုရှေးခယျြ ကျေးဇူးပြု.
       create_family_record_option:  သင်ဤ client ကိုတစ်မိသားစုစံချိန်ကိုဖန်တီးရန်လိုပါသလား

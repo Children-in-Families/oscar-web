@@ -667,6 +667,7 @@ km:
       on_date: 'កាលបរិច្ឆេទ:'
       on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       present: 'វត្តមានឣ្នកចូលរួម:'
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
@@ -1289,7 +1290,7 @@ km:
       client_name: ឈ្មោះអតិថិជន
       close: បិទ
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: ការស្នើសុំរបស់អតិថិជន
       client_option: តើអ្នកចង់បន្ថែមគ្រួសារថ្មីសម្រាប់អតិថិជននេះ ឬភ្ជាប់វាជាមួយគ្រួសារដែលមានស្រាប់ដែរឬទេ?
       create_family_record_option:  បន្ថែមគ្រួសារថ្មី
