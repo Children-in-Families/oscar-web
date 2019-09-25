@@ -16,7 +16,7 @@ class CaseNote < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :recent_meeting_dates , -> {order(meeting_date: :desc)}
-  
+
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
 
   before_create :set_assessment

@@ -38,6 +38,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('.case_note_domain_groups .help-block').show('slow')
       else
         $('.case_note_domain_groups .help-block').hide('slow')
+        $("#domain-#{event.val}").hide('slow')
       # $("#domain-#{e.val}").toggle('hide') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
     # ).on('select2-selecting', (e)->
     #   if event.target.textContent.length > 0
@@ -242,9 +243,21 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
   _hideAddNewTask = ->
     _checkCasenoteSelectedValue($('#case_note_domain_group_ids'))
     $.each $('#case_note_domain_group_ids').select2('data'), (index, object) ->
-      $("#domain-#{object.id}").show()
+      $("#domain-#{object.id}").show() if $("#domain-#{object.id} .task-arising .list-group > li").length > 0
 
     $.each $('.case-note-domain-group'), (index, object)->
-      $("##{object.id}").show('slow') if $("##{object.id}").find('span.checkbox').length > 0
+      if $("##{object.id}").find('span.checkbox').length > 0
+        $.each $("##{object.id} div[id^='tasks-domain-']"), (index, task)->
+          if $("##{task.id} span.checkbox").length == 0
+            domainName = $(".panel-#{task.id}").data('domain-name-panel')
+            $("[data-domain-name='#{domainName}']").hide()
+            $("##{task.id} label.check_boxes").hide()
+          else
+            $("##{object.id}").show('slow')
+      else
+        $.each $("##{object.id} div[id^='tasks-domain-']"), (index, task)->
+          if $("##{task.id} span.checkbox").length == 0
+            $("##{task.id} label.check_boxes").hide()
+
 
   { init: _init }
