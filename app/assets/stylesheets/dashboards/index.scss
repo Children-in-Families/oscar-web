@@ -162,14 +162,9 @@ body[id='dashboards-index'] {
       }
     }
   }
-  #assessment, #case-note {
+  #case-note {
     .resize-margin {
       margin-top:20px;
-    }
-    .disable {
-       cursor: not-allowed;
-       background-color: #E5E5E5;
-       pointer-events: none;
     }
   }
 }
