@@ -5,7 +5,7 @@
       %label.control-label
         = t('.client_you_complete_for')
       = select_tag "clients", options_from_collection_for_select(@select_client_options, "id", "name"),{ class: "select form-group", id: 'client-select-case-note', :prompt => ''}
-    - if Rails.env.production? && current_organization.short_name == 'cif'
+    - if Rails.env.production? or Rails.env.staging? && current_organization.short_name == 'cif'
       .col-xs-12.col-md-6.resize-margin
         = link_to t('.csi_assessment'), '#', id: 'csi-case-note-link', class: 'btn btn-block btn btn-default'
     - else
