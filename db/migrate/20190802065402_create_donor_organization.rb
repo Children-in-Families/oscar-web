@@ -26,7 +26,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
             GRANT CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" TO "#{ENV['POWER_BI_GROUP']}";
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_name varchar DEFAULT 'Save the Children')
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(public_donor_id int4 DEFAULT 1)
               RETURNS TABLE("id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "donor_id" int4, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "exit_date" varchar, "accepted_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
                 DECLARE
                   sql TEXT := '';
@@ -37,7 +37,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                     INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                     INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                    WHERE "public"."donors"."name" = donor_name
+                    WHERE "public"."donors"."id" = public_donor_id
                   LOOP
                     sql := sql || format(
                                     'SELECT clients.id, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
@@ -67,7 +67,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_clients"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_clients"(int4) TO "#{ENV['POWER_BI_GROUP']}";
             -- REVOKE ALL ON ALL TABLES IN SCHEMA  pg_catalog FROM public, "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
@@ -79,8 +79,8 @@ class CreateDonorOrganization < ActiveRecord::Migration
             REVOKE CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" FROM "#{ENV['POWER_BI_GROUP']}";
             REVOKE USAGE ON SCHEMA public FROM "#{ENV['POWER_BI_GROUP']}";
 
-            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_clients"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_clients"(varchar) CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_clients"(int4) FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_clients"(int4) CASCADE;
             DROP OWNED BY "#{ENV['POWER_BI_GROUP']}";
             DROP ROLE IF EXISTS "#{ENV['POWER_BI_GROUP']}";
             DROP USER IF EXISTS "#{ENV['READ_ONLY_DATABASE_USER']}";
