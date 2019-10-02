@@ -4,7 +4,8 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(public_donor_id int4 DEFAULT 1)
+
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "domain_id" int4, "score" int4) AS $BODY$
               DECLARE
                 sql TEXT := '';
@@ -15,7 +16,7 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
                   SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                   INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                  WHERE "public"."donors"."id" = public_donor_id
+                  WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.domain_id,
@@ -37,7 +38,7 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(int4) TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
       end
@@ -45,8 +46,8 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(int4) FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_assessment_domains"(int4) CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_assessment_domains"(varchar) CASCADE;
           SQL
         end
       end
