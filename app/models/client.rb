@@ -473,77 +473,11 @@ class Client < ActiveRecord::Base
     detail_cps
   end
 
-
-  # def time_in_care
-  #   date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
-  #   return date_time_in_care unless client_enrollments.any?
-  #   first_multi_enrolled_program_date = ''
-  #   last_multi_leave_program_date = ''
-  #   ordered_enrollments = client_enrollments.order(:enrollment_date)
-  #   ordered_enrollments.each_with_index do |enrollment, index|
-  #     current_enrollment_date = enrollment.enrollment_date
-  #     current_program_exit_date = enrollment.leave_program.try(:exit_date) || Date.today
-
-  #     next_program_enrollment = ordered_enrollments[index + 1].nil? ? ordered_enrollments[index - 1] : ordered_enrollments[index + 1]
-  #     next_program_enrollment_date = next_program_enrollment.enrollment_date
-  #     next_program_exit_date = next_program_enrollment.leave_program.try(:exit_date) || Date.today
-
-  #     if current_program_exit_date <= next_program_enrollment_date
-  #       if first_multi_enrolled_program_date.present? && last_multi_leave_program_date.present?
-  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
-
-  #         first_multi_enrolled_program_date = ''
-  #         last_multi_leave_program_date = ''
-  #       end
-  #       date_time_in_care = calculate_time_in_care(date_time_in_care, current_enrollment_date, current_program_exit_date)
-  #     else
-  #       first_multi_enrolled_program_date = current_enrollment_date if first_multi_enrolled_program_date == ''
-  #       last_multi_leave_program_date = current_program_exit_date > next_program_exit_date ? current_program_exit_date : next_program_exit_date
-
-  #       if index == ordered_enrollments.length - 1
-  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
-  #       end
-  #     end
-  #   end
-  #   date_time_in_care.store(:years, 0) unless date_time_in_care[:years].present?
-  #   date_time_in_care.store(:months, 0) unless date_time_in_care[:months].present?
-  #   date_time_in_care.store(:weeks, 0) unless date_time_in_care[:weeks].present?
-  #   date_time_in_care.store(:days, 0) unless date_time_in_care[:days].present?
-
-  #   if date_time_in_care[:days] > 0
-  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] + 1
-  #     date_time_in_care[:days] = 0
-  #   end
-  #   if date_time_in_care[:weeks] >= 4
-  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] - 4
-  #     date_time_in_care[:months] = date_time_in_care[:months] + 1
-  #   end
-  #   if date_time_in_care[:months] >= 12
-  #     date_time_in_care[:months] = date_time_in_care[:months] - 12
-  #     date_time_in_care[:years] = date_time_in_care[:years] + 1
-  #   end
-  #   date_time_in_care
-  # end
-
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
   end
 
-  # def self.ec_reminder_in(day)
-  #   Organization.all.each do |org|
-  #     Organization.switch_to org.short_name
-  #     managers = User.non_locked.ec_managers.pluck(:email).join(', ')
-  #     admins   = User.non_locked.admins.pluck(:email).join(', ')
-  #     clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
-  #     clients = clients.select { |client| client.active_day_care == day }
-  #
-  #     if clients.present?
-  #       ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
-  #       AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
-  #     end
-  #   end
-  # end
 
   def exiting_ngo?
     return false unless status_changed?

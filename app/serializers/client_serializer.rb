@@ -13,55 +13,124 @@ class ClientSerializer < ActiveModel::Serializer
               :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :time_in_cps, :referral_source_category_id
 
   has_many :assessments
+  has_many :client_enrollments
 
   def profile
     object.profile.present? ? { uri: object.profile.url } : {}
   end
 
   def time_in_ngo
-    if object.time_in_ngo.present?
-      years = object.time_in_ngo[:years]
-      year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
-      months = object.time_in_ngo[:months]
-      month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-      weeks = object.time_in_ngo[:weeks]
-      week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
-      days = object.time_in_ngo[:days]
-      day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
-      "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+    return {} if self.status == 'Referred'
+    day_time_in_ngos = calculate_day_time_in_ngo
+
+    if day_time_in_ngos.present?
+      years = day_time_in_ngos / 365
+      remaining_day_from_year = day_time_in_ngos % 365
+
+      months = remaining_day_from_year / 30
+      remaining_day_from_month = remaining_day_from_year % 30
+      detail_time_in_ngo = { years: years, months: months, days: remaining_day_from_month }
     end
+  end
+
+  def calculate_day_time_in_ngo
+    enter_ngos = self.enter_ngos.order(accepted_date: :desc)
+
+    return 0 if (enter_ngos.size.zero?)
+
+    exit_ngos  = self.exit_ngos.order(exit_date: :desc).where("created_at >= ?", enter_ngos.last.created_at)
+    enter_ngo_dates = enter_ngos.pluck(:accepted_date)
+    exit_ngo_dates  = exit_ngos.pluck(:exit_date)
+
+    exit_ngo_dates.unshift(Date.today) if exit_ngo_dates.size < enter_ngo_dates.size
+
+    day_time_in_ngos = exit_ngo_dates.each_with_index.inject(0) do |sum, (exit_ngo_date, index)|
+      enter_ngo_date = enter_ngo_dates[index]
+      next_ngo_date = enter_ngo_dates[index + 1]
+
+      if next_ngo_date != enter_ngo_date
+        day_in_ngo = (exit_ngo_date - enter_ngo_date).to_i
+        sum += day_in_ngo < 0 ? 0 : day_in_ngo + 1
+      end
+      sum
+    end
+    day_time_in_ngos
   end
 
   def time_in_cps
-    cps_lists = {}
-    return cps_lists if object.time_in_cps.nil?
-    object.time_in_cps.each do |cps|
-      unless cps[1].blank?
-        years = cps[1][:years]
-        year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
-        months = cps[1][:months]
-        month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-        weeks = cps[1][:weeks]
-        week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
-        days = cps[1][:days]
-        day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
-        cps_lists["#{cps[0]}"] = "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+    date_time_in_cps   = { years: 0, months: 0, weeks: 0, days: 0 }
+    return nil unless client_enrollments.present?
+    enrollments = client_enrollments.order(:program_stream_id)
+    detail_cps = {}
+
+    enrollments.each_with_index do |enrollment, index|
+      enroll_date     = enrollment.enrollment_date
+      current_or_exit = enrollment.leave_program.try(:exit_date) || Date.today
+
+      if enrollments[index - 1].present? && enrollments[index - 1].program_stream_name == enrollment.program_stream_name
+        date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
+        date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
+      else
+        date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
+        date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
+      end
+
+      if detail_cps["#{enrollment.program_stream_name}"].present?
+        detail_cps["#{enrollment.program_stream_name}"][:years].present? ? detail_cps["#{enrollment.program_stream_name}"][:years] : detail_cps["#{enrollment.program_stream_name}"][:years] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:months].present? ? detail_cps["#{enrollment.program_stream_name}"][:months] : detail_cps["#{enrollment.program_stream_name}"][:months] = 0
+        detail_cps["#{enrollment.program_stream_name}"][:days].present? ? detail_cps["#{enrollment.program_stream_name}"][:days] : detail_cps["#{enrollment.program_stream_name}"][:days] = 0
+
+        if date_time_in_cps.present?
+          detail_cps["#{enrollment.program_stream_name}"][:years] += date_time_in_cps[:years].present? ? date_time_in_cps[:years] : 0
+          detail_cps["#{enrollment.program_stream_name}"][:months] += date_time_in_cps[:months].present? ? date_time_in_cps[:months] : 0
+          detail_cps["#{enrollment.program_stream_name}"][:days] += date_time_in_cps[:days].present? ? date_time_in_cps[:days] : 0
+        end
+      else
+        detail_cps["#{enrollment.program_stream_name}"] = date_time_in_cps
       end
     end
-    cps_lists
+
+    detail_cps.values.map do |value|
+      next if value.blank?
+      value.store(:years, 0) unless value[:years].present?
+      value.store(:months, 0) unless value[:months].present?
+      value.store(:days, 0) unless value[:days].present?
+
+
+      if value[:days] > 365
+        value[:years] = value[:years] + value[:days]/365
+        value[:days] = value[:days] % 365
+      elsif value[:days] == 365
+        value[:years]  = 1
+        value[:days]   = 0
+        value[:months] = 0
+      end
+
+      if value[:days] > 30
+        value[:months] = value[:days] / 30
+        value[:days] = value[:days] % 30
+      elsif value[:days] == 30
+        value[:days] = 0
+        value[:months] = 1
+      end
+    end
+    detail_cps
   end
 
-  # def time_in_care
-  #   years = object.time_in_care[:years]
-  #   year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
-  #   months = object.time_in_care[:months]
-  #   month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-  #   weeks = object.time_in_care[:weeks]
-  #   week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
-  #   days = object.time_in_care[:days]
-  #   day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
-  #   "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
-  # end
+  def calculate_time_in_care(date_time_in_care, from_time, to_time)
+    return if from_time.nil? || to_time.nil?
+    to_time = to_time + date_time_in_care[:years].years unless date_time_in_care[:years].nil?
+    to_time = to_time + date_time_in_care[:months].months unless date_time_in_care[:months].nil?
+    to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?
+    to_time = to_time + date_time_in_care[:days].days unless date_time_in_care[:days].nil?
+
+    from_time = from_time.to_date
+    to_time = to_time.to_date
+    if from_time >= to_time
+      time_days = (from_time - to_time).to_i + 1
+      times = {days: time_days}
+    end
+  end
 
   def family_name
     current_org = Organization.current.short_name
