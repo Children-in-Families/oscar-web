@@ -6,11 +6,38 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
     _preventRequireFileUploader()
     _toggleCheckingRadioButton()
     _initICheckBox()
+    _initDatePicker()
+    _handleDisableAndEnableEditDatePickerClientEnrollment()
+    _handleDisableAndEnableEditDatePickerClientEnrollment()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
+
+  _initDatePicker = ->
+    $('.client-enrollment-date').datepicker
+      autoclose: true
+      format: 'yyyy-mm-dd'
+      todayHighlight: true
+      orientation: 'bottom'
+      disableTouchKeyboard: true
+
+  _handleDisableAndEnableEditDatePickerClientEnrollment = ->
+    currentRow = $('.client-enrollment-date').val()
+    $('#case-history-table-client-enrollment tr.case-history-row').each (index, element) ->
+      if element.dataset.date   == currentRow
+        if element.previousElementSibling != null and element.nextElementSibling != null
+          nextDate     = element.previousElementSibling.dataset.date
+          previousDate = element.nextElementSibling.dataset.date
+          $('.client-enrollment-date').datepicker('setStartDate', previousDate)
+          $('.client-enrollment-date').datepicker('setEndDate', nextDate)
+        else if element.previousElementSibling != null
+          nextDate    = element.previousElementSibling.dataset.date
+          $('.client-enrollment-date').datepicker('setEndDate', nextDate)
+        else if element.nextElementSibling != null
+          previousDate = element.nextElementSibling.dataset.date
+          $('.client-enrollment-date').datepicker('setStartDate', previousDate)
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->
