@@ -4,7 +4,8 @@ class FnOscarDashboardDomains < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_domains"(public_donor_id int4 DEFAULT 1)
+
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_domains"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "name" varchar, "identity" varchar, "description" text, "domain_group_id" int4, "score_1_color" text, "score_2_color" text, "score_3_color" text, "score_4_color" text, "score_1_definition" text, "score_2_definition" text, "score_3_definition" text, "score_4_definition" text, "local_description" text, "score_1_local_definition" text, "score_2_local_definition" text, "score_3_local_definition" text, "score_4_local_definition" text, "custom_domain" bool) AS $BODY$
               DECLARE
                 sql TEXT := '';
@@ -15,7 +16,7 @@ class FnOscarDashboardDomains < ActiveRecord::Migration
                   SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                   INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                  WHERE "public"."donors"."id" = public_donor_id
+                  WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name,
@@ -57,7 +58,7 @@ class FnOscarDashboardDomains < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_domains"(int4) TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_domains"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
       end
@@ -65,8 +66,8 @@ class FnOscarDashboardDomains < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_domains"(int4) FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_domains"(int4) CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_domains"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_domains"(varchar) CASCADE;
           SQL
         end
       end
