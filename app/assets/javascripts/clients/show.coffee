@@ -27,23 +27,25 @@ CIF.ClientsShow = do ->
       disableTouchKeyboard: true
 
   _handleDisableDatePickerWhenEditEnterAndExitNgo = ->
-    $('button.edit-case-history').on 'click', ->
+    $('button.edit-case-history-ngo').on 'click', ->
       currentRow = $(this).closest('tr')[0]
       previousDate = $($(currentRow).next()[0]).data('date')
       nextDate     = $($(currentRow).prev()[0]).data('date')
-      className    = $(this).data('class_name')
+      className    = $(this).data('class-name')
 
       if _.isElement(currentRow) and !_.isEmpty(nextDate) and !_.isEmpty(previousDate)
         $(".#{className}").datepicker('setStartDate', previousDate)
         $(".#{className}").datepicker('setEndDate', nextDate)
       else if _.isElement(currentRow) and !_.isEmpty(previousDate)
         $(".#{className}").datepicker('setStartDate', previousDate)
+      else if _.isElement(currentRow) and !_.isEmpty(nextDate)
+        $(".#{className}").datepicker('setEndDate', nextDate)
 
   _handleDisableDatePickerExitNgo = ->
     $('button.exit-ngo-for-client').on 'click', ->
-      lastAcceptedDate = $('#last_enter_ngo').val()
-      if !_.isEmpty(lastAcceptedDate)
-        $('.exit_date').datepicker('setStartDate', lastAcceptedDate)
+      startDate = $('#case-history-table tr.case-history-row').first().data('date')
+      if !_.isEmpty(startDate)
+        $('.exit_date').datepicker('setStartDate', startDate)
 
   _initSelect2 = ->
     $('select').select2()
