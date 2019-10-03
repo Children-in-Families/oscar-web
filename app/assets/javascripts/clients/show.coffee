@@ -42,9 +42,9 @@
 
     _handleDisableDatePickerExitNgo = ->
       $('button.exit-ngo-for-client').on 'click', ->
-        lastAcceptedDate = $('#last_enter_ngo').val()
-        if !_.isEmpty(lastAcceptedDate)
-          $('.exit_date').datepicker('setStartDate', lastAcceptedDate)
+        startDate = $('#case-history-table tr.case-history-row').first().data('date')
+        if !_.isEmpty(startDate)
+          $('.exit_date').datepicker('setStartDate', startDate)
 
     _initSelect2 = ->
       $('select').select2()

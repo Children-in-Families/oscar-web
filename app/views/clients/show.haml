@@ -449,5 +449,3 @@
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
 
-- if @case_histories.present? && @case_histories.last.class.to_s == "EnterNgo"
-  = hidden_field_tag :last_enter_ngo, @case_histories.last.accepted_date

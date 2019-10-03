@@ -8,7 +8,6 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
     _initICheckBox()
     _initDatePicker()
     _handleDisableAndEnableEditDatePickerClientEnrollment()
-    _handleDisableAndEnableEditDatePickerClientEnrollment()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -38,6 +37,7 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
         else if element.nextElementSibling != null
           previousDate = element.nextElementSibling.dataset.date
           $('.client-enrollment-date').datepicker('setStartDate', previousDate)
+        return false
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->
