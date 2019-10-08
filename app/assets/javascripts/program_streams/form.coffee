@@ -507,8 +507,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field') || $(parent).attr('class').includes('select-field')
       $(parent).find('.option-label').attr('disabled', 'true')
       $(parent).children('.frm-holder').find('.remove.btn').remove()
-    else if $(parent).attr('class').includes('number-field')
-      $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
+    # else if $(parent).attr('class').includes('number-field')
+    #   $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
 
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')

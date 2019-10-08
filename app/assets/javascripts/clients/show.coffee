@@ -11,6 +11,7 @@ CIF.ClientsShow = do ->
     _initICheckBox()
     _handleDisableDatePickerWhenEditEnterAndExitNgo()
     _handleDisableDatePickerExitNgo()
+    _checkIfNeedToRedirectToFamily()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -162,5 +163,10 @@ CIF.ClientsShow = do ->
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _checkIfNeedToRedirectToFamily = ->
+    if localStorage.getItem('redirect_to_family') == 'true'
+      localStorage.setItem('redirect_to_family', 'false')
+      window.location.href = '/families/new'
 
   { init: _init }

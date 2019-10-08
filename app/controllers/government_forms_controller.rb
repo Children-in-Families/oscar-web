@@ -70,6 +70,7 @@ class GovernmentFormsController < AdminController
         end
 
         render  pdf:      @government_form.name,
+                dpi:      '70',
                 template: 'government_forms/show.pdf.haml',
                 layout:   'pdf_design.html.haml',
                 show_as_html: params.key?('debug'),

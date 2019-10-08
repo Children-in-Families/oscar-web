@@ -104,8 +104,8 @@
             = render 'remaining_programs', client: @client
           - else
             = render 'client/exit_ngos/form', client: @client
-          - if @client.cases.exclude_referred.current.present?
-            = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
+          -# - if @client.cases.exclude_referred.current.present?
+          -#   = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
@@ -445,7 +445,7 @@
                       %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
                     = render 'case_history_detail', object: @client, index: 'initial_referral_date'
 .row
-  = render 'placement'
+  -# = render 'placement'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
 
