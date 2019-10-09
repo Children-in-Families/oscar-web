@@ -1,9 +1,12 @@
 module AdvancedSearches
   class TrackingSqlBuilder
+    include FormBuilderHelper
+    include ClientsHelper
 
     def initialize(tracking_id, rule)
       @tracking_id   = tracking_id
       field          = rule['field']
+      @the_field     = rule['id']
       @field         = field.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
       @value         = format_value(rule['value'])
@@ -21,50 +24,15 @@ module AdvancedSearches
         @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       end
 
-      case @operator
-      when 'equal'
-        if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollment_trackings.where("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
-        else
-          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value}' ")
-        end
-      when 'not_equal'
-        if @input_type == 'text' && @field.exclude?('&')
-          properties_result = client_enrollment_trackings.where.not("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
-        else
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '#{@value}' ")
-        end
-      when 'less'
-        properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' AND #{properties_field} ->> '#{@field}' != '' ")
-      when 'less_or_equal'
-        properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{ '::numeric' if integer? } <= '#{@value}' AND #{properties_field} ->> '#{@field}' != '' ")
-      when 'greater'
-        properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{ '::numeric' if integer? } > '#{@value}' AND #{properties_field} ->> '#{@field}' != '' ")
-      when 'greater_or_equal'
-        properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{ '::numeric' if integer? } >= '#{@value}' AND #{properties_field} ->> '#{@field}' != '' ")
-      when 'contains'
-        properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
-      when 'not_contains'
-        properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
-      when 'is_empty'
-        if @type == 'checkbox'
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? ''")
-          client_ids        = properties_result.pluck(:client_id)
-        else
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
-          client_ids        = properties_result.pluck(:client_id)
-        end
-        client_ids          = Client.where.not(id: client_ids).ids
-        return {id: sql_string, values: client_ids}
-      when 'is_not_empty'
-        if @type == 'checkbox'
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? ''")
-        else
-          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '' OR (#{properties_field} -> '#{@field}') IS NULL")
-        end
-      when 'between'
-        properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND #{properties_field} ->> '#{@field}' != ''")
+      basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results      = mapping_form_builder_param_value(basic_rules, 'tracking')
+
+      query_string = results.map do |id, field, operator, value, type, input_type|
+        tracking_query_string(id, field, operator, value, type, input_type, properties_field)
       end
+
+      properties_result = client_enrollment_trackings.where(query_string.join(" #{basic_rules[:condition]} "))
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
       {id: sql_string, values: client_ids}
     end
