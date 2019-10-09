@@ -32,7 +32,7 @@ class CaseNotesController < AdminController
 
   def create
     @case_note = @client.case_notes.new(case_note_params)
-    if @case_note.save
+    if @case_note.save(context: :web_create)
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
       if params[:from_controller] == "dashboards"

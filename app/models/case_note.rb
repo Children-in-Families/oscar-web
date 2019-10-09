@@ -8,7 +8,7 @@ class CaseNote < ActiveRecord::Base
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
-  validate  :existence_domain_groups
+  validate  :existence_domain_groups?, on: :web_create
 
   has_paper_trail
 
@@ -47,7 +47,7 @@ class CaseNote < ActiveRecord::Base
     self.assessment = custom? ? client.assessments.custom_latest_record : client.assessments.default_latest_record
   end
 
-  def existence_domain_groups
+  def existence_domain_groups?
     if selected_domain_group_ids.blank?
       errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}")
     end
