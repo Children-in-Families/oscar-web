@@ -144,6 +144,8 @@ CIF.ClientsShow = do ->
 
   _checkIfNeedToRedirectToFamily = ->
     if localStorage.getItem('redirect_to_family') == 'true'
+      clientId = $('#client-id').text()
+      localStorage.setItem('client_id', clientId)
       localStorage.setItem('redirect_to_family', 'false')
       window.location.href = '/families/new'
 
