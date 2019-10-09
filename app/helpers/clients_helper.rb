@@ -527,36 +527,10 @@ module ClientsHelper
 
     results = mapping_form_builder_param_value(data, field_name) if default_value_param
 
-    if form_type == 'formbuilder'
-      query_string = results.map do |id, field, operator, value, type, input_type|
-        case operator
-        when 'equal'
-          if input_type == 'text' && field.exclude?('&')
-            "lower(properties ->> '#{field}') = '#{value.downcase}'"
-          else
-            "properties -> '#{field}' ? '#{value}'"
-          end
-        when 'between'
-          "(properties ->> '#{field}')#{ '::numeric' if type == 'integer' } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
-        end
-      end
-    else
-      properties_field = 'client_enrollment_trackings.properties'
-      query_string = results.map do |id, field, operator, value, type, input_type|
-        case operator
-        when 'equal'
-          if input_type == 'text' && field.exclude?('&')
-            "lower(#{properties_field} ->> '#{field}') = '#{value}'"
-          else
-            "#{properties_field} -> '#{field}' ? '#{value}'"
-          end
-        when 'between'
-          "(#{properties_field} ->> '#{field}')#{ '::numeric' if type == 'integer' } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
-        end
-      end
-    end
+    properties_field = 'client_enrollment_trackings.properties'
+    query_string = get_query_string(results, form_type, properties_field)
 
-    object.where(query_string.join(" #{data[:condition]} "))
+    object.where(query_string.join(" AND "))
   end
 
   def case_note_query_results(object, case_note_date_query, case_note_type_query)
@@ -650,14 +624,21 @@ module ClientsHelper
     data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
-  def mapping_form_builder_param_value(data, form_type, field_name=nil)
-    data[:rules].reject do |h|
-      if field_name.nil?
-        !(h[:id] =~ /^(#{form_type})/i)
-      else
-        h[:id] != field_name
+  def mapping_form_builder_param_value(data, form_type, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_form_builder_param_value(h, form_type, field_name=nil, data_mapping)
       end
-    end.map { |value| [value[:id], value[:field], value[:operator], value[:value], value[:type], value[:input]] }
+      if field_name.nil?
+       next if !(h[:id] =~ /^(#{form_type})/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
   end
 
   def date_filter(object, rule)
@@ -727,13 +708,6 @@ module ClientsHelper
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
         count += date_filter(object, class_name).flatten.count
-      # elsif class_name[/^(tracking)/i]
-      #   ids = @clients.map { |client| client.client_enrollments.ids }.flatten.uniq
-      #   property_field = column.header.split('|').third
-      #   form_builder_query(client.custom_field_properties, column.name.to_s.gsub('&qoute;', '"'))
-        # format_field_value = property_field.present? ? property_field.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').strip : ""
-        # trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.header.split('|').second.strip }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-        # trackings = property_filter(trackings, column.header.split('|').third.strip)
         count += trackings.flatten.reject(&:blank?).count
       else
         @clients.each do |client|
@@ -767,11 +741,9 @@ module ClientsHelper
               count += form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"')).size
             end
           elsif class_name[/^(tracking)/i]
-            # tracking = Tracking.joins([client_enrollment_trackings: :client_enrollment]).where(name: column.name.to_s.split('__').second, client_enrollments: { client_id: client.id })
             format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
             ids = client.client_enrollments.ids
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.name.to_s.split('__').third }, client_enrollment_trackings: { client_enrollment_id: ids })
-            # tracking = Tracking.joins(:program_stream).where(program_streams: {name: column.name.to_s.split('__').second}, trackings: {name: column.name.to_s.split('__').third}).last
             count += form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value).size
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)

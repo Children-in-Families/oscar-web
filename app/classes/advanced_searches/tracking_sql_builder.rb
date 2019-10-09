@@ -28,11 +28,12 @@ module AdvancedSearches
       basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results      = mapping_form_builder_param_value(basic_rules, 'tracking')
 
-      query_string = results.map do |id, field, operator, value, type, input_type|
-        tracking_query_string(id, field, operator, value, type, input_type, properties_field)
-      end
+      query_string  = get_query_string(results, 'tracking', properties_field)
+      # query_string = results.map do |id, field, operator, value, type, input_type|
+      #   tracking_query_string(id, field, operator, value, type, input_type, properties_field)
+      # end
 
-      properties_result = client_enrollment_trackings.where(query_string.join(" #{basic_rules[:condition]} "))
+      properties_result = client_enrollment_trackings.where(query_string.join(" AND "))
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
       {id: sql_string, values: client_ids}
     end
