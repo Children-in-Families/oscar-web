@@ -162,7 +162,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         clientOptionValue = $('input[name=clientConfirmation]:checked').val()
         if clientOptionValue == "createNewFamilyRecord"
           localStorage.setItem('redirect_to_family', 'true')
-          localStorage.setItem('client_id', clientId)
           _compareExistingValue(data)
         else if clientOptionValue == "attachExistingFamilyRecord"
           _compareExistingValue(data)
