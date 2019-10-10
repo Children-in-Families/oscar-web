@@ -41,6 +41,11 @@ class CaseNotesController < AdminController
         redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
       end
     else
+      if params[:custom] == 'true'
+        @case_note.assessment = @client.assessments.custom_latest_record
+      else
+        @case_note.assessment = @client.assessments.default_latest_record
+      end
       render :new
     end
   end
