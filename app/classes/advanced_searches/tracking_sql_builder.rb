@@ -37,9 +37,6 @@ module AdvancedSearches
     end
 
     private
-    def integer?
-      @type == 'integer'
-    end
 
     def format_value(value)
       value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
