@@ -738,13 +738,15 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              count += form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"')).size
+              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+              count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]
             format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
             ids = client.client_enrollments.ids
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.name.to_s.split('__').third }, client_enrollment_trackings: { client_enrollment_id: ids })
-            count += form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value).size
+            properties = form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+            count += property_filter(properties, format_field_value).size
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)

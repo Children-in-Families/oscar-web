@@ -23,9 +23,9 @@ module FormBuilderHelper
       end
     when 'not_equal'
       if input_type == 'text' && field.exclude?('&')
-        properties_result = client_enrollment_trackings.where.not("lower(#{properties_field} ->> '#{field}') = '#{value}' ")
+        "NOT(lower(#{properties_field} ->> '#{field}') = '#{value}')"
       else
-        properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{field}' ? '#{value}' ")
+        "NOT(#{properties_field} -> '#{field}' ? '#{value}')"
       end
     when 'less'
       "(#{properties_field} ->> '#{field}')#{'::numeric' if integer? } < '#{value}' AND #{properties_field} ->> '#{field}' != ''"
@@ -41,16 +41,15 @@ module FormBuilderHelper
       "#{properties_field} ->> '#{field}' NOT ILIKE '%#{value.squish}%'"
     when 'is_empty'
       if type == 'checkbox'
-        "NOT(#{properties_field} -> '#{field}' ? '')"
-
+        "#{properties_field} -> '#{field}' ? ''"
       else
-        properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{field}' ? '' OR (#{properties_field} -> '#{field}') IS NULL")
+        "#{properties_field} -> '#{field}' ? '' OR (#{properties_field} -> '#{field}') IS NULL"
      end
     when 'is_not_empty'
       if type == 'checkbox'
         "NOT(#{properties_field} -> '#{field}' ? '')"
       else
-        "NOT(#{properties_field} -> '#{field}' ? '') OR NOT(properties_field} -> '#{field}') IS NULL"
+        "NOT(#{properties_field} -> '#{field}' ? '') OR (#{properties_field} -> '#{field}') IS NOT NULL"
       end
     when 'between'
       "(#{properties_field} ->> '#{field}')#{ '::numeric' if type == 'integer' } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
@@ -93,7 +92,7 @@ module FormBuilderHelper
       if type == 'checkbox'
         "NOT(properties -> '#{field}' ? '')"
       else
-        "NOT(properties -> '#{field}' ? '') OR NOT(properties -> '#{field}') IS NULL"
+        "NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL"
       end
     when 'between'
       "(properties ->> '#{field}')#{ '::numeric' if type == 'integer' } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
