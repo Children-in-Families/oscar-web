@@ -28,13 +28,13 @@ module FormBuilderHelper
         "NOT(#{properties_field} -> '#{field}' ? '#{value}')"
       end
     when 'less'
-      "(#{properties_field} ->> '#{field}')#{'::numeric' if integer? } < '#{value}' AND #{properties_field} ->> '#{field}' != ''"
+      "(#{properties_field} ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'less_or_equal'
-      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer? } <= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'greater'
-      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer? } > '#{value}' AND #{properties_field} ->> '#{field}' != ''"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'greater_or_equal'
-      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer? } >= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'contains'
       "#{properties_field} ->> '#{field}' ILIKE '%#{value.squish}%'"
     when 'not_contains'
@@ -52,7 +52,7 @@ module FormBuilderHelper
         "NOT(#{properties_field} -> '#{field}' ? '') OR (#{properties_field} -> '#{field}') IS NOT NULL"
       end
     when 'between'
-      "(#{properties_field} ->> '#{field}')#{ '::numeric' if type == 'integer' } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
     end
   end
 
@@ -71,13 +71,13 @@ module FormBuilderHelper
         "NOT(properties -> '#{field}' ? '#{value}')"
       end
     when 'less'
-      "(properties ->> '#{field}')#{'::numeric' if integer? } < '#{value}' AND properties ->> '#{field}' != ''"
+      "(properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != ''"
     when 'less_or_equal'
-      "(properties ->> '#{field}')#{ '::numeric' if integer? } <= '#{value}' AND properties ->> '#{field}' != ''"
+      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != ''"
     when 'greater'
-      "(properties ->> '#{field}')#{ '::numeric' if integer? } > '#{value}' AND properties ->> '#{field}' != ''"
+      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != ''"
     when 'greater_or_equal'
-      "(properties ->> '#{field}')#{ '::numeric' if integer? } >= '#{value}' AND properties ->> '#{field}' != ''"
+      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != ''"
     when 'contains'
       "properties ->> '#{field}' ILIKE '%#{value.squish}%'"
     when 'not_contains'
@@ -95,7 +95,11 @@ module FormBuilderHelper
         "NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL"
       end
     when 'between'
-      "(properties ->> '#{field}')#{ '::numeric' if type == 'integer' } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
+      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
     end
+  end
+
+  def integer?(type)
+    type == 'integer'
   end
 end
