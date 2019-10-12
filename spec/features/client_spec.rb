@@ -67,13 +67,13 @@ describe 'Client' do
     let!(:setting){ Setting.first }
     let!(:program_stream) { create(:program_stream) }
 
-    before do
+    before(:each) do
       PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
       login_as(admin)
       visit client_path(client)
     end
 
-    feature 'Time in care' do
+    feature 'Time in Care' do
       let!(:once_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
       let!(:client_exit) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: once_enrollment) }
 
@@ -109,6 +109,18 @@ describe 'Client' do
       scenario 'enrollment with one month delay' do
         visit client_path(client_3)
         expect(page).to have_content('1 year 5 month')
+      end
+    end
+
+    feature 'Time in NGO' do
+      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: Date.today - 2.days) }
+      scenario 'client has been created 2 days ago and accepted today to equal 1 day', js: true do
+        visit client_path(client)
+
+        click_button 'Accept'
+
+        expect(page).to have_content('Time in NGO 1 day')
+        expect(page).to have_content('Status : Accepted')
       end
     end
 

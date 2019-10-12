@@ -116,6 +116,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.23)
+      capybara (>= 1.0, < 4)
+      launchy
     carrierwave (1.1.0)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
@@ -726,6 +729,7 @@ DEPENDENCIES
   capistrano-rvm (~> 0.1.2)
   capistrano-sidekiq!
   capybara (~> 2.15.4)
+  capybara-screenshot (~> 1.0, >= 1.0.23)
   carrierwave (~> 1.1.0)
   chartkick (~> 2.0, >= 2.0.2)
   cocoon (~> 1.2, >= 1.2.9)
@@ -802,4 +806,4 @@ DEPENDENCIES
   wkhtmltopdf-binary-edge (~> 0.12.3.0)
 
 BUNDLED WITH
-   1.17.1
+   1.17.3
