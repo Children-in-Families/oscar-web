@@ -9,7 +9,7 @@ class Tracking < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :name, uniqueness: { scope: :program_stream_id }
+  validates :name, uniqueness: { scope: :program_stream_id }, if: :program_stream_id_was_changed?
 
   validate :form_builder_field_uniqueness
   validate :presence_of_label
@@ -47,5 +47,9 @@ class Tracking < ActiveRecord::Base
   def auto_update_trackings
     return unless self.fields_changed?
     labels_update(self.fields_change.last, self.fields_was, self.client_enrollment_trackings)
+  end
+
+  def program_stream_id_was_changed?
+    program_stream_id_changed?
   end
 end
