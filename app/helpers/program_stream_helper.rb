@@ -2,7 +2,7 @@ module ProgramStreamHelper
 
   def format_rule(rules)
     if rules['rules'].present? && rules['rules'].any?
-      forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'programexitdate', 'exitprogram', 'quantitative']
+      forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'exitprogramdate', 'exitprogram', 'quantitative']
       rules['rules'].each do |rule|
         if rule['rules'].present?
           format_rule(rule)
@@ -72,4 +72,95 @@ module ProgramStreamHelper
     end
     find_children(service_parents, the_ids, children)
   end
+
+  private
+
+    def form_builder_selection_options(program_stream, program_stream_step='trackings')
+      field_types        = group_field_types(program_stream, program_stream_step)
+      @select_field      = field_types["select"]
+      @checkbox_field    = field_types["checkbox-group"]
+      @radio_field       = field_types["radio-group"]
+    end
+
+    def group_field_types(program_stream, program_stream_step)
+      group_field_types = Hash.new{|h,k| h[k] = []}
+      group_by_option_type_label = form_builder_group_by_options_type_label(program_stream, program_stream_step)
+      group_selection_field_types = group_selection_field_types(program_stream, program_stream_step)
+      group_selection_field_types&.compact.each do |selection_field_types|
+        group_by_option_type_label.each do |type,labels|
+          next unless labels.present?
+          labels.each do |label|
+            next if selection_field_types[label].blank?
+              group_field_types[type] << selection_field_types[label]
+          end
+        end
+      end
+      group_field_types =  group_field_types.transform_values(&:flatten)
+      group_field_types.transform_values(&:uniq)
+    end
+
+    def group_selection_field_types(program_stream, program_stream_step)
+      group_value_field_types = []
+      case program_stream_step
+      when 'trackings'
+        program_stream.client_enrollments.each do |client_enrollment|
+          client_enrollment.client_enrollment_trackings.each do |client_enrollment_tracking|
+            choosen_option_form_tracking = client_enrollment_tracking.properties if client_enrollment_tracking.properties.present?
+            group_value_field_types <<  choosen_option_form_tracking
+          end
+        end
+       group_value_field_types
+      when 'enrollment'
+        program_stream.client_enrollments.each do |client_enrollment|
+          choosen_option_form = client_enrollment.properties if client_enrollment.properties.present?
+         group_value_field_types << choosen_option_form
+        end
+       group_value_field_types
+      when 'exit_program'
+        program_stream.client_enrollments.each do |client_enrollment|
+          choosen_option_form_exit_program = client_enrollment.leave_program.properties if client_enrollment.leave_program&.properties.present?
+          group_value_field_types << choosen_option_form_exit_program
+        end
+        group_value_field_types&.reject(&:blank?)
+      else
+        []
+      end
+      group_value_field_types
+    end
+
+    def form_builder_group_by_options_type_label(program_stream, program_stream_step)
+      group_options_type_label = Hash.new{|h,k| h[k] = []}
+      form_builder_option = form_builder_options(program_stream, program_stream_step)
+      form_builder_option["type"].each_with_index do |type_option_tracking,i|
+        group_options_type_label[type_option_tracking] << form_builder_option["label"][i]
+      end
+      group_options_type_label
+    end
+
+    def form_builder_options(program_stream, program_stream_step)
+      form_builder_options = Hash.new{|h,k| h[k] = []}
+      case program_stream_step
+      when 'trackings'
+        program_stream.trackings.each do |tracking|
+          tracking.fields.each do |tracking_field|
+            tracking_field.each do |k,v|
+              next unless k[/^(type|label)$/i]
+              form_builder_options[k] << v
+            end
+          end
+        end
+        return form_builder_options
+      when 'enrollment','exit_program'
+        program_stream.send(program_stream_step).each do |step|
+          step.each do |k,v|
+            next unless k[/^(type|label)$/i]
+            form_builder_options[k] << v
+          end
+        end
+        return form_builder_options
+      else
+        {}
+      end
+      form_builder_options
+    end
 end
