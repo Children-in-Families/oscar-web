@@ -28,7 +28,7 @@ class ProgramStream < ActiveRecord::Base
   validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
   validates :services, presence: true
 
-  before_save :set_program_completed
+  before_save :set_program_completed, :destroy_tracking
   after_update :auto_update_exit_program, :auto_update_enrollment
   after_create :build_permission
 
@@ -214,5 +214,9 @@ class ProgramStream < ActiveRecord::Base
   def auto_update_enrollment
     return unless enrollment_changed?
     labels_update(enrollment_change.last, enrollment_was, client_enrollments)
+  end
+
+  def destroy_tracking
+    trackings.only_deleted.delete_all!
   end
 end
