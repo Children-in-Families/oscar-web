@@ -4,8 +4,9 @@ class Case < ActiveRecord::Base
   belongs_to :partner, counter_cache: true
   belongs_to :province, counter_cache: true
 
-  has_many :case_contracts
+  has_many :case_contracts, dependent: :destroy
   has_many :quarterly_reports, dependent: :destroy
+
   has_paper_trail
 
   scope :emergencies,    -> { where(case_type: 'EC') }

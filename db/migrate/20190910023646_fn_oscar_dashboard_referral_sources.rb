@@ -4,7 +4,7 @@ class FnOscarDashboardReferralSources < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_referral_sources"(donor_name varchar DEFAULT 'Save the Children')
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_referral_sources"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "name" varchar, "clients_count" int4, "name_en" varchar, "description" text, "ancestry" varchar) AS $BODY$
             DECLARE
               sql TEXT := '';
@@ -15,7 +15,7 @@ class FnOscarDashboardReferralSources < ActiveRecord::Migration
                 SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                 INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                 INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                WHERE "public"."donors"."name" = donor_name
+                WHERE "public"."donors"."global_id" = donor_global_id
               LOOP
                 sql := sql || format(
                                 'SELECT %2$s.id, %1$L organization_name, %2$s.name, %2$s.clients_count, %2$s.name_en, %2$s.description, %2$s.ancestry FROM %1$I.%2$s UNION ',
