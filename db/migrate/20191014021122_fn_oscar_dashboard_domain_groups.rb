@@ -15,7 +15,7 @@ class FnOscarDashboardDomainGroups < ActiveRecord::Migration
                   SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                   INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                  WHERE "public"."donors"."name" = donor_name
+                  WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.description, %2$s.name,
