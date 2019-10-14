@@ -78,6 +78,7 @@ class Client < ActiveRecord::Base
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
+  before_update :disconnect_client_family_relation
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   # after_update :notify_managers, if: :exiting_ngo?
@@ -348,14 +349,24 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
+    org = Organization.current
     if archived_slug.present?
       if slug.in? Client.pluck(:slug)
         random_char = slug.split('-')[0]
         paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}") }
       end
     else
-      random_char = ('a'..'z').to_a.sample(3).join()
+      random_char = generate_random_char
+      Organization.switch_to org.short_name
       paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{random_char}-#{id}", archived_slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    end
+  end
+
+  def generate_random_char
+    Organization.switch_to 'shared'
+    loop do
+      char = ('a'..'z').to_a.sample(4).join()
+      break char unless SharedClient.find_by(slug: "#{char}-#{id}").present?
     end
   end
 
@@ -686,6 +697,10 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
+  def disconnect_client_family_relation
+    cases.destroy_all
+  end
+
   def assessment_duration(duration, default = true)
     if duration == 'max'
       setting = Setting.first
@@ -706,25 +721,6 @@ class Client < ActiveRecord::Base
   def mark_referral_as_saved
     referral = Referral.find_by(slug: archived_slug, saved: false)
     referral.update_attributes(client_id: id, saved: true) if referral.present?
-  end
-
-  def create_or_update_shared_client
-    current_org = Organization.current
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin)
-    suburb = self.suburb
-    state_name = self.state_name
-
-    Organization.switch_to 'shared'
-    if suburb.present?
-      province = Province.find_or_create_by(name: suburb, country: 'lesotho')
-      client['birth_province_id'] = province.id
-    elsif state_name.present?
-      province = Province.find_or_create_by(name: state_name, country: 'myanmar')
-      client['birth_province_id'] = province.id
-    end
-    shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
-    shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
-    Organization.switch_to current_org.short_name
   end
 
   def set_country_origin

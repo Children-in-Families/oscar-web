@@ -318,7 +318,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initProgramSteps = ->
     self = @
     form = $('#program-stream')
-   
+
     form.children('.program-steps').steps
       headerTag: 'h4'
       bodyTag: 'section'
@@ -381,8 +381,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     else if $('#trackings').is(':visible')
       _handlePreventRemoveFieldFormBuilderProgramStream(TRACKING_URL, '#trackings')
     else if $('#exit-program').is(':visible')
-      _handlePreventRemoveFieldFormBuilderProgramStream(EXIT_PROGRAM_URL, '#exit-program')    
-              
+      _handlePreventRemoveFieldFormBuilderProgramStream(EXIT_PROGRAM_URL, '#exit-program')
+
   _handleServiceValidation = (services, serviceSelect2) ->
     if services
       serviceSelect2.append("<label class='error'>Field cannot be blank.</label>")
@@ -421,16 +421,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = JSON.parse($(element).children('span').text())
       _initProgramBuilder($(element), (dataElement || []))
-      
+
       if element.id == 'enrollment' and $('#program_stream_id').val() != ''
-        _preventRemoveField(ENROLLMENT_URL, '#enrollment') 
+        _preventRemoveField(ENROLLMENT_URL, '#enrollment')
       else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
         _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = JSON.parse($(tracking).children('span').text())
-      _initProgramBuilder(tracking, (trackingValue || [])) 
+      _initProgramBuilder(tracking, (trackingValue || []))
     _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
@@ -488,7 +488,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
-        
+
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
@@ -510,14 +510,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
-          
+
   _removeActionFormBuilder = (label) ->
     $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-
-    if $(parent).attr('class').includes('number-field')
-      $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
 
   _handlePreventRemoveFieldFormBuilderProgramStream = (url, elementId) ->
     return false if @programStreamId == ''
@@ -533,7 +530,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
-          
+
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
@@ -555,62 +552,62 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
         if fields[name].includes(text)
           _removeActionFormBuilderProgramStream(label)
-  
+
   _removeActionFormBuilderProgramStream = (label) ->
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-    
+
     if $('#enrollment').is(':visible')
       _removeActionFormBuilderEnrollment(label)
     else if $('#trackings').is(':visible')
       _removeActionFormBuilderTracking(label)
     else if $('#exit-program').is(':visible')
       _removeActionFormBuilderExitProgram(label)
-      
+
   _removeActionFormBuilderEnrollment= (label) ->
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-    if $(parent).attr('class').includes('checkbox-group-field') 
+    if $(parent).attr('class').includes('checkbox-group-field')
         allCheckboxOption = $('#enrollment .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
         enrollmentCheckbox = $('div[data-enrollment_checkbox_option]').data('enrollment_checkbox_option')
         jQuery.map(allCheckboxOption, (e) ->
           enrollmentCheckbox.forEach (enrollment_checkbox_value) ->
             if enrollment_checkbox_value == e.value
-              $(e).attr('disabled', 'true')  
-              $(e).parent().children('a.remove.btn').remove()       
-        ) 
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
     else if $(parent).attr('class').includes('radio-group-field')
         allRadioOption = $('#enrollment .radio-group-field .sortable-options .ui-sortable-handle .option-label')
         enrollmentRadio = $('div[data-enrollment_radio_option]').data('enrollment_radio_option')
         jQuery.map(allRadioOption, (e) ->
           enrollmentRadio.forEach (enrollment_radio_value) ->
             if enrollment_radio_value == e.value
-              $(e).attr('disabled', 'true')    
-              $(e).parent().children('a.remove.btn').remove()      
-        ) 
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
     else if $(parent).attr('class').includes('select-field')
         allSelectOption  = $('#enrollment .select-field .sortable-options .ui-sortable-handle .option-label')
         enrollmentSelect = $('div[data-enrollment-select-option]').data('enrollment-select-option')
         jQuery.map(allSelectOption, (e) ->
           enrollmentSelect.forEach (enrollment_selected_value) ->
-            if enrollment_selected_value == e.value 
+            if enrollment_selected_value == e.value
               $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()       
-        )  
+              $(e).parent().children('a.remove.btn').remove()
+        )
 
-  _removeActionFormBuilderTracking = (label) -> 
+  _removeActionFormBuilderTracking = (label) ->
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-    
-    if $(parent).attr('class').includes('checkbox-group-field') 
+
+    if $(parent).attr('class').includes('checkbox-group-field')
         allCheckboxOption = $('#trackings .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
         trackingCheckbox = $('div[data-tracking_checkbox_option]').data('tracking_checkbox_option')
         jQuery.map(allCheckboxOption, (e) ->
           trackingCheckbox.forEach (tracking_checkbox_value) ->
             if tracking_checkbox_value == e.value
               $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()            
-        ) 
+              $(e).parent().children('a.remove.btn').remove()
+        )
     else if $(parent).attr('class').includes('radio-group-field')
         allRadioOption = $('#trackings .radio-group-field .sortable-options .ui-sortable-handle .option-label')
         trackingRadio = $('div[data-tracking_radio_option]').data('tracking_radio_option')
@@ -618,8 +615,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           trackingRadio.forEach (tracking_radio_value) ->
             if tracking_radio_value == e.value
               $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()            
-        ) 
+              $(e).parent().children('a.remove.btn').remove()
+        )
     else if $(parent).attr('class').includes('select-field')
         allSelectOption = $('#trackings .select-field .sortable-options .ui-sortable-handle .option-label')
         trackingSelect = $('div[data-tracking-select-option]').data('tracking-select-option')
@@ -627,22 +624,22 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           trackingSelect.forEach (tracking_selected_value) ->
             if tracking_selected_value == e.value
               $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()            
-        ) 
+              $(e).parent().children('a.remove.btn').remove()
+        )
 
   _removeActionFormBuilderExitProgram = (label) ->
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
 
-    if $(parent).attr('class').includes('checkbox-group-field') 
+    if $(parent).attr('class').includes('checkbox-group-field')
         allCheckboxOption = $('#exit-program .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
         exitingProgramCheckbox = $('div[data-exit_program_checkbox_option]').data('exit_program_checkbox_option')
         jQuery.map(allCheckboxOption, (e) ->
           exitingProgramCheckbox.forEach (exiting_checkbox_value) ->
             if exiting_checkbox_value == e.value
               $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()           
-        ) 
+              $(e).parent().children('a.remove.btn').remove()
+        )
     else if $(parent).attr('class').includes('radio-group-field')
         allRadioOption = $('#exit-program .radio-group-field .sortable-options .ui-sortable-handle .option-label')
         exitingProgramRadio = $('div[data-exit_program_radio_option]').data('exit_program_radio_option')
@@ -650,8 +647,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           exitingProgramRadio.forEach (exiting_radio_value) ->
             if exiting_radio_value == e.value
               $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()           
-        ) 
+              $(e).parent().children('a.remove.btn').remove()
+        )
     else if $(parent).attr('class').includes('select-field')
         allSelectOption = $('#exit-program .select-field .sortable-options .ui-sortable-handle .option-label')
         exitingProgramSelect = $('div[data-exit_program-select-option]').data('exit_program-select-option')
@@ -659,7 +656,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           exitingProgramSelect.forEach (exiting_selected_value) ->
             if exiting_selected_value == e.value
               $(e).attr('disabled', 'true')
-              $(e).parent().children('a.remove.btn').remove()           
+              $(e).parent().children('a.remove.btn').remove()
         )
 
   _initFrequencyNote = ->

@@ -9,6 +9,7 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
     _handleCaseClosureSelectOptions()
     _initCocoonFields()
     _initICheckBox()
+    _initCharacterCounter()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -183,5 +184,19 @@ CIF.Government_formsNew = CIF.Government_formsCreate = CIF.Government_formsEdit 
       $('.add_action_results').click()
       i++;
     $('.link-action-result').addClass 'hide'
+
+  _initCharacterCounter = ->
+    $('.characterCount').on 'propertychange keyup input paste', ->
+      maxLength = $(@).data('count')
+      charLength = $(@).val().length
+      countingElement = $(@).parent().siblings()[0]
+
+      if charLength > maxLength
+        $(@).css('background','#f8d7da')
+        $(countingElement).html(" #{charLength} / #{maxLength} character(s) used. You have exceeded the recommended character count for this field.")
+      else
+        newText = "#{charLength} / #{maxLength} Character(s) Remaining"
+        $(@).css('background','#FFFFFF ')
+        $(countingElement).html(newText)
 
   { init: _init }

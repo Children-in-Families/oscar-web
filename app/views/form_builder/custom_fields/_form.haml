@@ -26,3 +26,9 @@
       = link_to t('cancel'), custom_field_path(@custom_field), class: 'btn btn-default form-btn'
     - else
       = link_to t('cancel'), custom_fields_path(), class: 'btn btn-default form-btn'
+
+- if @custom_field.persisted?
+  - form_builder_selection_options_custom_form(@custom_field)
+  %div.hidden.custom_form_select_option{"data-custom-form-select-option" => "#{@select_field_custom_form }"}
+  %div.hidden.custom_form_checkbox_option{"data-custom-form-checkbox-option" => "#{@checkbox_field_custom_form}"}
+  %div.hidden.custom_form_radio_option{"data-custom-form-radio-option" => "#{@radio_field_custom_form}"}
