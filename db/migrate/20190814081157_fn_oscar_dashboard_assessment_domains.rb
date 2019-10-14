@@ -4,7 +4,7 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(donor_name varchar DEFAULT 'Save the Children')
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "assessment_id" int4,"domain_id" int4, "score" int4) AS $BODY$
               DECLARE
                 sql TEXT := '';
