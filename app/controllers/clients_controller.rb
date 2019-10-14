@@ -160,7 +160,7 @@ class ClientsController < AdminController
   end
 
   def destroy
-    @client.client_enrollments.each(&:really_destroy!)
+    @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
     @client.reload.destroy
 
