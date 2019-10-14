@@ -104,8 +104,13 @@ module AdvancedSearches
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
-        else
+        elsif field != nil
+          # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
+        else
+          nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
+          @sql_string << nested_query[:sql_string]
+          nested_query[:values].select{ |v| @values << v }
         end
       end
 
