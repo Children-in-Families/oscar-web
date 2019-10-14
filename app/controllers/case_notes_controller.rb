@@ -13,7 +13,7 @@ class CaseNotesController < AdminController
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
-    @case_notes = @client.case_notes.most_recents.page(params[:page]).per(1)
+    @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page]).per(1)
   end
 
   def new
@@ -74,6 +74,10 @@ class CaseNotesController < AdminController
       respond_to do |f|
         f.json { render json: { message: message }, status: '200' }
       end
+    elsif @case_note.present?
+      @case_note.case_note_domain_groups.delete_all
+      @case_note.reload.destroy
+      redirect_to client_case_notes_path(@case_note.client), notice: t('.successfully_deleted_case_note')
     end
   end
 

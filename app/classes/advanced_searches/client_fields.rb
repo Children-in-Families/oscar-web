@@ -34,7 +34,7 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at', 'date_of_referral']
     end
 
     def drop_down_type_list
@@ -72,7 +72,7 @@ module AdvancedSearches
     end
 
     def case_note_type_options
-      CaseNote::INTERACTION_TYPE.map{|s| { s => s }  }
+      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map{|k, v| { k => v }  }
     end
 
     def active_program_options

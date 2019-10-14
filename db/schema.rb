@@ -457,8 +457,6 @@ ActiveRecord::Schema.define(version: 20191014021122) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.string   "archived_slug"
   end
 
@@ -597,12 +595,15 @@ ActiveRecord::Schema.define(version: 20191014021122) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: ""
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"

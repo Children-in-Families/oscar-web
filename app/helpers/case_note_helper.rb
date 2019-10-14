@@ -13,6 +13,20 @@ module CaseNoteHelper
     end
   end
 
+  def destroy_link(client, case_note)
+    if case_notes_deleted?
+      link_to(client_case_note_path(client, case_note, custom: case_note.custom), method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'btn btn-danger') do
+        fa_icon('trash')
+      end
+    else
+      link_to_if(false, client_case_note_path(client, case_note), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+        content_tag :div, class: 'btn btn-danger disabled' do
+          fa_icon('trash')
+        end
+      end
+    end
+  end
+
   def new_link
     if case_notes_editable? && policy(@client).create?
       link_to new_client_case_note_path(@client, custom: false) do
@@ -63,6 +77,11 @@ module CaseNoteHelper
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
     current_user.permission.case_notes_editable
+  end
+
+  def case_notes_deleted?
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
   end
 
   def translate_domain_name(domains)
