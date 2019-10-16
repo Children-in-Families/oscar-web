@@ -12,3 +12,5 @@
       = ff.input :case_notes_readable, input_html: { class: 'i-checks' }, label: false
     .col-xs-4
       = ff.input :case_notes_editable, input_html: { class: 'i-checks' }, label: false
+%hr/
+= render 'notifications', f: f, notification_type: 'casenote', object: f.object.notifications.case_note_notifications

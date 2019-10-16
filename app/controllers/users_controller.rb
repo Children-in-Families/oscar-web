@@ -104,6 +104,7 @@ class UsersController < AdminController
                                 custom_field_permissions_attributes: [:id, :custom_field_id, :readable, :editable],
                                 program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
                                 quantitative_type_permissions_attributes: [:id, :quantitative_type_id, :readable, :editable],
+                                notifications_attributes: [:id, :all_notification, :across_referral, :before_seven_day, :due_today, :overdue, :after_overdue_seven_day, :notification_type],
                                 permission_attributes: [:id, :case_notes_readable, :case_notes_editable, :assessments_readable, :assessments_editable])
   end
 

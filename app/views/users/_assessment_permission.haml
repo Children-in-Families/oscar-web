@@ -12,3 +12,5 @@
       = ff.input :assessments_readable, input_html: { class: 'i-checks' }, label: false
     .col-xs-4
       = ff.input :assessments_editable, input_html: { class: 'i-checks' }, label: false
+%hr/
+= render 'notifications', f: f, notification_type: 'assessment', object: f.object.notifications.assessment_notifications

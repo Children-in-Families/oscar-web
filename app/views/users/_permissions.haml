@@ -1,5 +1,5 @@
 .modal.fade.modal-fullscree#permissions{ 'aria-labelledby': 'gridSystemModalLabel', role: 'dialog', tabindex: '-1' }
-  .modal-dialog.modal-lg{ role: 'document' }
+  .modal-dialog.modal-lg{ role: 'document', style: 'overflow-y: scroll; max-height:85%; margin-top: 100px; margin-bottom: 50px;' }
     .modal-content
       = simple_form_for @user do |f|
         .modal-header
@@ -8,6 +8,8 @@
           .modal-border
             %ul.nav.nav-tabs{ role: 'tablist' }
               %li.active{ role: 'presentation' }
+                %a{ href: '#task-notification', 'aria-controls': 'tasks', role: 'tab', 'data-toggle': 'tab' }= t('.tasks')
+              %li{ role: 'presentation' }
                 %a{ href: '#case-notes', 'aria-controls': 'case notes', role: 'tab', 'data-toggle': 'tab' }= t('.case_notes')
               %li{ role: 'presentation' }
                 %a{ href: '#assessments', 'aria-controls': 'assessments', role: 'tab', 'data-toggle': 'tab' }= t('.assessments')
@@ -17,9 +19,13 @@
                 %a{ href: '#custom-programs', 'aria-controls': 'custom programs', role: 'tab', 'data-toggle': 'tab' }= t('.custom_programs')
               %li{ role: 'presentation' }
                 %a{ href: '#quantitative_types', 'aria-controls': 'quantitative types', role: 'tab', 'data-toggle': 'tab' }= t('.quantitative_types')
+              %li{ role: 'presentation' }
+                %a{ href: '#tracking-form-notification', 'aria-controls': 'tracking form', role: 'tab', 'data-toggle': 'tab' }= t('.tracking_form')
 
           .tab-content
-            #case-notes.tab-pane.active{ role: 'tabpanel' }
+            #task-notification.tab-pane.active{ role: 'tabpanel' }
+              = render 'task_notification', f: f
+            #case-notes.tab-pane{ role: 'tabpanel' }
               = render 'case_note_permission', f: f
             #assessments.tab-pane{ role: 'tabpanel' }
               = render 'assessment_permission', f: f
@@ -29,6 +35,8 @@
               = render 'custom_program_permission', f: f
             #quantitative_types.tab-pane{ role: 'tabpanel' }
               = render 'quantitative_type_permission', f: f
+            #tracking-form-notification.tab-pane{ role: 'tabpanel' }
+              = render 'tracking_form_notification', f: f
 
         .modal-footer
           .row
