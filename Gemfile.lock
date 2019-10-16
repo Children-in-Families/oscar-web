@@ -702,9 +702,14 @@ GEM
     where-or (0.1.6)
     wicked_pdf (1.0.6)
     wkhtmltopdf-binary-edge (0.12.3.0)
+    write_xlsx (0.85.7)
+      rubyzip (>= 1.0.0)
+      zip-zip
     xml-simple (1.1.5)
     xpath (2.1.0)
       nokogiri (~> 1.3)
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -804,6 +809,7 @@ DEPENDENCIES
   where-or (~> 0.1.6)
   wicked_pdf (~> 1.0, >= 1.0.6)
   wkhtmltopdf-binary-edge (~> 0.12.3.0)
+  write_xlsx (~> 0.85.7)
 
 BUNDLED WITH
-   1.17.1
+   1.17.3
