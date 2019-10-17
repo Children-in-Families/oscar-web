@@ -1,4 +1,5 @@
 class Client < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
   extend FriendlyId
@@ -330,6 +331,13 @@ class Client < ActiveRecord::Base
 
   def age_extra_months(date = Date.today)
     ((date - date_of_birth) % 365 / 31).to_i
+  end
+
+  def age
+    return nil if self.date_of_birth.nil?
+    date_today = Date.today
+    age = distance_of_time_in_words_hash(date_today, self.date_of_birth).dig(:years)
+    age = age == 0 ? 'INVALID' : age
   end
 
   def active_kc?

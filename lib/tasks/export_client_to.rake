@@ -57,8 +57,8 @@ namespace :export_client do
       Client.all.each do |client|
         next if (client.date_of_birth.present? && (client.age_as_years <= 18 && client.date_of_birth <= Date.today)) || client.date_of_birth.nil?
 
-        dob = client.date_of_birth.strftime('%d %B %Y')
-        age = client.age_as_years
+        dob = client.date_of_birth
+        age = client.age
 
         columns = [short_name, client.id, client.en_and_local_name, dob, age]
 
