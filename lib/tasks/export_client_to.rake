@@ -1,7 +1,7 @@
 namespace :export_client_to do
   desc "Export client to CSC"
   task csv: :environment do
-    headers = ['org_name', 'client_id', 'province_id', 'Province name', 'district_id', 'District name', 'commune_id', 'Commune name', 'village_id', 'Village name']
+    headers = ['org_name', 'client_id', 'Client name', 'province_id', 'Province name', 'district_id', 'District name', 'commune_id', 'Commune name', 'village_id', 'Village name']
     row_index = 0
     workbook = WriteXLSX.new("#{Rails.root}/clients-#{Date.today}.xlsx")
     worksheet = workbook.add_worksheet
@@ -21,10 +21,10 @@ namespace :export_client_to do
       Client.all.each do |client|
         province_id = client.province_id
         next if client.district_id.nil? || client.province_id == client.district.province_id
-
+        province = Province.find(client.district.province_id)
         columns = [
-                short_name, client.id, client.province_id,
-                client.province.name, client.district_id, client.district.name,
+                short_name, client.id, client.en_and_local_name, client.province_id,
+                client.province.name, client.district_id, "#{client.district.name} (#{province.name})",
                 client.commune_id, client.commune.try(:name), client.village_id, client.village.try(:name)
               ]
 
