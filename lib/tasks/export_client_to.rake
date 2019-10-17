@@ -71,9 +71,8 @@ namespace :export_client do
     workbook.close
   end
 
-  desc "Task description"
   task exit_ngo: :environment do
-    headers = ['org_name', 'client_id', 'Client name', 'status', 'Date of exit log', 'Reasons']
+    headers = ['org_name', 'client_id', 'Client name', 'status', 'Date of exit log', 'Reasons & Exit NGO date']
     row_index = 0
     workbook = WriteXLSX.new("#{Rails.root}/clients-exit-date-#{Date.today}.xlsx")
     worksheet = workbook.add_worksheet
@@ -116,5 +115,51 @@ namespace :export_client do
     end
     workbook.close
   end
+
+  task enter_ngo: :environment do
+    headers = ['org_name', 'client_id', 'Client name', 'status', 'Date of accepting log', 'Enter NGO Date']
+    row_index = 0
+    workbook = WriteXLSX.new("#{Rails.root}/clients-accepted-date-#{Date.today}.xlsx")
+    worksheet = workbook.add_worksheet
+    format = workbook.add_format
+    format.set_align('center')
+    Organization.pluck(:short_name).each do |short_name|
+      next if short_name == 'shared'
+      Organization.switch_to short_name
+
+      if row_index == 0
+        headers.each_with_index do |header, header_index|
+          worksheet.write(0, header_index, header, format)
+        end
+      end
+
+      Client.where(status: 'Accepted', accepted_date: nil).each do |client|
+        versions = client.versions.reject{ |version| !version.changeset.has_key?(:status) }
+        changeset = versions.map do |version|
+          next if version.changeset.dig('status').exclude?('Accepted')
+          version.changeset
+        end
+
+        next if changeset.compact.blank?
+
+        reasons = client.enter_ngos.pluck(:accepted_date)
+
+        accepted_statuses = changeset.compact.last['status']
+        accepted_dates = changeset.compact.last['updated_at']
+
+        found_index = changeset.compact.last['status'].find_index('Accepted')
+        accepted_status = accepted_statuses[found_index]
+        accepted_date = accepted_dates[found_index]
+
+        columns = [short_name, client.id, client.en_and_local_name, accepted_status, changeset.to_s.to_date.to_s, reasons.join(', ')]
+        row_index += 1
+        columns.each_with_index do |column, column_index|
+          worksheet.write(row_index, column_index, column, format)
+        end
+      end
+    end
+    workbook.close
+  end
+
 end
 
