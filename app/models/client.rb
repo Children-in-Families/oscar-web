@@ -334,10 +334,14 @@ class Client < ActiveRecord::Base
   end
 
   def age
-    return nil if self.date_of_birth.nil?
+    count_year_from_date('date_of_birth')
+  end
+
+  def count_year_from_date(field_date)
+    return nil if self.send(field_date).nil?
     date_today = Date.today
-    age = distance_of_time_in_words_hash(date_today, self.date_of_birth).dig(:years)
-    age = age == 0 ? 'INVALID' : age
+    year_count = distance_of_time_in_words_hash(date_today, self.send(field_date)).dig(:years)
+    year_count = year_count == 0 ? 'INVALID' : year_count
   end
 
   def active_kc?

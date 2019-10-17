@@ -58,7 +58,7 @@ namespace :export_client do
         next if (client.date_of_birth.present? && (client.age_as_years <= 18 && client.date_of_birth <= Date.today)) || client.date_of_birth.nil?
 
         dob = client.date_of_birth
-        age = client.age
+        age = client.count_year_from_date('date_of_birth')
 
         columns = [short_name, client.id, client.en_and_local_name, dob, age]
 
@@ -161,5 +161,42 @@ namespace :export_client do
     workbook.close
   end
 
+  task invalid_date: :environment do
+    headers = ['org_name', 'client_id', 'Client name', 'follow_up_date', 'enrollment_date', 'meeting_date', 'initial_referral_date']
+    row_index = 0
+    workbook = WriteXLSX.new("#{Rails.root}/clients-invalid-date-#{Date.today}.xlsx")
+    worksheet = workbook.add_worksheet
+    format = workbook.add_format
+    format.set_align('center')
+
+    Organization.pluck(:short_name).each do |short_name|
+      next if short_name == 'shared'
+      Organization.switch_to short_name
+
+      if row_index == 0
+        headers.each_with_index do |header, header_index|
+          worksheet.write(0, header_index, header, format)
+        end
+      end
+
+      Client.all.each do |client|
+        date_today = Date.today
+        follow_up_date = client.count_year_from_date('follow_up_date')
+        initial_referral_date = client.count_year_from_date('initial_referral_date')
+        enrollment_dates = client.client_enrollments.where("client_enrollments.enrollment_date IS NOT NULL AND (EXTRACT(year FROM age(current_date, client_enrollments.enrollment_date)) :: int) >= ?", 120).pluck(:enrollment_date)
+        meeting_dates = client.case_notes.where("case_notes.meeting_date IS NOT NULL AND (EXTRACT(year FROM age(current_date, case_notes.meeting_date)) :: int) >= ?", 120).pluck(:meeting_date)
+        if follow_up_date.to_i >= 120 || initial_referral_date.to_i >= 120 || enrollment_dates.present? || meeting_dates.present?
+
+          columns = [short_name, client.id, client.en_and_local_name, client.follow_up_date, client.initial_referral_date, enrollment_dates.join(', '), meeting_dates.join(', ')]
+
+          row_index += 1
+          columns.each_with_index do |column, column_index|
+            worksheet.write(row_index, column_index, column, format)
+          end
+        end
+      end
+    end
+    workbook.close
+  end
 end
 
