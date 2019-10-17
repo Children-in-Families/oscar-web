@@ -112,18 +112,6 @@ describe 'Client' do
       end
     end
 
-    feature 'Time in NGO' do
-      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: Date.today - 2.days) }
-      scenario 'client has been created 2 days ago and accepted today to equal 1 day', js: true do
-        visit client_path(client)
-
-        click_button 'Accept'
-
-        expect(page).to have_content('Time in NGO 1 day')
-        expect(page).to have_content('Status : Accepted')
-      end
-    end
-
     feature 'country' do
       scenario 'Cambodia' do
         expect(page).to have_css('.address', text: 'Cambodia')
