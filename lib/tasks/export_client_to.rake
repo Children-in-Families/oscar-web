@@ -162,7 +162,7 @@ namespace :export_client do
   end
 
   task invalid_date: :environment do
-    headers = ['org_name', 'client_id', 'Client name', 'follow_up_date', 'enrollment_date', 'meeting_date', 'initial_referral_date']
+    headers = ['org_name', 'client_id', 'Client name', 'follow_up_date', 'initial_referral_date', 'enrollment_date', 'meeting_date']
     row_index = 0
     workbook = WriteXLSX.new("#{Rails.root}/clients-invalid-date-#{Date.today}.xlsx")
     worksheet = workbook.add_worksheet
