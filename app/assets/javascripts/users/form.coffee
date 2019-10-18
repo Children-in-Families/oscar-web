@@ -3,6 +3,7 @@ CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = CIF.Registrat
     _initSelect2()
     _handleDisableManagerField()
     _initICheckBox()
+    _preventDateOfBirth()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -47,5 +48,19 @@ CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = CIF.Registrat
       else
         $('#user_manager_id').removeAttr('disabled')
     .change()
+
+  _preventDateOfBirth = ->
+    $('.prevent-date-of-birth').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      disableTouchKeyboard: true,
+      startDate: '1899,01,01',
+      todayBtn: true,
+      endDate: 'today'
+    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+      if e.keyCode == 8
+        e.preventDefault()
+      return
 
   { init: _init }

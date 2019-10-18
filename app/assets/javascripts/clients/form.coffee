@@ -26,6 +26,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _openSelectClientForm()
     _disableAndEnableButtonOtherOptionToCreateFamiyRecord()
     _disableAndEnableButtonWhenOptionAttachFamilyRecord()
+    _preventClientDateOfBirth()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -295,7 +296,22 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       format: 'yyyy-mm-dd',
       todayHighlight: true,
       disableTouchKeyboard: true,
-      todayBtn: true
+      startDate: '1899,01,01',
+      todayBtn: true,
+    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+      if e.keyCode == 8
+        e.preventDefault()
+      return
+
+  _preventClientDateOfBirth = =>
+    $('.prevent-date-of-birth').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      disableTouchKeyboard: true,
+      startDate: '1899,01,01',
+      todayBtn: true,
+      endDate: 'today'
     .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
       if e.keyCode == 8
         e.preventDefault()
