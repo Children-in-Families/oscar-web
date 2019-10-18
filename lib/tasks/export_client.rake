@@ -1,9 +1,9 @@
 namespace :export_client do
   desc "Export client to CSV"
-  task to_csv: :environment do
+  task birth_province: :environment do
     headers = ['org_name', 'client_id', 'Client name', 'province_id', 'Province name', 'district_id', 'District name', 'commune_id', 'Commune name', 'village_id', 'Village name']
     row_index = 0
-    workbook = WriteXLSX.new("#{Rails.root}/clients-dob-#{Date.today}.xlsx")
+    workbook = WriteXLSX.new("#{Rails.root}/clients-birth-province-#{Date.today}.xlsx")
     worksheet = workbook.add_worksheet
     format = workbook.add_format
     format.set_align('center')

@@ -76,6 +76,7 @@ class Client < ActiveRecord::Base
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validate :address_contrain, on: [:create, :update]
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
@@ -749,4 +750,22 @@ class Client < ActiveRecord::Base
     to_time = to_time + date_time_in_care[:days].days unless date_time_in_care[:days].nil?
     ActionController::Base.helpers.distance_of_time_in_words_hash(from_time, to_time, :except => [:seconds, :minutes, :hours])
   end
+
+  def address_contrain
+    if district_id && province_id
+      district = District.find(district_id)
+      errors.add(:district_id, 'does not exist in the province you just selected.') if district.province_id != province_id
+    end
+
+    if commune_id && district_id && province_id
+      commune = Commune.find(commune_id)
+      errors.add(:commune_id, 'does not exist in the district you just selected.') if commune.district_id != district_id
+    end
+
+    if village_id && commune_id && district_id && province_id
+      vaillage = Village.find(village_id)
+      errors.add(:village_id, 'does not exist in the commune you just selected.') if village.commune_id != commune_id
+    end
+  end
+
 end
