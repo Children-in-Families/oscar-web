@@ -1,5 +1,8 @@
 class CreateDonorOrganization < ActiveRecord::Migration
   def change
+    add_column :donors, :global_id, :string, limit: 32, default: ''
+    add_index :donors, :global_id
+
     create_table :donor_organizations do |t|
       t.references :donor, index: true, foreign_key: true
       t.references :organization, index: true, foreign_key: true
@@ -26,7 +29,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
             GRANT CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" TO "#{ENV['POWER_BI_GROUP']}";
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_name varchar DEFAULT 'Save the Children')
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "donor_id" int4, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "exit_date" varchar, "accepted_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
                 DECLARE
                   sql TEXT := '';
@@ -37,7 +40,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                     INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                     INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                    WHERE "public"."donors"."name" = donor_name
+                    WHERE "public"."donors"."global_id" = donor_global_id
                   LOOP
                     sql := sql || format(
                                     'SELECT clients.id, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
@@ -131,6 +134,11 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
     donor_orgs.uniq.each do |donor_org|
       DonorOrganization.find_or_create_by(donor_org)
+    end
+
+    Donor.all.each do |donor|
+      next if donor.global_id.present?
+      donor.update(global_id: ULID.generate)
     end
   end
 end

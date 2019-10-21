@@ -985,20 +985,19 @@ module ClientsHelper
     base_rules = eval params.dig('client_advanced_search', 'basic_rules')
     rules = base_rules.dig(:rules) if base_rules.presence
 
-    if rules.presence
-      index = rules.index do |rule|
-        if rule.has_key?(:rules)
-          find_rules_index(rule[:rules], field)
-        else
-          rule[:field].strip == field
-        end
-      end
-    end
+    index = find_rules_index(rules, field) if rules.presence
+
     rule  = rules[index] if index.presence
   end
 
   def find_rules_index(rules, field)
-    index = rules.index{ |rule| rule[:field].strip == field }
+    index = rules.index do |rule|
+      if rule.has_key?(:rules)
+        find_rules_index(rule[:rules], field)
+      else
+        rule[:field].strip == field
+      end
+    end
   end
 
   def referral_source_name(referral_source)
