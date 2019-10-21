@@ -9,7 +9,18 @@ class CreateDonorOrganization < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            ALTER TABLE donors ADD COLUMN IF NOT EXISTS global_id varchar(32) NOT NULL DEFAULT '';
+            DO
+            $$
+              BEGIN
+                IF not EXISTS (SELECT column_name
+                               FROM information_schema.columns
+                               WHERE table_schema='public' and table_name='donors' and column_name='global_id') THEN
+                  ALTER TABLE donors ADD COLUMN global_id varchar(32) NOT NULL DEFAULT '';
+                else
+                  raise NOTICE 'Already exists';
+                END IF;
+              END
+            $$
           SQL
 
           create_donors_organizations
