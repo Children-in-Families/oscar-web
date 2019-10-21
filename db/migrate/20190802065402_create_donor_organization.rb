@@ -1,8 +1,5 @@
 class CreateDonorOrganization < ActiveRecord::Migration
   def change
-    add_column :donors, :global_id, :string, limit: 32, default: ''
-    add_index :donors, :global_id
-
     create_table :donor_organizations do |t|
       t.references :donor, index: true, foreign_key: true
       t.references :organization, index: true, foreign_key: true
@@ -11,8 +8,22 @@ class CreateDonorOrganization < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
         if schema_search_path == "\"public\""
-          create_donors_organizations
           execute <<-SQL.squish
+            ALTER TABLE donors ADD COLUMN IF NOT EXISTS global_id varchar(32) NOT NULL DEFAULT '';
+          SQL
+
+          create_donors_organizations
+
+          execute <<-SQL.squish
+            DO
+            $$
+            BEGIN
+               IF to_regclass('public.index_donors_on_global_id') IS NULL THEN
+                  CREATE INDEX index_donors_on_global_id ON public.donors USING btree (global_id);
+               END IF;
+            END
+            $$;
+
             DO
             $do$
             BEGIN
@@ -30,7 +41,12 @@ class CreateDonorOrganization < ActiveRecord::Migration
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_global_id varchar DEFAULT '')
-              RETURNS TABLE("id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "donor_id" int4, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "exit_date" varchar, "accepted_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
+              RETURNS TABLE("id" int4, "slug" varchar, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar,
+                            "status" varchar, "donor_id" int4, "province_id" int4, "province_name" varchar,
+                            "district_id" int4, "district_name" varchar,
+                            "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar,
+                            "exit_date" varchar, "accepted_date" varchar, "referral_source_category_id" int4, "created_at" varchar,
+                            "updated_at" varchar) AS $BODY$
                 DECLARE
                   sql TEXT := '';
                   sch record;
@@ -43,21 +59,23 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     WHERE "public"."donors"."global_id" = donor_global_id
                   LOOP
                     sql := sql || format(
-                                    'SELECT clients.id, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
-                                    clients.date_of_birth, clients.status, clients.province_id, clients.district_id,
+                                    'SELECT clients.id, clients.slug, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
+                                    clients.date_of_birth, clients.status, clients.province_id, provinces.name as province_name, clients.district_id, districts.name as district_name,
                                     clients.birth_province_id, clients.assessments_count, clients.follow_up_date,
                                     clients.initial_referral_date, clients.referral_source_category_id, clients.created_at,
-                                    clients.updated_at FROM %1$I.clients UNION ',
+                                    clients.updated_at FROM %1$I.clients FULL OUTER JOIN %1$I.provinces ON %1$I.provinces.id = %1$I.clients.province_id
+                                    FULL OUTER JOIN %1$I.districts ON %1$I.districts.id = %1$I.clients.district_id UNION ',
                                     sch.short_name);
                   END LOOP;
 
                   FOR client_r IN EXECUTE left(sql, -7)
                   LOOP
-                    id := client_r.id; organization_name := client_r.organization_name; gender := client_r.gender;
+                    id := client_r.id; slug := client_r.slug; organization_name := client_r.organization_name; gender := client_r.gender;
                     donor_id := client_r.donor_id; exit_date := timezone('Asia/Bangkok', client_r.exit_date);
                     accepted_date := timezone('Asia/Bangkok', client_r.accepted_date);
                     date_of_birth := date(client_r.date_of_birth); status := client_r.status;
-                    province_id := client_r.province_id; district_id := client_r.district_id;
+                    province_id := client_r.province_id; province_name := client_r.province_name;
+                    district_id := client_r.district_id; district_name := client_r.district_name;
                     birth_province_id := client_r.birth_province_id; assessments_count := client_r.assessments_count;
                     follow_up_date := client_r.follow_up_date; initial_referral_date := date(client_r.initial_referral_date);
                     referral_source_category_id := client_r.referral_source_category_id; created_at := timezone('Asia/Bangkok',
@@ -79,6 +97,9 @@ class CreateDonorOrganization < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
+            DROP INDEX IF EXISTS index_donors_on_global_id CASCADE;
+            ALTER TABLE donors DROP COLUMN IF EXISTS global_id;
+
             REVOKE CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" FROM "#{ENV['POWER_BI_GROUP']}";
             REVOKE USAGE ON SCHEMA public FROM "#{ENV['POWER_BI_GROUP']}";
 

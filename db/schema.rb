@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191014021122) do
+ActiveRecord::Schema.define(version: 20191018071239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -451,6 +451,8 @@ ActiveRecord::Schema.define(version: 20191014021122) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
+    t.integer  "default_assessments_count",        default: 0,          null: false
+    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.string   "archived_slug"
     t.integer  "default_assessments_count",        default: 0,          null: false
     t.integer  "custom_assessments_count",         default: 0,          null: false
@@ -591,11 +593,12 @@ ActiveRecord::Schema.define(version: 20191014021122) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: "", null: false
   end
 
   create_table "enter_ngo_users", force: :cascade do |t|
@@ -947,6 +950,21 @@ ActiveRecord::Schema.define(version: 20191014021122) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "before_seven_day",                   default: false
+    t.boolean  "due_today",                          default: false
+    t.boolean  "overdue",                            default: false
+    t.boolean  "after_overdue_seven_day",            default: false
+    t.boolean  "all_notification",                   default: false
+    t.boolean  "across_referral",                    default: false
+    t.string   "notification_type",       limit: 25, default: ""
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "organization_types", force: :cascade do |t|
     t.string   "name"
@@ -1723,6 +1741,7 @@ ActiveRecord::Schema.define(version: 20191014021122) do
   add_foreign_key "government_forms", "provinces"
   add_foreign_key "government_forms", "villages"
   add_foreign_key "leave_programs", "client_enrollments"
+  add_foreign_key "notifications", "users"
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"
   add_foreign_key "program_stream_permissions", "users"
