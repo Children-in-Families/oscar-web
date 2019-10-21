@@ -131,8 +131,7 @@ module AdvancedSearches
           @sql_string << "date(clients.#{field}) = ?"
           @values << value
         elsif field == 'slug'
-          @sql_string << "clients.slug = ? OR clients.archived_slug = ?"
-          @values << value
+          @sql_string << "clients.slug = ?"
           @values << value
         else
           if SENSITIVITY_FIELDS.include?(field)
