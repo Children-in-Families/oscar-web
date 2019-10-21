@@ -354,6 +354,7 @@ en:
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
+      date_of_referral: Date of Referral
       description_house_landmark: Description of the house and a landmark
       directions: Directions
       district: District/Khan
@@ -654,9 +655,11 @@ en:
       successfully_deleted_case_note: Case Note has been successfully deleted.
     form:
       add_task: Add Task
+      add_task_message: Please select the domain group before you can add the task.
       back: Back
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Please select all Domain Groups you supported the client with in this case note.
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
@@ -664,6 +667,7 @@ en:
       on_date: On Date
       on_going_tasks: On Going Tasks
       present: Who was there during the visit or conversation?
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
       tasks: Tasks
       tasks_arising: Tasks Arising
@@ -692,6 +696,7 @@ en:
       case_note_on: Case note on
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Domain Groups
       goal: Goal
       incompleted_tasks: Incompleted Tasks
       new_case_note: New case note
@@ -1286,12 +1291,12 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: Client Confirmation
-      client_option: Please choose one option below before you submit client information
-      create_family_record_option:  Would you like to create a family record for this client? 
-      attach_exist_family_record_option:  Would you like to attach to Existing Family Record?
-      no_option: No.
+      client_option: Would you like to create a family record for this client, or attach them to an existing family?
+      create_family_record_option:  Create New Family Record
+      attach_exist_family_record_option:  Attach to Existing Family Record
+      no_option: 'No'
       save: Save
     destroy:
       successfully_deleted: Client has been successfully deleted.
@@ -1499,7 +1504,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search 
+      advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       assessment_data: Assessment Data
@@ -1743,6 +1748,9 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
+        day:
+          one: "%{count} day"
+          other: "%{count} days"
         month:
           one: "%{count} month"
           other: "%{count} months"
@@ -2068,6 +2076,7 @@ en:
         date_of_assessments: Date of Assessments
         date_of_birth: Date of Birth
         date_of_custom_assessments: Date of Custom Assessment
+        date_of_referral: Date of Referral
         description_house_landmark: Description of the house and a landmark
         directions: Directions
         district: District/Khan

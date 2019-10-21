@@ -329,6 +329,8 @@ class ClientGrid < BaseGrid
     client_by_domain(operation, value, domain_id, scope)
   end
 
+  filter(:date_of_referral, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') })
+
   filter(:domain_2a, :dynamic, select: proc { get_domain('2A') }, header: -> { "#{ I18n.t('datagrid.columns.clients.domain')} 2A (Shelter)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
@@ -444,7 +446,7 @@ class ClientGrid < BaseGrid
   column(:code, header: -> { custom_id_translation('custom_id1') }) do |object|
     object.code ||= ''
   end
-  
+
   column(:kid_id, order:'clients.kid_id', header: -> { custom_id_translation('custom_id2') })
 
   def self.custom_id_translation(type)
@@ -689,19 +691,30 @@ class ClientGrid < BaseGrid
         end
 
         column(:province, html: false, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
-          object.province.try(:name_kh)
+          identify_province_khmer = object.province&.name&.count "/"
+          if identify_province_khmer == 1
+            province = object.province.name.split('/').first
+          elsif identify_province_khmer == 2
+             province = object.province&.name
+          end
+
         end
 
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_kh') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
           birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
-          birth_province = birth_province.present? ? birth_province.split(' / ').first : nil
+          identity_birth_province = birth_province&.count "/"
+          if identity_birth_province == 1
+            birth_province = birth_province.split('/').first
+          elsif identity_birth_province == 2
+            birth_province
+          end
           Organization.switch_to current_org.short_name
           birth_province
         end
-  
-      else 
+
+      else
         column(:village, html: false, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village_en') } ) do |object|
           object.village.try(:name_en)
         end
@@ -715,17 +728,28 @@ class ClientGrid < BaseGrid
         end
 
         column(:province, html: false, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
-          object.province.present? ? object.province.name.split(' / ').last : nil
+          identify_province = object.province&.name&.count "/"
+          if identify_province == 1
+            province = object.province.name.split('/').last
+          elsif identify_province == 2
+             province = object.province&.name
+          end
+
         end
 
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_en') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
           birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
-          birth_province = birth_province.present? ? birth_province.split(' / ').last : nil
+          identity_birth_province = birth_province&.count "/"
+          if identity_birth_province == 1
+            birth_province = birth_province.split('/').last
+          elsif identity_birth_province == 2
+            birth_province
+          end
           Organization.switch_to current_org.short_name
           birth_province
-        end  
+        end
       end
     when 'uganda'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
@@ -897,11 +921,13 @@ class ClientGrid < BaseGrid
   end
 
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
-    Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
+    object.family.try(:id)
+    # Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
   end
 
   column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
-    Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:name).uniq.join(', ')
+    object.family.try(:name)
+    # Family.where('children @> ARRAY[q?]::integer[]', [object.id]).pluck(:name).uniq.join(', ')
   end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
@@ -914,6 +940,10 @@ class ClientGrid < BaseGrid
 
   column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
+  end
+
+  column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
+    render partial: 'clients/referral', locals: { object: object }
   end
 
   column(:date_of_custom_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_custom_assessments') }, html: true) do |object|
@@ -929,8 +959,8 @@ class ClientGrid < BaseGrid
       time_in_ngo = object.time_in_ngo
       years = I18n.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
       months = I18n.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
-      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_ngo[:weeks]) if time_in_ngo[:weeks] > 0
-      [years, months, weeks].join(' ')
+      days = I18n.t('clients.show.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
+      [years, months, days].join(' ')
     end
   end
 
@@ -942,8 +972,8 @@ class ClientGrid < BaseGrid
         unless cps[1].blank?
           years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
           months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
-          weeks = I18n.t('clients.show.time_in_care_around.week', count: cps[1][:weeks]) if (cps[1][:weeks].present? && cps[1][:weeks] > 0)
-          time_in_cps = [years, months, weeks].join(' ')
+          days = I18n.t('clients.show.time_in_care_around.day', count: cps[1][:days]) if (cps[1][:days].present? && cps[1][:days] > 0)
+          time_in_cps = [years, months, days].join(' ')
           cps_lists << [cps[0], time_in_cps].join(': ')
         end
       end
@@ -1000,7 +1030,7 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              properties = form_builder_query(object.custom_field_properties, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
             end
           end
         elsif fields.first == 'enrollmentdate'
@@ -1022,7 +1052,8 @@ class ClientGrid < BaseGrid
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
+            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
           end
         elsif fields.first == 'programexitdate'
           ids = object.client_enrollments.inactive.ids

@@ -4,8 +4,8 @@ class Case < ActiveRecord::Base
   belongs_to :partner, counter_cache: true
   belongs_to :province, counter_cache: true
 
-  has_many :case_contracts
-  has_many :quarterly_reports
+  has_many :case_contracts, dependent: :destroy
+  has_many :quarterly_reports, dependent: :destroy
 
   has_paper_trail
 
@@ -83,9 +83,9 @@ class Case < ActiveRecord::Base
     client.cases.exclude_referred.current == self
   end
 
-  def fc_or_kc?
-    case_type == 'FC' || case_type == 'KC'
-  end
+  # def fc_or_kc?
+  #   case_type == 'FC' || case_type == 'KC'
+  # end
 
   def kc?
     case_type == 'KC'

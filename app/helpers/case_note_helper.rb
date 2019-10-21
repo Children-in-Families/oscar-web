@@ -79,21 +79,15 @@ module CaseNoteHelper
     current_user.permission.case_notes_editable
   end
 
-  def case_notes_deleted?
-    return true if current_user.admin?
-    return false if current_user.strategic_overviewer?
-  end
-
-  def translate_domain_name(domains)
-    domains.map do |domain|
-      [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
-    end
-  end
-
   def tag_domain_group(case_note)
-    domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+    domain_group_ids = selected_domain_group_ids(case_note)
     domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name("#{case_note.custom}"), dg.id] }
     options_for_select(domain_groups, domain_group_ids)
+  end
+
+  def selected_domain_group_ids(case_note)
+    domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+    domain_group_ids = domain_group_ids.presence ? domain_group_ids : case_note.selected_domain_group_ids
   end
 
   def list_goals_and_tasks(cdg, case_note)
@@ -119,5 +113,16 @@ module CaseNoteHelper
 
   def case_note_the_latest_tasks(tasks)
     tasks.reject{ |task| !task.created_at.today? }
+  end
+
+  def case_notes_deleted?
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
+  end
+
+  def translate_domain_name(domains)
+    domains.map do |domain|
+      [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
+    end
   end
 end

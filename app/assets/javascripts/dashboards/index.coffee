@@ -21,6 +21,7 @@ CIF.DashboardsIndex = do ->
     _initTrackingDatatable()
     _handleMultiForm()
     _handleProgramStreamServiceShow()
+    _handleProgramStreamServiceSelect2()
     _updateProgramStream()
     _enableSaveReferralSource()
     _clickSaveReferral()

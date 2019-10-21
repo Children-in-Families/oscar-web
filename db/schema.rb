@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190820091639) do
+ActiveRecord::Schema.define(version: 20191014021122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,14 +157,15 @@ ActiveRecord::Schema.define(version: 20190820091639) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",         default: ""
+    t.string   "attendee",                  default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.string   "interaction_type", default: ""
-    t.boolean  "custom",           default: false
+    t.string   "interaction_type",          default: ""
+    t.boolean  "custom",                    default: false
+    t.string   "selected_domain_group_ids", default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -450,8 +451,6 @@ ActiveRecord::Schema.define(version: 20190820091639) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.string   "archived_slug"
     t.integer  "default_assessments_count",        default: 0,          null: false
     t.integer  "custom_assessments_count",         default: 0,          null: false
@@ -1591,9 +1590,9 @@ ActiveRecord::Schema.define(version: 20190820091639) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
-    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

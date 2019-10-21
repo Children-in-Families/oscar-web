@@ -8,6 +8,7 @@ class CaseNote < ActiveRecord::Base
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
+  validate  :existence_domain_groups?, on: :web_create
 
   has_paper_trail
 
@@ -15,7 +16,7 @@ class CaseNote < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :recent_meeting_dates , -> {order(meeting_date: :desc)}
-  
+
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
 
   before_create :set_assessment
@@ -44,5 +45,11 @@ class CaseNote < ActiveRecord::Base
 
   def set_assessment
     self.assessment = custom? ? client.assessments.custom_latest_record : client.assessments.default_latest_record
+  end
+
+  def existence_domain_groups?
+    if selected_domain_group_ids.blank?
+      errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}")
+    end
   end
 end

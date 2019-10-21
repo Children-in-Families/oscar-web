@@ -31,8 +31,8 @@ class ClientDecorator < Draper::Decorator
       time_in_ngo = model.time_in_ngo
       years = h.t('.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
       months = h.t('.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
-      weeks = h.t('.time_in_care_around.week', count: time_in_ngo[:weeks]) if time_in_ngo[:weeks] > 0
-      [years, months, weeks].join(' ')
+      days = h.t('.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
+      [years, months, days].join(' ')
     end
   end
 
@@ -41,10 +41,10 @@ class ClientDecorator < Draper::Decorator
     if model.time_in_cps.present?
       model.time_in_cps.each do |cps|
         unless cps[1].blank?
-          years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
+          years  = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
           months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
-          weeks = I18n.t('clients.show.time_in_care_around.week', count: cps[1][:weeks]) if (cps[1][:weeks].present? && cps[1][:weeks] > 0)
-          time_in_cps = [years, months, weeks].join(' ')
+          days   = I18n.t('clients.show.time_in_care_around.day', count: cps[1][:days]) if (cps[1][:days].present? && cps[1][:days] > 0)
+          time_in_cps = [years, months,days].join(' ')
           cps_lists << [cps[0], time_in_cps].join(': ')
         end
       end

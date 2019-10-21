@@ -32,15 +32,20 @@ class CaseNotesController < AdminController
 
   def create
     @case_note = @client.case_notes.new(case_note_params)
-    if @case_note.save
+    if @case_note.save(context: :web_create)
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
-      create_bulk_task(params[:task]) if params.has_key?(:task)
+      create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
       if params[:from_controller] == "dashboards"
         redirect_to root_path, notice: t('.successfully_created')
       else
         redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
       end
     else
+      if params[:custom] == 'true'
+        @case_note.assessment = @client.assessments.custom_latest_record
+      else
+        @case_note.assessment = @client.assessments.default_latest_record
+      end
       render :new
     end
   end
@@ -90,7 +95,7 @@ class CaseNotesController < AdminController
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params)
-    default_params
+    default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
   end
 
   def assign_params_to_case_note_domain_groups_params(default_params)
@@ -176,6 +181,5 @@ class CaseNotesController < AdminController
 
     case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group: @domain_groups)
     @case_note_domain_group_note = case_note_domain_groups.where.not(note: '').try(:first).try(:note)
-    @selected_domain_group_ids = case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
   end
 end

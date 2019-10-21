@@ -1,5 +1,8 @@
 class CreateDonorOrganization < ActiveRecord::Migration
   def change
+    add_column :donors, :global_id, :string, limit: 32, default: ''
+    add_index :donors, :global_id
+
     create_table :donor_organizations do |t|
       t.references :donor, index: true, foreign_key: true
       t.references :organization, index: true, foreign_key: true
@@ -26,8 +29,8 @@ class CreateDonorOrganization < ActiveRecord::Migration
             GRANT CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" TO "#{ENV['POWER_BI_GROUP']}";
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_friends"(donor_name varchar DEFAULT 'Save the Children')
-              RETURNS TABLE("client_id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_global_id varchar DEFAULT '')
+              RETURNS TABLE("id" int4, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar, "status" varchar, "donor_id" int4, "province_id" int4, "district_id" int4, "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar, "exit_date" varchar, "accepted_date" varchar, "referral_source_category_id" int4, "created_at" varchar, "updated_at" varchar) AS $BODY$
                 DECLARE
                   sql TEXT := '';
                   sch record;
@@ -37,10 +40,10 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                     INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                     INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                    WHERE "public"."donors"."name" = donor_name
+                    WHERE "public"."donors"."global_id" = donor_global_id
                   LOOP
                     sql := sql || format(
-                                    'SELECT clients.id AS client_id, %1$L organization_name, clients.gender,
+                                    'SELECT clients.id, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
                                     clients.date_of_birth, clients.status, clients.province_id, clients.district_id,
                                     clients.birth_province_id, clients.assessments_count, clients.follow_up_date,
                                     clients.initial_referral_date, clients.referral_source_category_id, clients.created_at,
@@ -50,7 +53,9 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
                   FOR client_r IN EXECUTE left(sql, -7)
                   LOOP
-                    client_id := client_r.client_id; organization_name := client_r.organization_name; gender := client_r.gender;
+                    id := client_r.id; organization_name := client_r.organization_name; gender := client_r.gender;
+                    donor_id := client_r.donor_id; exit_date := timezone('Asia/Bangkok', client_r.exit_date);
+                    accepted_date := timezone('Asia/Bangkok', client_r.accepted_date);
                     date_of_birth := date(client_r.date_of_birth); status := client_r.status;
                     province_id := client_r.province_id; district_id := client_r.district_id;
                     birth_province_id := client_r.birth_province_id; assessments_count := client_r.assessments_count;
@@ -65,7 +70,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
               COST 100
               ROWS 1000;
 
-            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_friends"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
+            GRANT EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_clients"(varchar) TO "#{ENV['POWER_BI_GROUP']}";
             -- REVOKE ALL ON ALL TABLES IN SCHEMA  pg_catalog FROM public, "#{ENV['POWER_BI_GROUP']}";
           SQL
         end
@@ -77,8 +82,8 @@ class CreateDonorOrganization < ActiveRecord::Migration
             REVOKE CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" FROM "#{ENV['POWER_BI_GROUP']}";
             REVOKE USAGE ON SCHEMA public FROM "#{ENV['POWER_BI_GROUP']}";
 
-            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_friends"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_friends"(varchar) CASCADE;
+            REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_clients"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
+            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_clients"(varchar) CASCADE;
             DROP OWNED BY "#{ENV['POWER_BI_GROUP']}";
             DROP ROLE IF EXISTS "#{ENV['POWER_BI_GROUP']}";
             DROP USER IF EXISTS "#{ENV['READ_ONLY_DATABASE_USER']}";
@@ -129,6 +134,11 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
     donor_orgs.uniq.each do |donor_org|
       DonorOrganization.find_or_create_by(donor_org)
+    end
+
+    Donor.all.each do |donor|
+      next if donor.global_id.present?
+      donor.update(global_id: ULID.generate)
     end
   end
 end

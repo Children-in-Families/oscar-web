@@ -7,7 +7,7 @@ namespace :demo_production do
     clients_without_program_stream = Client.includes(:program_streams).where(program_streams: {id: nil})
     clients_without_program_stream_custom_form = clients_without_program_stream.includes(:custom_fields).where(custom_fields: {id: nil})
     oscar_user_id = User.find_by(first_name: 'OSCaR', last_name: 'Team').id
-    
+
     clients_without_program_stream_custom_form.each do |client|
       client.birth_province_id = nil
       client.village_id = nil
@@ -31,11 +31,11 @@ namespace :demo_production do
     selected_clients = clients_without_program_stream_custom_form.order("RANDOM()").limit(20)
     to_delete_clients = Client.where.not(id: selected_clients.ids)
     # ProgramStream.all.each do |p|
-    #   p.really_destroy!
+    #   p.destroy_fully!
     # end
     ClientEnrollment.all.each do |ce|
       ce.leave_program.delete if ce.leave_program.present?
-      ce.really_destroy!
+      ce.destroy_fully!
     end
 
     to_delete_clients.each do |client|
@@ -45,11 +45,11 @@ namespace :demo_production do
       client.district_id = nil
       client.province_id = nil
       client.government_forms.destroy_all
-      client.client_enrollments.really_destroy! if client.client_enrollments.present?
+      client.client_enrollments.destroy_fully! if client.client_enrollments.present?
       client.case_worker_clients.destroy_all
       client.assessments.each do |a|
         begin
-          
+
           a.delete
         rescue => exception
           binding.pry
@@ -72,7 +72,7 @@ namespace :demo_production do
         end
       end
       # client.program_streams.each do |ps|
-      #   ps.really_destroy!
+      #   ps.destroy_fully!
       # end
 
       begin
@@ -85,7 +85,7 @@ namespace :demo_production do
     CaseWorkerClient.destroy_all
     Assessment.all.each do |a|
       begin
-        
+
         a.delete
       rescue => exception
         binding.pry
@@ -149,7 +149,7 @@ namespace :demo_production do
     Domain.custom_csi_domains.delete_all
     ReferralSource.where.not(name: REFERRAL_SOURCES).delete_all
     # User.where.not(id: oscar_user_id).each do |u|
-    #   u.really_destroy!
+    #   u.destroy_fully!
     # end
     OrganizationType.delete_all
     PaperTrail::Version.destroy_all

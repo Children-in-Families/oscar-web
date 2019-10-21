@@ -106,6 +106,7 @@ class Family < ActiveRecord::Base
   def save_family_in_client
     self.children.each do |child|
       client = Client.find_by(id: child)
+      next if client.nil?
       next if client.family_ids.include?(self.id)
       # client.cases.destroy_all
       client.families << self
@@ -119,7 +120,7 @@ class Family < ActiveRecord::Base
       client = Client.find_by(id: client_case.client_id)
       if client.present? && client.family_ids.include?(self.id)
         unless self.children.include?(client.id)
-          client.cases.find_by(family_id: self.id).delete
+          client.cases.find_by(family_id: self.id).destroy
         end
       end
     end

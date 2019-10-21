@@ -101,6 +101,7 @@ module ClientsHelper
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
       date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
+      date_of_referral:              t('datagrid.columns.clients.date_of_referral'),
       date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
@@ -345,6 +346,7 @@ module ClientsHelper
       case_note_date_: t('datagrid.columns.clients.case_note_date'),
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
       date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
+      date_of_referral_: t('datagrid.columns.clients.date_of_referral'),
       all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
       date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments'),
       all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments'),
@@ -400,7 +402,7 @@ module ClientsHelper
   def client_advanced_search_data(object, rule)
     @data = {}
     return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
-    @data   = JSON.parse(params[:client_advanced_search][:basic_rules], symbolize_names: true)
+    @data   = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
@@ -465,7 +467,7 @@ module ClientsHelper
     data    = {}
     rules   = %w( case_note_date case_note_type )
     return object if params[:client_advanced_search][:basic_rules].nil?
-    data    = JSON.parse(params[:client_advanced_search][:basic_rules], symbolize_names: true)
+    data    = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
 
     result1                = mapping_param_value(data, 'case_note_date')
     result2                = mapping_param_value(data, 'case_note_type')
@@ -505,11 +507,30 @@ module ClientsHelper
         elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
           object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
         else
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query_array))
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query))
         end
       end
     end
     object.present? ? object : []
+  end
+
+  def form_builder_query(object, form_type, field_name)
+    return object unless params[:client_advanced_search].present?
+    data    = {}
+
+    return object if params[:client_advanced_search][:basic_rules].nil?
+    data    = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
+
+    results             = mapping_form_builder_param_value(data, form_type)
+
+    default_value_param = params['all_values']
+
+    results = mapping_form_builder_param_value(data, field_name) if default_value_param
+
+    properties_field = 'client_enrollment_trackings.properties'
+    query_string = get_query_string(results, form_type, properties_field)
+
+    object.where(query_string.join(" AND "))
   end
 
   def case_note_query_results(object, case_note_date_query, case_note_type_query)
@@ -603,6 +624,23 @@ module ClientsHelper
     data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
+  def mapping_form_builder_param_value(data, form_type, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_form_builder_param_value(h, form_type, field_name=nil, data_mapping)
+      end
+      if field_name.nil?
+       next if !(h[:id] =~ /^(#{form_type})/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
   def date_filter(object, rule)
     query_array      = []
     sub_query_array  = []
@@ -611,7 +649,7 @@ module ClientsHelper
 
     return object if return_default_filter(object, rule, results)
 
-    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' }
+    klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', meeting_date: 'case_notes', case_note_type: 'case_notes', created_at: 'assessments' , date_of_referral: 'referrals'}
 
     if rule == 'case_note_date'
       field_name = 'meeting_date'
@@ -656,7 +694,7 @@ module ClientsHelper
 
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
-      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments' }
+      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', formbuilder__Client: 'custom_field_properties' }
 
       if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
         klass = 'leave_programs'
@@ -670,12 +708,6 @@ module ClientsHelper
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
         count += date_filter(object, class_name).flatten.count
-      elsif class_name[/^(tracking)/i]
-        ids = @clients.map { |client| client.client_enrollments.ids }.flatten.uniq
-        property_field = column.header.split('|').third
-        format_field_value = property_field.present? ? property_field.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').strip : ""
-        trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.header.split('|').second.strip }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-        trackings = property_filter(trackings, column.header.split('|').third.strip)
         count += trackings.flatten.reject(&:blank?).count
       else
         @clients.each do |client|
@@ -714,10 +746,15 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              custom_fields = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
-              custom_fields = property_filter(custom_fields, column.header.split('|').third.strip)
-              count += custom_fields.size
+              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+              count += property_filter(properties, format_field_value).size
             end
+          elsif class_name[/^(tracking)/i]
+            format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+            ids = client.client_enrollments.ids
+            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.name.to_s.split('__').third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+            count += property_filter(properties, format_field_value).size
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
@@ -729,7 +766,7 @@ module ClientsHelper
       end
 
       if count > 0 && class_name != 'case_note_type'
-        # link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        class_name = class_name =~ /^(formbuilder)/i ? column.name.to_s : class_name
         link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),
@@ -986,20 +1023,19 @@ module ClientsHelper
     base_rules = JSON.parse(params.dig('client_advanced_search', 'basic_rules'), symbolize_names: true)
     rules = base_rules.dig(:rules) if base_rules.presence
 
-    if rules.presence
-      index = rules.index do |rule|
-        if rule.has_key?(:rules)
-          find_rules_index(rule[:rules], field)
-        else
-          rule[:field].strip == field
-        end
-      end
-    end
+    index = find_rules_index(rules, field) if rules.presence
+
     rule  = rules[index] if index.presence
   end
 
   def find_rules_index(rules, field)
-    index = rules.index{ |rule| rule[:field].strip == field }
+    index = rules.index do |rule|
+      if rule.has_key?(:rules)
+        find_rules_index(rule[:rules], field)
+      else
+        rule[:field].strip == field
+      end
+    end
   end
 
   def referral_source_name(referral_source)

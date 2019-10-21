@@ -3,20 +3,25 @@
   = domain_note.hidden_field :domain_group_id
   - domains = fetch_domains(domain_note)
 
-.ibox.case-note-domain-group
+- persisted_case_note =  domain_note.object.domains(@case_note).any?{|domain| @case_note.client.tasks.where(domain_id: domain.id).by_case_note_domain_group(domain_note.object).present? } && @case_note.persisted?
+- domain_note_by_case_note = domain_note.object.domains(@case_note)
+.ibox.case-note-domain-group.without-assessments{ style: "display: #{persisted_case_note ? 'block' : 'none'}", id: "domain-#{domain_note.object.domain_group.id}" }
   .ibox-title
     %h5
       = "#{t('.domain')} #{domain_note.object.domain_group.name}"
-      = "(#{get_domains(domain_note)})"
+      =# "(#{get_domains(domain_note)})"
+    - domain_note_by_case_note.each do |domain|
+      .case-note-domain-score{ class: "btn btn-primary btn-sm", data: { domain_name: domain.name } }
+        = "#{domain.name}: #{domain.identity}"
 
   .ibox-content
     .row
       .col-xs-12.col-md-6
-        - domain_note.object.domains(@case_note).each do |domain|
+        - domain_note_by_case_note.each do |domain|
           - tasks = @case_note.client.tasks.where(domain_id: domain.id)
           - if domain_note.object.persisted?
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
-          .panel{ class: "panel-primary task-domain-#{ domain.id } #{hidden_class(tasks.blank?)}" }
+          .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
             .panel-heading
               %strong= "#{t('.domain')} #{domain.name}: #{domain.identity}"
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
