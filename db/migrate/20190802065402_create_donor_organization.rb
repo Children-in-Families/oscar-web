@@ -51,7 +51,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
             GRANT CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" TO "#{ENV['POWER_BI_GROUP']}";
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
-            CREATE OR REPLACE FUNCTION get_birth_province_name(province_id int)
+            CREATE OR REPLACE FUNCTION "public".get_birth_province_name(province_id int)
             RETURNS TEXT AS $$
             DECLARE p_name TEXT;
             BEGIN
@@ -103,7 +103,6 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
                     IF client_r.province_name IS NULL THEN
                       shared_bp_name := get_birth_province_name(client_r.birth_province_id);
-                      -- RAISE NOTICE 'Fine client in shared tenant %', shared_bp_name;
                       province_name := shared_bp_name;
                     ELSE
                       province_name := client_r.province_name;
