@@ -51,6 +51,19 @@ class CreateDonorOrganization < ActiveRecord::Migration
             GRANT CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" TO "#{ENV['POWER_BI_GROUP']}";
             GRANT USAGE ON SCHEMA public TO "#{ENV['POWER_BI_GROUP']}";
 
+            CREATE OR REPLACE FUNCTION get_birth_province_name(province_id int)
+            RETURNS TEXT AS $$
+            DECLARE p_name TEXT;
+            BEGIN
+                    SELECT  shared.provinces.name INTO p_name
+                    FROM shared.provinces
+                    WHERE   shared.provinces.id = $1;
+
+                    RETURN p_name;
+            END;
+            $$  LANGUAGE plpgsql
+                VOLATILE SECURITY DEFINER;
+
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "slug" varchar, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar,
                             "status" varchar, "donor_id" int4, "province_id" int4, "province_name" varchar,
@@ -61,6 +74,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
                 DECLARE
                   sql TEXT := '';
                   sch record;
+                  shared_bp_name TEXT := '';
                   client_r record;
                 BEGIN
                   FOR sch IN
@@ -85,7 +99,16 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     donor_id := client_r.donor_id; exit_date := timezone('Asia/Bangkok', client_r.exit_date);
                     accepted_date := timezone('Asia/Bangkok', client_r.accepted_date);
                     date_of_birth := date(client_r.date_of_birth); status := client_r.status;
-                    province_id := client_r.province_id; province_name := client_r.province_name;
+                    province_id := client_r.province_id;
+
+                    IF client_r.province_name IS NULL THEN
+                      shared_bp_name := get_birth_province_name(client_r.birth_province_id);
+                      -- RAISE NOTICE 'Fine client in shared tenant %', shared_bp_name;
+                      province_name := shared_bp_name;
+                    ELSE
+                      province_name := client_r.province_name;
+                    END IF;
+
                     district_id := client_r.district_id; district_name := client_r.district_name;
                     birth_province_id := client_r.birth_province_id; assessments_count := client_r.assessments_count;
                     follow_up_date := client_r.follow_up_date; initial_referral_date := date(client_r.initial_referral_date);
@@ -108,17 +131,17 @@ class CreateDonorOrganization < ActiveRecord::Migration
       dir.down do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            DROP INDEX IF EXISTS index_donors_on_global_id CASCADE;
-            ALTER TABLE donors DROP COLUMN IF EXISTS global_id;
+            -- DROP INDEX IF EXISTS index_donors_on_global_id CASCADE;
+            -- ALTER TABLE donors DROP COLUMN IF EXISTS global_id;
 
             REVOKE CONNECT ON DATABASE "#{ENV['DATABASE_NAME']}" FROM "#{ENV['POWER_BI_GROUP']}";
             REVOKE USAGE ON SCHEMA public FROM "#{ENV['POWER_BI_GROUP']}";
 
             REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_clients"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
-            DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_clients"(varchar) CASCADE;
-            DROP OWNED BY "#{ENV['POWER_BI_GROUP']}";
-            DROP ROLE IF EXISTS "#{ENV['POWER_BI_GROUP']}";
-            DROP USER IF EXISTS "#{ENV['READ_ONLY_DATABASE_USER']}";
+            -- DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_clients"(varchar) CASCADE;
+            -- DROP OWNED BY "#{ENV['POWER_BI_GROUP']}";
+            -- DROP ROLE IF EXISTS "#{ENV['POWER_BI_GROUP']}";
+            -- DROP USER IF EXISTS "#{ENV['READ_ONLY_DATABASE_USER']}";
           SQL
         end
       end
