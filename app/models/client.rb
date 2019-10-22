@@ -698,7 +698,7 @@ class Client < ActiveRecord::Base
   end
 
   def disconnect_client_family_relation
-    cases.destroy_all
+    # cases.destroy_all
   end
 
   def assessment_duration(duration, default = true)
