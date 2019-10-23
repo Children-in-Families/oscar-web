@@ -6,7 +6,6 @@ class Client < ActiveRecord::Base
 
   require 'text'
 
-  attr_reader :assessments_count
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
