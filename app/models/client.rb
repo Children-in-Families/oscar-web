@@ -464,7 +464,6 @@ class Client < ActiveRecord::Base
       value.store(:months, 0) unless value[:months].present?
       value.store(:days, 0) unless value[:days].present?
 
-
       if value[:days] > 365
         value[:years] = value[:years] + value[:days]/365
         value[:days] = value[:days] % 365

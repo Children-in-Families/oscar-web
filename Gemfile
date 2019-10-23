@@ -118,4 +118,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rspec-sidekiq'
   gem 'rspec-activemodel-mocks'
+  gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
 end

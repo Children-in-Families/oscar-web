@@ -67,13 +67,13 @@ describe 'Client' do
     let!(:setting){ Setting.first }
     let!(:program_stream) { create(:program_stream) }
 
-    before do
+    before(:each) do
       PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
       login_as(admin)
       visit client_path(client)
     end
 
-    feature 'Time in care' do
+    feature 'Time in Care' do
       let!(:once_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
       let!(:client_exit) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: once_enrollment) }
 
