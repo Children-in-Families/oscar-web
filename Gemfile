@@ -74,6 +74,7 @@ gem 'counter_culture',        '~> 2.2', '>= 2.2.3'
 gem 'sysrandom',              '~> 1.0', '>= 1.0.5'
 gem 'ulid',                   '~> 1.1'
 gem 'write_xlsx',             '~> 0.85.7'
+gem 'timecop',                '~> 0.8.1'
 
 group :development, :test do
   gem 'pry'

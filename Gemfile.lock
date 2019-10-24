@@ -694,7 +694,12 @@ GEM
       sass (>= 3.4.21)
       select2-rails (~> 3.5)
       sprockets-es6
+<<<<<<< HEAD
     tilt (2.0.9)
+=======
+    tilt (2.0.2)
+    timecop (0.8.1)
+>>>>>>> 167558628-update-time-in-ngo-and-time-in-program
     tinymce-rails (4.5.6)
       railties (>= 3.1.1)
     trollop (2.1.2)
@@ -825,6 +830,7 @@ DEPENDENCIES
   text (~> 1.3, >= 1.3.1)
   thin (~> 1.7)
   thredded (~> 0.6.1)
+  timecop (~> 0.8.1)
   tinymce-rails (~> 4.5.6)
   typhoeus
   uglifier (>= 1.3.0)
