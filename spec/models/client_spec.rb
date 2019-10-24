@@ -483,7 +483,7 @@ describe Client, 'methods' do
     end
 
     context 'calculate time in ngo by year' do
-      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: Timecop.freeze(2018, 9, 10)) }
+      let!(:client){ create(:client, initial_referral_date: Timecop.freeze(Date.today), created_at: Timecop.freeze(2018, 9, 10)) }
       let!(:enter_ngo){ create(:enter_ngo, accepted_date: Timecop.freeze(2018, 7, 15), client: client) }
       let!(:exit_ngo){ create(:exit_ngo, exit_date: Timecop.freeze(2019, 10, 13), client: client) }
 
