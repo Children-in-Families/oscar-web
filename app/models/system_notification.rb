@@ -1,4 +1,4 @@
-class Notification < ActiveRecord::Base
+class SystemNotification < ActiveRecord::Base
   TYPES = ['task', 'case note', 'assessment', 'custom form', 'tracking form']
 
   belongs_to :user

@@ -1,4 +1,4 @@
-- unless @user.admin? || @user.strategic_overviewer? || @user.case_worker?
+- unless @user.admin?
   %table.table
     %thead
       %tr
@@ -16,21 +16,22 @@
         %th
           %h4 After Overdue 7 days
 
-    = f.simple_fields_for :notifications, object do |ff|
+    = f.simple_fields_for :system_notifications, object do |ff|
       = ff.hidden_field :notification_type, input_html: { value: notification_type }
       %tbody
         %tr
           %td
             %label.permission-label= t('.notifications')
           %td
-            = ff.input :all_notification, input_html: { class: 'i-checks' }, label: false
+            .icheckbox_square-green
+              = ff.input :all_notification, input_html: { id: "#{notification_type.gsub(' ', '_')}_all_notification", class: 'all-notification', data: { parent: "#{notification_type.gsub(' ', '-')}-notification" } }, label: false
           %td
-            = ff.input :across_referral, input_html: { class: 'i-checks' }, label: false
+            = ff.input :across_referral, input_html: { class: 'i-checks', data: { parent: "#{notification_type.gsub(' ', '-')}-notification" } }, label: false
           %td
-            = ff.input :before_seven_day, input_html: { class: 'i-checks' }, label: false
+            = ff.input :before_seven_day, input_html: { class: 'i-checks', data: { parent: "#{notification_type.gsub(' ', '-')}-notification" } }, label: false
           %td
-            = ff.input :due_today, input_html: { class: 'i-checks' }, label: false
+            = ff.input :due_today, input_html: { class: 'i-checks', data: { parent: "#{notification_type.gsub(' ', '-')}-notification" } }, label: false
           %td
-            = ff.input :overdue, input_html: { class: 'i-checks' }, label: false
+            = ff.input :overdue, input_html: { class: 'i-checks', data: { parent: "#{notification_type.gsub(' ', '-')}-notification" } }, label: false
           %td
-            = ff.input :after_overdue_seven_day, input_html: { class: 'i-checks' }, label: false
+            = ff.input :after_overdue_seven_day, input_html: { class: 'i-checks', data: { parent: "#{notification_type.gsub(' ', '-')}-notification" } }, label: false

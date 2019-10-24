@@ -456,8 +456,6 @@ ActiveRecord::Schema.define(version: 20191023050200) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.string   "archived_slug"
     t.integer  "assessments_count",                default: 0,          null: false
   end
@@ -957,21 +955,6 @@ ActiveRecord::Schema.define(version: 20191023050200) do
     t.datetime "updated_at"
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.integer  "user_id"
-    t.boolean  "before_seven_day",                   default: false
-    t.boolean  "due_today",                          default: false
-    t.boolean  "overdue",                            default: false
-    t.boolean  "after_overdue_seven_day",            default: false
-    t.boolean  "all_notification",                   default: false
-    t.boolean  "across_referral",                    default: false
-    t.string   "notification_type",       limit: 25, default: ""
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-  end
-
-  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
-
   create_table "organization_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -1323,6 +1306,21 @@ ActiveRecord::Schema.define(version: 20191023050200) do
   end
 
   add_index "surveys", ["client_id"], name: "index_surveys_on_client_id", using: :btree
+
+  create_table "system_notifications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "before_seven_day",                   default: false
+    t.boolean  "due_today",                          default: true
+    t.boolean  "overdue",                            default: true
+    t.boolean  "after_overdue_seven_day",            default: true
+    t.boolean  "all_notification",                   default: false
+    t.boolean  "across_referral",                    default: false
+    t.string   "notification_type",       limit: 25, default: ""
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "system_notifications", ["user_id"], name: "index_system_notifications_on_user_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                      default: ""
@@ -1747,7 +1745,6 @@ ActiveRecord::Schema.define(version: 20191023050200) do
   add_foreign_key "government_forms", "provinces"
   add_foreign_key "government_forms", "villages"
   add_foreign_key "leave_programs", "client_enrollments"
-  add_foreign_key "notifications", "users"
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"
   add_foreign_key "program_stream_permissions", "users"
@@ -1769,6 +1766,7 @@ ActiveRecord::Schema.define(version: 20191023050200) do
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
+  add_foreign_key "system_notifications", "users"
   add_foreign_key "tasks", "clients"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"

@@ -8,9 +8,33 @@ CIF.UsersShow = do ->
     _initICheckBox()
 
   _initICheckBox = ->
-    $('.i-checks').iCheck
+    $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
+    ).on('ifUnchecked', (event) ->
+      # Remove the checked state from "All" if any checkbox is unchecked
+      parentID = $(this).data('parent')
+      if this.id.match('_all_notification')
+        $("##{parentID} .i-checks").iCheck 'uncheck'
+      else
+        $("##{parentID} input[id$='_all_notification']").iCheck 'uncheck'
+    ).on 'ifChecked', (event) ->
+      # Make "All" checked if all checkboxes are checked
+      parentID = $(this).data('parent')
+      if parentID
+        if $("##{parentID} .i-checks").filter(':checked').length == $("##{parentID} .i-checks").length
+          $("##{parentID} input[id$='_all_notification']").iCheck 'check'
+      return
+
+
+    $("input[id$='_all_notification']").on 'change', (event) ->
+      parentID = $(this).data('parent')
+
+      console.log('Is checked', $(this).is('checked'))
+      $(this).parents('.icheckbox_square-green').toggleClass('checked')
+      if parentID
+        $("##{parentID} .i-checks").iCheck 'uncheck'
+      return
 
   _fixedHeaderTableColumns = ->
     $('.clients-table').removeClass('table-responsive')
