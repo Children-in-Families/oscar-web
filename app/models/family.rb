@@ -108,7 +108,6 @@ class Family < ActiveRecord::Base
       client = Client.find_by(id: child)
       next if client.nil?
       next if client.family_ids.include?(self.id)
-      # client.cases.destroy_all
       client.families << self
       client.families.uniq
       client.save(validate: false)
