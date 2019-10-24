@@ -454,8 +454,8 @@ describe Client, 'methods' do
 
   context '#time_in_ngo' do
     context 'reject client from ngo' do
-      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: Date.today) }
-      let!(:exit_ngo){ create(:exit_ngo, exit_date: Date.today, client: client) }
+      let!(:client){ create(:client, initial_referral_date: Timecop.freeze(Date.today), created_at: Timecop.freeze(Date.today)) }
+      let!(:exit_ngo){ create(:exit_ngo, exit_date: Timecop.freeze(Date.today), client: client) }
 
       it 'return 0 when client has not entered to ngo yet' do
         expect(client.time_in_ngo).to eq({:years=>0, :months=>0, :days=>0})
@@ -463,9 +463,9 @@ describe Client, 'methods' do
     end
 
     context 'calculate time in ngo by day' do
-      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: Date.today - 2.days) }
-      let!(:enter_ngo){ create(:enter_ngo, accepted_date: Date.today - 2.days, client: client) }
-      let!(:exit_ngo){ create(:exit_ngo, exit_date: Date.today, client: client) }
+      let!(:client){ create(:client, initial_referral_date: Timecop.freeze(Date.today), created_at: Timecop.freeze(Date.today) - 2.days) }
+      let!(:enter_ngo){ create(:enter_ngo, accepted_date: Timecop.freeze(Date.today) - 2.days, client: client) }
+      let!(:exit_ngo){ create(:exit_ngo, exit_date: Timecop.freeze(Date.today), client: client) }
 
       it 'return three days as client has entered to ngo two days ago and exited to ngo today' do
         expect(client.time_in_ngo[:days]).to eq(3)
@@ -473,9 +473,9 @@ describe Client, 'methods' do
     end
 
     context 'calculate time in ngo by month' do
-      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: "2018-09-10") }
-      let!(:enter_ngo){ create(:enter_ngo, accepted_date: "2018-09-10", client: client) }
-      let!(:exit_ngo){ create(:exit_ngo, exit_date: "2018-10-10", client: client) }
+      let!(:client){ create(:client, initial_referral_date: Timecop.freeze(Date.today), created_at: Timecop.freeze(2018, 9, 10)) }
+      let!(:enter_ngo){ create(:enter_ngo, accepted_date: Timecop.freeze(2018, 9, 10), client: client) }
+      let!(:exit_ngo){ create(:exit_ngo, exit_date: Timecop.freeze(2018, 10, 10), client: client) }
 
       it 'return one months one days as client has entered to ngo over one month and exited to ngo today' do
         expect(client.time_in_ngo).to eq({:years=>0, :months=>1, :days=>1})
@@ -483,9 +483,9 @@ describe Client, 'methods' do
     end
 
     context 'calculate time in ngo by year' do
-      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: "2018-09-10") }
-      let!(:enter_ngo){ create(:enter_ngo, accepted_date: "2018-07-15", client: client) }
-      let!(:exit_ngo){ create(:exit_ngo, exit_date: "2019-10-13", client: client) }
+      let!(:client){ create(:client, initial_referral_date: Date.today, created_at: Timecop.freeze(2018, 9, 10)) }
+      let!(:enter_ngo){ create(:enter_ngo, accepted_date: Timecop.freeze(2018, 7, 15), client: client) }
+      let!(:exit_ngo){ create(:exit_ngo, exit_date: Timecop.freeze(2019, 10, 13), client: client) }
 
       it 'return one year three month one day as client has enter to ngo over one years' do
         expect(client.time_in_ngo).to eq({:years=>1, :months=>3, :days=>1})
@@ -496,8 +496,8 @@ describe Client, 'methods' do
   context '#time_in_cps' do
     context 'once enrollment with once program' do
       let!(:program_stream){ create(:program_stream, name: "Program A") }
-      let!(:client_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
-      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: client_enrollment) }
+      let!(:client_enrollment) { create(:client_enrollment, enrollment_date: Timecop.freeze(2018, 1, 1), program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: Timecop.freeze(2019, 2, 1), program_stream: program_stream, client_enrollment: client_enrollment) }
 
       it 'return one year one month two days' do
         expect(client.time_in_cps).to eq({"Program A"=>{:days=>2, :years=>1, :months=>1}})
@@ -506,10 +506,10 @@ describe Client, 'methods' do
 
     context 'more than one enrollment with only once program' do
       let!(:program_stream){ create(:program_stream, name: "Program A") }
-      let!(:first_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
-      let!(:leave_program) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: first_enrollment) }
-      let!(:second_enrollment) { create(:client_enrollment, enrollment_date: '2019-02-01', program_stream: program_stream, client: client) }
-      let!(:second_leave_program) { create(:leave_program, exit_date: '2019-05-01', program_stream: program_stream, client_enrollment: second_enrollment) }
+      let!(:first_enrollment) { create(:client_enrollment, enrollment_date: Timecop.freeze(2018, 1, 1), program_stream: program_stream, client: client) }
+      let!(:leave_program) { create(:leave_program, exit_date: Timecop.freeze(2019, 2, 1), program_stream: program_stream, client_enrollment: first_enrollment) }
+      let!(:second_enrollment) { create(:client_enrollment, enrollment_date: Timecop.freeze(2019, 2, 1), program_stream: program_stream, client: client) }
+      let!(:second_leave_program) { create(:leave_program, exit_date: Timecop.freeze(2019, 5, 1), program_stream: program_stream, client_enrollment: second_enrollment) }
 
       it 'return over one years' do
         expect(client.time_in_cps).to eq({"Program A"=>{:days=>2, :years=>1, :months=>4}})
@@ -519,10 +519,10 @@ describe Client, 'methods' do
     context 'one enrollment with more than one programs' do
       let!(:program_a){ create(:program_stream, name: "Program A") }
       let!(:program_b){ create(:program_stream, name: "Program B") }
-      let!(:client_enrollment_program_a){ create(:client_enrollment, program_stream: program_a, enrollment_date: '2018-09-03',client: client) }
-      let!(:client_enrollment_program_b){ create(:client_enrollment, program_stream: program_b, enrollment_date: '2019-05-05', client: client) }
-      let!(:leave_program_program_a){ create(:leave_program, exit_date: '2018-10-10', client_enrollment: client_enrollment_program_a, program_stream: program_a) }
-      let!(:leave_program_program_b){ create(:leave_program, exit_date: '2019-10-10', client_enrollment: client_enrollment_program_b, program_stream: program_b) }
+      let!(:client_enrollment_program_a){ create(:client_enrollment, program_stream: program_a, enrollment_date: Timecop.freeze(2018, 9, 3),client: client) }
+      let!(:client_enrollment_program_b){ create(:client_enrollment, program_stream: program_b, enrollment_date: Timecop.freeze(2019, 5, 5), client: client) }
+      let!(:leave_program_program_a){ create(:leave_program, exit_date: Timecop.freeze(2018, 10, 10), client_enrollment: client_enrollment_program_a, program_stream: program_a) }
+      let!(:leave_program_program_b){ create(:leave_program, exit_date: Timecop.freeze(2019, 10, 10), client_enrollment: client_enrollment_program_b, program_stream: program_b) }
 
       it 'return one month eight days for program A and five months eight days for program B' do
         expect(client.time_in_cps).to eq({"Program A"=>{:days=>8, :years=>0, :months=>1}, "Program B"=>{:days=>9, :years=>0, :months=>5}})
@@ -532,14 +532,14 @@ describe Client, 'methods' do
     context 'more than one enrollment with more than one programs' do
       let!(:program_a){ create(:program_stream, name: "Program A") }
       let!(:program_b){ create(:program_stream, name: "Program B") }
-      let!(:first_client_enrollment_program_a){ create(:client_enrollment, program_stream: program_a, enrollment_date: '2018-09-03',client: client) }
-      let!(:first_client_enrollment_program_b){ create(:client_enrollment, program_stream: program_b, enrollment_date: '2019-05-05', client: client) }
-      let!(:first_leave_program_program_a){ create(:leave_program, exit_date: '2018-10-10', client_enrollment: first_client_enrollment_program_a, program_stream: program_a) }
-      let!(:first_leave_program_program_b){ create(:leave_program, exit_date: '2019-06-10', client_enrollment: first_client_enrollment_program_b, program_stream: program_b) }
-      let!(:second_client_enrollment_program_a){ create(:client_enrollment, program_stream: program_a, enrollment_date: '2018-10-11',client: client) }
-      let!(:second_client_enrollment_program_b){ create(:client_enrollment, program_stream: program_b, enrollment_date: '2019-07-06', client: client) }
-      let!(:second_leave_program_program_a){ create(:leave_program, exit_date: '2018-12-10', client_enrollment: second_client_enrollment_program_a, program_stream: program_a) }
-      let!(:second_leave_program_program_b){ create(:leave_program, exit_date: '2019-10-13', client_enrollment: second_client_enrollment_program_b, program_stream: program_b) }
+      let!(:first_client_enrollment_program_a){ create(:client_enrollment, program_stream: program_a, enrollment_date: Timecop.freeze(2018, 9, 3),client: client) }
+      let!(:first_client_enrollment_program_b){ create(:client_enrollment, program_stream: program_b, enrollment_date: Timecop.freeze(2019, 5, 5), client: client) }
+      let!(:first_leave_program_program_a){ create(:leave_program, exit_date: Timecop.freeze(2018, 10, 10), client_enrollment: first_client_enrollment_program_a, program_stream: program_a) }
+      let!(:first_leave_program_program_b){ create(:leave_program, exit_date: Timecop.freeze(2019, 6, 10), client_enrollment: first_client_enrollment_program_b, program_stream: program_b) }
+      let!(:second_client_enrollment_program_a){ create(:client_enrollment, program_stream: program_a, enrollment_date: Timecop.freeze(2018, 10, 11),client: client) }
+      let!(:second_client_enrollment_program_b){ create(:client_enrollment, program_stream: program_b, enrollment_date: Timecop.freeze(2019, 7, 6), client: client) }
+      let!(:second_leave_program_program_a){ create(:leave_program, exit_date: Timecop.freeze(2018, 12, 10), client_enrollment: second_client_enrollment_program_a, program_stream: program_a) }
+      let!(:second_leave_program_program_b){ create(:leave_program, exit_date: Timecop.freeze(2019, 10, 13), client_enrollment: second_client_enrollment_program_b, program_stream: program_b) }
 
       it 'return three month nine days for program A and four months seventeen days for program B' do
         expect(client.time_in_cps).to eq({"Program A"=>{:days=>9, :years=>0, :months=>3}, "Program B"=>{:days=>17, :years=>0, :months=>4}})

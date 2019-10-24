@@ -68,6 +68,7 @@ gem 'dotiw',                  '~> 4.0.1'
 gem 'text',                   '~> 1.3', '>= 1.3.1'
 gem 'paranoia',               '~> 2.4', '>= 2.4.1'
 gem 'ancestry',               '~> 3.0', '>= 3.0.5'
+gem 'timecop',                '~> 0.8.1'
 
 group :development, :test do
   gem 'pry'
