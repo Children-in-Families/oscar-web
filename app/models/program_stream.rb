@@ -96,14 +96,12 @@ class ProgramStream < ActiveRecord::Base
         errors.add(:program_exclusive, error_message)
         can_edit_program = true
       end
-
       if mutual_dependence_changed? && mutual_dependence.any? && !(mutual_dependence.to_set.subset?(program_stream_ids))
         self.mutual_dependence = mutual_dependence_was
         error_message = "#{I18n.t('mutual_dependence_has_been_modified')}"
         errors.add(:mutual_dependence, error_message)
         can_edit_program = true
       end
-
       break if can_edit_program
     end
   end
