@@ -507,7 +507,7 @@ module ClientsHelper
         elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
           object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
         else
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query_array))
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query))
         end
       end
     end
