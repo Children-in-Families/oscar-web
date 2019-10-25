@@ -708,7 +708,6 @@ module ClientsHelper
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
         count += date_filter(object, class_name).flatten.count
-        count += trackings.flatten.reject(&:blank?).count
       else
         @clients.each do |client|
           if class_name == 'case_note_type'
