@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190910023646) do
+ActiveRecord::Schema.define(version: 20191023050200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -391,7 +391,6 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.integer  "grade"
     t.string   "slug"
     t.string   "able_state",                       default: ""
-    t.integer  "assessments_count"
     t.integer  "donor_id"
     t.string   "local_given_name",                 default: ""
     t.string   "local_family_name",                default: ""
@@ -438,7 +437,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.string   "main_school_contact",              default: ""
     t.string   "rated_for_id_poor",                default: ""
     t.string   "what3words",                       default: ""
-    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_reasons",                     default: [],                      array: true
     t.string   "exit_circumstance",                default: ""
     t.string   "other_info_of_exit",               default: ""
     t.string   "suburb",                           default: ""
@@ -458,6 +457,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
+    t.integer  "assessments_count",                default: 0,          null: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -595,12 +595,15 @@ ActiveRecord::Schema.define(version: 20190910023646) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: "", null: false
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -951,6 +954,21 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "before_seven_day",                   default: false
+    t.boolean  "due_today",                          default: false
+    t.boolean  "overdue",                            default: false
+    t.boolean  "after_overdue_seven_day",            default: false
+    t.boolean  "all_notification",                   default: false
+    t.boolean  "across_referral",                    default: false
+    t.string   "notification_type",       limit: 25, default: ""
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+  end
+
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "organization_types", force: :cascade do |t|
     t.string   "name"
@@ -1727,6 +1745,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
   add_foreign_key "government_forms", "provinces"
   add_foreign_key "government_forms", "villages"
   add_foreign_key "leave_programs", "client_enrollments"
+  add_foreign_key "notifications", "users"
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"
   add_foreign_key "program_stream_permissions", "users"
