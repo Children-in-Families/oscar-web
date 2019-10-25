@@ -69,6 +69,8 @@ describe 'Client' do
     before do
       PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
       login_as(admin)
+      data = ImportStaticService::DateService.new('Sheet1', 'app', Rails.root.join('spec/supports/services.xlsx'))
+      data.import
       visit clients_path
     end
 
@@ -85,8 +87,6 @@ describe 'Client' do
       wait_for_ajax()
       within '.client-column' do
         click_link 'Select Columns'
-
-        wait_for_ajax()
         # save_screenshot
         save_and_open_page
       end
