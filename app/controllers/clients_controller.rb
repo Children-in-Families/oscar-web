@@ -230,10 +230,10 @@ class ClientsController < AdminController
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id],
-            family_ids: []
+            client_problems_attributes: [:id, :rank, :problem_id]
           )
   end
 

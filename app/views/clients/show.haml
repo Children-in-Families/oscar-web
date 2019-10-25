@@ -121,7 +121,7 @@
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
-              = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
+              = link_to client_case_quarterly_reports_path(@client, @client.latest_case) do
                 %span.btn-sm.btn.color-brown.small-btn-margin.btn-fit= t('.view_legacy_quarterly_reports')
           - if @client.cases.exclude_referred.inactive.present?
             .btn-group.small-btn-margin

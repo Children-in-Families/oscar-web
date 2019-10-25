@@ -19,7 +19,7 @@
           %span.input-group-addon.what3words
             = image_tag 'what3words.png', class: 'what3words-image'
       .col-xs-12.col-sm-6.col-md-4
-        = f.association :families, collection: @families, label_method: :name, value_method: :id, multiple: false, label: t('.family')
+        = f.association :families, collection: @families, label_method: :name, value_method: :id, label: t('.family'), input_html: { multiple: false, name: 'client[family_ids][]' }
 
     %legend= t('.schooling')
     .row
