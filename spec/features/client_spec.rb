@@ -62,6 +62,38 @@ describe 'Client' do
     end
   end
 
+  feature 'Advanced search' do
+    let!(:client){ create(:client, :accepted, current_address: '', profile: UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/image-placeholder.png')))) }
+    let!(:setting){ Setting.first }
+
+    before do
+      PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
+      login_as(admin)
+      visit clients_path
+    end
+
+    scenario 'Client General Information dropdown', js: true do
+      page.find("button[data-target='#client-advance-search-form']").click
+
+      wait_for_ajax()
+
+      expect(page).to have_content('Client General Information')
+    end
+
+    scenario 'Client General Information dropdown', js: true do
+      page.find("button[data-target='#client-advance-search-form']").click
+      wait_for_ajax()
+      within '.client-column' do
+        click_link 'Select Columns'
+
+        wait_for_ajax()
+        # save_screenshot
+        save_and_open_page
+      end
+      expect(page).to have_content('Type of Service')
+    end
+  end
+
   feature 'Show' do
     let!(:client){ create(:client, :accepted, current_address: '', profile: UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/image-placeholder.png')))) }
     let!(:setting){ Setting.first }
