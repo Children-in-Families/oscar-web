@@ -1307,21 +1307,6 @@ ActiveRecord::Schema.define(version: 20191023050200) do
 
   add_index "surveys", ["client_id"], name: "index_surveys_on_client_id", using: :btree
 
-  create_table "system_notifications", force: :cascade do |t|
-    t.integer  "user_id"
-    t.boolean  "before_seven_day",                   default: false
-    t.boolean  "due_today",                          default: true
-    t.boolean  "overdue",                            default: true
-    t.boolean  "after_overdue_seven_day",            default: true
-    t.boolean  "all_notification",                   default: false
-    t.boolean  "across_referral",                    default: false
-    t.string   "notification_type",       limit: 25, default: ""
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-  end
-
-  add_index "system_notifications", ["user_id"], name: "index_system_notifications_on_user_id", using: :btree
-
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                      default: ""
     t.date     "completion_date"
@@ -1766,7 +1751,6 @@ ActiveRecord::Schema.define(version: 20191023050200) do
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
-  add_foreign_key "system_notifications", "users"
   add_foreign_key "tasks", "clients"
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
