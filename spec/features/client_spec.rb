@@ -82,15 +82,19 @@ describe 'Client' do
       expect(page).to have_content('Client General Information')
     end
 
-    scenario 'Client General Information dropdown', js: true do
+    scenario 'Client General Information on click', js: true do
       page.find("button[data-target='#client-advance-search-form']").click
       wait_for_ajax()
       within '.client-column' do
         click_link 'Select Columns'
-        # save_screenshot
-        save_and_open_page
       end
-      expect(page).to have_content('Type of Service')
+
+      within '.type-of-service-header' do
+        save_screenshot
+        expect(page).to have_content('Type of Service')
+      end
+
+      expect(page).to have_css('[for="type_of_service_"]', text: 'Type of Service')
     end
   end
 

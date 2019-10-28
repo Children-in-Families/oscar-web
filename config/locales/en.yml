@@ -2296,6 +2296,7 @@ en:
         name: Name
         report: Report
         times_of_frequency: Times of Frequency
+      type_of_service: Type of Service
       users:
         changelogs: Changelog
         clients: Clients
