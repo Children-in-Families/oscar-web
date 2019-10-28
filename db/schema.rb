@@ -947,21 +947,6 @@ ActiveRecord::Schema.define(version: 20191023050200) do
     t.datetime "updated_at"
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.integer  "user_id"
-    t.boolean  "before_seven_day",                   default: false
-    t.boolean  "due_today",                          default: false
-    t.boolean  "overdue",                            default: false
-    t.boolean  "after_overdue_seven_day",            default: false
-    t.boolean  "all_notification",                   default: false
-    t.boolean  "across_referral",                    default: false
-    t.string   "notification_type",       limit: 25, default: ""
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-  end
-
-  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
-
   create_table "organization_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -1737,7 +1722,6 @@ ActiveRecord::Schema.define(version: 20191023050200) do
   add_foreign_key "government_forms", "provinces"
   add_foreign_key "government_forms", "villages"
   add_foreign_key "leave_programs", "client_enrollments"
-  add_foreign_key "notifications", "users"
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"
   add_foreign_key "program_stream_permissions", "users"
