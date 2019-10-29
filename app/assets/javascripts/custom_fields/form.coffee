@@ -177,10 +177,35 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-    if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field') || $(parent).attr('class').includes('select-field')
-      $(parent).find('.option-label').attr('disabled', 'true')
-      $(parent).children('.frm-holder').find('.remove.btn').remove()
-    else if $(parent).attr('class').includes('number-field')
+
+    if $(parent).attr('class').includes('number-field')
       $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
+    else if $(parent).attr('class').includes('select-field')
+      allSelectOption  = $('#custom_field .select-field .sortable-options .ui-sortable-handle .option-label')
+      customFormSelection = $('div[data-custom-form-select-option]').data('custom-form-select-option')
+      jQuery.map(allSelectOption, (e) ->
+        customFormSelection.forEach (selected_value) ->
+          if selected_value == e.value
+            $(e).attr('disabled', 'true')
+            $(e).parent().children('a.remove.btn').remove()
+      )
+    else if $(parent).attr('class').includes('radio-group-field')
+      allRadioOption  = $('#custom_field .radio-group-field .sortable-options .ui-sortable-handle .option-label')
+      customFormRadio = $('div[data-custom-form-radio-option]').data('custom-form-radio-option')
+      jQuery.map(allRadioOption, (e) ->
+        customFormRadio.forEach (radio_value) ->
+          if radio_value == e.value
+            $(e).attr('disabled', 'true')
+            $(e).parent().children('a.remove.btn').remove()
+      )
+    else if $(parent).attr('class').includes('checkbox-group-field')
+      allCheckboxOption  = $('#custom_field .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
+      customFormCheckboxOption = $('div[data-custom-form-checkbox-option]').data('custom-form-checkbox-option')
+      jQuery.map(allCheckboxOption, (e) ->
+        customFormCheckboxOption.forEach (checkbox_value) ->
+          if checkbox_value == e.value
+            $(e).attr('disabled', 'true')
+            $(e).parent().children('a.remove.btn').remove()
+      )
 
   { init: _init }
