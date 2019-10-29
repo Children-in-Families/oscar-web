@@ -1,7 +1,8 @@
-#client-confirmation.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog{:role => "document"}
+#client-confirmation.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", data: {backdrop: 'static', keyboard: 'false'} }
+  .modal-dialog{:style => 'overflow-y: scroll; max-height:85%; margin-top: 100px; margin-bottom: 50px;', :role => "document"}
     .modal-content
       .modal-header
+        %button#closeModal.close{ 'data-dismiss': 'modal', type: 'button'} ×
         %h3
           %strong
             = t('.client_confirmation')

@@ -26,6 +26,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _openSelectClientForm()
     _disableAndEnableButtonOtherOptionToCreateFamiyRecord()
     _disableAndEnableButtonWhenOptionAttachFamilyRecord()
+    _removeModalBodyDuplicateChecker()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -156,8 +157,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     if data.family == ''
       $('.loader-default').removeClass('is-active')
       $('#client-confirmation').modal('show')
-      $('#clientConfirmation').click ->
-        $('#clientConfirmation').text(filterTranslation.save).append('...').attr('disabled', 'disabled')
+      $('#clientConfirmation').off('click').on 'click', ->
+        $('#clientConfirmation').text(filterTranslation.save).attr('disabled', 'disabled')
         clientId = $('#client-id').text()
         clientOptionValue = $('input[name=clientConfirmation]:checked').val()
         if clientOptionValue == "createNewFamilyRecord"
@@ -179,10 +180,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         url: '/api/clients/compare'
         data: data
         dataType: "JSON"
-      }).success((json)->
+      }).success((res)->
         $('.loader-default').removeClass('is-active')
         clientId  = $('#client_slug').val()
-        similar_fields  = json.similar_fields
+        similar_fields  = res.similar_fields
         modalTextSecond = ''
 
         if clientId == '' and similar_fields.length > 0
@@ -203,11 +204,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
           $('#confirm-client-modal .modal-body').html(modalText)
 
+          $('#client-confirmation').modal('hide')
+          $('#clientConfirmation').removeAttr('disabled', 'disabled')
           $('#confirm-client-modal').modal('show')
           $('#confirm-client-modal #confirm').on 'click', ->
             $(@).text($(@).data('confirm')).append('...').attr("disabled","disabled");
             $('#client-wizard-form').submit()
         else
+          $("#confirm-client-modal .modal-body").children().remove()
+          $("#confirm-client-modal").modal('hide')
           $('#client-wizard-form').submit()
       )
       return false
@@ -223,7 +228,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if family == ''
         $('#client-confirmation').modal('show')
         $('#clientConfirmation').click ->
-          $('#clientConfirmation').text(filterTranslation.save).append('...').attr('disabled', 'disabled')
+          $('#clientConfirmation').text(filterTranslation.save).attr('disabled', 'disabled')
           clientOptionValue = $('input[name=clientConfirmation]:checked').val()
           if clientOptionValue == "createNewFamilyRecord"
             localStorage.setItem('redirect_to_family', 'true')
@@ -500,6 +505,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if $(this).select2('val').length > 0
         e.preventDefault()
 
+  _removeModalBodyDuplicateChecker = ->
+    $('#confirm-client-modal').on 'hidden.bs.modal', ->
+      $("##{@.id} .modal-body").children().remove()
 
 
   { init: _init }
