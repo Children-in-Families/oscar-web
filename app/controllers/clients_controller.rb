@@ -147,7 +147,8 @@ class ClientsController < AdminController
       family.save(validate: false)
     end
 
-    if @client.update_attributes(client_params)
+    family_ids = [*@client.families.ids, *client_params['family_ids']].uniq
+    if @client.update_attributes(client_params.merge(family_ids: family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -230,10 +231,10 @@ class ClientsController < AdminController
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id],
-            family_ids: []
+            client_problems_attributes: [:id, :rank, :problem_id]
           )
   end
 
