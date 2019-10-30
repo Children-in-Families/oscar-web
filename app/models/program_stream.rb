@@ -28,7 +28,7 @@ class ProgramStream < ActiveRecord::Base
   validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
   validates :services, presence: true
 
-  before_save :set_program_completed
+  before_save :set_program_completed, :destroy_tracking
   after_update :auto_update_exit_program, :auto_update_enrollment
   after_create :build_permission
 
@@ -96,14 +96,12 @@ class ProgramStream < ActiveRecord::Base
         errors.add(:program_exclusive, error_message)
         can_edit_program = true
       end
-
       if mutual_dependence_changed? && mutual_dependence.any? && !(mutual_dependence.to_set.subset?(program_stream_ids))
         self.mutual_dependence = mutual_dependence_was
         error_message = "#{I18n.t('mutual_dependence_has_been_modified')}"
         errors.add(:mutual_dependence, error_message)
         can_edit_program = true
       end
-
       break if can_edit_program
     end
   end
@@ -214,5 +212,9 @@ class ProgramStream < ActiveRecord::Base
   def auto_update_enrollment
     return unless enrollment_changed?
     labels_update(enrollment_change.last, enrollment_was, client_enrollments)
+  end
+
+  def destroy_tracking
+    trackings.only_deleted.delete_all!
   end
 end
