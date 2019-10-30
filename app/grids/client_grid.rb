@@ -4,7 +4,7 @@ class ClientGrid < BaseGrid
   include ApplicationHelper
   include FormBuilderHelper
 
-  attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data, :param_values, :type_of_services
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
@@ -26,6 +26,7 @@ class ClientGrid < BaseGrid
     # associations.delete(:user)
 
     # Client.includes(associations).order('clients.status, clients.given_name')
+    type_of_services = {}
     Client.all
   end
 
@@ -572,10 +573,14 @@ class ClientGrid < BaseGrid
   end
 
   column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = map_type_of_services(object)
+    $type_of_services[object.id] = services
+    render partial: 'clients/type_of_services', locals: { type_of_services: services }
+  end
 
-    type_of_services = map_type_of_services(object)
-
-    render partial: 'clients/type_of_services', locals: { type_of_services: type_of_services }
+  column(:type_of_service, html: false, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = $type_of_services[object.id]
+    services.map(&:name).join(', ') if services
   end
 
   column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
