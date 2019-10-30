@@ -752,6 +752,9 @@ module ClientsHelper
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
             count += quantitative_type_values.count
+          elsif class_name == 'type_of_service'
+            type_of_services = map_type_of_services(client)
+            count += type_of_services.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
           end
