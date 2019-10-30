@@ -389,7 +389,6 @@ class Client < ActiveRecord::Base
   def time_in_ngo
     return {} if self.status == 'Referred'
     day_time_in_ngos = calculate_day_time_in_ngo
-
     if day_time_in_ngos.present?
       years = day_time_in_ngos / 365
       remaining_day_from_year = day_time_in_ngos % 365
