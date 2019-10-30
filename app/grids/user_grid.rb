@@ -58,6 +58,12 @@ class UserGrid < BaseGrid
     User.managers.map{ |u| [u.name, u.id] }
   end
 
+  filter(:manager_id, :enum, select: :managers, header: -> { I18n.t('datagrid.columns.users.manager') })
+
+  def managers
+    User.managers.map{ |u| [u.name, u.id] }
+  end
+
   column(:id, header: -> { I18n.t('datagrid.columns.users.id') })
 
   column(:name, html: true, order: 'LOWER(users.first_name), LOWER(users.last_name)',  header: -> { I18n.t('datagrid.columns.users.name') }) do |object|

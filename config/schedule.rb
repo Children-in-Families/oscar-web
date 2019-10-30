@@ -1,3 +1,7 @@
+every :day, at: '00:00 am' do
+  rake 'incompleted_assessment:delete'
+end
+
 every :day, :at => '00:00 am' do
   runner 'Task.upcoming_incomplete_tasks', output: 'log/whenever.log'
   # runner 'Client.ec_reminder_in(83)', output: 'log/whenever.log'
@@ -8,10 +12,6 @@ end
 
 every :monday, at: '00:00 am' do
   rake 'users:remind'
-end
-
-every :day, at: '00:00 am' do
-  rake 'incompleted_assessment:delete'
 end
 
 every :month, at: '00:00 am' do

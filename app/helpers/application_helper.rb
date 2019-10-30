@@ -109,8 +109,8 @@ module ApplicationHelper
     'active' if (controller_name == name && action_names == action)
   end
 
-  def hidden_class(bool)
-    'hidden' if bool
+  def hidden_class(tasks, assessment_domain=false)
+    'hidden' if tasks.blank? && !assessment_domain
   end
 
   def exit_modal_class(bool)
@@ -305,6 +305,8 @@ module ApplicationHelper
   def enable_any_csi_tools?
     enable_default_assessment? || enable_custom_assessment?
   end
+
+
 
   def country_langauge
     return 'Swahili' if current_organization.short_name == 'cccu'

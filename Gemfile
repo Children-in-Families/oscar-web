@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'rails',                  '4.2.2'
+gem 'rails',                  '4.2.7.1'
 gem 'pg'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'sass-rails',             '~> 5.0'
+gem 'autoprefixer-rails',     '~> 7.2', '7.2.6'
+gem 'sass-rails',             '~> 5.0', '5.0.7'
 gem 'uglifier',               '>= 1.3.0'
 gem 'coffee-rails',           '~> 4.1.0'
 gem 'jbuilder',               '~> 2.0'
@@ -62,15 +63,18 @@ gem 'dropzonejs-rails',       '~> 0.7.3'
 gem 'bourbon',                '~> 4.2'
 gem 'neat',                   '~> 1.8'
 gem 'sidekiq',                '~> 4.1.0'
-gem 'mongoid',                '~> 5.2', '>= 5.2.1'
+# gem 'mongoid',                '~> 5.2', '>= 5.2.1'
+gem 'mongoid',                '~> 5.4'
 gem 'where-or',               '~> 0.1.6'
 gem 'dotiw',                  '~> 4.0.1'
 gem 'text',                   '~> 1.3', '>= 1.3.1'
 gem 'acts_as_paranoid',       '~> 0.6.1'
 gem 'ancestry',               '~> 3.0', '>= 3.0.5'
+gem 'counter_culture',        '~> 2.2', '>= 2.2.3'
 gem 'sysrandom',              '~> 1.0', '>= 1.0.5'
 gem 'ulid',                   '~> 1.1'
 gem 'write_xlsx',             '~> 0.85.7'
+gem 'timecop',                '~> 0.8.1'
 
 group :development, :test do
   gem 'pry'
@@ -104,7 +108,8 @@ group :development do
   gem 'capistrano-rvm',       '~> 0.1.2'
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
-  gem 'rack-mini-profiler', '~> 1.0'
+  gem 'rack-mini-profiler',   '~> 1.0'
+  gem 'brakeman',             '~> 4.6', '>= 4.6.1'
 end
 
 group :test do
@@ -114,4 +119,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rspec-sidekiq'
   gem 'rspec-activemodel-mocks'
+  gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
 end

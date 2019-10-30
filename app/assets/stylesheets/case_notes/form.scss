@@ -82,4 +82,16 @@ body[id=case_notes-create] {
       }
     }
   }
+
+  .ibox.case-note-domain-group.without-assessments {
+    .ibox-title h5 {
+      margin: 7px 5px 0 0;
+    }
+  }
+
+  #add-task-message {
+    display: inline-block;
+    margin-top: 15px;
+    display: none;
+  }
 }

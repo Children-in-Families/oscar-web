@@ -655,9 +655,11 @@ km:
       successfully_deleted_case_note: កំណត់ត្រាករណីត្រូវបានលុបដោយជោគជ័យ។
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      add_task_message: Please select the domain group before you can add the task.
       back: ត្រលប់ក្រោយ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: សូមជ្រើសរើសក្រុមកត្តាទាំងអស់ដែលអ្នកបានគាំទ្រដល់អតិថិជនក្នុងកំណត់ត្រាករណីនេះ។
       label_note: ចំណាំ
       meeting_detail: ព័ត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
@@ -665,6 +667,7 @@ km:
       on_date: 'កាលបរិច្ឆេទ:'
       on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       present: 'វត្តមានឣ្នកចូលរួម:'
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
@@ -693,6 +696,7 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: ក្រុមនៃកត្តា
       goal: គោលដៅ
       incompleted_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       new_case_note: កំណត់ត្រាថ្មី
@@ -1286,7 +1290,7 @@ km:
       client_name: ឈ្មោះអតិថិជន
       close: បិទ
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: ការស្នើសុំរបស់អតិថិជន
       client_option: តើអ្នកចង់បន្ថែមគ្រួសារថ្មីសម្រាប់អតិថិជននេះ ឬភ្ជាប់វាជាមួយគ្រួសារដែលមានស្រាប់ដែរឬទេ?
       create_family_record_option:  បន្ថែមគ្រួសារថ្មី
@@ -1744,6 +1748,9 @@ km:
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
+        day:
+          one: "%{count} ថ្ងៃ"
+          other: "%{count} ថ្ងៃ"
         month:
           one: "%{count} ខែ"
           other: "%{count} ខែ"
@@ -1939,9 +1946,9 @@ km:
     referral_source_category_reminder:
       ancestry: ប្រភេទ
       name: ឈ្មោះ
+      program_stream_name: កម្មវិធីចម្បង
       referral_source_reminder: សូមបន្ថែមព័ត៌មានប្រភេទសម្រាប់ប្រភពនៃការបញ្ជូន
       remind_later: រំលឹកខ្ញុំពេលក្រោយ
-      program_stream_name: កម្មវិធីចម្បង
       tracking_name: ឈ្មោះទម្រង់បែបបទតាមដាន
     third_party:
       ables: អតិថិជនបច្ចុប្បន្នក្នុងកម្មវិធី អែបល
@@ -1953,14 +1960,19 @@ km:
       action: សកម្មភាព
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
-      user_form: ទម្រង់អ្នកប្រើ
       staffs: អ្នកប្រើបា្រស់
+      user_form: ទម្រង់អ្នកប្រើ
     upcoming:
       assessment: ការប៉ាន់ប្រមាណ
       assessments: ការប៉ាន់ប្រមាណ
       forms: ទម្រង់បែបបទ
       tasks: កាតព្វកិច្ច
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    user_tab:
+      action: សកម្មភាព
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      user_form: ទម្រង់អ្នកប្រើ
     users_filter:
       apply: អនុវត្ត
       assessments: ការប៉ាន់ប្រមាណ
@@ -4723,6 +4735,7 @@ km:
       tasks_of: កាតព្វកិច្ចរបស់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: ត្រូវបានបិទ

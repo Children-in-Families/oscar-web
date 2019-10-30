@@ -2,8 +2,9 @@ class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
   include ClientsHelper
   include ApplicationHelper
+  include FormBuilderHelper
 
-  attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data, :assessment_field
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
 
   scope do
@@ -25,7 +26,16 @@ class ClientGrid < BaseGrid
     # associations.delete(:user)
 
     # Client.includes(associations).order('clients.status, clients.given_name')
-    Client.all
+
+    if column_names.any?{ |name| name =~ /assessment/i }
+      Client.includes(:assessments, :province)
+    else
+      Client.all
+    end
+  end
+
+  def assessment_field_exist?
+    assessment_field
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -570,15 +580,22 @@ class ClientGrid < BaseGrid
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
   end
 
-  column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+  column(:received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name')}, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
+  end
+
+  column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+
+    type_of_services = map_type_of_services(object)
+
+    render partial: 'clients/type_of_services', locals: { type_of_services: type_of_services }
   end
 
   column(:received_by, html: false, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     object.received_by.try(:name)
   end
 
-  column(:followed_up_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
+  column(:followed_up_by, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name')}, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
   end
 
@@ -647,18 +664,19 @@ class ClientGrid < BaseGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, html: true, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+      column(:village, html: true, order:proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
         object.village.try(:code_format)
       end
 
-      column(:commune, html: true, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+      column(:commune, html: true, order: proc { |object| object.joins(:commune).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
         object.commune.try(:name)
       end
-      column(:district, html: true, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+
+      column(:district, html: true, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
       end
 
-      column(:province, html: true, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+      column(:province, html: true, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
 
@@ -671,17 +689,17 @@ class ClientGrid < BaseGrid
       end
 
       if I18n.locale == :km
-        column(:village, html: false, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village_kh') } ) do |object|
+        column(:village, html: false, order: proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village_kh') } ) do |object|
           object.village.try(:name_kh)
         end
-        column(:commune, html: false, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune_kh') } ) do |object|
+        column(:commune, html: false, order: proc { |object| object.joins(:commune).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune_kh') } ) do |object|
           object.commune.try(:name_kh)
         end
-        column(:district, html: false, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district_kh') }) do |object|
+        column(:district, html: false, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district_kh') }) do |object|
           object.district.try(:name_kh)
         end
 
-        column(:province, html: false, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
+        column(:province, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_kh') }) do |object|
           identify_province_khmer = object.province&.name&.count "/"
           if identify_province_khmer == 1
             province = object.province.name.split('/').first
@@ -706,19 +724,19 @@ class ClientGrid < BaseGrid
         end
 
       else
-        column(:village, html: false, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village_en') } ) do |object|
+        column(:village, html: false, order: proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village_en') } ) do |object|
           object.village.try(:name_en)
         end
 
-        column(:commune, html: false, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune_en') } ) do |object|
+        column(:commune, html: false, order: proc { |object| object.joins(:village).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune_en') } ) do |object|
           object.commune.try(:name_en)
         end
 
-        column(:district, html: false, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district_en') }) do |object|
+        column(:district, html: false, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district_en') }) do |object|
           object.district.present? ? object.district.name.split(' / ').last : nil
         end
 
-        column(:province, html: false, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
+        column(:province, html: false, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province_en') }) do |object|
           identify_province = object.province&.name&.count "/"
           if identify_province == 1
             province = object.province.name.split('/').last
@@ -749,19 +767,19 @@ class ClientGrid < BaseGrid
 
       column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
-      column(:village, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
+      column(:village, order: proc { |object| object.joins(:village).order('villages.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.village') } ) do |object|
         object.village.try(:code_format)
       end
 
-      column(:commune, order: 'communes.name_kh', header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
+      column(:commune, order: proc { |object| object.joins(:commune).order('communes.name_kh')}, header: -> { I18n.t('datagrid.columns.clients.commune') } ) do |object|
         object.commune.try(:name)
       end
 
-      column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+      column(:district, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
       end
 
-      column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+      column(:province, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
 
@@ -779,7 +797,7 @@ class ClientGrid < BaseGrid
 
       column(:postal_code, header: -> { I18n.t('datagrid.columns.clients.postal_code') })
 
-      column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+      column(:district, order: proc { |object| object.joins(:district).order('districts.name')}, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
         object.district_name
       end
 
@@ -787,7 +805,7 @@ class ClientGrid < BaseGrid
         object.subdistrict_name
       end
 
-      column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+      column(:province, order: proc { |object| object.joins(:province).order('provinces.name')}, header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
 
@@ -841,11 +859,13 @@ class ClientGrid < BaseGrid
 
   column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
-  column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
+  # column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
+  #   object.referral_source.try(:name)
+  # end
+  column(:referral_source, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
   end
-
-  column(:referral_source_category, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
+  column(:referral_source_category, order: proc { |object| object.joins(:referral_source).order('referral_sources.name')}, header: -> { I18n.t('datagrid.columns.clients.referral_source_category') }) do |object|
     if I18n.locale == :km
       ReferralSource.find_by(id: object.referral_source_category_id).try(:name)
     else
@@ -950,8 +970,8 @@ class ClientGrid < BaseGrid
       time_in_ngo = object.time_in_ngo
       years = I18n.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
       months = I18n.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
-      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_ngo[:weeks]) if time_in_ngo[:weeks] > 0
-      [years, months, weeks].join(' ')
+      days = I18n.t('clients.show.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
+      [years, months, days].join(' ')
     end
   end
 
@@ -963,8 +983,8 @@ class ClientGrid < BaseGrid
         unless cps[1].blank?
           years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
           months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
-          weeks = I18n.t('clients.show.time_in_care_around.week', count: cps[1][:weeks]) if (cps[1][:weeks].present? && cps[1][:weeks] > 0)
-          time_in_cps = [years, months, weeks].join(' ')
+          days = I18n.t('clients.show.time_in_care_around.day', count: cps[1][:days]) if (cps[1][:days].present? && cps[1][:days] > 0)
+          time_in_cps = [years, months, days].join(' ')
           cps_lists << [cps[0], time_in_cps].join(': ')
         end
       end

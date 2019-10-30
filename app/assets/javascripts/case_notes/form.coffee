@@ -3,12 +3,14 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _initUploader()
     _handleDeleteAttachment()
     _handleNewTask()
-    _hideCompletedTasks()
-    _handlePreventBlankInput()
-    _initSelect2()
+    # _hideCompletedTasks()
+    _initSelect2CasenoteInteractionType()
+    _initSelect2CasenoteDomainGroups()
     _initScoreTooltip()
     _initICheckBox()
     _scrollToError()
+    _hideShowOnGoingTaskLable()
+    _hideAddNewTask()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -20,8 +22,39 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       placement: 'top'
       html: true
 
-  _initSelect2 = ->
-    $('#case_note_interaction_type').select2()
+  _initSelect2CasenoteInteractionType = ->
+    $('#case_note_interaction_type').select2
+      width: '100%'
+
+  _initSelect2CasenoteDomainGroups = ->
+    $('.case_note_domain_groups .help-block').hide()
+    $('#case_note_domain_group_ids').select2(
+      width: '100%'
+    ).on('change', ->
+      _checkCasenoteSelectedValue(@)
+    ).on 'select2-removing', (event)->
+      if $("#domain-#{event.val} .task-arising .list-group-item").length > 0
+        event.preventDefault()
+        $('.case_note_domain_groups .help-block').show('slow')
+      else
+        $('.case_note_domain_groups .help-block').hide('slow')
+        $("#domain-#{event.val}").hide('slow')
+      # $("#domain-#{e.val}").toggle('hide') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
+    # ).on('select2-selecting', (e)->
+    #   if event.target.textContent.length > 0
+    #     $("#domain-#{e.val}").toggle('show') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
+
+
+  _checkCasenoteSelectedValue = (selectedObject)->
+    if $(selectedObject).children(":selected").length > 0
+      $('.case-note-task-btn').removeAttr('disabled')
+      $('#add-task-message').hide()
+      $('.case-note-task-btn').attr('data-target', "#tasksFromModal");
+    else
+      $('.case-note-task-btn').attr('disabled', true);
+      $('#add-task-message').show()
+      $('.case-note-task-btn').attr('data-target', "#");
+    return
 
   _initUploader = ->
     $('.file .optional').fileinput
@@ -54,18 +87,19 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
             _initNotification(response.message)
 
   _hideCompletedTasks = ->
-    $('input.task').each ->
-      $(this).parents('span.checkbox').addClass('hidden') if $(this).data('completed')
+    $('.i-checks.task').each ->
+      dataCompleted = $(this).find('span.hidden')[0]
+      $(this).addClass('hidden') if dataCompleted == true
 
   _handleNewTask = ->
     _addTaskToServer()
     _addDomainToSelect()
 
   _showError = (name, completion_date) ->
-    if completion_date != undefined and completion_date.length <= 0
-      $('#case_note_task .task_completion_date').addClass('has-error')
-    else
-      $('#case_note_task .task_completion_date').removeClass('has-error')
+    # if completion_date != undefined and completion_date.length <= 0
+    #   $('#case_note_task .task_completion_date').addClass('has-error')
+    # else
+    #   $('#case_note_task .task_completion_date').removeClass('has-error')
 
     if name != undefined and name.length <= 0
       $('#case_note_task .task_name').addClass('has-error')
@@ -95,9 +129,12 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         _addElementToDom(taskName, taskDate, domainId, relation, actionUrl)
         $('.add-task-btn').removeAttr('disabled')
         $('#tasksFromModal').modal('hide')
+        _hideShowOnGoingTaskLable()
+        _hideAddNewTask()
       else
         _showError(taskName, taskDate)
         $('.add-task-btn').removeAttr('disabled')
+
 
   _addElementToDom = (taskName, taskDate, domainId, relation, actionUrl) ->
     appendElement  = $(".domain-#{domainId} .task-arising");
@@ -153,35 +190,19 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
   _addDomainToSelect =  ->
     $('.case-note-task-btn').on 'click', (e) ->
       _clearForm()
-      domains = $(e.target).data('domains')
-      $('#task_domain_id').html('')
+      url = $(e.target).data('url')
+      doamin_group_ids = encodeURIComponent(JSON.stringify($('#case_note_domain_group_ids').select2('val')))
+      urlString = $(e.target).data('url') + '&domain_group_ids=' + doamin_group_ids
+      $.ajax
+        dataType: "json"
+        url: urlString
+        method: 'GET'
+        success: (response) ->
+          domains = response.data
+          $('#task_domain_id').html('')
+          domains.map (domain) ->
+            $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
 
-      domains.map (domain) ->
-        $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
-
-  _handlePreventBlankInput = ->
-    $('#case-note-submit-btn').on 'click', (e)  ->
-      caseNoteMeetingDate = $('#case_note_meeting_date').val()
-      caseNoteAttendee = $('#case_note_attendee').val()
-      caseNoteInteractionType = $('#case_note_interaction_type').val()
-      elements = ['#case_note_meeting_date', '#case_note_attendee', '#case_note_interaction_type']
-      for element in elements
-        _handlePreventFieldCannotBeBlank(element, e)
-      if caseNoteMeetingDate != '' and caseNoteAttendee != '' and caseNoteInteractionType != ''
-        document.getElementById('case-note-form').onsubmit = ->
-          true
-
-  _handlePreventFieldCannotBeBlank = (element, e) ->
-    cannotBeBlank = $('#case-note-form').data('translate')
-    parent = $(element).parents('.form-group')
-    labelMessage = $(parent).siblings().find('.text-danger')
-    if $(element).val() == ''
-      $(parent).addClass('has-error')
-      $(labelMessage).text(cannotBeBlank)
-      e.preventDefault()
-    else
-      $(parent).removeClass('has-error')
-      $(labelMessage).text('')
 
   _initNotification = (message)->
     messageOption = {
@@ -209,12 +230,34 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       url + (if url.indexOf('?') > 0 then '&' else '?') + paramName + '=' + paramValue
 
   _scrollToError = ->
-    $('#case-note-submit-btn').on 'click', (e) ->
-      if $('.case_note_meeting_date').hasClass('has-error')
-        location.href = '#case_note_meeting_date'
-      else if $('.case_note_attendee').hasClass('has-error')
-        location.href = '#case_note_attendee'
-      else if $('.case_note_interaction_type').hasClass('has-error')
-        location.href = '#s2id_case_note_interaction_type'
+    if $('.case_note_meeting_date').hasClass('has-error')
+      location.href = '#case_note_meeting_date'
+    else if $('.case_note_attendee').hasClass('has-error')
+      location.href = '#case_note_attendee'
+    else if $('.case_note_interaction_type').hasClass('has-error')
+      location.href = '#s2id_case_note_interaction_type'
+
+  _hideShowOnGoingTaskLable = ->
+    if $('.case_note_case_note_domain_groups_tasks:visible').length > 0 then $('#on-going-task-label').show() else $('#on-going-task-label').hide()
+
+  _hideAddNewTask = ->
+    _checkCasenoteSelectedValue($('#case_note_domain_group_ids'))
+    $.each $('#case_note_domain_group_ids').select2('data'), (index, object) ->
+      $("#domain-#{object.id}").show() if $("#domain-#{object.id} .task-arising .list-group > li").length > 0
+
+    $.each $('.case-note-domain-group'), (index, object)->
+      if $("##{object.id}").find('span.checkbox').length > 0
+        $.each $("##{object.id} div[id^='tasks-domain-']"), (index, task)->
+          if $("##{task.id} span.checkbox").length == 0
+            domainName = $(".panel-#{task.id}").data('domain-name-panel')
+            $("[data-domain-name='#{domainName}']").hide()
+            $("##{task.id} label.check_boxes").hide()
+          else
+            $("##{object.id}").show('slow')
+      else
+        $.each $("##{object.id} div[id^='tasks-domain-']"), (index, task)->
+          if $("##{task.id} span.checkbox").length == 0
+            $("##{task.id} label.check_boxes").hide()
+
 
   { init: _init }

@@ -173,7 +173,8 @@ Rails.application.routes.draw do
       get :referral_source_category, on: :collection
     end
 
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+    # mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+    # mount_devise_token_auth_for 'User', at: '/v2/auth', skip: [:passwords]
     resources :form_builder_attachments, only: :destroy
 
     resources :provinces, only: :index do
@@ -241,9 +242,14 @@ Rails.application.routes.draw do
       end
     end
 
-    # resources :referral_sources
+    resources :domain_groups, only: [] do
+      collection do
+        get :get_domains_by_domain_groups
+      end
+    end
 
     namespace :v1, default: { format: :json } do
+      mount_devise_token_auth_for 'User', at: 'auth', skip: [:passwords]
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
@@ -287,7 +293,57 @@ Rails.application.routes.draw do
       resources :domains, only: [:index]
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
-      get 'translations/:lang' => 'translations#translation'
+      get 'translations' => 'translations#translation'
+      get 'case_worker_clients_cache' => 'case_worker_client_offline#get_data'
+    end
+
+    namespace :v2, default: { format: :json } do
+      mount_devise_token_auth_for 'User', at: 'auth', skip: [:passwords]
+      resources :organizations, only: [:index]
+      resources :domain_groups, only: [:index]
+      resources :departments, only: [:index]
+      resources :families, only: [:index, :create, :update] do
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+      end
+      resources :users, only: [:index, :show]
+      resources :clients, except: [:edit, :new] do
+        get :compare, on: :collection
+        resources :assessments, only: [:create, :update, :destroy, :delete]
+        resources :case_notes, only: [:create, :update, :delete, :destroy]
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+
+        scope module: 'clients' do
+          resources :exit_ngos, only: [:create, :update]
+          resources :enter_ngos, only: [:create, :update]
+        end
+
+        scope module: 'client_tasks' do
+          resources :tasks, only: [:create, :update, :destroy]
+        end
+        resources :client_enrollments, only: [:create, :update, :destroy] do
+          resources :client_enrollment_trackings, only: [:create, :update, :destroy]
+          resources :leave_programs, only: [:create, :update, :destroy]
+        end
+      end
+
+      resources :program_streams, only: [:index]
+      resources :provinces, only: [:index]
+      resources :birth_provinces, only: [:index]
+      resources :districts, only: [:index]
+      resources :communes, only: [:index]
+      resources :villages, only: [:index]
+      resources :donors, only: [:index]
+      resources :agencies, only: [:index]
+      resources :referral_sources do
+        collection do
+          get 'categories' => 'referral_sources#referral_source_parents'
+        end
+      end
+      resources :domains, only: [:index]
+      resources :quantitative_types, only: [:index]
+      resources :settings, only: [:index]
+      get 'case_worker_clients_cache' => 'case_worker_client_offline#get_data'
+      get 'translations' => 'translations#translation'
     end
   end
 

@@ -92,7 +92,12 @@ class FormBuilder::CustomFieldsController < AdminController
     default_order = custom_fields.sort_by{ |c| [c.form_title.downcase, c.entity_type] }
     return default_order  unless tab == 'current' || column.present?
 
-    ordered = custom_fields.sort_by{ |c| c.send(column).downcase } if column.present?
+    column_names = CustomField.column_names
+    column = column_names[column_names.index(column)]
+    if column.present?
+      ordered = custom_fields.sort_by{ |c| c.public_send(column.to_sym).downcase }
+    end
+
     custom_fields_ordered = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
 
     custom_fields_demo    = tab == 'demo_ngo' && column.present? ? custom_fields_ordered : default_order

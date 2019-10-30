@@ -463,6 +463,7 @@ en:
       township: Township
       tracking: Tracking
       type: Attached with
+      type_of_service: Type of Service
       user_id: Case Worker
       village: Village
       what3words: What3words
@@ -655,9 +656,11 @@ en:
       successfully_deleted_case_note: Case Note has been successfully deleted.
     form:
       add_task: Add Task
+      add_task_message: Please select the domain group before you can add the task.
       back: Back
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Please select all Domain Groups you supported the client with in this case note.
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
@@ -665,6 +668,7 @@ en:
       on_date: On Date
       on_going_tasks: On Going Tasks
       present: Who was there during the visit or conversation?
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
       tasks: Tasks
       tasks_arising: Tasks Arising
@@ -693,6 +697,7 @@ en:
       case_note_on: Case note on
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Domain Groups
       goal: Goal
       incompleted_tasks: Incompleted Tasks
       new_case_note: New case note
@@ -1287,7 +1292,7 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: Client Confirmation
       client_option: Would you like to create a family record for this client, or attach them to an existing family?
       create_family_record_option:  Create New Family Record
@@ -1500,7 +1505,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search 
+      advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       assessment_data: Assessment Data
@@ -1744,6 +1749,9 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
+        day:
+          one: "%{count} day"
+          other: "%{count} days"
         month:
           one: "%{count} month"
           other: "%{count} months"
@@ -2171,6 +2179,7 @@ en:
         total: Total
         township: Township
         type: Attached with
+        type_of_service: Type of Service
         view: View
         village: Village
         village_en: Address - Village (English)
@@ -2296,6 +2305,7 @@ en:
         name: Name
         report: Report
         times_of_frequency: Times of Frequency
+      type_of_service: Type of Service
       users:
         changelogs: Changelog
         clients: Clients
@@ -2343,6 +2353,7 @@ en:
       no_case_note: Overdue for Case Note
       reset: Reset
       search: Search
+      type_of_service: Type of Service
     from: From
     head:
       changelog: Changelog

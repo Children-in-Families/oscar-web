@@ -53,15 +53,25 @@
                       = destroy_link(@client, case_note)
 
             .panel-body
+              - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join(' ')
+              .row
+                .col-xs-12
+                  .panel.panel-default
+                    .panel-heading
+                      %h4= t('.note')
+                    .panel-body
+                      = simple_format combined_notes
+              .row
+                .col-xs-12
+                  .panel.panel-default
+                    .panel-heading
+                      %h4= "Domain Groups"
+                    .panel-body
+                      = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
+
               - case_note.case_note_domain_groups.each do |cdg|
-                - list_goals = []
-                - task_added = []
-                - cdg.domains(case_note).each do |domain|
-                  - task_added << case_note.client.tasks.where(domain_id: domain.id, relation: 'case_note', case_note_id: cdg.case_note_id)
-                  - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                  - if assessment_domain.present? && assessment_domain.goal?
-                    - list_goals << assessment_domain.goal
-                - if cdg.note.present? || cdg.completed_tasks.any? || list_goals.present? || cdg.attachments.any? || task_added.flatten.present?
+                - list_goals, ongoing_tasks, today_tasks = list_goals_and_tasks(cdg, case_note)
+                - if cdg.completed_tasks.any? || list_goals.present? || ongoing_tasks.flatten.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
                       %h5= cdg.domain_identities
@@ -75,13 +85,6 @@
                                 = ad.score
                     .ibox-content
                       .row
-                        - if cdg.note.present?
-                          .col-xs-12
-                            .panel.panel-default
-                              .panel-heading
-                                %h4= t('.note')
-                              .panel-body
-                                = simple_format cdg.note
                         - if cdg.completed_tasks.any?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
@@ -93,26 +96,59 @@
                                     %li.list-group-item
                                       = "#{index + 1}. "
                                       = task.name
-                        - if list_goals.present?
-                          .col-xs-12.col-sm-6
-                            %p
-                              %strong= "#{t('.goal')} :"
-                            %ul
-                              - list_goals.flatten.each do |goal|
-                                %li= goal
-                      .row
-                        - if task_added.flatten.present?
-                          .col-xs-12.col-sm-6
-                            %p
-                              %strong Task Added
-                      .row
-                        - if cdg.attachments.any?
+
+                        - the_latest_tasks = today_tasks.flatten
+                        - if the_latest_tasks.present?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
                               .panel-heading
-                                %h4= t('.attachments')
-                              .panel-body
-                                = render 'attachment', cdg: cdg
+                                %h4= t('tasks.task_added')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - the_latest_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = task.name
+
+                        - ongoing_tasks = case_note_ongoing_tasks(ongoing_tasks)
+                        - if ongoing_tasks.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('case_notes.form.on_going_tasks')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - ongoing_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = task.name
+
+                        - if list_goals.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('.goal')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - list_goals.flatten.each_with_index do |goal, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = goal
+
+
+              .row
+                - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
+                - case_note.case_note_domain_groups.each do |cdg|
+                  - next if cdg.attachments.blank?
+                  - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
+                  - next if file_names.exclude? attachment_names
+                  - file_names.delete(attachment_names)
+                  .col-xs-12.col-sm-6
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('.attachments')
+                      .panel-body
+                        = render 'attachment', cdg: cdg
       .ibox-footer
         .text-center
           = paginate @case_notes

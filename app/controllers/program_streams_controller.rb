@@ -177,10 +177,13 @@ class ProgramStreamsController < AdminController
   def program_stream_ordered(org = '')
     program_streams = org == 'demo' ? find_program_stream_organizations('demo') : find_program_stream_organizations
     programs = program_streams.sort_by(&:name)
-    column = params[:order]
+    column_names = ProgramStream.column_names
+    column = column_names[column_names.index(params[:order])] if column_names.index(params[:order])
     return programs unless (params[:tab] == 'all_ngo' || params[:tab] == 'demo_ngo') && column
 
-    ordered = program_streams.sort_by{ |p| p.send(column).to_s.downcase }
+    ordered = program_streams.sort_by do |p|
+      p.public_send(column.to_sym).to_s.downcase
+    end
     programs = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
     programs
   end

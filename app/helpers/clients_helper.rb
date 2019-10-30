@@ -116,7 +116,8 @@ module ClientsHelper
       created_by:                    t('datagrid.columns.clients.created_by'),
       referred_to:                   t('datagrid.columns.clients.referred_to'),
       referred_from:                 t('datagrid.columns.clients.referred_from'),
-      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category')
+      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
+      type_of_service:               t('datagrid.columns.type_of_service')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -369,7 +370,8 @@ module ClientsHelper
       referred_from_: t('datagrid.columns.clients.referred_from'),
       time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
-      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
+      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
+      type_of_service_: t('datagrid.columns.type_of_service')
     }
 
     Domain.order_by_identity.each do |domain|
@@ -726,11 +728,19 @@ module ClientsHelper
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i].present?
-            data_filter = date_filter(client.assessments.defaults, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+            else
+              assessment_count = client.default_assessments_count
+            end
+            count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(date_of_custom_assessments)/i].present?
-            data_filter = date_filter(client.assessments.customs, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              data_filter = date_filter(client.assessments.customs, "#{class_name}")
+            else
+              assessment_count = client.custom_assessments_count
+            end
+            count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(formbuilder)/i].present?
             fields = column.name.to_s.gsub('&qoute;', '"').split('__')
             format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
@@ -750,6 +760,9 @@ module ClientsHelper
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
             count += quantitative_type_values.count
+          elsif class_name == 'type_of_service'
+            type_of_services = map_type_of_services(client)
+            count += type_of_services.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
           end
@@ -856,7 +869,8 @@ module ClientsHelper
   end
 
   def return_default_filter(object, rule, results)
-    rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
+    all_value_text = params.permit(:all_values)[:all_values]
+    rule.split(' ').include?(all_value_text) || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
   def case_workers_option(client_id)
@@ -1010,7 +1024,7 @@ module ClientsHelper
 
   def get_rule(params, field)
     return unless params.dig('client_advanced_search').present? && params.dig('client_advanced_search', 'basic_rules').present?
-    base_rules = eval params.dig('client_advanced_search', 'basic_rules')
+    base_rules = JSON.parse(params.dig('client_advanced_search', 'basic_rules'), symbolize_names: true)
     rules = base_rules.dig(:rules) if base_rules.presence
 
     index = find_rules_index(rules, field) if rules.presence

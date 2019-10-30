@@ -62,18 +62,61 @@ describe 'Client' do
     end
   end
 
+  feature 'Advanced search' do
+    let!(:client){ create(:client, :accepted, current_address: '', profile: UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/image-placeholder.png')))) }
+    let!(:setting){ Setting.first }
+
+    before do
+      PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
+      login_as(admin)
+      data = ImportStaticService::DateService.new('Sheet1', 'app', Rails.root.join('spec/supports/services.xlsx'))
+      data.import
+
+      visit clients_path
+      page.find("button[data-target='#client-advance-search-form']").click
+      wait_for_ajax()
+    end
+
+    scenario 'Client General Information dropdown', js: true do
+      expect(page).to have_content('Client General Information')
+    end
+
+    scenario 'Client General Information on click', js: true do
+      within '.client-column' do
+        click_link 'Select Columns'
+      end
+
+      within '.type-of-service-header' do
+        expect(page).to have_content('Type of Service')
+      end
+
+      expect(page).to have_css('[for="type_of_service_"]', text: 'Type of Service')
+    end
+
+    scenario 'Type of Service', js: true do
+      sleep 5
+      save_and_open_page
+
+      within '.rule-filter-container' do
+        page.find('.select2-container').click
+        wait_for_ajax()
+        save_screenshot
+      end
+    end
+  end
+
   feature 'Show' do
     let!(:client){ create(:client, :accepted, current_address: '', profile: UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/image-placeholder.png')))) }
     let!(:setting){ Setting.first }
     let!(:program_stream) { create(:program_stream) }
 
-    before do
+    before(:each) do
       PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
       login_as(admin)
       visit client_path(client)
     end
 
-    feature 'Time in care' do
+    feature 'Time in Care' do
       let!(:once_enrollment) { create(:client_enrollment, enrollment_date: '2018-01-01', program_stream: program_stream, client: client) }
       let!(:client_exit) { create(:leave_program, exit_date: '2019-02-01', program_stream: program_stream, client_enrollment: once_enrollment) }
 
