@@ -532,7 +532,7 @@ module ClientsHelper
     properties_field = 'client_enrollment_trackings.properties'
     query_string = get_query_string(results, form_type, properties_field)
 
-    object.where(query_string.join(" AND "))
+    object.where(query_string.reject(&:blank?).join(" AND "))
   end
 
   def case_note_query_results(object, case_note_date_query, case_note_type_query)

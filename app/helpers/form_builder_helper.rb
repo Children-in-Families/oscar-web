@@ -141,13 +141,13 @@ module FormBuilderHelper
   end
 
   def map_type_of_services(object)
-    basic_rules = params['client_advanced_search']['basic_rules']
+    basic_rules = $param_rules['basic_rules']
     basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
     results = mapping_program_stream_service_param_value(basic_rules)
 
     query_string = get_program_service_query_string(results)
 
-    program_streams = object.program_streams.joins(:services).where(query_string.join(" AND ")).references(:program_streams)
+    program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
 
     type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
   end

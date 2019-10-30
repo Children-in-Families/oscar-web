@@ -15,7 +15,8 @@ module AdvancedSearches
       results = mapping_program_stream_service_param_value(@basic_rules)
       query_string = get_program_service_query_string(results)
 
-      program_stream_services = program_stream_services.where(query_string.join(" AND ")).references(:program_streams)
+      program_stream_services = program_stream_services.where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
+
       client_ids = program_stream_services.map{|pgs| pgs.program_stream.client_ids }.flatten.uniq
 
       { id: sql_string, values: client_ids }
