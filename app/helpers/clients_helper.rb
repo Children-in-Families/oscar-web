@@ -116,7 +116,8 @@ module ClientsHelper
       created_by:                    t('datagrid.columns.clients.created_by'),
       referred_to:                   t('datagrid.columns.clients.referred_to'),
       referred_from:                 t('datagrid.columns.clients.referred_from'),
-      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category')
+      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
+      type_of_service:               t('datagrid.columns.type_of_service')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -369,7 +370,8 @@ module ClientsHelper
       referred_from_: t('datagrid.columns.clients.referred_from'),
       time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
-      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
+      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
+      type_of_service_: t('datagrid.columns.type_of_service')
     }
 
     Domain.order_by_identity.each do |domain|

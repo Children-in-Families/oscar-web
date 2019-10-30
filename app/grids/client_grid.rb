@@ -2,6 +2,7 @@ class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
   include ClientsHelper
   include ApplicationHelper
+  include FormBuilderHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -568,6 +569,20 @@ class ClientGrid < BaseGrid
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
+  end
+
+  column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    basic_rules = params['client_advanced_search']['basic_rules']
+    basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+    results = mapping_program_stream_service_param_value(basic_rules)
+
+    query_string = get_program_service_query_string(results)
+
+    program_streams = object.program_streams.joins(:services).where(query_string.join(" AND ")).references(:program_streams)
+
+    type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
+
+    render partial: 'clients/type_of_services', locals: { type_of_services: type_of_services }
   end
 
   column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|

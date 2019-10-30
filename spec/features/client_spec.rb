@@ -71,30 +71,37 @@ describe 'Client' do
       login_as(admin)
       data = ImportStaticService::DateService.new('Sheet1', 'app', Rails.root.join('spec/supports/services.xlsx'))
       data.import
+
       visit clients_path
+      page.find("button[data-target='#client-advance-search-form']").click
+      wait_for_ajax()
     end
 
     scenario 'Client General Information dropdown', js: true do
-      page.find("button[data-target='#client-advance-search-form']").click
-
-      wait_for_ajax()
-
       expect(page).to have_content('Client General Information')
     end
 
     scenario 'Client General Information on click', js: true do
-      page.find("button[data-target='#client-advance-search-form']").click
-      wait_for_ajax()
       within '.client-column' do
         click_link 'Select Columns'
       end
 
       within '.type-of-service-header' do
-        save_screenshot
         expect(page).to have_content('Type of Service')
       end
 
       expect(page).to have_css('[for="type_of_service_"]', text: 'Type of Service')
+    end
+
+    scenario 'Type of Service', js: true do
+      sleep 5
+      save_and_open_page
+
+      within '.rule-filter-container' do
+        page.find('.select2-container').click
+        wait_for_ajax()
+        save_screenshot
+      end
     end
   end
 
