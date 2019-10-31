@@ -148,15 +148,55 @@ ActiveRecord::Schema.define(version: 20191216083413) do
     t.integer  "village_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+  end
+
+
+  create_table "callers", force: :cascade do |t|
+    t.boolean  "answered_call",               default: false
+    t.boolean  "anonymous",                   default: false
+    t.boolean  "adult",                       default: false
+    t.string   "name",                        default: ""
+    t.string   "gender",                      default: ""
+    t.string   "referee_phone_number",        default: ""
+    t.string   "referee_email",               default: ""
+    t.integer  "referral_source_category_id"
+    t.integer  "referral_source_id"
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
     t.string   "name",                default: ""
     t.string   "phone",               default: ""
     t.boolean  "same_as_client",      default: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
   add_index "carers", ["district_id"], name: "index_carers_on_district_id", using: :btree
   add_index "carers", ["province_id"], name: "index_carers_on_province_id", using: :btree
   add_index "carers", ["village_id"], name: "index_carers_on_village_id", using: :btree
+    t.string   "street_number",               default: ""
+    t.string   "house_number",                default: ""
+    t.string   "address_name",                default: ""
+    t.string   "address_type",                default: ""
+    t.boolean  "requested_update"
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
+
+  create_table "calls", force: :cascade do |t|
+    t.integer  "caller_id"
+    t.string   "phone_call_id",      default: ""
+    t.integer  "receiving_staff_id"
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.string   "call_type",          default: ""
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "calls", ["caller_id"], name: "index_calls_on_caller_id", using: :btree
 
   create_table "case_closures", force: :cascade do |t|
     t.string   "name"
@@ -1727,6 +1767,7 @@ ActiveRecord::Schema.define(version: 20191216083413) do
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
   add_foreign_key "carers", "villages"
+  add_foreign_key "calls", "callers"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_worker_clients", "clients"
