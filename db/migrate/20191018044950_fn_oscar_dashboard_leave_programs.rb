@@ -5,7 +5,7 @@ class FnOscarDashboardLeavePrograms < ActiveRecord::Migration
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_leave_programs"(donor_global_id varchar DEFAULT '')
-              RETURNS TABLE("id" int4, "organization_name" varchar, "program_stream_id" int4, "client_enrollment_id" int4, "exit_date" varchar, "properties" jsonb, "deleted_at" varchar) AS $BODY$
+              RETURNS TABLE("id" int4, "organization_name" varchar, "program_stream_id" int4, "client_enrollment_id" int4, "exit_date" varchar, "properties" jsonb, "deleted_at" varchar, "created_at" varchar, "updated_at" varchar) AS $BODY$
               DECLARE
                 sql TEXT := '';
                 sch record;
@@ -19,7 +19,7 @@ class FnOscarDashboardLeavePrograms < ActiveRecord::Migration
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.properties, %2$s.program_stream_id,
-                                   %2$s.client_enrollment_id, %2$s.exit_date, %2$s.deleted_at FROM %1$I.%2$s UNION ',
+                                   %2$s.client_enrollment_id, %2$s.exit_date, %2$s.deleted_at, %2$s.created_at, %2$s.updated_at FROM %1$I.%2$s UNION ',
                                   sch.short_name, 'leave_programs');
                 END LOOP;
 
@@ -32,6 +32,8 @@ class FnOscarDashboardLeavePrograms < ActiveRecord::Migration
                   deleted_at := timezone('Asia/Bangkok', lp_r.deleted_at);
                   properties := lp_r.properties;
                   client_enrollment_id := lp_r.client_enrollment_id;
+                  created_at := timezone('Asia/Bangkok', lp_r.created_at);
+                  updated_at := timezone('Asia/Bangkok', lp_r.updated_at);
                   RETURN NEXT;
                 END LOOP;
               END
