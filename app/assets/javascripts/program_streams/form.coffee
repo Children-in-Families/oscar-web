@@ -100,7 +100,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initCheckbox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
-    $($('.icheckbox_square-green.checked')[0]).removeClass('checked')
+    $($('.icheckbox_square-green.checked')[0]).addClass('checked')
 
   _initSelect2 = ->
     $('#description select, #rule-tab select').select2()
