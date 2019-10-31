@@ -44,7 +44,7 @@
       .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_date_of_birth
         %label.date.optional.control-label{ for: 'client_date_of_birth' }= t('.date_of_birth')
         #client-birthdate.input-group.date
-          = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'client[date_of_birth]', id: 'client_date_of_birth'
+          = f.text_field :date_of_birth, class: 'date optional form-control prevent-date-of-birth', type: 'text', name: 'client[date_of_birth]', id: 'client_date_of_birth'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
       - if selected_country.in?(['cambodia', 'thailand']) || international_referred_client

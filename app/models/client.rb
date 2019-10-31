@@ -6,7 +6,6 @@ class Client < ActiveRecord::Base
 
   require 'text'
 
-  attr_reader :assessments_count
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
@@ -403,7 +402,11 @@ class Client < ActiveRecord::Base
         end
       end
     else
-      detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
+      if enter_ngos.first
+        detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
+      else
+        detail_time_in_ngo
+      end
     end
 
 

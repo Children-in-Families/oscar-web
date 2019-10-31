@@ -9,10 +9,12 @@ class Tracking < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :name, uniqueness: { scope: :program_stream_id }
 
   validate :form_builder_field_uniqueness
   validate :presence_of_label
+
+  validates_as_paranoid
+  validates_uniqueness_of_without_deleted :name, uniqueness: { scope: :program_stream_id }
 
   after_update :auto_update_trackings
 

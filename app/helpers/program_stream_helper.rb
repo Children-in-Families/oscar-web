@@ -2,7 +2,7 @@ module ProgramStreamHelper
 
   def format_rule(rules)
     if rules['rules'].present? && rules['rules'].any?
-      forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'exitprogramdate', 'exitprogram', 'quantitative']
+      forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'programexitdate', 'exitprogram', 'quantitative']
       rules['rules'].each do |rule|
         if rule['rules'].present?
           format_rule(rule)
@@ -163,4 +163,4 @@ module ProgramStreamHelper
       end
       form_builder_options
     end
-end
+  end

@@ -402,7 +402,7 @@ module ClientsHelper
   def client_advanced_search_data(object, rule)
     @data = {}
     return object unless params[:client_advanced_search].present? && params[:client_advanced_search][:basic_rules].present?
-    @data   = eval params[:client_advanced_search][:basic_rules]
+    @data   = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
     @data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
@@ -467,7 +467,7 @@ module ClientsHelper
     data    = {}
     rules   = %w( case_note_date case_note_type )
     return object if params[:client_advanced_search][:basic_rules].nil?
-    data    = eval params[:client_advanced_search][:basic_rules]
+    data    = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
 
     result1                = mapping_param_value(data, 'case_note_date')
     result2                = mapping_param_value(data, 'case_note_type')
@@ -507,11 +507,30 @@ module ClientsHelper
         elsif sub_case_note_type_query.first.present? && sub_case_note_date_query.first.blank?
           object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query))
         else
-          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query_array))
+          object = case_note_query_results(object, case_note_date_query, case_note_type_query).or(object.where(sub_case_note_type_query)).or(object.where(sub_case_note_date_query))
         end
       end
     end
     object.present? ? object : []
+  end
+
+  def form_builder_query(object, form_type, field_name)
+    return object unless params[:client_advanced_search].present?
+    data    = {}
+
+    return object if params[:client_advanced_search][:basic_rules].nil?
+    data    = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
+
+    results             = mapping_form_builder_param_value(data, form_type)
+
+    default_value_param = params['all_values']
+
+    results = mapping_form_builder_param_value(data, field_name) if default_value_param
+
+    properties_field = 'client_enrollment_trackings.properties'
+    query_string = get_query_string(results, form_type, properties_field)
+
+    object.where(query_string.join(" AND "))
   end
 
   def case_note_query_results(object, case_note_date_query, case_note_type_query)
@@ -605,6 +624,23 @@ module ClientsHelper
     data[:rules].reject{ |h| h[:id] != rule }.map { |value| [value[:id], value[:operator], value[:value]] }
   end
 
+  def mapping_form_builder_param_value(data, form_type, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_form_builder_param_value(h, form_type, field_name=nil, data_mapping)
+      end
+      if field_name.nil?
+       next if !(h[:id] =~ /^(#{form_type})/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
   def date_filter(object, rule)
     query_array      = []
     sub_query_array  = []
@@ -658,7 +694,7 @@ module ClientsHelper
 
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(exitprogramdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
-      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments' }
+      klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', formbuilder__Client: 'custom_field_properties' }
 
       if class_name[/^(exitprogramdate)/i].present? || class_name[/^(leaveprogram)/i]
         klass = 'leave_programs'
@@ -735,7 +771,7 @@ module ClientsHelper
       end
 
       if count > 0 && class_name != 'case_note_type'
-        # link_all = params['all_values'] != class_name ? content_tag(:a, 'All', class: 'all-values', href: "#{url_for(params)}&all_values=#{class_name}") : ''
+        class_name = class_name =~ /^(formbuilder)/i ? column.name.to_s : class_name
         link_all = params['all_values'] != class_name ? button_to('All', ad_search_clients_path, params: params.merge(all_values: class_name), remote: false, form_class: 'all-values') : ''
         [column.header.truncate(65),
           content_tag(:span, count, class: 'label label-info'),

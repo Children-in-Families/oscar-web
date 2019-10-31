@@ -28,6 +28,7 @@ module AdvancedSearches
         field    = rule['id']
         operator = rule['operator']
         value    = rule['value']
+
         form_builder = field != nil ? field.split('__') : []
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
@@ -103,7 +104,6 @@ module AdvancedSearches
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
-
         elsif field != nil
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
@@ -112,8 +112,10 @@ module AdvancedSearches
           @sql_string << nested_query[:sql_string]
           nested_query[:values].select{ |v| @values << v }
         end
-
       end
+
+      # @sql_string << nested_query[:sql_string]
+      # nested_query[:values].select{ |v| @values << v }
 
       @sql_string = @sql_string.join(" #{@condition} ")
       @sql_string = "(#{@sql_string})" if @sql_string.present?
@@ -127,6 +129,9 @@ module AdvancedSearches
       when 'equal'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) = ?"
+          @values << value
+        elsif field == 'slug'
+          @sql_string << "clients.slug = ?"
           @values << value
         else
           if SENSITIVITY_FIELDS.include?(field)
