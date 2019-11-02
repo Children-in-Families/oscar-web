@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(version: 20191216083413) do
 
   create_table "callers", force: :cascade do |t|
     t.boolean  "answered_call",               default: false
+    t.boolean  "called_before",               default: false
     t.boolean  "anonymous",                   default: false
     t.boolean  "adult",                       default: false
     t.string   "name",                        default: ""

@@ -288,6 +288,8 @@ Rails.application.routes.draw do
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
       get 'translations/:lang' => 'translations#translation'
+
+      resources :calls
     end
   end
 
