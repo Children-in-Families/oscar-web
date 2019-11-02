@@ -2,6 +2,7 @@ class CreateCallers < ActiveRecord::Migration
   def change
     create_table :callers do |t|
       t.boolean :answered_call, default: false
+      t.boolean :called_before, default: false
       t.boolean :anonymous, default: false
       t.boolean :adult, default: false
 
