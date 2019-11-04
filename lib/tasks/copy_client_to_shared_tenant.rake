@@ -28,7 +28,7 @@ namespace :client_to_shared do
     Organization.switch_to 'shared'
 
     cambodia_province_names.uniq.each do |province_name|
-      Province.find_or_create_by(name: province_name, country: 'cambodia')
+      Province.find_by(name: province_name, country: 'cambodia')
     end
 
     thailand_province_names.uniq.each do |province_name|

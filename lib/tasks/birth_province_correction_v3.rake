@@ -11,7 +11,6 @@ namespace :birth_province_correction_v3 do
         client_birth_province_id = client.birth_province_id
         if not_cambodia_province.include?(client_birth_province_id)
           client_slug = client.slug
-          binding.pry
           shared_client = SharedClient.find_by(slug: client_slug)
           shared_client_province = Province.find_by(id: client_birth_province_id).try(:name)
           shared_birth_province_id = Province.find_by(name: shared_client_province).try(:id)
