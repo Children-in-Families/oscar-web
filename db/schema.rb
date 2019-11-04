@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191104071018) do
+ActiveRecord::Schema.define(version: 20191104081650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1089,7 +1089,7 @@ ActiveRecord::Schema.define(version: 20191104071018) do
     t.integer  "clients_count",  default: 0
     t.integer  "families_count", default: 0
     t.integer  "partners_count", default: 0
-    t.integer  "users_count",    default: 0
+    t.integer  "users_count",    default: 0,  null: false
     t.string   "country"
   end
 
@@ -1645,6 +1645,7 @@ ActiveRecord::Schema.define(version: 20191104071018) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visit_clients", ["user_id"], name: "index_visit_clients_on_user_id", using: :btree
@@ -1653,7 +1654,7 @@ ActiveRecord::Schema.define(version: 20191104071018) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "deleted_at"
+    t.time     "deleted_at"
   end
 
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
