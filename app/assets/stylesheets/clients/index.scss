@@ -51,6 +51,13 @@ body[id='clients-index'] {
     }
   }
 
+  #prevent-show-other-save-search{
+    width: 50%;
+  }
+  #prevent-show-my-save-search{
+    width: 50%;
+  }
+
   .loader {
     margin: auto;
     border: 5px solid #f3f3f3; /* Light grey */

@@ -1,0 +1,12 @@
+#modal-prevent-show-other-save-search.modal.fade{ role: 'dialog' }
+  #prevent-show-other-save-search.modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+      .modal-body
+        This program stream has been deleted.So, we cannot show load save search.
+      .modal-footer
+        %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')
+
+
+

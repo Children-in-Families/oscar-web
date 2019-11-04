@@ -93,9 +93,11 @@ module AdvancedSearches
 
         elsif form_builder.first == 'programexitdate'
           program_stream = ProgramStream.find_by(name: form_builder.second)
-          exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
-          @sql_string << exit_date[:id]
-          @values << exit_date[:values]
+          if program_stream.present?
+            exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
+            @sql_string << exit_date[:id]
+            @values << exit_date[:values]
+          end
 
         elsif form_builder.first == 'quantitative'
           quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
