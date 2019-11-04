@@ -149,7 +149,27 @@ module FormBuilderHelper
 
     program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
 
-    type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
+    service_results = mapping_service_param_value(basic_rules)
+    serivce_query_string = get_program_service_query_string(service_results)
+
+    type_of_services = program_streams.map{|ps| ps.services.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
+  end
+
+  def mapping_service_param_value(data, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_service_param_value(h, field_name=nil, data_mapping)
+      end
+      if field_name.nil?
+       next if !(h[:id] =~ /^(type_of_service)/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
   end
 
   def integer?(type)
