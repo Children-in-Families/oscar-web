@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+}
+
+.tabHead {
+  display: flex;
+  flex: 1;
+}
+
+.tabButton {
+  border-radius: 5px;
+  color: blue;
+  flex: 1;
+  padding: 15px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.active {
+  background: blue;
+  color: white;
+}
+

@@ -69,6 +69,8 @@ gem 'text',                   '~> 1.3', '>= 1.3.1'
 gem 'paranoia',               '~> 2.4', '>= 2.4.1'
 gem 'ancestry',               '~> 3.0', '>= 3.0.5'
 gem 'write_xlsx',             '~> 0.85.7'
+gem 'react-rails',            '~> 2.6.0'
+gem 'webpacker',              '~> 4.0.7'
 
 group :development, :test do
   gem 'pry'

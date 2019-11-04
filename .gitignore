@@ -28,3 +28,10 @@ dump.rdb
 vendor/data
 .vscode/
 brakeman_report*.html
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
