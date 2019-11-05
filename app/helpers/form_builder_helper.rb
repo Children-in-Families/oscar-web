@@ -149,8 +149,7 @@ module FormBuilderHelper
 
     program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
 
-    service_results = mapping_service_param_value(basic_rules)
-    serivce_query_string = get_program_service_query_string(service_results)
+    serivce_query_string = get_program_service_query_string(results)
 
     type_of_services = program_streams.map{|ps| ps.services.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
   end
