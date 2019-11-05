@@ -47,6 +47,7 @@ class CaseNotesController < AdminController
       else
         @case_note.assessment = @client.assessments.default_latest_record
       end
+      @case_note_domain_group_note = params.dig(:additional_fields, :note)
       render :new
     end
   end
