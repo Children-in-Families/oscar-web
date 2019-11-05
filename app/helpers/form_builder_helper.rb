@@ -141,17 +141,22 @@ module FormBuilderHelper
   end
 
   def map_type_of_services(object)
-    basic_rules = $param_rules['basic_rules']
-    basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results = mapping_program_stream_service_param_value(basic_rules)
+    if $param_rules.nil?
+      program_streams = object.program_streams.joins(:services)
+      type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
+    else
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_program_stream_service_param_value(basic_rules)
 
-    query_string = get_program_service_query_string(results)
+      query_string = get_program_service_query_string(results)
 
-    program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
+      program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
 
-    serivce_query_string = get_program_service_query_string(results)
+      serivce_query_string = get_program_service_query_string(results)
 
-    type_of_services = program_streams.map{|ps| ps.services.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
+      type_of_services = program_streams.map{|ps| ps.services.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
+    end
   end
 
   def mapping_service_param_value(data, field_name=nil, data_mapping=[])
