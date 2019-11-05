@@ -13,6 +13,9 @@ namespace :change_client_province do
         elsif client.birth_province_id == 35
           shared_client = SharedClient.find_by(slug: client.slug)
           shared_client.update(birth_province_id: 15)
+        elsif client.birth_province_id == 55
+          shared_client = SharedClient.find_by(slug: client.slug)
+          shared_client.update(birth_province_id: 142)
         end
         Organization.switch_to current_org
       end
@@ -21,6 +24,7 @@ namespace :change_client_province do
     Organization.switch_to 'shared'
     Province.find_by(id: 345).destroy
     Province.find_by(id: 35).destroy
+    Province.find_by(id: 55).destroy
     puts 'destroy province done !!'
   end
 end
