@@ -20,7 +20,7 @@ namespace :client_to_shared do
         lesotho_suburbs = Client.pluck(:suburb).uniq
         clients << fetch_client_attributes('suburb')
       else
-        cambodia_province_names.concat(Province.pluck(:name))
+        cambodia_province_names.concat(Province.where(country: 'cambodia').where('name iLIKE?', '%/%').pluck(:name))
         clients << fetch_client_attributes('birth_province_name')
       end
     end
@@ -28,7 +28,7 @@ namespace :client_to_shared do
     Organization.switch_to 'shared'
 
     cambodia_province_names.uniq.each do |province_name|
-      Province.find_by(name: province_name, country: 'cambodia')
+      Province.find_or_create_by(name: province_name, country: 'cambodia')
     end
 
     thailand_province_names.uniq.each do |province_name|
