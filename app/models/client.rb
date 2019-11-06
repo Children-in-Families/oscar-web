@@ -79,7 +79,6 @@ class Client < ActiveRecord::Base
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
-  before_update :disconnect_client_family_relation
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   # after_update :notify_managers, if: :exiting_ngo?
@@ -669,10 +668,6 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def family
-    Family.where('children && ARRAY[?]', id).last
-  end
-
   def create_or_update_shared_client
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
@@ -711,10 +706,6 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     case_worker_clients.destroy_all
-  end
-
-  def disconnect_client_family_relation
-    cases.destroy_all
   end
 
   def assessment_duration(duration, default = true)
