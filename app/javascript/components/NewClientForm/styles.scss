@@ -1,5 +1,9 @@
+@import '../../utils/Colors.scss';
+
 .container {
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .tabHead {
@@ -9,15 +13,15 @@
 
 .tabButton {
   border-radius: 5px;
-  color: blue;
+  color: $flatblue;
   flex: 1;
-  padding: 15px;
-  margin: 10px;
+  padding: 1em 1em;
+  margin: 0 0.5em 0.5em;
   cursor: pointer;
 }
 
 .active {
-  background: blue;
-  color: white;
+  background: $flatblue;
+  color: $white;
 }
 
