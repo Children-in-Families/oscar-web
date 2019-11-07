@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import AdministrativeInfo from './administrativeInfo'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
+import ReferralMoreInfo from './referralMoreInfo'
+import ReferralVulnerability from './referralVulnerability'
 import './styles.scss'
 
 const Forms = props => {
@@ -52,6 +54,14 @@ const Forms = props => {
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
             <ReferralInfo step={step} data={gettingStartData} />
+          </div>
+
+          <div style={{ display: step === 3 ? 'block' : 'none' }}>
+            <ReferralMoreInfo step={step} data={gettingStartData} />
+          </div>
+
+          <div style={{ display: step === 4 ? 'block' : 'none' }}>
+            <ReferralVulnerability step={step} data={gettingStartData} />
           </div>
         </div>
       </div>
