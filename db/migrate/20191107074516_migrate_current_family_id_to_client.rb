@@ -6,6 +6,9 @@ class MigrateCurrentFamilyIdToClient < ActiveRecord::Migration
           client.current_family_id = client.family_ids.last
           client.save
         end
+      elsif client.family
+        client.current_family_id = client.family.id
+        client.save
       else
         next
       end
