@@ -1,17 +1,18 @@
-#client-confirmation.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog{:role => "document"}
+#client-confirmation.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", data: {backdrop: 'static', keyboard: 'false'} }
+  .modal-dialog{:style => 'overflow-y: scroll; max-height:85%; margin-top: 100px; margin-bottom: 50px;', :role => "document"}
     .modal-content
       .modal-header
-        %h3 
-          %strong 
+        %button#closeModal.close{ 'data-dismiss': 'modal', type: 'button'} ×
+        %h3
+          %strong
             = t('.client_confirmation')
       .modal-body
         %p
-          = t('.client_option') 
+          = t('.client_option')
         #clientOption
           .row
             .col-xs-12.col-sm-12.col-md-12.client-option-family-record
-              %input.icheck-client-option.client-option#newFamily{:name => "clientConfirmation", :type => "radio", :value => "createNewFamilyRecord"} 
+              %input.icheck-client-option.client-option#newFamily{:name => "clientConfirmation", :type => "radio", :value => "createNewFamilyRecord"}
               = t ('.create_family_record_option')
             .col-xs-12.col-sm-12.col-md-12.client-option-family-record
               %input.icheck-client-option#attachFamily{:name => "clientConfirmation", :type => "radio", :value => "attachExistingFamilyRecord"}
