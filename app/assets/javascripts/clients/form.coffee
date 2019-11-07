@@ -484,7 +484,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       maximumSelectionSize: 1
       allowClear: true
 
-    $('#client_family_ids').select2('val', $('#client_family_ids').data('family-ids'))
+    # $('#client_family_ids').select2('val', $('#client_family_ids').data('family-ids'))
 
     $('#client_family_ids').on "change", ->
       $('#client-confirmation #client_family_ids').select2('val', '')

@@ -147,7 +147,7 @@ class ClientsController < AdminController
       family.save(validate: false)
     end
     family_ids = [*@client.families.ids, *client_params['family_ids']].uniq
-    if @client.update_attributes(client_params.merge(family_ids: family_ids))
+    if @client.update_attributes(client_params.merge(family_ids: family_ids, current_family_id: client_params['family_ids'].reject(&:empty?).first))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -216,7 +216,7 @@ class ClientsController < AdminController
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id,
+            :relevant_referral_information, :province_id, :current_fimily_id,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
