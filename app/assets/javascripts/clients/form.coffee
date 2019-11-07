@@ -26,6 +26,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _openSelectClientForm()
     _disableAndEnableButtonOtherOptionToCreateFamiyRecord()
     _disableAndEnableButtonWhenOptionAttachFamilyRecord()
+    _removeModalBodyDuplicateChecker()
+    _preventClientDateOfBirth()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -156,7 +158,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     if data.family == ''
       $('.loader-default').removeClass('is-active')
       $('#client-confirmation').modal('show')
-      $('#clientConfirmation').click ->
+      $('#clientConfirmation').off('click').on 'click', ->
+        $('#clientConfirmation').text(filterTranslation.save).attr('disabled', 'disabled')
         clientId = $('#client-id').text()
         clientOptionValue = $('input[name=clientConfirmation]:checked').val()
         if clientOptionValue == "createNewFamilyRecord"
@@ -178,10 +181,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         url: '/api/clients/compare'
         data: data
         dataType: "JSON"
-      }).success((json)->
+      }).success((res)->
         $('.loader-default').removeClass('is-active')
         clientId  = $('#client_slug').val()
-        similar_fields  = json.similar_fields
+        similar_fields  = res.similar_fields
         modalTextSecond = ''
 
         if clientId == '' and similar_fields.length > 0
@@ -202,11 +205,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
           $('#confirm-client-modal .modal-body').html(modalText)
 
+          $('#client-confirmation').modal('hide')
+          $('#clientConfirmation').removeAttr('disabled', 'disabled')
           $('#confirm-client-modal').modal('show')
           $('#confirm-client-modal #confirm').on 'click', ->
             $(@).text($(@).data('confirm')).append('...').attr("disabled","disabled");
             $('#client-wizard-form').submit()
         else
+          $("#confirm-client-modal .modal-body").children().remove()
+          $("#confirm-client-modal").modal('hide')
           $('#client-wizard-form').submit()
       )
       return false
@@ -222,6 +229,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if family == ''
         $('#client-confirmation').modal('show')
         $('#clientConfirmation').click ->
+          $('#clientConfirmation').text(filterTranslation.save).attr('disabled', 'disabled')
           clientOptionValue = $('input[name=clientConfirmation]:checked').val()
           if clientOptionValue == "createNewFamilyRecord"
             localStorage.setItem('redirect_to_family', 'true')
@@ -230,10 +238,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           else if clientOptionValue == "attachExistingFamilyRecord"
             $('#client-wizard-form').submit()
           else
-            $('#client-wizard-form').submit() 
+            $('#client-wizard-form').submit()
       else
         $('#client-wizard-form').submit()
-  
+
   _openSelectClientForm = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
       $('#client-confirmation #client_family_ids').select2('val', '')
@@ -241,23 +249,23 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         $('#family-option').show()
       else
         $('#family-option').hide()
-       
-  
+
+
   _disableAndEnableButtonOtherOptionToCreateFamiyRecord = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
-      if $('.client-option').is(':checked') 
-        $('#clientConfirmation').removeClass('disabled')
-      else
-        $('#clientConfirmation').addClass('disabled')
-  
-  _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
-    $('#client-confirmation #client_family_ids').on 'change' , (e) ->
-      if $(this).val() != null 
+      if $('.client-option').is(':checked')
         $('#clientConfirmation').removeClass('disabled')
       else
         $('#clientConfirmation').addClass('disabled')
 
-    
+  _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
+    $('#client-confirmation #client_family_ids').on 'change' , (e) ->
+      if $(this).val() != null
+        $('#clientConfirmation').removeClass('disabled')
+      else
+        $('#clientConfirmation').addClass('disabled')
+
+
   _clientSelectOption = ->
     $('select').select2
       minimumInputLength: 0
@@ -288,13 +296,33 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
     $('.icheck-client-option').iCheck
       radioClass: 'iradio_square-green'
-      
+
   _initDatePicker = ->
     $('.date-picker').datepicker
       autoclose: true,
       format: 'yyyy-mm-dd',
       todayHighlight: true,
-      disableTouchKeyboard: true
+      disableTouchKeyboard: true,
+      startDate: '1899,01,01',
+      todayBtn: true,
+    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+      if e.keyCode == 8
+        e.preventDefault()
+      return
+
+  _preventClientDateOfBirth = =>
+    $('.prevent-date-of-birth').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      disableTouchKeyboard: true,
+      startDate: '1899,01,01',
+      todayBtn: true,
+      endDate: 'today'
+    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+      if e.keyCode == 8
+        e.preventDefault()
+      return
 
   _initWizardForm = ->
     self = @
@@ -498,6 +526,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if $(this).select2('val').length > 0
         e.preventDefault()
 
-    
+  _removeModalBodyDuplicateChecker = ->
+    $('#confirm-client-modal').on 'hidden.bs.modal', ->
+      $("##{@.id} .modal-body").children().remove()
+
 
   { init: _init }

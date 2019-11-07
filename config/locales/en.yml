@@ -1287,7 +1287,7 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: Client Confirmation
       client_option: Would you like to create a family record for this client, or attach them to an existing family?
       create_family_record_option:  Create New Family Record
@@ -1500,7 +1500,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search 
+      advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       assessment_data: Assessment Data

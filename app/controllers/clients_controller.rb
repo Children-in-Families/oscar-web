@@ -134,7 +134,7 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
-    if @client.save
+    if @client.save(validate: false)
       redirect_to @client, notice: t('.successfully_created')
     else
       render :new
@@ -160,7 +160,7 @@ class ClientsController < AdminController
   end
 
   def destroy
-    @client.client_enrollments.each(&:really_destroy!)
+    @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
     @client.reload.destroy
 
