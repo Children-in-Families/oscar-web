@@ -44,7 +44,3 @@ export default props => {
     </>
   )
 }
-
-const styles = {
-
-}

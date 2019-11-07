@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import AdministrativeInfro from './AdministrativeInfo'
-import StepOne from './StepOne'
-import StepTwo from './StepTwo'
-import StepThree from './StepThree'
-import StepFour from './StepFour'
+import AdministrativeInfo from './administrativeInfo'
+import RefereeInfo from './refereeInfo'
+import ReferralInfo from './referralInfo'
 import './styles.scss'
 
 const Forms = props => {
@@ -39,19 +37,22 @@ const Forms = props => {
   return (
     <div className='container'>
       <div className='tabHead'>
-        { tabs.map((tab, index) => renderTab(tab, index)) }
+        {tabs.map((tab, index) => renderTab(tab, index))}
       </div>
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfro data={gettingStartData} />
+          <AdministrativeInfo data={gettingStartData} />
         </div>
 
         <div className='rightComponent'>
-          { step === 1 && <StepOne data={gettingStartData}  /> }
-          { step === 2 && <StepTwo data={gettingStartData}  /> }
-          { step === 3 && <StepThree data={gettingStartData}  /> }
-          { step === 4 && <StepFour data={gettingStartData}  /> }
+          <div style={{display: step === 1 ? 'block' : 'none'}}>
+            <RefereeInfo step={step} data={gettingStartData} />
+          </div>
+
+          <div style={{display: step === 2 ? 'block' : 'none'}}>
+            <ReferralInfo step={step} data={gettingStartData} />
+          </div>
         </div>
       </div>
 
