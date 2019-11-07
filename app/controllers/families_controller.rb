@@ -53,7 +53,8 @@ class FamiliesController < AdminController
 
     @client_grid = ClientGrid.new(params[:client_grid])
     @results = @client_grid.scope.where(id: @family.children).uniq.size
-    @client_grid.scope { |scope| scope.where(id: @family.children).page(params[:page]).per(10).uniq }
+    client_ids = Client.where(current_family_id: @family.id)
+    @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).uniq }
   end
 
   def edit
@@ -106,11 +107,12 @@ class FamiliesController < AdminController
     @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
     @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
 
-    if action_name.in?(['edit', 'update'])
-      client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
-    else
-      client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
-    end
+    # if action_name.in?(['edit', 'update'])
+    #   client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
+    # else
+    #   client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
+    # end
+    client_ids = Client.where.not(id: Client.joins(:families).ids).ids
     @clients  = Client.accessible_by(current_ability).where.not(id: client_ids).order(:given_name, :family_name)
   end
 
