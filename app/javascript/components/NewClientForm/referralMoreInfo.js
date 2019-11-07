@@ -7,7 +7,7 @@ import {
 import styles from './styles'
 
 export default props => {
-  const { step, data: { client, users, birth_provinces, referral_source, referral_source_category }, translations } = props
+  const { data: { client, users, birth_provinces, referral_source, referral_source_category }, translations } = props
 
   const name = []
   const phoneNumber = []
@@ -18,7 +18,6 @@ export default props => {
 
 
   return (
-    step === 3 &&
     <div className="container">
       <legend>Client / Referral - More Information</legend>
       <div className="row">
