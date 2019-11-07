@@ -1,20 +1,25 @@
 import React, { useState } from 'react'
-import GettingStarted from './gettingStart'
-import LivingDetails from './livingDetail'
-import OtherDetails from './otherDetail'
-import ReferralData from './referralData'
+import AdministrativeInfro from './AdministrativeInfo'
+import StepOne from './StepOne'
+import StepTwo from './StepTwo'
+import StepThree from './StepThree'
+import StepFour from './StepFour'
 import './styles.scss'
 
 const Forms = props => {
-  const { translations, data: {client, users, birth_provinces, referral_source, referral_source_category} } = props
+  const {
+    data: {
+      client, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient
+    }
+  } = props
   const [step, setStep] = useState(1)
-  const gettingStartData = { client, users, birth_provinces, referral_source_category, referral_source }
+  const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry, internationalReferredClient }
 
   const tabs = [
-    {text: '1. Getting Started', step: 1},
-    {text: '2. Living Details', step: 2},
-    {text: '3. Other Details', step: 3},
-    {text: '4. Specific Point-of-Referral-Data', step: 4}
+    {text: 'Referee Information', step: 1},
+    {text: 'Client / Referral Information', step: 2},
+    {text: 'Client / Referral - More Information', step: 3},
+    {text: 'Client / Referral - Vulnerability Information and Referral Note', step: 4}
   ]
 
   const activeClass = value => step === value ? 'active' : ''
@@ -37,10 +42,29 @@ const Forms = props => {
         { tabs.map((tab, index) => renderTab(tab, index)) }
       </div>
 
-      <GettingStarted step={step} data={gettingStartData} translations={translations}  />
-      <LivingDetails step={step} />
-      <OtherDetails step={step} />
-      <ReferralData step={step} />
+      <div className='contentWrapper'>
+        <div className='leftComponent'>
+          <AdministrativeInfro data={gettingStartData} />
+        </div>
+
+        <div className='rightComponent'>
+          { step === 1 && <StepOne data={gettingStartData}  /> }
+          { step === 2 && <StepTwo data={gettingStartData}  /> }
+          { step === 3 && <StepThree data={gettingStartData}  /> }
+          { step === 4 && <StepFour data={gettingStartData}  /> }
+        </div>
+      </div>
+
+      <div className='actionfooter'>
+        <div className='leftWrapper'>
+          <span className='btn btn-default'>Cancel</span>
+        </div>
+
+        <div className='rightWrapper'>
+          <span className='previousButton'>Previous</span>
+          <span className='nextButton'>Next</span>
+        </div>
+      </div>
     </div>
   )
 }

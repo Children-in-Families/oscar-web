@@ -12,9 +12,8 @@
           - if @referral.present?
             = link_to t('.download_supporting_document'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
       .ibox-content
-        - if current_organization.aht
-          - translations = { staff_responsibilities: t('clients.getting_started.staff_responsibilities'), received_by_id: t('clients.getting_started.received_by_id'), followed_up_by_id: t('clients.getting_started.followed_up_by_id'), users: t('clients.getting_started.users'), initial_referral_date: t('clients.getting_started.initial_referral_date'), follow_up_date: t('clients.getting_started.follow_up_date'), referral_information: t('clients.getting_started.referral_information'),   }
-          = react_component('NewClientForm', { translations: translations, data: {client: @client, users: @users, referral_source_category: @referral_source_category, referral_source: @referral_source, birth_provinces: @birth_provinces} })
-        - else
-          - binding.pry
-          = render 'form'
+        = react_component('NewClientForm', { data: { internationalReferredClient: international_referred_client, selectedCountry: selected_country, client: @client, users: @users, referralSourceCategory: @referral_source_category, referralSource: @referral_source, birthProvinces: @birth_provinces} })
+        -# - if current_organization.aht
+
+        -# - else
+        -#   = render 'form'

@@ -6,6 +6,19 @@
   margin: 0;
 }
 
+.contentWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.leftComponent {
+  flex-basis: 30%;
+}
+
+.rightComponent {
+  flex-basis: 70%;
+}
+
 .tabHead {
   display: flex;
   flex: 1;
@@ -23,5 +36,42 @@
 .active {
   background: $flatblue;
   color: $white;
+}
+
+.actionfooter {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leftWrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rightWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.previousButton {
+  background: #eee;
+  color: #aaa;
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 0 0.5em;
+  cursor: pointer;
+}
+
+.nextButton {
+  background: #2184be;
+  color: #fff;
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 0 0.5em;
+  cursor: pointer;
 }
 
