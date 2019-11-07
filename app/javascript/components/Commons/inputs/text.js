@@ -7,7 +7,7 @@ export default props => {
         { props.required && <abbr title='required'>* </abbr> }
         {props.label}
       </label>
-      <input className='form-control' />
+      <input className='form-control' onChange={props.onChange} />
     </div>
   )
 }

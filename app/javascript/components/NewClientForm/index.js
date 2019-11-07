@@ -34,6 +34,14 @@ const Forms = props => {
     )
   }
 
+  const onChangeText = (data, name) => event => {
+    const value = event.target.value
+    data[name] = value
+    console.log('name', name)
+    console.log('value', value)
+    console.log('data', data)
+  }
+
   return (
     <div className='container'>
       <div className='tabHead'>
@@ -47,11 +55,11 @@ const Forms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo step={step} data={gettingStartData} />
+            <RefereeInfo data={gettingStartData} onChangeText={onChangeText} />
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo step={step} data={gettingStartData} />
+            <ReferralInfo data={gettingStartData} />
           </div>
         </div>
       </div>
