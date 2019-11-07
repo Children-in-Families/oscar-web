@@ -1,7 +1,8 @@
 import React from 'react'
 import {
   SelectInput,
-  TextInput
+  TextInput,
+  DateInput
 } from '../Commons/inputs'
 import styles from './styles'
 
@@ -13,6 +14,7 @@ export default props => {
   const userLists = users.map(user => [user.first_name + ' ' + user.last_name, user.id])
   const genderLists = [['Female', 'female'], ['Male', 'male'], ['Other', 'other'], ['Unknown', 'unknown']]
   const provinces = [["Cambodia", [["Burmese", 52]]], ["Thai", [["Hello", 12]]]]
+  const rate = [[1], [2], [3], [4]]
 
 
   return (
