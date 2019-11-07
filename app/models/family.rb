@@ -101,14 +101,14 @@ class Family < ActiveRecord::Base
     errors.add(:children, error_message) if existed_clients.present?
   end
 
-  def delete_family_in_client
-    self.cases.each do |client_case|
-      client = Client.find_by(id: client_case.client_id)
-      if client.present? && client.family_ids.include?(self.id)
-        unless self.children.include?(client.id)
-          client.cases.find_by(family_id: self.id).delete
-        end
-      end
+  def save_family_in_client
+    self.children.each do |child|
+      client = Client.find_by(id: child)
+      next if client.nil?
+      next if client.family_ids.include?(self.id)
+      client.families << self
+      client.families.uniq
+      client.save(validate: false)
     end
   end
 end
