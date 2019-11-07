@@ -1,8 +1,8 @@
 const styles = {
-  container: {
-    margin: '0.5em',
-    minHeight: '35em',
-  },
+  // container: {
+  //   margin: '0.5em',
+  //   minHeight: '35em',
+  // },
   legend: {
     display: 'block',
     width: '100%',

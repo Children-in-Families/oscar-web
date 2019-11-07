@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import GettingStarted from './gettingStart'
-import LivingDetails from './livingDetail'
-import OtherDetails from './otherDetail'
-import ReferralData from './referralData'
+import RefereeInformation from './refereeInformation'
+// import LivingDetails from './livingDetail'
+// import OtherDetails from './otherDetail'
+// import ReferralData from './referralData'
 import './styles.scss'
 
 const Forms = props => {
@@ -11,10 +11,10 @@ const Forms = props => {
   const gettingStartData = { client, users, birth_provinces, referral_source_category, referral_source }
 
   const tabs = [
-    {text: '1. Getting Started', step: 1},
-    {text: '2. Living Details', step: 2},
-    {text: '3. Other Details', step: 3},
-    {text: '4. Specific Point-of-Referral-Data', step: 4}
+    {text: '1. Referee Information', step: 1},
+    // {text: '2. Living Details', step: 2},
+    // {text: '3. Other Details', step: 3},
+    // {text: '4. Specific Point-of-Referral-Data', step: 4}
   ]
 
   const activeClass = value => step === value ? 'active' : ''
@@ -34,13 +34,13 @@ const Forms = props => {
   return (
     <div className='container'>
       <div className='tabHead'>
-        { tabs.map((tab, index) => renderTab(tab, index)) }
+        <RefereeInformation step={step} data={gettingStartData} translations={translations} />
       </div>
 
-      <GettingStarted step={step} data={gettingStartData} translations={translations}  />
-      <LivingDetails step={step} />
+
+      {/* <LivingDetails step={step} />
       <OtherDetails step={step} />
-      <ReferralData step={step} />
+      <ReferralData step={step} /> */}
     </div>
   )
 }
