@@ -215,6 +215,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('.loader-default').removeClass('is-active')
 
   _checkingFamilyRecord = ->
+
     $('.save-edit-client').on 'click', (e) ->
       e.preventDefault()
       clientId = $('#client-id').text()
@@ -483,9 +484,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       maximumSelectionSize: 1
       allowClear: true
 
-    $('#client_family_ids').on 'change', ->
-      $('#client-confirmation #client_family_ids').select2('val', '')
+    $('#client_family_ids').select2('val', $('#client_family_ids').data('family-ids'))
 
+    $('#client_family_ids').on "change", ->
+      $('#client-confirmation #client_family_ids').select2('val', '')
     $('#client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()

@@ -146,7 +146,6 @@ class ClientsController < AdminController
       family.children = family.children - [@client.id]
       family.save(validate: false)
     end
-
     family_ids = [*@client.families.ids, *client_params['family_ids']].uniq
     if @client.update_attributes(client_params.merge(family_ids: family_ids))
       if params[:client][:assessment_id]
