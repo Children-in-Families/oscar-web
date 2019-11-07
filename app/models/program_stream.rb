@@ -231,13 +231,21 @@ class ProgramStream < ActiveRecord::Base
   def get_rules(queries, ss)
     queries['rules'].each do |rule|
       program_stream_old_queries = get_rules(rule, ss) if rule.has_key?('rules')
-      binding.pry if ss.id == 54
       if rule["id"].present?
         program_stream_old_queries = rule["id"]&.slice(/\__.*__/)&.gsub(/__/i,'')&.gsub(/\(|\)/i,'')&.squish
-        if program_stream_old_queries.present? && name[/#{program_stream_old_queries[0..5]}.*#{program_stream_old_queries[-4]}/i]
+        if program_stream_old_queries.present? && (name[/#{program_stream_old_queries[0..5]}.*#{program_stream_old_queries[-4]}/i])
           query_rule = rule["id"].sub(/__.*__/, "__#{name}__")
           rule['id'] = query_rule
           ss.save
+          enrollment.each do |enrolled|
+            updated_enrollment = enrolled["label"]
+            old_enrollment = rule["id"].gsub(/.*__/i,'')
+            if updated_enrollment[/#{old_enrollment[0..5]}.*#{old_enrollment[-4]}/i]
+              query_rule_enrollment = rule["id"].slice(/.*__/i) + updated_enrollment
+              rule['id'] = query_rule_enrollment
+              ss.save
+            end
+          end
         end
       end
     end

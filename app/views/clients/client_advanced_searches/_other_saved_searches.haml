@@ -18,7 +18,6 @@
             %td.date
               = date_format(advanced_search.created_at)
             %td.load-query.text-center
-              = check_saved_searches(advanced_search)
+              = prevent_load_saved_searches(advanced_search)
 
-= render 'clients/client_advanced_searches/prevent_show_other_save_search'
-
+= render 'clients/client_advanced_searches/prevent_load_saved_searches'
