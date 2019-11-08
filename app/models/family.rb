@@ -104,11 +104,13 @@ class Family < ActiveRecord::Base
   end
 
   def save_family_in_client
+    Client.where(current_family_id: self.id).where.not(id: self.children).update_all(current_family_id: nil)
     self.children.each do |child|
       client = Client.find_by(id: child)
       next if client.nil?
       next if client.family_ids.include?(self.id)
       client.families << self
+      client.current_family_id = self.id
       client.families.uniq
       client.save(validate: false)
     end
