@@ -7,11 +7,11 @@ class MigrateCurrentFamilyIdToClient < ActiveRecord::Migration
           client.save
         else
           client.current_family_id = client.family.id
-          client.save
+          client.save(validate: false)
         end
       elsif client.family
         client.current_family_id = client.family.id
-        client.save
+        client.save(validate: false)
       else
         next
       end
