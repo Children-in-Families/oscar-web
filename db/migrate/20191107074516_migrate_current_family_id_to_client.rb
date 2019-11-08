@@ -4,7 +4,7 @@ class MigrateCurrentFamilyIdToClient < ActiveRecord::Migration
       if client.current_family_id.nil?
         if client.family_ids.last.present?
           client.current_family_id = client.family_ids.last
-          client.save
+          client.save(validate: false)
         else
           client.current_family_id = client.family.id
           client.save(validate: false)
