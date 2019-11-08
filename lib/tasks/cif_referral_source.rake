@@ -10,7 +10,8 @@ namespace :cif_referral_source do
       referral_source.name = version.changeset[:name].first
       referral_source.ancestry = version.changeset[:ancestry].first
       referral_source.save
-      ReferralSource.create!(name: new_referral_name, ancestry: version.changeset[:ancestry].last)
+
+      ReferralSource.find_or_create_by(name: version.changeset[:name].last, ancestry: version.changeset[:ancestry].last)
     end
   end
 
