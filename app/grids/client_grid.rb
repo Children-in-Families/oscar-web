@@ -319,7 +319,7 @@ class ClientGrid < BaseGrid
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
-  
+
   filter(:date_of_referral, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') })
 
   filter(:domain_2a, :dynamic, select: proc { get_domain('2A') }, header: -> { "#{ I18n.t('datagrid.columns.clients.domain')} 2A (Shelter)" }) do |(domain_id, operation, value), scope|
@@ -437,7 +437,7 @@ class ClientGrid < BaseGrid
   column(:code, header: -> { custom_id_translation('custom_id1') }) do |object|
     object.code ||= ''
   end
-  
+
   column(:kid_id, order:'clients.kid_id', header: -> { custom_id_translation('custom_id2') })
 
   def self.custom_id_translation(type)
@@ -585,7 +585,7 @@ class ClientGrid < BaseGrid
   column(:followed_up_by, html: false, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
     object.followed_up_by.try(:name)
   end
-  
+
   column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
     short_names = object.referrals.pluck(:referred_to)
     org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
@@ -688,7 +688,7 @@ class ClientGrid < BaseGrid
           elsif identify_province_khmer == 2
              province = object.province&.name
           end
-          
+
         end
 
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_kh') }) do |object|
@@ -697,15 +697,15 @@ class ClientGrid < BaseGrid
           birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
           identity_birth_province = birth_province&.count "/"
           if identity_birth_province == 1
-            birth_province = birth_province.split('/').first 
+            birth_province = birth_province.split('/').first
           elsif identity_birth_province == 2
-            birth_province 
+            birth_province
           end
           Organization.switch_to current_org.short_name
           birth_province
         end
-  
-      else 
+
+      else
         column(:village, html: false, order: 'villages.name_kh', header: -> { I18n.t('datagrid.columns.clients.village_en') } ) do |object|
           object.village.try(:name_en)
         end
@@ -731,16 +731,16 @@ class ClientGrid < BaseGrid
         column(:birth_province, html: false, header: -> { I18n.t('datagrid.columns.clients.birth_province_en') }) do |object|
           current_org = Organization.current
           Organization.switch_to 'shared'
-          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name      
+          birth_province = SharedClient.find_by(slug: object.slug).birth_province_name
           identity_birth_province = birth_province&.count "/"
           if identity_birth_province == 1
-            birth_province = birth_province.split('/').last 
+            birth_province = birth_province.split('/').last
           elsif identity_birth_province == 2
-            birth_province 
+            birth_province
           end
           Organization.switch_to current_org.short_name
           birth_province
-        end  
+        end
       end
     when 'uganda'
       column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
@@ -913,12 +913,10 @@ class ClientGrid < BaseGrid
 
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
     object.family.try(:id)
-    # Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
   end
 
   column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
     object.family.try(:name)
-    # Family.where('children @> ARRAY[q?]::integer[]', [object.id]).pluck(:name).uniq.join(', ')
   end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
