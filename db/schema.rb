@@ -81,6 +81,12 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.datetime "updated_at"
   end
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",               default: ""
     t.integer  "previous_score"
@@ -451,8 +457,6 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
   end
@@ -593,12 +597,15 @@ ActiveRecord::Schema.define(version: 20191107074516) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: "", null: false
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -1084,7 +1091,7 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.integer  "clients_count",  default: 0
     t.integer  "families_count", default: 0
     t.integer  "partners_count", default: 0
-    t.integer  "users_count",    default: 0
+    t.integer  "users_count",    default: 0,  null: false
     t.string   "country"
   end
 
@@ -1196,41 +1203,18 @@ ActiveRecord::Schema.define(version: 20191107074516) do
   add_index "services", ["parent_id"], name: "index_services_on_parent_id", using: :btree
 
   create_table "settings", force: :cascade do |t|
-    t.string   "assessment_frequency",        default: "month"
-    t.integer  "min_assessment"
-    t.integer  "max_assessment",              default: 6
-    t.string   "country_name",                default: ""
-    t.integer  "max_case_note"
-    t.string   "case_note_frequency"
-    t.string   "client_default_columns",      default: [],                  array: true
-    t.string   "family_default_columns",      default: [],                  array: true
-    t.string   "partner_default_columns",     default: [],                  array: true
-    t.string   "user_default_columns",        default: [],                  array: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "org_name",                    default: ""
-    t.string   "old_commune",                 default: ""
-    t.integer  "province_id"
-    t.integer  "district_id"
-    t.integer  "age",                         default: 18
-    t.integer  "commune_id"
-    t.string   "custom_assessment",           default: "Custom Assessment"
-    t.boolean  "enable_custom_assessment",    default: false
-    t.boolean  "enable_default_assessment",   default: true
-    t.integer  "max_custom_assessment",       default: 6
-    t.string   "custom_assessment_frequency", default: "month"
-    t.integer  "custom_age",                  default: 18
-    t.string   "default_assessment",          default: "CSI Assessment"
-    t.boolean  "sharing_data",                default: false
-    t.string   "custom_id1_latin",            default: ""
-    t.string   "custom_id1_local",            default: ""
-    t.string   "custom_id2_latin",            default: ""
-    t.string   "custom_id2_local",            default: ""
+    t.string  "assessment_frequency"
+    t.integer "min_assessment"
+    t.integer "max_assessment"
+    t.string  "country_name",            default: ""
+    t.integer "max_case_note"
+    t.string  "case_note_frequency"
+    t.boolean "disable_assessment"
+    t.string  "client_default_columns",  default: [], array: true
+    t.string  "family_default_columns",  default: [], array: true
+    t.string  "partner_default_columns", default: [], array: true
+    t.string  "user_default_columns",    default: [], array: true
   end
-
-  add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
-  add_index "settings", ["district_id"], name: "index_settings_on_district_id", using: :btree
-  add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
 
   create_table "shared_clients", force: :cascade do |t|
     t.string   "slug",              default: ""
@@ -1592,9 +1576,9 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -1640,6 +1624,7 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visit_clients", ["user_id"], name: "index_visit_clients_on_user_id", using: :btree
@@ -1648,6 +1633,7 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
@@ -1739,9 +1725,6 @@ ActiveRecord::Schema.define(version: 20191107074516) do
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "referrals", "clients"
-  add_foreign_key "settings", "communes"
-  add_foreign_key "settings", "districts"
-  add_foreign_key "settings", "provinces"
   add_foreign_key "sponsors", "clients"
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"

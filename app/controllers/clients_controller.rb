@@ -142,12 +142,7 @@ class ClientsController < AdminController
   end
 
   def update
-    Family.where('children @> ARRAY[?]::integer[]', [@client.id]).each do |family|
-      family.children = family.children - [@client.id]
-      family.save(validate: false)
-    end
-
-    if @client.update_attributes(client_params)
+    if @client.update_attributes(client_params.except(:family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
