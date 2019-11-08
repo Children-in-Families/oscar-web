@@ -13,6 +13,8 @@ const Forms = props => {
     }
   } = props
   const [step, setStep] = useState(1)
+  const [clientData, setclientData] = useState(client)
+
   const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry, internationalReferredClient }
 
   const tabs = [
@@ -36,13 +38,12 @@ const Forms = props => {
     )
   }
 
-  const onChangeText = (data, name) => event => {
+  const onChangeText = (field) => event => {
     const value = event.target.value
-    data[name] = value
-    console.log('name', name)
-    console.log('value', value)
-    console.log('data', data)
+    setclientData({...clientData, [field]: value })
   }
+
+  console.log('clientData', clientData)
 
   return (
     <div className='container'>

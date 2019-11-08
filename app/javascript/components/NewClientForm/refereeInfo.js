@@ -16,7 +16,7 @@ export default props => {
       <legend>Referee Information</legend>
       <div className="row">
         <div className=" col-xs-12 col-sm-6 col-md-3">
-          <TextInput required label="Name" onChange={onChangeText(client ,'given_name')} />
+          <TextInput required label="Name" onChange={onChangeText('given_name')} />
         </div>
         <div className=" col-xs-12 col-sm-6 col-md-3">
           <SelectInput required label="Gender" collections={genderLists} />
