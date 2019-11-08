@@ -156,7 +156,7 @@ class Client < ActiveRecord::Base
   end
 
   def family
-    Family.where('children && ARRAY[?]', id).last
+    Family.find(current_family_id) if current_family_id
   end
 
   def self.fetch_75_chars_of(value)
@@ -662,10 +662,6 @@ class Client < ActiveRecord::Base
 
   def country_origin_label
     country_origin.present? ? country_origin : 'cambodia'
-  end
-
-  def family
-    Family.where('children && ARRAY[?]', id).last
   end
 
   def create_or_update_shared_client
