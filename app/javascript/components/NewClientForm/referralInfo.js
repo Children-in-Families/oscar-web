@@ -18,7 +18,14 @@ export default props => {
 
   return (
     <div className="container">
-      <legend>Client / Referral Information</legend>
+      <legend>
+        <div className="row">
+          <div className="col-xs-4">
+            <p>Client / Referral Information</p>
+          </div>
+        </div>
+      </legend>
+
       <div className="row">
         <div className="col-xs-3">
           <TextInput required label="Given Name (Latin)" />

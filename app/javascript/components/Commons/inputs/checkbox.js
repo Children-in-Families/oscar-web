@@ -4,7 +4,14 @@ export default props => {
   return (
     <>
       <input type='checkbox' className='radio_buttons' />
-      <label>{props.label}</label>
+      <label style={styles.font}>{props.label}</label>
     </>
   )
+}
+
+const styles = {
+  font:{
+    fontWeight: 'normal',
+    fontSize: '14px'
+  }
 }

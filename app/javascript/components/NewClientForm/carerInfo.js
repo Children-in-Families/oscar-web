@@ -1,51 +1,39 @@
-import React       from 'react'
+import React from 'react'
 import {
   SelectInput,
   TextInput,
-  Checkbox,
-  CheckBoxUpload
-}                   from '../Commons/inputs'
+  Checkbox
+}             from '../Commons/inputs'
+import styles from './styles'
 
 export default props => {
-  const { onChangeText, data: { client, birthProvinces } } = props
 
   const blank = []
   const genderLists = [['Female', 'female'], ['Male', 'male'], ['Other', 'other'], ['Unknown', 'unknown']]
-  const addressType = [['Floor', 'floor'], ['Building', 'building'], ['Office', 'office']]
+  const provinces = [["Cambodia", [["Burmese", 52]]], ["Thai", [["Hello", 12]]]]
 
   return (
-    <div className="container">
-      <legend>
-        <div className="row">
-          <div className="col-xs-3">
-            <p>Referee Information</p>
-          </div>
-          <div className="col-xs-3">
-            <Checkbox label="Anonymous Referee" />
-          </div>
-        </div>
-      </legend>
-
+    <div id={props.id} className="collapse">
       <div className="row">
-        <div className=" col-xs-3">
-          <TextInput required label="Name" onChange={onChangeText(client, 'given_name')} />
+        <div className="col-xs-3">
+          <TextInput required label="Name" />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Gender" collections={ genderLists } />
+          <SelectInput required label="Gender" collections={genderLists} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Referee Phone Number" />
+          <TextInput label="Carer Phone Number" />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Referee Email Address" />
+          <TextInput label="Carer Email Address" />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Referral Source Catgeory" collections={blank} />
+          <SelectInput label="Relationship to Client" collections={blank} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Referral Source" collections={blank} />
+          <SelectInput label="Carer Phone Number" collections={blank} />
         </div>
       </div>
       <legend>
@@ -54,13 +42,16 @@ export default props => {
             <p>Address</p>
           </div>
           <div className="col-xs-3">
-            <Checkbox label="Outside Cambodia"/>
+            <Checkbox label="Same as Client" />
+          </div>
+          <div className="col-xs-3">
+            <Checkbox label="Outside Cambodia" />
           </div>
         </div>
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput required label="Province" asGroup collections={birthProvinces} />
+          <SelectInput label="Province" collections={provinces} />
         </div>
         <div className="col-xs-3">
           <SelectInput label="District / Khan" collections={blank} />
@@ -77,13 +68,13 @@ export default props => {
           <TextInput label="Street Number" />
         </div>
         <div className="col-xs-3">
-          <TextInput label="House Number" />
+          <TextInput label="Street Number" />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Address Name" />
+          <TextInput label="Street Number" />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Address Type" collections={addressType} />
+          <SelectInput label="Street Number" collections={blank} />
         </div>
       </div>
     </div>

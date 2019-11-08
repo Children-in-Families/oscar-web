@@ -10,7 +10,13 @@ export default props => {
 
   return (
     <>
-      <legend className='legend'>Administrative Information</legend>
+      <legend className='legend'>
+        <div className="row">
+          <div className="col-xs-8">
+            <p>Administrative Information</p>
+          </div>
+        </div>
+      </legend>
 
       <div className='row'>
         <div className='col-xs-8'>
