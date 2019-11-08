@@ -75,3 +75,46 @@
   cursor: pointer;
 }
 
+.careInfo {
+  [data-toggle="collapse"] {
+    .fa.fa-chevron-up {
+      display: inline-block;
+    }
+    .fa.fa-chevron-down {
+      display: none;
+    }
+  }
+
+  [data-toggle="collapse"].collapsed {
+    .fa.fa-chevron-up {
+      display: none;
+    }
+    .fa.fa-chevron-down {
+      display: inline-block;
+    }
+  }
+}
+
+.makeSpaceCare {
+  margin-right: 100px;
+  cursor: pointer;
+}
+
+.makeSpaceSchool {
+  margin-right: 93px;
+  cursor: pointer;
+}
+
+.makeSpaceDonor {
+  margin-right: 95px;
+  cursor: pointer;
+}
+
+.makeSpaceCustom {
+  margin-right: 65px;
+  cursor: pointer;
+}
+
+.pointer {
+  cursor: pointer;
+}

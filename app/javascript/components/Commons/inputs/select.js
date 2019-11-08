@@ -1,26 +1,15 @@
 import React from 'react'
+import Select from 'react-select'
 
 export default props => {
-  const renderGroupOption = collections => {
-    return (
-      collections.map((collection, index) => (
-          <optgroup key={index} label={collection[0]} >
-            {renderOptions(collection[1])}
-          </optgroup>
-        )
-      )
-    )
+  const handleChange = selectedOption => {
+    console.log('selectedOption', selectedOption)
   }
 
-  const renderOptions = collections => (
-    collections.map((collection, index) =>(
-      <option
-        key={index}
-        value={collection[1]}
-      >
-        { collection[0] }
-      </option>
-    ))
+  const formatGroupLabel = data => (
+    <div>
+      <span><b>{data.label}</b></span>
+    </div>
   )
 
   return (
@@ -29,15 +18,21 @@ export default props => {
         { props.required && <abbr title='required'>* </abbr> }
         {props.label}
       </label>
-      <select style={styles.select} multiple={props.multiple}>
-        { props.asGroup && renderGroupOption(props.collections) || renderOptions(props.collections)}
-      </select>
+
+      <Select
+        isMulti={props.isMulti}
+        onChange={handleChange}
+        options={props.collections}
+        formatGroupLabel={props.asGroup && formatGroupLabel}
+        styles={customStyles}
+      />
     </div>
   )
 }
 
-const styles = {
-  select: {
-    width: '100%'
-  }
+const customStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+    zIndex: 90
+  })
 }

@@ -62,15 +62,15 @@ const Forms = props => {
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={gettingStartData} />
+            <ReferralInfo data={gettingStartData} onChangeText={onChangeText} />
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo step={step} data={gettingStartData} />
+            <ReferralMoreInfo data={gettingStartData} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
-            <ReferralVulnerability step={step} data={gettingStartData} />
+            <ReferralVulnerability data={gettingStartData} />
           </div>
         </div>
       </div>
