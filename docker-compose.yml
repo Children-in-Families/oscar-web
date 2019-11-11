@@ -8,6 +8,8 @@ services:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=mysecretpassword
       - DATABASE_HOST=db
+      - OSCAR_TEAM_EMAIL=team@oscarhq.com
+      - OSCAR_TEAM_PASSWORD=123456789
     volumes:
       - .:/app
     ports:
