@@ -6,42 +6,17 @@ Open Source Case-management and Record-keeping.
 
 ### Requirements
 
-* Postgres(>= 9.3)
-* Ruby(2.2.0)
-* Rails(4.2.2)
+* Docker Desktop (latest stable version)
 
-### Getting Start
+### Getting Started
 
-Given that you got all the requirements running on your local machine.
-
-
-Clone the project to your local machine:
+Given that we are using Docker, simply run:
 
 ```
-  git clone git@github.com:rotati/oscar-web.git
+docker-compose up
 ```
 
-Navigate to the project directory and create `.env` in project root path, and copy all content in `.env.example` and replace all variable values to fit your local machine.
-
-Then run:
-
-```
-  bundle install
-
-  rake db:create
-
-  rake db:migrate
-
-  rake db:seed  # to load some basic data
-```
-
-Once the steps are done, start the server by running:
-
-```
-  rails server
-```
-
-Open a web browser and navigate to `http://lvh.me:3000`, and there you go!
+Once the containers have fired up open a web browser and navigate to `http://localhost:3000` to view the app.
 
 ### RSpec
 

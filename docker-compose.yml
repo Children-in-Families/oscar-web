@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web:
+    build: .
+    container_name: app
+    environment:
+      - DATABASE_NAME=oscar_development
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=mysecretpassword
+      - DATABASE_HOST=db
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+  db:
+    image: postgres:9.4
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=oscar_development
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data

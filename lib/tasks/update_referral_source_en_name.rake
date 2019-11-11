@@ -16,6 +16,5 @@ namespace :referral_source_en_name do
       end
 
     end
-    puts 'Done'
   end
 end
