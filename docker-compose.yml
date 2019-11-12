@@ -1,6 +1,6 @@
 version: '3'
 services:
-  web:
+  app:
     build: .
     container_name: app
     environment:
@@ -22,8 +22,8 @@ services:
     image: postgres:9.4
     container_name: db
     environment:
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_USER=postgres
       - POSTGRES_DB=oscar_development
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
     volumes:
       - ./tmp/db:/var/lib/postgresql/data

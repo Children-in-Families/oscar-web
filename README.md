@@ -18,6 +18,22 @@ docker-compose up
 
 Once the containers have fired up open a web browser and navigate to `http://localhost:3000` to view the app.
 
+### Docker Commands
+
+Start bash session in the 'app' service container. Once you have a session, you can use it like you would normally use your lcoal terminal, running `rake` tasks, starting the `rails c` console etc, etc
+
+```
+make bash_app
+```
+
+There is also a make command to drop the database
+
+```
+make db_drop
+```
+
+Check the local [Makefile](./Makefile) for a complete list of available commands.
+
 ### RSpec
 
 Requirement

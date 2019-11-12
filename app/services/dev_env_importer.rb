@@ -2,7 +2,7 @@ module DevEnvImporter
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/dev_env.xlsx')
+    def initialize(sheet_name, path = 'lib/devdata/dev_tenant.xlsx')
       @path       = path
       @sheet_name = sheet_name
       @workbook   = Roo::Excelx.new(path)

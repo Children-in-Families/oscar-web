@@ -14,10 +14,12 @@ done
 echo "PostgreSQL started. Setting up databases..."
 
 # Create the development database
-rake db:setup
+rake db:exists || (rake db:create && rake db:schema:load && rake db:seed)
+
 # Import development data
 echo "Preparing to import dev data. Please wait..."
 rake import:dev_env_data
+echo "Dev data imported! Startup up Rails!"
 
 # Then exec the container's main process (what's set as CMD in the Dockerfile).
 exec "$@"
