@@ -27,3 +27,15 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    depends_on:
+    - db
+    ports:
+    - 5050:80
+    ## you can change pgAdmin default username/password with below environment variables
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin

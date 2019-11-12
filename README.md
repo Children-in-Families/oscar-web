@@ -34,6 +34,10 @@ make db_drop
 
 Check the local [Makefile](./Makefile) for a complete list of available commands.
 
+### pgAdmin
+
+The Docker Compose file contains a pgAdmin service. After `docker-compose up` spins up all the services, its possible to connect to pgAdmin at [http://localhost:5050/](http://localhost:5050/). The pgAdmin username and password are in the `pgadmin` services definition in [docker-compose.yml](./docker-compose.yml). To connect to the database, simply create a new server in pgAdmin and set the host as `db` and the database server username and password as in the `db` services definition for `POSTGRES_USER` and `POSTGRES_PASSWORD` in the Docker Compose file.
+
 ### RSpec
 
 Requirement
