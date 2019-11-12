@@ -18,9 +18,9 @@ namespace :import do
         Importer::Import.new('Agency', general_data_file).agencies
         Importer::Import.new('Department', general_data_file).departments
         Importer::Import.new('Province', general_data_file).provinces
-        Importer::Import.new('District', general).districts
-        Importer::Import.new('Quantitative Type').quantitative_types
-        Importer::Import.new('Quantitative Case').quantitative_cases
+        Importer::Import.new('District', general_data_file).districts
+        Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+        Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         # TODO: Rake::Task['communes_and_villages:import'].invoke
         DevEnvImporter::Import.new('Users').users
         DevEnvImporter::Import.new('Family').families
