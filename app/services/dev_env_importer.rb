@@ -75,7 +75,7 @@ module DevEnvImporter
         local_family_name   = sheet.row(row_index)[headers['Family Name (Khmer)']]
         gender              = sheet.row(row_index)[headers['* Gender']]
         date_of_birth       = sheet.row(row_index)[headers['Date of Birth']]
-        # referral_source_category_id = find_referral_source(data[6].squish)
+        referral_source_category_id = nil
         referral_source_id  = find_referral_source(sheet.row(row_index)[headers['* Referral Source']])
         name_of_referee     = sheet.row(row_index)[headers['* Name of Referee']]
         received_by_id      = find_or_create_user(sheet.row(row_index)[headers['* Referral Received By']]).id
@@ -89,7 +89,7 @@ module DevEnvImporter
         code                = nil
         user_ids            = nil
         begin
-          clients << { given_name: given_name, family_name: family_name, local_given_name: local_given_name, local_family_name: local_family_name, gender: gender, date_of_birth: date_of_birth, referral_source_category_id: nil, referral_source_id: referral_source_id, name_of_referee: name_of_referee, received_by_id: received_by_id, initial_referral_date: initial_referral_date, followed_up_by_id: followed_up_by_id, follow_up_date: follow_up_date, province_id: province_id  }
+          clients << { given_name: given_name, family_name: family_name, local_given_name: local_given_name, local_family_name: local_family_name, gender: gender, date_of_birth: date_of_birth, referral_source_category_id: referral_source_category_id, referral_source_id: referral_source_id, name_of_referee: name_of_referee, received_by_id: received_by_id, initial_referral_date: initial_referral_date, followed_up_by_id: followed_up_by_id, follow_up_date: follow_up_date, province_id: province_id  }
         rescue IndexError => e
           if Rails.env == 'development'
             binding.pry

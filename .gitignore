@@ -28,3 +28,4 @@ vendor/data
 dump.rdb
 .vscode/
 brakeman_report*.html
+~$*
