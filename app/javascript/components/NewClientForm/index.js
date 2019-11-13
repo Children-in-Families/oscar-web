@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AdministrativeInfo from './administrativeInfo'
+import AdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
