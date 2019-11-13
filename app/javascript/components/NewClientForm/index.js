@@ -44,6 +44,7 @@ const Forms = props => {
   }
 
   const onChangeDate = (field, value) => setclientData({ ...clientData, [field]: value })
+  const onChangeSelect = (field, value) => setclientData({ ...clientData, [field]: value })
 
   console.log('clientData', clientData)
 
@@ -55,16 +56,16 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={gettingStartData} onChangeDate={onChangeDate} />
+          <AdministrativeInfo data={gettingStartData} onChangeDate={onChangeDate} onChangeSelect={onChangeSelect} />
         </div>
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={gettingStartData} onChangeText={onChangeText} />
+            <RefereeInfo data={gettingStartData} onChangeText={onChangeText} onChangeDate={onChangeDate} onChangeSelect={onChangeSelect} />
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={gettingStartData} onChangeText={onChangeText} />
+            <ReferralInfo data={gettingStartData} onChangeText={onChangeText} onChangeDate={onChangeDate} onChangeSelect={onChangeSelect} />
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>

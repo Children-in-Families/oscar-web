@@ -7,7 +7,7 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChangeText, data: { birthProvinces } } = props
+  const { onChangeText, onChangeSelect, onChangeDate, data: { birthProvinces } } = props
 
   const blank = []
   const rateLists = [{label: '1', value: 1}, {label: '2', value: 2}, {label: '3', value: 3}, {label: '4', value: 4}]
@@ -41,16 +41,16 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput label="Gender" collections={genderLists} onChange={onChangeText('gender')}  />
+          <SelectInput label="Gender" collections={genderLists} onChangeSelect={onChangeSelect} name='gender' />
         </div>
         <div className="col-xs-3">
-          <DateInput required label="Date of Birth" onChange={onChangeText('date_of_birth')} />
+          <DateInput required label="Date of Birth" onChangeDate={onChangeDate} name='date_of_birth' />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Birth Province" asGroup collections={birthProvincesLists} />
+          <SelectInput required label="Birth Province" asGroup collections={birthProvincesLists} onChangeSelect={onChangeSelect} name='birth_province_id' />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Is client rated for ID Poor?" collections={rateLists} />
+          <SelectInput required label="Is client rated for ID Poor?" collections={rateLists} onChangeSelect={onChangeSelect} name='rated_for_id_poor' />
         </div>
       </div>
       <legend>
@@ -65,27 +65,27 @@ export default props => {
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput required label="Province" asGroup collections={birthProvincesLists} />
+          <SelectInput required label="Province" asGroup collections={birthProvincesLists} onChangeSelect={onChangeSelect} name='province_id' />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="District / Khan" collections={blank} />
+          <SelectInput label="District / Khan" collections={blank} onChangeSelect={onChangeSelect} name='district_id' />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Commune / Sangkat" collections={blank} />
+          <SelectInput label="Commune / Sangkat" collections={blank} onChangeSelect={onChangeSelect} name='commune_id'/>
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Village" collections={blank} />
+          <SelectInput label="Village" collections={blank} onChangeSelect={onChangeSelect} name='village_id' />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Street Number" />
+          <TextInput label="Street Number" onChange={onChangeText('street_number')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="House Number" />
+          <TextInput label="House Number" onChange={onChangeText('house_number')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Address Name" />
+          <TextInput label="Address Name" onChange={onChangeText('current_address')} />
         </div>
         <div className="col-xs-3">
           <SelectInput required label="Address Type" collections={addressType} />
@@ -93,10 +93,10 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="What3Words" />
+          <TextInput label="What3Words" onChange={onChangeText('what3words')} />
         </div>
         <div className="col-xs-3">
-          <TextInput required label="Client Contact Phone" />
+          <TextInput required label="Client Contact Phone" onChange={onChangeText('telephone_number')} />
         </div>
         <div className="col-xs-3">
           <SelectInput required label="Phone Owner" collections={blank} />

@@ -7,7 +7,7 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChangeText, data: { client, birthProvinces } } = props
+  const { onChangeText, onChangeSelect, onChangeDate, data: { client, birthProvinces } } = props
 
   const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
@@ -32,7 +32,7 @@ export default props => {
           <TextInput required label="Name" />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Gender" collections={ genderLists } />
+          <SelectInput label="Gender" collections={genderLists} onChangeSelect={onChangeSelect} name='gender' />
         </div>
       </div>
       <div className="row">
@@ -43,7 +43,7 @@ export default props => {
           <TextInput label="Referee Email Address" />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Referral Source Catgeory" collections={blank} />
+          <SelectInput required label="Referral Source Catgeory" collections={blank} onChangeSelect={onChangeSelect} />
         </div>
         <div className="col-xs-3">
           <SelectInput required label="Referral Source" collections={blank} />
