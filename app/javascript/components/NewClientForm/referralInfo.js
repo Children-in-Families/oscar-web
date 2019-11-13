@@ -44,7 +44,7 @@ export default props => {
           <SelectInput label="Gender" collections={genderLists} onChange={onChangeText('gender')}  />
         </div>
         <div className="col-xs-3">
-          <DateInput required label="Date of Birth" />
+          <DateInput required label="Date of Birth" onChange={onChangeText('date_of_birth')} />
         </div>
         <div className="col-xs-3">
           <SelectInput required label="Birth Province" asGroup collections={birthProvincesLists} />

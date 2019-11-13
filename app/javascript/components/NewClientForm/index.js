@@ -43,6 +43,8 @@ const Forms = props => {
     setclientData({...clientData, [field]: value })
   }
 
+  const onChangeDate = (field, value) => setclientData({ ...clientData, [field]: value })
+
   console.log('clientData', clientData)
 
   return (
@@ -53,7 +55,7 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={gettingStartData} />
+          <AdministrativeInfo data={gettingStartData} onChangeDate={onChangeDate} />
         </div>
 
         <div className='rightComponent'>

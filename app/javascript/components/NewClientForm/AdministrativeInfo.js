@@ -5,7 +5,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { users } = props.data
+  const { onChangeDate, data: { users, client } } = props
   const userLists = users.map(user => ({label: user.first_name + ' ' + user.last_name, value: user.id}))
 
   return (
@@ -26,7 +26,7 @@ export default props => {
 
       <div className='row'>
         <div className='col-xs-8'>
-          <DateInput label='Date of Referral' />
+          <DateInput label='Date of Referral' value={client.initial_referral_date} onChangeDate={onChangeDate} name='initial_referral_date' />
         </div>
       </div>
 

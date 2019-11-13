@@ -1,18 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Calendar from 'react-calendar'
 
 export default props => {
+  const { onChangeDate, value, name } = props
+  const [showDatePicker, setshowDatePicker] = useState(false)
+  const [selectedDate, setselectedDate] = useState(value || new Date())
+
+  const formatDate = value => {
+    const formatedDate = value.getDate()
+    const formatedMonth = value.getMonth()
+    const formatedYear = value.getFullYear()
+
+    return formatedYear + '-' + formatedMonth + '-' + formatedDate
+  }
+
+  const onChange = date => {
+    onChangeDate(name, formatDate(date))
+    setselectedDate(date)
+    setshowDatePicker(false)
+  }
+  // onBlur={() => setshowDatePicker(false)}
   return (
     <div className='form-group'>
       <label>
         { props.required && <abbr title='required'>* </abbr> }
         {props.label}
       </label>
-      <div className='input-group date'>
-        <input className='date optional form-control date-picker' />
-        <span className='input-group-addon'>
-          <i className='fa fa-calendar-check-o' />
-        </span>
+
+      {/* <div onFocus={() => setshowDatePicker(true)} onBlur={() => setshowDatePicker(false)} > */}
+      <input className='form-control' onFocus={() => setshowDatePicker(true)} value={formatDate(selectedDate)} />
+      <div style={styles.calendar}>
+        {showDatePicker && <Calendar onChange={onChange} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
       </div>
+      {/* </div> */}
     </div>
   )
+}
+
+const styles = {
+  calendar: {
+    position: 'absolute',
+    zIndex: 1031
+  }
 }
