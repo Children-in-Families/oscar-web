@@ -31,6 +31,7 @@ namespace :change_client_province do
     Province.find_by(id: 345).destroy
     Province.find_by(id: 35).destroy
     Province.find_by(id: 55).destroy
+    Province.find_by(id: 77).destroy
     puts 'destroy province done !!'
   end
 end
