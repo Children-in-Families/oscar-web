@@ -2,10 +2,9 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { onChangeSelect, name } = props
-  const handleChange = selectedOption => {
-    onChangeSelect(name, selectedOption.value)
-  }
+  const { onChange } = props
+
+  const handleChange = selectedOption => onChange(selectedOption.value)
 
   const formatGroupLabel = data => (
     <div>

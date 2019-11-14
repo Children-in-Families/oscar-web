@@ -5,6 +5,7 @@ import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
 import './styles.scss'
+import { type } from 'os'
 
 const Forms = props => {
   const {
@@ -14,6 +15,7 @@ const Forms = props => {
   } = props
   const [step, setStep] = useState(1)
   const [clientData, setclientData] = useState(client)
+  const [refereeData, setrefereeData] = useState({})
 
   const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry, internationalReferredClient }
 
@@ -38,15 +40,21 @@ const Forms = props => {
     )
   }
 
-  const onChangeText = (field) => event => {
-    const value = event.target.value
-    setclientData({...clientData, [field]: value })
+  const onChange = (obj, field) => event => {
+    const value = typeof event === 'object' &&  event.target.value || event
+
+    switch (obj) {
+      case 'client':
+        setclientData({...clientData, [field]: value })
+        break;
+      case 'referee':
+        setrefereeData({...refereeData, [field]: value })
+        break;
+    }
   }
 
-  const onChangeDate = (field, value) => setclientData({ ...clientData, [field]: value })
-  const onChangeSelect = (field, value) => setclientData({ ...clientData, [field]: value })
-
   console.log('clientData', clientData)
+  console.log('refereeData', refereeData)
 
   return (
     <div className='container'>
@@ -56,16 +64,16 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={gettingStartData} onChangeDate={onChangeDate} onChangeSelect={onChangeSelect} />
+          <AdministrativeInfo data={gettingStartData} onChange={onChange} />
         </div>
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={gettingStartData} onChangeText={onChangeText} onChangeDate={onChangeDate} onChangeSelect={onChangeSelect} />
+            <RefereeInfo data={gettingStartData} onChange={onChange} />
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={gettingStartData} onChangeText={onChangeText} onChangeDate={onChangeDate} onChangeSelect={onChangeSelect} />
+            <ReferralInfo data={gettingStartData} onChange={onChange} />
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>

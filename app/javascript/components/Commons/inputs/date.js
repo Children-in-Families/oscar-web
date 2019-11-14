@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Calendar from 'react-calendar'
 
 export default props => {
-  const { onChangeDate, value, name } = props
+  const { onChange, value } = props
   const [showDatePicker, setshowDatePicker] = useState(false)
   const [selectedDate, setselectedDate] = useState(value || new Date())
 
@@ -14,8 +14,8 @@ export default props => {
     return formatedYear + '-' + formatedMonth + '-' + formatedDate
   }
 
-  const onChange = date => {
-    onChangeDate(name, formatDate(date))
+  const onChangeDate = date => {
+    onChange(formatDate(date))
     setselectedDate(date)
     setshowDatePicker(false)
   }
@@ -30,7 +30,7 @@ export default props => {
       {/* <div onFocus={() => setshowDatePicker(true)} onBlur={() => setshowDatePicker(false)} > */}
       <input className='form-control' onFocus={() => setshowDatePicker(true)} value={formatDate(selectedDate)} />
       <div style={styles.calendar}>
-        {showDatePicker && <Calendar onChange={onChange} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
+        {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
       </div>
       {/* </div> */}
     </div>

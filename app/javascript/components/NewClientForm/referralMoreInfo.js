@@ -8,7 +8,7 @@ import {
 import CareInfo from './carerInfo'
 
 export default props => {
-  const { onChangeText, data: { birthProvinces } } = props
+  const { onChange, data: { birthProvinces } } = props
 
   return (
     <div className="container">

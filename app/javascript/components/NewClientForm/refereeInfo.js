@@ -7,7 +7,7 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChangeText, onChangeSelect, onChangeDate, data: { client, birthProvinces } } = props
+  const { onChange, data: { client, birthProvinces } } = props
 
   const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
@@ -29,24 +29,24 @@ export default props => {
 
       <div className="row">
         <div className=" col-xs-3">
-          <TextInput required label="Name" />
+          <TextInput required label="Name" onChange={onChange('referee', 'name')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Gender" collections={genderLists} onChangeSelect={onChangeSelect} name='gender' />
+          <SelectInput label="Gender" collections={genderLists} onChange={onChange('referee', 'gender')} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Referee Phone Number" />
+          <TextInput label="Referee Phone Number" onChange={onChange('referee', 'phone')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Referee Email Address" />
+          <TextInput label="Referee Email Address" onChange={onChange('referee', 'email')}/>
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Referral Source Catgeory" collections={blank} onChangeSelect={onChangeSelect} />
+          <SelectInput required label="Referral Source Catgeory" collections={blank} onChange={onChange('referee', 'referral_source_category_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Referral Source" collections={blank} />
+          <SelectInput required label="Referral Source" collections={blank} onChange={onChange('referee', 'referral_source_id')} />
         </div>
       </div>
       <legend>
@@ -61,30 +61,30 @@ export default props => {
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput required label="Province" asGroup collections={birthProvincesLists} />
+          <SelectInput required label="Province" asGroup collections={birthProvincesLists} onChange={onChange('referee', 'province_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="District / Khan" collections={blank} />
+          <SelectInput label="District / Khan" collections={blank} onChange={onChange('referee', 'district_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Commune / Sangkat" collections={blank} />
+          <SelectInput label="Commune / Sangkat" collections={blank} onChange={onChange('referee', 'commune_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Village" collections={blank} />
+          <SelectInput label="Village" collections={blank} onChange={onChange('referee', 'village_id')} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Street Number" />
+          <TextInput label="Street Number" onChange={onChange('referee', 'street')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="House Number" />
+          <TextInput label="House Number" onChange={onChange('referee', 'house')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Address Name" />
+          <TextInput label="Address Name" onChange={onChange('referee', 'address')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Address Type" collections={addressType} />
+          <SelectInput label="Address Type" collections={addressType}  onChange={onChange('referee', 'address_type')}/>
         </div>
       </div>
     </div>
