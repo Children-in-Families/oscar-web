@@ -37,7 +37,7 @@ export default props => {
           </div>
         </div>
       </div>
-      <CareInfo id="careInfo" data={{birthProvinces}}/>
+      <CareInfo id="careInfo" data={{birthProvinces}} onChange={onChange} />
       <hr/>
       <div className="row">
         <div className="col-xs-10">

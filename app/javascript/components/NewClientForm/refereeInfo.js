@@ -22,7 +22,7 @@ export default props => {
             <p>Referee Information</p>
           </div>
           <div className="col-xs-3">
-            <Checkbox label="Anonymous Referee" />
+            <Checkbox label="Anonymous Referee" onChange={onChange('referee', 'anonymous_referee')}/>
           </div>
         </div>
       </legend>
@@ -55,7 +55,7 @@ export default props => {
             <p>Address</p>
           </div>
           <div className="col-xs-3">
-            <Checkbox label="Outside Cambodia"/>
+            <Checkbox label="Outside Cambodia" onChange={onChange('referee', 'outside_cambodia')} />
           </div>
         </div>
       </legend>

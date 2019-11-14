@@ -32,7 +32,7 @@ export default props => {
 
       <div className='row'>
         <div className='col-xs-8'>
-          <SelectInput label='Case Worker / Assigned Staff Memger' isMulti collections={userLists} onChange={onChange('users')} />
+          <SelectInput label='Case Worker / Assigned Staff Memger' isMulti collections={userLists} onChange={onChange('referee','users')} />
         </div>
       </div>
 

@@ -59,7 +59,7 @@ export default props => {
             <p>Contact Information</p>
           </div>
           <div className="col-xs-6">
-            <Checkbox label="Client is outside Cambodia"/>
+            <Checkbox label="Client is outside Cambodia" onChange={onChange('referee', 'client_outside_cambodia')}/>
           </div>
         </div>
       </legend>
