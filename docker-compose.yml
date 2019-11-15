@@ -5,9 +5,11 @@ services:
     container_name: app
     environment:
       - DATABASE_NAME=oscar_development
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=mysecretpassword
+      - DATABASE_USER=oscar
+      - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db
+      - HISTORY_DATABASE_NAME=oscar_history_development
+      - HISTORY_DATABASE_NAME_TEST=oscar_history_test
       - OSCAR_TEAM_EMAIL=team@oscarhq.com
       - OSCAR_TEAM_PASSWORD=123456789
     volumes:
@@ -23,10 +25,22 @@ services:
     container_name: db
     environment:
       - POSTGRES_DB=oscar_development
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_USER=oscar
+      - POSTGRES_PASSWORD=123456789
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+  mongo:
+    image: mongo:4.0.3
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=oscar_history_development
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=123456789
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./tmp/mongo:/data/db
+    ports:
+      - '27017-27019:27017-27019'
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
@@ -35,7 +49,6 @@ services:
     - db
     ports:
     - 5050:80
-    ## you can change pgAdmin default username/password with below environment variables
     environment:
       PGADMIN_DEFAULT_EMAIL: pgadmin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_PASSWORD: 123456789

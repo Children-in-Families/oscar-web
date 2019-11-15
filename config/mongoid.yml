@@ -4,8 +4,10 @@ development:
       database: <%= ENV['HISTORY_DATABASE_NAME'] %>
       hosts:
         - localhost:27017
+        - mongo:27017
       options:
-  options:
+        user: <%= ENV['DATABASE_USER'] %>
+        password: <%= ENV['DATABASE_PASSWORD'] %>
 
 test:
   clients:
