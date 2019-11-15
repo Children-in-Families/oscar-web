@@ -21,10 +21,7 @@ namespace :import do
         Importer::Import.new('District', general_data_file).districts
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-        # TODO: Rake::Task['communes_and_villages:import'].invoke
-        DevEnvImporter::Import.new('Users').users
-        DevEnvImporter::Import.new('Family').families
-        DevEnvImporter::Import.new('Client').clients
+        DevEnvImporter::Import.new.import_all
         Rake::Task['client_to_shared:copy'].invoke
       rescue Apartment::TenantExists => e
         puts "Development environment tenant #{tenant_name} already exisits. If you want to delete this tenant then run `rake db:drop && rake db:setup` and run this rake task agin."
