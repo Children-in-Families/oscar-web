@@ -1,131 +1,138 @@
 module DevEnvImporter
   class Import
-    attr_accessor :path, :headers, :workbook
+    attr_accessor :path, :headers, :workbook, :workbook_second_row
 
-    def initialize(sheet_name, path = 'lib/devdata/dev_tenant.xlsx')
+    def initialize(path='lib/devdata/dev_tenant.xlsx')
       @path       = path
-      @sheet_name = sheet_name
       @workbook   = Roo::Excelx.new(path)
-
-      sheet_index = workbook.sheets.index(sheet_name)
-      workbook.default_sheet = workbook.sheets[sheet_index]
-      sheet_header
+      @workbook_second_row = 2
     end
 
-    def sheet_header
-      @headers = Hash.new
-      workbook.row(1).each_with_index { |header, i|
-        headers[header] = i
-      }
-    end
+    def import_all
+      sheets = ['users', 'families', 'clients']
+      # sheets = ['clients']
 
-    def workbook
-      @workbook
+      sheets.each do |sheet_name|
+        @headers = Hash.new
+        sheet_index = workbook.sheets.index(sheet_name)
+        workbook.default_sheet = workbook.sheets[sheet_index]
+        workbook.row(1).each_with_index { |header, i| headers[header] = i }
+        self.send(sheet_name.to_sym)
+      end
     end
 
     def users
-      ((workbook.first_row + 1)..workbook.last_row).each do |row|
-        first_name      = workbook.row(row)[headers['First Name']]
-        last_name       = workbook.row(row)[headers['Last Name']]
-        gender          = workbook.row(row)[headers['*Gender']]
-        email           = workbook.row(row)[headers['*Email']]
-        password        = "123456789"
-        roles           = workbook.row(row)[headers['*Permission Level']].downcase
-        manager_name    = workbook.row(row)[headers['Manager']] || ''
-        manager_ids      = User.find_by(first_name: manager_name).try(:id)
+      user_password = "123456789" # fixed for dev environment
+      (workbook_second_row..workbook.last_row).each do |row_index|
+        new_user = {}
+        new_user['first_name']      = workbook.row(row_index)[headers['First Name']]
+        new_user['last_name']       = workbook.row(row_index)[headers['Last Name']]
+        new_user['gender']          = workbook.row(row_index)[headers['*Gender']]
+        new_user['email']           = workbook.row(row_index)[headers['*Email']]
+        new_user['password']        = user_password
+        new_user['roles']           = workbook.row(row_index)[headers['*Permission Level']].downcase
+        manager_name                = workbook.row(row_index)[headers['Manager']] || ''
+        new_user['manager_id']      = User.find_by(first_name: manager_name).try(:id) unless new_user['roles'].include?("manager")
+        new_user['manager_ids']     = [new_user['manager_id']]
 
-        User.create(first_name: first_name, last_name: last_name, gender: gender, email: email, password: password, roles: roles, manager_ids: manager_ids)
+        User.create(new_user)
       end
     end
 
     def families
-      headers   = ['name', 'code', 'family_type', 'status']
-      families  = []
-      sheet     = workbook.sheet(@sheet_name)
+      (workbook_second_row..workbook.last_row).each do |row_index|
+        new_family                = {}
+        new_family['name']        = workbook.row(row_index)[headers['*Name']]
+        new_family['family_type'] = workbook.row(row_index)[headers['*Family Type']]
+        new_family['status']      = workbook.row(row_index)[headers['*Family Status']]
 
-      (2..sheet.last_row).each_with_index do |row_index, index|
-        data       = sheet.row(row_index)
-        data[0]    = check_nil_cell(data[0])
-        data[1]    = check_nil_cell(data[1])
-        data[2]    = check_nil_cell(data[2])
-        data[3]    = check_nil_cell(data[3])
-
-        begin
-          families << [headers, data.reject(&:nil?)].transpose.to_h
-        rescue IndexError => e
-          if Rails.env == 'development'
-            binding.pry
-          else
-            Rails.logger.debug e
-          end
-        end
+        Family.create(new_family)
       end
-
-      Family.create!(families)
     end
 
     def clients
-      clients     = []
-      sheet       = workbook.sheet(@sheet_name)
+      (workbook_second_row..3).each do |row_index|
+        new_client                        = {}
+        new_client['given_name']          = workbook.row(row_index)[headers['Given Name (English)']]
+        new_client['family_name']         = workbook.row(row_index)[headers['Family Name (English)']]
+        new_client['local_given_name']    = workbook.row(row_index)[headers['Given Name (Khmer)']]
+        new_client['local_family_name']   = workbook.row(row_index)[headers['Family Name (Khmer)']]
+        new_client['gender']              = workbook.row(row_index)[headers['* Gender']]
+        new_client['date_of_birth']       = workbook.row(row_index)[headers['Date of Birth']]
+        new_client['referral_source_id']  = find_referral_source(workbook.row(row_index)[headers['* Referral Source']])
+        new_client['referral_source_category_id'] = find_referral_source(workbook.row(row_index)[headers['*Referral Category']])
+        new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
+        received_by_name                  = workbook.row(row_index)[headers['* Referral Received By']]
+        new_client['received_by_id']      = User.find_by(first_name: received_by_name).try(:id)
+        new_client['initial_referral_date']= workbook.row(row_index)[headers['* Initial Referral Date']]
+        followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
+        new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
+        new_client['follow_up_date']      = workbook.row(row_index)[headers['First Follow-Up Date']]
+        province_name                     = workbook.row(row_index)[headers['Current Province']]
+        new_client['province_id']         = find_province(province_name)
+        case_worker_name                  = workbook.row(row_index)[headers['* Case Worker / Staff']]
+        new_client['user_id']             = User.find_by(first_name: case_worker_name).try(:id)
+        new_client['user_ids']            = [new_client['user_id']]
 
-      (2..sheet.last_row).each_with_index do |row_index, index|
-        given_name          = sheet.row(row_index)[headers['Given Name (English)']]
-        family_name         = sheet.row(row_index)[headers['Family Name (English)']]
-        local_given_name    = sheet.row(row_index)[headers['Given Name (Khmer)']]
-        local_family_name   = sheet.row(row_index)[headers['Family Name (Khmer)']]
-        gender              = sheet.row(row_index)[headers['* Gender']]
-        date_of_birth       = sheet.row(row_index)[headers['Date of Birth']]
-        referral_source_category_id = nil
-        referral_source_id  = find_referral_source(sheet.row(row_index)[headers['* Referral Source']])
-        name_of_referee     = sheet.row(row_index)[headers['* Name of Referee']]
-        received_by_id      = find_or_create_user(sheet.row(row_index)[headers['* Referral Received By']]).id
-        initial_referral_date =  sheet.row(row_index)[headers['* Initial Referral Date']]
-        followed_up_by_id   = find_or_create_user(sheet.row(row_index)[headers['First Follow-Up By']]).id
-        follow_up_date      = sheet.row(row_index)[headers['First Follow-Up Date']]
-        province_id         = sheet.row(row_index)[headers['Current Province']]
-        district_id         = nil
-        commune_id          = nil
-        village_id          = nil
-        code                = nil
-        user_ids            = nil
-        begin
-          clients << { given_name: given_name, family_name: family_name, local_given_name: local_given_name, local_family_name: local_family_name, gender: gender, date_of_birth: date_of_birth, referral_source_category_id: referral_source_category_id, referral_source_id: referral_source_id, name_of_referee: name_of_referee, received_by_id: received_by_id, initial_referral_date: initial_referral_date, followed_up_by_id: followed_up_by_id, follow_up_date: follow_up_date, province_id: province_id  }
-        rescue IndexError => e
-          if Rails.env == 'development'
-            binding.pry
-          else
-            Rails.logger.debug e
-          end
-        end
-      end
+        client = Client.create(new_client)
 
-      clients.each do |client|
-        client = Client.new(client)
-        phnom_penh = Province.find_by(name: 'ភ្នំពេញ / Phnom Penh').id
-        client.province_id = phnom_penh
-        client.save(validate: false)
-        family = Family.find_by(code:"#{client.code}")
+        # binding.pry
+
+        family_name   = workbook.row(row_index)[headers['Family Name']]
+        family        = find_family(family_name)
+
         if family.present?
           family.children << client.id
-          family.save(validate: false)
+          family.save
         end
+
+        # puts "---"
+        # puts "Given Name: #{new_client['given_name']}"
+        # puts "Family Name: #{new_client['family_name']}"
+        # puts "Khmer Given Name: #{new_client['local_given_name']}"
+        # puts "Khmer Family Name: #{new_client['local_family_name']}"
+        # puts "Date of Birth: #{new_client['date_of_birth']}"
+        # puts "Referral Source ID: #{new_client['referral_source_id']}"
+        # puts "Received by Name: #{received_by_name}"
+        # puts "Followed Up by Name: #{followed_up_by_name}"
+        # puts "Received By ID: #{new_client['received_by_id']}"
+        # puts "Followed Up By ID: #{new_client['followed_up_by_id']}"
+        # puts "Province Name: #{province_name}"
+        # puts "Province ID: #{new_client['province_id']}"
+        # puts "Case Worker Name: #{case_worker_name}"
+        # puts "User ID: #{new_client['user_id']}"
+        # puts "Family Name: #{family_name}"
+        # puts "Family Obj: #{family}"
+        # puts "---"
       end
     end
 
-    def find_or_create_user(user_data)
-      user_name = user_data.split(' ')
-      User.find_or_create_by!(last_name: user_name.first) do |user|
-        user.first_name = user_name.last
-        user.gender     = 'other'
-        user.email      = FFaker::Internet.email
-        user.password   = password
-        user.roles      = 'case worker'
-      end
+    private
+
+    def find_referral_source(name)
+      referral_source = ReferralSource.find_by(name_en: name)
+      referral_source.try(:id)
     end
 
-    def password
-      password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
+    def find_province(name)
+      province = Province.find_by(name: name)
+      province.try(:id)
     end
+
+    def find_family(name)
+      Family.find_by(name: name)
+    end
+
+    # def find_or_create_user(user_data)
+    #   user_name = user_data.split(' ')
+    #   User.find_or_create_by!(last_name: user_name.first) do |user|
+    #     user.first_name = user_name.last
+    #     user.gender     = 'other'
+    #     user.email      = FFaker::Internet.email
+    #     user.password   = password
+    #     user.roles      = 'case worker'
+    #   end
+    # end
 
     def find_district(name)
       districts = District.where("name ilike ?", "%#{name}")
@@ -166,33 +173,6 @@ module DevEnvImporter
       commune = communes.select{|d| d.name.gsub(/.*\//, '').squish == name }
       begin
         commune.first.id
-      rescue NoMethodError => e
-        if Rails.env == 'development'
-          binding.pry
-        else
-          Rails.logger.debug e
-        end
-      end
-    end
-
-    def find_referral_source(name)
-      referralsources = ReferralSource.where("name_en ilike?","%#{name}")
-      begin
-        referralsources.first.id
-      rescue NoMethodError => e
-        if Rails.env == 'development'
-          binding.pry
-        else
-          Rails.logger.debug e
-        end
-      end
-    end
-
-    def find_province(name)
-      provinces = Province.where("name ilike ?", "%#{name}")
-      province  = provinces.select{|d| d.name.gsub(/.*\//, '').squish == name }
-      begin
-        province.first.id
       rescue NoMethodError => e
         if Rails.env == 'development'
           binding.pry
