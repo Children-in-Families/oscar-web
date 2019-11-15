@@ -3,7 +3,6 @@ development:
     default:
       database: <%= ENV['HISTORY_DATABASE_NAME'] %>
       hosts:
-        - localhost:27017
         - mongo:27017
       options:
         user: <%= ENV['DATABASE_USER'] %>

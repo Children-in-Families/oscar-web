@@ -18,6 +18,7 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - mongo
     stdin_open: true
     tty: true
   db:
