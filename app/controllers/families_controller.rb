@@ -45,7 +45,7 @@ class FamiliesController < AdminController
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
     @client_grid = ClientGrid.new(params[:client_grid])
-    @results = @client_grid.scope.where(id: @family.children).uniq.size
+    @results = @client_grid.scope.where(current_family_id: @family.id).uniq.size
     client_ids = Client.where(current_family_id: @family.id)
     @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).uniq }
   end
@@ -92,11 +92,11 @@ class FamiliesController < AdminController
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
     @communes  = @family.district.present? ? @family.district.communes.order(:code) : []
     @villages  = @family.commune.present? ? @family.commune.villages.order(:code) : []
-    # if action_name.in?(['edit', 'update'])
-    #   client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
-    # else
-    #   client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
-    # end
+    if action_name.in?(['edit', 'update'])
+      client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq - @family.children
+    else
+      client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
+    end
     client_ids = Client.where("current_family_id = ? OR id NOT IN (?) OR current_family_id IS NULL", @family.id, Client.joins(:families).ids).ids
     @clients  = Client.accessible_by(current_ability).where(id: client_ids).order(:given_name, :family_name)
   end

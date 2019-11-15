@@ -150,7 +150,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       district: $('#client_district_id').find(':selected').text()
       village: $('#client_village_id').find(':selected').text()
       commune: $('#client_commune_id').find(':selected').text()
-      family: $('#client_family_ids').find(':selected').text()
+      family: $('#client_family_ids, #popup_client_family_ids').find(':selected').text()
     }
 
     if data.family == ''
@@ -219,7 +219,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('.save-edit-client').on 'click', (e) ->
       e.preventDefault()
       clientId = $('#client-id').text()
-      family   = $('#client_family_ids').find(':selected').text()
+      family   = $('#client_family_idsc').find(':selected').text()
       if family == ''
         $('#client-confirmation').modal('show')
         $('#clientConfirmation').click ->
@@ -237,7 +237,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _openSelectClientForm = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
-      $('#client-confirmation #client_family_ids').select2('val', '')
+      $('#client-confirmation #popup_client_family_ids').select2('val', '')
       if $('#attachFamily').is(':checked')
         $('#family-option').show()
       else
@@ -252,7 +252,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         $('#clientConfirmation').addClass('disabled')
 
   _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
-    $('#client-confirmation #client_family_ids').on 'change' , (e) ->
+    $('#client-confirmation #popup_client_family_ids').on 'change' , (e) ->
       if $(this).val() != null
         $('#clientConfirmation').removeClass('disabled')
       else
@@ -486,8 +486,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
     $('#client_family_ids').select2('val', $('#client_family_ids').data('family-ids'))
 
-    $('#client_family_ids').on "change", ->
+    $('#client_family_ids, #popup_client_family_ids').on "change", ->
       $('#client_current_family_id').val(@.value)
+
     $('#client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
@@ -496,7 +497,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       maximumSelectionSize: 1
       width: 'style'
 
-    $('#client-confirmation #client_family_ids').on 'select2-open', (e) ->
+    $('#client-confirmation #popup_client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
 
