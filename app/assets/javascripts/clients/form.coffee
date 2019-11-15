@@ -219,7 +219,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('.save-edit-client').on 'click', (e) ->
       e.preventDefault()
       clientId = $('#client-id').text()
-      family   = $('#client_family_idsc').find(':selected').text()
+      family   = $('#client_family_ids').find(':selected').text()
       if family == ''
         $('#client-confirmation').modal('show')
         $('#clientConfirmation').click ->
