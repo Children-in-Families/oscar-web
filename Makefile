@@ -1,3 +1,10 @@
+# Just start the Rails app and Postgres DB
+start_core:
+	docker-compose up --no-deps app db
+
+start_all:
+	docker-compose up
+
 # Some useful commands that can be run using make
 app_shell:
 	docker-compose run --entrypoint bash app
