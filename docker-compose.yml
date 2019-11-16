@@ -32,7 +32,7 @@ services:
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
     container_name: pgadmin
     restart: always
     depends_on:
