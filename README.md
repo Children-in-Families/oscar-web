@@ -16,7 +16,7 @@ Given that we are using Docker, simply run:
 docker-compose up
 ```
 
-Note that this starts up **all** the services((beware if you running this on a computer with less than 16GB RAM!)). For most common development tasks you will just need the _core services_ which are essentially the OSCaR App Service (Rails) and the OSCaR Database Service (Postgres). To spin these services up only, use the following make command:
+Note that this starts up **all** the services (beware if you running this on a computer with less than 16GB RAM!)). For most common development tasks you will just need the _core services_ which are essentially the OSCaR App Service (Rails) and the OSCaR Database Service (Postgres). To spin these services up only, use the following make command:
 
 ```
 make start_core
@@ -28,7 +28,7 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 
 Since importing the Gazetteer data takes sometime and the spreadsheet files are fairly large this as been left as an option if you need it.
 
-Firstly, download the [Cambodia Gazetteer Spreadsheets](https://drive.google.com/drive/folders/1ff0GbLahKc0roUB71yjFNDwLY328AeKE), extract the zip file into your local project directory `vendor/data/villages/xlsx`.
+Firstly, download the [Cambodia Gazetteer Spreadsheets](https://drive.google.com/drive/folders/1ff0GbLahKc0roUB71yjFNDwLY328AeKE), extract the zip file into the following local project directory `vendor/data/villages/xlsx`.
 
 Now, inside the app container, run the following rake task where 'dev' is the name of the tenant / schema you want to import the Gazetteer Data into.
 
@@ -56,7 +56,7 @@ Check the local [Makefile](./Makefile) for a complete list of available commands
 
 The Docker Compose file contains a pgAdmin service. After `docker-compose up` spins up all the services, its possible to connect to pgAdmin at [http://localhost:5050/](http://localhost:5050/). The pgAdmin username and password are in the `pgadmin` services definition in [docker-compose.yml](./docker-compose.yml). To connect to the oscar database, simply expand the OSCaR Server Group in the top left and click on the database. You will be asked to enter the db password (123456789).
 
-Note, if you only started the 'core' services and you want to fire up pgAdmin service too, then simply run the following command at your local terminal  (note this will startup the `db` service (Postgres) if it is not running):
+Note, if you only started the 'core' services and you want to fire up pgAdmin service too, then simply run the following command at your local terminal  (note this will also startup the `db` service (Postgres) if it is not running):
 
 ```
 docker-compose up pgadmin
@@ -64,58 +64,17 @@ docker-compose up pgadmin
 
 ### Mongo Express
 
-The Docker Compose file contains a Mongo Express service. After `docker-compose up` spins up all the services, its possible to connect to pgAdmin at [http://localhost:8081/](http://localhost:8081/). There is no username or password required.
+The Docker Compose file contains a Mongo Express service. After `docker-compose up` spins up all the services, its possible to connect to Mongo Express at [http://localhost:8081/](http://localhost:8081/). There is no username or password required.
 
-Note, if you only started the 'core' services and you want to fire up Mongo Express service too, then simply run the following command at your local terminal (note this will startup the `mongo` service (MongoDB) if it is not running):
+Note, if you only started the 'core' services and you want to fire up Mongo Express service too, then simply run the following command at your local terminal (note this will also startup the `mongo` service (MongoDB) if it is not running):
 
 ```
 docker-compose up mongo-express
 ```
 
-### RSpec
-
-Requirement
-
-  Phanthomjs
-
-  Pleas Install Phanthomjs as it is the dependency of poltegiest in order to run js true spec
-
-  Install Phanthomjs for OSX
-
-  ```
-    npm install -g phantomjs
-  ```
-
-  Install Phanthomjs for Ubuntu
-
-  ```
-    sudo apt-get install phantomjs
-  ```
-
-The project is well tested using RSpec and Capybara.
-
-To run all specs, testing environment must be setup.
-Navigate to project root directory and run the following commands:
-
-```
-  bundle install RAILS_ENV=test
-
-  rake db:create RAILS_ENV=test
-
-  rake db:migrate RAILS_ENV=test
-
-  rake db:seed RAILS_ENV=test  # to load some basic data
-```
-
-To run all specs, in your project root directory in terminal, run this command:
-
-```
-  rspec
-```
-
 ### Issue Reporting
 
-If you experience with bugs or need further improvement, please create a new issue in the repo issue list.
+If you experience with bugs or need further improvement, please create a new issue under [Issues](https://github.com/rotati/oscar-web/issues).
 
 ### Contributing to OSCaR
 
@@ -123,7 +82,7 @@ Pull requests are very welcome. Before submitting a pull request, please make su
 
 ### Authors
 
-OSCaR is developed in partnership by [Rotati Consulting](http://www.rotati.com) and [CIF](http://www.childreninfamilies.org)
+OSCaR is developed in partnership by [Rotati Consulting (Cambodia)](http://www.rotati.tech) and [CIF](http://www.childreninfamilies.org)
 
 ### License
 
