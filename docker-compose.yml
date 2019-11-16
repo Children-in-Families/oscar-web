@@ -5,6 +5,7 @@ services:
     container_name: app
     environment:
       - DATABASE_NAME=oscar_development
+      - DATABASE_NAME_TEST=oscar_test
       - DATABASE_USER=oscar
       - DATABASE_PASSWORD=123456789
       - DATABASE_HOST=db

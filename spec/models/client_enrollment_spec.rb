@@ -102,7 +102,7 @@ end
 
 describe ClientEnrollment, 'callbacks' do
   before do
-      ClientEnrollmentHistory.destroy_all
+    ClientEnrollmentHistory.destroy_all
   end
 
   let!(:program_stream) { create(:program_stream) }

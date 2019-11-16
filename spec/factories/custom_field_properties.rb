@@ -5,6 +5,16 @@ FactoryGirl.define do
     custom_formable_type 'Client'
     association :custom_formable, factory: :client
 
+    after(:build) do |custom_field_property|
+      custom_field_property.class.skip_callback(:save, :after, :create_client_history)
+    end
+
+    factory :custom_field_property_with_history do
+      after(:build) do |custom_field_property|
+        custom_field_property.class.set_callback(:save, :after, :create_client_history)
+      end
+    end
+
     trait :client_custom_field_property do
       custom_formable_type 'Client'
       association :custom_formable, factory: :client
