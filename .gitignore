@@ -35,3 +35,4 @@ brakeman_report*.html
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+/node_modules
