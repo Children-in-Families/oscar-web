@@ -5,7 +5,6 @@ import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
 import './styles.scss'
-import { type } from 'os'
 
 const Forms = props => {
   const {
@@ -41,7 +40,7 @@ const Forms = props => {
   }
 
   const onChange = (obj, field) => event => {
-    const value = typeof event === 'object' &&  event.target.value || event
+    const value = (typeof event === 'object' && !Array.isArray(event)) ?  event.target.value : event
 
     switch (obj) {
       case 'client':

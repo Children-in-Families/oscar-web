@@ -4,7 +4,10 @@ import Select from 'react-select'
 export default props => {
   const { onChange } = props
 
-  const handleChange = selectedOption => onChange(selectedOption.value)
+  const handleChange = selectedOption => {
+    const value = Array.isArray(selectedOption) ? selectedOption.map(option => option.value) : selectedOption.value
+    onChange(value)
+  }
 
   const formatGroupLabel = data => (
     <div>
