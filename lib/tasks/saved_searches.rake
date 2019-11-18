@@ -51,8 +51,25 @@ def remove_rules(queries, ss)
 end
 
 def get_rules(queries,ss)
+  update_programexitdate_to_exitprogramdate(queries,ss)
   update_rule_program_stream(queries,ss)
   update_rule_custom_form(queries,ss)
+end
+
+def update_programexitdate_to_exitprogramdate(queries,ss)
+  queries["rules"].each do |rule|
+    updated_program = get_rules(rule, ss) if rule.has_key?('rules')
+    if rule["id"].present? && rule["id"][/^(programexitdate)__.*/i]
+      updated_rule_id = rule["id"].gsub(/programexitdate/i,'exitprogramdate')
+      rule["id"] = updated_rule_id
+      ss.save
+      if rule["field"].present? && rule["field"][/^(programexitdate)__.*/i]
+        updated_rule_field = rule["field"].gsub(/programexitdate/i,'exitprogramdate')
+        rule["field"] = updated_rule_field
+        ss.save
+      end
+    end
+  end
 end
 
 def  update_rule_custom_form(queries,ss)
