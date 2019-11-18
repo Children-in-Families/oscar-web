@@ -18,7 +18,7 @@ export default props => {
           <TextInput required label="Name" onChange={onChange('referee', 'name')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Gender" collections={genderLists} onChange={onChange('referee', 'gender')} />
+          <SelectInput required label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} />
         </div>
       </div>
       <div className="row">
@@ -29,10 +29,10 @@ export default props => {
           <TextInput label="Carer Email Address" onChange={onChange('referee', 'carer_email')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Relationship to Client" collections={blank} onChange={onChange('referee', 'relationship_client')} />
+          <SelectInput label="Relationship to Client" options={blank} onChange={onChange('referee', 'relationship_client')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Carer Phone Number" collections={blank} onChange={onChange('referee', 'carer_phone_number')} />
+          <SelectInput label="Carer Phone Number" options={blank} onChange={onChange('referee', 'carer_phone_number')} />
         </div>
       </div>
       <legend>
@@ -50,16 +50,16 @@ export default props => {
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput label="Province" collections={birthProvincesLists} onChange={onChange('referee', 'province_id')} />
+          <SelectInput label="Province" options={birthProvincesLists} onChange={onChange('referee', 'province_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="District / Khan" collections={blank} onChange={onChange('referee', 'district_id')} />
+          <SelectInput label="District / Khan" options={blank} onChange={onChange('referee', 'district_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Commune / Sangkat" collections={blank} onChange={onChange('referee', 'commune_id')} />
+          <SelectInput label="Commune / Sangkat" options={blank} onChange={onChange('referee', 'commune_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Village" collections={blank} onChange={onChange('referee', 'village_id')} />
+          <SelectInput label="Village" options={blank} onChange={onChange('referee', 'village_id')} />
         </div>
       </div>
       <div className="row">
@@ -73,7 +73,7 @@ export default props => {
           <TextInput label="Address Name" onChange={onChange('referee', 'address_name')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Address Type" collections={blank} onChange={onChange('referee', 'address_type')} />
+          <SelectInput label="Address Type" options={blank} onChange={onChange('referee', 'address_type')} />
         </div>
       </div>
     </div>

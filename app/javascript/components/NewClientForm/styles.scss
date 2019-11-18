@@ -53,9 +53,9 @@
   justify-content: flex-end;
 }
 
-.previousButton {
-  background: #eee;
-  color: #aaa;
+.saveButton {
+  background: #1AB394;
+  color: #fff;
   display: block;
   padding: 0.5em 1em;
   text-decoration: none;
@@ -64,7 +64,7 @@
   cursor: pointer;
 }
 
-.nextButton {
+.allowButton {
   background: #2184be;
   color: #fff;
   display: block;
@@ -73,6 +73,18 @@
   border-radius: 5px;
   margin: 0 0.5em;
   cursor: pointer;
+}
+
+.preventButton {
+  background: #eee;
+  color: #aaa;
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border-radius: 5px;
+  margin: 0 0.5em;
+  pointer-events:none;
+  cursor: not-allowed;
 }
 
 .careInfo {

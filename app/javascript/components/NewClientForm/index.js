@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 import AdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
@@ -10,14 +11,18 @@ import { type } from 'os'
 const Forms = props => {
   const {
     data: {
-      client, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient
+      client, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      currentProvince, district, commune, village
     }
   } = props
   const [step, setStep] = useState(1)
   const [clientData, setclientData] = useState(client)
   const [refereeData, setrefereeData] = useState({})
 
-  const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry, internationalReferredClient }
+  const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
+                            internationalReferredClient, currentProvince, district, commune, village
+                          }
+  console.log('referralsource', referralSource)
 
   const tabs = [
     {text: 'Referee Information', step: 1},
@@ -51,6 +56,14 @@ const Forms = props => {
         setrefereeData({...refereeData, [field]: value })
         break;
     }
+  }
+
+  const buttonNext = () => {
+    setStep(step+1)
+  }
+
+  const buttonPrevious = () => {
+    setStep(step-1)
   }
 
   console.log('clientData', clientData)
@@ -92,8 +105,14 @@ const Forms = props => {
         </div>
 
         <div className='rightWrapper'>
-          <span className='previousButton'>Previous</span>
-          <span className='nextButton'>Next</span>
+          { step ==1 && <span className='preventButton' onClick={buttonPrevious}>Previous</span>}
+          { step ==2 && <span className='allowButton' onClick={buttonPrevious}>Previous</span>}
+          {step == 3 && <span className='allowButton' onClick={buttonPrevious}>Previous</span>}
+          {step == 4 && <span className='allowButton' onClick={buttonPrevious}>Previous</span>}
+          {step == 1 && <span className='allowButton' onClick={buttonNext}>Next</span>}
+          {step == 2 && <span className='allowButton' onClick={buttonNext}>Next</span>}
+          {step == 3 && <span className='allowButton' onClick={buttonNext}>Next</span>}
+          {step === 4 && <span className='saveButton'>Save</span> }
         </div>
       </div>
     </div>

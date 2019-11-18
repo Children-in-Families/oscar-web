@@ -44,6 +44,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
         $(subAddress).val(null).trigger('change')
         $(subAddress).find('option[value!=""]').remove()
+        debugger
       else if type == 'districts'
         subResources = 'communes'
         subAddress =  switch subAddress

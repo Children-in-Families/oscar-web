@@ -41,16 +41,16 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput label="Gender" collections={genderLists} onChange={onChange('client', 'gender')} />
+          <SelectInput label="Gender" options={genderLists} onChange={onChange('client', 'gender')} />
         </div>
         <div className="col-xs-3">
           <DateInput required label="Date of Birth" onChange={onChange('client', 'date_of_birth')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Birth Province" asGroup collections={birthProvincesLists} onChange={onChange('client', 'birth_province_id')} />
+          <SelectInput required label="Birth Province" asGroup options={birthProvincesLists} onChange={onChange('client', 'birth_province_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Is client rated for ID Poor?" collections={rateLists} onChange={onChange('client', 'rated_for_id_poor')} />
+          <SelectInput required label="Is client rated for ID Poor?" options={rateLists} onChange={onChange('client', 'rated_for_id_poor')} />
         </div>
       </div>
       <legend>
@@ -65,16 +65,32 @@ export default props => {
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput required label="Province" asGroup collections={birthProvincesLists} onChange={onChange('client', 'province_id')} />
+          <SelectInput
+            required
+            asGroup
+            label="Province"
+            options={birthProvincesLists}
+            onChange={onChange('client', 'province_id')}
+            id='client_province_id'
+            data-type='provinces'
+            data-subaddress='district'
+          />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="District / Khan" collections={blank} onChange={onChange('client', 'district_id')} />
+          <SelectInput
+            label="District / Khan"
+            options={blank}
+            onChange={onChange('client', 'district_id')}
+            id='client_district_id'
+            data-type='districts'
+            data-subaddress='commune'
+          />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Commune / Sangkat" collections={blank} onChange={onChange('client', 'commune_id')} />
+          <SelectInput label="Commune / Sangkat" options={blank} onChange={onChange('client', 'commune_id')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Village" collections={blank} onChange={onChange('client', 'village_id')} />
+          <SelectInput label="Village" options={blank} onChange={onChange('client', 'village_id')} />
         </div>
       </div>
       <div className="row">
@@ -88,7 +104,7 @@ export default props => {
           <TextInput label="Address Name" onChange={onChange('client', 'current_address')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Address Type" collections={addressType} />
+          <SelectInput required label="Address Type" options={addressType} onChange={onChange('referee', 'address_type')}/>
         </div>
       </div>
       <div className="row">
@@ -99,7 +115,7 @@ export default props => {
           <TextInput required label="Client Contact Phone" onChange={onChange('client', 'telephone_number')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Phone Owner" collections={blank} />
+          <SelectInput required label="Phone Owner" options={blank} />
         </div>
         <div className="col-xs-3">
           <TextInput required label="Client Email Address" />

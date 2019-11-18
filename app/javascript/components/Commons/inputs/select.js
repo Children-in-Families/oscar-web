@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { onChange } = props
+  const { label, required, onChange, asGroup,  ...others } = props
 
   const handleChange = selectedOption => onChange(selectedOption.value)
 
@@ -15,15 +15,17 @@ export default props => {
   return (
     <div className='form-group'>
       <label>
-        { props.required && <abbr title='required'>* </abbr> }
-        {props.label}
+        { required && <abbr title='required'>* </abbr> }
+        { label }
       </label>
 
       <Select
-        isMulti={props.isMulti}
+        // id={props.id}
+        // isMulti={props.isMulti}
         onChange={handleChange}
-        options={props.collections}
-        formatGroupLabel={props.asGroup && formatGroupLabel}
+        // options={props.collections}
+        formatGroupLabel={asGroup && formatGroupLabel}
+        { ...others }
         styles={customStyles}
       />
     </div>

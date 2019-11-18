@@ -20,7 +20,7 @@ export default props => {
 
       <div className='row'>
         <div className='col-xs-8'>
-          <SelectInput label='Receiving Staff Member' collections={userLists} onChange={onChange('client', 'received_by_id')} />
+          <SelectInput label='Receiving Staff Member' options={userLists} onChange={onChange('client', 'received_by_id')} />
         </div>
       </div>
 
@@ -32,13 +32,13 @@ export default props => {
 
       <div className='row'>
         <div className='col-xs-8'>
-          <SelectInput label='Case Worker / Assigned Staff Memger' isMulti collections={userLists} onChange={onChange('referee','users')} />
+          <SelectInput label='Case Worker / Assigned Staff Memger' isMulti options={userLists} onChange={onChange('referee','users')} />
         </div>
       </div>
 
       <div className='row'>
         <div className='col-xs-8'>
-          <SelectInput label='First Follow Up by' collections={userLists} onChange={onChange('client', 'followed_up_by_id')} />
+          <SelectInput label='First Follow Up by' options={userLists} onChange={onChange('client', 'followed_up_by_id')} />
         </div>
       </div>
 
