@@ -1,12 +1,14 @@
 class FamiliesController < AdminController
   load_and_authorize_resource
   include FamilyAdvancedSearchesConcern
+
   before_action :find_params_advanced_search, :get_custom_form, only: [:index]
   before_action :get_custom_form_fields, :family_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
+
   def index
     @default_columns = Setting.first.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
@@ -28,9 +30,11 @@ class FamiliesController < AdminController
       end
     end
   end
+
   def new
     @family = Family.new
   end
+
   def create
     @family = Family.new(family_params)
     @family.user_id = current_user.id
@@ -40,6 +44,7 @@ class FamiliesController < AdminController
       render :new
     end
   end
+
   def show
     custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
@@ -49,8 +54,10 @@ class FamiliesController < AdminController
     client_ids = Client.where(current_family_id: @family.id)
     @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).uniq }
   end
+
   def edit
   end
+
   def update
     if @family.update_attributes(family_params)
       redirect_to @family, notice: t('.successfully_updated')
@@ -58,6 +65,7 @@ class FamiliesController < AdminController
       render :edit
     end
   end
+
   def destroy
     if @family.cases.count.zero?
       @family.destroy
@@ -66,12 +74,15 @@ class FamiliesController < AdminController
       redirect_to families_url, alert: t('.alert')
     end
   end
+
   def version
     page = params[:per_page] || 20
     @family   = Family.find(params[:family_id])
     @versions = @family.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
+
   private
+
   def family_params
     params['family']['children'].delete_if(&:blank?)
     params.require(:family).permit(
@@ -87,6 +98,7 @@ class FamiliesController < AdminController
                             family_members_attributes: [:id, :adult_name, :date_of_birth, :occupation, :relation, :guardian, :_destroy]
                             )
   end
+
   def find_association
     @provinces = Province.order(:name)
     @districts = @family.province.present? ? @family.province.districts.order(:name) : []
@@ -100,6 +112,7 @@ class FamiliesController < AdminController
     client_ids = Client.where("current_family_id = ? OR id NOT IN (?) OR current_family_id IS NULL", @family.id, Client.joins(:families).ids).ids
     @clients  = Client.accessible_by(current_ability).where(id: client_ids).order(:given_name, :family_name)
   end
+
   def find_family
     @family = Family.find(params[:id])
   end
