@@ -22,16 +22,19 @@ namespace :change_client_province do
     end
     puts 'change province done!!'
     Organization.switch_to 'shared'
-    myanmar_province = Province.find_by(id: 101)
-    myanmar_province.update(country: 'myanmar') if myanmar_province.country == 'thailand'
-    myawaddy_province = Province.find_by(id: 52)
-    myawaddy_province.update(country: 'myanmar') if myawaddy_province.country == 'thailand'
-    burmese_province = Province.find_by(id: 99)
-    burmese_province.update(country:'myanmar') if burmese_province.country == 'thailand'
     Province.find_by(id: 345).destroy
     Province.find_by(id: 35).destroy
     Province.find_by(id: 55).destroy
+    #Malaysia
     Province.find_by(id: 77).destroy
+    #Thailand
+    Province.find_by(id: 93).destroy
+    #Myanmar
+    Province.find_by(id: 101).destroy
+    #Burmese
+    Province.find_by(id: 99).destroy
+    #Myawaddy
+    Province.find_by(id: 52).destroy
     puts 'destroy province done !!'
   end
 end
