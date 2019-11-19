@@ -6,7 +6,7 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, birthProvinces, referralSourceCategory, referralSource, currentProvince, district, commune, village} } = props
+  const { onChange, data: { client, birthProvinces, referralSourceCategory, referralSource, currentProvince, district, commune, village, errorFields } } = props
 
   const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
@@ -14,10 +14,6 @@ export default props => {
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
   const referralSourceCategorLists = referralSourceCategory.map(catgeory => ({label: catgeory[0], value: catgeory[1]}))
   const currentProvinceLists = currentProvince.map(province => ({label: province.name, value: province.id}))
-  console.log('Province',currentProvince)
-  // console.log('district',district)
-  // console.log('commune', commune)
-  // console.log('village',village)
   // const referralSourceLists = referralSource.map(source => ({label: source[0], value: value[1]}))
 
   return (
@@ -35,7 +31,7 @@ export default props => {
 
       <div className="row">
         <div className=" col-xs-3">
-          <TextInput required label="Name" onChange={onChange('referee', 'name')} />
+          <TextInput required isError={errorFields.includes('name')} label="Name" onChange={onChange('referee', 'name')} />
         </div>
         <div className="col-xs-3">
           <SelectInput label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} />
@@ -67,7 +63,7 @@ export default props => {
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput required label="Province" asGroup options={currentProvinceLists} onChange={onChange('referee', 'province_id')} />
+          <SelectInput required isError={errorFields.includes('province_id')} label="Province" asGroup options={currentProvinceLists} onChange={onChange('referee', 'province_id')} />
         </div>
         <div className="col-xs-3">
           <SelectInput label="District / Khan" options={blank} onChange={onChange('referee', 'district_id')} />

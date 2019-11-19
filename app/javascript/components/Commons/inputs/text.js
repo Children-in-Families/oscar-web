@@ -1,13 +1,24 @@
 import React from 'react'
 
 export default props => {
+  const { isError, label, required, onChange } = props
   return (
     <div className='form-group'>
-      <label>
-        { props.required && <abbr title='required'>* </abbr> }
-        {props.label}
+      <label style={isError && styles.errorText || {}}>
+        { required && <abbr title='required'>* </abbr> }
+        {label}
       </label>
-      <input className='form-control' onChange={props.onChange} />
+      <input className='form-control' onChange={onChange} style={isError && styles.errorInput || {}} />
+      { isError && <span style={styles.errorText}>Cannot be blank.</span> }
     </div>
   )
+}
+
+const styles = {
+  errorText: {
+    color: 'red'
+  },
+  errorInput: {
+    borderColor: 'red'
+  }
 }

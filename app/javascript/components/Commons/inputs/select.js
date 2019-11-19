@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { label, required, onChange, asGroup,  ...others } = props
+  const { isError, label, required, onChange, asGroup,  ...others } = props
 
   const handleChange = selectedOption => {
     const value = Array.isArray(selectedOption) ? selectedOption.map(option => option.value) : selectedOption.value
@@ -17,7 +17,7 @@ export default props => {
 
   return (
     <div className='form-group'>
-      <label>
+      <label style={ isError && customStyles.errorText || {} }>
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
@@ -29,8 +29,9 @@ export default props => {
         // options={props.collections}
         formatGroupLabel={asGroup && formatGroupLabel}
         { ...others }
-        styles={customStyles}
+        styles={ customStyles }
       />
+      { isError && <span style={customStyles.errorText}>Cannot be blank.</span> }
     </div>
   )
 }
@@ -38,6 +39,23 @@ export default props => {
 const customStyles = {
   menu: (provided, state) => ({
     ...provided,
-    zIndex: 90
-  })
+    zIndex: 1031
+  }),
+  // control: (provided, styles, state) => ({
+  //   ...provided,
+  //   ':hover': {
+  //     ...styles[':hover'],
+  //     borderColor: '#1ab394'
+  //   },
+  //   ':focus': {
+  //     ...styles[':hover'],
+  //     borderColor: '#1ab394'
+  //   }
+  // }),
+  errorText: {
+    color: 'red'
+  },
+  // errorInput: {
+  //   borderColor: 'red'
+  // }
 }

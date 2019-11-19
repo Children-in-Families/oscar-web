@@ -53,38 +53,31 @@
   justify-content: flex-end;
 }
 
-.saveButton {
-  background: #1AB394;
-  color: #fff;
-  display: block;
-  padding: 0.5em 1em;
-  text-decoration: none;
-  border-radius: 5px;
-  margin: 0 0.5em;
-  cursor: pointer;
-}
-
-.allowButton {
-  background: #2184be;
-  color: #fff;
-  display: block;
-  padding: 0.5em 1em;
-  text-decoration: none;
-  border-radius: 5px;
-  margin: 0 0.5em;
-  cursor: pointer;
-}
-
-.preventButton {
-  background: #eee;
+.clientButton {
   color: #aaa;
   display: block;
   padding: 0.5em 1em;
   text-decoration: none;
   border-radius: 5px;
   margin: 0 0.5em;
-  pointer-events:none;
+}
+
+.saveButton {
+  background: #1AB394;
+  color: #fff;
+  cursor: pointer;
+}
+
+.allowButton {
+  background: #2184be;
+  color: #fff;
+  cursor: pointer;
+}
+
+.preventButton {
+  background: #eee;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .careInfo {
