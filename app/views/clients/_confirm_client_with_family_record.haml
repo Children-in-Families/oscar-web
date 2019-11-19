@@ -24,6 +24,7 @@
               %input.icheck-client-option.client-option#saveDirect{:name => "clientConfirmation", :type => "radio", :value => "no"}/
               = t ('.no_option')
       .modal-footer
-        %button.btn.btn-primary#clientConfirmation.disabled
+        %button.btn.btn-primary#clientConfirmation.disabled{ data: { disable_with: "#{t('save')}..." } }
           = t ('.save')
+
 
