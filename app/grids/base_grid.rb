@@ -1,6 +1,7 @@
 class BaseGrid
   include ActionView::Helpers
   include Datagrid
+
   attr_accessor :current_user
 
   self.default_column_options = {

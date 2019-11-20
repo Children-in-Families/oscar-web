@@ -59,7 +59,8 @@ module AdvancedSearches
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
         ['referred_from', referral_from_options],
-        ['referral_source_category_id', referral_source_category_options]
+        ['referral_source_category_id', referral_source_category_options],
+        ['type_of_service', get_type_of_services]
       ]
     end
 
@@ -145,6 +146,10 @@ module AdvancedSearches
         ref_cat_en_names = ReferralSource.where(id: ref_cat_ids).pluck(:name_en, :id)
         ref_cat_en_names.sort.map{|s| {s[1].to_s => s[0]}}
       end
+    end
+
+    def get_type_of_services
+      Service.only_children.pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def followed_up_by_options

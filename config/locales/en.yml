@@ -463,6 +463,7 @@ en:
       township: Township
       tracking: Tracking
       type: Attached with
+      type_of_service: Type of Service
       user_id: Case Worker
       village: Village
       what3words: What3words
@@ -1744,6 +1745,9 @@ en:
       telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
+        day:
+          one: "%{count} day"
+          other: "%{count} days"
         month:
           one: "%{count} month"
           other: "%{count} months"
@@ -2171,6 +2175,7 @@ en:
         total: Total
         township: Township
         type: Attached with
+        type_of_service: Type of Service
         view: View
         village: Village
         village_en: Address - Village (English)
@@ -2296,6 +2301,7 @@ en:
         name: Name
         report: Report
         times_of_frequency: Times of Frequency
+      type_of_service: Type of Service
       users:
         changelogs: Changelog
         clients: Clients
@@ -2343,6 +2349,7 @@ en:
       no_case_note: Overdue for Case Note
       reset: Reset
       search: Search
+      type_of_service: Type of Service
     from: From
     head:
       changelog: Changelog
