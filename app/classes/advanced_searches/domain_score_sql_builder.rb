@@ -1,5 +1,6 @@
 module AdvancedSearches
   class DomainScoreSqlBuilder
+    include AssessmentHelper
 
     def initialize(field, rule, basic_rule)
       @form_builder = field != nil ? field.split('__') : []
@@ -31,9 +32,18 @@ module AdvancedSearches
     end
 
     def domainscore_field_query
-      assessments       = []
-      custom_domain     = Domain.find(@domain_id).try(:custom_domain)
-      if @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_number'
+      assessments   = []
+      domain        = Domain.find(@domain_id)
+      custom_domain = domain.try(:custom_domain)
+
+      if @basic_rules.third.nil?
+        basic_rules = $param_rules['basic_rules']
+        basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+        results = mapping_assessment_query_rules(basic_rules)
+        query_string = get_assessment_without_complated_date_query_string(results, domain.identity, @domain_id)
+        client_ids = Client.joins(assessments: :assessment_domains).where(query_string).distinct.ids
+        return client_ids
+      elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_number'
         between_date_value= @basic_rules.third['value']
         assessment_number = @basic_rules.second['value']
 
@@ -54,6 +64,7 @@ module AdvancedSearches
             assessments         << number_assessments.first.id if number_assessments.present?
           end
         end
+
         assessment_filter_domainscore_query(assessments.flatten)
       elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'month_number'
         between_date_value= @basic_rules.third['value']

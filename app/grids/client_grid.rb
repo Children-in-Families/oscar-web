@@ -977,12 +977,13 @@ class ClientGrid < BaseGrid
       column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
-
       Domain.csi_domains.order_by_identity.each do |domain|
+        domain_id = domain.id
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-          assessment = client.assessments.defaults.latest_record
-          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+          assessment_domains = map_assessment_and_score(client, identity, domain_id)
+          # assessment = client.assessments.defaults.latest_record
+          assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
         end
       end
     end

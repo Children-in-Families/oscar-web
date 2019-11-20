@@ -110,4 +110,116 @@ module AssessmentHelper
       { title: header_name, data: field_header, className: class_name ? class_name : 'assessment-score text-center' }
     end
   end
+
+  def map_assessment_and_score(object, identity, domain_id)
+    if $param_rules.nil?
+      assessments = object.client.assessments.defaults.joins(:assessment_domains)
+    else
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules)
+      query_string = get_assessment_query_string(results, identity, domain_id, object.id)
+
+      assessments = object.assessments.joins(:assessment_domains).where(query_string).distinct
+
+      serivce_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
+
+    end
+    assessment_domains = assessments.map{|assessment| assessment.assessment_domains.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
+  end
+
+  def mapping_assessment_query_rules(data, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_assessment_query_rules(h, field_name=nil, data_mapping)
+      end
+      if field_name.nil?
+       next if !(h[:id] =~ /^(domainscore|assessment_completed|assessment_number)/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
+
+
+  def get_assessment_query_string(results, identity, domain_id, client_id=nil)
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        condition = h[:condition]
+        if h[:field] == 'assessment_completed'
+          date_of_assessments_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
+        elsif h[:field] == identity
+          assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
+        elsif h[:field] == 'assessment_number'
+          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id}) >= #{h[:value]}"
+        end
+      end.join(" #{condition} ")
+    end
+  end
+
+  def get_assessment_without_complated_date_query_string(results, identity, domain_id, client_id=nil)
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        condition = h[:condition]
+        if h[:field] == identity
+          assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
+        elsif h[:field] == 'assessment_number'
+          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = clients.id) >= #{h[:value]}"
+        end
+      end.join(" #{condition} ")
+    end
+  end
+
+  def date_of_assessments_query_string(id, field, operator, value, type, input_type, domain_id)
+    case operator
+    when 'equal'
+      "date(assessments.created_at) = #{value.to_date}"
+    when 'not_equal'
+      "date(assessments.created_at) != #{value.to_date} OR assessments.created_at IS NULL"
+    when 'less'
+      "date(assessments.created_at) < #{value.to_date}"
+    when 'less_or_equal'
+      "date(assessments.created_at) <= #{value.to_date}"
+    when 'greater'
+      "date(assessments.created_at) > #{value.to_date}"
+    when 'greater_or_equal'
+      "date(assessments.created_at) >= #{value.to_date}"
+    when 'between'
+      "(date(assessments.created_at) BETWEEN '#{value[0].to_date}' AND '#{value[1].to_date}')"
+    when 'is_empty'
+      "assessments.created_at IS NULL"
+    when 'is_not_empty'
+      "assessments.created_at IS NOT NULL"
+    end
+  end
+
+  def assessment_score_query_string(id, field, operator, value, type, input_type, domain_id)
+    case operator
+    when 'equal'
+      "assessment_domains.domain_id = #{domain_id} AND assessment_domains.score = #{value}"
+    when 'not_equal'
+      "assessment_domains.domain_id != #{domain_id} AND assessment_domains.score != #{value} OR assessment_domains.domain_id IS NULL"
+    when 'less'
+      "assessment_domains.domain_id = #{domain_id} AND assessment_domains.score < #{value}"
+    when 'less_or_equal'
+      "assessment_domains.domain_id = #{domain_id} AND assessment_domains.score <= #{value}"
+    when 'greater'
+      "assessment_domains.domain_id = #{domain_id} AND assessment_domains.score > #{value}"
+    when 'greater_or_equal'
+      "assessment_domains.domain_id = #{domain_id} AND assessment_domains.score >= #{value}"
+    when 'between'
+      "assessment_domains.domain_id = #{domain_id} AND assessment_domains.score IN (#{value.first..value.last})"
+    when 'is_empty'
+      "assessment_domains.domain_id IS NULL OR assessment_domains.score IS NULL"
+    when 'is_not_empty'
+      "assessment_domains.domain_id IS NOT NULL OR assessment_domains.score IS NOT NULL"
+    end
+  end
 end
