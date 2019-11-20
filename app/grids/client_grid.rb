@@ -2,6 +2,7 @@ class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
   include ClientsHelper
   include ApplicationHelper
+  include FormBuilderHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -568,6 +569,16 @@ class ClientGrid < BaseGrid
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
+  end
+
+  column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = map_type_of_services(object)
+    render partial: 'clients/type_of_services', locals: { type_of_services: services }
+  end
+
+  column(:type_of_service, html: false, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = map_type_of_services(object)
+    services.map(&:name).join(', ') if services
   end
 
   column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|

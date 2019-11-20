@@ -104,7 +104,12 @@ module AdvancedSearches
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
-        elsif field != nil
+        elsif form_builder.first == 'type_of_service'
+          service_query = AdvancedSearches::ServiceSqlBuilder.new().get_sql
+          @sql_string << service_query[:id]
+          @values << service_query[:values]
+
+        elsif field != nil && form_builder.first != 'type_of_service'
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
         else

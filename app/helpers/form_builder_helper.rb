@@ -13,6 +13,47 @@ module FormBuilderHelper
     end
   end
 
+  def mapping_program_stream_service_param_value(data, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_program_stream_service_param_value(h, field_name=nil, data_mapping)
+      end
+      if field_name.nil?
+       next if !(h[:id] =~ /^(active_program_stream|type_of_service)/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
+  def get_program_service_query_string(results)
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        condition = h[:condition]
+        class_name = h[:id] == 'active_program_stream' ? 'program_streams' : 'services'
+        program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], class_name)
+      end.join(" #{condition} ")
+    end
+  end
+
+  def program_stream_service_query(id, field_name, operator, value, class_name)
+    case operator
+    when 'equal'
+      "#{class_name}.id = #{value}"
+    when 'not_equal'
+      "#{class_name}.id != #{value}"
+    when 'is_empty'
+      "#{class_name}.id IS NULL"
+    when 'is_not_empty'
+      "#{class_name}.id IS NOT NULL"
+    end
+  end
+
   def tracking_query_string(id, field, operator, value, type, input_type, properties_field)
     case operator
     when 'equal'
@@ -97,6 +138,42 @@ module FormBuilderHelper
     when 'between'
       "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
     end
+  end
+
+  def map_type_of_services(object)
+    if $param_rules.nil?
+      program_streams = object.program_streams.joins(:services)
+      type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
+    else
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_program_stream_service_param_value(basic_rules)
+
+      query_string = get_program_service_query_string(results)
+
+      program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
+
+      serivce_query_string = get_program_service_query_string(results)
+
+      type_of_services = program_streams.map{|ps| ps.services.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
+    end
+  end
+
+  def mapping_service_param_value(data, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_service_param_value(h, field_name=nil, data_mapping)
+      end
+      if field_name.nil?
+       next if !(h[:id] =~ /^(type_of_service)/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
   end
 
   def integer?(type)

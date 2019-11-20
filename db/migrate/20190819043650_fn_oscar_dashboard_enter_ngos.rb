@@ -6,7 +6,7 @@ class FnOscarDashboardEnterNgos < ActiveRecord::Migration
           execute <<-SQL.squish
 
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_enter_ngos"(donor_global_id varchar DEFAULT '')
-              RETURNS TABLE("id" int4, "organization_name" varchar, "client_id" int4, "accepted_date" varchar) AS $BODY$
+              RETURNS TABLE("id" int4, "organization_name" varchar, "client_id" int4, "accepted_date" varchar, "created_at" varchar, "updated_at" varchar) AS $BODY$
               DECLARE
                 sql TEXT := '';
                 sch record;
@@ -20,7 +20,7 @@ class FnOscarDashboardEnterNgos < ActiveRecord::Migration
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.client_id,
-                                  %2$s.accepted_date FROM %1$I.%2$s UNION ',
+                                  %2$s.accepted_date, %2$s.created_at, %2$s.updated_at FROM %1$I.%2$s UNION ',
                                   sch.short_name, 'enter_ngos');
                 END LOOP;
 
@@ -30,6 +30,8 @@ class FnOscarDashboardEnterNgos < ActiveRecord::Migration
                   organization_name := enter_ngo_r.organization_name;
                   client_id := enter_ngo_r.client_id;
                   accepted_date := timezone('Asia/Bangkok', enter_ngo_r.accepted_date);
+                  created_at := timezone('Asia/Bangkok', enter_ngo_r.created_at);
+                  updated_at := timezone('Asia/Bangkok', enter_ngo_r.updated_at);
                   RETURN NEXT;
                 END LOOP;
               END

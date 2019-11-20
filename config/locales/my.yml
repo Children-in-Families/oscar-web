@@ -461,6 +461,7 @@ my:
       township: မြို့နယ်
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
       type: အမ်ိဳးအစား
+      type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
       village: ေက်းရြာ
       what3words: What3words
@@ -1291,7 +1292,7 @@ my:
       client_name: ကေလးနာမည္
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: client အတည်ပြုချက်
       client_option: သငျသညျကို client သတင်းအချက်အလက်များတင်ပြမသွားခင်အောက်ကတဦးတည်း option ကိုရှေးခယျြ ကျေးဇူးပြု.
       create_family_record_option:  သင်ဤ client ကိုတစ်မိသားစုစံချိန်ကိုဖန်တီးရန်လိုပါသလား
@@ -2159,6 +2160,7 @@ my:
         total: စုစုေပါင္း
         township: မြို့နယ်
         type: အမ်ိဳးအစား
+        type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
         view: ျမင္ကြင္း
         village: ေက်းရြာ
         village_en: လိပ်စာ - ကျေးရွာ (အင်္ဂလိပ်)
@@ -2284,6 +2286,7 @@ my:
         name: နာမည္
         report: အစီရင္ခံစာ
         times_of_frequency: အႀကိမ္အေရအတြက္
+      type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
       users:
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
         clients: အမႈသည္မ်ား
@@ -2331,6 +2334,7 @@ my:
       no_case_note: ဖြစ်ရပ်မှန်မှတ်ချက်များအတွက်ရက်လွန်
       reset: အကုန္ျပင္ဆင္သည္
       search: ရွာေဖြသည္
+      type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     from: မွ
     head:
       changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
