@@ -74,7 +74,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
               subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
 
   _setClientOption = ->
-    if localStorage.getItem('client_id').length > 0
+    if localStorage.getItem('client_id') and localStorage.getItem('client_id').length > 0
       clientId = localStorage.getItem('client_id')
       $('#family_children').select2('val', clientId)
       localStorage.removeItem('client_id')

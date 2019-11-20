@@ -1019,7 +1019,7 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              properties = form_builder_query(object.custom_field_properties, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
             end
           end
         elsif fields.first == 'enrollmentdate'
@@ -1041,7 +1041,8 @@ class ClientGrid < BaseGrid
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
+            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
           end
         elsif fields.first == 'programexitdate'
           ids = object.client_enrollments.inactive.ids

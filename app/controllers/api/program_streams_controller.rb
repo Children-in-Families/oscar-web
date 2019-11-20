@@ -61,7 +61,7 @@ module Api
     private
 
       def find_program_stream
-        @program_stream = ProgramStream.without_deleted.find(params[:id])
+        @program_stream = ProgramStream.find(params[:id])
       end
 
       def program_stream_params
