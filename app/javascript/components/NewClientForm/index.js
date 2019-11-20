@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
 import AdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
@@ -11,15 +10,15 @@ const Forms = props => {
   const {
     data: {
       client, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvince, district, commune, village
+      currentProvinces, district, commune, village
     }
   } = props
   const [step, setStep] = useState(1)
-  const [clientData, setclientData] = useState(client)
+  const [clientData, setClientData] = useState(client)
   const [refereeData, setrefereeData] = useState({})
 
   const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
-                            internationalReferredClient, currentProvince, district, commune, village
+                            internationalReferredClient, currentProvinces, district, commune, village
                           }
   console.log('referralsource', referralSource)
 
@@ -45,14 +44,17 @@ const Forms = props => {
   }
 
   const onChange = (obj, field) => event => {
-    const value = (typeof event === 'object' && !Array.isArray(event)) ?  event.target.value : event
+    const value = (typeof event === 'object' && !Array.isArray(event) && event !== null) ?  event.target.value : event
+
+    if (typeof field !== 'object')
+      field = { [field]: value }
 
     switch (obj) {
       case 'client':
-        setclientData({...clientData, [field]: value })
+        setClientData({...clientData, ...field})
         break;
       case 'referee':
-        setrefereeData({...refereeData, [field]: value })
+        setrefereeData({...refereeData, ...field })
         break;
     }
   }
@@ -66,7 +68,7 @@ const Forms = props => {
   }
 
   console.log('clientData', clientData)
-  console.log('refereeData', refereeData)
+  // console.log('refereeData', refereeData)
 
   return (
     <div className='container'>

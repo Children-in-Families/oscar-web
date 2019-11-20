@@ -16,7 +16,7 @@
           = react_component('NewClientForm', { data: { internationalReferredClient: international_referred_client,
                                                       selectedCountry: selected_country, client: @client, users: @users,
                                                       referralSourceCategory: @referral_source_category, referralSource: @referral_source,
-                                                      birthProvinces: @birth_provinces, currentProvince: @current_provinces, district: @districts,
+                                                      birthProvinces: @birth_provinces, currentProvinces: @current_provinces, district: @districts,
                                                       commune: @communes, village: @villages} })
         - else
           = render 'form'
