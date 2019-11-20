@@ -390,6 +390,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _removeTask = ->
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
+      _initTaskRequire()
 
   _deleteTask = (e) ->
     $('.task_required').addClass 'text-required'
