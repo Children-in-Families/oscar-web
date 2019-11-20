@@ -392,7 +392,7 @@ class Client < ActiveRecord::Base
     enter_ngo_dates = enter_ngos.pluck(:accepted_date)
     exit_ngo_dates  = exit_ngos.pluck(:exit_date)
 
-    exit_ngo_dates.push(Date.today) if exit_ngo_dates.size < enter_ngo_dates.size
+    exit_ngo_dates.unshift(Date.today) if exit_ngo_dates.size < enter_ngo_dates.size
     day_time_in_ngos = exit_ngo_dates.each_with_index.inject(0) do |sum, (exit_ngo_date, index)|
       enter_ngo_date = enter_ngo_dates[index]
       next_ngo_date = enter_ngo_dates[index + 1]
