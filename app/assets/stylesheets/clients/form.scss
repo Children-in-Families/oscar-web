@@ -76,6 +76,14 @@ body[id='clients-edit'], body[id='clients-update']{
   }
 }
 
+.client-option-family-record {
+  margin-bottom: 5px;
+}
+
+#family-option{
+  margin-top: 10px;
+  margin-left: 12px;
+}
 
 //css loader library
 
@@ -927,6 +935,28 @@ body[id='clients-edit'], body[id='clients-update']{
   to {
     opacity: .3;
     transform: translateY(-1rem);
+  }
+}
+
+body[id='clients-new'] .disabled, body[id='clients-create'] .disabled,
+body[id='clients-edit'] .disabled, body[id='clients-update'] .disabled {
+  color: #fff !important;
+  pointer-events: none;
+}
+
+#client-confirmation{
+  .modal-dialog {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    border-radius: 0;
+    overflow:auto;
   }
 }
 

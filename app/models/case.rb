@@ -4,8 +4,8 @@ class Case < ActiveRecord::Base
   belongs_to :partner, counter_cache: true
   belongs_to :province, counter_cache: true
 
-  has_many :case_contracts
-  has_many :quarterly_reports
+  has_many :case_contracts, dependent: :destroy
+  has_many :quarterly_reports, dependent: :destroy
 
   has_paper_trail
 
@@ -13,7 +13,7 @@ class Case < ActiveRecord::Base
   scope :non_emergency,  -> { where.not(case_type: 'EC') }
   scope :kinships,       -> { where(case_type: 'KC') }
   scope :fosters,        -> { where(case_type: 'FC') }
-  scope :most_recents,   -> { order('created_at desc') }
+  scope :most_recents,   -> { order('id, created_at desc') }
   scope :last_exited,    -> { order('exit_date desc').first }
   scope :active,         -> { where(exited: false) }
   scope :inactive,       -> { where(exited: true) }
@@ -37,7 +37,7 @@ class Case < ActiveRecord::Base
     if ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
       'Birth Family (Only Father)', 'Domestically Adopted',
       'Child-Headed Household', 'No Family', 'Other'].include?(family.family_type)
-      self.exited    = true
+      # self.exited    = true
       self.exit_date = Date.today
       self.exit_note = family.family_type
     end
@@ -117,21 +117,13 @@ class Case < ActiveRecord::Base
 
   def update_client_status
     if new_record?
-      client.status = ['EC', 'FC', 'KC'].include?(case_type) ? 'Active' : 'Referred'
-    elsif exited_from_cif
-      client.status = status
-    elsif exited && !exited_from_cif
-      if client.client_enrollments.active.empty?
-        client.status = exited_was ? client.status : 'Accepted'
-      else
-        client.status = exited_was ? client.status : 'Active'
-      end
+      client.status = client.status
     end
     client.save(validate: false)
   end
 
   def update_client_code
-    client.update_attributes(code: generate_client_code) if client.code.blank? && not_ec?
+    # client.update_attributes(code: generate_client_code) if client.code.blank? && not_ec?
   end
 
   def generate_client_code

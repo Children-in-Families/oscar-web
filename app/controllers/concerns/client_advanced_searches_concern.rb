@@ -8,7 +8,7 @@ module ClientAdvancedSearchesConcern
     end
     # overdue_assessment   = @advanced_search_params[:overdue_assessment]
     # clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), overdue_assessment)
-    $param_rules        = find_params_advanced_search
+    $param_rules = find_params_advanced_search
     clients      = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
 
     @clients_by_user     = clients.filter
@@ -176,7 +176,12 @@ module ClientAdvancedSearchesConcern
   end
 
   def find_params_advanced_search
-    @advanced_search_params = params[:client_advanced_search]
+    if params[:advanced_search_id]
+      advanced_search = AdvancedSearch.find(params[:advanced_search_id])
+      @advanced_search_params = params[:client_advanced_search].merge("basic_rules" => advanced_search.queries)
+    else
+      @advanced_search_params = params[:client_advanced_search]
+    end
   end
 
   def basic_params

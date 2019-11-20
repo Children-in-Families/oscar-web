@@ -134,7 +134,7 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
-    if @client.save
+    if @client.save(validate: false)
       redirect_to @client, notice: t('.successfully_created')
     else
       render :new
@@ -142,7 +142,8 @@ class ClientsController < AdminController
   end
 
   def update
-    if @client.update_attributes(client_params)
+    new_params = @client.current_family_id ? client_params : client_params.except(:family_ids)
+    if @client.update_attributes(client_params.except(:family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -155,7 +156,7 @@ class ClientsController < AdminController
   end
 
   def destroy
-    @client.client_enrollments.each(&:really_destroy!)
+    @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
     @client.reload.destroy
 
@@ -211,7 +212,7 @@ class ClientsController < AdminController
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id,
+            :relevant_referral_information, :province_id, :current_family_id,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
@@ -225,6 +226,7 @@ class ClientsController < AdminController
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id]
@@ -244,6 +246,32 @@ class ClientsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
+
+    subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
+    if current_user.admin?
+      @families        = Family.order(:name)
+    elsif current_user.manager?
+      family_ids = current_user.families.ids
+      User.where(id: subordinate_users).each do |user|
+        user.clients.each do |client|
+          family_ids << client.family.try(:id)
+        end
+      end
+      Client.where(id: exited_clients(subordinate_users)).each do |client|
+        family_ids << client.family.try(:id)
+      end
+      current_user.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      @families = Family.where(id: family_ids)
+    elsif current_user.case_worker?
+      family_ids = current_user.families.ids
+      current_user.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      @families = Family.where(id: family_ids)
+    end
+
     @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields
@@ -306,5 +334,18 @@ class ClientsController < AdminController
     return if params[:referral_id].blank?
     find_referral_by_params
     redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
+  end
+
+  def exited_clients(users)
+    client_ids = []
+    users.each do |user|
+      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
+        next if version.changeset[:user_id].last != user
+        client_id = version.changeset[:client_id].last
+        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
+        client_ids << client_id if client_id.present?
+      end
+    end
+    client_ids.uniq
   end
 end

@@ -5,6 +5,7 @@ class ClientEnrollmentsController < AdminController
   include FormBuilderAttachments
 
   before_action :find_client
+  before_action :find_client_histories, only: [:new, :create, :edit, :update]
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
   before_action :get_attachments, only: [:new, :edit, :update, :create]
@@ -66,7 +67,7 @@ class ClientEnrollmentsController < AdminController
       delete_form_builder_attachment(@client_enrollment, name, index)
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
-      @client_enrollment.really_destroy!
+      @client_enrollment.destroy_fully!
       redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
     end
   end
@@ -89,5 +90,15 @@ class ClientEnrollmentsController < AdminController
     client_enrollments_inactive   = all_programs.without_status_by(@client).complete
 
     program_streams               = client_enrollments_exited + client_enrollments_inactive
+  end
+
+
+  def find_client_histories
+    enter_ngos = @client.enter_ngos
+    exit_ngos  = @client.exit_ngos
+    cps_enrollments = @client.client_enrollments
+    cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
+    referrals = @client.referrals
+    @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.new_date, current_record.created_at] <=> [next_record.new_date, next_record.created_at]) }
   end
 end

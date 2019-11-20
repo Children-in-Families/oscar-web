@@ -463,6 +463,7 @@ km:
       township: Township
       tracking: តាមដាន
       type: ប្រើប្រាស់ជាមួយ
+      type_of_service: ប្រភេទសេវាកម្ម
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
       what3words: What3words
@@ -1286,6 +1287,13 @@ km:
       client_name: ឈ្មោះអតិថិជន
       close: បិទ
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+    confirm_client_with_family_record:
+      client_confirmation: ការស្នើសុំរបស់អតិថិជន
+      client_option: តើអ្នកចង់បន្ថែមគ្រួសារថ្មីសម្រាប់អតិថិជននេះ ឬភ្ជាប់វាជាមួយគ្រួសារដែលមានស្រាប់ដែរឬទេ?
+      create_family_record_option:  បន្ថែមគ្រួសារថ្មី
+      attach_exist_family_record_option:  ភ្ជាប់ជាមួយគ្រួសារដែលមានស្រាប់
+      no_option: អត់ទេ
+      save: រក្សាទុក
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     edit:
@@ -1557,6 +1565,7 @@ km:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
       current_address: អាសយដ្ឋានបច្ចុប្បន្ន
+      family: គ្រួសារ
       live_with: ឈ្មោះអ្នកថែទាំចម្បង
       living_detail: ព័ត៌មានរស់នៅលំអិត
       main_school_contact: ជនបង្គោលសម្រាប់ទំនាក់ទំនងនៅសាលារៀន
@@ -1736,6 +1745,9 @@ km:
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
+        day:
+          one: "%{count} ថ្ងៃ"
+          other: "%{count} ថ្ងៃ"
         month:
           one: "%{count} ខែ"
           other: "%{count} ខែ"
@@ -2161,6 +2173,7 @@ km:
         total: សរុប
         township: Township
         type: ប្រើប្រាស់ជាមួយ
+        type_of_service: ប្រភេទសេវាកម្ម
         view: មើល
         village: ភូមិ
         village_en: អាស័យដ្ឋាន - ភូមិ (ឡាតាំង)
@@ -2286,6 +2299,7 @@ km:
         name: ឈ្មោះកម្មវិធី
         report: របាយការណ៍
         times_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+      type_of_service: ប្រភេទសេវាកម្ម
       users:
         changelogs: ប្រវត្តិកំណែ
         clients: អតិថិជន
@@ -2333,6 +2347,7 @@ km:
       no_case_note: កំណត់ត្រាករណីហួសកំណត់
       reset: សំអាត
       search: ស្វែងរក
+      type_of_service: ប្រភេទសេវាកម្ម
     from: ចាប់ពី
     head:
       changelog: ប្រវត្តិកំណែ
