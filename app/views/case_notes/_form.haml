@@ -2,6 +2,7 @@
   .col-xs-12
     = simple_form_for([@case_note.client, @case_note], html: { id: 'case-note-form', data: { translate: t('cannot_be_blank') } }) do |f|
       = hidden_field_tag :current_user, current_user.roles
+      = hidden_field_tag :from_controller, @from_controller
       = f.input :custom, :as => :hidden, :input_html => { :value => true } if params[:custom] == 'true'
 
       .ibox
@@ -36,7 +37,7 @@
                     .col-xs-12
                       #attendee-message.text-danger
                 .col-xs-12.col-md-6
-                  = f.input :interaction_type, collection: CaseNote::INTERACTION_TYPE, label: t('.type')
+                  = f.input :interaction_type, collection: [CaseNote::INTERACTION_TYPE, t('.type_options').values].transpose, label_method: :second, value_method: :first, label: t('.type')
                   .row
                     .col-xs-12
                       #interaction-type.text-danger

@@ -31,8 +31,8 @@ class ProgramStreamsController < AdminController
   end
 
   def show
-    @program_exclusive = ProgramStream.without_deleted.filter(@program_stream.program_exclusive)
-    @mutual_dependence = ProgramStream.without_deleted.filter(@program_stream.mutual_dependence)
+    @program_exclusive = ProgramStream.filter(@program_stream.program_exclusive)
+    @mutual_dependence = ProgramStream.filter(@program_stream.mutual_dependence)
     @program_stream = @program_stream.decorate
   end
 
@@ -67,7 +67,7 @@ class ProgramStreamsController < AdminController
     if @program_stream.client_enrollments.size > 0
       @program_stream.destroy
     else
-      @program_stream.really_destroy!
+      @program_stream.destroy_fully!
     end
     redirect_to program_streams_path, notice: t('.successfully_deleted')
   end
@@ -85,7 +85,7 @@ class ProgramStreamsController < AdminController
   private
 
   def find_program_stream
-    @program_stream = ProgramStream.without_deleted.find(params[:id])
+    @program_stream = ProgramStream.find(params[:id])
   end
 
   def remove_html_tags
@@ -110,9 +110,10 @@ class ProgramStreamsController < AdminController
   def program_stream_params
     ngo_name = current_organization.full_name
     delete_select_option_empty
-    default_params = [:name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: []]
+    default_params = [:name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: [], service_ids: []]
     default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } unless program_without_tracking?
 
+    params[:program_stream][:service_ids] = params[:program_stream][:service_ids].uniq
     params.require(:program_stream).permit(default_params).merge(ngo_name: ngo_name)
   end
 
@@ -129,7 +130,7 @@ class ProgramStreamsController < AdminController
     program_stream_id = params[:program_stream_id]
     ngo = Organization.find_by(full_name: @ngo_name)
     Organization.switch_to ngo.short_name
-    program_stream = ProgramStream.without_deleted.where(id: program_stream_id).includes(:trackings).first
+    program_stream = ProgramStream.where(id: program_stream_id).includes(:trackings).first
     program_exclusive = ProgramStream.filter(program_stream.program_exclusive)
     mutual_dependence = ProgramStream.filter(program_stream.mutual_dependence)
 
@@ -144,7 +145,7 @@ class ProgramStreamsController < AdminController
     organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.oscar.order(:full_name)
     program_streams = organizations.map do |org|
       Organization.switch_to org.short_name
-      ProgramStream.without_deleted.all.reload
+      ProgramStream.all.reload
     end
     Organization.switch_to(current_org_name)
     program_streams.flatten
@@ -170,7 +171,7 @@ class ProgramStreamsController < AdminController
     column == "quantity" ? "#{column}" : "lower(#{column})"
     (order_string = "#{column} #{sort_by}") if column.present?
 
-    ProgramStream.without_deleted.ordered_by(order_string)
+    ProgramStream.ordered_by(order_string)
   end
 
   def program_stream_ordered(org = '')

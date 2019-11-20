@@ -30,9 +30,9 @@ class PartnerGrid < BaseGrid
     Partner.organization_type_are
   end
 
-  filter(:affiliation, :string, header: -> { I18n.t('datagrid.columns.partners.affiliation') }) do |value, scope|
-    scope.affiliation_like(value)
-  end
+  # filter(:affiliation, :string, header: -> { I18n.t('datagrid.columns.partners.affiliation') }) do |value, scope|
+  #   scope.affiliation_like(value)
+  # end
 
   filter(:engagement, :string, header: -> { I18n.t('datagrid.columns.partners.engagement') }) do |value, scope|
     scope.engagement_like(value)
@@ -84,7 +84,7 @@ class PartnerGrid < BaseGrid
     object.start_date.present? ? object.start_date : ''
   end
 
-  column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
+  # column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
   column(:engagement, header: -> { I18n.t('datagrid.columns.partners.engagement') })
   column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })
   column(:address, header: -> { I18n.t('datagrid.columns.partners.address') })

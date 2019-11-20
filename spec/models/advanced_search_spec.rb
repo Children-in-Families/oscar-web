@@ -37,9 +37,11 @@ describe AdvancedSearch, 'instance methods' do
                   tracking_check: 'd',
                   exit_form_check: 'e',
                   basic_rules: { 'name': 'OSCaR' }.to_json,
-                  quantitative_check: 'f'
+                  quantitative_check: 'f',
+                  action_report_builder: "#builder"
                 }, 'all_' => 'all'
               }
+
       expect(advanced_search_3.search_params).to eq(hash)
     end
   end

@@ -7,9 +7,9 @@
     %legend= t('.contact_details')
     .row
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :live_with, label: t('.primary_carer_name')
+        = f.input :live_with, label: t('.live_with')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :telephone_number, label: t('.primary_carer_phone_number')
+        = f.input :telephone_number, label: t('.telephone_number')
 
       = render "clients/address_forms/#{selected_country}_address_form", f: f
       .col-xs-12.col-sm-6.col-md-4.form-group
@@ -18,12 +18,15 @@
           = f.text_field :what3words, class: 'form-control', placeholder: 'sandals.quilt.exonerate'
           %span.input-group-addon.what3words
             = image_tag 'what3words.png', class: 'what3words-image'
+      .col-xs-12.col-sm-6.col-md-4
+        = f.association :families, collection: @families,label_method: :name, value_method: :id, label: t('.family'), input_html: { multiple: false, name: 'client[family_ids][]', id: 'client_family_ids' , data: { family_ids: @client.current_family_id } }
+        = f.hidden_field :current_family_id
 
     %legend= t('.schooling')
     .row
       .col-xs-12.col-sm-6.col-md-4
         = f.input :school_name, label: t('.school_name')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :school_grade, label: t('.school_grade'), collection: Client::GRADES
+        = f.input :school_grade, label: t('.school_grade'), collection: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose, label_method: :second, value_method: :first
       .col-xs-12.col-sm-6.col-md-4
         = f.input :main_school_contact, label: t('.main_school_contact')

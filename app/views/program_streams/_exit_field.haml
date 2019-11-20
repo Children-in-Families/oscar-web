@@ -6,3 +6,8 @@
     %i= t('.note')
   .text-danger= @program_stream.errors[:exit_program].join(' and ')
   = f.hidden_field :exit_program
+  
+- form_builder_selection_options(@program_stream, 'exit_program')
+%div.hidden.exit_program_select_option{"data-exit_program-select-option" => "#{@select_field}"}
+%div.hidden.exit_program_checkbox_option{"data-exit_program_checkbox_option" => "#{@checkbox_field}"}
+%div.hidden.exit_program_radio_option{"data-exit_program_radio_option" => "#{@radio_field}"}

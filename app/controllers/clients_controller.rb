@@ -4,7 +4,7 @@ class ClientsController < AdminController
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
 
-  before_action :format_advanced_search_params, only: :index
+  before_action :format_search_params, only: :index
   before_action :get_quantitative_fields, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
@@ -22,7 +22,7 @@ class ClientsController < AdminController
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
-    if has_params?
+    if has_params? || params[:advanced_search_id]
       advanced_search
     else
       columns_visibility
@@ -31,8 +31,9 @@ class ClientsController < AdminController
           next unless params['commit'].present?
           client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           @results                = client_grid.assets.size
-          $client_data            = client_grid.assets
           @clients                = client_grid.assets
+          $client_data            = @clients
+
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
@@ -106,9 +107,13 @@ class ClientsController < AdminController
       referral_source_id = find_referral_source_by_referral
 
       Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(slug: @referral.slug).attributes
-      attributes = fetch_referral_attibutes(attributes, referral_source_id)
-
+      attributes = SharedClient.find_by(archived_slug: @referral.slug).try(:attributes) || SharedClient.find_by(slug: @referral.slug).try(:attributes)
+      if attributes.present?
+        attributes = attributes.except('duplicate_checker')
+        attributes = fetch_referral_attibutes(attributes, referral_source_id)
+      else
+        attributes
+      end
       Organization.switch_to current_org.short_name
       @client = Client.new(attributes)
     else
@@ -129,7 +134,7 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
-    if @client.save
+    if @client.save(validate: false)
       redirect_to @client, notice: t('.successfully_created')
     else
       render :new
@@ -137,7 +142,8 @@ class ClientsController < AdminController
   end
 
   def update
-    if @client.update_attributes(client_params)
+    new_params = @client.current_family_id ? client_params : client_params.except(:family_ids)
+    if @client.update_attributes(client_params.except(:family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -150,6 +156,8 @@ class ClientsController < AdminController
   end
 
   def destroy
+    @client.client_enrollments.each(&:destroy_fully!)
+    @client.assessments.delete_all
     @client.reload.destroy
 
     redirect_to clients_url, notice: t('.successfully_deleted')
@@ -178,7 +186,7 @@ class ClientsController < AdminController
   def assign_client_attributes
     current_org = Organization.current
     Organization.switch_to 'shared'
-    client_record = SharedClient.find_by(slug: @client.slug)
+    client_record = SharedClient.find_by(archived_slug: @client.archived_slug)
     if client_record.present?
       @client.given_name = client_record.given_name
       @client.family_name = client_record.family_name
@@ -197,20 +205,20 @@ class ClientsController < AdminController
     remove_blank_exit_reasons
     params.require(:client)
           .permit(
-            :slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
+            :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id,
+            :relevant_referral_information, :province_id, :current_family_id,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id,
+            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -218,6 +226,7 @@ class ClientsController < AdminController
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id]
@@ -232,13 +241,39 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
 
+    subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
+    if current_user.admin?
+      @families        = Family.order(:name)
+    elsif current_user.manager?
+      family_ids = current_user.families.ids
+      User.where(id: subordinate_users).each do |user|
+        user.clients.each do |client|
+          family_ids << client.family.try(:id)
+        end
+      end
+      Client.where(id: exited_clients(subordinate_users)).each do |client|
+        family_ids << client.family.try(:id)
+      end
+      current_user.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      @families = Family.where(id: family_ids)
+    elsif current_user.case_worker?
+      family_ids = current_user.families.ids
+      current_user.clients.each do |client|
+        family_ids << client.family.try(:id)
+      end
+      @families = Family.where(id: family_ids)
+    end
+
+    @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
+    @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields
   end
 
@@ -299,5 +334,18 @@ class ClientsController < AdminController
     return if params[:referral_id].blank?
     find_referral_by_params
     redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
+  end
+
+  def exited_clients(users)
+    client_ids = []
+    users.each do |user|
+      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
+        next if version.changeset[:user_id].last != user
+        client_id = version.changeset[:client_id].last
+        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
+        client_ids << client_id if client_id.present?
+      end
+    end
+    client_ids.uniq
   end
 end

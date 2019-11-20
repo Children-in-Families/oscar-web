@@ -3,30 +3,65 @@ class ClientSerializer < ActiveModel::Serializer
   attributes  :id, :given_name, :family_name, :gender, :code, :status, :date_of_birth, :grade,
               :current_province, :local_given_name, :local_family_name, :kid_id, :donors,
               :current_address, :house_number, :street_number, :village, :commune, :district, :profile,
-              :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
-              # :referral_phone, :live_with, :id_poor, :received_by,
+              :completed, :birth_province, :time_in_cps, :initial_referral_date, :referral_source, :what3words, :name_of_referee,
+              # :referral_phone, :live_witr, :id_poor, :received_by,
               :referral_phone, :live_with, :received_by, :main_school_contact,  :telephone_number,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
-              :has_been_in_government_care, :relevant_referral_information,
+              :has_been_in_government_care, :relevant_referral_information, :rated_for_id_poor,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos
+              :program_streams, :add_forms, :inactive_program_streams, :enter_ngos, :exit_ngos, :time_in_ngo, :time_in_cps, :referral_source_category_id
+
+  has_many :assessments
 
   def profile
     object.profile.present? ? { uri: object.profile.url } : {}
   end
 
-  def time_in_care
-    years = object.time_in_care[:years]
-    year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
-    months = object.time_in_care[:months]
-    month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-    weeks = object.time_in_care[:weeks]
-    week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
-    days = object.time_in_care[:days]
-    day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
-    "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+  def time_in_ngo
+    if object.time_in_ngo.present?
+      years = object.time_in_ngo[:years]
+      year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+      months = object.time_in_ngo[:months]
+      month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+      weeks = object.time_in_ngo[:weeks]
+      week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+      days = object.time_in_ngo[:days]
+      day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+      "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+    end
   end
+
+  def time_in_cps
+    cps_lists = {}
+    return cps_lists if object.time_in_cps.nil?
+    object.time_in_cps.each do |cps|
+      unless cps[1].blank?
+        years = cps[1][:years]
+        year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+        months = cps[1][:months]
+        month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+        weeks = cps[1][:weeks]
+        week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+        days = cps[1][:days]
+        day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+        cps_lists["#{cps[0]}"] = "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+      end
+    end
+    cps_lists
+  end
+
+  # def time_in_care
+  #   years = object.time_in_care[:years]
+  #   year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
+  #   months = object.time_in_care[:months]
+  #   month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
+  #   weeks = object.time_in_care[:weeks]
+  #   week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
+  #   days = object.time_in_care[:days]
+  #   day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
+  #   "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+  # end
 
   def family_name
     current_org = Organization.current.short_name
@@ -95,9 +130,9 @@ class ClientSerializer < ActiveModel::Serializer
   def birth_province
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
-    shared_client = SharedClient.find_by(slug: object.slug)
+    birth_province = SharedClient.find_by(slug: object.slug).birth_province
     Organization.switch_to current_org
-    shared_client.birth_province
+    birth_province
   end
 
   def enter_ngos
@@ -185,7 +220,7 @@ class ClientSerializer < ActiveModel::Serializer
   def quantitative_cases
     object.quantitative_cases.group_by(&:quantitative_type).map do |qtypes|
       qtype = qtypes.first.name
-      qcases = qtypes.last.map{ |qcase| qcase.value }
+      qcases = qtypes.map{ |qcase| qcase.value }
       { quantitative_type: qtype, client_quantitative_cases: qcases }
     end
   end

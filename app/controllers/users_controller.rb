@@ -23,10 +23,13 @@ class UsersController < AdminController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(user_params.merge({client_ids: []}))
+
     if @user.save
+      @user.update_attributes(user_params) unless @user.strategic_overviewer?
       redirect_to @user, notice: t('.successfully_created')
     else
+      @client_ids = user_params[:client_ids]
       render :new
     end
   end
@@ -50,19 +53,21 @@ class UsersController < AdminController
   end
 
   def edit
+    @client_ids = @user.clients.ids
   end
 
   def update
     if @user.update_attributes(user_params)
       redirect_to @user, notice: t('.successfully_updated')
     else
+      @client_ids = user_params[:client_ids]
       render :edit
     end
   end
 
   def destroy
     if @user.no_any_associated_objects?
-      @user.destroy
+      @user.destroy_fully!
       redirect_to users_url, notice: t('.successfully_deleted')
     else
       redirect_to users_url, alert: t('.alert')
@@ -77,8 +82,14 @@ class UsersController < AdminController
 
   def disable
     @user = User.find(params[:user_id])
+    user_disable_status = @user.disable
     @user.disable = !@user.disable
     @user.save(validate: false)
+    if user_disable_status == false
+      @user.update_attributes(deactivated_at: DateTime.now.in_time_zone(Time.zone))
+    elsif user_disable_status == true
+      @user.update_attributes(activated_at: DateTime.now.in_time_zone(Time.zone))
+    end
     redirect_to users_path, notice: t('.successfully_disable')
   end
 
@@ -87,8 +98,9 @@ class UsersController < AdminController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
                                 :job_title, :department_id, :mobile, :date_of_birth,
-                                :province_id, :email, :password,:password_confirmation, :gender,
-                                :manager_id, :calendar_integration, :pin_code, custom_field_ids: [],
+                                :province_id, :email, :password, :password_confirmation, :gender,
+                                :manager_id, :calendar_integration, :pin_code, client_ids: [],
+                                case_worker_attributes: [:id, :client_id, :readable, :editable],
                                 custom_field_permissions_attributes: [:id, :custom_field_id, :readable, :editable],
                                 program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
                                 quantitative_type_permissions_attributes: [:id, :quantitative_type_id, :readable, :editable],

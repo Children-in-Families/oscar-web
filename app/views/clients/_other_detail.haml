@@ -6,13 +6,20 @@
 
     %legend= t('.other_information')
     .row
-      .col-xs-12.col-sm-6.col-md-4
-        = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
-      .col-xs-12.col-sm-6.col-md-4
-        = f.association :donors, collection: @donors, multiple: true, label_method: :name, value_method: :id, label: t('.donor')
-
-      .col-xs-12.col-sm-6.col-md-4
-        = f.input :rated_for_id_poor, collection: ['No', 'Level 1', 'Level 2'], label: "#{t('.is_the_client_rated_for_id_poor')}?"
+      - if Setting.first.country_name == "cambodia"
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :donors, collection: @donors, multiple: true, label_method: :name, value_method: :id, label: t('.donors')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :rated_for_id_poor, collection: [t('clients.level').values, Client::CLIENT_LEVELS].transpose, label: "#{t('.rated_for_id_poor')}?"
+      - else
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :donors, collection: @donors, multiple: true, label_method: :name, value_method: :id, label: t('.donor')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :code, label: custom_id_translation('custom_id1')
     .row
       .col-xs-12.col-sm-6.col-md-4
         .i-check.has-been-in-orphanage
@@ -23,11 +30,16 @@
         .i-check.has-been-in-government-care
           %label= "#{t('.has_been_in_government_care')}?"
           = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, checked: @client.has_been_in_government_care.nil? ? '' : @client.has_been_in_government_care
-      .col-xs-12.col-sm-6.col-md-4
-        = f.input :code, label: t('.custom_id_number1')
-    .row
-      .col-xs-12.col-sm-6.col-md-4.text-left
-        = f.input :kid_id, label: t('.custom_id_number2')
+      - if Setting.first.country_name == "cambodia"
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :code, label: custom_id_translation('custom_id1')
+      - else
+        .col-xs-12.col-sm-6.col-md-4.text-left
+          = f.input :kid_id, label: custom_id_translation('custom_id2')
+    - if Setting.first.country_name == "cambodia"
+      .row
+        .col-xs-12.col-sm-6.col-md-4.text-left
+          = f.input :kid_id, label: custom_id_translation('custom_id2')
     .row
       .col-xs-12.col-md-12
         = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')

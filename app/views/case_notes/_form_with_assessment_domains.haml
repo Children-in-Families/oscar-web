@@ -22,12 +22,12 @@
           %strong= "#{t('.goal')} :"
         %ul
           - domain_note.object.domains(@case_note).each do |domain|
-            - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
+            - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
             - if assessment_domain.present? && assessment_domain.goal?
               %li= assessment_domain.goal
       .col-xs-12.col-md-6
         - domain_note.object.domains(@case_note).each do |domain|
-          - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
+          - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
           - tasks = @case_note.client.tasks.where(domain_id: domain.id)
           - if domain_note.object.persisted?
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
@@ -40,5 +40,5 @@
         = render 'attachment_fields', { domain_note: domain_note }
     .row
       .col-xs-12
-        .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{domain_note.object.domains(@case_note).pluck(:id, :name)}"}
+        .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domains(@case_note))}"}
           = t('.add_task')

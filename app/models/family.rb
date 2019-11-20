@@ -24,12 +24,12 @@ class Family < ActiveRecord::Base
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
   has_paper_trail
-
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, presence: true, inclusion: { in: STATUSES }
-
   validate :client_must_only_belong_to_a_family
+
+  after_save :save_family_in_client
 
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
@@ -87,6 +87,10 @@ class Family < ActiveRecord::Base
     write_attribute(:name, name.try(:strip))
   end
 
+  def self.mapping_family_type_translation
+    [I18n.backend.send(:translations)[:en][:default_family_fields][:family_type_list].values, I18n.t('default_family_fields.family_type_list').values].transpose
+  end
+
   private
 
   def client_must_only_belong_to_a_family
@@ -95,5 +99,17 @@ class Family < ActiveRecord::Base
     existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
     error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"
     errors.add(:children, error_message) if existed_clients.present?
+  end
+
+  def save_family_in_client
+    Client.where(current_family_id: self.id).where.not(id: self.children).update_all(current_family_id: nil)
+    self.children.each do |child|
+      client = Client.find_by(id: child)
+      next if client.nil?
+      client.families << self
+      client.current_family_id = self.id
+      client.families.uniq
+      client.save(validate: false)
+    end
   end
 end

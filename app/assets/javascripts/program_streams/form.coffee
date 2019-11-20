@@ -6,6 +6,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   TRACKING = ''
   DATA_TABLE_ID = ''
   @formBuilder = []
+  @window.getServiceData = (td)->
+    data = {id: td.children[0].value, text: td.children[0].text }
+
+    newOption = new Option(data.text, data.id, true, true)
+    # Append it to the select
+    $('#type-of-service select').append(newOption).trigger 'change'
 
   _init = ->
     @filterTranslation = ''
@@ -32,6 +38,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _custom_field_list()
     _initDataTable()
     _filterSelecting()
+    _selectServiceTypeTableResult()
 
   _initDataTable = ->
     $('.custom-field-table').each ->
@@ -149,7 +156,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         for tracking in trackings
           trackingName = $(tracking).find('.program_stream_trackings_name:visible input[type="text"]').val()
           forms = $(tracking).find('.field-label').size()
-          if trackingName == '' || forms < 1
+          if trackingName.trim() == '' || forms < 1
             return true
       else
         return true
@@ -176,7 +183,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       btnSaving = $('.program-steps').data('saving')
       $('#btn-save-draft').attr('disabled', 'disabled').text(btnSaving)
       $('#program-stream').submit()
-
 
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
@@ -312,6 +318,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initProgramSteps = ->
     self = @
     form = $('#program-stream')
+
     form.children('.program-steps').steps
       headerTag: 'h4'
       bodyTag: 'section'
@@ -322,7 +329,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
           form.valid()
           name = $('#program_stream_name').val() == ''
-          return false if name
+          services = $('#type-of-service select').val() == null
+          serviceSelect2 = $('.program_stream_services')
+          _handleServiceValidation(services, serviceSelect2)
+
+          return false if name || services
         else if $('#trackings').is(':visible')
           _checkDuplicateTrackingName()
           return true if $('#trackings').hasClass('hide-tracking-form')
@@ -336,10 +347,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
+        _handleRemoveUnusedOptionFormBuilder()
         buttonSave = $('#btn-save-draft')
         if $('#rule-tab').is(':visible')
           _handleRemoveProgramList()
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
+
       onFinishing: () ->
         labelFields = $('[name="label"].fld-label')
         for labelField in labelFields
@@ -361,6 +374,24 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         finish: self.filterTranslation.finish
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
+
+  _handleRemoveUnusedOptionFormBuilder = ->
+    if $('#enrollment').is(':visible')
+      _handlePreventRemoveFieldFormBuilderProgramStream(ENROLLMENT_URL, '#enrollment')
+    else if $('#trackings').is(':visible')
+      _handlePreventRemoveFieldFormBuilderProgramStream(TRACKING_URL, '#trackings')
+    else if $('#exit-program').is(':visible')
+      _handlePreventRemoveFieldFormBuilderProgramStream(EXIT_PROGRAM_URL, '#exit-program')
+
+  _handleServiceValidation = (services, serviceSelect2) ->
+    if services
+      serviceSelect2.append("<label class='error'>Field cannot be blank.</label>")
+      serviceSelect2.addClass('has-error')
+      $('#type-of-service select').addClass('error')
+    else
+      serviceSelect2.remove("label.error")
+      serviceSelect2.removeClass('has-error')
+      $('#type-of-service select').removeClass('error')
 
   _handleCheckingInvalidRuleValue = ->
     invalidIntValues = $('.rule-value-container input[type=number].error').size()
@@ -390,6 +421,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = JSON.parse($(element).children('span').text())
       _initProgramBuilder($(element), (dataElement || []))
+
       if element.id == 'enrollment' and $('#program_stream_id').val() != ''
         _preventRemoveField(ENROLLMENT_URL, '#enrollment')
       else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
@@ -445,6 +477,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveField = (url, elementId) ->
     return false if @programStreamId == ''
     specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+
     $.ajax
       method: 'GET'
       url: url
@@ -455,6 +488,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
+
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
@@ -470,8 +504,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       labelFields = $(tracking).find('label.field-label')
       if fields[name].length <= labelFields.length
         $(tracking).find('.ibox-footer .remove_fields').remove()
+
       $(labelFields).each (index, label) ->
         text = label.textContent.allReplace(specialCharacters)
+
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
 
@@ -479,11 +515,149 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-    if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field') || $(parent).attr('class').includes('select-field')
-      $(parent).find('.option-label').attr('disabled', 'true')
-      $(parent).children('.frm-holder').find('.remove.btn').remove()
-    else if $(parent).attr('class').includes('number-field')
-      $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
+
+  _handlePreventRemoveFieldFormBuilderProgramStream = (url, elementId) ->
+    return false if @programStreamId == ''
+    specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+
+    $.ajax
+      method: 'GET'
+      url: url
+      dataType: "JSON"
+      success: (response) ->
+        if response.field == 'tracking'
+          _hideActionInTrackingProgramStream(response)
+        else
+          fields = response.program_streams
+          labelFields = $(elementId).find('label.field-label')
+
+          for labelField in labelFields
+            text = labelField.textContent.allReplace(specialCharacters)
+            if fields.includes(text)
+              _removeActionFormBuilderProgramStream(labelField)
+
+  _hideActionInTrackingProgramStream = (fields) ->
+    trackings = $('#trackings .nested-fields')
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
+    for tracking in trackings
+      trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+      continue if $(trackingName).length == 0
+      name = $(trackingName).val()
+      labelFields = $(tracking).find('label.field-label')
+      if fields[name].length <= labelFields.length
+        $(tracking).find('.ibox-footer .remove_fields').remove()
+
+      $(labelFields).each (index, label) ->
+        text = label.textContent.allReplace(specialCharacters)
+
+        if fields[name].includes(text)
+          _removeActionFormBuilderProgramStream(label)
+
+  _removeActionFormBuilderProgramStream = (label) ->
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+
+    if $('#enrollment').is(':visible')
+      _removeActionFormBuilderEnrollment(label)
+    else if $('#trackings').is(':visible')
+      _removeActionFormBuilderTracking(label)
+    else if $('#exit-program').is(':visible')
+      _removeActionFormBuilderExitProgram(label)
+
+  _removeActionFormBuilderEnrollment= (label) ->
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+    if $(parent).attr('class').includes('checkbox-group-field')
+        allCheckboxOption = $('#enrollment .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
+        enrollmentCheckbox = $('div[data-enrollment_checkbox_option]').data('enrollment_checkbox_option')
+        jQuery.map(allCheckboxOption, (e) ->
+          enrollmentCheckbox.forEach (enrollment_checkbox_value) ->
+            if enrollment_checkbox_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+    else if $(parent).attr('class').includes('radio-group-field')
+        allRadioOption = $('#enrollment .radio-group-field .sortable-options .ui-sortable-handle .option-label')
+        enrollmentRadio = $('div[data-enrollment_radio_option]').data('enrollment_radio_option')
+        jQuery.map(allRadioOption, (e) ->
+          enrollmentRadio.forEach (enrollment_radio_value) ->
+            if enrollment_radio_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+    else if $(parent).attr('class').includes('select-field')
+        allSelectOption  = $('#enrollment .select-field .sortable-options .ui-sortable-handle .option-label')
+        enrollmentSelect = $('div[data-enrollment-select-option]').data('enrollment-select-option')
+        jQuery.map(allSelectOption, (e) ->
+          enrollmentSelect.forEach (enrollment_selected_value) ->
+            if enrollment_selected_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+
+  _removeActionFormBuilderTracking = (label) ->
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+
+    if $(parent).attr('class').includes('checkbox-group-field')
+        allCheckboxOption = $('#trackings .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
+        trackingCheckbox = $('div[data-tracking_checkbox_option]').data('tracking_checkbox_option')
+        jQuery.map(allCheckboxOption, (e) ->
+          trackingCheckbox.forEach (tracking_checkbox_value) ->
+            if tracking_checkbox_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+    else if $(parent).attr('class').includes('radio-group-field')
+        allRadioOption = $('#trackings .radio-group-field .sortable-options .ui-sortable-handle .option-label')
+        trackingRadio = $('div[data-tracking_radio_option]').data('tracking_radio_option')
+        jQuery.map(allRadioOption, (e) ->
+          trackingRadio.forEach (tracking_radio_value) ->
+            if tracking_radio_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+    else if $(parent).attr('class').includes('select-field')
+        allSelectOption = $('#trackings .select-field .sortable-options .ui-sortable-handle .option-label')
+        trackingSelect = $('div[data-tracking-select-option]').data('tracking-select-option')
+        jQuery.map(allSelectOption, (e) ->
+          trackingSelect.forEach (tracking_selected_value) ->
+            if tracking_selected_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+
+  _removeActionFormBuilderExitProgram = (label) ->
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+
+    if $(parent).attr('class').includes('checkbox-group-field')
+        allCheckboxOption = $('#exit-program .checkbox-group-field .sortable-options .ui-sortable-handle .option-label')
+        exitingProgramCheckbox = $('div[data-exit_program_checkbox_option]').data('exit_program_checkbox_option')
+        jQuery.map(allCheckboxOption, (e) ->
+          exitingProgramCheckbox.forEach (exiting_checkbox_value) ->
+            if exiting_checkbox_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+    else if $(parent).attr('class').includes('radio-group-field')
+        allRadioOption = $('#exit-program .radio-group-field .sortable-options .ui-sortable-handle .option-label')
+        exitingProgramRadio = $('div[data-exit_program_radio_option]').data('exit_program_radio_option')
+        jQuery.map(allRadioOption, (e) ->
+          exitingProgramRadio.forEach (exiting_radio_value) ->
+            if exiting_radio_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
+    else if $(parent).attr('class').includes('select-field')
+        allSelectOption = $('#exit-program .select-field .sortable-options .ui-sortable-handle .option-label')
+        exitingProgramSelect = $('div[data-exit_program-select-option]').data('exit_program-select-option')
+        jQuery.map(allSelectOption, (e) ->
+          exitingProgramSelect.forEach (exiting_selected_value) ->
+            if exiting_selected_value == e.value
+              $(e).attr('disabled', 'true')
+              $(e).parent().children('a.remove.btn').remove()
+        )
 
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')
@@ -624,4 +798,78 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           $(select).find('select').val('1').trigger('change')
         , 100)
 
+  _selectServiceTypeTableResult = () ->
+    if $('li').hasClass('first current')
+      # $('#type-of-service select').select2()
+
+      format = (state) ->
+        if !state.id
+          return state.text
+
+      serviceFormatSelection = (service) ->
+        service.text
+
+      $('#type-of-service select').select2
+        width: '100%'
+        formatSelection: serviceFormatSelection
+        escapeMarkup: (m) ->
+          m
+
+      createHeaderElement = (options, indexes)->
+        html = ""
+        indexes.forEach (entry) ->
+          html += "<th><b>#{options[entry][0]}</b></th>"
+        html
+
+      createRowElement = (options, indexes) ->
+        html = ""
+        indexes.forEach (entries) ->
+          td = ""
+          entries.forEach (index) ->
+            td += "<td width='' onclick='getServiceData(this)'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+
+          html += "<tr>#{td}</tr>"
+        html
+
+      $('#type-of-service select').on 'select2-open', (e) ->
+        arr = []
+        i = 0
+        while i < $('#type-of-service').data('custom').length
+          arr.push i
+          i++
+
+        options = $('#type-of-service').data('custom')
+        results = []
+        chunk_size = 13
+        while arr.length > 0
+          results.push arr.splice(0, chunk_size)
+
+        indexes = results.shift()
+        th  = createHeaderElement(options, indexes)
+        row = createRowElement(options, results)
+
+        html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
+        $('#select2-drop .select2-results').html $(html)
+        # $('.select2-results').prepend "#{html}"
+        return
+
+      removeError = (element) ->
+        element.removeClass('has-error')
+        element.find('.help-block').remove()
+
+      $('#type-of-service select').on 'select2-close', (e)->
+        uniqueArray = _.compact(_.uniq($(this).val()))
+
+        if uniqueArray.length > 3
+          $(this.parentElement).append "<p class='help-block'>#{$('input#confirm-question').val()}</p>" if $(this.parentElement).find('.help-block').length == 0
+          $(this.parentElement).addClass('has-error')
+
+        return
+
+      $('#type-of-service select').on 'select2-removed', ->
+        uniqueArray = _.compact(_.uniq($(this).val()))
+        if uniqueArray.length <= 3
+          removeError($(this.parentElement))
+
   { init: _init }
+

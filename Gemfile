@@ -65,7 +65,12 @@ gem 'sidekiq',                '~> 4.1.0'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
 gem 'where-or',               '~> 0.1.6'
 gem 'dotiw',                  '~> 4.0.1'
-gem 'paranoia',               '~> 2.4', '>= 2.4.1'
+gem 'text',                   '~> 1.3', '>= 1.3.1'
+gem 'acts_as_paranoid',       '~> 0.6.1'
+gem 'ancestry',               '~> 3.0', '>= 3.0.5'
+gem 'sysrandom',              '~> 1.0', '>= 1.0.5'
+gem 'ulid',                   '~> 1.1'
+gem 'write_xlsx',             '~> 0.85.7'
 
 group :development, :test do
   gem 'pry'
@@ -85,13 +90,15 @@ group :staging, :demo, :production do
   gem 'asset_sync'
 end
 
-group :staging do
+group :staging, :demo do
   gem 'mail_interceptor', '~> 0.0.7'
 end
 
 group :development do
   gem 'letter_opener',        '~> 1.4.1'
+  gem 'letter_opener_web',    '~> 1.3', '>= 1.3.4'
   gem 'rubocop',              '~> 0.47.1', require: false
+  gem 'capistrano',           '3.9.0'
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'

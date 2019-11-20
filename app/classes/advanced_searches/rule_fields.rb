@@ -26,7 +26,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['family_id', 'age', 'time_in_care']
+      ['family_id', 'age', 'time_in_cps', 'time_in_ngo']
     end
 
     def text_type_list
@@ -34,13 +34,13 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at','date_of_referral']
     end
 
     def drop_down_type_list
       [
         ['created_by', user_select_options ],
-        ['gender', { male: 'Male', female: 'Female', other: 'Other', unknown: 'Unknown' }],
+        ['gender', gender_list],
         ['status', client_status],
         ['agency_name', agencies_options],
         ['received_by_id', user_select_options],
@@ -53,15 +53,20 @@ module AdvancedSearches
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', { 'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral' }],
-        ['rated_for_id_poor', { 'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2' }],
+        ['rated_for_id_poor', [Client::CLIENT_LEVELS, I18n.t('clients.level').values].transpose.to_h],
         *setting_country_fields[:drop_down_fields],
         ['referred_to', referral_to_options],
-        ['referred_from', referral_from_options]
+        ['referred_from', referral_from_options],
+        ['referral_source_category_id', referral_source_category_options]
       ]
     end
 
+    def gender_list
+      [Client::GENDER_OPTIONS, I18n.t('default_client_fields.gender_list').values].transpose.to_h
+    end
+
     def case_note_type_options
-      CaseNote::INTERACTION_TYPE.map{|s| { s => s }  }
+      [CaseNote::INTERACTION_TYPE, I18n.t('.case_notes.form.type_options').values].transpose.map{|k, v| { k => v }  }
     end
 
     def exit_reasons_options
@@ -110,7 +115,15 @@ module AdvancedSearches
     end
 
     def referral_source_options
-      ReferralSource.order(:name).map { |s| { s.id.to_s => s.name } }
+      ReferralSource.child_referrals.order(:name).map { |s| { s.id.to_s => s.name } }
+    end
+
+    def referral_source_category_options
+      if I18n.locale == :km
+        ReferralSource.parent_categories.order(:name).map { |s| { s.id.to_s => s.name } }
+      else
+        ReferralSource.parent_categories.order(:name_en).map { |s| { s.id.to_s => s.name } }
+      end
     end
 
     def agencies_options

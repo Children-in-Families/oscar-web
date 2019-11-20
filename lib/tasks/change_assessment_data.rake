@@ -1,22 +1,12 @@
 namespace :change_assessment_data do
   desc 'Faking Assessment data in development and staging'
-  task update: :environment do |task, args|
-    if Rails.env.development? || Rails.env.staging?
-      Organization.all.each do |org|
-        next if org.short_name == 'shared'
-        dummy_text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        Organization.switch_to org.short_name
-        Assessment.all.each do |assessment|
-          assessment.assessment_domains.each do |domain|
-            domain.score  = 4
-            domain.note   = dummy_text
-            domain.reason = dummy_text
-            domain.goal   = dummy_text
-            domain.attachments = []
-            domain.save(validate: false)
-          end
-        end
-      end
+  task :update, [:short_name] => :environment do |task, args|
+    if Rails.env.development? || Rails.env.staging? || Rails.env.demo?
+      dummy_text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      Organization.switch_to args.short_name
+
+      sql = "UPDATE assessment_domains SET note = '#{dummy_text}', reason = '#{dummy_text}', goal = '#{dummy_text}', attachments = ARRAY[]::varchar[]"
+      ActiveRecord::Base.connection.execute(sql)
 
       puts "Done updating assessment!!!"
     end

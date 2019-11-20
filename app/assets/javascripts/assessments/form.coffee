@@ -72,13 +72,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'btn-danger btn-warning btn-primary btn-success'
+      labelColors = 'btn-danger btn-warning btn-primary btn-success btn-secondary'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).data('score')
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).addClass("btn-#{scoreColor}")
+      $(@).addClass("btn-secondary")
+      #$(@).addClass("btn-#{scoreColor}")
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
@@ -118,13 +119,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(@).children('label').addClass('active-label')
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'label-danger label-warning label-primary label-success'
+      labelColors = 'label-danger label-warning label-primary label-success label-default'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).children('label').text()
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")
       domainId    = $(@).parents('.score_option').data("domain-id")
 
-      $(@).children('label').addClass("label-#{scoreColor} active-label")
+      $(@).children('label').addClass("label-default active-label")
+      # $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
@@ -176,10 +178,12 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
+        return
 
       onStepChanging: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
+        _scrollToError(event)
         _taskRequiredAtEnd(currentIndex)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
           return true
@@ -245,6 +249,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       newIndex = currentIndex + 1
       if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
         _filedsValidator(currentIndex, newIndex)
+        _scrollToError(form)
         return false
       else
         form.submit (e) ->
@@ -267,10 +272,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreColor  = scoreOption.data("score-#{chosenScore}")
 
     # score without def
-    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-#{scoreColor} active-label")
+    scoreOption.find("label label:contains(#{chosenScore})").addClass("label-default active-label")
 
     btnScore = scoreOption.find('input:hidden').val()
-    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
+    $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-secondary")
+    # $(scoreOption.find("div[data-score='#{btnScore}']").get(0)).addClass("btn-#{scoreOption.data("score-#{btnScore}")}")
     domainName = $(@).data('goal-option')
     name = 'assessment[assessment_domains_attributes]['+ "#{currentIndex}" +'][goal_required]\']'
     radioName = '\'' + name
@@ -338,6 +344,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
+      $('.task_required').hide()
       $('.add-task-btn').attr('disabled','disabled')
       e.preventDefault()
       actionUrl = undefined
@@ -393,18 +400,28 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       _initTaskRequire()
 
   _deleteTask = (e) ->
-    $('.task_required').addClass 'text-required'
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
-
     if $(e.target).data('persisted') == true
+      $(e.target).hide()
       $.ajax
-        type: 'delete'
+        dataType: 'json'
         url: url
+        type: 'DELETE'
+        contentType: 'application/json'
         success: (response) ->
-      $(e.target).parent().remove()
+          currentTab = $(e.target).closest('.assessment-domain-item').attr('id')
+          $(e.target).parent().remove()
+          domainId = $("##{currentTab}").find('.score_option').data('domain-id')
+          _handleDisplayTaskWarningMessage("##{currentTab}", domainId)
+        error: (response, parsererror, error) ->
+          console.log 'failed to delete the task.'
     else
+      currentTab = $(e.target).closest('.assessment-domain-item').attr('id')
       $(e.target).parent().remove()
+      $(e.target).hide()
+      domainId = $("##{currentTab}").find('.score_option').data('domain-id')
+      _handleDisplayTaskWarningMessage("##{currentTab}", domainId)
 
   _removeTaskError = ->
     task = '#assessment_domain_task'
@@ -518,18 +535,23 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       else
         $(".domain-#{domainId} .assessment-task-btn").show()
 
-        if $("#{currentTab} .score_option.with-def").length > 0
-          scoreOption = $("#{currentTab} .score_option.with-def")
-          chosenScore = scoreOption.find('input.selected-score').val()
+        _handleDisplayTaskWarningMessage(currentTab, domainId)
 
-        else if $("#{currentTab} .score_option.without-def").length > 0
-          scoreOption = $("#{currentTab} .score_option.without-def")
-          chosenScore = scoreOption.find('label input:checked').val()
+    _handleDisplayTaskWarningMessage(currentTab, domainId)
 
-        scoreColor  = scoreOption.data("score-#{chosenScore}")
+  _handleDisplayTaskWarningMessage = (currentTab, domainId) ->
+    chosenScore = ''
+    if $("#{currentTab} .score_option.with-def").length > 0
+      scoreOption = $("#{currentTab} .score_option.with-def")
+      chosenScore = scoreOption.find('input.selected-score').val()
 
-        $(".domain-#{domainId} .task_required").show() if ['danger', 'warning'].indexOf(scoreColor) >= 0
+    else if $("#{currentTab} .score_option.without-def").length > 0
+      scoreOption = $("#{currentTab} .score_option.without-def")
+      chosenScore = scoreOption.find('label input:checked').val()
 
+    scoreColor = scoreOption.data("score-#{chosenScore}")
+
+    $(".domain-#{domainId} .task_required").show() if ['danger', 'warning'].indexOf(scoreColor) >= 0 and $("#{currentTab} .task-arising ol li").length == 0
   _handleAppendDomainAtTheEnd = (currentIndex) ->
     if $("form#new_assessment").length
       currentTab   = "#rootwizard-p-#{currentIndex}"
@@ -586,5 +608,18 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $("#rootwizard-p-#{currentIndex} .task_required").addClass('hidden')
     else
       $("#rootwizard-p-#{currentIndex} .task_required").removeClass('hidden')
+
+  _scrollToError = (element) ->
+    if $('.error').length > 0
+      $.each $('.error'), (index, item) ->
+        element = $(item).context.id
+        if element == ''
+          location.href = "#score-required"
+        else if element.includes('assessment_assessment_domains_attributes')
+          location.href = "##{element}"
+          location.href = "#required-scroll"
+        else
+          location.href = "##{element}"
+
 
   { init: _init }

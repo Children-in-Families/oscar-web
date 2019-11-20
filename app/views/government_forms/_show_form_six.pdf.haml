@@ -139,20 +139,20 @@
                 %span= code
     %hr{style: 'border-bottom: 1px solid black; margin: 0 -6px 0;'}
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
-      - time_in_care = @client.time_in_care
+      - time_in_ngo = @client.time_in_ngo
       %tbody
         %tr
           %td{style: 'vertical-align: middle;'}
             រយៈពេលសរុបនៃការទុកដាក់កុមារ:
           %td.text-right{style: 'width: 200px; vertical-align: middle;'}
             សប្ដាហ៍
-            %input.text-right{ style: 'width: 120px', value: time_in_care[:weeks] }
+            %input.text-right{ style: 'width: 120px', value: time_in_ngo[:weeks] }
           %td.text-right{style: 'width: 200px; vertical-align: middle;'}
             ខែ
-            %input.text-right{ style: 'width: 120px;', value: time_in_care[:months] }
+            %input.text-right{ style: 'width: 120px;', value: time_in_ngo[:months] }
           %td.text-right{style: 'width: 200px; vertical-align: middle;'}
             ឆ្នាំ
-            %input.text-right{ style: 'width: 120px;', value: time_in_care[:years] }
+            %input.text-right{ style: 'width: 120px;', value: time_in_ngo[:years] }
 
 .panel.panel-borderless{style: 'margin-bottom: 0px;'}
   .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
@@ -169,7 +169,7 @@
           %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
       %tbody
         - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
-          - if index <= 5
+          - if index <= 4
             %tr{ style: 'page-break-inside: avoid;' }
               %td
                 = status.children_status_name
@@ -191,7 +191,7 @@
           %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
       %tbody
         - @government_form.government_form_children_plans.select(:id, :score, :comment, :children_plan_id, :government_form_id).each_with_index do |status, index|
-          - if index > 5
+          - if index > 4
             %tr{ style: 'page-break-inside: avoid;' }
               %td
                 = status.children_status_name

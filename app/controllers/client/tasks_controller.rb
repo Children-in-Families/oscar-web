@@ -46,9 +46,14 @@ class Client::TasksController < AdminController
     respond_to do |format|
       if @task.destroy
         @calendars.destroy_all if current_user.calendar_integration? && @calendars.present?
+
+        msg = { status: 'ok', message: t('.successfully_deleted') }
+        format.json { render json: msg }
+        format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
+      else
+        format.json { render json: @task.errors, status: 422 }
+        format.html { redirect_to client_tasks_path(@client), alert: t('.failed_delete') }
       end
-      format.json { head :ok }
-      format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
     end
   end
 
@@ -59,7 +64,7 @@ class Client::TasksController < AdminController
   end
 
   def task_params
-    params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at, :relation)
+    params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at, :relation, :case_note_id)
   end
 
   def encode32hex(str)

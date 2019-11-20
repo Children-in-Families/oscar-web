@@ -29,10 +29,8 @@
 //= require form_builder/form-render.min
 //= require lodash/lodash.min.js
 //= require query_builder/query-builder.standalone.min.js
-// = require query_builder/utils
-// = require query_builder/model
-// = require query_builder/plugin
-//= require interact.js
+
+//remove query_builder/utils, query_builder/model and query_builder/plugin bcuz conflict with form-builder select option not show
 
 //= require tinymce
 //= require moment
@@ -48,6 +46,11 @@
 //= require slimscroll/jquery.slimscroll.min.js
 //= require toastr/toastr.min.js
 //= require bootstrap-tour/bootstrap-tour.js
+
+// LADDA
+//= require ladda/spin.min
+//= require ladda/ladda.min
+//= require ladda/ladda.jquery.min
 
 //LOAD MODULE
 //= require namespace
@@ -80,6 +83,7 @@
 //= require report_creator
 //= require clients/show
 //= require clients/form
+//= require clients/book
 //= require families/index
 //= require families/form
 //= require families/show
@@ -116,3 +120,5 @@
 //= require government_forms/form
 //= require multiple_form/form
 //= require registrations/form
+//= require referral_sources/index
+//= require client_books/index

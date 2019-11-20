@@ -1,4 +1,12 @@
 CIF.DashboardsIndex = do ->
+  @window.getService = (td, select_id)->
+    data = {id: td.children[0].value, text: td.children[0].text }
+
+    newOption = new Option(data.text, data.id, true, true)
+
+    # Append it to the select
+    $(".type-of-service select##{select_id.id}").append(newOption).trigger 'change'
+
   _init = ->
     # _clientGenderChart()
     # _clientStatusChart()
@@ -9,9 +17,42 @@ CIF.DashboardsIndex = do ->
     _initSelect2()
     _openTaskListModal()
     _handleApplyFilter()
-    _initCustomFieldsDataTable()
-    _initTrackingDatatable()
     _initICheckBox()
+    _initTrackingDatatable()
+    _handleMultiForm()
+    _handleProgramStreamServiceShow()
+    _handleProgramStreamServiceSelect2()
+    _updateProgramStream()
+    _enableSaveReferralSource()
+    _clickSaveReferral()
+    _loadModalReminder()
+    _handleSearchClient()
+
+  _loadModalReminder = ->
+    if localStorage.getItem('from login') == 'true'
+      if $('.check-ref-sources').text() == 'referral_sources'
+        $('#referral-source-category-reminder').modal 'show'
+        localStorage.setItem('from login', false)
+
+  _enableSaveReferralSource = ->
+    $('.referral_source_ancestry .select').on 'select2-selected', (e) ->
+      classNames = this.className.split(' ')
+      saveBtnClass = ".save-" + classNames[2]
+      $(saveBtnClass).removeAttr 'disabled'
+    $('.referral_source_ancestry .select').on 'select2-removed', (e) ->
+      classNames = this.className.split(' ')
+      saveBtnClass = ".save-" + classNames[2]
+      $(saveBtnClass).attr('disabled', 'disabled')
+
+  _clickSaveReferral = ->
+   $('.save-referral-btn').on 'click', (e) ->
+    tickClass = $(this).siblings()[0].classList[2]
+    btnSave = this.classList[3]
+
+    setTimeout ( ->
+      $(".#{btnSave}").addClass('hide')
+      $(".#{tickClass}").removeClass('hide')
+    ), 500
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -74,31 +115,17 @@ CIF.DashboardsIndex = do ->
     report = new CIF.ReportCreator(data, title, '', element)
     report.pieChart(option: true)
 
-  _initCustomFieldsDataTable = ->
-    self = $('#custom-fields-table')
-    $(self).DataTable
-      bFilter: false
-      sScrollY: '500'
-      bInfo: false
-      processing: true
-      serverSide: true
-      ajax: $(self).data('url')
-      columns:  [
-        null
-        bSortable: false, className: 'text-center'
-      ]
-      language:
-        paginate:
-          previous: $(self).data('previous')
-          next: $(self).data('next')
-      drawCallback: ->
-        _getDataTableId()
+  _handleMultiForm = ->
+    _initMultiFormDatatable('#custom-fields-table')
+    _initMultiFormDatatable('#family-table')
+    _initMultiFormDatatable('#partner-table')
+    _initMultiFormDatatable('#user-table')
+    _initMultiFormDatatable('#program-enrollment-table')
 
   _initTrackingDatatable = ->
     self = $('#program-streams-table')
     $(self).DataTable
       bFilter: false
-      sScrollY: '500'
       bInfo: false
       processing: true
       serverSide: true
@@ -115,8 +142,174 @@ CIF.DashboardsIndex = do ->
       drawCallback: ->
         _getDataTableId()
 
+  _initMultiFormDatatable = (tableId) ->
+    self = $(tableId)
+    $(self).DataTable
+      bFilter: false
+      bInfo: false
+      processing: true
+      serverSide: true
+      ajax: $(self).data('url')
+      columns: [
+        null
+        bSortable: false, className: 'text-center'
+      ]
+      language:
+        paginate:
+          previous: $(self).data('previous')
+          next: $(self).data('next')
+      drawCallback: ->
+        _getDataTableId()
+
   _getDataTableId = ->
     $('.paginate_button a').click ->
       DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
+
+  _handleProgramStreamServiceShow = ->
+    $('#program-stream-service-modal.modal-popup').modal('show')
+
+    $('#referral-source-category-reminder button[data-dismiss=modal]').click ->
+      $('#program-stream-service-modal').modal('show') if $('#program-stream-service-modal .modal-body .row').length > 0
+      return
+
+    $('#program-stream-service-modal button[data-dismiss=modal]').click ->
+      $('.modal.in').removeClass('modal-popup')
+      return
+
+
+  _handleProgramStreamServiceSelect2 = ->
+    $('.type-of-service select').select2
+      width: '100%'
+
+    createHeaderElement = (options, indexes)->
+      html = ""
+      indexes.forEach (entry) ->
+        html += "<th><b>#{options[entry][0]}</b></th>"
+      html
+
+    createRowElement = (options, indexes, select_id) ->
+      html = ""
+      indexes.forEach (entries) ->
+        td = ""
+        entries.forEach (index) ->
+          td += "<td width='' onclick='getService(this, #{select_id})'><option value='#{options[index][1]}'>#{options[index][0]}</option></td>"
+
+        html += "<tr>#{td}</tr>"
+      html
+
+    $('.type-of-service select').on 'select2-open', (e) ->
+      $('#select2-drop').addClass('drop')
+      arr = []
+      i = 0
+      while i < $('.type-of-service').data('custom').length
+        arr.push i
+        i++
+
+      options = $('.type-of-service').data('custom')
+      results = []
+      chunk_size = 13
+      while arr.length > 0
+        results.push arr.splice(0, chunk_size)
+
+      indexes = results.shift()
+      th  = createHeaderElement(options, indexes)
+      row = createRowElement(options, results, @id)
+
+      html = '<table class="table table-bordered" style="margin-top: 5px;margin-bottom: 0px;"><thead>' + th + '</thead><tbody>' + row + '</tbody></table>'
+      $('#select2-drop .select2-results').html $(html)
+      # $('.select2-results').prepend "#{html}"
+      return
+
+    removeError = (element) ->
+      element.removeClass('has-error')
+      element.find('.help-block').remove()
+
+    $('.type-of-service select').on 'select2-close', (e)->
+      uniqueArray = _.compact(_.uniq($(this).val()))
+      if uniqueArray.length > 0
+        removeError($(this.parentElement))
+        arrId = this.id.split('_')
+        $("#edit_program_stream_#{arrId[arrId.length - 1]} input[type='submit']").removeAttr('disabled')
+
+      if uniqueArray.length > 3
+        $(this.parentElement).append "<p class='help-block'>#{$('input#confirm-question').val()}</p>" if $(this.parentElement).find('.help-block').length == 0
+        $(this.parentElement).addClass('has-error')
+
+      return
+
+    $('.type-of-service select').on 'select2-removed', ->
+      uniqueArray = _.compact(_.uniq($(this).val()))
+      if uniqueArray.length <= 3
+        removeError($(this.parentElement))
+
+      if uniqueArray.length == 0
+        arrId = this.id.split('_')
+        $("#edit_program_stream_#{arrId[arrId.length - 1]} input[type='submit']").attr('disabled', 'disabled')
+
+  _updateProgramStream = ->
+    $('form.simple_form.program-stream').on 'submit', (e)->
+      e.preventDefault
+      uniqueArray = _.compact(_.uniq($("##{this.id} select").val()))
+      if uniqueArray.length > 0
+        $.ajax
+          type: 'POST'
+          url: $(@).attr('action')
+          data: $(this).serialize()
+          dataType: 'JSON'
+          success: (json) ->
+            successImg = $("#edit_program_stream_#{json.program_stream.id} .save-success-#{json.program_stream.id}").removeClass('hide')
+            $("#edit_program_stream_#{json.program_stream.id} input[type='submit']").replaceWith(successImg)
+            return
+          error: (response, status, msg) ->
+            $("form[action='#{@url}'] .program_stream_services").append "<p class='help-block'>Failed to update program stream.</p>" if $(this.parentElement).find('.help-block').length == 0
+            $("form[action='#{@url}'] .program_stream_services").addClass('has-error')
+            return
+      else
+        $("##{this.id} .program_stream_services").append "<p class='help-block'>#{$("input#blank").val()}</p>" if $("##{this.id} .program_stream_services .help-block").length == 0
+        $("##{this.id} .program_stream_services").addClass('has-error')
+
+  _handleSearchClient = ->
+    $('#client-search.modal').on 'shown.bs.modal', (e) ->
+      searchForClient = $("#search_for_client_format-input").val()
+      searchingClient = $("#searching_format-input").val()
+      notFoundClient = $("#not_found_format-input").val()
+      enterCharacters = $("#please_enter_more_char_format-input").val()
+      $('#search-client-select2').select2(
+        placeholder: searchForClient
+        minimumInputLength: 1
+        formatSearching: searchingClient
+        formatNoMatches: notFoundClient
+        formatInputTooShort: enterCharacters
+        ajax:
+          url: '/api/clients/search_client'
+          dataType: 'json'
+          quietMillis: 250
+          data: (term, page) ->
+            { q: term }
+          results: (data, page) ->
+            { results: data }
+          cache: true
+        initSelection: (element, callback) ->
+            id = $(element).select2('data', null).trigger("change")
+            return
+        formatResult: (client) ->
+          en_full_name = "#{client.given_name} #{client.family_name}"
+          local_full_name = "#{client.local_given_name} #{client.local_family_name}"
+          markup = "<a href='clients/#{client.slug}'>#{en_full_name} | #{local_full_name} (#{client.id})</a>"
+
+          return markup
+        formatSelection: (client) ->
+          win = window.open("clients/#{client.slug}", '_blank')
+          $('#search-client-select2').trigger("change")
+      ).on 'select2-blur select2-focus', ->
+        $(@).trigger("change")
+        return
+
+      $(window).focus(->
+        $('#search-client-select2').trigger("change")
+        return
+      ).blur ->
+        $('#s2id_search-client-select2 .select2-chosen').attr('style', 'color: #999999').text(searchForClient) if $('#s2id_search-client-select2 .select2-chosen').val().length == 0
+        return
 
   { init: _init }

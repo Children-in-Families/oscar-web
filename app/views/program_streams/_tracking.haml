@@ -7,3 +7,8 @@
       = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
   #not-require-tracking
     = f.input :tracking_required, label: t('.not_require_tracking'), input_html: { class: 'i-checks' }
+
+- form_builder_selection_options(@program_stream, 'trackings')
+%div.hidden.tracking_select_option{"data-tracking-select-option" => "#{@select_field}"}
+%div.hidden.tracking_checkbox_option{"data-tracking_checkbox_option" => "#{@checkbox_field}"}
+%div.hidden.tracking_radio_option{"data-tracking_radio_option" => "#{@radio_field}"}

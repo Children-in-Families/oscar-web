@@ -8,6 +8,7 @@ describe 'Client' do
     let!(:domain) { create(:domain, name: "1A") }
 
     before do
+      logout(:user)
       login_as(user)
       visit clients_path
       first('.datagrid-actions').click_button 'Search'
@@ -58,6 +59,49 @@ describe 'Client' do
       expect(page).to have_css("#cis-domain-score[data-yaxis-title='Domain Scores']")
       expect(page).to have_css("#program-statistic[data-title='Active Programs']")
       expect(page).to have_css("#program-statistic[data-yaxis-title='Clients']")
+    end
+  end
+
+  feature 'Advanced search' do
+    let!(:client){ create(:client, :accepted, current_address: '', profile: UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/image-placeholder.png')))) }
+    let!(:setting){ Setting.first }
+
+    before do
+      PaperTrail::Version.where(event: 'create', item_type: 'Client', item_id: client.id).update_all(whodunnit: admin.id)
+      login_as(admin)
+      data = ImportStaticService::DateService.new('Sheet1', 'app', Rails.root.join('spec/supports/services.xlsx'))
+      data.import
+
+      visit clients_path
+      page.find("button[data-target='#client-advance-search-form']").click
+      wait_for_ajax()
+    end
+
+    scenario 'Client General Information dropdown', js: true do
+      expect(page).to have_content('Client General Information')
+    end
+
+    scenario 'Client General Information on click', js: true do
+      within '.client-column' do
+        click_link 'Select Columns'
+      end
+
+      within '.type-of-service-header' do
+        expect(page).to have_content('Type of Service')
+      end
+
+      expect(page).to have_css('[for="type_of_service_"]', text: 'Type of Service')
+    end
+
+    scenario 'Type of Service', js: true do
+      sleep 5
+      save_and_open_page
+
+      within '.rule-filter-container' do
+        page.find('.select2-container').click
+        wait_for_ajax()
+        save_screenshot
+      end
     end
   end
 
@@ -254,7 +298,9 @@ describe 'Client' do
       let!(:quantitative_type_permission){ create(:quantitative_type_permission, quantitative_type_id: quantitative_type.id, user_id: user.id, readable: false) }
       let!(:quantitative_type_readable_permission){ create(:quantitative_type_permission, quantitative_type_id: second_quantitative_type.id, user_id: user.id) }
 
-      before do
+      before :each do
+        logout(:user)
+        sleep 1
         login_as(user)
         visit client_path(client)
       end
@@ -263,7 +309,7 @@ describe 'Client' do
         expect(page).to have_content(second_quantitative_type.name)
       end
 
-      scenario 'Cannot Read Referral Data' do
+      xscenario 'Cannot Read Referral Data' do
         expect(page).not_to have_content(quantitative_type.name)
       end
     end
@@ -274,7 +320,9 @@ describe 'Client' do
     let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
                              local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
                              province: province) }
-    let!(:referral_source){ create(:referral_source) }
+    let!(:referral_source_parent){ create(:referral_source) }
+    let!(:referral_source){ create(:referral_source, ancestry: referral_source_parent.id)}
+
     before do
       login_as(admin)
       visit new_client_path
@@ -284,6 +332,7 @@ describe 'Client' do
       find(".client_received_by_id select option[value='#{user.id}']", visible: false).select_option
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
       fill_in 'client_initial_referral_date', with: Date.today
+      find(".client_referral_source_category_id select option[value='#{referral_source_parent.id}']", visible: false).select_option
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
       fill_in 'client_name_of_referee', with: 'Thida'
       fill_in 'client_given_name', with: 'Kema'
@@ -308,22 +357,26 @@ describe 'Client' do
     scenario 'warning', js: true do
       find(".client_received_by_id select option[value='#{user.id}']", visible: false).select_option
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
+      find(".client_referral_source_category_id select option[value='#{referral_source_parent.id}']", visible: false).select_option
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
       fill_in 'client_name_of_referee', with: FFaker::Name.name
       fill_in 'client_initial_referral_date', with: Date.today
 
-      fill_in 'client_given_name', with: 'Branderjo'
-      fill_in 'client_family_name', with: 'Anderjo'
+      fill_in 'client_given_name', with: 'Branderson'
+      fill_in 'client_family_name', with: 'Anderson'
       fill_in 'client_local_given_name', with: 'Viny'
       fill_in 'client_local_family_name', with: 'Kelly'
+      find(".client_gender select option[value='male']", visible: false).select_option
       fill_in 'Date of Birth', with: '2017-05-01'
 
       find('#steps-uid-0-t-1').click
       find(".client_province select option[value='#{province.id}']", visible: false).select_option
       find('#steps-uid-0-t-3').click
+
       page.find('a[href="#finish"]', visible: false).click
       wait_for_ajax
-      expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
+      sleep 3
+      expect(page).to have_content("The client record you are saving has similarities to other records in OSCaR in the following fields")
     end
 
     scenario 'government report section invisible' do

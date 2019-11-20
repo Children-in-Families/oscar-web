@@ -41,6 +41,10 @@ test:
   # It doesn't make sense to report to New Relic from automated test runs.
   monitor_mode: false
 
+demo:
+  <<: *default_settings
+  app_name: CIF (Test)
+
 staging:
   <<: *default_settings
   app_name: CIF (Staging)

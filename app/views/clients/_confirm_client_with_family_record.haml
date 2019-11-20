@@ -1,0 +1,31 @@
+#client-confirmation.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", data: {backdrop: 'static', keyboard: 'false'} }
+  .modal-dialog{:style => 'overflow-y: scroll; max-height:85%; margin-top: 100px; margin-bottom: 50px;', :role => "document"}
+    .modal-content
+      .modal-header
+        %button#closeModal.close{ 'data-dismiss': 'modal', type: 'button'} ×
+        %h3
+          %strong
+            = t('.client_confirmation')
+      .modal-body
+        %p
+          = t('.client_option')
+        #clientOption
+          .row
+            .col-xs-12.col-sm-12.col-md-12.client-option-family-record
+              %input.icheck-client-option.client-option#newFamily{:name => "clientConfirmation", :type => "radio", :value => "createNewFamilyRecord"}
+              = t ('.create_family_record_option')
+            .col-xs-12.col-sm-12.col-md-12.client-option-family-record
+              %input.icheck-client-option#attachFamily{:name => "clientConfirmation", :type => "radio", :value => "attachExistingFamilyRecord"}
+              = t ('.attach_exist_family_record_option')
+              #family-option{:style => "display: none"}
+                .col-xs-12.col-sm-6.col-md-6
+                  = f.association :families, collection: @families,label_method: :name, value_method: :id, label: false, input_html: { multiple: false, name: 'client[family_ids][]', id: 'popup_client_family_ids' }
+
+            .col-xs-12.col-sm-12.col-md-12.client-option-family-record
+              %input.icheck-client-option.client-option#saveDirect{:name => "clientConfirmation", :type => "radio", :value => "no"}/
+              = t ('.no_option')
+      .modal-footer
+        %button.btn.btn-primary#clientConfirmation.disabled{ data: { disable_with: "#{t('save')}..." } }
+          = t ('.save')
+
+

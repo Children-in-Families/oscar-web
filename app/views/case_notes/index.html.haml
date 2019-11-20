@@ -49,10 +49,19 @@
                     = date_format(case_note.meeting_date) if case_note.meeting_date
                     - if can? :manage, CaseNote
                       = edit_link(@client, case_note)
+                    - if current_user.admin?
+                      = destroy_link(@client, case_note)
 
             .panel-body
               - case_note.case_note_domain_groups.each do |cdg|
-                - if cdg.note.present?
+                - list_goals = []
+                - task_added = []
+                - cdg.domains(case_note).each do |domain|
+                  - task_added << case_note.client.tasks.where(domain_id: domain.id, relation: 'case_note', case_note_id: cdg.case_note_id)
+                  - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                  - if assessment_domain.present? && assessment_domain.goal?
+                    - list_goals << assessment_domain.goal
+                - if cdg.note.present? || cdg.completed_tasks.any? || list_goals.present? || cdg.attachments.any? || task_added.flatten.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
                       %h5= cdg.domain_identities
@@ -66,12 +75,13 @@
                                 = ad.score
                     .ibox-content
                       .row
-                        .col-xs-12
-                          .panel.panel-default
-                            .panel-heading
-                              %h4= t('.note')
-                            .panel-body
-                              = simple_format cdg.note
+                        - if cdg.note.present?
+                          .col-xs-12
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('.note')
+                              .panel-body
+                                = simple_format cdg.note
                         - if cdg.completed_tasks.any?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
@@ -83,14 +93,19 @@
                                     %li.list-group-item
                                       = "#{index + 1}. "
                                       = task.name
-                        .col-xs-12.col-sm-6
-                          %p
-                            %strong= "#{t('.goal')} :"
-                          %ul
-                            - cdg.domains(case_note).each do |domain|
-                              - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                              - if assessment_domain.present? && assessment_domain.goal?
-                                %li= assessment_domain.goal
+                        - if list_goals.present?
+                          .col-xs-12.col-sm-6
+                            %p
+                              %strong= "#{t('.goal')} :"
+                            %ul
+                              - list_goals.flatten.each do |goal|
+                                %li= goal
+                      .row
+                        - if task_added.flatten.present?
+                          .col-xs-12.col-sm-6
+                            %p
+                              %strong Task Added
+                      .row
                         - if cdg.attachments.any?
                           .col-xs-12.col-sm-6
                             .panel.panel-default

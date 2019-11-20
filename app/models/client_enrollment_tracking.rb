@@ -11,6 +11,9 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   scope :ordered, -> { order(:created_at) }
   scope :enrollment_trackings_by, -> (tracking) { where(tracking_id: tracking) }
 
+  delegate :program_stream, to: :client_enrollment
+  delegate :name, to: :program_stream, prefix: true
+
   after_save :create_client_enrollment_tracking_history
 
   validate do |obj|

@@ -7,12 +7,13 @@
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
 
-    %title= current_organization.try(:short_name) == 'mho'?  "Mother's Heart Cambodia" : "OSCaR - Open Source Case-management and Record-keeping"
+    %title= current_organization.try(:short_name) == 'mho'?  "Mother's Heart Organisation" : "OSCaR - Open Source Case-management and Record-keeping"
+    %script{:src => "https://cdn.jsdelivr.net/npm/interactjs@1.4.1/dist/interact.min.js"}
     = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tags
 
   %body{id: "#{controller_name}-#{params[:action]}", class: "pace-done #{authorized_body}"}
-    = render 'layouts/identifier' if Rails.env.staging?
+    = render 'layouts/identifier' if Rails.env.staging? || Rails.env.demo?
     #wrapper{ data: flash_alert }
       = render 'layouts/side_menu' if user_signed_in?
       - if user_signed_in?

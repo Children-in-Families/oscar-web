@@ -13,10 +13,11 @@ class CaseNotesController < AdminController
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
-    @case_notes = @client.case_notes.most_recents.page(params[:page]).per(1)
+    @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page]).per(1)
   end
 
   def new
+    @from_controller = params[:from]
     if params[:custom] == 'true'
       @case_note = @client.case_notes.new(custom: true)
       @case_note.assessment = @client.assessments.custom_latest_record
@@ -33,7 +34,11 @@ class CaseNotesController < AdminController
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       create_bulk_task(params[:task]) if params.has_key?(:task)
-      redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
+      if params[:from_controller] == "dashboards"
+        redirect_to root_path, notice: t('.successfully_created')
+      else
+        redirect_to client_path(@client), notice: t('.successfully_created')
+      end
     else
       render :new
     end
@@ -55,7 +60,7 @@ class CaseNotesController < AdminController
         add_more_attachments(d.second[:attachments], d.second[:id])
       end
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
-      create_bulk_task(params[:task]) if params.has_key?(:task)
+      create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit
@@ -69,6 +74,10 @@ class CaseNotesController < AdminController
       respond_to do |f|
         f.json { render json: { message: message }, status: '200' }
       end
+    elsif @case_note.present?
+      @case_note.case_note_domain_groups.delete_all
+      @case_note.reload.destroy
+      redirect_to client_case_notes_path(@case_note.client), notice: t('.successfully_deleted_case_note')
     end
   end
 

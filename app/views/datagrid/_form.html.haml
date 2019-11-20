@@ -118,10 +118,20 @@
                   = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
                   = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
+          -# %li
+          -#   .visibility.col-sm-12
+          -#     = check_box_tag 'time_in_care_', 'time_in_care', checked = default_setting('time_in_care_', @client_default_columns) || params[:time_in_care_].present?, class: 'i-checks'
+          -#     = label_tag 'time_in_care_', t('datagrid.columns.time_in_care')
+
           %li
             .visibility.col-sm-12
-              = check_box_tag 'time_in_care_', 'time_in_care', checked = default_setting('time_in_care_', @client_default_columns) || params[:time_in_care_].present?, class: 'i-checks'
-              = label_tag 'time_in_care_', t('datagrid.columns.time_in_care')
+              = check_box_tag 'time_in_cps_', 'time_in_cps', checked = default_setting('time_in_cps_', @client_default_columns) || params[:time_in_cps_].present?, class: 'i-checks'
+              = label_tag 'time_in_cps_', t('datagrid.columns.time_in_cps')
+
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'time_in_ngo_', 'time_in_ngo', checked = default_setting('time_in_ngo_', @client_default_columns) || params[:time_in_ngo_].present?, class: 'i-checks'
+              = label_tag 'time_in_ngo_', t('datagrid.columns.time_in_ngo')
 
           %li
             .visibility.col-sm-12
@@ -151,10 +161,11 @@
             .visibility.col-sm-12
               = check_box_tag 'main_school_contact_', 'main_school_contact', checked = default_setting('main_school_contact_', @client_default_columns) || params[:main_school_contact_].present?, class: 'i-checks'
               = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
-              = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
+          - if Setting.first.country_name == "cambodia"
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
+                = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
           %li
             .visibility.col-sm-12
               = check_box_tag 'name_of_referee_', 'name_of_referee', checked = default_setting('name_of_referee_', @client_default_columns) || params[:name_of_referee_].present?, class: 'i-checks'
@@ -201,6 +212,13 @@
                 = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments')
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
 
+          - if Service.count == 63
+            %li.type-of-service-header
+              %strong= t('.type_of_service')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'type_of_service_', 'type_of_service', checked = default_setting('type_of_service_', @client_default_columns) || params[:type_of_service_].present?, class: 'i-checks'
+                = label_tag 'type_of_service_', t('datagrid.columns.type_of_service')
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
