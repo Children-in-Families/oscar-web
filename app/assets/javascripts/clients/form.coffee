@@ -140,7 +140,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _checkingFamilyRecord = ->
 
-    $(".save-edit-client, a[href='#finish']").on 'click', (e) ->
+    $(".save-edit-client, a[href='#finish']").off('click').on 'click', (e) ->
       e.preventDefault()
       clientId = $('#client-id').text()
       family   = $('#client_family_ids').find(':selected').text()
@@ -177,7 +177,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
     $('#client-confirmation #popup_client_family_ids').on 'change' , (e) ->
-      if $(this).val() != '' || $(this).val() != ''
+      if $(this).val() != ''
         $('#clientConfirmation').removeClass('disabled')
       else
         $('#clientConfirmation').addClass('disabled')
@@ -529,6 +529,5 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _removeModalBodyDuplicateChecker = ->
     $('#confirm-client-modal').on 'hidden.bs.modal', ->
       $("##{@.id} .modal-body").children().remove()
-
 
   { init: _init }
