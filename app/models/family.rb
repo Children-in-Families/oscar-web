@@ -24,11 +24,9 @@ class Family < ActiveRecord::Base
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
   has_paper_trail
-
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, presence: true, inclusion: { in: STATUSES }
-
   validate :client_must_only_belong_to_a_family
 
   after_save :save_family_in_client
@@ -108,7 +106,6 @@ class Family < ActiveRecord::Base
     self.children.each do |child|
       client = Client.find_by(id: child)
       next if client.nil?
-      next if client.family_ids.include?(self.id)
       client.families << self
       client.current_family_id = self.id
       client.families.uniq
