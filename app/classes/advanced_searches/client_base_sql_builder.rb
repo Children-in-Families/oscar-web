@@ -61,9 +61,11 @@ module AdvancedSearches
         elsif form_builder.first == 'enrollment'
           program_name = form_builder.second.gsub("&qoute;", '"')
           program_stream = ProgramStream.find_by(name: program_name)
-          enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
-          @sql_string << enrollment_fields[:id]
-          @values << enrollment_fields[:values]
+          if program_stream.present?
+            enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
+            @sql_string << enrollment_fields[:id]
+            @values << enrollment_fields[:values]
+          end
 
         elsif form_builder.first == 'enrollmentdate'
           program_name = form_builder.second.gsub("&qoute;", '"')
@@ -91,9 +93,11 @@ module AdvancedSearches
 
         elsif form_builder.first == 'programexitdate'
           program_stream = ProgramStream.find_by(name: form_builder.second)
-          exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
-          @sql_string << exit_date[:id]
-          @values << exit_date[:values]
+          if program_stream.present?
+            exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
+            @sql_string << exit_date[:id]
+            @values << exit_date[:values]
+          end
 
         elsif form_builder.first == 'quantitative'
           quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
