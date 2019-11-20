@@ -29,7 +29,16 @@ export default props => {
         // options={props.collections}
         formatGroupLabel={asGroup && formatGroupLabel}
         { ...others }
-        styles={ customStyles }
+        styles={ isError ? {customError} : {customStyles} }
+        theme={theme => ({
+          ...theme,
+          colors: {
+            ...theme.colors,
+            primary50: '#1ab394',
+            primary25: '#1ab394',
+            primary: '#1ab394',
+          },
+        })}
       />
       { isError && <span style={customStyles.errorText}>Cannot be blank.</span> }
     </div>
@@ -37,25 +46,27 @@ export default props => {
 }
 
 const customStyles = {
-  menu: (provided, state) => ({
+  menu: (provided) => ({
     ...provided,
-    zIndex: 1031
+    zIndex: 1031,
   }),
-  // control: (provided, styles, state) => ({
-  //   ...provided,
-  //   ':hover': {
-  //     ...styles[':hover'],
-  //     borderColor: '#1ab394'
-  //   },
-  //   ':focus': {
-  //     ...styles[':hover'],
-  //     borderColor: '#1ab394'
-  //   }
-  // }),
+  control: (provided, styles) => ({
+    ...provided,
+    boxShadow: 'none',
+    borderColor: 'red',
+    ':hover': {
+      ...styles[':hover'],
+      borderColor: '#1ab394',
+    },
+  }),
   errorText: {
     color: 'red'
   },
-  // errorInput: {
-  //   borderColor: 'red'
-  // }
+}
+
+const customError = {
+  control: (provided, styles) => ({
+    ...provided,
+    borderColor: 'red',
+  }),
 }
