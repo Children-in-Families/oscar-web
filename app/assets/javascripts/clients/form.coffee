@@ -26,6 +26,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _openSelectClientForm()
     _disableAndEnableButtonOtherOptionToCreateFamiyRecord()
     _disableAndEnableButtonWhenOptionAttachFamilyRecord()
+    _removeModalBodyDuplicateChecker()
+    _preventClientDateOfBirth()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -145,6 +147,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       if family == ''
         $('#client-confirmation').modal('show')
         $('#clientConfirmation').click ->
+          $('#clientConfirmation').text(filterTranslation.save).attr('disabled', 'disabled')
           clientOptionValue = $('input[name=clientConfirmation]:checked').val()
           if clientOptionValue == "createNewFamilyRecord"
             localStorage.setItem('redirect_to_family', 'true')
@@ -165,7 +168,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       else
         $('#family-option').hide()
 
-
   _disableAndEnableButtonOtherOptionToCreateFamiyRecord = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
       if $('.client-option').is(':checked')
@@ -175,7 +177,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _disableAndEnableButtonWhenOptionAttachFamilyRecord = ->
     $('#client-confirmation #popup_client_family_ids').on 'change' , (e) ->
-      if $(this).val() != ''
+      if $(this).val() != '' || $(this).val() != ''
+
         $('#clientConfirmation').removeClass('disabled')
       else
         $('#clientConfirmation').addClass('disabled')
@@ -217,7 +220,27 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       autoclose: true,
       format: 'yyyy-mm-dd',
       todayHighlight: true,
-      disableTouchKeyboard: true
+      disableTouchKeyboard: true,
+      startDate: '1899,01,01',
+      todayBtn: true,
+    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+      if e.keyCode == 8
+        e.preventDefault()
+      return
+
+  _preventClientDateOfBirth = =>
+    $('.prevent-date-of-birth').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      disableTouchKeyboard: true,
+      startDate: '1899,01,01',
+      todayBtn: true,
+      endDate: 'today'
+    .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+      if e.keyCode == 8
+        e.preventDefault()
+      return
 
   _initWizardForm = ->
     self = @
@@ -299,7 +322,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $('.loader-default').removeClass('is-active')
       event.preventDefault()
       $('#client-confirmation').modal('show')
-      $('#clientConfirmation').click ->
+      $('#clientConfirmation').off('click').on 'click', ->
         clientId = $('#client-id').text()
         clientOptionValue = $('input[name=clientConfirmation]:checked').val()
         if clientOptionValue == "createNewFamilyRecord"
@@ -503,6 +526,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#client-confirmation #popup_client_family_ids').on 'select2-open', (e) ->
       if $(this).select2('val').length > 0
         e.preventDefault()
+
+  _removeModalBodyDuplicateChecker = ->
+    $('#confirm-client-modal').on 'hidden.bs.modal', ->
+      $("##{@.id} .modal-body").children().remove()
 
 
 

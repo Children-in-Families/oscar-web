@@ -4,13 +4,12 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_assessment_domains"(donor_global_id varchar DEFAULT '')
-              RETURNS TABLE("id" int4, "organization_name" varchar, "domain_id" int4, "score" int4) AS $BODY$
+              RETURNS TABLE("id" int4, "organization_name" varchar, "assessment_id" int4,"domain_id" int4, "score" int4) AS $BODY$
               DECLARE
                 sql TEXT := '';
                 sch record;
-                assmd_r record;
+                assdm_r record;
               BEGIN
                 FOR sch IN
                   SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
@@ -19,17 +18,18 @@ class FnOscarDashboardAssessmentDomains < ActiveRecord::Migration
                   WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
                   sql := sql || format(
-                                  'SELECT %2$s.id, %1$L organization_name, %2$s.domain_id,
+                                  'SELECT %2$s.id, %1$L organization_name, %2$s.domain_id, %2$s.assessment_id,
                                    %2$s.score FROM %1$I.%2$s UNION ',
                                   sch.short_name, 'assessment_domains');
                 END LOOP;
 
-                FOR assmd_r IN EXECUTE left(sql, -7)
+                FOR assdm_r IN EXECUTE left(sql, -7)
                 LOOP
-                  id := assmd_r.id;
-                  organization_name := assmd_r.organization_name;
-                  domain_id := assmd_r.domain_id;
-                  score := assmd_r.score;
+                  id := assdm_r.id;
+                  organization_name := assdm_r.organization_name;
+                  assessment_id := assdm_r.assessment_id;
+                  domain_id := assdm_r.domain_id;
+                  score := assdm_r.score;
                   RETURN NEXT;
                 END LOOP;
               END

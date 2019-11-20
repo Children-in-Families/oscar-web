@@ -8,13 +8,11 @@ namespace :change_casenote_data do
       CaseNote.includes(:case_note_domain_groups).all.each do |case_note|
         case_note.attendee         = ['Father', 'Mother'].sample
         case_note.interaction_type = interaction_types.sample
-        case_note.case_note_domain_groups.each do |domain|
-          domain.note = dummy_text
-          domain.attachments = []
-          domain.save(validate: false)
-        end
         case_note.save(validate: false)
       end
+
+      sql = "UPDATE case_note_domain_groups SET note = '#{dummy_text}', attachments = ARRAY[]::varchar[]"
+      ActiveRecord::Base.connection.execute(sql)
 
       puts "Done updating case note!!!"
     end

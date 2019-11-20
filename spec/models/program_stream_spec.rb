@@ -63,7 +63,7 @@ describe ProgramStream, 'scope' do
     end
 
     it 'should really delete' do
-      first_program_stream.really_destroy!
+      first_program_stream.destroy_fully!
       expect { ProgramStream.with_deleted.find(first_program_stream.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

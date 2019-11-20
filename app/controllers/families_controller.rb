@@ -109,6 +109,7 @@ class FamiliesController < AdminController
     else
       client_ids = Family.where.not(id: @family).pluck(:children).flatten.uniq
     end
+
     client_ids = Client.where("current_family_id = ? OR id NOT IN (?) OR current_family_id IS NULL", @family.id, Client.joins(:families).ids).ids
     @clients  = Client.accessible_by(current_ability).where(id: client_ids).order(:given_name, :family_name)
   end
