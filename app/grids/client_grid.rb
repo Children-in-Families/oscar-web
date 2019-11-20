@@ -2,6 +2,7 @@ class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
   include ClientsHelper
   include ApplicationHelper
+  include FormBuilderHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -570,6 +571,16 @@ class ClientGrid < BaseGrid
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
   end
 
+  column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = map_type_of_services(object)
+    render partial: 'clients/type_of_services', locals: { type_of_services: services }
+  end
+
+  column(:type_of_service, html: false, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = map_type_of_services(object)
+    services.map(&:name).join(', ') if services
+  end
+
   column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
   end
@@ -948,8 +959,8 @@ class ClientGrid < BaseGrid
       time_in_ngo = object.time_in_ngo
       years = I18n.t('clients.show.time_in_care_around.year', count: time_in_ngo[:years]) if time_in_ngo[:years] > 0
       months = I18n.t('clients.show.time_in_care_around.month', count: time_in_ngo[:months]) if time_in_ngo[:months] > 0
-      weeks = I18n.t('clients.show.time_in_care_around.week', count: time_in_ngo[:weeks]) if time_in_ngo[:weeks] > 0
-      [years, months, weeks].join(' ')
+      days = I18n.t('clients.show.time_in_care_around.day', count: time_in_ngo[:days]) if time_in_ngo[:days] > 0
+      [years, months, days].join(' ')
     end
   end
 
@@ -961,8 +972,8 @@ class ClientGrid < BaseGrid
         unless cps[1].blank?
           years = I18n.t('clients.show.time_in_care_around.year', count: cps[1][:years]) if (cps[1][:years].present? && cps[1][:years] > 0)
           months = I18n.t('clients.show.time_in_care_around.month', count: cps[1][:months]) if (cps[1][:months].present? && cps[1][:months] > 0)
-          weeks = I18n.t('clients.show.time_in_care_around.week', count: cps[1][:weeks]) if (cps[1][:weeks].present? && cps[1][:weeks] > 0)
-          time_in_cps = [years, months, weeks].join(' ')
+          days = I18n.t('clients.show.time_in_care_around.day', count: cps[1][:days]) if (cps[1][:days].present? && cps[1][:days] > 0)
+          time_in_cps = [years, months, days].join(' ')
           cps_lists << [cps[0], time_in_cps].join(': ')
         end
       end

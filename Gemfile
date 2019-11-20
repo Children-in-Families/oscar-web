@@ -114,4 +114,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rspec-sidekiq'
   gem 'rspec-activemodel-mocks'
+  gem 'timecop',              '~> 0.8.1'
 end

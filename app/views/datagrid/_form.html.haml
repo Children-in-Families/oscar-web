@@ -122,7 +122,7 @@
           -#   .visibility.col-sm-12
           -#     = check_box_tag 'time_in_care_', 'time_in_care', checked = default_setting('time_in_care_', @client_default_columns) || params[:time_in_care_].present?, class: 'i-checks'
           -#     = label_tag 'time_in_care_', t('datagrid.columns.time_in_care')
-          
+
           %li
             .visibility.col-sm-12
               = check_box_tag 'time_in_cps_', 'time_in_cps', checked = default_setting('time_in_cps_', @client_default_columns) || params[:time_in_cps_].present?, class: 'i-checks'
@@ -212,6 +212,13 @@
                 = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments')
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
 
+          - if Service.count == 63
+            %li.type-of-service-header
+              %strong= t('.type_of_service')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'type_of_service_', 'type_of_service', checked = default_setting('type_of_service_', @client_default_columns) || params[:type_of_service_].present?, class: 'i-checks'
+                = label_tag 'type_of_service_', t('datagrid.columns.type_of_service')
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
