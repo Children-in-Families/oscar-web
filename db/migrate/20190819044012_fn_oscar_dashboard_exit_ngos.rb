@@ -4,8 +4,9 @@ class FnOscarDashboardExitNgos < ActiveRecord::Migration
       dir.up do
         if schema_search_path == "\"public\""
           execute <<-SQL.squish
-            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_exit_ngos"(donor_name varchar DEFAULT 'Save the Children')
-              RETURNS TABLE("id" int4, "organization_name" varchar, "client_id" int4, "exit_reasons" varchar, "exit_circumstance" varchar, "exit_date" varchar) AS $BODY$
+
+            CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_exit_ngos"(donor_global_id varchar DEFAULT '')
+              RETURNS TABLE("id" int4, "organization_name" varchar, "client_id" int4, "exit_reasons" varchar, "exit_circumstance" varchar, "exit_date" varchar, "created_at" varchar, "updated_at" varchar) AS $BODY$
               DECLARE
                 sql TEXT := '';
                 sch record;
@@ -15,11 +16,11 @@ class FnOscarDashboardExitNgos < ActiveRecord::Migration
                   SELECT organizations.full_name, organizations.short_name FROM "public"."donors"
                   INNER JOIN "public"."donor_organizations" ON "public"."donor_organizations"."donor_id" = "public"."donors"."id"
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
-                  WHERE "public"."donors"."name" = donor_name
+                  WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.client_id,
-                                  %2$s.exit_reasons, %2$s.exit_circumstance, %2$s.exit_date
+                                  %2$s.exit_reasons, %2$s.exit_circumstance, %2$s.exit_date, %2$s.created_at, %2$s.updated_at
                                   FROM %1$I.%2$s UNION ', sch.short_name, 'exit_ngos');
                 END LOOP;
 
@@ -31,6 +32,8 @@ class FnOscarDashboardExitNgos < ActiveRecord::Migration
                   exit_reasons := exit_ngo_r.exit_reasons;
                   exit_circumstance := exit_ngo_r.exit_circumstance;
                   exit_date := timezone('Asia/Bangkok', exit_ngo_r.exit_date);
+                  created_at := timezone('Asia/Bangkok', exit_ngo_r.created_at);
+                  updated_at := timezone('Asia/Bangkok', exit_ngo_r.updated_at);
                   RETURN NEXT;
                 END LOOP;
               END

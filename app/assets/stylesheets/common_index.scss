@@ -235,3 +235,7 @@ ul#side-menu {
 body:not(#clients-index) .btn-custom-group {
   display: none;
 }
+
+span.input-group-addon {
+  pointer-events: none;
+}

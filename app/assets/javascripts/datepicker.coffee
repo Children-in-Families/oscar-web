@@ -13,4 +13,17 @@ $(document).on 'ready page:load', ->
     disableTouchKeyboard: true
   .datepicker 'setDate', new Date
 
+  $('#task_completion_date').datepicker
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    todayHighlight: true,
+    disableTouchKeyboard: true,
+    orientation: 'bottom'
+    startDate: '1899,01,01',
+    todayBtn: true
+  .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
+    if e.keyCode == 8
+      e.preventDefault()
+    return
+
   $('input.date[disabled="disabled"]').parent('.input-group.date').datepicker('remove')
