@@ -1,11 +1,11 @@
 class Client < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
   extend FriendlyId
 
   require 'text'
 
-  attr_reader :assessments_count
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
@@ -14,7 +14,7 @@ class Client < ActiveRecord::Base
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type).freeze
+  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
   GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
@@ -75,10 +75,10 @@ class Client < ActiveRecord::Base
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validate :address_contrain, on: [:create, :update]
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
-  before_update :disconnect_client_family_relation
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   # after_update :notify_managers, if: :exiting_ngo?
@@ -332,6 +332,17 @@ class Client < ActiveRecord::Base
     ((date - date_of_birth) % 365 / 31).to_i
   end
 
+  def age
+    count_year_from_date('date_of_birth')
+  end
+
+  def count_year_from_date(field_date)
+    return nil if self.send(field_date).nil?
+    date_today = Date.today
+    year_count = distance_of_time_in_words_hash(date_today, self.send(field_date)).dig(:years)
+    year_count = year_count == 0 ? 'INVALID' : year_count
+  end
+
   def active_kc?
     status == 'Active KC'
   end
@@ -373,7 +384,6 @@ class Client < ActiveRecord::Base
   def time_in_ngo
     return {} if self.status == 'Referred'
     day_time_in_ngos = calculate_day_time_in_ngo
-
     if day_time_in_ngos.present?
       years = day_time_in_ngos / 365
       remaining_day_from_year = day_time_in_ngos % 365
@@ -633,10 +643,6 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def family
-    Family.where('children && ARRAY[?]', id).last
-  end
-
   def create_or_update_shared_client
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
@@ -675,10 +681,6 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     case_worker_clients.destroy_all
-  end
-
-  def disconnect_client_family_relation
-    cases.destroy_all
   end
 
   def assessment_duration(duration, default = true)
@@ -723,6 +725,24 @@ class Client < ActiveRecord::Base
       times = {days: time_days}
     end
   end
+
+  def address_contrain
+    if district_id && province_id
+      district = District.find(district_id)
+      errors.add(:district_id, 'does not exist in the province you just selected.') if district.province_id != province_id
+    end
+
+    if commune_id && district_id && province_id
+      commune = Commune.find(commune_id)
+      errors.add(:commune_id, 'does not exist in the district you just selected.') if commune.district_id != district_id
+    end
+
+    if village_id && commune_id && district_id && province_id
+      vaillage = Village.find(village_id)
+      errors.add(:village_id, 'does not exist in the commune you just selected.') if village.commune_id != commune_id
+    end
+  end
+
 end
 
 

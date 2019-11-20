@@ -2,6 +2,7 @@ class ClientGrid < BaseGrid
   extend ActionView::Helpers::TextHelper
   include ClientsHelper
   include ApplicationHelper
+  include FormBuilderHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -319,7 +320,7 @@ class ClientGrid < BaseGrid
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
-  
+
   filter(:date_of_referral, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') })
 
   filter(:domain_2a, :dynamic, select: proc { get_domain('2A') }, header: -> { "#{ I18n.t('datagrid.columns.clients.domain')} 2A (Shelter)" }) do |(domain_id, operation, value), scope|
@@ -570,6 +571,16 @@ class ClientGrid < BaseGrid
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
   end
 
+  column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = map_type_of_services(object)
+    render partial: 'clients/type_of_services', locals: { type_of_services: services }
+  end
+
+  column(:type_of_service, html: false, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
+    services = map_type_of_services(object)
+    services.map(&:name).join(', ') if services
+  end
+
   column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
   end
@@ -585,7 +596,7 @@ class ClientGrid < BaseGrid
   column(:followed_up_by, html: false, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
     object.followed_up_by.try(:name)
   end
-  
+
   column(:referred_to, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
     short_names = object.referrals.pluck(:referred_to)
     org_names   = Organization.where("organizations.short_name IN (?)", short_names).pluck(:full_name)
@@ -1021,7 +1032,7 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              properties = form_builder_query(object.custom_field_properties, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
             end
           end
         elsif fields.first == 'enrollmentdate'
@@ -1043,7 +1054,8 @@ class ClientGrid < BaseGrid
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
+            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
           end
         elsif fields.first == 'programexitdate'
           ids = object.client_enrollments.inactive.ids

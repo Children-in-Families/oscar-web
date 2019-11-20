@@ -4,8 +4,8 @@ class Case < ActiveRecord::Base
   belongs_to :partner, counter_cache: true
   belongs_to :province, counter_cache: true
 
-  has_many :case_contracts
-  has_many :quarterly_reports
+  has_many :case_contracts, dependent: :destroy
+  has_many :quarterly_reports, dependent: :destroy
 
   has_paper_trail
 
@@ -13,7 +13,7 @@ class Case < ActiveRecord::Base
   scope :non_emergency,  -> { where.not(case_type: 'EC') }
   scope :kinships,       -> { where(case_type: 'KC') }
   scope :fosters,        -> { where(case_type: 'FC') }
-  scope :most_recents,   -> { order('created_at desc') }
+  scope :most_recents,   -> { order('id, created_at desc') }
   scope :last_exited,    -> { order('exit_date desc').first }
   scope :active,         -> { where(exited: false) }
   scope :inactive,       -> { where(exited: true) }
