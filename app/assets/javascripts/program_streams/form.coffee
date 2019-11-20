@@ -156,7 +156,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         for tracking in trackings
           trackingName = $(tracking).find('.program_stream_trackings_name:visible input[type="text"]').val()
           forms = $(tracking).find('.field-label').size()
-          if trackingName == '' || forms < 1
+          if trackingName.trim() == '' || forms < 1
             return true
       else
         return true

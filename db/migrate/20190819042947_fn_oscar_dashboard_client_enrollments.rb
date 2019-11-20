@@ -6,7 +6,7 @@ class FnOscarDashboardClientEnrollments < ActiveRecord::Migration
           execute <<-SQL.squish
 
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_client_enrollments"(donor_global_id varchar DEFAULT '')
-              RETURNS TABLE("id" int4, "organization_name" varchar, "client_id" int4, "program_stream_id" int4, "status" varchar, "enrollment_date" varchar) AS $BODY$
+              RETURNS TABLE("id" int4, "organization_name" varchar, "client_id" int4, "program_stream_id" int4, "status" varchar, "enrollment_date" varchar, "created_at" varchar, "updated_at" varchar) AS $BODY$
               DECLARE
                 sql TEXT := '';
                 sch record;
@@ -20,7 +20,7 @@ class FnOscarDashboardClientEnrollments < ActiveRecord::Migration
                 LOOP
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.client_id, %2$s.program_stream_id,
-                                   %2$s.status, %2$s.enrollment_date FROM %1$I.%2$s UNION ',
+                                   %2$s.status, %2$s.enrollment_date, %2$s.created_at, %2$s.updated_at FROM %1$I.%2$s UNION ',
                                   sch.short_name, 'client_enrollments');
                 END LOOP;
 
@@ -32,6 +32,8 @@ class FnOscarDashboardClientEnrollments < ActiveRecord::Migration
                   program_stream_id := cnrm_r.program_stream_id;
                   status := cnrm_r.status;
                   enrollment_date := timezone('Asia/Bangkok', cnrm_r.enrollment_date);
+                  created_at := timezone('Asia/Bangkok', cnrm_r.created_at);
+                  updated_at := timezone('Asia/Bangkok', cnrm_r.updated_at);
                   RETURN NEXT;
                 END LOOP;
               END
