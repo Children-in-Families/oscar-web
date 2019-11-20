@@ -913,12 +913,10 @@ class ClientGrid < BaseGrid
 
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
     object.family.try(:id)
-    # Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
   end
 
   column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
     object.family.try(:name)
-    # Family.where('children @> ARRAY[q?]::integer[]', [object.id]).pluck(:name).uniq.join(', ')
   end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|

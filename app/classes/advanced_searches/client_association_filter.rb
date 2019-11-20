@@ -553,56 +553,53 @@ module AdvancedSearches
     end
 
     def family_id_field_query
-      @values = validate_family_id(@value)
-      families = Family.where.not("children = '{}' OR children is null")
-
+      values = validate_family_id(@value)
       case @operator
       when 'equal'
-        client_ids = families.find_by(id: @values).try(:children)
+        client_ids = @clients.where(current_family_id: values).ids
       when 'not_equal'
-        client_ids = families.where.not(id: @values).pluck(:children)
+        client_ids = @clients.where.not(current_family_id: values).ids
       when 'less'
-        client_ids = families.where('id < ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id < ?', values).ids
       when 'less_or_equal'
-        client_ids = families.where('id <= ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id <= ?', values).ids
       when 'greater'
-        client_ids = families.where('id > ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id > ?', values).ids
       when 'greater_or_equal'
-        client_ids = families.where('id >= ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id >= ?', values).ids
       when 'between'
-        client_ids = families.where(id: @values[0]..@values[1]).pluck(:children)
+        client_ids = @clients.where(current_family_id: values[0]..values[1]).ids
       when 'is_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where(current_family_id: nil).ids
       when 'is_not_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where.not(current_family_id: nil).ids
       end
-      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
+
+      clients = client_ids.present? ? client_ids : []
     end
 
     def family_name_field_query
-      @values = validate_family_id(@value)
+      family = Family.find_by('lower(name) = ?', @value.downcase)
       families = Family.where.not("children = '{}' OR children is null").uniq
-
+      find_family = families.where('name ILIKE ?', "%#{@value.downcase}%")
       case @operator
       when 'equal'
-        client_ids = families.find_by('lower(name) = ?', @values.downcase).try(:children)
+        client_ids = @clients.where(current_family_id: family.id).ids if family
+        # client_ids = @clients.joins(:families).where('lower(families.name) = ?', @value.downcase).ids
       when 'not_equal'
-        client_ids = families.where.not('lower(name) = ?', @values.downcase).pluck(:children)
+        #client_ids = @clients.joins(:families).where.not('lower(families.name) = ?', @value.downcase).ids
+        client_ids = @clients.where.not(current_family_id: family.id).ids if family
       when 'contains'
-        client_ids = families.where('name ILIKE ?', "%#{@values.squish}%").pluck(:children)
+        client_ids = @clients.where(current_family_id: find_family.ids).ids if find_family
       when 'not_contains'
-        client_ids = families.where.not('name ILIKE ?', "%#{@values.squish}%").pluck(:children)
+        client_ids = @clients.where.not(current_family_id: find_family.ids).ids if find_family
       when 'is_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where(current_family_id: nil).ids
       when 'is_not_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where.not(current_family_id: nil).ids
       end
 
-      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
+      clients = client_ids.present? ? client_ids : []
     end
 
     def user_id_field_query
