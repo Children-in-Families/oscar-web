@@ -18,5 +18,5 @@
             %td.date
               = date_format(advanced_search.created_at)
             %td.load-query.text-center
-              = link_to clients_path(save_search_params(advanced_search.search_params).merge(advanced_search_id: advanced_search.id)), class: 'btn btn-xs btn-success btn-outline', data: { "save-search-#{advanced_search.id}": advanced_search.queries.to_json } do
-                = fa_icon('clipboard')
+              = prevent_load_saved_searches(advanced_search)
+

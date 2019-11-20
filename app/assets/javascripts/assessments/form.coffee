@@ -388,6 +388,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
+      _initTaskRequire()
 
   _removeHiddenTaskArising = ->
     tasksList = $('li.list-group-item')

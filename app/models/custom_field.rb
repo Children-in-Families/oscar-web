@@ -25,7 +25,7 @@ class CustomField < ActiveRecord::Base
   before_save :set_time_of_frequency
   after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
-  after_update :update_custom_field_label, if: -> { fields_changed? }
+  after_update :update_custom_field_label,:update_save_search, if: -> { fields_changed? }
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value.squish}%") }
   scope :client_forms,   ->         { where(entity_type: 'Client') }
@@ -83,5 +83,42 @@ class CustomField < ActiveRecord::Base
 
   def update_custom_field_label
     labels_update(fields_change.last, fields_was, custom_field_properties)
+  end
+
+  def update_save_search
+    # Find AdvancedSearch by custom_field_id
+    # format custom_field: "[24]"
+    saved_searches = AdvancedSearch.all
+    saved_searches.each do |ss|
+      queries       = ss.queries
+      updated_query = get_rules(queries, ss)
+    end
+  end
+
+  def get_rules(queries, ss)
+    custom_form_ids = CustomField.ids
+    if ss.custom_forms.present?
+      if !(custom_form_ids & class_eval(ss.custom_forms)).empty?
+        class_eval(ss.custom_forms).each do |custom_form_id|
+          next unless custom_form_ids.include?(custom_form_id)
+          custom_form = CustomField.find(custom_form_id)
+          custom_form.fields.each do |field|
+            updated_field = field["label"]
+            queries["rules"].each do |rule|
+              custom_field_old_queries = get_rules(rule, ss) if rule.has_key?('rules')
+              if rule["id"].present?
+                old_field  = rule["id"].gsub(/.*__/i,'')
+                if updated_field[/#{old_field[0..5]}.*/i]
+                  custom_field_value = rule["id"].slice(/.*__/i)
+                  query_rule = "#{custom_field_value}#{updated_field}"
+                  rule["id"] = query_rule
+                  ss.save
+                end
+              end
+            end
+          end
+        end
+      end
+    end
   end
 end
