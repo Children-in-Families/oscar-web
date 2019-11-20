@@ -100,7 +100,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initCheckbox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
-    $($('.icheckbox_square-green.checked')[0]).removeClass('checked')
+    $($('.icheckbox_square-green.checked')[0]).addClass('checked')
 
   _initSelect2 = ->
     $('#description select, #rule-tab select').select2()
@@ -502,8 +502,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       continue if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
-      if fields[name].length <= labelFields.length
-        $(tracking).find('.ibox-footer .remove_fields').remove()
+      # if fields[name].length <= labelFields.length
+      #   $(tracking).find('.ibox-footer .remove_fields').remove()
 
       $(labelFields).each (index, label) ->
         text = label.textContent.allReplace(specialCharacters)
