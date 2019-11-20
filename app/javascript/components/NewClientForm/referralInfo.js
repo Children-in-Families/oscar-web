@@ -7,7 +7,7 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, birthProvinces, currentProvinces } } = props
+  const { onChange, data: { client, birthProvinces, currentProvinces, errorFields } } = props
 
   const [districts, setdistricts] = useState([])
   const [communes, setcommunes] = useState([])
@@ -86,10 +86,10 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-3">
-          <TextInput required label="Given Name (Latin)" onChange={onChange('client', 'given_name')} />
+          <TextInput required isError={errorFields.includes('given_name')} label="Given Name (Latin)" onChange={onChange('client', 'given_name')} />
         </div>
         <div className="col-xs-3">
-          <TextInput required label="Family Name (Latin)" onChange={onChange('client', 'family_name')} />
+          <TextInput required isError={errorFields.includes('family_name')} label="Family Name (Latin)" onChange={onChange('client', 'family_name')} />
         </div>
         <div className="col-xs-3">
           <TextInput label="Given Name(Khmer)" onChange={onChange('client', 'local_given_name')} />
@@ -100,16 +100,27 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput label="Gender" options={genderLists} onChange={onChange('client', 'gender')} />
+          <SelectInput
+            required
+            isError={errorFields.includes('gender')}
+            label="Gender"
+            options={genderLists}
+            onChange={onChange('client', 'gender')}
+          />
         </div>
         <div className="col-xs-3">
-          <DateInput required label="Date of Birth" onChange={onChange('client', 'date_of_birth')} />
+          <DateInput label="Date of Birth" onChange={onChange('client', 'date_of_birth')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Birth Province" asGroup options={birthProvincesLists} onChange={onChange('client', 'birth_province_id')} />
+          <SelectInput
+            asGroup
+            label="Birth Province"
+            options={birthProvincesLists}
+            onChange={onChange('client', 'birth_province_id')}
+          />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Is client rated for ID Poor?" options={rateLists} onChange={onChange('client', 'rated_for_id_poor')} />
+          <SelectInput label="Is client rated for ID Poor?" options={rateLists} onChange={onChange('client', 'rated_for_id_poor')} />
         </div>
       </div>
       <legend>
@@ -125,8 +136,9 @@ export default props => {
       <div className="row">
         <div className="col-xs-3">
           <SelectInput
-            required
             asGroup
+            required
+            isError={errorFields.includes('province_id')}
             label="Province"
             options={provinces}
             value={!$.isEmptyObject(selectedProvince) && selectedProvince || null }
@@ -169,7 +181,7 @@ export default props => {
           <TextInput label="Address Name" onChange={onChange('client', 'current_address')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Address Type" options={addressType} onChange={onChange('referee', 'address_type')}/>
+          <SelectInput label="Address Type" options={addressType} onChange={onChange('referee', 'address_type')}/>
         </div>
       </div>
       <div className="row">
@@ -177,13 +189,13 @@ export default props => {
           <TextInput label="What3Words" onChange={onChange('client', 'what3words')} />
         </div>
         <div className="col-xs-3">
-          <TextInput required label="Client Contact Phone" onChange={onChange('client', 'telephone_number')} />
+          <TextInput label="Client Contact Phone" onChange={onChange('client', 'telephone_number')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Phone Owner" options={blank} />
+          <SelectInput label="Phone Owner" options={blank} />
         </div>
         <div className="col-xs-3">
-          <TextInput required label="Client Email Address" />
+          <TextInput label="Client Email Address" />
         </div>
       </div>
     </div>
