@@ -89,7 +89,8 @@ class ClientColumnsVisibility
       # time_in_care_: :time_in_care,
       time_in_ngo_: :time_in_ngo,
       time_in_cps_: :time_in_cps,
-      referral_source_category_id_: :referral_source_category
+      referral_source_category_id_: :referral_source_category,
+      type_of_service_: :type_of_service
     }
   end
 

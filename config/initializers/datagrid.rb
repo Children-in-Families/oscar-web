@@ -1,4 +1,5 @@
 require 'stringio'
+include FormBuilderHelper
 
 Datagrid.module_eval do
   def to_xls(*column_names)

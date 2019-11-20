@@ -17,10 +17,10 @@ FactoryGirl.define do
     # code { rand(1000...2000).to_s }
     # sequence(:code){|n| Time.now.to_f.to_s.last(4) + n.to_s }
 
-    association :village, factory: :village
-    association :commune, factory: :commune
-    association :district, factory: :district
     association :province, factory: :province
+    association :district, factory: :district
+    association :commune, factory: :commune
+    association :village, factory: :village
     association :referral_source, factory: :referral_source
     association :received_by, factory: :user
 
