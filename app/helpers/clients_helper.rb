@@ -1098,4 +1098,8 @@ module ClientsHelper
       end
     end
   end
+
+  def remove_rule_when_program_stream_remove(advanced_search)
+    # binding.pry
+  end
 end
