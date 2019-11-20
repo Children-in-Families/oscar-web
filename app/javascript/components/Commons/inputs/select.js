@@ -29,7 +29,7 @@ export default props => {
         // options={props.collections}
         formatGroupLabel={asGroup && formatGroupLabel}
         { ...others }
-        styles={ isError ? {customError} : {customStyles} }
+        styles={ isError && customError }
         theme={theme => ({
           ...theme,
           colors: {
@@ -65,7 +65,7 @@ const customStyles = {
 }
 
 const customError = {
-  control: (provided, styles) => ({
+  control: (provided) => ({
     ...provided,
     borderColor: 'red',
   }),
