@@ -18,6 +18,7 @@ CIF.Common =
       todayHighlight: true,
       disableTouchKeyboard: true,
       startDate: '1899,01,01',
+      orientation: 'bottom',
       todayBtn: true
     .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
       if e.keyCode == 8

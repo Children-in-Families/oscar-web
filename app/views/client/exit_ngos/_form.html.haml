@@ -24,7 +24,8 @@
                     %abbr{ title: 'required' } *
                     = t('.exit_date')
                   .input-group
-                    = f.text_field :exit_date, required: true, class: 'date form-control  datepicker-dropdown exit_date', type: 'text', name: 'exit_ngo[exit_date]'
+                    / = f.text_field :exit_date, required: true, class: 'date form-control  datepicker-dropdown exit_date', type: 'text', name: 'exit_ngo[exit_date]'
+                    = f.text_field :exit_date, required: true, class: 'date optional form-control date-picker', type: 'text', name: 'exit_ngo[exit_date]'
                     %span.input-group-addon
                       %i.fa.fa-calendar-check-o
 
