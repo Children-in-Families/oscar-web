@@ -454,6 +454,7 @@ th-TH:
       township:
       tracking:
       type:
+      type_of_service:
       user_id:
       village:
       what3words:
@@ -2057,6 +2058,7 @@ th-TH:
         total:
         township:
         type:
+        type_of_service:
         view:
         village:
         village_en:
@@ -2182,6 +2184,7 @@ th-TH:
         name:
         report:
         times_of_frequency:
+      type_of_service:
       users:
         changelogs:
         clients:
@@ -2229,6 +2232,7 @@ th-TH:
       no_case_note:
       reset:
       search:
+      type_of_service:
     from:
     head:
       changelog:

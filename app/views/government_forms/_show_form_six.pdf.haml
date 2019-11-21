@@ -145,8 +145,10 @@
           %td{style: 'vertical-align: middle;'}
             រយៈពេលសរុបនៃការទុកដាក់កុមារ:
           %td.text-right{style: 'width: 200px; vertical-align: middle;'}
-            សប្ដាហ៍
-            %input.text-right{ style: 'width: 120px', value: time_in_ngo[:weeks] }
+            -# សប្ដាហ៍
+            ថ្ងៃ
+            -# %input.text-right{ style: 'width: 120px', value: time_in_ngo[:weeks] }
+            %input.text-right{ style: 'width: 120px', value: time_in_ngo[:days] }
           %td.text-right{style: 'width: 200px; vertical-align: middle;'}
             ខែ
             %input.text-right{ style: 'width: 120px;', value: time_in_ngo[:months] }

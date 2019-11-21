@@ -553,56 +553,53 @@ module AdvancedSearches
     end
 
     def family_id_field_query
-      @values = validate_family_id(@value)
-      families = Family.where.not("children = '{}' OR children is null")
-
+      values = validate_family_id(@value)
       case @operator
       when 'equal'
-        client_ids = families.find_by(id: @values).try(:children)
+        client_ids = @clients.where(current_family_id: values).ids
       when 'not_equal'
-        client_ids = families.where.not(id: @values).pluck(:children)
+        client_ids = @clients.where.not(current_family_id: values).ids
       when 'less'
-        client_ids = families.where('id < ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id < ?', values).ids
       when 'less_or_equal'
-        client_ids = families.where('id <= ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id <= ?', values).ids
       when 'greater'
-        client_ids = families.where('id > ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id > ?', values).ids
       when 'greater_or_equal'
-        client_ids = families.where('id >= ?', @values).pluck(:children)
+        client_ids = @clients.where('clients.current_family_id >= ?', values).ids
       when 'between'
-        client_ids = families.where(id: @values[0]..@values[1]).pluck(:children)
+        client_ids = @clients.where(current_family_id: values[0]..values[1]).ids
       when 'is_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where(current_family_id: nil).ids
       when 'is_not_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where.not(current_family_id: nil).ids
       end
-      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
+
+      clients = client_ids.present? ? client_ids : []
     end
 
     def family_name_field_query
-      @values = validate_family_id(@value)
+      family = Family.find_by('lower(name) = ?', @value.downcase)
       families = Family.where.not("children = '{}' OR children is null").uniq
-
+      find_family = families.where('name ILIKE ?', "%#{@value.downcase}%")
       case @operator
       when 'equal'
-        client_ids = families.find_by('lower(name) = ?', @values.downcase).try(:children)
+        client_ids = @clients.where(current_family_id: family.id).ids if family
+        # client_ids = @clients.joins(:families).where('lower(families.name) = ?', @value.downcase).ids
       when 'not_equal'
-        client_ids = families.where.not('lower(name) = ?', @values.downcase).pluck(:children)
+        #client_ids = @clients.joins(:families).where.not('lower(families.name) = ?', @value.downcase).ids
+        client_ids = @clients.where.not(current_family_id: family.id).ids if family
       when 'contains'
-        client_ids = families.where('name ILIKE ?', "%#{@values.squish}%").pluck(:children)
+        client_ids = @clients.where(current_family_id: find_family.ids).ids if find_family
       when 'not_contains'
-        client_ids = families.where.not('name ILIKE ?', "%#{@values.squish}%").pluck(:children)
+        client_ids = @clients.where.not(current_family_id: find_family.ids).ids if find_family
       when 'is_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where(current_family_id: nil).ids
       when 'is_not_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where(id: client_ids).pluck(:id).uniq
+        client_ids = @clients.where.not(current_family_id: nil).ids
       end
 
-      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
+      clients = client_ids.present? ? client_ids : []
     end
 
     def user_id_field_query
@@ -631,7 +628,8 @@ module AdvancedSearches
     def time_in_cps_query
       client_ids = []
       clients = @clients.joins(:client_enrollments)
-      years_to_days = @value.kind_of?(Array) ? [@value.first * 365, @value.last * 365] : @value * 365 if @value.present?
+      # years_to_days = @value.kind_of?(Array) ? [@value.first * 365, @value.last * 365] : @value * 365 if @value.present?
+      years_to_days = @value.kind_of?(Array) ? [@value.first, @value.last] : @value if @value.present?
       case @operator
       when 'equal'
         clients.each { |client| client_ids << client.id if convert_time_in_care_to_days(client) == years_to_days }
@@ -658,22 +656,23 @@ module AdvancedSearches
     def time_in_ngo_query
       client_ids = []
       clients = @clients.joins(:enter_ngos)
-      years_to_days = @value.kind_of?(Array) ? [@value.first * 365, @value.last * 365] : @value * 365 if @value.present?
+      # years_to_days = @value.kind_of?(Array) ? [@value.first * 365, @value.last * 365] : @value * 365 if @value.present?
+      years_to_days =  @value.kind_of?(Array) ? [@value.first, @value.last] : @value if @value.present?
       case @operator
       when 'equal'
-        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) == years_to_days }
+        clients.each { |client| client_ids << client.id if (convert_time_in_ngo_to_days(client).present? && convert_time_in_ngo_to_days(client) == years_to_days) }
       when 'not_equal'
-        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) != years_to_days }
+        clients.each { |client| client_ids << client.id if (convert_time_in_ngo_to_days(client).present? && convert_time_in_ngo_to_days(client) != years_to_days) }
       when 'less'
-        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) < years_to_days  }
+        clients.each { |client| client_ids << client.id if (convert_time_in_ngo_to_days(client).present? && convert_time_in_ngo_to_days(client) < years_to_days ) }
       when 'less_or_equal'
-        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) <= years_to_days  }
+        clients.each { |client| client_ids << client.id if (convert_time_in_ngo_to_days(client).present? && convert_time_in_ngo_to_days(client) <= years_to_days)  }
       when 'greater'
-        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) > years_to_days  }
+        clients.each { |client| client_ids << client.id if (convert_time_in_ngo_to_days(client).present? && convert_time_in_ngo_to_days(client) > years_to_days ) }
       when 'greater_or_equal'
-        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client) >= years_to_days  }
+        clients.each { |client| client_ids << client.id if (convert_time_in_ngo_to_days(client).present? && convert_time_in_ngo_to_days(client) >= years_to_days)  }
       when 'between'
-        clients.each { |client| client_ids << client.id if convert_time_in_ngo_to_days(client).between?(years_to_days.first, years_to_days.last) }
+        clients.each { |client| client_ids << client.id if (convert_time_in_ngo_to_days(client).present? && convert_time_in_ngo_to_days(client).between?(years_to_days.first, years_to_days.last)) }
       when 'is_empty'
         client_ids = @clients.where.not(id: clients.distinct.ids).ids
       when 'is_not_empty'
@@ -683,25 +682,29 @@ module AdvancedSearches
     end
 
     def convert_time_in_care_to_days(client)
-      time_in_cps = client.time_in_cps
-      days = 0
-      time_in_cps.each do |cps|
-        unless cps[1].blank?
-          days += cps[1][:years] * 365 if (cps[1][:years].present? && cps[1][:years] > 0)
-          days += cps[1][:months] * 30 if (cps[1][:months].present? && cps[1][:months] > 0)
-          days += cps[1][:weeks] * 7 if (cps[1][:months].present? && cps[1][:weeks] > 0)
+      if client.present? && client.time_in_cps.present?
+        time_in_cps = client.time_in_cps
+        days = 0
+        time_in_cps.each do |cps|
+          unless cps[1].blank?
+            days += cps[1][:years] * 365 if (cps[1][:years].present? && cps[1][:years] > 0)
+            days += cps[1][:months] * 30 if (cps[1][:months].present? && cps[1][:months] > 0)
+            days += cps[1][:days]  if (cps[1][:months].present? && cps[1][:days] > 0)
+          end
         end
+        days
       end
-      days
     end
 
     def convert_time_in_ngo_to_days(client)
-      time_in_ngo = client.time_in_ngo
-      days = 0
-      days += time_in_ngo[:years] * 365 if time_in_ngo[:years] > 0
-      days += time_in_ngo[:months] * 30 if time_in_ngo[:months] > 0
-      days += time_in_ngo[:weeks] * 7 if time_in_ngo[:weeks] > 0
-      days
+      if client.present? && client.time_in_ngo.present?
+        time_in_ngo = client.time_in_ngo
+        days = 0
+        days += time_in_ngo[:years] * 365 if time_in_ngo[:years] > 0
+        days += time_in_ngo[:months] * 30 if time_in_ngo[:months] > 0 && days.present?
+        days += time_in_ngo[:days] if time_in_ngo[:days] > 0 && days.present?
+        days
+      end
     end
 
     def age_field_query

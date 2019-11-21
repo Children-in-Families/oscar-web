@@ -29,7 +29,7 @@ class ProgramStream < ActiveRecord::Base
   validates :services, presence: true
 
   before_save :set_program_completed, :destroy_tracking
-  after_update :auto_update_exit_program, :auto_update_enrollment
+  after_update :auto_update_exit_program, :auto_update_enrollment, :update_save_search
   after_create :build_permission
 
   scope  :ordered,        ->         { order('lower(name) ASC') }
@@ -216,5 +216,38 @@ class ProgramStream < ActiveRecord::Base
 
   def destroy_tracking
     trackings.only_deleted.delete_all!
+  end
+
+  def update_save_search
+    # Find AdvancedSearch by program_stream id
+    # format program_streams: "[27]"
+    saved_searches = AdvancedSearch.where("program_streams iLIKE ?", "%#{id}%")
+    saved_searches.each do |ss|
+      queries       = ss.queries
+      updated_query = get_rules(queries, ss)
+    end
+  end
+
+  def get_rules(queries, ss)
+    queries['rules'].each do |rule|
+      program_stream_old_queries = get_rules(rule, ss) if rule.has_key?('rules')
+      if rule["id"].present?
+        program_stream_old_queries = rule["id"]&.slice(/\__.*__/)&.gsub(/__/i,'')&.gsub(/\(|\)/i,'')&.squish
+        if program_stream_old_queries.present? && (name[/#{program_stream_old_queries[0..5]}.*#{program_stream_old_queries[-4]}/i])
+          query_rule = rule["id"].sub(/__.*__/, "__#{name}__")
+          rule['id'] = query_rule
+          ss.save
+          enrollment.each do |enrolled|
+            updated_enrollment = enrolled["label"]
+            old_enrollment = rule["id"].gsub(/.*__/i,'')
+            if updated_enrollment[/#{old_enrollment[0..5]}.*#{old_enrollment[-4]}/i]
+              query_rule_enrollment = rule["id"].slice(/.*__/i) + updated_enrollment
+              rule['id'] = query_rule_enrollment
+              ss.save
+            end
+          end
+        end
+      end
+    end
   end
 end

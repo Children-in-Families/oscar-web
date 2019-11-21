@@ -136,7 +136,7 @@ module ClientGridOptions
       end
     else
       @client_grid.column(:program_streams, header: I18n.t('datagrid.columns.clients.program_streams')) do |client|
-        client.client_enrollments.active.map{ |c| c.program_stream.name }.uniq.join(', ')
+        client.client_enrollments.active.map{ |c| c.program_stream.try(:name) }.uniq.join(', ')
       end
     end
   end
