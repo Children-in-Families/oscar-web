@@ -202,7 +202,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _initTaskRequire()
 
         if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
-          $("#rootwizard a[href='#save']").remove()
+          if $('#rootwizard').find('a[href="#finish"]:visible').length
+            $("#rootwizard a[href='#save']").hide()
+
+          $("#rootwizard a[href='#previous']").on 'click', (e) ->
+            $("#rootwizard a[href='#save']").show()
           _toggleEndOfAssessmentMsg()
           _liveGoal()
 
@@ -237,7 +241,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveButton = ->
     unless $('#rootwizard').find('a[href="#finish"]:visible').length
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
-
   _appendSaveCancel = ->
     unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
       assessmentHref = $('a.btn-back-default').first().attr('href')
