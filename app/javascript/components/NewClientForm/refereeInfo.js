@@ -6,14 +6,14 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, birthProvinces, referralSourceCategory, currentProvince, district, commune, village, errorFields } } = props
+  const { onChange, data: { client, birthProvinces, referralSourceCategory, referralSource, currentProvinces, district, commune, village, errorFields} } = props
 
   const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const addressType = [{label: 'Floor', value: 'floor'}, {label: 'Building', value: 'building'}, {label: 'Office', value: 'office'}]
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
   const referralSourceCategorLists = referralSourceCategory.map(catgeory => ({label: catgeory[0], value: catgeory[1]}))
-  const currentProvinceLists = currentProvince.map(province => ({label: province.name, value: province.id}))
+  const currentProvincesLists = currentProvinces.map(province => ({label: province.name, value: province.id}))
 
   return (
     <div className="container">
@@ -73,7 +73,7 @@ export default props => {
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput label="Province" asGroup options={currentProvinceLists} onChange={onChange('referee', 'referee_province_id')} />
+          <SelectInput label="Province" asGroup options={currentProvincesLists} onChange={onChange('referee', 'referee_province_id')} />
         </div>
         <div className="col-xs-3">
           <SelectInput label="District / Khan" options={blank} onChange={onChange('referee', 'referee_district_id')} />

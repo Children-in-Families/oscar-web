@@ -4,9 +4,10 @@ import Select from 'react-select'
 export default props => {
   const { isError, label, required, onChange, asGroup,  ...others } = props
 
-  const handleChange = selectedOption => {
-    const value = Array.isArray(selectedOption) ? selectedOption.map(option => option.value) : selectedOption.value
-    onChange(value)
+  const handleChange = (selectedOption, action) => {
+    let data = Array.isArray(selectedOption) ? selectedOption.map(option => option.value) : selectedOption
+    data = action === 'clear' ? null : data.value
+    onChange(data)
   }
 
   const formatGroupLabel = data => (
@@ -23,7 +24,8 @@ export default props => {
       </label>
 
       <Select
-        onChange={handleChange}
+        isClearable
+        onChange={(option, {action}) => handleChange(option, action)}
         formatGroupLabel={asGroup && formatGroupLabel}
         { ...others }
         styles={ isError && customError }
