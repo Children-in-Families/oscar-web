@@ -26,10 +26,10 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-3">
-          <TextInput required isError={errorFields.includes('given_name')} label="Given Name (Latin)" onChange={onChange('client', 'given_name')} />
+          <TextInput label="Given Name (Latin)" onChange={onChange('client', 'given_name')} />
         </div>
         <div className="col-xs-3">
-          <TextInput required isError={errorFields.includes('family_name')} label="Family Name (Latin)" onChange={onChange('client', 'family_name')} />
+          <TextInput label="Family Name (Latin)" onChange={onChange('client', 'family_name')} />
         </div>
         <div className="col-xs-3">
           <TextInput label="Given Name(Khmer)" onChange={onChange('client', 'local_given_name')} />
@@ -77,8 +77,6 @@ export default props => {
         <div className="col-xs-3">
           <SelectInput
             asGroup
-            required
-            isError={errorFields.includes('province_id')}
             label="Province"
             options={birthProvincesLists}
             onChange={onChange('client', 'province_id')}

@@ -5,7 +5,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { users, client } } = props
+  const { onChange, data: { users, client, errorFields } } = props
   const userLists = users.map(user => ({label: user.first_name + ' ' + user.last_name, value: user.id}))
 
   return (
@@ -20,19 +20,35 @@ export default props => {
 
       <div className='row'>
         <div className='col-xs-8'>
-          <SelectInput label='Receiving Staff Member' options={userLists} onChange={onChange('client', 'received_by_id')} />
+          <SelectInput
+            required
+            isError={errorFields.includes('received_by_id')}
+            label='Receiving Staff Member'
+            options={userLists}
+            onChange={onChange('client', 'received_by_id')} />
         </div>
       </div>
 
       <div className='row'>
         <div className='col-xs-8'>
-          <DateInput label='Date of Referral' value={client.initial_referral_date} onChange={onChange('client', 'initial_referral_date')} />
+          <DateInput
+            required
+            isError={errorFields.includes('initial_referral_date')}
+            label='Date of Referral'
+            value={client.initial_referral_date}
+            onChange={onChange('client', 'initial_referral_date')} />
         </div>
       </div>
 
       <div className='row'>
         <div className='col-xs-8'>
-          <SelectInput label='Case Worker / Assigned Staff Memger' isMulti options={userLists} onChange={onChange('referee','users')} />
+          <SelectInput
+            required
+            isError={errorFields.includes('user_id')}
+            label='Case Worker / Assigned Staff Memger'
+            isMulti
+            options={userLists}
+            onChange={onChange('client','user_id')} />
         </div>
       </div>
 

@@ -1,10 +1,4 @@
 import React from 'react'
-import {
-  SelectInput,
-  TextInput,
-  DateInput,
-  Checkbox
-} from '../Commons/inputs'
 import CareInfo from './carerInfo'
 
 export default props => {

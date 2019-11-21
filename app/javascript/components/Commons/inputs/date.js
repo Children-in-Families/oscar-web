@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Calendar from 'react-calendar'
 
 export default props => {
-  const { onChange, value } = props
+  const {isError, onChange, value } = props
   const [showDatePicker, setshowDatePicker] = useState(false)
   const [selectedDate, setselectedDate] = useState(value || new Date())
 
@@ -19,20 +19,18 @@ export default props => {
     setselectedDate(date)
     setshowDatePicker(false)
   }
-  // onBlur={() => setshowDatePicker(false)}
+
   return (
     <div className='form-group'>
-      <label>
+      <label style={isError && styles.errorText || {} }>
         { props.required && <abbr title='required'>* </abbr> }
         {props.label}
       </label>
 
-      {/* <div onFocus={() => setshowDatePicker(true)} onBlur={() => setshowDatePicker(false)} > */}
-      <input className='form-control' onFocus={() => setshowDatePicker(true)} value={formatDate(selectedDate)} />
+      <input className='form-control' onFocus={() => setshowDatePicker(true)} value={formatDate(selectedDate)} style={ isError && styles.errorInput || {} }/>
       <div style={styles.calendar}>
-        {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
+        {showDatePicker && <Calendar onChange={onChangeDate} value={[selectedDate]} onFocus={() => setshowDatePicker(true)} /> }
       </div>
-      {/* </div> */}
     </div>
   )
 }
@@ -41,5 +39,11 @@ const styles = {
   calendar: {
     position: 'absolute',
     zIndex: 1031
+  },
+  errorText: {
+    color: 'red'
+  },
+  errorInput: {
+    borderColor: 'red'
   }
 }

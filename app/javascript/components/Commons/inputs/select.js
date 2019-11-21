@@ -23,10 +23,7 @@ export default props => {
       </label>
 
       <Select
-        // id={props.id}
-        // isMulti={props.isMulti}
         onChange={handleChange}
-        // options={props.collections}
         formatGroupLabel={asGroup && formatGroupLabel}
         { ...others }
         styles={ isError && customError }

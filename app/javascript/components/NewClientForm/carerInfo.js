@@ -15,10 +15,10 @@ export default props => {
     <div id={id} className="collapse">
       <div className="row">
         <div className="col-xs-3">
-          <TextInput required label="Name" onChange={onChange('referee', 'name')} />
+          <TextInput label="Name" onChange={onChange('referee', 'name')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput required label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} />
+          <SelectInput label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} />
         </div>
       </div>
       <div className="row">

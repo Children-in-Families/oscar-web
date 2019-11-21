@@ -13,12 +13,19 @@ const Forms = props => {
       currentProvince, district, commune, village
     }
   } = props
+
+  const referee = {
+    id: null,
+    referee_name: '',
+    referee_referral_source_catgeory_id: null
+  }
+
   const [errorFields, seterrorFields] = useState([])
   const [step, setStep] = useState(1)
   const [clientData, setclientData] = useState(client)
-  const [refereeData, setrefereeData] = useState({})
+  const [refereeData, setrefereeData] = useState(referee)
 
-  const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
+  const gettingStartData = { client, users, birthProvinces, referralSourceCategory, selectedCountry,
                             internationalReferredClient, currentProvince, district, commune, village,
                             errorFields
                           }
@@ -36,7 +43,7 @@ const Forms = props => {
     return (
       <span
         key={index}
-        onClick={() => setStep(data.step)}
+        onClick={() => handleTab(data.step)}
         className={`tabButton ${activeClass(data.step)}`}
       >
         {data.text}
@@ -57,11 +64,38 @@ const Forms = props => {
     }
   }
 
+  const handleTab = value => {
+    const components = [
+      { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
+      { step: 2, data: clientData, fields: ['gender'] },
+      { step: 3, data: clientData, fields: [] },
+      { step: 4, data: clientData, fields: [] }
+    ]
+
+    components.forEach(component => {
+      if (step === component.step) {
+        const errors = []
+        component.fields.forEach(field => {
+          component.data[field] == '' && errors.push(field)
+          component.data[field] === null && errors.push(field)
+        })
+        if (errors.length > 0) {
+          seterrorFields(errors)
+        } else {
+          seterrorFields([])
+          setStep(value)
+        }
+      }
+    })
+  }
+
   const buttonNext = () => {
     const components = [
-      { step: 1, data: refereeData, fields: [] },
-      { step: 2, data: clientData, fields: ['given_name','family_name', 'gender', 'province_id']
-    }]
+      { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
+      { step: 2, data: clientData, fields: ['gender']},
+      { step: 3, data: clientData, fields: [] },
+      { step: 4, data: clientData, fields: [] }
+    ]
 
     components.forEach(component => {
       if (step === component.step) {
@@ -78,6 +112,24 @@ const Forms = props => {
         }
       }
     })
+  }
+
+  const handleSave = () => {
+    const compoentFields = [
+      { data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_id'] }
+    ]
+    const errors=[]
+
+    compoentFields[0].fields.forEach(field => {
+      compoentFields[0].data[field] == '' && errors.push(field)
+      compoentFields[0].data[field] === null && errors.push(field)
+    })
+    if (errors.length > 0) {
+      seterrorFields(errors)
+    } else {
+      seterrorFields([])
+      alert('Yay !')
+    }
   }
 
   const buttonPrevious = () => {
@@ -124,8 +176,8 @@ const Forms = props => {
 
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
-          {step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
-          {step === 4 && <span className='clientButton saveButton'>Save</span> }
+          { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
+          { step === 4 && <span className='clientButton saveButton' onClick={handleSave}>Save</span> }
         </div>
       </div>
     </div>
