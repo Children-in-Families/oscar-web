@@ -15,7 +15,7 @@ class FamilySerializer < ActiveModel::Serializer
       formatted_client.merge!(followed_up_by:   client.followed_up_by.as_json(only: [:id, :first_name, :last_name]))
       formatted_client.merge!(province:         client.province.as_json(only: [:id, :name]))
       formatted_client.merge!(referral_source:  client.referral_source.as_json(only: [:id, :name]))
-      formatted_client.merge!(donor:            client.donors.pluck(:name).join(', '))
+      formatted_client.merge!(donor:            client.donors.distinct.pluck(:name).join(', '))
       formatted_client.merge!(current_case:     CaseSerializer.new(client.cases.exclude_referred.current).serializable_hash.as_json(except: [:user, :family]))
       formatted_client.merge!(assessments:      client.assessments)
       formatted_client.merge!(form_title:       client.custom_fields.pluck(:form_title).uniq.join(', '))
