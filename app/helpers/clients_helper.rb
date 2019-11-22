@@ -709,7 +709,7 @@ module ClientsHelper
       format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       fields = column.name.to_s.gsub('&qoute;', '"').split('__')
 
-      if class_name[/^(programexitdate)/i].present?
+      if class_name[/^(exitprogramdate)/i].present?
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
         count += date_filter(object, class_name).flatten.count
