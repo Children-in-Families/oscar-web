@@ -66,76 +66,54 @@ const Forms = props => {
     }
   }
 
-  const handleTab = value => {
+  const handleValidation = () => {
     const components = [
-      { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
-      { step: 2, data: clientData, fields: ['gender'] },
-      { step: 3, data: clientData, fields: [] },
-      { step: 4, data: clientData, fields: [] }
-    ]
-
-    components.forEach(component => {
-      if (step === component.step) {
-        const errors = []
-        component.fields.forEach(field => {
-          component.data[field] == '' && errors.push(field)
-          component.data[field] === null && errors.push(field)
-        })
-        if (errors.length > 0) {
-          seterrorFields(errors)
-        } else {
-          seterrorFields([])
-          setStep(value)
-        }
-      }
-    })
-  }
-
-  const buttonNext = () => {
-    const components = [
-      { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
+      // { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
+      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_catgeory_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
-      { step: 4, data: clientData, fields: [] }
+      { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }
     ]
+
+    const errors = []
 
     components.forEach(component => {
       if (step === component.step) {
-        const errors = []
         component.fields.forEach(field => {
-          component.data[field] == '' && errors.push(field)
-          component.data[field] === null && errors.push(field)
+          (component.data[field] === '' || component.data[field] === null) && errors.push(field)
         })
-        if (errors.length > 0) {
-          seterrorFields(errors)
-        } else {
-          seterrorFields([])
-          setStep(step + 1)
-        }
       }
     })
-  }
 
-  const handleSave = () => {
-    const compoentFields = [
-      { data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_id'] }
-    ]
-    const errors=[]
-
-    compoentFields[0].fields.forEach(field => {
-      compoentFields[0].data[field] == '' && errors.push(field)
-      compoentFields[0].data[field] === null && errors.push(field)
-    })
     if (errors.length > 0) {
       seterrorFields(errors)
+      return false
     } else {
       seterrorFields([])
-      alert('Yay !')
+      return true
     }
   }
 
+  const handleTab = goingToStep => {
+    if(goingToStep < step || handleValidation())
+      setStep(goingToStep)
+  }
+
+  const buttonNext = () => {
+    if (handleValidation())
+      setStep(step + 1)
+  }
+
+  const handleSave = () => {
+    if (handleValidation())
+      $.post('/api/clients', { client: { ...refereeData, ...clientData } })
+        .done(response =>  document.location.href=`/clients/${response.id}?notice=success`)
+        .fail(error => console.log(error))
+        // .catch(error => console.log(error))
+  }
+
   const buttonPrevious = () => {
-    setStep(step-1)
+    setStep(step - 1)
   }
 
   console.log('clientData', clientData)

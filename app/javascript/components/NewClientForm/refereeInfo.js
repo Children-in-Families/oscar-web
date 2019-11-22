@@ -32,9 +32,11 @@ export default props => {
         <div className=" col-xs-3">
           <TextInput
             required
-            isError={errorFields.includes('referee_name')}
+            // isError={errorFields.includes('referee_name')}
+            isError={errorFields.includes('name_of_referee')}
             label="Name"
-            onChange={onChange('referee', 'referee_name')}
+            // onChange={onChange('referee', 'referee_name')}
+            onChange={onChange('client', 'name_of_referee')}
           />
         </div>
         <div className="col-xs-3">
@@ -51,10 +53,12 @@ export default props => {
         <div className="col-xs-3">
           <SelectInput
             required
-            isError={errorFields.includes('referee_referral_source_catgeory_id')}
+            // isError={errorFields.includes('referee_referral_source_catgeory_id')}
+            isError={errorFields.includes('referral_source_category_id')}
             label="Referral Source Catgeory"
             options={referralSourceCategorLists}
-            onChange={onChange('referee', 'referee_referral_source_catgeory_id')}
+            // onChange={onChange('referee', 'referee_referral_source_catgeory_id')}
+            onChange={onChange('client', 'referral_source_category_id')}
           />
         </div>
         <div className="col-xs-3">

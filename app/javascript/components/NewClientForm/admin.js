@@ -44,11 +44,11 @@ export default props => {
         <div className='col-xs-8'>
           <SelectInput
             required
-            isError={errorFields.includes('user_id')}
+            isError={errorFields.includes('user_ids')}
             label='Case Worker / Assigned Staff Memger'
             isMulti
             options={userLists}
-            onChange={onChange('client','user_id')} />
+            onChange={onChange('client','user_ids')} />
         </div>
       </div>
 
