@@ -216,7 +216,7 @@ class ClientSerializer < ActiveModel::Serializer
   def quantitative_cases
     object.quantitative_cases.group_by(&:quantitative_type).map do |qtypes|
       qtype = qtypes.first.name
-      qcases = qtypes.map{ |qcase| qcase.value }
+      qcases = qtypes.map{ |qcase| qcase.try(:value) || qcase.try(:name) }
       { quantitative_type: qtype, client_quantitative_cases: qcases }
     end
   end
