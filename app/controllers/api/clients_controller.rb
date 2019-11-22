@@ -15,7 +15,7 @@ module Api
 
     def find_client_case_worker
       client = Client.find(params[:id])
-      user_ids = client.users.non_strategic_overviewers.where.not(id: params[:user_id]).ids
+      user_ids = client.users.distinct.non_strategic_overviewers.where.not(id: params[:user_id]).ids
       render json: { user_ids:  user_ids }
     end
 

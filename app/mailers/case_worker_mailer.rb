@@ -18,7 +18,7 @@ class CaseWorkerMailer < ApplicationMailer
 
   def notify_upcoming_csi_weekly(client)
     @client   = client
-    recievers = client.users.non_locked.notify_email.pluck(:email)
+    recievers = client.users.distinct.non_locked.notify_email.pluck(:email)
     return if recievers.empty?
     default = @client.assessments.most_recents.first.try(:default)
     if default
@@ -32,7 +32,7 @@ class CaseWorkerMailer < ApplicationMailer
 
   def notify_incomplete_daily_csi_assessments(client)
     @client   = client
-    recievers = client.users.non_locked.notify_email.pluck(:email)
+    recievers = client.users.distinct.non_locked.notify_email.pluck(:email)
     return if recievers.empty?
     assessment = @client.assessments.most_recents.first
     default = assessment.try(:default)

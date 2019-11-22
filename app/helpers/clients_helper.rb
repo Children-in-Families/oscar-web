@@ -8,7 +8,8 @@ module ClientsHelper
   end
 
   def order_case_worker(client)
-    client.users.order('lower(first_name)', 'lower(last_name)')
+    order_case_worker = client.users.order('lower(first_name)', 'lower(last_name)')
+    remove_duplicate_case_worker = order_case_worker.to_a.uniq if order_case_worker.present?
   end
 
   def partner(partner)
