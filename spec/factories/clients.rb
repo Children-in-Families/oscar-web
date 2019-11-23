@@ -21,11 +21,12 @@ FactoryGirl.define do
     end
 
     after(:build) do |client|
-      client.class.skip_callback(:save, :after, :create_client_history)
-      client.class.skip_callback(:save, :after, :create_or_update_shared_client)
+      client.class.skip_callback(:save, :after, :create_client_history,
+                                                :create_or_update_shared_client)
+      client.class.skip_callback(:create, :after, :set_slug_as_alias)
     end
 
-    factory :client_with_history do
+    trait :client_with_history do
       after(:build) do |client|
         client.class.set_callback(:save, :after, :create_client_history)
       end
