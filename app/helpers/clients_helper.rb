@@ -706,7 +706,7 @@ module ClientsHelper
         klass = klass_name[class_name.to_sym]
       end
 
-      if class_name[/^(exitprogramdate)/i].present?
+      if class_name[/^(programexitdate)/i].present?
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
         count += date_filter(object, class_name).flatten.count
