@@ -6,16 +6,20 @@ start_core:
 start_all:
 	docker-compose up
 
-# Some useful commands that can be run using make
-app_shell:
-	docker-compose run --entrypoint bash app
+# Starts up a rails console in the app container
+rails_console:
+	docker exec -it app rails c 
 
-# Connect to a mongo shell session (mongo service must be started first)
-mongo_shell:
+# Starts up a guard console in the app container
+guard_console:
+	docker exec -it app guard
+
+# Starts up a mongo console in the mongo container
+mongo_console:
 	docker exec -it mongo mongo -u oscar -p 123456789 oscar_history_development
 
-# Connect to a postgres shell session (mongo service must be started first)
-db_shell:
+# Starts up a psql console in the db container
+psql_console:
 	docker exec -it db psql -U oscar oscar_development
 
 # Drop the postgres database (if error retry as db service needs to start first)
