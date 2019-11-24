@@ -994,7 +994,6 @@ class ClientGrid < BaseGrid
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
           assessment_domains = map_assessment_and_score(client, identity, domain_id)
-          # assessment = client.assessments.defaults.latest_record
           assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
         end
       end

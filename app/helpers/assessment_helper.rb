@@ -113,12 +113,17 @@ module AssessmentHelper
 
   def map_assessment_and_score(object, identity, domain_id)
     if $param_rules.nil?
-      assessments = object.client.assessments.defaults.joins(:assessment_domains)
+      assessments = object.assessments.defaults.joins(:assessment_domains)
     else
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-      results = mapping_assessment_query_rules(basic_rules)
-      query_string = get_assessment_query_string(results, identity, domain_id, object.id)
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+
+      if results.first.count == 2
+        query_string = get_assessment_without_complated_date_query_string(results, identity, domain_id, object.id)
+      else
+        query_string = get_assessment_query_string(results, identity, domain_id, object.id)
+      end
 
       assessments = object.assessments.joins(:assessment_domains).where(query_string).distinct
 
@@ -135,7 +140,7 @@ module AssessmentHelper
         mapping_assessment_query_rules(h, field_name=nil, data_mapping)
       end
       if field_name.nil?
-       next if !(h[:id] =~ /^(domainscore|assessment_completed|assessment_number)/i)
+       next if !(h[:id] =~ /^(domainscore|assessment_completed|assessment_number|month_number|date_nearest)/i)
       else
        next if h[:id] != field_name
       end
@@ -144,8 +149,6 @@ module AssessmentHelper
     end
     data_mapping << rule_array
   end
-
-
 
   def get_assessment_query_string(results, identity, domain_id, client_id=nil)
     results.map do |result|
@@ -157,7 +160,13 @@ module AssessmentHelper
         elsif h[:field] == identity
           assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
         elsif h[:field] == 'assessment_number'
-          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id}) >= #{h[:value]}"
+          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
+        elsif h[:field] == 'month_number'
+          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{h[:value]} - 1"
+          end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{h[:value]} - 1"
+          "DATE(assessments.created_at) between (#{beginning_of_month}) AND (#{end_of_month})"
+        elsif h[:field] == 'date_nearest'
+          "date(assessments.created_at) <= '#{h[:value]}'"
         end
       end.join(" #{condition} ")
     end
@@ -171,7 +180,9 @@ module AssessmentHelper
         if h[:field] == identity
           assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
         elsif h[:field] == 'assessment_number'
-          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = clients.id) >= #{h[:value]}"
+          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
+        elsif h[:field] == 'date_nearest'
+          "date(assessments.created_at) <= '#{h[:value]}'"
         end
       end.join(" #{condition} ")
     end
