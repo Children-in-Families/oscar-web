@@ -21,3 +21,9 @@ db_shell:
 # Drop the postgres database (if error retry as db service needs to start first)
 db_drop:
 	docker-compose run --entrypoint "rake db:drop" app
+
+# Create test database (run `make start_core` at least first!)
+db_create_test:
+	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
+	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:create" app
+	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:schema:load" app
