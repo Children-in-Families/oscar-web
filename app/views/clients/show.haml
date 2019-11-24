@@ -70,7 +70,7 @@
       .row
         .col-xs-12
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
+            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-client{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
               = t('.exit_ngo_btn')
               %span.caret
             %ul.dropdown-menu.btn-fit
@@ -121,7 +121,7 @@
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
-              = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
+              = link_to client_case_quarterly_reports_path(@client, @client.latest_case) do
                 %span.btn-sm.btn.color-brown.small-btn-margin.btn-fit= t('.view_legacy_quarterly_reports')
           - if @client.cases.exclude_referred.inactive.present?
             .btn-group.small-btn-margin
@@ -231,7 +231,7 @@
                 %td.spacing-first-col
                   = t('.donor')
                 %td
-                  - @client.donors.each do|donor|
+                  - client_donors.each do|donor|
                     %strong.label.label-default.donor
                       = donor.name
               %tr
@@ -416,7 +416,7 @@
         - if @case_histories.any?
           .row
             .col-xs-12
-              %table.table.table-bordered.table-hover
+              %table.table.table-bordered.table-hover#case-history-table
                 %thead
                   %tr
                     %th= t('.case_histories')
@@ -425,7 +425,7 @@
                 %tbody
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
-                    %tr
+                    %tr.case-history-row{ data: {date: case_history.new_date } }
                       %td= case_history_label(case_history)
                       %td= date_format(case_history.new_date)
                       %td
@@ -433,7 +433,7 @@
                           %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
                           - if current_user.admin?
                             - if ['enter_ngos', 'exit_ngos'].include?(case_history_name)
-                              %button.btn.btn-outline.btn-success.btn-xs{'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal'}= fa_icon('pencil')
+                              %button.btn.btn-outline.btn-success.btn-xs.edit-case-history-ngo{ data: { class_name: case_history_name },'data-target' => "##{case_history_name}-#{case_history.id}", 'data-toggle' => 'modal' }= fa_icon('pencil')
                             = case_history_links(case_history, case_history_name)
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)
@@ -448,3 +448,4 @@
   -# = render 'placement'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
+

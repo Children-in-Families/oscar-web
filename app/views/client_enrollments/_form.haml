@@ -5,7 +5,7 @@
         %label.date.optional.control-label
           %abbr{ title: 'required' } *
           = t('.enrollment_date')
-        .input-group.date
+        .input-group
           = f.input_field :enrollment_date, as: :string, class: 'date optional form-control date-picker', id: 'enrollment_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
@@ -28,3 +28,16 @@
     = hidden_field_tag :program_stream_id, @program_stream.id
     = f.submit t('.save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     = cancel_url
+
+%table.table.table-bordered.table-hover#case-history-table-client-enrollment.hidden
+  %thead
+    %tr
+      %th Case histories name
+      %th Date
+
+  %tbody
+    - @case_histories.each_with_index do |case_history, index|
+      - case_history_name = case_history.class.table_name
+      %tr.case-history-row{ data: {date: case_history.new_date } }
+        %td= case_history_label(case_history)
+        %td= date_format(case_history.new_date)

@@ -5,6 +5,11 @@ class AdvancedSearch < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :user_id }
 
   scope :non_of, ->(value) { where.not(user_id: value.id) }
+  BROKEN_SAVE_SEARCH = [["demo", 19],["demo", 18],["demo", 39],["mtp", 15],["mtp", 25],["voice", 2],
+                        ["cif", 3],["cif", 4],["cif", 5],["cif", 6],["cif", 7],["cif", 66],["cif", 64],
+                        ["cif", 68]]
+  BROKEN_RULE_MTP   = [41,5,51]
+  BROKEN_RULE_DEMO  = [8]
 
   def search_params
     { client_advanced_search: { custom_form_selected: custom_forms,
@@ -22,3 +27,5 @@ class AdvancedSearch < ActiveRecord::Base
     user.name
   end
 end
+
+

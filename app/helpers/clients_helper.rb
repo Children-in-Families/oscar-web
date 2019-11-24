@@ -116,7 +116,8 @@ module ClientsHelper
       created_by:                    t('datagrid.columns.clients.created_by'),
       referred_to:                   t('datagrid.columns.clients.referred_to'),
       referred_from:                 t('datagrid.columns.clients.referred_from'),
-      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category')
+      referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
+      type_of_service:               t('datagrid.columns.type_of_service')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -369,7 +370,8 @@ module ClientsHelper
       referred_from_: t('datagrid.columns.clients.referred_from'),
       time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
-      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category')
+      referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
+      type_of_service_: t('datagrid.columns.type_of_service')
     }
 
     Domain.order_by_identity.each do |domain|
@@ -530,7 +532,7 @@ module ClientsHelper
     properties_field = 'client_enrollment_trackings.properties'
     query_string = get_query_string(results, form_type, properties_field)
 
-    object.where(query_string.join(" AND "))
+    object.where(query_string.reject(&:blank?).join(" AND "))
   end
 
   def case_note_query_results(object, case_note_date_query, case_note_type_query)
@@ -750,6 +752,9 @@ module ClientsHelper
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
             count += quantitative_type_values.count
+          elsif class_name == 'type_of_service'
+            type_of_services = map_type_of_services(client)
+            count += type_of_services.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
           end
@@ -1092,5 +1097,9 @@ module ClientsHelper
         Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : t('.custom_id_number2')
       end
     end
+  end
+
+  def client_donors
+    @client.donors.distinct
   end
 end
