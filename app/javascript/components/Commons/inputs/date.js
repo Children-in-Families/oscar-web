@@ -2,11 +2,23 @@ import React, { useState } from 'react'
 import Calendar from 'react-calendar'
 
 export default props => {
+  const formatStringToDate = value => {
+    if(value) {
+      const toAarray = value.split('-')
+      const year = toAarray[0]
+      const month = toAarray[1]
+      const day = toAarray[2]
+
+      return new Date(year, month, day)
+    }
+  }
+
   const {isError, onChange, value } = props
   const [showDatePicker, setshowDatePicker] = useState(false)
-  const [selectedDate, setselectedDate] = useState(value || new Date())
+  const [selectedDate, setselectedDate] = useState(formatStringToDate(value) || new Date())
 
-  const formatDate = value => {
+
+  const formatDateToString = value => {
     const formatedDate = value.getDate()
     const formatedMonth = value.getMonth()
     const formatedYear = value.getFullYear()
@@ -15,7 +27,7 @@ export default props => {
   }
 
   const onChangeDate = date => {
-    onChange(formatDate(date))
+    onChange(formatDateToString(date))
     setselectedDate(date)
     setshowDatePicker(false)
   }
@@ -27,9 +39,9 @@ export default props => {
         {props.label}
       </label>
 
-      <input className='form-control' onFocus={() => setshowDatePicker(true)} value={formatDate(selectedDate)} style={ isError && styles.errorInput || {} }/>
+      <input className='form-control' onFocus={() => setshowDatePicker(true)} value={formatDateToString(selectedDate)} style={ isError && styles.errorInput || {} }/>
       <div style={styles.calendar}>
-        {showDatePicker && <Calendar onChange={onChangeDate} value={[selectedDate]} onFocus={() => setshowDatePicker(true)} /> }
+        {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
       </div>
     </div>
   )

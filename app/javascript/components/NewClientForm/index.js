@@ -9,7 +9,7 @@ import './styles.scss'
 const Forms = props => {
   const {
     data: {
-      client, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, userIds }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, district, commune, village
     }
   } = props
@@ -22,10 +22,10 @@ const Forms = props => {
 
   const [errorFields, seterrorFields] = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState(client)
+  const [clientData, setClientData] = useState({ user_ids: userIds, ...client })
   const [refereeData, setrefereeData] = useState(referee)
 
-  const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
+  const gettingStartData = { client: clientData, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
                             internationalReferredClient, currentProvinces, district, commune, village, errorFields
                           }
 

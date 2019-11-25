@@ -6,7 +6,9 @@ import {
 
 export default props => {
   const { onChange, data: { users, client, errorFields } } = props
-  const userLists = users.map(user => ({label: user.first_name + ' ' + user.last_name, value: user.id}))
+  console.log("TCL: client", client)
+  // const userLists = users.map(user => ({label: user.first_name + ' ' + user.last_name, value: user.id}))
+  const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
   return (
     <>
@@ -25,6 +27,7 @@ export default props => {
             isError={errorFields.includes('received_by_id')}
             label='Receiving Staff Member'
             options={userLists}
+            value={client.received_by_id}
             onChange={onChange('client', 'received_by_id')} />
         </div>
       </div>
@@ -45,9 +48,10 @@ export default props => {
           <SelectInput
             required
             isError={errorFields.includes('user_ids')}
-            label='Case Worker / Assigned Staff Memger'
+            label='Case Worker / Assigned Staff Manager'
             isMulti
             options={userLists}
+            value={client.user_ids}
             onChange={onChange('client','user_ids')} />
         </div>
       </div>
