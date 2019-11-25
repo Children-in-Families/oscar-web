@@ -37,7 +37,7 @@ module AdvancedSearches
       identity      = domain.identity
       clients       = Client.joins(assessments: :assessment_domains)
       if $param_rules.nil?
-        assessments = objects.assessments.defaults.joins(:assessment_domains)
+        clients.ids
       else
         basic_rules = $param_rules['basic_rules']
         basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access

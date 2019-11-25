@@ -112,6 +112,7 @@ module AssessmentHelper
   end
 
   def map_assessment_and_score(object, identity, domain_id)
+    sub_query_string = []
     if $param_rules.nil?
       assessments = object.assessments.defaults.joins(:assessment_domains)
     else
