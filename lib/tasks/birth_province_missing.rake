@@ -19,11 +19,14 @@ namespace :birth_province_missing do
           province_name = province.last.split('/').last
           province_name = province_name == " Oddar Meanchay" ? " Oddar Meanchey" : province_name
           province_name = province_name == "Communex" ? "Kampong Cham" : province_name
+          province_name = province_name == ' Siem Reap' ? "Siemreap" : province_name
           found_province = Province.where("name iLIKE ?", "%#{province_name}")
         end
         if found_province.first.nil?
           found_province = Province.where(name: province_name)
         end
+        puts "#{short_name}: '#{province_name}'"
+        next if ['Community', ' ផ្សេងៗ', ' Outside Cambodia', 'Thailand', 'Burmese', 'Myawaddy'].include?(province_name)
         province_ids << [province.first, [found_province.first.id, provinces_clients[province.first]]]
       end
       Organization.switch_to short_name
@@ -45,5 +48,4 @@ namespace :birth_province_missing do
       end
     end
   end
-
 end
