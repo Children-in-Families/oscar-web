@@ -24,7 +24,7 @@ psql_console:
 
 # Drop the postgres database (if error retry as db service needs to start first)
 db_drop:
-	docker-compose run --entrypoint "rake db:drop" app
+	docker-compose run --entrypoint "rake db:drop" app db
 
 # Create test database (run `make start_core` at least first!)
 db_create_test:

@@ -6,7 +6,7 @@
           %abbr{ title: 'required' } *
           = t('.exit_date')
         .input-group
-          = f.text_field :exit_date, class: 'date optional form-control date-picker leave-program-date', type: 'text', id: 'exit_date'
+          = f.text_field :exit_date, class: 'date optional form-control date-picker', type: 'text', id: 'exit_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
         = f.error :exit_date

@@ -534,11 +534,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       if $(@).val() == 'true'
         $(".domain-#{domainId} .task_required, .domain-#{domainId} .assessment-task-btn").hide()
       else
-        $(".domain-#{domainId} .assessment-task-btn").show()
+        if $("#{currentTab} .score_option.with-def").length > 0
+          scoreOption = $("#{currentTab} .score_option.with-def")
+          chosenScore = scoreOption.find('input.selected-score').val()
+        else if $("#{currentTab} .score_option.without-def").length > 0
+          scoreOption = $("#{currentTab} .score_option.without-def")
+          chosenScore = scoreOption.find('label input:checked').val()
 
-        _handleDisplayTaskWarningMessage(currentTab, domainId)
-
-    _handleDisplayTaskWarningMessage(currentTab, domainId)
+      scoreColor  = scoreOption.data("score-#{chosenScore}")
+      $(".domain-#{domainId} .task_required").show() if ['danger', 'warning'].indexOf(scoreColor) >= 0
 
   _handleDisplayTaskWarningMessage = (currentTab, domainId) ->
     chosenScore = ''
