@@ -5,11 +5,6 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:received_by) }
   it { is_expected.to belong_to(:followed_up_by) }
   it { is_expected.to belong_to(:birth_province) }
-
-  # Client ask to hide #147254199
-  # it { is_expected.to have_one(:government_report).dependent(:destroy) }
-  # it { is_expected.to have_many(:surveys).dependent(:destroy) }
-
   it { is_expected.to have_many(:sponsors).dependent(:destroy) }
   it { is_expected.to have_many(:donors).through(:sponsors) }
   it { is_expected.to have_many(:cases).dependent(:destroy) }
@@ -31,7 +26,7 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:users).through(:case_worker_clients).validate(false) }
 end
 
-describe Client, 'callbacks' do
+xdescribe Client, 'callbacks' do
   before do
     ClientHistory.destroy_all
   end
