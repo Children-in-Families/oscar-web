@@ -14,6 +14,7 @@ services:
       - HISTORY_DATABASE_HOST=mongo
       - OSCAR_TEAM_EMAIL=team@oscarhq.com
       - OSCAR_TEAM_PASSWORD=123456789
+      - SENDER_EMAIL=admin@oscarhq.com
     volumes:
       - .:/app
     ports:

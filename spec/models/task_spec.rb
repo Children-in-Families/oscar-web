@@ -14,9 +14,9 @@ end
 describe Task, 'scopes' do
   let!(:active_client){ create(:client, status: 'Active') }
   let!(:exited_ngo_client){ create(:client, :exited) }
-  let!(:domain){ create(:domain)}
-  let!(:task){ create(:task, domain: domain, client: active_client)}
-  let!(:task_other){ create(:task, client: exited_ngo_client)}
+  let!(:domain){ create(:domain) }
+  let!(:task){ create(:task, domain: domain, client: active_client) }
+  let!(:task_other){ create(:task, client: exited_ngo_client) }
   let!(:completed_task){ create(:task, completed: true) }
   let!(:incomplete_task){ create(:task, completed: false) }
   let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
@@ -28,6 +28,7 @@ describe Task, 'scopes' do
 
   context 'exclude_exited_ngo_clients' do
     subject{ Task.exclude_exited_ngo_clients }
+
     it 'should return records of clients who are not exited the ngo' do
       is_expected.to include(task)
     end
@@ -39,6 +40,7 @@ describe Task, 'scopes' do
 
   context 'by_domain_id' do
     subject{ Task.by_domain_id(domain.id) }
+
     it 'should include by domain task' do
       is_expected.to include(task)
     end
@@ -49,6 +51,7 @@ describe Task, 'scopes' do
 
   context 'completed' do
     subject{ Task.completed }
+
     it 'should include completed task' do
       is_expected.to include(completed_task)
     end
@@ -56,8 +59,10 @@ describe Task, 'scopes' do
       is_expected.not_to include(incomplete_task)
     end
   end
+
   context 'incomplete' do
     subject{ Task.incomplete }
+
     it 'should include incomplete task' do
       is_expected.to include(incomplete_task)
     end
@@ -68,6 +73,7 @@ describe Task, 'scopes' do
 
   context 'overdue' do
     subject{ Task.overdue }
+
     it 'should include overdue task' do
       is_expected.to include(overdue_task)
     end
@@ -79,6 +85,7 @@ describe Task, 'scopes' do
 
   context 'today' do
     subject{ Task.today }
+
     it 'should include today task' do
       is_expected.to include(today_task)
     end
@@ -90,6 +97,7 @@ describe Task, 'scopes' do
 
   context 'upcoming' do
     subject{ Task.upcoming }
+
     it 'should include upcoming task' do
       is_expected.to include(upcoming_task)
     end
@@ -101,6 +109,7 @@ describe Task, 'scopes' do
 
   context 'upcoming within three months' do
     subject{ Task.upcoming_within_three_months }
+
     it 'should include upcoming task within three months' do
       is_expected.to include(upcoming_task)
     end
@@ -111,6 +120,7 @@ describe Task, 'scopes' do
 
   context 'by case note' do
     subject{ Task.by_case_note }
+
     it 'should have relation with case note' do
       is_expected.to include(case_note_task)
     end
@@ -118,6 +128,7 @@ describe Task, 'scopes' do
 
   context 'by assessment' do
     subject{ Task.by_assessment }
+
     it 'should have relation with assessment' do
       is_expected.to include(assessment_task)
     end
@@ -148,6 +159,7 @@ describe Task, 'methods' do
       task.reload
       other_task.reload
     end
+
     it 'should set all task completed' do
       expect(task.completed).to be_truthy
       expect(other_task.completed).to be_truthy
@@ -166,6 +178,7 @@ describe Task, 'methods' do
 
   context 'under' do
     subject{ Task.under(user, client) }
+
     it 'should include task of user under client' do
       is_expected.to include(task)
     end
@@ -185,6 +198,7 @@ describe Task, 'methods' do
     let!(:incomplete_task){ create(:task, domain: domain) }
     let!(:other_task){ create(:task, completed: true) }
     subject { Task.by_case_note_domain_group(cdg) }
+
     it 'should include incomplete tasks and tasks of case_note_domain_group' do
       is_expected.to include(task, incomplete_task)
       is_expected.not_to include(other_task)
