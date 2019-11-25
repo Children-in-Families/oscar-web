@@ -8,7 +8,7 @@ start_all:
 
 # Starts up a rails console in the app container
 rails_console:
-	docker exec -it app rails c 
+	docker exec -it app rails c
 
 # Starts up a guard console in the app container
 guard_console:
