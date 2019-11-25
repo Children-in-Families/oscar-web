@@ -8,7 +8,7 @@ start_all:
 
 # Starts up a rails console in the app container
 rails_console:
-	docker exec -it app rails c 
+	docker exec -it app rails c
 
 # Starts up a guard console in the app container
 guard_console:
@@ -24,7 +24,7 @@ psql_console:
 
 # Drop the postgres database (if error retry as db service needs to start first)
 db_drop:
-	docker-compose run --entrypoint "rake db:drop" app
+	docker-compose run --entrypoint "rake db:drop" app db
 
 # Create test database (run `make start_core` at least first!)
 db_create_test:
