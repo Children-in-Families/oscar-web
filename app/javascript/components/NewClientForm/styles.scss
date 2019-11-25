@@ -80,7 +80,7 @@
   pointer-events: none;
 }
 
-.careInfo {
+.careInfo, .schoolInfo, .donorInfo, .customInfo {
   [data-toggle="collapse"] {
     .fa.fa-chevron-up {
       display: inline-block;

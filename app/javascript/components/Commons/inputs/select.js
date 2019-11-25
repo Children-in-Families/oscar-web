@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { isError, label, required, onChange, asGroup,  ...others } = props
+  const { Multiple, isError, label, required, onChange, asGroup,  ...others } = props
 
   const handleChange = (selectedOption, action) => {
     let data = Array.isArray(selectedOption) ? selectedOption.map(option => option.value) : selectedOption
@@ -18,7 +18,7 @@ export default props => {
 
   return (
     <div className='form-group'>
-      <label style={ isError && customStyles.errorText || {} }>
+      <label style={ isError && customError.errorText || {} }>
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
@@ -28,7 +28,12 @@ export default props => {
         onChange={(option, {action}) => handleChange(option, action)}
         formatGroupLabel={asGroup && formatGroupLabel}
         { ...others }
-        styles={ isError && customError }
+        styles={
+          Object.assign({},
+            customStyles,
+            isError && customError
+          )
+        }
         theme={theme => ({
           ...theme,
           colors: {
@@ -39,7 +44,7 @@ export default props => {
           },
         })}
       />
-      { isError && <span style={customStyles.errorText}>Cannot be blank.</span> }
+      { isError && <span style={customError.errorText}>Cannot be blank.</span> }
     </div>
   )
 }
@@ -47,20 +52,16 @@ export default props => {
 const customStyles = {
   menu: (provided) => ({
     ...provided,
-    zIndex: 1031,
+    zIndex: 1031
   }),
   control: (provided, styles) => ({
     ...provided,
     boxShadow: 'none',
-    borderColor: 'red',
     ':hover': {
       ...styles[':hover'],
       borderColor: '#1ab394',
     },
   }),
-  errorText: {
-    color: 'red'
-  },
 }
 
 const customError = {
@@ -68,4 +69,7 @@ const customError = {
     ...provided,
     borderColor: 'red',
   }),
+  errorText: {
+    color: 'red'
+  }
 }

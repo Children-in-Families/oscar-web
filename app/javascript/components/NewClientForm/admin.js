@@ -45,7 +45,7 @@ export default props => {
           <SelectInput
             required
             isError={errorFields.includes('user_id')}
-            label='Case Worker / Assigned Staff Memger'
+            label='Case Worker / Assigned Staff Manager'
             isMulti
             options={userLists}
             onChange={onChange('client','user_id')} />

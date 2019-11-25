@@ -17,6 +17,8 @@
                                                       selectedCountry: selected_country, client: @client, users: @users,
                                                       referralSourceCategory: @referral_source_category, referralSource: @referral_source,
                                                       birthProvinces: @birth_provinces, currentProvinces: @current_provinces, district: @districts,
-                                                      commune: @communes, village: @villages} })
+                                                      commune: @communes, village: @villages, donors: @donors, agencies: @agencies, quantitativeType: QuantitativeType.all,
+                                                      quantitativeCase: QuantitativeCase.all,
+                                                      schoolGrade: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose} })
         - else
           = render 'form'
