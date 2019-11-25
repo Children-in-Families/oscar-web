@@ -22,19 +22,19 @@ namespace :change_client_province do
     end
     puts 'change province done!!'
     Organization.switch_to 'shared'
-    Province.find_by(id: 345).destroy
-    Province.find_by(id: 35).destroy
-    Province.find_by(id: 55).destroy
+    Province.find_by(id: 345).try(:destroy)
+    Province.find_by(id: 35).try(:destroy)
+    Province.find_by(id: 55).try(:destroy)
     #Malaysia
-    Province.find_by(id: 77).destroy
+    Province.find_by(id: 77).try(:destroy)
     #Thailand
-    Province.find_by(id: 93).destroy
+    Province.find_by(id: 93).try(:destroy)
     #Myanmar
-    Province.find_by(id: 101).destroy
+    Province.find_by(id: 101).try(:destroy)
     #Burmese
-    Province.find_by(id: 99).destroy
+    Province.find_by(id: 99).try(:destroy)
     #Myawaddy
-    Province.find_by(id: 52).destroy
+    Province.find_by(id: 52).try(:destroy)
     puts 'destroy province done !!'
   end
 end
