@@ -42,11 +42,7 @@ module AdvancedSearches
         basic_rules = $param_rules['basic_rules']
         basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
         results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-        if results.first.count == 2
-          query_string = get_assessment_without_complated_date_query_string(results, identity, @domain_id)
-        else
-          query_string = get_assessment_query_string(results, identity, @domain_id)
-        end
+        query_string = get_assessment_query_string(results, identity, @domain_id)
 
         clients = clients.where(query_string)
         clients.ids

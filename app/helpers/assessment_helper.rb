@@ -118,17 +118,10 @@ module AssessmentHelper
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-
-      if results.first.count == 2
-        query_string = get_assessment_without_complated_date_query_string(results, identity, domain_id, object.id)
-      else
-        query_string = get_assessment_query_string(results, identity, domain_id, object.id)
-      end
+      query_string = get_assessment_query_string(results, identity, domain_id, object.id)
 
       assessments = object.assessments.joins(:assessment_domains).where(query_string).distinct
-
       serivce_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
-
     end
     assessment_domains = assessments.map{|assessment| assessment.assessment_domains.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
   end
@@ -165,22 +158,14 @@ module AssessmentHelper
           beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{h[:value]} - 1"
           end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{h[:value]} - 1"
           "DATE(assessments.created_at) between (#{beginning_of_month}) AND (#{end_of_month})"
-        elsif h[:field] == 'date_nearest'
-          "date(assessments.created_at) <= '#{h[:value]}'"
-        end
-      end.join(" #{condition} ")
-    end
-  end
+        elsif h[:field] == 'assessment_has_changed'
+          # limit_assessments = client.assessments.order(:created_at).offset(@value.first.to_i - 1).limit(@value.last.to_i - (@value.first.to_i - 1))
+          "assessment_domains.domain_id = #{domain_id} and assessment_domains.previous_score != assessment_domains.score WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT #{@value.last.to_i - (@value.first.to_i - 1)} OFFSET #{@value.first.to_i - 1}"
+        elsif h[:field] == 'assessment_has_not_changed'
 
-  def get_assessment_without_complated_date_query_string(results, identity, domain_id, client_id=nil)
-    results.map do |result|
-      condition = ''
-      result.map do |h|
-        condition = h[:condition]
-        if h[:field] == identity
-          assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
-        elsif h[:field] == 'assessment_number'
-          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
+        elsif h[:field] == 'month_has_changed'
+        elsif h[:field] == 'month_has_not_changed'
+
         elsif h[:field] == 'date_nearest'
           "date(assessments.created_at) <= '#{h[:value]}'"
         end
