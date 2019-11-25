@@ -13,7 +13,7 @@ class Case < ActiveRecord::Base
   scope :non_emergency,  -> { where.not(case_type: 'EC') }
   scope :kinships,       -> { where(case_type: 'KC') }
   scope :fosters,        -> { where(case_type: 'FC') }
-  scope :most_recents,   -> { order('created_at desc') }
+  scope :most_recents,   -> { order('id, created_at desc') }
   scope :last_exited,    -> { order('exit_date desc').first }
   scope :active,         -> { where(exited: false) }
   scope :inactive,       -> { where(exited: true) }

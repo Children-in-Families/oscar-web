@@ -30,7 +30,7 @@ module AdvancedSearches
 
       query_string  = get_query_string(results, 'tracking', properties_field)
 
-      properties_result = client_enrollment_trackings.where(query_string.join(" AND "))
+      properties_result = client_enrollment_trackings.where(query_string.reject(&:blank?).join(" AND "))
 
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
       {id: sql_string, values: client_ids}

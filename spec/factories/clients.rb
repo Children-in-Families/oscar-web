@@ -14,6 +14,7 @@ FactoryGirl.define do
     school_grade '4'
     relevant_referral_information { FFaker::Lorem.paragraph }
     referral_source_category_id 4
+
     association :received_by, factory: :user
 
     before(:create) do |client|
