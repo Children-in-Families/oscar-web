@@ -47,7 +47,7 @@ module AdvancedSearches
         clients = clients.where(query_string)
         clients.ids
       end
-      # assessment_domains = assessments.map{|assessment| assessment.assessment_domains.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
+
       # if @basic_rules.third.nil?
       #   basic_rules = $param_rules['basic_rules']
       #   basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
