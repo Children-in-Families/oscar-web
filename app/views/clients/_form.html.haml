@@ -1,4 +1,5 @@
-- data = {internationalReferredClient: international_referred_client, selectedCountry: selected_country, client: { client: @client, userIds: @client.user_ids }, users: case_workers_option(@client.id), referralSourceCategory: @referral_source_category, referralSource: @referral_source, birthProvinces: @birth_provinces, currentProvinces: @current_provinces, district: @districts, commune: @communes, village: @villages}
+- data = {internationalReferredClient: international_referred_client, selectedCountry: selected_country, client: { client: @client, userIds: @client.user_ids }, users: case_workers_option(@client.id), referralSourceCategory: @referral_source_category, referralSource: @referral_source, birthProvinces: @birth_provinces, currentProvinces: @current_provinces, district: @districts, commune: @communes, village: @villages, donors: @donors, agencies: @agencies, quantitativeType: QuantitativeType.all, quantitativeCase: QuantitativeCase.all, schoolGrade: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose}
+
 = react_component('NewClientForm', { data: data })
 -# = simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
 -#   %p.hide#client-id= @client.id

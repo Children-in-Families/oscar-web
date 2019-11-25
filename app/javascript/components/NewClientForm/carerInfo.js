@@ -13,26 +13,27 @@ export default props => {
 
   return (
     <div id={id} className="collapse">
+      <br/>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Name" onChange={onChange('referee', 'name')} />
+          <TextInput label="Name" onChange={onChange('client', 'gov_carer_name')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} />
+          <SelectInput label="Gender" options={genderLists} onChange={onChange('client', 'gov_carer_gender')} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Carer Phone Number" onChange={onChange('referee', 'carer_phone_number')} />
+          <TextInput label="Carer Phone Number" onChange={onChange('client', 'gov_carer_phone')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Carer Email Address" onChange={onChange('referee', 'carer_email')} />
+          <TextInput label="Carer Email Address" onChange={onChange('client', 'gov_carer_email')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Relationship to Client" options={blank} onChange={onChange('referee', 'relationship_client')} />
+          <SelectInput label="Relationship to Client" options={blank} onChange={onChange('client', 'gov_carer_relationship')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Carer Phone Number" options={blank} onChange={onChange('referee', 'carer_phone_number')} />
+          <SelectInput label="Family Record" options={blank} onChange={onChange('client', 'family_name')} />
         </div>
       </div>
       <legend>
@@ -41,39 +42,39 @@ export default props => {
             <p>Address</p>
           </div>
           <div className="col-xs-3">
-            <Checkbox label="Same as Client" onChange={onChange('referee', 'same_client')} />
+            <Checkbox label="Same as Client" onChange={onChange('client', 'same_client')} />
           </div>
           <div className="col-xs-3">
-            <Checkbox label="Outside Cambodia" onChange={onChange('referee', 'outside_cambodia')} />
+            <Checkbox label="Outside Cambodia" onChange={onChange('client', 'outside_cambodia')} />
           </div>
         </div>
       </legend>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput label="Province" options={birthProvincesLists} onChange={onChange('referee', 'province_id')} />
+          <SelectInput label="Province" options={birthProvincesLists} onChange={onChange('client', 'gov_carer_city')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="District / Khan" options={blank} onChange={onChange('referee', 'district_id')} />
+          <SelectInput label="District / Khan" options={blank} onChange={onChange('client', 'gov_carer_district')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Commune / Sangkat" options={blank} onChange={onChange('referee', 'commune_id')} />
+          <SelectInput label="Commune / Sangkat" options={blank} onChange={onChange('client', 'gov_carer_commune')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Village" options={blank} onChange={onChange('referee', 'village_id')} />
+          <SelectInput label="Village" options={blank} onChange={onChange('client', 'gov_carer_village')} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Street Number" onChange={onChange('referee', 'street_number')} />
+          <TextInput label="Street Number" onChange={onChange('client', 'gov_carer_street')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="House Number" onChange={onChange('referee', 'house_number')} />
+          <TextInput label="House Number" onChange={onChange('client', 'gov_carer_home')} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Address Name" onChange={onChange('referee', 'address_name')} />
+          <TextInput label="Address Name" onChange={onChange('client', 'address_name')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Address Type" options={blank} onChange={onChange('referee', 'address_type')} />
+          <SelectInput label="Address Type" options={blank} onChange={onChange('client', 'address_type')} />
         </div>
       </div>
     </div>

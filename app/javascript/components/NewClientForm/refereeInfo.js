@@ -31,12 +31,15 @@ export default props => {
           <div className="col-xs-3">
             <p>Referee Information</p>
           </div>
-          <div className="col-xs-3">
-            <Checkbox label="Anonymous Referee" onChange={onChange('referee', 'referee_anonymous_referee')}/>
-          </div>
         </div>
       </legend>
 
+      <div className="row">
+        <div className="col-xs-3">
+          <Checkbox label="Anonymous Referee" onChange={onChange('referee', 'referee_anonymous_referee')} />
+        </div>
+      </div>
+      <br/>
       <div className="row">
         <div className=" col-xs-3">
           <TextInput

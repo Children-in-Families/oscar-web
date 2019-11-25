@@ -10,7 +10,7 @@ const Forms = props => {
   const {
     data: {
       client: { client, userIds }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, district, commune, village
+      currentProvinces, district, commune, village, donors, agencies, schoolGrade, quantitativeType, quantitativeCase
     }
   } = props
 
@@ -26,7 +26,8 @@ const Forms = props => {
   const [refereeData, setrefereeData] = useState(referee)
 
   const gettingStartData = { client: clientData, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
-                            internationalReferredClient, currentProvinces, district, commune, village, errorFields
+                            internationalReferredClient, currentProvinces, district, commune, village, errorFields,
+                            donors, agencies, schoolGrade, quantitativeType, quantitativeCase
                           }
 
   const tabs = [

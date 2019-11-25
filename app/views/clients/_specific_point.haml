@@ -12,5 +12,4 @@
             .col-xs-12
               %label{ title: qt.name }= qt.name
               = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name),  data: { readonly: quantitative_type_cannot_editable?(qt.id) } }
-
 .loader.loader-default{"data-text" => t('processing')}
