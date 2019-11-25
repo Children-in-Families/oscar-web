@@ -5,8 +5,12 @@ export default props => {
   const { Multiple, isError, label, required, onChange, asGroup,  ...others } = props
 
   const handleChange = (selectedOption, action) => {
-    let data = Array.isArray(selectedOption) ? selectedOption.map(option => option.value) : selectedOption
-    data = action === 'clear' ? null : data.value
+    let data
+    if (Array.isArray(selectedOption))
+      data = action === 'clear' ? [] : selectedOption.map(option => option.value)
+    else
+      data = action === 'clear' ? null : selectedOption.value
+
     onChange(data)
   }
 
