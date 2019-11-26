@@ -6,12 +6,12 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, birthProvinces, referralSourceCategory, referralSource, currentProvinces, district, commune, village, errorFields} } = props
+  const { onChange, data: { client, currentProvinces, referralSourceCategory, referralSource, currentDistricts, currentCommunes, currentVillages, errorFields} } = props
 
   const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const addressType = [{label: 'Floor', value: 'floor'}, {label: 'Building', value: 'building'}, {label: 'Office', value: 'office'}]
-  const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
+
   const referralSourceCategoryLists = referralSourceCategory.map(catgeory => ({label: catgeory[0], value: catgeory[1]}))
   const currentProvincesLists = currentProvinces.map(province => ({label: province.name, value: province.id}))
 
@@ -66,12 +66,10 @@ export default props => {
         <div className="col-xs-3">
           <SelectInput
             required
-            // isError={errorFields.includes('referee_referral_source_catgeory_id')}
             isError={errorFields.includes('referral_source_category_id')}
             label="Referral Source Catgeory"
             options={referralSourceCategoryLists}
             value={getSeletedObject(referralSourceCategoryLists, client.referral_source_category_id)}
-            // onChange={onChange('referee', 'referee_referral_source_catgeory_id')}
             onChange={onChange('client', 'referral_source_category_id')}
           />
         </div>

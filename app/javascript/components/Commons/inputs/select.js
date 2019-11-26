@@ -24,23 +24,7 @@ export default props => {
   const [selected, setselected] = useState(getSeletedObject(props.value) || null)
 
   const handleChange = (selectedOption, { action, removedValue }) => {
-    console.log("TCL: handleChange -> selectedOption", selectedOption)
-    console.log("TCL: handleChange -> removedValue", removedValue)
-    console.log("TCL: handleChange -> action", action)
     let data
-
-    // if (Array.isArray(selectedOption)) {
-    //   switch(action) {
-    //     case 'clear':
-    //       selectedOption = options.filter(option => option.isFixed)
-    //       break
-    //     case 'remove-value':
-    //       if(removedValue.isFixed)
-    //         return
-    //       break
-    //   }
-    //   data = selectedOption.map(option => option.value)
-    // }
 
     if (isMulti) {
       switch(action) {
@@ -56,12 +40,6 @@ export default props => {
     } else {
       data = action === 'clear' ? null : selectedOption.value
     }
-
-    // got error when selectedOption === null
-    // } else if (selectedOption === null)
-    //   data = []
-    // else
-    //   data = action === 'clear' ? null : selectedOption.value
 
     setselected(selectedOption)
     onChange(data)

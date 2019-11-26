@@ -6,7 +6,6 @@ import {
 
 export default props => {
   const { onChange, data: { users, client, errorFields } } = props
-  console.log("TCL: client", client)
   // const userLists = users.map(user => ({label: user.first_name + ' ' + user.last_name, value: user.id}))
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 

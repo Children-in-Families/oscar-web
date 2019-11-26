@@ -7,11 +7,11 @@ import {
 }                                 from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, birthProvinces, currentProvinces, errorFields } } = props
+  const { onChange, data: { client, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields } } = props
 
-  const [districts, setdistricts] = useState([])
-  const [communes, setcommunes] = useState([])
-  const [villages, setvillages] = useState([])
+  const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})) || [])
+  const [communes, setcommunes] = useState(currentCommunes.map(commune => ({label: commune.name, value: commune.id})) || [])
+  const [villages, setvillages] = useState(currentVillages.map(village => ({label: village.name, value: village.id})) || [])
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
 
   const blank = []
@@ -19,20 +19,6 @@ export default props => {
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const addressType = [{label: 'Floor', value: 'floor'}, {label: 'Building', value: 'building'}, {label: 'Office', value: 'office'}]
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
-
-  // const getSeletedObject = (obj, id) => {
-  //   let object = {}
-  //   obj.forEach(list => {
-  //     if (list.value === id)
-  //     object = list
-  //   })
-  //   return object
-  // }
-
-  // const [selectedProvince, setselectedProvince] = useState(getSeletedObject(provinces, client.province_id))
-  // const [selectedDistrict, setselectedDistrict] = useState(getSeletedObject(districts, client.district_id))
-  // const [selectedCommune, setselectedCommune] = useState(getSeletedObject(communes, client.commune_id))
-  // const [selectedVillage, setselectedVillage] = useState(getSeletedObject(villages, client.village_id))
 
   const [selectedProvince, setselectedProvince] = useState(client.province_id)
   const [selectedDistrict, setselectedDistrict] = useState(client.district_id)
@@ -42,34 +28,20 @@ export default props => {
   const onChangeParent = object => data => {
     const { parent, child, field, obj } = object
     const functions = [setselectedDistrict, setselectedCommune, setselectedVillage]
-    // let selectedOption = ''
+
     if (parent === 'provinces') {
-      // selectedOption = getSeletedObject(provinces, data)
-      // setselectedProvince(selectedOption)
       setselectedProvince(data)
       onChange(obj, {district_id: null, commune_id: null, village_id: null, [field]: data || null})()
       functions.forEach(func => func(null))
-      // setselectedDistrict(null)
-      // setselectedCommune(null)
-      // setselectedVillage(null)
     } else if (parent === 'districts') {
-      // selectedOption = getSeletedObject(districts, data)
-      // setselectedDistrict(selectedOption)
       setselectedDistrict(data)
       onChange(obj, {commune_id: null, village_id: null, [field]: data || null})()
       functions.splice(0, 1).forEach(func => func(null))
-      // setselectedCommune(null)
-      // setselectedVillage(null)
     } else if (parent === 'communes') {
-      // selectedOption = getSeletedObject(communes, data)
-      // setselectedCommune(selectedOption)
       setselectedCommune(data)
       onChange(obj, {village_id: null, [field]: data || null})()
       functions.splice(0, 2).forEach(func => func(null))
-      // setselectedVillage(null)
     } else if (parent === 'villages') {
-      // selectedOption = getSeletedObject(villages, data)
-      // setselectedVillage(selectedOption)
       setselectedVillage(data)
       onChange(obj, {[field]: data || null})()
     }else{
@@ -99,16 +71,16 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Given Name (Latin)" onChange={onChange('client', 'given_name')} />
+          <TextInput label="Given Name (Latin)" onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Family Name (Latin)" onChange={onChange('client', 'family_name')} />
+          <TextInput label="Family Name (Latin)" onChange={onChange('client', 'family_name')} value={client.family_name} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Given Name(Khmer)" onChange={onChange('client', 'local_given_name')} />
+          <TextInput label="Given Name(Khmer)" onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Family Name (Khmer)" onChange={onChange('client', 'local_family_name')}  />
+          <TextInput label="Family Name (Khmer)" onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
         </div>
       </div>
       <div className="row">
@@ -118,6 +90,7 @@ export default props => {
             isError={errorFields.includes('gender')}
             label="Gender"
             options={genderLists}
+            value={client.gender}
             onChange={onChange('client', 'gender')}
           />
         </div>
@@ -152,7 +125,6 @@ export default props => {
             asGroup
             label="Province"
             options={provinces}
-            // value={!$.isEmptyObject(selectedProvince) && selectedProvince || null }
             value={selectedProvince}
             onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: 'client', field: 'province_id'})}
           />
@@ -161,7 +133,6 @@ export default props => {
           <SelectInput
             label="District / Khan"
             options={districts}
-            // value={!$.isEmptyObject(selectedDistrict) && selectedDistrict || null}
             value={selectedDistrict}
             onChange={onChangeParent({parent: 'districts', child: 'communes', obj: 'client', field: 'district_id'})}
           />

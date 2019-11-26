@@ -33,6 +33,25 @@ module Api
       end
     end
 
+    def update
+      client = Client.find(params[:client][:id])
+      Family.where('children @> ARRAY[?]::integer[]', [client.id]).each do |family|
+        family.children = family.children - [@client.id]
+        family.save(validate: false)
+      end
+
+      if client.update_attributes(client_params)
+        if params[:client][:assessment_id]
+          assessment = Assessment.find(params[:client][:assessment_id])
+          # redirect_to client_assessment_path(client, assessment), notice: t('.assessment_successfully_created')
+        else
+          render json: { id: client.slug }, status: :ok
+        end
+      else
+        render json: client.errors, status: :unprocessable_entity
+      end
+    end
+
     private
 
     def client_params

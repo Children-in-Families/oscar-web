@@ -10,23 +10,22 @@ const Forms = props => {
   const {
     data: {
       client: { client, userIds }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, district, commune, village, donors, agencies, schoolGrade, quantitativeType, quantitativeCase
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase
     }
   } = props
 
-  const referee = {
-    id: null,
-    referee_name: '',
-    referee_referral_source_catgeory_id: null
-  }
-
+  const [saving, setSaving] = useState(false)
   const [errorFields, seterrorFields] = useState([])
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState({ user_ids: userIds, ...client })
-  const [refereeData, setrefereeData] = useState(referee)
+  const [refereeData, setrefereeData] = useState({})
+
+  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces  }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
+  const clientTabData = { errorFields, client: clientData, birthProvinces, ...address  }
 
   const gettingStartData = { client: clientData, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
-                            internationalReferredClient, currentProvinces, district, commune, village, errorFields,
+                            internationalReferredClient, currentProvinces, districts, communes, villages, errorFields,
                             donors, agencies, schoolGrade, quantitativeType, quantitativeCase
                           }
 
@@ -53,6 +52,7 @@ const Forms = props => {
 
   const onChange = (obj, field) => event => {
     const value = (typeof event === 'object' && !Array.isArray(event) && event !== null) ?  event.target.value : event
+    console.log("TCL: value", value)
 
     if (typeof field !== 'object')
       field = { [field]: value }
@@ -70,7 +70,7 @@ const Forms = props => {
   const handleValidation = () => {
     const components = [
       // { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
-      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_catgeory_id'] },
+      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
       { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }
@@ -106,11 +106,18 @@ const Forms = props => {
   }
 
   const handleSave = () => {
-    if (handleValidation())
-      $.post('/api/clients', { client: { ...refereeData, ...clientData } })
-        .done(response =>  document.location.href=`/clients/${response.id}?notice=success`)
-        .fail(error => console.log(error))
-        // .catch(error => console.log(error))
+    if (handleValidation()) {
+      const action = clientData.id ? 'PUT' : 'POST'
+      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
+      $.ajax({
+        url,
+        type: action,
+        data: { client: { ...refereeData, ...clientData } }
+      }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+    }
+    // $.post('/api/clients', { client: { ...refereeData, ...clientData } })
+    //   .done(response =>  document.location.href=`/clients/${response.id}?notice=success`)
+    //   .fail(error => console.log(error))
   }
 
   const buttonPrevious = () => {
@@ -118,7 +125,6 @@ const Forms = props => {
   }
 
   console.log('clientData', clientData)
-  // console.log('refereeData', refereeData)
 
   return (
     <div className='container'>
@@ -133,11 +139,11 @@ const Forms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={gettingStartData} onChange={onChange} />
+            <RefereeInfo data={refereeTabData} onChange={onChange} />
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={gettingStartData} onChange={onChange} />
+            <ReferralInfo data={clientTabData} onChange={onChange} />
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
