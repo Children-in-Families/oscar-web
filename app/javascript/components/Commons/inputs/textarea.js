@@ -5,19 +5,11 @@ export default props => {
   return (
     <div className='form-group'>
       <label style={isError && styles.errorText || {}}>
-        { required && <abbr title='required'>* </abbr> }
+        {required && <abbr title='required'>* </abbr>}
         {label}
       </label>
-      <input
-        className='form-control'
-        onChange={onChange}
-        style={
-          Object.assign({},
-            isError && styles.errorInput,
-          )
-        }
-      />
-      { isError && <span style={styles.errorText}>Cannot be blank.</span> }
+      <textarea className="form-control col-md-12" style={styles.heightBox} onChange={onChange} />
+      {isError && <span style={styles.errorText}>Cannot be blank.</span>}
     </div>
   )
 }
@@ -29,4 +21,7 @@ const styles = {
   errorInput: {
     borderColor: 'red'
   },
+  heightBox: {
+    height: '100px'
+  }
 }

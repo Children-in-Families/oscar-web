@@ -4,12 +4,13 @@ import {
   TextInput,
   Checkbox
 }             from '../Commons/inputs'
+import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { birthProvinces } } = props
+  const { onChange, id, data: {client, birthProvinces, currentProvinces } } = props
   const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
-  const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
+  // const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
 
   return (
     <div id={id} className="collapse">
@@ -49,34 +50,7 @@ export default props => {
           </div>
         </div>
       </legend>
-      <div className="row">
-        <div className="col-xs-3">
-          <SelectInput label="Province" options={birthProvincesLists} onChange={onChange('client', 'gov_carer_city')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="District / Khan" options={blank} onChange={onChange('client', 'gov_carer_district')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="Commune / Sangkat" options={blank} onChange={onChange('client', 'gov_carer_commune')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="Village" options={blank} onChange={onChange('client', 'gov_carer_village')} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-3">
-          <TextInput label="Street Number" onChange={onChange('client', 'gov_carer_street')} />
-        </div>
-        <div className="col-xs-3">
-          <TextInput label="House Number" onChange={onChange('client', 'gov_carer_home')} />
-        </div>
-        <div className="col-xs-3">
-          <TextInput label="Address Name" onChange={onChange('client', 'address_name')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="Address Type" options={blank} onChange={onChange('client', 'address_type')} />
-        </div>
-      </div>
+      <Address onChange={onChange} data={{ currentProvinces, client }} />
     </div>
   )
 }

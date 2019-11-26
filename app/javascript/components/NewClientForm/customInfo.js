@@ -1,6 +1,7 @@
 import React from 'react'
 import {
-  TextInput
+  TextInput,
+  TextArea
 } from '../Commons/inputs'
 
 export default props => {
@@ -19,11 +20,7 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-12">
-          <TextInput
-            textArea
-            label="Relevant Referral Information / Notes"
-            onChange={onChange('client', 'relevant_referral_information')}
-          />
+          <TextArea label="Relevant Referral Information / Notes" onChange={onChange('client', 'relevant_referral_information')} />
         </div>
       </div>
     </div>

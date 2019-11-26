@@ -10,7 +10,7 @@ const Forms = props => {
   const {
     data: {
       client, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, district, commune, village, donors, agencies, schoolGrade, quantitativeType, quantitativeCase
+      currentProvinces, district, commune, village, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor
     }
   } = props
 
@@ -24,10 +24,9 @@ const Forms = props => {
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState(client)
   const [refereeData, setrefereeData] = useState(referee)
-
   const gettingStartData = { client, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
                             internationalReferredClient, currentProvinces, district, commune, village, errorFields,
-                            donors, agencies, schoolGrade, quantitativeType, quantitativeCase
+                            donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor
                           }
 
   const tabs = [
@@ -70,7 +69,7 @@ const Forms = props => {
   const handleValidation = () => {
     const components = [
       // { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
-      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_catgeory_id'] },
+      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
       { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }

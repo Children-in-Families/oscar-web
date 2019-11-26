@@ -5,7 +5,7 @@ import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 
 export default props => {
-  const { onChange, data: { birthProvinces, donors, agencies, schoolGrade } } = props
+  const { onChange, data: { client, currentProvinces, donors, agencies, schoolGrade } } = props
 
   return (
     <div className="container">
@@ -34,7 +34,7 @@ export default props => {
           </div>
         </div>
       </div>
-      <CareInfo id="careInfo" data={{birthProvinces}} onChange={onChange} />
+      <CareInfo id="careInfo" data={{ currentProvinces, client }} onChange={onChange} />
 
       <hr/>
       <div className="row">
@@ -76,7 +76,7 @@ export default props => {
           </div>
         </div>
       </div>
-      <CustomInfo id="customInfo" data={{ donors, agencies }} onChange={onChange} />
+      <CustomInfo id="customInfo" onChange={onChange} />
 
       <hr/>
     </div>

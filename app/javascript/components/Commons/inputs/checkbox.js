@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import Checkbox from 'react-simple-checkbox';
 
 export default props => {
-  const { onChange } = props
+  const { onChange, setCheck } = props
   const [ checked, setChecked] = useState(false)
 
   const handleCheck = boolean => {
     setChecked(boolean)
     onChange(boolean)
+    setCheck(boolean)
   }
 
   return (
