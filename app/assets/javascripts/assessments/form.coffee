@@ -219,10 +219,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           isTaskRequred = true
           $.each $("#rootwizard-p-#{currentIndex} [id^='domain-task-section']"), (index, item) ->
             if $(item).find('ol.tasks-list li').length
-              $(item).find('p.task_required').hide()
+              $(item).find('.task_required').hide()
             else
               isTaskRequred = false
-              $(item).find('p.task_required').show()
+              $(item).find('.task_required').show()
 
           return isTaskRequred
         else
