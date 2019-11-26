@@ -32,7 +32,7 @@ namespace :change_client_profile do
         client.province_id = province_id
         client.district_id = district_id
         client.commune_id = commune_id
-        client.village_id = village_ids.samp
+        client.village_id = village_ids.sample
         client.birth_province_id = birth_province_ids.sample
 
         client.save(validate: false)
