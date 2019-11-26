@@ -205,8 +205,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           if $('#rootwizard').find('a[href="#finish"]:visible').length
             $("#rootwizard a[href='#save']").hide()
 
-          $("#rootwizard a[href='#previous']").on 'click', (e) ->
-            $("#rootwizard a[href='#save']").show()
           _toggleEndOfAssessmentMsg()
           _liveGoal()
 
