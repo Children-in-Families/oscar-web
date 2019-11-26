@@ -61,7 +61,7 @@ export default props => {
           />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Is client rated for ID Poor?" options={rateLists} onChange={onChange('client', 'rated_for_id_poor')} />
+          <SelectInput label="Is client rated for ID Poor?" options={rateLists} value={client.rated_for_id_poor} onChange={onChange('client', 'rated_for_id_poor')} />
         </div>
       </div>
       <legend>

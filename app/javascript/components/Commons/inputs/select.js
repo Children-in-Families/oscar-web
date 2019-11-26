@@ -1,16 +1,69 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { Multiple, isError, label, required, onChange, asGroup,  ...others } = props
+  const { value, options, isMulti, isError, label, required, onChange, asGroup,  ...others } = props
 
-  const handleChange = (selectedOption, action) => {
+
+  const getSeletedObject = () => {
+    if(options) {
+      let object = []
+
+      options.forEach(option => {
+        if (Array.isArray(value)) {
+          if (value.includes(option.value))
+          object.push(option)
+        } else if (option.value === value)
+        object = option
+      })
+
+      return $.isEmptyObject(object) ? null : object
+    }
+  }
+
+  const [selected, setselected] = useState(getSeletedObject(props.value) || null)
+
+  const handleChange = (selectedOption, { action, removedValue }) => {
+    console.log("TCL: handleChange -> selectedOption", selectedOption)
+    console.log("TCL: handleChange -> removedValue", removedValue)
+    console.log("TCL: handleChange -> action", action)
     let data
-    if (Array.isArray(selectedOption))
-      data = action === 'clear' ? [] : selectedOption.map(option => option.value)
-    else
-      data = action === 'clear' ? null : selectedOption.value
 
+    // if (Array.isArray(selectedOption)) {
+    //   switch(action) {
+    //     case 'clear':
+    //       selectedOption = options.filter(option => option.isFixed)
+    //       break
+    //     case 'remove-value':
+    //       if(removedValue.isFixed)
+    //         return
+    //       break
+    //   }
+    //   data = selectedOption.map(option => option.value)
+    // }
+
+    if (isMulti) {
+      switch(action) {
+        case 'clear':
+          selectedOption = options.filter(option => option.isFixed)
+          break
+        case 'remove-value':
+          if(removedValue.isFixed)
+            return
+          break
+      }
+      data = selectedOption === null ? [] : selectedOption.map(option => option.value)
+    } else {
+      data = action === 'clear' ? null : selectedOption.value
+    }
+
+    // got error when selectedOption === null
+    // } else if (selectedOption === null)
+    //   data = []
+    // else
+    //   data = action === 'clear' ? null : selectedOption.value
+
+    setselected(selectedOption)
     onChange(data)
   }
 
@@ -28,9 +81,12 @@ export default props => {
       </label>
 
       <Select
-        isClearable
-        onChange={(option, {action}) => handleChange(option, action)}
+        isMulti={isMulti}
+        isClearable={options.some(v => !v.isFixed)}
+        onChange={handleChange}
         formatGroupLabel={asGroup && formatGroupLabel}
+        value={selected}
+        options={options}
         { ...others }
         styles={
           Object.assign({},

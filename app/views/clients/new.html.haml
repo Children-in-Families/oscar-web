@@ -12,12 +12,4 @@
           - if @referral.present?
             = link_to t('.download_supporting_document'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
       .ibox-content
-        - if current_organization.short_name == 'aht'
-          = react_component('NewClientForm', { data: { internationalReferredClient: international_referred_client,
-                                                      selectedCountry: selected_country, client: @client, users: @users,
-                                                      referralSourceCategory: @referral_source_category, referralSource: ReferralSource.all,
-                                                      birthProvinces: @birth_provinces, currentProvinces: @current_provinces, district: @districts,
-                                                      commune: @communes, village: @villages, donors: @donors, agencies: @agencies, quantitativeType: QuantitativeType.all,
-                                                      quantitativeCase: QuantitativeCase.all, ratePoor: [t('clients.level').values, Client::CLIENT_LEVELS].transpose, schoolGrade: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose} })
-        - else
-          = render 'form'
+        = render 'form'
