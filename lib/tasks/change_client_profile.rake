@@ -23,14 +23,17 @@ namespace :change_client_profile do
           commune_ids          = District.find(district_id).commune_ids if district_id.present?
           commune_id           = commune_ids.sample
           village_ids          = Commune.find(commune_id).village_ids if commune_id.present?
-          province_ids         = province_ids - [client.birth_province_id]
         end
+
+        country_name = Setting.first.country_name
+        client_birth_province = client.birth_province_id.present? ? " AND shared.provinces.id != #{client.birth_province_id}" : ''
+        birth_province_ids = ActiveRecord::Base.connection.execute("SELECT id FROM shared.provinces WHERE country = '#{country_name}'#{client_birth_province}").values.flatten
 
         client.province_id = province_id
         client.district_id = district_id
         client.commune_id = commune_id
         client.village_id = village_ids.sample
-        client.birth_province_id = province_ids.sample
+        client.birth_province_id = birth_province_ids.sample
 
         client.save(validate: false)
       end

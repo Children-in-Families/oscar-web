@@ -1099,7 +1099,7 @@ module ClientsHelper
     end
   end
 
-  def remove_rule_when_program_stream_remove(advanced_search)
-    # binding.pry
+  def client_donors
+    @client.donors.distinct
   end
 end

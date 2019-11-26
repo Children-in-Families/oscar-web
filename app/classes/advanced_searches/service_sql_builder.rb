@@ -10,12 +10,12 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
 
-      clients = Client.includes(program_streams: [program_stream_services: :service]).references(:program_streams)
+      clients = Client.includes(program_streams: [program_stream_services: :service]).references(:services)
 
       results = mapping_program_stream_service_param_value(@basic_rules)
       query_string = get_program_service_query_string(results)
 
-      client_services = clients.where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
+      client_services = clients.where(query_string.reject(&:blank?).join(" AND ")).references(:services)
 
       { id: sql_string, values: client_services.ids.uniq }
     end
