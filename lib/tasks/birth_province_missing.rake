@@ -1,5 +1,5 @@
 namespace :birth_province_missing do
-  desc "TODO"
+  desc "Restoring missing client birth_province"
   task restore: :environment do
     Organization.pluck(:short_name).each do |short_name|
       province_ids = []
@@ -20,6 +20,8 @@ namespace :birth_province_missing do
           province_name = province_name == " Oddar Meanchay" ? " Oddar Meanchey" : province_name
           province_name = province_name == "Communex" ? "Kampong Cham" : province_name
           province_name = province_name == ' Siem Reap' ? "Siemreap" : province_name
+          province_name = province_name == ' Preah Sihannouk' ? "Preah Sihanouk" : province_name
+          province_name = province_name == 'Poipet' ? "Banteay Meanchey" : province_name
           found_province = Province.where("name iLIKE ?", "%#{province_name}")
         end
         if found_province.first.nil?
