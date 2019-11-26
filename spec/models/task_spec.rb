@@ -12,125 +12,133 @@ describe Task, 'validations' do
 end
 
 describe Task, 'scopes' do
-  let!(:active_client){ create(:client, status: 'Active') }
-  let!(:exited_ngo_client){ create(:client, :exited) }
-  let!(:domain){ create(:domain) }
-  let!(:task){ create(:task, domain: domain, client: active_client) }
-  let!(:task_other){ create(:task, client: exited_ngo_client) }
-  let!(:completed_task){ create(:task, completed: true) }
-  let!(:incomplete_task){ create(:task, completed: false) }
-  let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
-  let!(:today_task){ create(:task, completion_date: Date.today) }
-  let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
-  let!(:upcoming_task_2){ create(:task, completion_date: 4.months.from_now) }
-  let!(:case_note_task){ create(:task, relation: 'case_note') }
-  let!(:assessment_task){ create(:task, relation: 'assessment') }
+  context 'Domain Task' do
+    let!(:active_client){ create(:client, status: 'Active') }
+    let!(:exited_ngo_client){ create(:client, :exited) }
+    let!(:domain){ create(:domain) }
+    let!(:task){ create(:task, domain: domain, client: active_client) }
+    let!(:task_other){ create(:task, client: exited_ngo_client) }
 
-  context 'exclude_exited_ngo_clients' do
-    subject{ Task.exclude_exited_ngo_clients }
+    context 'exclude_exited_ngo_clients' do
+      subject{ Task.exclude_exited_ngo_clients }
+      it 'should return records of clients who are not exited the ngo' do
+        is_expected.to include(task)
+      end
 
-    it 'should return records of clients who are not exited the ngo' do
-      is_expected.to include(task)
+      it 'should not return records of clients who are exited the ngo' do
+        is_expected.not_to include(task_other)
+      end
     end
 
-    it 'should not return records of clients who are exited the ngo' do
-      is_expected.not_to include(task_other)
-    end
-  end
+    context 'by_domain_id' do
+      subject{ Task.by_domain_id(domain.id) }
+      it 'should include by domain task' do
+        is_expected.to include(task)
+      end
 
-  context 'by_domain_id' do
-    subject{ Task.by_domain_id(domain.id) }
-
-    it 'should include by domain task' do
-      is_expected.to include(task)
-    end
-    it 'should not include domain task' do
-      is_expected.not_to include(task_other)
+      it 'should not include domain task' do
+        is_expected.not_to include(task_other)
+      end
     end
   end
 
-  context 'completed' do
-    subject{ Task.completed }
+  context 'Task Status' do
+    let!(:completed_task){ create(:task, completed: true) }
+    let!(:incomplete_task){ create(:task, completed: false) }
 
-    it 'should include completed task' do
-      is_expected.to include(completed_task)
-    end
-    it 'should not include incomplete task' do
-      is_expected.not_to include(incomplete_task)
-    end
-  end
+    context 'completed' do
+      subject{ Task.completed }
 
-  context 'incomplete' do
-    subject{ Task.incomplete }
-
-    it 'should include incomplete task' do
-      is_expected.to include(incomplete_task)
+      it 'should include completed task' do
+        is_expected.to include(completed_task)
+      end
+      it 'should not include incomplete task' do
+        is_expected.not_to include(incomplete_task)
+      end
     end
-    it 'should not include completed task' do
-      is_expected.not_to include(completed_task)
-    end
-  end
 
-  context 'overdue' do
-    subject{ Task.overdue }
+    context 'incomplete' do
+      subject{ Task.incomplete }
 
-    it 'should include overdue task' do
-      is_expected.to include(overdue_task)
-    end
-    it 'should not include not overdue task' do
-      is_expected.not_to include(today_task)
-      is_expected.not_to include(upcoming_task)
+      it 'should include incomplete task' do
+        is_expected.to include(incomplete_task)
+      end
+      it 'should not include completed task' do
+        is_expected.not_to include(completed_task)
+      end
     end
   end
 
-  context 'today' do
-    subject{ Task.today }
+  context 'Task Deadline' do
+    let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
+    let!(:today_task){ create(:task, completion_date: Date.today) }
+    let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
+    let!(:upcoming_task_2){ create(:task, completion_date: 4.months.from_now) }
+    context 'overdue' do
+      subject{ Task.overdue }
 
-    it 'should include today task' do
-      is_expected.to include(today_task)
+      it 'should include overdue task' do
+        is_expected.to include(overdue_task)
+      end
+      it 'should not include not overdue task' do
+        is_expected.not_to include(today_task)
+        is_expected.not_to include(upcoming_task)
+      end
     end
-    it 'should not include not today task' do
-      is_expected.not_to include(overdue_task)
-      is_expected.not_to include(upcoming_task)
+
+    context 'today' do
+      subject{ Task.today }
+
+      it 'should include today task' do
+        is_expected.to include(today_task)
+      end
+      it 'should not include not today task' do
+        is_expected.not_to include(overdue_task)
+        is_expected.not_to include(upcoming_task)
+      end
+    end
+
+    context 'upcoming' do
+      subject{ Task.upcoming }
+
+      it 'should include upcoming task' do
+        is_expected.to include(upcoming_task)
+      end
+      it 'should not include not today task' do
+        is_expected.not_to include(overdue_task)
+        is_expected.not_to include(today_task)
+      end
+    end
+
+    context 'upcoming within three months' do
+      subject{ Task.upcoming_within_three_months }
+
+      it 'should include upcoming task within three months' do
+        is_expected.to include(upcoming_task)
+      end
+      it 'should not include not upcoming task 2 within three months' do
+        is_expected.not_to include(upcoming_task_2)
+      end
     end
   end
 
-  context 'upcoming' do
-    subject{ Task.upcoming }
+  context 'Case note task and assessment task' do
+    let!(:case_note_task){ create(:task, relation: 'case_note') }
+    let!(:assessment_task){ create(:task, relation: 'assessment') }
+    context 'by case note' do
+      subject{ Task.by_case_note }
 
-    it 'should include upcoming task' do
-      is_expected.to include(upcoming_task)
+      it 'should have relation with case note' do
+        is_expected.to include(case_note_task)
+      end
     end
-    it 'should not include not today task' do
-      is_expected.not_to include(overdue_task)
-      is_expected.not_to include(today_task)
-    end
-  end
 
-  context 'upcoming within three months' do
-    subject{ Task.upcoming_within_three_months }
+    context 'by assessment' do
+      subject{ Task.by_assessment }
 
-    it 'should include upcoming task within three months' do
-      is_expected.to include(upcoming_task)
-    end
-    it 'should not include not upcoming task 2 within three months' do
-      is_expected.not_to include(upcoming_task_2)
-    end
-  end
-
-  context 'by case note' do
-    subject{ Task.by_case_note }
-
-    it 'should have relation with case note' do
-      is_expected.to include(case_note_task)
-    end
-  end
-
-  context 'by assessment' do
-    subject{ Task.by_assessment }
-
-    it 'should have relation with assessment' do
-      is_expected.to include(assessment_task)
+      it 'should have relation with assessment' do
+        is_expected.to include(assessment_task)
+      end
     end
   end
 end
