@@ -57,7 +57,7 @@ describe CustomFieldProperty, 'validations' do
   end
 end
 
-describe CustomFieldProperty, 'callbacks' do
+xdescribe CustomFieldProperty, 'callbacks' do
   before do
     ClientHistory.destroy_all
   end
@@ -90,21 +90,21 @@ describe CustomFieldProperty, 'scopes' do
   end
 end
 
-# describe CustomFieldProperty, 'instance methods' do
-#   let!(:client_custom_field){ create(:custom_field, entity_type: 'Client') }
-#   let!(:family_custom_field){ create(:custom_field, entity_type: 'Family') }
-#   let!(:client){ create(:client) }
-#   let!(:family){ create(:family) }
-#   let!(:client_custom_field_property){ create(:custom_field_property, custom_field: client_custom_field, custom_formable: client) }
-#   let!(:family_custom_field_property){ create(:custom_field_property, custom_field: family_custom_field, custom_formable: family) }
-#
-#   context 'client_form?' do
-#     it 'returns true if client form' do
-#       expect(client_custom_field_property.client_form?).to be_truthy
-#     end
-#
-#     it 'returns false if family form' do
-#       expect(family_custom_field_property.client_form?).to be_falsey
-#     end
-#   end
-# end
+xdescribe CustomFieldProperty, 'instance methods' do
+  let!(:client_custom_field){ create(:custom_field, entity_type: 'Client') }
+  let!(:family_custom_field){ create(:custom_field, entity_type: 'Family') }
+  let!(:client){ create(:client) }
+  let!(:family){ create(:family) }
+  let!(:client_custom_field_property){ create(:custom_field_property, custom_field: client_custom_field, custom_formable: client) }
+  let!(:family_custom_field_property){ create(:custom_field_property, custom_field: family_custom_field, custom_formable: family) }
+
+  context 'client_form?' do
+    it 'returns true if client form' do
+      expect(client_custom_field_property.client_form?).to be_truthy
+    end
+
+    it 'returns false if family form' do
+      expect(family_custom_field_property.client_form?).to be_falsey
+    end
+  end
+end

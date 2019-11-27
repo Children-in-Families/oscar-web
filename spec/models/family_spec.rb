@@ -3,20 +3,6 @@ describe Family, 'validation' do
   it { is_expected.to validate_inclusion_of(:family_type).in_array(Family::TYPES)}
   it { is_expected.to validate_presence_of(:status) }
   it { is_expected.to validate_inclusion_of(:status).in_array(Family::STATUSES)}
-  xcontext 'code' do
-
-  end
-
-  context 'client_must_only_belong_to_a_family' do
-    let!(:client) { create(:client) }
-    let!(:family) { create(:family, :active, children: [client.id]) }
-
-    it 'invalid' do
-      invalid_family = Family.new(children: [client.id])
-      invalid_family.valid?
-      expect(invalid_family.errors[:children]).to include("#{client.en_and_local_name} has already existed in other family")
-    end
-  end
 end
 
 describe Family, 'associations' do

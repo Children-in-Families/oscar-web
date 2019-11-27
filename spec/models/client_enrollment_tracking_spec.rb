@@ -61,7 +61,7 @@ describe ClientEnrollmentTracking, 'validations' do
   end
 end
 
-describe ClientEnrollmentTracking, 'callbacks' do
+xdescribe ClientEnrollmentTracking, 'callbacks' do
   before do
     ClientEnrollmentTrackingHistory.destroy_all
   end
