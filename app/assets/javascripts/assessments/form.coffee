@@ -536,7 +536,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _taskRequiredAtEnd = (currentIndex) ->
     currentTab = "#rootwizard-p-#{currentIndex}"
     domainId   = $(currentTab).find('.score_option').data('domain-id')
-
     $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
       if $(@).val() == 'true'
         $(".domain-#{domainId} .task_required, .domain-#{domainId} .assessment-task-btn").hide()
@@ -551,7 +550,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       return if scoreOption == undefined
       scoreColor  = scoreOption.data("score-#{chosenScore}")
-      $(".domain-#{domainId} .task_required").show() if ['danger', 'warning'].indexOf(scoreColor) >= 0
+      if ['danger', 'warning'].indexOf(scoreColor) >= 0 and $("#{currentTab} .task-arising ol li").length == 0
+        $(".domain-#{domainId} .task_required").show()
 
   _handleDisplayTaskWarningMessage = (currentTab, domainId) ->
     chosenScore = ''
@@ -567,7 +567,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreColor  = scoreOption.data("score-#{chosenScore}")
     if ['danger', 'warning'].indexOf(scoreColor) >= 0 and $("#{currentTab} .task-arising ol li").length == 0
       $(".domain-#{domainId} .task_required").show()
-      $(".domain-#{domainId} .task_required, .domain-#{domainId} .assessment-task-btn").show()
 
   _handleAppendDomainAtTheEnd = (currentIndex) ->
     if $("form#new_assessment").length
