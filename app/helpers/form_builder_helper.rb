@@ -199,12 +199,12 @@ module FormBuilderHelper
       condition = ''
       result.map do |h|
         condition = h[:condition]
-        program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
+        exit_program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
       end.join(" #{condition} ")
     end
   end
 
-  def program_stream_service_query(id, field, operator, value, type, input_type, properties_field='')
+  def exit_program_stream_service_query(id, field, operator, value, type, input_type, properties_field='')
     case operator
     when 'equal'
       "date(leave_programs.exit_date) = '#{value}'"
