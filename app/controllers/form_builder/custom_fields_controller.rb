@@ -24,6 +24,7 @@ class FormBuilder::CustomFieldsController < AdminController
     ngo_name = params[:ngo_name]
     if ngo_name.present?
       @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name)
+      redirect_to custom_fields_path, alert: "The organization #{ngo_name} was not found. This error happend only in staging and development not in live." if @custom_field == false
     else
       @custom_field = CustomField.find(params[:id])
     end
@@ -68,7 +69,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def get_custom_field(id, ngo_name)
     current_org_name = current_organization.short_name
-    ngo_short_name = Organization.find_by(full_name: ngo_name).short_name
+    ngo = Organization.find_by(full_name: ngo_name)
+    return false if ngo.nil?
+    ngo_short_name = ngo.short_name
     Organization.switch_to(ngo_short_name)
     original_custom_field = CustomField.find(id)
     Organization.switch_to(current_org_name)
