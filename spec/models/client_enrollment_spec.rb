@@ -100,7 +100,7 @@ describe ClientEnrollment, 'scopes' do
   end
 end
 
-describe ClientEnrollment, 'callbacks' do
+xdescribe ClientEnrollment, 'callbacks' do
   before do
     ClientEnrollmentHistory.destroy_all
   end
