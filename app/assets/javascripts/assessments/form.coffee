@@ -172,19 +172,25 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       autoFocus: true
 
       onInit: (event, currentIndex) ->
+        currentTab  = "#rootwizard-p-#{currentIndex}"
+        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
         _formEdit(currentIndex)
         _appendSaveCancel()
         _appendSaveButton()
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
+        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
         return
 
       onStepChanging: (event, currentIndex, newIndex) ->
+        currentTab  = "#rootwizard-p-#{currentIndex}"
+        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
         _scrollToError(event)
         _taskRequiredAtEnd(currentIndex)
+        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
           return true
         else
@@ -557,7 +563,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       scoreOption = $("#{currentTab} .score_option.without-def")
       chosenScore = scoreOption.find('label input:checked').val()
 
-    scoreColor = scoreOption.data("score-#{chosenScore}")
+    return if scoreOption == undefined
+    scoreColor  = scoreOption.data("score-#{chosenScore}")
     if ['danger', 'warning'].indexOf(scoreColor) >= 0 and $("#{currentTab} .task-arising ol li").length == 0
       $(".domain-#{domainId} .task_required").show()
       $(".domain-#{domainId} .task_required, .domain-#{domainId} .assessment-task-btn").show()
