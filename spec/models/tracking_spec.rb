@@ -5,7 +5,7 @@ describe Tracking, 'associations' do
 end
 
 describe Tracking, 'validations' do
-  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:program_stream_id) }
+  it { expect(validate_uniqueness_of(:name).scoped_to(:program_stream_id)) }
 end
 
 describe Tracking, 'form_builder_field_uniqueness' do
