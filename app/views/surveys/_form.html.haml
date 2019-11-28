@@ -22,7 +22,7 @@
           %span.strongly-agree= t('.strongly_agree')
     .row
       .col-xs-12.col-sm-6
-        = f.input :user, disabled: true, input_html: { value: @client.user.name, class: 'user-name' }, label: t('.user_id')
+        = f.input :user, disabled: true, input_html: { value: @client.user.distint.name, class: 'user-name' }, label: t('.user_id')
       .col-xs-12.question-block
         = f.label :listening_score, t('.listening_score')
         .radio-score

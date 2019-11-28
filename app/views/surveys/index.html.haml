@@ -7,7 +7,7 @@
         %p
           .well.b-r-md.bg-color
             = t('.user_id')
-            %strong= @client.user.name
+            %strong= @client.user.distinct.name
         %table.table.table-bordered
           %thead
             %tr

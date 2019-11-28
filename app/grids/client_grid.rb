@@ -918,7 +918,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:user, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
-    object.users.pluck(:first_name, :last_name).map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
+    object.users.pluck(:first_name, :last_name).uniq.map{ |case_worker| "#{case_worker.first} #{case_worker.last}".squish }.join(', ')
   end
 
   column(:donor, order: false, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
