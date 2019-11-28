@@ -1286,7 +1286,7 @@ km:
       client_name: ឈ្មោះអតិថិជន
       close: បិទ
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: ការស្នើសុំរបស់អតិថិជន
       client_option: តើអ្នកចង់បន្ថែមគ្រួសារថ្មីសម្រាប់អតិថិជននេះ ឬភ្ជាប់វាជាមួយគ្រួសារដែលមានស្រាប់ដែរឬទេ?
       create_family_record_option:  បន្ថែមគ្រួសារថ្មី
@@ -2856,6 +2856,41 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  dimensions:
+    dimension_identies:
+      risk_management_1a: "(ការគ្រប់គ្រងហានិភ័យ)"
+      physical_health_2a: "(Physical health)"
+      work_skills_and_education_3a: "(ជំនាញការងារ)"
+      income_3b: "(ចំណូល)"
+      financial_management_3c: "(ការគ្រប់គ្រងហិរវញ្ញវត្ថុ)"
+      recovery_from_trauma_4a: "(Recovery from trauma)"
+      resilence_4b: "(Resilence)"
+      values_5a: "(គុណតម្លៃ)"
+      family_relationships_6a: "(ស្ថានភាពគ្រួសារ)"
+      client_s_involvement_in_community_networks_6b: "(បណ្តាញ)"
+      knowledge_of_legal_rights_7a: "(Knowledge of legal rights)"
+    dimension_list:
+      dimensions: មាត្រដ្ឋាន
+    dimension_names:
+      a1: ១ក
+      a2: ២ក
+      a3: ៣ក
+      b3: ៣ខ
+      c3: ៣គ
+      a4: ៤ក
+      b4: ៤ខ
+      a5: ៥ក
+      a6: ៦ក
+      b6: ៦ខ
+      a7: ៧ក
+    dimension_groups:
+      safety: សុវត្តិភាព
+      health: សុខភាព
+      economic_sustainability: សេដ្ឋកិច្ច
+      emotional_well-being: ផ្លូវចិត្ត
+      spiritual: ប្រលឹងវិញ្ញាណ
+      social_connections: សង្គម
+      justice: យុត្តិធម៌
   domain_groups:
     create:
       failed_create: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានបង្កើតដោយជោគជ័យ

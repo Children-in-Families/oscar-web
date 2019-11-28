@@ -23,7 +23,10 @@
             %tbody
               - @domain_groups.each do |domain_group|
                 %tr
-                  %td= domain_group.name
+                  - if Organization.current.short_name == 'aht'
+                    %td= t("dimensions.dimension_groups.#{domain_group.name.downcase.strip.parameterize('_')}")
+                  - else
+                    %td= domain_group.name
                   %td= domain_group.description
                   - if can? :manage, DomainGroup
                     %td.text-center

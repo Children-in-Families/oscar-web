@@ -1291,7 +1291,7 @@ my:
       client_name: ကေလးနာမည္
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: client အတည်ပြုချက်
       client_option: သငျသညျကို client သတင်းအချက်အလက်များတင်ပြမသွားခင်အောက်ကတဦးတည်း option ကိုရှေးခယျြ ကျေးဇူးပြု.
       create_family_record_option:  သင်ဤ client ကိုတစ်မိသားစုစံချိန်ကိုဖန်တီးရန်လိုပါသလား
@@ -2846,6 +2846,41 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
+  dimensions:
+    dimension_identies:
+      risk_management_1a: Risk management
+      physical_health_2a: Physical health
+      work_skills_and_education_3a: Work skills and education
+      income_3b: Income
+      financial_management_3c: Financial management
+      recovery_from_trauma_4a: Recovery from trauma
+      resilence_4b: Resilence
+      values_5a: Values
+      family_relationships_6a: Family relationships
+      client_s_involvement_in_community_networks_6b: Client's involvement in community Networks
+      knowledge_of_legal_rights_7a: Knowledge of legal rights
+    dimension_list:
+      dimensions: Dimension
+    dimension_names:
+      a1: 1A
+      a2: 2A
+      a3: 3A
+      b3: 3B
+      c3: 3C
+      a4: 4A
+      b4: 4B
+      a5: 5A
+      a6: 6A
+      b6: 6B
+      a7: 7A
+    dimension_groups:
+      safety: Safety
+      health: Health
+      economic_sustainability: Economic Sustainability
+      emotional_well-being: Emotional well being
+      spiritual: Spiritual
+      social_connections: Social Connections
+      justice: Justice
   domain_groups:
     create:
       failed_create: ဒိုမိန္းအုပ္စုျပဳလုုပ္ရန္ မေအာင္ျမင္ပါ။

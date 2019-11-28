@@ -1287,7 +1287,7 @@ en:
       client_name: Client Name
       close: Close
       export_to_xls: Export to XLS
-    confirm_client_with_family_record: 
+    confirm_client_with_family_record:
       client_confirmation: Client Confirmation
       client_option: Would you like to create a family record for this client, or attach them to an existing family?
       create_family_record_option:  Create New Family Record
@@ -1500,7 +1500,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search 
+      advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       assessment_data: Assessment Data
@@ -2858,6 +2858,41 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  dimensions:
+    dimension_identies:
+      risk_management_1a: Risk management
+      physical_health_2a: Physical health
+      work_skills_and_education_3a: Work skills and education
+      income_3b: Income
+      financial_management_3c: Financial management
+      recovery_from_trauma_4a: Recovery from trauma
+      resilence_4b: Resilence
+      values_5a: Values
+      family_relationships_6a: Family relationships
+      client_s_involvement_in_community_networks_6b: Client's involvement in community Networks
+      knowledge_of_legal_rights_7a: Knowledge of legal rights
+    dimension_list:
+      dimensions: Dimension
+    dimension_names:
+      a1: 1A
+      a2: 2A
+      a3: 3A
+      b3: 3B
+      c3: 3C
+      a4: 4A
+      b4: 4B
+      a5: 5A
+      a6: 6A
+      b6: 6B
+      a7: 7A
+    dimension_groups:
+      safety: Safety
+      health: Health
+      economic_sustainability: Economic Sustainability
+      emotional_well-being: Emotional well being
+      spiritual: Spiritual
+      social_connections: Social Connections
+      justice: Justice
   domain_groups:
     create:
       failed_create: Failed to create a domain group.
