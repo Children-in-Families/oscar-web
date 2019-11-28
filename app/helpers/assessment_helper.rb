@@ -114,7 +114,7 @@ module AssessmentHelper
   def map_assessment_and_score(object, identity, domain_id)
     sub_query_string = []
     if $param_rules.nil?
-      assessments = object.assessments.defaults.joins(:assessment_domains)
+      assessments = object.assessments.defaults.joins(:assessment_domains).distinct
     else
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -123,9 +123,9 @@ module AssessmentHelper
 
       assessments = object.assessments.joins(:assessment_domains).where(query_string).distinct
       sub_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
-    end
 
-    assessment_domains = assessments.map{|assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(" AND ")).where(domains: { identity: identity }) }.flatten.uniq
+      assessment_domains = assessments.map{|assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(" AND ")).where(domains: { identity: identity }) }.flatten.uniq
+    end
   end
 
   def mapping_assessment_query_rules(data, field_name=nil, data_mapping=[])
@@ -190,7 +190,7 @@ module AssessmentHelper
         elsif h[:field] == 'date_nearest'
           "date(assessments.created_at) <= '#{h[:value]}'"
         end
-      end.join(" #{condition} ")
+      end.reject(&:blank?).join(" #{condition} ")
     end
   end
 
