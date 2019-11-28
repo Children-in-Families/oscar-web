@@ -70,6 +70,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           success: (response) ->
             for address in response.data
               subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
+
   _ajaxChangeSubDistrict = ->
     $('#client_district_id').on 'change', ->
       district_id = $(@).val()
@@ -139,7 +140,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
 
   _checkingFamilyRecord = ->
-
     $(".save-edit-client, a[href='#finish']").off('click').on 'click', (e) ->
       e.preventDefault()
       clientId = $('#client-id').text()
@@ -150,8 +150,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           $('#clientConfirmation').text(filterTranslation.save).attr('disabled', 'disabled')
           clientOptionValue = $('input[name=clientConfirmation]:checked').val()
           if clientOptionValue == "createNewFamilyRecord"
-            localStorage.setItem('redirect_to_family', 'true')
-            localStorage.setItem('client_id', clientId)
             $('#client-wizard-form').submit()
           else if clientOptionValue == "attachExistingFamilyRecord"
             $('#client-wizard-form').submit()
@@ -325,8 +323,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         clientId = $('#client-id').text()
         clientOptionValue = $('input[name=clientConfirmation]:checked').val()
         if clientOptionValue == "createNewFamilyRecord"
-          localStorage.setItem('redirect_to_family', 'true')
-          localStorage.setItem('client_id', clientId)
           _compareExistingValue(data, form)
         else if clientOptionValue == "attachExistingFamilyRecord"
           _compareExistingValue(data, form)

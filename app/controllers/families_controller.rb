@@ -33,6 +33,7 @@ class FamiliesController < AdminController
 
   def new
     @family = Family.new
+    @selected_children = params[:children]
   end
 
   def create
