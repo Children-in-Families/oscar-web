@@ -158,7 +158,13 @@ module AssessmentHelper
         elsif h[:field] == identity && ['assessment_has_changed', 'assessment_has_not_changed', 'month_has_changed', 'month_has_not_changed'].exclude?(h[:operator])
           assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
         elsif h[:field] == 'assessment_number'
-          "(SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
+          value = h[:value] == 0 ? 1 : h[:value]
+          value = value.try(:to_i).present? ? h[:value] : 1
+
+          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
+          end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
+
+          "(DATE(assessments.created_at) between (#{beginning_of_month}) AND (#{end_of_month})) AND (SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
         elsif h[:field] == 'month_number'
           value = h[:value] == 0 ? 1 : h[:value]
           value = value.try(:to_i).present? ? h[:value] : 1
