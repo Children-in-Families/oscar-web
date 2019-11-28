@@ -199,7 +199,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onStepChanged: (event, currentIndex, priorIndex) ->
         currentStep = $("#rootwizard-p-" + currentIndex)
-
         unless currentStep.hasClass('domain-last')
           _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
@@ -210,12 +209,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
           if $('#rootwizard').find('a[href="#finish"]:visible').length
             $("#rootwizard a[href='#save']").hide()
-
           _toggleEndOfAssessmentMsg()
           _liveGoal()
 
 
       onFinishing: (event, currentIndex, newIndex) ->
+        currentTab  = "#rootwizard-p-#{currentIndex}"
+        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
+        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
         form.validate().settings.ignore = ':disabled'
         form.valid()
         _taskRequiredAtEnd(currentIndex)
@@ -395,7 +396,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
-      _initTaskRequire()
+      # _initTaskRequire()
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
+      if tasksList.length
+        $("#rootwizard-p-#{currentIndex} .task_required").removeClass('hidden')
 
   _removeHiddenTaskArising = ->
     tasksList = $('li.list-group-item')
@@ -405,7 +410,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _removeTask = ->
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
-      _initTaskRequire()
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
+      if tasksList.length
+        $("#rootwizard-p-#{currentIndex} .task_required").removeClass('hidden')
 
   _deleteTask = (e) ->
     url = $(e.target).data('url').split('?')[0]
