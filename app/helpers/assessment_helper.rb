@@ -119,7 +119,7 @@ module AssessmentHelper
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-      query_string = get_assessment_query_string(results, identity, domain_id, object.id)
+      query_string = get_assessment_query_string(results, identity, domain_id, object.id, basic_rules)
 
       assessments = object.assessments.joins(:assessment_domains).where(query_string).distinct
       sub_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
@@ -145,7 +145,7 @@ module AssessmentHelper
     data_mapping << rule_array
   end
 
-  def get_assessment_query_string(results, identity, domain_id, client_id=nil)
+  def get_assessment_query_string(results, identity, domain_id, client_id=nil, basic_rules=nil)
     results.map do |result|
       condition = ''
       result.map do |h|
@@ -161,7 +161,13 @@ module AssessmentHelper
           value = h[:value] == 0 ? 1 : h[:value]
           value = value.try(:to_i).present? ? h[:value] : 1
 
-          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
+          if basic_rules
+            assessment_completed_result = mapping_assessment_query_rules(basic_rules, 'assessment_completed')
+            assessment_only_query_string = get_assessment_query_string(assessment_completed_result, identity, domain_id, client_id)
+            assessment_completed_date = " #{assessment_only_query_string.first} AND "
+          end
+
+          beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE#{assessment_completed_date || ''} assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
           end_of_month = "SELECT (date_trunc('month', created_at) +  interval '1 month' - interval '1 day')::date FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
 
           "(DATE(assessments.created_at) between (#{beginning_of_month}) AND (#{end_of_month})) AND (SELECT COUNT(*) FROM assessments WHERE assessments.client_id = #{client_id ? client_id : 'clients.id'}) >= #{h[:value]}"
