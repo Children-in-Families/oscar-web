@@ -27,7 +27,7 @@ export default props => {
   }
 
   const onChangeDate = date => {
-    onChange(formatDateToString(date))
+    onChange({data: formatDateToString(date), type: 'date'})
     setselectedDate(date)
     setshowDatePicker(false)
   }

@@ -33,7 +33,4 @@ const styles = {
   errorInput: {
     borderColor: 'red'
   },
-  heightBox: {
-    height: '100px'
-  }
 }

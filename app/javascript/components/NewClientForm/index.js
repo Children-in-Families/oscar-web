@@ -9,25 +9,23 @@ import './styles.scss'
 const Forms = props => {
   const {
     data: {
-      client: { client, userIds }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase
+      client: { client, user_ids, quantitative_case_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor
     }
   } = props
 
-  const [saving, setSaving] = useState(false)
   const [errorFields, seterrorFields] = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState({ user_ids: userIds, ...client })
+  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids , ...client })
   const [refereeData, setrefereeData] = useState({})
+  const [carerData, setcarerData] = useState({})
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces  }
+  const adminTabData = { users, client: clientData, errorFields }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
-  const clientTabData = { errorFields, client: clientData, birthProvinces, ...address  }
-
-  const gettingStartData = { client: clientData, users, birthProvinces, referralSourceCategory, referralSource, selectedCountry,
-                            internationalReferredClient, currentProvinces, districts, communes, villages, errorFields,
-                            donors, agencies, schoolGrade, quantitativeType, quantitativeCase
-                          }
+  const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address  }
+  const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, ...referralTabData }
+  const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
 
   const tabs = [
     {text: 'Referee Information', step: 1},
@@ -50,9 +48,9 @@ const Forms = props => {
     )
   }
 
+
   const onChange = (obj, field) => event => {
-    const value = (typeof event === 'object' && !Array.isArray(event) && event !== null) ?  event.target.value : event
-    console.log("TCL: value", value)
+    const value = (event.type === 'date' || event.type === 'select') ? event.data : event.target.value
 
     if (typeof field !== 'object')
       field = { [field]: value }
@@ -63,6 +61,9 @@ const Forms = props => {
         break;
       case 'referee':
         setrefereeData({...refereeData, ...field })
+        break;
+      case 'carer':
+        setcarerData({...carerData, ...field })
         break;
     }
   }
@@ -115,9 +116,6 @@ const Forms = props => {
         data: { client: { ...refereeData, ...clientData } }
       }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
     }
-    // $.post('/api/clients', { client: { ...refereeData, ...clientData } })
-    //   .done(response =>  document.location.href=`/clients/${response.id}?notice=success`)
-    //   .fail(error => console.log(error))
   }
 
   const buttonPrevious = () => {
@@ -125,6 +123,8 @@ const Forms = props => {
   }
 
   console.log('clientData', clientData)
+  console.log('refereeData', refereeData)
+  console.log('carerData', carerData)
 
   return (
     <div className='container'>
@@ -134,7 +134,7 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={gettingStartData} onChange={onChange} />
+          <AdministrativeInfo data={adminTabData} onChange={onChange} />
         </div>
 
         <div className='rightComponent'>
@@ -143,15 +143,15 @@ const Forms = props => {
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={clientTabData} onChange={onChange} />
+            <ReferralInfo data={referralTabData} onChange={onChange} />
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo data={gettingStartData} onChange={onChange} />
+            <ReferralMoreInfo data={moreReferralTabData} onChange={onChange} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
-            <ReferralVulnerability data={gettingStartData} onChange={onChange} />
+            <ReferralVulnerability data={referralVulnerabilityTabData} onChange={onChange} />
           </div>
         </div>
       </div>

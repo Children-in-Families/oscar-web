@@ -1,28 +1,18 @@
-import React       from 'react'
+import React, { useState }       from 'react'
 import {
   SelectInput,
   TextInput,
   Checkbox
 }                   from '../Commons/inputs'
+import Address from './address'
 
 export default props => {
-  const { onChange, data: { client, currentProvinces, referralSourceCategory, referralSource, currentDistricts, currentCommunes, currentVillages, errorFields} } = props
+  const { onChange, data: { referee, client, currentProvinces, referralSourceCategory, referralSource, currentDistricts, currentCommunes, currentVillages, birthProvinces, errorFields} } = props
 
-  const blank = []
+  const [checked, setCheckBox] = useState(false)
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
-  const addressType = [{label: 'Floor', value: 'floor'}, {label: 'Building', value: 'building'}, {label: 'Office', value: 'office'}]
 
   const referralSourceCategoryLists = referralSourceCategory.map(catgeory => ({label: catgeory[0], value: catgeory[1]}))
-  const currentProvincesLists = currentProvinces.map(province => ({label: province.name, value: province.id}))
-
-  const getSeletedObject = (obj, id) => {
-    let object = {}
-    obj.forEach(list => {
-      if (list.value === id)
-        object = list
-    })
-    return object
-  }
 
   return (
     <div className="container">
@@ -36,7 +26,7 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-3">
-          <Checkbox label="Anonymous Referee" onChange={onChange('referee', 'referee_anonymous_referee')} />
+          <Checkbox label="Anonymous Referee" onChange={onChange('referee', 'anonymous')} />
         </div>
       </div>
       <br/>
@@ -53,15 +43,15 @@ export default props => {
           />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Gender" options={genderLists} onChange={onChange('referee', 'referee_gender')} />
+          <SelectInput label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-3">
-          <TextInput label="Referee Phone Number" onChange={onChange('referee', 'referee_phone')} />
+          <TextInput label="Referee Phone Number" onChange={onChange('client', 'referral_phone')} value={client.referral_phone} />
         </div>
         <div className="col-xs-3">
-          <TextInput label="Referee Email Address" onChange={onChange('referee', 'referee_email')}/>
+          <TextInput label="Referee Email Address" onChange={onChange('referee', 'email')} value={referee.email} />
         </div>
         <div className="col-xs-3">
           <SelectInput
@@ -69,12 +59,12 @@ export default props => {
             isError={errorFields.includes('referral_source_category_id')}
             label="Referral Source Catgeory"
             options={referralSourceCategoryLists}
-            value={getSeletedObject(referralSourceCategoryLists, client.referral_source_category_id)}
+            value={client.referral_source_category_id}
             onChange={onChange('client', 'referral_source_category_id')}
           />
         </div>
         <div className="col-xs-3">
-          <SelectInput options={[]} label="Referral Source" onChange={onChange('referee', 'referee_referral_source_id')} />
+          <SelectInput options={[]} label="Referral Source" onChange={onChange('client', 'referral_source_id')} value={client.referral_source_id} />
         </div>
       </div>
       <legend>
@@ -83,38 +73,11 @@ export default props => {
             <p>Address</p>
           </div>
           <div className="col-xs-3">
-            <Checkbox label="Outside Cambodia" onChange={onChange('referee', 'referee_outside_cambodia')} />
+            <Checkbox label="Outside Cambodia" setCheck={setCheckBox} onChange={onChange('referee', 'outside')} />
           </div>
         </div>
       </legend>
-      <div className="row">
-        <div className="col-xs-3">
-          <SelectInput label="Province" asGroup options={currentProvincesLists} onChange={onChange('referee', 'referee_province_id')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="District / Khan" options={blank} onChange={onChange('referee', 'referee_district_id')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="Commune / Sangkat" options={blank} onChange={onChange('referee', 'referee_commune_id')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="Village" options={blank} onChange={onChange('referee', 'referee_village_id')} />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-xs-3">
-          <TextInput label="Street Number" onChange={onChange('referee', 'referee_street')} />
-        </div>
-        <div className="col-xs-3">
-          <TextInput label="House Number" onChange={onChange('referee', 'referee_house')} />
-        </div>
-        <div className="col-xs-3">
-          <TextInput label="Address Name" onChange={onChange('referee', 'referee_address')} />
-        </div>
-        <div className="col-xs-3">
-          <SelectInput label="Address Type" options={addressType} onChange={onChange('referee', 'referee_address_type')}/>
-        </div>
-      </div>
+      <Address checked={checked} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'referee', objectData: referee}} />
     </div>
   )
 }

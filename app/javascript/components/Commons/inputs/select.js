@@ -1,35 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 
 export default props => {
   const { value, options, isMulti, isError, label, required, onChange, asGroup,  ...others } = props
 
-
   const getSeletedObject = () => {
     if(options) {
-      let object = []
+      let object        = []
+      const optionLists = asGroup && options.map(option => option.options).flat() || options
 
-      options.forEach(option => {
+      optionLists.forEach(option => {
         if (Array.isArray(value)) {
           if (value.includes(option.value))
-          object.push(option)
+            object.push(option)
         } else if (option.value === value)
-        object = option
+          object = option
       })
 
       return $.isEmptyObject(object) ? null : object
     }
   }
 
-  const [selected, setselected] = useState(getSeletedObject(props.value) || null)
-
   const handleChange = (selectedOption, { action, removedValue }) => {
     let data
+    let removed = removedValue && removedValue.value
 
     if (isMulti) {
       switch(action) {
         case 'clear':
           selectedOption = options.filter(option => option.isFixed)
+          removed = getSeletedObject().map(data => data.value)
           break
         case 'remove-value':
           if(removedValue.isFixed)
@@ -41,8 +41,7 @@ export default props => {
       data = action === 'clear' ? null : selectedOption.value
     }
 
-    setselected(selectedOption)
-    onChange(data)
+    onChange({ data, removed, action, type: 'select' })
   }
 
   const formatGroupLabel = data => (
@@ -63,7 +62,7 @@ export default props => {
         isClearable={options.some(v => !v.isFixed)}
         onChange={handleChange}
         formatGroupLabel={asGroup && formatGroupLabel}
-        value={selected}
+        value={getSeletedObject() || null}
         options={options}
         { ...others }
         styles={

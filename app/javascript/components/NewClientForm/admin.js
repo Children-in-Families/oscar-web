@@ -57,13 +57,13 @@ export default props => {
 
       <div className='row'>
         <div className='col-xs-8'>
-          <SelectInput label='First Follow Up by' options={userLists} onChange={onChange('client', 'followed_up_by_id')} />
+          <SelectInput label='First Follow Up by' options={userLists} onChange={onChange('client', 'followed_up_by_id')} value={client.followed_up_by_id} />
         </div>
       </div>
 
       <div className='row'>
         <div className='col-xs-8'>
-          <DateInput label='Date of First Follow Up' collections={userLists} onChange={onChange('client','follow_up_date')} />
+          <DateInput label='Date of First Follow Up' onChange={onChange('client','follow_up_date')} value={client.follow_up_date} />
         </div>
       </div>
     </>
