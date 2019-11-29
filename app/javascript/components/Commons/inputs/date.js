@@ -39,7 +39,7 @@ export default props => {
         {props.label}
       </label>
 
-      <input className='form-control' onFocus={() => setshowDatePicker(true)} value={formatDateToString(selectedDate)} style={ isError && styles.errorInput || {} }/>
+      <input className='form-control' onFocus={() => setshowDatePicker(true)} value={value} style={ isError && styles.errorInput || {} }/>
       <div style={styles.calendar}>
         {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
       </div>

@@ -16,7 +16,8 @@ export default props => {
           style={
             Object.assign({},
               isError && styles.errorInput,
-              textArea && styles.heightBox
+              textArea && styles.heightBox,
+              styles.box
             )
           }
         />
@@ -33,4 +34,7 @@ const styles = {
   errorInput: {
     borderColor: 'red'
   },
+  box: {
+    boxShadow: 'none'
+  }
 }

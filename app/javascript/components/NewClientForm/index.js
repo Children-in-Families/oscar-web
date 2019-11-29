@@ -99,6 +99,8 @@ const Forms = props => {
   const handleTab = goingToStep => {
     if(goingToStep < step || handleValidation())
       setStep(goingToStep)
+    if(goingToStep == 3 && step == 1 && handleValidation())
+      setStep(2)
   }
 
   const buttonNext = () => {
