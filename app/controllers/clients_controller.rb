@@ -135,7 +135,11 @@ class ClientsController < AdminController
   def create
     @client = Client.new(client_params)
     if @client.save(validate: false)
-      redirect_to @client, notice: t('.successfully_created')
+      if params[:clientConfirmation] == 'createNewFamilyRecord'
+        redirect_to new_family_path(children: [@client.id])
+      else
+        redirect_to @client, notice: t('.successfully_created')
+      end
     else
       render :new
     end

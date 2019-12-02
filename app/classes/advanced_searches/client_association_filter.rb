@@ -579,24 +579,19 @@ module AdvancedSearches
     end
 
     def family_name_field_query
-      family = Family.find_by('lower(name) = ?', @value.downcase)
-      families = Family.where.not("children = '{}' OR children is null").uniq
-      find_family = families.where('name ILIKE ?', "%#{@value.downcase}%")
       case @operator
       when 'equal'
-        client_ids = @clients.where(current_family_id: family.id).ids if family
-        # client_ids = @clients.joins(:families).where('lower(families.name) = ?', @value.downcase).ids
+        client_ids = @clients.includes(:families).where("lower(families.name) = ?", @value.downcase).ids
       when 'not_equal'
-        #client_ids = @clients.joins(:families).where.not('lower(families.name) = ?', @value.downcase).ids
-        client_ids = @clients.where.not(current_family_id: family.id).ids if family
+        client_ids = Client.where("clients.current_family_id != (SELECT id FROM families WHERE lower(families.name) = ?) OR clients.current_family_id IS NULL", @value.downcase).ids
       when 'contains'
-        client_ids = @clients.where(current_family_id: find_family.ids).ids if find_family
+        client_ids = @clients.joins(:families).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.where.not(current_family_id: find_family.ids).ids if find_family
+        client_ids = @clients.joins(:families).where("lower(families.name) NOT iLike ?", "%#{@value.downcase}%").ids
       when 'is_empty'
-        client_ids = @clients.where(current_family_id: nil).ids
+        client_ids = Client.where("clients.current_family_id IS NULL").ids
       when 'is_not_empty'
-        client_ids = @clients.where.not(current_family_id: nil).ids
+        client_ids = Client.where("clients.current_family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
