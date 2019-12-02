@@ -9,9 +9,7 @@ import Address from './address'
 export default props => {
   const { onChange, data: { referee, client, currentProvinces, referralSourceCategory, referralSource, currentDistricts, currentCommunes, currentVillages, birthProvinces, errorFields} } = props
 
-  const [checked, setCheckBox] = useState(false)
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
-
   const referralSourceCategoryLists = referralSourceCategory.map(catgeory => ({label: catgeory[0], value: catgeory[1]}))
 
   return (
@@ -26,7 +24,7 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-3">
-          <Checkbox label="Anonymous Referee" onChange={onChange('referee', 'anonymous')} />
+          <Checkbox label="Anonymous Referee" checked={referee.anonymous || false} onChange={onChange('referee', 'anonymous')} />
         </div>
       </div>
       <br/>
@@ -73,11 +71,11 @@ export default props => {
             <p>Address</p>
           </div>
           <div className="col-xs-3">
-            <Checkbox label="Outside Cambodia" setCheck={setCheckBox} onChange={onChange('referee', 'outside')} />
+            <Checkbox label="Outside Cambodia" checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
           </div>
         </div>
       </legend>
-      <Address checked={checked} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'referee', objectData: referee}} />
+      <Address checked={referee.outside || false} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'referee', objectData: referee}} />
     </div>
   )
 }

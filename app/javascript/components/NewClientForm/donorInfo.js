@@ -14,18 +14,18 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput isMulti label="Other Agencies Involved" options={agencyLists} onChange={onChange('client', 'agency_ids')} />
+          <SelectInput isMulti label="Other Agencies Involved" options={agencyLists} value={client.agency_ids} onChange={onChange('client', 'agency_ids')} />
         </div>
         <div className="col-xs-3">
-          <SelectInput isMulti label="Donor" options={donorLists} onChange={onChange('client', 'donor_id')} />
+          <SelectInput isMulti label="Donor" options={donorLists} value={client.donor_ids} onChange={onChange('client', 'donor_ids')} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-4">
-          <RadioButton label="Has the client lived in an orphanage?" onChange={onChange('client', 'has_been_in_orphanage')} />
+          <RadioButton label="Has the client lived in an orphanage?" value={client.has_been_in_orphanage} onChange={onChange('client', 'has_been_in_orphanage')} />
         </div>
         <div className="col-xs-4">
-          <RadioButton label="Has the client lived in government care?" onChange={onChange('client', 'has_been_in_government_care')} />
+          <RadioButton label="Has the client lived in government care?" value={client.has_been_in_government_care} onChange={onChange('client', 'has_been_in_government_care')} />
         </div>
       </div>
     </div>

@@ -50,7 +50,7 @@ export default props => {
 
   return (
     checked == true ?
-      <TextArea label="Out Side Address" onChange={onChange(objectKey, 'outside_address')} /> :
+      <TextArea label="Out Side Address" value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} /> :
       <>
         <div className="row">
           <div className="col-xs-3">

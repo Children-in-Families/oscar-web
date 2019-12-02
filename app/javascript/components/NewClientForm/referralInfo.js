@@ -72,12 +72,12 @@ export default props => {
             <p>Contact Information</p>
           </div>
           <div className="col-xs-6">
-            <Checkbox label="Client is outside Cambodia" onChange={onChange('client', 'outside')}/>
+            <Checkbox label="Client is outside Cambodia" checked={client.outside || false} onChange={onChange('client', 'outside')}/>
           </div>
         </div>
       </legend>
 
-      <Address onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'client', objectData: client}} />
+      <Address checked={client.outside || false} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'client', objectData: client}} />
 
       <div className="row">
         <div className="col-xs-3">

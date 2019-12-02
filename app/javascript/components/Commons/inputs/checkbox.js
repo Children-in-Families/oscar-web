@@ -1,15 +1,8 @@
-import React, { useState } from 'react'
-import Checkbox from 'react-simple-checkbox';
+import React from 'react'
+import Checkbox from 'react-simple-checkbox'
 
 export default props => {
-  const { onChange, setCheck } = props
-  const [ checked, setChecked] = useState(false)
-
-  const handleCheck = boolean => {
-    setChecked(boolean)
-    onChange(boolean)
-    setCheck(boolean)
-  }
+  const { onChange, ...others } = props
 
   return (
     <>
@@ -19,8 +12,8 @@ export default props => {
         color="#1AB394"
         tickAnimationDuration="100"
         borderThickness="2"
-        checked={checked}
-        onChange={handleCheck}
+        onChange={boolean => onChange({data: boolean, type: 'checkbox'})}
+        {...others}
       />
       <label style={styles.font}>{props.label}</label>
     </>

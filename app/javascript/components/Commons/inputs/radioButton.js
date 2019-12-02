@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react'
 import { RadioGroup, Radio } from 'react-radio-group'
 
 export default props => {
-  const [checked, setChecked] = useState({})
-  const { onChange } = props
+  const { onChange, value } = props
 
-  const handleChecked = boolean => {
-    setChecked(boolean)
-    onChange(boolean)
-  }
   return (
     <>
       <label>{props.label}</label>
       <div className="row">
-        <RadioGroup selectedValue={checked} onChange={handleChecked}>
+        <RadioGroup selectedValue={value} onChange={boolean => onChange({data:boolean, type: 'radio'})}>
           <div className="col-xs-1">
             <Radio value={true} />
           </div>

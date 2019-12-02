@@ -9,14 +9,14 @@ import './styles.scss'
 const Forms = props => {
   const {
     data: {
-      client: { client, user_ids, quantitative_case_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor
     }
   } = props
 
   const [errorFields, seterrorFields] = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids , ...client })
+  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, ...client })
   const [refereeData, setrefereeData] = useState({})
   const [carerData, setcarerData] = useState({})
 
@@ -50,7 +50,8 @@ const Forms = props => {
 
 
   const onChange = (obj, field) => event => {
-    const value = (event.type === 'date' || event.type === 'select') ? event.data : event.target.value
+    const inputType = ['date', 'select', 'checkbox', 'radio']
+    const value = inputType.includes(event.type) ? event.data : event.target.value
 
     if (typeof field !== 'object')
       field = { [field]: value }
