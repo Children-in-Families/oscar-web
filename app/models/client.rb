@@ -156,8 +156,7 @@ class Client < ActiveRecord::Base
   end
 
   def family
-    # Family.find(current_family_id) if current_family_id
-    Family.where('children && ARRAY[?]', id).last
+    Family.find(current_family_id) if current_family_id
   end
 
   def self.fetch_75_chars_of(value)
