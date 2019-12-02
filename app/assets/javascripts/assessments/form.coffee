@@ -198,6 +198,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           _filedsValidator(currentIndex, newIndex)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
+        currentTab  = "#rootwizard-p-#{currentIndex}"
+        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
         currentStep = $("#rootwizard-p-" + currentIndex)
         unless currentStep.hasClass('domain-last')
           _formEdit(currentIndex)
@@ -205,6 +207,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
         _initTaskRequire()
+        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
 
         if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
           if $('#rootwizard').find('a[href="#finish"]:visible').length
@@ -214,9 +217,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
 
       onFinishing: (event, currentIndex, newIndex) ->
-        currentTab  = "#rootwizard-p-#{currentIndex}"
-        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
-        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
         form.validate().settings.ignore = ':disabled'
         form.valid()
         _taskRequiredAtEnd(currentIndex)
