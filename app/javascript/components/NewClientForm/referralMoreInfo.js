@@ -65,7 +65,7 @@ export default props => {
         </div>
       </div>
 
-      <DonorInfo id="donorInfo" data={{ client, donors, agencies }} onChange={onChange} />
+      <DonorInfo id="donorInfo" data={{ donors, agencies, client }} onChange={onChange} />
 
       <hr/>
       <div className="row">
