@@ -11,8 +11,8 @@ export default props => {
   const addressType = [{ label: 'Floor', value: 'floor' }, { label: 'Building', value: 'building' }, { label: 'Office', value: 'office' }]
 
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
-  const [communes, setcommunes] = useState(currentCommunes.map(commune => ({label: commune.name, value: commune.id})))
-  const [villages, setvillages] = useState(currentVillages.map(village => ({label: village.name, value: village.id})))
+  const [communes, setcommunes] = useState(currentCommunes.map(commune => ({ label: commune.name_kh + ' / ' + commune.name_en, value: commune.id})))
+  const [villages, setvillages] = useState(currentVillages.map(village => ({ label: village.name_kh + ' / ' + village.name_en, value: village.id})))
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
 
   const onChangeParent = object => ({data, type}) => {
