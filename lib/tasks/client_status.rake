@@ -13,7 +13,7 @@ namespace :client_status do
 
       exited_clients.each do |client|
         client.status = 'Exited'
-        next if client.client_enrollments.present? && ['meo-254', 'twl-22', 'cen-79', 'ifu-133', 'unm-84', 'kvx-150', 'sol-157', 'mqs-231', 'vto-230', 'eni-232'].include?(client.slug)
+        next if client.client_enrollments.present?  && ['meo-254', 'twl-22', 'cen-79', 'ifu-133', 'unm-84', 'kvx-150', 'sol-157', 'mqs-231', 'vto-230', 'eni-232'].include?(client.slug)
         client.save!(validate: false)
         puts "#{short_name}: client #{client.slug} done!!!"
       end
