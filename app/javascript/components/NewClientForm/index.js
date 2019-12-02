@@ -82,7 +82,7 @@ const Forms = props => {
     components.forEach(component => {
       if (step === component.step) {
         component.fields.forEach(field => {
-          (component.data[field] === '' || component.data[field] === null) && errors.push(field)
+          (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
         })
       }
     })

@@ -14,10 +14,10 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-3">
-          <SelectInput isMulti label="Other Agencies Involved" options={agencyLists} onChange={onChange('client', 'agency_ids')} />
+          <SelectInput isMulti label="Other Agencies Involved" options={agencyLists} onChange={onChange('client', 'agency_ids')} value={client.agency_ids} />
         </div>
         <div className="col-xs-3">
-          <SelectInput isMulti label="Donor" options={donorLists} onChange={onChange('client', 'donor_id')} />
+          <SelectInput isMulti label="Donor" options={donorLists} onChange={onChange('client', 'donor_id')} value={client.donor_id} />
         </div>
       </div>
       <div className="row">

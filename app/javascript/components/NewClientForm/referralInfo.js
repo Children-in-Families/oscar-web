@@ -51,7 +51,7 @@ export default props => {
           />
         </div>
         <div className="col-xs-3">
-          <DateInput label="Date of Birth" onChange={onChange('client', 'date_of_birth')} />
+          <DateInput label="Date of Birth" onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
         </div>
         <div className="col-xs-3">
           <SelectInput
