@@ -420,6 +420,8 @@
                 %thead
                   %tr
                     %th= t('.case_histories')
+                    - unless Rails.env.production?
+                      %th Created Date
                     %th= t('.date')
                     %th.text-center= t('.detail')
                 %tbody
@@ -427,6 +429,8 @@
                     - case_history_name = case_history.class.table_name
                     %tr.case-history-row{ data: {date: case_history.new_date } }
                       %td= case_history_label(case_history)
+                      - if Rails.env.development?
+                        %td= case_history.created_at.to_s
                       %td= date_format(case_history.new_date)
                       %td
                         .text-center
@@ -439,6 +443,8 @@
                         = render_case_history(case_history, case_history_name)
                 %tr
                   %td= t('.initial_referral_date')
+                  - unless Rails.env.production?
+                    %td= @client.created_at.to_s
                   %td= date_format(@client.initial_referral_date)
                   %td
                     .text-center
