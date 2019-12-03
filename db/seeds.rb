@@ -1737,7 +1737,7 @@ aht_domains =
   }
 ]
 # if Organization.current.presence.try(:short_name) == Organization.order(:created_at).last.short_name
-if Organization.current.presence.try(:short_name) == 'aht'
+if Organization.current.aht == true
   aht_domains.each do |aht|
     ad = DomainGroup.find_or_create_by(name: aht[:group])
     Domain.find_or_create_by(
