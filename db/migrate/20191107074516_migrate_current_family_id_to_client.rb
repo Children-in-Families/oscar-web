@@ -1,17 +1,9 @@
 class MigrateCurrentFamilyIdToClient < ActiveRecord::Migration
   def up
-    Client.joins(:families).each do |client|
-      next if client.current_family_id.present?
-      if client.current_family_id.nil?
-        if client.family_ids.last.present?
-          client.current_family_id = client.family_ids.last
-          client.save(validate: false)
-        end
-      else
-        next
-      end
-      puts "Client: #{client.slug}"
-    end
+    values = Client.joins(:cases).distinct.select('clients.id, (SELECT cases.family_id FROM cases WHERE client.id = cases.client_id ORDER BY cases.created_at DESC LIMIT 1) as family_id').pluck(:id, :family_id).map do |id, family_id|
+      "(#{id}, #{family_id || 'NULL'})"
+    end.join(", ")
+    ActiveRecord::Base.connection.execute("UPDATE clients SET current_family_id = mapping_values.family_id FROM (VALUES #{values}) AS mapping_values (client_id, family_id) WHERE clients.id = mapping_values.client_id") if values.present?
   end
 
   def down
