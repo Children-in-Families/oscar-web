@@ -429,7 +429,7 @@
                     - case_history_name = case_history.class.table_name
                     %tr.case-history-row{ data: {date: case_history.new_date } }
                       %td= case_history_label(case_history)
-                      - if unless Rails.env.production?
+                      - unless Rails.env.production?
                         %td= case_history.created_at.to_s
                       %td= date_format(case_history.new_date)
                       %td
