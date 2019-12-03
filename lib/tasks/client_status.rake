@@ -1,6 +1,7 @@
 namespace :client_status do
   desc "Update clients status who exited from ngo but status not 'Exited'"
   task correct: :environment do
+    ngo_client_ids_hash = Hash.new{|hash, key| hash[key] = Array.new }
     Organization.pluck(:short_name).each do |short_name|
       next if short_name == 'share'
       Organization.switch_to short_name
@@ -18,13 +19,22 @@ namespace :client_status do
         puts "#{short_name}: client #{client.slug} done!!!"
       end
 
-      # Client.joins(:case_worker_clients).where(status: 'Exited').group('clients.id').having("COUNT(case_worker_clients) > 0").distinct.each do |client|
-      #   client.case_worker_clients.destroy_all
-      #   puts "#{short_name}: client #{client.slug} done!!!"
-      # end
+      client_ids = Client.joins(:exit_ngos, :enter_ngos).where("((#{exit_ngo_date}) > (#{enter_ngo_date})) AND clients.status = ?", 'Exited').order(:id).distinct.ids
+      Client.joins(:case_worker_clients).where(id: client_ids).group('clients.id').having("COUNT(case_worker_clients) > 0").distinct.each do |client|
+        if client.client_enrollments.last
+          if client.client_enrollments.last.created_at > client.exit_ngos.last.exit_date
+            ngo_client_ids_hash[short_name] << client.slug
+            next
+          end
+        end
+
+        client.case_worker_clients.destroy_all
+        puts "#{short_name}: client #{client.slug} done!!!"
+      end
 
       # Client.joins(:client_enrollments).where("clients.status != 'Active' AND (SELECT COUNT(*) FROM client_enrollments WHERE client_enrollments.client_id = clients.id AND status = 'Active' GROUP BY client_enrollments.created_at ORDER BY created_at DESC LIMIT 1) = 1").distinct.each do |client|qg
       # end
     end
+    puts ngo_client_ids_hash
   end
 end
