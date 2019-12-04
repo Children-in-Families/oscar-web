@@ -8,7 +8,9 @@ namespace :client_to_shared do
     lesotho_suburbs = []
 
     Organization.all.each do |org|
+      next if org.short_name == 'shared'
       Organization.switch_to org.short_name
+      Rake::Task["archived_slug:update"].invoke(org.short_name)
       case org.short_name
       when 'gca'
         thailand_province_names.concat(Province.pluck(:name))
@@ -59,7 +61,7 @@ private
 def fetch_client_attributes(birth_province)
   clients = []
   Client.all.each do |client|
-    clients << client.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :slug, :live_with, :telephone_number, :country_origin).merge({ birth_province_name: client.send(birth_province) })
+    clients << client.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :slug, :archived_slug, :live_with, :telephone_number, :country_origin).merge({ birth_province_name: client.send(birth_province) })
   end
   clients
 end
