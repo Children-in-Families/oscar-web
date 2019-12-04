@@ -32,6 +32,12 @@ namespace :client_status do
         puts "#{short_name}: client #{client.slug} done!!!"
       end
 
+      Client.joins(:exit_ngos, :case_worker_clients).where("clients.status = ? AND (SELECT COUNT(case_worker_clients.*) FROM case_worker_clients) > 0", 'Exited').where.not(id: client_ids).order(:id).distinct.each do |client|
+        next if client.client_enrollments.present?
+        client.case_worker_clients.destroy_all
+        puts "#{short_name}: client #{client.slug} done!!!"
+      end
+
       # Client.joins(:client_enrollments).where("clients.status != 'Active' AND (SELECT COUNT(*) FROM client_enrollments WHERE client_enrollments.client_id = clients.id AND status = 'Active' GROUP BY client_enrollments.created_at ORDER BY created_at DESC LIMIT 1) = 1").distinct.each do |client|qg
       # end
     end
