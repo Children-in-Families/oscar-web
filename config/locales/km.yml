@@ -610,6 +610,15 @@ km:
   calendars:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
+  calls:
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Notifier Concern"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counseling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}

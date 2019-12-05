@@ -608,6 +608,15 @@ my:
   calendars:
     index:
       sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
+  calls:
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Notifier Concern"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counseling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:

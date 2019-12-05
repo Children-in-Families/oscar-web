@@ -33,6 +33,10 @@
             %i.fa.fa-th-large
             %span.nav-label= t('.dashboards')
 
+        %li.main
+          = link_to calls_path do
+            = fa_icon('child')
+            %span.nav-label Calls
         %li.main{ class: clients_menu_active }
           = link_to clients_path do
             = fa_icon('child')

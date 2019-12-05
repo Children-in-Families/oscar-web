@@ -7,5 +7,15 @@ describe Call, 'validations' do
   it { is_expected.to validate_presence_of(:start_datetime) }
   it { is_expected.to validate_presence_of(:end_datetime) }
   it { is_expected.to validate_presence_of(:call_type) }
-  it { is_expected.to validate_inclusion_of(:call_type).in_array(Call::CALL_TYPE)}
+  # it { is_expected.to validate_inclusion_of(:call_type).in_array(Call.call_types.values)}
+
+  context 'call_type' do
+    let!(:caller) { create(:caller, answered_call: false, called_before: false) }
+    let(:call){ Factory.build(:call, caller: caller, call_type: I18n.t('calls.type.case_action_required')) }
+    it 'valid' do
+      # pause here
+    #   expect(call).to be_valid
+    #   # expect(custom_csi.errors.full_messages).to include('Assessment tool must be enable in setting')
+    end
+  end
 end

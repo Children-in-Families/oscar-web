@@ -621,6 +621,15 @@ en:
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
+  calls:
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Notifier Concern"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counseling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
