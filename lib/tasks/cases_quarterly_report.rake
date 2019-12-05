@@ -11,7 +11,7 @@ namespace :cases_quarterly_report do
   task table_drop: :environment do
     SCHEMAS.each do |short_name|
       # next if Organization.find_by(short_name: short_name).nil? || short_name != 'cif'
-      next unless short_name == 'shk'
+      next unless short_name == 'cif'
       ActiveRecord::Base.connection.execute <<-SQL.squish
         DROP TABLE IF EXISTS "#{short_name}".quarterly_reports CASCADE;
         DROP TABLE IF EXISTS "#{short_name}".case_contracts CASCADE;
@@ -24,7 +24,7 @@ namespace :cases_quarterly_report do
   task restore: :environment do
     SCHEMAS.each do |short_name|
       # next if Organization.find_by(short_name: short_name).nil? || short_name != 'cif'
-      next unless short_name == 'shk'
+      next unless short_name == 'cif'
       begin
         system("PGPASSWORD=#{ENV['DATABASE_PASSWORD']} psql #{ENV['DATABASE_NAME']} -U #{ENV['DATABASE_USER']} -h #{ENV['DATABASE_HOST']} -p #{ENV['DATABASE_PORT']} < #{short_name}_cases_production_2019-11-27.dump")
       rescue

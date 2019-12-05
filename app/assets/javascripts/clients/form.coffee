@@ -283,7 +283,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       clientId  = $('#client_slug').val()
       similar_fields  = data.similar_fields
       modalTextSecond = ''
-
       if clientId == '' and similar_fields.length > 0
         modalTitle      = $('#hidden_title').val()
         modalTextFirst  = $('#hidden_body_first').val() + '<br/>'
@@ -301,11 +300,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
         $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
         $('#confirm-client-modal .modal-body').html(modalText)
-
         $('#confirm-client-modal').modal('show')
         return { isFound: true }
       else
-        return { isFound: false }
+        if $('#client_family_ids').find(':selected').text() == ''
+          $('#client-confirmation').modal('show')
+          return { isFound: false }
+        else
+          $('#client-wizard-form').submit()
+          return true
     ).catch (err) ->
       console.log err
       return false
