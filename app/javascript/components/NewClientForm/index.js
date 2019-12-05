@@ -130,7 +130,7 @@ const Forms = props => {
   console.log('carerData', carerData)
 
   return (
-    <div className='container'>
+    <div className='containerClass'>
       <div className='tabHead'>
         {tabs.map((tab, index) => renderTab(tab, index))}
       </div>
