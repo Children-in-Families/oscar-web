@@ -85,7 +85,7 @@ group :development, :test do
   gem 'thin',                 '~> 1.7'
 end
 
-group :staging, :demo, :production do
+group :staging, :ratanak_staging, :demo, :production do
   gem 'appsignal', '~> 1.1.9'
   gem 'asset_sync'
 end
