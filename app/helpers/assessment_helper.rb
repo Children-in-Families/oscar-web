@@ -121,10 +121,13 @@ module AssessmentHelper
       results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
       query_string = get_assessment_query_string(results, identity, domain_id, object.id, basic_rules)
 
-      assessments = object.assessments.joins(:assessment_domains).where(query_string).distinct
-      sub_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
-
-      assessment_domains = assessments.map{|assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(" AND ")).where(domains: { identity: identity }) }.flatten.uniq
+      if results.present?
+        assessments = object.assessments.joins(:assessment_domains).where(query_string).distinct
+        sub_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
+        assessment_domains = assessments.map{|assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(" AND ")).where(domains: { identity: identity }) }.flatten.uniq
+      else
+        assessments = object.assessments.defaults.joins(:assessment_domains).distinct
+      end
     end
   end
 
