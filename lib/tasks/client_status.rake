@@ -21,13 +21,6 @@ namespace :client_status do
 
       client_ids = Client.joins(:exit_ngos, :enter_ngos).where("((#{exit_ngo_date}) > (#{enter_ngo_date})) AND clients.status = ?", 'Exited').order(:id).distinct.ids
       Client.joins(:case_worker_clients).where(id: client_ids).group('clients.id').having("COUNT(case_worker_clients) > 0").distinct.each do |client|
-        if client.client_enrollments.last
-          if client.client_enrollments.last.created_at > client.exit_ngos.last.exit_date
-            ngo_client_ids_hash[short_name] << client.slug
-            next
-          end
-        end
-
         client.case_worker_clients.destroy_all
         puts "#{short_name}: client #{client.slug} done!!!"
       end
