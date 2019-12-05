@@ -144,6 +144,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :calls, only: [:index]
+
   resources :families do
     resources :custom_field_properties
     get 'version' => 'families#version'
