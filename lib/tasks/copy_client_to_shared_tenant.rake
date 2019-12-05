@@ -65,10 +65,9 @@ namespace :client_to_shared do
         if found_province.first.nil?
           found_province = Province.where(name: province_name)
         end
-        puts "#{short_name}: '#{province_name}'"
+        puts province_name
 
         next if ['Myanmar', 'Malaysia ', 'Community', ' ផ្សេងៗ', ' Outside Cambodia', 'Thailand', 'Burmese', 'Myawaddy'].include?(province_name)
-
         province_id = found_province.try(:id)
       end
       SharedClient.find_or_create_by(client.except('birth_province_name').merge({ birth_province_id: province_id }))
