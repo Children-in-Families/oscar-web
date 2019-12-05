@@ -66,8 +66,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_clients"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "slug" varchar, "organization_name" varchar, "gender" varchar, "date_of_birth" varchar,
-                            "status" varchar, "donor_id" int4, "province_id" int4, "province_name" varchar, "birth_province_name" varchar,
-                            "district_id" int4, "district_name" varchar,
+                            "status" varchar, "donor_id" int4, "province_id" int4, "province_name" varchar, "district_id" int4, "district_name" varchar,
                             "birth_province_id" int4, "assessments_count" int4, "follow_up_date" varchar, "initial_referral_date" varchar,
                             "exit_date" varchar, "accepted_date" varchar, "referral_source_category_id" int4, "created_at" varchar,
                             "updated_at" varchar) AS $BODY$
@@ -85,7 +84,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
                   LOOP
                     sql := sql || format(
                                     'SELECT clients.id, clients.slug, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
-                                    clients.date_of_birth, clients.status, clients.province_id, provinces.name as province_name, provinces.name as birth_province_name, clients.district_id, districts.name as district_name,
+                                    clients.date_of_birth, clients.status, clients.province_id, provinces.name as province_name, clients.district_id, districts.name as district_name,
                                     clients.birth_province_id, clients.assessments_count, clients.follow_up_date,
                                     clients.initial_referral_date, clients.referral_source_category_id, clients.created_at,
                                     clients.updated_at FROM %1$I.clients LEFT OUTER JOIN %1$I.provinces ON %1$I.provinces.id = %1$I.clients.province_id
@@ -100,14 +99,6 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     accepted_date := timezone('Asia/Bangkok', client_r.accepted_date);
                     date_of_birth := date(client_r.date_of_birth); status := client_r.status;
                     province_id := client_r.province_id; province_name := client_r.province_name;
-
-                    IF client_r.birth_province_name IS NULL THEN
-                      shared_bp_name := get_birth_province_name(client_r.birth_province_id);
-                      birth_province_name := shared_bp_name;
-                    ELSE
-                      birth_province_name := client_r.birth_province_name;
-                    END IF;
-
                     district_id := client_r.district_id; district_name := client_r.district_name;
                     birth_province_id := client_r.birth_province_id; assessments_count := client_r.assessments_count;
                     follow_up_date := client_r.follow_up_date; initial_referral_date := date(client_r.initial_referral_date);
