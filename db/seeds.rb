@@ -1736,8 +1736,8 @@ aht_domains =
     score_4_local_definition: "កុមាររូបនេះមានអាហារផ្គត់ផ្គង់គ្រប់ គ្រាន់, បរិភោគបានជាទៀងទាត់។"
   }
 ]
-# if Organization.current.presence.try(:short_name) == Organization.order(:created_at).last.short_name
-if Organization.current.aht == true
+
+if Organization.current.try(:aht) == true
   aht_domains.each do |aht|
     ad = DomainGroup.find_or_create_by(name: aht[:group])
     Domain.find_or_create_by(
