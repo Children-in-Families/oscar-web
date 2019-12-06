@@ -15,27 +15,38 @@ export default props => {
   const [villages, setvillages] = useState(currentVillages.map(village => ({ label: village.name_kh + ' / ' + village.name_en, value: village.id})))
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
 
-  const onChangeParent = object => ({data, type}) => {
-    const { parent, child, field, obj } = object
-    const functions = [setdistricts, setcommunes, setvillages]
+  const updateValues = object => {
+    const { parent, child, field, obj, data } = object
 
-    if (parent === 'provinces') {
-      onChange(obj, {district_id: null, commune_id: null, village_id: null, [field]: data})({type})
-      if (data === null)
-        functions.forEach(func => func([]))
-    } else if (parent === 'districts') {
-      onChange(obj, {commune_id: null, village_id: null, [field]: data})({type})
-      if (data === null)
-        functions.splice(0, 1).forEach(func => func([]))
-    } else if (parent === 'communes') {
-      onChange(obj, {village_id: null, [field]: data})({type})
-      if (data === null)
-        functions.splice(0, 2).forEach(func => func([]))
-    } else if (parent === 'villages') {
-      onChange(obj, {[field]: data})({type})
-    }else{
-      onChange(obj, field)(data)
+    const parentConditions = {
+      'provinces': {
+        fieldsTobeUpdate: { district_id: null, commune_id: null, village_id: null, [field]: data },
+        optionsTobeResets: [setdistricts, setcommunes, setvillages]
+      },
+      'districts': {
+        fieldsTobeUpdate: { commune_id: null, village_id: null, [field]: data },
+        optionsTobeResets: [setcommunes, setvillages]
+      },
+      'communes': {
+        fieldsTobeUpdate: { village_id: null, [field]: data },
+        optionsTobeResets: [setvillages]
+      },
+      'villages': {
+        fieldsTobeUpdate: { [field]: data },
+        optionsTobeResets: []
+      }
     }
+
+    onChange(obj, parentConditions[parent].fieldsTobeUpdate)({type: 'select'})
+
+    if(data === null)
+      parentConditions[parent].optionsTobeResets.forEach(func => func([]))
+  }
+
+  const onChangeParent = object => ({data, type}) => {
+    const { parent, child } = object
+
+    updateValues({ ...object, data})
 
     if(parent !== 'villages' && data !== null)
       $.ajax({

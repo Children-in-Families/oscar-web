@@ -3,7 +3,7 @@
     .row
       .col-xs-12.col-sm-8
         %h3
-          - if Organization.current.short_name == 'aht'
+          - if current_organization.try(:aht) == true
             - if !domain.custom_domain
               = t('dimensions.dimension_list.dimensions') + ":"
               = t("dimensions.dimension_names.#{domain.name.downcase.reverse}")
