@@ -36,8 +36,8 @@ module Api
     def update
       client = Client.find(params[:client][:id])
       Family.where('children @> ARRAY[?]::integer[]', [client.id]).each do |family|
-        family.children = family.children - [@client.id]
-        family.save(validate: false)
+        family.children = family.children - [client.id]
+        family.save
       end
 
       if client.update_attributes(client_params)

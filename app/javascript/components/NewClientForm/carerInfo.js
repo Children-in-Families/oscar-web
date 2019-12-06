@@ -7,9 +7,20 @@ import {
 import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { client, carer, currentDistricts, currentCommunes, currentVillages, currentProvinces } } = props
+  const { onChange, id, data: { client, carer, currentDistricts, currentCommunes, currentVillages, currentProvinces, families } } = props
   const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
+  const familyLists = families.map(family => ({ label: family.name, value: family.id }))
+
+  const onChangeFamily = ({ data, action, type }) => {
+    let value = []
+    if (action === 'select-option'){
+      value.push(data)
+    } else if (action === 'clear'){
+      value = []
+    }
+    onChange('client', 'family_ids')({data: value, type})
+  }
 
   return (
     <div id={id} className="collapse">
@@ -35,7 +46,7 @@ export default props => {
           <SelectInput label="Relationship to Client" options={blank} onChange={onChange('carer', 'relationship')} value={carer.relationship} />
         </div>
         <div className="col-xs-3">
-          <SelectInput label="Family Record" options={blank} onChange={onChange('carer', 'family')} value={carer.family} />
+          <SelectInput label="Family Record" options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
         </div>
       </div>
       <legend>

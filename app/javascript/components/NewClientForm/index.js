@@ -4,19 +4,20 @@ import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
+import CreateFamilyModal from './createFamilyModal'
 import './styles.scss'
 
 const Forms = props => {
   const {
     data: {
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families
     }
   } = props
 
   const [errorFields, seterrorFields] = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, ...client })
+  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
   const [refereeData, setrefereeData] = useState({})
   const [carerData, setcarerData] = useState({})
 
@@ -24,7 +25,7 @@ const Forms = props => {
   const adminTabData = { users, client: clientData, errorFields }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
   const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address  }
-  const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, ...referralTabData }
+  const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, families, ...referralTabData }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
 
   const tabs = [
@@ -167,7 +168,8 @@ const Forms = props => {
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
           { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
-          { step === 4 && <span className='clientButton saveButton' onClick={handleSave}>Save</span> }
+          {step === 4 && <span className='clientButton saveButton' onClick={clientData.family_ids.length < 1 ? {} : handleSave} data-toggle={clientData.family_ids.length < 1 ? 'modal' : {}} data-target={clientData.family_ids.length < 1 ? '#myModal' : {} }>Save</span>}
+          <CreateFamilyModal id="myModal" data={{ families, clientData, refereeData }} onChange={onChange} validation={handleValidation}/>
         </div>
       </div>
     </div>
