@@ -10,7 +10,7 @@ namespace :client_to_shared do
     Organization.all.each do |org|
       next if org.short_name == 'shared'
       Organization.switch_to org.short_name
-      system("bundle exec rake 'archived_slug:update[#{org.short_name}]' RAILS_ENV=#{Rails.env}")
+      # system("bundle exec rake 'archived_slug:update[#{org.short_name}]' RAILS_ENV=#{Rails.env}")
       case org.short_name
       when 'gca'
         thailand_province_names.concat(Province.pluck(:name))
