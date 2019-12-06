@@ -33,6 +33,7 @@ class FamiliesController < AdminController
 
   def new
     @family = Family.new
+    @selected_children = params[:children]
   end
 
   def create
@@ -41,6 +42,7 @@ class FamiliesController < AdminController
     if @family.save
       redirect_to @family, notice: t('.successfully_created')
     else
+      @selected_children = family_params[:children]
       render :new
     end
   end

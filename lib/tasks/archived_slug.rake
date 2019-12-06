@@ -7,12 +7,11 @@ namespace 'archived_slug' do
     Client.find_each do |client|
       old_archived_slug = client.archived_slug
       new_archived_slug = ''
+      next if old_archived_slug.present? && old_archived_slug[/\w+\-\d+/]
       if client.referrals.present?
         short_name = client.referrals.first.try(:referred_from)
-        next if client.archived_slug
         new_archived_slug = "#{short_name}-#{client.id}"
       else
-        next if client.archived_slug
         new_archived_slug = "#{short_name}-#{client.id}"
       end
       client.archived_slug = new_archived_slug

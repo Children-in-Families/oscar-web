@@ -77,7 +77,7 @@ class ClientsController < AdminController
         cps_enrollments = @client.client_enrollments
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
         referrals = @client.referrals
-        @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.new_date, current_record.created_at] <=> [next_record.new_date, next_record.created_at]) }
+        @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
         # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
       end
       format.pdf do
@@ -134,8 +134,12 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
-    if @client.save(validate: false)
-      redirect_to @client, notice: t('.successfully_created')
+    if @client.save
+      if params[:clientConfirmation] == 'createNewFamilyRecord'
+        redirect_to new_family_path(children: [@client.id])
+      else
+        redirect_to @client, notice: t('.successfully_created')
+      end
     else
       render :new
     end

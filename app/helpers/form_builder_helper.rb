@@ -127,7 +127,7 @@ module FormBuilderHelper
       if type == 'checkbox'
         "properties -> '#{field}' ? ''"
       else
-        "properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NUL"
+        "properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL"
       end
     when 'is_not_empty'
       if type == 'checkbox'
