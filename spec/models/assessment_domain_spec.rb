@@ -107,11 +107,11 @@ describe AssessmentDomain, 'instance method' do
     # it { expect(good.previous_score_color_class).to eq('primary')}
   end
 
-  context '#score_definition' do
+  xcontext '#score_definition' do
     it { expect(other_critical_problem.score_definition).to eq('score 2 definition') }
   end
 
-  context '#previous_score_definition' do
+  xcontext '#previous_score_definition' do
     it { expect(other_critical_problem.previous_score_definition).to eq('score 1 definition') }
   end
 end

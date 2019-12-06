@@ -22,7 +22,7 @@ describe Organization do
       end
     end
 
-    describe '.without_demo scope' do
+    xdescribe '.without_demo scope' do
       let!(:demo_org) { create(:organization, full_name: 'Demo')}
       subject { Organization.without_demo }
 
@@ -32,7 +32,7 @@ describe Organization do
       end
     end
 
-    describe '.without_shared scope' do
+    xdescribe '.without_shared scope' do
       let!(:shared_org) { create(:organization, short_name: 'shared')}
       subject { Organization.without_shared }
 
@@ -54,7 +54,7 @@ describe Organization do
         end
       end
 
-      describe 'when demo organization is created' do
+      xdescribe 'when demo organization is created' do
         let!(:demo_org) { create(:organization, short_name: 'demo', full_name: 'cwd', country: 'india') }
 
         describe '.oscar scope' do
@@ -79,7 +79,7 @@ describe Organization do
           end
         end
 
-        describe '.skip_dup_checking_orgs' do
+        xdescribe '.skip_dup_checking_orgs' do
           subject { Organization.skip_dup_checking_orgs }
 
           it 'returns the demo org' do
