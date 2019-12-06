@@ -20,15 +20,21 @@ namespace :client_status do
         last_enter_ngo_date = client.enter_ngos.first.try(:created_at)
         if last_enter_ngo_date && cps_enrollments.present? && cps_leave_programs.present?
           last_exit_ngo_date = client.exit_ngos.where('created_at > DATE(?)', last_enter_ngo_date.to_s).first.try(:created_at)
-          first_enter_ngo_before_exit_ngo_date = cps_enrollments.where('created_at > DATE(?)', last_exit_ngo_date.to_s).first.try(:created_at)
-          enrollment_date_error = (last_exit_ngo_date > last_enter_ngo_date) && ((last_exit_ngo_date < first_enter_ngo_before_exit_ngo_date) || (last_exit_ngo_date < cps_leave_programs.last.created_at)) if first_enter_ngo_before_exit_ngo_date
-          if enrollment_date_error && first_enter_ngo_before_exit_ngo_date
-            client.enter_ngos.create(created_at: first_enter_ngo_before_exit_ngo_date, accepted_date: first_enter_ngo_before_exit_ngo_date)
+          first_enroll_program_before_exit_ngo_date = cps_enrollments.where('created_at > DATE(?)', last_exit_ngo_date.to_s).first
+          enrollment_date_error = (last_exit_ngo_date > last_enter_ngo_date) && ((last_exit_ngo_date < first_enroll_program_before_exit_ngo_date.created_at) || (last_exit_ngo_date < cps_leave_programs.last.created_at)) if first_enroll_program_before_exit_ngo_date.present?
+          if enrollment_date_error && first_enroll_program_before_exit_ngo_date
+            client.enter_ngos.create(created_at: first_enroll_program_before_exit_ngo_date.created_at - 15.minutes, accepted_date: first_enroll_program_before_exit_ngo_date.enrollment_date)
           end
         end
         client.reload
         if (client.exit_ngos.count != client.enter_ngos.count && cps_enrollments.present?) || cps_enrollments.count != cps_enrollments.count
-          ngo_client_ids_hash[short_name] << client.slug
+          last_exits = client.exit_ngos.where('created_at > DATE(?)', last_enter_ngo_date.to_s)
+          if last_exits.count > 1
+            last_exits.last.destroy
+            puts "Destroy duplicated exit_ngos"
+          else
+            ngo_client_ids_hash[short_name] << client.slug
+          end
         else
           client.status = 'Exited'
           client.save!(validate: false)
