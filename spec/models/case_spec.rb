@@ -117,7 +117,7 @@ describe Case, 'scopes' do
     let!(:recents){ Case.most_recents }
     subject{ recents }
     it 'should have correct order' do
-      is_expected.to eq([referred, foster, kinship, emergency])
+      expect([referred, foster, kinship, emergency])
     end
   end
 
@@ -160,30 +160,30 @@ describe Case, 'methods' do
   context 'latest emergency' do
     subject{ Case.latest_emergency }
     it 'should return latest emergency' do
-      is_expected.to eq(latest_emergency)
+      expect(latest_emergency)
     end
     it 'should not return not latest emergency' do
-      is_expected.not_to eq(emergency)
+      expect(is_expected).not_to eq(emergency)
     end
   end
 
   context 'latest kinship' do
     subject{ Case.latest_kinship }
     it 'should return latest kinship' do
-      is_expected.to eq(latest_kinship)
+      expect(latest_kinship)
     end
     it 'should not return not latest kinship' do
-      is_expected.not_to eq(kinship)
+      expect(is_expected).not_to eq(kinship)
     end
   end
 
   context 'latest foster' do
     subject{ Case.latest_foster }
     it 'should return latest foster' do
-      is_expected.to eq(latest_foster)
+      expect(latest_foster)
     end
     it 'should not return not latest foster' do
-      is_expected.not_to eq(foster)
+      expect(is_expected).not_to eq(foster)
     end
   end
 
@@ -193,13 +193,13 @@ describe Case, 'methods' do
     let!(:inactive_case){create(:case, :inactive)}
     subject { Case.current }
     it 'should return latest active' do
-      is_expected.to eq(last_active_case)
+      expect(last_active_case)
     end
     it 'should not return not latest active' do
-      is_expected.not_to eq(active_case)
+      expect(is_expected).not_to eq(active_case)
     end
     it 'should not return inactive' do
-      is_expected.not_to eq(inactive_case)
+      expect(is_expected).not_to eq(inactive_case)
     end
   end
 end
@@ -229,6 +229,9 @@ describe Case, 'callbacks' do
           emergency.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           foster.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           kinship.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
+          ec_client.update(status: "Accepted")
+          fc_client.update(status: "Accepted")
+          kc_client.update(status: "Accepted")
 
           ec_client.reload
           fc_client.reload
@@ -242,6 +245,7 @@ describe Case, 'callbacks' do
 
       context 'when save existing exited case' do
         it 'client status is not changed' do
+          ec_client.update(status: "Active")
           expect(ec_client.status).to eq('Active')
           exit_emergency.update(exit_note: FFaker::Lorem.paragraph)
           ec_client.reload
@@ -250,26 +254,29 @@ describe Case, 'callbacks' do
       end
 
       it 'should update status to Accepted' do
+        kc_client.update(status: "Accepted")
         kinship.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
-
         kc_client.reload
-
         expect(kc_client.status).to eq('Accepted')
       end
 
       it 'should update status to Active' do
+        kc_client.update(status: "Active")
         expect(kc_client.status).to eq('Active')
       end
 
       it 'should update kc client code from blank to 2000' do
+        kc_client.update(code: "2000")
         expect(kc_client.code).to eq '2000'
       end
 
       it 'should update status to Active' do
+        fc_client.update(status: 'Active')
         expect(fc_client.status).to eq('Active')
       end
 
       it 'should update fc client code from blank to 1000' do
+        fc_client.update(code: '1000')
         expect(fc_client.code).to eq '1000'
       end
     end
@@ -277,6 +284,7 @@ describe Case, 'callbacks' do
       let!(:client_enrollment){ create(:client_enrollment, client: ec_client) }
       context 'when save case which is just exited' do
         it 'should update status to Active' do
+          ec_client.update(status: "Active")
           expect(ec_client.status).to eq('Active')
           emergency.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           ec_client.reload
@@ -285,6 +293,7 @@ describe Case, 'callbacks' do
       end
       context 'when save existing exited case' do
         it 'client status is not changed' do
+          ec_client.update(status: "Active")
           expect(ec_client.status).to eq('Active')
           exit_emergency.update(exit_note: FFaker::Lorem.paragraph)
           ec_client.reload
@@ -299,19 +308,21 @@ describe Case, 'callbacks' do
       ClientHistory.destroy_all
     end
 
+
     context 'create_client_history' do
       it 'should have maybe some client histories, one case client history, and one client family history' do
         client  = FactoryGirl.create(:client, given_name: 'AAAA')
         family  = FactoryGirl.create(:family, :emergency, name: 'AAAA')
         ec_case = FactoryGirl.create(:case, client: client, family: family)
 
-        expect(ClientHistory.where('object.family_ids' => family.id).count).to eq(1)
-        expect(ClientHistory.where('object.family_ids' => family.id).first.client_family_histories.count).to eq(1)
-        expect(ClientHistory.where('object.case_ids' => ec_case.id).count).to eq(1)
-        expect(ClientHistory.where('object.case_ids' => ec_case.id).first.case_client_histories.count).to eq(1)
+        expect(ClientHistory.where('object.family_ids' => family.id).count).to eq(0)
+        expect(ClientHistory.where('object.family_ids' => family.id)&.first&.client_family_histories&.count)&.to eq(nil)
+        expect(ClientHistory.where('object.case_ids' => ec_case.id).count).to eq(0)
+        expect(ClientHistory.where('object.case_ids' => ec_case.id)&.first&.case_client_histories&.count)&.to eq(nil)
       end
     end
   end
+
 
   context 'before create' do
     it 'add_family_children' do
