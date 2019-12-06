@@ -17,13 +17,17 @@ namespace :client_status do
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", client.id)
         created_at_dates = cps_enrollments.map(&:created_at) + cps_leave_programs.map(&:created_at) + client.enter_ngos.map(&:created_at)
         enrollment_date_error = false
-        last_enter_ngo_date = client.enter_ngos.last.try(:created_at)
+        last_enter_ngo_date = client.enter_ngos.first.try(:created_at)
         if last_enter_ngo_date && cps_enrollments.present? && cps_leave_programs.present?
           last_exit_ngo_date = client.exit_ngos.where('created_at > DATE(?)', last_enter_ngo_date.to_s).first.try(:created_at)
-          enrollment_date_error = (last_exit_ngo_date > last_enter_ngo_date) && ((last_exit_ngo_date < cps_enrollments.last.created_at) || (last_exit_ngo_date < cps_leave_programs.last.created_at))
+          first_enter_ngo_before_exit_ngo_date = cps_enrollments.where('created_at > DATE(?)', last_exit_ngo_date.to_s).first.try(:created_at)
+          enrollment_date_error = (last_exit_ngo_date > last_enter_ngo_date) && ((last_exit_ngo_date < first_enter_ngo_before_exit_ngo_date) || (last_exit_ngo_date < cps_leave_programs.last.created_at)) if first_enter_ngo_before_exit_ngo_date
+          if enrollment_date_error && first_enter_ngo_before_exit_ngo_date
+            client.enter_ngos.create(created_at: first_enter_ngo_before_exit_ngo_date, accepted_date: first_enter_ngo_before_exit_ngo_date)
+          end
         end
-
-        if enrollment_date_error || (client.exit_ngos.count != client.enter_ngos.count && cps_enrollments.present?) || cps_enrollments.count != cps_enrollments.count
+        client.reload
+        if (client.exit_ngos.count != client.enter_ngos.count && cps_enrollments.present?) || cps_enrollments.count != cps_enrollments.count
           ngo_client_ids_hash[short_name] << client.slug
         else
           client.status = 'Exited'
