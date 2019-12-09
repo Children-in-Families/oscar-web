@@ -1028,3 +1028,4 @@ example_id                                                      | status  | run_
 ./spec/models/visit_spec.rb[2:1:1]                              | passed  | 0.04028 seconds |
 ./spec/models/visit_spec.rb[2:2:1]                              | pending | 0.00001 seconds |
 ./spec/models/visit_spec.rb[2:2:2]                              | passed  | 0.04146 seconds |
+
