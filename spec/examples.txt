@@ -287,7 +287,7 @@ example_id                                                      | status  | run_
 ./spec/models/client_spec.rb[2:1:1]                             | pending | 0.00001 seconds |
 ./spec/models/client_spec.rb[2:2:1]                             | pending | 0.00001 seconds |
 ./spec/models/client_spec.rb[2:2:2]                             | pending | 0.00001 seconds |
-./spec/models/client_spec.rb[2:3:1:1]                           | pending | 0.00001 seconds |
+./spec/models/client_spec.rb[2:3:1:1]                           | pending | 0.00002 seconds |
 ./spec/models/client_spec.rb[2:4:1:1:1]                         | pending | 0.00001 seconds |
 ./spec/models/client_spec.rb[2:4:1:1:2]                         | pending | 0.00001 seconds |
 ./spec/models/client_spec.rb[3:1:1]                             | passed  | 0.5599 seconds  |
@@ -428,8 +428,8 @@ example_id                                                      | status  | run_
 ./spec/models/custom_field_spec.rb[2:2]                         | pending | 0.00001 seconds |
 ./spec/models/custom_field_spec.rb[2:3]                         | pending | 0.00001 seconds |
 ./spec/models/custom_field_spec.rb[2:4]                         | pending | 0.00001 seconds |
-./spec/models/custom_field_spec.rb[2:5]                         | pending | 0.00001 seconds |
-./spec/models/custom_field_spec.rb[2:6]                         | pending | 0.00001 seconds |
+./spec/models/custom_field_spec.rb[2:5]                         | pending | 0.00003 seconds |
+./spec/models/custom_field_spec.rb[2:6]                         | pending | 0.00002 seconds |
 ./spec/models/custom_field_spec.rb[2:7]                         | pending | 0.00001 seconds |
 ./spec/models/custom_field_spec.rb[2:8]                         | pending | 0.00001 seconds |
 ./spec/models/custom_field_spec.rb[3:1:1]                       | passed  | 0.01302 seconds |
