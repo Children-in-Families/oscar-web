@@ -457,8 +457,6 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
   end
