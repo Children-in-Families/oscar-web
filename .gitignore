@@ -12,7 +12,7 @@
 /db/*.sqlite3
 /db/*.sqlite3-journal
 # Ignore spec/examples.txt
-spec/examples.txt
+/spec/examples.txt
 
 # Ignore all logfiles and tempfiles.
 /log/*
