@@ -5,10 +5,10 @@ import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 
 export default props => {
-  const { onChange, data: { carer, client, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade } } = props
+  const { onChange, data: { carer, client, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families } } = props
 
   return (
-    <div className="container">
+    <div className="containerClass">
       <legend>
         <div className="row">
           <div className="col-xs-5">
@@ -35,7 +35,7 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo" data={{ carer, client, currentProvinces, currentDistricts, currentCommunes, currentVillages }} onChange={onChange} />
+      <CareInfo id="careInfo" data={{ carer, client, currentProvinces, currentDistricts, currentCommunes, currentVillages, families }} onChange={onChange} />
 
       <hr/>
       <div className="row">

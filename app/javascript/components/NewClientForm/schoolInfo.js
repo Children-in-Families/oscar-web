@@ -12,10 +12,10 @@ export default props => {
     <div id={id} className="collapse">
       <br/>
       <div className="row">
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label="School Name" onChange={onChange('client', 'school_name')} value={client.school_name}/>
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             label="School Grade"
             options={schoolGradeLists}
@@ -23,7 +23,7 @@ export default props => {
             onChange={onChange('client', 'school_grade')}
           />
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label="Main School Contact" onChange={onChange('client', 'main_school_contact')} value={client.main_school_contact} />
         </div>
       </div>

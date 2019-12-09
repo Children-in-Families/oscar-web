@@ -13,23 +13,23 @@ export default props => {
   const referralSourceCategoryLists = referralSourceCategory.map(catgeory => ({label: catgeory[0], value: catgeory[1]}))
 
   return (
-    <div className="container">
+    <div className="containerClass">
       <legend>
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <p>Referee Information</p>
           </div>
         </div>
       </legend>
 
       <div className="row">
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-sm-6 col-md-3">
           <Checkbox label="Anonymous Referee" checked={referee.anonymous || false} onChange={onChange('referee', 'anonymous')} />
         </div>
       </div>
       <br/>
       <div className="row">
-        <div className=" col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             required
             // isError={errorFields.includes('referee_name')}
@@ -40,18 +40,18 @@ export default props => {
             onChange={onChange('client', 'name_of_referee')}
           />
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} />
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label="Referee Phone Number" onChange={onChange('client', 'referral_phone')} value={client.referral_phone} />
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label="Referee Email Address" onChange={onChange('referee', 'email')} value={referee.email} />
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             required
             isError={errorFields.includes('referral_source_category_id')}
@@ -61,16 +61,16 @@ export default props => {
             onChange={onChange('client', 'referral_source_category_id')}
           />
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput options={[]} label="Referral Source" onChange={onChange('client', 'referral_source_id')} value={client.referral_source_id} />
         </div>
       </div>
       <legend>
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <p>Address</p>
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <Checkbox label="Outside Cambodia" checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
           </div>
         </div>

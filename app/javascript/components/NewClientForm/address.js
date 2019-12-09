@@ -73,86 +73,86 @@ export default props => {
 
   return (
     outside == true ?
-      <TextArea label="Out Side Address" value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
+      <TextArea label="Out Side Address" disabled={sameAsClient} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
     :
       <>
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Province"
               options={provinces}
               isDisabled={sameAsClient}
-              value={ sameAsClient ? client.province_id : objectData.province_id}
+              value={objectData.province_id}
               onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: objectKey, field: 'province_id'})}
             />
           </div>
 
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="District / Khan"
               isDisabled={sameAsClient}
               options={districts}
-              value={ sameAsClient ? client.district_id : objectData.district_id}
+              value={objectData.district_id}
               onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
             />
           </div>
 
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Commune / Sangkat"
               isDisabled={sameAsClient}
               options={communes}
-              value={ sameAsClient ? client.commune_id : objectData.commune_id}
+              value={objectData.commune_id}
               onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
             />
           </div>
 
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Village"
               isDisabled={sameAsClient}
               options={villages}
-              value={ sameAsClient ? client.village_id : objectData.village_id}
+              value={objectData.village_id}
               onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
             />
           </div>
         </div>
 
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label="Street Number"
               disabled={sameAsClient}
               onChange={onChange(objectKey, 'street_number')}
-              value={ sameAsClient ? client.street_number : objectData.street_number}
+              value={objectData.street_number}
             />
           </div>
 
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label="House Number"
               disabled={sameAsClient}
               onChange={onChange(objectKey, 'house_number')}
-              value={ sameAsClient ? client.house_number : objectData.house_number}
+              value={objectData.house_number}
             />
           </div>
 
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label="Address Name"
               disabled={sameAsClient}
               onChange={onChange(objectKey, 'current_address')}
-              value={ sameAsClient ? client.current_address : objectData.current_address}
+              value={objectData.current_address}
             />
           </div>
 
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Address Type"
               isDisabled={sameAsClient}
               options={addressType}
               onChange={onChange(objectKey, 'address_type')}
-              value={ sameAsClient ? client.address_type : objectData.address_type}
+              value={objectData.address_type}
             />
           </div>
         </div>

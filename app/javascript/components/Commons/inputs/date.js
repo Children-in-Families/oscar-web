@@ -53,6 +53,7 @@ export default props => {
       <div style={styles.calendar}>
         {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
       </div>
+      {isError && <span style={styles.errorText}>Cannot be blank.</span>}
     </div>
   )
 }

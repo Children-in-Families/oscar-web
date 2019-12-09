@@ -2860,31 +2860,31 @@ en:
       modification_of: Changelog of
   dimensions:
     dimension_identies:
-      risk_management_1a: Risk management
-      physical_health_2a: Physical health
-      work_skills_and_education_3a: Work skills and education
-      income_3b: Income
-      financial_management_3c: Financial management
-      recovery_from_trauma_4a: Recovery from trauma
-      resilence_4b: Resilence
-      values_5a: Values
-      family_relationships_6a: Family relationships
-      client_s_involvement_in_community_networks_6b: Client's involvement in community Networks
-      knowledge_of_legal_rights_7a: Knowledge of legal rights
+      risk_management_1a: (Risk management)
+      physical_health_2a: (Physical health)
+      work_skills_and_education_3a: (Work skills and education)
+      income_3b: (Income)
+      financial_management_3c: (Financial management)
+      recovery_from_trauma_4a: (Recovery from trauma)
+      resilence_4b: (Resilence)
+      values_5a: (Values)
+      family_relationships_6a: (Family relationships)
+      client_s_involvement_in_community_networks_6b: (Client's involvement in community Networks)
+      knowledge_of_legal_rights_7a: (Knowledge of legal rights)
     dimension_list:
       dimensions: Dimension
     dimension_names:
-      a1: 1A
-      a2: 2A
-      a3: 3A
-      b3: 3B
-      c3: 3C
-      a4: 4A
-      b4: 4B
-      a5: 5A
-      a6: 6A
-      b6: 6B
-      a7: 7A
+      a1: Safety
+      a2: Health
+      a3: Economic Sustainability
+      b3: Economic Sustainability
+      c3: Economic Sustainability
+      a4: Emotional well being
+      b4: Emotional well being
+      a5: Spiritual
+      a6: Social Connections
+      b6: Social Connections
+      a7: Justice
     dimension_groups:
       safety: Safety
       health: Health

@@ -2859,37 +2859,37 @@ km:
   dimensions:
     dimension_identies:
       risk_management_1a: "(ការគ្រប់គ្រងហានិភ័យ)"
-      physical_health_2a: "(Physical health)"
-      work_skills_and_education_3a: "(ជំនាញការងារ)"
+      physical_health_2a: "(សុខភាពរាង្គកាយ)"
+      work_skills_and_education_3a: "(ជំនាញនិងការអប់រំការងារ)"
       income_3b: "(ចំណូល)"
       financial_management_3c: "(ការគ្រប់គ្រងហិរវញ្ញវត្ថុ)"
-      recovery_from_trauma_4a: "(Recovery from trauma)"
-      resilence_4b: "(Resilence)"
+      recovery_from_trauma_4a: "(ការជាសះស្បើយឡើងវិញពីការប៉ះទង្គិះផ្លូវចិត្ត)"
+      resilence_4b: "(ភាពធន់)"
       values_5a: "(គុណតម្លៃ)"
-      family_relationships_6a: "(ស្ថានភាពគ្រួសារ)"
-      client_s_involvement_in_community_networks_6b: "(បណ្តាញ)"
-      knowledge_of_legal_rights_7a: "(Knowledge of legal rights)"
+      family_relationships_6a: "(ទំនាក់ទំនងគ្រួសារ)"
+      client_s_involvement_in_community_networks_6b: "(ការចូលរួមរបស់អតិថិជនក្នុងបណ្តាញសហគមន៍)"
+      knowledge_of_legal_rights_7a: "(ចំណេះដឹងអំពីសិទ្ធិស្របច្បាប់)"
     dimension_list:
       dimensions: មាត្រដ្ឋាន
     dimension_names:
-      a1: ១ក
-      a2: ២ក
-      a3: ៣ក
-      b3: ៣ខ
-      c3: ៣គ
-      a4: ៤ក
-      b4: ៤ខ
-      a5: ៥ក
-      a6: ៦ក
-      b6: ៦ខ
-      a7: ៧ក
+      a1: សុវត្តិភាព
+      a2: សុខភាព
+      a3: និរន្តរភាពសេដ្ឋកិច្ច
+      b3: និរន្តរភាពសេដ្ឋកិច្ច
+      c3: និរន្តរភាពសេដ្ឋកិច្ច
+      a4: សុខុមាលភាពផ្លូវចិត្ត
+      b4: សុខុមាលភាពផ្លូវចិត្ត
+      a5: ប្រលឹងវិញ្ញាណ
+      a6: ទំនាក់ទំនងសង្គម
+      b6: ទំនាក់ទំនងសង្គម
+      a7: យុត្តិធម៌
     dimension_groups:
       safety: សុវត្តិភាព
       health: សុខភាព
-      economic_sustainability: សេដ្ឋកិច្ច
-      emotional_well-being: ផ្លូវចិត្ត
+      economic_sustainability: និរន្តរភាពសេដ្ឋកិច្ច
+      emotional_well-being: សុខុមាលភាពផ្លូវចិត្ត
       spiritual: ប្រលឹងវិញ្ញាណ
-      social_connections: សង្គម
+      social_connections: ទំនាក់ទំនងសង្គម
       justice: យុត្តិធម៌
   domain_groups:
     create:

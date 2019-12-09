@@ -12,14 +12,14 @@ export default props => {
     <>
       <legend className='legend'>
         <div className="row">
-          <div className="col-xs-8">
+          <div className="col-md-12 col-lg-9">
             <p>Administrative Information</p>
           </div>
         </div>
       </legend>
 
       <div className='row'>
-        <div className='col-xs-8'>
+        <div className='col-md-12 col-lg-9'>
           <SelectInput
             required
             isError={errorFields.includes('received_by_id')}
@@ -31,7 +31,7 @@ export default props => {
       </div>
 
       <div className='row'>
-        <div className='col-xs-8'>
+        <div className='col-md-12 col-lg-9'>
           <DateInput
             required
             isError={errorFields.includes('initial_referral_date')}
@@ -42,7 +42,7 @@ export default props => {
       </div>
 
       <div className='row'>
-        <div className='col-xs-8'>
+        <div className='col-md-12 col-lg-9'>
           <SelectInput
             required
             isError={errorFields.includes('user_ids')}
@@ -55,13 +55,13 @@ export default props => {
       </div>
 
       <div className='row'>
-        <div className='col-xs-8'>
+        <div className='col-md-12 col-lg-9'>
           <SelectInput label='First Follow Up by' options={userLists} onChange={onChange('client', 'followed_up_by_id')} value={client.followed_up_by_id} />
         </div>
       </div>
 
       <div className='row'>
-        <div className='col-xs-8'>
+        <div className='col-md-12 col-lg-9'>
           <DateInput label='Date of First Follow Up' onChange={onChange('client','follow_up_date')} value={client.follow_up_date} />
         </div>
       </div>
