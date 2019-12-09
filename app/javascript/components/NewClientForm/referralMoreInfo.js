@@ -8,7 +8,7 @@ export default props => {
   const { onChange, data: { carer, client, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families } } = props
 
   return (
-    <div className="container">
+    <div className="containerClass">
       <legend>
         <div className="row">
           <div className="col-xs-5">

@@ -11,6 +11,9 @@ body[id='clients-edit'], body[id='clients-update'] {
   .contentWrapper {
     display: flex;
     flex-direction: row;
+    @media screen and (max-width: 1090px ){
+      flex-direction: column;
+    }
   }
 
   .leftComponent {

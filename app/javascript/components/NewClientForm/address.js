@@ -64,7 +64,7 @@ export default props => {
       <TextArea label="Out Side Address" value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} /> :
       <>
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Province"
               options={provinces}
@@ -72,7 +72,7 @@ export default props => {
               onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: objectKey, field: 'province_id'})}
             />
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="District / Khan"
               options={districts}
@@ -80,7 +80,7 @@ export default props => {
               onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
             />
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Commune / Sangkat"
               options={communes}
@@ -88,7 +88,7 @@ export default props => {
               onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
             />
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Village"
               options={villages}
@@ -98,16 +98,16 @@ export default props => {
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput label="Street Number" onChange={onChange(objectKey, 'street_number')} value={objectData.street_number} />
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput label="House Number" onChange={onChange(objectKey, 'house_number')} value={objectData.house_number} />
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput label="Address Name" onChange={onChange(objectKey, 'current_address')} value={objectData.current_address} />
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput label="Address Type" options={addressType} onChange={onChange(objectKey, 'address_type')} value={objectData.address_type}/>
           </div>
         </div>

@@ -33,7 +33,7 @@ class FamiliesController < AdminController
   end
 
   def new
-    if params[:value] == 'createNewFamilyRecord'
+    if params[:value] == "createNewFamilyRecord"
       @clientid = Client.find_by(slug: params[:children]).id
       @family = Family.new
       @family.children << @clientid

@@ -168,8 +168,9 @@ const Forms = props => {
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
           { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
-          {step === 4 && <span className='clientButton saveButton' onClick={clientData.family_ids.length < 1 ? {} : handleSave} data-toggle={clientData.family_ids.length < 1 ? 'modal' : {}} data-target={clientData.family_ids.length < 1 ? '#myModal' : {} }>Save</span>}
-          <CreateFamilyModal id="myModal" data={{ families, clientData, refereeData }} onChange={onChange} validation={handleValidation}/>
+          { step === 4 && errorFields.length > 0 && <span className='clientButton saveButton' data-target='#myModal' data-toggle='modal'>Save</span> }
+          { step === 4 && errorFields.length === 0 && <span className='clientButton saveButton' onClick={handleSave}>Save</span> }
+          <CreateFamilyModal id="myModal" data={{ families, clientData, refereeData }} onChange={onChange} />
         </div>
       </div>
     </div>

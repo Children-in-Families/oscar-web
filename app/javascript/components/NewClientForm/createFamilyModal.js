@@ -40,7 +40,7 @@ export default props => {
   }
 
   const handleSave = () => {
-    if (value == "createNewFamilyRecord") {
+    if (value === "createNewFamilyRecord") {
       const action = clientData.id ? 'PUT' : 'POST'
       const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
       $.ajax({
@@ -50,7 +50,7 @@ export default props => {
       }).success(response => {
         document.location.href = `/families/new?children=${response.id}&value=${value}`
       })
-    } else if (value == "attachWithExistingFamily"){
+    } else if (value === "attachWithExistingFamily"){
       const action = clientData.id ? 'PUT' : 'POST'
       const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
       $.ajax({
@@ -58,7 +58,7 @@ export default props => {
         type: action,
         data: { client: { ...refereeData, ...clientData } }
       }).success(response => { document.location.href = `/clients/${response.id}?notice=success` })
-    } else if (value == "no"){
+    } else if (value === "no"){
       const action = clientData.id ? 'PUT' : 'POST'
       const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
       $.ajax({
@@ -70,7 +70,7 @@ export default props => {
   }
   return (
     <div className="modal fade" id={id} role="dialog" data-backdrop="static" data-keyboard="false">
-      <div className="modal-dialog">
+      <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <button type="button" className="close" data-dismiss="modal">&times;</button>
