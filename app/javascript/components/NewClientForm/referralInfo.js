@@ -77,7 +77,7 @@ export default props => {
         </div>
       </legend>
 
-      <Address checked={client.outside || false} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'client', objectData: client}} />
+      <Address outside={client.outside || false} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'client', objectData: client}} />
 
       <div className="row">
         <div className="col-xs-3">

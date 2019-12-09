@@ -1,10 +1,10 @@
-import React, { useState }       from 'react'
+import React, { useState, useEffect }       from 'react'
 import {
   SelectInput,
   TextInput,
   Checkbox
 }                   from '../Commons/inputs'
-import Address from './address'
+import Address      from './address'
 
 export default props => {
   const { onChange, data: { referee, client, currentProvinces, referralSourceCategory, referralSource, currentDistricts, currentCommunes, currentVillages, birthProvinces, errorFields} } = props
@@ -75,7 +75,8 @@ export default props => {
           </div>
         </div>
       </legend>
-      <Address checked={referee.outside || false} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'referee', objectData: referee}} />
+
+      <Address outside={referee.outside || false} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'referee', objectData: referee}} />
     </div>
   )
 }
