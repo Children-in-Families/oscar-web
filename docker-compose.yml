@@ -1,0 +1,75 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: app
+    environment:
+      - DATABASE_NAME=oscar_development
+      - DATABASE_NAME_TEST=oscar_test
+      - DATABASE_USER=oscar
+      - DATABASE_PASSWORD=123456789
+      - DATABASE_HOST=db
+      - HISTORY_DATABASE_NAME=oscar_history_development
+      - HISTORY_DATABASE_NAME_TEST=oscar_history_test
+      - HISTORY_DATABASE_HOST=mongo
+      - OSCAR_TEAM_EMAIL=team@oscarhq.com
+      - OSCAR_TEAM_PASSWORD=123456789
+      - SENDER_EMAIL=admin@oscarhq.com
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - mongo
+    stdin_open: true
+    tty: true
+  db:
+    image: postgres:9.4
+    container_name: db
+    environment:
+      - POSTGRES_DB=oscar_development
+      - POSTGRES_USER=oscar
+      - POSTGRES_PASSWORD=123456789
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 5050:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@example.com
+      PGADMIN_DEFAULT_PASSWORD: 123456789
+    volumes:
+      - ./pgadmin-servers.json:/pgadmin4/servers.json:ro
+  mongo:
+    image: mongo:4.0.3
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=oscar_history_development
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=123456789
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./tmp/mongo:/data/db
+    ports:
+      - '27017-27019:27017-27019'
+  mongo-express:
+    image: mongo-express:0.49
+    container_name: mongo-express
+    restart: always
+    depends_on:
+      - mongo
+    links:
+      - mongo:mongo
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=mongo
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=123456789
+    ports:
+      - '8081:8081'

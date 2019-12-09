@@ -1,4 +1,4 @@
-describe ActiveEnrollmentStatistic, 'statistic data' do
+describe ActiveEnrollmentStatistic, 'Client enrollment statistic data' do
   let!(:client_1){ create(:client) }
   let!(:client_2){ create(:client) }
   let!(:client_3){ create(:client) }
@@ -18,17 +18,25 @@ describe ActiveEnrollmentStatistic, 'statistic data' do
   let!(:client_enrollment_5){ create(:client_enrollment, client: client_5, program_stream: program_2, enrollment_date: 2.months.ago) }
   let!(:client_enrollment_6){ create(:client_enrollment, client: client_6, program_stream: program_3, enrollment_date: 1.months.ago) }
 
-  it 'returns current active cases of clients with single case' do
-    data = [[3.months.ago.strftime("%b-%y"), 2.months.ago.strftime("%b-%y"), 1.month.ago.strftime("%b-%y")], [{:name=>"PA", :data=>[2, nil, nil]}, {:name=>"PB", :data=>[nil, 2, nil]}, {:name=>"PC", :data=>[nil, nil, 2]}]]
-    statistic = ActiveEnrollmentStatistic.new(Client.all)
-    expect(statistic.statistic_data).to eq(data)
+  subject { ActiveEnrollmentStatistic.new(Client.all) }
+
+  context 'with a single case' do
+    it 'returns current active cases of clients with single case' do
+      data = [[3.months.ago.strftime("%b-%y"), 2.months.ago.strftime("%b-%y"), 1.month.ago.strftime("%b-%y")], [{:name=>"PA", :data=>[2, nil, nil]}, {:name=>"PB", :data=>[nil, 2, nil]}, {:name=>"PC", :data=>[nil, nil, 2]}]]
+      expect(subject.statistic_data).to eq(data)
+    end
   end
 
-  it 'returns current active cases of clients with multiple cases' do
-    FactoryGirl.create(:leave_program, client_enrollment: client_enrollment_1, program_stream: program_1)
-    FactoryGirl.create(:leave_program, client_enrollment: client_enrollment_4, program_stream: program_1)
-    data = [[2.months.ago.strftime("%b-%y"), 1.months.ago.strftime("%b-%y")], [{:name=>"PB", :data=>[2, nil]}, {:name=>"PC", :data=>[nil, 2]}]]
-    statistic = ActiveEnrollmentStatistic.new(Client.all)
-    expect(statistic.statistic_data).to eq(data)
+  context 'with multiple cases' do
+    before do
+      create(:leave_program, client_enrollment: client_enrollment_1, program_stream: program_1)
+      create(:leave_program, client_enrollment: client_enrollment_4, program_stream: program_1)
+    end
+
+    it 'returns current active cases of clients with multiple cases' do
+      data = [[2.months.ago.strftime("%b-%y"), 1.months.ago.strftime("%b-%y")], [{:name=>"PB", :data=>[2, nil]}, {:name=>"PC", :data=>[nil, 2]}]]
+      statistic = ActiveEnrollmentStatistic.new(Client.all)
+      expect(statistic.statistic_data).to eq(data)
+    end
   end
 end

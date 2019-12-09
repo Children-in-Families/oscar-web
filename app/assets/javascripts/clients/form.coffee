@@ -22,12 +22,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _ajaxCheckReferralSource()
     _ajaxCheckReferralSourceCategory()
     _allowSelectOnlyOneFamily()
-    _checkingFamilyRecord()
     _openSelectClientForm()
     _disableAndEnableButtonOtherOptionToCreateFamiyRecord()
     _disableAndEnableButtonWhenOptionAttachFamilyRecord()
     _removeModalBodyDuplicateChecker()
     _preventClientDateOfBirth()
+    _createClientConfirmModal()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -70,6 +70,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           success: (response) ->
             for address in response.data
               subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
+
   _ajaxChangeSubDistrict = ->
     $('#client_district_id').on 'change', ->
       district_id = $(@).val()
@@ -137,28 +138,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           referral_sources = response.referral_sources
           for referral_source in referral_sources
             $('select#client_referral_source_id').append("<option value='#{referral_source.id}'>#{referral_source.name}</option>")
-
-  _checkingFamilyRecord = ->
-
-    $(".save-edit-client, a[href='#finish']").off('click').on 'click', (e) ->
-      e.preventDefault()
-      clientId = $('#client-id').text()
-      family   = $('#client_family_ids').find(':selected').text()
-      if family == ''
-        $('#client-confirmation').modal('show')
-        $('#clientConfirmation').click ->
-          $('#clientConfirmation').text(filterTranslation.save).attr('disabled', 'disabled')
-          clientOptionValue = $('input[name=clientConfirmation]:checked').val()
-          if clientOptionValue == "createNewFamilyRecord"
-            localStorage.setItem('redirect_to_family', 'true')
-            localStorage.setItem('client_id', clientId)
-            $('#client-wizard-form').submit()
-          else if clientOptionValue == "attachExistingFamilyRecord"
-            $('#client-wizard-form').submit()
-          else
-            $('#client-wizard-form').submit()
-      else
-        $('#client-wizard-form').submit()
 
   _openSelectClientForm = ->
     $('.icheck-client-option').on 'ifChanged', (event) ->
@@ -276,16 +255,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               return true
         else
           return true
-
       onFinishing: (event, currentIndex) ->
         _validateForm()
-        form.valid()
+        promise = _ajaxCheckExistClient()
 
       onFinished: (event, currentIndex) ->
-        if form.valid()
-          _ajaxCheckExistClient(event, form)
-        else
-          return false
+        form.valid()
 
       labels:
         next: self.filterTranslation.next
@@ -300,9 +275,45 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           if e.keyCode == 37
             $('.current').prev().focus()
 
-  _ajaxCheckExistClient = (event, form)->
+  _ajaxCheckExistClient = ->
     $('.loader-default').addClass('is-active')
     $("a[href='#finish']").text(filterTranslation.done).append('...').attr("disabled","disabled");
+    _compareExistingValue().then((data) ->
+      $('.loader-default').removeClass('is-active')
+      clientId  = $('#client_slug').val()
+      similar_fields  = data.similar_fields
+      modalTextSecond = ''
+      if clientId == '' and similar_fields.length > 0
+        modalTitle      = $('#hidden_title').val()
+        modalTextFirst  = $('#hidden_body_first').val() + '<br/>'
+        modalTextThird  = $('#hidden_body_third').val()
+        clientName      = $('#client_given_name').val()
+
+        i = 0
+        while i < similar_fields.length
+          text = $(similar_fields[i]).val()
+          modalTextSecond += '<li>' + text
+          i++
+
+        modalText = []
+        modalText.push("<p> #{modalTextFirst} #{modalTextSecond} <br/> #{modalTextThird}<p/>")
+
+        $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
+        $('#confirm-client-modal .modal-body').html(modalText)
+        $('#confirm-client-modal').modal('show')
+        return { isFound: true }
+      else
+        if $('#client_family_ids').find(':selected').text() == ''
+          $('#client-confirmation').modal('show')
+          return { isFound: false }
+        else
+          $('#client-wizard-form').submit()
+          return true
+    ).catch (err) ->
+      console.log err
+      return false
+
+  _compareExistingValue = ->
     data = {
       given_name: $('#client_given_name').val()
       family_name: $('#client_family_name').val()
@@ -316,68 +327,33 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       commune: $('#client_commune_id').find(':selected').text()
       family: $('#client_family_ids, #popup_client_family_ids').find(':selected').text()
     }
-
-    if data.family == ''
-      $('.loader-default').removeClass('is-active')
-      event.preventDefault()
-      $('#client-confirmation').modal('show')
-      $('#clientConfirmation').off('click').on 'click', ->
-        clientId = $('#client-id').text()
-        clientOptionValue = $('input[name=clientConfirmation]:checked').val()
-        if clientOptionValue == "createNewFamilyRecord"
-          localStorage.setItem('redirect_to_family', 'true')
-          localStorage.setItem('client_id', clientId)
-          _compareExistingValue(data, form)
-        else if clientOptionValue == "attachExistingFamilyRecord"
-          _compareExistingValue(data, form)
-        else
-          _compareExistingValue(data, form)
-    else
-      $('.loader-default').removeClass('is-active')
-      _compareExistingValue(data, form)
-
-  _compareExistingValue = (data, form) ->
-    if data.date_of_birth != '' or data.given_name != '' or data.birth_province != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province != ''
-      $.ajax({
+    new Promise((resolve, reject) ->
+      $.ajax
         type: 'GET'
         url: '/api/clients/compare'
         data: data
         dataType: "JSON"
-      }).success( (json)->
-        $('.loader-default').removeClass('is-active')
-        clientId  = $('#client_slug').val()
-        similar_fields  = json.similar_fields
-        modalTextSecond = ''
-
-        if clientId == '' and similar_fields.length > 0
-          modalTitle      = $('#hidden_title').val()
-          modalTextFirst  = $('#hidden_body_first').val() + '<br/>'
-          modalTextThird  = $('#hidden_body_third').val()
-          clientName      = $('#client_given_name').val()
-
-          i = 0
-          while i < similar_fields.length
-            text = $(similar_fields[i]).val()
-            modalTextSecond += '<li>' + text
-            i++
-
-          modalText = []
-          modalText.push("<p> #{modalTextFirst} #{modalTextSecond} <br/> #{modalTextThird}<p/>")
-
-          $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
-          $('#confirm-client-modal .modal-body').html(modalText)
-
-          $('#confirm-client-modal').modal('show')
-          $('#confirm-client-modal #confirm').on 'click', ->
-            $(@).text($(@).data('confirm')).append('...').attr("disabled","disabled");
-            form.submit()
-        else
+        success: (data) ->
+          resolve data
+          # Resolve promise and go to then()
           return
-      )
-      return false
-    else
-      form.submit()
-      $('.loader-default').removeClass('is-active')
+        error: (err) ->
+          reject err
+          # Reject the promise and go to catch()
+          return
+      return
+    )
+
+  _createClientConfirmModal = ->
+    $('#confirm-client-modal .modal-footer button').on 'click', (event) ->
+      button = $(event.target)
+      if button.attr('id') == 'confirm' and $('#client_family_ids').find(':selected').text() == ''
+        $('#client-confirmation').modal('show')
+      else if button.attr('id') == 'confirm' and $('#client_family_ids').find(':selected').text() != ''
+        $('#client-wizard-form').submit()
+        return
+      else
+        return
 
   _replaceSpanAfterRemoveField = ->
     $('#client_initial_referral_date').on 'input', ->

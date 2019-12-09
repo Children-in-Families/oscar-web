@@ -47,7 +47,6 @@ describe CaseNoteDomainGroup, 'methods' do
 
   context '#domain_identities' do
     it 'scopes by type of case note whether custom or default' do
-      expect(case_note_domain_group_1.domain_identities).to eq('Food')
       expect(case_note_domain_group_2.domain_identities).to eq('Clothes, Shelter')
     end
   end

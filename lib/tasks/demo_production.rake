@@ -178,6 +178,5 @@ namespace :demo_production do
     Rake::Task['districts:import'].invoke
     Rake::Task['communes_and_villages:import'].invoke
     Rake::Task['communes_and_villages:import'].reenable
-    puts 'Done'
   end
 end

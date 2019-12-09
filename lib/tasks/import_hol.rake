@@ -24,7 +24,5 @@ namespace :hol do
     import.clients
 
     Rake::Task['client_to_shared:copy'].invoke
-    # Rake::Task['client_archived_slug:copy[hol]'].invoke
   end
-  puts "Done!"
 end
