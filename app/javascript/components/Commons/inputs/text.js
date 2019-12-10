@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default props => {
-  const { isError, label, required, onChange, value } = props
+  const { isError, label, required, onChange, value, ...others } = props
   return (
     <div className='form-group'>
       <label style={isError && styles.errorText || {}}>
@@ -11,6 +11,7 @@ export default props => {
       <input
         className='form-control'
         onChange={onChange}
+        { ...others }
         value={value || ''}
         style={
           Object.assign({},
