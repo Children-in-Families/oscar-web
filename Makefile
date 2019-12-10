@@ -31,3 +31,11 @@ db_create_test:
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:drop" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:create" app
 	docker-compose run --no-deps -e RAILS_ENV=test --entrypoint "rake db:schema:load" app
+
+#Install phantomjs in the app container
+	docker exec -it <containerId> bash
+		apt-get install build-essential chrpath libssl-dev libxft-dev libfreetype6-dev libfreetype6 libfontconfig1-dev libfontconfig1 -y
+		wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+		tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/local/share/
+    ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/
+    phantomjs --version
