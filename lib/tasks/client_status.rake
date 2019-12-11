@@ -33,6 +33,11 @@ namespace :client_status do
             last_exits.last.destroy
             puts "Destroy duplicated exit_ngos"
           else
+            if created_at_dates.all?{|the_date| last_exits.last.created_at > the_date }
+              client.status = 'Exited'
+              client.save!(validate: false)
+              puts "#{short_name}: changed status client #{client.slug} done!!!"
+            end
             ngo_client_ids_hash[short_name] << client.slug
           end
         else
@@ -53,6 +58,19 @@ namespace :client_status do
         next if client.client_enrollments.present?
         client.case_worker_clients.destroy_all
         puts "#{short_name}: removed caseworker from client client #{client.slug} done!!!"
+      end
+
+      Client.joins(client_enrollments: :leave_program).distinct.where("clients.status = ? AND (SELECT COUNT(*) FROM client_enrollments WHERE client_enrollments.status = ? AND client_enrollments.client_id = clients.id) = 0", 'Active', 'Active').each do |client|
+        cps_enrollment = client.client_enrollments.last
+        cps_leave_program = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", client.id).last
+        if (cps_enrollment && cps_leave_program)
+          if cps_leave_program.created_at > cps_enrollment.created_at && client.exit_ngos.blank?
+            client.status = 'Accepted'
+            client.save!(validate: false)
+
+            puts "#{short_name}: changed status client #{client.slug} done!!!"
+          end
+        end
       end
 
       # Client.joins(:client_enrollments).where("clients.status != 'Active' AND (SELECT COUNT(*) FROM client_enrollments WHERE client_enrollments.client_id = clients.id AND status = 'Active' GROUP BY client_enrollments.created_at ORDER BY created_at DESC LIMIT 1) = 1").distinct.each do |client|qg
