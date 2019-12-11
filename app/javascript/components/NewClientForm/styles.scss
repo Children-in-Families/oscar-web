@@ -38,8 +38,23 @@ body[id='clients-edit'], body[id='clients-update'] {
     cursor: pointer;
   }
 
-  .active {
+  .tabButton:hover {
+    transition: all .2s ease;
+    transform: scale(1.05);
+  }
+
+  .activeTab {
     background: $flatblue;
+    color: $white;
+  }
+
+  .errorTab {
+    background: $error;
+    color: $white;
+  }
+
+  .normalTab {
+    background: $paleblue;
     color: $white;
   }
 
