@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { SelectInput } from '../Commons/inputs'
+import { RadioButton } from 'primereact/radiobutton'
 
 export default props => {
   const { id, onChange, data: { families, clientData, refereeData } } = props
@@ -82,12 +83,12 @@ export default props => {
 
             <div className="row">
               <div className="col-xs-1">
-                <input
-                  id="newFamily"
+                <RadioButton
+                  inputId="newFamily"
                   name="clientConfirmation"
-                  type="radio"
                   value="createNewFamilyRecord"
-                  onClick={handleCreateNewFamily(true)}
+                  onChange={handleCreateNewFamily(true)}
+                  checked={value === 'createNewFamilyRecord'}
                 />
               </div>
               <div className="col-xs-6">
@@ -97,12 +98,12 @@ export default props => {
 
             <div className="row">
               <div className="col-xs-1">
-                <input
-                  id="newFamily"
+                <RadioButton
+                  inputId="newFamily"
                   name="clientConfirmation"
-                  type="radio"
                   value="attachWithExistingFamily"
-                  onClick={handleAttachClientToFamily(true)}
+                  onChange={handleAttachClientToFamily(true)}
+                  checked={value === 'attachWithExistingFamily'}
                 />
               </div>
               <div className="col-xs-6">
@@ -113,12 +114,12 @@ export default props => {
 
             <div className="row">
               <div className="col-xs-1">
-                <input
-                  id="newFamily"
+                <RadioButton
+                  inputId="newFamily"
                   name="clientConfirmation"
-                  type="radio"
                   value="no"
-                  onClick={handleNo(true)}
+                  onChange={handleNo(true)}
+                  checked={value === 'no'}
                 />
               </div>
               <div className="col-xs-6">

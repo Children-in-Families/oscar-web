@@ -20,6 +20,7 @@ const Forms = props => {
   const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
   const [refereeData, setrefereeData] = useState({})
   const [carerData, setcarerData] = useState({})
+  const [showModal, setShowModal] = useState(false)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces  }
   const adminTabData = { users, client: clientData, errorFields }
@@ -112,14 +113,22 @@ const Forms = props => {
 
   const handleSave = () => {
     if (handleValidation()) {
-      const action = clientData.id ? 'PUT' : 'POST'
-      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
-      $.ajax({
-        url,
-        type: action,
-        data: { client: { ...refereeData, ...clientData } }
-      }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+      if (clientData.family_ids.length === 0) {
+        setShowModal(true)
+      } else {
+        const action = clientData.id ? 'PUT' : 'POST'
+        const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
+        $.ajax({
+          url,
+          type: action,
+          data: { client: { ...refereeData, ...clientData } }
+        }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+      }
     }
+  }
+
+  const handleCancel = () => {
+    document.location.href = `/clients`
   }
 
   const buttonPrevious = () => {
@@ -151,7 +160,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo data={moreReferralTabData} onChange={onChange} />
+            <ReferralMoreInfo data={moreReferralTabData} onChange={onChange} setShowModal={setShowModal} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
@@ -162,14 +171,13 @@ const Forms = props => {
 
       <div className='actionfooter'>
         <div className='leftWrapper'>
-          <span className='btn btn-default'>Cancel</span>
+          <span className='btn btn-default' onClick={handleCancel}>Cancel</span>
         </div>
 
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
           { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
-          { step === 4 && errorFields.length > 0 && <span className='clientButton saveButton' data-target='#myModal' data-toggle='modal'>Save</span> }
-          { step === 4 && errorFields.length === 0 && <span className='clientButton saveButton' onClick={handleSave}>Save</span> }
+          {step === 4 && <span className='clientButton saveButton' onClick={handleSave} data-target={showModal && '#myModal' || '' } data-toggle='modal'>Save</span> }
           <CreateFamilyModal id="myModal" data={{ families, clientData, refereeData }} onChange={onChange} />
         </div>
       </div>
