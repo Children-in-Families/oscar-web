@@ -17,8 +17,9 @@ const Forms = props => {
   } = props
 
   const [step, setStep]               = useState(1)
-  const [modalOpen, setModalOpen]     = useState(false)
-  const [onSave, setOnSave]           = useState(false)
+  const [onSave, setOnSave]                             = useState(false)
+  const [dupClientModalOpen, setDupClientModalOpen]     = useState(false)
+  const [attachFamilyModal, setAttachFamilyModal]       = useState(false)
 
   const [dupFields, setDupFields]     = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
@@ -114,9 +115,7 @@ const Forms = props => {
     const goBack    = goingToStep < step
     const goForward = goingToStep === step + 1
     const goOver    = goingToStep >= step + 2 || goingToStep >= step + 3
-    console.log('goBack', goBack)
-    console.log('goForward', goForward)
-    console.log('goOver', goOver)
+
     if((goForward && handleValidation()) || (goOver && handleValidation(1) && handleValidation(2)) || goBack)
       if(step === 2)
         checkClientExist()(() => setStep(goingToStep))
@@ -156,7 +155,7 @@ const Forms = props => {
         }).success(response => {
           if(response.similar_fields.length > 0) {
             setDupFields(response.similar_fields)
-            setModalOpen(true)
+            setDupClientModalOpen(true)
           } else
             callback()
         })
@@ -189,25 +188,34 @@ const Forms = props => {
       <>
         <p>Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.</p>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
-          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setModalOpen(false), setStep(step + 1))}>Continue</button>
-          <button style={{margin: 5}} className='btn btn-default' onClick={() => setModalOpen(false)}>Cancel</button>
+          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>Continue</button>
+          <button style={{margin: 5}} className='btn btn-default' onClick={() => setDupClientModalOpen(false)}>Cancel</button>
         </div>
       </>
     )
   }
 
   const handleSave = event => {
-    setOnSave(true)
 
     if (handleValidation()) {
-      const action = clientData.id ? 'PUT' : 'POST'
-      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
-      $.ajax({
-        url,
-        type: action,
-        data: { client: { ...refereeData, ...clientData } }
-      }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+      if (clientData.family_ids.length === 0)
+        setAttachFamilyModal(true)
+      else {
+        setOnSave(true)
+        const action = clientData.id ? 'PUT' : 'POST'
+        const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
+        $.ajax({
+          url,
+          type: action,
+          data: { client: { ...refereeData, ...clientData } }
+        }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+      }
+
     }
+  }
+
+  const handleCancel = () => {
+    document.location.href = `/clients`
   }
 
   const buttonPrevious = () => {
@@ -222,11 +230,19 @@ const Forms = props => {
     <div className='containerClass'>
       <Modal
         title='Warning'
-        isOpen={modalOpen}
+        isOpen={dupClientModalOpen}
         type='warning'
-        closeAction={() => setModalOpen(false)}
+        closeAction={() => setDupClientModalOpen(false)}
         content={ renderModalContent(dupFields) }
         footer={ renderModalFooter() }
+      />
+
+      <Modal
+        title='Client Confirmation'
+        isOpen={attachFamilyModal}
+        type='success'
+        closeAction={() => setAttachFamilyModal(false)}
+        content={<CreateFamilyModal id="myModal" data={{ families, clientData, refereeData }} onChange={onChange} /> }
       />
 
       <div className='tabHead'>
@@ -259,15 +275,14 @@ const Forms = props => {
 
       <div className='actionfooter'>
         <div className='leftWrapper'>
-          <span className='btn btn-default'>Cancel</span>
+          <span className='btn btn-default' onClick={handleCancel}>Cancel</span>
         </div>
 
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
           { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
-          { step === 4 && errorFields.length > 0 && <span className='clientButton saveButton' data-target='#myModal' data-toggle='modal'>Save</span> }
-          { step === 4 && errorFields.length === 0 && <span className={onSave ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>Save</span> }
-          <CreateFamilyModal id="myModal" data={{ families, clientData, refereeData }} onChange={onChange} />
+
+          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>Save</span>}
         </div>
       </div>
     </div>

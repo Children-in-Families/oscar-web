@@ -40,11 +40,15 @@ const modal = props => {
         {content}
       </div>
 
-      <hr />
-
-      <div style={styles.modalFooter}>
-        {footer}
-      </div>
+      {
+        footer &&
+        <>
+          <hr />
+          <div style={styles.modalFooter}>
+            {footer}
+          </div>
+        </>
+      }
     </Modal>
   )
 }

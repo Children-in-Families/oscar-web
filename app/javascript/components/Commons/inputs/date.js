@@ -13,7 +13,7 @@ export default props => {
     }
   }
 
-  const {isError, onChange, value } = props
+  const { isError, onChange, value, getCurrentDate } = props
   const [showDatePicker, setshowDatePicker] = useState(false)
   const [selectedDate, setselectedDate] = useState(formatStringToDate(value) || new Date())
 
@@ -51,7 +51,7 @@ export default props => {
         }
       />
       <div style={styles.calendar}>
-        {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} /> }
+        {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} minDate={new Date(1899, 12, 1)} maxDate={getCurrentDate && new Date() || null} /> }
       </div>
       {isError && <span style={styles.errorText}>Cannot be blank.</span>}
     </div>
