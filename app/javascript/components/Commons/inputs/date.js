@@ -17,10 +17,9 @@ export default props => {
   const [showDatePicker, setshowDatePicker] = useState(false)
   const [selectedDate, setselectedDate] = useState(formatStringToDate(value) || new Date())
 
-
   const formatDateToString = value => {
     const formatedDate = value.getDate()
-    const formatedMonth = value.getMonth()
+    const formatedMonth = value.getMonth() + 1
     const formatedYear = value.getFullYear()
 
     return formatedYear + '-' + formatedMonth + '-' + formatedDate
@@ -28,7 +27,6 @@ export default props => {
 
   const onChangeDate = date => {
     onChange({data: formatDateToString(date), type: 'date'})
-    setselectedDate(date)
     setshowDatePicker(false)
   }
 
