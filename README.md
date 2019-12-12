@@ -1,5 +1,3 @@
-[ ![Codeship Status for rotati/oscar-web](https://app.codeship.com/projects/0c400840-e69a-0134-b09a-26edd27a570b/status?branch=master)](https://app.codeship.com/projects/206873)
-
 # OSCaR
 
 Open Source Case-management and Record-keeping.
