@@ -16,8 +16,8 @@ export default props => {
 
   useEffect(() => {
     setdistricts(currentDistricts.map(district => ({label: district.name, value: district.id})))
-    setcommunes(currentCommunes.map(commune => ({ label: commune.name, value: commune.id})))
-    setvillages(currentVillages.map(village => ({ label: village.name, value: village.id})))
+    setcommunes(currentCommunes.map(commune => ({ label: commune.name && commune.name || `${commune.name_kh} / ${commune.name_en}`, value: commune.id})))
+    setvillages(currentVillages.map(village => ({ label: village.name && village.name || `${village.name_kh} / ${village.name_en}`, value: village.id})))
 
     if(outside) {
       onChange(objectKey, {province_id: null, district_id: null, commune_id: null, village_id: null, house_number: '', street_number: '', address: '', address_type: ''})({type: 'select'})
