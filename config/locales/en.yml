@@ -634,6 +634,7 @@ en:
     add_task_form:
       completion_date: Completion Date
       domain: Domain
+      dimensions: Dimension
       enter_task_detail: Enter task details
       save: Save
       title: New Task
