@@ -1,4 +1,4 @@
-import React, { useState, useEffect }       from 'react'
+import React       from 'react'
 import {
   SelectInput,
   TextInput,
@@ -10,7 +10,13 @@ export default props => {
   const { onChange, data: { referee, client, currentProvinces, referralSourceCategory, referralSource, currentDistricts, currentCommunes, currentVillages, birthProvinces, errorFields} } = props
 
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
-  const referralSourceCategoryLists = referralSourceCategory.map(catgeory => ({label: catgeory[0], value: catgeory[1]}))
+
+  const referralSourceCategoryLists = referralSourceCategory.map(category => ({label: category[0], value: category[1]}))
+  const referralSourceLists = referralSource.filter(source => source.ancestry !== null && source.ancestry == client.referral_source_category_id).map(source => ({label: source.name, value: source.id}))
+
+  const onReferralSourceCategoryChange = data => {
+    onChange('client', { referral_source_category_id: data.data, referral_source_id: null })({type: 'select'})
+  }
 
   return (
     <div className="containerClass">
@@ -58,11 +64,16 @@ export default props => {
             label="Referral Source Catgeory"
             options={referralSourceCategoryLists}
             value={client.referral_source_category_id}
-            onChange={onChange('client', 'referral_source_category_id')}
+            onChange={onReferralSourceCategoryChange}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput options={[]} label="Referral Source" onChange={onChange('client', 'referral_source_id')} value={client.referral_source_id} />
+          <SelectInput
+            options={referralSourceLists}
+            label="Referral Source"
+            onChange={onChange('client', 'referral_source_id')}
+            value={client.referral_source_id}
+          />
         </div>
       </div>
       <legend>
