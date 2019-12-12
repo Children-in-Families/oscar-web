@@ -7,7 +7,7 @@ import {
 import Address from './address'
 
 export default props => {
-  const { onChange, id, setShowModal, data: { client, carer, currentDistricts, currentCommunes, currentVillages, currentProvinces, families } } = props
+  const { onChange, id, data: { client, carer, currentDistricts, currentCommunes, currentVillages, currentProvinces, families } } = props
 
   const [sameAsClient, setSameAsClient]   = useState(false)
   const [districts, setDistricts]         = useState(currentDistricts)
@@ -59,7 +59,6 @@ export default props => {
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 
   const onChangeFamily = ({ data, action, type }) => {
-    setShowModal(false)
     let value = []
     if (action === 'select-option'){
       value.push(data)

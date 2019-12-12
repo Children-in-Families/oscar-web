@@ -131,14 +131,23 @@ class Client < ActiveRecord::Base
 
       field_name = compare_matching(input_name_field, client_name_field)
       dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
-      cp         = client_address_matching(options[:current_province], client[4].squish)
-      cd         = client_address_matching(options[:district], client[3].squish)
-      cc         = client_address_matching(options[:commune], client[2].squish)
-      cv         = client_address_matching(options[:village], client[1].squish)
-      bp         = birth_province_matching(options[:birth_province], client[5].squish)
+
+      province_name = Province.find_by(id: options[:current_province_id]).try(:name)
+      cp            = client_address_matching(province_name, client[4].squish)
+
+      district_name = District.find_by(id: options[:district_id]).try(:name)
+      cd            = client_address_matching(district_name, client[3].squish)
+
+      commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
+      cc            = client_address_matching(commune_name, client[2].squish)
+
+      village_name  = Village.find_by(id: options[:village_id]).try(:name)
+      cv            = client_address_matching(village_name, client[1].squish)
+
+      birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
+      bp                  = birth_province_matching(birth_province_name, client[5].squish)
 
       match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
-
       if match_percentages.compact.present?
         if match_percentages.compact.inject(:*) * 100 >= 75
           similar_fields << '#hidden_name_fields' if match_percentages[0].present?
