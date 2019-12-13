@@ -276,6 +276,9 @@ class ClientsController < AdminController
       @families = Family.where(id: family_ids)
     end
 
+    @referee_relationships = Client::REFEREE_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
+    @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
     @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields

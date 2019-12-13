@@ -7,7 +7,7 @@ import {
 import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { client, carer, currentDistricts, currentCommunes, currentVillages, currentProvinces, families } } = props
+  const { onChange, id, data: { client, carer, currentDistricts, currentCommunes, currentVillages, currentProvinces, families, addressTypes } } = props
 
   const [sameAsClient, setSameAsClient]   = useState(false)
   const [districts, setDistricts]         = useState(currentDistricts)
@@ -113,7 +113,7 @@ export default props => {
           }
         </div>
       </legend>
-      <Address sameAsClient={sameAsClient} outside={carer.outside || false} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'carer', objectData: carer}} />
+      <Address sameAsClient={sameAsClient} outside={carer.outside || false} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
     </div>
   )
 }

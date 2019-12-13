@@ -70,6 +70,7 @@ module Api
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
             :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id,
+            :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],

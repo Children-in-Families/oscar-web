@@ -12,7 +12,7 @@ const Forms = props => {
   const {
     data: {
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, refereeRelationships, addressTypes, phoneOwners
     }
   } = props
 
@@ -29,10 +29,10 @@ const Forms = props => {
   const [refereeData, setRefereeData] = useState({})
   const [carerData, setCarerData]     = useState({})
 
-  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces  }
+  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
   const adminTabData = { users, client: clientData, errorFields }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
-  const referralTabData = { errorFields, client: clientData, birthProvinces, ...address  }
+  const referralTabData = { errorFields, client: clientData, birthProvinces, refereeRelationships, phoneOwners, ...address  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, ...referralTabData }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
 
