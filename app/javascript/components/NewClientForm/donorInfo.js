@@ -20,14 +20,6 @@ export default props => {
           <SelectInput isMulti label="Donor" options={donorLists} value={client.donor_ids} onChange={onChange('client', 'donor_ids')} />
         </div>
       </div>
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-4">
-          <RadioButton label="Has the client lived in an orphanage?" value={client.has_been_in_orphanage} onChange={onChange('client', 'has_been_in_orphanage')} />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-4">
-          <RadioButton label="Has the client lived in government care?" value={client.has_been_in_government_care} onChange={onChange('client', 'has_been_in_government_care')} />
-        </div>
-      </div>
     </div>
   )
 }

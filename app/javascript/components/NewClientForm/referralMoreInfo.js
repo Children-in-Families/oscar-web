@@ -71,7 +71,7 @@ export default props => {
       <div className="row">
         <div className="customInfo">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#customInfo">
-            <label className="makeSpaceCustom">Custom ID Information?</label>
+            <label className="makeSpaceCustom">Other Information</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
