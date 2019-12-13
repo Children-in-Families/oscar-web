@@ -8,10 +8,9 @@ import {
 import Address      from './address'
 
 export default props => {
-  const { onChange, data: { client, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, ratePoor } } = props
+  const { onChange, data: { client, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields } } = props
 
   const blank = []
-  const rateLists = ratePoor.map(rate => ({ label: rate[0], value: rate[1] }))
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
 
@@ -61,9 +60,6 @@ export default props => {
             value={client.birth_province_id}
             onChange={onChange('client', 'birth_province_id')}
           />
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Is client rated for ID Poor?" options={rateLists} value={client.rated_for_id_poor} onChange={onChange('client', 'rated_for_id_poor')} />
         </div>
       </div>
       <legend>
