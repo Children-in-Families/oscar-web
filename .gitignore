@@ -14,9 +14,6 @@
 # Ignore spec/examples.txt
 spec/examples.txt
 
-#Ignore phantomjs linux file
-phantomjs-2.1.1-linux-x86_64.tar.bz2
-
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
