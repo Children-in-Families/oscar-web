@@ -384,7 +384,6 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "grade"
     t.string   "slug"
     t.string   "able_state",                       default: ""
-    t.integer  "assessments_count"
     t.integer  "donor_id"
     t.string   "local_given_name",                 default: ""
     t.string   "local_family_name",                default: ""
@@ -431,7 +430,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.string   "main_school_contact",              default: ""
     t.string   "rated_for_id_poor",                default: ""
     t.string   "what3words",                       default: ""
-    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_reasons",                     default: [],                      array: true
     t.string   "exit_circumstance",                default: ""
     t.string   "other_info_of_exit",               default: ""
     t.string   "suburb",                           default: ""
@@ -451,9 +450,12 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
+    t.integer  "assessments_count",                default: 0,          null: false
+    t.integer  "current_family_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
+  add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -1080,7 +1082,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "clients_count",  default: 0
     t.integer  "families_count", default: 0
     t.integer  "partners_count", default: 0
-    t.integer  "users_count",    default: 0
+    t.integer  "users_count",    default: 0,  null: false
     t.string   "country"
   end
 
@@ -1636,6 +1638,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visit_clients", ["user_id"], name: "index_visit_clients_on_user_id", using: :btree
@@ -1644,6 +1647,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree

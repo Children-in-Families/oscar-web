@@ -44,7 +44,7 @@ describe EnterNgo, 'callbacks' do
   end
 end
 
-describe EnterNgo, 'scopes' do
+xdescribe EnterNgo, 'scopes' do
   let!(:enter_ngo_1){ create(:enter_ngo) }
   let!(:enter_ngo_2){ create(:enter_ngo) }
 

@@ -7,6 +7,16 @@ FactoryGirl.define do
     association :client, factory: :client
     association :user, factory: :user
 
+    after(:build) do |task|
+      task.class.skip_callback(:save, :after, :create_task_history)
+    end
+
+    trait :task_with_history do
+      after(:build) do |task|
+        task.class.set_callback(:save, :after, :create_task_history)
+      end
+    end
+
     trait :incomplete do
       completed false
     end

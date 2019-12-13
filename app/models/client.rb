@@ -1,11 +1,11 @@
 class Client < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
   extend FriendlyId
 
   require 'text'
 
-  attr_reader :assessments_count
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
@@ -14,7 +14,7 @@ class Client < ActiveRecord::Base
 
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type).freeze
+  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
   GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
@@ -75,13 +75,12 @@ class Client < ActiveRecord::Base
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validate :address_contrain, on: [:create, :update]
 
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
-  before_update :disconnect_client_family_relation
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
-  # after_update :notify_managers, if: :exiting_ngo?
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -165,7 +164,7 @@ class Client < ActiveRecord::Base
   end
 
   def family
-    Family.where('children && ARRAY[?]', id).last
+    Family.find(current_family_id) if current_family_id
   end
 
   def self.fetch_75_chars_of(value)
@@ -341,6 +340,17 @@ class Client < ActiveRecord::Base
     ((date - date_of_birth) % 365 / 31).to_i
   end
 
+  def age
+    count_year_from_date('date_of_birth')
+  end
+
+  def count_year_from_date(field_date)
+    return nil if self.send(field_date).nil?
+    date_today = Date.today
+    year_count = distance_of_time_in_words_hash(date_today, self.send(field_date)).dig(:years)
+    year_count = year_count == 0 ? 'INVALID' : year_count
+  end
+
   def active_kc?
     status == 'Active KC'
   end
@@ -381,62 +391,37 @@ class Client < ActiveRecord::Base
 
   def time_in_ngo
     return {} if self.status == 'Referred'
-    date_time_in_ngo = { years: 0, months: 0, weeks: 0, days: 0 }
-    detail_time_in_ngo = []
+    day_time_in_ngos = calculate_day_time_in_ngo
+    if day_time_in_ngos.present?
+      years = day_time_in_ngos / 365
+      remaining_day_from_year = day_time_in_ngos % 365
 
-    if exit_ngos.any?
-      exit_dates  = exit_ngos.order(:exit_date).pluck(:exit_date)
-      enter_dates = enter_ngos.order(:accepted_date).pluck(:accepted_date)
-      Client.find(self.id).enter_ngos.order(accepted_date: :asc).each_with_index do |enter_ngo, index|
-        if enter_dates.size > exit_dates.size
-          if exit_dates[index + 1].present? || exit_dates[index].present?
-            detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
-          else
-            detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngo.accepted_date)
-          end
-        elsif exit_dates.size == enter_dates.size
-          detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, exit_dates[index], enter_ngo.accepted_date)
-        end
+      months = remaining_day_from_year / 30
+      remaining_day_from_month = remaining_day_from_year % 30
+      detail_time_in_ngo = { years: years, months: months, days: remaining_day_from_month }
+    end
+  end
+
+  def calculate_day_time_in_ngo
+    enter_ngos = self.enter_ngos.order(created_at: :desc)
+    return 0 if (enter_ngos.size.zero?)
+
+    exit_ngos  = self.exit_ngos.order(exit_date: :desc).where("created_at >= ?", enter_ngos.last.created_at)
+    enter_ngo_dates = enter_ngos.pluck(:accepted_date)
+    exit_ngo_dates  = exit_ngos.pluck(:exit_date)
+
+    exit_ngo_dates.unshift(Date.today) if exit_ngo_dates.size < enter_ngo_dates.size
+    day_time_in_ngos = exit_ngo_dates.each_with_index.inject(0) do |sum, (exit_ngo_date, index)|
+      enter_ngo_date = enter_ngo_dates[index]
+      next_ngo_date = enter_ngo_dates[index + 1]
+
+      if next_ngo_date != enter_ngo_date
+        day_in_ngo = (exit_ngo_date - enter_ngo_date).to_i
+        sum += day_in_ngo < 0 ? 0 : day_in_ngo + 1
       end
-    else
-      detail_time_in_ngo << calculate_time_in_care(date_time_in_ngo, Date.today, enter_ngos.first.accepted_date)
+      sum
     end
-
-
-    detail_time = { years: 0, months: 0, weeks: 0, days: 0 }
-
-    detail_time_in_ngo.each do |time|
-      detail_time[:years] += time[:years].present? ? time[:years] : 0
-      detail_time[:months] += time[:months].present? ? time[:months] : 0
-      detail_time[:weeks] += time[:weeks].present? ? time[:weeks] : 0
-      detail_time[:days] += time[:days].present? ? time[:days] : 0
-    end
-
-    detail_time.store(:years, 0) unless detail_time[:years].present?
-    detail_time.store(:months, 0) unless detail_time[:months].present?
-    detail_time.store(:weeks, 0) unless detail_time[:weeks].present?
-    detail_time.store(:days, 0) unless detail_time[:days].present?
-
-    if detail_time[:days] / 7 > 0
-      detail_time[:weeks] = detail_time[:weeks] + detail_time[:days] / 7
-      detail_time[:days] = detail_time[:days] % 7
-    else
-      detail_time[:weeks] = detail_time[:weeks] + 1
-      detail_time[:days] = 0
-    end
-
-    if detail_time[:weeks] / 4 > 0
-      week_time = detail_time[:weeks]
-      detail_time[:weeks] = detail_time[:weeks] - ((detail_time[:weeks] / 4) * 4)
-      detail_time[:months] = detail_time[:months] + week_time / 4
-    end
-
-    if detail_time[:months] / 12 > 0
-      month_time = detail_time[:months]
-      detail_time[:months] = detail_time[:months] - (detail_time[:months] / 12 ) * 12
-      detail_time[:years] = detail_time[:years] + month_time / 12
-    end
-    detail_time
+    day_time_in_ngos
   end
 
   def time_in_cps
@@ -450,6 +435,7 @@ class Client < ActiveRecord::Base
       current_or_exit = enrollment.leave_program.try(:exit_date) || Date.today
 
       if enrollments[index - 1].present? && enrollments[index - 1].program_stream_name == enrollment.program_stream_name
+        date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
         date_time_in_cps = calculate_time_in_care(date_time_in_cps, current_or_exit, enroll_date)
       else
         date_time_in_cps = { years: 0, months: 0, weeks: 0, days: 0 }
@@ -459,13 +445,13 @@ class Client < ActiveRecord::Base
       if detail_cps["#{enrollment.program_stream_name}"].present?
         detail_cps["#{enrollment.program_stream_name}"][:years].present? ? detail_cps["#{enrollment.program_stream_name}"][:years] : detail_cps["#{enrollment.program_stream_name}"][:years] = 0
         detail_cps["#{enrollment.program_stream_name}"][:months].present? ? detail_cps["#{enrollment.program_stream_name}"][:months] : detail_cps["#{enrollment.program_stream_name}"][:months] = 0
-        detail_cps["#{enrollment.program_stream_name}"][:weeks].present? ? detail_cps["#{enrollment.program_stream_name}"][:weeks] : detail_cps["#{enrollment.program_stream_name}"][:weeks] = 0
         detail_cps["#{enrollment.program_stream_name}"][:days].present? ? detail_cps["#{enrollment.program_stream_name}"][:days] : detail_cps["#{enrollment.program_stream_name}"][:days] = 0
 
-        detail_cps["#{enrollment.program_stream_name}"][:years] += date_time_in_cps[:years].present? ? date_time_in_cps[:years] : 0
-        detail_cps["#{enrollment.program_stream_name}"][:months] += date_time_in_cps[:months].present? ? date_time_in_cps[:months] : 0
-        detail_cps["#{enrollment.program_stream_name}"][:weeks] += date_time_in_cps[:weeks].present? ? date_time_in_cps[:weeks] : 0
-        detail_cps["#{enrollment.program_stream_name}"][:days] += date_time_in_cps[:days].present? ? date_time_in_cps[:days] : 0
+        if date_time_in_cps.present?
+          detail_cps["#{enrollment.program_stream_name}"][:years] += date_time_in_cps[:years].present? ? date_time_in_cps[:years] : 0
+          detail_cps["#{enrollment.program_stream_name}"][:months] += date_time_in_cps[:months].present? ? date_time_in_cps[:months] : 0
+          detail_cps["#{enrollment.program_stream_name}"][:days] += date_time_in_cps[:days].present? ? date_time_in_cps[:days] : 0
+        end
       else
         detail_cps["#{enrollment.program_stream_name}"] = date_time_in_cps
       end
@@ -475,25 +461,28 @@ class Client < ActiveRecord::Base
       next if value.blank?
       value.store(:years, 0) unless value[:years].present?
       value.store(:months, 0) unless value[:months].present?
-      value.store(:weeks, 0) unless value[:weeks].present?
       value.store(:days, 0) unless value[:days].present?
 
-      if value[:days] > 0
-        value[:weeks] = value[:weeks] + 1
+      if value[:days] > 365
+        value[:years] = value[:years] + value[:days]/365
+        value[:days] = value[:days] % 365
+      elsif value[:days] == 365
+        value[:years]  = 1
+        value[:days]   = 0
+        value[:months] = 0
+      end
+
+      if value[:days] > 30
+        value[:months] = value[:days] / 30
+        value[:days] = value[:days] % 30
+      elsif value[:days] == 30
         value[:days] = 0
-      end
-      if value[:weeks] >= 4
-        value[:weeks] = value[:weeks] - 4
-        value[:months] = value[:months] + 1
-      end
-      if value[:months] >= 12
-        value[:months] = value[:months] - 12
-        value[:years] = value[:years] + 1
+        value[:months] = 1
       end
     end
-
     detail_cps
   end
+
 
   # def time_in_care
   #   date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
@@ -662,10 +651,6 @@ class Client < ActiveRecord::Base
     country_origin.present? ? country_origin : 'cambodia'
   end
 
-  def family
-    Family.where('children && ARRAY[?]', id).last
-  end
-
   def create_or_update_shared_client
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
@@ -706,10 +691,6 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def disconnect_client_family_relation
-    cases.destroy_all
-  end
-
   def assessment_duration(duration, default = true)
     if duration == 'max'
       setting = Setting.first
@@ -744,6 +725,32 @@ class Client < ActiveRecord::Base
     to_time = to_time + date_time_in_care[:months].months unless date_time_in_care[:months].nil?
     to_time = to_time + date_time_in_care[:weeks].weeks unless date_time_in_care[:weeks].nil?
     to_time = to_time + date_time_in_care[:days].days unless date_time_in_care[:days].nil?
-    ActionController::Base.helpers.distance_of_time_in_words_hash(from_time, to_time, :except => [:seconds, :minutes, :hours])
+
+    from_time = from_time.to_date
+    to_time = to_time.to_date
+    if from_time >= to_time
+      time_days = (from_time - to_time).to_i + 1
+      times = {days: time_days}
+    end
   end
+
+  def address_contrain
+    if district_id && province_id
+      district = District.find(district_id)
+      errors.add(:district_id, 'does not exist in the province you just selected.') if district.province_id != province_id
+    end
+
+    if commune_id && district_id && province_id
+      commune = Commune.find(commune_id)
+      errors.add(:commune_id, 'does not exist in the district you just selected.') if commune.district_id != district_id
+    end
+
+    if village_id && commune_id && district_id && province_id
+      vaillage = Village.find(village_id)
+      errors.add(:village_id, 'does not exist in the commune you just selected.') if village.commune_id != commune_id
+    end
+  end
+
 end
+
+

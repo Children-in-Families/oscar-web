@@ -10,9 +10,8 @@ module Api
       remain_file.empty? ? @attachment.remove_file! : @attachment.file = remain_file
       @attachment.save
       message ||= t('.successfully_deleted')
-      respond_to do |f|
-        f.json { render json: { message: message }, status: '200' }
-      end
+
+      render json: { message: message }
     end
 
     private

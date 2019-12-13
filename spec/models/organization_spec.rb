@@ -1,124 +1,90 @@
-require 'rails_helper'
-
-RSpec.describe Organization, type: :model do
-  let!(:cif_org) { Organization.create_and_build_tanent(short_name: 'cif', full_name: 'Children in Family', country: 'cambodia') }
-  let!(:new_smile_org) { Organization.create_and_build_tanent(short_name: 'new-smile', full_name: 'New Smile') }
-  let!(:cwd_org) { Organization.create_and_build_tanent(short_name: 'cwd', full_name: 'cwd') }
-
-  describe Organization, 'scopes' do
-    context '.cambodian' do
-      it 'get NGOs located in Cambodia' do
-        orgs = Organization.cambodian
-        expect(orgs).to include(cif_org)
-        expect(orgs).not_to include(new_smile_org, cwd_org)
-      end
-    end
-
-    it '.without_demo' do
-      orgs = Organization.without_demo
-      expect(orgs).to include(cif_org, new_smile_org, cwd_org)
-    end
-
-    it '.without_cwd' do
-      orgs = Organization.without_cwd
-      expect(orgs).to include(cif_org, new_smile_org)
-      expect(orgs).not_to include(cwd_org)
-    end
-
-    it '.oscar' do
-      orgs = Organization.oscar
-      expect(orgs).to include(cif_org, new_smile_org)
-      expect(orgs).not_to include(cwd_org)
-    end
-
-    it '.visible' do
-      orgs = Organization.visible.pluck(:short_name)
-      expect(orgs).to include('cif', 'new-smile')
-      expect(orgs).not_to include('cwd', 'myan', 'rok', 'shared', 'my')
-    end
-
-    it '.without_shared' do
-      orgs = Organization.without_shared.pluck(:short_name)
-      expect(orgs).not_to include('shared')
-    end
-
-    it '.skip_dup_checking_orgs' do
-      orgs = Organization.skip_dup_checking_orgs.pluck(:short_name)
-      expect(['demo', 'cwd', 'myan', 'rok', 'my']).to include(*orgs)
-    end
-  end
-
-  describe 'Validation' do
+describe Organization do
+  describe 'Validations' do
     it { is_expected.to validate_presence_of(:short_name) }
     it { is_expected.to validate_presence_of(:full_name) }
-
     it { is_expected.to validate_uniqueness_of(:short_name).case_insensitive }
   end
 
-  describe 'Association' do
+  describe 'Associations' do
     it { is_expected.to have_many(:employees) }
   end
 
-  describe Organization, '.current' do
-    it 'return cif org when current tenant is cif' do
-      Apartment::Tenant.switch!('cif')
-      expect(Organization.current).to eq(cif_org)
-    end
+  describe 'Scopes' do
+    let!(:cambodian_org) { create(:organization, short_name: 'kho', full_name: 'Cambodian Organization', country: 'cambodia') }
+    let!(:malaysian_org) { create(:organization, short_name: 'myo', full_name: 'Malaysian Organization', country: 'malaysia') }
 
-    it 'does not return cif org when current tenant is on new-smile' do
-      Apartment::Tenant.switch!('new-smile')
-      expect(Organization.current).not_to eq(cif_org)
-    end
-  end
+    describe '.cambodian scope' do
+      subject { Organization.cambodian }
 
-  describe Organization, '.create_and_build_tanent' do
-    context 'Success' do
-      it 'create organization record' do
-        org = Organization.create_and_build_tanent(short_name: 'testing1', full_name: 'Testing')
-        expect(org.persisted?).to be_truthy
-      end
-
-      it 'built a tanent' do
-        org = Organization.create_and_build_tanent(short_name: 'testing2', full_name: 'Testing')
-        tanent = Apartment::Tenant.switch!(org.short_name)
-        expect(tanent).to include(org.short_name)
+      it 'returns alls orgnanizations located in Cambodia' do
+        expect(subject).to include(cambodian_org)
+        expect(subject).not_to include(malaysian_org)
       end
     end
-    context 'Fail' do
-      it 'is unable to create organization record' do
-        org = Organization.create_and_build_tanent(short_name: 'testing3')
-        expect(org.persisted?).to be_falsey
+
+    xdescribe '.without_demo scope' do
+      let!(:demo_org) { create(:organization, full_name: 'Demo')}
+      subject { Organization.without_demo }
+
+      it 'returns all orgnaizations except the demo orgnaization' do
+        expect(subject).to include(cambodian_org, malaysian_org)
+        expect(subject).not_to include(demo_org)
       end
     end
-  end
 
-  describe Organization, 'instance methods' do
-    context '#demo?' do
-      demo_instance = Organization.find_by(short_name: 'demo')
-      demo_instance = demo_instance.present? ? demo_instance : Organization.create_and_build_tanent(short_name: 'demo', full_name: 'Demo')
+    xdescribe '.without_shared scope' do
+      let!(:shared_org) { create(:organization, short_name: 'shared')}
+      subject { Organization.without_shared }
 
-      it { expect(demo_instance.demo?).to be_truthy }
+      it 'returns all orgnaizations except the shared orgnaization' do
+        expect(subject).to include(cambodian_org, malaysian_org)
+        expect(subject).not_to include(shared_org)
+      end
     end
 
-    context '#mho?' do
-      mho_instance = Organization.find_by(short_name: 'mho')
-      mho_instance = mho_instance.present? ? mho_instance : Organization.create_and_build_tanent(short_name: 'mho', full_name: 'mho')
+    describe 'when cwd organization is created' do
+      let!(:cwd_org) { create(:organization, short_name: 'cwd', full_name: 'cwd', country: 'india') }
 
-      it { expect(mho_instance.mho?).to be_truthy }
-    end
+      describe '.without_cwd scope' do
+        subject { Organization.without_cwd }
 
-    context '#available_for_referral?' do
-      context 'oscar' do
-        Organization.oscar.each do |org|
-          it { expect(org.available_for_referral?).to be_truthy }
+        it 'returns all orgnaizations except the cwd orgnaization' do
+          expect(subject).to include(cambodian_org, malaysian_org)
+          expect(subject).not_to include(cwd_org)
         end
       end
 
-      context 'non oscar' do
-        ids = Organization.oscar.ids
-        Organization.where.not(id: ids).each do |org|
-          next if org.demo?
-          it { expect(org.available_for_referral?).to be_falsey }
+      xdescribe 'when demo organization is created' do
+        let!(:demo_org) { create(:organization, short_name: 'demo', full_name: 'cwd', country: 'india') }
+
+        describe '.oscar scope' do
+          subject { Organization.oscar }
+
+          it 'should return organizations that are available_for_referral' do
+            expect(subject.map{|org| org.available_for_referral?}.uniq.first).to be_truthy
+          end
+
+          it 'returns all live instances of oscar organizations' do
+            expect(subject).to include(cambodian_org, malaysian_org)
+            expect(subject).not_to include(cwd_org, demo_org)
+          end
+        end
+
+        describe '.visible scope' do
+          subject { Organization.visible }
+
+          it 'returns all live instances of oscar organizations plus the demo instance' do
+            expect(subject).to include(cambodian_org, malaysian_org, demo_org)
+            expect(subject).not_to include(cwd_org)
+          end
+        end
+
+        xdescribe '.skip_dup_checking_orgs' do
+          subject { Organization.skip_dup_checking_orgs }
+
+          it 'returns the demo org' do
+            expect(subject).to include(demo_org)
+          end
         end
       end
     end

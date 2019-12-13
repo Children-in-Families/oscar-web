@@ -26,7 +26,10 @@
     .ibox-footer
       .row
         .col-xs-12
-          = link_to_remove_association t('.remove_tracking'), f, class: 'btn btn-danger'
+          - if f.object.is_used?
+            = link_to_remove_association t('.remove_tracking'), f, class: 'btn btn-danger disabled'
+          - else
+            = link_to_remove_association t('.remove_tracking'), f, class: 'btn btn-danger'
           .btn.btn-primary.custom-field-list{ 'data-toggle': "modal", 'data-target': '#custom-field' }
             = t('.custom_fields')
   %hr

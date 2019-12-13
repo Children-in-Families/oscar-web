@@ -28,6 +28,5 @@ namespace :update_rated_id_poor do
         client.save(validate: false)
       end
     end
-    puts 'Done!!!'
   end
 end

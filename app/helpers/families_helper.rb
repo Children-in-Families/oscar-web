@@ -150,4 +150,8 @@ module FamiliesHelper
     type = type.downcase.gsub(/\(|\)/, '').gsub(/ \/ |-/, '_').gsub(' ', '_')
     I18n.t("default_family_fields.family_type_list.#{type}")
   end
+
+  def selected_clients
+    @family.id ? @clients.where("current_family_id = ?", @family.id).ids : @selected_children
+  end
 end

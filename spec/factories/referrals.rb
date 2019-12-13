@@ -15,5 +15,15 @@ FactoryGirl.define do
     saved false
     association :client, factory: :client
     consent_form { [UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))] }
+
+    after(:build) do |referral|
+      referral.class.skip_callback(:save, :after, :create_referral_history)
+    end
+
+    trait :client_with_history do
+      after(:build) do |referral|
+        referral.class.set_callback(:save, :after, :create_referral_history)
+      end
+    end
   end
 end
