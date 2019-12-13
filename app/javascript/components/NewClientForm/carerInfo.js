@@ -25,30 +25,29 @@ export default props => {
   }
 
   useEffect(() => {
+    let object = carer
+
     if(sameAsClient) {
+      object = client
       if(client.province_id !== null)
         fetchData('provinces', client.province_id, 'districts')
       if(client.district_id !== null)
         fetchData('districts', client.district_id, 'communes')
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
-    } else {
-      setDistricts([])
-      setCommunes([])
-      setVillages([])
     }
 
     const fields = {
-      outside: sameAsClient ? client.outside : false,
-      province_id: sameAsClient ? client.province_id : null,
-      district_id: sameAsClient ? client.district_id : null,
-      commune_id: sameAsClient ? client.commune_id : null,
-      village_id: sameAsClient ? client.village_id : null,
-      street_number: sameAsClient ? client.street_number : '',
-      house_number: sameAsClient ? client.house_number : '',
-      current_address: sameAsClient ? client.current_address : '',
-      address_type: sameAsClient ? client.address_type : '',
-      outside_address: sameAsClient ? client.outside_address : ''
+      outside: object.outside,
+      province_id: object.province_id,
+      district_id: object.district_id,
+      commune_id: object.commune_id,
+      village_id: object.village_id,
+      street_number: object.street_number,
+      house_number: object.house_number,
+      current_address: object.current_address,
+      address_type: object.address_type,
+      outside_address: object.outside_address
     }
 
     onChange('carer', { ...fields })({type: 'select'})
