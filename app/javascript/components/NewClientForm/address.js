@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, same, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [] } } = props
+  const { onChange, disabled, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [] } } = props
 
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
@@ -72,7 +72,7 @@ export default props => {
 
   return (
     outside == true ?
-      <TextArea label="Out Side Address" disabled={same} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
+      <TextArea label="Out Side Address" disabled={disabled} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
     :
       <>
         <div className="row">
@@ -80,7 +80,7 @@ export default props => {
             <SelectInput
               label="Province"
               options={provinces}
-              isDisabled={same}
+              isDisabled={disabled}
               value={objectData.province_id}
               onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: objectKey, field: 'province_id'})}
             />
@@ -89,7 +89,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="District / Khan"
-              isDisabled={same}
+              isDisabled={disabled}
               options={districts}
               value={objectData.district_id}
               onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
@@ -99,7 +99,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Commune / Sangkat"
-              isDisabled={same}
+              isDisabled={disabled}
               options={communes}
               value={objectData.commune_id}
               onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
@@ -109,7 +109,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Village"
-              isDisabled={same}
+              isDisabled={disabled}
               options={villages}
               value={objectData.village_id}
               onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
@@ -121,7 +121,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label="Street Number"
-              disabled={same}
+              disabled={disabled}
               onChange={onChange(objectKey, 'street_number')}
               value={objectData.street_number}
             />
@@ -130,7 +130,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label="House Number"
-              disabled={same}
+              disabled={disabled}
               onChange={onChange(objectKey, 'house_number')}
               value={objectData.house_number}
             />
@@ -139,7 +139,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label="Address Name"
-              disabled={same}
+              disabled={disabled}
               onChange={onChange(objectKey, 'current_address')}
               value={objectData.current_address}
             />
@@ -148,7 +148,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label="Address Type"
-              isDisabled={same}
+              isDisabled={disabled}
               options={addressTypes}
               onChange={onChange(objectKey, 'address_type')}
               value={objectData.address_type}

@@ -127,7 +127,7 @@ export default props => {
         </div>
       </legend>
 
-      <Address same={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client}} />
+      <Address disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client}} />
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
