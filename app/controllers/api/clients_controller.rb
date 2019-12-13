@@ -26,6 +26,15 @@ module Api
 
     def create
       client = Client.new(client_params)
+
+      referee = Referee.new(referee_params)
+      referee.save
+
+      carer = Carer.new(carer_params)
+      carer.save
+
+      client.referee_id = referee.id
+      client.carer_id = carer.id
       if client.save
         render json: { id: client.slug }, status: :ok
       else
@@ -39,7 +48,8 @@ module Api
         family.children = family.children - [client.id]
         family.save
       end
-
+      Referee.where('id IN (?)', client.referee_id).update_all(referee_params)
+      Carer.where('id IN(?)', client.carer.id).update_all(carer_params)
       if client.update_attributes(client_params)
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
@@ -69,7 +79,7 @@ module Api
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id,
+            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -82,6 +92,18 @@ module Api
             client_problems_attributes: [:id, :rank, :problem_id],
             family_ids: []
           )
+    end
+
+    def referee_params
+      params.require(:referee).permit(
+        :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id
+      )
+    end
+
+    def carer_params
+      params.require(:carer).permit(
+        :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id
+      )
     end
 
     def find_client_in_organization

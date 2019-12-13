@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191104023930) do
+ActiveRecord::Schema.define(version: 20191213072011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,28 @@ ActiveRecord::Schema.define(version: 20191104023930) do
 
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
+  create_table "carers", force: :cascade do |t|
+    t.string   "address_type",    default: ""
+    t.string   "current_address", default: ""
+    t.string   "email",           default: ""
+    t.string   "gender",          default: ""
+    t.string   "house_number",    default: ""
+    t.string   "outside_address", default: ""
+    t.string   "street_number",   default: ""
+    t.boolean  "outside",         default: false
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
+  add_index "carers", ["district_id"], name: "index_carers_on_district_id", using: :btree
+  add_index "carers", ["province_id"], name: "index_carers_on_province_id", using: :btree
+  add_index "carers", ["village_id"], name: "index_carers_on_village_id", using: :btree
+
   create_table "case_closures", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -157,14 +179,15 @@ ActiveRecord::Schema.define(version: 20191104023930) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",         default: ""
+    t.string   "attendee",                  default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.string   "interaction_type", default: ""
-    t.boolean  "custom",           default: false
+    t.string   "interaction_type",          default: ""
+    t.boolean  "custom",                    default: false
+    t.string   "selected_domain_group_ids", default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -384,7 +407,6 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "grade"
     t.string   "slug"
     t.string   "able_state",                       default: ""
-    t.integer  "assessments_count"
     t.integer  "donor_id"
     t.string   "local_given_name",                 default: ""
     t.string   "local_family_name",                default: ""
@@ -431,7 +453,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.string   "main_school_contact",              default: ""
     t.string   "rated_for_id_poor",                default: ""
     t.string   "what3words",                       default: ""
-    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_reasons",                     default: [],                      array: true
     t.string   "exit_circumstance",                default: ""
     t.string   "other_info_of_exit",               default: ""
     t.string   "suburb",                           default: ""
@@ -451,9 +473,16 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
+    t.integer  "default_assessments_count",        default: 0,          null: false
+    t.integer  "custom_assessments_count",         default: 0,          null: false
+    t.integer  "assessments_count",                default: 0,          null: false
+    t.integer  "current_family_id"
+    t.integer  "referee_id"
+    t.integer  "carer_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
+  add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -959,7 +988,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
-    t.boolean  "aht"
+    t.boolean  "aht",        default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1080,7 +1109,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "clients_count",  default: 0
     t.integer  "families_count", default: 0
     t.integer  "partners_count", default: 0
-    t.integer  "users_count",    default: 0
+    t.integer  "users_count",    default: 0,  null: false
     t.string   "country"
   end
 
@@ -1140,6 +1169,28 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "referees", force: :cascade do |t|
+    t.string   "address_type",    default: ""
+    t.string   "current_address", default: ""
+    t.string   "email",           default: ""
+    t.string   "gender",          default: ""
+    t.string   "house_number",    default: ""
+    t.string   "outside_address", default: ""
+    t.string   "street_number",   default: ""
+    t.boolean  "outside",         default: false
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
+  add_index "referees", ["district_id"], name: "index_referees_on_district_id", using: :btree
+  add_index "referees", ["province_id"], name: "index_referees_on_province_id", using: :btree
+  add_index "referees", ["village_id"], name: "index_referees_on_village_id", using: :btree
 
   create_table "referral_sources", force: :cascade do |t|
     t.string   "name",          default: ""
@@ -1636,6 +1687,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visit_clients", ["user_id"], name: "index_visit_clients_on_user_id", using: :btree
@@ -1644,6 +1696,7 @@ ActiveRecord::Schema.define(version: 20191104023930) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
@@ -1656,6 +1709,10 @@ ActiveRecord::Schema.define(version: 20191104023930) do
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "calendars", "users"
+  add_foreign_key "carers", "communes"
+  add_foreign_key "carers", "districts"
+  add_foreign_key "carers", "provinces"
+  add_foreign_key "carers", "villages"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_worker_clients", "clients"
@@ -1734,6 +1791,10 @@ ActiveRecord::Schema.define(version: 20191104023930) do
   add_foreign_key "quantitative_type_permissions", "quantitative_types"
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
+  add_foreign_key "referees", "communes"
+  add_foreign_key "referees", "districts"
+  add_foreign_key "referees", "provinces"
+  add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"

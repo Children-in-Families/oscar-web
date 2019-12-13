@@ -43,6 +43,8 @@ class Client < ActiveRecord::Base
   belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
   belongs_to :commune
   belongs_to :village
+  belongs_to :referee
+  belongs_to :carer
 
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors

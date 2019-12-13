@@ -3,7 +3,7 @@ import { SelectInput } from '../Commons/inputs'
 import { RadioButton } from 'primereact/radiobutton'
 
 export default props => {
-  const { id, onChange, data: { families, clientData, refereeData } } = props
+  const { id, onChange, data: { families, clientData, refereeData, carerData } } = props
 
   const [showSave, setShowSave] = useState(false)
   const [showSelect, setShowSelect] = useState(false)
@@ -47,7 +47,7 @@ export default props => {
       $.ajax({
         url,
         type: action,
-        data: { client: { ...refereeData, ...clientData } }
+        data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
       }).success(response => {
         document.location.href = `/families/new?children=${response.id}&value=${value}`
       })
@@ -57,7 +57,7 @@ export default props => {
       $.ajax({
         url,
         type: action,
-        data: { client: { ...refereeData, ...clientData } }
+        data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
       }).success(response => { document.location.href = `/clients/${response.id}?notice=success` })
     } else if (value === "no"){
       const action = clientData.id ? 'PUT' : 'POST'
@@ -65,7 +65,7 @@ export default props => {
       $.ajax({
         url,
         type: action,
-        data: { client: { ...refereeData, ...clientData } }
+        data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
       }).success(response => { document.location.href = `/clients/${response.id}?notice=success` })
     }
   }

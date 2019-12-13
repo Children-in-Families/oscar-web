@@ -11,7 +11,7 @@ import './styles.scss'
 const Forms = props => {
   const {
     data: {
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families
     }
   } = props
@@ -26,8 +26,8 @@ const Forms = props => {
   const [errorFields, setErrorFields] = useState([])
 
   const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
-  const [refereeData, setRefereeData] = useState({})
-  const [carerData, setCarerData]     = useState({})
+  const [refereeData, setRefereeData] = useState(referee)
+  const [carerData, setCarerData]     = useState(carer)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces  }
   const adminTabData = { users, client: clientData, errorFields }
@@ -207,7 +207,7 @@ const Forms = props => {
         $.ajax({
           url,
           type: action,
-          data: { client: { ...refereeData, ...clientData } }
+          data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
         }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
       }
 
@@ -242,7 +242,7 @@ const Forms = props => {
         isOpen={attachFamilyModal}
         type='success'
         closeAction={() => setAttachFamilyModal(false)}
-        content={<CreateFamilyModal id="myModal" data={{ families, clientData, refereeData }} onChange={onChange} /> }
+        content={<CreateFamilyModal id="myModal" data={{ families, clientData, refereeData, carerData }} onChange={onChange} /> }
       />
 
       <div className='tabHead'>
