@@ -7,6 +7,8 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     _toggleCheckingRadioButton()
     _confirm()
     _initICheckBox()
+    _initDatePicker()
+    _handleDisableAndEnableCreateDatePickerClientEnrollment()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -27,6 +29,18 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _initDatePicker = ->
+    $('.client-enrollment-date').datepicker
+      autoclose: true
+      format: 'yyyy-mm-dd'
+      todayHighlight: true
+      orientation: 'bottom'
+      disableTouchKeyboard: true
+
+  _handleDisableAndEnableCreateDatePickerClientEnrollment = ->
+    startDate = $('#case-history-table-client-enrollment tr.case-history-row').first().data('date')
+    $('.client-enrollment-date').datepicker('setStartDate', startDate)
 
   _preventRequireFields = ->
     preventFileUploader()

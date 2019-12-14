@@ -1,0 +1,4 @@
+- if type_of_services.any?
+  %ul{'data-type_of_service': '' }
+    - type_of_services.each do |service|
+      %li= service.name

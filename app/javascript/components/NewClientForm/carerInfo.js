@@ -7,12 +7,12 @@ import {
 import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { client, carer, currentDistricts, currentCommunes, currentVillages, currentProvinces, families } } = props
+  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes } } = props
 
   const [sameAsClient, setSameAsClient]   = useState(false)
-  const [districts, setDistricts]         = useState(currentDistricts)
-  const [communes, setCommunes]           = useState(currentCommunes)
-  const [villages, setVillages]           = useState(currentVillages)
+  const [districts, setDistricts]         = useState(carerDistricts)
+  const [communes, setCommunes]           = useState(carerCommunes)
+  const [villages, setVillages]           = useState(carerVillages)
 
   const fetchData = (parent, data, child) => {
     $.ajax({
@@ -25,30 +25,29 @@ export default props => {
   }
 
   useEffect(() => {
+    let object = carer
+
     if(sameAsClient) {
+      object = client
       if(client.province_id !== null)
         fetchData('provinces', client.province_id, 'districts')
       if(client.district_id !== null)
         fetchData('districts', client.district_id, 'communes')
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
-    } else {
-      setDistricts([])
-      setCommunes([])
-      setVillages([])
     }
 
     const fields = {
-      outside: sameAsClient ? client.outside : false,
-      province_id: sameAsClient ? client.province_id : null,
-      district_id: sameAsClient ? client.district_id : null,
-      commune_id: sameAsClient ? client.commune_id : null,
-      village_id: sameAsClient ? client.village_id : null,
-      street_number: sameAsClient ? client.street_number : '',
-      house_number: sameAsClient ? client.house_number : '',
-      current_address: sameAsClient ? client.current_address : '',
-      address_type: sameAsClient ? client.address_type : '',
-      outside_address: sameAsClient ? client.outside_address : ''
+      outside: object.outside,
+      province_id: object.province_id,
+      district_id: object.district_id,
+      commune_id: object.commune_id,
+      village_id: object.village_id,
+      street_number: object.street_number,
+      house_number: object.house_number,
+      current_address: object.current_address,
+      address_type: object.address_type,
+      outside_address: object.outside_address
     }
 
     onChange('carer', { ...fields })({type: 'select'})
@@ -89,7 +88,7 @@ export default props => {
           <TextInput label="Carer Email Address" onChange={onChange('carer', 'email')} value={carer.email} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Relationship to Client" options={blank} onChange={onChange('carer', 'relationship')} value={carer.relationship} />
+          <SelectInput label="Relationship to Client" options={clientRelationships} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput label="Family Record" options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
@@ -114,7 +113,7 @@ export default props => {
           }
         </div>
       </legend>
-      <Address sameAsClient={sameAsClient} outside={carer.outside || false} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'carer', objectData: carer}} />
+      <Address sameAsClient={sameAsClient} outside={carer.outside || false} onChange={onChange} data={{client, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
     </div>
   )
 }

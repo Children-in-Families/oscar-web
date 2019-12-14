@@ -6,13 +6,12 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, sameAsClient, outside, data: { client, currentProvinces, objectKey, objectData, currentCommunes = [], currentDistricts = [], currentVillages = [] } } = props
+  const { onChange, sameAsClient, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [] } } = props
 
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
   const [communes, setcommunes] = useState(currentCommunes.map(commune => ({ label: commune.name_kh + ' / ' + commune.name_en, value: commune.id})))
   const [villages, setvillages] = useState(currentVillages.map(village => ({ label: village.name_kh + ' / ' + village.name_en, value: village.id})))
-  const addressType = [{ label: 'Floor', value: 'floor' }, { label: 'Building', value: 'building' }, { label: 'Office', value: 'office' }]
 
   useEffect(() => {
     setdistricts(currentDistricts.map(district => ({label: district.name, value: district.id})))
@@ -20,7 +19,7 @@ export default props => {
     setvillages(currentVillages.map(village => ({ label: village.name && village.name || `${village.name_kh} / ${village.name_en}`, value: village.id})))
 
     if(outside) {
-      onChange(objectKey, {province_id: null, district_id: null, commune_id: null, village_id: null, house_number: '', street_number: '', address: '', address_type: ''})({type: 'select'})
+      onChange(objectKey, {province_id: null, district_id: null, commune_id: null, village_id: null, house_number: '', street_number: '', current_address: '', address_type: ''})({type: 'select'})
     } else {
       onChange(objectKey, {outside_address: ''})({type: 'select'})
     }
@@ -150,7 +149,7 @@ export default props => {
             <SelectInput
               label="Address Type"
               isDisabled={sameAsClient}
-              options={addressType}
+              options={addressTypes}
               onChange={onChange(objectKey, 'address_type')}
               value={objectData.address_type}
             />

@@ -18,7 +18,6 @@ class Organization < ActiveRecord::Base
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
-  # validate :raise_error_non_public_tenant, on: :create
 
   class << self
     def current
@@ -33,7 +32,6 @@ class Organization < ActiveRecord::Base
       transaction do
         org = create(fields)
         Apartment::Tenant.create(fields[:short_name])
-
         org
       end
     end

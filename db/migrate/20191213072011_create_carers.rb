@@ -8,6 +8,7 @@ class CreateCarers < ActiveRecord::Migration
       t.string :house_number, default: ''
       t.string :outside_address, default: ''
       t.string :street_number, default: ''
+      t.string :client_relationship, default: ''
       t.boolean :outside, default: false
       t.references :province, index: true, foreign_key: true
       t.references :district, index: true, foreign_key: true

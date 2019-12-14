@@ -28,6 +28,7 @@ module AdvancedSearches
         field    = rule['id']
         operator = rule['operator']
         value    = rule['value']
+
         form_builder = field != nil ? field.split('__') : []
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
@@ -60,9 +61,11 @@ module AdvancedSearches
         elsif form_builder.first == 'enrollment'
           program_name = form_builder.second.gsub("&qoute;", '"')
           program_stream = ProgramStream.find_by(name: program_name)
-          enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
-          @sql_string << enrollment_fields[:id]
-          @values << enrollment_fields[:values]
+          if program_stream.present?
+            enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
+            @sql_string << enrollment_fields[:id]
+            @values << enrollment_fields[:values]
+          end
 
         elsif form_builder.first == 'enrollmentdate'
           program_name = form_builder.second.gsub("&qoute;", '"')
@@ -90,9 +93,11 @@ module AdvancedSearches
 
         elsif form_builder.first == 'programexitdate'
           program_stream = ProgramStream.find_by(name: form_builder.second)
-          exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
-          @sql_string << exit_date[:id]
-          @values << exit_date[:values]
+          if program_stream.present?
+            exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
+            @sql_string << exit_date[:id]
+            @values << exit_date[:values]
+          end
 
         elsif form_builder.first == 'quantitative'
           quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
@@ -103,8 +108,12 @@ module AdvancedSearches
           domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(field, rule, @basic_rules).get_sql
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
+        elsif form_builder.first == 'type_of_service'
+          service_query = AdvancedSearches::ServiceSqlBuilder.new().get_sql
+          @sql_string << service_query[:id]
+          @values << service_query[:values]
 
-        elsif field != nil
+        elsif field != nil && form_builder.first != 'type_of_service'
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
         else
@@ -112,8 +121,10 @@ module AdvancedSearches
           @sql_string << nested_query[:sql_string]
           nested_query[:values].select{ |v| @values << v }
         end
-
       end
+
+      # @sql_string << nested_query[:sql_string]
+      # nested_query[:values].select{ |v| @values << v }
 
       @sql_string = @sql_string.join(" #{@condition} ")
       @sql_string = "(#{@sql_string})" if @sql_string.present?
@@ -127,6 +138,9 @@ module AdvancedSearches
       when 'equal'
         if field == 'created_at'
           @sql_string << "date(clients.#{field}) = ?"
+          @values << value
+        elsif field == 'slug'
+          @sql_string << "clients.slug = ?"
           @values << value
         else
           if SENSITIVITY_FIELDS.include?(field)

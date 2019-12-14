@@ -12,7 +12,8 @@ const Forms = props => {
   const {
     data: {
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages
     }
   } = props
 
@@ -29,11 +30,11 @@ const Forms = props => {
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData]     = useState(carer)
 
-  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces  }
+  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
   const adminTabData = { users, client: clientData, errorFields }
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
-  const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address  }
-  const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, families, ...referralTabData }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, ...address  }
+  const referralTabData = { errorFields, client: clientData, birthProvinces, refereeRelationships, phoneOwners, ...address  }
+  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
 
   const tabs = [

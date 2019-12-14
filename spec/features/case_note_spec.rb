@@ -29,7 +29,7 @@ describe 'CaseNote' do
       page.all('.task-arising a.remove-task')[index].trigger('click')
     end
 
-    scenario 'valid', js: true do
+    xscenario 'valid' do
       fill_in 'case_note_meeting_date', with: '2017-04-01'
       fill_in 'Who was there during the visit or conversation?', with: 'Jonh'
       find("#case_note_interaction_type option[value='Visit']", visible: false).select_option
@@ -85,13 +85,13 @@ describe 'CaseNote' do
 
           expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: false))
         end
-        scenario 'custom csi', js: true do
+        xscenario 'custom csi', js: true do
           Setting.first.update(enable_default_assessment: false, enable_custom_assessment: true)
           visit client_case_notes_path(client)
           expect(page).to have_link('New case note', href: new_client_case_note_path(client, custom: true))
         end
       end
-      scenario 'both csi tools are enable', js: true do
+      xscenario 'both csi tools are enable', js: true do
         Setting.first.update(enable_custom_assessment: true)
         visit client_case_notes_path(client)
         click_on 'New case note'
@@ -104,7 +104,7 @@ describe 'CaseNote' do
       expect(page).to have_content date_format(case_note.meeting_date)
     end
 
-    scenario 'case note domain' do
+    xscenario 'case note domain' do
       expect(page).to have_content domain.identity
     end
 

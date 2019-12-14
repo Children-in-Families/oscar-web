@@ -77,7 +77,7 @@ class ClientsController < AdminController
         cps_enrollments = @client.client_enrollments
         cps_leave_programs = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", @client.id)
         referrals = @client.referrals
-        @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.new_date, current_record.created_at] <=> [next_record.new_date, next_record.created_at]) }
+        @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
         # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
       end
       format.pdf do
@@ -135,19 +135,19 @@ class ClientsController < AdminController
   def create
     @client = Client.new(client_params)
     if @client.save
-      redirect_to @client, notice: t('.successfully_created')
+      if params[:clientConfirmation] == 'createNewFamilyRecord'
+        redirect_to new_family_path(children: [@client.id])
+      else
+        redirect_to @client, notice: t('.successfully_created')
+      end
     else
       render :new
     end
   end
 
   def update
-    Family.where('children @> ARRAY[?]::integer[]', [@client.id]).each do |family|
-      family.children = family.children - [@client.id]
-      family.save(validate: false)
-    end
-
-    if @client.update_attributes(client_params)
+    new_params = @client.current_family_id ? client_params : client_params.except(:family_ids)
+    if @client.update_attributes(client_params.except(:family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -160,7 +160,7 @@ class ClientsController < AdminController
   end
 
   def destroy
-    @client.client_enrollments.each(&:really_destroy!)
+    @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
     @client.reload.destroy
 
@@ -216,7 +216,7 @@ class ClientsController < AdminController
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id,
+            :relevant_referral_information, :province_id, :current_family_id,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
@@ -230,10 +230,10 @@ class ClientsController < AdminController
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            family_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id],
-            family_ids: []
+            client_problems_attributes: [:id, :rank, :problem_id]
           )
   end
 
@@ -278,6 +278,10 @@ class ClientsController < AdminController
 
     @carer = @client.carer.present? ? @client.carer : Carer.new
     @referee = @client.referee.present? ? @client.referee : Referee.new
+    @referee_relationships = Client::REFEREE_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
+    @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
     @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields
@@ -297,6 +301,14 @@ class ClientsController < AdminController
     @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
     @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
     @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
+
+    @referee_districts                = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
+    @referee_communes                 = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
+    @referee_villages                 = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
+
+    @carer_districts                = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
+    @carer_communes                 = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
+    @carer_villages                 = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
   end
 
   def initial_visit_client

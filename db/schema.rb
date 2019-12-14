@@ -133,20 +133,21 @@ ActiveRecord::Schema.define(version: 20191213072011) do
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
   create_table "carers", force: :cascade do |t|
-    t.string   "address_type",    default: ""
-    t.string   "current_address", default: ""
-    t.string   "email",           default: ""
-    t.string   "gender",          default: ""
-    t.string   "house_number",    default: ""
-    t.string   "outside_address", default: ""
-    t.string   "street_number",   default: ""
-    t.boolean  "outside",         default: false
+    t.string   "address_type",        default: ""
+    t.string   "current_address",     default: ""
+    t.string   "email",               default: ""
+    t.string   "gender",              default: ""
+    t.string   "house_number",        default: ""
+    t.string   "outside_address",     default: ""
+    t.string   "street_number",       default: ""
+    t.string   "client_relationship", default: ""
+    t.boolean  "outside",             default: false
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"
     t.integer  "village_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
@@ -479,6 +480,13 @@ ActiveRecord::Schema.define(version: 20191213072011) do
     t.integer  "current_family_id"
     t.integer  "referee_id"
     t.integer  "carer_id"
+    t.boolean  "outside",                          default: false
+    t.string   "outside_address",                  default: ""
+    t.string   "address_type",                     default: ""
+    t.string   "client_phone",                     default: ""
+    t.string   "phone_owner",                      default: ""
+    t.string   "client_email",                     default: ""
+    t.string   "referee_relationship",             default: ""
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1179,6 +1187,7 @@ ActiveRecord::Schema.define(version: 20191213072011) do
     t.string   "outside_address", default: ""
     t.string   "street_number",   default: ""
     t.boolean  "outside",         default: false
+    t.boolean  "anonymous",       default: false
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"

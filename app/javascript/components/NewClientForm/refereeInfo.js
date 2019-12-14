@@ -7,7 +7,7 @@ import {
 import Address      from './address'
 
 export default props => {
-  const { onChange, data: { referee, client, currentProvinces, referralSourceCategory, referralSource, currentDistricts, currentCommunes, currentVillages, birthProvinces, errorFields} } = props
+  const { onChange, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes} } = props
 
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
 
@@ -87,7 +87,7 @@ export default props => {
         </div>
       </legend>
 
-      <Address outside={referee.outside || false} onChange={onChange} data={{currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'referee', objectData: referee}} />
+      <Address outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee}} />
     </div>
   )
 }

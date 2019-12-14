@@ -243,4 +243,8 @@ body[id='clients-show'] {
   .btn#edit-exit-info {
     margin-left: 10px;
   }
+
+  .disabled.day {
+    color: #999999 !important;
+  }
 }

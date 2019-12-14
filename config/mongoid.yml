@@ -1,12 +1,11 @@
 development:
   clients:
     default:
-      database: <%= ENV['HISTORY_DATABASE_NAME'] %>
+      database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
         - localhost:27017
       options:
   options:
-
 test:
   clients:
     default:
@@ -17,29 +16,26 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
-
 demo:
   clients:
     default:
-      database: <%= ENV['HISTORY_DATABASE_NAME'] %>
+      database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
         - localhost:27017
       options:
   options:
-
 staging:
   clients:
     default:
-      database: <%= ENV['HISTORY_DATABASE_NAME'] %>
+      database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
         - localhost:27017
       options:
   options:
-
 production:
   clients:
     default:
-      database: <%= ENV['HISTORY_DATABASE_NAME'] %>
+      database: <%= ENV["HISTORY_DATABASE_NAME"] %>
       hosts:
         - localhost:27017
       options:

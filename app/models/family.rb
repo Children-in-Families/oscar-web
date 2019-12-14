@@ -24,14 +24,12 @@ class Family < ActiveRecord::Base
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
   has_paper_trail
-
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, presence: true, inclusion: { in: STATUSES }
-
   validate :client_must_only_belong_to_a_family
 
-  after_save :delete_family_in_client, :save_family_in_client
+  after_save :save_family_in_client
 
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value.squish}%") }
   scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value.squish}%") }
@@ -104,25 +102,14 @@ class Family < ActiveRecord::Base
   end
 
   def save_family_in_client
+    Client.where(current_family_id: self.id).where.not(id: self.children).update_all(current_family_id: nil)
     self.children.each do |child|
       client = Client.find_by(id: child)
       next if client.nil?
-      next if client.family_ids.include?(self.id)
-      # client.cases.destroy_all
       client.families << self
+      client.current_family_id = self.id
       client.families.uniq
       client.save(validate: false)
-    end
-  end
-
-  def delete_family_in_client
-    self.cases.each do |client_case|
-      client = Client.find_by(id: client_case.client_id)
-      if client.present? && client.family_ids.include?(self.id)
-        unless self.children.include?(client.id)
-          client.cases.find_by(family_id: self.id).delete
-        end
-      end
     end
   end
 end

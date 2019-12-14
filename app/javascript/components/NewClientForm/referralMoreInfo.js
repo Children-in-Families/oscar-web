@@ -5,7 +5,7 @@ import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 
 export default props => {
-  const { onChange, data: { carer, client, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families } } = props
+  const { onChange, data: { carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes } } = props
 
   return (
     <div className="containerClass">
@@ -35,7 +35,7 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo" data={{ carer, client, currentProvinces, currentDistricts, currentCommunes, currentVillages, families }} onChange={onChange} />
+      <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes }} onChange={onChange} />
 
       <hr/>
       <div className="row">
@@ -71,7 +71,7 @@ export default props => {
       <div className="row">
         <div className="customInfo">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#customInfo">
-            <label className="makeSpaceCustom">Custom ID Information?</label>
+            <label className="makeSpaceCustom">Other Information</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
@@ -80,7 +80,7 @@ export default props => {
         </div>
       </div>
 
-      <CustomInfo id="customInfo" onChange={onChange} data={{client}} />
+      <CustomInfo id="customInfo" onChange={onChange} data={{ratePoor, client}} />
       <hr/>
     </div>
   )

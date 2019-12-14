@@ -9,6 +9,7 @@ class CreateReferees < ActiveRecord::Migration
       t.string :outside_address, default: ''
       t.string :street_number, default: ''
       t.boolean :outside, default: false
+      t.boolean :anonymous, default: false
       t.references :province, index: true, foreign_key: true
       t.references :district, index: true, foreign_key: true
       t.references :commune, index: true, foreign_key: true

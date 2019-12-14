@@ -59,12 +59,12 @@ describe 'User' do
     let!(:other_manager){ create(:user, :manager) }
     let!(:case_worker){ create(:user, :case_worker, manager_id: manager_level_1.id) }
 
-    scenario 'New', js: true do
+    xscenario 'New', js: true do
       visit new_user_path
       expect(page).to have_css('select#user_manager_id option', count: 5)
     end
 
-    scenario 'Edit', js: true do
+    xscenario 'Edit', js: true do
       manager_level_1.update(manager_id: manager_level_2.id)
       visit edit_user_path(manager_level_2.reload)
       expect(page).to have_css('select#user_manager_id option', count: 3)
@@ -78,12 +78,12 @@ describe 'User' do
 
     let!(:disable_user){ create(:user, email: 'aa@bb.com', disable: true, password: '12345678', password_confirmation: '12345678') }
 
-    scenario 'disable user from log in', js: true do
+    xscenario 'disable user from log in', js: true do
       visit users_path
       find("a[href='#{user_disable_path(used_user)}']").click
       expect(page).to have_css("i.fa.fa-lock", count: 2)
     end
-    scenario 'user unable to log in when disable', js: true do
+    xscenario 'user unable to log in when disable', js: true do
       logout
       visit new_user_session_path
       fill_in 'Email', with: 'aa@bb.com'
@@ -98,7 +98,7 @@ describe 'User' do
       login_as(admin)
       visit users_path
     end
-    scenario 'success', js: true do
+    xscenario 'success', js: true do
       find("a[href='#{user_path(user)}'][data-method='delete']").click
       sleep 1
       expect(page).not_to have_content(user.name)
