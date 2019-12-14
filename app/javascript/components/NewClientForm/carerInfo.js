@@ -113,7 +113,7 @@ export default props => {
           }
         </div>
       </legend>
-      <Address sameAsClient={sameAsClient} outside={carer.outside || false} onChange={onChange} data={{client, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
+      <Address disabled={sameAsClient} outside={carer.outside || false} onChange={onChange} data={{client, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
     </div>
   )
 }

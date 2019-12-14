@@ -1,4 +1,4 @@
-import React       from 'react'
+import React, { useEffect, useState }       from 'react'
 import {
   SelectInput,
   TextInput,
@@ -13,6 +13,29 @@ export default props => {
 
   const referralSourceCategoryLists = referralSourceCategory.map(category => ({label: category[0], value: category[1]}))
   const referralSourceLists = referralSource.filter(source => source.ancestry !== null && source.ancestry == client.referral_source_category_id).map(source => ({label: source.name, value: source.id}))
+
+  useEffect(() => {
+    if(referee.anonymous) {
+      const fields = {
+        anonymous: true,
+        outside: false,
+        name: 'Anonymous',
+        email: '',
+        gender: '',
+        street_number: '',
+        house_number: '',
+        current_address: '',
+        outside_address: '',
+        address_type: '',
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        village_id: null,
+      }
+
+      onChange('referee', { ...fields })({type: 'select'})
+    }
+  }, [referee.anonymous])
 
   const onReferralSourceCategoryChange = data => {
     onChange('client', { referral_source_category_id: data.data, referral_source_id: null })({type: 'select'})
@@ -38,6 +61,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             required
+            disabled={referee.anonymous}
             // isError={errorFields.includes('referee_name')}
             isError={errorFields.includes('name_of_referee')}
             value={client.name_of_referee}
@@ -47,15 +71,15 @@ export default props => {
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Gender" options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} />
+          <SelectInput label="Gender" isDisabled={referee.anonymous} options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Referee Phone Number" onChange={onChange('client', 'referral_phone')} value={client.referral_phone} />
+          <TextInput label="Referee Phone Number" type="number" disabled={referee.anonymous} onChange={onChange('client', 'referral_phone')} value={client.referral_phone} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Referee Email Address" onChange={onChange('referee', 'email')} value={referee.email} />
+          <TextInput label="Referee Email Address" disabled={referee.anonymous} onChange={onChange('referee', 'email')} value={referee.email} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
@@ -81,13 +105,16 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <p>Address</p>
           </div>
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <Checkbox label="Outside Cambodia" checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
-          </div>
+          {
+            !referee.anonymous &&
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <Checkbox label="Outside Cambodia" checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
+            </div>
+          }
         </div>
       </legend>
 
-      <Address outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee}} />
+      <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee}} />
     </div>
   )
 }

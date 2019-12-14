@@ -1,4 +1,4 @@
-import React       from 'react'
+import React, { useEffect, useState }       from 'react'
 import {
   SelectInput,
   DateInput,
@@ -8,11 +8,53 @@ import {
 import Address      from './address'
 
 export default props => {
-  const { onChange, data: { client, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, refereeRelationships, addressTypes, phoneOwners } } = props
+  const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, refereeRelationships, addressTypes, phoneOwners } } = props
 
-  const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
+
+  const [districts, setDistricts]         = useState(currentDistricts)
+  const [communes, setCommunes]           = useState(currentCommunes)
+  const [villages, setVillages]           = useState(currentVillages)
+
+  const fetchData = (parent, data, child) => {
+    $.ajax({
+      type: 'GET',
+      url: `/api/${parent}/${data}/${child}`,
+    }).success(res => {
+      const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages }
+      dataState[child](res.data)
+    })
+  }
+
+  useEffect(() => {
+    let object = client
+
+    if(client.referee_relationship === 'self') {
+      object = referee
+      if(object.province_id !== null)
+        fetchData('provinces', object.province_id, 'districts')
+      if(object.district_id !== null)
+        fetchData('districts', object.district_id, 'communes')
+      if(object.commune_id !== null)
+        fetchData('communes', object.commune_id, 'villages')
+    }
+
+    const fields = {
+      outside: object.outside,
+      province_id: object.province_id,
+      district_id: object.district_id,
+      commune_id: object.commune_id,
+      village_id: object.village_id,
+      street_number: object.street_number,
+      house_number: object.house_number,
+      current_address: object.current_address,
+      address_type: object.address_type,
+      outside_address: object.outside_address
+    }
+
+    onChange('client', { ...fields })({type: 'select'})
+  }, [client.referee_relationship, referee])
 
   return (
     <div className="containerClass">
@@ -76,13 +118,16 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <p>Contact Information</p>
           </div>
-          <div className="col-xs-12 col-md-6 col-lg-6">
-            <Checkbox label="Client is outside Cambodia" checked={client.outside || false} onChange={onChange('client', 'outside')}/>
-          </div>
+          {
+            client.referee_relationship !== 'self' &&
+            <div className="col-xs-12 col-md-6 col-lg-6">
+              <Checkbox label="Client is outside Cambodia" checked={client.outside || false} onChange={onChange('client', 'outside')}/>
+            </div>
+          }
         </div>
       </legend>
 
-      <Address outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts, currentCommunes, currentVillages, currentProvinces, objectKey: 'client', objectData: client}} />
+      <Address disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client}} />
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
