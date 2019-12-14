@@ -97,7 +97,7 @@ module Api
 
     def referee_params
       params.require(:referee).permit(
-        :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id
+        :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id, :anonymous
       )
     end
 
