@@ -480,8 +480,6 @@ ActiveRecord::Schema.define(version: 20191216023313) do
     t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
-    t.integer  "referee_id"
-    t.integer  "carer_id"
     t.boolean  "outside",                          default: false
     t.string   "outside_address",                  default: ""
     t.string   "address_type",                     default: ""
@@ -489,6 +487,8 @@ ActiveRecord::Schema.define(version: 20191216023313) do
     t.string   "phone_owner",                      default: ""
     t.string   "client_email",                     default: ""
     t.string   "referee_relationship",             default: ""
+    t.integer  "referee_id"
+    t.integer  "carer_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -998,7 +998,7 @@ ActiveRecord::Schema.define(version: 20191216023313) do
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
-    t.boolean  "aht",        default: false
+    t.boolean  "aht"
   end
 
   create_table "partners", force: :cascade do |t|

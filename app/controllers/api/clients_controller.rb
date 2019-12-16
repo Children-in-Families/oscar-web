@@ -1,5 +1,7 @@
 module Api
   class ClientsController < Api::ApplicationController
+    before_action :set_paper_trail_whodunnit
+
     def search_client
       clients = Client.all.where("given_name ILIKE ? OR family_name ILIKE ? OR local_given_name ILIKE ? OR local_family_name ILIKE ? OR slug ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%").select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
       render json: clients, serializer: false
@@ -35,6 +37,7 @@ module Api
 
       client.referee_id = referee.id
       client.carer_id = carer.id
+
       if client.save
         render json: { id: client.slug }, status: :ok
       else

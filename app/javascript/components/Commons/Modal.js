@@ -17,7 +17,6 @@ const modal = props => {
       padding: 10
     },
     modalFooter: {
-
       padding: 10
     },
     close: {
@@ -28,7 +27,7 @@ const modal = props => {
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={closeAction}
+      // onRequestClose={closeAction}
       style={customStyles}
     >
       <div style={styles.modalHeader}>

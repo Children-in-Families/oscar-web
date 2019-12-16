@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import Loading from '../Commons/Loading'
 import { SelectInput } from '../Commons/inputs'
 import { RadioButton } from 'primereact/radiobutton'
 
 export default props => {
   const { id, onChange, data: { families, clientData, refereeData, carerData } } = props
 
-  const [showSave, setShowSave] = useState(false)
+  const [loading, setLoading]       = useState(false)
+  const [showSave, setShowSave]     = useState(false)
   const [showSelect, setShowSelect] = useState(false)
   const [value, setValue] = useState("")
 
@@ -72,6 +74,8 @@ export default props => {
 
   return (
     <>
+      <Loading loading={loading} text='Please wait while we are making a request to server.'/>
+
       <p>Would you like to create a family record for this client, or attach them to an existing family?</p>
       <br/>
 
@@ -123,7 +127,7 @@ export default props => {
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>Save</span>
+        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={() => { setLoading(true), handleSave()}}>Save</span>
       </div>
     </>
   )
