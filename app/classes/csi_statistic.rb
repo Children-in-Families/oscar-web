@@ -92,7 +92,6 @@ class CsiStatistic
     # assessment_max_count.times do |i|
     #   data << clients.includes(:assessments).map { |c| c.assessments.defaults[i].id if c.assessments.defaults[i].present? }
     # end
-    # binding.pry
     data = clients.includes(:assessments).map { |c| c.assessments.defaults.ids }
   end
 

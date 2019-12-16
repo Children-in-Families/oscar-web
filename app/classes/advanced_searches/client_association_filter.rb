@@ -166,19 +166,17 @@ module AdvancedSearches
       case @operator
       when 'equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
-          client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, '%rotati%').distinct.ids
-          sql = "SELECT DISTINCT(clients.id) FROM clients LEFT OUTER JOIN versions ON versions.item_id = clients.id AND versions.item_type = 'Client' WHERE versions.event IS NULL"
-          none_created_event_client_ids =  ActiveRecord::Base.connection.execute(sql)
-          client_ids = none_created_event_client_ids.values.flatten
+          client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, "%rotati%").distinct.ids
+          client_ids
         else
           client_ids = clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
         end
       when 'not_equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
-          client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, '%rotati%').distinct.ids
+          client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, "%rotati%").distinct.ids
           client_ids = Client.where.not(id: client_ids).ids
         else
-          client_ids = clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
+          client_ids = clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids
         end
       when 'is_empty'
         client_ids = []
