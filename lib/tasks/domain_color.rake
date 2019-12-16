@@ -12,6 +12,5 @@ namespace :domain_color do
         domain.save
       end
     end
-    puts 'Done updating!!!'
   end
 end

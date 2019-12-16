@@ -23,6 +23,5 @@ namespace :users_permission do
         end
       end
     end
-    puts 'done'
   end
 end

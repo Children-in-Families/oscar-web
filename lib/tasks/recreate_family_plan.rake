@@ -13,5 +13,4 @@ namespace :family_plan_and_status do
       end
     end
   end
-  puts 'done!'
 end

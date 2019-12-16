@@ -2,7 +2,6 @@ namespace :ngo_permission_set do
   desc "Update NGOs permission sets"
   task update: :environment do
     ngos = %w(fsc isf mtp cif mrs)
-    # ngos = ["demo", "fco", "mtp", "mho", "shared", "cif"] if Rails.env.development?
 
     ngos.each do |ngo_name|
       Organization.switch_to ngo_name
@@ -11,5 +10,4 @@ namespace :ngo_permission_set do
       update.users
     end
   end
-  puts 'Done updating permission set!'
 end

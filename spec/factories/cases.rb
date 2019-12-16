@@ -9,6 +9,16 @@ FactoryGirl.define do
     association :province, factory: :province
     association :partner, factory: :partner
 
+    after(:build) do |cases|
+      cases.class.skip_callback(:save, :after, :create_client_history)
+    end
+
+    trait :case_with_history do
+      after(:build) do |cases|
+        cases.class.set_callback(:save, :after, :create_client_history)
+      end
+    end
+
     trait :inactive do
       exited true
       exit_date { Time.now }
