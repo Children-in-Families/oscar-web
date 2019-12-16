@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
 import AdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
@@ -18,6 +19,7 @@ const Forms = props => {
   } = props
 
   const [step, setStep]               = useState(1)
+  const [loading, setLoading]                           = useState(false)
   const [onSave, setOnSave]                             = useState(false)
   const [dupClientModalOpen, setDupClientModalOpen]     = useState(false)
   const [attachFamilyModal, setAttachFamilyModal]       = useState(false)
@@ -80,7 +82,6 @@ const Forms = props => {
 
   const handleValidation = (stepTobeCheck = 0) => {
     const components = [
-      // { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
@@ -154,12 +155,14 @@ const Forms = props => {
           type: 'GET',
           url: '/api/clients/compare',
           data: data,
+          beforeSend: () => { setLoading(true) }
         }).success(response => {
           if(response.similar_fields.length > 0) {
             setDupFields(response.similar_fields)
             setDupClientModalOpen(true)
           } else
             callback()
+          setLoading(false)
         })
       } else
         callback()
@@ -209,7 +212,8 @@ const Forms = props => {
         $.ajax({
           url,
           type: action,
-          data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
+          data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } },
+          beforeSend: () => { setLoading(true) }
         }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
       }
 
@@ -224,12 +228,10 @@ const Forms = props => {
     setStep(step - 1)
   }
 
-  console.log('clientData', clientData)
-  console.log('refereeData', refereeData)
-  console.log('carerData', carerData)
-
   return (
     <div className='containerClass'>
+      <Loading loading={loading} text='Please wait while we are making a request to server.'/>
+
       <Modal
         title='Warning'
         isOpen={dupClientModalOpen}

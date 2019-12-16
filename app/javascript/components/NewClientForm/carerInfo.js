@@ -9,7 +9,6 @@ import Address from './address'
 export default props => {
   const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes } } = props
 
-  const [sameAsClient, setSameAsClient]   = useState(false)
   const [districts, setDistricts]         = useState(carerDistricts)
   const [communes, setCommunes]           = useState(carerCommunes)
   const [villages, setVillages]           = useState(carerVillages)
@@ -27,7 +26,7 @@ export default props => {
   useEffect(() => {
     let object = carer
 
-    if(sameAsClient) {
+    if(carer.same_as_client) {
       object = client
       if(client.province_id !== null)
         fetchData('provinces', client.province_id, 'districts')
@@ -51,9 +50,8 @@ export default props => {
     }
 
     onChange('carer', { ...fields })({type: 'select'})
-  }, [sameAsClient, client])
+  }, [carer.same_as_client, client])
 
-  const blank = []
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 
@@ -102,18 +100,18 @@ export default props => {
           {
             !carer.outside &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Same as Client" checked={sameAsClient} onChange={({data}) => setSameAsClient(data)} />
+              <Checkbox label="Same as Client" checked={carer.same_as_client} onChange={onChange('carer', 'same_as_client')} />
             </div>
           }
           {
-            !sameAsClient &&
+            !carer.same_as_client &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Outside Cambodia" checked={carer.outside || false} onChange={onChange('carer', 'outside')} />
+              <Checkbox label="Outside Cambodia" checked={carer.outside} onChange={onChange('carer', 'outside')} />
             </div>
           }
         </div>
       </legend>
-      <Address disabled={sameAsClient} outside={carer.outside || false} onChange={onChange} data={{client, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
+      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
     </div>
   )
 }

@@ -1,5 +1,6 @@
 module Api
   class ClientsController < Api::ApplicationController
+
     def search_client
       clients = Client.all.where("given_name ILIKE ? OR family_name ILIKE ? OR local_given_name ILIKE ? OR local_family_name ILIKE ? OR slug ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%").select(:id, :slug, :given_name, :family_name, :local_given_name, :local_family_name)
       render json: clients, serializer: false
@@ -35,6 +36,7 @@ module Api
 
       client.referee_id = referee.id
       client.carer_id = carer.id
+
       if client.save
         render json: { id: client.slug }, status: :ok
       else
@@ -103,7 +105,7 @@ module Api
 
     def carer_params
       params.require(:carer).permit(
-        :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship
+        :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client
       )
     end
 

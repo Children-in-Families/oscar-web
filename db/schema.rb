@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191216023313) do
+ActiveRecord::Schema.define(version: 20191216083413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20191216023313) do
     t.datetime "updated_at",                          null: false
     t.string   "name",                default: ""
     t.string   "phone",               default: ""
+    t.boolean  "same_as_client",      default: false
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
@@ -480,8 +481,6 @@ ActiveRecord::Schema.define(version: 20191216023313) do
     t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
-    t.integer  "referee_id"
-    t.integer  "carer_id"
     t.boolean  "outside",                          default: false
     t.string   "outside_address",                  default: ""
     t.string   "address_type",                     default: ""
@@ -489,6 +488,8 @@ ActiveRecord::Schema.define(version: 20191216023313) do
     t.string   "phone_owner",                      default: ""
     t.string   "client_email",                     default: ""
     t.string   "referee_relationship",             default: ""
+    t.integer  "referee_id"
+    t.integer  "carer_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -998,7 +999,7 @@ ActiveRecord::Schema.define(version: 20191216023313) do
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
-    t.boolean  "aht",        default: false
+    t.boolean  "aht"
   end
 
   create_table "partners", force: :cascade do |t|
