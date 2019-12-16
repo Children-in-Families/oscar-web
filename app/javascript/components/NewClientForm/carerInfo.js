@@ -73,7 +73,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* will change to carer object */}
-          <TextInput label="Name" onChange={onChange('client', 'live_with')} value={client.live_with} />
+          <TextInput label="Name" onChange={onChange('carer', 'name')} value={carer.name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput label="Gender" options={genderLists} onChange={onChange('carer', 'gender')} value={carer.gender}  />
@@ -82,7 +82,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* will change to carer object */}
-          <TextInput label="Carer Phone Number" onChange={onChange('client', 'telephone_number')} value={client.telephone_number}/>
+          <TextInput label="Carer Phone Number" type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label="Carer Email Address" onChange={onChange('carer', 'email')} value={carer.email} />

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191213072011) do
+ActiveRecord::Schema.define(version: 20191216023313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,8 @@ ActiveRecord::Schema.define(version: 20191213072011) do
     t.integer  "village_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "name",                default: ""
+    t.string   "phone",               default: ""
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
@@ -1194,6 +1196,8 @@ ActiveRecord::Schema.define(version: 20191213072011) do
     t.integer  "village_id"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.string   "name",            default: ""
+    t.string   "phone",           default: ""
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree

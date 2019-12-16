@@ -81,7 +81,8 @@ const Forms = props => {
   const handleValidation = (stepTobeCheck = 0) => {
     const components = [
       // { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
-      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_category_id'] },
+      { step: 1, data: refereeData, fields: ['name'] },
+      { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
       { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }

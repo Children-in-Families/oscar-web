@@ -20,6 +20,7 @@ export default props => {
         anonymous: true,
         outside: false,
         name: 'Anonymous',
+        phone: '',
         email: '',
         gender: '',
         street_number: '',
@@ -63,11 +64,11 @@ export default props => {
             required
             disabled={referee.anonymous}
             // isError={errorFields.includes('referee_name')}
-            isError={errorFields.includes('name_of_referee')}
-            value={client.name_of_referee}
+            isError={errorFields.includes('name')}
+            value={referee.name}
             label="Name"
             // onChange={onChange('referee', 'referee_name')}
-            onChange={onChange('client', 'name_of_referee')}
+            onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -76,7 +77,7 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Referee Phone Number" type="number" disabled={referee.anonymous} onChange={onChange('client', 'referral_phone')} value={client.referral_phone} />
+          <TextInput label="Referee Phone Number" type="number" disabled={referee.anonymous} onChange={onChange('referee', 'phone')} value={referee.phone} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label="Referee Email Address" disabled={referee.anonymous} onChange={onChange('referee', 'email')} value={referee.email} />
