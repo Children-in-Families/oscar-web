@@ -611,7 +611,6 @@ module AdvancedSearches
       else
         clients = @clients.joins(:case_worker_clients)
       end
-
       ids = clients.distinct.ids
       case @operator
       when 'equal'
@@ -619,7 +618,6 @@ module AdvancedSearches
         client_ids & ids
       when 'not_equal'
         @clients.includes(:case_worker_clients).where('case_worker_clients.user_id != ? OR case_worker_clients.user_id IS NULL', @value).distinct.ids
-        # clients.where.not('users.id = ?', @value).distinct.ids
       when 'is_empty'
         @clients.where.not(id: ids).ids
       when 'is_not_empty'
