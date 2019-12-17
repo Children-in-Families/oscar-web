@@ -20,6 +20,7 @@ namespace :tenant_data do
       Rake::Task["fake_client_info:update"].invoke(args.short_name)
       Rake::Task["archived_slug:update"].invoke(args.short_name)
       Rake::Task["client_to_shared:copy"].invoke()
+      Rake::Task["duplicate_checker_field:update"].invoke()
       Rake::Task["client_status:correct"].invoke()
       puts "Clean data done!!!"
     end
