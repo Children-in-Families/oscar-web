@@ -51,7 +51,7 @@ module Api
         family.save
       end
       Referee.where('id IN (?)', client.referee_id).update_all(referee_params)
-      Carer.where('id IN(?)', client.carer.id).update_all(carer_params)
+      Carer.where('id IN(?)', client.carer_id).update_all(carer_params)
       if client.update_attributes(client_params)
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
