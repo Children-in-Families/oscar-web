@@ -382,6 +382,23 @@ class User < ActiveRecord::Base
   #   false
   # end
 
+  def destroy_fully!
+    with_transaction_returning_status do
+      run_callbacks :destroy do
+        destroy_dependent_associations!
+
+        if persisted?
+          # Handle composite keys, otherwise we would just use `self.class.primary_key.to_sym => self.id`.
+          self.class.delete_all!(Hash[[Array(self.class.primary_key), Array(self.id)].transpose])
+          # decrement_counters_on_associations
+        end
+
+        @destroyed = true
+        freeze
+      end
+    end
+  end
+
   private
 
   def toggle_referral_notification

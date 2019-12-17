@@ -67,6 +67,9 @@ class UsersController < AdminController
 
   def destroy
     if @user.no_any_associated_objects?
+      ProgramStreamPermission.with_deleted.where(user_id: @user.id).delete_all!
+      VisitClient.with_deleted.where(user_id: @user.id).delete_all!
+
       @user.destroy_fully!
       redirect_to users_url, notice: t('.successfully_deleted')
     else
