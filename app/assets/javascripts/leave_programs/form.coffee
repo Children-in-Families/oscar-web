@@ -8,7 +8,7 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
     _initICheckBox()
     _initDatePicker()
     _handleDisableAndEnableEditDatePickerLeaveProgram()
-    _handleDisableAndEnableCreateDatePickerLeaveProgram()
+    _preventCreateDatePickerLeaveProgram()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -39,9 +39,20 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
           previousDate  = element.nextElementSibling.dataset.date
           $('.leave-program-date').datepicker('setStartDate', previousDate)
 
-  _handleDisableAndEnableCreateDatePickerLeaveProgram = ->
-    startDate = $('#case-history-table-leave-enrolled-program tr.case-history-row').first().data('date')
-    $('.leave-enrolled-program-date').datepicker('setStartDate', startDate)
+  _preventCreateDatePickerLeaveProgram = ->
+    currentEnrollProgram = $('#program_stream_name').val()
+    enrollPrograms       = []
+
+    $('#case-history-table-leave-enrolled-program tr.case-history-row').each (index, element) ->
+      if element.dataset.classname == "client_enrollments"
+        enrollProgram = element.dataset.name.replace(/Entry/i,'').trim()
+        if enrollProgram == currentEnrollProgram
+          clientEnrollId = element.dataset.caseHistoryId
+          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="client_enrollments"]'), (index, element) ->
+            if new Date($(element).data('created_date') >= new Date($("##{clientEnrollId}").data('created-date')))
+              enrollPrograms.push (element.dataset.date)
+          currentEnrollDate = enrollPrograms[0]
+          $('.leave-enrolled-program-date').datepicker('setStartDate', currentEnrollDate)
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->
