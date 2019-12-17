@@ -13,7 +13,7 @@ export default props => {
         if (Array.isArray(value)) {
           if (value.includes(option.value))
             object.push(option)
-        } else if (option.value === value)
+        } else if (option.value == value)
           object = option
       })
 

@@ -259,25 +259,25 @@
                   = t('.name_of_referee')
                 %td
                   %strong
-                    = @client.name_of_referee
+                    = @client.referee.try(:name)
               %tr
                 %td.spacing-first-col
                   = t('.referral_phone')
                 %td
                   %strong
-                    = @client.referral_phone
+                    = @client.referee.try(:phone)
               %tr
                 %td.spacing-first-col
                   = t('.primary_carer_name')
                 %td
                   %strong
-                    = @client.live_with
+                    = @client.carer.try(:name)
               %tr
                 %td.spacing-first-col
                   = t('.primary_carer_phone_number')
                 %td
                   %strong
-                    = @client.telephone_number
+                    = @client.carer.try(:phone)
               - if Setting.first.country_name == "cambodia"
                 %tr
                   %td.spacing-first-col
@@ -375,18 +375,18 @@
                 %td
                   %strong
                     = @client.main_school_contact
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.has_been_in_orphanage')}?"
-                %td
-                  %strong
-                    = human_boolean(@client.has_been_in_orphanage) unless @client.has_been_in_orphanage.nil?
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.has_been_in_government_care')}?"
-                %td
-                  %strong
-                    = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = "#{t('.has_been_in_orphanage')}?"
+              -#   %td
+              -#     %strong
+              -#       = human_boolean(@client.has_been_in_orphanage) unless @client.has_been_in_orphanage.nil?
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = "#{t('.has_been_in_government_care')}?"
+              -#   %td
+              -#     %strong
+              -#       = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
               %tr
                 %td.spacing-first-col
                   = t('.relevant_referral_information')

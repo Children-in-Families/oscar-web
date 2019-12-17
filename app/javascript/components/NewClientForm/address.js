@@ -18,12 +18,12 @@ export default props => {
     setcommunes(currentCommunes.map(commune => ({ label: commune.name && commune.name || `${commune.name_kh} / ${commune.name_en}`, value: commune.id})))
     setvillages(currentVillages.map(village => ({ label: village.name && village.name || `${village.name_kh} / ${village.name_en}`, value: village.id})))
 
-    if(outside) {
-      onChange(objectKey, {province_id: null, district_id: null, commune_id: null, village_id: null, house_number: '', street_number: '', current_address: '', address_type: ''})({type: 'select'})
-    } else {
-      onChange(objectKey, {outside_address: ''})({type: 'select'})
-    }
-  }, [currentDistricts, currentCommunes, currentVillages, outside])
+    // if(outside) {
+    //   onChange(objectKey, { province_id: null, district_id: null, commune_id: null, village_id: null, house_number: '', street_number: '', current_address: '', address_type: '' })({type: 'select'})
+    // } else {
+    //   onChange(objectKey, { outside_address: '' })({type: 'select'})
+    // }
+  }, [currentDistricts, currentCommunes, currentVillages])
 
   const updateValues = object => {
     const { parent, child, field, obj, data } = object

@@ -149,7 +149,7 @@ const Forms = props => {
       commune_id: clientData.commune_id || ''
     }
 
-    if(!clientData.id) {
+    if(!clientData.id && clientData.outside === false) {
       if(data.given_name !== '' || data.family_name !== '' || data.local_given_name !== '' || data.local_family_name !== '' || data.date_of_birth !== '' || data.birth_province_id !== '' || data.current_province_id !== '' || data.district_id !== '' || data.village_id !== '' || data.commune_id !== '') {
         $.ajax({
           type: 'GET',
@@ -200,15 +200,34 @@ const Forms = props => {
     )
   }
 
-  const handleSave = event => {
+  const handleCheckValue = object => {
+    if(object.outside) {
+      object.province_id = null
+      object.district_id = null
+      object.commune_id = null
+      object.village_id = null
+      object.street_number = ''
+      object.current_address = ''
+      object.address_type = ''
+      object.house_number = ''
+    } else {
+      object.outside_address = ''
+    }
+  }
 
+  const handleSave = event => {
     if (handleValidation()) {
+      handleCheckValue(refereeData)
+      handleCheckValue(clientData)
+      handleCheckValue(carerData)
+
       if (clientData.family_ids.length === 0)
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
         const action = clientData.id ? 'PUT' : 'POST'
         const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
+
         $.ajax({
           url,
           type: action,
@@ -216,7 +235,6 @@ const Forms = props => {
           beforeSend: () => { setLoading(true) }
         }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
       }
-
     }
   }
 

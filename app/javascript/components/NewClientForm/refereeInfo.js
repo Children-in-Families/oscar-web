@@ -33,7 +33,6 @@ export default props => {
         commune_id: null,
         village_id: null,
       }
-
       onChange('referee', { ...fields })({type: 'select'})
     }
   }, [referee.anonymous])
