@@ -55,6 +55,8 @@ module FormBuilderHelper
   end
 
   def tracking_query_string(id, field, operator, value, type, input_type, properties_field)
+    value = format_value(value, input_type)
+    field = format_value(field, input_type)
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
@@ -98,6 +100,8 @@ module FormBuilderHelper
   end
 
   def form_builder_query_string(id, field, operator, value, type, input_type, properties_field='')
+    value = format_value(value, input_type)
+    field = format_value(field, input_type)
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
@@ -175,6 +179,16 @@ module FormBuilderHelper
       rule_array << h
     end
     data_mapping << rule_array
+  end
+
+  private
+
+  def format_value(value, input_type)
+    type_format = ['select', 'radio-group', 'checkbox-group']
+    if type_format.include?(input_type)
+      value = value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+    end
+    value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
   end
 
   def integer?(type)
