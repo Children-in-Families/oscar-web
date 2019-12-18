@@ -45,14 +45,16 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
             if enrollProgram == currentProgram
               if new Date($(element).data('date') <= new Date($("##{clientEnrollId}").data('date')))
                 enrollProgramDates.push (element.dataset.date)
+
           currentEnrollProgramDate = enrollProgramDates.pop()
+          currentProgramName = element.dataset.name
+          currentProgramDate = element.dataset.date
 
           $('.leave-program-date').datepicker('setStartDate', currentEnrollProgramDate)
           $('.leave-program-date').datepicker('setEndDate', currentExitNgoDate)
 
   _preventCreateDatePickerLeaveProgram = ->
     currentProgramStream = $('#program_stream_name').val()
-
     $('#case-history-table-leave-enrolled-program tr.case-history-row').each (index, element) ->
       if element.dataset.classname == "client_enrollments"
         enrollProgram = element.dataset.name.replace(/Entry/i,'').trim()
