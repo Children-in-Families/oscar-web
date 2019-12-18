@@ -7,7 +7,6 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
     _toggleCheckingRadioButton()
     _initICheckBox()
     _initDatePicker()
-    # _handleDisableAndEnableEditDatePickerClientEnrollment()
     _preventEditDatepickerClientEnrollment()
 
   _initICheckBox = ->
@@ -53,19 +52,25 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
           clientEnrollId = element.dataset.caseHistoryId
 
           $.each $("##{clientEnrollId}").siblings().closest('tr[id^="enter_ngos"]'), (index, element) ->
-            if new Date($(element).data('create-date') <= new Date($("##{clientEnrollId}").data('create-date')))
-              enterNgoDates.push(element.dataset.date)
-          debugger
-          currentEnterNgoDates = enterNgoDates.pop()
+            if  new Date($("##{clientEnrollId}").data('created-date')) >= new Date($(element).data('created-date'))
+              enterNgoDates.push($(element).attr('id'))
+
+          EnterNgoId = enterNgoDates[0]
+          currentEnterNgoDate  = $("##{EnterNgoId}").closest('tr').attr('data-date')
 
           $.each $("##{clientEnrollId}").siblings().closest('tr[id^="leave_programs"]'), (index, element) ->
             leaveProgram = element.dataset.name.replace(/Exit/i, '').trim()
             if leaveProgram == currentProgram
-              if new Date($(element).data('date') >= new Date($("##{clientEnrollId}").data('date')))
-                leaveProgramDates.push (element.dataset.date)
-          currentLeaveProgramDate = leaveProgramDates.shift()
+              if new Date($(element).data('created-date') >= new Date($("##{clientEnrollId}").data('created-date')))
+                leaveProgramDates.push($(element).attr('id'))
 
-          $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgoDates)
+          LeaveProgramId = leaveProgramDates[0]
+          currentLeaveProgramDate = $("##{LeaveProgramId}").closest('tr').attr('data-date')
+
+          console.log('Current Enter Ngo date', currentEnterNgoDate)
+          console.log('Current leave program date', currentLeaveProgramDate)
+
+          $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgoDate)
           $('.client-enrollment-date').datepicker('setEndDate', currentLeaveProgramDate)
 
 
