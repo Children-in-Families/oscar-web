@@ -34,7 +34,7 @@ const Forms = props => {
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
   const adminTabData = { users, client: clientData, errorFields }
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, ...address  }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, refereeRelationships, phoneOwners, ...address  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
