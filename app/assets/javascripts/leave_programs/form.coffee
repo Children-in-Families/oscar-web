@@ -7,8 +7,8 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
     _toggleCheckingRadioButton()
     _initICheckBox()
     _initDatePicker()
-    _handleDisableAndEnableEditDatePickerLeaveProgram()
     _preventCreateDatePickerLeaveProgram()
+    _preventEditDatePickerLeaveProgram()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -23,36 +23,42 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
       orientation: 'bottom'
       disableTouchKeyboard: true
 
-  _handleDisableAndEnableEditDatePickerLeaveProgram = ->
-    currentRow = $('.leave-program-date').val()
+  _preventEditDatePickerLeaveProgram = ->
+    currentProgram = $('#program_stream_name').val()
+    currentRow         = $('.leave-program-date').val()
+    enrollProgramDates = []
+    exitNgoDates       = []
+
     $('#case-history-table-leave-program tr.case-history-row').each (index, element) ->
-      if element.dataset.date == currentRow
-        if element.previousElementSibling != null and element.nextElementSibling != null
-          nextDate     = element.previousElementSibling.dataset.date
-          previousDate = element.nextElementSibling.dataset.date
-          $('.leave-program-date').datepicker('setStartDate', previousDate)
-          $('.leave-program-date').datepicker('setEndDate', nextDate)
-        else if element.previousElementSibling != null
-          nextDate   = element.previousElementSibling.dataset.date
-          $('.leave-program-date').datepicker('setEndDate', nextDate)
-        else if element.nextElementSibling != null
-          previousDate  = element.nextElementSibling.dataset.date
-          $('.leave-program-date').datepicker('setStartDate', previousDate)
+      if element.dataset.classname == "leave_programs"
+        leaveProgramStream = element.dataset.name.replace(/Exit/i,'').trim()
+        if element.dataset.date == currentRow and leaveProgramStream == currentProgram
+          clientEnrollId = element.dataset.caseHistoryId
+
+          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="exit_ngos"]'), (index, element) ->
+            if new Date($(element).data('date') >= new Date($("##{clientEnrollId}").data('date')))
+              exitNgoDates.push (element.dataset.date)
+          currentExitNgoDate = exitNgoDates.shift()
+
+          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="client_enrollments"]'), (index, element) ->
+            enrollProgram = element.dataset.name.replace(/Entry/i, '').trim()
+            if enrollProgram == currentProgram
+              if new Date($(element).data('date') <= new Date($("##{clientEnrollId}").data('date')))
+                enrollProgramDates.push (element.dataset.date)
+          currentEnrollProgramDate = enrollProgramDates.pop()
+
+          $('.leave-program-date').datepicker('setStartDate', currentEnrollProgramDate)
+          $('.leave-program-date').datepicker('setEndDate', currentExitNgoDate)
 
   _preventCreateDatePickerLeaveProgram = ->
-    currentEnrollProgram = $('#program_stream_name').val()
-    enrollPrograms       = []
+    currentProgramStream = $('#program_stream_name').val()
 
     $('#case-history-table-leave-enrolled-program tr.case-history-row').each (index, element) ->
       if element.dataset.classname == "client_enrollments"
         enrollProgram = element.dataset.name.replace(/Entry/i,'').trim()
-        if enrollProgram == currentEnrollProgram
-          clientEnrollId = element.dataset.caseHistoryId
-          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="client_enrollments"]'), (index, element) ->
-            if new Date($(element).data('created_date') >= new Date($("##{clientEnrollId}").data('created-date')))
-              enrollPrograms.push (element.dataset.date)
-          currentEnrollDate = enrollPrograms[0]
-          $('.leave-enrolled-program-date').datepicker('setStartDate', currentEnrollDate)
+        if enrollProgram == currentProgramStream
+          currentEnrollProgram = element.dataset.date
+          $('.leave-enrolled-program-date').datepicker('setStartDate', currentEnrollProgram)
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->

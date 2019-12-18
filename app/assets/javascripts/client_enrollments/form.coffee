@@ -7,7 +7,8 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
     _toggleCheckingRadioButton()
     _initICheckBox()
     _initDatePicker()
-    _handleDisableAndEnableEditDatePickerClientEnrollment()
+    # _handleDisableAndEnableEditDatePickerClientEnrollment()
+    _preventEditDatepickerClientEnrollment()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -38,6 +39,35 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
           previousDate = element.nextElementSibling.dataset.date
           $('.client-enrollment-date').datepicker('setStartDate', previousDate)
         return false
+
+  _preventEditDatepickerClientEnrollment = ->
+    currentProgram     = $('#program_stream_name').val()
+    currentRow         = $('.client-enrollment-date').val()
+    leaveProgramDates  = []
+    enterNgoDates      = []
+
+    $('#case-history-table-client-enrollment tr.case-history-row').each (index, element) ->
+      if element.dataset.classname == "client_enrollments"
+        programStream = element.dataset.name.replace(/Entry/i,'').trim()
+        if element.dataset.date == currentRow and programStream  == currentProgram
+          clientEnrollId = element.dataset.caseHistoryId
+
+          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="enter_ngos"]'), (index, element) ->
+            if new Date($(element).data('create-date') <= new Date($("##{clientEnrollId}").data('create-date')))
+              enterNgoDates.push(element.dataset.date)
+          debugger
+          currentEnterNgoDates = enterNgoDates.pop()
+
+          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="leave_programs"]'), (index, element) ->
+            leaveProgram = element.dataset.name.replace(/Exit/i, '').trim()
+            if leaveProgram == currentProgram
+              if new Date($(element).data('date') >= new Date($("##{clientEnrollId}").data('date')))
+                leaveProgramDates.push (element.dataset.date)
+          currentLeaveProgramDate = leaveProgramDates.shift()
+
+          $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgoDates)
+          $('.client-enrollment-date').datepicker('setEndDate', currentLeaveProgramDate)
+
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->
