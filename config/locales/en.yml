@@ -680,11 +680,13 @@ en:
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
+      dimensions: Dimensions
       goal: Goal
       note: Note
     form_without_assessment_domains:
       add_task: Add Task
       domain: Domain
+      dimensions: Dimensions
       goal: Goal
       note: Note
     index:

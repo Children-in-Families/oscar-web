@@ -679,11 +679,13 @@ km:
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
+      dimensions: មាត្រដ្ឋាន
       goal: គោលដៅ
       note: កំណត់ត្រា
     form_without_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
+      dimensions: មាត្រដ្ឋាន
       goal: គោលដៅ
       note: កំណត់ត្រា
     index:

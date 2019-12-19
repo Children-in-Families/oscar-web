@@ -683,11 +683,13 @@ my:
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
       domain: ဒိုမိန္း
+      dimensions: Dimensions
       goal: ရည္မွန္းခ်က္
       note: မွတ္စု
     form_without_assessment_domains:
       add_task: လုပ္ငနး္ေပါင္းထည့္ရန္
       domain: ဒိုမိန္း
+      dimensions: Dimensions
       goal: ရည္မွန္းခ်က္
       note: မွတ္စု
     index:
