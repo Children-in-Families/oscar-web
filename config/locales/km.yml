@@ -4495,6 +4495,7 @@ km:
       assessment: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណលំនាំដើម CSI
+      default_assessment_framework: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណលំនាំដើមក្របខ័ណ្ឌលទ្ធផល
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
       eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការបា៉ន់ប្រមាណ

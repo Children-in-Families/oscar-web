@@ -239,7 +239,7 @@ const Forms = props => {
   }
 
   const handleCancel = () => {
-    document.location.href = `/clients`
+    window.history.back()
   }
 
   const buttonPrevious = () => {

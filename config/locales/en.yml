@@ -4501,6 +4501,7 @@ en:
       assessment: Customized Assessment Frequency Settings
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
+      default_assessment_framework: Result Framework Assessment Frequency Settings
       disable_assessment: We are not using CSI Assessment Tool
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments
