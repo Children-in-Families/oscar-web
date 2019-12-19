@@ -25,39 +25,34 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
   _preventEditDatepickerClientEnrollment = ->
     currentProgram     = $('#program_stream_name').val()
     currentRow         = $('.client-enrollment-date').val()
-    leaveProgramDates  = []
-    enterNgoDates      = []
 
     $('#case-history-table-client-enrollment tr.case-history-row').each (index, element) ->
       if element.dataset.classname == "client_enrollments"
         programStream = element.dataset.name.replace(/Entry/i,'').trim()
         if element.dataset.date == currentRow and programStream  == currentProgram
           clientEnrollId = element.dataset.caseHistoryId
+          currentEnterNgoDate     = _getCurrentEnterNgoDate(clientEnrollId)
+          currentLeaveProgramDate = _getCurrentLeaveProgramDate(clientEnrollId,currentProgram)
+          $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgoDate)
+          $('.client-enrollment-date').datepicker('setEndDate', currentLeaveProgramDate)
 
-          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="enter_ngos"]'), (index, element) ->
-            if  new Date($("##{clientEnrollId}").data('created-date')) >= new Date($(element).data('created-date'))
-              enterNgoDates.push($(element).attr('id'))
+  _getCurrentEnterNgoDate = (clientEnrollId) ->
+    enterNgoDates   = []
+    $.each $("##{clientEnrollId}").siblings().closest('tr[id^="enter_ngos"]'), (index, element) ->
+      if  new Date($("##{clientEnrollId}").data('created-date')) >= new Date($(element).data('created-date'))
+        enterNgoDates.push($(element).attr('id'))
+    EnterNgoId = enterNgoDates[0]
+    currentEnterNgoDate  = $("##{EnterNgoId}").closest('tr').attr('data-date')
 
-          EnterNgoId = enterNgoDates[0]
-          currentEnterNgoDate  = $("##{EnterNgoId}").closest('tr').attr('data-date')
-
-          $.each $("##{clientEnrollId}").siblings().closest('tr[id^="leave_programs"]'), (index, element) ->
-         g   leaveProgram = element.dataset.name.replace(/Exit/i, '').trim()
-            if leaveProgram == currentProgram
-              if new Date($(element).data('created-date') >= new Date($("##{clientEnrollId}").data('created-date')))
-                leaveProgramDates.push($(element).attr('id'))
-
-          LeaveProgramId = leaveProgramDates[0]
-          currentLeaveProgramDate = $("##{LeaveProgramId}").closest('tr').attr('data-date')
-          currentProgramName = element.dataset.name
-          currentProgramDate = element.dataset.date
-
-          if currentEnterNgoDate > currentLeaveProgramDate
-            $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgoDate)
-          else
-            $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgoDate)
-            $('.client-enrollment-date').datepicker('setEndDate', currentLeaveProgramDate)
-
+  _getCurrentLeaveProgramDate = (clientEnrollId,currentProgram) ->
+    leaveProgramDates  = []
+    $.each $("##{clientEnrollId}").siblings().closest('tr[id^="leave_programs"]'), (index, element) ->
+      leaveProgram = element.dataset.name.replace(/Exit/i, '').trim()
+      if leaveProgram == currentProgram
+        if new Date($("##{clientEnrollId}").data('created-date')) <= new Date($(element).data('created-date'))
+          leaveProgramDates.push($(element).attr('id'))
+    LeaveProgramId = leaveProgramDates.pop()
+    currentLeaveProgramDate = $("##{LeaveProgramId}").closest('tr').attr('data-date')
 
   _toggleCheckingRadioButton = ->
     $('input[type="radio"]').on 'ifChecked', (e) ->

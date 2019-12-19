@@ -16,7 +16,7 @@
                 %abbr{ title: 'required' } *
                 = t('.accepted_date')
               .input-group
-                = f.text_field :accepted_date, readonly: true, class: 'date form-control', type: 'text', name: 'enter_ngo[accepted_date]', value: Date.today
+                = f.text_field :accepted_date, class: 'date form-control enter_date', type: 'text', name: 'enter_ngo[accepted_date]'
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
 
