@@ -160,6 +160,7 @@ module AdvancedSearches
       else
         clients = @clients.joins(:versions)
       end
+
       user    = User.find(@value) if @value.present?
 
       client_ids = []
@@ -167,17 +168,15 @@ module AdvancedSearches
       when 'equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
           client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, "%rotati%").distinct.ids
+          if client_ids.blank?
+            client_ids = clients.group(:id).having("COUNT(versions) = (SELECT COUNT(*) FROM versions WHERE versions.item_type = ? AND versions.item_id = clients.id AND versions.event = ?)", 'Client', 'update').ids
+          end
           client_ids
         else
           client_ids = clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
         end
       when 'not_equal'
-        if user.email == ENV['OSCAR_TEAM_EMAIL']
-          client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, "%rotati%").distinct.ids
-          client_ids = Client.where.not(id: client_ids).ids
-        else
-          client_ids = clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).ids
-        end
+        client_ids = clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).distinct.ids
       when 'is_empty'
         client_ids = []
       when 'is_not_empty'
@@ -603,14 +602,7 @@ module AdvancedSearches
     end
 
     def user_id_field_query
-      basic_rules = JSON.parse($param_rules['basic_rules']).with_indifferent_access
-      whodunnit_rules = mapping_service_param_value(basic_rules, 'created_by')
-      whodunnit_Id = whodunnit_rules.first.present? && whodunnit_rules.first[0].has_key?('value') ? whodunnit_rules.first[0]['value'] : nil
-      if whodunnit_Id && @operator == 'equal'
-        clients = @clients.joins(:versions, :case_worker_clients).where(versions: { event: 'create' }, case_worker_clients: { user_id: @value })
-      else
-        clients = @clients.joins(:case_worker_clients)
-      end
+      clients = @clients.joins(:case_worker_clients)
       ids = clients.distinct.ids
       case @operator
       when 'equal'
