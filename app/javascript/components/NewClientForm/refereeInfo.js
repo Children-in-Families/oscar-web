@@ -2,7 +2,8 @@ import React, { useEffect, useState }       from 'react'
 import {
   SelectInput,
   TextInput,
-  Checkbox
+  Checkbox,
+  UploadInput
 }                   from '../Commons/inputs'
 import Address      from './address'
 
@@ -13,6 +14,10 @@ export default props => {
 
   const referralSourceCategoryLists = referralSourceCategory.map(category => ({label: category[0], value: category[1]}))
   const referralSourceLists = referralSource.filter(source => source.ancestry !== null && source.ancestry == client.referral_source_category_id).map(source => ({label: source.name, value: source.id}))
+
+  const onProfileChange = fileItems => {
+    onChange('client', 'profile')({type: 'file', data: fileItems[0].file})
+  }
 
   useEffect(() => {
     if(referee.anonymous) {
@@ -40,6 +45,8 @@ export default props => {
   const onReferralSourceCategoryChange = data => {
     onChange('client', { referral_source_category_id: data.data, referral_source_id: null })({type: 'select'})
   }
+
+  console.log('profile', client.profile)
 
   return (
     <div className="containerClass">
@@ -98,6 +105,10 @@ export default props => {
             onChange={onChange('client', 'referral_source_id')}
             value={client.referral_source_id}
           />
+        </div>
+
+        <div className="col-xs-12">
+          <UploadInput label='Profile' onChange={onProfileChange} url={client.profile.url} />
         </div>
       </div>
       <legend>
