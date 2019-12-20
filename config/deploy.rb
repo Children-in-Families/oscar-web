@@ -12,12 +12,14 @@ end
 
 set :deploy_to, "/var/www/#{fetch(:application)}"
 
-set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', "public/packs", ".bundle", "node_modules")
 set :linked_files, fetch(:linked_files, []).push('.env')
 
 set :pty, false
 
 set :keep_releases, 5
+
+before "deploy:assets:precompile", "deploy:yarn_install"
 
 namespace :deploy do
 
@@ -41,6 +43,14 @@ namespace :deploy do
         "gulp replace --env #{fetch(:stage)}"
       ]
       execute commands.join(" && ")
+    end
+  end
+
+  task :yarn_install do
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path} && yarn install")
+      end
     end
   end
 
