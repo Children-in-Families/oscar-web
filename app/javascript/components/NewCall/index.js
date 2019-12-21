@@ -1,0 +1,191 @@
+import React, { useState } from 'react'
+import CallAdministrativeInfo from './admin'
+import RefereeInfo from './refereeInfo'
+import ReferralInfo from './referralInfo'
+import ReferralMoreInfo from './referralMoreInfo'
+// import ReferralVulnerability from './referralVulnerability'
+import './styles.scss'
+
+const CallForms = props => {
+  // const {
+  //   data: {
+  //     call,
+  //     client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+  //     currentProvinces, districts, communes, villages, addressTypes, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families
+  //   }
+  // } = props
+  const {
+    data: {
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages
+    }
+  } = props
+
+  const [errorFields, seterrorFields] = useState([])
+  const [step, setStep] = useState(1)
+  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, ...client })
+  const [callData, setCallData] = useState({}) // to work for both new & edit, useState({ call | {} })
+  const [refereeData, setrefereeData] = useState({})
+  const [carerData, setcarerData] = useState({})
+
+  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
+
+  // const adminTabData = { users, client: clientData, errorFields }
+  const adminTabData = { call: callData, users, errorFields }
+
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
+  // const refereeTabData = { errorFields, call: callData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
+  const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address  }
+  console.log('referralTabData: ', referralTabData);
+  // const referralTabData = { errorFields, call: callData, birthProvinces, ratePoor, ...address  }
+  // const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, ...referralTabData }
+  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
+  // const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
+
+  const tabs = [
+    {text: 'Caller Information', step: 1},
+    {text: 'Client / Referral Information', step: 2},
+    {text: 'Client / Referral - More Information', step: 3},
+    // {text: 'Client / Referral - Vulnerability Information and Referral Note', step: 4}
+  ]
+
+  const activeClass = value => step === value ? 'active' : ''
+
+  const renderTab = (data, index) => {
+    return (
+      <span
+        key={index}
+        onClick={() => handleTab(data.step)}
+        className={`tabButton ${activeClass(data.step)}`}
+      >
+        {data.text}
+      </span>
+    )
+  }
+
+
+  const onChange = (obj, field) => event => {
+    const inputType = ['date', 'select', 'checkbox', 'radio']
+    const value = inputType.includes(event.type) ? event.data : event.target.value
+
+    if (typeof field !== 'object')
+      field = { [field]: value }
+
+    switch (obj) {
+      case 'call':
+        setCallData({...callData, ...field})
+        break;
+      case 'client':
+        setClientData({...clientData, ...field})
+        break;
+      case 'referee':
+        setrefereeData({...refereeData, ...field })
+        break;
+      case 'carer':
+        setcarerData({...carerData, ...field })
+        break;
+    }
+  }
+
+  const handleValidation = () => {
+    const components = [
+      { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
+      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_category_id'] },
+      { step: 2, data: clientData, fields: ['gender']},
+      { step: 3, data: clientData, fields: [] },
+      // { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }
+    ]
+    //
+    // const errors = []
+    //
+    // components.forEach(component => {
+    //   if (step === component.step) {
+    //     component.fields.forEach(field => {
+    //       (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
+    //     })
+    //   }
+    // })
+    //
+    // if (errors.length > 0) {
+    //   seterrorFields(errors)
+    //   return false
+    // } else {
+    //   seterrorFields([])
+    //   return true
+    // }
+    return true
+  }
+
+  const handleTab = goingToStep => {
+    if(goingToStep < step || handleValidation())
+      setStep(goingToStep)
+    if(goingToStep == 3 && step == 1 || goingToStep == 4 && step == 1 && handleValidation())
+      setStep(2)
+  }
+
+  const buttonNext = () => {
+    if (handleValidation())
+      setStep(step + 1)
+  }
+
+  // to be updated from: client => call
+  const handleSave = () => {
+    if (handleValidation()) {
+      const action = clientData.id ? 'PUT' : 'POST'
+      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
+      $.ajax({
+        url,
+        type: action,
+        data: { client: { ...refereeData, ...clientData } }
+      }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+    }
+  }
+
+  const buttonPrevious = () => {
+    setStep(step - 1)
+  }
+
+  return (
+    <div className='container'>
+      <div className='tabHead'>
+        {tabs.map((tab, index) => renderTab(tab, index))}
+      </div>
+
+      <div className='contentWrapper'>
+        <div className='leftComponent'>
+          <CallAdministrativeInfo data={adminTabData} onChange={onChange} />
+        </div>
+
+        <div className='rightComponent'>
+          <div style={{display: step === 1 ? 'block' : 'none'}}>
+            <RefereeInfo data={refereeTabData} onChange={onChange} />
+          </div>
+
+          <div style={{display: step === 2 ? 'block' : 'none'}}>
+            <ReferralInfo data={referralTabData} onChange={onChange} />
+          </div>
+
+          <div style={{ display: step === 3 ? 'block' : 'none' }}>
+            <ReferralMoreInfo data={moreReferralTabData} onChange={onChange} />
+          </div>
+        </div>
+      </div>
+
+      <div className='actionfooter'>
+        <div className='leftWrapper'>
+          <span className='btn btn-default'>Cancel</span>
+        </div>
+
+        <div className='rightWrapper'>
+          <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
+          { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
+
+          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>Save</span>}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default CallForms
