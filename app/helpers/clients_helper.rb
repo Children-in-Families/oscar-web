@@ -920,6 +920,7 @@ module ClientsHelper
         '(Unknown)'
       end
     end
+    define_singleton_method(:country_scope_label_translation) {}
   end
 
   def client_alias_id
