@@ -3,7 +3,8 @@ import {
   SelectInput,
   DateInput,
   TextInput,
-  Checkbox
+  Checkbox,
+  UploadInput
 }                   from '../Commons/inputs'
 import Address      from './address'
 
@@ -15,6 +16,14 @@ export default props => {
   const [districts, setDistricts]         = useState(currentDistricts)
   const [communes, setCommunes]           = useState(currentCommunes)
   const [villages, setVillages]           = useState(currentVillages)
+
+  const onProfileChange = fileItems => {
+    onChange('client', 'profile')({type: 'file', data: fileItems[0].file})
+  }
+
+  const onChangeRemoveProfile = data => {
+    onChange('client', 'remove_profile')({type: 'checkbox', data: data.data})
+  }
 
   const fetchData = (parent, data, child) => {
     $.ajax({
@@ -143,6 +152,10 @@ export default props => {
             value={client.referee_relationship}
             onChange={onRelationshipChange}
           />
+        </div>
+
+        <div className="col-xs-12">
+          <UploadInput label='Profile' onChange={onProfileChange} object={client.profile} onChangeCheckbox={onChangeRemoveProfile} checkBoxValue={client.remove_profile || false} />
         </div>
       </div>
       <legend>

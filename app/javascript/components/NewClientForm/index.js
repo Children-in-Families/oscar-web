@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import objectToFormData from 'object-to-formdata'
 import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
 import AdministrativeInfo from './admin'
@@ -61,7 +62,7 @@ const Forms = props => {
   }
 
   const onChange = (obj, field) => event => {
-    const inputType = ['date', 'select', 'checkbox', 'radio']
+    const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
     const value = inputType.includes(event.type) ? event.data : event.target.value
 
     if (typeof field !== 'object')
@@ -228,10 +229,17 @@ const Forms = props => {
         const action = clientData.id ? 'PUT' : 'POST'
         const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
 
+        let formData = new FormData()
+        formData = objectToFormData(clientData, {}, formData, 'client')
+        formData = objectToFormData(refereeData, {}, formData, 'referee')
+        formData = objectToFormData(carerData, {}, formData, 'carer')
+
         $.ajax({
           url,
           type: action,
-          data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } },
+          data: formData,
+          processData: false,
+          contentType: false,
           beforeSend: () => { setLoading(true) }
         }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
       }

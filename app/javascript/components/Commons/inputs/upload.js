@@ -1,16 +1,40 @@
 import React from 'react'
+import { Checkbox } from '../inputs'
+import { FilePond, registerPlugin } from "react-filepond"
+import "filepond/dist/filepond.min.css"
+
+import FilePondPluginImagePreview from "filepond-plugin-image-preview"
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+
+registerPlugin(FilePondPluginImagePreview)
 
 export default props => {
-  const { label, required, ...rests } = props
+  const { label, required, onChange, object, onChangeCheckbox, checkBoxValue } = props
+  const url = object.thumb && object.thumb.url || ''
+
   return (
     <>
       <label>
-        { props.required && <abbr title='required'>* </abbr> }
+        { required && <abbr title='required'>* </abbr> }
         {label}
       </label>
-      <div className='form-group file'>
-        <input className='form-control optional' type='file' {...rests} />
-      </div>
+
+      { url && url !== 'image-placeholder.png' &&
+        <div style={{textAlign: 'center'}}>
+          <img src={url} />
+
+          <Checkbox
+            label="Remove"
+            checked={checkBoxValue}
+            onChange={onChangeCheckbox}
+          />
+        </div>
+      }
+
+      <FilePond
+        allowMultiple={false}
+        onupdatefiles={fileItems => onChange(fileItems)}
+      />
     </>
   )
 }
