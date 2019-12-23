@@ -30,7 +30,7 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'school_name', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code', *setting_country_fields[:text_fields]]
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'school_name', 'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code', 'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email', *setting_country_fields[:text_fields]]
     end
 
     def date_type_list

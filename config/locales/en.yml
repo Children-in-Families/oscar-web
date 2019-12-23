@@ -336,6 +336,9 @@ en:
       birth_province: Client Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
+      carer_name: Carer Name
+      carer_phone: Carer Phone Number
+      carer_email: Carer Email Address
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_type: Case Type
@@ -417,6 +420,9 @@ en:
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
+      referee_name: Referee Name
+      referee_phone: Referee Phone Number
+      referee_email: Referee Email Address
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
       road: Road
@@ -680,11 +686,13 @@ en:
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
+      dimensions: Dimensions
       goal: Goal
       note: Note
     form_without_assessment_domains:
       add_task: Add Task
       domain: Domain
+      dimensions: Dimensions
       goal: Goal
       note: Note
     index:
@@ -4501,6 +4509,7 @@ en:
       assessment: Customized Assessment Frequency Settings
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
+      default_assessment_framework: Result Framework Assessment Frequency Settings
       disable_assessment: We are not using CSI Assessment Tool
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments

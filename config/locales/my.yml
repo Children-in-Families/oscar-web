@@ -334,6 +334,9 @@ my:
       birth_province: ေမြးရပ္ျပည္နယ္
       birth_province_id: ေမြးရပ္ျပည္နယ္
       cambodia: ကေမာၻဒီးယား
+      carer_name: Carer Name
+      carer_phone: Carer Phone Number
+      carer_email: Carer Email Address
       case_note_date: အမႈျခင္းရာမွတ္ခ်က္ေန႔စြဲ
       case_note_type: အမႈျခင္းရာမွတ္ခ်က္အမ်ိဳးအစား
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
@@ -415,6 +418,9 @@ my:
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
+      referee_name: Referee Name
+      referee_phone: Referee Phone Number
+      referee_email: Referee Email Address
       reject_note: ျငင္းပယ္ျခင္း မွတ္ခ်က္
       relevant_referral_information: သက္ဆိုင္ေသာလႊဲေျပာင္းျခင္းအခ်က္အလက္
       road: Road
@@ -683,11 +689,13 @@ my:
     form_with_assessment_domains:
       add_task: လုပ္ငန္းေပါင္းထည့္ရန္
       domain: ဒိုမိန္း
+      dimensions: Dimensions
       goal: ရည္မွန္းခ်က္
       note: မွတ္စု
     form_without_assessment_domains:
       add_task: လုပ္ငနး္ေပါင္းထည့္ရန္
       domain: ဒိုမိန္း
+      dimensions: Dimensions
       goal: ရည္မွန္းခ်က္
       note: မွတ္စု
     index:
@@ -4508,6 +4516,7 @@ my:
       assessment: အကဲဖြတ်
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
+      default_assessment_framework: Result Framework Assessment Frequency Settings
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
       eligible: အောက်မှာ အမႈသည္ ကိုများအတွက်အရည်အချင်းပြည့်မီ
       max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်

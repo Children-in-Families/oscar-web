@@ -50,9 +50,13 @@ module Api
         family.children = family.children - [client.id]
         family.save
       end
-      Referee.where('id IN (?)', client.referee_id).update_all(referee_params)
-      Carer.where('id IN(?)', client.carer_id).update_all(carer_params)
-      if client.update_attributes(client_params)
+      referee = Referee.find_or_create_by(id: client.referee_id)
+      referee.update_attributes(referee_params)
+      client.referee_id = referee.id
+      carer = Carer.find_or_create_by(id: client.carer_id)
+      carer.update_attributes(carer_params)
+      client.carer_id = carer.id
+      if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
           # redirect_to client_assessment_path(client, assessment), notice: t('.assessment_successfully_created')
