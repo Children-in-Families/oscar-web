@@ -1,6 +1,6 @@
 module Api
   module V1
-    class CallsController < Api::V1::BaseApiController
+    class CallsController < Api::ApplicationController
 
       def index
         calls = Call.order(created_at: :desc)
@@ -27,6 +27,7 @@ module Api
       private
 
       def call_params
+        binding.pry
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
                                 :start_datetime, :end_datetime, :call_type
                                 )

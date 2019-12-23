@@ -1,19 +1,14 @@
 import React, { useState } from 'react'
+import Loading from '../Commons/Loading'
 import CallAdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 // import ReferralVulnerability from './referralVulnerability'
 import './styles.scss'
+import CallAbout from './callAbout'
 
 const CallForms = props => {
-  // const {
-  //   data: {
-  //     call,
-  //     client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids }, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-  //     currentProvinces, districts, communes, villages, addressTypes, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families
-  //   }
-  // } = props
   const {
     data: {
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
@@ -22,9 +17,11 @@ const CallForms = props => {
     }
   } = props
 
+  const [loading, setLoading] = useState(false)
+  const [onSave, setOnSave] = useState(false)
   const [errorFields, seterrorFields] = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, ...client })
+  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
   const [callData, setCallData] = useState({}) // to work for both new & edit, useState({ call | {} })
   const [refereeData, setrefereeData] = useState({})
   const [carerData, setcarerData] = useState({})
@@ -37,7 +34,6 @@ const CallForms = props => {
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
   // const refereeTabData = { errorFields, call: callData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
   const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address  }
-  console.log('referralTabData: ', referralTabData);
   // const referralTabData = { errorFields, call: callData, birthProvinces, ratePoor, ...address  }
   // const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, ...referralTabData }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
@@ -46,8 +42,8 @@ const CallForms = props => {
   const tabs = [
     {text: 'Caller Information', step: 1},
     {text: 'Client / Referral Information', step: 2},
-    {text: 'Client / Referral - More Information', step: 3},
-    // {text: 'Client / Referral - Vulnerability Information and Referral Note', step: 4}
+    {text: 'Client / Referral - Do you want to add:', step: 3},
+    {text: 'Client / Referral - Call about', step: 4}
   ]
 
   const activeClass = value => step === value ? 'active' : ''
@@ -90,31 +86,31 @@ const CallForms = props => {
 
   const handleValidation = () => {
     const components = [
-      { step: 1, data: refereeData, fields: ['referee_name', 'referee_referral_source_catgeory_id'] },
-      { step: 1, data: clientData, fields: ['name_of_referee', 'referral_source_category_id'] },
+      { step: 1, data: refereeData, fields: ['name'] },
+      { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
-      // { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }
+      { step: 4, data: clientData, fields: [] }
     ]
-    //
-    // const errors = []
-    //
-    // components.forEach(component => {
-    //   if (step === component.step) {
-    //     component.fields.forEach(field => {
-    //       (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
-    //     })
-    //   }
-    // })
-    //
-    // if (errors.length > 0) {
-    //   seterrorFields(errors)
-    //   return false
-    // } else {
-    //   seterrorFields([])
-    //   return true
-    // }
-    return true
+
+    const errors = []
+
+    components.forEach(component => {
+      if (step === component.step) {
+        component.fields.forEach(field => {
+          (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
+        })
+      }
+    })
+
+    if (errors.length > 0) {
+      seterrorFields(errors)
+      return false
+    } else {
+      seterrorFields([])
+      return true
+    }
+    // return true
   }
 
   const handleTab = goingToStep => {
@@ -129,16 +125,89 @@ const CallForms = props => {
       setStep(step + 1)
   }
 
+  // const checkClientExist = () => callback => {
+  //   const data =  {
+  //     given_name: clientData.given_name ,
+  //     family_name: clientData.family_name,
+  //     local_given_name: clientData.local_given_name,
+  //     local_family_name: clientData.local_family_name,
+  //     date_of_birth: clientData.date_of_birth || '',
+  //     birth_province_id: clientData.birth_province_id || '',
+  //     current_province_id: clientData.province_id || '',
+  //     district_id: clientData.district_id || '',
+  //     village_id: clientData.village_id || '',
+  //     commune_id: clientData.commune_id || ''
+  //   }
+
+  //   if(!clientData.id && clientData.outside === false) {
+  //     if(data.given_name !== '' || data.family_name !== '' || data.local_given_name !== '' || data.local_family_name !== '' || data.date_of_birth !== '' || data.birth_province_id !== '' || data.current_province_id !== '' || data.district_id !== '' || data.village_id !== '' || data.commune_id !== '') {
+  //       $.ajax({
+  //         type: 'GET',
+  //         url: '/api/clients/compare',
+  //         data: data,
+  //         beforeSend: () => { setLoading(true) }
+  //       }).success(response => {
+  //         if(response.similar_fields.length > 0) {
+  //           setDupFields(response.similar_fields)
+  //           setDupClientModalOpen(true)
+  //         } else
+  //           callback()
+  //         setLoading(false)
+  //       })
+  //     } else
+  //       callback()
+  //   } else
+  //     callback()
+  // }
+
   // to be updated from: client => call
-  const handleSave = () => {
+  const handleSave = event => {
     if (handleValidation()) {
-      const action = clientData.id ? 'PUT' : 'POST'
-      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
-      $.ajax({
-        url,
-        type: action,
-        data: { client: { ...refereeData, ...clientData } }
-      }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+      handleCheckValue(refereeData)
+      handleCheckValue(clientData)
+      handleCheckValue(carerData)
+
+      // todo
+      // if (clientData.family_ids.length === 0)
+      if (false)
+        setAttachFamilyModal(true)
+      else {
+        setOnSave(true)
+        const action = clientData.id ? 'PUT' : 'POST'
+        const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
+
+        $.ajax({
+          url,
+          type: action,
+          data: {
+            call: { ...callData },
+            client: { ...clientData },
+            referee: { ...refereeData },
+            carer: { ...carerData }
+          },
+          beforeSend: (req) => {
+            setLoading(true)
+          }
+        }).success(response => {
+          // document.location.href=`/calls/${response.id}?notice=success`
+          console.log('Success response: ', response);
+        })
+      }
+    }
+  }
+
+  const handleCheckValue = object => {
+    if(object.outside) {
+      object.province_id = null
+      object.district_id = null
+      object.commune_id = null
+      object.village_id = null
+      object.street_number = ''
+      object.current_address = ''
+      object.address_type = ''
+      object.house_number = ''
+    } else {
+      object.outside_address = ''
     }
   }
 
@@ -147,7 +216,9 @@ const CallForms = props => {
   }
 
   return (
-    <div className='container'>
+    <div className='containerClass'>
+      {/* <Loading loading={loading} text='Please wait while we are making a request to server.'/> */}
+
       <div className='tabHead'>
         {tabs.map((tab, index) => renderTab(tab, index))}
       </div>
@@ -168,6 +239,10 @@ const CallForms = props => {
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
             <ReferralMoreInfo data={moreReferralTabData} onChange={onChange} />
+          </div>
+
+          <div style={{ display: step === 4 ? 'block' : 'none' }}>
+            <CallAbout data={moreReferralTabData} onChange={onChange} />
           </div>
         </div>
       </div>

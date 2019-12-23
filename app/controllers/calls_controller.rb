@@ -28,16 +28,25 @@ class CallsController < AdminController
     end
   end
 
+  # def create
+  #   @client = Client.new(client_params)
+  #   if @client.save
+  #     if params[:clientConfirmation] == 'createNewFamilyRecord'
+  #       redirect_to new_family_path(children: [@client.id])
+  #     else
+  #       redirect_to @client, notice: t('.successfully_created')
+  #     end
+  #   else
+  #     render :new
+  #   end
+  # end
+
   def create
-    @client = Client.new(client_params)
-    if @client.save
-      if params[:clientConfirmation] == 'createNewFamilyRecord'
-        redirect_to new_family_path(children: [@client.id])
-      else
-        redirect_to @client, notice: t('.successfully_created')
-      end
+    call = Call.new(call_params)
+    if call.save
+      render json: call
     else
-      render :new
+      render json: call.errors, status: :unprocessable_entity
     end
   end
 
@@ -51,36 +60,11 @@ class CallsController < AdminController
 
   private
 
-  def client_params
-    remove_blank_exit_reasons
-    params.require(:client)
-          .permit(
-            :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
-            :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
-            :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-            :referral_phone, :received_by_id, :followed_up_by_id,
-            :follow_up_date, :school_grade, :school_name, :current_address,
-            :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-            :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id, :current_family_id,
-            :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
-            :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
-            :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
-            :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
-            :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
-            interviewee_ids: [],
-            client_type_ids: [],
-            user_ids: [],
-            agency_ids: [],
-            donor_ids: [],
-            quantitative_case_ids: [],
-            custom_field_ids: [],
-            family_ids: [],
-            tasks_attributes: [:name, :domain_id, :completion_date],
-            client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id]
-          )
+  def call_params
+    binding.pry
+    params.require(:call).permit(:phone_call_id, :receiving_staff_id,
+                            :start_datetime, :end_datetime, :call_type
+                            )
   end
 
   def remove_blank_exit_reasons
