@@ -1,4 +1,5 @@
 import React from 'react'
+import { Checkbox } from '../inputs'
 import { FilePond, registerPlugin } from "react-filepond"
 import "filepond/dist/filepond.min.css"
 
@@ -8,11 +9,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
 registerPlugin(FilePondPluginImagePreview)
 
 export default props => {
-  const { label, required, onChange, url } = props
-
-  const generateFileObject = () => {
-    return [{ source: url, options: { type: 'local' } }]
-  }
+  const { label, required, onChange, object, onChangeCheckbox, checkBoxValue } = props
+  const url = object.thumb && object.thumb.url || ''
 
   return (
     <>
@@ -21,19 +19,21 @@ export default props => {
         {label}
       </label>
 
+      { url && url !== 'image-placeholder.png' &&
+        <div style={{textAlign: 'center'}}>
+          <img src={url} />
+
+          <Checkbox
+            label="Remove"
+            checked={checkBoxValue}
+            onChange={onChangeCheckbox}
+          />
+        </div>
+      }
+
       <FilePond
-        files={generateFileObject()}
         allowMultiple={false}
         onupdatefiles={fileItems => onChange(fileItems)}
-        // maxFiles={3}
-        // server="/api"
-        // oninit={() => this.handleInit()}
-        // onupdatefiles={fileItems => {
-        //   // Set currently active file objects to this.state
-        //   this.setState({
-        //     files: fileItems.map(fileItem => fileItem.file)
-        //   });
-        // }}
       />
     </>
   )
