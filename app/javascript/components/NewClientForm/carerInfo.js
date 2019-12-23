@@ -23,34 +23,66 @@ export default props => {
     })
   }
 
-  useEffect(() => {
-    let object = carer
+  const onCheckSameAsClient = data => {
+    const same = data.data
 
-    if(carer.same_as_client) {
-      object = client
+    if(same) {
       if(client.province_id !== null)
         fetchData('provinces', client.province_id, 'districts')
       if(client.district_id !== null)
         fetchData('districts', client.district_id, 'communes')
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
+    } else {
+      setDistricts([])
+      setCommunes([])
+      setVillages([])
     }
 
     const fields = {
-      outside: object.outside,
-      province_id: object.province_id,
-      district_id: object.district_id,
-      commune_id: object.commune_id,
-      village_id: object.village_id,
-      street_number: object.street_number,
-      house_number: object.house_number,
-      current_address: object.current_address,
-      address_type: object.address_type,
-      outside_address: object.outside_address
+      outside: same ? client.outside : false,
+      province_id: same ? client.province_id : null,
+      district_id: same ? client.district_id : null,
+      commune_id: same ? client.commune_id : null,
+      village_id: same ? client.village_id : null,
+      street_number: same ? client.street_number : '',
+      house_number: same ? client.house_number : '',
+      current_address: same ? client.current_address : '',
+      address_type: same ? client.address_type : '',
+      outside_address: same ? client.outside_address : ''
     }
 
-    onChange('carer', { ...fields })({type: 'select'})
-  }, [carer.same_as_client, client])
+    onChange('carer', { ...fields, 'same_as_client': data.data })({type: 'select'})
+  }
+
+  // useEffect(() => {
+  //   let object = carer
+
+  //   if(carer.same_as_client) {
+  //     object = client
+  //     if(client.province_id !== null)
+  //       fetchData('provinces', client.province_id, 'districts')
+  //     if(client.district_id !== null)
+  //       fetchData('districts', client.district_id, 'communes')
+  //     if(client.commune_id !== null)
+  //       fetchData('communes', client.commune_id, 'villages')
+  //   }
+
+  //   const fields = {
+  //     outside: object.outside,
+  //     province_id: object.province_id,
+  //     district_id: object.district_id,
+  //     commune_id: object.commune_id,
+  //     village_id: object.village_id,
+  //     street_number: object.street_number,
+  //     house_number: object.house_number,
+  //     current_address: object.current_address,
+  //     address_type: object.address_type,
+  //     outside_address: object.outside_address
+  //   }
+
+  //   onChange('carer', { ...fields })({type: 'select'})
+  // }, [carer.same_as_client, client])
 
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
@@ -100,7 +132,7 @@ export default props => {
           {
             !carer.outside &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Same as Client" checked={carer.same_as_client} onChange={onChange('carer', 'same_as_client')} />
+              <Checkbox label="Same as Client" checked={carer.same_as_client} onChange={onCheckSameAsClient} />
             </div>
           }
           {
