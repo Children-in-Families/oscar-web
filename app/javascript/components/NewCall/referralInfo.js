@@ -9,7 +9,6 @@ import Address      from './address'
 
 export default props => {
   const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, refereeRelationships, addressTypes, phoneOwners } } = props
-  console.log('refereeRelationships: ', refereeRelationships);
 
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))
@@ -149,12 +148,12 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Contact Information</p>
+            <p>Location of concern</p>
           </div>
           {
             client.referee_relationship !== 'self' &&
             <div className="col-xs-12 col-md-6 col-lg-6">
-              <Checkbox label="Client is outside Cambodia" checked={client.outside || false} onChange={onChange('client', 'outside')}/>
+              <Checkbox label="Concern is outside Cambodia" checked={client.outside || false} onChange={onChange('client', 'outside')}/>
             </div>
           }
         </div>
