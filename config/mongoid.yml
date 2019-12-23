@@ -24,6 +24,14 @@ demo:
         - localhost:27017
       options:
   options:
+ratanak_staging:
+  clients:
+    default:
+      database: <%= ENV["HISTORY_DATABASE_NAME"] %>
+      hosts:
+        - localhost:27017
+      options:
+  options:
 staging:
   clients:
     default:
