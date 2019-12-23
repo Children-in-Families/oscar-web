@@ -334,6 +334,9 @@ my:
       birth_province: ေမြးရပ္ျပည္နယ္
       birth_province_id: ေမြးရပ္ျပည္နယ္
       cambodia: ကေမာၻဒီးယား
+      carer_name: Carer Name
+      carer_phone: Carer Phone Number
+      carer_email: Carer Email Address
       case_note_date: အမႈျခင္းရာမွတ္ခ်က္ေန႔စြဲ
       case_note_type: အမႈျခင္းရာမွတ္ခ်က္အမ်ိဳးအစား
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
@@ -415,6 +418,9 @@ my:
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
+      referee_name: Referee Name
+      referee_phone: Referee Phone Number
+      referee_email: Referee Email Address
       reject_note: ျငင္းပယ္ျခင္း မွတ္ခ်က္
       relevant_referral_information: သက္ဆိုင္ေသာလႊဲေျပာင္းျခင္းအခ်က္အလက္
       road: Road

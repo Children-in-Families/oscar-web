@@ -67,6 +67,18 @@ module AdvancedSearches
         values = date_nearest_query
       when 'date_of_referral'
         values = date_of_referral_query
+      when 'referee_name'
+        values = referee_name_query
+      when 'referee_phone'
+        values = referee_phone_query
+      when 'referee_email'
+        values = referee_email_query
+      when 'carer_name'
+        values = carer_name_query
+      when 'carer_phone'
+        values = carer_phone_query
+      when 'carer_email'
+        values = carer_email_query
       end
       { id: sql_string, values: values }
     end
@@ -751,6 +763,120 @@ module AdvancedSearches
         age = (value.to_i * 12).months.ago.to_date
         age > overdue_year ? age : overdue_year
       end
+    end
+
+    def referee_name_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.joins(:referee).where("lower(referees.name) = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.joins(:referee).where.not("lower(referees.name) = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.joins(:referee).where("lower(referees.name) iLike ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.joins(:referee).where("lower(referees.name) NOT iLike ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.joins(:referee).where("referees.name = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.joins(:referee).where.not("referees.name = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def referee_phone_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.joins(:referee).where("lower(referees.phone) = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.joins(:referee).where.not("lower(referees.phone) = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.joins(:referee).where("lower(referees.phone) iLike ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.joins(:referee).where("lower(referees.phone) NOT iLike ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.joins(:referee).where("referees.phone = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.joins(:referee).where.not("referees.phone = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def referee_email_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.joins(:referee).where("lower(referees.email) = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.joins(:referee).where.not("lower(referees.email) = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.joins(:referee).where("lower(referees.email) iLike ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.joins(:referee).where("lower(referees.email) NOT iLike ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.joins(:referee).where("referees.email = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.joins(:referee).where.not("referees.email = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def carer_name_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.joins(:carer).where("lower(carers.name) = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.joins(:carer).where.not("lower(carers.name) = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.joins(:carer).where("lower(carers.name) iLike ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.joins(:carer).where("lower(carers.name) NOT iLike ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.joins(:carer).where("carers.name = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.joins(:carer).where.not("carers.name = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def carer_phone_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.joins(:carer).where("lower(carers.phone) = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.joins(:carer).where.not("lower(carers.phone) = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.joins(:carer).where("lower(carers.phone) iLike ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.joins(:carer).where("lower(carers.phone) NOT iLike ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.joins(:carer).where("carers.phone = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.joins(:carer).where.not("carers.phone = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def carer_email_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.joins(:carer).where("lower(carers.email) = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.joins(:carer).where.not("lower(carers.email) = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.joins(:carer).where("lower(carers.email) iLike ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.joins(:carer).where("lower(carers.email) NOT iLike ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.joins(:carer).where("carers.email = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.joins(:carer).where.not("carers.email = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
     end
   end
 end
