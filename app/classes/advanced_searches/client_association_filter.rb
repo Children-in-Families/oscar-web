@@ -164,6 +164,7 @@ module AdvancedSearches
       user    = User.find(@value) if @value.present?
 
       client_ids = []
+      none_event_create_client_ids = []
       case @operator
       when 'equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
