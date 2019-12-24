@@ -37,7 +37,7 @@ const Forms = props => {
   const adminTabData = { users, client: clientData, errorFields }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, refereeRelationships, phoneOwners, ...address  }
-  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
+  const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
 
   const tabs = [
@@ -216,13 +216,15 @@ const Forms = props => {
     }
   }
 
-  const handleSave = event => {
+  const handleSave = () => (callback, forceSave) => {
+    forceSave = forceSave === undefined ? false : forceSave
+
     if (handleValidation()) {
       handleCheckValue(refereeData)
       handleCheckValue(clientData)
       handleCheckValue(carerData)
 
-      if (clientData.family_ids.length === 0)
+      if (clientData.family_ids.length === 0 && forceSave === false)
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
@@ -240,8 +242,20 @@ const Forms = props => {
           data: formData,
           processData: false,
           contentType: false,
-          beforeSend: () => { setLoading(true) }
-        }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+          beforeSend: () => { setLoading(true), setAttachFamilyModal(false) }
+        }).done(response => {
+          if(callback)
+            callback(response)
+          else
+            document.location.href=`/clients/${response.slug}?notice=success`
+        }).fail(error => {
+          setLoading(false)
+          setOnSave(false)
+          const errorFields = JSON.parse(error.responseText)
+          setErrorFields(Object.keys(errorFields))
+          if(errorFields.kid_id)
+            setErrorSteps([3])
+        })
       }
     }
   }
@@ -272,7 +286,7 @@ const Forms = props => {
         isOpen={attachFamilyModal}
         type='success'
         closeAction={() => setAttachFamilyModal(false)}
-        content={<CreateFamilyModal id="myModal" data={{ families, clientData, refereeData, carerData }} onChange={onChange} /> }
+        content={<CreateFamilyModal id="myModal" data={{ families, clientData }} onChange={onChange} onSave={handleSave} /> }
       />
 
       <div className='tabHead'>
@@ -312,7 +326,7 @@ const Forms = props => {
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
           { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
 
-          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>Save</span>}
+          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>Save</span>}
         </div>
       </div>
     </div>

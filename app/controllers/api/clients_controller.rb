@@ -38,7 +38,7 @@ module Api
       client.carer_id = carer.id
 
       if client.save
-        render json: { id: client.slug }, status: :ok
+        render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
       end

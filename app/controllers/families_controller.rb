@@ -32,14 +32,8 @@ class FamiliesController < AdminController
   end
 
   def new
-    if params[:value] == "createNewFamilyRecord"
-      @clientid = Client.find_by(slug: params[:children]).id
-      @family = Family.new
-      @family.children << @clientid
-    else
-      @family = Family.new
-      @selected_children = params[:children]
-    end
+    @family = Family.new
+    @selected_children = params[:children]
   end
 
   def create

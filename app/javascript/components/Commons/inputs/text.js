@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default props => {
-  const { isError, label, required, onChange, value, ...others } = props
+  const { isError, label, required, onChange, value, errorText, ...others } = props
   return (
     <div className='form-group'>
       <label style={isError && styles.errorText || {}}>
@@ -20,7 +20,7 @@ export default props => {
           )
         }
       />
-      { isError && <span style={styles.errorText}>Cannot be blank.</span> }
+      { isError && <span style={styles.errorText}>{errorText || 'Cannot be blank.'}</span> }
     </div>
   )
 }

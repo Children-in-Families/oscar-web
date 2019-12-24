@@ -5,7 +5,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, id, data: { ratePoor, client } } = props
+  const { onChange, id, data: { errorFields, ratePoor, client } } = props
 
   const rateLists = ratePoor.map(rate => ({ label: rate[0], value: rate[1] }))
 
@@ -17,7 +17,13 @@ export default props => {
           <TextInput label="Custom ID Number 1" onChange={onChange('client', 'code')} value={client.code} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Custom ID Number 2" onChange={onChange('client', 'kid_id')} value={client.kid_id} />
+          <TextInput
+            label="Custom ID Number 2"
+            onChange={onChange('client', 'kid_id')}
+            value={client.kid_id}
+            isError={errorFields.includes('kid_id')}
+            errorText={errorFields.includes('kid_id') && 'has already been taken'}
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput label="Is client rated for ID Poor?" options={rateLists} value={client.rated_for_id_poor} onChange={onChange('client', 'rated_for_id_poor')} />
