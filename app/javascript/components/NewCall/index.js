@@ -23,16 +23,16 @@ const CallForms = props => {
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
   const [callData, setCallData] = useState({}) // to work for both new & edit, useState({ call | {} })
-  const [refereeData, setrefereeData] = useState({})
-  const [carerData, setcarerData] = useState({})
+  const [refereeData, setrefereeData] = useState(referee)
+  const [carerData, setcarerData] = useState(carer)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
 
   // const adminTabData = { users, client: clientData, errorFields }
   const adminTabData = { call: callData, users, errorFields }
 
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
-  // const refereeTabData = { errorFields, call: callData, referee: refereeData, referralSourceCategory, referralSource, ...address  }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes }
+
   const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address  }
   // const referralTabData = { errorFields, call: callData, birthProvinces, ratePoor, ...address  }
   // const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, ...referralTabData }
