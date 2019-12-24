@@ -19,12 +19,13 @@ const CallForms = props => {
 
   const [loading, setLoading] = useState(false)
   const [onSave, setOnSave] = useState(false)
-  const [errorFields, seterrorFields] = useState([])
+  const [errorFields, setErrorFields] = useState([])
+  const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
   const [callData, setCallData] = useState({}) // to work for both new & edit, useState({ call | {} })
-  const [refereeData, setrefereeData] = useState(referee)
-  const [carerData, setcarerData] = useState(carer)
+  const [refereeData, setRefereeData] = useState(referee)
+  const [carerData, setCarerData] = useState(carer)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
 
@@ -46,14 +47,14 @@ const CallForms = props => {
     {text: 'Client / Referral - Call about', step: 4}
   ]
 
-  const activeClass = value => step === value ? 'active' : ''
+  const classStyle = value => errorSteps.includes(value) ? 'errorTab' : step === value ? 'activeTab' : 'normalTab'
 
   const renderTab = (data, index) => {
     return (
       <span
         key={index}
         onClick={() => handleTab(data.step)}
-        className={`tabButton ${activeClass(data.step)}`}
+        className={`tabButton ${classStyle(data.step)}`}
       >
         {data.text}
       </span>
@@ -76,10 +77,10 @@ const CallForms = props => {
         setClientData({...clientData, ...field})
         break;
       case 'referee':
-        setrefereeData({...refereeData, ...field })
+        setRefereeData({...refereeData, ...field })
         break;
       case 'carer':
-        setcarerData({...carerData, ...field })
+        setCarerData({...carerData, ...field })
         break;
     }
   }
@@ -94,20 +95,35 @@ const CallForms = props => {
     ]
 
     const errors = []
+    const errorSteps = []
 
     components.forEach(component => {
       if (step === component.step) {
         component.fields.forEach(field => {
-          (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
+          // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
+          if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
+            errors.push(field)
+            errorSteps.push(component.step)
+          }
         })
       }
     })
 
+    // if (errors.length > 0) {
+    //   setErrorFields(errors)
+    //   return false
+    // } else {
+    //   setErrorFields([])
+    //   return true
+    // }
+
     if (errors.length > 0) {
-      seterrorFields(errors)
+      setErrorFields(errors)
+      setErrorSteps([ ...new Set(errorSteps)])
       return false
     } else {
-      seterrorFields([])
+      setErrorFields([])
+      setErrorSteps([])
       return true
     }
     // return true
