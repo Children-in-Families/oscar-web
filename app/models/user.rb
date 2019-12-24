@@ -382,21 +382,31 @@ class User < ActiveRecord::Base
   #   false
   # end
 
-  def destroy_fully!
-    with_transaction_returning_status do
-      run_callbacks :destroy do
-        destroy_dependent_associations!
+  def destroy!
+    if !deleted?
+      with_transaction_returning_status do
+        run_callbacks :destroy do
+          if persisted?
+            # Handle composite keys, otherwise we would just use `self.class.primary_key.to_sym => self.id`.
+            self.class.delete_all(Hash[[Array(self.class.primary_key), Array(self.id)].transpose])
+          end
 
-        if persisted?
-          # Handle composite keys, otherwise we would just use `self.class.primary_key.to_sym => self.id`.
-          self.class.delete_all!(Hash[[Array(self.class.primary_key), Array(self.id)].transpose])
-          # decrement_counters_on_associations
+          @_trigger_destroy_callback = true
+
+          stale_paranoid_value
+          self
         end
-
-        @destroyed = true
-        freeze
+      end
+    else
+      if paranoid_configuration[:double_tap_destroys_fully]
+        destroy_fully!
       end
     end
+  end
+
+  def stale_paranoid_value
+    self.paranoid_value = self.class.delete_now_value
+    clear_attribute_changes([self.class.paranoid_column])
   end
 
   private
