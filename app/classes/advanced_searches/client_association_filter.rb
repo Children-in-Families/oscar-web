@@ -170,8 +170,10 @@ module AdvancedSearches
           client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, "%rotati%").distinct.ids
           if client_ids.blank?
             client_ids = clients.group(:id).having("COUNT(versions) = (SELECT COUNT(*) FROM versions WHERE versions.item_type = ? AND versions.item_id = clients.id AND versions.event = ?)", 'Client', 'update').ids
+          else
+            none_event_create_client_ids = clients.group(:id).having("COUNT(versions) = (SELECT COUNT(*) FROM versions WHERE versions.item_type = ? AND versions.item_id = clients.id AND versions.event = ?)", 'Client', 'update').ids
           end
-          client_ids
+          return (client_ids + none_event_create_client_ids)
         else
           client_ids = clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
         end
