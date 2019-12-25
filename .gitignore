@@ -11,6 +11,8 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
+# Ignore spec/examples.txt
+spec/examples.txt
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -22,10 +24,10 @@ tmp
 .env.test
 .env.development
 dump.rdb
+vendor/data
 # For Mac OS only
 .DS_Store
 dump.rdb
-vendor/data
 .vscode/
 brakeman_report*.html
-*.xlsx
+~$*

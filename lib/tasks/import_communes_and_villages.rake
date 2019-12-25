@@ -1,6 +1,6 @@
 namespace :communes_and_villages do
   desc 'Import all communes and villages provided by NCDD'
-  task import: :environment do
+  task :import, [:tenant] => [:environment] do |task, args|
     files = [
       'Gazetteer_BMC_12_Jul_2018.xlsx',
       'Gazetteer_BAT_12_Jul_2018.xlsx',
@@ -29,9 +29,11 @@ namespace :communes_and_villages do
       'Gazetteer_TKM_12_Jul_2018.xlsx'
     ]
 
+    Organization.switch_to args[:tenant] if args[:tenant]
     puts "START | #{Organization.current.short_name} | at #{Time.now.to_s}"
 
     files.each do |file_name|
+      puts "Importing: #{file_name}"
       import = VillageImporter::Import.new(file_name)
       import.communes_and_villages
     end

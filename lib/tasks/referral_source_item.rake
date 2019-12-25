@@ -8,5 +8,4 @@ namespace :community do
       ReferralSource.find_or_create_by(name: 'ព្រះវិហារ', name_en: 'Church')
     end
   end
-  puts 'done!'
 end

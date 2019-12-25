@@ -6,87 +6,75 @@ Open Source Case-management and Record-keeping.
 
 ### Requirements
 
-* Postgres(>= 9.3)
-* Ruby(2.2.0)
-* Rails(4.2.2)
+* Docker Desktop (latest stable version)
 
-### Getting Start
+### Getting Started
 
-Given that you got all the requirements running on your local machine.
-
-
-Clone the project to your local machine:
+Given that we are using Docker, simply run:
 
 ```
-  git clone git@github.com:rotati/oscar-web.git
+docker-compose up
 ```
 
-Navigate to the project directory and create `.env` in project root path, and copy all content in `.env.example` and replace all variable values to fit your local machine.
-
-Then run:
+Note that this starts up **all** the services (beware if you running this on a computer with less than 16GB RAM!)). For most common development tasks you will just need the _core services_ which are essentially the OSCaR App Service (Rails) and the OSCaR Database Service (Postgres). To spin these services up only, use the following make command:
 
 ```
-  bundle install
-
-  rake db:create
-
-  rake db:migrate
-
-  rake db:seed  # to load some basic data
+make start_core
 ```
 
-Once the steps are done, start the server by running:
+Once the containers have fired up open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.
+
+### Gazetteer Data Import (OPTIONAL)
+
+Since importing the Gazetteer data takes sometime and the spreadsheet files are fairly large this as been left as an option if you need it.
+
+Firstly, download the [Cambodia Gazetteer Spreadsheets](https://drive.google.com/drive/folders/1ff0GbLahKc0roUB71yjFNDwLY328AeKE), extract the zip file into the following local project directory `vendor/data/villages/xlsx`.
+
+Now, inside the app container, run the following rake task where 'dev' is the name of the tenant / schema you want to import the Gazetteer Data into.
 
 ```
-  rails server
+rake communes_and_villages:import['dev']
 ```
 
-Open a web browser and navigate to `http://lvh.me:3000`, and there you go!
+### Docker Commands
 
-### RSpec
-
-Requirement
-
-  Phanthomjs
-
-  Pleas Install Phanthomjs as it is the dependency of poltegiest in order to run js true spec
-
-  Install Phanthomjs for OSX
-
-  ```
-    npm install -g phantomjs
-  ```
-
-  Install Phanthomjs for Ubuntu
-
-  ```
-    sudo apt-get install phantomjs
-  ```
-
-The project is well tested using RSpec and Capybara.
-
-To run all specs, testing environment must be setup.
-Navigate to project root directory and run the following commands:
+Start bash session in the 'app' service container. Once you have a session, you can use it like you would normally use your local terminal, running `rake` tasks, starting the `rails c` console etc, etc
 
 ```
-  bundle install RAILS_ENV=test
-
-  rake db:create RAILS_ENV=test
-
-  rake db:migrate RAILS_ENV=test
-
-  rake db:seed RAILS_ENV=test  # to load some basic data
+make bash_app
 ```
 
-To run all specs, in your project root directory in terminal, run this command:
+There is also a make command to drop the database
 
 ```
-  rspec
+make db_drop
+```
+
+Check the local [Makefile](./Makefile) for a complete list of available commands.
+
+### pgAdmin
+
+The Docker Compose file contains a pgAdmin service. After `docker-compose up` spins up all the services, its possible to connect to pgAdmin at [http://localhost:5050/](http://localhost:5050/). The pgAdmin username and password are in the `pgadmin` services definition in [docker-compose.yml](./docker-compose.yml). To connect to the oscar database, simply expand the OSCaR Server Group in the top left and click on the database. You will be asked to enter the db password (123456789).
+
+Note, if you only started the 'core' services and you want to fire up pgAdmin service too, then simply run the following command at your local terminal  (note this will also startup the `db` service (Postgres) if it is not running):
+
+```
+docker-compose up pgadmin
+```
+
+### Mongo Express
+
+The Docker Compose file contains a Mongo Express service. After `docker-compose up` spins up all the services, its possible to connect to Mongo Express at [http://localhost:8081/](http://localhost:8081/). There is no username or password required.
+
+Note, if you only started the 'core' services and you want to fire up Mongo Express service too, then simply run the following command at your local terminal (note this will also startup the `mongo` service (MongoDB) if it is not running):
+
+```
+docker-compose up mongo-express
 ```
 
 ### Issue Reporting
 
-If you experience with bugs or need further improvement, please create a new issue in the repo issue list.
+If you experience with bugs or need further improvement, please create a new issue under [Issues](https://github.com/rotati/oscar-web/issues).
 
 ### Contributing to OSCaR
 
@@ -94,7 +82,7 @@ Pull requests are very welcome. Before submitting a pull request, please make su
 
 ### Authors
 
-OSCaR is developed in partnership by [Rotati Consulting](http://www.rotati.com) and [CIF](http://www.childreninfamilies.org)
+OSCaR is developed in partnership by [Rotati Consulting (Cambodia)](http://www.rotati.tech) and [CIF](http://www.childreninfamilies.org)
 
 ### License
 
