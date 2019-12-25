@@ -581,7 +581,7 @@ module AdvancedSearches
     def family_name_field_query
       case @operator
       when 'equal'
-        client_ids = @clients.includes(:families).where("lower(families.name) = ?", @value.downcase).ids
+        client_ids = @clients.where("current_family_id = (SELECT id FROM families WHERE lower(families.name) = ?)", @value.downcase).ids
       when 'not_equal'
         client_ids = Client.where("clients.current_family_id != (SELECT id FROM families WHERE lower(families.name) = ?) OR clients.current_family_id IS NULL", @value.downcase).ids
       when 'contains'
