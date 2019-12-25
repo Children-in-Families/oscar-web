@@ -12,6 +12,5 @@ namespace :level_3_rated_for_id_poor do
       end
     end
     client_ids_record.close
-    puts 'Done!!!'
   end
 end

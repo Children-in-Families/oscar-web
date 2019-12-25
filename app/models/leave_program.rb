@@ -50,7 +50,7 @@ class LeaveProgram < ActiveRecord::Base
   private
 
   def create_leave_program_history
-      LeaveProgramHistory.initial(self)
+    LeaveProgramHistory.initial(self)
   end
 
   def exit_date_value

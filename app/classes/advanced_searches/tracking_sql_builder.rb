@@ -9,7 +9,6 @@ module AdvancedSearches
       @the_field     = rule['id']
       @field         = field.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
-      @value         = format_value(rule['value'])
       @type          = rule['type']
       @input_type    = rule['input']
     end
@@ -19,10 +18,6 @@ module AdvancedSearches
       properties_field = 'client_enrollment_trackings.properties'
       client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
 
-      type_format = ['select', 'radio-group', 'checkbox-group']
-      if type_format.include?(@input_type)
-        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-      end
 
       basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
       basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -34,12 +29,6 @@ module AdvancedSearches
 
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
       {id: sql_string, values: client_ids}
-    end
-
-    private
-
-    def format_value(value)
-      value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
     end
   end
 end
