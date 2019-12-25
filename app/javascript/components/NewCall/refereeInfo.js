@@ -126,7 +126,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
-            required
+            // required
             disabled={referee.anonymous}
             // isError={errorFields.includes('referee_name')}
             isError={errorFields.includes("name")}
