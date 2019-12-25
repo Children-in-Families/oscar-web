@@ -55,6 +55,8 @@ module FormBuilderHelper
   end
 
   def tracking_query_string(id, field, operator, value, type, input_type, properties_field)
+    value = format_value(value, input_type)
+    field = format_value(field, input_type)
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
@@ -98,6 +100,8 @@ module FormBuilderHelper
   end
 
   def form_builder_query_string(id, field, operator, value, type, input_type, properties_field='')
+    value = format_value(value, input_type)
+    field = format_value(field, input_type)
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
@@ -175,6 +179,66 @@ module FormBuilderHelper
       rule_array << h
     end
     data_mapping << rule_array
+  end
+
+  def mapping_exit_program_date_param_value(data, field_name=nil, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_service_param_value(h, field_name=nil, data_mapping)
+      end
+      if field_name.nil?
+       next if !(h[:id] =~ /^(programexitdate|exitprogramdate)/i)
+      else
+       next if h[:id] != field_name
+      end
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
+  def get_exit_program_date_query_string(results)
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        condition = h[:condition]
+        exit_program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
+      end.join(" #{condition} ")
+    end
+  end
+
+  def exit_program_stream_service_query(id, field, operator, value, type, input_type, properties_field='')
+    case operator
+    when 'equal'
+      "date(leave_programs.exit_date) = '#{value}'"
+    when 'not_equal'
+      "date(leave_programs.exit_date) != '#{value}'"
+    when 'less'
+      "date(leave_programs.exit_date) < '#{value}'"
+    when 'less_or_equal'
+      "date(leave_programs.exit_date) <= '#{value}'"
+    when 'greater'
+      "date(leave_programs.exit_date) > '#{value}'"
+    when 'greater_or_equal'
+      "date(leave_programs.exit_date) >= '#{value}'"
+    when 'is_empty'
+      "date(leave_programs.exit_date) IS NULL"
+    when 'is_not_empty'
+      "date(leave_programs.exit_date) IS NOT NULL"
+    when 'between'
+      "date(leave_programs.exit_date) BETWEEN '#{value.first}' AND '#{value.last}'"
+    end
+  end
+
+  private
+
+  def format_value(value, input_type)
+    type_format = ['select', 'radio-group', 'checkbox-group']
+    if type_format.include?(input_type)
+      value = value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+    end
+    value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
   end
 
   def integer?(type)
