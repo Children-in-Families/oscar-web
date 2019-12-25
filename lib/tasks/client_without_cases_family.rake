@@ -2,7 +2,7 @@ namespace :client_without_cases_family do
   desc "Attach family to client whos id was in family's children field"
   task restore: :environment do
     Organization.pluck(:short_name).each do |short_name|
-      next if short_name == 'share' || short_name != 'cif'
+      next if short_name == 'share'
       Organization.switch_to short_name
 
       family_ids = Family.ids
@@ -10,8 +10,7 @@ namespace :client_without_cases_family do
         version = versions.last
         if version.present?
           client_ids = version.changeset['children'].last
-          # binding.pry if family_id == 171
-          if client_ids.blank?
+          if client_ids.compact.blank?
             previous_client_ids = version.changeset['children'].first
             sql = "
               UPDATE families SET children = '{}' WHERE families.id = #{family_id};
@@ -59,8 +58,16 @@ namespace :client_without_cases_family do
         UPDATE families SET children = array_append(children, mapping_values.client_id) FROM (VALUES #{family_client_values}) AS mapping_values (client_id, family_id) WHERE families.id = mapping_values.family_id;
       ".squish
       ActiveRecord::Base.connection.execute(sql) if family_client_values.present?
+    end
+  end
 
-
+  task add_client_id_to_family: :environment do
+    Organization.pluck(:short_name).each do |short_name|
+      next if short_name == 'share'
+      Organization.switch_to short_name
+      sql = "UPDATE #{short_name}.families AS f SET children = array_append(children, c.id) FROM #{short_name}.clients AS c WHERE f.id = c.current_family_id AND (f.children @> ARRAY[c.id]) IS NOT TRUE;"
+      result = ActiveRecord::Base.connection.execute(sql)
+      puts "#{short_name}: #{result.cmd_status}"
     end
   end
 end
