@@ -26,6 +26,7 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
+    @loader = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) );
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
@@ -141,7 +142,7 @@ class CIF.ClientAdvanceSearch
         $('#custom-form-column').removeClass('hidden')
         $('#wizard-custom-form .loader').addClass('hidden')
 
-  addCustomBuildersFields: (ids, url) ->
+  addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
     action  = _.last(url.split('/'))
     element = if action == 'get_custom_field' then '.main-report-builder .custom-form-column' else '.main-report-builder .program-stream-column'
@@ -154,6 +155,7 @@ class CIF.ClientAdvanceSearch
         $('#builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
+        loader.stop();
 
   addCustomBuildersFieldsInWizard: (ids, url) ->
     self = @
@@ -183,8 +185,11 @@ class CIF.ClientAdvanceSearch
         checkField  = fieldName
         label       = value.label
         $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
-        $(".#{headerClass} input.i-checks").iCheck
-          checkboxClass: 'icheckbox_square-green'
+
+      $("input.i-checks.#{headerClass}").iCheck
+        checkboxClass: 'icheckbox_square-green'
+
+    return
 
   formBuiderFormatHeader: (value) ->
     keyWords = value.split('|')
@@ -195,7 +200,7 @@ class CIF.ClientAdvanceSearch
 
   checkboxElement: (field, name, label) ->
     "<li class='visibility checkbox-margin #{name}'>
-      <input type='checkbox' name='#{field}_' id='#{field}_' value='#{field}' class='i-checks' style='position: absolute; opacity: 0;'>
+      <input type='checkbox' name='#{field}_' id='#{field}_' value='#{field}' class='i-checks #{name}' style='position: absolute; opacity: 0;'>
       <label for='#{field}_'>#{label}</label>
     </li>"
 
@@ -378,17 +383,23 @@ class CIF.ClientAdvanceSearch
   triggerEnrollmentFields: ->
     self = @
     $('#enrollment-checkbox').on 'ifChecked', ->
-      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL)
+      self.loader.start()
+      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.loader)
+    return
 
   triggerTrackingFields: ->
     self = @
     $('#tracking-checkbox').on 'ifChecked', ->
-      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL)
+      self.loader.start()
+      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.loader)
+    return
 
   triggerExitProgramFields: ->
     self = @
     $('#exit-form-checkbox').on 'ifChecked', ->
-      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL)
+      self.loader.start()
+      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.loader)
+    return
 
   addgroupCallback: ->
     self = @
