@@ -77,11 +77,18 @@ namespace :client_status do
       # end
       Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND clients.status != 'Active') = 2").distinct.each do |client|
         cps_leave_program = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", client.id).last
-        next if cps_leave_program.present?
-        client.enter_ngos.last.destroy
-        client.status = 'Active'
-        client.save!(validate: false)
-        puts "#{short_name}: destroyed last accept NGO and changed status client #{client.slug} to Active done!!!"
+        if cps_leave_program.present?
+          if client.enter_ngos.count > client.exit_ngos.count
+            next if client.status == 'Accepted'
+            client.enter_ngos.first.destroy
+            puts "#{short_name}: destroyed first accept NGO of client #{client.slug} done!!!"
+          end
+        else
+          client.enter_ngos.last.destroy
+          client.status = 'Active'
+          client.save!(validate: false)
+          puts "#{short_name}: destroyed last accept NGO and changed status client #{client.slug} to Active done!!!"
+        end
       end
 
       sql = "SELECT clients.id FROM clients LEFT OUTER JOIN enter_ngos ON enter_ngos.client_id = clients.id LEFT OUTER JOIN client_enrollments on client_enrollments.client_id = clients.id LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id WHERE enter_ngos.client_id IS NOT NULL AND exit_ngos.client_id IS NULL AND client_enrollments.client_id IS NULL AND clients.status = 'Active'"

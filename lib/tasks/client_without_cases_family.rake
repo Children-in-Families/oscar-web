@@ -4,7 +4,6 @@ namespace :client_without_cases_family do
     Organization.pluck(:short_name).each do |short_name|
       next if short_name == 'share'
       Organization.switch_to short_name
-
       family_ids = Family.ids
       PaperTrail::Version.where(item_type: 'Family', event: 'update', item_id: family_ids).where('object_changes iLIKE ? AND DATE(created_at) BETWEEN ? AND ?', "%\nchildren%", '2017-10-01', '2019-11-01').order(:created_at).group_by(&:item_id).each do |family_id, versions|
         version = versions.last

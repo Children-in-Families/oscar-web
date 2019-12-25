@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191212032110) do
+ActiveRecord::Schema.define(version: 20191224080942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -620,9 +620,11 @@ ActiveRecord::Schema.define(version: 20191212032110) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
+  add_index "enter_ngos", ["deleted_at"], name: "index_enter_ngos_on_deleted_at", using: :btree
 
   create_table "exit_ngos", force: :cascade do |t|
     t.integer  "client_id"
@@ -633,9 +635,11 @@ ActiveRecord::Schema.define(version: 20191212032110) do
     t.date     "exit_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
+  add_index "exit_ngos", ["deleted_at"], name: "index_exit_ngos_on_deleted_at", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
