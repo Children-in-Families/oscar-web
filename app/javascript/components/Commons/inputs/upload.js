@@ -10,7 +10,7 @@ registerPlugin(FilePondPluginImagePreview)
 
 export default props => {
   const { label, required, onChange, object, onChangeCheckbox, checkBoxValue } = props
-  const url = object.thumb && object.thumb.url || ''
+  const url = object.thumb && object.thumb.url
 
   return (
     <>
@@ -31,10 +31,13 @@ export default props => {
         </div>
       }
 
-      <FilePond
-        allowMultiple={false}
-        onupdatefiles={fileItems => onChange(fileItems)}
-      />
+      {
+        checkBoxValue === false &&
+        <FilePond
+          allowMultiple={false}
+          onupdatefiles={fileItems => onChange(fileItems)}
+        />
+      }
     </>
   )
 }

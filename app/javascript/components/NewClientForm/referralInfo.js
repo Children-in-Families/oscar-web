@@ -18,11 +18,12 @@ export default props => {
   const [villages, setVillages]           = useState(currentVillages)
 
   const onProfileChange = fileItems => {
-    onChange('client', 'profile')({type: 'file', data: fileItems[0].file})
+    onChange('clientProfile', fileItems[0].file)({type: 'file'})
   }
 
   const onChangeRemoveProfile = data => {
-    onChange('client', 'remove_profile')({type: 'checkbox', data: data.data})
+    onChange('client', { remove_profile: data.data })({type: 'checkbox'})
+    // onChange('client', 'remove_profile')({type: 'checkbox', data: data.data})
   }
 
   const fetchData = (parent, data, child) => {
@@ -66,7 +67,7 @@ export default props => {
       outside_address: isSelf ? referee.outside_address : previousSelect === 'self' ? '' : client.outside_address
     }
 
-    onChange('client', { ...fields, 'referee_relationship': event.data })({type: 'select'})
+    onChange('client', { ...fields, referee_relationship: event.data })({type: 'select'})
   }
 
   // useEffect(() => {

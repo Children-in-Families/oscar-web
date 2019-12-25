@@ -30,6 +30,7 @@ const Forms = props => {
   const [errorFields, setErrorFields] = useState([])
 
   const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
+  const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData]     = useState(carer)
 
@@ -71,6 +72,9 @@ const Forms = props => {
     switch (obj) {
       case 'client':
         setClientData({...clientData, ...field})
+        break;
+      case 'clientProfile':
+        setClientProfile({ profile: field})
         break;
       case 'referee':
         setRefereeData({...refereeData, ...field })
@@ -232,7 +236,7 @@ const Forms = props => {
         const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
 
         let formData = new FormData()
-        formData = objectToFormData(clientData, {}, formData, 'client')
+        formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
         formData = objectToFormData(refereeData, {}, formData, 'referee')
         formData = objectToFormData(carerData, {}, formData, 'carer')
 
