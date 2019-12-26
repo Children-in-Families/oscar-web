@@ -229,6 +229,10 @@ const CallForms = props => {
     }
   }
 
+  const handleCancel = () => {
+    window.history.back()
+  }
+
   const buttonPrevious = () => {
     setStep(step - 1)
   }
@@ -267,7 +271,7 @@ const CallForms = props => {
 
       <div className='actionfooter'>
         <div className='leftWrapper'>
-          <span className='btn btn-default'>Cancel</span>
+          <span className='btn btn-default' onClick={handleCancel}>Cancel</span>
         </div>
 
         <div className='rightWrapper'>
