@@ -41,7 +41,8 @@
   "customInfo": {
     "custom_id_1": "Custom ID Number 1",
     "custom_id_2": "Custom ID Number 2",
-    "rate_client_id": "Is client rated for ID Poor?"
+    "rate_client_id": "Is client rated for ID Poor?",
+    "has_already_taken": "has already been taken"
   },
   "donorInfo": {
     "other_agencies": "Other Agencies Involved",
@@ -96,7 +97,9 @@
     "what_3_word": "What3Words",
     "client_phone": "Client Contact Phone",
     "phone_owner": "Phone Owner",
-    "client_email": "Client Email Address"
+    "client_email": "Client Email Address",
+    "profile": "Profile",
+    "remove": "Remove"
   },
   "referralMoreInfo": {
     "referral_more_info": "Client / Referral - More Information",

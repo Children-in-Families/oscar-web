@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import objectToFormData from 'object-to-formdata'
 import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
 import AdministrativeInfo from './admin'
@@ -46,6 +47,7 @@ const Forms = props => {
   const [errorFields, setErrorFields] = useState([])
 
   const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
+  const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData]     = useState(carer)
 
@@ -53,8 +55,9 @@ const Forms = props => {
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, refereeRelationships, phoneOwners, ...address, T }
-  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData, T }
+  const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData, T }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
+
   const tabs = [
     {text: T.translate("index.referee_info"), step: 1},
     {text: T.translate("index.referral_info"), step: 2},
@@ -77,7 +80,7 @@ const Forms = props => {
   }
 
   const onChange = (obj, field) => event => {
-    const inputType = ['date', 'select', 'checkbox', 'radio']
+    const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
     const value = inputType.includes(event.type) ? event.data : event.target.value
 
     if (typeof field !== 'object')
@@ -86,6 +89,9 @@ const Forms = props => {
     switch (obj) {
       case 'client':
         setClientData({...clientData, ...field})
+        break;
+      case 'clientProfile':
+        setClientProfile({ profile: field})
         break;
       case 'referee':
         setRefereeData({...refereeData, ...field })
@@ -231,25 +237,46 @@ const Forms = props => {
     }
   }
 
-  const handleSave = event => {
+  const handleSave = () => (callback, forceSave) => {
+    forceSave = forceSave === undefined ? false : forceSave
+
     if (handleValidation()) {
       handleCheckValue(refereeData)
       handleCheckValue(clientData)
       handleCheckValue(carerData)
 
-      if (clientData.family_ids.length === 0)
+      if (clientData.family_ids.length === 0 && forceSave === false)
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
         const action = clientData.id ? 'PUT' : 'POST'
         const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
 
+        let formData = new FormData()
+        formData = objectToFormData({ ...clientData, ...clientProfile }, {}, formData, 'client')
+        formData = objectToFormData(refereeData, {}, formData, 'referee')
+        formData = objectToFormData(carerData, {}, formData, 'carer')
+
         $.ajax({
           url,
           type: action,
-          data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } },
-          beforeSend: () => { setLoading(true) }
-        }).success(response => {document.location.href=`/clients/${response.id}?notice=success`})
+          data: formData,
+          processData: false,
+          contentType: false,
+          beforeSend: () => { setLoading(true), setAttachFamilyModal(false) }
+        }).done(response => {
+          if(callback)
+            callback(response)
+          else
+            document.location.href=`/clients/${response.slug}?notice=success`
+        }).fail(error => {
+          setLoading(false)
+          setOnSave(false)
+          const errorFields = JSON.parse(error.responseText)
+          setErrorFields(Object.keys(errorFields))
+          if(errorFields.kid_id)
+            setErrorSteps([3])
+        })
       }
     }
   }
@@ -280,7 +307,7 @@ const Forms = props => {
         isOpen={attachFamilyModal}
         type='success'
         closeAction={() => setAttachFamilyModal(false)}
-        content={<CreateFamilyModal id="myModal" data={{ families, clientData, refereeData, carerData, T }} onChange={onChange} /> }
+        content={<CreateFamilyModal id="myModal" data={{ families, clientData, T }} onChange={onChange} onSave={handleSave} /> }
       />
 
       <div className='tabHead'>
@@ -320,7 +347,7 @@ const Forms = props => {
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
           { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
 
-          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>{T.translate("index.save")}</span>}
+          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
         </div>
       </div>
     </div>

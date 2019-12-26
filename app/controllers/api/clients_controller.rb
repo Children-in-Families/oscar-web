@@ -38,7 +38,7 @@ module Api
       client.carer_id = carer.id
 
       if client.save
-        render json: { id: client.slug }, status: :ok
+        render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
       end
@@ -61,7 +61,7 @@ module Api
           assessment = Assessment.find(params[:client][:assessment_id])
           # redirect_to client_assessment_path(client, assessment), notice: t('.assessment_successfully_created')
         else
-          render json: { id: client.slug }, status: :ok
+          render json: { slug: client.slug }, status: :ok
         end
       else
         render json: client.errors, status: :unprocessable_entity

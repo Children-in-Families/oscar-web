@@ -3,7 +3,8 @@ import {
   SelectInput,
   DateInput,
   TextInput,
-  Checkbox
+  Checkbox,
+  UploadInput
 }                   from '../Commons/inputs'
 import Address      from './address'
 
@@ -22,6 +23,15 @@ export default props => {
   const [districts, setDistricts]         = useState(currentDistricts)
   const [communes, setCommunes]           = useState(currentCommunes)
   const [villages, setVillages]           = useState(currentVillages)
+
+  const onProfileChange = fileItems => {
+    onChange('clientProfile', fileItems[0].file)({type: 'file'})
+  }
+
+  const onChangeRemoveProfile = data => {
+    onChange('client', { remove_profile: data.data })({type: 'checkbox'})
+    // onChange('client', 'remove_profile')({type: 'checkbox', data: data.data})
+  }
 
   const fetchData = (parent, data, child) => {
     $.ajax({
@@ -64,7 +74,7 @@ export default props => {
       outside_address: isSelf ? referee.outside_address : previousSelect === 'self' ? '' : client.outside_address
     }
 
-    onChange('client', { ...fields, 'referee_relationship': event.data })({type: 'select'})
+    onChange('client', { ...fields, referee_relationship: event.data })({type: 'select'})
   }
 
   // useEffect(() => {
@@ -151,6 +161,10 @@ export default props => {
             value={client.referee_relationship}
             onChange={onRelationshipChange}
           />
+        </div>
+
+        <div className="col-xs-12">
+          <UploadInput label={T.translate("referralInfo.profile")} onChange={onProfileChange} object={client.profile} onChangeCheckbox={onChangeRemoveProfile} checkBoxValue={client.remove_profile || false} T={T} />
         </div>
       </div>
       <legend>

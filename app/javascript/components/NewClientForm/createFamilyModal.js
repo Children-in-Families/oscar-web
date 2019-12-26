@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import Loading from '../Commons/Loading'
 import { SelectInput } from '../Commons/inputs'
 import { RadioButton } from 'primereact/radiobutton'
 
 export default props => {
-  const { id, onChange, data: { families, clientData, refereeData, carerData, T } } = props
+  const { onChange, onSave, data: { families, clientData, T } } = props
 
-  const [loading, setLoading]       = useState(false)
   const [showSave, setShowSave]     = useState(false)
   const [showSelect, setShowSelect] = useState(false)
   const [value, setValue] = useState("")
@@ -43,39 +41,20 @@ export default props => {
   }
 
   const handleSave = () => {
-    if (value === "createNewFamilyRecord") {
-      const action = clientData.id ? 'PUT' : 'POST'
-      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
-      $.ajax({
-        url,
-        type: action,
-        data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
-      }).success(response => {
-        document.location.href = `/families/new?children=${response.id}&value=${value}`
-      })
-    } else if (value === "attachWithExistingFamily"){
-      const action = clientData.id ? 'PUT' : 'POST'
-      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
-      $.ajax({
-        url,
-        type: action,
-        data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
-      }).success(response => { document.location.href = `/clients/${response.id}?notice=success` })
-    } else if (value === "no"){
-      const action = clientData.id ? 'PUT' : 'POST'
-      const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
-      $.ajax({
-        url,
-        type: action,
-        data: { client: { ...clientData }, referee: { ...refereeData }, carer: { ...carerData } }
-      }).success(response => { document.location.href = `/clients/${response.id}?notice=success` })
-    }
+    onSave()(response => {
+      let url = ''
+
+      if(value === 'createNewFamilyRecord')
+        url = `/families/new?children=${response.id}`
+      else
+        url = `/clients/${response.slug}?notice=success`
+
+      document.location.href=url
+    }, true)
   }
 
   return (
     <>
-      <Loading loading={loading} text={T.translate("createFamilyModal.wait_for_server_req")}/>
-
       <p>{T.translate("createFamilyModal.create_family_record")}</p>
       <br/>
 
@@ -127,14 +106,14 @@ export default props => {
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={() => { setLoading(true), handleSave() }}>{T.translate("createFamilyModal.save")}</span>
+        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>{T.translate("createFamilyModal.save")}</span>
       </div>
     </>
   )
 }
 
 const styles = {
-  allowButton : {
+  allowButton: {
     padding: '0.5em 1em',
     textDecoration: 'none',
     borderRadius: '5px',
@@ -143,7 +122,7 @@ const styles = {
     color: '#fff',
     cursor: 'pointer'
   },
-  preventButton : {
+  preventButton: {
     color: '#aaa',
     padding: '0.5em 1em',
     textDecoration: 'none',
