@@ -5,12 +5,12 @@ namespace :client_status do
     Organization.pluck(:short_name).each do |short_name|
       next if short_name == 'share'
       Organization.switch_to short_name
-      exit_ngo_date = "SELECT created_at FROM exit_ngos WHERE exit_ngos.client_id = clients.id ORDER BY created_at DESC LIMIT 1"
-      enter_ngo_date = "SELECT created_at FROM enter_ngos WHERE enter_ngos.client_id = clients.id ORDER BY created_at DESC LIMIT 1"
+      exit_ngo_date = "SELECT created_at FROM exit_ngos WHERE exit_ngos.client_id = clients.id AND exit_ngos.deleted_at IS NULL ORDER BY created_at DESC LIMIT 1"
+      enter_ngo_date = "SELECT created_at FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL ORDER BY created_at DESC LIMIT 1"
       exited_clients = Client.joins(:exit_ngos, :enter_ngos).where("((#{exit_ngo_date}) > (#{enter_ngo_date})) AND clients.status IN (?)", ['Accepted', 'Active', 'Referred']).order(:id).distinct
-      exit_ngo_date = "SELECT exit_date FROM exit_ngos WHERE exit_ngos.client_id = clients.id ORDER BY created_at DESC LIMIT 1"
-      enter_ngo_date = "SELECT accepted_date FROM enter_ngos WHERE enter_ngos.client_id = clients.id ORDER BY created_at DESC LIMIT 1"
-      exited_clients = Client.joins(:exit_ngos, :enter_ngos).where("(exit_ngos.exit_date > enter_ngos.accepted_date AND exit_ngos.created_at > enter_ngos.accepted_date) AND clients.status IN (?)", ['Accepted', 'Active', 'Referred']).order(:id)
+      # exit_ngo_date = "SELECT exit_date FROM exit_ngos WHERE exit_ngos.client_id = clients.id ORDER BY created_at DESC LIMIT 1"
+      # enter_ngo_date = "SELECT accepted_date FROM enter_ngos WHERE enter_ngos.client_id = clients.id ORDER BY created_at DESC LIMIT 1"
+      # exited_clients = Client.joins(:exit_ngos, :enter_ngos).where("(exit_ngos.exit_date > enter_ngos.accepted_date AND exit_ngos.created_at > enter_ngos.accepted_date) AND clients.status IN (?)", ['Accepted', 'Active', 'Referred']).order(:id)
 
       exited_clients.each do |client|
         cps_enrollments = client.client_enrollments
@@ -75,7 +75,7 @@ namespace :client_status do
 
       # Client.joins(:client_enrollments).where("clients.status != 'Active' AND (SELECT COUNT(*) FROM client_enrollments WHERE client_enrollments.client_id = clients.id AND status = 'Active' GROUP BY client_enrollments.created_at ORDER BY created_at DESC LIMIT 1) = 1").distinct.each do |client|qg
       # end
-      Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND clients.status != 'Active') = 2").distinct.each do |client|
+      Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE (enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL) AND clients.status != 'Active') = 2").distinct.each do |client|
         cps_leave_program = LeaveProgram.joins(:client_enrollment).where("client_enrollments.client_id = ?", client.id).last
         if cps_leave_program.present?
           if client.enter_ngos.count > client.exit_ngos.count
@@ -91,15 +91,15 @@ namespace :client_status do
         end
       end
 
-      Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id) = 2").distinct.each do |client|
+      Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL) = 2").distinct.each do |client|
         if client.enter_ngos.count > client.exit_ngos.count
-          next if client.status == 'Accepted' || client.exit_ngos.present?
+          next if client.exit_ngos.present? && (client.enter_ngos.last.created_at > client.exit_ngos.last.created_at)
           client.enter_ngos.first.destroy
           puts "#{short_name}: destroyed first accept NGO of client #{client.slug} done!!!"
         end
       end
 
-      sql = "SELECT clients.id FROM clients LEFT OUTER JOIN enter_ngos ON enter_ngos.client_id = clients.id LEFT OUTER JOIN client_enrollments on client_enrollments.client_id = clients.id LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id WHERE enter_ngos.client_id IS NOT NULL AND exit_ngos.client_id IS NULL AND client_enrollments.client_id IS NULL AND clients.status = 'Active'"
+      sql = "SELECT clients.id FROM clients LEFT OUTER JOIN enter_ngos ON enter_ngos.client_id = clients.id LEFT OUTER JOIN client_enrollments on client_enrollments.client_id = clients.id LEFT OUTER JOIN exit_ngos ON exit_ngos.client_id = clients.id WHERE (enter_ngos.client_id IS NOT NULL AND enter_ngos.deleted_at IS NULL) AND exit_ngos.client_id IS NULL AND client_enrollments.client_id IS NULL AND clients.status = 'Active'"
       clients = ActiveRecord::Base.connection.execute(sql)
       next if clients.to_a.blank?
       update_sql = "UPDATE clients SET status = 'Accepted' WHERE clients.id IN (#{clients.values.join(',')});"
