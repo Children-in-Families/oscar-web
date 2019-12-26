@@ -22,7 +22,8 @@ module Api
 
     def list_custom_fields
       form_type = params[:type]
-      render json: CustomFieldDatatable.new(view_context, form_type), root: :data
+      @custom_field_data ||= CustomFieldDatatable.new(view_context, form_type)
+      render json: @custom_field_data, root: :data
     end
 
     private
