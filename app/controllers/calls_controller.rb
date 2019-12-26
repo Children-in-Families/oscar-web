@@ -1,12 +1,11 @@
 class CallsController < AdminController
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
 
-
   before_action :set_association, except: [:index, :destroy, :version]
 
-
-
-
+  def index
+    @calls = Call.order(:created_at)
+  end
 
   def new
     if params[:referral_id].present?

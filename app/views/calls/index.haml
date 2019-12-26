@@ -1,1 +1,19 @@
-= react_component('Calls', greeting: 'HoLA')
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5 Hotline
+        .ibox-tools
+          = link_to new_call_path do
+            .btn.btn-primary.btn-add
+              Add New Call
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th Phone Call ID
+            %tbody
+              - @calls.each do |call|
+                %tr
+                  %td= call.phone_call_id
