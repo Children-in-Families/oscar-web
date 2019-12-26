@@ -160,6 +160,8 @@ class ClientsController < AdminController
   end
 
   def destroy
+    @client.enter_ngos.delete_all!
+    @client.exit_ngos.delete_all!
     @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
     @client.reload.destroy

@@ -1,6 +1,6 @@
 class ExitNgo < ActiveRecord::Base
   has_paper_trail
-  acts_as_paranoid
+  acts_as_paranoid double_tap_destroys_fully: true
 
   belongs_to :client, with_deleted: true
 
