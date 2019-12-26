@@ -4,7 +4,7 @@ import { SelectInput } from '../Commons/inputs'
 import { RadioButton } from 'primereact/radiobutton'
 
 export default props => {
-  const { id, onChange, data: { families, clientData, refereeData, carerData } } = props
+  const { id, onChange, data: { families, clientData, refereeData, carerData, T } } = props
 
   const [loading, setLoading]       = useState(false)
   const [showSave, setShowSave]     = useState(false)
@@ -74,9 +74,9 @@ export default props => {
 
   return (
     <>
-      <Loading loading={loading} text='Please wait while we are making a request to server.'/>
+      <Loading loading={loading} text={T.translate("createFamilyModal.wait_for_server_req")}/>
 
-      <p>Would you like to create a family record for this client, or attach them to an existing family?</p>
+      <p>{T.translate("createFamilyModal.create_family_record")}</p>
       <br/>
 
       <div className="row">
@@ -90,7 +90,7 @@ export default props => {
           />
         </div>
         <div className="col-xs-6">
-          <p>Create a new family with client</p>
+          <p>{T.translate("createFamilyModal.create_family")}</p>
         </div>
       </div>
 
@@ -105,7 +105,7 @@ export default props => {
           />
         </div>
         <div className="col-xs-6">
-          <p>Attach with existing family record</p>
+          <p>{T.translate("createFamilyModal.attach_family_to_client")}</p>
           { showSelect && <SelectInput options={familyLists} value={clientData.family_ids.length > 0 && clientData.family_ids[0] || null} onChange={onChangeFamily} /> }
         </div>
       </div>
@@ -121,13 +121,13 @@ export default props => {
           />
         </div>
         <div className="col-xs-6">
-          <p>No</p>
+          <p>{T.translate("createFamilyModal.no")}</p>
         </div>
       </div>
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={() => { setLoading(true), handleSave()}}>Save</span>
+        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={() => { setLoading(true), handleSave() }}>{T.translate("createFamilyModal.save")}</span>
       </div>
     </>
   )

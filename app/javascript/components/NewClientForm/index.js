@@ -7,9 +7,26 @@ import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
 import CreateFamilyModal from './createFamilyModal'
+import T from 'i18n-react'
+import en from '../../utils/locales/en.json'
+import km from '../../utils/locales/km.json'
+import my from '../../utils/locales/my.json'
 import './styles.scss'
 
 const Forms = props => {
+  var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
+  switch (url) {
+    case "km":
+      T.setTexts(km)
+      break;
+    case "my":
+      T.setTexts(my)
+      break;
+    default:
+      T.setTexts(en)
+      break;
+  }
+
   const {
     data: {
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
@@ -32,18 +49,17 @@ const Forms = props => {
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData]     = useState(carer)
 
-  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
-  const adminTabData = { users, client: clientData, errorFields }
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes }
-  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, refereeRelationships, phoneOwners, ...address  }
-  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
-  const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
-
+  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
+  const adminTabData = { users, client: clientData, errorFields, T }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
+  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, refereeRelationships, phoneOwners, ...address, T }
+  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData, T }
+  const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
   const tabs = [
-    {text: 'Referee Information', step: 1},
-    {text: 'Client / Referral Information', step: 2},
-    {text: 'Client / Referral - More Information', step: 3},
-    {text: 'Client / Referral - Vulnerability Information and Referral Note', step: 4}
+    {text: T.translate("index.referee_info"), step: 1},
+    {text: T.translate("index.referral_info"), step: 2},
+    {text: T.translate("index.referral_more_info"), step: 3},
+    {text: T.translate("index.referral_vulnerability"), step: 4}
   ]
 
   const classStyle = value => errorSteps.includes(value) ? 'errorTab' : step === value ? 'activeTab' : 'normalTab'
@@ -173,7 +189,7 @@ const Forms = props => {
   const renderModalContent = data => {
     return (
       <>
-        <p>The client record you are saving has similarities to other records in OSCaR in the following fields:</p>
+        <p>{T.translate("index.similar_record")}</p>
         <ul>
           {
             data.map((fields,index) => {
@@ -183,7 +199,7 @@ const Forms = props => {
             })
           }
         </ul>
-        <p>Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.</p>
+        <p>{T.translate("index.checking_message")}</p>
       </>
     )
   }
@@ -191,10 +207,10 @@ const Forms = props => {
   const renderModalFooter = () => {
     return (
       <>
-        <p>Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.</p>
+        <p>{T.translate("index.duplicate_message")}</p>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
-          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>Continue</button>
-          <button style={{margin: 5}} className='btn btn-default' onClick={() => setDupClientModalOpen(false)}>Cancel</button>
+          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>{T.translate("index.continue")}</button>
+          <button style={{margin: 5}} className='btn btn-default' onClick={() => setDupClientModalOpen(false)}>{T.translate("index.cancel")}</button>
         </div>
       </>
     )
@@ -248,10 +264,10 @@ const Forms = props => {
 
   return (
     <div className='containerClass'>
-      <Loading loading={loading} text='Please wait while we are making a request to server.'/>
+      <Loading loading={loading} text={T.translate("index.wait")}/>
 
       <Modal
-        title='Warning'
+        title={T.translate("index.warning")}
         isOpen={dupClientModalOpen}
         type='warning'
         closeAction={() => setDupClientModalOpen(false)}
@@ -260,11 +276,11 @@ const Forms = props => {
       />
 
       <Modal
-        title='Client Confirmation'
+        title={T.translate("index.client_confirm")}
         isOpen={attachFamilyModal}
         type='success'
         closeAction={() => setAttachFamilyModal(false)}
-        content={<CreateFamilyModal id="myModal" data={{ families, clientData, refereeData, carerData }} onChange={onChange} /> }
+        content={<CreateFamilyModal id="myModal" data={{ families, clientData, refereeData, carerData, T }} onChange={onChange} /> }
       />
 
       <div className='tabHead'>
@@ -297,14 +313,14 @@ const Forms = props => {
 
       <div className='actionfooter'>
         <div className='leftWrapper'>
-          <span className='btn btn-default' onClick={handleCancel}>Cancel</span>
+          <span className='btn btn-default' onClick={handleCancel}>{T.translate("index.cancel")}</span>
         </div>
 
         <div className='rightWrapper'>
-          <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
-          { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
+          <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
+          { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
 
-          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>Save</span>}
+          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>{T.translate("index.save")}</span>}
         </div>
       </div>
     </div>
