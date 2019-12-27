@@ -1,5 +1,3 @@
-[ ![Codeship Status for rotati/oscar-web](https://app.codeship.com/projects/0c400840-e69a-0134-b09a-26edd27a570b/status?branch=master)](https://app.codeship.com/projects/206873)
-
 # OSCaR
 
 Open Source Case-management and Record-keeping.
@@ -64,7 +62,7 @@ docker-compose up pgadmin
 
 ### Mongo Express
 
-The Docker Compose file contains a Mongo Express service. After `docker-compose up` spins up all the services, its possible to connect to Mongo Express at [http://localhost:8081/](http://localhost:8081/). There is no username or password required.
+The Docker Compose file contains a [Mongo Express](https://github.com/mongo-express/mongo-express) service. After `docker-compose up` spins up all the services, its possible to connect to Mongo Express at [http://localhost:8081/](http://localhost:8081/). There is no username or password required.
 
 Note, if you only started the 'core' services and you want to fire up Mongo Express service too, then simply run the following command at your local terminal (note this will also startup the `mongo` service (MongoDB) if it is not running):
 
