@@ -344,6 +344,9 @@ en:
       case_type: Case Type
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      client_contact_phone: Client Contact Phone
+      client_address_type: Client Address Type
+      client_email_address: Client Email Address
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
@@ -401,6 +404,7 @@ en:
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
       other_info_of_exit: Other - More Information
+      phone_owner: Phone Owner
       placement_start_date: Placement Start Date
       plot: Plot
       postal_code: Postal Code
@@ -420,6 +424,7 @@ en:
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
+      referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
       referee_phone: Referee Phone Number
       referee_email: Referee Email Address
@@ -2411,6 +2416,26 @@ en:
       male: Male
       other_gender: Other
       unknown: Unknown
+    referee_relationship:
+      self: Self
+      family_member: Family Member
+      friend: Friend
+      helping_professional: Helping Professional
+      government_local: Government / Local Authority
+      other: Other
+    client_address_types:
+      home: Home
+      business: Business
+      rci: RCI
+      dormitory: Dormitory
+      other: Other
+    phone_owner:
+      self: Self
+      family_member: Family Member
+      friend: Friend
+      helping_professional: Helping Professional
+      government_local: Government / Local Authority
+      other: Other
     given_name: Given Name (Latin)
     has_been_in_government_care: Has the client lived in government care
     has_been_in_orphanage: Has the client lived in an orphanage

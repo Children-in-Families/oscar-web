@@ -336,14 +336,17 @@ km:
       birth_province: ស្រុកកំណើត
       birth_province_id: ស្រុកកំណើត
       cambodia: កម្ពុជា
-      carer_name: Carer Name
-      carer_phone: Carer Phone Number
-      carer_email: Carer Email Address
+      carer_name: ឈ្មោះអ្នកថែទាំ
+      carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
+      carer_email: អ៊ីមែលអ្នកថែទាំ
       case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
       case_note_type: ប្រភេទកំណត់ត្រាករណី
       case_type: ប្រភេទករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      client_contact_phone: លេខទំនាក់ទំនងរបស់អតិថិជន
+      client_address_type: ប្រភេទអាសយដ្ឋានរបស់អតិថិជន
+      client_email_address: អ៊ីមែលរបស់អតិថិជន
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
@@ -401,6 +404,7 @@ km:
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      phone_owner: Phone Owner
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       plot: Plot
       postal_code: Postal Code
@@ -420,9 +424,10 @@ km:
       referred_to_ec: បញ្ជួនទៅករណី EC
       referred_to_fc: បញ្ជួនទៅករណី FC
       referred_to_kc: បញ្ជួនទៅករណី KC
-      referee_name: Referee Name
-      referee_phone: Referee Phone Number
-      referee_email: Referee Email Address
+      referee_relationship: ទំនាក់ទំនងរវាងអ្នកបញ្ជូននឹងអតិថិជន
+      referee_name: ឈ្មោះអ្នកបញ្ជូន
+      referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referee_email: អ៊ីមែលអ្នកបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       road: Road
@@ -2408,6 +2413,26 @@ km:
       male: ប្រុស
       other_gender: ផ្សេងៗ
       unknown: អត់ទាន់ដឹង
+    referee_relationship:
+      self: ខ្លួនឯង
+      family_member: សមាជិក​គ្រួសារ
+      friend: មិត្តភក្តិ
+      helping_professional: ជួយវិជ្ជាជីវៈ
+      government_local: រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន
+      other: ផ្សេងៗ
+    client_address_types:
+      home: ផ្ទះ
+      business: មុខជំនួញ
+      rci: RCI
+      dormitory: អន្តេវាសិកដ្ឋាន
+      other: ផ្សេងៗ
+    phone_owner:
+      self: ខ្លួនឯង
+      family_member: សមាជិក​គ្រួសារ
+      friend: មិត្តភក្តិ
+      helping_professional: ជួយវិជ្ជាជីវៈ
+      government_local: រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន
+      other: ផ្សេងៗ
     given_name: នាមខ្លួនជាអក្សរឡាតាំង
     has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា

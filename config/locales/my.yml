@@ -342,6 +342,9 @@ my:
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
       case_worker: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
+      client_contact_phone: Client Contact Phone
+      client_address_type: Client Address Type
+      client_email_address: Client Email Address
       code: Custom ID Number1
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
@@ -399,6 +402,7 @@ my:
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      phone_owner: Phone Owner
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       plot: Plot
       postal_code: Postal Code
@@ -418,6 +422,7 @@ my:
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
+      referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
       referee_phone: Referee Phone Number
       referee_email: Referee Email Address
@@ -2398,6 +2403,26 @@ my:
       male: Male
       other_gender: Other
       unknown: Unknown
+    referee_relationship:
+      self: Self
+      family_member: Family Member
+      friend: Friend
+      helping_professional: Helping Professional
+      government_local: Government / Local Authority
+      other: Other
+    client_address_types:
+      home: Home
+      business: Business
+      rci: RCI
+      dormitory: Dormitory
+      other: Other
+    phone_owner:
+      self: Self
+      family_member: Family Member
+      friend: Friend
+      helping_professional: Helping Professional
+      government_local: Government / Local Authority
+      other: Other
     given_name: ေမြးနာမည္
     has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈ ခံယူဖူး
     has_been_in_orphanage: မိဘမဲ့ ျဖစ္ဖူး

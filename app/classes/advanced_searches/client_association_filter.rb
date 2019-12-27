@@ -79,6 +79,16 @@ module AdvancedSearches
         values = carer_phone_query
       when 'carer_email'
         values = carer_email_query
+      when 'client_contact_phone'
+        values = client_contact_phone_query
+      when 'client_address_type'
+        values = client_address_type_query
+      when 'client_email_address'
+        values = client_email_address_query
+      when 'phone_owner'
+        values = phone_owner_query
+      when 'referee_relationship'
+        values = referee_relationship_query
       end
       { id: sql_string, values: values }
     end
@@ -874,6 +884,101 @@ module AdvancedSearches
         client_ids = @clients.joins(:carer).where("carers.email = ?", "").ids
       when 'is_not_empty'
         client_ids = @clients.joins(:carer).where.not("carers.email = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def client_contact_phone_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.where("client_phone = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.where.not("client_phone = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.where("client_phone iLIKE ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.where("client_phone NOT iLIKE ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.where("client_phone = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.where.not("client_phone = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def client_address_type_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.where("address_type = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.where.not("address_type = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.where("address_type iLIKE ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.where("address_type NOT iLIKE ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.where("address_type = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.where.not("address_type = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def client_email_address_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.where("client_email = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.where.not("client_email = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.where("client_email iLIKE ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.where("client_email NOT iLIKE ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.where("client_email = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.where.not("client_email = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def phone_owner_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.where("phone_owner = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.where.not("phone_owner = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.where("phone_owner iLIKE ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.where("phone_owner NOT iLIKE ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.where("phone_owner = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.where.not("phone_owner = ?", "").ids
+      end
+
+      clients = client_ids.present? ? client_ids : []
+    end
+
+    def referee_relationship_query
+      case @operator
+      when 'equal'
+        client_ids = @clients.where("referee_relationship = ?", @value.downcase).ids
+      when 'not_equal'
+        client_ids = @clients.where.not("referee_relationship = ?", @value.downcase).ids
+      when 'contains'
+        client_ids = @clients.where("referee_relationship iLIKE ?", "%#{@value.downcase}%").ids
+      when 'not_contains'
+        client_ids = @clients.where("referee_relationship NOT iLIKE ?", "%#{@value.downcase}%").ids
+      when 'is_empty'
+        client_ids = @clients.where("referee_relationship = ?", "").ids
+      when 'is_not_empty'
+        client_ids = @clients.where.not("referee_relationship = ?", "").ids
       end
 
       clients = client_ids.present? ? client_ids : []
