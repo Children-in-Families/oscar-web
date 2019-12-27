@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import Calendar from 'react-calendar'
+import React from 'react'
+import DatePicker from 'react-date-picker'
+import './datepicker.scss'
 
 export default props => {
   const formatStringToDate = value => {
@@ -14,20 +15,20 @@ export default props => {
   }
 
   const { isError, onChange, value, getCurrentDate, T } = props
-  const [showDatePicker, setshowDatePicker] = useState(false)
-  const [selectedDate, setselectedDate] = useState(formatStringToDate(value) || new Date())
 
   const formatDateToString = value => {
-    const formatedDate = value.getDate()
-    const formatedMonth = value.getMonth() + 1
-    const formatedYear = value.getFullYear()
+    if(value) {
+      const formatedDate = value.getDate()
+      const formatedMonth = value.getMonth() + 1
+      const formatedYear = value.getFullYear()
 
-    return formatedYear + '-' + formatedMonth + '-' + formatedDate
+      return formatedYear + '-' + formatedMonth + '-' + formatedDate
+    } else
+      return null
   }
 
   const onChangeDate = date => {
     onChange({data: formatDateToString(date), type: 'date'})
-    setshowDatePicker(false)
   }
 
   return (
@@ -37,30 +38,19 @@ export default props => {
         {props.label}
       </label>
 
-      <input
-        className='form-control'
-        onFocus={() => setshowDatePicker(true)}
-        value={value}
-        style={
-          Object.assign({},
-            isError && styles.errorInput || {},
-            styles.box
-          )
-        }
+      <DatePicker
+        className={isError && "error" || ""}
+        onChange={onChangeDate}
+        value={formatStringToDate(value)}
+        minDate={new Date(1899, 12, 1)}
+        maxDate={getCurrentDate && new Date() || null}
       />
-      <div style={styles.calendar}>
-        {showDatePicker && <Calendar onChange={onChangeDate} value={selectedDate} onFocus={() => setshowDatePicker(true)} minDate={new Date(1899, 12, 1)} maxDate={getCurrentDate && new Date() || null} /> }
-      </div>
       {isError && <span style={styles.errorText}>{T.translate("validation.cannot_blank")}</span>}
     </div>
   )
 }
 
 const styles = {
-  calendar: {
-    position: 'absolute',
-    zIndex: 1031
-  },
   errorText: {
     color: 'red'
   },
