@@ -91,7 +91,7 @@ namespace :client_status do
         end
       end
 
-      Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL) = 2").distinct.each do |client|
+      Client.joins(:enter_ngos).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL) = 2").distinct.each do |client|
         if client.enter_ngos.count > client.exit_ngos.count
           if client.enter_ngos.count == 2 && client.exit_ngos.count == 0
             client.enter_ngos.first.destroy
