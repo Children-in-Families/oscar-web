@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { value, options, isMulti, isError, label, required, onChange, asGroup,  ...others } = props
+  const { value, options, isMulti, isError, label, required, onChange, asGroup, T,  ...others } = props
 
   const getSeletedObject = () => {
     if(options) {
@@ -81,7 +81,7 @@ export default props => {
           },
         })}
       />
-      { isError && <span style={customError.errorText}>Cannot be blank.</span> }
+      {isError && <span style={customError.errorText}>{T.translate("validation.cannot_blank")}</span> }
     </div>
   )
 }

@@ -7,9 +7,14 @@ import {
 import Address      from './address'
 
 export default props => {
-  const { onChange, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes} } = props
+  const { onChange, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
 
-  const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
+  const genderLists = [
+    { label: T.translate("refereeInfo.female"), value: 'female' },
+    { label: T.translate("refereeInfo.male"), value: 'male' },
+    { label: T.translate("refereeInfo.other"), value: 'other' },
+    { label: T.translate("refereeInfo.unknown"), value: 'unknown'}
+  ]
 
   const referralSourceCategoryLists = referralSourceCategory.map(category => ({label: category[0], value: category[1]}))
   const referralSourceLists = referralSource.filter(source => source.ancestry !== null && source.ancestry == client.referral_source_category_id).map(source => ({label: source.name, value: source.id}))
@@ -19,7 +24,7 @@ export default props => {
       const fields = {
         anonymous: true,
         outside: false,
-        name: 'Anonymous',
+        name: T.translate("refereeInfo.anonymous"),
         phone: '',
         email: '',
         gender: '',
@@ -45,47 +50,49 @@ export default props => {
     <div className="containerClass">
       <legend>
         <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Referee Information</p>
+          <div className="col-xs-12 col-md-6 col-lg-4">
+            <p>{T.translate("refereeInfo.referee_info")}</p>
           </div>
         </div>
       </legend>
 
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-md-3">
-          <Checkbox label="Anonymous Referee" checked={referee.anonymous || false} onChange={onChange('referee', 'anonymous')} />
+          <Checkbox label={T.translate("refereeInfo.anonymous_referee")} checked={referee.anonymous || false} onChange={onChange('referee', 'anonymous')} />
         </div>
       </div>
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             required
             disabled={referee.anonymous}
             // isError={errorFields.includes('referee_name')}
             isError={errorFields.includes('name')}
             value={referee.name}
-            label="Name"
+            label={T.translate("refereeInfo.name")}
             // onChange={onChange('referee', 'referee_name')}
             onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Gender" isDisabled={referee.anonymous} options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} />
+          <SelectInput label={T.translate("refereeInfo.gender")} isDisabled={referee.anonymous} options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Referee Phone Number" type="number" disabled={referee.anonymous} onChange={onChange('referee', 'phone')} value={referee.phone} />
+          <TextInput label={T.translate("refereeInfo.referee_phone")} type="number" disabled={referee.anonymous} onChange={onChange('referee', 'phone')} value={referee.phone} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Referee Email Address" disabled={referee.anonymous} onChange={onChange('referee', 'email')} value={referee.email} />
+          <TextInput label={T.translate("refereeInfo.referee_email")} disabled={referee.anonymous} onChange={onChange('referee', 'email')} value={referee.email} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             required
             isError={errorFields.includes('referral_source_category_id')}
-            label="Referral Source Catgeory"
+            label={T.translate("refereeInfo.referral_source_cat")}
             options={referralSourceCategoryLists}
             value={client.referral_source_category_id}
             onChange={onReferralSourceCategoryChange}
@@ -94,7 +101,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             options={referralSourceLists}
-            label="Referral Source"
+            label={T.translate("refereeInfo.referral_source")}
             onChange={onChange('client', 'referral_source_id')}
             value={client.referral_source_id}
           />
@@ -104,18 +111,18 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Address</p>
+            <p>{T.translate("refereeInfo.address")}</p>
           </div>
           {
             !referee.anonymous &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Outside Cambodia" checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
+              <Checkbox label={T.translate("refereeInfo.outside_cam")} checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
             </div>
           }
         </div>
       </legend>
 
-      <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee}} />
+      <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
     </div>
   )
 }

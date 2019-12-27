@@ -9,7 +9,7 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
 registerPlugin(FilePondPluginImagePreview)
 
 export default props => {
-  const { label, required, onChange, object, onChangeCheckbox, checkBoxValue } = props
+  const { label, required, onChange, object, onChangeCheckbox, checkBoxValue, T } = props
   const url = object.thumb && object.thumb.url
 
   return (
@@ -24,7 +24,7 @@ export default props => {
           <img src={url} />
 
           <Checkbox
-            label="Remove"
+            label={T.translate("referralInfo.remove")}
             checked={checkBoxValue}
             onChange={onChangeCheckbox}
           />

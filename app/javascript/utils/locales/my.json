@@ -1,0 +1,195 @@
+{
+  "address": {
+    "outside_address": "Out Side Address",
+    "provicne": "Province",
+    "district": "District / Khan",
+    "commune": "Commune / Sangkat",
+    "village": "Village",
+    "street_number": "Street Number",
+    "house_number": "House Number",
+    "address_name": "Address Name",
+    "address_type": "Address Type"
+  },
+  "admin": {
+    "admin_information": "Administrative Information",
+    "receiving_staff": "Receiving Staff Members",
+    "date_referral": "Date of Referral",
+    "case_worker": "Case Worker / Assigned Staff Manager",
+    "first_follow_by": "First Follow Up by",
+    "first_follow_date": "Date of First Follow Up"
+  },
+  "carerInfo": {
+    "name": "Name",
+    "gender": "Gender",
+    "carer_phone": "Carer Phone Number",
+    "carer_email": "Carer Email Address",
+    "client_relationship": "Relationship to Client",
+    "family_record": "Family Record",
+    "address": "Address",
+    "same_as_client": "Same as Client",
+    "outside_cambodia": "Outside Cambodia",
+    "sam_as_client": "Same as Client"
+  },
+  "createFamilyModal": {
+    "wait_for_server_req": "Please wait while we are making a request to server.",
+    "create_family_record": "Would you like to create a family record for this client, or attach them to an existing family?",
+    "create_family": "Create a new family with client",
+    "attach_family_to_client": "Attach with existing family record",
+    "no": "No",
+    "save": "Save"
+  },
+  "customInfo": {
+    "custom_id_1": "Custom ID Number 1",
+    "custom_id_2": "Custom ID Number 2",
+    "rate_client_id": "Is client rated for ID Poor?",
+    "has_already_taken": "has already been taken"
+  },
+  "donorInfo": {
+    "other_agencies": "Other Agencies Involved",
+    "donor": "Donor"
+  },
+  "index": {
+    "referee_info": "Referee Information",
+    "referral_info": "Client / Referral Information",
+    "referral_more_info": "Client / Referral - More Information",
+    "referral_vulnerability": "Client / Referral - Vulnerability Information and Referral Note",
+    "wait": "Please wait while we are making a request to server.",
+    "cancel": "Cancel",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "save",
+    "similar_record": "The client record you are saving has similarities to other records in OSCaR in the following fields:",
+    "checking_message": "Please check with the client whether they have ever worked with another organisation that may have put their details into OSCaR.",
+    "duplicate_message": "Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.",
+    "continue": "Continue",
+    "client_confirm": "Client Confirmation",
+    "warning": "Warning"
+  },
+  "refereeInfo": {
+    "anonymous": "Anonymous",
+    "referee_info": "Referee Information",
+    "anonymous_referee": "Anonymous Referee",
+    "name": "Name",
+    "gender": "Gender",
+    "referee_phone": "Referee Phone Number",
+    "referee_email": "Referee Email Address",
+    "referral_source_cat": "Referral Source Catgeory",
+    "referral_source": "Referral Source",
+    "address": "Address",
+    "outside_cam": "Outside Cambodia",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "unknown": "Unknown"
+  },
+  "referralInfo": {
+    "referral_info": "Client / Referral Information",
+    "given_name": "Given Name (Latin)",
+    "family_name": "Family Name (Latin)",
+    "local_given_name": "Given Name(Khmer)",
+    "local_family_name": "Family Name (Khmer)",
+    "gender": "Gender",
+    "date_of_birth": "Date of Birth",
+    "birth_province": "Birth Province",
+    "client_relationship": "What is the Referee's relationship to this client?",
+    "contact_info": "Contact Information",
+    "client_is_outside": "Client is outside Cambodia",
+    "what_3_word": "What3Words",
+    "client_phone": "Client Contact Phone",
+    "phone_owner": "Phone Owner",
+    "client_email": "Client Email Address",
+    "profile": "Profile",
+    "remove": "Remove"
+  },
+  "referralMoreInfo": {
+    "referral_more_info": "Client / Referral - More Information",
+    "do_you_want": "Do you want to add",
+    "carer_info": "Carer Information?",
+    "school_info": "School Information?",
+    "donor_info": "Donor Information?",
+    "other_info": "Other Information"
+  },
+  "referralVulnerability": {
+    "referral_vulnerability": "Client / Referral - Vulnerability Information and Referral Note",
+    "enter_a_breif": "Enter a brief note on the client's referral"
+  },
+  "schoolInfo": {
+    "school_name": "School Name",
+    "school_grade": "School Grade",
+    "main_school_contact": "Main School Contact"
+  },
+  "validation": {
+    "cannot_blank": "Cannot be blank."
+  },
+  "addressType": {
+    "Home": "Home",
+    "Business": "Business",
+    "RCI": "RCI",
+    "Dormitory": "Dormitory",
+    "Other": "Other"
+  },
+  "phoneOwner": {
+    "Self": "Self",
+    "Family Member": "Family Member",
+    "Friend": "Friend",
+    "Helping Professional": "Helping Professional",
+    "Government / Local Authority": "Government / Local Authority",
+    "Other": "Other"
+  },
+  "refereeRelationShip": {
+    "Self": "Self",
+    "Family Member": "Family Member",
+    "Friend": "Friend",
+    "Helping Professional": "Helping Professional",
+    "Government / Local Authority": "Government / Local Authority",
+    "Other": "Other"
+  },
+  "clientRelationShip": {
+    "Parent": "Parent",
+    "Grandparent": "Grandparent",
+    "Aunt / Uncle": "Aunt / Uncle",
+    "Sibling": "Sibling",
+    "Cousin": "Cousin",
+    "Family Friend": "Family Friend",
+    "Foster Carer": "Foster Carer",
+    "Temporary Carer": "Temporary Carer",
+    "RCI Carer": "RCI Carer",
+    "Adopted Parent": "Adopted Parent",
+    "Other": "Other"
+  },
+  "schoolGrade": {
+    "Kindergarten 1": "Kindergarten 1",
+    "Kindergarten 2": "Kindergarten 2",
+    "Kindergarten 3": "Kindergarten 3",
+    "Kindergarten 4": "Kindergarten 4",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "10": "10",
+    "11": "11",
+    "12": "12",
+    "Year 1": "Year 1",
+    "Year 2": "Year 2",
+    "Year 3": "Year 3",
+    "Year 4": "Year 4",
+    "Year 5": "Year 5",
+    "Year 6": "Year 6",
+    "Year 7": "Year 7",
+    "Year 8": "Year 8"
+  },
+  "agency": {
+    "Church": "Church",
+    "Gov't": "Gov't",
+    "Hospital / Clinic / Doctor": "Hospital / Clinic / Doctor",
+    "Local": "Local",
+    "Mother's heart": "Mother's heart",
+    "Other NGO": "Other NGO",
+    "Police": "Police"
+  }
+}

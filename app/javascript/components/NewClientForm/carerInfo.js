@@ -7,8 +7,9 @@ import {
 import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes } } = props
+  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
 
+  const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
   const [communes, setCommunes]           = useState(carerCommunes)
   const [villages, setVillages]           = useState(carerVillages)
@@ -84,7 +85,12 @@ export default props => {
   //   onChange('carer', { ...fields })({type: 'select'})
   // }, [carer.same_as_client, client])
 
-  const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
+  const genderLists = [
+    { label: T.translate("refereeInfo.female"), value: 'female' },
+    { label: T.translate("refereeInfo.male"), value: 'male' },
+    { label: T.translate("refereeInfo.other"), value: 'other' },
+    { label: T.translate("refereeInfo.unknown"), value: 'unknown' }
+  ]
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 
   const onChangeFamily = ({ data, action, type }) => {
@@ -103,47 +109,47 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* will change to carer object */}
-          <TextInput label="Name" onChange={onChange('carer', 'name')} value={carer.name} />
+          <TextInput label={T.translate("carerInfo.name")} onChange={onChange('carer', 'name')} value={carer.name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Gender" options={genderLists} onChange={onChange('carer', 'gender')} value={carer.gender}  />
+          <SelectInput label={T.translate("carerInfo.gender")} options={genderLists} onChange={onChange('carer', 'gender')} value={carer.gender}  />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* will change to carer object */}
-          <TextInput label="Carer Phone Number" type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
+          <TextInput label={T.translate("carerInfo.carer_phone")} type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Carer Email Address" onChange={onChange('carer', 'email')} value={carer.email} />
+          <TextInput label={T.translate("carerInfo.carer_email")} onChange={onChange('carer', 'email')} value={carer.email} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Relationship to Client" options={clientRelationships} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
+          <SelectInput label={T.translate("carerInfo.client_relationship")} options={clientRelationship} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Family Record" options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
+          <SelectInput label={T.translate("carerInfo.family_record")} options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
         </div>
       </div>
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Address</p>
+            <p>{T.translate("carerInfo.address")}</p>
           </div>
           {
             !carer.outside &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Same as Client" checked={carer.same_as_client} onChange={onCheckSameAsClient} />
+              <Checkbox label={T.translate("carerInfo.same_as_client")} checked={carer.same_as_client} onChange={onCheckSameAsClient} />
             </div>
           }
           {
             !carer.same_as_client &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Outside Cambodia" checked={carer.outside} onChange={onChange('carer', 'outside')} />
+              <Checkbox label={T.translate("carerInfo.outside_cambodia")} checked={carer.outside} onChange={onChange('carer', 'outside')} />
             </div>
           }
         </div>
       </legend>
-      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
+      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer, T}} />
     </div>
   )
 }

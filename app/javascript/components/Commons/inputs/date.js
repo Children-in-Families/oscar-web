@@ -14,7 +14,7 @@ export default props => {
     }
   }
 
-  const { isError, onChange, value, getCurrentDate } = props
+  const { isError, onChange, value, getCurrentDate, T } = props
 
   const formatDateToString = value => {
     if(value) {
@@ -45,7 +45,7 @@ export default props => {
         minDate={new Date(1899, 12, 1)}
         maxDate={getCurrentDate && new Date() || null}
       />
-      {isError && <span style={styles.errorText}>Cannot be blank.</span>}
+      {isError && <span style={styles.errorText}>{T.translate("validation.cannot_blank")}</span>}
     </div>
   )
 }

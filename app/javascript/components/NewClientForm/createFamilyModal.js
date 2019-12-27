@@ -3,7 +3,7 @@ import { SelectInput } from '../Commons/inputs'
 import { RadioButton } from 'primereact/radiobutton'
 
 export default props => {
-  const { onChange, onSave, data: { families, clientData } } = props
+  const { onChange, onSave, data: { families, clientData, T } } = props
 
   const [showSave, setShowSave]     = useState(false)
   const [showSelect, setShowSelect] = useState(false)
@@ -55,7 +55,7 @@ export default props => {
 
   return (
     <>
-      <p>Would you like to create a family record for this client, or attach them to an existing family?</p>
+      <p>{T.translate("createFamilyModal.create_family_record")}</p>
       <br/>
 
       <div className="row">
@@ -69,7 +69,7 @@ export default props => {
           />
         </div>
         <div className="col-xs-6">
-          <p>Create a new family with client</p>
+          <p>{T.translate("createFamilyModal.create_family")}</p>
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export default props => {
           />
         </div>
         <div className="col-xs-6">
-          <p>Attach with existing family record</p>
+          <p>{T.translate("createFamilyModal.attach_family_to_client")}</p>
           { showSelect && <SelectInput options={familyLists} value={clientData.family_ids.length > 0 && clientData.family_ids[0] || null} onChange={onChangeFamily} /> }
         </div>
       </div>
@@ -100,13 +100,13 @@ export default props => {
           />
         </div>
         <div className="col-xs-6">
-          <p>No</p>
+          <p>{T.translate("createFamilyModal.no")}</p>
         </div>
       </div>
 
       <hr />
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>Save</span>
+        <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>{T.translate("createFamilyModal.save")}</span>
       </div>
     </>
   )
