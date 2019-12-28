@@ -172,7 +172,12 @@ class Dashboard
   private
 
   def program_stream_report_by(client_ids, gender)
-    program_streams = @program_streams.where(client_enrollments: {client_id: client_ids}).select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.id)) FROM client_enrollments WHERE (client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active') AND client_enrollments.client_id IN (#{client_ids.join(', ')})) AS client_enrollment_count")
+    if client_ids.present?
+      program_streams = @program_streams.where(client_enrollments: {client_id: client_ids}).select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.id)) FROM client_enrollments WHERE (client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active') AND client_enrollments.client_id IN (#{client_ids.join(', ')})) AS client_enrollment_count")
+    else
+      program_streams = @program_streams.where(client_enrollments: {client_id: client_ids}).select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.id)) FROM client_enrollments WHERE (client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active')) AS client_enrollment_count")
+    end
+
     program_streams.map do |p|
       url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id },
         { 'id': 'gender', 'field': 'gender', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': gender.downcase } ]}
