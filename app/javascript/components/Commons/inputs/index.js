@@ -13,5 +13,5 @@ export const TextInput = text
 export const UploadInput = upload
 export const CheckBoxUpload = checkboxUpload
 export const Checkbox = checkbox
-export const RadioButton = radioButton
+export const RadioGroup = radioButton
 export const TextArea = textarea

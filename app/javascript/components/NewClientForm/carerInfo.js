@@ -108,7 +108,6 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          {/* will change to carer object */}
           <TextInput label={T.translate("carerInfo.name")} onChange={onChange('carer', 'name')} value={carer.name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -117,7 +116,6 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          {/* will change to carer object */}
           <TextInput label={T.translate("carerInfo.carer_phone")} type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">

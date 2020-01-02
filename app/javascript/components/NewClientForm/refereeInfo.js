@@ -68,11 +68,9 @@ export default props => {
             T={T}
             required
             disabled={referee.anonymous}
-            // isError={errorFields.includes('referee_name')}
             isError={errorFields.includes('name')}
             value={referee.name}
             label={T.translate("refereeInfo.name")}
-            // onChange={onChange('referee', 'referee_name')}
             onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
           />
         </div>
