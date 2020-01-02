@@ -536,11 +536,11 @@ module ClientsHelper
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results      = mapping_form_builder_param_value(basic_rules, 'tracking')
+    results      = mapping_form_builder_param_value(basic_rules, form_type)
 
     return object if results.flatten.blank?
 
-    query_string  = get_query_string(results, 'tracking', properties_field)
+    query_string  = get_query_string(results, form_type, properties_field)
     properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
   end
 
