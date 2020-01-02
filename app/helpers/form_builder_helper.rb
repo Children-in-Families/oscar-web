@@ -105,42 +105,42 @@ module FormBuilderHelper
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
-        "lower(properties ->> '#{field}') = '#{value.downcase}'"
+        "(lower(properties ->> '#{field}') = '#{value.downcase}')"
       else
-        "properties -> '#{field}' ? '#{value}'"
+        "(properties -> '#{field}' ? '#{value}')"
       end
     when 'not_equal'
       if input_type == 'text' && field.exclude?('&')
-        "lower(properties ->> '#{field}') != '#{value.downcase}'"
+        "(lower(properties ->> '#{field}') != '#{value.downcase}')"
       else
-        "NOT(properties -> '#{field}' ? '#{value}')"
+        "(NOT(properties -> '#{field}' ? '#{value}'))"
       end
     when 'less'
-      "(properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != '')"
     when 'less_or_equal'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != '')"
     when 'greater'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != '')"
     when 'greater_or_equal'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != '')"
     when 'contains'
-      "properties ->> '#{field}' ILIKE '%#{value.squish}%'"
+      "(properties ->> '#{field}' ILIKE '%#{value.squish}%')"
     when 'not_contains'
-      "properties ->> '#{field}' NOT ILIKE '%#{value.squish}%'"
+      "(properties ->> '#{field}' NOT ILIKE '%#{value.squish}%')"
     when 'is_empty'
       if type == 'checkbox'
-        "properties -> '#{field}' ? ''"
+        "(properties -> '#{field}' ? '')"
       else
-        "properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL"
+        "(properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL)"
       end
     when 'is_not_empty'
       if type == 'checkbox'
-        "NOT(properties -> '#{field}' ? '')"
+        "(NOT(properties -> '#{field}' ? ''))"
       else
-        "NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL"
+        "(NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL)"
       end
     when 'between'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != '')"
     end
   end
 
