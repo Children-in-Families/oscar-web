@@ -24,7 +24,7 @@ module AdvancedSearches
       results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
 
       query_string  = get_query_string(results, 'formbuilder', properties_field)
-      sql           = query_string.reverse.map{|sql| "(#{sql})" }.reject(&:blank?).join(" AND ")
+      sql           = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
       properties_result = custom_field_properties.where(sql)
 
       client_ids = properties_result.pluck(:custom_formable_id).uniq
