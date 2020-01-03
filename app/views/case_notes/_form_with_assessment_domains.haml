@@ -24,7 +24,7 @@
           - tasks = @case_note.client.tasks.where(domain_id: domain.id)
           - if domain_note.object.persisted?
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
-          -# next if assessment_domain.nil?
+          - next if assessment_domain.nil?
           .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks, assessment_domain.goal?)}" }
             .panel-heading
               %strong
@@ -33,6 +33,3 @@
                 = assessment_domain.goal
 
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
-
-      .col-xs-12
-        = render 'attachment_fields', { domain_note: domain_note }

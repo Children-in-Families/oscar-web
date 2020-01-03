@@ -85,6 +85,17 @@
                                 = ad.score
                     .ibox-content
                       .row
+                        - if list_goals.present?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('.goal')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - list_goals.flatten.each_with_index do |goal, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = goal
                         - if cdg.completed_tasks.any?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
@@ -122,18 +133,6 @@
                                     %li.list-group-item
                                       = "#{index + 1}. "
                                       = task.name
-
-                        - if list_goals.present?
-                          .col-xs-12.col-sm-6
-                            .panel.panel-default
-                              .panel-heading
-                                %h4= t('.goal')
-                              .panel-body.no-padding
-                                %ul.list-group
-                                  - list_goals.flatten.each_with_index do |goal, index|
-                                    %li.list-group-item
-                                      = "#{index + 1}. "
-                                      = goal
 
 
               .row

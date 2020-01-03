@@ -47,6 +47,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _checkCasenoteSelectedValue = (selectedObject)->
     if $(selectedObject).children(":selected").length > 0
+      $(".ibox.case-note-domain-group.without-assessments#domain-#{$(selectedObject).children(":selected").val()}").show()
       $('.case-note-task-btn').removeAttr('disabled')
       $('#add-task-message').hide()
       $('.case-note-task-btn').attr('data-target', "#tasksFromModal");
@@ -153,7 +154,10 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       $(".task-domain-#{domainId}").removeClass('hidden')
 
     $("#tasks-domain-#{domainId} .task-arising").removeClass('hidden')
+
     $("#tasks-domain-#{domainId} .task-arising ol").append(element)
+    $(".panel-tasks-domain-#{domainId}").removeClass('hidden')
+
     _clearForm()
 
     $('a.remove-task').on 'click', (e) ->

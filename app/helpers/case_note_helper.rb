@@ -86,8 +86,17 @@ module CaseNoteHelper
   end
 
   def selected_domain_group_ids(case_note)
-    domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
-    domain_group_ids = domain_group_ids.presence ? domain_group_ids : case_note.selected_domain_group_ids
+    domain_group_ids = []
+    unless case_note.persisted?
+      domain_group_ids = case_note.case_note_domain_groups.map do |case_note_domain_group|
+        case_note_domain_group.domains(case_note).pluck(:domain_group_id)
+      end
+    else
+      domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+      domain_group_ids = domain_group_ids.presence ? domain_group_ids : case_note.selected_domain_group_ids
+    end
+
+    domain_group_ids.presence ? domain_group_ids.flatten.uniq : domain_group_ids
   end
 
   def list_goals_and_tasks(cdg, case_note)
@@ -112,7 +121,13 @@ module CaseNoteHelper
   end
 
   def case_note_the_latest_tasks(tasks)
-    tasks.reject{ |task| !task.created_at.today? }
+    tasks.reject{ |task| !task.created_at.today? || task.completed }
+  end
+
+  def case_note_domain_without_assessment(domain_note, case_note)
+    persisted_case_note = domain_note.object.domains(case_note).any?{|domain| case_note.client.tasks.where(domain_id: domain.id).by_case_note_domain_group(domain_note.object).present? } && case_note.persisted?
+    domain_note_by_case_note = domain_note.object.domains(case_note)
+    [persisted_case_note, domain_note_by_case_note]
   end
 
   def case_notes_deleted?

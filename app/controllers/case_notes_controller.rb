@@ -1,6 +1,7 @@
 class CaseNotesController < AdminController
   load_and_authorize_resource
   include CreateBulkTask
+  include CaseNoteConcern
 
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update]
@@ -41,6 +42,12 @@ class CaseNotesController < AdminController
         redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
       end
     else
+      if params[:custom] == 'true'
+        @case_note.assessment = @client.assessments.custom_latest_record
+      else
+        @case_note.assessment = @client.assessments.default_latest_record
+      end
+      @case_note_domain_group_note = params.dig(:additional_fields, :note)
       render :new
     end
   end
@@ -91,31 +98,6 @@ class CaseNotesController < AdminController
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params)
     default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
-  end
-
-  def assign_params_to_case_note_domain_groups_params(default_params)
-    note = params.dig(:additional_fields, :note)
-    attachments = params.dig(:case_note, :attachments)
-    domain_group_ids = params.dig(:case_note, :domain_group_ids).reject(&:blank?)
-    case_note_domain_groups = default_params[:case_note_domain_groups_attributes]
-
-    selected_case_note_domain_groups = case_note_domain_groups.select{|key, value| domain_group_ids.include? value["domain_group_id"]}
-    selected_case_note_domain_groups.values.each do |value|
-      value['note'] = note
-      value['attachments'] = attachments if params[:action] == 'create'
-    end
-
-    non_selected_case_note_domain_groups = case_note_domain_groups.select{|key, value| domain_group_ids.exclude? value["domain_group_id"]}
-    non_selected_case_note_domain_groups.values.each do |value|
-      value['note'] = ''
-      next if params[:action] == 'create'
-      cndg_id = value['id'].to_i
-      cndg_attachments = CaseNoteDomainGroup.find(cndg_id).attachments
-      cndg_attachments.each_with_index do |attachment, index|
-        remove_attachment_at_index(index, cndg_id)
-      end
-    end
-    default_params
   end
 
   def add_more_attachments(new_file, case_note_domain_group_id)
