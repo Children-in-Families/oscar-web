@@ -12,7 +12,7 @@ class ClientColumnsVisibility
       other_info_of_exit_: :other_info_of_exit,
       exit_note_: :exit_note,
       what3words_: :what3words,
-      name_of_referee_: :name_of_referee,
+      # name_of_referee_: :name_of_referee,
       rated_for_id_poor_: :rated_for_id_poor,
       main_school_contact_: :main_school_contact,
       program_streams_: :program_streams,
@@ -27,7 +27,7 @@ class ClientColumnsVisibility
       status_: :status,
       birth_province_id_: :birth_province,
       initial_referral_date_: :initial_referral_date,
-      referral_phone_: :referral_phone,
+      # referral_phone_: :referral_phone,
       received_by_id_: :received_by,
       referral_source_id_: :referral_source,
       followed_up_by_id_: :followed_up_by,
@@ -90,7 +90,19 @@ class ClientColumnsVisibility
       time_in_ngo_: :time_in_ngo,
       time_in_cps_: :time_in_cps,
       referral_source_category_id_: :referral_source_category,
-      type_of_service_: :type_of_service
+      type_of_service_: :type_of_service,
+      referee_name_: :referee_name,
+      referee_phone_: :referee_phone,
+      referee_email_: :referee_email,
+      carer_name_: :carer_name,
+      carer_phone_: :carer_phone,
+      carer_email_: :carer_email,
+      phone_owner_: :phone_owner,
+      referee_relationship_to_client_: :referee_relationship_to_client,
+      client_contact_phone_: :client_contact_phone,
+      client_address_type_: :client_address_type,
+      client_email_: :client_email,
+      phone_owner_: :phone_owner
     }
   end
 

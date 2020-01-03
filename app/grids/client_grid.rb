@@ -115,7 +115,7 @@ class ClientGrid < BaseGrid
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
-  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
+  # filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
@@ -580,6 +580,50 @@ class ClientGrid < BaseGrid
     render partial: 'clients/type_of_services', locals: { type_of_services: services }
   end
 
+  column(:referee_name, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|
+    object.referee.name
+  end
+
+  column(:referee_phone, header: -> { I18n.t('datagrid.columns.clients.referee_phone') }) do |object|
+    object.referee.phone
+  end
+
+  column(:referee_email, header: -> { I18n.t('datagrid.columns.clients.referee_email') }) do |object|
+    object.referee.email
+  end
+
+  column(:carer_name, header: -> { I18n.t('datagrid.columns.clients.carer_name') }) do |object|
+    object.carer.name
+  end
+
+  column(:carer_phone, header: -> { I18n.t('datagrid.columns.clients.carer_phone') }) do |object|
+    object.carer.phone
+  end
+
+  column(:carer_email, header: -> { I18n.t('datagrid.columns.clients.carer_email') }) do |object|
+    object.carer.email
+  end
+
+  column(:referee_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.referee_relationship_to_client') }) do |object|
+    object.referee_relationship
+  end
+
+  column(:client_contact_phone, header: -> { I18n.t('datagrid.columns.clients.client_contact_phone') }) do |object|
+    object.client_phone
+  end
+
+  column(:client_address_type, header: -> { I18n.t('datagrid.columns.clients.client_address_type') }) do |object|
+    object.address_type
+  end
+
+  column(:client_email, header: -> { I18n.t('datagrid.columns.clients.client_email') }) do |object|
+    object.client_email
+  end
+
+  column(:phone_owner, header: -> { I18n.t('datagrid.columns.clients.phone_owner') }) do |object|
+    object.phone_owner
+  end
+
   column(:type_of_service, html: false, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
     services = map_type_of_services(object)
     services.map(&:name).join(', ') if services
@@ -851,7 +895,7 @@ class ClientGrid < BaseGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
+  # column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   # column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
   #   object.referral_source.try(:name)
@@ -905,9 +949,9 @@ class ClientGrid < BaseGrid
     object.what3words
   end
 
-  column(:name_of_referee, header: -> { I18n.t('datagrid.columns.clients.name_of_referee') }) do |object|
-    object.name_of_referee
-  end
+  # column(:name_of_referee, header: -> { I18n.t('datagrid.columns.clients.name_of_referee') }) do |object|
+  #   object.name_of_referee
+  # end
 
   column(:main_school_contact, header: -> { I18n.t('datagrid.columns.clients.main_school_contact') }) do |object|
     object.main_school_contact

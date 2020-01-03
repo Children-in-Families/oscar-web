@@ -2040,7 +2040,13 @@ km:
       cases:
         case_type: ប្រភេទករណី
         telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
+      carer_name: ឈ្មោះអ្នកថែទាំ
+      carer_email: អ៊ីមែលអ្នកថែទាំ
+      carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
       changelog: ប្រវត្តិកំណែ
+      client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
+      client_address_type: ប្រភេទអាសយដ្ឋាន
+      client_email: អ៊ីមែលរបស់អតិថិជន
       client_enrollments:
         action: សកម្មភាព
         domain: កត្តា
@@ -2064,6 +2070,9 @@ km:
         birth_province_en: ស្រុកកំណើត (ឡាតាំង)
         birth_province_kh: ស្រុកកំណើត (ខ្មែរ)
         cambodia: កម្ពុជា
+        carer_name: ឈ្មោះអ្នកថែទាំ
+        carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
+        carer_email: អ៊ីមែលអ្នកថែទាំ
         case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
         case_note_type: ប្រភេទកំណត់ត្រាករណី
         case_type: ប្រភេទករណី
@@ -2164,6 +2173,14 @@ km:
         referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
         referred_from: បញ្ជូនមកពីអង្គការ
         referred_to: បញ្ជូនទៅអង្គការដទៃ
+        referee_name: ឈ្មោះអ្នកបញ្ជូន
+        referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
+        referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
+        referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
+        client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
+        client_address_type: ប្រភេទអាសយដ្ឋាន
+        client_email: អ៊ីមែលរបស់អតិថិជន
+        phone_owner: ម្ចាស់ទូរស័ព្ទ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
@@ -2267,6 +2284,7 @@ km:
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
         type: ប្រភេទ
         view: មើល
+      phone_owner: ម្ចាស់ទូរស័ព្ទ
       program_streams:
         action: សកម្មភាព
         description: ការបរិយាយ
@@ -2299,6 +2317,10 @@ km:
       rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       reason_for_family_separation: មូលហេតុនៃការបែកចេញពីគ្រួសារ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      referee_name: ឈ្មោះអ្នកបញ្ជូន
+      referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
+      referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
       select_columns: ជ្រើសរើសជួរឈរ
       show_all: បង្ហាញទាំងអស់
       support_amount: ប្រាក់ឧបត្ថម្ភ
@@ -2359,6 +2381,8 @@ km:
       has_overdue_task: ភារកិច្ចហួសកំណត់
       no_case_note: កំណត់ត្រាករណីហួសកំណត់
       reset: សំអាត
+      referee: អ្នកបញ្ជូន
+      carer: អ្នកថែទាំ
       search: ស្វែងរក
       type_of_service: ប្រភេទសេវាកម្ម
     from: ចាប់ពី

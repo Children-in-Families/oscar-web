@@ -250,6 +250,7 @@ const Forms = props => {
       else {
         setOnSave(true)
         const action = clientData.id ? 'PUT' : 'POST'
+        const message = clientData.id ? T.translate("index.successfully_updated") : T.translate("index.successfully_created")
         const url = clientData.id ? `/api/clients/${clientData.id}` : '/api/clients'
 
         let formData = new FormData()
@@ -268,7 +269,7 @@ const Forms = props => {
           if(callback)
             callback(response)
           else
-            document.location.href=`/clients/${response.slug}?notice=success`
+            document.location.href = `/clients/${response.slug}?notice=` + message
         }).fail(error => {
           setLoading(false)
           setOnSave(false)

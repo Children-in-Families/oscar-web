@@ -2043,7 +2043,13 @@ en:
       cases:
         case_type: Case Type
         telephone_number: Primary Carer Phone Number
+      carer_name: Care Name
+      carer_email: Care Email
+      carer_phone: Care Phone
       changelog: Changelog
+      client_contact_phone: Client Contact Phone
+      client_address_type: Client Address Type
+      client_email: Client Email
       client_enrollments:
         action: Action
         domain: Associated Domains
@@ -2067,6 +2073,9 @@ en:
         birth_province_en: Client Birth Province (English)
         birth_province_kh: Client Birth Province (Khmer)
         cambodia: Cambodia
+        carer_name: Carer Name
+        carer_phone: Carer Phone
+        carer_email: Carer Email
         case_note_date: Case Note Date
         case_note_type: Case Note Type
         case_type: Case Type
@@ -2167,6 +2176,14 @@ en:
         referral_source_category: Referral Source Category
         referred_from: Referred From
         referred_to: Referred To
+        referee_name: Referee Name
+        referee_phone: Referee Phone
+        referee_email: Referee Email
+        referee_relationship_to_client: Referee Relationship to client
+        client_contact_phone: Client Contact Phone
+        client_address_type: Client Address Type
+        client_email: Client Email
+        phone_owner: Phone Owner
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
@@ -2270,6 +2287,7 @@ en:
         start_date: Start Date
         type: Type
         view: View
+      phone_owner: Phone Owner
       program_streams:
         action: Action
         description: Description
@@ -2302,6 +2320,10 @@ en:
       rated_for_id_poor: Is The Client Rated For ID Poor
       reason_for_family_separation: Reason for Family Separation
       rejected_note: Note on referral rejection
+      referee_name: Referee Name
+      referee_phone: Referee Phone
+      referee_email: Referee Email
+      referee_relationship_to_client: Referee Relationship to client
       select_columns: Select Columns
       show_all: Show All
       support_amount: Support Amount
@@ -2362,6 +2384,8 @@ en:
       has_overdue_task: Has Overdue Task
       no_case_note: Overdue for Case Note
       reset: Reset
+      referee: Referee
+      carer: Carer
       search: Search
       type_of_service: Type of Service
     from: From

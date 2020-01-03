@@ -2054,6 +2054,9 @@ my:
         birth_province_en: client မွေးဖွားခြင်းပြည်နယ် (အင်္ဂလိပ်)
         birth_province_kh: client မွေးဖွားခြင်းပြည်နယ် (ခမာ)
         cambodia: ကေမာၻဒီးယား
+        carer_name: Carer Name
+        carer_phone: Carer Phone
+        carer_email: Carer Email
         case_note_date: အမႈ မွတ္စု ရက္စြဲ
         case_note_type: အမႈ မွတ္စု အမ်ိဳးအစား
         case_type: အမႈ အမ်ိဳးအစား
@@ -2154,6 +2157,14 @@ my:
         referral_source_category: လွှဲပြောင်းအရင်းအမြစ်ကဏ္ဍ
         referred_from: ကနေရည်ညွှန်း
         referred_to: ရည်ညွှန်း
+        referee_name: Referee Name
+        referee_phone: Referee Phone
+        referee_email: Referee Email
+        referee_relationship_to_client: Referee Relationship to client
+        client_contact_phone: Client Contact Phone
+        client_address_type: Client Address Type
+        client_email: Client Email
+        phone_owner: Phone Owner
         reject_note: ျငင္းပယ္သည့္ မွတ္စု
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
         relevant_referral_information: သက္ဆုိင္သည့္ လႊဲေျပာင္းမႈ အခ်က္အလက္
@@ -2349,6 +2360,8 @@ my:
       has_overdue_task: ရှိပြီးရက်လွန်အလုပ်တခုကို
       no_case_note: ဖြစ်ရပ်မှန်မှတ်ချက်များအတွက်ရက်လွန်
       reset: အကုန္ျပင္ဆင္သည္
+      referee: Referee
+      carer: Carer
       search: ရွာေဖြသည္
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     from: မွ

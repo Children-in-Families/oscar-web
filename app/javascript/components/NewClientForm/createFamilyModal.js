@@ -47,7 +47,7 @@ export default props => {
       if(value === 'createNewFamilyRecord')
         url = `/families/new?children=${response.id}`
       else
-        url = `/clients/${response.slug}?notice=success`
+        url = `/clients/${response.slug}?notice=` + T.translate("createFamilyModal.successfully_created")
 
       document.location.href=url
     }, true)

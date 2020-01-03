@@ -36,7 +36,8 @@
     "create_family": "Create a new family with client",
     "attach_family_to_client": "Attach with existing family record",
     "no": "No",
-    "save": "Save"
+    "save": "Save",
+    "successfully_created": "Client has been successfully created"
   },
   "customInfo": {
     "custom_id_1": "Custom ID Number 1",
@@ -63,7 +64,9 @@
     "duplicate_message": "Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.",
     "continue":"Continue",
     "client_confirm": "Client Confirmation",
-    "warning": "Warning"
+    "warning": "Warning",
+    "successfully_created": "Client has been successfully created",
+    "successfully_updated": "Client has been successfully updated"
   },
   "refereeInfo": {
     "anonymous": "Anonymous",
