@@ -53,7 +53,7 @@
                           = key.html_safe
                         %td
                           - key = convert_bracket(key)
-                          - if type == 'file' && object.properties[key].present?
+                          - if type == 'file'
                             = render 'shared/form_builder/list_attachment', label: key, resource: object
                           - else
                             = display_custom_properties(object.properties[key])
