@@ -1,12 +1,13 @@
 module AdvancedSearches
   class EntityCustomFormSqlBuilder
+    include FormBuilderHelper
+    include ClientsHelper
 
     def initialize(selected_custom_form, rule, entity_type)
       @selected_custom_form = selected_custom_form
       field          = rule['field']
       @field         = field.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
-      @value         = format_value(rule['value'])
       @type          = rule['type']
       @input_type    = rule['input']
       @entity_type   = entity_type
@@ -15,65 +16,20 @@ module AdvancedSearches
     def get_sql
       custom_formable_type = @entity_type.titleize
       sql_string = "#{@entity_type.pluralize}.id IN (?)"
+      properties_field = 'custom_field_properties.properties'
       custom_field_properties = CustomFieldProperty.where(custom_formable_type: custom_formable_type, custom_field_id: @selected_custom_form)
 
-      type_format = ['select', 'radio-group', 'checkbox-group']
-      if type_format.include?(@input_type)
-        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-      end
+      basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
 
-      case @operator
-      when 'equal'
-        if @input_type == 'text' && @field.exclude?('&')
-          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
-        else
-          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value}' ")
-        end
-      when 'not_equal'
-        if @input_type == 'text' && @field.exclude?('&')
-          properties_result = custom_field_properties.where.not("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
-        else
-          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
-        end
-      when 'less'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{'::numeric' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
-      when 'less_or_equal'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } <= '#{@value}' AND properties ->> '#{@field}' != '' ")
-      when 'greater'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } > '#{@value}' AND properties ->> '#{@field}' != '' ")
-      when 'greater_or_equal'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } >= '#{@value}' AND properties ->> '#{@field}' != '' ")
-      when 'contains'
-        properties_result = custom_field_properties.where("properties ->> '#{@field}' ILIKE '%#{@value.squish}%' ")
-      when 'not_contains'
-        properties_result = custom_field_properties.where("properties ->> '#{@field}' NOT ILIKE '%#{@value.squish}%' ")
-      when 'is_empty'
-        if @type == 'checkbox'
-          properties_result = custom_field_properties.where("properties -> '#{@field}' ? ''")
-        else
-          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
-        end
-      when 'is_not_empty'
-        if @type == 'checkbox'
-          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? ''")
-        else
-          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '' OR (properties -> '#{@field}') IS NULL")
-        end
-      when 'between'
-        properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::numeric' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
-      end
-      entity_ids = properties_result.pluck(:custom_formable_id).uniq
-      { id: sql_string, values: entity_ids }
-    end
+      query_string  = get_query_string(results, 'formbuilder', properties_field)
 
-    private
+      properties_result = custom_field_properties.where(query_string.reject(&:blank?).join(" AND "))
 
-    def integer?
-      @type == 'integer'
-    end
+      client_ids = properties_result.pluck(:custom_formable_id).uniq
+      { id: sql_string, values: client_ids }
 
-    def format_value(value)
-      value.is_a?(Array) || value.is_a?(Fixnum) ? value : value.gsub("'", "''")
     end
   end
 end

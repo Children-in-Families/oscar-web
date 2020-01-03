@@ -51,6 +51,10 @@ body[id='clients-index'] {
     }
   }
 
+  #prevent_load_saved_searches{
+    width: 50%;
+  }
+
   .loader {
     margin: auto;
     border: 5px solid #f3f3f3; /* Light grey */
@@ -214,7 +218,7 @@ body[id='clients-index'] {
     cursor: default;
   }
 
-  .csi-header {
+  .csi-header, .type-of-service-header {
     padding: 5px 16px;
     strong {
       font-size: 13px;

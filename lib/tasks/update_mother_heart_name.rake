@@ -9,6 +9,5 @@ namespace :update_mother_heart_name do
 
     Organization.switch_to 'mho'
     Setting.first.update(org_name: "Mother's Heart Organisation")
-    puts 'Done!'
   end
 end

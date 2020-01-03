@@ -18,5 +18,4 @@ namespace :family_plan do
       family_plan.destroy
     end
   end
-  puts 'done!'
 end

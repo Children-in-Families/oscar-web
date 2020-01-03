@@ -24,11 +24,9 @@ class ClientSerializer < ActiveModel::Serializer
       year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
       months = object.time_in_ngo[:months]
       month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-      weeks = object.time_in_ngo[:weeks]
-      week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
       days = object.time_in_ngo[:days]
       day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
-      "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+      "#{year_string} #{month_string} #{day_string}".strip()
     end
   end
 
@@ -41,11 +39,9 @@ class ClientSerializer < ActiveModel::Serializer
         year_string = "#{years} #{'year'.pluralize(years)}" if years > 0
         months = cps[1][:months]
         month_string = "#{months} #{'month'.pluralize(months)}" if months > 0
-        weeks = cps[1][:weeks]
-        week_string = "#{weeks} #{'week'.pluralize(weeks)}" if weeks > 0
         days = cps[1][:days]
         day_string = "#{days} #{'day'.pluralize(days)}" if days > 0
-        cps_lists["#{cps[0]}"] = "#{year_string} #{month_string} #{week_string} #{day_string}".strip()
+        cps_lists["#{cps[0]}"] = "#{year_string} #{month_string} #{day_string}".strip()
       end
     end
     cps_lists
@@ -220,7 +216,7 @@ class ClientSerializer < ActiveModel::Serializer
   def quantitative_cases
     object.quantitative_cases.group_by(&:quantitative_type).map do |qtypes|
       qtype = qtypes.first.name
-      qcases = qtypes.last.map{ |qcase| qcase.value }
+      qcases = qtypes.map{ |qcase| qcase.try(:value) || qcase.try(:name) }
       { quantitative_type: qtype, client_quantitative_cases: qcases }
     end
   end

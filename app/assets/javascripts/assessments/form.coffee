@@ -17,6 +17,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _radioGoalAndTaskRequiredOption()
     _liveGoal()
     _initICheckBox()
+    _initTaskRequire()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -83,6 +84,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
         $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        _initTaskRequire()
 
         if scoreColor == 'success'
           $(".domain-#{domainId} .task_required").addClass('hidden')
@@ -170,18 +172,25 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       autoFocus: true
 
       onInit: (event, currentIndex) ->
+        currentTab  = "#rootwizard-p-#{currentIndex}"
+        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
         _formEdit(currentIndex)
         _appendSaveCancel()
         _appendSaveButton()
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
+        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
+        return
 
       onStepChanging: (event, currentIndex, newIndex) ->
+        currentTab  = "#rootwizard-p-#{currentIndex}"
+        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
         _scrollToError(event)
         _taskRequiredAtEnd(currentIndex)
+        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
           return true
         else
@@ -189,16 +198,20 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           _filedsValidator(currentIndex, newIndex)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
+        currentTab  = "#rootwizard-p-#{currentIndex}"
+        domainId = $("#{currentTab}").find('.score_option').data('domain-id')
         currentStep = $("#rootwizard-p-" + currentIndex)
-
         unless currentStep.hasClass('domain-last')
           _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
+        _initTaskRequire()
+        _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
 
         if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
-          $("#rootwizard a[href='#save']").remove()
+          if $('#rootwizard').find('a[href="#finish"]:visible').length
+            $("#rootwizard a[href='#save']").hide()
           _toggleEndOfAssessmentMsg()
           _liveGoal()
 
@@ -213,10 +226,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           isTaskRequred = true
           $.each $("#rootwizard-p-#{currentIndex} [id^='domain-task-section']"), (index, item) ->
             if $(item).find('ol.tasks-list li').length
-              $(item).find('p.task_required').hide()
+              $(item).find('.task_required').hide()
             else
               isTaskRequred = false
-              $(item).find('p.task_required').show()
+              $(item).find('.task_required').show()
 
           return isTaskRequred
         else
@@ -233,7 +246,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _appendSaveButton = ->
     unless $('#rootwizard').find('a[href="#finish"]:visible').length
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
-
   _appendSaveCancel = ->
     unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
       assessmentHref = $('a.btn-back-default').first().attr('href')
@@ -340,6 +352,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
+      $('.task_required').hide()
       $('.add-task-btn').attr('disabled','disabled')
       e.preventDefault()
       actionUrl = undefined
@@ -383,6 +396,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
+      # _initTaskRequire()
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
+      if tasksList.length
+        $("#rootwizard-p-#{currentIndex} .task_required").removeClass('hidden')
 
   _removeHiddenTaskArising = ->
     tasksList = $('li.list-group-item')
@@ -392,20 +410,34 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _removeTask = ->
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
+      currentIndex = $("#rootwizard").steps("getCurrentIndex")
+      tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
+      if tasksList.length
+        $("#rootwizard-p-#{currentIndex} .task_required").removeClass('hidden')
 
   _deleteTask = (e) ->
-    $('.task_required').addClass 'text-required'
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
-
     if $(e.target).data('persisted') == true
+      $(e.target).hide()
       $.ajax
-        type: 'delete'
+        dataType: 'json'
         url: url
+        type: 'DELETE'
+        contentType: 'application/json'
         success: (response) ->
-      $(e.target).parent().remove()
+          currentTab = $(e.target).closest('.assessment-domain-item').attr('id')
+          $(e.target).parent().remove()
+          domainId = $("##{currentTab}").find('.score_option').data('domain-id')
+          _handleDisplayTaskWarningMessage("##{currentTab}", domainId)
+        error: (response, parsererror, error) ->
+          console.log 'failed to delete the task.'
     else
+      currentTab = $(e.target).closest('.assessment-domain-item').attr('id')
       $(e.target).parent().remove()
+      $(e.target).hide()
+      domainId = $("##{currentTab}").find('.score_option').data('domain-id')
+      _handleDisplayTaskWarningMessage("##{currentTab}", domainId)
 
   _removeTaskError = ->
     task = '#assessment_domain_task'
@@ -512,24 +544,37 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _taskRequiredAtEnd = (currentIndex) ->
     currentTab = "#rootwizard-p-#{currentIndex}"
     domainId   = $(currentTab).find('.score_option').data('domain-id')
-
     $("#{currentTab} .task-required-option input").on 'ifChecked', (event) ->
       if $(@).val() == 'true'
         $(".domain-#{domainId} .task_required, .domain-#{domainId} .assessment-task-btn").hide()
       else
-        $(".domain-#{domainId} .assessment-task-btn").show()
-
+        $(".domain-#{domainId} .task_required, .domain-#{domainId} .assessment-task-btn").show()
         if $("#{currentTab} .score_option.with-def").length > 0
           scoreOption = $("#{currentTab} .score_option.with-def")
           chosenScore = scoreOption.find('input.selected-score').val()
-
         else if $("#{currentTab} .score_option.without-def").length > 0
           scoreOption = $("#{currentTab} .score_option.without-def")
           chosenScore = scoreOption.find('label input:checked').val()
 
-        scoreColor  = scoreOption.data("score-#{chosenScore}")
+      return if scoreOption == undefined
+      scoreColor  = scoreOption.data("score-#{chosenScore}")
+      if ['danger', 'warning'].indexOf(scoreColor) >= 0 and $("#{currentTab} .task-arising ol li").length == 0
+        $(".domain-#{domainId} .task_required").show()
 
-        $(".domain-#{domainId} .task_required").show() if ['danger', 'warning'].indexOf(scoreColor) >= 0
+  _handleDisplayTaskWarningMessage = (currentTab, domainId) ->
+    chosenScore = ''
+    if $("#{currentTab} .score_option.with-def").length > 0
+      scoreOption = $("#{currentTab} .score_option.with-def")
+      chosenScore = scoreOption.find('input.selected-score').val()
+
+    else if $("#{currentTab} .score_option.without-def").length > 0
+      scoreOption = $("#{currentTab} .score_option.without-def")
+      chosenScore = scoreOption.find('label input:checked').val()
+
+    return if scoreOption == undefined
+    scoreColor  = scoreOption.data("score-#{chosenScore}")
+    if ['danger', 'warning'].indexOf(scoreColor) >= 0 and $("#{currentTab} .task-arising ol li").length == 0
+      $(".domain-#{domainId} .task_required").show()
 
   _handleAppendDomainAtTheEnd = (currentIndex) ->
     if $("form#new_assessment").length
@@ -579,6 +624,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     else
       $('#end-of-assessment-msg').removeClass('hidden')
 
+  _initTaskRequire = ->
+    currentIndex = $("#rootwizard").steps("getCurrentIndex")
+    tasksList = $("#rootwizard-p-#{currentIndex} li.list-group-item")
+
+    if tasksList.length
+      $("#rootwizard-p-#{currentIndex} .task_required").addClass('hidden')
+    else
+      $("#rootwizard-p-#{currentIndex} .task_required").removeClass('hidden')
+
   _scrollToError = (element) ->
     if $('.error').length > 0
       $.each $('.error'), (index, item) ->
@@ -590,5 +644,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           location.href = "#required-scroll"
         else
           location.href = "##{element}"
+
 
   { init: _init }

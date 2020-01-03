@@ -9,7 +9,7 @@ describe Visit, 'scopes' do
   let!(:other_visit) { create(:visit, user: dev, created_at: 2.months.ago, ) }
 
   context '.excludes_non_devs' do
-    it 'should not include records of non_devs' do
+    xit 'should not include records of non_devs' do
       expect(Visit.excludes_non_devs).to include(visit)
       expect(Visit.excludes_non_devs).not_to include(other_visit)
     end
@@ -19,10 +19,10 @@ describe Visit, 'scopes' do
     beginning_of_month = 1.month.ago.beginning_of_month
     end_of_month       = 1.month.ago.end_of_month
     subject{ Visit.total_logins(beginning_of_month, end_of_month) }
-    it 'include visit in this month' do
+    xit 'include visit in this month' do
       is_expected.to include(visit)
     end
-    it 'not include visit in this month' do
+    xit 'not include visit in this month' do
       is_expected.not_to include(other_visit)
     end
   end

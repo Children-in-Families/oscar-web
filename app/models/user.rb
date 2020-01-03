@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
 
   has_one :permission, dependent: :destroy
 
+  has_many :visits,  dependent: :destroy
   has_many :advanced_searches, dependent: :destroy
   has_many :changelogs, dependent: :restrict_with_error
   has_many :case_worker_clients, dependent: :restrict_with_error
@@ -36,7 +37,6 @@ class User < ActiveRecord::Base
   has_many :enter_ngos, through: :enter_ngo_users
   has_many :tasks, dependent: :destroy
   has_many :calendars, dependent: :destroy
-  has_many :visits,  dependent: :destroy
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable

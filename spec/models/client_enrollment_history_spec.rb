@@ -1,4 +1,4 @@
-describe ClientEnrollmentHistory, 'class method' do
+xdescribe ClientEnrollmentHistory, 'class method' do
   before do
     ClientEnrollmentHistory.destroy_all
   end

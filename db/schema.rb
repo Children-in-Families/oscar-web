@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190910023646) do
+ActiveRecord::Schema.define(version: 20191224080942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -391,7 +391,6 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.integer  "grade"
     t.string   "slug"
     t.string   "able_state",                       default: ""
-    t.integer  "assessments_count"
     t.integer  "donor_id"
     t.string   "local_given_name",                 default: ""
     t.string   "local_family_name",                default: ""
@@ -438,7 +437,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.string   "main_school_contact",              default: ""
     t.string   "rated_for_id_poor",                default: ""
     t.string   "what3words",                       default: ""
-    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_reasons",                     default: [],                      array: true
     t.string   "exit_circumstance",                default: ""
     t.string   "other_info_of_exit",               default: ""
     t.string   "suburb",                           default: ""
@@ -458,9 +457,12 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
+    t.integer  "assessments_count",                default: 0,          null: false
+    t.integer  "current_family_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
+  add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -595,12 +597,15 @@ ActiveRecord::Schema.define(version: 20190910023646) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: "", null: false
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -615,9 +620,11 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
+  add_index "enter_ngos", ["deleted_at"], name: "index_enter_ngos_on_deleted_at", using: :btree
 
   create_table "exit_ngos", force: :cascade do |t|
     t.integer  "client_id"
@@ -628,9 +635,11 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.date     "exit_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
+  add_index "exit_ngos", ["deleted_at"], name: "index_exit_ngos_on_deleted_at", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -1086,7 +1095,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.integer  "clients_count",  default: 0
     t.integer  "families_count", default: 0
     t.integer  "partners_count", default: 0
-    t.integer  "users_count",    default: 0
+    t.integer  "users_count",    default: 0,  null: false
     t.string   "country"
   end
 
@@ -1642,6 +1651,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visit_clients", ["user_id"], name: "index_visit_clients_on_user_id", using: :btree
@@ -1650,6 +1660,7 @@ ActiveRecord::Schema.define(version: 20190910023646) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
