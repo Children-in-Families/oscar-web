@@ -10,7 +10,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, disabled, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [] } } = props
+  const { onChange, disabled, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [], T } } = props
 
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
@@ -82,6 +82,7 @@ export default props => {
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
+              T={T}
               label="Province"
               options={provinces}
               isDisabled={disabled}
@@ -92,6 +93,7 @@ export default props => {
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
+              T={T}
               label="District / Khan"
               isDisabled={disabled}
               options={districts}
@@ -102,6 +104,7 @@ export default props => {
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
+              T={T}
               label="Commune / Sangkat"
               isDisabled={disabled}
               options={communes}
@@ -112,6 +115,7 @@ export default props => {
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
+              T={T}
               label="Village"
               isDisabled={disabled}
               options={villages}
@@ -124,38 +128,42 @@ export default props => {
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
+              T={T}
               label="Street Number"
               disabled={disabled}
-              onChange={onChange(objectKey, 'street_number')}
-              value={objectData.street_number}
+              onChange={onChange(objectKey, 'concern_street')}
+              value={objectData.concern_street}
             />
           </div>
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
+              T={T}
               label="House Number"
               disabled={disabled}
-              onChange={onChange(objectKey, 'house_number')}
-              value={objectData.house_number}
+              onChange={onChange(objectKey, 'concern_house')}
+              value={objectData.concern_house}
             />
           </div>
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
+              T={T}
               label="Address Name"
               disabled={disabled}
-              onChange={onChange(objectKey, 'current_address')}
-              value={objectData.current_address}
+              onChange={onChange(objectKey, 'concern_address')}
+              value={objectData.concern_address}
             />
           </div>
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
+              T={T}
               label="Address Type"
               isDisabled={disabled}
               options={addressTypes}
-              onChange={onChange(objectKey, 'address_type')}
-              value={objectData.address_type}
+              onChange={onChange(objectKey, 'concern_address_type')}
+              value={objectData.concern_address_type}
             />
           </div>
         </div>

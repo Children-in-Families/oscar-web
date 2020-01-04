@@ -2,7 +2,7 @@ class CreateReferees < ActiveRecord::Migration
   def change
     create_table :referees do |t|
       t.string :address_type, default: ''
-      t.string :current_address, default: ''
+      t.string :current_address, default: '' # address_name
       t.string :email, default: ''
       t.string :gender, default: ''
       t.string :house_number, default: ''

@@ -4,11 +4,27 @@ import CallAdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
-// import ReferralVulnerability from './referralVulnerability'
-import './styles.scss'
 import CallAbout from './callAbout'
+import T from 'i18n-react'
+import en from '../../utils/locales/en.json'
+import km from '../../utils/locales/km.json'
+import my from '../../utils/locales/my.json'
+import './styles.scss'
 
 const CallForms = props => {
+  var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
+  switch (url) {
+    case "km":
+      T.setTexts(km)
+      break;
+    case "my":
+      T.setTexts(my)
+      break;
+    default:
+      T.setTexts(en)
+      break;
+  }
+
   const {
     data: {
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
@@ -29,18 +45,16 @@ const CallForms = props => {
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData] = useState(carer)
 
-  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes  }
+  const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
   // const adminTabData = { users, client: clientData, errorFields }
-  const adminTabData = { call: callData, users, errorFields }
+  const adminTabData = { call: callData, users, errorFields, T }
 
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
 
-  const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address  }
-  // const referralTabData = { errorFields, call: callData, birthProvinces, ratePoor, ...address  }
-  // const moreReferralTabData = { carer: carerData, schoolGrade, donors, agencies, ...referralTabData }
+  const referralTabData = { errorFields, client: clientData, birthProvinces, ratePoor, ...address, T  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData }
-  // const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase }
+  // const callAboutTabData = { client: clientData }
 
   const tabs = [
     {text: 'Caller Information', step: 1},
@@ -264,7 +278,7 @@ const CallForms = props => {
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
-            <CallAbout data={moreReferralTabData} onChange={onChange} />
+            {/* <CallAbout data={{callAboutTabData, T}} onChange={onChange} /> */}
           </div>
         </div>
       </div>

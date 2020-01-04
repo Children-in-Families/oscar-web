@@ -7,7 +7,7 @@ import {
 import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes } } = props
+  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
 
   const [districts, setDistricts]         = useState(carerDistricts)
   const [communes, setCommunes]           = useState(carerCommunes)
@@ -71,25 +71,25 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* will change to carer object */}
-          <TextInput label="Name" onChange={onChange('carer', 'name')} value={carer.name} />
+          <TextInput T={T} label="Name" onChange={onChange('carer', 'name')} value={carer.name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Gender" options={genderLists} onChange={onChange('carer', 'gender')} value={carer.gender}  />
+          <SelectInput T={T} label="Gender" options={genderLists} onChange={onChange('carer', 'gender')} value={carer.gender}  />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* will change to carer object */}
-          <TextInput label="Carer Phone Number" type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
+          <TextInput T={T} label="Carer Phone Number" type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label="Carer Email Address" onChange={onChange('carer', 'email')} value={carer.email} />
+          <TextInput T={T} label="Carer Email Address" onChange={onChange('carer', 'email')} value={carer.email} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Relationship to Client" options={clientRelationships} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
+          <SelectInput T={T} label="Relationship to Client" options={clientRelationships} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label="Family Record" options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
+          <SelectInput T={T} label="Family Record" options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
         </div>
       </div>
       <legend>
@@ -111,7 +111,7 @@ export default props => {
           }
         </div>
       </legend>
-      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer}} />
+      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer, T}} />
     </div>
   )
 }

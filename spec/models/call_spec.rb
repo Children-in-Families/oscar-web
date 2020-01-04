@@ -1,5 +1,5 @@
 describe Call, 'associations' do
-  it { is_expected.to belong_to(:caller) }
+  it { is_expected.to belong_to(:referee) }
 end
 
 describe Call, 'validations' do
@@ -10,8 +10,8 @@ describe Call, 'validations' do
   # it { is_expected.to validate_inclusion_of(:call_type).in_array(Call.call_types.values)}
 
   context 'call_type' do
-    let!(:caller) { create(:caller, answered_call: false, called_before: false) }
-    let(:call){ Factory.build(:call, caller: caller, call_type: I18n.t('calls.type.case_action_required')) }
+    let!(:referee) { create(:referee, answered_call: false, called_before: false) }
+    let(:call){ Factory.build(:call, referee: referee, call_type: I18n.t('calls.type.case_action_required')) }
     it 'valid' do
       # pause here
     #   expect(call).to be_valid

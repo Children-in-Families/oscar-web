@@ -15,7 +15,7 @@ export default props => {
       referralSourceCategory,
       referralSource,
       errorFields,
-      addressTypes
+      addressTypes, T
     }
   } = props;
 
@@ -26,12 +26,12 @@ export default props => {
     { label: "Unknown", value: "unknown" }
   ];
   const answeredCallOpts = [
-    { label: "Answered Call", value: "Answered Call" },
-    { label: "Returning Missed Call", value: "Returning Missed Call" }
+    { label: "Answered Call", value: true },
+    { label: "Returning Missed Call", value: false }
   ];
   const ageOpts = [
-    { label: "18+", value: "18+" },
-    { label: "Under 18", value: "Under 18" }
+    { label: "18+", value: true },
+    { label: "Under 18", value: false }
   ];
   const calledBeforeOpts = [
     { label: "Yes", value: true },
@@ -92,6 +92,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12">
           <SelectInput
+            T={T}
             required
             isError={errorFields.includes("answered_call")}
             label="Did you answer this call, or are you returning a missed call?"
@@ -104,6 +105,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12">
           <SelectInput
+            T={T}
             required
             isError={errorFields.includes("called_before")}
             label="Have you called the Childsafe Hotline Before?"
@@ -126,6 +128,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             // required
             disabled={referee.anonymous}
             // isError={errorFields.includes('referee_name')}
@@ -141,6 +144,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             label="Gender"
             isDisabled={referee.anonymous}
             options={genderLists}
@@ -150,6 +154,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             label="Are you over 18 years old?"
             isDisabled={referee.anonymous}
             options={ageOpts}
@@ -161,6 +166,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             label="Referee Phone Number"
             type="number"
             disabled={referee.anonymous}
@@ -170,6 +176,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             label="Referee Email Address"
             disabled={referee.anonymous}
             onChange={onChange("referee", "email")}
@@ -178,6 +185,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             required
             isError={errorFields.includes("referral_source_category_id")}
             label="Referral Source Catgeory"
@@ -188,6 +196,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             options={referralSourceLists}
             label="Referral Source"
             onChange={onChange("client", "referral_source_id")}
@@ -222,7 +231,8 @@ export default props => {
           currentProvinces,
           addressTypes,
           objectKey: "referee",
-          objectData: referee
+          objectData: referee,
+          T
         }}
       />
       <div className="row">

@@ -5,7 +5,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, errorFields } } = props
+  const { onChange, data: { client, T } } = props
   const basicNecessities = [
     {
       label: "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
@@ -93,7 +93,7 @@ export default props => {
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <SelectInput
-            isError={errorFields.includes('basic_necessity')}
+            T={T}
             label='Basic Necessities'
             options={basicNecessities}
             value={client.basic_necessity}
@@ -104,7 +104,7 @@ export default props => {
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <SelectInput
-            isError={errorFields.includes('child_protection_concern')}
+            T={T}
             label='Child Protection Concerns'
             options={childProtectionConcerns}
             value={client.child_protection_concern}
@@ -113,7 +113,7 @@ export default props => {
       </div>
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <TextArea label="Enter a brief note summarising the call" value={client.brief_note_summary} onChange={onChange('client', 'brief_note_summary')} />
+          <TextArea T={T} label="Enter a brief note summarising the call" value={client.brief_note_summary} onChange={onChange('client', 'brief_note_summary')} />
         </div>
       </div>
     </>

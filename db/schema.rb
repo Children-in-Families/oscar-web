@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191216083413) do
+ActiveRecord::Schema.define(version: 20200104025346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,12 @@ ActiveRecord::Schema.define(version: 20191216083413) do
     t.datetime "updated_at"
   end
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",               default: ""
     t.integer  "previous_score"
@@ -132,6 +138,19 @@ ActiveRecord::Schema.define(version: 20191216083413) do
 
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
+  create_table "calls", force: :cascade do |t|
+    t.integer  "referee_id"
+    t.string   "phone_call_id",      default: ""
+    t.integer  "receiving_staff_id"
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.string   "call_type",          default: ""
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
+
   create_table "carers", force: :cascade do |t|
     t.string   "address_type",        default: ""
     t.string   "current_address",     default: ""
@@ -148,56 +167,15 @@ ActiveRecord::Schema.define(version: 20191216083413) do
     t.integer  "village_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-  end
-
-
-  create_table "callers", force: :cascade do |t|
-    t.boolean  "answered_call",               default: false
-    t.boolean  "called_before",               default: false
-    t.boolean  "anonymous",                   default: false
-    t.boolean  "adult",                       default: false
-    t.string   "name",                        default: ""
-    t.string   "gender",                      default: ""
-    t.string   "referee_phone_number",        default: ""
-    t.string   "referee_email",               default: ""
-    t.integer  "referral_source_category_id"
-    t.integer  "referral_source_id"
-    t.integer  "province_id"
-    t.integer  "district_id"
-    t.integer  "commune_id"
-    t.integer  "village_id"
     t.string   "name",                default: ""
     t.string   "phone",               default: ""
     t.boolean  "same_as_client",      default: false
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
   add_index "carers", ["district_id"], name: "index_carers_on_district_id", using: :btree
   add_index "carers", ["province_id"], name: "index_carers_on_province_id", using: :btree
   add_index "carers", ["village_id"], name: "index_carers_on_village_id", using: :btree
-    t.string   "street_number",               default: ""
-    t.string   "house_number",                default: ""
-    t.string   "address_name",                default: ""
-    t.string   "address_type",                default: ""
-    t.boolean  "requested_update"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-  end
-
-  create_table "calls", force: :cascade do |t|
-    t.integer  "caller_id"
-    t.string   "phone_call_id",      default: ""
-    t.integer  "receiving_staff_id"
-    t.datetime "start_datetime"
-    t.datetime "end_datetime"
-    t.string   "call_type",          default: ""
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-  end
-
-  add_index "calls", ["caller_id"], name: "index_calls_on_caller_id", using: :btree
 
   create_table "case_closures", force: :cascade do |t|
     t.string   "name"
@@ -224,15 +202,14 @@ ActiveRecord::Schema.define(version: 20191216083413) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",                  default: ""
+    t.string   "attendee",         default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.string   "interaction_type",          default: ""
-    t.boolean  "custom",                    default: false
-    t.string   "selected_domain_group_ids", default: [],    array: true
+    t.string   "interaction_type", default: ""
+    t.boolean  "custom",           default: false
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -518,8 +495,6 @@ ActiveRecord::Schema.define(version: 20191216083413) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
     t.boolean  "outside",                          default: false
@@ -531,6 +506,23 @@ ActiveRecord::Schema.define(version: 20191216083413) do
     t.string   "referee_relationship",             default: ""
     t.integer  "referee_id"
     t.integer  "carer_id"
+    t.string   "nickname",                         default: ""
+    t.string   "relation_to_referee",              default: ""
+    t.boolean  "concern_is_outside",               default: false
+    t.boolean  "concern_outside_address",          default: false
+    t.integer  "concern_province_id"
+    t.integer  "concern_district_id"
+    t.integer  "concern_commune_id"
+    t.integer  "concern_village_id"
+    t.string   "concern_street",                   default: ""
+    t.string   "concern_house",                    default: ""
+    t.string   "concern_address",                  default: ""
+    t.string   "concern_address_type",             default: ""
+    t.string   "concern_phone",                    default: ""
+    t.string   "concern_phone_owner",              default: ""
+    t.string   "concern_email",                    default: ""
+    t.string   "concern_email_owner",              default: ""
+    t.string   "concern_location",                 default: ""
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1040,7 +1032,7 @@ ActiveRecord::Schema.define(version: 20191216083413) do
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
-    t.boolean  "aht"
+    t.boolean  "aht",        default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1223,23 +1215,27 @@ ActiveRecord::Schema.define(version: 20191216083413) do
   end
 
   create_table "referees", force: :cascade do |t|
-    t.string   "address_type",    default: ""
-    t.string   "current_address", default: ""
-    t.string   "email",           default: ""
-    t.string   "gender",          default: ""
-    t.string   "house_number",    default: ""
-    t.string   "outside_address", default: ""
-    t.string   "street_number",   default: ""
-    t.boolean  "outside",         default: false
-    t.boolean  "anonymous",       default: false
+    t.string   "address_type",     default: ""
+    t.string   "current_address",  default: ""
+    t.string   "email",            default: ""
+    t.string   "gender",           default: ""
+    t.string   "house_number",     default: ""
+    t.string   "outside_address",  default: ""
+    t.string   "street_number",    default: ""
+    t.boolean  "outside",          default: false
+    t.boolean  "anonymous",        default: false
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"
     t.integer  "village_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "name",            default: ""
-    t.string   "phone",           default: ""
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "name",             default: ""
+    t.string   "phone",            default: ""
+    t.boolean  "answered_call"
+    t.boolean  "called_before"
+    t.boolean  "adult"
+    t.boolean  "requested_update", default: false
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
@@ -1764,11 +1760,11 @@ ActiveRecord::Schema.define(version: 20191216083413) do
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "calendars", "users"
+  add_foreign_key "calls", "referees"
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
   add_foreign_key "carers", "villages"
-  add_foreign_key "calls", "callers"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_worker_clients", "clients"
