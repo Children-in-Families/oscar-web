@@ -5,7 +5,7 @@ import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 
 export default props => {
-  const { onChange, data: { carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes } } = props
+  const { onChange, data: { carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, T } } = props
 
   return (
     <div className="containerClass">
@@ -35,7 +35,7 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes }} onChange={onChange} />
+      <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes, T }} onChange={onChange} />
 
       <hr/>
       <div className="row">
@@ -50,7 +50,7 @@ export default props => {
         </div>
       </div>
 
-      <SchoolInfo id="schoolInfo" data={{ client, schoolGrade }} onChange={onChange} />
+      <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} />
 
       <hr/>
       <div className="row">
@@ -65,7 +65,7 @@ export default props => {
         </div>
       </div>
 
-      <DonorInfo id="donorInfo" data={{ donors, agencies, client }} onChange={onChange} />
+      <DonorInfo id="donorInfo" data={{ donors, agencies, client, T }} onChange={onChange} />
 
       <hr/>
       <div className="row">
@@ -80,7 +80,7 @@ export default props => {
         </div>
       </div>
 
-      <CustomInfo id="customInfo" onChange={onChange} data={{ratePoor, client}} />
+      <CustomInfo id="customInfo" onChange={onChange} data={{ratePoor, client, T}} />
       <hr/>
     </div>
   )

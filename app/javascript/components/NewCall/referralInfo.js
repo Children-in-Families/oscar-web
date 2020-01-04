@@ -16,7 +16,7 @@ export default props => {
       errorFields,
       refereeRelationships,
       addressTypes,
-      phoneOwners
+      phoneOwners, T
     }
   } = props;
 
@@ -172,6 +172,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             label="Given Name (Latin)"
             onChange={onChange("client", "given_name")}
             value={client.given_name}
@@ -179,6 +180,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             label="Family Name (Latin)"
             onChange={onChange("client", "family_name")}
             value={client.family_name}
@@ -186,6 +188,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             label="Given Name(Khmer)"
             onChange={onChange("client", "local_given_name")}
             value={client.local_given_name}
@@ -193,15 +196,25 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            T={T}
             label="Family Name (Khmer)"
             onChange={onChange("client", "local_family_name")}
             value={client.local_family_name}
+          />
+        </div>
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <TextInput
+            T={T}
+            label="Nickname"
+            onChange={onChange("client", "nickname")}
+            value={client.nickname}
           />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             required
             isError={errorFields.includes("gender")}
             label="Gender"
@@ -215,6 +228,7 @@ export default props => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             asGroup
             label="Birth Province"
             options={birthProvincesLists}
@@ -225,6 +239,7 @@ export default props => {
 
         {/* <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            T={T}
             label="What is the Referee's relationship to this client?"
             options={refereeRelationships}
             value={client.referee_relationship}
@@ -241,16 +256,16 @@ export default props => {
             <div className="col-xs-12 col-md-6 col-lg-6">
               <Checkbox
                 label="Concern is outside Cambodia"
-                checked={client.concern_outside || false}
-                onChange={onChange("client", "concern_outside")}
+                checked={client.concern_is_outside || false}
+                onChange={onChange("client", "concern_is_outside")}
               />
             </div>
           )} */}
           <div className="col-xs-12 col-md-6 col-lg-6">
             <Checkbox
               label="Concern is outside Cambodia"
-              checked={client.concern_outside || false}
-              onChange={onChange("client", "concern_outside")}
+              checked={client.concern_is_outside || false}
+              onChange={onChange("client", "concern_is_outside")}
             />
           </div>
         </div>
@@ -262,7 +277,7 @@ export default props => {
       {/* Found out that it currently overrides client address field */}
       <ConcernAddress
         // disabled={client.referee_relationship === "self"}
-        outside={client.concern_outside || false}
+        outside={client.concern_is_outside || false}
         onChange={onChange}
         data={{
           addressTypes,
@@ -280,13 +295,15 @@ export default props => {
           <div className="row">
             <div className="col-xs-12 col-md-6">
               <TextInput
+                T={T}
                 label="Relevant Contact Phone"
-                onChange={onChange("client", "concern_relevant_contact_phone")}
-                value={client.concern_relevant_contact_phone}
+                onChange={onChange("client", "concern_phone")}
+                value={client.concern_phone}
               />
             </div>
             <div className="col-xs-12 col-md-6">
               <SelectInput
+                T={T}
                 label="Phone Owner"
                 options={phoneOwnerOpts}
                 value={client.concern_phone_owner}
@@ -297,13 +314,15 @@ export default props => {
           <div className="row">
             <div className="col-xs-12 col-md-6">
               <TextInput
+                T={T}
                 label="Relevant Email Contact"
-                onChange={onChange("client", "concern_relevant_email_contact")}
-                value={client.concern_relevant_email_contact}
+                onChange={onChange("client", "concern_email")}
+                value={client.concern_email}
               />
             </div>
             <div className="col-xs-12 col-md-6">
               <SelectInput
+                T={T}
                 label="Email Owner"
                 options={emailOwnerOpts}
                 value={client.concern_email_owner}
@@ -312,11 +331,11 @@ export default props => {
             </div>
           </div>
         </div>
-        <div className={"col-xs-12 col-md-6" + (client.concern_outside ? ' hidden' : '')}>
+        <div className={"col-xs-12 col-md-6" + (client.concern_is_outside ? ' hidden' : '')}>
           <TextArea
             label="Location Description"
-            value={client.concern_location_description}
-            onChange={onChange('client', 'concern_location_description')} />
+            value={client.concern_location}
+            onChange={onChange('client', 'concern_location')} />
         </div>
       </div>
     </div>

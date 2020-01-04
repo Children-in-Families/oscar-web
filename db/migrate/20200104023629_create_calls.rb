@@ -1,8 +1,7 @@
 class CreateCalls < ActiveRecord::Migration
   def change
     create_table :calls do |t|
-      t.references :caller, index: true, foreign_key: true
-
+      t.references :referee, index: true, foreign_key: true
       t.string :phone_call_id, default: ''
       t.integer :receiving_staff_id
       t.datetime :start_datetime
