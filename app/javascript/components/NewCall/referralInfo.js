@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { SelectInput, TextArea, TextInput, Checkbox } from "../Commons/inputs";
+import { SelectInput, TextArea, TextInput, Checkbox, DateInput } from "../Commons/inputs";
 import ConcernAddress from "./concernAddress";
 
 export default props => {
   const {
     onChange,
     data: {
+      users,
       client,
       referee,
       currentDistricts,
@@ -20,13 +21,18 @@ export default props => {
     }
   } = props;
 
-  const phoneOwnerOpts = [
-    { label: "Test Phone", value: "Test Phone" }
-  ];
+  const refereeRelationshipOpts = refereeRelationships.map(relationship => ({ label: relationship.label, value: relationship.value }))
+  const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
+  // const phoneOwnerOpts = [
+  //   { label: "Test Phone", value: "Test Phone" }
+  // ];
+  const phoneOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
 
-  const emailOwnerOpts = [
-    { label: "Test Email", value: "Test" }
-  ];
+  // const emailOwnerOpts = [
+  //   { label: "Test Email", value: "Test" }
+  // ];
+  // todo, to be updated
+  const emailOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
 
   const genderLists = [
     { label: "Female", value: "female" },
@@ -210,8 +216,9 @@ export default props => {
             value={client.nickname}
           />
         </div>
-      </div>
-      <div className="row">
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <DateInput getCurrentDate label="Date of Birth" onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
+        </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             T={T}
@@ -237,15 +244,33 @@ export default props => {
           />
         </div>
 
-        {/* <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          {/* <SelectInput
             T={T}
-            label="What is the Referee's relationship to this client?"
-            options={refereeRelationships}
+            label="Relationship to Caller"
+            options={refereeRelationshipOpts}
             value={client.referee_relationship}
             onChange={onRelationshipChange}
+          /> */}
+          <SelectInput
+            T={T}
+            label="Relationship to Caller"
+            options={refereeRelationshipOpts}
+            value={client.referee_relationship}
+            onChange={onChange('client', 'referee_relationship')}
           />
-        </div> */}
+        </div>
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <SelectInput
+            T={T}
+            required
+            isError={errorFields.includes('user_ids')}
+            label={T.translate("admin.case_worker")}
+            isMulti
+            options={userLists}
+            value={client.user_ids}
+            onChange={onChange('client','user_ids')} />
+        </div>
       </div>
       <legend>
         <div className="row">
