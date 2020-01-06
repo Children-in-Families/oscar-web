@@ -30,9 +30,5 @@
           = render 'attachment_fields', { domain_note: domain_note }
       .row
         .col-xs-12
-          - if params[:custom] == 'true'
-            .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{domain_note.object.domain_group.domains.custom_csi_domains.pluck(:id, :name)}"}
-              = t('.add_task')
-          - else
-            .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domain_group.domains)}"}
-              = t('.add_task')
+          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domains(@case_note))}"}
+            = t('.add_task')
