@@ -1029,7 +1029,7 @@ ActiveRecord::Schema.define(version: 20200104025346) do
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
-    t.boolean  "aht"
+    t.boolean  "aht",        default: false
   end
 
   create_table "partners", force: :cascade do |t|
