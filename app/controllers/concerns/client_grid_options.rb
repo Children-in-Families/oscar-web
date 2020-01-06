@@ -1,6 +1,7 @@
 module ClientGridOptions
   extend ActiveSupport::Concern
   include ClientsHelper
+  include AssessmentHelper
 
   def choose_grid
     if current_user.admin? || current_user.strategic_overviewer?
@@ -270,8 +271,8 @@ module ClientGridOptions
         records = 'client.assessments.defaults'
       end
       @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
-        assessment = eval(records).latest_record
-        assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        assessment_domains = map_assessment_and_score(client, identity, domain.id)
+        assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
       end
     end
   end
