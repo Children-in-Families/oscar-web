@@ -17,7 +17,7 @@ namespace :client_slug do
       Organization.switch_to short_name
       client.slug = "#{slug}-#{client.id}"
       client.save(validate: false)
-      puts "update client: #{client.reload.slug}"
+      puts "update client: (#{values.map(&:third).join('-')}) #{client.reload.slug}(#{short_name})"
       Rake::Task["archived_slug:update"].invoke(short_name)
     end
 
