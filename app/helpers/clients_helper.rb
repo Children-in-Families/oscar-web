@@ -436,6 +436,7 @@ module ClientsHelper
   def program_stream_name(object, rule)
     properties_field = 'client_enrollment_trackings.properties'
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    return object if basic_rules.nil?
     basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
     results      = mapping_form_builder_param_value(basic_rules, 'tracking')
     query_string  = get_query_string(results, 'tracking', properties_field)
