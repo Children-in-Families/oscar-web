@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200104025346) do
+ActiveRecord::Schema.define(version: 20200107150040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -506,7 +506,7 @@ ActiveRecord::Schema.define(version: 20200104025346) do
     t.string   "nickname",                         default: ""
     t.string   "relation_to_referee",              default: ""
     t.boolean  "concern_is_outside",               default: false
-    t.boolean  "concern_outside_address",          default: false
+    t.string   "concern_outside_address",          default: ""
     t.integer  "concern_province_id"
     t.integer  "concern_district_id"
     t.integer  "concern_commune_id"
