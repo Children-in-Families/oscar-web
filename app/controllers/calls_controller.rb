@@ -60,7 +60,7 @@ class CallsController < AdminController
   private
 
   def call_params
-    binding.pry
+    # binding.pry
     params.require(:call).permit(:phone_call_id, :receiving_staff_id,
                             :start_datetime, :end_datetime, :call_type
                             )

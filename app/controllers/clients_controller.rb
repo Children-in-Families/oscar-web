@@ -227,8 +227,7 @@ class ClientsController < AdminController
             :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
             :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
             :concern_street, :concern_house, :concern_address, :concern_address_type,
-            :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location
-
+            :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
