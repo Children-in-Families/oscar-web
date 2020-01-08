@@ -167,7 +167,7 @@ module AssessmentHelper
           if basic_rules
             assessment_completed_result = mapping_assessment_query_rules(basic_rules, 'assessment_completed')
             assessment_only_query_string = get_assessment_query_string(assessment_completed_result, identity, domain_id, client_id)
-            assessment_completed_date = " #{assessment_only_query_string.first} AND " if assessment_only_query_string.first
+            assessment_completed_date = " #{assessment_only_query_string.first} AND " if assessment_only_query_string.first.present?
           end
 
           beginning_of_month = "SELECT DATE(date_trunc('month', created_at)) FROM assessments WHERE#{assessment_completed_date || ''} assessments.client_id = #{client_id ? client_id : 'clients.id'} ORDER BY assessments.created_at LIMIT 1 OFFSET #{value} - 1"
