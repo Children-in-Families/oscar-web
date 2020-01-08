@@ -101,7 +101,7 @@ body[id='clients-edit'], body[id='clients-update'] {
   }
 
   .careInfo, .schoolInfo, .donorInfo, .customInfo {
-    [data-toggle="collapse"] {
+    .pointer {
       .fa.fa-chevron-up {
         display: inline-block;
       }
@@ -109,8 +109,10 @@ body[id='clients-edit'], body[id='clients-update'] {
         display: none;
       }
     }
+  }
 
-    [data-toggle="collapse"].collapsed {
+  .careInfo.collapsed, .schoolInfo.collapsed, .donorInfo.collapsed, .customInfo.collapsed {
+    .pointer {
       .fa.fa-chevron-up {
         display: none;
       }
