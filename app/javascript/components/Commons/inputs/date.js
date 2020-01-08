@@ -19,7 +19,7 @@ export default props => {
   const formatDateToString = value => {
     if(value) {
       const formatedDate = value.getDate()
-      const formatedMonth = value.getMonth() + 1
+      const formatedMonth = value.getMonth()
       const formatedYear = value.getFullYear()
 
       return formatedYear + '-' + formatedMonth + '-' + formatedDate
