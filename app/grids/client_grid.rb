@@ -642,8 +642,8 @@ class ClientGrid < BaseGrid
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
-    if version.present? && version.whodunnit.present?
-      version.whodunnit.include?('rotati') ? 'OSCaR Team' : User.find_by(id: version.whodunnit.to_i).try(:name)
+    if (version.present? && version.whodunnit.present?) && !version.whodunnit.include?('rotati')
+      User.find_by(id: version.whodunnit.to_i).try(:name)
     else
       'OSCaR Team'
     end
@@ -1072,7 +1072,15 @@ class ClientGrid < BaseGrid
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:properties)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
+            if $param_rules.nil?
+              properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
+            else
+              basic_rules = $param_rules['basic_rules']
+              basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+              results = mapping_exit_program_date_param_value(basic_rules)
+              query_string = get_exit_program_date_query_string(results)
+              properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).where(query_string).properties_by(format_field_value)
+            end
           end
         end
 

@@ -9,15 +9,16 @@ class Dashboard
     @agencies = Agency.all
     @staff    = User.all
     @referral_sources = ReferralSource.child_referrals.all
-    @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).uniq
+    @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).distinct
   end
 
   def client_program_stream
-    @program_streams.map do |p|
+    program_streams = @program_streams.distinct.select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.client_id)) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active') AS client_enrollment_count")
+    program_streams.map do |p|
       url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id }]}
       {
         name: p.name,
-        y: p.client_enrollments.active.pluck(:client_id).uniq.count,
+        y: p.client_enrollment_count,
         url: clients_path(
           'client_advanced_search': {
             action_report_builder: '#builder',
@@ -171,14 +172,18 @@ class Dashboard
   private
 
   def program_stream_report_by(client_ids, gender)
-    program_streams = @program_streams.where(client_enrollments: {client_id: client_ids})
+    if client_ids.present?
+      program_streams = @program_streams.where(client_enrollments: {client_id: client_ids}).select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.id)) FROM client_enrollments WHERE (client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active') AND client_enrollments.client_id IN (#{client_ids.join(', ')})) AS client_enrollment_count")
+    else
+      program_streams = @program_streams.where(client_enrollments: {client_id: client_ids}).select("program_streams.id, program_streams.name, (SELECT COUNT(DISTINCT(client_enrollments.id)) FROM client_enrollments WHERE (client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active')) AS client_enrollment_count")
+    end
+
     program_streams.map do |p|
       url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id },
         { 'id': 'gender', 'field': 'gender', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': gender.downcase } ]}
-      active_client_ids = p.client_enrollments.active.where(client_id: client_ids)
       {
         name: "#{p.name} (#{gender})",
-        y: active_client_ids.size,
+        y: p.client_enrollment_count,
         url: clients_path(
           client_advanced_search: {
             action_report_builder: '#builder',

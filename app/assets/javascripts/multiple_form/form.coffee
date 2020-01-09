@@ -8,7 +8,7 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
     _confirm()
     _initICheckBox()
     _initDatePicker()
-    _handleDisableAndEnableCreateDatePickerClientEnrollment()
+    _preventCreateDatePickerClientEnrollment()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -38,9 +38,9 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
       orientation: 'bottom'
       disableTouchKeyboard: true
 
-  _handleDisableAndEnableCreateDatePickerClientEnrollment = ->
-    startDate = $('#case-history-table-client-enrollment tr.case-history-row').first().data('date')
-    $('.client-enrollment-date').datepicker('setStartDate', startDate)
+  _preventCreateDatePickerClientEnrollment = ->
+    currentEnterNgo = $('#current_enter_ngo').val()
+    $('.client-enrollment-date').datepicker('setStartDate', currentEnterNgo)
 
   _preventRequireFields = ->
     preventFileUploader()

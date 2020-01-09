@@ -718,8 +718,17 @@ module ClientsHelper
 
       if class_name[/^(programexitdate)/i].present?
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
-        object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
-        count += date_filter(object, class_name).flatten.count
+        if $param_rules.nil?
+          object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
+          count += date_filter(object, class_name).flatten.count
+        else
+          basic_rules = $param_rules['basic_rules']
+          basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_exit_program_date_param_value(basic_rules)
+          query_string = get_exit_program_date_query_string(results)
+          object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids }).where(query_string)
+        end
+        count = object.distinct.count
       else
         @clients.each do |client|
           if class_name == 'case_note_type'
