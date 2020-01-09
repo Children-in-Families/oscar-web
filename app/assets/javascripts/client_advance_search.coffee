@@ -26,7 +26,8 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
-    @loader = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) ) if document.querySelector('.ladda-button-columns-visibility')
+    loaderButton = document.querySelector('.ladda-button-columns-visibility')
+    @LOADER = Ladda.create(loaderButton) if loaderButton
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
@@ -155,7 +156,8 @@ class CIF.ClientAdvanceSearch
         $('#builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
-        loader.stop();
+        loader.stop() if loader
+        return
 
   addCustomBuildersFieldsInWizard: (ids, url) ->
     self = @
@@ -383,22 +385,22 @@ class CIF.ClientAdvanceSearch
   triggerEnrollmentFields: ->
     self = @
     $('#enrollment-checkbox').on 'ifChecked', ->
-      self.loader.start()
-      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.loader)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.LOADER)
     return
 
   triggerTrackingFields: ->
     self = @
     $('#tracking-checkbox').on 'ifChecked', ->
-      self.loader.start()
-      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.loader)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.LOADER)
     return
 
   triggerExitProgramFields: ->
     self = @
     $('#exit-form-checkbox').on 'ifChecked', ->
-      self.loader.start()
-      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.loader)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.LOADER)
     return
 
   addgroupCallback: ->
