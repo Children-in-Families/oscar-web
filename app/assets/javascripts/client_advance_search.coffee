@@ -26,7 +26,7 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
-    @loader = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) );
+    @loader = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) ) if document.querySelector('.ladda-button-columns-visibility')
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
