@@ -249,19 +249,12 @@ class User < ActiveRecord::Base
     elsif self.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
       family_ids = []
+      exited_client_ids = exited_clients(subordinate_users)
 
-      User.where(id: subordinate_users).each do |user|
-        user.clients.each do |client|
-          family_ids << client.family.try(:id)
-        end
-      end
+      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
+      family_ids += self.clients.pluck(:current_family_id)
 
-      Client.where(id: exited_clients(subordinate_users)).each do |client|
-        family_ids << client.family.try(:id)
-      end
-      self.clients.each do |client|
-        family_ids << client.family.try(:id)
-      end
       families = Family.where(id: family_ids).or(Family.where(user_id: self.id))
       entity_type_custom_field_notification(families)
     elsif self.case_worker?
@@ -389,16 +382,14 @@ class User < ActiveRecord::Base
     self.update_columns(referral_notification: true)
   end
 
-  def exited_clients(users)
-    client_ids = []
-    users.each do |user|
-      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
-        next if version.changeset[:user_id].last != user
-        client_id = version.changeset[:client_id].last
-        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
-        client_ids << client_id if client_id.present?
-      end
+  def exited_clients(user_ids)
+    sql = user_ids.map do |user_id|
+      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
+    end.join(" OR ")
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
+      client_id = version.changeset[:client_id].last
     end
-    client_ids.uniq
+
+    Client.where(id: client_ids, status: 'Exited').ids
   end
 end
