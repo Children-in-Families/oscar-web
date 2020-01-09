@@ -26,7 +26,7 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
-    @LOADER = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) );
+    @loader = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) ) if document.querySelector('.ladda-button-columns-visibility')
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
@@ -155,7 +155,11 @@ class CIF.ClientAdvanceSearch
         $('#builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
+<<<<<<< HEAD
         loader.stop() if loader
+=======
+        loader.stop();
+>>>>>>> 170418965-report-builder-tracking-stuck
 
   addCustomBuildersFieldsInWizard: (ids, url) ->
     self = @
@@ -387,22 +391,37 @@ class CIF.ClientAdvanceSearch
   triggerEnrollmentFields: ->
     self = @
     $('#enrollment-checkbox').on 'ifChecked', ->
+<<<<<<< HEAD
       self.LOADER.start()
       self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.LOADER)
+=======
+      self.loader.start()
+      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.loader)
+>>>>>>> 170418965-report-builder-tracking-stuck
     return
 
   triggerTrackingFields: ->
     self = @
     $('#tracking-checkbox').on 'ifChecked', ->
+<<<<<<< HEAD
       self.LOADER.start()
       self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.LOADER)
+=======
+      self.loader.start()
+      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.loader)
+>>>>>>> 170418965-report-builder-tracking-stuck
     return
 
   triggerExitProgramFields: ->
     self = @
     $('#exit-form-checkbox').on 'ifChecked', ->
+<<<<<<< HEAD
       self.LOADER.start()
       self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.LOADER)
+=======
+      self.loader.start()
+      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.loader)
+>>>>>>> 170418965-report-builder-tracking-stuck
     return
 
   addgroupCallback: ->
