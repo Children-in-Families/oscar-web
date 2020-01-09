@@ -16,14 +16,11 @@ namespace :client_slug do
       slug = client.generate_random_char
       Organization.switch_to short_name
       client.slug = "#{slug}-#{client.id}"
-      client.save(validate: false)
+      # client.save(validate: false)
       puts "update client: (#{values.map(&:third).join('-')}) #{client.reload.slug}(#{short_name})"
-      Rake::Task["archived_slug:update"].invoke(short_name)
-    end
-
-    if all_clients.values.flatten.present?
-      Rake::Task["client_to_shared:copy"].invoke()
-      Rake::Task["duplicate_checker_field:update"].invoke()
+      # Rake::Task["archived_slug:update"].invoke(short_name)
+      # Rake::Task["client_to_shared:copy"].invoke(short_name)
+      # Rake::Task["duplicate_checker_field:update"].invoke(short_name)
     end
     puts "Done!!!!"
   end
