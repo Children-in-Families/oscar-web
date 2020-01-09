@@ -8,7 +8,11 @@
           %td.image-title.vert-align
             = original_filename(attachment)
           %td.vert-align.preview.text-center
-            = link_to preview_or_download(attachment), attachment.url, target: target_blank(attachment), class: 'btn btn-info btn-sm btn-download'
+            - if file_dir_or_symlink_exists?(attachment.file.path)
+              = link_to preview_or_download(attachment), attachment.url, target: target_blank(attachment), class: 'btn btn-info btn-sm btn-download'
+            - else
+              = image_tag 'file-broken.png', class: 'img-responsive'
+
           - if action_name == 'show' || action_name == 'report' || action_name == 'index'
             %td.vert-align.text-center.action
               = form_buildable_path(resource, index, label, params['program_streams'])

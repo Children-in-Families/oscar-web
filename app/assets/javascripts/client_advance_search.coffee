@@ -26,7 +26,7 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
-    @loader = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) );
+    @LOADER = Ladda.create( document.querySelector( '.ladda-button-columns-visibility' ) );
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
@@ -155,7 +155,7 @@ class CIF.ClientAdvanceSearch
         $('#builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
-        loader.stop();
+        loader.stop() if loader
 
   addCustomBuildersFieldsInWizard: (ids, url) ->
     self = @
@@ -316,11 +316,15 @@ class CIF.ClientAdvanceSearch
       self.programSelected.push programId
       $('.main-report-builder .program-association').show()
       if $('#enrollment-checkbox').is(':checked')
-        self.addCustomBuildersFields(programId, self.ENROLLMENT_URL)
+        self.LOADER.start()
+        self.addCustomBuildersFields(programId, self.ENROLLMENT_URL, self.LOADER)
       if $('#tracking-checkbox').is(':checked')
-        self.addCustomBuildersFields(programId, self.TRACKING_URL)
+        self.LOADER.start()
+        self.addCustomBuildersFields(programId, self.TRACKING_URL, self.LOADER)
+
       if $('#exit-form-checkbox').is(':checked')
-        self.addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL)
+        self.LOADER.start()
+        self.addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL, self.LOADER)
 
     $('#report-builder-wizard select.program-stream-select').on 'select2-selecting', (psElement) ->
       programId = psElement.val
@@ -383,22 +387,22 @@ class CIF.ClientAdvanceSearch
   triggerEnrollmentFields: ->
     self = @
     $('#enrollment-checkbox').on 'ifChecked', ->
-      self.loader.start()
-      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.loader)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.LOADER)
     return
 
   triggerTrackingFields: ->
     self = @
     $('#tracking-checkbox').on 'ifChecked', ->
-      self.loader.start()
-      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.loader)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.LOADER)
     return
 
   triggerExitProgramFields: ->
     self = @
     $('#exit-form-checkbox').on 'ifChecked', ->
-      self.loader.start()
-      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.loader)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.LOADER)
     return
 
   addgroupCallback: ->

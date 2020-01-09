@@ -1,5 +1,5 @@
 module FormBuilderHelper
-  def get_query_string(results, form_type, properties_field)
+  def get_query_string(results, form_type, properties_field, program_name=nil)
     results.map do |result|
       condition = ''
       result.map do |h|
