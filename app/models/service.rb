@@ -9,7 +9,7 @@ class Service < ActiveRecord::Base
 
   validates :name, presence: true
 
-  default_scope { with_deleted }
+  default_scope { with_deleted.distinct }
   scope :only_parents,  -> { where(parent_id: nil) }
   scope :only_children, -> { where.not(parent_id: nil) }
   scope :names,         -> { only_children.pluck(:name) }

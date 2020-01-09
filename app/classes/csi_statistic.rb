@@ -81,17 +81,12 @@ class CsiStatistic
 
   def default_assessment_amount
     data = []
-    return data unless @clients.any?
+    return data unless (@clients && @clients.any?)
 
     clients = @clients.joins(:assessments).where(assessments: { default: true }).order('assessments.created_at')
     assessments_count = Client.maximum('assessments_count')
     client = Client.find_by(assessments_count: assessments_count)
     assessment_max_count = client.assessments.defaults.count
-    # max_count = clients.map { |a| a.assessments.defaults.size }.max.to_i
-    # clients.includes(:assessments)
-    # assessment_max_count.times do |i|
-    #   data << clients.includes(:assessments).map { |c| c.assessments.defaults[i].id if c.assessments.defaults[i].present? }
-    # end
     data = clients.includes(:assessments).map { |c| c.assessments.defaults.ids }
   end
 

@@ -1029,6 +1029,8 @@ en:
     edit:
       enrollment: Edit Enrollment
     form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
       cancel: Cancel
       enrollment_date: Enrollment Date
       save: Save
@@ -1105,6 +1107,8 @@ en:
     edit:
       enrollment: Edit Enrollment
     form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
       allow_file_size: Allowed file types
       cancel: Cancel
       enrollment_date: Enrollment Date

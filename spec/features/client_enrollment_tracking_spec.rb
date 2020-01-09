@@ -7,7 +7,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   let!(:tracking) { create(:tracking, name: 'Soccer', program_stream: program_stream) }
   let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, client_enrollment: client_enrollment, tracking: tracking) }
 
-  feature 'Create', js: true do
+  feature 'Create',js: true do
     before do
       login_as admin
       program_stream.reload
@@ -16,8 +16,8 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       click_link('Trackings')
     end
 
-    scenario 'Valid', js: true do
-      click_link('New Tracking')
+    xscenario 'Valid' ,js: true do
+      click_link "New Tracking"
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
         find('.numeric').set(4)
@@ -30,8 +30,8 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       expect(page).to have_content('test@example.com')
     end
 
-    scenario 'Invalid' do
-      click_link('New Tracking')
+    xscenario 'Invalid' do
+      click_link "New Tracking"
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
         find('.numeric').set(6)
@@ -109,7 +109,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
-    scenario 'Created by .. on ..' do
+    xscenario 'Created by .. on ..' do
       user = whodunnit_client_enrollment_tracking(client_enrollment_tracking.id)
       date = date_format(client_enrollment_tracking.created_at)
       sleep 1
@@ -140,7 +140,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       visit edit_client_client_enrolled_program_client_enrolled_program_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
-    scenario 'success' do
+    xscenario 'success' do
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('this is editing')
       find('input[type="submit"]').click
