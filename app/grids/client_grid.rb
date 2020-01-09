@@ -641,8 +641,8 @@ class ClientGrid < BaseGrid
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
-    if version.present? && version.whodunnit.present?
-      version.whodunnit.include?('rotati') ? 'OSCaR Team' : User.find_by(id: version.whodunnit.to_i).try(:name)
+    if (version.present? && version.whodunnit.present?) && !version.whodunnit.include?('rotati')
+      User.find_by(id: version.whodunnit.to_i).try(:name)
     else
       'OSCaR Team'
     end
