@@ -4,8 +4,6 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
 
-  acts_as_paranoid
-
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
@@ -381,33 +379,6 @@ class User < ActiveRecord::Base
   #   # as the user is unable to access their device/token
   #   false
   # end
-
-  def destroy!
-    if !deleted?
-      with_transaction_returning_status do
-        run_callbacks :destroy do
-          if persisted?
-            # Handle composite keys, otherwise we would just use `self.class.primary_key.to_sym => self.id`.
-            self.class.delete_all(Hash[[Array(self.class.primary_key), Array(self.id)].transpose])
-          end
-
-          @_trigger_destroy_callback = true
-
-          stale_paranoid_value
-          self
-        end
-      end
-    else
-      if paranoid_configuration[:double_tap_destroys_fully]
-        destroy_fully!
-      end
-    end
-  end
-
-  def stale_paranoid_value
-    self.paranoid_value = self.class.delete_now_value
-    clear_attribute_changes([self.class.paranoid_column])
-  end
 
   private
 
