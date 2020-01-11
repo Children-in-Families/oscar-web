@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SelectInput, TextInput, Checkbox } from "../Commons/inputs";
+import { SelectInput, TextInput, Checkbox, RadioGroup } from "../Commons/inputs";
 import Address from "./address";
 
 export default props => {
@@ -91,22 +91,22 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-12">
-          <SelectInput
-            T={T}
-            required
+          {/* todo: add required */}
+          <RadioGroup
+            inline
             isError={errorFields.includes("answered_call")}
-            label="Did you answer this call, or are you returning a missed call?"
-            options={answeredCallOpts}
             onChange={onChange("referee", "answered_call")}
+            options={answeredCallOpts}
+            label="Did you answer this call, or are you returning a missed call?"
             value={referee.answered_call}
           />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12">
-          <SelectInput
-            T={T}
-            required
+          {/* todo: add required */}
+          <RadioGroup
+            inline
             isError={errorFields.includes("called_before")}
             label="Have you called the Childsafe Hotline Before?"
             options={calledBeforeOpts}
@@ -152,9 +152,9 @@ export default props => {
             value={referee.gender}
           />
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            T={T}
+        <div className="col-xs-12 col-md-6">
+          <RadioGroup
+            inline
             label="Are you over 18 years old?"
             isDisabled={referee.anonymous}
             options={ageOpts}

@@ -16,9 +16,8 @@ export default props => {
       {
         options.length > 0 &&
         options.map((option, index) => (
-          <div style={styles.radioWrapper}>
+          <div key={index} style={styles.radioWrapper}>
             <RadioButton
-              key={index}
               value={option.value}
               checked={option.value === value}
               onChange={handleOnChange}
