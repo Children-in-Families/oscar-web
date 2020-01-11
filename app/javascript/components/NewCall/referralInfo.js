@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SelectInput, TextArea, TextInput, Checkbox, DateInput } from "../Commons/inputs";
 import ConcernAddress from "./concernAddress";
+import ClientAddressInfo from './clientAdressInfo'
 
 export default props => {
   const {
@@ -23,15 +24,9 @@ export default props => {
 
   const refereeRelationshipOpts = refereeRelationships.map(relationship => ({ label: relationship.label, value: relationship.value }))
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
-  // const phoneOwnerOpts = [
-  //   { label: "Test Phone", value: "Test Phone" }
-  // ];
-  const phoneOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
 
-  // const emailOwnerOpts = [
-  //   { label: "Test Email", value: "Test" }
-  // ];
-  // todo, to be updated
+  const phoneOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
+  // same as phone owner
   const emailOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
 
   const genderLists = [
@@ -243,7 +238,8 @@ export default props => {
             onChange={onChange("client", "birth_province_id")}
           />
         </div>
-
+      </div>
+      <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* <SelectInput
             T={T}
@@ -272,6 +268,10 @@ export default props => {
             onChange={onChange('client','user_ids')} />
         </div>
       </div>
+      <div className="row">
+        <ClientAddressInfo id="clientAddressInfo" data={{ client, currentProvinces, currentDistricts, currentCommunes, currentVillages, addressTypes, phoneOwners, T }} onChange={onChange} />
+      </div>
+      <br/>
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">

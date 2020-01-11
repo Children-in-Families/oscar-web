@@ -53,7 +53,7 @@ const CallForms = props => {
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
 
   const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T  }
-  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, ...referralTabData }
+  const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
   const callAboutTabData = { client: clientData, T }
 
   const tabs = [
@@ -192,7 +192,6 @@ const CallForms = props => {
   //     callback()
   // }
 
-  // to be updated from: client => call
   const handleSave = event => {
     if (handleValidation()) {
       handleCheckValue(refereeData)
@@ -207,7 +206,7 @@ const CallForms = props => {
         setOnSave(true)
         const action = clientData.id ? 'PUT' : 'POST'
         const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
-
+        const message = "Call has been successfully created"
         $.ajax({
           url,
           type: action,
@@ -221,8 +220,7 @@ const CallForms = props => {
             setLoading(true)
           }
         }).success(response => {
-          // document.location.href=`/calls/${response.id}?notice=success`
-          console.log('Success response: ', response);
+          document.location.href = `/calls?notice=` + message
         })
       }
     }

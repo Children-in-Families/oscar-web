@@ -1,10 +1,10 @@
 import React from 'react'
 
 export default props => {
-  const { isError, label, required, onChange, ...others } = props
+  const { isError, hidden, label, required, onChange, ...others } = props
   return (
     <div className='form-group'>
-      <label style={isError && styles.errorText || {}}>
+      <label className={ hidden ? 'hidden' : '' } style={isError && styles.errorText || {}}>
         {required && <abbr title='required'>* </abbr>}
         {label}
       </label>

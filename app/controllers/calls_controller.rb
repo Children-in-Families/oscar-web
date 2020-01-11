@@ -109,7 +109,7 @@ class CallsController < AdminController
     # @referee = @client.referee.present? ? @client.referee : Referee.new
     @carer     = Carer.new
     @referee   = Referee.new
-    @referee_relationships = Client::REFEREE_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @relation_to_caller = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
     @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
     @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}

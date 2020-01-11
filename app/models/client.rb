@@ -13,6 +13,7 @@ class Client < ActiveRecord::Base
   mount_uploader :profile, ImageUploader
 
   REFEREE_RELATIONSHIPS = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
+  RELATIONSHIP_TO_CALLER = ['Self', 'Child', 'Family Member', 'Friend', 'In same community', 'Client', 'Stranger', 'Other'].freeze
   ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
   PHONE_OWNERS    = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']

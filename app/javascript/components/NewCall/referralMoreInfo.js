@@ -3,9 +3,10 @@ import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
+import { TextArea } from "../Commons/inputs";
 
 export default props => {
-  const { onChange, data: { carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, T } } = props
+  const { onChange, data: { call, carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, phoneOwners, T } } = props
 
   return (
     <div className="containerClass">
@@ -23,6 +24,7 @@ export default props => {
         </div>
       </div>
       <br/>
+
       <div className="row">
         <div className="careInfo">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#careInfo">
@@ -81,6 +83,60 @@ export default props => {
       </div>
 
       <CustomInfo id="customInfo" onChange={onChange} data={{ratePoor, client, T}} />
+      <hr/>
+
+      <div className="row">
+        <div className="phoneCounsellingSummary">
+          <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#phoneCounsellingSummary">
+            <label className="makeSpaceCustom">Phone Counselling Summary</label>
+            <span className="pointer">
+              <i className="fa fa-chevron-up"></i>
+              <i className="fa fa-chevron-down"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div id="phoneCounsellingSummary" className="collapse">
+        <br/>
+        <div className="row">
+          <div className="col-xs-12 col-md-9">
+            <TextArea
+              hidden="true"
+              placeholder="Add a note about the content of your conversation with the caller."
+              label="Phone Counselling Summary"
+              value={call.phone_counselling_summary}
+              onChange={onChange(call, 'phone_counselling_summary')} />
+          </div>
+        </div>
+      </div>
+      <hr/>
+
+      <div className="row">
+        <div className="informationProvided">
+          <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#informationProvided">
+            <label className="makeSpaceCustom">Information Provided</label>
+            <span className="pointer">
+              <i className="fa fa-chevron-up"></i>
+              <i className="fa fa-chevron-down"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div id="informationProvided" className="collapse">
+        <br/>
+        <div className="row">
+          <div className="col-xs-12 col-md-9">
+            <TextArea
+              hidden="true"
+              placeholder="Add a note about the content of your conversation with the caller."
+              label="Information Provided"
+              value={call.information_provided}
+              onChange={onChange(call, 'information_provided')} />
+          </div>
+        </div>
+      </div>
       <hr/>
     </div>
   )

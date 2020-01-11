@@ -72,7 +72,7 @@ export default props => {
 
   return (
     outside == true ?
-      <TextArea label="Out Side Address" disabled={disabled} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
+      <TextArea label="Outside Address" disabled={disabled} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
     :
       <>
         <div className="row">

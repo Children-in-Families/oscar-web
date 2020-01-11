@@ -14,4 +14,15 @@ class Call < ActiveRecord::Base
 
   # validates :receiving_staff_id, :start_datetime, :end_datetime, presence: true
   # validates :call_type, presence: true, inclusion: { in: call_types.values }
+
+  # validates :phone_counselling_summary, presence: true, if: :phone_counseling?
+  # validates :information_provided, presence: true, if: :seeking_information?
+
+  # def phone_counseling?
+  #   call_type == "Phone Counseling"
+  # end
+
+  # def seeking_information?
+  #   call_type == "Seeking Information"
+  # end
 end
