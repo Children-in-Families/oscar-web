@@ -222,9 +222,14 @@ const CallForms = props => {
           beforeSend: (req) => {
             setLoading(true)
           }
-        }).success(response => {
+        })
+        .success(response => {
           document.location.href = `/calls?notice=` + message
         })
+        .error(err => {
+          console.log("err: ", err);
+        })
+
       }
     }
   }

@@ -16,13 +16,34 @@ module Api
 
         carer = Carer.new(carer_params)
         # carer.save
+        client.name_of_referee = referee.name
+        client.received_by_id = call.receiving_staff_id # if Receiving Staff is Receiving Staff Member
 
         # client.referee_id = referee.id
         # client.carer_id = carer.id
 
         if tagged_with_client?(call.call_type)
-          # to do
           # create all objects
+          if client.valid?
+            if referee.valid?
+              if call.valid?
+                referee.save
+                carer.save
+                client.referee_id = referee.id
+                client.carer_id = carer.id
+                client.save
+                call.referee_id = referee.id
+                call.save
+                render json: call
+              else
+                render json: call.errors, status: :unprocessable_entity
+              end
+            else
+              render json: referee.errors, status: :unprocessable_entity
+            end
+          else
+            render json: client.errors, status: :unprocessable_entity
+          end
         elsif (call.call_type == "Providing Update")
           # create call & referee, and attach referee to existing client
           # does not create carer, does not creater client

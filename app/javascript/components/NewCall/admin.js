@@ -53,6 +53,18 @@ export default props => {
             options={userLists}
             value={call.receiving_staff_id}
             onChange={onChange('call', 'receiving_staff_id')} />
+
+          {/* 2. Is Receiving Staff of hotline the same as Receving Staff Member in AHT?
+          If yes, use the following instead. */}
+          {/* <SelectInput
+            T={T}
+            required
+            isError={errorFields.includes('receiving_staff_id')}
+            label='Receiving Staff'
+            options={userLists}
+            value={call.receiving_staff_id}
+            onChange={(value) => { onChange('call', 'receiving_staff_id')(value); onChange('client', 'received_by_id')(value) }}
+            /> */}
         </div>
       </div>
 

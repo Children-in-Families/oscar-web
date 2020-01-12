@@ -131,17 +131,12 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            // required
+            required
             disabled={referee.anonymous}
-            // isError={errorFields.includes('referee_name')}
             isError={errorFields.includes("name")}
             value={referee.name}
             label="Name"
-            // onChange={onChange('referee', 'referee_name')}
-            onChange={value => {
-              onChange("referee", "name")(value);
-              onChange("client", "name_of_referee")(value);
-            }}
+            onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
