@@ -27,6 +27,7 @@ const CallForms = props => {
 
   const {
     data: {
+      call,
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
       referee, carer, users, birthProvinces, referralSource, referralSourceCategory,
       selectedCountry, internationalReferredClient, quantitativeType, quantitativeCase,
@@ -41,7 +42,7 @@ const CallForms = props => {
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
-  const [callData, setCallData] = useState({}) // to work for both new & edit, useState({ call | {} })
+  const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData] = useState(carer)
 
@@ -103,9 +104,10 @@ const CallForms = props => {
 
   const handleValidation = () => {
     const components = [
-      { step: 1, data: refereeData, fields: ['name'] },
+      { step: 1, data: refereeData, fields: ['name', 'answered_call', 'called_before'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
-      { step: 2, data: clientData, fields: ['gender']},
+      { step: 1, data: callData, fields: ['phone_call_id', 'receiving_staff_id', 'call_type'] },
+      { step: 2, data: clientData, fields: ['gender', 'user_ids', 'initial_referral_date']},
       { step: 3, data: clientData, fields: [] },
       { step: 4, data: clientData, fields: [] }
     ]
@@ -118,6 +120,7 @@ const CallForms = props => {
         component.fields.forEach(field => {
           // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
           if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
+
             errors.push(field)
             errorSteps.push(component.step)
           }

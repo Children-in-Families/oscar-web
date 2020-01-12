@@ -1,7 +1,8 @@
 import React from 'react'
 import {
   SelectInput,
-  TextInput
+  TextInput,
+  RadioGroup
 } from '../Commons/inputs'
 
 export default props => {
@@ -33,6 +34,8 @@ export default props => {
         <div className='col-md-12 col-lg-9'>
           <TextInput
             T={T}
+            required
+            isError={errorFields.includes('phone_call_id')}
             label="Phone Call ID #"
             onChange={onChange('call', 'phone_call_id')}
             value={call.phone_call_id}
@@ -55,7 +58,7 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <SelectInput
+          <RadioGroup
             T={T}
             required
             isError={errorFields.includes('call_type')}

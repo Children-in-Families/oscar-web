@@ -267,6 +267,16 @@ export default props => {
             value={client.user_ids}
             onChange={onChange('client','user_ids')} />
         </div>
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <DateInput
+            T={T}
+            required
+            isError={errorFields.includes("initial_referral_date")}
+            getCurrentDate
+            label="Initial Referral Date"
+            onChange={onChange('client', 'initial_referral_date')}
+            value={client.initial_referral_date} />
+        </div>
       </div>
       <div className="row">
         <ClientAddressInfo id="clientAddressInfo" data={{ client, currentProvinces, currentDistricts, currentCommunes, currentVillages, addressTypes, phoneOwners, T }} onChange={onChange} />

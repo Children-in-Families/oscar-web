@@ -8,37 +8,9 @@ class CallsController < AdminController
   end
 
   def new
-    if params[:referral_id].present?
-      current_org = Organization.current
-      referral_source_id = find_referral_source_by_referral
-
-      Organization.switch_to 'shared'
-      attributes = SharedClient.find_by(archived_slug: @referral.slug).try(:attributes) || SharedClient.find_by(slug: @referral.slug).try(:attributes)
-      if attributes.present?
-        attributes = attributes.except('duplicate_checker')
-        attributes = fetch_referral_attibutes(attributes, referral_source_id)
-      else
-        attributes
-      end
-      Organization.switch_to current_org.short_name
-      @client = Client.new(attributes)
-    else
-      @client = Client.new
-    end
+    @client = Client.new
+    @call = Call.new
   end
-
-  # def create
-  #   @client = Client.new(client_params)
-  #   if @client.save
-  #     if params[:clientConfirmation] == 'createNewFamilyRecord'
-  #       redirect_to new_family_path(children: [@client.id])
-  #     else
-  #       redirect_to @client, notice: t('.successfully_created')
-  #     end
-  #   else
-  #     render :new
-  #   end
-  # end
 
   def create
     call = Call.new(call_params)
@@ -167,21 +139,6 @@ class CallsController < AdminController
     @carer_districts                = []
     @carer_communes                 = []
     @carer_villages                 = []
-  end
-
-  def find_referral_source_by_referral
-    referral_source_org = Organization.find_by(short_name: @referral.referred_from).full_name
-    ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
-  end
-
-  def fetch_referral_attibutes(attributes, referral_source_id)
-    attributes.merge!({
-      initial_referral_date: @referral.date_of_referral,
-      referral_phone: @referral.referral_phone,
-      relevant_referral_information: @referral.referral_reason,
-      name_of_referee: @referral.name_of_referee,
-      referral_source_id: referral_source_id
-    })
   end
 
   def exited_clients(users)

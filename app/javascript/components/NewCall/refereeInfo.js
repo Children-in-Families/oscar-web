@@ -94,6 +94,7 @@ export default props => {
           {/* todo: add required */}
           <RadioGroup
             inline
+            required
             isError={errorFields.includes("answered_call")}
             onChange={onChange("referee", "answered_call")}
             options={answeredCallOpts}
@@ -107,6 +108,7 @@ export default props => {
           {/* todo: add required */}
           <RadioGroup
             inline
+            required
             isError={errorFields.includes("called_before")}
             label="Have you called the Childsafe Hotline Before?"
             options={calledBeforeOpts}
