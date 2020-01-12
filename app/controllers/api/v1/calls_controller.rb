@@ -32,6 +32,12 @@ module Api
                 client.referee_id = referee.id
                 client.carer_id = carer.id
                 client.save
+
+                if (call.call_type == "New Referral: Case Action Required")
+                  # auto accept client
+                  client.enter_ngos.create(accepted_date: Date.today)
+                end
+
                 call.referee_id = referee.id
                 call.save
                 render json: call
