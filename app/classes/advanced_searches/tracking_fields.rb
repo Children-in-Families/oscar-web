@@ -6,10 +6,10 @@ module AdvancedSearches
     def initialize(program_ids)
       @program_ids = program_ids
 
-      @number_type_list     = []
-      @text_type_list       = []
-      @date_type_list       = []
-      @drop_down_type_list  = []
+      @number_type_list     ||= []
+      @text_type_list       ||= []
+      @date_type_list       ||= []
+      @drop_down_type_list  ||= []
 
       generate_field_by_type
     end
@@ -21,18 +21,15 @@ module AdvancedSearches
       drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first) , item.last, format_optgroup(item.first)) }
 
       results = text_fields + drop_list_fields + number_fields + date_picker_fields
-
       results.sort_by { |f| f[:label].downcase }
     end
 
     def generate_field_by_type
-      program_streams = ProgramStream.where(id: @program_ids).includes(:trackings)
-      trackings       = program_streams.collect(&:trackings).flatten
-
-      trackings.each do |tracking|
-        program_name  = tracking.program_stream.name
+      trackings = Tracking.joins(:program_stream).where(program_stream_id: @program_ids)
+      tracking_values = trackings.select("trackings.name, program_streams.name program_name, trackings.fields")
+      tracking_values.each do |tracking|
+        program_name  = tracking.program_name
         tracking_name = tracking.name
-
         tracking.fields.each do |json_field|
           json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
@@ -49,6 +46,7 @@ module AdvancedSearches
           end
         end
       end
+      return nil
     end
 
     private

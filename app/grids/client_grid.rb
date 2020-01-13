@@ -568,6 +568,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
+    # selected_program_id = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
   end
 
@@ -641,8 +642,8 @@ class ClientGrid < BaseGrid
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
-    if version.present? && version.whodunnit.present?
-      version.whodunnit.include?('rotati') ? 'OSCaR Team' : User.find_by(id: version.whodunnit.to_i).try(:name)
+    if (version.present? && version.whodunnit.present?) && !version.whodunnit.include?('rotati')
+      User.find_by(id: version.whodunnit.to_i).try(:name)
     else
       'OSCaR Team'
     end
@@ -1056,7 +1057,7 @@ class ClientGrid < BaseGrid
             properties = properties[format_field_value] if properties.present?
           else
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
-            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
+            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
           end
         elsif fields.first == 'programexitdate'
           ids = object.client_enrollments.inactive.ids
