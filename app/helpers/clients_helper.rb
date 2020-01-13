@@ -518,21 +518,7 @@ module ClientsHelper
 
   def form_builder_query(object, form_type, field_name)
     return object if params['all_values'].present?
-    # data    = {}
-    # data    = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
-
-    # results             = mapping_form_builder_param_value(data, form_type, field_name)
-    # default_value_param = params['all_values']
-    # results = mapping_form_builder_param_value(data, form_type, field_name) if default_value_param
-
-    # return object if results.flatten.blank?
-
-    # properties_field = 'client_enrollment_trackings.properties'
-    # query_string = get_query_string(results, form_type, properties_field)
-
-    # object.where(query_string.reject(&:blank?).join(" AND "))
     properties_field = 'client_enrollment_trackings.properties'
-    # client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
@@ -542,7 +528,11 @@ module ClientsHelper
     return object if results.flatten.blank?
 
     query_string  = get_query_string(results, form_type, properties_field)
-    properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+    if form_type == 'formbuilder'
+      properties_result = object.where(query_string.reject(&:blank?).join(" AND "))
+    else
+      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+    end
   end
 
   def case_note_query_results(object, case_note_date_query, case_note_type_query)
