@@ -8,11 +8,11 @@ class UsersController < AdminController
     @user_grid = UserGrid.new(params[:user_grid])
     respond_to do |f|
       f.html do
-        @results = @user_grid.scope { |scope| scope.where(deleted_at: nil).accessible_by(current_ability) }.assets.size
-        @user_grid.scope { |scope| scope.where(deleted_at: nil).accessible_by(current_ability).page(params[:page]).per(20) }
+        @results = @user_grid.scope { |scope| scope.deleted_user.accessible_by(current_ability) }.assets.size
+        @user_grid.scope { |scope| scope.deleted_user.accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do
-        @user_grid.scope { |scope| scope.where(deleted_at: nil).accessible_by(current_ability) }
+        @user_grid.scope { |scope| scope.deleted_user.accessible_by(current_ability) }
         send_data @user_grid.to_xls, filename: "user_report-#{Time.now}.xls"
       end
     end

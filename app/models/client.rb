@@ -675,7 +675,7 @@ class Client < ActiveRecord::Base
   end
 
   def notify_managers
-    ClientMailer.exited_notification(self, User.managers.non_locked.pluck(:email)).deliver_now
+    ClientMailer.exited_notification(self, User.deleted_user.managers.non_locked.pluck(:email)).deliver_now
   end
 
   def disconnect_client_user_relation
