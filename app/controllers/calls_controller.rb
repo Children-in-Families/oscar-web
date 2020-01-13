@@ -4,7 +4,9 @@ class CallsController < AdminController
   before_action :set_association, except: [:index, :destroy, :version]
 
   def index
-    @calls = Call.order(:created_at)
+    @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
+      scope.order(:created_at).page(params[:page])
+    end
   end
 
   def new

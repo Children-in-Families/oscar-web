@@ -28,7 +28,10 @@
 //= require form_builder/form-builder.min
 //= require form_builder/form-render.min
 //= require lodash/lodash.min.js
-//= require query_builder/query-builder.standalone.min.js
+// require query_builder/query-builder.standalone.min.js
+//= require jquery.extendext
+//= require doT
+//= require query-builder
 
 //remove query_builder/utils, query_builder/model and query_builder/plugin bcuz conflict with form-builder select option not show
 

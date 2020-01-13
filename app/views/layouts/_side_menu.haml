@@ -33,10 +33,11 @@
             %i.fa.fa-th-large
             %span.nav-label= t('.dashboards')
 
-        %li.main
+        %li.main{ class: is_active_controller('calls') }
           = link_to calls_path do
             = fa_icon('phone')
-            %span.nav-label Calls
+            %span.nav-label= t('.clients')
+            %span.label.label-primary.pull-right= @calls_count
         %li.main{ class: clients_menu_active }
           = link_to clients_path do
             = fa_icon('child')

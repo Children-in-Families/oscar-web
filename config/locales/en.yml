@@ -622,6 +622,10 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    index:
+      add_new_call: Add New Call
+      export_xls: Export to XLS
+      results: Results
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Notifier Concern"
@@ -3212,6 +3216,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      results: ResultsExport to XLS
       report_builder: Report Builder
       results: Results
     new:
