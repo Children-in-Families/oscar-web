@@ -1,5 +1,5 @@
 class CallsController < AdminController
-  load_and_authorize_resource find_by: :slug, except: :quantitative_case
+  # load_and_authorize_resource find_by: :id, except: :quantitative_case
 
   before_action :set_association, except: [:index, :destroy, :version]
 
@@ -12,8 +12,13 @@ class CallsController < AdminController
     @call = Call.new
   end
 
+  def show
+    @call = Call.find(params[:id])
+  end
+  
+
   def create
-    call = Call.new(call_params)
+    call = Call.new(call_params)  
     if call.save
       render json: call
     else
