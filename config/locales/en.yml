@@ -626,6 +626,7 @@ en:
       add_new_call: Add New Call
       export_xls: Export to XLS
       results: Results
+      report_builder: Report Builder
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Notifier Concern"
@@ -2058,6 +2059,8 @@ en:
     columns:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      calls:
+        manage: Manage
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number

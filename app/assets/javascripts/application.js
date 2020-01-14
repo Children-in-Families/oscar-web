@@ -125,3 +125,4 @@
 //= require registrations/form
 //= require referral_sources/index
 //= require client_books/index
+//= require calls/index

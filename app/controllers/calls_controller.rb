@@ -34,10 +34,10 @@ class CallsController < AdminController
   private
 
   def call_params
-    # binding.pry
-    params.require(:call).permit(:phone_call_id, :receiving_staff_id,
+    params.require(:call).permit(
+                            :phone_call_id, :receiving_staff_id, :referee_id,
                             :start_datetime, :end_datetime, :call_type
-                            )
+                          )
   end
 
   def remove_blank_exit_reasons

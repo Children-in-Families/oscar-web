@@ -330,13 +330,12 @@
     %hr/
     .row
       - grid.filters.each do |filter|
-        .col-xs-4
-          .datagrid-filter.filter.form-group
-            = f.datagrid_label filter
-            - if filter.type == :date
-              = f.datagrid_filter filter, partials: options[:partials], class: "form-control datepicker #{filter.options[:class]}"
-            - else
-              = f.datagrid_filter filter, partials: options[:partials], class: "form-control #{filter.options[:class]}"
+        .datagrid-filter.filter.form-group.col-xs-12.col-sm-6.col.md-4.col-lg-4
+          = f.datagrid_label filter
+          - if filter.type == :date
+            = f.datagrid_filter filter, partials: options[:partials], class: "form-control datepicker #{filter.options[:class]}"
+          - else
+            = f.datagrid_filter filter, partials: options[:partials], class: "form-control #{filter.options[:class]}"
 
     .row
       .col-xs-12
