@@ -185,6 +185,14 @@ km:
               blank: មិនអាចរំលង
               greater_than_or_equal_to: មិនអាចតូចជាង 1
               not_an_integer: អនុញ្ញាតតែលេខគត់ប៉ុណ្ណោះ
+        custom_assessment_setting:
+          attributes:
+            custom_assessment_name:
+              blank: មិនអាចរំលង
+            max_custom_assessment:
+              greater_than:
+                one: ត្រូវតែធំជាងអប្បរមា
+                other: ត្រូវតែធំជាង %{count}
         department:
           attributes:
             name:
@@ -3039,6 +3047,7 @@ km:
       title: ពិនិត្យកែសម្រួលកត្តា
     form:
       cancel: ទុកជាមោឃៈ
+      custom_assessment_name: ឈ្មោះឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       description: ការបរិយាយ
       domain_group: ការប្រមូលផ្តុំកត្តា
       identity: សំគាល់

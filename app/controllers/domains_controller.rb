@@ -9,11 +9,13 @@ class DomainsController < AdminController
     @custom_domains = Domain.custom_csi_domains.page(params[:page_2]).per(10)
     @results = Domain.csi_domains.count
     @custom_domain_results = Domain.custom_csi_domains.count
+    @custom_assessment_setting = @current_setting.custom_assessment_settings
+    @custom_assessment_paginate = CustomAssessmentSetting.joins(:domains).page(params[:page_2]).per(10)
   end
 
   def new
     if params[:copy] != 'true'
-      @domain = Domain.new
+      @domain = Domain.new(custom_assessment_setting_id: params[:custom_assessment_setting_id])
     else
       @domain     = Domain.find(params[:domain_id])
       domain_attr = @domain.attributes.except('id')
@@ -65,7 +67,8 @@ class DomainsController < AdminController
       :name, :identity, :description, :local_description, :domain_group_id,
       :score_1_color, :score_2_color, :score_3_color, :score_4_color,
       :score_1_definition, :score_2_definition, :score_3_definition, :score_4_definition,
-      :score_1_local_definition, :score_2_local_definition, :score_3_local_definition, :score_4_local_definition)
+      :score_1_local_definition, :score_2_local_definition, :score_3_local_definition, :score_4_local_definition,
+      :custom_assessment_setting_id)
   end
 
   def find_domain

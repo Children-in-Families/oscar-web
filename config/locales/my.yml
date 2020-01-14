@@ -183,6 +183,14 @@ my:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               greater_than_or_equal_to: 'တစ္ သို႔မဟုတ္ တစ္ထက္ ႀကီးရပါမည္။ '
               not_an_integer: ကိန္းျပည့္မဟုတ္ပါ။
+        custom_assessment_setting:
+          attributes:
+            custom_assessment_name:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            max_custom_assessment:
+              greater_than:
+                one: နိမ့်ဆုံးထက် သာ. ကြီးမြတ်ဖြစ်ရမည်
+                other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
         department:
           attributes:
             name:
@@ -3018,6 +3026,7 @@ my:
       title: ဒိုမိန္းကို ျပင္ဆင္ရန္
     form:
       cancel: ပယ္ဖ်က္ရန္
+      custom_assessment_name: Custom Assessment Name
       description: ေဖာ္ျပခ်က္
       domain_group: ဒိုမိန္းအုပ္စု
       identity: အမွတ္အသား

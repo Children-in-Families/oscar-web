@@ -77,7 +77,12 @@ class SettingsController < AdminController
                                     :case_note_frequency, :org_name, :province_id, :district_id, :commune_id,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
                                     client_default_columns: [], family_default_columns: [],
-                                    partner_default_columns: [], user_default_columns: [])
+                                    partner_default_columns: [], user_default_columns: [],
+                                    custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :_destroy])
+  end
+
+  def custom_assessment_params
+    params.require(:custom_assessment_setting).permit(:custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age)
   end
 
   def find_setting

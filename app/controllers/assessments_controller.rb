@@ -11,6 +11,7 @@ class AssessmentsController < AdminController
     @default_assessment = @client.assessments.new
     @custom_assessment  = @client.assessments.new(default: false)
     @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
+    @custom_assessment_settings = CustomAssessmentSetting.all
   end
 
   def new
@@ -19,7 +20,7 @@ class AssessmentsController < AdminController
     if current_organization.try(:aht) == false
       authorize @assessment
     end
-    @assessment.populate_notes(params[:default])
+    @assessment.populate_notes(params[:default], params[:custom_name])
   end
 
   def create
