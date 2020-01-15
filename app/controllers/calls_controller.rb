@@ -1,5 +1,5 @@
 class CallsController < AdminController
-  # load_and_authorize_resource find_by: :id, except: :quantitative_case
+  load_and_authorize_resource find_by: :id, except: :quantitative_case
 
   before_action :set_association, except: [:index, :destroy, :version]
 
