@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Loading from '../Commons/Loading'
 import CallAdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
@@ -29,7 +29,7 @@ const CallForms = props => {
     data: {
       call,
       client: { client, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
-      referee, carer, users, birthProvinces, referralSource, referralSourceCategory,
+      referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
       selectedCountry, internationalReferredClient, quantitativeType, quantitativeCase,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages
@@ -45,6 +45,7 @@ const CallForms = props => {
   const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
   const [refereeData, setRefereeData] = useState(referee)
+  const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData] = useState(carer)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
@@ -52,7 +53,7 @@ const CallForms = props => {
   // const adminTabData = { users, client: clientData, errorFields }
   const adminTabData = { call: callData, users, errorFields, T }
 
-  const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
+  const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
 
   const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeTabData  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
@@ -82,7 +83,7 @@ const CallForms = props => {
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
     const value = inputType.includes(event.type) ? event.data : event.target.value
-
+    
     if (typeof field !== 'object')
       field = { [field]: value }
 
@@ -94,6 +95,7 @@ const CallForms = props => {
         setClientData({...clientData, ...field})
         break;
       case 'referee':
+        console.log('field: ', field)
         setRefereeData({...refereeData, ...field })
         break;
       case 'carer':

@@ -43,6 +43,11 @@ export default props => {
   const [communes, setCommunes] = useState(currentCommunes);
   const [villages, setVillages] = useState(currentVillages);
 
+  useEffect(() => {
+    // SHOULD COMMENT THIS LINE BEFORE PUSHING TO PRODUCTION
+    // onChange('client', 'initial_referral_date')({data: '2020-1-1', type: 'date'});
+  }, [])
+
   const fetchData = (parent, data, child) => {
     $.ajax({
       type: "GET",
@@ -176,7 +181,12 @@ export default props => {
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <DateInput getCurrentDate label="Date of Birth" onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
+          <DateInput 
+            getCurrentDate 
+            label="Date of Birth" 
+            onChange={onChange('client', 'date_of_birth')}
+            value={client.date_of_birth} 
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput

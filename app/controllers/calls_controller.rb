@@ -9,6 +9,7 @@ class CallsController < AdminController
 
   def new
     @client = Client.new
+    @referees = Referee.all
     @call = Call.new
   end
 

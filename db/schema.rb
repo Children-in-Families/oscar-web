@@ -81,6 +81,12 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.datetime "updated_at"
   end
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",               default: ""
     t.integer  "previous_score"
@@ -491,9 +497,9 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.integer  "village_id"
     t.string   "profile"
     t.integer  "referral_source_category_id"
-    t.string   "archived_slug"
     t.integer  "default_assessments_count",        default: 0,          null: false
     t.integer  "custom_assessments_count",         default: 0,          null: false
+    t.string   "archived_slug"
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
     t.boolean  "outside",                          default: false
@@ -1702,9 +1708,9 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

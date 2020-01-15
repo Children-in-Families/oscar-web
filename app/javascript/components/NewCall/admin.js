@@ -54,7 +54,13 @@ export default props => {
             label='Receiving Staff'
             options={userLists}
             value={call.receiving_staff_id}
-            onChange={onChange('call', 'receiving_staff_id')} />
+            onChange={(value) => {
+              onChange('call', 'receiving_staff_id')(value); 
+
+              // SHOULD COMMENT THIS LINE BEFORE PUSHING TO PRODUCTION
+              // onChange('client', 'received_by_id')(value)
+            }}
+          />
 
           {/* 2. Is Receiving Staff of hotline the same as Receving Staff Member in AHT?
           If yes, use the following instead. */}

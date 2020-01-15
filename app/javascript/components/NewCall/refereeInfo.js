@@ -12,6 +12,7 @@ export default props => {
       refereeCommunes,
       refereeVillages,
       referee,
+      referees,
       client,
       currentProvinces,
       referralSourceCategory,
@@ -27,6 +28,14 @@ export default props => {
     { label: "Other", value: "other" },
     { label: "Unknown", value: "unknown" }
   ];
+
+  const refereeLists = () => {
+    let newList = []
+    referees.forEach(r => newList.push({ label: `${r.name} ${r.email}`, value: r.id }))
+    return newList
+  }
+  
+
   const answeredCallOpts = [
     { label: "Answered Call", value: true },
     { label: "Returning Missed Call", value: false }
@@ -81,6 +90,57 @@ export default props => {
     })({ type: "select" });
   };
 
+  const onRefereeNameChange = evt => {
+    let {email, id, name, gender, phone, province_id, district_id, commune_id, village_id, street_number, house_number, address_type, current_address} = referees.filter(r => r.id == evt.data)[0] || {}
+    onChange("referee", {
+      id,
+      name,
+      email,
+      gender,
+      phone,
+      province_id,
+      district_id,
+      commune_id,
+      village_id,
+      street_number,
+      house_number,
+      address_type,
+      current_address
+    })({ type: "select" });
+
+    // SHOULD COMMENT THIS LINE BEFORE PUSHING TO PRODUCTION
+    // onChange('client', 'name_of_referee')({ type: "select", data: name })
+  }
+
+  const renderNameField = () => {
+    if(referee.called_before) {
+      return (
+        <SelectInput
+          T={T}
+          label="Name"
+          required
+          isDisabled={referee.anonymous}
+          options={refereeLists()}
+          onChange={onRefereeNameChange}
+          isError={errorFields.includes("name")}
+          value={referee.id}
+        />
+      )
+    } else {
+      return (
+        <TextInput
+          T={T}
+          required
+          disabled={referee.anonymous}
+          isError={errorFields.includes("name")}
+          value={referee.name}
+          label="Name"
+          onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
+        />
+      )
+    }
+  }
+
   return (
     <div className="containerClass">
       <TaskModal data={{referee, clientTask}} onChange={onChange} />
@@ -133,15 +193,7 @@ export default props => {
       <br />
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            T={T}
-            required
-            disabled={referee.anonymous}
-            isError={errorFields.includes("name")}
-            value={referee.name}
-            label="Name"
-            onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
-          />
+          {renderNameField()}
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
@@ -222,7 +274,7 @@ export default props => {
         </div>
       </legend>
       <Address
-        disabled={referee.anonymous}
+        disabled={referee.anonymous || referee.called_before}
         outside={referee.outside || false}
         onChange={onChange}
         data={{
