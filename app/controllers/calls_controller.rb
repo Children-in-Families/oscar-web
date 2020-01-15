@@ -27,10 +27,10 @@ class CallsController < AdminController
     @referee = @call.referee
     @clients = @call.referee.clients.select("clients.gender, clients.slug, concat(clients.given_name, ' ', clients.family_name, ' (', clients.local_given_name, ' ', clients.local_family_name, ') ' ) full_name")
   end
-  
+
 
   def create
-    call = Call.new(call_params)  
+    call = Call.new(call_params)
     if call.save
       render json: call
     else
@@ -74,23 +74,14 @@ class CallsController < AdminController
       @families        = Family.order(:name)
     elsif current_user.manager?
       family_ids = current_user.families.ids
-      User.where(id: subordinate_users).each do |user|
-        user.clients.each do |client|
-          family_ids << client.family.try(:id)
-        end
-      end
-      Client.where(id: exited_clients(subordinate_users)).each do |client|
-        family_ids << client.family.try(:id)
-      end
-      current_user.clients.each do |client|
-        family_ids << client.family.try(:id)
-      end
+      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
+      family_ids += user.clients.pluck(:current_family_id)
+
       @families = Family.where(id: family_ids)
     elsif current_user.case_worker?
       family_ids = current_user.families.ids
-      current_user.clients.each do |client|
-        family_ids << client.family.try(:id)
-      end
+      family_ids += User.joins(:clients).where(id: current_user.id).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
       @families = Family.where(id: family_ids)
     end
 
@@ -158,16 +149,13 @@ class CallsController < AdminController
     @carer_villages                 = []
   end
 
-  def exited_clients(users)
-    client_ids = []
-    users.each do |user|
-      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
-        next if version.changeset[:user_id].last != user
-        client_id = version.changeset[:client_id].last
-        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
-        client_ids << client_id if client_id.present?
-      end
+  def exited_clients(user_ids)
+    sql = user_ids.map do |user_id|
+      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
+    end.join(" OR ")
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
+      client_id = version.changeset[:client_id].last
     end
-    client_ids.uniq
+    Client.where(id: client_ids, status: 'Exited').ids
   end
 end

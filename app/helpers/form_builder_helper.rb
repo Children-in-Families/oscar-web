@@ -30,12 +30,35 @@ module FormBuilderHelper
     data_mapping << rule_array
   end
 
+  def mapping_allowed_param_value(data, field_names, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_allowed_param_value(h, field_names, data_mapping)
+      end
+      next if !(field_names.include?(h[:id]))
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
   def get_program_service_query_string(results)
     results.map do |result|
       condition = ''
       result.map do |h|
         condition = h[:condition]
         class_name = h[:id] == 'active_program_stream' ? 'program_streams' : 'services'
+        program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], class_name)
+      end.join(" #{condition} ")
+    end
+  end
+
+  def get_any_query_string(results, class_name)
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        condition = h[:condition]
         program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], class_name)
       end.join(" #{condition} ")
     end
