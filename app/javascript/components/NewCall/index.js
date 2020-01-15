@@ -95,7 +95,6 @@ const CallForms = props => {
         setClientData({...clientData, ...field})
         break;
       case 'referee':
-        console.log('field: ', field)
         setRefereeData({...refereeData, ...field })
         break;
       case 'carer':
