@@ -33,6 +33,16 @@ module Api
                 client.carer_id = carer.id
                 client.save
 
+                if params[:task].present?
+                  task_attr = {
+                    name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
+                    domain_id: Domain.find_by(name: '3B').id,
+                    completion_date: params[:task][:completion_date],
+                    relation: params[:task][:relation]
+                  }
+                  client.tasks.create(task_attr)
+                end
+
                 if (call.call_type == "New Referral: Case Action Required")
                   # auto accept client
                   client.enter_ngos.create(accepted_date: Date.today)
