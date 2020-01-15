@@ -622,11 +622,15 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    call_type: Call types
+    end_datetime: End call date
+    hotline_call: Hotline Call
     index:
       add_new_call: Add New Call
       export_xls: Export to XLS
       results: Results
       report_builder: Report Builder
+    information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Notifier Concern"
@@ -635,6 +639,10 @@ en:
       seeking_information: "Seeking Information"
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
+    phone_call_id: Phone call ID
+    phone_counselling_summary: Phone counselling summary
+    phone_type: Phone type
+    start_datetime: Start datetime
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -2060,6 +2068,7 @@ en:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       calls:
+        hotline_call: Hotline Call
         manage: Manage
       carer_address: Carer Address
       carer_names: Carer Names

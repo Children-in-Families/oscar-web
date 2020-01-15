@@ -6,7 +6,7 @@ module CallHelper
 
   def group_call_field_types
     translations = @calls_grid.datagrid_attributes[2..-1].map do |header|
-      [header, I18n.t("datagrid.columns.partners.#{header.to_s}")]
+      [header, I18n.t("datagrid.columns.calls.#{header.to_s}")]
     end.to_h
 
     number_fields = []; text_fields = []; date_picker_fields = []; dropdown_list_options = []
@@ -44,5 +44,17 @@ module CallHelper
 
   def receiving_staff
     User.case_workers.map { |user| [user.name, user.id] }
+  end
+
+  def phone_call_id
+    Call.pluck(:phone_call_id).map { |phone_call_id| { phone_call_id => phone_call_id } }
+  end
+
+  def call_type
+    [Call::TYPES, I18n.t('calls.type').values].transpose.to_h
+  end
+
+  def get_basic_field_translations
+    I18n.t('calls')
   end
 end

@@ -1,8 +1,9 @@
 module AdvancedSearches
   class AdvancedSearchFields
-    attr_reader :translations, :number_type_list, :text_type_list, :date_type_list, :dropdown_type_list
+    attr_reader :group_label, :translations, :number_type_list, :text_type_list, :date_type_list, :dropdown_type_list
 
-    def initialize(args)
+    def initialize(group_label, args)
+      @group_label          = group_label
       @translations        = args.fetch(:translation)
       @text_type_list      = args.fetch(:text_field)
       @date_type_list      = args.fetch(:date_picker_field)
@@ -11,7 +12,7 @@ module AdvancedSearches
     end
 
     def render
-      group                 = header_translation('basic_fields')
+      group                 = header_translation(group_label)
       number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, header_translation(item), group) }
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, header_translation(item), group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, header_translation(item), group) }

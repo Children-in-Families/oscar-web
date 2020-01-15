@@ -49,6 +49,7 @@ class Client < ActiveRecord::Base
   belongs_to :village
   belongs_to :referee
   belongs_to :carer
+  belongs_to :call
 
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors

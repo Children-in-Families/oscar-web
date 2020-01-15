@@ -580,6 +580,10 @@ class ClientGrid < BaseGrid
     render partial: 'clients/type_of_services', locals: { type_of_services: services }
   end
 
+  column(:call, html: true, order: false, header: -> { I18n.t('datagrid.columns.calls.hotline_call') }) do |object|
+    "hot line call"
+  end
+
   column(:referee_name, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|
     object.referee.name
   end

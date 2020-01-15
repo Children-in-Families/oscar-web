@@ -117,7 +117,8 @@ module ClientsHelper
       referred_to:                   t('datagrid.columns.clients.referred_to'),
       referred_from:                 t('datagrid.columns.clients.referred_from'),
       referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
-      type_of_service:               t('datagrid.columns.type_of_service')
+      type_of_service:               t('datagrid.columns.type_of_service'),
+      hotline_call:                  t('datagrid.columns.calls.hotline_call')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -371,7 +372,8 @@ module ClientsHelper
       time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
-      type_of_service_: t('datagrid.columns.type_of_service')
+      type_of_service_: t('datagrid.columns.type_of_service'),
+      hotline_call_: t('datagrid.columns.calls.hotline_call')
     }
 
     Domain.order_by_identity.each do |domain|
