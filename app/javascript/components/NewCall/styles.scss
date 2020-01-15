@@ -101,7 +101,7 @@ body[id='calls-edit'], body[id='calls-update'] {
   }
 
   .phoneCounsellingSummary, .informationProvided,
-  .clientAddressInfo, .careInfo, .schoolInfo, .donorInfo, .customInfo {
+  .careInfo, .schoolInfo, .donorInfo, .customInfo {
     [data-toggle="collapse"] {
       .fa.fa-chevron-up {
         display: inline-block;

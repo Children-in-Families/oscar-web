@@ -7,6 +7,8 @@ class Domain < ActiveRecord::Base
   has_many   :domain_program_streams, dependent: :restrict_with_error
   has_many   :program_streams, through: :domain_program_streams
 
+  belongs_to :custom_assessment_setting
+
   has_paper_trail
 
   validates :domain_group, presence: true

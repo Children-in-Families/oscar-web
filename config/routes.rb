@@ -57,6 +57,11 @@ Rails.application.routes.draw do
 
   resources :domains, except: [:show] do
     get 'version' => 'domains#version'
+    collection do
+      resources :custom_assessment_settings do
+        resources :domains
+      end
+    end
   end
 
   # resources :provinces, except: [:show] do
