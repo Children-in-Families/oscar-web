@@ -14,6 +14,8 @@ class CallsController < AdminController
 
   def show
     @call = Call.find(params[:id])
+    @referee = @call.referee
+    @clients = @call.referee.clients.select("clients.gender, clients.slug, concat(clients.given_name, ' ', clients.family_name, ' (', clients.local_given_name, ' ', clients.local_family_name, ') ' ) full_name")
   end
   
 
