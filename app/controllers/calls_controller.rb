@@ -5,7 +5,15 @@ class CallsController < AdminController
 
   def index
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
-      scope.order(:created_at).page(params[:page])
+      scope.order(:created_at).page(params[:page]).page(params[:page]).per(20)
+    end
+    respond_to do |f|
+      f.html do
+        @calls_grid
+      end
+      f.xls do
+        send_data  @calls_grid.to_xls, filename: "calls_report-#{Time.now}.xls"
+      end
     end
   end
 

@@ -31,8 +31,8 @@ class CallsGrid
   column(:end_datetime) do |model|
     model.created_at.to_date
   end
-  column(:information_provided)
-  column(:phone_counselling_summary)
+  column(:information_provided, order: false)
+  column(:phone_counselling_summary, order: false)
   column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
     render partial: 'calls/actions', locals: { object: object }
   end
