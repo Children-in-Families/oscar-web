@@ -22,8 +22,6 @@ export default props => {
     { label: type, value: type, isFixed: false }
   ));
 
-  console.log('call date', call.date_of_call)
-
   return (
     <>
       <legend className='legend'>
