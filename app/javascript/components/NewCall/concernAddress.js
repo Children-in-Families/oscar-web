@@ -10,7 +10,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, disabled, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [], T } } = props
+  const { onChange, disabled, outside, T, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [] } } = props
 
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
@@ -76,14 +76,14 @@ export default props => {
 
   return (
     outside == true ?
-      <TextArea label="Outside Cambodia Address" disabled={disabled} value={objectData.concern_outside_address} onChange={onChange(objectKey, 'concern_outside_address')} />
+      <TextArea label={T.translate("newCall.concernAddress.outside_cambodia")} disabled={disabled} value={objectData.concern_outside_address} onChange={onChange(objectKey, 'concern_outside_address')} />
     :
       <>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Province"
+              label={T.translate("newCall.concernAddress.outside_cambodia")}
               options={provinces}
               isDisabled={disabled}
               value={objectData.concern_province_id}
@@ -94,7 +94,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="District / Khan"
+              label={T.translate("newCall.concernAddress.district")}
               isDisabled={disabled}
               options={districts}
               value={objectData.concern_district_id}
@@ -105,7 +105,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Commune / Sangkat"
+              label={T.translate("newCall.concernAddress.commune")}
               isDisabled={disabled}
               options={communes}
               value={objectData.concern_commune_id}
@@ -116,7 +116,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Village"
+              label={T.translate("newCall.concernAddress.village")}
               isDisabled={disabled}
               options={villages}
               value={objectData.concern_village_id}
@@ -129,7 +129,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               T={T}
-              label="Street Number"
+              label={T.translate("newCall.concernAddress.street_number")}
               disabled={disabled}
               onChange={onChange(objectKey, 'concern_street')}
               value={objectData.concern_street}
@@ -139,7 +139,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               T={T}
-              label="House Number"
+              label={T.translate("newCall.concernAddress.house_number")}
               disabled={disabled}
               onChange={onChange(objectKey, 'concern_house')}
               value={objectData.concern_house}
@@ -149,7 +149,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               T={T}
-              label="Address Name"
+              label={T.translate("newCall.concernAddress.address_name")}
               disabled={disabled}
               onChange={onChange(objectKey, 'concern_address')}
               value={objectData.concern_address}
@@ -159,7 +159,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Address Type"
+              label={T.translate("newCall.concernAddress.address_type")}
               isDisabled={disabled}
               options={addressTypes}
               onChange={onChange(objectKey, 'concern_address_type')}

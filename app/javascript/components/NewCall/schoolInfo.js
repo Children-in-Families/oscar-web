@@ -13,19 +13,19 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput T={T} label="School Name" onChange={onChange('client', 'school_name')} value={client.school_name}/>
+          <TextInput T={T} label={T.translate("newCall.schoolInfo.school_name")} onChange={onChange('client', 'school_name')} value={client.school_name}/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             T={T}
-            label="School Grade"
+            label={T.translate("newCall.schoolInfo.school_grade")}
             options={schoolGradeLists}
             value={client.school_grade}
             onChange={onChange('client', 'school_grade')}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput T={T} label="Main School Contact" onChange={onChange('client', 'main_school_contact')} value={client.main_school_contact} />
+          <TextInput T={T} label={T.translate("newCall.schoolInfo.main_school_contact")} onChange={onChange('client', 'main_school_contact')} value={client.main_school_contact} />
         </div>
       </div>
     </div>

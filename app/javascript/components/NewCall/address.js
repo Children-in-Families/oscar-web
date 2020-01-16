@@ -72,14 +72,14 @@ export default props => {
 
   return (
     outside == true ?
-      <TextArea label="Outside Address" disabled={disabled} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
+      <TextArea label={T.translate("newCall.address.outside_address")} disabled={disabled} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
     :
       <>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Province"
+              label={T.translate("newCall.address.provicne")}
               options={provinces}
               isDisabled={disabled}
               value={objectData.province_id}
@@ -90,7 +90,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="District / Khan"
+              label={T.translate("newCall.address.district")}
               isDisabled={disabled}
               options={districts}
               value={objectData.district_id}
@@ -101,7 +101,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Commune / Sangkat"
+              label={T.translate("newCall.address.commune")}
               isDisabled={disabled}
               options={communes}
               value={objectData.commune_id}
@@ -112,7 +112,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Village"
+              label={T.translate("newCall.address.village")}
               isDisabled={disabled}
               options={villages}
               value={objectData.village_id}
@@ -125,7 +125,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               T={T}
-              label="Street Number"
+              label={T.translate("newCall.address.street_number")}
               disabled={disabled}
               onChange={onChange(objectKey, 'street_number')}
               value={objectData.street_number}
@@ -135,7 +135,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               T={T}
-              label="House Number"
+              label={T.translate("newCall.address.house_number")}
               disabled={disabled}
               onChange={onChange(objectKey, 'house_number')}
               value={objectData.house_number}
@@ -145,7 +145,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               T={T}
-              label="Address Name"
+              label={T.translate("newCall.address.address_name")}
               disabled={disabled}
               onChange={onChange(objectKey, 'current_address')}
               value={objectData.current_address}
@@ -155,7 +155,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label="Address Type"
+              label={T.translate("newCall.address.address_type")}
               isDisabled={disabled}
               options={addressTypes}
               onChange={onChange(objectKey, 'address_type')}

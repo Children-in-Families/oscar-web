@@ -6,9 +6,9 @@ import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import CallAbout from './callAbout'
 import T from 'i18n-react'
-import en from '../../utils/locales/en.json'
-import km from '../../utils/locales/km.json'
-import my from '../../utils/locales/my.json'
+import en from '../../utils/locales/en.json';
+import km from '../../utils/locales/km.json';
+import my from '../../utils/locales/my.json';
 import './styles.scss'
 
 const CallForms = props => {
@@ -58,10 +58,10 @@ const CallForms = props => {
   const callAboutTabData = { client: clientData, T }
 
   const tabs = [
-    {text: 'Caller Information', step: 1},
-    {text: 'Client / Referral Information', step: 2},
-    {text: 'Client / Referral - Do you want to add:', step: 3},
-    {text: 'Client / Referral - Call about', step: 4}
+    {text: T.translate("newCall.index.tabs.caller_info"), step: 1},
+    {text: T.translate("newCall.index.tabs.client_referral_info"), step: 2 },
+    {text: T.translate("newCall.index.tabs.client_referral_question"), step: 3},
+    {text: T.translate("newCall.index.tabs.client_referral_call"), step: 4}
   ]
 
   const classStyle = value => errorSteps.includes(value) ? 'errorTab' : step === value ? 'activeTab' : 'normalTab'
@@ -209,7 +209,7 @@ const CallForms = props => {
         setOnSave(true)
         const action = clientData.id ? 'PUT' : 'POST'
         const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
-        const message = "Call has been successfully created"
+        const message = T.translate("newCall.index.message.call_has_been_created")
         $.ajax({
           url,
           type: action,
@@ -291,14 +291,14 @@ const CallForms = props => {
 
       <div className='actionfooter'>
         <div className='leftWrapper'>
-          <span className='btn btn-default' onClick={handleCancel}>Cancel</span>
+          <span className='btn btn-default' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
         </div>
 
         <div className='rightWrapper'>
-          <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
-          { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
+          <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("newCall.index.previous")}</span>
+          {step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("newCall.index.next")}</span> }
 
-          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>Save</span>}
+          {step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton' : 'clientButton saveButton'} onClick={handleSave}>{T.translate("newCall.index.save")}</span>}
         </div>
       </div>
     </div>
