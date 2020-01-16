@@ -554,6 +554,16 @@ ActiveRecord::Schema.define(version: 20200116022605) do
 
   add_index "communes", ["district_id"], name: "index_communes_on_district_id", using: :btree
 
+  create_table "custom_assessment_settings", force: :cascade do |t|
+    t.string   "custom_assessment_name",      default: "Custom Assessment"
+    t.integer  "max_custom_assessment",       default: 6
+    t.string   "custom_assessment_frequency", default: "month"
+    t.integer  "custom_age",                  default: 18
+    t.integer  "setting_id"
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+  end
+
   create_table "custom_field_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "custom_field_id"
@@ -628,27 +638,28 @@ ActiveRecord::Schema.define(version: 20200116022605) do
   add_index "domain_program_streams", ["deleted_at"], name: "index_domain_program_streams_on_deleted_at", using: :btree
 
   create_table "domains", force: :cascade do |t|
-    t.string   "name",                     default: ""
-    t.string   "identity",                 default: ""
-    t.text     "description",              default: ""
+    t.string   "name",                         default: ""
+    t.string   "identity",                     default: ""
+    t.text     "description",                  default: ""
     t.integer  "domain_group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "tasks_count",              default: 0
-    t.string   "score_1_color",            default: "danger"
-    t.string   "score_2_color",            default: "warning"
-    t.string   "score_3_color",            default: "info"
-    t.string   "score_4_color",            default: "primary"
-    t.text     "score_1_definition",       default: ""
-    t.text     "score_2_definition",       default: ""
-    t.text     "score_3_definition",       default: ""
-    t.text     "score_4_definition",       default: ""
-    t.boolean  "custom_domain",            default: false
-    t.text     "local_description",        default: ""
-    t.text     "score_1_local_definition", default: ""
-    t.text     "score_2_local_definition", default: ""
-    t.text     "score_3_local_definition", default: ""
-    t.text     "score_4_local_definition", default: ""
+    t.integer  "tasks_count",                  default: 0
+    t.string   "score_1_color",                default: "danger"
+    t.string   "score_2_color",                default: "warning"
+    t.string   "score_3_color",                default: "info"
+    t.string   "score_4_color",                default: "primary"
+    t.text     "score_1_definition",           default: ""
+    t.text     "score_2_definition",           default: ""
+    t.text     "score_3_definition",           default: ""
+    t.text     "score_4_definition",           default: ""
+    t.boolean  "custom_domain",                default: false
+    t.text     "local_description",            default: ""
+    t.text     "score_1_local_definition",     default: ""
+    t.text     "score_2_local_definition",     default: ""
+    t.text     "score_3_local_definition",     default: ""
+    t.text     "score_4_local_definition",     default: ""
+    t.integer  "custom_assessment_setting_id"
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree

@@ -1,5 +1,5 @@
 class CallsController < AdminController
-  load_and_authorize_resource find_by: :slug, except: :quantitative_case
+  load_and_authorize_resource find_by: :id, except: :quantitative_case
 
   before_action :set_association, except: [:index, :destroy, :version]
 
@@ -12,8 +12,15 @@ class CallsController < AdminController
     @call = Call.new
   end
 
+  def show
+    @call = Call.find(params[:id])
+    @referee = @call.referee
+    @clients = @call.referee.clients.select("clients.gender, clients.slug, concat(clients.given_name, ' ', clients.family_name, ' (', clients.local_given_name, ' ', clients.local_family_name, ') ' ) full_name")
+  end
+  
+
   def create
-    call = Call.new(call_params)
+    call = Call.new(call_params)  
     if call.save
       render json: call
     else
@@ -32,9 +39,8 @@ class CallsController < AdminController
   private
 
   def call_params
-    # binding.pry
     params.require(:call).permit(:phone_call_id, :receiving_staff_id,
-                            :start_datetime, :end_datetime, :call_type
+                            :date_of_call, :start_datetime, :end_datetime, :call_type
                             )
   end
 

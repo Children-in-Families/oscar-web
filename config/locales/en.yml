@@ -196,6 +196,14 @@ en:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
               not_an_integer: must be an integer
+        custom_assessment_setting:
+          attributes:
+            custom_assessment_name:
+              blank: can't be blank
+            max_custom_assessment:
+              greater_than:
+                one: must be grater than Minimum
+                other: must be greater than %{count}
         department:
           attributes:
             name:
@@ -3062,6 +3070,7 @@ en:
       title: Edit Domain
     form:
       cancel: Cancel
+      custom_assessment_name: Custom Assessment Name
       description: Description
       domain_group: Domain Group
       identity: Identity
