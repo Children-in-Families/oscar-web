@@ -18,7 +18,7 @@ module Api
         # carer.save
         client.name_of_referee = referee.name
         client.received_by_id = call.receiving_staff_id # if Receiving Staff is Receiving Staff Member
-
+        client.initial_referral_date = call.date_of_call
         # client.referee_id = referee.id
         # client.carer_id = carer.id
 
