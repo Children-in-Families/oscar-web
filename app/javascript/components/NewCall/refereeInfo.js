@@ -31,7 +31,7 @@ export default props => {
 
   const refereeLists = () => {
     let newList = []
-    referees.forEach(r => newList.push({ label: `${r.name} ${r.email}`, value: r.id }))
+    referees.forEach(r => newList.push({ label: `${r.name} ${r.phone} ${r.email}`, value: r.id }))
     return newList
   }
   
