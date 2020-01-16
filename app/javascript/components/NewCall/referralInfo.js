@@ -43,11 +43,6 @@ export default props => {
   const [communes, setCommunes] = useState(currentCommunes);
   const [villages, setVillages] = useState(currentVillages);
 
-  useEffect(() => {
-    // SHOULD COMMENT THIS LINE BEFORE PUSHING TO PRODUCTION
-    // onChange('client', 'initial_referral_date')({data: '2020-1-1', type: 'date'});
-  }, [])
-
   const fetchData = (parent, data, child) => {
     $.ajax({
       type: "GET",

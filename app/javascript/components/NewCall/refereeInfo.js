@@ -107,9 +107,6 @@ export default props => {
       address_type,
       current_address
     })({ type: "select" });
-
-    // SHOULD COMMENT THIS LINE BEFORE PUSHING TO PRODUCTION
-    // onChange('client', 'name_of_referee')({ type: "select", data: name })
   }
 
   const renderNameField = () => {
