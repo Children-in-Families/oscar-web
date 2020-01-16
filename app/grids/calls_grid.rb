@@ -33,9 +33,9 @@ class CallsGrid
   end
   column(:information_provided, order: false)
   column(:phone_counselling_summary, order: false)
-  column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
-    render partial: 'calls/actions', locals: { object: object }
-  end
+  # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
+  #   render partial: 'calls/actions', locals: { object: object }
+  # end
 
   def referee_options
     Referee.all.pluck(:name, :id)

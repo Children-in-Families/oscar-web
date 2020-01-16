@@ -9,13 +9,13 @@ module AdvancedSearches
       def get_sql
         sql_string = 'clients.id IN (?)'
 
-        clients = Client.joins(:call)
-        results = mapping_allowed_param_value(@basic_rules, Call::FIELDS)
+        results      = mapping_allowed_param_value(@basic_rules, Call::FIELDS)
         query_string = get_any_query_string(results, 'calls')
-        binding.pry
-        client_services = clients.where(query_string.reject(&:blank?).join(" AND ")).references(:services)
+        sql          = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{@basic_rules[:condition]} ")
 
-        { id: sql_string, values: client_services.ids.uniq }
+        client_ids = Client.joins(:calls).where(sql).distinct.ids
+
+        { id: sql_string, values: client_ids }
       end
 
     end

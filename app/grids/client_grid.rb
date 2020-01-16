@@ -601,6 +601,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:carer_phone, header: -> { I18n.t('datagrid.columns.clients.carer_phone') }) do |object|
+    binding.pry
     object.carer.phone
   end
 
