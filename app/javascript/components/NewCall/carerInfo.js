@@ -23,6 +23,38 @@ export default props => {
     })
   }
 
+  const onCheckSameAsClient = data => {
+    const same = data.data
+
+    if(same) {
+      if(client.province_id !== null)
+        fetchData('provinces', client.province_id, 'districts')
+      if(client.district_id !== null)
+        fetchData('districts', client.district_id, 'communes')
+      if(client.commune_id !== null)
+        fetchData('communes', client.commune_id, 'villages')
+    } else {
+      setDistricts([])
+      setCommunes([])
+      setVillages([])
+    }
+
+    const fields = {
+      outside: same ? client.outside : false,
+      province_id: same ? client.province_id : null,
+      district_id: same ? client.district_id : null,
+      commune_id: same ? client.commune_id : null,
+      village_id: same ? client.village_id : null,
+      street_number: same ? client.street_number : '',
+      house_number: same ? client.house_number : '',
+      current_address: same ? client.current_address : '',
+      address_type: same ? client.address_type : '',
+      outside_address: same ? client.outside_address : ''
+    }
+
+    onChange('carer', { ...fields, 'same_as_client': data.data })({type: 'select'})
+  }
+
   useEffect(() => {
     let object = carer
 
@@ -97,18 +129,16 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <p>Address</p>
           </div>
-          {
-            !carer.outside &&
-            <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Same as Client" checked={carer.same_as_client} onChange={onChange('carer', 'same_as_client')} />
-            </div>
-          }
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <Checkbox label="Same as Client" checked={carer.same_as_client} onChange={onCheckSameAsClient} />
+          </div>
           {
             !carer.same_as_client &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Outside Cambodia" checked={carer.outside} onChange={onChange('carer', 'outside')} />
+              <Checkbox label="Outside Cambodia" checked={carer.outside || false} onChange={onChange('carer', 'outside')} />
             </div>
           }
+
         </div>
       </legend>
       <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer, T}} />

@@ -19,7 +19,8 @@ class Call < ActiveRecord::Base
   belongs_to :referee
   belongs_to :receiving_staff, class_name: 'User',      foreign_key: 'receiving_staff_id'
 
-  has_many :clients
+  has_many :hotlines, dependent: :destroy
+  has_many :clients, through: :hotlines
 
   # validates :receiving_staff_id, :start_datetime, :end_datetime, presence: true
   # validates :call_type, presence: true, inclusion: { in: call_types.values }

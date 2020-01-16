@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { SelectInput, TextInput, Checkbox, RadioGroup } from "../Commons/inputs";
+import TaskModal from './addTaskModal'
 import Address from "./address";
 
 export default props => {
   const {
     onChange,
     data: {
+      clientTask,
       refereeDistricts,
       refereeCommunes,
       refereeVillages,
@@ -81,6 +83,8 @@ export default props => {
 
   return (
     <div className="containerClass">
+      <TaskModal data={{referee, clientTask}} onChange={onChange} />
+
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
@@ -232,6 +236,7 @@ export default props => {
           T
         }}
       />
+
       <div className="row">
         <div className="col-xs-12">
           <Checkbox

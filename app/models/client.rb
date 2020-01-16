@@ -51,6 +51,8 @@ class Client < ActiveRecord::Base
   belongs_to :carer
   belongs_to :call
 
+  has_many :hotlines, dependent: :destroy
+  has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
   has_many :tasks,          dependent: :destroy
@@ -272,7 +274,8 @@ class Client < ActiveRecord::Base
   end
 
 
-  def can_create_assessment?(default)
+  def can_create_assessment?(default, value)
+    latest_assessment = Assessment.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value})
     if default
       if assessments.defaults.count == 1
         return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
@@ -280,10 +283,10 @@ class Client < ActiveRecord::Base
         return assessments.defaults.latest_record.completed?
       end
     else
-      if assessments.customs.count == 1
-        return (Date.today >= (assessments.customs.latest_record.created_at + assessment_duration('min', false)).to_date) && assessments.customs.latest_record.completed?
-      elsif assessments.customs.count >= 2
-        return assessments.customs.latest_record.completed?
+      if latest_assessment.count == 1
+        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
+      elsif latest_assessment.count >= 2
+        return latest_assessment.latest_record.completed?
       end
     end
     true

@@ -94,7 +94,7 @@
     "gender": "Gender",
     "date_of_birth": "Date of Birth",
     "birth_province": "Birth Province",
-    "client_relationship": "What is the Referee's relationship to this client?",
+    "client_relationship": "Relationship to Referee",
     "contact_info": "Contact Information",
     "client_is_outside": "Client is outside Cambodia",
     "what_3_word": "What3Words",
@@ -145,7 +145,11 @@
     "Friend": "Friend",
     "Helping Professional": "Helping Professional",
     "Government / Local Authority": "Government / Local Authority",
-    "Other": "Other"
+    "Other": "Other",
+    "Child": "Child",
+    "In same community": "In same community",
+    "Client": "Client",
+    "Stranger": "Stranger"
   },
   "clientRelationShip": {
     "Parent": "Parent",

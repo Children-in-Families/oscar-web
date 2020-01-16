@@ -28,7 +28,7 @@ const CallForms = props => {
   const {
     data: {
       call,
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
+      client: { client, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
       referee, carer, users, birthProvinces, referralSource, referralSourceCategory,
       selectedCountry, internationalReferredClient, quantitativeType, quantitativeCase,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
@@ -42,6 +42,7 @@ const CallForms = props => {
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
+  const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData] = useState(carer)
@@ -51,9 +52,9 @@ const CallForms = props => {
   // const adminTabData = { users, client: clientData, errorFields }
   const adminTabData = { call: callData, users, errorFields, T }
 
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
+  const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
 
-  const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T  }
+  const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeTabData  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
   const callAboutTabData = { client: clientData, T }
 
@@ -78,9 +79,8 @@ const CallForms = props => {
     )
   }
 
-
   const onChange = (obj, field) => event => {
-    const inputType = ['date', 'select', 'checkbox', 'radio']
+    const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
     const value = inputType.includes(event.type) ? event.data : event.target.value
 
     if (typeof field !== 'object')
@@ -99,6 +99,9 @@ const CallForms = props => {
       case 'carer':
         setCarerData({...carerData, ...field })
         break;
+      case 'task':
+        setTaskData({...taskData, ...field })
+        break;
     }
   }
 
@@ -106,7 +109,7 @@ const CallForms = props => {
     const components = [
       { step: 1, data: refereeData, fields: ['name', 'answered_call', 'called_before'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
-      { step: 1, data: callData, fields: ['phone_call_id', 'receiving_staff_id', 'call_type'] },
+      { step: 1, data: callData, fields: ['phone_call_id', 'receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'end_datetime'] },
       { step: 2, data: clientData, fields: ['gender', 'user_ids', 'initial_referral_date']},
       { step: 3, data: clientData, fields: [] },
       { step: 4, data: clientData, fields: [] }
@@ -200,7 +203,8 @@ const CallForms = props => {
       handleCheckValue(refereeData)
       handleCheckValue(clientData)
       handleCheckValue(carerData)
-
+      if(refereeData.requested_update === false)
+        setTaskData({})
       // todo
       // if (clientData.family_ids.length === 0)
       if (false)
@@ -217,7 +221,8 @@ const CallForms = props => {
             call: { ...callData },
             client: { ...clientData },
             referee: { ...refereeData },
-            carer: { ...carerData }
+            carer: { ...carerData },
+            task: { ...taskData }
           },
           beforeSend: (req) => {
             setLoading(true)
@@ -272,7 +277,9 @@ const CallForms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange} />
+            <RefereeInfo data={refereeTabData} onChange={onChange}
+
+/>
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>

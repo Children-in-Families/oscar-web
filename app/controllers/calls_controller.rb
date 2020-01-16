@@ -28,7 +28,6 @@ class CallsController < AdminController
     @clients = @call.referee.clients.select("clients.gender, clients.slug, concat(clients.given_name, ' ', clients.family_name, ' (', clients.local_given_name, ' ', clients.local_family_name, ') ' ) full_name")
   end
 
-
   def create
     call = Call.new(call_params)
     if call.save

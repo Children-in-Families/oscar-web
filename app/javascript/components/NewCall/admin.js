@@ -2,7 +2,9 @@ import React from 'react'
 import {
   SelectInput,
   TextInput,
-  RadioGroup
+  RadioGroup,
+  DateInput,
+  DateTimePicker
 } from '../Commons/inputs'
 
 export default props => {
@@ -68,6 +70,48 @@ export default props => {
         </div>
       </div>
 
+
+      <div className='row'>
+        <div className='col-md-12 col-lg-9'>
+          <DateInput 
+            T={T}
+            required
+            isError={errorFields.includes('date_of_call')}
+            getCurrentDate 
+            label="Date of Call" 
+            onChange={onChange('call', 'date_of_call')} 
+            value={call.date_of_call} 
+          />
+        </div>
+      </div>
+
+      <div className='row'>
+        <div className='col-md-12 col-lg-9'>
+          <DateTimePicker
+            T={T}
+            isError={errorFields.includes('start_datetime')}
+            label="Time Call Began"
+            required={true}
+            onChange={onChange('call', 'start_datetime')}
+            value={call.start_datetime}
+          />
+        </div>
+      </div>
+
+      <div className='row'>
+        <div className='col-md-12 col-lg-9'>
+         <DateTimePicker
+            T={T}
+            isError={errorFields.includes('end_datetime')}
+            label="Time Call Ended"
+            required={true}
+            onChange={onChange('call', 'end_datetime')}
+            value={call.end_datetime}
+          />
+        </div>
+      </div>
+
+     
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <RadioGroup

@@ -1,0 +1,16 @@
+- @custom_assessment_setting.each do |cs|
+  %div.tab-pane{role: "tabpanel", id: "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools"}
+    .row
+      .col-xs-12
+        .ibox
+          .ibox-title.domain-ibox
+            %h5= cs.domains.count
+            %span.label.label-info= t('.domains')
+            .ibox-tools
+              - if can? :manage, Domain
+                = link_to new_custom_assessment_setting_domain_path(cs) do
+                  .btn.btn.btn-primary.btn-add
+                    = t('.add_new_domain')
+          = render partial: 'domain_list', collection: cs.domains, as: :domain
+          .text-center
+            = paginate @custom_assessment_paginate, params: { tab: "#{cs.custom_assessment_name.downcase.strip.parameterize('-')}-custom-csi-tools" }, :param_name => 'page_2'
