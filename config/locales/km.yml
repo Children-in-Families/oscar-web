@@ -3773,6 +3773,7 @@ km:
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       calls: Calls
       clients: ឣតិថិជន
+      client_forms: Client Forms
       country: ប្រទេស
       csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
       custom_fields: ទម្រង់បែបបទ
@@ -4581,6 +4582,9 @@ km:
     case_note:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: ប្រទេស
       settings: ការកំណត់

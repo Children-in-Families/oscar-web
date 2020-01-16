@@ -1,5 +1,5 @@
 class SettingsController < AdminController
-  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels]
+  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -36,7 +36,7 @@ class SettingsController < AdminController
       end
     else
       if @setting.update_attributes(setting_params)
-        if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present?
+        if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
           redirect_to :back, notice: t('.successfully_updated')
         else
           redirect_to settings_path, notice: t('.successfully_updated')
@@ -62,6 +62,10 @@ class SettingsController < AdminController
     authorize @current_setting
   end
 
+  def client_forms
+    authorize @current_setting
+  end
+
   private
 
   def country_address_fields
@@ -76,6 +80,7 @@ class SettingsController < AdminController
                                     :custom_age, :default_assessment, :custom_assessment, :max_case_note,
                                     :case_note_frequency, :org_name, :province_id, :district_id, :commune_id,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
+                                    :enable_hotline, :enable_client_form,
                                     client_default_columns: [], family_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :_destroy])

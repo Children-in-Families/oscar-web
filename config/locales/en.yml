@@ -3787,6 +3787,7 @@ en:
       changelogs: Changelogs
       calls: Calls
       clients: Clients
+      client_forms: Client Forms
       country: Country
       csi_tools: Available Assessment Tools
       custom_fields: Custom Form
@@ -4598,6 +4599,9 @@ en:
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: Country
       settings: Settings
