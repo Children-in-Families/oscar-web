@@ -69,7 +69,7 @@ module AdvancedSearches
     end
 
     def exit_reasons_options
-      [[ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.to_h]
+      [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.map{|k, v| { k => v }  }
     end
 
     def case_note_type_options
