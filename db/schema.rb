@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20200116022605) do
     t.datetime "updated_at",                             null: false
     t.string   "phone_counselling_summary", default: ""
     t.string   "information_provided",      default: ""
+    t.date     "date_of_call"
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
