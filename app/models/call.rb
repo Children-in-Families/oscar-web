@@ -11,6 +11,8 @@ class Call < ActiveRecord::Base
   #           }
 
   belongs_to :referee
+  has_many :hotlines, dependent: :destroy
+  has_many :clients, through: :hotlines
 
   # validates :receiving_staff_id, :start_datetime, :end_datetime, presence: true
   # validates :call_type, presence: true, inclusion: { in: call_types.values }

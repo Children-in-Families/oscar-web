@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200114124333) do
+ActiveRecord::Schema.define(version: 20200116022605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -975,6 +975,16 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.datetime "updated_at"
   end
 
+  create_table "hotlines", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "call_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hotlines", ["call_id"], name: "index_hotlines_on_call_id", using: :btree
+  add_index "hotlines", ["client_id"], name: "index_hotlines_on_client_id", using: :btree
+
   create_table "interventions", force: :cascade do |t|
     t.string   "action",     default: ""
     t.datetime "created_at"
@@ -1830,6 +1840,8 @@ ActiveRecord::Schema.define(version: 20200114124333) do
   add_foreign_key "government_forms", "districts"
   add_foreign_key "government_forms", "provinces"
   add_foreign_key "government_forms", "villages"
+  add_foreign_key "hotlines", "calls"
+  add_foreign_key "hotlines", "clients"
   add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"

@@ -50,6 +50,8 @@ class Client < ActiveRecord::Base
   belongs_to :referee
   belongs_to :carer
 
+  has_many :hotlines, dependent: :destroy
+  has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
   has_many :tasks,          dependent: :destroy
