@@ -7,7 +7,7 @@ import {
 export default props => {
   const { onChange, id, data: { client, donors, agencies, T } } = props
   const donorLists = donors.map(donor => ({label: donor.name, value: donor.id}))
-  const agencyLists = agencies.map(agency => ({label: agency.name, value: agency.id}))
+  const agencyLists = agencies.map(agency => ({ label: T.translate("agency." + agency.name), value: agency.id}))
 
   return (
     <div id={id} className="collapse">

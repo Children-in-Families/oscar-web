@@ -12,6 +12,7 @@ export default props => {
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
   const [communes, setcommunes] = useState(currentCommunes.map(commune => ({ label: commune.name_kh + ' / ' + commune.name_en, value: commune.id})))
   const [villages, setvillages] = useState(currentVillages.map(village => ({ label: village.name_kh + ' / ' + village.name_en, value: village.id})))
+  const typeOfAddress = addressTypes.map(type => ({ label: T.translate("addressType." + type.label), value: type.value }))
 
   useEffect(() => {
     setdistricts(currentDistricts.map(district => ({label: district.name, value: district.id})))
@@ -157,7 +158,7 @@ export default props => {
               T={T}
               label={T.translate("newCall.address.address_type")}
               isDisabled={disabled}
-              options={addressTypes}
+              options={typeOfAddress}
               onChange={onChange(objectKey, 'address_type')}
               value={objectData.address_type}
             />

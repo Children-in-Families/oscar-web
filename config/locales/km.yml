@@ -619,6 +619,10 @@ km:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
   calls:
+    index:
+      add_new_call: Add New Call
+      hotline: Hotline
+      phone_call_id: Phone Call ID
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Notifier Concern"

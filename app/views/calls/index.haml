@@ -2,17 +2,17 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5 Hotline
+        %h5=t('.hotline')
         .ibox-tools
           = link_to new_call_path do
             .btn.btn-primary.btn-add
-              Add New Call
+              =t('.add_new_call')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
-                %th Phone Call ID
+                %th=t('.phone_call_id')
             %tbody
               - @calls.each do |call|
                 %tr

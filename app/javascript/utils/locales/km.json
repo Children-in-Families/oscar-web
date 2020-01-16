@@ -229,7 +229,7 @@
       },
       "call_information": "Call Information",
       "phone_call": "Phone Call ID #",
-      "receiving_staff": "Receiving Staff",
+      "receiving_staff": "បុគ្គលិកទទួលករណី",
       "call_type": "Call Type"
     },
     "callAbout": {
@@ -252,7 +252,7 @@
         "separated_child": "Separated child - abandoned; lost; street living.",
         "children_and_parent": "Children and parent living on the street.",
         "disability": "Disability",
-        "other": "Other"
+        "other": "ផ្សេងៗ"
       },
       "what_is_the_call": "What is the call about / seeking support for?",
       "basic_necessities": "Basic Necessities",
@@ -273,12 +273,12 @@
       "relationship": "ទំនាក់ទំនងរបស់អតិថិជន",
       "family_record": "គ្រួសារ",
       "address": "អាសយដ្ឋាន",
-      "same_as_client": "Same as Client",
-      "outside_cambodia": "Outside Cambodia"
+      "same_as_client": "ដូចអតិថិជនដែរ",
+      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ"
     },
     "clientAddressInfo": {
-      "address": "Address",
-      "outside_cambodia": "Outside Cambodia",
+      "address": "អាសយដ្ឋាន",
+      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
       "client_contact": "Client Contact Phone",
       "phone_owner": "Phone Owner",
       "client_email": "Client Email Contact",
@@ -332,27 +332,27 @@
         "return_missed_call": "Returning Missed Call"
       },
       "ageOpts": {
-        "18_plus": "18+",
-        "under_18": "Under 18"
+        "18_plus": "១៨+",
+        "under_18": "អាយុក្រោម១៨"
       },
       "calledBeforeOpts": {
         "yes": "បាទ / ចាស",
         "no": "ទេ"
       },
-      "anonymous": "Anonymous",
+      "anonymous": "អនាមិក",
       "caller_info": "Caller Information",
       "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
       "have_you_called": "Have you called the Childsafe Hotline Before?",
-      "anonymous_referee": "Anonymous Referee",
-      "name": "Name",
-      "gender": "Gender",
-      "are_you_over_18": "Are you over 18 years old?",
-      "referee_phone": "Referee Phone Number",
-      "referee_email": "Referee Email Address",
-      "referral_source_catgeory": "Referral Source Catgeory",
-      "referral_source": "Referral Source",
-      "address": "Address",
-      "outside_cambodia": "Outside Cambodia",
+      "anonymous_referee": "អនាមិកអ្នកបញ្ជូន",
+      "name": "ឈ្មោះអ្នកបញ្ជូនករណី",
+      "gender": "ភេទ",
+      "are_you_over_18": "តើអ្នកមានអាយុលើសពី ១៨ ឆ្នាំឬទេ?",
+      "referee_phone": "លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី",
+      "referee_email": "អ៊ុីម៉ែលរបស់អ្នកបញ្ជូនករណី",
+      "referral_source_catgeory": "ប្រភេទប្រភពនៃការបញ្ជូន",
+      "referral_source": "ប្រភពនៃការបញ្ជូន",
+      "address": "ឣាសយដ្ឋាន",
+      "outside_cambodia": "នៅក្រៅប្រទេសកម្ពុជា",
       "this_caller_has_requested": "This caller has requested an update on the case after intervention is completed."
     },
     "referralInfo": {
@@ -367,21 +367,21 @@
       "family_name": "នាមត្រកូលជាអក្សរឡាតាំង",
       "given_name_khmer": "នាមខ្លួនជាអក្សរខ្មែរ",
       "family_name_khmer": "នាមត្រកូលជាអក្សរខ្មែរ",
-      "nickname": "Nickname",
+      "nickname": "ឈ្មោះហៅក្រៅ",
       "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
       "gender": "ភេទ",
       "birth_province": "ស្រុកកំណើត",
       "relationshio_to_caller": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ",
       "contact_info": "ព័ត៌មានទំនាក់ទំនង",
       "client_is_outside": "អតិថិជនគឺនៅខាងក្រៅប្រទេសកម្ពុជា",
-      "case_worker": "Case Worker / Assigned Staff Manager",
+      "case_worker": "បុគ្គលិកគ្រប់គ្រងករណី",
       "client_contact_phone": "លេខទូរស័ព្ទរបស់អតិថិជន",
       "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
       "client_email": "Client Email Contact",
       "email_owner": "អ៊ុីម៉ែលរបស់អតិថិជន",
       "location_description": "Location Description",
       "location_of_concern": "Location of concern",
-      "same_as_client": "Same as Client",
+      "same_as_client": "ដូចអតិថិជនដែរ",
       "concern_is_outside_cambodia": "Concern is outside Cambodia",
       "relevant_contact_phone": "Relevant Contact Phone",
       "relevant_email": "Relevant Email Contact",
