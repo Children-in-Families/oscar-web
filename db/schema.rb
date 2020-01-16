@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200115091544) do
+ActiveRecord::Schema.define(version: 20200110021802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -525,10 +525,8 @@ ActiveRecord::Schema.define(version: 20200115091544) do
     t.string   "concern_email",                    default: ""
     t.string   "concern_email_owner",              default: ""
     t.string   "concern_location",                 default: ""
-    t.integer  "call_id"
   end
 
-  add_index "clients", ["call_id"], name: "index_clients_on_call_id", using: :btree
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
@@ -1795,7 +1793,6 @@ ActiveRecord::Schema.define(version: 20200115091544) do
   add_foreign_key "client_right_government_forms", "government_forms"
   add_foreign_key "client_type_government_forms", "client_types"
   add_foreign_key "client_type_government_forms", "government_forms"
-  add_foreign_key "clients", "calls"
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
