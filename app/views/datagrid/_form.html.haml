@@ -245,7 +245,7 @@
           - Call::FIELDS.each do |call_field|
             %li
               .visibility.col-sm-12
-                = check_box_tag "#{call_field}_", call_field, checked = default_setting("#{call_field}_", @client_default_columns) || params[:hotline_call].present?, class: 'i-checks'
+                = check_box_tag "#{call_field}_", call_field, checked = default_setting("#{call_field}_", @client_default_columns) || params["#{call_field}_"].present?, class: 'i-checks'
                 = label_tag "#{call_field}_", t("datagrid.columns.calls.#{call_field}")
           %li.referee-header
             %strong= t('.referee')
