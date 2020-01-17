@@ -23,7 +23,7 @@ class CallsGrid
     object.referee.try(:name)
   end
   column(:receiving_staff, order: proc { |object| object.joins(:receiving_staff).order('users.first_name, users.last_name') }) do |object|
-    object.receiving_staff.(:name)
+    object.receiving_staff.try(:name)
   end
   column(:start_datetime) do |model|
     model.created_at.to_date

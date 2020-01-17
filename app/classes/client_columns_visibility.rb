@@ -25,6 +25,7 @@ class ClientColumnsVisibility
       gender_: :gender,
       date_of_birth_: :date_of_birth,
       status_: :status,
+      **Client::HOTLINE_FIELDS.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
       birth_province_id_: :birth_province,
       initial_referral_date_: :initial_referral_date,
       # referral_phone_: :referral_phone,
