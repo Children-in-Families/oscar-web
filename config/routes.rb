@@ -150,6 +150,7 @@ Rails.application.routes.draw do
   end
 
   resources :calls
+  resources :referees, only: :index
 
   resources :families do
     resources :custom_field_properties

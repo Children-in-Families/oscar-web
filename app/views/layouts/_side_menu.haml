@@ -43,6 +43,11 @@
             = fa_icon('child')
             %span.nav-label= t('.clients')
             %span.label.label-primary.pull-right= @client_count
+        %li.main{ class: is_active_controller('referees') }
+          = link_to referees_path do
+            = fa_icon('address-book')
+            %span.nav-label= t('.caller_referees')
+            %span.label.label-primary.pull-right= @referees_count
         - if can? :read, Family
           %li.main{ class: families_menu_active }
             = link_to families_path do
