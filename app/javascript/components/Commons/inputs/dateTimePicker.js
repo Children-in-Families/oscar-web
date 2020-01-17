@@ -1,11 +1,27 @@
 import React, {useState, useEffect} from 'react'
 import TimePicker from 'react-time-picker';
 import './dateTimePicker.scss'
+import { formatTime } from './../../DetailCall/helper'
 
 export default ({isError, required, label, onChange, value, T }) => {
 
   const onChangeDateTime = time => {
     onChange({data: time, type: 'datetime'})
+  }
+
+  const formatDateToString = () => {
+    if(_isValidTime()) {
+      return value
+    } else {
+      return formatTime(value)
+    }
+  }
+
+  const _isValidTime = () => {
+    let patt = new RegExp(/^(\d{1,}:\d{1,})$/g)
+    let result = patt.test(value)
+    console.log('value', value, " ==> ", result)
+    return result
   }
 
   return (
@@ -14,11 +30,10 @@ export default ({isError, required, label, onChange, value, T }) => {
         { required && <abbr title='required'>* </abbr> }
         {label}
       </label>
-
       <TimePicker
         className={isError && "error" || ""}
         onChange={onChangeDateTime}
-        value={value}
+        value={formatDateToString()}
       />
       {isError && <span style={styles.errorText}>{T.translate("validation.cannot_blank")}</span>}
     </div>
