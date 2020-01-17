@@ -52,6 +52,11 @@ class Client < ActiveRecord::Base
   belongs_to :carer
   belongs_to :call
 
+  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id', counter_cache: true
+  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id', counter_cache: true
+  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id', counter_cache: true
+  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id', counter_cache: true
+
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy

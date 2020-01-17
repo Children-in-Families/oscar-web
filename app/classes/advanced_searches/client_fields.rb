@@ -52,6 +52,8 @@ module AdvancedSearches
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
+        ['concern_is_outside', { true: 'Yes', false: 'No' }],
+        ['concern_same_as_client', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['donor_name', donor_options],
         ['active_program_stream', active_program_options],

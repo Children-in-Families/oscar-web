@@ -42,6 +42,6 @@ class CallsGrid
   end
 
   def receiving_staff_options
-    User.case_workers.map{|user| [user.name, user.id] }
+    User.all.map{|user| [user.name, user.id] }
   end
 end
