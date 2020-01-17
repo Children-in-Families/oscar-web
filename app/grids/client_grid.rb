@@ -580,6 +580,22 @@ class ClientGrid < BaseGrid
     render partial: 'clients/type_of_services', locals: { type_of_services: services }
   end
 
+  def call_fields
+    Call::FIELDS
+  end
+
+  dynamic do
+    call_fields.each do |call_field|
+      column(call_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.calls.#{call_field.to_sym}") }, preload: :calls, class: 'call-field') do |object|
+        if call_field[/date/i]
+          object.calls.distinct.map{ |call| date_format(call.send(call_field.to_sym)) }.join(', ')
+        else
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) }.join(', ')
+        end
+      end
+    end
+  end
+
   column(:referee_name, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|
     object.referee.name
   end

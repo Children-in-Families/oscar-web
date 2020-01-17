@@ -6267,6 +6267,14 @@ react-calendar@^2.19.1:
     prop-types "^15.6.0"
     react-lifecycles-compat "^3.0.4"
 
+react-clock@^2.3.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-clock/-/react-clock-2.4.0.tgz#39540f84e16f8b2c2137640f535c162041bd2a1e"
+  integrity sha512-BlzkzbhLEzLwdqtl+PAPvzMhRvg4xyxsiQnGpb+ZzL4YY5iFQgJa7C48EUGhbpnTtNwyMuaBG4KeYmUuUlTQUQ==
+  dependencies:
+    merge-class-names "^1.1.1"
+    prop-types "^15.6.0"
+
 react-date-picker@^7.9.0:
   version "7.9.0"
   resolved "https://registry.yarnpkg.com/react-date-picker/-/react-date-picker-7.9.0.tgz#728cf4a7d47c5fa9c669f648bc7e7bdc55a1c79e"
@@ -6437,6 +6445,21 @@ react-spinkit@^3.0.0:
     loaders.css "^0.1.2"
     object-assign "^4.1.0"
     prop-types "^15.5.8"
+
+react-time-picker@^3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/react-time-picker/-/react-time-picker-3.9.0.tgz#32ee372d3b6a4484f54211f3779b3fa0f708a0ff"
+  integrity sha512-CMdXQsu0vUBs0RdgD7nVEXeRlEIj6F3/Fy65MJDwlUXrXjPVZh21kV49pMMiyuX0epY1RocOGJRrSdvIBQqD9g==
+  dependencies:
+    "@wojtekmaj/date-utils" "^1.0.0"
+    get-user-locale "^1.2.0"
+    make-event-props "^1.1.0"
+    merge-class-names "^1.1.1"
+    prop-types "^15.6.0"
+    react-clock "^2.3.0"
+    react-fit "^1.0.3"
+    react-lifecycles-compat "^3.0.4"
+    update-input-width "^1.1.1"
 
 react-transition-group@^2.2.1:
   version "2.9.0"

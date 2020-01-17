@@ -38,22 +38,9 @@ module AdvancedSearches
           else
             excluded_client_ids = rules.flatten.map{|rule| rule['value'] if rule['operator'] == 'not_equal'}
           end
-          # clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).where(query_array) do |client|
-          #   client_enrollment_ids = client.client_enrollments.map(&:program_stream_id)
-          #   client_enrollment_ids.any? { |e| excluded_client_ids.compact.include?(e.to_s) }
-          # end
-          # return @clients.where(id: clients.map(&:id))
         end
       end
       @clients.where(query_array)
     end
-
-    # def overdue_assessment_clients
-    #   ids = []
-    #   Client.joins(:assessments).all_active_types.each do |c|
-    #     ids << c.id if c.next_assessment_date < Date.today
-    #   end
-    #   ids
-    # end
   end
 end
