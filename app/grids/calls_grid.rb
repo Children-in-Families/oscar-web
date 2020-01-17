@@ -20,10 +20,10 @@ class CallsGrid
   column(:phone_call_id, header: 'Phone call ID')
   column(:call_type)
   column(:referee, order: proc { |object| object.joins(:referee).order("referees.name") }) do |object|
-    object.referee.name
+    object.referee.try(:name)
   end
   column(:receiving_staff, order: proc { |object| object.joins(:receiving_staff).order('users.first_name, users.last_name') }) do |object|
-    object.receiving_staff.name
+    object.receiving_staff.(:name)
   end
   column(:start_datetime) do |model|
     model.created_at.to_date
