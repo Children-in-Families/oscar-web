@@ -2052,6 +2052,7 @@ km:
     columns:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      all_result_framework_assessment: All Result Framework Assessment
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំ
@@ -2403,6 +2404,7 @@ km:
       no_case_note: កំណត់ត្រាករណីហួសកំណត់
       reset: សំអាត
       referee: អ្នកបញ្ជូន
+      result_framework_assessment: Result Framework Assessment
       carer: អ្នកថែទាំ
       search: ស្វែងរក
       type_of_service: ប្រភេទសេវាកម្ម

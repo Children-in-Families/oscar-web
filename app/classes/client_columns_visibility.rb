@@ -77,6 +77,7 @@ class ClientColumnsVisibility
       all_csi_assessments_: :all_csi_assessments,
       date_of_custom_assessments_: :date_of_custom_assessments,
       all_custom_csi_assessments_: :all_custom_csi_assessments,
+      all_result_framework_assessments_: :all_result_framework_assessments,
       manage_: :manage,
       changelog_: :changelog,
       telephone_number_: :telephone_number,
