@@ -78,6 +78,22 @@ module Api
         # end
       end
 
+      def update
+        call = Call.find(params[:call][:id])
+        referee = call.referee
+
+        # THIS SHOULD BE DYNAMIC, AND WILL BE REMOVE IN THE FUTURE  
+        client = call.clients.last
+        carer = client.carer
+
+        if call.update_attributes(call_params) && referee.update_attributes(referee_params) && client.update_attributes(client_params) && carer.update_attributes(carer_params)
+          render json: call
+        else
+          render json: call.errors, status: :unprocessable_entity
+        end
+      end
+      
+
       def show
         if call
           render json: call
