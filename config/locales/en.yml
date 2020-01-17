@@ -2134,22 +2134,22 @@ en:
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
         code: Custom ID Number1
-        concern_address: Concern address
-        concern_address_type: Concern address type
-        concern_commune: Concern commune
-        concern_district: Concern district
-        concern_email: Concern email
-        concern_email_owner: Concern email owner
-        concern_house: Concern house
-        concern_is_outside: Concern is outside
-        concern_location: Concern location
-        concern_outside_address: Concern outside address
-        concern_phone: Concern phone
-        concern_phone_owner: Concern phone owner
-        concern_province: Concern province
-        concern_same_as_client: Concern same as client
-        concern_street: Concern street
-        concern_village: Concern village
+        concern_address: Concern Address
+        concern_address_type: Concern Address Type
+        concern_commune_id: Concern Commune
+        concern_district_id: Concern District
+        concern_email: Concern Email
+        concern_email_owner: Concern Email Owner
+        concern_house: Concern House
+        concern_is_outside: Concern is Outside
+        concern_location: Concern Location
+        concern_outside_address: Concern Outside Address
+        concern_phone: Concern Phone
+        concern_phone_owner: Concern Phone Owner
+        concern_province_id: Concern Province
+        concern_same_as_client: Concern Same as Client
+        concern_street: Concern Street
+        concern_village_id: Concern Village
         commune: Commune/Sangkat
         commune_en: Address - Commune/Sangkat (English)
         commune_kh: Address - Commune/Sangkat (Khmer)

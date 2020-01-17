@@ -30,7 +30,11 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'school_name', 'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code', 'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email', 'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]]
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'school_name', 'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code', 'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email', 'client_contact_phone', 'client_email_address', *hotline_text_type_list, *setting_country_fields[:text_fields]]
+    end
+
+    def hotline_text_type_list
+      %w(concern_address concern_address_type concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description nickname)
     end
 
     def date_type_list
@@ -187,7 +191,17 @@ module AdvancedSearches
       when 'cambodia'
         {
           text_fields: ['house_number', 'street_number'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
+          drop_down_fields: [
+            ['province_id', provinces],
+            ['district_id', districts],
+            ['birth_province_id', birth_provinces],
+            ['commune_id', communes],
+            ['village_id', villages],
+            ['concern_province_id', provinces],
+            ['concern_district_id', districts],
+            ['concern_commune_id', communes],
+            ['concern_village_id', villages]
+          ]
         }
       when 'lesotho'
         {
