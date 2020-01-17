@@ -373,7 +373,8 @@ module ClientsHelper
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
-      hotline_call_: t('datagrid.columns.calls.hotline_call')
+      hotline_call_: t('datagrid.columns.calls.hotline_call'),
+      **Call::FIELDS.map{ |field| ["#{field}_".to_sym, I18n.t("datagrid.columns.calls.#{field}")] }.to_h
     }
 
     Domain.order_by_identity.each do |domain|

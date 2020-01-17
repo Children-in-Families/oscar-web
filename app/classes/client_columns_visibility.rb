@@ -94,7 +94,7 @@ class ClientColumnsVisibility
       referee_name_: :referee_name,
       referee_phone_: :referee_phone,
       referee_email_: :referee_email,
-      call_: :call,
+      call_type_: :call_type,
       carer_name_: :carer_name,
       carer_phone_: :carer_phone,
       carer_email_: :carer_email,

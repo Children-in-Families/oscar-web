@@ -2076,8 +2076,15 @@ en:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       calls:
+        call_type: Call types
+        end_datetime: End call date
         hotline_call: Hotline Call
+        information_provided: Information provided
         manage: Manage
+        phone_call_id: Phone call ID
+        phone_counselling_summary: Phone counselling summary
+        phone_type: Phone type
+        start_datetime: Start datetime
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
