@@ -62,8 +62,13 @@ class Assessment < ActiveRecord::Base
     self == client.assessments.latest_record
   end
 
-  def populate_notes(default)
-    domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
+  def populate_notes(default, custom_name)
+    if custom_name.present?
+      custom_assessment_id= CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
+      domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
+    else
+      domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
+    end
     domains.each do |domain|
       assessment_domains.build(domain: domain)
     end

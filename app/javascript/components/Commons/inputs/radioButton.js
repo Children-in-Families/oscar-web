@@ -3,7 +3,7 @@ import { RadioButton } from 'primereact/radiobutton'
 import './radioButton.scss'
 
 export default props => {
-  const { onChange, options, inline, value } = props
+  const { onChange, options, inline, value, isError, required } = props
 
   const handleOnChange = event => {
     onChange({ data: event.value, type: 'radio' })
@@ -11,14 +11,17 @@ export default props => {
 
   return (
     <div style={inline ? styles.inlineWrapper : styles.wrapper}>
-      <b><span>{props.label}</span></b>
+      <label style={ isError && customError.errorText || {} }>
+        { required && <abbr title='required'>* </abbr> }
+        { props.label }
+      </label>
 
       {
         options.length > 0 &&
         options.map((option, index) => (
-          <div style={styles.radioWrapper}>
+          <div key={index} style={styles.radioWrapper}>
             <RadioButton
-              key={index}
+              required
               value={option.value}
               checked={option.value === value}
               onChange={handleOnChange}
@@ -49,5 +52,15 @@ const styles = {
   },
   label: {
     marginLeft: 5
+  }
+}
+
+const customError = {
+  control: (provided) => ({
+    ...provided,
+    borderColor: 'red',
+  }),
+  errorText: {
+    color: 'red'
   }
 }

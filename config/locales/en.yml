@@ -105,6 +105,17 @@ en:
       blank: can't be blank
     errors:
       models:
+        call:
+          attributes:
+            receiving_staff_id:
+              blank: can't be blank
+            start_datetime:
+              blank: can't be blank
+            end_datetime:
+              blank: can't be blank
+            call_type:
+              blank: can't be blank
+              inclusion: is not included in the list
         able_screening_question:
           attributes:
             mode:
@@ -185,6 +196,14 @@ en:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
               not_an_integer: must be an integer
+        custom_assessment_setting:
+          attributes:
+            custom_assessment_name:
+              blank: can't be blank
+            max_custom_assessment:
+              greater_than:
+                one: must be grater than Minimum
+                other: must be greater than %{count}
         department:
           attributes:
             name:
@@ -610,6 +629,28 @@ en:
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
+  calls:
+    call_type: Call types
+    end_datetime: End call date
+    hotline_call: Hotline Call
+    index:
+      add_new_call: Add New Call
+      export_xls: Export to XLS
+      results: Results
+      report_builder: Report Builder
+    information_provided: Information provided
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Notifier Concern"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counseling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
+    phone_call_id: Phone call ID
+    phone_counselling_summary: Phone counselling summary
+    phone_type: Phone type
+    start_datetime: Start datetime
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -2035,6 +2076,16 @@ en:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
       all_result_framework_assessment: All Result Framework Assessment
+      calls:
+        call_type: Call types
+        end_datetime: End call date
+        hotline_call: Hotline Call
+        information_provided: Information provided
+        manage: Manage
+        phone_call_id: Phone call ID
+        phone_counselling_summary: Phone counselling summary
+        phone_type: Phone type
+        start_datetime: Start datetime
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -3044,6 +3095,7 @@ en:
       title: Edit Domain
     form:
       cancel: Cancel
+      custom_assessment_name: Custom Assessment Name
       description: Description
       domain_group: Domain Group
       identity: Identity
@@ -3194,6 +3246,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      results: ResultsExport to XLS
       report_builder: Report Builder
       results: Results
     new:

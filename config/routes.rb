@@ -57,6 +57,11 @@ Rails.application.routes.draw do
 
   resources :domains, except: [:show] do
     get 'version' => 'domains#version'
+    collection do
+      resources :custom_assessment_settings do
+        resources :domains
+      end
+    end
   end
 
   # resources :provinces, except: [:show] do
@@ -143,6 +148,8 @@ Rails.application.routes.draw do
       get 'delete' => 'attachments#delete'
     end
   end
+
+  resources :calls
 
   resources :families do
     resources :custom_field_properties
@@ -288,6 +295,8 @@ Rails.application.routes.draw do
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
       get 'translations/:lang' => 'translations#translation'
+
+      resources :calls
     end
   end
 

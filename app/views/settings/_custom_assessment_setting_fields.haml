@@ -1,0 +1,31 @@
+#assessment-setting.nested-fields
+  .row
+    .col-xs-12.col-sm-3
+      %label.control-label
+        %abbr{ title: 'required' }= '*'
+      %label.control-label= 'Custom Assessment'
+    .col-xs-12.col-sm-3
+      %label.control-label
+        %abbr{ title: 'required' }= '*'
+      %label.control-label= 'Max Assessment'
+    .col-xs-12.col-sm-push-3.col-sm-2
+      %label.control-label
+        %abbr{ title: 'required' }= '*'
+      %label.control-label= 'Eligible'
+
+  .row
+    .col-xs-12.col-sm-3
+      .form-group
+        = f.input :custom_assessment_name, label: false
+    .col-xs-12.col-sm-3
+      .form-group
+        = f.input :max_custom_assessment, label: false
+    .col-xs-12.col-sm-3
+      .form-group
+        = f.input :custom_assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
+    .col-xs-12.col-sm-2
+      .form-group
+        = f.input :custom_age, placeholder: 'Age', label: false
+    .col-xs-12.col-sm-1
+      .form-group
+        = link_to_remove_association '', f, class: 'btn btn-outline btn-danger fa fa-times', id: 'disable_remove_custom_assessment'

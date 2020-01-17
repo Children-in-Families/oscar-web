@@ -183,6 +183,14 @@ my:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               greater_than_or_equal_to: 'တစ္ သို႔မဟုတ္ တစ္ထက္ ႀကီးရပါမည္။ '
               not_an_integer: ကိန္းျပည့္မဟုတ္ပါ။
+        custom_assessment_setting:
+          attributes:
+            custom_assessment_name:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            max_custom_assessment:
+              greater_than:
+                one: နိမ့်ဆုံးထက် သာ. ကြီးမြတ်ဖြစ်ရမည်
+                other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
         department:
           attributes:
             name:
@@ -608,6 +616,15 @@ my:
   calendars:
     index:
       sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
+  calls:
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Notifier Concern"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counseling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
@@ -3020,6 +3037,7 @@ my:
       title: ဒိုမိန္းကို ျပင္ဆင္ရန္
     form:
       cancel: ပယ္ဖ်က္ရန္
+      custom_assessment_name: Custom Assessment Name
       description: ေဖာ္ျပခ်က္
       domain_group: ဒိုမိန္းအုပ္စု
       identity: အမွတ္အသား
