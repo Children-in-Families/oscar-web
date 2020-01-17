@@ -94,6 +94,7 @@ class ClientColumnsVisibility
       referee_name_: :referee_name,
       referee_phone_: :referee_phone,
       referee_email_: :referee_email,
+      **Call::FIELDS.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
       carer_name_: :carer_name,
       carer_phone_: :carer_phone,
       carer_email_: :carer_email,
@@ -101,8 +102,7 @@ class ClientColumnsVisibility
       referee_relationship_to_client_: :referee_relationship_to_client,
       client_contact_phone_: :client_contact_phone,
       client_address_type_: :client_address_type,
-      client_email_: :client_email,
-      phone_owner_: :phone_owner
+      client_email_: :client_email
     }
   end
 

@@ -1,4 +1,5 @@
 module ClientAdvancedSearchesConcern
+  include CallHelper
   def advanced_search
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
@@ -18,7 +19,6 @@ module ClientAdvancedSearchesConcern
 
     respond_to do |f|
       f.html do
-        # begin
         @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
         @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
         clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
@@ -30,15 +30,6 @@ module ClientAdvancedSearchesConcern
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
         export_client_reports
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
-        # current_time = Time.now
-        # if params[:type] == 'basic_info'
-        #   export_client_reports
-        #   send_data @client_grid.to_xls, filename: "client_report-#{current_time}.xls"
-        # elsif params[:type] == 'csi_assessment'
-        #   send_data @client_grid.to_spreadsheet('default'), filename: "client_assessment_domain_report-#{current_time}.xls"
-        # elsif params[:type] == 'custom_assessment'
-        #   send_data @client_grid.to_spreadsheet('custom'), filename: "client_assessment_domain_report-#{current_time}.xls"
-        # end
       end
     end
   end
@@ -90,7 +81,7 @@ module ClientAdvancedSearchesConcern
       @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
       @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
     else
-      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
+      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields + get_call_basic_fields
       @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
     end
   end
@@ -106,6 +97,15 @@ module ClientAdvancedSearchesConcern
 
   def get_client_basic_fields
     AdvancedSearches::ClientFields.new(user: current_user).render
+  end
+
+  def get_call_basic_fields
+    args = {
+      translation: get_basic_field_translations, number_field: [],
+      text_field: ['phone_counselling_summary', 'information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
+      dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
+    }
+    AdvancedSearches::AdvancedSearchFields.new('hotline_call', args).render
   end
 
   def custom_form_values

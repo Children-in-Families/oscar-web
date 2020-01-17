@@ -9,8 +9,16 @@ class Call < ActiveRecord::Base
   #             spam_call: I18n.t('calls.type.spam_call'),
   #             wrong_number: I18n.t('calls.type.wrong_number')
   #           }
+  FIELDS = %w( phone_call_id call_type start_datetime end_datetime phone_counselling_summary information_provided )
+  TYPES  = [
+            "New Referral: Case Action Required", "New Referral: Notifier Concern",
+            "Providing Update", "Phone Counseling",
+            "Seeking Information", "Spam Call", "Wrong Number"
+          ]
 
   belongs_to :referee
+  belongs_to :receiving_staff, class_name: 'User',      foreign_key: 'receiving_staff_id'
+
   has_many :hotlines, dependent: :destroy
   has_many :clients, through: :hotlines
 
