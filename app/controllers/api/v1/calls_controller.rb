@@ -49,7 +49,10 @@ module Api
                 end
 
                 call.referee_id = referee.id
+                # this if for one or multiple clients
+                call.client_ids = [client.id]
                 call.save
+
                 render json: call
               else
                 render json: call.errors, status: :unprocessable_entity
@@ -87,7 +90,8 @@ module Api
 
       def call_params
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
-                                :date_of_call, :start_datetime, :end_datetime, :call_type
+                                :date_of_call, :start_datetime, :end_datetime, :call_type,
+                                client_ids: []
                                 )
       end
 
@@ -141,7 +145,8 @@ module Api
               tasks_attributes: [:name, :domain_id, :completion_date],
               client_needs_attributes: [:id, :rank, :need_id],
               client_problems_attributes: [:id, :rank, :problem_id],
-              family_ids: []
+              family_ids: [],
+              call_ids: []
             )
       end
 
