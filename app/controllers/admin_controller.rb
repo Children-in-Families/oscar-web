@@ -18,5 +18,6 @@ class AdminController < ApplicationController
     @partner_count = Partner.count
     @agency_count  = Agency.count
     @referral_source_count = ReferralSource.count
+    @calls_count = Call.count
   end
 end

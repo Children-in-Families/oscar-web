@@ -30,6 +30,19 @@ module FormBuilderHelper
     data_mapping << rule_array
   end
 
+  def mapping_allowed_param_value(data, field_names, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_allowed_param_value(h, field_names, data_mapping)
+      end
+      next if !(field_names.include?(h[:id]))
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
   def get_program_service_query_string(results)
     results.map do |result|
       condition = ''
@@ -37,6 +50,16 @@ module FormBuilderHelper
         condition = h[:condition]
         class_name = h[:id] == 'active_program_stream' ? 'program_streams' : 'services'
         program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], class_name)
+      end.join(" #{condition} ")
+    end
+  end
+
+  def get_any_query_string(results, class_name)
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        condition = h[:condition]
+        general_query(h[:id], h[:field], h[:operator], h[:value], class_name)
       end.join(" #{condition} ")
     end
   end
@@ -137,6 +160,34 @@ module FormBuilderHelper
       end
     when 'between'
       "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
+    end
+  end
+
+  def general_query(id, field, operator, value, class_name)
+    field_name = id
+    case operator
+    when 'equal'
+      "#{class_name}.#{field_name} = '#{value}'"
+    when 'not_equal'
+      "#{class_name}.#{field_name} != '#{value}'"
+    when 'less'
+      "#{class_name}.#{field_name} < #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+    when 'less_or_equal'
+      "#{class_name}.#{field_name} <= #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+    when 'greater'
+      "#{class_name}.#{field_name} > #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+    when 'greater_or_equal'
+      "#{class_name}.#{field_name} >= #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+    when 'contains'
+      "#{class_name}.#{field_name} ILIKE '%#{value.squish}%' AND #{class_name}.#{field_name} IS NOT NULL"
+    when 'not_contains'
+      "#{class_name}.#{field_name} NOT ILIKE '%#{value.squish}%' OR #{class_name}.#{field_name} IS NULL"
+    when 'is_empty'
+      "#{class_name}.#{field_name} = '' OR #{class_name}.#{field_name} IS NULL"
+    when 'is_not_empty'
+      "#{class_name}.#{field_name} != '' AND #{class_name}.#{field_name} IS NOT NULL"
+    when 'between'
+      "#{class_name}.#{field_name} BETWEEN ('#{value.first}' AND '#{value.last}') OR #{class_name}.#{field_name} IS NOT NULL"
     end
   end
 

@@ -609,6 +609,9 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
+      
+      
+      
       case_plan: Case Plan for
       domain: Domain
       due_date: Due Date
@@ -630,6 +633,18 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    call_type: Call types
+    end_datetime: End call date
+    hotline_call: Hotline Call
+    index:
+      add_new_call: Add New Call
+      export_xls: Export to XLS
+      hotline: Hotline
+      results: Results
+      report_builder: Report Builder
+      
+      
+    information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Notifier Concern"
@@ -638,6 +653,10 @@ en:
       seeking_information: "Seeking Information"
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
+    phone_call_id: Phone call ID
+    phone_counselling_summary: Phone counselling summary
+    phone_type: Phone type
+    start_datetime: Start datetime
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -2062,6 +2081,17 @@ en:
     columns:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      all_result_framework_assessment: All Result Framework Assessment
+      calls:
+        call_type: Call types
+        end_datetime: End call date
+        hotline_call: Hotline Call
+        information_provided: Information provided
+        manage: Manage
+        phone_call_id: Phone call ID
+        phone_counselling_summary: Phone counselling summary
+        phone_type: Phone type
+        start_datetime: Start datetime
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -2111,6 +2141,22 @@ en:
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
         code: Custom ID Number1
+        concern_address: Concern Address
+        concern_address_type: Concern Address Type
+        concern_commune_id: Concern Commune
+        concern_district_id: Concern District
+        concern_email: Concern Email
+        concern_email_owner: Concern Email Owner
+        concern_house: Concern House
+        concern_is_outside: Concern is Outside Cambodia
+        concern_location: Concern Location
+        concern_outside_address: Concern Outside Address
+        concern_phone: Concern Phone
+        concern_phone_owner: Concern Phone Owner
+        concern_province_id: Concern Province
+        concern_same_as_client: Concern Same as Client
+        concern_street: Concern Street
+        concern_village_id: Concern Village
         commune: Commune/Sangkat
         commune_en: Address - Commune/Sangkat (English)
         commune_kh: Address - Commune/Sangkat (Khmer)
@@ -2161,11 +2207,13 @@ en:
         live_with: Primary Carer Name
         local_family_name: Family Name
         local_given_name: Given Name
+        location_description: Location description
         main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
         name: Name
         name_of_referee: Name of Referee
+        nickname: Nickname
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
@@ -2413,6 +2461,7 @@ en:
       no_case_note: Overdue for Case Note
       reset: Reset
       referee: Referee
+      result_framework_assessment: Result Framework Assessment
       carer: Carer
       search: Search
       type_of_service: Type of Service
@@ -3221,6 +3270,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      results: ResultsExport to XLS
       report_builder: Report Builder
       results: Results
     new:
@@ -3785,7 +3835,9 @@ en:
       account: Account
       agencies: Agencies
       changelogs: Changelogs
+      calls: Calls
       clients: Clients
+      client_forms: Client Forms
       country: Country
       csi_tools: Available Assessment Tools
       custom_fields: Custom Form
@@ -4597,6 +4649,9 @@ en:
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: Country
       settings: Settings
@@ -5040,6 +5095,7 @@ en:
   unauthorized:
     case_worker_unauthorized: The record has been successfully saved, but it is not assigned to you, so you are not able to view it. If you need to view this record, speak to the assigned case manager or an admin.
     default: You are not authorized to access this page.
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: Are you sure you want to delete?
