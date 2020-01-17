@@ -207,16 +207,24 @@
               = check_box_tag 'phone_owner_', 'phone_owner', checked = default_setting('phone_owner_', @client_default_columns) || params[:phone_owner_].present?, class: 'i-checks'
               = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
           - if enable_default_assessment?
-            %li.csi-header
-              %strong= t('.csi_domain_scores')
-            %li
+            - if current_organization.try(:aht) == true
+              %li.csi-header
+                %strong= t('.result_framework_assessment')
+              %li
+            - else
+              %li.csi-header
+                %strong= t('.csi_domain_scores')
+              %li
               .visibility.col-sm-12
                 = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = default_setting('date_of_assessments_', @client_default_columns) || params[:date_of_assessments_].present?, class: 'i-checks'
                 = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
             %li
               .visibility.col-sm-12
                 = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = default_setting('all_csi_assessments_', @client_default_columns) || params[:all_csi_assessments_].present?, class: 'i-checks'
-                = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
+                - if current_organization.try(:aht) == true
+                  = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
+                - else
+                  = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
 
           - if enable_custom_assessment?

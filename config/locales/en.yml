@@ -2034,6 +2034,7 @@ en:
     columns:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      all_result_framework_assessment: All Result Framework Assessment
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -2385,6 +2386,7 @@ en:
       no_case_note: Overdue for Case Note
       reset: Reset
       referee: Referee
+      result_framework_assessment: Result Framework Assessment
       carer: Carer
       search: Search
       type_of_service: Type of Service

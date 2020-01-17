@@ -2021,6 +2021,7 @@ my:
     columns:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      all_result_framework_assessment: All Result Framework Assessment
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
@@ -2361,6 +2362,7 @@ my:
       no_case_note: ဖြစ်ရပ်မှန်မှတ်ချက်များအတွက်ရက်လွန်
       reset: အကုန္ျပင္ဆင္သည္
       referee: Referee
+      result_framework_assessment: Result Framework Assessment
       carer: Carer
       search: ရွာေဖြသည္
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
