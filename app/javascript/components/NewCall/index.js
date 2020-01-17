@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import objectToFormData from 'object-to-formdata'
 import Loading from '../Commons/Loading'
 import CallAdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
@@ -127,7 +128,7 @@ const CallForms = props => {
         if(isArray)
           component.fields.forEach(field => {
             component.data.forEach(data => {
-              if (data[field] === '' || (Array.isArray(data[field]) && !data[field].length) || data[field] === null) {
+              if (data[field] === '' || (Array.isArray(data[field]) && !data[field].length) || data[field] === null || data[field] === undefined) {
                 errors.push(field)
                 errorSteps.push(component.step)
               }
@@ -224,30 +225,33 @@ const CallForms = props => {
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
-        // const action = clientData.id ? 'PUT' : 'POST'
-        // const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
-        // const message = "Call has been successfully created"
-        // $.ajax({
-        //   url,
-        //   type: action,
-        //   data: {
-        //     call: { ...callData },
-        //     client: { ...clientData },
-        //     referee: { ...refereeData },
-        //     carer: { ...carerData },
-        //     task: { ...taskData }
-        //   },
-        //   beforeSend: (req) => {
-        //     setLoading(true)
-        //   }
-        // })
-        // .success(response => {
-        //   document.location.href = `/calls?notice=` + message
-        // })
-        // .error(err => {
-        //   console.log("err: ", err);
-        // })
+        const action = clientData.id ? 'PUT' : 'POST'
+        const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
+        const message = "Call has been successfully created"
 
+        let formData = new FormData()
+        formData = objectToFormData(clientData, {}, formData, 'client')
+        formData = objectToFormData(refereeData, {}, formData, 'referee')
+        formData = objectToFormData(carerData, {}, formData, 'carer')
+        formData = objectToFormData(callData, {}, formData, 'call')
+        formData = objectToFormData(taskData, {}, formData, 'task')
+
+        $.ajax({
+          url,
+          type: action,
+          data: formData,
+          processData: false,
+          contentType: false,
+          beforeSend: (req) => {
+            setLoading(true)
+          }
+        })
+        .success(response => {
+          document.location.href = `/calls?notice=` + message
+        })
+        .error(err => {
+          console.log("err: ", err);
+        })
       }
     }
   }

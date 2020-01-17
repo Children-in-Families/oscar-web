@@ -74,18 +74,22 @@ export default props => {
     }
   }, [referee.anonymous]);
 
+  useEffect(() => {
+    const field = {
+      referral_source_category_id: client[0].referral_source_category_id,
+      referral_source_id: client[0].referral_source_id
+    }
+    modifyClientObject(field)
+  }, [client.length])
+
   const onReferralSourceCategoryChange = data => modifyClientObject({ referral_source_category_id: data.data, referral_source_id: null })
   const onReferralSourceChange = data => modifyClientObject({ referral_source_id: data.data })
 
   const modifyClientObject = field => {
-    const getObject    = client[0]
-    const modifyObject = { ...getObject, ...field }
-
-    const newObjects = client.map((object, indexObject) => {
-      const newObject = indexObject === 0 ? modifyObject : object
+    const newObjects = client.map(object => {
+      const newObject = { ...object, ...field }
       return newObject
     })
-
     onChange('client', newObjects)({type: 'object'})
   }
 
@@ -148,7 +152,7 @@ export default props => {
             isError={errorFields.includes("name")}
             value={referee.name}
             label="Name"
-            onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
+            onChange={(value) => { onChange('referee', 'name')(value) }}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
