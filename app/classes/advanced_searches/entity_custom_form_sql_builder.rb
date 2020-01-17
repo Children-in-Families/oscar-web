@@ -16,6 +16,7 @@ module AdvancedSearches
     def get_sql
       custom_formable_type = @entity_type.titleize
       sql_string = "#{@entity_type.pluralize}.id IN (?)"
+      return { id: sql_string, values: [] } if $param_rules.blank?
       properties_field = 'custom_field_properties.properties'
       custom_field_properties = CustomFieldProperty.where(custom_formable_type: custom_formable_type, custom_field_id: @selected_custom_form)
 
