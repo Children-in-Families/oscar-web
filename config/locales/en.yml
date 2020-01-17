@@ -630,6 +630,15 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    call_type: Call types
+    end_datetime: End call date
+    hotline_call: Hotline Call
+    index:
+      add_new_call: Add New Call
+      export_xls: Export to XLS
+      results: Results
+      report_builder: Report Builder
+    information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Notifier Concern"
@@ -638,6 +647,10 @@ en:
       seeking_information: "Seeking Information"
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
+    phone_call_id: Phone call ID
+    phone_counselling_summary: Phone counselling summary
+    phone_type: Phone type
+    start_datetime: Start datetime
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -2062,6 +2075,16 @@ en:
     columns:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      calls:
+        call_type: Call types
+        end_datetime: End call date
+        hotline_call: Hotline Call
+        information_provided: Information provided
+        manage: Manage
+        phone_call_id: Phone call ID
+        phone_counselling_summary: Phone counselling summary
+        phone_type: Phone type
+        start_datetime: Start datetime
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -2111,6 +2134,22 @@ en:
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
         code: Custom ID Number1
+        concern_address: Concern address
+        concern_address_type: Concern address type
+        concern_commune: Concern commune
+        concern_district: Concern district
+        concern_email: Concern email
+        concern_email_owner: Concern email owner
+        concern_house: Concern house
+        concern_is_outside: Concern is outside
+        concern_location: Concern location
+        concern_outside_address: Concern outside address
+        concern_phone: Concern phone
+        concern_phone_owner: Concern phone owner
+        concern_province: Concern province
+        concern_same_as_client: Concern same as client
+        concern_street: Concern street
+        concern_village: Concern village
         commune: Commune/Sangkat
         commune_en: Address - Commune/Sangkat (English)
         commune_kh: Address - Commune/Sangkat (Khmer)
@@ -2161,11 +2200,13 @@ en:
         live_with: Primary Carer Name
         local_family_name: Family Name
         local_given_name: Given Name
+        location_description: Location description
         main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
         name: Name
         name_of_referee: Name of Referee
+        nickname: Nickname
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
@@ -3221,6 +3262,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      results: ResultsExport to XLS
       report_builder: Report Builder
       results: Results
     new:

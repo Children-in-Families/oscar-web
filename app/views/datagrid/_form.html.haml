@@ -240,6 +240,13 @@
                 = check_box_tag 'type_of_service_', 'type_of_service', checked = default_setting('type_of_service_', @client_default_columns) || params[:type_of_service_].present?, class: 'i-checks'
                 = label_tag 'type_of_service_', t('datagrid.columns.type_of_service')
 
+          %li.hotline-call-header
+            %strong= t('datagrid.columns.calls.hotline_call')
+          - Call::FIELDS.each do |call_field|
+            %li
+              .visibility.col-sm-12
+                = check_box_tag "#{call_field}_", call_field, checked = default_setting("#{call_field}_", @client_default_columns) || params["#{call_field}_"].present?, class: 'i-checks'
+                = label_tag "#{call_field}_", t("datagrid.columns.calls.#{call_field}")
           %li.referee-header
             %strong= t('.referee')
           %li
@@ -330,13 +337,17 @@
     %hr/
     .row
       - grid.filters.each do |filter|
-        - if filter.type != :dynamic
-          .datagrid-filter.filter
-            = f.datagrid_label filter, title: filter.header
-            = f.datagrid_filter filter, partials: options[:partials]
+        .datagrid-filter.filter.form-group.col-xs-12.col-sm-6.col.md-4.col-lg-4
+          = f.datagrid_label filter
+          - if filter.type == :date
+            = f.datagrid_filter filter, partials: options[:partials], class: "form-control datepicker #{filter.options[:class]}"
+          - else
+            = f.datagrid_filter filter, partials: options[:partials], class: "form-control #{filter.options[:class]}"
+
     .row
-      .datagrid-actions
-        = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
-        - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
-        - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
-        = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-outline datagrid-reset'
+      .col-xs-12
+        .datagrid-actions
+          = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
+          - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
+          - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
+          = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-default btn-outline datagrid-reset'
