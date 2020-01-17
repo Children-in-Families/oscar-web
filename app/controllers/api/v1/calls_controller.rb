@@ -10,8 +10,8 @@ module Api
       def create
         call = Call.new(call_params)
         client = Client.new(client_params)
-
-        referee = Referee.new(referee_params)
+        
+        referee = Referee.find_or_initialize_by(id: params["referee"]["id"])
         # referee.save
 
         carer = Carer.new(carer_params)

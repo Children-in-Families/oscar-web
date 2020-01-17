@@ -59,7 +59,8 @@ export default props => {
             label={T.translate("newCall.admin.receiving_staff")}
             options={userLists}
             value={call.receiving_staff_id}
-            onChange={onChange('call', 'receiving_staff_id')} />
+            onChange={onChange('call', 'receiving_staff_id')}
+          />
 
           {/* 2. Is Receiving Staff of hotline the same as Receving Staff Member in AHT?
           If yes, use the following instead. */}

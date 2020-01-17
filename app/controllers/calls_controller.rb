@@ -19,13 +19,14 @@ class CallsController < AdminController
 
   def new
     @client = Client.new
+    @referees = Referee.all
     @call = Call.new
   end
 
   def show
     @call = Call.find(params[:id])
     @referee = @call.referee
-    @clients = @call.referee.clients.select("clients.gender, clients.slug, concat(clients.given_name, ' ', clients.family_name, ' (', clients.local_given_name, ' ', clients.local_family_name, ') ' ) full_name")
+    @clients =  @call.referee.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
   end
 
   def create
