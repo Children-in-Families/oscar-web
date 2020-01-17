@@ -27,11 +27,11 @@ export default props => {
     const same = data.data
 
     if(same) {
-      if(client.province_id !== null)
+      if(client[0].province_id !== null)
         fetchData('provinces', client.province_id, 'districts')
-      if(client.district_id !== null)
+      if(client[0].district_id !== null)
         fetchData('districts', client.district_id, 'communes')
-      if(client.commune_id !== null)
+      if(client[0].commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
     } else {
       setDistricts([])
@@ -40,16 +40,16 @@ export default props => {
     }
 
     const fields = {
-      outside: same ? client.outside : false,
-      province_id: same ? client.province_id : null,
-      district_id: same ? client.district_id : null,
-      commune_id: same ? client.commune_id : null,
-      village_id: same ? client.village_id : null,
-      street_number: same ? client.street_number : '',
-      house_number: same ? client.house_number : '',
-      current_address: same ? client.current_address : '',
-      address_type: same ? client.address_type : '',
-      outside_address: same ? client.outside_address : ''
+      outside: same ? client[0].outside : false,
+      province_id: same ? client[0].province_id : null,
+      district_id: same ? client[0].district_id : null,
+      commune_id: same ? client[0].commune_id : null,
+      village_id: same ? client[0].village_id : null,
+      street_number: same ? client[0].street_number : '',
+      house_number: same ? client[0].house_number : '',
+      current_address: same ? client[0].current_address : '',
+      address_type: same ? client[0].address_type : '',
+      outside_address: same ? client[0].outside_address : ''
     }
 
     onChange('carer', { ...fields, 'same_as_client': data.data })({type: 'select'})
@@ -59,13 +59,13 @@ export default props => {
     let object = carer
 
     if(carer.same_as_client) {
-      object = client
-      if(client.province_id !== null)
-        fetchData('provinces', client.province_id, 'districts')
-      if(client.district_id !== null)
-        fetchData('districts', client.district_id, 'communes')
-      if(client.commune_id !== null)
-        fetchData('communes', client.commune_id, 'villages')
+      object = client[0]
+      if(client[0].province_id !== null)
+        fetchData('provinces', client[0].province_id, 'districts')
+      if(client[0].district_id !== null)
+        fetchData('districts', client[0].district_id, 'communes')
+      if(client[0].commune_id !== null)
+        fetchData('communes', client[0].commune_id, 'villages')
     }
 
     const fields = {
@@ -82,7 +82,7 @@ export default props => {
     }
 
     onChange('carer', { ...fields })({type: 'select'})
-  }, [carer.same_as_client, client])
+  }, [carer.same_as_client, client[0]])
 
   const genderLists = [{label: 'Female', value: 'female'}, {label: 'Male', value: 'male'}, {label: 'Other', value: 'other'}, {label: 'Unknown', value: 'unknown'}]
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
@@ -94,7 +94,17 @@ export default props => {
     } else if (action === 'clear'){
       value = []
     }
-    onChange('client', 'family_ids')({data: value, type})
+
+    const field = { family_ids: value }
+    const getObject    = client[0]
+    const modifyObject = { ...getObject, ...field }
+
+    const newObjects = client.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
   }
 
   return (
@@ -121,7 +131,7 @@ export default props => {
           <SelectInput T={T} label="Relationship to Client" options={clientRelationships} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput T={T} label="Family Record" options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
+          <SelectInput T={T} label="Family Record" options={familyLists} value={client[0].family_ids} onChange={onChangeFamily} />
         </div>
       </div>
       <legend>

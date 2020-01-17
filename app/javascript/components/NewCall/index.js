@@ -41,7 +41,7 @@ const CallForms = props => {
   const [errorFields, setErrorFields] = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
+  const [clientData, setClientData] = useState([{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client }])
   const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
   const [refereeData, setRefereeData] = useState(referee)
@@ -54,7 +54,7 @@ const CallForms = props => {
 
   const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
 
-  const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeTabData  }
+  const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeData  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
   const callAboutTabData = { client: clientData, T }
 
@@ -80,7 +80,7 @@ const CallForms = props => {
   }
 
   const onChange = (obj, field) => event => {
-    const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
+    const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime', 'newObject', 'object']
     const value = inputType.includes(event.type) ? event.data : event.target.value
 
     if (typeof field !== 'object')
@@ -91,7 +91,10 @@ const CallForms = props => {
         setCallData({...callData, ...field})
         break;
       case 'client':
-        setClientData({...clientData, ...field})
+        if(event.type === 'newObject')
+          setClientData([...clientData, {}])
+        else
+          setClientData(field)
         break;
       case 'referee':
         setRefereeData({...refereeData, ...field })
@@ -120,14 +123,25 @@ const CallForms = props => {
 
     components.forEach(component => {
       if (step === component.step) {
-        component.fields.forEach(field => {
-          // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
-          if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
+        const isArray = Array.isArray(component.data)
+        if(isArray)
+          component.fields.forEach(field => {
+            component.data.forEach(data => {
+              if (data[field] === '' || (Array.isArray(data[field]) && !data[field].length) || data[field] === null) {
+                errors.push(field)
+                errorSteps.push(component.step)
+              }
+            })
+          })
+        else
+          component.fields.forEach(field => {
+            // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
+            if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
 
-            errors.push(field)
-            errorSteps.push(component.step)
-          }
-        })
+              errors.push(field)
+              errorSteps.push(component.step)
+            }
+          })
       }
     })
 
@@ -138,7 +152,6 @@ const CallForms = props => {
     //   setErrorFields([])
     //   return true
     // }
-
     if (errors.length > 0) {
       setErrorFields(errors)
       setErrorSteps([ ...new Set(errorSteps)])
@@ -201,7 +214,7 @@ const CallForms = props => {
   const handleSave = event => {
     if (handleValidation()) {
       handleCheckValue(refereeData)
-      handleCheckValue(clientData)
+      clientData.map(client => handleCheckValue(client))
       handleCheckValue(carerData)
       if(refereeData.requested_update === false)
         setTaskData({})
@@ -211,29 +224,29 @@ const CallForms = props => {
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
-        const action = clientData.id ? 'PUT' : 'POST'
-        const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
-        const message = "Call has been successfully created"
-        $.ajax({
-          url,
-          type: action,
-          data: {
-            call: { ...callData },
-            client: { ...clientData },
-            referee: { ...refereeData },
-            carer: { ...carerData },
-            task: { ...taskData }
-          },
-          beforeSend: (req) => {
-            setLoading(true)
-          }
-        })
-        .success(response => {
-          document.location.href = `/calls?notice=` + message
-        })
-        .error(err => {
-          console.log("err: ", err);
-        })
+        // const action = clientData.id ? 'PUT' : 'POST'
+        // const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
+        // const message = "Call has been successfully created"
+        // $.ajax({
+        //   url,
+        //   type: action,
+        //   data: {
+        //     call: { ...callData },
+        //     client: { ...clientData },
+        //     referee: { ...refereeData },
+        //     carer: { ...carerData },
+        //     task: { ...taskData }
+        //   },
+        //   beforeSend: (req) => {
+        //     setLoading(true)
+        //   }
+        // })
+        // .success(response => {
+        //   document.location.href = `/calls?notice=` + message
+        // })
+        // .error(err => {
+        //   console.log("err: ", err);
+        // })
 
       }
     }
@@ -251,6 +264,22 @@ const CallForms = props => {
       object.house_number = ''
     } else {
       object.outside_address = ''
+    }
+
+    if(object.concern_is_outside === undefined)
+      return
+
+    if(object.concern_is_outside) {
+      object.concern_province_id = null
+      object.concern_district_id = null
+      object.concern_commune_id = null
+      object.concern_village_id = null
+      object.concern_street_number = ''
+      object.concern_current_address = ''
+      object.concern_address_type = ''
+      object.concern_house_number = ''
+    } else {
+      object.concern_outside_address = ''
     }
   }
 
@@ -277,9 +306,7 @@ const CallForms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange}
-
-/>
+            <RefereeInfo data={refereeTabData} onChange={onChange} />
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>

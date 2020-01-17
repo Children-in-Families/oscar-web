@@ -80,6 +80,21 @@ export default props => {
     },
   ];
 
+  const handleOnChangeText = name => event => modifyClientObject({ [name]: event.target.value })
+  const handleOnChangeSelect = name => data => modifyClientObject({ [name]: data.data })
+
+  const modifyClientObject = field => {
+    const getObject    = client[0]
+    const modifyObject = { ...getObject, ...field }
+
+    const newObjects = client.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
+
   return (
     <>
       <legend className='legend'>
@@ -96,8 +111,8 @@ export default props => {
             T={T}
             label='Basic Necessities'
             options={basicNecessities}
-            value={client.basic_necessity}
-            onChange={onChange('client', 'basic_necessity')} />
+            value={client[0].basic_necessity}
+            onChange={handleOnChangeSelect('basic_necessity')} />
         </div>
       </div>
 
@@ -107,13 +122,13 @@ export default props => {
             T={T}
             label='Child Protection Concerns'
             options={childProtectionConcerns}
-            value={client.child_protection_concern}
-            onChange={onChange('client','child_protection_concern')} />
+            value={client[0].child_protection_concern}
+            onChange={handleOnChangeSelect('child_protection_concern')} />
         </div>
       </div>
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <TextArea label="Enter a brief note summarising the call" value={client.brief_note_summary} onChange={onChange('client', 'brief_note_summary')} />
+          <TextArea label="Enter a brief note summarising the call" value={client[0].brief_note_summary} onChange={handleOnChangeText('brief_note_summary')} />
         </div>
       </div>
     </>

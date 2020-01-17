@@ -106,7 +106,7 @@ export default props => {
               placeholder="Add a note about the content of your conversation with the caller."
               label="Phone Counselling Summary"
               value={call.phone_counselling_summary}
-              onChange={onChange(call, 'phone_counselling_summary')} />
+              onChange={onChange('call', 'phone_counselling_summary')} />
           </div>
         </div>
       </div>
@@ -133,7 +133,7 @@ export default props => {
               placeholder="Add a note about the content of your conversation with the caller."
               label="Information Provided"
               value={call.information_provided}
-              onChange={onChange(call, 'information_provided')} />
+              onChange={onChange('call', 'information_provided')} />
           </div>
         </div>
       </div>

@@ -47,7 +47,7 @@ export default props => {
     .filter(
       source =>
         source.ancestry !== null &&
-        source.ancestry == client.referral_source_category_id
+        source.ancestry == client[0].referral_source_category_id
     )
     .map(source => ({ label: source.name, value: source.id }));
 
@@ -74,12 +74,20 @@ export default props => {
     }
   }, [referee.anonymous]);
 
-  const onReferralSourceCategoryChange = data => {
-    onChange("client", {
-      referral_source_category_id: data.data,
-      referral_source_id: null
-    })({ type: "select" });
-  };
+  const onReferralSourceCategoryChange = data => modifyClientObject({ referral_source_category_id: data.data, referral_source_id: null })
+  const onReferralSourceChange = data => modifyClientObject({ referral_source_id: data.data })
+
+  const modifyClientObject = field => {
+    const getObject    = client[0]
+    const modifyObject = { ...getObject, ...field }
+
+    const newObjects = client.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
 
   return (
     <div className="containerClass">
@@ -191,7 +199,7 @@ export default props => {
             isError={errorFields.includes("referral_source_category_id")}
             label="Referral Source Catgeory"
             options={referralSourceCategoryLists}
-            value={client.referral_source_category_id}
+            value={client[0].referral_source_category_id}
             onChange={onReferralSourceCategoryChange}
           />
         </div>
@@ -200,8 +208,9 @@ export default props => {
             T={T}
             options={referralSourceLists}
             label="Referral Source"
-            onChange={onChange("client", "referral_source_id")}
-            value={client.referral_source_id}
+            // onChange={onChange("client", "referral_source_id")}
+            onChange={onReferralSourceChange}
+            value={client[0].referral_source_id}
           />
         </div>
       </div>
