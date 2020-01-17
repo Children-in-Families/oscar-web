@@ -22,18 +22,18 @@ export default props => {
     }
   } = props;
 
-  const refereeRelationshipOpts = refereeRelationships.map(relationship => ({ label: relationship.label, value: relationship.value }))
+  const refereeRelationshipOpts = refereeRelationships.map(relationship => ({ label: T.translate("refereeRelationShip." + relationship.label), value: relationship.value }))
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
-  const phoneEmailOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
+  const phoneEmailOwnerOpts = phoneOwners.map(phone => ({ label: T.translate("phoneOwner." + phone.label), value: phone.value }))
   // same as phone owner
   // const emailOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
 
   const genderLists = [
-    { label: "Female", value: "female" },
-    { label: "Male", value: "male" },
-    { label: "Other", value: "other" },
-    { label: "Unknown", value: "unknown" }
+    { label: T.translate("newCall.referralInfo.genderLists.female"), value: "female" },
+    { label: T.translate("newCall.referralInfo.genderLists.male"), value: "male" },
+    { label: T.translate("newCall.referralInfo.genderLists.other"), value: "other" },
+    { label: T.translate("newCall.referralInfo.genderLists.unknown"), value: "unknown" }
   ];
   const birthProvincesLists = birthProvinces.map(province => ({
     label: province[0],
@@ -129,7 +129,7 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-4">
-            <p>Client / Referral Information</p>
+            <p>{T.translate("newCall.referralInfo.client_referral")}</p>
           </div>
         </div>
       </legend>
@@ -138,7 +138,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label="Given Name (Latin)"
+            label={T.translate("newCall.referralInfo.given_name")}
             onChange={onChange("client", "given_name")}
             value={client.given_name}
           />
@@ -146,7 +146,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label="Family Name (Latin)"
+            label={T.translate("newCall.referralInfo.family_name")}
             onChange={onChange("client", "family_name")}
             value={client.family_name}
           />
@@ -154,7 +154,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label="Given Name(Khmer)"
+            label={T.translate("newCall.referralInfo.given_name_khmer")}
             onChange={onChange("client", "local_given_name")}
             value={client.local_given_name}
           />
@@ -162,7 +162,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label="Family Name (Khmer)"
+            label={T.translate("newCall.referralInfo.family_name_khmer")}
             onChange={onChange("client", "local_family_name")}
             value={client.local_family_name}
           />
@@ -170,20 +170,20 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label="Nickname"
+            label={T.translate("newCall.referralInfo.nickname")}
             onChange={onChange("client", "nickname")}
             value={client.nickname}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <DateInput getCurrentDate label="Date of Birth" onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
+          <DateInput getCurrentDate label={T.translate("newCall.referralInfo.date_of_birth")} onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             T={T}
             required
             isError={errorFields.includes("gender")}
-            label="Gender"
+            label={T.translate("newCall.referralInfo.gender")}
             options={genderLists}
             value={client.gender}
             onChange={onChange("client", "gender")}
@@ -193,7 +193,7 @@ export default props => {
           <SelectInput
             T={T}
             asGroup
-            label="Birth Province"
+            label={T.translate("newCall.referralInfo.birth_province")}
             options={birthProvincesLists}
             value={client.birth_province_id}
             onChange={onChange("client", "birth_province_id")}
@@ -204,7 +204,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             T={T}
-            label="Relationship to Caller"
+            label={T.translate("newCall.referralInfo.relationshio_to_caller")}
             options={refereeRelationshipOpts}
             value={client.referee_relationship}
             onChange={onRelationshipChange}
@@ -215,7 +215,7 @@ export default props => {
             T={T}
             required
             isError={errorFields.includes('user_ids')}
-            label={T.translate("admin.case_worker")}
+            label={T.translate("newCall.referralInfo.case_worker")}
             isMulti
             options={userLists}
             value={client.user_ids}
@@ -225,12 +225,12 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Contact Information</p>
+            <p>{T.translate("newCall.referralInfo.contact_info")}</p>
           </div>
           {
             client.referee_relationship !== 'self' &&
             <div className="col-xs-12 col-md-6 col-lg-6">
-              <Checkbox label="Client is outside Cambodia" checked={client.outside || false} onChange={onChange('client', 'outside')}/>
+              <Checkbox label={T.translate("newCall.referralInfo.client_is_outside")} checked={client.outside || false} onChange={onChange('client', 'outside')}/>
             </div>
           }
         </div>
@@ -240,22 +240,22 @@ export default props => {
         <div className="col-xs-12 col-md-6">
           <div className="row">
             <div className="col-xs-12 col-md-6">
-              <TextInput label="Client Contact Phone" type="number" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
+              <TextInput label={T.translate("newCall.referralInfo.client_contact_phone")} type="number" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
             </div>
             <div className="col-xs-12 col-md-6">
-              <SelectInput label="Phone Owner" options={phoneEmailOwnerOpts} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+              <SelectInput label={T.translate("newCall.referralInfo.phone_owner")} options={phoneEmailOwnerOpts} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
             </div>
             <div className="col-xs-12 col-md-6">
-              <TextInput label="Client Email Contact" onChange={onChange('client', 'client_email')} value={client.client_email} />
+              <TextInput label={T.translate("newCall.referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
             </div>
             <div className="col-xs-12 col-md-6">
-              <SelectInput label="Email Owner" options={phoneEmailOwnerOpts} onChange={onChange('client', 'email_owner')} value={client.email_owner}/>
+              <SelectInput label={T.translate("newCall.referralInfo.email_owner")} options={phoneEmailOwnerOpts} onChange={onChange('client', 'email_owner')} value={client.email_owner}/>
             </div>
           </div>
         </div>
         <div className={"col-xs-12 col-md-6" + (client.outside ? ' hidden' : '')}>
           <TextArea
-            label="Location Description"
+            label={T.translate("newCall.referralInfo.location_description")}
             value={client.location_description}
             onChange={onChange('client', 'location_description')} />
         </div>
@@ -265,15 +265,15 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Location of concern</p>
+            <p>{T.translate("newCall.referralInfo.location_of_concern")}</p>
           </div>
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <Checkbox label="Same as Client" checked={client.concern_same_as_client} onChange={onCheckSameAsClient} />
+            <Checkbox label={T.translate("newCall.referralInfo.same_as_client")} checked={client.concern_same_as_client} onChange={onCheckSameAsClient} />
           </div>
           {!client.concern_same_as_client &&
             <div className="col-xs-12 col-md-6 col-lg-6">
               <Checkbox
-                label="Concern is outside Cambodia"
+                label={T.translate("newCall.referralInfo.concern_is_outside_cambodia")}
                 checked={client.concern_is_outside || false}
                 onChange={onChange("client", "concern_is_outside")}
               />
@@ -283,6 +283,7 @@ export default props => {
       </legend>
 
       <ConcernAddress
+        T={T}
         disabled={client.concern_same_as_client}
         outside={client.concern_is_outside || false}
         onChange={onChange}
@@ -303,7 +304,7 @@ export default props => {
             <div className="col-xs-12 col-md-6">
               <TextInput
                 T={T}
-                label="Relevant Contact Phone"
+                label={T.translate("newCall.referralInfo.relevant_contact_phone")}
                 onChange={onChange("client", "concern_phone")}
                 value={client.concern_phone}
               />
@@ -311,7 +312,7 @@ export default props => {
             <div className="col-xs-12 col-md-6">
               <SelectInput
                 T={T}
-                label="Phone Owner"
+                label={T.translate("newCall.referralInfo.phone_owner")}
                 options={phoneEmailOwnerOpts}
                 value={client.concern_phone_owner}
                 onChange={onChange("client", "concern_phone_owner")}
@@ -322,7 +323,7 @@ export default props => {
             <div className="col-xs-12 col-md-6">
               <TextInput
                 T={T}
-                label="Relevant Email Contact"
+                label={T.translate("newCall.referralInfo.relevant_email")}
                 onChange={onChange("client", "concern_email")}
                 value={client.concern_email}
               />
@@ -330,7 +331,7 @@ export default props => {
             <div className="col-xs-12 col-md-6">
               <SelectInput
                 T={T}
-                label="Email Owner"
+                label={T.translate("newCall.referralInfo.email_owner")}
                 options={phoneEmailOwnerOpts}
                 value={client.concern_email_owner}
                 onChange={onChange("client", "concern_email_owner")}
@@ -340,7 +341,7 @@ export default props => {
         </div>
         <div className={"col-xs-12 col-md-6" + (client.concern_is_outside ? ' hidden' : '')}>
           <TextArea
-            label="Location Description"
+            label={T.translate("newCall.referralInfo.locatin_description")}
             value={client.concern_location}
             onChange={onChange('client', 'concern_location')} />
         </div>

@@ -609,6 +609,9 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
+      
+      
+      
       case_plan: Case Plan for
       domain: Domain
       due_date: Due Date
@@ -636,8 +639,11 @@ en:
     index:
       add_new_call: Add New Call
       export_xls: Export to XLS
+      hotline: Hotline
       results: Results
       report_builder: Report Builder
+      
+      
     information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
@@ -3827,6 +3833,7 @@ en:
       account: Account
       agencies: Agencies
       changelogs: Changelogs
+      calls: Calls
       clients: Clients
       country: Country
       csi_tools: Available Assessment Tools
