@@ -3835,6 +3835,7 @@ en:
       changelogs: Changelogs
       calls: Calls
       clients: Clients
+      client_forms: Client Forms
       country: Country
       csi_tools: Available Assessment Tools
       custom_fields: Custom Form
@@ -4646,6 +4647,9 @@ en:
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: Country
       settings: Settings
@@ -5089,6 +5093,7 @@ en:
   unauthorized:
     case_worker_unauthorized: The record has been successfully saved, but it is not assigned to you, so you are not able to view it. If you need to view this record, speak to the assigned case manager or an admin.
     default: You are not authorized to access this page.
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: Are you sure you want to delete?

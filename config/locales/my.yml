@@ -3776,6 +3776,7 @@ my:
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
       calls: Calls
       clients: အမႈဥည္မ်ား
+      client_forms: Client Forms
       country: ႏုိင္ငံ
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_fields: ပံုစံထုတ္စက္
@@ -4587,6 +4588,9 @@ my:
     case_note:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
       max_case_note: အများဆုံး
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: ႏုိင္ငံ
       settings: အျပင္အဆင္မ်ား
@@ -5031,6 +5035,7 @@ my:
   unauthorized:
     case_worker_unauthorized: အဆိုပါစံချိန်ကိုအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ, ဒါပေမယ့်သင်ဖို့တာဝန်မပေးတဲ့အတွက်, သင်ကမြင်နိုင်မရှိကြပေ။ သငျသညျဤမှတ်တမ်းကြည့်ရှုရန်လိုအပ်ပါတယ်လျှင်, တာဝန်ပေးအပ်ကိစ္စတွင်မန်နေဂျာဒါမှမဟုတ် admin ရဲ့ပြောဆို၏။
     default: ဤစာမ်က္ႏွာကို ၀င္ေရာက္ရန္ အခြင့္မရွိပါ
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
