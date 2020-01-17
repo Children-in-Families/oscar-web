@@ -146,13 +146,12 @@ module FormBuilderHelper
 
   def map_type_of_services(object)
     if $param_rules.nil?
-      program_streams = object.program_streams.joins(:services)
-      type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
+      return_default_client_type_of_services(object)
     else
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results = mapping_program_stream_service_param_value(basic_rules)
-      return object if results.flatten.blank?
+      return return_default_client_type_of_services(object) if results.flatten.blank?
       query_string = get_program_service_query_string(results)
 
       program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
@@ -162,6 +161,11 @@ module FormBuilderHelper
 
       type_of_services = program_streams.distinct.map{|ps| ps.services.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
     end
+  end
+
+  def return_default_client_type_of_services(object)
+    program_streams = object.program_streams.joins(:services)
+    type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
   end
 
   def mapping_service_param_value(data, field_name=nil, data_mapping=[])
