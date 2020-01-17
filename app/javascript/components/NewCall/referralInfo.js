@@ -22,10 +22,10 @@ export default props => {
     }
   } = props;
 
-  const refereeRelationshipOpts = refereeRelationships.map(relationship => ({ label: relationship.label, value: relationship.value }))
+  const refereeRelationshipOpts = refereeRelationships.map(relationship => ({ label: T.translate("refereeRelationShip." + relationship.label), value: relationship.value }))
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
-  const phoneEmailOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
+  const phoneEmailOwnerOpts = phoneOwners.map(phone => ({ label: T.translate("phoneOwner." + phone.label), value: phone.value }))
   // same as phone owner
   // const emailOwnerOpts = phoneOwners.map(phone => ({ label: phone.label, value: phone.value }))
 

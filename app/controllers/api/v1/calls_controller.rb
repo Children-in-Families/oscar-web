@@ -18,7 +18,7 @@ module Api
         # carer.save
         client.name_of_referee = referee.name
         client.received_by_id = call.receiving_staff_id # if Receiving Staff is Receiving Staff Member
-
+        client.initial_referral_date = call.date_of_call
         # client.referee_id = referee.id
         # client.carer_id = carer.id
 
@@ -33,13 +33,26 @@ module Api
                 client.carer_id = carer.id
                 client.save
 
+                if params[:task].present?
+                  task_attr = {
+                    name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
+                    domain_id: Domain.find_by(name: '3B').id,
+                    completion_date: params[:task][:completion_date],
+                    relation: params[:task][:relation]
+                  }
+                  client.tasks.create(task_attr)
+                end
+
                 if (call.call_type == "New Referral: Case Action Required")
                   # auto accept client
                   client.enter_ngos.create(accepted_date: Date.today)
                 end
 
                 call.referee_id = referee.id
+                # this if for one or multiple clients
+                call.client_ids = [client.id]
                 call.save
+
                 render json: call
               else
                 render json: call.errors, status: :unprocessable_entity
@@ -77,7 +90,8 @@ module Api
 
       def call_params
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
-                                :start_datetime, :end_datetime, :call_type
+                                :date_of_call, :start_datetime, :end_datetime, :call_type,
+                                client_ids: []
                                 )
       end
 
@@ -131,7 +145,8 @@ module Api
               tasks_attributes: [:name, :domain_id, :completion_date],
               client_needs_attributes: [:id, :rank, :need_id],
               client_problems_attributes: [:id, :rank, :problem_id],
-              family_ids: []
+              family_ids: [],
+              call_ids: []
             )
       end
 

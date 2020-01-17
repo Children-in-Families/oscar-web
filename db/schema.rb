@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200114124333) do
+ActiveRecord::Schema.define(version: 20200116022605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,12 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.datetime "updated_at"
   end
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",               default: ""
     t.integer  "previous_score"
@@ -143,6 +149,7 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.datetime "updated_at",                             null: false
     t.string   "phone_counselling_summary", default: ""
     t.string   "information_provided",      default: ""
+    t.date     "date_of_call"
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
@@ -198,15 +205,14 @@ ActiveRecord::Schema.define(version: 20200114124333) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",                  default: ""
+    t.string   "attendee",         default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.string   "interaction_type",          default: ""
-    t.boolean  "custom",                    default: false
-    t.string   "selected_domain_group_ids", default: [],    array: true
+    t.string   "interaction_type", default: ""
+    t.boolean  "custom",           default: false
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -492,8 +498,6 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
     t.boolean  "outside",                          default: false
@@ -673,12 +677,15 @@ ActiveRecord::Schema.define(version: 20200114124333) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: "", null: false
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -985,6 +992,16 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "hotlines", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "call_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hotlines", ["call_id"], name: "index_hotlines_on_call_id", using: :btree
+  add_index "hotlines", ["client_id"], name: "index_hotlines_on_client_id", using: :btree
 
   create_table "interventions", force: :cascade do |t|
     t.string   "action",     default: ""
@@ -1702,9 +1719,9 @@ ActiveRecord::Schema.define(version: 20200114124333) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -1841,6 +1858,8 @@ ActiveRecord::Schema.define(version: 20200114124333) do
   add_foreign_key "government_forms", "districts"
   add_foreign_key "government_forms", "provinces"
   add_foreign_key "government_forms", "villages"
+  add_foreign_key "hotlines", "calls"
+  add_foreign_key "hotlines", "clients"
   add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"

@@ -6,7 +6,7 @@ import {
 
 export default props => {
   const { onChange, id, data: { client, schoolGrade, T } } = props
-  const schoolGradeLists = schoolGrade.map(grade => ({ label:grade[0], value: grade[1] }))
+  const schoolGradeLists = schoolGrade.map(grade => ({ label: T.translate("schoolGrade." + grade[0]), value: grade[1] }))
 
   return (
     <div id={id} className="collapse">

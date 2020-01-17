@@ -8,6 +8,7 @@ import Address from './address'
 
 export default props => {
   const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
+  const clientRelationship = clientRelationships.map(relationship => ({ label: T.translate("clientRelationShip." + relationship.label), value: relationship.value }))
 
   const [districts, setDistricts]         = useState(carerDistricts)
   const [communes, setCommunes]           = useState(carerCommunes)
@@ -85,10 +86,10 @@ export default props => {
   }, [carer.same_as_client, client])
 
   const genderLists = [
-    { label: T.translate("newCall.carerInfo.female"), value: 'female' },
-    { label: T.translate("newCall.carerInfo.male"), value: 'male' },
-    { label: T.translate("newCall.carerInfo.other"), value: 'other' },
-    { label: T.translate("newCall.carerInfo.unknown"), value: 'unknown'}
+    { label: T.translate("newCall.carerInfo.genderLists.female"), value: 'female' },
+    { label: T.translate("newCall.carerInfo.genderLists.male"), value: 'male' },
+    { label: T.translate("newCall.carerInfo.genderLists.other"), value: 'other' },
+    { label: T.translate("newCall.carerInfo.genderLists.unknown"), value: 'unknown'}
   ]
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 
@@ -123,7 +124,7 @@ export default props => {
           <TextInput T={T} label={T.translate("newCall.carerInfo.carer_email")} onChange={onChange('carer', 'email')} value={carer.email} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput T={T} label={T.translate("newCall.carerInfo.relationship")} options={clientRelationships} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
+          <SelectInput T={T} label={T.translate("newCall.carerInfo.relationship")} options={clientRelationship} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput T={T} label={T.translate("newCall.carerInfo.family_record")} options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
