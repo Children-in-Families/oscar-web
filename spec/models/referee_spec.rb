@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Referee, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe Referee, 'associations' do
+    it { is_expected.to belong_to(:province) }
+    it { is_expected.to belong_to(:district) }
+    it { is_expected.to belong_to(:commune) }
+    it { is_expected.to belong_to(:village) }
+
+    it { is_expected.to have_many(:clients) }
+    it { is_expected.to have_many(:calls) }
+  end
 end
-
-# describe Caller, 'associations' do
-#   it { is_expected.to have_many(:calls).dependent(:restrict_with_error) }
-# end
-
-# describe Caller, 'validations' do
-#   it { is_expected.to validate_presence_of(:answered_call) }
-#   it { is_expected.to validate_presence_of(:called_before) }
-# end
