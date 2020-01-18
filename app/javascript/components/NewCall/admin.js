@@ -12,7 +12,7 @@ export default props => {
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
   // const callTypes = ['case_action_required', 'notifier_concern', 'providing_update',
   //                   'phone_counseling', 'seeking_information', 'spam_call', 'wrong_number'];
-                    
+
   const callTypes = [
                     "New Referral: Case Action Required", "New Referral: Notifier Concern",
                     "Providing Update", "Phone Counseling",
@@ -73,14 +73,14 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <DateInput 
+          <DateInput
             T={T}
             required
             isError={errorFields.includes('date_of_call')}
-            getCurrentDate 
-            label="Date of Call" 
-            onChange={onChange('call', 'date_of_call')} 
-            value={call.date_of_call} 
+            getCurrentDate
+            label="Date of Call"
+            onChange={onChange('call', 'date_of_call')}
+            value={call.date_of_call}
           />
         </div>
       </div>
@@ -100,7 +100,7 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-         <DateTimePicker
+          <DateTimePicker
             T={T}
             isError={errorFields.includes('end_datetime')}
             label="Time Call Ended"
@@ -111,7 +111,6 @@ export default props => {
         </div>
       </div>
 
-     
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <RadioGroup

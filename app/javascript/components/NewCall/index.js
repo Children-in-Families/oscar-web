@@ -29,7 +29,7 @@ const CallForms = props => {
   const {
     data: {
       call,
-      client: { client, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
+      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
       referee, carer, users, birthProvinces, referralSource, referralSourceCategory,
       selectedCountry, internationalReferredClient, quantitativeType, quantitativeCase,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
@@ -42,7 +42,7 @@ const CallForms = props => {
   const [errorFields, setErrorFields] = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState([{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client }])
+  const [clientData, setClientData] = useState([{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
   const [refereeData, setRefereeData] = useState(referee)
@@ -53,11 +53,11 @@ const CallForms = props => {
   // const adminTabData = { users, client: clientData, errorFields }
   const adminTabData = { call: callData, users, errorFields, T }
 
-  const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
+  const refereeTabData = { errorFields, clients: clientData, clientTask, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
 
-  const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeData  }
+  const referralTabData = { users, errorFields, clients: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeData  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
-  const callAboutTabData = { client: clientData, T }
+  const callAboutTabData = { clients: clientData, T }
 
   const tabs = [
     {text: 'Caller Information', step: 1},
@@ -230,7 +230,7 @@ const CallForms = props => {
         const message = "Call has been successfully created"
 
         let formData = new FormData()
-        formData = objectToFormData(clientData, {}, formData, 'client')
+        formData = objectToFormData(clientData, {}, formData, 'clients')
         formData = objectToFormData(refereeData, {}, formData, 'referee')
         formData = objectToFormData(carerData, {}, formData, 'carer')
         formData = objectToFormData(callData, {}, formData, 'call')

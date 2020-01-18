@@ -5,7 +5,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, T } } = props
+  const { onChange, data: { clients, T } } = props
   const basicNecessities = [
     {
       label: "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
@@ -84,10 +84,10 @@ export default props => {
   const handleOnChangeSelect = name => data => modifyClientObject({ [name]: data.data })
 
   const modifyClientObject = field => {
-    const getObject    = client[0]
+    const getObject    = clients[0]
     const modifyObject = { ...getObject, ...field }
 
-    const newObjects = client.map((object, indexObject) => {
+    const newObjects = clients.map((object, indexObject) => {
       const newObject = indexObject === 0 ? modifyObject : object
       return newObject
     })
@@ -111,7 +111,7 @@ export default props => {
             T={T}
             label='Basic Necessities'
             options={basicNecessities}
-            value={client[0].basic_necessity}
+            value={clients[0].basic_necessity}
             onChange={handleOnChangeSelect('basic_necessity')} />
         </div>
       </div>
@@ -122,13 +122,13 @@ export default props => {
             T={T}
             label='Child Protection Concerns'
             options={childProtectionConcerns}
-            value={client[0].child_protection_concern}
+            value={clients[0].child_protection_concern}
             onChange={handleOnChangeSelect('child_protection_concern')} />
         </div>
       </div>
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <TextArea label="Enter a brief note summarising the call" value={client[0].brief_note_summary} onChange={handleOnChangeText('brief_note_summary')} />
+          <TextArea label="Enter a brief note summarising the call" value={clients[0].brief_note_summary} onChange={handleOnChangeText('brief_note_summary')} />
         </div>
       </div>
     </>

@@ -8,7 +8,7 @@ export default props => {
     onChange,
     data: {
       users,
-      client,
+      clients,
       referee,
       currentDistricts,
       currentCommunes,
@@ -23,7 +23,7 @@ export default props => {
   } = props;
 
   const [clientIndex, setClientIndex] = useState(0)
-  const currentClient = client[clientIndex]
+  const currentClient = clients[clientIndex]
   const refereeRelationshipOpts = refereeRelationships.map(relationship => ({ label: relationship.label, value: relationship.value }))
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
@@ -138,9 +138,9 @@ export default props => {
   }
 
   const renderClientNavigation = () => {
-    if(client.length > 1)
+    if(clients.length > 1)
       return (
-        client.map((c, index) => (
+        clients.map((client, index) => (
           <button
             className={`btn ${clientIndex === index ? 'btn-primary' : 'btn-default'} `}
             style={{marginLeft: 5, marginRight: 5}}
@@ -165,10 +165,10 @@ export default props => {
   }
 
   const modifyClientObject = (index, field) => {
-    const getObject    = client[index]
+    const getObject    = clients[index]
     const modifyObject = { ...getObject, ...field }
 
-    const newObjects = client.map((object, indexObject) => {
+    const newObjects = clients.map((object, indexObject) => {
       const newObject = indexObject === index ? modifyObject : object
       return newObject
     })
@@ -177,7 +177,7 @@ export default props => {
   }
 
   const removeClient = () => {
-    const newObject = client.filter((c, index) => clientIndex !== index)
+    const newObject = clients.filter((client, index) => clientIndex !== index)
     setClientIndex(0)
     onChange('client', newObject)({type: 'object'})
   }
@@ -292,7 +292,7 @@ export default props => {
 
         <div className="col-xs-12">
           <button className="btn btn-primary" style={{margin: 5}} onClick={() => onChange('client', {})({type: 'newObject'})}>Add Another Client</button>
-          { client.length > 1 &&
+          { clients.length > 1 &&
             <button className="btn btn-danger" style={{margin: 5}} onClick={removeClient}>Remove Client</button>
           }
         </div>
