@@ -37,7 +37,8 @@ export default props => {
         </div>
       </legend>
 
-      <div className='row'>
+      {/* removed since it should be set after the call is saved */}
+      {/* <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <TextInput
             T={T}
@@ -48,7 +49,7 @@ export default props => {
             value={call.phone_call_id}
             />
         </div>
-      </div>
+      </div> */}
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>

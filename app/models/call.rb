@@ -24,7 +24,9 @@ class Call < ActiveRecord::Base
 
   scope :most_recents, -> { order(date_of_call: :desc) }
 
-  # validates :receiving_staff_id, :start_datetime, :end_datetime, presence: true
+  after_save :set_phone_call_id, if: -> { phone_call_id.blank? }
+
+  validates :receiving_staff_id, :date_of_call, :start_datetime, :end_datetime, presence: true
   # validates :call_type, presence: true, inclusion: { in: call_types.values }
 
   # validates :phone_counselling_summary, presence: true, if: :phone_counseling?
@@ -40,5 +42,12 @@ class Call < ActiveRecord::Base
 
   def case_action_not_required?
     call_type == "New Referral: Case Action NOT Required"
+  end
+
+  def set_phone_call_id
+    id      = self.id.to_s.rjust(4, '0')
+    date    = self.date_of_call.strftime('%Y%m%d')
+    call_id = "#{date}-#{id}"
+    self.update_columns(phone_call_id: call_id)
   end
 end
