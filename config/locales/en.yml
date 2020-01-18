@@ -2393,6 +2393,29 @@ en:
       referee_phone: Referee Phone
       referee_email: Referee Email
       referee_relationship_to_client: Referee Relationship to client
+      referees:
+        address_type: Address Type
+        adult: Adult
+        anonymous: Anonymous
+        answered_call: Answered Call
+        called_before: Called Before
+        commune_id: Commune
+        created_at: Created At
+        current_address: Current Address
+        district_id: District
+        email: Email
+        gender: Gender
+        house_number: House Number
+        id: ID
+        name: Name
+        outside: Outside Cambodia
+        outside_address: Outside Address
+        phone: Phone
+        province_id: Province
+        requested_update: Requested Update
+        street_number: Street Number
+        updated_at: Updated At
+        village_id: Village
       select_columns: Select Columns
       show_all: Show All
       support_amount: Support Amount
