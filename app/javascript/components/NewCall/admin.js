@@ -8,7 +8,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { users, call, errorFields, T } } = props
+  const { onChange, data: { users, call, errorFields, T, step } } = props
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
   // const callTypes = ['case_action_required', 'notifier_concern', 'providing_update',
   //                   'phone_counseling', 'seeking_information', 'spam_call', 'wrong_number'];
@@ -122,6 +122,7 @@ export default props => {
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <RadioGroup
+            disabled={step > 1}
             T={T}
             required
             isError={errorFields.includes('call_type')}

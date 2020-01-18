@@ -52,8 +52,7 @@ const CallForms = props => {
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
-  // const adminTabData = { users, client: clientData, errorFields }
-  const adminTabData = { call: callData, users, errorFields, T }
+  const adminTabData = { call: callData, users, errorFields, T, step }
 
   const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
 
@@ -155,10 +154,15 @@ const CallForms = props => {
   }
 
   const handleTab = goingToStep => {
-    if(goingToStep < step || handleValidation())
-      setStep(goingToStep)
-    if(goingToStep == 3 && step == 1 || goingToStep == 4 && step == 1 && handleValidation())
-      setStep(2)
+    const goBack    = goingToStep < step
+    const goForward = goingToStep === step + 1
+    const goOver    = goingToStep >= step + 2 || goingToStep >= step + 3
+
+    if((goForward && handleValidation()) || (goOver && handleValidation(1) && handleValidation(2)) || goBack)
+      if(step === 1)
+        checkCallType()(() => setStep(goingToStep))
+      else
+        setStep(goingToStep)
   }
 
   const buttonNext = () => {
