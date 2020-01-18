@@ -46,9 +46,12 @@
                     .form-inputs
                       = f.hidden_field :accepted_date, value: Date.today
                     .form-actions
-                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client', data: { disable_with: t('.accepting') }
+                      - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
+                        %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
+                      - else
+                        = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client', data: { disable_with: t('.accepting') }
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{ "data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.reject')}
 
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
@@ -450,6 +453,25 @@
                     .text-center
                       %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
                     = render 'case_history_detail', object: @client, index: 'initial_referral_date'
+        - if @client.calls.any?
+          .row
+            .col-xs-12
+              %table.table.table-bordered.table-hover
+                %thead
+                  %tr
+                    %th Hotlines
+                    %th Call Type
+                    %th Date of Call
+                    %th.text-center Detail
+                %tbody
+                  - @client.calls.most_recents.each do |call|
+                    %tr
+                      %td= call.phone_call_id
+                      %td= call.call_type
+                      %td= date_format(call.date_of_call)
+                      %td.text-center
+                        = link_to call_path(call) do
+                          %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
 .row
   -# = render 'placement'
   = render 'referrals/confirm_referral'

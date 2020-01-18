@@ -220,7 +220,7 @@
     "admin": {
       "calltypes": {
         "new_referral_case": "New Referral: Case Action Required",
-        "new_referral_notifier": "New Referral: Notifier Concern",
+        "new_referral_notifier": "New Referral: Case Action NOT Required",
         "providing_update": "Providing Update",
         "phone_conseling": "Phone Counseling",
         "seeking_infomation": "Seeking Information",

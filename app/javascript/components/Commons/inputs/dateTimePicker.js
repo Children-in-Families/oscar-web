@@ -20,7 +20,6 @@ export default ({isError, required, label, onChange, value, T }) => {
   const _isValidTime = () => {
     let patt = new RegExp(/^(\d{1,}:\d{1,})$/g)
     let result = patt.test(value)
-    console.log('value', value, " ==> ", result)
     return result
   }
 

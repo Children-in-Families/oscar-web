@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Loading from '../Commons/Loading'
+// import Loading from '../Commons/Loading'
+import Modal from '../Commons/Modal'
 import CallAdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
@@ -47,6 +48,7 @@ const CallForms = props => {
   const [refereeData, setRefereeData] = useState(referee)
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData] = useState(carer)
+  const [caseActionNotRequired, setCaseActionNotRequiredModalOpen] = useState(false)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
@@ -160,44 +162,20 @@ const CallForms = props => {
   }
 
   const buttonNext = () => {
-    if (handleValidation())
-      setStep(step + 1)
+    if (handleValidation()) {
+      if (step === 1 )
+        checkCallType()(() => setStep(step + 1))
+      else
+        setStep(step + 1)
+    }
   }
 
-  // const checkClientExist = () => callback => {
-  //   const data =  {
-  //     given_name: clientData.given_name ,
-  //     family_name: clientData.family_name,
-  //     local_given_name: clientData.local_given_name,
-  //     local_family_name: clientData.local_family_name,
-  //     date_of_birth: clientData.date_of_birth || '',
-  //     birth_province_id: clientData.birth_province_id || '',
-  //     current_province_id: clientData.province_id || '',
-  //     district_id: clientData.district_id || '',
-  //     village_id: clientData.village_id || '',
-  //     commune_id: clientData.commune_id || ''
-  //   }
-
-  //   if(!clientData.id && clientData.outside === false) {
-  //     if(data.given_name !== '' || data.family_name !== '' || data.local_given_name !== '' || data.local_family_name !== '' || data.date_of_birth !== '' || data.birth_province_id !== '' || data.current_province_id !== '' || data.district_id !== '' || data.village_id !== '' || data.commune_id !== '') {
-  //       $.ajax({
-  //         type: 'GET',
-  //         url: '/api/clients/compare',
-  //         data: data,
-  //         beforeSend: () => { setLoading(true) }
-  //       }).success(response => {
-  //         if(response.similar_fields.length > 0) {
-  //           setDupFields(response.similar_fields)
-  //           setDupClientModalOpen(true)
-  //         } else
-  //           callback()
-  //         setLoading(false)
-  //       })
-  //     } else
-  //       callback()
-  //   } else
-  //     callback()
-  // }
+  const checkCallType = () => callback => {
+    if (callData.call_type == "New Referral: Case Action NOT Required") {
+      setCaseActionNotRequiredModalOpen(true)
+    } else
+      callback()
+  }
 
   const handleSave = event => {
     if (handleValidation()) {
@@ -230,7 +208,14 @@ const CallForms = props => {
           }
         })
         .success(response => {
-          document.location.href = `/calls?notice=` + message
+          const rejectOnly = response.rejectonly;
+          const clientUrls = response.client_urls;
+          document.location.href = `/calls/${response.call.id}?notice=${message}`
+          if (rejectOnly) {
+            clientUrls.forEach(url => {
+              window.open(`${url}?rejectonly=${rejectOnly}&notice=${message}`, '_blank');
+            });
+          }
         })
         .error(err => {
           console.log("err: ", err);
@@ -263,9 +248,28 @@ const CallForms = props => {
     setStep(step - 1)
   }
 
+  const renderModalFooter = () => {
+    return (
+      <>
+        <div style={{display:'flex', justifyContent: 'flex-end'}}>
+          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setCaseActionNotRequiredModalOpen(false), setStep(step + 1))}>I'm Sure</button>
+          <button style={{margin: 5}} className='btn btn-default' onClick={() => setCaseActionNotRequiredModalOpen(false)}>Go Back</button>
+        </div>
+      </>
+    )
+  }
+
   return (
     <div className='containerClass'>
       {/* <Loading loading={loading} text='Please wait while we are making a request to server.'/> */}
+      <Modal
+        title="Attention"
+        isOpen={caseActionNotRequired}
+        type='warning'
+        closeAction={() => setCaseActionNotRequiredModalOpen(false)}
+        content="You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection."
+        footer={ renderModalFooter() }
+      />
 
       <div className='tabHead'>
         {tabs.map((tab, index) => renderTab(tab, index))}

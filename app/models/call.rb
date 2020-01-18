@@ -11,7 +11,7 @@ class Call < ActiveRecord::Base
   #           }
   FIELDS = %w( phone_call_id call_type start_datetime end_datetime phone_counselling_summary information_provided )
   TYPES  = [
-            "New Referral: Case Action Required", "New Referral: Notifier Concern",
+            "New Referral: Case Action Required", "New Referral: Case Action NOT Required",
             "Providing Update", "Phone Counseling",
             "Seeking Information", "Spam Call", "Wrong Number"
           ]
@@ -21,6 +21,8 @@ class Call < ActiveRecord::Base
 
   has_many :hotlines, dependent: :destroy
   has_many :clients, through: :hotlines
+
+  scope :most_recents, -> { order(date_of_call: :desc) }
 
   # validates :receiving_staff_id, :start_datetime, :end_datetime, presence: true
   # validates :call_type, presence: true, inclusion: { in: call_types.values }

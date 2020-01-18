@@ -16,7 +16,6 @@ module Api
 
         carer = Carer.new(carer_params)
         # carer.save
-        client.name_of_referee = referee.name
         client.received_by_id = call.receiving_staff_id # if Receiving Staff is Receiving Staff Member
         client.initial_referral_date = call.date_of_call
         # client.referee_id = referee.id
@@ -53,7 +52,8 @@ module Api
                 call.client_ids = [client.id]
                 call.save
 
-                render json: call
+                client_urls = call.clients.map{ |client| client_url(client) }
+                render json: { call: call, client_urls: client_urls, rejectonly: true }
               else
                 render json: call.errors, status: :unprocessable_entity
               end
@@ -171,7 +171,7 @@ module Api
       end
 
       def tagged_with_client?(call_type)
-        ["New Referral: Case Action Required", "New Referral: Notifier Concern", "Phone Counseling"].include?(call_type)
+        ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counseling"].include?(call_type)
       end
     end
   end
