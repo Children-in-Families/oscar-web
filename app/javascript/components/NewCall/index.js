@@ -208,12 +208,11 @@ const CallForms = props => {
           }
         })
         .success(response => {
-          const rejectOnly = response.rejectonly;
           const clientUrls = response.client_urls;
           document.location.href = `/calls/${response.call.id}?notice=${message}`
-          if (rejectOnly) {
+          if (clientUrls) {
             clientUrls.forEach(url => {
-              window.open(`${url}?rejectonly=${rejectOnly}&notice=${message}`, '_blank');
+              window.open(`${url}?notice=${message}`, '_blank');
             });
           }
         })

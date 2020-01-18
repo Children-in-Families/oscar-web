@@ -37,4 +37,8 @@ class Call < ActiveRecord::Base
   # def seeking_information?
   #   call_type == "Seeking Information"
   # end
+
+  def case_action_not_required?
+    call_type == "New Referral: Case Action NOT Required"
+  end
 end

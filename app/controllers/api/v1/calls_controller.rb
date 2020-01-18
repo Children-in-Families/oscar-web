@@ -53,7 +53,7 @@ module Api
                 call.save
 
                 client_urls = call.clients.map{ |client| client_url(client) }
-                render json: { call: call, client_urls: client_urls, rejectonly: true }
+                render json: { call: call, client_urls: client_urls }
               else
                 render json: call.errors, status: :unprocessable_entity
               end
