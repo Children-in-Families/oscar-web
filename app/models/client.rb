@@ -52,10 +52,10 @@ class Client < ActiveRecord::Base
   belongs_to :carer
   belongs_to :call
 
-  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id', counter_cache: true
-  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id', counter_cache: true
-  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id', counter_cache: true
-  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id', counter_cache: true
+  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
+  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
+  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
+  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
 
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
@@ -89,7 +89,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
   validate :address_contrain, on: [:create, :update]
 
   before_create :set_country_origin

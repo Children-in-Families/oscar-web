@@ -26,10 +26,10 @@ class CallsGrid
     object.receiving_staff.try(:name)
   end
   column(:start_datetime) do |model|
-    model.created_at.to_date
+    model.start_datetime && model.start_datetime.strftime("%I:%M%p")
   end
   column(:end_datetime) do |model|
-    model.created_at.to_date
+    model.end_datetime && model.end_datetime.strftime("%I:%M%p")
   end
   column(:information_provided, order: false)
   column(:phone_counselling_summary, order: false)

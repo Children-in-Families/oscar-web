@@ -625,7 +625,7 @@ km:
       phone_call_id: Phone Call ID
     type:
       case_action_required: "New Referral: Case Action Required"
-      notifier_concern: "New Referral: Notifier Concern"
+      notifier_concern: "New Referral: Case Action NOT Required"
       providing_update: "Providing Update"
       phone_counseling: "Phone Counseling"
       seeking_information: "Seeking Information"

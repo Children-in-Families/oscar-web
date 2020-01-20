@@ -38,6 +38,7 @@ module Api
         end
 
         if call.save
+          client_urls = []
           clients.each_with_index do |client, index|
             if tagged_with_client?(call.call_type)
               if client.valid?
@@ -47,7 +48,6 @@ module Api
                 end
                 client.call_ids = [call.id]
                 client.save
-
 
                 if params[:task].present?
                   task_attr = {
@@ -62,7 +62,7 @@ module Api
                 if (call.call_type == "New Referral: Case Action Required")
                   client.enter_ngos.create(accepted_date: Date.today)
                 end
-
+                client_urls.push(client_url(client))
               else
                 render json: client.errors, status: :unprocessable_entity
               end
@@ -74,10 +74,7 @@ module Api
               # create call and referee, does not create client & carer.
             end
           end
-
-          # call.client_ids = clients.ids
-          # call.save
-          render json: call
+          render json: { call: call, client_urls: client_urls }
         else
           render json: call.errors, status: :unprocessable_entity
         end
@@ -92,7 +89,6 @@ module Api
 
       #   carer = Carer.new(carer_params)
       #   # carer.save
-      #   client.name_of_referee = referee.name
       #   client.received_by_id = call.receiving_staff_id # if Receiving Staff is Receiving Staff Member
       #   client.initial_referral_date = call.date_of_call
       #   # client.referee_id = referee.id
@@ -129,7 +125,8 @@ module Api
       #           call.client_ids = [client.id]
       #           call.save
 
-      #           render json: call
+      #           client_urls = call.clients.map{ |client| client_url(client) }
+      #           render json: { call: call, client_urls: client_urls }
       #         else
       #           render json: call.errors, status: :unprocessable_entity
       #         end
@@ -281,7 +278,7 @@ module Api
       end
 
       def tagged_with_client?(call_type)
-        ["New Referral: Case Action Required", "New Referral: Notifier Concern", "Phone Counseling"].include?(call_type)
+        ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counseling"].include?(call_type)
       end
     end
   end
