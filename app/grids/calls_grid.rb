@@ -7,8 +7,8 @@ class CallsGrid
   end
 
   filter(:id, :integer)
-  filter(:phone_call_id)
-  filter(:call_type)
+  filter(:phone_call_id, :enum, select: :phone_call_ids)
+  filter(:call_type, :enum, select: :call_type_options)
   filter(:referee_id, :enum, select: :referee_options)
   filter(:receiving_staff_id, :enum, select: :receiving_staff_options)
   filter(:start_datetime, :date)
@@ -36,6 +36,13 @@ class CallsGrid
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
   #   render partial: 'calls/actions', locals: { object: object }
   # end
+  def phone_call_ids
+    Call.pluck(:phone_call_id)
+  end
+
+  def call_type_options
+    Call::TYPES.zip(Call::TYPES)
+  end
 
   def referee_options
     Referee.all.pluck(:name, :id)

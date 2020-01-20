@@ -7,6 +7,7 @@ class Ability
     can :manage, QuarterlyReport
     can :read, ProgramStream
     can :preview, ProgramStream
+    can :manage, Call
     if user.nil?
       can :manage, Client
     elsif user.admin?
