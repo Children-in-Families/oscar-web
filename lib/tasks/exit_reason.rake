@@ -9,10 +9,11 @@ namespace :exit_reason do
           correct_reason = [ExitNgo::EXIT_REASONS, reasons.values].transpose.to_h[reason]
         end
         exit_ngo.exit_reasons = exit_reasons
-        "(#{exit_ngo.id}, '#{exit_ngo.exit_reasons}')"
+
+        "(#{exit_ngo.id}, ARRAY['#{exit_ngo.exit_reasons.join("','")}'])"
       end.join(", ")
       sql = "
-        UPDATE #{short_name}.exit_reasons SET exit_reasons = mapping_values.reasons, interaction_type = mapping_values.interaction_type FROM (VALUES #{values}) AS mapping_values (exit_ngo_id, reasons) WHERE #{short_name}.exit_reasons.id = mapping_values.exit_ngo_id;
+        UPDATE #{short_name}.exit_ngos SET exit_reasons = mapping_values.reasons FROM (VALUES #{values}) AS mapping_values (exit_ngo_id, reasons) WHERE #{short_name}.exit_ngos.id = mapping_values.exit_ngo_id;
       ".squish
 
       ActiveRecord::Base.connection.execute(sql) if values.present?
