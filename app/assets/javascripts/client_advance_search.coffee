@@ -26,6 +26,7 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
+    @HOTLINE_TRANSLATE   = $(optionTranslation).data('hotline')
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
@@ -745,6 +746,18 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#quantitative-type-checkbox').on 'ifUnchecked', ->
       self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
+
+  handleHotlineFilter: ->
+    self = @
+    fields = $('#hotline-fields').data('fields')
+    $('#hotline-call-checkbox').on 'ifChecked', ->
+      $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
+      # $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
+      self.initSelect2()
+
+    $('#hotline-call-checkbox').on 'ifUnchecked', ->
+      self.handleRemoveFilterBuilder(self.HOTLINE_TRANSLATE, self.HOTLINE_TRANSLATE)
+      return
 
   ######################################################################################################################
 

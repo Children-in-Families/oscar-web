@@ -16,6 +16,7 @@ module ClientAdvancedSearchesConcern
     columns_visibility
     custom_form_column
     program_stream_column
+    hotline_call_column
 
     respond_to do |f|
       f.html do
@@ -66,6 +67,10 @@ module ClientAdvancedSearchesConcern
     @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
+  def hotline_call_column
+    @hotline_call_columns = get_call_basic_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+  end
+
   def program_stream_fields
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
       @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
@@ -81,7 +86,7 @@ module ClientAdvancedSearchesConcern
       @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
       @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
     else
-      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields + get_call_basic_fields
+      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
       @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
     end
   end
@@ -105,7 +110,8 @@ module ClientAdvancedSearchesConcern
       text_field: ['phone_counselling_summary', 'information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
       dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
     }
-    AdvancedSearches::AdvancedSearchFields.new('hotline_call', args).render
+
+    @hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
   end
 
   def custom_form_values

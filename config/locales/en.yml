@@ -609,9 +609,9 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
-      
-      
-      
+
+
+
       case_plan: Case Plan for
       domain: Domain
       due_date: Due Date
@@ -635,15 +635,15 @@ en:
   calls:
     call_type: Call types
     end_datetime: End call date
-    hotline_call: Hotline Call
+    hotline: Hotline
     index:
       add_new_call: Add New Call
       export_xls: Export to XLS
       hotline: Hotline
       results: Results
       report_builder: Report Builder
-      
-      
+
+
     information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
@@ -1014,6 +1014,7 @@ en:
       custom_form_column: Custom form columns
       delete_group: Delete
       export_to_xls: Export to XLS
+      hotline_column: Hotline Call Columns
       no_results: No Result Found
       program_stream_column: Program stream columns
       reset: Reset
@@ -1280,6 +1281,7 @@ en:
         custom_form_column: Custom Form columns
         delete_group: Delete
         export_to_xls: Export to XLS
+        hotline_column: Hotline Columns
         no_results: No Result Found
         program_stream_column: Program stream columns
         reset: Reset
@@ -1292,6 +1294,7 @@ en:
         enrollment: Enrollment
         exit_program: Exit Program
         filter_option: Please choose your query options below
+        hotline: Hotline
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking

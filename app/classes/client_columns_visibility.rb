@@ -97,6 +97,7 @@ class ClientColumnsVisibility
       referee_phone_: :referee_phone,
       referee_email_: :referee_email,
       **Call::FIELDS.map{ |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
+      call_count: :call_count,
       carer_name_: :carer_name,
       carer_phone_: :carer_phone,
       carer_email_: :carer_email,
