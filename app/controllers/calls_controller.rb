@@ -20,13 +20,14 @@ class CallsController < AdminController
   def new
     @client = Client.new
     @referees = Referee.all
+    @providing_update_clients = Client.accessible_by(current_ability).map{ |client| { label: client.name, value: client.id }}
     @call = Call.new
   end
 
   def show
     @call = Call.find(params[:id])
     @referee = @call.referee
-    @clients =  @call.referee.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
+    @clients = @call.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
   end
 
   def edit

@@ -9,20 +9,13 @@ module Api
 
       def create
         call = Call.new(call_params)
-        client = Client.new(client_params)
-        
-        referee = Referee.find_or_initialize_by(id: params["referee"]["id"])
-        # referee.save
-
-        carer = Carer.new(carer_params)
-        # carer.save
-        client.received_by_id = call.receiving_staff_id # if Receiving Staff is Receiving Staff Member
-        client.initial_referral_date = call.date_of_call
-        # client.referee_id = referee.id
-        # client.carer_id = carer.id
-
+        referee = params["referee"]["id"].present? ? Referee.find_by(id: params["referee"]["id"]) : Referee.new(referee_params)
         if tagged_with_client?(call.call_type)
-          # create all objects
+          client = Client.new(client_params)
+          carer = Carer.new(carer_params)
+          client.received_by_id = call.receiving_staff_id
+          client.initial_referral_date = call.date_of_call
+
           if client.valid?
             if referee.valid?
               if call.valid?
@@ -33,25 +26,16 @@ module Api
                 client.save
 
                 if params[:task].present?
-                  task_attr = {
-                    name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
-                    domain_id: Domain.find_by(name: '3B').id,
-                    completion_date: params[:task][:completion_date],
-                    relation: params[:task][:relation]
-                  }
-                  client.tasks.create(task_attr)
+                  create_tasks(client, referee)
                 end
 
                 if (call.call_type == "New Referral: Case Action Required")
-                  # auto accept client
                   client.enter_ngos.create(accepted_date: Date.today)
                 end
 
                 call.referee_id = referee.id
-                # this if for one or multiple clients
                 call.client_ids = [client.id]
                 call.save
-
                 client_urls = call.clients.map{ |client| client_url(client) }
                 render json: { call: call, client_urls: client_urls }
               else
@@ -64,18 +48,31 @@ module Api
             render json: client.errors, status: :unprocessable_entity
           end
         elsif (call.call_type == "Providing Update")
-          # create call & referee, and attach referee to existing client
-          # does not create carer, does not creater client
+          if referee.valid?
+            if call.valid?
+              referee.save
+
+              if params[:task].present?
+                clients = Client.where(id: call.client_ids)
+                clients.each do |client|
+                  create_tasks(client, referee)
+                end
+              end
+
+              call.referee_id = referee.id
+              call.save
+              client_urls = call.clients.map{ |client| client_url(client) }
+              render json: { call: call, client_urls: client_urls }
+            else
+              render json: call.errors, status: :unprocessable_entity
+            end
+          else
+            render json: referee.errors, status: :unprocessable_entity
+          end
         else
           # seeiking info, spam call & wrong number
           # create call and referee, does not create client & carer.
         end
-
-        # if call.save
-        #   render json: call
-        # else
-        #   render json: call.errors, status: :unprocessable_entity
-        # end
       end
 
       def update
@@ -172,6 +169,16 @@ module Api
 
       def tagged_with_client?(call_type)
         ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counseling"].include?(call_type)
+      end
+
+      def create_tasks(client, referee)
+        task_attr = {
+          name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
+          domain_id: Domain.find_by(name: '3B').id,
+          completion_date: params[:task][:completion_date],
+          relation: params[:task][:relation]
+        }
+        client.tasks.create(task_attr)
       end
     end
   end
