@@ -35,7 +35,7 @@ body[id='client_advanced_searches-index'] {
     th,
     td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.type_of_service,
-    td.cases, td.accepted_date, td.exit_date, td.created_at, td.created_by, td.referred_to,td.date_of_referral, td.referred_from {
+    td.cases, td.accepted_date, td.exit_date, td.created_at, td.created_by, td.referred_to,td.date_of_referral, td.referred_from, td.call-field, td.client-hotline-field {
       text-align: center;
     }
 
@@ -71,7 +71,7 @@ body[id='client_advanced_searches-index'] {
     }
 
      th.code, th.given_name, th.family_name, th.live_with, th.local_given_name, th.local_family_name,
-     th.commune, th.district, th.suburb, th.directions, th.subdistrict, th.type_of_service {
+     th.commune, th.district, th.suburb, th.directions, th.subdistrict, th.type_of_service, th.call-field, th.client-hotline-field {
       min-width: 185px;
     }
 

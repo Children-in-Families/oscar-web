@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import objectToFormData from 'object-to-formdata'
 import Loading from '../Commons/Loading'
 import CallAdministrativeInfo from './admin'
@@ -7,9 +7,9 @@ import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import CallAbout from './callAbout'
 import T from 'i18n-react'
-import en from '../../utils/locales/en.json'
-import km from '../../utils/locales/km.json'
-import my from '../../utils/locales/my.json'
+import en from '../../utils/locales/en.json';
+import km from '../../utils/locales/km.json';
+import my from '../../utils/locales/my.json';
 import './styles.scss'
 
 const CallForms = props => {
@@ -30,7 +30,7 @@ const CallForms = props => {
     data: {
       call,
       client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
-      referee, carer, users, birthProvinces, referralSource, referralSourceCategory,
+      referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
       selectedCountry, internationalReferredClient, quantitativeType, quantitativeCase,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages
@@ -42,10 +42,11 @@ const CallForms = props => {
   const [errorFields, setErrorFields] = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState([{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
+  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
   const [refereeData, setRefereeData] = useState(referee)
+  const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData] = useState(carer)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
@@ -53,17 +54,16 @@ const CallForms = props => {
   // const adminTabData = { users, client: clientData, errorFields }
   const adminTabData = { call: callData, users, errorFields, T }
 
-  const refereeTabData = { errorFields, clients: clientData, clientTask, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
-
-  const referralTabData = { users, errorFields, clients: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeData  }
+  const refereeTabData = { errorFields, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
+  const referralTabData = { users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
   const callAboutTabData = { clients: clientData, T }
 
   const tabs = [
-    {text: 'Caller Information', step: 1},
-    {text: 'Client / Referral Information', step: 2},
-    {text: 'Client / Referral - Do you want to add:', step: 3},
-    {text: 'Client / Referral - Call about', step: 4}
+    {text: T.translate("newCall.index.tabs.caller_info"), step: 1},
+    {text: T.translate("newCall.index.tabs.client_referral_info"), step: 2 },
+    {text: T.translate("newCall.index.tabs.client_referral_question"), step: 3},
+    {text: T.translate("newCall.index.tabs.client_referral_call"), step: 4}
   ]
 
   const classStyle = value => errorSteps.includes(value) ? 'errorTab' : step === value ? 'activeTab' : 'normalTab'
@@ -225,9 +225,9 @@ const CallForms = props => {
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
-        const action = clientData.id ? 'PUT' : 'POST'
-        const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
-        const message = "Call has been successfully created"
+        const action = callData.id ? 'PUT' : 'POST'
+        const url = callData.id ? `/api/v1/calls/${callData.id}` : '/api/v1/calls'
+        const message = T.translate("newCall.index.message.call_has_been_created")
 
         let formData = new FormData()
         formData = objectToFormData(clientData, {}, formData, 'clients')
@@ -329,14 +329,15 @@ const CallForms = props => {
 
       <div className='actionfooter'>
         <div className='leftWrapper'>
-          <span className='btn btn-default' onClick={handleCancel}>Cancel</span>
+          <span className='btn btn-default' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
         </div>
 
         <div className='rightWrapper'>
-          <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>Previous</span>
-          { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>Next</span> }
+          <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("newCall.index.previous")}</span>
+          {step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("newCall.index.next")}</span> }
 
-          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={handleSave}>Save</span>}
+          {step === 4 && <span className='clientButton saveButton' onClick={handleSave}>{T.translate("newCall.index.save")}</span>}
+          {/* {step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton' : 'clientButton saveButton'} onClick={handleSave}>{T.translate("newCall.index.save")}</span>} */}
         </div>
       </div>
     </div>

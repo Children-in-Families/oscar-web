@@ -4,23 +4,37 @@ class CallsController < AdminController
   before_action :set_association, except: [:index, :destroy, :version]
 
   def index
-    @calls = Call.order(:created_at)
+    @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
+      scope.order(:created_at).page(params[:page]).page(params[:page]).per(20)
+    end
+    respond_to do |f|
+      f.html do
+        @calls_grid
+      end
+      f.xls do
+        send_data  @calls_grid.to_xls, filename: "calls_report-#{Time.now}.xls"
+      end
+    end
   end
 
   def new
     @client = Client.new
+    @referees = Referee.all
     @call = Call.new
   end
 
   def show
     @call = Call.find(params[:id])
     @referee = @call.referee
-    @clients = @call.referee.clients.select("clients.gender, clients.slug, concat(clients.given_name, ' ', clients.family_name, ' (', clients.local_given_name, ' ', clients.local_family_name, ') ' ) full_name")
+    @clients =  @call.referee.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
   end
-  
+
+  def edit
+    @call = Call.find(params[:id])
+  end
 
   def create
-    call = Call.new(call_params)  
+    call = Call.new(call_params)
     if call.save
       render json: call
     else
@@ -39,9 +53,10 @@ class CallsController < AdminController
   private
 
   def call_params
-    params.require(:call).permit(:phone_call_id, :receiving_staff_id,
-                            :date_of_call, :start_datetime, :end_datetime, :call_type
-                            )
+    params.require(:call).permit(
+                            :phone_call_id, :receiving_staff_id, :referee_id,
+                            :start_datetime, :end_datetime, :call_type
+                          )
   end
 
   def remove_blank_exit_reasons
@@ -57,36 +72,29 @@ class CallsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
+    
+    @client          = params["action"] == "edit" ? Call.find(params[:id]).clients.last : Client.new
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
     if current_user.admin?
       @families        = Family.order(:name)
     elsif current_user.manager?
       family_ids = current_user.families.ids
-      User.where(id: subordinate_users).each do |user|
-        user.clients.each do |client|
-          family_ids << client.family.try(:id)
-        end
-      end
-      Client.where(id: exited_clients(subordinate_users)).each do |client|
-        family_ids << client.family.try(:id)
-      end
-      current_user.clients.each do |client|
-        family_ids << client.family.try(:id)
-      end
+      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
+      family_ids += user.clients.pluck(:current_family_id)
+
       @families = Family.where(id: family_ids)
     elsif current_user.case_worker?
       family_ids = current_user.families.ids
-      current_user.clients.each do |client|
-        family_ids << client.family.try(:id)
-      end
+      family_ids += User.joins(:clients).where(id: current_user.id).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
       @families = Family.where(id: family_ids)
     end
 
     # @carer   = @client.carer.present? ? @client.carer : Carer.new
     # @referee = @client.referee.present? ? @client.referee : Referee.new
-    @carer     = Carer.new
-    @referee   = Referee.new
+    @carer     = params["action"] == "edit" ? @client.carer : Carer.new
+    @referee   = params["action"] == "edit" ? @client.referee : Referee.new
     @relation_to_caller = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
     @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
@@ -119,44 +127,42 @@ class CallsController < AdminController
     Organization.switch_to current_org
     @current_provinces        = Province.order(:name)
     @states                   = State.order(:name)
-    # @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
-    # @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
-    # @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
-    # @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
-    # @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
+    @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
+    @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+    @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
+    @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
+    @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
 
-    # @referee_districts                = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
-    # @referee_communes                 = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
-    # @referee_villages                 = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
+    @referee_districts          = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
+    @referee_communes           = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
+    @referee_villages           = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
 
-    # @carer_districts                = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
-    # @carer_communes                 = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
-    # @carer_villages                 = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
-    @townships                = []
-    @districts                = []
-    @subdistricts             = []
-    @communes                 = []
-    @villages                 = []
+    @carer_districts            = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
+    @carer_communes             = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
+    @carer_villages             = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
+    
+    # @townships                = []
+    # @districts                = []
+    # @subdistricts             = []
+    # @communes                 = []
+    # @villages                 = []
 
-    @referee_districts                = []
-    @referee_communes                 = []
-    @referee_villages                 = []
+    # @referee_districts                = []
+    # @referee_communes                 = []
+    # @referee_villages                 = []
 
-    @carer_districts                = []
-    @carer_communes                 = []
-    @carer_villages                 = []
+    # @carer_districts                = []
+    # @carer_communes                 = []
+    # @carer_villages                 = []
   end
 
-  def exited_clients(users)
-    client_ids = []
-    users.each do |user|
-      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
-        next if version.changeset[:user_id].last != user
-        client_id = version.changeset[:client_id].last
-        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
-        client_ids << client_id if client_id.present?
-      end
+  def exited_clients(user_ids)
+    sql = user_ids.map do |user_id|
+      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
+    end.join(" OR ")
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
+      client_id = version.changeset[:client_id].last
     end
-    client_ids.uniq
+    Client.where(id: client_ids, status: 'Exited').ids
   end
 end

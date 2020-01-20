@@ -29,13 +29,13 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput T={T} label="Custom ID Number 1" onChange={handleOnChangeText('code')} value={client.code} />
+          <TextInput T={T} label={T.translate("newCall.customInfo.custom_id_1")} onChange={handleOnChangeText('code')} value={client.code} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput T={T} label="Custom ID Number 2" onChange={handleOnChangeText('kid_id')} value={client.kid_id} />
+          <TextInput T={T} label={T.translate("newCall.customInfo.custom_id_2")} onChange={handleOnChangeText('kid_id')} value={client.kid_id} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput T={T} label="Is client rated for ID Poor?" options={rateLists} value={client.rated_for_id_poor} onChange={handleOnChangeSelect('rated_for_id_poor')} />
+          <SelectInput T={T} label={T.translate("newCall.customInfo.is_client_rated")} options={rateLists} value={client.rated_for_id_poor} onChange={handleOnChangeSelect('rated_for_id_poor')} />
         </div>
       </div>
     </div>

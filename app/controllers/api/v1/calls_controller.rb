@@ -8,9 +8,26 @@ module Api
       end
 
       def create
-        call = Call.new(call_params)
-        referee = Referee.new(referee_params)
+        referee = if params["referee"]["id"].present?
+          Referee.find(id: params["referee"]["id"])
+        else
+          Referee.new(referee_params)
+        end
+        if referee.valid?
+          referee.save
+        else
+          render json: referee.errors, status: :unprocessable_entity
+        end
+
         carer = Carer.new(carer_params)
+        if carer.valid?
+          carer.save
+        else
+          render json: carer.errors, status: :unprocessable_entity
+        end
+
+        call = Call.new(call_params)
+        call.referee_id = referee.id
 
         clients = client_params[:clients].map do |client|
           new_client = Client.new(client)
@@ -20,52 +37,50 @@ module Api
           new_client
         end
 
-        clients.each do |client|
-          if tagged_with_client?(call.call_type)
-            if client.valid?
-              if referee.valid?
-                if call.valid?
-                  referee.save
-                  carer.save
-                  client.referee_id = referee.id
+        if call.save
+          clients.each_with_index do |client, index|
+            if tagged_with_client?(call.call_type)
+              if client.valid?
+                client.referee_id = referee.id
+                if index != 0
                   client.carer_id = carer.id
-                  client.save
-
-                  if params[:task].present?
-                    task_attr = {
-                      name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
-                      domain_id: Domain.find_by(name: '3B').id,
-                      completion_date: params[:task][:completion_date],
-                      relation: params[:task][:relation]
-                    }
-                    client.tasks.create(task_attr)
-                  end
-
-                  if (call.call_type == "New Referral: Case Action Required")
-                    client.enter_ngos.create(accepted_date: Date.today)
-                  end
-
-                  call.referee_id = referee.id
-                  call.client_ids = [client.id]
-                  call.save
-                else
-                  render json: call.errors, status: :unprocessable_entity
                 end
+                client.call_ids = [call.id]
+                client.save
+
+
+                if params[:task].present?
+                  task_attr = {
+                    name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
+                    domain_id: Domain.find_by(name: '3B').id,
+                    completion_date: params[:task][:completion_date],
+                    relation: params[:task][:relation]
+                  }
+                  client.tasks.create(task_attr)
+                end
+
+                if (call.call_type == "New Referral: Case Action Required")
+                  client.enter_ngos.create(accepted_date: Date.today)
+                end
+
               else
-                render json: referee.errors, status: :unprocessable_entity
+                render json: client.errors, status: :unprocessable_entity
               end
+            elsif (call.call_type == "Providing Update")
+              # create call & referee, and attach referee to existing client
+              # does not create carer, does not creater client
             else
-              render json: client.errors, status: :unprocessable_entity
+              # seeiking info, spam call & wrong number
+              # create call and referee, does not create client & carer.
             end
-          elsif (call.call_type == "Providing Update")
-            # create call & referee, and attach referee to existing client
-            # does not create carer, does not creater client
-          else
-            # seeiking info, spam call & wrong number
-            # create call and referee, does not create client & carer.
           end
+
+          # call.client_ids = clients.ids
+          # call.save
+          render json: call
+        else
+          render json: call.errors, status: :unprocessable_entity
         end
-        render json: call
       end
 
       # def create
@@ -139,6 +154,21 @@ module Api
       #   # end
       # end
 
+      def update
+        call = Call.find(params[:call][:id])
+        referee = call.referee
+
+        # THIS SHOULD BE DYNAMIC, AND WILL BE REMOVE IN THE FUTURE
+        client = call.clients.last
+        carer = client.carer
+
+        if call.update_attributes(call_params) && referee.update_attributes(referee_params) && client.update_attributes(client_params) && carer.update_attributes(carer_params)
+          render json: call
+        else
+          render json: call.errors, status: :unprocessable_entity
+        end
+      end
+
       def show
         if call
           render json: call
@@ -175,7 +205,7 @@ module Api
 
       def client_params
         params.permit(clients: [
-          :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
+          :id, :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
           :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
           :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
           :referral_phone, :received_by_id, :followed_up_by_id,
@@ -194,7 +224,7 @@ module Api
           :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
           :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
           :concern_street, :concern_house, :concern_address, :concern_address_type,
-          :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
+          :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location, :concern_same_as_client,
 
           interviewee_ids: [],
           client_type_ids: [],

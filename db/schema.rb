@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200116022605) do
+ActiveRecord::Schema.define(version: 20200116041656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -199,15 +199,14 @@ ActiveRecord::Schema.define(version: 20200116022605) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",                  default: ""
+    t.string   "attendee",         default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.string   "interaction_type",          default: ""
-    t.boolean  "custom",                    default: false
-    t.string   "selected_domain_group_ids", default: [],    array: true
+    t.string   "interaction_type", default: ""
+    t.boolean  "custom",           default: false
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -493,8 +492,6 @@ ActiveRecord::Schema.define(version: 20200116022605) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
     t.boolean  "outside",                          default: false
@@ -1347,6 +1344,8 @@ ActiveRecord::Schema.define(version: 20200116022605) do
     t.string   "custom_id1_local",            default: ""
     t.string   "custom_id2_latin",            default: ""
     t.string   "custom_id2_local",            default: ""
+    t.boolean  "enable_hotline",              default: false
+    t.boolean  "enable_client_form",          default: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

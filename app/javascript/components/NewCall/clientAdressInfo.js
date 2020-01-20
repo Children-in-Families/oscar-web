@@ -61,7 +61,7 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>Address</p>
+            <p>{T.translate("newCall.clientAddressInfo.address")}</p>
           </div>
           {
             // !client.outside &&
@@ -73,7 +73,7 @@ export default props => {
           {
             !client.same_as_concern_location &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label="Outside Cambodia" checked={client.outside} onChange={onChange('client', 'outside')} />
+              <Checkbox label={T.translate("newCall.clientAddressInfo.outside_cambodia")} checked={client.outside} onChange={onChange('client', 'outside')} />
             </div>
           }
         </div>
@@ -84,22 +84,22 @@ export default props => {
         <div className="col-xs-12 col-md-6">
           <div className="row">
             <div className="col-xs-12 col-md-6">
-              <TextInput label="Client Contact Phone" type="number" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
+              <TextInput label={T.translate("newCall.clientAddressInfo.client_contact")} type="number" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
             </div>
             <div className="col-xs-12 col-md-6">
-              <SelectInput label="Phone Owner" options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+              <SelectInput label={T.translate("newCall.clientAddressInfo.phone_owner")} options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
             </div>
             <div className="col-xs-12 col-md-6">
-              <TextInput label="Client Email Contact" onChange={onChange('client', 'client_email')} value={client.client_email} />
+              <TextInput label={T.translate("newCall.clientAddressInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
             </div>
             <div className="col-xs-12 col-md-6">
-              <SelectInput label="Email Owner" options={phoneOwner} onChange={onChange('client', 'email_owner')} value={client.email_owner}/>
+              <SelectInput label={T.translate("newCall.clientAddressInfo.email_owner")} options={phoneOwner} onChange={onChange('client', 'email_owner')} value={client.email_owner}/>
             </div>
           </div>
         </div>
         <div className={"col-xs-12 col-md-6" + (client.outside ? ' hidden' : '')}>
           <TextArea
-            label="Location Description"
+            label={T.translate("newCall.clientAddressInfo.location_description")}
             value={client.location_description}
             onChange={onChange('client', 'location_description')} />
         </div>

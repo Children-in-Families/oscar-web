@@ -1,0 +1,9 @@
+body[id='calls-index'] {
+  table.calls {
+    thead.head-width tr > th {
+      min-width: 40px;
+      max-width: 120px;
+      width: 120px;
+    }
+  }
+}
