@@ -84,7 +84,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label={T.translate("newCall.concernAddress.outside_cambodia")}
+              label={T.translate("newCall.concernAddress.province")}
               options={provinces}
               isDisabled={disabled}
               value={objectData.concern_province_id}
