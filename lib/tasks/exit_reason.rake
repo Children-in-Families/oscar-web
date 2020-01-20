@@ -16,8 +16,10 @@ namespace :exit_reason do
         UPDATE #{short_name}.exit_ngos SET exit_reasons = mapping_values.reasons FROM (VALUES #{values}) AS mapping_values (exit_ngo_id, reasons) WHERE #{short_name}.exit_ngos.id = mapping_values.exit_ngo_id;
       ".squish
 
-      ActiveRecord::Base.connection.execute(sql) if values.present?
-      puts "#{short_name}: Done correcting exit_reasons!!!"
+      if values.present?
+        ActiveRecord::Base.connection.execute(sql)
+        puts "#{short_name}: Done correcting exit_reasons!!!"
+      end
     end
   end
 end
