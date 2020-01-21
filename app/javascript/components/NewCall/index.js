@@ -12,6 +12,7 @@ import en from '../../utils/locales/en.json';
 import km from '../../utils/locales/km.json';
 import my from '../../utils/locales/my.json';
 import './styles.scss'
+import ProvidingUpdate from './providingUpdate'
 
 const CallForms = props => {
   var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
@@ -29,12 +30,11 @@ const CallForms = props => {
 
   const {
     data: {
-      call,
+      call: { call, client_ids },
       client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
-      selectedCountry, internationalReferredClient, quantitativeType, quantitativeCase,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients
     }
   } = props
 
@@ -45,11 +45,12 @@ const CallForms = props => {
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
-  const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
+  const [callData, setCallData] = useState({ client_ids, ...call})
   const [refereeData, setRefereeData] = useState(referee)
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData] = useState(carer)
   const [caseActionNotRequired, setCaseActionNotRequiredModalOpen] = useState(false)
+  const [providingUpdate, setProvidingUpdateModalOpen] = useState(false)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
@@ -147,13 +148,6 @@ const CallForms = props => {
       }
     })
 
-    // if (errors.length > 0) {
-    //   setErrorFields(errors)
-    //   return false
-    // } else {
-    //   setErrorFields([])
-    //   return true
-    // }
     if (errors.length > 0) {
       setErrorFields(errors)
       setErrorSteps([ ...new Set(errorSteps)])
@@ -163,7 +157,6 @@ const CallForms = props => {
       setErrorSteps([])
       return true
     }
-    // return true
   }
 
   const handleTab = goingToStep => {
@@ -190,11 +183,14 @@ const CallForms = props => {
   const checkCallType = () => callback => {
     if (callData.call_type == "New Referral: Case Action NOT Required") {
       setCaseActionNotRequiredModalOpen(true)
-    } else
+    } else if (callData.call_type == "Providing Update") {
+      setProvidingUpdateModalOpen(true)
+    } else {
       callback()
+    }
   }
 
-  const handleSave = event => {
+  const handleSave = () => {
     if (handleValidation()) {
       handleCheckValue(refereeData)
       clientData.map(client => handleCheckValue(client))
@@ -283,7 +279,7 @@ const CallForms = props => {
     setStep(step - 1)
   }
 
-  const renderModalFooter = () => {
+  const caseActionNotRequiredModalFooter = () => {
     return (
       <>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
@@ -303,7 +299,20 @@ const CallForms = props => {
         type='warning'
         closeAction={() => setCaseActionNotRequiredModalOpen(false)}
         content="You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection."
-        footer={ renderModalFooter() }
+        footer={ caseActionNotRequiredModalFooter() }
+      />
+      <Modal
+        title="Go to Client"
+        isOpen={providingUpdate}
+        type='primary'
+        closeAction={() => setProvidingUpdateModalOpen(false)}
+        content={
+          <ProvidingUpdate
+            data={{providingUpdateClients, callData, T}}
+            onChange={onChange}
+            onSave={() => { setProvidingUpdateModalOpen(false); handleSave() }}
+          />
+        }
       />
 
       <div className='tabHead'>

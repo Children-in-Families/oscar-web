@@ -7,6 +7,74 @@ module Api
         render json: calls
       end
 
+      # def create
+      #   call = Call.new(call_params)
+      #   referee = params["referee"]["id"].present? ? Referee.find_by(id: params["referee"]["id"]) : Referee.new(referee_params)
+      #   if tagged_with_client?(call.call_type)
+      #     client = Client.new(client_params)
+      #     carer = Carer.new(carer_params)
+      #     client.received_by_id = call.receiving_staff_id
+      #     client.initial_referral_date = call.date_of_call
+
+      #     if client.valid?
+      #       if referee.valid?
+      #         if call.valid?
+      #           referee.save
+      #           carer.save
+      #           client.referee_id = referee.id
+      #           client.carer_id = carer.id
+      #           client.save
+
+      #           if params[:task].present?
+      #             create_tasks(client, referee)
+      #           end
+
+      #           if (call.call_type == "New Referral: Case Action Required")
+      #             client.enter_ngos.create(accepted_date: Date.today)
+      #           end
+
+      #           call.referee_id = referee.id
+      #           call.client_ids = [client.id]
+      #           call.save
+      #           client_urls = call.clients.map{ |client| client_url(client) }
+      #           render json: { call: call, client_urls: client_urls }
+      #         else
+      #           render json: call.errors, status: :unprocessable_entity
+      #         end
+      #       else
+      #         render json: referee.errors, status: :unprocessable_entity
+      #       end
+      #     else
+      #       render json: client.errors, status: :unprocessable_entity
+      #     end
+      #   elsif (call.call_type == "Providing Update")
+      #     if referee.valid?
+      #       if call.valid?
+      #         referee.save
+
+      #         if params[:task].present?
+      #           clients = Client.where(id: call.client_ids)
+      #           clients.each do |client|
+      #             create_tasks(client, referee)
+      #           end
+      #         end
+
+      #         call.referee_id = referee.id
+      #         call.save
+      #         client_urls = call.clients.map{ |client| client_url(client) }
+      #         render json: { call: call, client_urls: client_urls }
+      #       else
+      #         render json: call.errors, status: :unprocessable_entity
+      #       end
+      #     else
+      #       render json: referee.errors, status: :unprocessable_entity
+      #     end
+      #   else
+      #     # seeiking info, spam call & wrong number
+      #     # create call and referee, does not create client & carer.
+      #   end
+      # end
+
       def create
         referee = if params["referee"]["id"].present?
           Referee.find(id: params["referee"]["id"])
@@ -37,10 +105,10 @@ module Api
           new_client
         end
 
-        if call.save
+        if tagged_with_client?(call.call_type)
           client_urls = []
-          clients.each_with_index do |client, index|
-            if tagged_with_client?(call.call_type)
+          if call.save
+            clients.each_with_index do |client, index|
               if client.valid?
                 client.referee_id = referee.id
                 if index != 0
@@ -50,13 +118,7 @@ module Api
                 client.save
 
                 if params[:task].present?
-                  task_attr = {
-                    name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
-                    domain_id: Domain.find_by(name: '3B').id,
-                    completion_date: params[:task][:completion_date],
-                    relation: params[:task][:relation]
-                  }
-                  client.tasks.create(task_attr)
+                  create_tasks(client, referee)
                 end
 
                 if (call.call_type == "New Referral: Case Action Required")
@@ -66,90 +128,35 @@ module Api
               else
                 render json: client.errors, status: :unprocessable_entity
               end
-            elsif (call.call_type == "Providing Update")
-              # create call & referee, and attach referee to existing client
-              # does not create carer, does not creater client
-            else
-              # seeiking info, spam call & wrong number
-              # create call and referee, does not create client & carer.
             end
+            render json: { call: call, client_urls: client_urls }
+          else
+            render json: call.errors, status: :unprocessable_entity
           end
-          render json: { call: call, client_urls: client_urls }
-        else
-          render json: call.errors, status: :unprocessable_entity
+        elsif (call.call_type == "Providing Update")
+          if referee.valid?
+            if call.valid?
+              referee.save
+
+              if params[:task].present?
+                clients = Client.where(id: call.client_ids)
+                clients.each do |client|
+                  create_tasks(client, referee)
+                end
+              end
+
+              call.referee_id = referee.id
+              call.save
+              client_urls = call.clients.map{ |client| client_url(client) }
+              render json: { call: call, client_urls: client_urls }
+            else
+              render json: call.errors, status: :unprocessable_entity
+            end
+          else
+            render json: referee.errors, status: :unprocessable_entity
+          end
         end
       end
-
-      # def create
-      #   call = Call.new(call_params)
-      #   client = Client.new(client_params)
-
-      #   referee = Referee.find_or_initialize_by(id: params["referee"]["id"])
-      #   # referee.save
-
-      #   carer = Carer.new(carer_params)
-      #   # carer.save
-      #   client.received_by_id = call.receiving_staff_id # if Receiving Staff is Receiving Staff Member
-      #   client.initial_referral_date = call.date_of_call
-      #   # client.referee_id = referee.id
-      #   # client.carer_id = carer.id
-
-      #   if tagged_with_client?(call.call_type)
-      #     # create all objects
-      #     if client.valid?
-      #       if referee.valid?
-      #         if call.valid?
-      #           referee.save
-      #           carer.save
-      #           client.referee_id = referee.id
-      #           client.carer_id = carer.id
-      #           client.save
-
-      #           if params[:task].present?
-      #             task_attr = {
-      #               name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
-      #               domain_id: Domain.find_by(name: '3B').id,
-      #               completion_date: params[:task][:completion_date],
-      #               relation: params[:task][:relation]
-      #             }
-      #             client.tasks.create(task_attr)
-      #           end
-
-      #           if (call.call_type == "New Referral: Case Action Required")
-      #             # auto accept client
-      #             client.enter_ngos.create(accepted_date: Date.today)
-      #           end
-
-      #           call.referee_id = referee.id
-      #           # this if for one or multiple clients
-      #           call.client_ids = [client.id]
-      #           call.save
-
-      #           client_urls = call.clients.map{ |client| client_url(client) }
-      #           render json: { call: call, client_urls: client_urls }
-      #         else
-      #           render json: call.errors, status: :unprocessable_entity
-      #         end
-      #       else
-      #         render json: referee.errors, status: :unprocessable_entity
-      #       end
-      #     else
-      #       render json: client.errors, status: :unprocessable_entity
-      #     end
-      #   elsif (call.call_type == "Providing Update")
-      #     # create call & referee, and attach referee to existing client
-      #     # does not create carer, does not creater client
-      #   else
-      #     # seeiking info, spam call & wrong number
-      #     # create call and referee, does not create client & carer.
-      #   end
-
-      #   # if call.save
-      #   #   render json: call
-      #   # else
-      #   #   render json: call.errors, status: :unprocessable_entity
-      #   # end
-      # end
 
       def update
         call = Call.find(params[:call][:id])
@@ -279,6 +286,16 @@ module Api
 
       def tagged_with_client?(call_type)
         ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counseling"].include?(call_type)
+      end
+
+      def create_tasks(client, referee)
+        task_attr = {
+          name: "Call #{referee.name} on #{referee.phone} to update about #{client.slug}",
+          domain_id: Domain.find_by(name: '3B').id,
+          completion_date: params[:task][:completion_date],
+          relation: params[:task][:relation]
+        }
+        client.tasks.create(task_attr)
       end
     end
   end
