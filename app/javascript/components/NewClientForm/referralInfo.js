@@ -30,13 +30,39 @@ export default props => {
   let pattern                             = new RegExp(/type=call/gi)
   let isRedirectFromCall                  = pattern.test(urlParams)
 
+  useEffect(() => {
+    if(client.referee_relationship === 'self') {
+      const fields = {
+        outside: referee.outside,
+        province_id: referee.province_id,
+        district_id: referee.district_id,
+        commune_id: referee.commune_id,
+        village_id: referee.village_id,
+        street_number: referee.street_number,
+        house_number: referee.house_number,
+        current_address: referee.current_address,
+        address_type: referee.address_type,
+        outside_address: referee.outside_address
+      }
+
+      if(referee.province_id !== null)
+        fetchData('provinces', referee.province_id, 'districts')
+      if(referee.district_id !== null)
+        fetchData('districts', referee.district_id, 'communes')
+      if(referee.commune_id !== null)
+        fetchData('communes', referee.commune_id, 'villages')
+
+      const newObject = { ...client, ...fields }
+      onChange('client', newObject)({type: 'select'})
+    }
+  }, [referee])
+
   const onProfileChange = fileItems => {
     onChange('clientProfile', fileItems[0].file)({type: 'file'})
   }
 
   const onChangeRemoveProfile = data => {
     onChange('client', { remove_profile: data.data })({type: 'checkbox'})
-    // onChange('client', 'remove_profile')({type: 'checkbox', data: data.data})
   }
 
   const fetchData = (parent, data, child) => {

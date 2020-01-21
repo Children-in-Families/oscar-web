@@ -7,8 +7,9 @@ import {
 import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
+  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, clients, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
   const clientRelationship = clientRelationships.map(relationship => ({ label: T.translate("clientRelationShip." + relationship.label), value: relationship.value }))
+  const client = clients[0]
 
   const [districts, setDistricts]         = useState(carerDistricts)
   const [communes, setCommunes]           = useState(carerCommunes)
@@ -100,7 +101,15 @@ export default props => {
     } else if (action === 'clear'){
       value = []
     }
-    onChange('client', 'family_ids')({data: value, type})
+
+    const modifyObject = { ...client, family_ids: value }
+
+    const newObjects = clients.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
   }
 
   return (
@@ -147,7 +156,7 @@ export default props => {
 
         </div>
       </legend>
-      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer, T}} />
+      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer, T}} />
     </div>
   )
 }

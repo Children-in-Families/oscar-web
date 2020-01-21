@@ -20,13 +20,14 @@ class CallsController < AdminController
   def new
     @client = Client.new
     @referees = Referee.all
+    @providing_update_clients = Client.accessible_by(current_ability).map{ |client| { label: client.name, value: client.id }}
     @call = Call.new
   end
 
   def show
     @call = Call.find(params[:id])
     @referee = @call.referee
-    @clients =  @call.referee.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
+    @clients = @call.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
   end
 
   def edit
@@ -109,7 +110,8 @@ class CallsController < AdminController
       family_ids = current_user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
       family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
-      family_ids += user.clients.pluck(:current_family_id)
+      clients     = Client.accessible_by(current_ability)
+      family_ids += clients.where(user_id: current_user.id).pluck(:current_family_id)
 
       @families = Family.where(id: family_ids)
     elsif current_user.case_worker?

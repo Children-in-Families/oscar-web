@@ -5,10 +5,19 @@ export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
   return (
     <div className='col-sm-12'>
       <div className="ibox">
-        <Header 
-          title={title}
-          linkHeader={linkHeader}
-        />
+        <div className="ibox-title">
+          <h5>{title}</h5>
+          <div className="ibox-tools">
+            <a className="btn btn-success btn-outline" href={linkHeader} target="_blank">
+              <i className="fa fa-pencil"></i>
+            </a>
+            <a className="collapse-link">
+              <div className="btn btn-outline btn-primary">
+                <i className="fa fa-chevron-up"></i>
+              </div>
+            </a>
+          </div>
+        </div>
 
         <div className="ibox-content">
           <div className="row">
@@ -28,30 +37,21 @@ export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
   )
 }
 
-const Header = ({title, linkHeader}) => (
-  <div className="ibox-title">
-    <h5>{title}</h5>
-    <div className="ibox-tools">
-      <a className="btn btn-success btn-outline" href={linkHeader} target="_blank">
-        <i className="fa fa-pencil"></i>
-      </a>
-      <a className="collapse-link">
-        <div className="btn btn-outline btn-primary">
-          <i className="fa fa-chevron-up"></i>
-        </div>
-      </a>
-    </div>
-  </div>
-)
-
 export const VerticalTable = ({ title, data, renderItem, columns }) => {
 
   return (
     <div className='col-sm-12'>
       <div className="ibox">
-        <Header 
-          title={title}
-        />
+        <div className="ibox-title">
+          <h5>{title}</h5>
+          <div className="ibox-tools">
+            <a className="collapse-link">
+              <div className="btn btn-outline btn-primary">
+                <i className="fa fa-chevron-up"></i>
+              </div>
+            </a>
+          </div>
+        </div>
 
         <div className="ibox-content">
           <div className="row">
