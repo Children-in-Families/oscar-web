@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { reject, isEmpty, titleize } from '../../DetailCall/helper'
 
 export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
-  let keyLists = Object.keys(reject(data))
+  let keyLists = Object.keys(reject(data)) || []
 
   return (
     <div className='col-sm-12'>
