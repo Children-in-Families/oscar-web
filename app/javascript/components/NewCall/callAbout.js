@@ -5,7 +5,8 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, T } } = props
+  const { onChange, data: { clients, T } } = props
+  const client = clients[0]
   const basicNecessities = [
     {
       label: T.translate("newCall.callAbout.basicNecessities.looking_for_help"),
@@ -80,6 +81,20 @@ export default props => {
     },
   ];
 
+  const handleOnChangeText = name => event => modifyClientObject({ [name]: event.target.value })
+  const handleOnChangeSelect = name => data => modifyClientObject({ [name]: data.data })
+
+  const modifyClientObject = field => {
+    const modifyObject = { ...client, ...field }
+
+    const newObjects = clients.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
+
   return (
     <>
       <legend className='legend'>
@@ -97,7 +112,7 @@ export default props => {
             label={T.translate("newCall.callAbout.basic_necessities")}
             options={basicNecessities}
             value={client.basic_necessity}
-            onChange={onChange('client', 'basic_necessity')} />
+            onChange={handleOnChangeSelect('basic_necessity')} />
         </div>
       </div>
 
@@ -108,12 +123,12 @@ export default props => {
             label={T.translate("newCall.callAbout.child_protection")}
             options={childProtectionConcerns}
             value={client.child_protection_concern}
-            onChange={onChange('client','child_protection_concern')} />
+            onChange={handleOnChangeSelect('child_protection_concern')} />
         </div>
       </div>
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <TextArea label={T.translate("newCall.callAbout.enter_a_brief")} value={client.brief_note_summary} onChange={onChange('client', 'brief_note_summary')} />
+          <TextArea label={T.translate("newCall.callAbout.enter_a_brief")} value={client.brief_note_summary} onChange={handleOnChangeText('brief_note_summary')} />
         </div>
       </div>
     </>

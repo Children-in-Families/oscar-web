@@ -28,6 +28,7 @@ const modal = props => {
     <Modal
       isOpen={isOpen}
       // onRequestClose={closeAction}
+      ariaHideApp={false}
       style={customStyles}
     >
       <div style={styles.modalHeader}>

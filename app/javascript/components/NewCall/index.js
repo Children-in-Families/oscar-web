@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import objectToFormData from 'object-to-formdata'
 // import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
 import CallAdministrativeInfo from './admin'
@@ -30,7 +31,7 @@ const CallForms = props => {
   const {
     data: {
       call: { call, client_ids },
-      client: { client, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
+      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients
@@ -42,7 +43,7 @@ const CallForms = props => {
   const [errorFields, setErrorFields] = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
+  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState({ client_ids, ...call})
   const [refereeData, setRefereeData] = useState(referee)
@@ -55,11 +56,10 @@ const CallForms = props => {
 
   const adminTabData = { call: callData, users, errorFields, T, step }
 
-  const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
-
-  const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeTabData  }
+  const refereeTabData = { errorFields, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
+  const referralTabData = { users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
-  const callAboutTabData = { client: clientData, T }
+  const callAboutTabData = { clients: clientData, T }
 
   const tabs = [
     {text: T.translate("newCall.index.tabs.caller_info"), step: 1},
@@ -83,9 +83,9 @@ const CallForms = props => {
   }
 
   const onChange = (obj, field) => event => {
-    const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
+    const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime', 'newObject', 'object']
     const value = inputType.includes(event.type) ? event.data : event.target.value
-    
+
     if (typeof field !== 'object')
       field = { [field]: value }
 
@@ -94,7 +94,10 @@ const CallForms = props => {
         setCallData({...callData, ...field})
         break;
       case 'client':
-        setClientData({...clientData, ...field})
+        if(event.type === 'newObject')
+          setClientData([...clientData, {}])
+        else
+          setClientData(field)
         break;
       case 'referee':
         setRefereeData({...refereeData, ...field })
@@ -123,14 +126,25 @@ const CallForms = props => {
 
     components.forEach(component => {
       if (step === component.step) {
-        component.fields.forEach(field => {
-          // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
-          if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
+        const isArray = Array.isArray(component.data)
+        if(isArray)
+          component.fields.forEach(field => {
+            component.data.forEach(data => {
+              if (data[field] === '' || (Array.isArray(data[field]) && !data[field].length) || data[field] === null || data[field] === undefined) {
+                errors.push(field)
+                errorSteps.push(component.step)
+              }
+            })
+          })
+        else
+          component.fields.forEach(field => {
+            // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
+            if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
 
-            errors.push(field)
-            errorSteps.push(component.step)
-          }
-        })
+              errors.push(field)
+              errorSteps.push(component.step)
+            }
+          })
       }
     })
 
@@ -179,7 +193,7 @@ const CallForms = props => {
   const handleSave = () => {
     if (handleValidation()) {
       handleCheckValue(refereeData)
-      handleCheckValue(clientData)
+      clientData.map(client => handleCheckValue(client))
       handleCheckValue(carerData)
       if(refereeData.requested_update === false)
         setTaskData({})
@@ -189,31 +203,35 @@ const CallForms = props => {
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
-        const action = clientData.id ? 'PUT' : 'POST'
-        const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
+        const action = callData.id ? 'PUT' : 'POST'
+        const url = callData.id ? `/api/v1/calls/${callData.id}` : '/api/v1/calls'
         const message = T.translate("newCall.index.message.call_has_been_created")
+
+        let formData = new FormData()
+        formData = objectToFormData(clientData, {}, formData, 'clients')
+        formData = objectToFormData(refereeData, {}, formData, 'referee')
+        formData = objectToFormData(carerData, {}, formData, 'carer')
+        formData = objectToFormData(callData, {}, formData, 'call')
+        formData = objectToFormData(taskData, {}, formData, 'task')
+
         $.ajax({
           url,
           type: action,
-          data: {
-            call: { ...callData },
-            client: { ...clientData },
-            referee: { ...refereeData },
-            carer: { ...carerData },
-            task: { ...taskData }
-          },
+          data: formData,
+          processData: false,
+          contentType: false,
           beforeSend: (req) => {
             setLoading(true)
           }
         })
         .success(response => {
           const clientUrls = response.client_urls;
-          document.location.href = `/calls/${response.call.id}?notice=${message}`
-          if (clientUrls) {
+          if (clientUrls.length > 0) {
             clientUrls.forEach(url => {
-              window.open(`${url}?notice=${message}`, '_blank');
-            });
+              window.open(`${url}?notice=${message}`, '_blank')
+            })
           }
+          document.location.href = `/calls/${response.call.id}?notice=${message}`
         })
         .error(err => {
           console.log("err: ", err);
@@ -234,6 +252,22 @@ const CallForms = props => {
       object.house_number = ''
     } else {
       object.outside_address = ''
+    }
+
+    if(object.concern_is_outside === undefined)
+      return
+
+    if(object.concern_is_outside) {
+      object.concern_province_id = null
+      object.concern_district_id = null
+      object.concern_commune_id = null
+      object.concern_village_id = null
+      object.concern_street_number = ''
+      object.concern_current_address = ''
+      object.concern_address_type = ''
+      object.concern_house_number = ''
+    } else {
+      object.concern_outside_address = ''
     }
   }
 
@@ -292,9 +326,7 @@ const CallForms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange}
-
-/>
+            <RefereeInfo data={refereeTabData} onChange={onChange} />
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>

@@ -7,22 +7,114 @@ module Api
         render json: calls
       end
 
-      def create
-        call = Call.new(call_params)
-        referee = params["referee"]["id"].present? ? Referee.find_by(id: params["referee"]["id"]) : Referee.new(referee_params)
-        if tagged_with_client?(call.call_type)
-          client = Client.new(client_params)
-          carer = Carer.new(carer_params)
-          client.received_by_id = call.receiving_staff_id
-          client.initial_referral_date = call.date_of_call
+      # def create
+      #   call = Call.new(call_params)
+      #   referee = params["referee"]["id"].present? ? Referee.find_by(id: params["referee"]["id"]) : Referee.new(referee_params)
+      #   if tagged_with_client?(call.call_type)
+      #     client = Client.new(client_params)
+      #     carer = Carer.new(carer_params)
+      #     client.received_by_id = call.receiving_staff_id
+      #     client.initial_referral_date = call.date_of_call
 
-          if client.valid?
-            if referee.valid?
-              if call.valid?
-                referee.save
-                carer.save
+      #     if client.valid?
+      #       if referee.valid?
+      #         if call.valid?
+      #           referee.save
+      #           carer.save
+      #           client.referee_id = referee.id
+      #           client.carer_id = carer.id
+      #           client.save
+
+      #           if params[:task].present?
+      #             create_tasks(client, referee)
+      #           end
+
+      #           if (call.call_type == "New Referral: Case Action Required")
+      #             client.enter_ngos.create(accepted_date: Date.today)
+      #           end
+
+      #           call.referee_id = referee.id
+      #           call.client_ids = [client.id]
+      #           call.save
+      #           client_urls = call.clients.map{ |client| client_url(client) }
+      #           render json: { call: call, client_urls: client_urls }
+      #         else
+      #           render json: call.errors, status: :unprocessable_entity
+      #         end
+      #       else
+      #         render json: referee.errors, status: :unprocessable_entity
+      #       end
+      #     else
+      #       render json: client.errors, status: :unprocessable_entity
+      #     end
+      #   elsif (call.call_type == "Providing Update")
+      #     if referee.valid?
+      #       if call.valid?
+      #         referee.save
+
+      #         if params[:task].present?
+      #           clients = Client.where(id: call.client_ids)
+      #           clients.each do |client|
+      #             create_tasks(client, referee)
+      #           end
+      #         end
+
+      #         call.referee_id = referee.id
+      #         call.save
+      #         client_urls = call.clients.map{ |client| client_url(client) }
+      #         render json: { call: call, client_urls: client_urls }
+      #       else
+      #         render json: call.errors, status: :unprocessable_entity
+      #       end
+      #     else
+      #       render json: referee.errors, status: :unprocessable_entity
+      #     end
+      #   else
+      #     # seeiking info, spam call & wrong number
+      #     # create call and referee, does not create client & carer.
+      #   end
+      # end
+
+      def create
+        referee = if params["referee"]["id"].present?
+          Referee.find(id: params["referee"]["id"])
+        else
+          Referee.new(referee_params)
+        end
+        if referee.valid?
+          referee.save
+        else
+          render json: referee.errors, status: :unprocessable_entity
+        end
+
+        carer = Carer.new(carer_params)
+        if carer.valid?
+          carer.save
+        else
+          render json: carer.errors, status: :unprocessable_entity
+        end
+
+        call = Call.new(call_params)
+        call.referee_id = referee.id
+
+        clients = client_params[:clients].map do |client|
+          new_client = Client.new(client)
+          new_client.name_of_referee = referee.name
+          new_client.received_by_id = call.receiving_staff_id
+          new_client.initial_referral_date = call.date_of_call
+          new_client
+        end
+
+        if tagged_with_client?(call.call_type)
+          client_urls = []
+          if call.save
+            clients.each_with_index do |client, index|
+              if client.valid?
                 client.referee_id = referee.id
-                client.carer_id = carer.id
+                if index != 0
+                  client.carer_id = carer.id
+                end
+                client.call_ids = [call.id]
                 client.save
 
                 if params[:task].present?
@@ -32,20 +124,14 @@ module Api
                 if (call.call_type == "New Referral: Case Action Required")
                   client.enter_ngos.create(accepted_date: Date.today)
                 end
-
-                call.referee_id = referee.id
-                call.client_ids = [client.id]
-                call.save
-                client_urls = call.clients.map{ |client| client_url(client) }
-                render json: { call: call, client_urls: client_urls }
+                client_urls.push(client_url(client))
               else
-                render json: call.errors, status: :unprocessable_entity
+                render json: client.errors, status: :unprocessable_entity
               end
-            else
-              render json: referee.errors, status: :unprocessable_entity
             end
+            render json: { call: call, client_urls: client_urls }
           else
-            render json: client.errors, status: :unprocessable_entity
+            render json: call.errors, status: :unprocessable_entity
           end
         elsif (call.call_type == "Providing Update")
           if referee.valid?
@@ -69,9 +155,6 @@ module Api
           else
             render json: referee.errors, status: :unprocessable_entity
           end
-        else
-          # seeiking info, spam call & wrong number
-          # create call and referee, does not create client & carer.
         end
       end
 
@@ -79,7 +162,7 @@ module Api
         call = Call.find(params[:call][:id])
         referee = call.referee
 
-        # THIS SHOULD BE DYNAMIC, AND WILL BE REMOVE IN THE FUTURE  
+        # THIS SHOULD BE DYNAMIC, AND WILL BE REMOVE IN THE FUTURE
         client = call.clients.last
         carer = client.carer
 
@@ -89,7 +172,6 @@ module Api
           render json: call.errors, status: :unprocessable_entity
         end
       end
-      
 
       def show
         if call
@@ -126,41 +208,76 @@ module Api
       end
 
       def client_params
-        params.require(:client).permit(
-              :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
-              :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
-              :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-              :referral_phone, :received_by_id, :followed_up_by_id,
-              :follow_up_date, :school_grade, :school_name, :current_address,
-              :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-              :has_been_in_orphanage, :has_been_in_government_care,
-              :relevant_referral_information, :province_id,
-              :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
-              :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
-              :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
-              :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
-              :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-              :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
+        params.permit(clients: [
+          :id, :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
+          :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
+          :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
+          :referral_phone, :received_by_id, :followed_up_by_id,
+          :follow_up_date, :school_grade, :school_name, :current_address,
+          :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
+          :has_been_in_orphanage, :has_been_in_government_care,
+          :relevant_referral_information, :province_id,
+          :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
+          :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
+          :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
+          :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
+          :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
+          :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
 
-              :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address,
-              :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
-              :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
-              :concern_street, :concern_house, :concern_address, :concern_address_type,
-              :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
+          :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address,
+          :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
+          :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
+          :concern_street, :concern_house, :concern_address, :concern_address_type,
+          :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location, :concern_same_as_client,
 
-              interviewee_ids: [],
-              client_type_ids: [],
-              user_ids: [],
-              agency_ids: [],
-              donor_ids: [],
-              quantitative_case_ids: [],
-              custom_field_ids: [],
-              tasks_attributes: [:name, :domain_id, :completion_date],
-              client_needs_attributes: [:id, :rank, :need_id],
-              client_problems_attributes: [:id, :rank, :problem_id],
-              family_ids: [],
-              call_ids: []
-            )
+          interviewee_ids: [],
+          client_type_ids: [],
+          user_ids: [],
+          agency_ids: [],
+          donor_ids: [],
+          quantitative_case_ids: [],
+          custom_field_ids: [],
+          tasks_attributes: [:name, :domain_id, :completion_date],
+          client_needs_attributes: [:id, :rank, :need_id],
+          client_problems_attributes: [:id, :rank, :problem_id],
+          family_ids: [],
+          call_ids: []
+        ])
+        # params.require(:client).permit(
+        #       :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
+        #       :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
+        #       :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
+        #       :referral_phone, :received_by_id, :followed_up_by_id,
+        #       :follow_up_date, :school_grade, :school_name, :current_address,
+        #       :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
+        #       :has_been_in_orphanage, :has_been_in_government_care,
+        #       :relevant_referral_information, :province_id,
+        #       :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
+        #       :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
+        #       :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
+        #       :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
+        #       :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
+        #       :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
+
+        #       :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address,
+        #       :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
+        #       :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
+        #       :concern_street, :concern_house, :concern_address, :concern_address_type,
+        #       :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
+
+        #       interviewee_ids: [],
+        #       client_type_ids: [],
+        #       user_ids: [],
+        #       agency_ids: [],
+        #       donor_ids: [],
+        #       quantitative_case_ids: [],
+        #       custom_field_ids: [],
+        #       tasks_attributes: [:name, :domain_id, :completion_date],
+        #       client_needs_attributes: [:id, :rank, :need_id],
+        #       client_problems_attributes: [:id, :rank, :problem_id],
+        #       family_ids: [],
+        #       call_ids: []
+        #     )
       end
 
       def call

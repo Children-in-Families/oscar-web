@@ -13,7 +13,7 @@ export default props => {
       refereeVillages,
       referee,
       referees,
-      client,
+      clients,
       currentProvinces,
       referralSourceCategory,
       referralSource,
@@ -21,6 +21,8 @@ export default props => {
       addressTypes, T
     }
   } = props;
+
+  const client = clients[0]
 
   const genderLists = [
     { label: T.translate("newCall.refereeInfo.genderLists.female"), value: "female" },
@@ -34,7 +36,7 @@ export default props => {
     referees.forEach(r => newList.push({ label: `${r.name} ${r.phone} ${r.email}`, value: r.id }))
     return newList
   }
-  
+
 
   const answeredCallOpts = [
     { label: T.translate("newCall.refereeInfo.answeredCallOpts.call_answered"), value: true },
@@ -83,12 +85,24 @@ export default props => {
     }
   }, [referee.anonymous]);
 
-  const onReferralSourceCategoryChange = data => {
-    onChange("client", {
-      referral_source_category_id: data.data,
-      referral_source_id: null
-    })({ type: "select" });
-  };
+  useEffect(() => {
+    const field = {
+      referral_source_category_id: client.referral_source_category_id,
+      referral_source_id: client.referral_source_id
+    }
+    modifyClientObject(field)
+  }, [clients.length])
+
+  const onReferralSourceCategoryChange = data => modifyClientObject({ referral_source_category_id: data.data, referral_source_id: null })
+  const onReferralSourceChange = data => modifyClientObject({ referral_source_id: data.data })
+
+  const modifyClientObject = field => {
+    const newObjects = clients.map(object => {
+      const newObject = { ...object, ...field }
+      return newObject
+    })
+    onChange('client', newObjects)({type: 'object'})
+  }
 
   const onRefereeNameChange = evt => {
     let {email, id, name, gender, phone, province_id, district_id, commune_id, village_id, street_number, house_number, address_type, current_address} = referees.filter(r => r.id == evt.data)[0] || {}
@@ -132,7 +146,7 @@ export default props => {
           isError={errorFields.includes("name")}
           value={referee.name}
           label="Name"
-          onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
+          onChange={(value) => { onChange('referee', 'name')(value) }}
         />
       )
     }
@@ -249,7 +263,7 @@ export default props => {
             T={T}
             options={referralSourceLists}
             label={T.translate("newCall.refereeInfo.referral_source")}
-            onChange={onChange("client", "referral_source_id")}
+            onChange={onReferralSourceChange}
             value={client.referral_source_id}
           />
         </div>
