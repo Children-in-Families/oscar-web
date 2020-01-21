@@ -1,1 +1,3 @@
-= render 'form'
+- data = { call: @call, users: case_workers_option(@client.id) }
+
+= react_component('EditCall', { data: data })

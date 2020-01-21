@@ -15,6 +15,7 @@ export default ({data: {call, referee, clients}}) => {
         
         <Referee 
           data={referee}
+          call={call}
         />
       </div>
 

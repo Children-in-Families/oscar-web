@@ -314,7 +314,8 @@
         "client_referral_call": "Client / Referral - Call about"
       },
       "message": {
-        "call_has_been_created": "Call has been successfully created"
+        "call_has_been_created": "Call has been successfully created",
+        "call_has_been_updated": "Call has been successfully updated"
       },
       "cancel": "ទុកជាមោឃៈ",
       "previous": "ទំព័រមុន",

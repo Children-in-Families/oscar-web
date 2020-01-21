@@ -78,18 +78,29 @@ module Api
         # end
       end
 
-      def update
-        call = Call.find(params[:call][:id])
+      def edit_referee
+        @call = Call.find(params[:id])
+        @referee = @call.referee
+      end
+
+      def update_referee
+        call = Call.find(params[:call_id])
         referee = call.referee
-
-        # THIS SHOULD BE DYNAMIC, AND WILL BE REMOVE IN THE FUTURE  
-        client = call.clients.last
-        carer = client.carer
-
-        if call.update_attributes(call_params) && referee.update_attributes(referee_params) && client.update_attributes(client_params) && carer.update_attributes(carer_params)
+        if referee.update_attributes(referee_params)
           render json: call
         else
-          render json: call.errors, status: :unprocessable_entity
+          render json: referee.errors
+        end
+
+      end
+      
+      def update
+        call = Call.find(params[:id])
+
+        if call.update_attributes(call_params)
+          render json: call
+        else
+          render json: call.errors
         end
       end
       
@@ -107,6 +118,7 @@ module Api
       def call_params
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
                                 :date_of_call, :start_datetime, :end_datetime, :call_type,
+                                :phone_counselling_summary, :information_provided,
                                 client_ids: []
                                 )
       end
@@ -144,8 +156,8 @@ module Api
               :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
               :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
               :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
-
               :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address,
+
               :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
               :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
               :concern_street, :concern_house, :concern_address, :concern_address_type,
