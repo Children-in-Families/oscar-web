@@ -230,7 +230,15 @@
       "call_information": "Call Information",
       "phone_call": "Phone Call ID #",
       "receiving_staff": "Receiving Staff",
-      "call_type": "Call Type"
+      "call_type": "Call Type",
+      "confirmation": "Confirmation",
+      "save_call_as": "Are you sure you want to record this call as",
+      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
+      "information_provide": "Information Provided",
+      "go": "Go",
+      "go_back": "Go Back",
+      "go_to_client": "Go to Client",
+      "please_select_client": "Please select client"
     },
     "callAbout": {
       "basicNecessities": {
@@ -394,9 +402,7 @@
       "school_info": "School Information?",
       "donor_info": "Donor Information?",
       "other_info": "Other Information",
-      "phone_counselling": "Phone Counselling Summary",
-      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
-      "information_provide": "Information Provided"
+      "phone_counselling": "Phone Counselling Summary"
     },
     "schoolInfo": {
       "school_name": "School Name",
