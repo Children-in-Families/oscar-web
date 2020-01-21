@@ -208,11 +208,15 @@ const CallForms = props => {
         const message = T.translate("newCall.index.message.call_has_been_created")
 
         let formData = new FormData()
-        formData = objectToFormData(clientData, {}, formData, 'clients')
         formData = objectToFormData(refereeData, {}, formData, 'referee')
-        formData = objectToFormData(carerData, {}, formData, 'carer')
         formData = objectToFormData(callData, {}, formData, 'call')
+        // taskData may need to be filterd out if no client attached
         formData = objectToFormData(taskData, {}, formData, 'task')
+
+        if (callData.call_type === "New Referral: Case Action Required" || callData.call_type === "New Referral: Case Action NOT Required" || callData.call_type === "Phone Counseling") {
+          formData = objectToFormData(clientData, {}, formData, 'clients')
+          formData = objectToFormData(carerData, {}, formData, 'carer')
+        }
 
         $.ajax({
           url,

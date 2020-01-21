@@ -75,64 +75,143 @@ module Api
       #   end
       # end
 
+      # def create
+      #   referee = if params["referee"]["id"].present?
+      #     Referee.find_by(id: params["referee"]["id"])
+      #   else
+      #     Referee.new(referee_params)
+      #   end
+      #   if referee.valid?
+      #     referee.save
+      #   else
+      #     render json: referee.errors, status: :unprocessable_entity
+      #   end
+
+      #   carer = Carer.new(carer_params)
+      #   if carer.valid?
+      #     carer.save
+      #   else
+      #     render json: carer.errors, status: :unprocessable_entity
+      #   end
+
+      #   call = Call.new(call_params)
+      #   call.referee_id = referee.id
+
+      #   clients = client_params[:clients].map do |client|
+      #     new_client = Client.new(client)
+      #     new_client.name_of_referee = referee.name
+      #     new_client.received_by_id = call.receiving_staff_id
+      #     new_client.initial_referral_date = call.date_of_call
+      #     new_client
+      #   end
+
+      #   if tagged_with_client?(call.call_type)
+      #     client_urls = []
+      #     if call.save
+      #       clients.each_with_index do |client, index|
+      #         if client.valid?
+      #           client.referee_id = referee.id
+      #           if index != 0
+      #             client.carer_id = carer.id
+      #           end
+      #           client.call_ids = [call.id]
+      #           client.save
+
+      #           if params[:task].present?
+      #             create_tasks(client, referee)
+      #           end
+
+      #           if (call.call_type == "New Referral: Case Action Required")
+      #             client.enter_ngos.create(accepted_date: Date.today)
+      #           end
+      #           client_urls.push(client_url(client))
+      #         else
+      #           render json: client.errors, status: :unprocessable_entity
+      #         end
+      #       end
+      #       render json: { call: call, client_urls: client_urls }
+      #     else
+      #       render json: call.errors, status: :unprocessable_entity
+      #     end
+      #   elsif (call.call_type == "Providing Update")
+      #     if referee.valid?
+      #       if call.valid?
+      #         referee.save
+
+      #         if params[:task].present?
+      #           clients = Client.where(id: call.client_ids)
+      #           clients.each do |client|
+      #             create_tasks(client, referee)
+      #           end
+      #         end
+
+      #         call.referee_id = referee.id
+      #         call.save
+      #         client_urls = call.clients.map{ |client| client_url(client) }
+      #         render json: { call: call, client_urls: client_urls }
+      #       else
+      #         render json: call.errors, status: :unprocessable_entity
+      #       end
+      #     else
+      #       render json: referee.errors, status: :unprocessable_entity
+      #     end
+      #   end
+      # end
+
       def create
         referee = if params["referee"]["id"].present?
           Referee.find_by(id: params["referee"]["id"])
         else
           Referee.new(referee_params)
         end
-        if referee.valid?
-          referee.save
-        else
-          render json: referee.errors, status: :unprocessable_entity
-        end
-
-        carer = Carer.new(carer_params)
-        if carer.valid?
-          carer.save
-        else
-          render json: carer.errors, status: :unprocessable_entity
-        end
-
         call = Call.new(call_params)
-        call.referee_id = referee.id
-
-        clients = client_params[:clients].map do |client|
-          new_client = Client.new(client)
-          new_client.name_of_referee = referee.name
-          new_client.received_by_id = call.receiving_staff_id
-          new_client.initial_referral_date = call.date_of_call
-          new_client
-        end
 
         if tagged_with_client?(call.call_type)
-          client_urls = []
-          if call.save
-            clients.each_with_index do |client, index|
-              if client.valid?
-                client.referee_id = referee.id
-                if index != 0
-                  client.carer_id = carer.id
-                end
-                client.call_ids = [call.id]
-                client.save
-
-                if params[:task].present?
-                  create_tasks(client, referee)
-                end
-
-                if (call.call_type == "New Referral: Case Action Required")
-                  client.enter_ngos.create(accepted_date: Date.today)
-                end
-                client_urls.push(client_url(client))
-              else
-                render json: client.errors, status: :unprocessable_entity
-              end
-            end
-            render json: { call: call, client_urls: client_urls }
-          else
-            render json: call.errors, status: :unprocessable_entity
+          carer = Carer.new(carer_params)
+          clients = client_params[:clients].map do |client|
+            new_client = Client.new(client)
+            new_client.name_of_referee = referee.name
+            new_client.received_by_id = call.receiving_staff_id
+            new_client.initial_referral_date = call.date_of_call
+            new_client
           end
+
+          client_urls = []
+          client_ids = []
+          clients.each_with_index do |client, index|
+            if client.valid?
+              if referee.valid?
+                if call.valid?
+                  referee.save if referee.id.nil?
+                  carer.save if carer.id.nil?
+                  client.referee_id = referee.id
+                  client.carer_id = carer.id
+                  client.save
+                  if params[:task].present?
+                    create_tasks(client, referee)
+                  end
+                  if (call.call_type == "New Referral: Case Action Required")
+                    client.enter_ngos.create(accepted_date: Date.today)
+                  end
+                  client_urls.push(client_url(client))
+                  client_ids.push(client.id)
+                else
+                  render json: call.errors, status: :unprocessable_entity
+                end
+              else
+                render json: referee.errors, status: :unprocessable_entity
+              end
+            else
+              render json: client.errors, status: :unprocessable_entity
+            end
+          end
+          call.referee_id = referee.id
+          call.client_ids = client_ids
+          call.save
+
+          client_urls = call.clients.map{ |client| client_url(client) }
+          render json: { call: call, client_urls: client_urls }
+
         elsif (call.call_type == "Providing Update")
           if referee.valid?
             if call.valid?
@@ -184,13 +263,13 @@ module Api
         end
       end
 
-      def show
-        if call
-          render json: call
-        else
-          render json: call.errors
-        end
-      end
+      # def show
+      #   if call
+      #     render json: call
+      #   else
+      #     render json: call.errors
+      #   end
+      # end
 
       private
 
@@ -258,9 +337,9 @@ module Api
   
       end
 
-      def call
-        @call ||= Call.find(params[:id])
-      end
+      # def call
+      #   @call ||= Call.find(params[:id])
+      # end
 
       def tagged_with_client?(call_type)
         ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counseling"].include?(call_type)
