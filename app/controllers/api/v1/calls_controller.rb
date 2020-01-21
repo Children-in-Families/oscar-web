@@ -77,7 +77,7 @@ module Api
 
       def create
         referee = if params["referee"]["id"].present?
-          Referee.find(id: params["referee"]["id"])
+          Referee.find_by(id: params["referee"]["id"])
         else
           Referee.new(referee_params)
         end
