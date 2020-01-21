@@ -220,43 +220,6 @@ module Api
       end
 
       def client_params
-<<<<<<< HEAD
-        params.require(:client).permit(
-              :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
-              :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
-              :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-              :referral_phone, :received_by_id, :followed_up_by_id,
-              :follow_up_date, :school_grade, :school_name, :current_address,
-              :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-              :has_been_in_orphanage, :has_been_in_government_care,
-              :relevant_referral_information, :province_id,
-              :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
-              :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
-              :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
-              :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
-              :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-              :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
-              :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address,
-
-              :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
-              :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
-              :concern_street, :concern_house, :concern_address, :concern_address_type,
-              :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
-
-              interviewee_ids: [],
-              client_type_ids: [],
-              user_ids: [],
-              agency_ids: [],
-              donor_ids: [],
-              quantitative_case_ids: [],
-              custom_field_ids: [],
-              tasks_attributes: [:name, :domain_id, :completion_date],
-              client_needs_attributes: [:id, :rank, :need_id],
-              client_problems_attributes: [:id, :rank, :problem_id],
-              family_ids: [],
-              call_ids: []
-            )
-=======
         params.permit(clients: [
           :id, :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
           :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
@@ -292,42 +255,7 @@ module Api
           family_ids: [],
           call_ids: []
         ])
-        # params.require(:client).permit(
-        #       :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
-        #       :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
-        #       :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-        #       :referral_phone, :received_by_id, :followed_up_by_id,
-        #       :follow_up_date, :school_grade, :school_name, :current_address,
-        #       :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-        #       :has_been_in_orphanage, :has_been_in_government_care,
-        #       :relevant_referral_information, :province_id,
-        #       :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
-        #       :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
-        #       :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
-        #       :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
-        #       :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-        #       :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
-
-        #       :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address,
-        #       :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
-        #       :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
-        #       :concern_street, :concern_house, :concern_address, :concern_address_type,
-        #       :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
-
-        #       interviewee_ids: [],
-        #       client_type_ids: [],
-        #       user_ids: [],
-        #       agency_ids: [],
-        #       donor_ids: [],
-        #       quantitative_case_ids: [],
-        #       custom_field_ids: [],
-        #       tasks_attributes: [:name, :domain_id, :completion_date],
-        #       client_needs_attributes: [:id, :rank, :need_id],
-        #       client_problems_attributes: [:id, :rank, :problem_id],
-        #       family_ids: [],
-        #       call_ids: []
-        #     )
->>>>>>> hotline-module
+  
       end
 
       def call
