@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { reject, isEmpty, titleize } from '../../DetailCall/helper'
 
-export const HorizontalTable = ({ title, data, renderItem }) => {
-
+export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
   return (
     <div className='col-sm-12'>
       <div className="ibox">
-        <Header 
-          title={title}
-        />
+        <div className="ibox-title">
+          <h5>{title}</h5>
+          <div className="ibox-tools">
+            <a className="btn btn-success btn-outline" href={linkHeader} target="_blank">
+              <i className="fa fa-pencil"></i>
+            </a>
+            <a className="collapse-link">
+              <div className="btn btn-outline btn-primary">
+                <i className="fa fa-chevron-up"></i>
+              </div>
+            </a>
+          </div>
+        </div>
 
         <div className="ibox-content">
           <div className="row">
@@ -28,27 +37,21 @@ export const HorizontalTable = ({ title, data, renderItem }) => {
   )
 }
 
-const Header = ({title}) => (
-  <div className="ibox-title">
-    <h5>{title}</h5>
-    <div className="ibox-tools">
-      <a className="collapse-link">
-        <div className="btn btn-outline btn-primary">
-          <i className="fa fa-chevron-up"></i>
-        </div>
-      </a>
-    </div>
-  </div>
-)
-
 export const VerticalTable = ({ title, data, renderItem, columns }) => {
 
   return (
     <div className='col-sm-12'>
       <div className="ibox">
-        <Header 
-          title={title}
-        />
+        <div className="ibox-title">
+          <h5>{title}</h5>
+          <div className="ibox-tools">
+            <a className="collapse-link">
+              <div className="btn btn-outline btn-primary">
+                <i className="fa fa-chevron-up"></i>
+              </div>
+            </a>
+          </div>
+        </div>
 
         <div className="ibox-content">
           <div className="row">
@@ -59,6 +62,7 @@ export const VerticalTable = ({ title, data, renderItem, columns }) => {
                     {
                       data && data[0] && columns.map(key => <th key={key} scope="col">{titleize(key)}</th>)
                     }
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -90,7 +94,16 @@ export const VerticalTable = ({ title, data, renderItem, columns }) => {
                                   </td>
                                 )
                               })
+
+                              
                             }
+                            <td 
+                              className="spacing-first-col" 
+                            >
+                              <a className="btn btn-xs btn-success btn-outline" href={`/clients/${obj['slug']}/edit?type=call`} target="_blank">
+                                <i className="fa fa-pencil"></i>
+                              </a>
+                            </td>
                           </tr>
                       )
 

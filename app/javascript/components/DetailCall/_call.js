@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatDate, formatTime } from './helper'
+import { formatDate, formatTime, titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
 export default ({data}) => {
@@ -8,7 +8,7 @@ export default ({data}) => {
     return (
       <tr key={`${key}`}>
         <td className="spacing-first-col">
-          {formatKey(key)}
+          {titleize(formatKey(key))}
         </td>
         <td>
           {formatLabel(obj, key)}
@@ -51,6 +51,7 @@ export default ({data}) => {
     <HorizontalTable 
       title="About Call"
       data={data}
+      linkHeader={`/calls/${data.id}/edit`}
       renderItem={renderItem}
     />
   )

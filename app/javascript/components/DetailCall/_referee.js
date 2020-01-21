@@ -1,13 +1,14 @@
 import React from 'react'
+import { titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data}) => {
+export default ({data, call}) => {
 
   const renderItem = (obj, key) => {
     return (
       <tr key={`${key}`}>
         <td className="spacing-first-col">
-          {key}
+          {titleize(key)}
         </td>
         <td>
           {obj[key]}
@@ -20,6 +21,7 @@ export default ({data}) => {
     <HorizontalTable
       title="Referee"
       data={data}
+      linkHeader={`/calls/${call.id}/edit/referee`}
       renderItem={renderItem}
     />
   )
