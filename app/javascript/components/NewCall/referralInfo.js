@@ -49,6 +49,92 @@ export default props => {
   const [concernCommunes, setConcernCommunes] = useState(currentCommunes);
   const [concernVillages, setConcernVillages] = useState(currentVillages);
 
+  const setAddressOptions = (obj, type) => {
+    const dataState = {
+      districts: type === 'concern_address' ? setConcernDistricts : setDistricts,
+      communes: type === 'concern_address' ? setConcernCommunes : setCommunes,
+      villages: type === 'concern_address' ? setConcernVillages : setVillages
+    }
+
+    if(obj.province_id !== null && obj.province_id !== undefined)
+      fetchData('provinces', obj.province_id, 'districts', dataState)
+    if(obj.district_id !== null && obj.district_id !== undefined)
+      fetchData('districts', obj.district_id, 'communes', dataState)
+    if(obj.commune_id !== null && obj.commune_id !== undefined)
+      fetchData('communes', obj.commune_id, 'villages', dataState)
+  }
+
+  const resetAddressOptions = type => {
+    if(type === 'concern_address') {
+      setConcernDistricts([])
+      setConcernCommunes([])
+      setConcernVillages([])
+    } else {
+      setDistricts([])
+      setCommunes([])
+      setVillages([])
+    }
+  }
+
+  useEffect(() => {
+    const newObjects = clients.map(client => {
+      let newObject = { ...client }
+      if(client.referee_relationship === 'self') {
+        const fields = {
+          outside: referee.outside,
+          province_id: referee.province_id,
+          district_id: referee.district_id,
+          commune_id: referee.commune_id,
+          village_id: referee.village_id,
+          street_number: referee.street_number,
+          house_number: referee.house_number,
+          current_address: referee.current_address,
+          address_type: referee.address_type,
+          outside_address: referee.outside_address
+        }
+        newObject = { ...client, ...fields }
+      }
+      return newObject
+    })
+
+    setAddressOptions(currentClient, 'address')
+
+    onChange('client', newObjects)({type: 'object'})
+  }, [referee])
+
+  useEffect(() => {
+    setAddressOptions(currentClient, 'address')
+  }, [clientIndex])
+
+  useEffect(() => {
+    if(currentClient.concern_same_as_client) {
+      const {
+        concern_same_as_client, concern_is_outside,
+        concern_province_id, concern_district_id, concern_commune_id, concern_village_id,
+        concern_street, concern_house, concern_address, concern_address_type, concern_outside_address,
+        outside,
+        province_id, district_id, commune_id, village_id,
+        street_number, house_number, current_address, address_type, outside_address,
+      } = currentClient
+
+      const sameOutside = concern_is_outside === outside
+      const sameProvince = concern_province_id === province_id
+      const sameDistrict = concern_district_id === district_id
+      const sameCommune = concern_commune_id === commune_id
+      const sameVillage = concern_village_id === village_id
+      const sameStreet = concern_street === street_number
+      const sameHouse = concern_house === house_number
+      const sameAddress = concern_address === current_address
+      const sameAddressType = concern_address_type === address_type
+      const sameOutsideAdress = concern_outside_address === outside_address
+
+      const same = sameOutside && sameProvince && sameDistrict && sameCommune && sameVillage && sameStreet && sameHouse && sameAddress && sameAddressType && sameOutsideAdress
+
+      if(!same)
+        onCheckSameAsClient({data: concern_same_as_client})
+    }
+  }, [currentClient])
+
   const fetchData = (parent, data, child, dataState) => {
     $.ajax({
       type: "GET",
@@ -61,24 +147,10 @@ export default props => {
   const onCheckSameAsClient = data => {
     const same = data.data
 
-    const dataState = {
-      districts: setConcernDistricts,
-      communes: setConcernCommunes,
-      villages: setConcernVillages
-    }
-
-    if(same) {
-      if(currentClient.province_id !== null)
-        fetchData('provinces', currentClient.province_id, 'districts', dataState)
-      if(currentClient.district_id !== null)
-        fetchData('districts', currentClient.district_id, 'communes', dataState)
-      if(currentClient.commune_id !== null)
-        fetchData('communes', currentClient.commune_id, 'villages', dataState)
-    } else {
-      setConcernDistricts([])
-      setConcernCommunes([])
-      setConcernVillages([])
-    }
+    if(same)
+      setAddressOptions(currentClient, 'concern_address')
+    else
+      resetAddressOptions('concern_address')
 
     const fields = {
       concern_is_outside: same ? currentClient.outside : false,
@@ -101,25 +173,10 @@ export default props => {
     const isSelf = event.data === 'self'
     const refereeObj = referee
 
-    const dataState = {
-      districts: setDistricts,
-      communes: setCommunes,
-      villages: setVillages
-    }
-
-    if(isSelf) {
-      if(refereeObj.province_id)
-        fetchData('provinces', refereeObj.province_id, 'districts', dataState)
-      if(refereeObj.district_id)
-        fetchData('districts', refereeObj.district_id, 'communes', dataState)
-      if(refereeObj.commune_id)
-        fetchData('communes', refereeObj.commune_id, 'villages', dataState)
-
-    } else if(previousSelect === 'self') {
-      setDistricts([])
-      setCommunes([])
-      setVillages([])
-    }
+    if(isSelf)
+      setAddressOptions(refereeObj, 'address')
+    else if(previousSelect === 'self')
+      resetAddressOptions('address')
 
     const fields = {
       outside: isSelf ? refereeObj.outside : previousSelect === 'self' ? false : currentClient.outside,
@@ -156,12 +213,12 @@ export default props => {
   const handleOnChangeOther = name => data => modifyClientObject(clientIndex, { [name]: data.data })
 
   const hanldeOnChangeAddressInputs = (obj, field) => event => {
-    const isTextInputValue = event.target && event.target.value
-
-    if(isTextInputValue)
-      modifyClientObject(clientIndex, { [field]: isTextInputValue })
-    else
+    if(typeof(field) === 'object')
       modifyClientObject(clientIndex, field)
+    else {
+      const value = event.target && event.target.value || event.data
+      modifyClientObject(clientIndex, { [field]: value })
+    }
   }
 
   const modifyClientObject = (index, field) => {
