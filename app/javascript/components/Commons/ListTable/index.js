@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { reject, isEmpty, titleize } from '../../DetailCall/helper'
 
 export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
+  let keyLists = Object.keys(reject(data))
+  
   return (
     <div className='col-sm-12'>
       <div className="ibox">
@@ -25,7 +27,8 @@ export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
               <table className="table table-bordered">
                 <tbody>
                   {
-                    Object.keys(reject(data)).map((key, i) => renderItem ? renderItem(data, key) : "")
+                    
+                    keyLists.map((key, i) => renderItem ? renderItem(data, key) : "")
                   }
                 </tbody>
               </table>

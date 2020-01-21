@@ -1,4 +1,4 @@
-export const reject = (obj, condition="id|created_at|updated_at") => {
+export const reject = (obj={}, condition="id|created_at|updated_at") => {
   var newObj = {}
   
   Object.keys(obj).forEach((v) => {
@@ -8,7 +8,7 @@ export const reject = (obj, condition="id|created_at|updated_at") => {
     }
   })
 
-  return newObj
+  return newObj || {}
 }
 
 export const titleize = (str = "") => {
