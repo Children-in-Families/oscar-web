@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { reject, isEmpty, titleize } from '../../DetailCall/helper'
 
 export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
+  let keyLists = Object.keys(reject(data))
+
   return (
     <div className='col-sm-12'>
       <div className="ibox">
@@ -25,7 +27,8 @@ export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
               <table className="table table-bordered">
                 <tbody>
                   {
-                    Object.keys(reject(data)).map((key, i) => renderItem ? renderItem(data, key) : "")
+
+                    keyLists.map((key, i) => renderItem ? renderItem(data, key) : "")
                   }
                 </tbody>
               </table>
@@ -69,7 +72,7 @@ export const VerticalTable = ({ title, data, renderItem, columns }) => {
                   {
                     data.map((obj, i) => {
                       return (
-                        isEmpty(Object.values(obj)) && data.length == 1 
+                        isEmpty(Object.values(obj)) && data.length == 1
                         ?
                           <tr key={`${i}`}>
                             <td className="spacing-first-col" colspan={Object.keys(obj).length}>
@@ -81,11 +84,11 @@ export const VerticalTable = ({ title, data, renderItem, columns }) => {
                             {
                               columns.map(key => {
                                 return (
-                                  <td 
+                                  <td
                                     style={{cursor: 'pointer'}}
-                                    key={key} 
-                                    className="spacing-first-col" 
-                                    data-href={`/clients/${obj['slug']}`} 
+                                    key={key}
+                                    className="spacing-first-col"
+                                    data-href={`/clients/${obj['slug']}`}
                                     onClick={(e) => {
                                       window.open(e.target.getAttribute('data-href'), "_blank")
                                     }}
@@ -95,10 +98,10 @@ export const VerticalTable = ({ title, data, renderItem, columns }) => {
                                 )
                               })
 
-                              
+
                             }
-                            <td 
-                              className="spacing-first-col" 
+                            <td
+                              className="spacing-first-col"
                             >
                               <a className="btn btn-xs btn-success btn-outline" href={`/clients/${obj['slug']}/edit?type=call`} target="_blank">
                                 <i className="fa fa-pencil"></i>
