@@ -357,7 +357,7 @@ module Api
       # end
 
       def tagged_with_new_client?(call_type)
-        ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counseling"].include?(call_type)
+        ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counselling"].include?(call_type)
       end
 
       def create_tasks(client, referee)

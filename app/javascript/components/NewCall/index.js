@@ -217,7 +217,7 @@ const CallForms = props => {
         // taskData may need to be filterd out if no client attached
         formData = objectToFormData(taskData, {}, formData, 'task')
 
-        if (callData.call_type === "New Referral: Case Action Required" || callData.call_type === "New Referral: Case Action NOT Required" || callData.call_type === "Phone Counseling") {
+        if (callData.call_type === "New Referral: Case Action Required" || callData.call_type === "New Referral: Case Action NOT Required" || callData.call_type === "Phone Counselling") {
           formData = objectToFormData(clientData, {}, formData, 'clients')
           formData = objectToFormData(carerData, {}, formData, 'carer')
         }
