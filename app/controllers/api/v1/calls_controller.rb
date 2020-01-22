@@ -10,7 +10,7 @@ module Api
       # def create
       #   call = Call.new(call_params)
       #   referee = params["referee"]["id"].present? ? Referee.find_by(id: params["referee"]["id"]) : Referee.new(referee_params)
-      #   if tagged_with_client?(call.call_type)
+      #   if tagged_with_new_client?(call.call_type)
       #     client = Client.new(client_params)
       #     carer = Carer.new(carer_params)
       #     client.received_by_id = call.receiving_staff_id
@@ -105,7 +105,7 @@ module Api
       #     new_client
       #   end
 
-      #   if tagged_with_client?(call.call_type)
+      #   if tagged_with_new_client?(call.call_type)
       #     client_urls = []
       #     if call.save
       #       clients.each_with_index do |client, index|
@@ -166,7 +166,7 @@ module Api
         end
         call = Call.new(call_params)
 
-        if tagged_with_client?(call.call_type)
+        if tagged_with_new_client?(call.call_type)
           carer = Carer.new(carer_params)
           clients = client_params[:clients].map do |client|
             new_client = Client.new(client)
@@ -355,7 +355,7 @@ module Api
       #   @call ||= Call.find(params[:id])
       # end
 
-      def tagged_with_client?(call_type)
+      def tagged_with_new_client?(call_type)
         ["New Referral: Case Action Required", "New Referral: Case Action NOT Required", "Phone Counseling"].include?(call_type)
       end
 
