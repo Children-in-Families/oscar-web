@@ -1,3 +1,7 @@
 - data = { call: @call, users: case_workers_option(@client.id) }
 
-= react_component('EditCall', { data: data })
+.row
+  .col-xs-12
+    .ibox
+      .ibox-content
+        = react_component('EditCall', { data: data })

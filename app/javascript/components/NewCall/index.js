@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import objectToFormData from 'object-to-formdata'
-// import Loading from '../Commons/Loading'
+import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
 import CallAdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
@@ -228,9 +228,7 @@ const CallForms = props => {
           data: formData,
           processData: false,
           contentType: false,
-          beforeSend: (req) => {
-            setLoading(true)
-          }
+          beforeSend: () => { setLoading(true) }
         })
         .done(response => {
           if (response.client_urls && response.client_urls.length > 0) {
@@ -305,7 +303,8 @@ const CallForms = props => {
 
   return (
     <div className='containerClass'>
-      {/* <Loading loading={loading} text='Please wait while we are making a request to server.'/> */}
+      <Loading loading={loading} text={T.translate("index.wait")}/>
+
       <Modal
         title={T.translate("newCall.admin.confirmation")}
         isOpen={caseActionNotRequired}

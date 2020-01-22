@@ -11,8 +11,10 @@ const Loading = props => {
       spinnerColor='#9ee5f8'
       textColor='#676767'
       text={text}
-      {...props}
-    />
+      {...others}
+    >
+      <></>
+    </LoadingScreen>
   )
 }
 
