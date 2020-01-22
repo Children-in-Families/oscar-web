@@ -202,7 +202,7 @@ module Api
                 render json: referee.errors, status: :unprocessable_entity
               end
             else
-              render json: client.errors, status: :unprocessable_entity
+              return render json: client.errors, status: :unprocessable_entity
             end
           end
           call.referee_id = referee.id
@@ -266,7 +266,7 @@ module Api
         end
 
       end
-      
+
       def update
         call = Call.find(params[:id])
 
@@ -349,7 +349,7 @@ module Api
           call_ids: [],
           necessity_ids: [], protection_concern_ids: []
         ])
-  
+
       end
 
       # def call

@@ -6,7 +6,7 @@ import CustomInfo from './customInfo'
 import { TextArea } from "../Commons/inputs";
 
 export default props => {
-  const { onChange, data: { call, carerDistricts, carerCommunes, carerVillages, carer, clients, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, phoneOwners, T } } = props
+  const { onChange, data: { errorFields, call, carerDistricts, carerCommunes, carerVillages, carer, clients, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, phoneOwners, T } } = props
 
   return (
     <div className="containerClass">
@@ -82,7 +82,7 @@ export default props => {
         </div>
       </div>
 
-      <CustomInfo id="customInfo" onChange={onChange} data={{ratePoor, clients, T}} />
+      <CustomInfo id="customInfo" onChange={onChange} data={{errorFields, ratePoor, clients, T}} />
       <hr/>
 
       <div className="row">
