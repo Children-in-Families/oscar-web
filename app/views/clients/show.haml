@@ -230,6 +230,12 @@
                 %td
                   %strong
                     = @client.local_family_name
+              - if current_setting.try(:enable_hotline) == true
+                %tr
+                  %td.spacing-first-col
+                    = t('.nickname')
+                  %td
+                    - @client.nickname
               %tr
                 %td.spacing-first-col
                   = t('.donor')
@@ -243,6 +249,12 @@
                 %td.address
                   %strong
                     = country_address_field(@client)
+              - if current_setting.try(:enable_hotline) == true
+                %tr
+                  %td.spacing-first-col
+                    = t('.concern_location')
+                  %td.address
+                    %strong= concern_merged_address(@client).join(', ')
               %tr
                 %td.spacing-first-col
                   = t('.what3words')
