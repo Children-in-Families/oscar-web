@@ -10,8 +10,9 @@ body[id='referees-index'] {
       }
     }
 
-    tbody.head-width tr > td {
-      text-align: center;
+    tbody tr > td {
+      // text-align: center;
+      cursor: pointer;
     }
 
     table.referees, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {

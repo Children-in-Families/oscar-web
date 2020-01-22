@@ -4537,6 +4537,41 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  referee_attr: &REFEREE_ATTR
+    address_type: Address Type
+    address_types:
+      business: Business
+      dormitory: Dormitory
+      home: Home
+      other: Other
+      rci: RCI
+    adult: Adult
+    anonymous: Anonymous
+    answered_call: Answered Call
+    called_before: Called Before
+    commune_id: Commune
+    created_at: Created At
+    current_address: Current Address
+    district_id: District
+    email: Email
+    gender: Gender
+    house_number: House Number
+    id: ID
+    name: Name
+    outside: Outside Cambodia
+    outside_address: Outside Address
+    phone: Phone
+    province_id: Province
+    requested_update: Requested Update
+    street_number: Street Number
+    updated_at: Updated At
+    village_id: Village
+  referees:
+    index:
+      <<: *REFEREE_ATTR
+    show:
+      about: About
+      <<: *REFEREE_ATTR
   referral_sources:
     create:
       failed_create: Failed to create a referral source.

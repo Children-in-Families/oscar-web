@@ -1,5 +1,6 @@
 class RefereesController < AdminController
   load_and_authorize_resource
+  before_action :find_referee, except: :index
 
   def index
     @referees_grid = RefereesGrid.new(params[:referees_grid]) do |scope|
@@ -15,5 +16,14 @@ class RefereesController < AdminController
       end
     end
   end
+
+  def show
+  end
+
+  private
+
+    def find_referee
+      @referee = Referee.find(params[:id])
+    end
 end
 
