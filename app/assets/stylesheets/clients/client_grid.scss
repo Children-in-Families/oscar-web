@@ -62,7 +62,9 @@ body[id='client_advanced_searches-index'] {
     th.created_at, th.created_by, th.referred_to, th.referred_from, th.any_assessments,
     th.able_state, th.house_number, th.street_number, th.village,
     th.case_note_date, th.case_note_type, th.plot, th.road, th.postal_code,
-    th.time_in_care, th.time_in_cps, th.time_in_ngo {
+    th.time_in_care, th.time_in_cps, th.time_in_ngo, th.referee_name, th.referee_phone, th.referee_email,
+    th.carer_name, th.carer_phone, th.carer_email, th.phone_owner,
+    th.client_contact_phone, th.client_address_type, th.client_email {
       min-width: 150px;
     }
 
@@ -92,7 +94,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 260px;
     }
 
-    th.has_been_in_government_care, th.relevant_referral_information, th.description_house_landmark, th.quantitative-type, th.rated_for_id_poor {
+    th.has_been_in_government_care, th.relevant_referral_information, th.description_house_landmark, th.quantitative-type, th.rated_for_id_poor, th.referee_relationship_to_client {
       min-width: 310px;
     }
 

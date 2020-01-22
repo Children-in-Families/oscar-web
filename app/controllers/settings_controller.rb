@@ -83,7 +83,7 @@ class SettingsController < AdminController
                                     :enable_hotline, :enable_client_form,
                                     client_default_columns: [], family_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
-                                    custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :_destroy])
+                                    custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
   end
 
   def custom_assessment_params

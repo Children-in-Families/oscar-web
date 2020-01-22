@@ -15,11 +15,12 @@
                   %li
                     = new_link
                   %li
-                    - if Domain.custom_csi_domains.any?
-                      = new_custom_link
-                    - else
-                      = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                        = @current_setting.custom_assessment
+                    - @custom_assessment_settings.each do |cs|
+                      - if cs.domains.any?
+                        = new_custom_link(cs.custom_assessment_name)
+                      - else
+                        = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                          = cs.custom_assessment_name
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}
