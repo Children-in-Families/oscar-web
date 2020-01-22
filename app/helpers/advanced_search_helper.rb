@@ -27,6 +27,10 @@ module AdvancedSearchHelper
     has_advanced_search? && advanced_search_params[:exit_form_check].present? ? true : false
   end
 
+  def hotline_check
+    has_advanced_search? && advanced_search_params[:hotline_check].present? ? true : false
+  end
+
   def wizard_enrollment_checked?
     has_advanced_search? && advanced_search_params[:wizard_enrollment_check].present? ? true : false
   end

@@ -118,7 +118,7 @@ module ClientsHelper
       referred_from:                 t('datagrid.columns.clients.referred_from'),
       referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
       type_of_service:               t('datagrid.columns.type_of_service'),
-      hotline:                  t('datagrid.columns.calls.hotline'),
+      hotline:                       t('datagrid.columns.calls.hotline'),
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
     label_tag "#{column}_", label_column[column.to_sym]

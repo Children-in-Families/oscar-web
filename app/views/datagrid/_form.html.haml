@@ -252,13 +252,6 @@
                 = check_box_tag 'type_of_service_', 'type_of_service', checked = default_setting('type_of_service_', @client_default_columns) || params[:type_of_service_].present?, class: 'i-checks'
                 = label_tag 'type_of_service_', t('datagrid.columns.type_of_service')
 
-          %li.hotline-call-header
-            %strong= t('datagrid.columns.calls.hotline')
-          - Call::FIELDS.each do |call_field|
-            %li
-              .visibility.col-sm-12
-                = check_box_tag "#{call_field}_", call_field, checked = default_setting("#{call_field}_", @client_default_columns) || params["#{call_field}_"].present?, class: 'i-checks'
-                = label_tag "#{call_field}_", t("datagrid.columns.calls.#{call_field}")
           %li.referee-header
             %strong= t('.referee')
           %li

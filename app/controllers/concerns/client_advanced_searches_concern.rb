@@ -16,11 +16,10 @@ module ClientAdvancedSearchesConcern
     columns_visibility
     custom_form_column
     program_stream_column
-    hotline_call_column
 
     respond_to do |f|
       f.html do
-        @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
+       @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
         @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
         clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
         @clients                = clients
@@ -68,7 +67,9 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_call_column
-    @hotline_call_columns = get_call_basic_fields.group_by{ |field| field[:optgroup] } if params.dig(:client_advanced_search, :action_report_builder) == '#builder'
+    client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
+    call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
+    @hotline_call_columns = client_hotlines.merge(call_hotlines)
   end
 
   def program_stream_fields
@@ -104,7 +105,7 @@ module ClientAdvancedSearchesConcern
     AdvancedSearches::ClientFields.new(user: current_user).render
   end
 
-  def get_call_basic_fields
+  def get_hotline_fields
     args = {
       translation: get_basic_field_translations, number_field: [],
       text_field: ['phone_counselling_summary', 'information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
@@ -112,6 +113,21 @@ module ClientAdvancedSearchesConcern
     }
 
     @hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+  end
+
+  def get_client_hotline_fields
+    client_fields = I18n.t('datagrid.columns.clients')
+    args = {
+      translation: client_fields.merge({ basic_fields: I18n.t('advanced_search.fields.basic_fields') }), number_field: [],
+      text_field: hotline_text_type_list, date_picker_field: [],
+      dropdown_list_option: []
+    }
+
+    @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('basic_fields', args).render
+  end
+
+  def hotline_text_type_list
+    %w(concern_address concern_address_type concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description nickname)
   end
 
   def custom_form_values

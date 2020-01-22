@@ -32,7 +32,7 @@ class AdvancedSearchSaveQueriesController < AdminController
   private
 
   def advanced_search_params
-    params.require(:advanced_search).permit(:name, :description, :queries, :enrollment_check, :tracking_check, :exit_form_check, :field_visible, :quantitative_check, :custom_forms, :program_streams)
+    params.require(:advanced_search).permit(:name, :description, :queries, :enrollment_check, :tracking_check, :exit_form_check, :hotline_check, :field_visible, :quantitative_check, :custom_forms, :program_streams)
   end
 
   def find_advanced_search
