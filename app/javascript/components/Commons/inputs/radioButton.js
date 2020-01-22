@@ -3,7 +3,7 @@ import { RadioButton } from 'primereact/radiobutton'
 import './radioButton.scss'
 
 export default props => {
-  const { onChange, options, inline, value, isError, required } = props
+  const { onChange, options, inline, value, isError, required, disabled } = props
 
   const handleOnChange = event => {
     onChange({ data: event.value, type: 'radio' })
@@ -21,6 +21,7 @@ export default props => {
         options.map((option, index) => (
           <div key={index} style={styles.radioWrapper}>
             <RadioButton
+              disabled={disabled}
               required
               value={option.value}
               checked={option.value === value}

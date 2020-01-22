@@ -1,5 +1,5 @@
 class SettingsController < AdminController
-  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels]
+  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -36,7 +36,7 @@ class SettingsController < AdminController
       end
     else
       if @setting.update_attributes(setting_params)
-        if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present?
+        if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
           redirect_to :back, notice: t('.successfully_updated')
         else
           redirect_to settings_path, notice: t('.successfully_updated')
@@ -62,6 +62,10 @@ class SettingsController < AdminController
     authorize @current_setting
   end
 
+  def client_forms
+    authorize @current_setting
+  end
+
   private
 
   def country_address_fields
@@ -76,6 +80,7 @@ class SettingsController < AdminController
                                     :custom_age, :default_assessment, :custom_assessment, :max_case_note,
                                     :case_note_frequency, :org_name, :province_id, :district_id, :commune_id,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
+                                    :enable_hotline, :enable_client_form,
                                     client_default_columns: [], family_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :_destroy])
@@ -93,7 +98,9 @@ class SettingsController < AdminController
   def client_default_columns
     columns = []
     sub_columns = %w(time_in_cps_ time_in_ngo_ rejected_note_ exit_reasons_ exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
-      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_ phone_call_id_ call_type_ start_datetime_ end_datetime_ phone_counselling_summary_ information_provided_)
+      family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_)
+    sub_columns += Client::HOTLINE_FIELDS.map{ |field| "#{field}_" }
+    sub_columns += Call::FIELDS.map{ |field| "#{field}_" }
     filter_columns = ClientGrid.new.filters.map(&:name)
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]

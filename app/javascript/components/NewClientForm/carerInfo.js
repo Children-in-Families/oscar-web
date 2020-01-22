@@ -56,34 +56,34 @@ export default props => {
     onChange('carer', { ...fields, 'same_as_client': data.data })({type: 'select'})
   }
 
-  // useEffect(() => {
-  //   let object = carer
+  useEffect(() => {
+    let object = carer
 
-  //   if(carer.same_as_client) {
-  //     object = client
-  //     if(client.province_id !== null)
-  //       fetchData('provinces', client.province_id, 'districts')
-  //     if(client.district_id !== null)
-  //       fetchData('districts', client.district_id, 'communes')
-  //     if(client.commune_id !== null)
-  //       fetchData('communes', client.commune_id, 'villages')
-  //   }
+    if(carer.same_as_client) {
+      object = client
+      if(client.province_id !== null)
+        fetchData('provinces', client.province_id, 'districts')
+      if(client.district_id !== null)
+        fetchData('districts', client.district_id, 'communes')
+      if(client.commune_id !== null)
+        fetchData('communes', client.commune_id, 'villages')
+    }
 
-  //   const fields = {
-  //     outside: object.outside,
-  //     province_id: object.province_id,
-  //     district_id: object.district_id,
-  //     commune_id: object.commune_id,
-  //     village_id: object.village_id,
-  //     street_number: object.street_number,
-  //     house_number: object.house_number,
-  //     current_address: object.current_address,
-  //     address_type: object.address_type,
-  //     outside_address: object.outside_address
-  //   }
+    const fields = {
+      outside: object.outside,
+      province_id: object.province_id,
+      district_id: object.district_id,
+      commune_id: object.commune_id,
+      village_id: object.village_id,
+      street_number: object.street_number,
+      house_number: object.house_number,
+      current_address: object.current_address,
+      address_type: object.address_type,
+      outside_address: object.outside_address
+    }
 
-  //   onChange('carer', { ...fields })({type: 'select'})
-  // }, [carer.same_as_client, client])
+    onChange('carer', { ...fields })({type: 'select'})
+  }, [carer.same_as_client, client])
 
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },

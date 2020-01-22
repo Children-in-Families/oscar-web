@@ -1,4 +1,4 @@
-export const reject = (obj, condition="id|created_at|updated_at") => {
+export const reject = (obj={}, condition="id|created_at|updated_at") => {
   var newObj = {}
   
   Object.keys(obj).forEach((v) => {
@@ -8,7 +8,7 @@ export const reject = (obj, condition="id|created_at|updated_at") => {
     }
   })
 
-  return newObj
+  return newObj || {}
 }
 
 export const titleize = (str = "") => {
@@ -28,8 +28,7 @@ export const isEmpty = (array=[]) => {
 }
 
 export const formatTime = (dateStr) => {
-  let d = new Date();
-  d = new Date(d.getTime() - 3000000);
-  let time_format_str = (d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+((parseInt(d.getMinutes()/5)*5).toString().length==2?(parseInt(d.getMinutes()/5)*5).toString():"0"+(parseInt(d.getMinutes()/5)*5).toString())+":00";
+  let d = new Date(dateStr);
+  let time_format_str = (d.getUTCHours() + ':' + (d.getUTCMinutes().toString().length == 1 ? '0' + d.getUTCMinutes().toString() : d.getUTCMinutes()))
   return time_format_str
 }

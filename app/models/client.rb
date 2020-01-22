@@ -16,6 +16,7 @@ class Client < ActiveRecord::Base
   RELATIONSHIP_TO_CALLER = ['Self', 'Child', 'Family Member', 'Friend', 'In same community', 'Client', 'Stranger', 'Other'].freeze
   ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
   PHONE_OWNERS    = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
+  HOTLINE_FIELDS  = %w(nickname concern_is_outside concern_outside_address concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_location concern_same_as_client location_description)
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
   HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
@@ -51,6 +52,15 @@ class Client < ActiveRecord::Base
   belongs_to :carer
   belongs_to :call
 
+  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
+  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
+  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
+  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
+
+  has_many :client_protection_concerns, dependent: :destroy
+  has_many :protection_concerns, through: :client_protection_concerns
+  has_many :client_necessities, dependent: :destroy
+  has_many :necessities, through: :client_necessities
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
@@ -83,7 +93,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
   validate :address_contrain, on: [:create, :update]
 
   before_create :set_country_origin

@@ -117,6 +117,7 @@
 //= require organizations/index
 //= require settings/index
 //= require settings/research_module
+//= require settings/client_forms
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
@@ -126,3 +127,4 @@
 //= require referral_sources/index
 //= require client_books/index
 //= require calls/index
+//= require referees/index

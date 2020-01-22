@@ -6,21 +6,21 @@ import CustomInfo from './customInfo'
 import { TextArea } from "../Commons/inputs";
 
 export default props => {
-  const { onChange, data: { call, carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, phoneOwners, T } } = props
+  const { onChange, data: { call, carerDistricts, carerCommunes, carerVillages, carer, clients, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, phoneOwners, T } } = props
 
   return (
     <div className="containerClass">
       <legend>
         <div className="row">
           <div className="col-xs-5">
-            <p>Client / Referral - More Information</p>
+            <p>{T.translate("newCall.referralMoreInfo.client_referral_more_info")}</p>
           </div>
         </div>
       </legend>
 
       <div className="row">
         <div className="col-xs-4">
-        <label>Do you want to add: </label>
+          <label>{T.translate("newCall.referralMoreInfo.do_you_want_to_add")}</label>
         </div>
       </div>
       <br/>
@@ -28,7 +28,7 @@ export default props => {
       <div className="row">
         <div className="careInfo">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#careInfo">
-            <label className="makeSpaceCare">Carer Information?</label>
+            <label className="makeSpaceCare">{T.translate("newCall.referralMoreInfo.carer_info")}</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
@@ -37,13 +37,13 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes, T }} onChange={onChange} />
+      <CareInfo id="careInfo" data={{ carer, clients, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes, T }} onChange={onChange} />
 
       <hr/>
       <div className="row">
         <div className="schoolInfo">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#schoolInfo">
-            <label className="makeSpaceSchool">School Information?</label>
+            <label className="makeSpaceSchool">{T.translate("newCall.referralMoreInfo.school_info")}</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
@@ -52,13 +52,13 @@ export default props => {
         </div>
       </div>
 
-      <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} />
+      <SchoolInfo id="schoolInfo" data={{ clients, schoolGrade, T }} onChange={onChange} />
 
       <hr/>
       <div className="row">
         <div className="donorInfo">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#donorInfo">
-            <label className="makeSpaceDonor">Donor Information?</label>
+            <label className="makeSpaceDonor">{T.translate("newCall.referralMoreInfo.donor_info")}</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
@@ -67,13 +67,13 @@ export default props => {
         </div>
       </div>
 
-      <DonorInfo id="donorInfo" data={{ donors, agencies, client, T }} onChange={onChange} />
+      <DonorInfo id="donorInfo" data={{ donors, agencies, clients, T }} onChange={onChange} />
 
       <hr/>
       <div className="row">
         <div className="customInfo">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#customInfo">
-            <label className="makeSpaceCustom">Other Information</label>
+            <label className="makeSpaceCustom">{T.translate("newCall.referralMoreInfo.other_info")}</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
@@ -82,13 +82,13 @@ export default props => {
         </div>
       </div>
 
-      <CustomInfo id="customInfo" onChange={onChange} data={{ratePoor, client, T}} />
+      <CustomInfo id="customInfo" onChange={onChange} data={{ratePoor, clients, T}} />
       <hr/>
 
       <div className="row">
         <div className="phoneCounsellingSummary">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#phoneCounsellingSummary">
-            <label className="makeSpaceCustom">Phone Counselling Summary</label>
+            <label className="makeSpaceCustom">{T.translate("newCall.referralMoreInfo.phone_counselling")}</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
@@ -103,19 +103,19 @@ export default props => {
           <div className="col-xs-12 col-md-9">
             <TextArea
               hidden="true"
-              placeholder="Add a note about the content of your conversation with the caller."
+              placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
               label="Phone Counselling Summary"
               value={call.phone_counselling_summary}
-              onChange={onChange(call, 'phone_counselling_summary')} />
+              onChange={onChange('call', 'phone_counselling_summary')} />
           </div>
         </div>
       </div>
       <hr/>
 
-      <div className="row">
+      {/* <div className="row">
         <div className="informationProvided">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#informationProvided">
-            <label className="makeSpaceCustom">Information Provided</label>
+            <label className="makeSpaceCustom">{T.translate("newCall.referralMoreInfo.information_provide")}</label>
             <span className="pointer">
               <i className="fa fa-chevron-up"></i>
               <i className="fa fa-chevron-down"></i>
@@ -130,14 +130,14 @@ export default props => {
           <div className="col-xs-12 col-md-9">
             <TextArea
               hidden="true"
-              placeholder="Add a note about the content of your conversation with the caller."
+              placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
               label="Information Provided"
               value={call.information_provided}
-              onChange={onChange(call, 'information_provided')} />
+              onChange={onChange('call', 'information_provided')} />
           </div>
         </div>
       </div>
-      <hr/>
+      <hr/> */}
     </div>
   )
 }

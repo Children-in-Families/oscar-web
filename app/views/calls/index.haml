@@ -6,9 +6,8 @@
       %button.hidden.m-l-xs.btn.btn-primary.query.call-advance-search{"aria-expanded" => 'false', "data-target" => '#call-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
         = t('.report_builder')
     .pull-right
-      - if can? :manage, :all
-        = link_to "#{I18n.t('calls.index.add_new_call')}", new_call_path, class: 'btn btn-primary'
-      = link_to "#{I18n.t('calls.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
+      = link_to "#{I18n.t('calls.index.add_new_call')}", new_call_path, class: 'btn btn-primary'
+      = link_to "#{I18n.t('calls.index.export_xls')}", current_url(format: 'xls'), class: "btn btn-info btn-export #{@calls_grid.assets.size.zero? && 'disabled'}"
 .m-t-md
 .row
   .col-xs-12
@@ -20,7 +19,7 @@
       .ibox-content
         = datagrid_form_for @calls_grid, url: calls_url, html: { class: 'grid-form' }
 
-%input#params{ value: "#{params['client_advanced_search']}", type: 'hidden' }
+%input#params{ value: "#{params['call_advanced_search']}", type: 'hidden' }
 .row
   .col-xs-12
     .ibox.float-e-margins

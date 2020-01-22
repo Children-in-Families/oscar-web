@@ -5,87 +5,40 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, T } } = props
-  const basicNecessities = [
-    {
-      label: "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
-      value: "Looking for health/medical help (including emergencies, pregnancy, other health concerns)."
-    },
-    {
-      label: "Looking for education and material requests for school registration; return to school; need help to stay in school.",
-      value: "Looking for education and material requests for school registration; return to school; need help to stay in school."
-    },
-    {
-      label: "Looking for food, water, milk, shelter support.",
-      value: "Looking for food, water, milk, shelter support."
-    },
-    {
-      label: "Looking for vocational training/employment.",
-      value: "Looking for vocational training/employment."
-    },
-    {
-      label: "Caregivers looking to send their children to an RCI.",
-      value: "Caregivers looking to send their children to an RCI."
-    }
-  ];
+  const { onChange, data: { clients, T, necessities, protection_concerns } } = props
+  const client = clients[0]
+  const basicNecessities = necessities.map(necessity => ({ label: necessity.content, value: necessity.id }))
+  const childProtectionConcerns = protection_concerns.map(concern => ({ label: concern.content, value: concern.id }))
 
-  const childProtectionConcerns = [
-    {
-      label: "Physical violence",
-      value: "Physical violence"
-    },
-    {
-      label: "Emotional violence",
-      value: "Emotional violence"
-    },
-    {
-      label: "Sexual violence",
-      value: "Sexual violence"
-    },
-    {
-      label: "Neglect / lack of adult supervision",
-      value: "Neglect / lack of adult supervision"
-    },
-    {
-      label: "Rescue of trafficking victim (migration / collaboration with authorities to rescue)",
-      value: "Rescue of trafficking victim (migration / collaboration with authorities to rescue)"
-    },
-    {
-      label: "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.",
-      value: "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child."
-    },
-    {
-      label: "Drug use (seeking rehabilitation support)",
-      value: "Drug use (seeking rehabilitation support)"
-    },
-    {
-      label: "Alcohol use (seeking rehabilitation support)",
-      value: "Alcohol use (seeking rehabilitation support)"
-    },
-    {
-      label: "Separated child - abandoned; lost; street living.",
-      value: "Separated child - abandoned; lost; street living."
-    },
-    {
-      label: "Children and parent living on the street.",
-      value: "Children and parent living on the street."
-    },
-    {
-      label: "Disability",
-      value: "Disability"
-    },
-    {
-      label: "Other",
-      value: "Other"
-    },
-  ];
+  const handleOnChangeText = name => event => modifyClientObject({ [name]: event.target.value })
+  const handleOnChangeSelect = name => data => {
+    const modifyObject = { ...client, [name]: data.data }
+
+    const newObjects = clients.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
+
+  const modifyClientObject = field => {
+    const modifyObject = { ...client, ...field }
+
+    const newObjects = clients.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
 
   return (
     <>
       <legend className='legend'>
         <div className="row">
           <div className="col-md-12 col-lg-9">
-            <p>What is the call about / seeking support for?</p>
+            <p>{T.translate("newCall.callAbout.what_is_the_call")}</p>
           </div>
         </div>
       </legend>
@@ -94,10 +47,11 @@ export default props => {
         <div className='col-md-12 col-lg-9'>
           <SelectInput
             T={T}
-            label='Basic Necessities'
+            isMulti
+            label={T.translate("newCall.callAbout.basic_necessities")}
             options={basicNecessities}
-            value={client.basic_necessity}
-            onChange={onChange('client', 'basic_necessity')} />
+            value={client.necessity_ids}
+            onChange={handleOnChangeSelect('necessity_ids')} />
         </div>
       </div>
 
@@ -105,15 +59,16 @@ export default props => {
         <div className='col-md-12 col-lg-9'>
           <SelectInput
             T={T}
-            label='Child Protection Concerns'
+            isMulti
+            label={T.translate("newCall.callAbout.child_protection")}
             options={childProtectionConcerns}
-            value={client.child_protection_concern}
-            onChange={onChange('client','child_protection_concern')} />
+            value={client.protection_concern_ids}
+            onChange={handleOnChangeSelect('protection_concern_ids')} />
         </div>
       </div>
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <TextArea label="Enter a brief note summarising the call" value={client.brief_note_summary} onChange={onChange('client', 'brief_note_summary')} />
+          <TextArea label={T.translate("newCall.callAbout.enter_a_brief")} value={client.brief_note_summary} onChange={handleOnChangeText('brief_note_summary')} />
         </div>
       </div>
     </>

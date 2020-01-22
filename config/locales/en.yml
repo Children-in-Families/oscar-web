@@ -609,6 +609,9 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
+
+
+
       case_plan: Case Plan for
       domain: Domain
       due_date: Due Date
@@ -636,12 +639,15 @@ en:
     index:
       add_new_call: Add New Call
       export_xls: Export to XLS
+      hotline: Hotline
       results: Results
       report_builder: Report Builder
+
+
     information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
-      notifier_concern: "New Referral: Notifier Concern"
+      notifier_concern: "New Referral: Case Action NOT Required"
       providing_update: "Providing Update"
       phone_counseling: "Phone Counseling"
       seeking_information: "Seeking Information"
@@ -1018,6 +1024,7 @@ en:
       assessment: CSI Assessment
       custom_assessment: Custom Assessment
     by: By
+    call: Call
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
@@ -1037,6 +1044,10 @@ en:
     enrolled_program_trackings:
       tracking: Tracking
     for: For
+    hotline:
+      end_datetime: End Call At
+      received_by: Received Call by
+      start_datetime: Start Call At
     incomplete: Incomplete
     index:
       book: Client book
@@ -1744,10 +1755,12 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
+      concern_location: Location Description
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
       name_of_referee: Name Of Referee
+      nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
       placements:
@@ -2135,6 +2148,22 @@ en:
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
         code: Custom ID Number1
+        concern_address: Address Name
+        concern_address_type: Address Type
+        concern_commune_id: Commune / Sangkat
+        concern_district_id: District / Khan
+        concern_email: Relevant Email Contact
+        concern_email_owner: Email Owner
+        concern_house: House Number
+        concern_is_outside: Concern is Outside Cambodia
+        concern_location: Location Description
+        concern_outside_address: Outside Cambodia Address
+        concern_phone: Relevant Contact Phone
+        concern_phone_owner: Phone Owner
+        concern_province_id: Province
+        concern_same_as_client: Same as Client
+        concern_street: Street Number
+        concern_village_id: Village
         commune: Commune/Sangkat
         commune_en: Address - Commune/Sangkat (English)
         commune_kh: Address - Commune/Sangkat (Khmer)
@@ -2185,11 +2214,13 @@ en:
         live_with: Primary Carer Name
         local_family_name: Family Name
         local_given_name: Given Name
+        location_description: Location description
         main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
         name: Name
         name_of_referee: Name of Referee
+        nickname: Nickname
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
@@ -2376,6 +2407,29 @@ en:
       referee_phone: Referee Phone
       referee_email: Referee Email
       referee_relationship_to_client: Referee Relationship to client
+      referees:
+        address_type: Address Type
+        adult: Adult
+        anonymous: Anonymous
+        answered_call: Answered Call
+        called_before: Called Before
+        commune_id: Commune
+        created_at: Created At
+        current_address: Current Address
+        district_id: District
+        email: Email
+        gender: Gender
+        house_number: House Number
+        id: ID
+        name: Name
+        outside: Outside Cambodia
+        outside_address: Outside Address
+        phone: Phone
+        province_id: Province
+        requested_update: Requested Update
+        street_number: Street Number
+        updated_at: Updated At
+        village_id: Village
       select_columns: Select Columns
       show_all: Show All
       support_amount: Support Amount
@@ -3810,8 +3864,12 @@ en:
       able_screening_questions: Able Screening Questions
       account: Account
       agencies: Agencies
+      caller_referees: Caller / Referees
+      calls: Calls
       changelogs: Changelogs
+      calls: Calls
       clients: Clients
+      client_forms: Client Forms
       country: Country
       csi_tools: Available Assessment Tools
       custom_fields: Custom Form
@@ -4623,6 +4681,9 @@ en:
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: Country
       settings: Settings
@@ -5066,6 +5127,7 @@ en:
   unauthorized:
     case_worker_unauthorized: The record has been successfully saved, but it is not assigned to you, so you are not able to view it. If you need to view this record, speak to the assigned case manager or an admin.
     default: You are not authorized to access this page.
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: Are you sure you want to delete?

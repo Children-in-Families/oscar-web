@@ -19,14 +19,49 @@ class CallsController < AdminController
 
   def new
     @client = Client.new
+    @referees = Referee.all
+    @providing_update_clients = Client.accessible_by(current_ability).map{ |client| { label: client.name, value: client.id }}
+    @necessities = Necessity.order(:created_at)
+    @protection_concerns = ProtectionConcern.order(:created_at)
     @call = Call.new
   end
 
   def show
     @call = Call.find(params[:id])
     @referee = @call.referee
-    @clients = @call.referee.clients.select("clients.gender, clients.slug, concat(clients.given_name, ' ', clients.family_name, ' (', clients.local_given_name, ' ', clients.local_family_name, ') ' ) full_name")
+    @clients = @call.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
   end
+
+  def edit
+    @client = Client.new
+    @call = Call.find(params[:id])
+  end
+
+  def update
+    call = Call.find(params[:id])
+
+    if call.update_attributes(call_params)
+      render json: call
+    else
+      render json: call.errors
+    end
+  end
+
+  def edit_referee
+    @referees = Referee.all
+    @call = Call.find(params[:call_id])
+    @referee = @call.referee
+
+    # OVERRIDE THE country_address_fields method
+    @referee_districts = @referee&.province&.districts || []
+    @referee_communes = @referee&.province&.districts&.flat_map(&:communes) || []
+    @referee_villages = @referee_communes&.flat_map(&:villages) || []
+  end
+
+  def update_referee
+    
+  end
+  
 
   def create
     call = Call.new(call_params)
@@ -67,6 +102,8 @@ class CallsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
+    
+    @client          = params["action"] == "edit" ? Call.find(params[:id]).clients.last : Client.new
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
     if current_user.admin?
@@ -75,7 +112,8 @@ class CallsController < AdminController
       family_ids = current_user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
       family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
-      family_ids += user.clients.pluck(:current_family_id)
+      clients     = Client.accessible_by(current_ability)
+      family_ids += clients.where(user_id: current_user.id).pluck(:current_family_id)
 
       @families = Family.where(id: family_ids)
     elsif current_user.case_worker?
@@ -86,8 +124,9 @@ class CallsController < AdminController
 
     # @carer   = @client.carer.present? ? @client.carer : Carer.new
     # @referee = @client.referee.present? ? @client.referee : Referee.new
-    @carer     = Carer.new
-    @referee   = Referee.new
+    @carer     = params["action"] == "edit" ? @client.carer : Carer.new
+    @referee   = params["action"] == "edit" ? @client.referee : Referee.new
+    
     @relation_to_caller = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
     @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
@@ -118,34 +157,36 @@ class CallsController < AdminController
     @birth_provinces = []
     ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
+    
     @current_provinces        = Province.order(:name)
     @states                   = State.order(:name)
-    # @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
-    # @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
-    # @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
-    # @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
-    # @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
+    @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
+    @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+    @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
+    @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
+    @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
 
-    # @referee_districts                = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
-    # @referee_communes                 = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
-    # @referee_villages                 = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
+    @referee_districts          = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
+    @referee_communes           = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
+    @referee_villages           = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
 
-    # @carer_districts                = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
-    # @carer_communes                 = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
-    # @carer_villages                 = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
-    @townships                = []
-    @districts                = []
-    @subdistricts             = []
-    @communes                 = []
-    @villages                 = []
+    @carer_districts            = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
+    @carer_communes             = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
+    @carer_villages             = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
+    
+    # @townships                = []
+    # @districts                = []
+    # @subdistricts             = []
+    # @communes                 = []
+    # @villages                 = []
 
-    @referee_districts                = []
-    @referee_communes                 = []
-    @referee_villages                 = []
+    # @referee_districts                = []
+    # @referee_communes                 = []
+    # @referee_villages                 = []
 
-    @carer_districts                = []
-    @carer_communes                 = []
-    @carer_villages                 = []
+    # @carer_districts                = []
+    # @carer_communes                 = []
+    # @carer_villages                 = []
   end
 
   def exited_clients(user_ids)
