@@ -112,7 +112,7 @@ export default props => {
       </div>
       <hr/>
 
-      <div className="row">
+      {/* <div className="row">
         <div className="informationProvided">
           <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#informationProvided">
             <label className="makeSpaceCustom">{T.translate("newCall.referralMoreInfo.information_provide")}</label>
@@ -137,7 +137,7 @@ export default props => {
           </div>
         </div>
       </div>
-      <hr/>
+      <hr/> */}
     </div>
   )
 }

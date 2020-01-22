@@ -5,6 +5,7 @@ export default props => {
   const {
     onChange,
     onSave,
+    closeAction,
     data: { providingUpdateClients, callData, T }
   } = props;
 
@@ -30,7 +31,7 @@ export default props => {
     <>
       <div className="row">
         <div className="col-xs-12">
-          <p>Please select client</p>
+          <p>{T.translate("newCall.admin.please_select_client")}</p>
           <SelectInput
             T={T}
             label=""
@@ -43,7 +44,8 @@ export default props => {
           />
         </div>
         <div className="col-xs-12 text-right">
-          <button style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>Go</button>
+          <button className="btn btn-default" onClick={closeAction}>{T.translate("newCall.admin.go_back")}</button>
+          <button style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>{T.translate("newCall.admin.go")}</button>
         </div>
       </div>
     </>

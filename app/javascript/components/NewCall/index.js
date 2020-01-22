@@ -7,6 +7,7 @@ import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import CallAbout from './callAbout'
+import NoClientAttachedModal from './noClientAttachedModal'
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json';
 import km from '../../utils/locales/km.json';
@@ -51,6 +52,7 @@ const CallForms = props => {
   const [carerData, setCarerData] = useState(carer)
   const [caseActionNotRequired, setCaseActionNotRequiredModalOpen] = useState(false)
   const [providingUpdate, setProvidingUpdateModalOpen] = useState(false)
+  const [noClientAttached, setNoClientAttachedModalOpen] = useState(false)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
@@ -185,6 +187,8 @@ const CallForms = props => {
       setCaseActionNotRequiredModalOpen(true)
     } else if (callData.call_type == "Providing Update") {
       setProvidingUpdateModalOpen(true)
+    } else if (callData.call_type === "Seeking Information" || callData.call_type === "Spam Call" || callData.call_type === "Wrong Number") {
+      setNoClientAttachedModalOpen(true)
     } else {
       callback()
     }
@@ -298,7 +302,7 @@ const CallForms = props => {
     <div className='containerClass'>
       {/* <Loading loading={loading} text='Please wait while we are making a request to server.'/> */}
       <Modal
-        title="Attention"
+        title={T.translate("newCall.admin.confirmation")}
         isOpen={caseActionNotRequired}
         type='warning'
         closeAction={() => setCaseActionNotRequiredModalOpen(false)}
@@ -306,7 +310,7 @@ const CallForms = props => {
         footer={ caseActionNotRequiredModalFooter() }
       />
       <Modal
-        title="Go to Client"
+        title={T.translate("newCall.admin.go_to_client")}
         isOpen={providingUpdate}
         type='primary'
         closeAction={() => setProvidingUpdateModalOpen(false)}
@@ -315,6 +319,21 @@ const CallForms = props => {
             data={{providingUpdateClients, callData, T}}
             onChange={onChange}
             onSave={() => { setProvidingUpdateModalOpen(false); handleSave() }}
+            closeAction={() => setProvidingUpdateModalOpen(false) }
+          />
+        }
+      />
+      <Modal
+        title={`${T.translate("newCall.admin.save_call_as")} ${callData.call_type}?`}
+        isOpen={noClientAttached}
+        type='warning'
+        closeAction={() => setNoClientAttachedModalOpen(false)}
+        content={
+          <NoClientAttachedModal
+            data={{callData, T}}
+            onChange={onChange}
+            onSave={() => { setNoClientAttachedModalOpen(false); handleSave() }}
+            closeAction={() => setNoClientAttachedModalOpen(false) }
           />
         }
       />
