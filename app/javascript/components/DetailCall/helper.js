@@ -1,7 +1,8 @@
 export const reject = (obj={}, condition="id|created_at|updated_at") => {
   var newObj = {}
+  let keys = Object.keys(obj || {}) || []
   
-  Object.keys(obj).forEach((v) => {
+  keys.forEach((v) => {
     var pattern = new RegExp(condition, 'gi')
     if(pattern.exec(v) == null && typeof pattern.exec(v) != Array) {
       newObj[v] = obj[v]
