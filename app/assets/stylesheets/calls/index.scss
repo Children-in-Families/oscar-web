@@ -5,5 +5,10 @@ body[id='calls-index'] {
       max-width: 120px;
       width: 120px;
     }
+
+    tbody tr > td {
+      // text-align: center;
+      cursor: pointer;
+    }
   }
 }

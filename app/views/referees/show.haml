@@ -1,0 +1,37 @@
+.row
+  .col-xs-12.referee
+    .ibox.mini-margin
+      .ibox-title
+        %h5
+          = "#{t('.about')} #{t('.name')} #{@referee.name}"
+        .ibox-tools
+          %a.collapse-link
+            .btn.btn-outline.btn-primary
+              %i.fa.fa-chevron-up
+          - if false
+            %small
+              = link_to edit_referee_path(@referee) do
+                .btn.btn-outline.btn-success
+                  %i.fa.fa-pencil
+              = remove_link(@referee, {referee_case: @referee.cases.count}, 'btn-md')
+
+      .ibox-content
+        .row.referee-summary
+          .col-sm-12
+            %table.table.table-bordered
+              %tr
+                %td= t(".name")
+                %td= @referee.name
+              - Referee.column_names.each do |field_name|
+                - next if ['id', 'name', 'created_at', 'updated_at'].include?(field_name)
+                %tr
+                  %td= t(".#{field_name}")
+                  - if field_name[/datetime/]
+                    %td= @referee.send(field_name.to_sym) && @referee.send(field_name.to_sym).strftime("%I:%M%p")
+                  - elsif field_name[/_id/]
+                    - association = field_name.gsub('_id', '')
+                    %td= @referee.send(field_name.to_sym) && @referee.send(association.to_sym).name
+                  - elsif field_name[/address_type/]
+                    %td= @referee.send(field_name.to_sym) && address_type[@referee.send(field_name.to_sym)]
+                  - else
+                    %td= [true, false].include?(@referee.send(field_name.to_sym)) ? human_boolean(@referee.send(field_name.to_sym)) : @referee.send(field_name.to_sym)
