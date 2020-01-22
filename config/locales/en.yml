@@ -609,9 +609,9 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
-      
-      
-      
+
+
+
       case_plan: Case Plan for
       domain: Domain
       due_date: Due Date
@@ -642,8 +642,8 @@ en:
       hotline: Hotline
       results: Results
       report_builder: Report Builder
-      
-      
+
+
     information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
@@ -1024,6 +1024,7 @@ en:
       assessment: CSI Assessment
       custom_assessment: Custom Assessment
     by: By
+    call: Call
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
@@ -1043,6 +1044,10 @@ en:
     enrolled_program_trackings:
       tracking: Tracking
     for: For
+    hotline:
+      end_datetime: End Call At
+      received_by: Received Call by
+      start_datetime: Start Call At
     incomplete: Incomplete
     index:
       book: Client book
@@ -1750,10 +1755,12 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
+      concern_location: Location Description
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
       name_of_referee: Name Of Referee
+      nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
       placements:
@@ -2141,22 +2148,22 @@ en:
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
         code: Custom ID Number1
-        concern_address: Concern Address
-        concern_address_type: Concern Address Type
-        concern_commune_id: Concern Commune
-        concern_district_id: Concern District
-        concern_email: Concern Email
-        concern_email_owner: Concern Email Owner
-        concern_house: Concern House
+        concern_address: Address Name
+        concern_address_type: Address Type
+        concern_commune_id: Commune / Sangkat
+        concern_district_id: District / Khan
+        concern_email: Relevant Email Contact
+        concern_email_owner: Email Owner
+        concern_house: House Number
         concern_is_outside: Concern is Outside Cambodia
-        concern_location: Concern Location
-        concern_outside_address: Concern Outside Address
-        concern_phone: Concern Phone
-        concern_phone_owner: Concern Phone Owner
-        concern_province_id: Concern Province
-        concern_same_as_client: Concern Same as Client
-        concern_street: Concern Street
-        concern_village_id: Concern Village
+        concern_location: Location Description
+        concern_outside_address: Outside Cambodia Address
+        concern_phone: Relevant Contact Phone
+        concern_phone_owner: Phone Owner
+        concern_province_id: Province
+        concern_same_as_client: Same as Client
+        concern_street: Street Number
+        concern_village_id: Village
         commune: Commune/Sangkat
         commune_en: Address - Commune/Sangkat (English)
         commune_kh: Address - Commune/Sangkat (Khmer)
