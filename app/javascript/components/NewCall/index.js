@@ -232,7 +232,7 @@ const CallForms = props => {
             setLoading(true)
           }
         })
-        .success(response => {
+        .done(response => {
           if (response.client_urls && response.client_urls.length > 0) {
             response.client_urls.forEach(url => {
               window.open(`${url}?notice=${message}`, '_blank')
@@ -240,8 +240,14 @@ const CallForms = props => {
           }
           document.location.href = `/calls/${response.call.id}?notice=${message}`
         })
-        .error(err => {
-          console.log("err: ", err);
+        .fail(error => {
+          setLoading(false)
+          setOnSave(false)
+          const errorFields = JSON.parse(error.responseText)
+          console.log('errorFields', errorFields)
+          setErrorFields(Object.keys(errorFields))
+          if(errorFields.kid_id)
+            setErrorSteps([3])
         })
       }
     }
