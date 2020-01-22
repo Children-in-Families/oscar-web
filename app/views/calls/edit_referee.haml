@@ -1,5 +1,7 @@
-
-
 - data = { call: @call, users: case_workers_option(@client.id), refereeDistricts: @referee_districts, refereeCommunes: @referee_communes, refereeVillages: @referee_villages,referee: @referee, referees: @referees, client: { client: @client, user_ids: @client.user_ids, agency_ids: @client.agency_ids, donor_ids: @client.donor_ids, family_ids: @client.family_ids }, currentProvinces: @current_provinces, referralSourceCategory: @referral_source_category, referralSource: ReferralSource.all, addressTypes: @address_types  }
 
-= react_component('EditCallReferee', { data: data })
+.row
+  .col-xs-12
+    .ibox
+      .ibox-content
+        = react_component('EditCallReferee', { data: data })
