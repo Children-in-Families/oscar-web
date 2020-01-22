@@ -11,9 +11,9 @@ import Address      from './address'
 import ConcernAddress from "./concernAddress";
 
 export default props => {
-  const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, refereeRelationships, addressTypes, phoneOwners, T } } = props
+  const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T } } = props
 
-  const refereeRelationship = refereeRelationships.map(relationship => ({ label: T.translate("refereeRelationShip."+relationship.label), value: relationship.value }))
+  const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -220,8 +220,8 @@ export default props => {
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            label={T.translate("referralInfo.client_relationship")}
-            options={refereeRelationship}
+            label={T.translate("referralInfo.caller_relationship")}
+            options={callerRelationship}
             value={client.referee_relationship}
             onChange={onRelationshipChange}
           />

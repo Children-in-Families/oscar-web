@@ -95,6 +95,7 @@
     "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
     "birth_province": "ស្រុកកំណើត",
     "client_relationship": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ?",
+    "caller_relationship": "ទំនាក់ទំនងរវាងអ្នកទូរស័ព្ទ",
     "contact_info": "ព័ត៌មានទំនាក់ទំនង",
     "client_is_outside": "អតិថិជនគឺនៅខាងក្រៅប្រទេសកម្ពុជា",
     "what_3_word": "What3Words",
@@ -162,6 +163,16 @@
     "Temporary Carer": "អ្នកថែទាំបណ្តោះអាសន្ន",
     "RCI Carer": "អ្នកថែទាំ RCI",
     "Adopted Parent": "ឪពុកម្តាយដែលបានអនុម័ត",
+    "Other": "ផ្សេងៗ"
+  },
+  "callerRelationship": {
+    "Self": "ខ្លួនឯង",
+    "Child": "កុមារា / កុមារី",
+    "Family Member": "សមាជិក​គ្រួសារ",
+    "Friend": "មិត្តភក្តិ",
+    "In same community": "នៅក្នុងសហគមន៍តែមួយ",
+    "Client": "អតិថិជន",
+    "Stranger": "មិនដែលជួប",
     "Other": "ផ្សេងៗ"
   },
   "schoolGrade": {
