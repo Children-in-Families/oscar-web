@@ -18,7 +18,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12">
           <TextArea
-            placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
+            placeholder={T.translate("newCall.admin.add_note_about_the_content")}
             label="Information Provided"
             value={callData.information_provided}
             onChange={onChange("call", "information_provided")}

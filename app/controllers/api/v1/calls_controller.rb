@@ -234,6 +234,20 @@ module Api
           else
             render json: referee.errors, status: :unprocessable_entity
           end
+        else
+          # call types that do not attach client
+          if referee.valid?
+            if call.valid?
+              referee.save
+              call.referee_id = referee.id
+              call.save
+              render json: call
+            else
+              render json: call.errors, status: :unprocessable_entity
+            end
+          else
+            render json: referee.errors, status: :unprocessable_entity
+          end
         end
       end
 

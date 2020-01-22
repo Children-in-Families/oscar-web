@@ -233,9 +233,8 @@ const CallForms = props => {
           }
         })
         .success(response => {
-          const clientUrls = response.client_urls;
-          if (clientUrls.length > 0) {
-            clientUrls.forEach(url => {
+          if (response.client_urls && response.client_urls.length > 0) {
+            response.client_urls.forEach(url => {
               window.open(`${url}?notice=${message}`, '_blank')
             })
           }
