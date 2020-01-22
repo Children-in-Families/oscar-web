@@ -1,6 +1,6 @@
 class CustomAssessmentSetting < ActiveRecord::Base
   belongs_to :setting
-  has_many   :domains
+  has_many   :domains, dependent: :destroy
 
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 3, if: -> { Setting.first.enable_custom_assessment.present? && Setting.first.max_custom_assessment.present? && Setting.first.custom_assessment_frequency == 'month' }
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 0, if: -> { Setting.first.enable_custom_assessment.present? && Setting.first.max_custom_assessment.present? && Setting.first.custom_assessment_frequency == 'year' }

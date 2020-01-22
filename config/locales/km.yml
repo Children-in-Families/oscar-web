@@ -200,6 +200,8 @@ km:
               taken: ត្រូវបានប្រើរួចហើយ
         domain:
           attributes:
+            custom_assessment_setting_id:
+              blank: មិនអាចរំលង
             identity:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
@@ -4580,6 +4582,8 @@ km:
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
     create:
       successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    custom_assessment_setting_fields:
+      are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
       cambodia:
         custom_id1_local: Custom ID1 (Khmer)
