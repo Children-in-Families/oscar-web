@@ -20,18 +20,52 @@ class CallsController < AdminController
   def new
     @client = Client.new
     @referees = Referee.all
+    @providing_update_clients = Client.accessible_by(current_ability).map{ |client| { label: client.name, value: client.id }}
+    @necessities = Necessity.order(:created_at)
+    @protection_concerns = ProtectionConcern.order(:created_at)
     @call = Call.new
   end
 
   def show
     @call = Call.find(params[:id])
     @referee = @call.referee
-    @clients =  @call.referee.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
+    @clients = @call.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
   end
 
   def edit
+    @client = Client.new
     @call = Call.find(params[:id])
   end
+
+  def update
+    call = Call.find(params[:id])
+
+    if call.update_attributes(call_params)
+      render json: call
+    else
+      render json: call.errors
+    end
+  end
+
+  def edit_referee
+    @referees = Referee.all
+    @call = Call.find(params[:call_id])
+    @referee = @call.referee
+
+    if @referee.present? && @referee.anonymous
+      redirect_to call_path(@call) 
+    end
+
+    # OVERRIDE THE country_address_fields method
+    @referee_districts = @referee&.province&.districts || []
+    @referee_communes = @referee&.province&.districts&.flat_map(&:communes) || []
+    @referee_villages = @referee_communes&.flat_map(&:villages) || []
+  end
+
+  def update_referee
+    
+  end
+  
 
   def create
     call = Call.new(call_params)
@@ -96,6 +130,7 @@ class CallsController < AdminController
     # @referee = @client.referee.present? ? @client.referee : Referee.new
     @carer     = params["action"] == "edit" ? @client.carer : Carer.new
     @referee   = params["action"] == "edit" ? @client.referee : Referee.new
+    
     @relation_to_caller = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
     @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
@@ -126,6 +161,7 @@ class CallsController < AdminController
     @birth_provinces = []
     ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
+    
     @current_provinces        = Province.order(:name)
     @states                   = State.order(:name)
     @townships                = @client.state.present? ? @client.state.townships.order(:name) : []

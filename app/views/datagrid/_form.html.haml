@@ -206,6 +206,15 @@
             .visibility.col-sm-12
               = check_box_tag 'phone_owner_', 'phone_owner', checked = default_setting('phone_owner_', @client_default_columns) || params[:phone_owner_].present?, class: 'i-checks'
               = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
+          - if enable_default_assessment?
+            - if current_organization.try(:aht) == true
+              %li.csi-header
+                %strong= t('.result_framework_assessment')
+              %li
+            - else
+              %li.csi-header
+                %strong= t('.csi_domain_scores')
+              %li
           - Client::HOTLINE_FIELDS.each do |hotline_field|
             %li
               .visibility.col-sm-12

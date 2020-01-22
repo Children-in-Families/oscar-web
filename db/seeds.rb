@@ -1892,3 +1892,34 @@ Organization.oscar.pluck(:full_name).each do |ngo|
   next if ngo == 'Demo'
   ReferralSource.find_or_create_by(name: "#{ngo} - OSCaR Referral")
 end
+
+
+basic_necessities = [
+  "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
+  "Looking for education and material requests for school registration; return to school; need help to stay in school.",
+  "Looking for food, water, milk, shelter support.",
+  "Looking for vocational training/employment.",
+  "Caregivers looking to send their children to an RCI."
+]
+child_protection_concerns = [
+  "Physical violence",
+  "Emotional violence",
+  "Sexual violence",
+  "Neglect / lack of adult supervision",
+  "Rescue of trafficking victim (migration / collaboration with authorities to rescue)",
+  "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.",
+  "Drug use (seeking rehabilitation support)",
+  "Alcohol use (seeking rehabilitation support)",
+  "Separated child - abandoned; lost; street living.",
+  "Children and parent living on the street.",
+  "Disability",
+  "Other"
+]
+
+basic_necessities.each do |necessity|
+  Necessity.find_or_create_by(content: necessity)
+end
+
+child_protection_concerns.each do |concern|
+  ProtectionConcern.find_or_create_by(content: concern)
+end

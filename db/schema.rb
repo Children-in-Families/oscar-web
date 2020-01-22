@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200121040853) do
+ActiveRecord::Schema.define(version: 20200121102335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -338,6 +338,16 @@ ActiveRecord::Schema.define(version: 20200121040853) do
   add_index "client_interviewees", ["client_id"], name: "index_client_interviewees_on_client_id", using: :btree
   add_index "client_interviewees", ["interviewee_id"], name: "index_client_interviewees_on_interviewee_id", using: :btree
 
+  create_table "client_necessities", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "necessity_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "client_necessities", ["client_id"], name: "index_client_necessities_on_client_id", using: :btree
+  add_index "client_necessities", ["necessity_id"], name: "index_client_necessities_on_necessity_id", using: :btree
+
   create_table "client_needs", force: :cascade do |t|
     t.integer  "rank"
     t.integer  "client_id"
@@ -359,6 +369,16 @@ ActiveRecord::Schema.define(version: 20200121040853) do
 
   add_index "client_problems", ["client_id"], name: "index_client_problems_on_client_id", using: :btree
   add_index "client_problems", ["problem_id"], name: "index_client_problems_on_problem_id", using: :btree
+
+  create_table "client_protection_concerns", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "protection_concern_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "client_protection_concerns", ["client_id"], name: "index_client_protection_concerns_on_client_id", using: :btree
+  add_index "client_protection_concerns", ["protection_concern_id"], name: "index_client_protection_concerns_on_protection_concern_id", using: :btree
 
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
@@ -567,6 +587,7 @@ ActiveRecord::Schema.define(version: 20200121040853) do
     t.integer  "setting_id"
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
+    t.boolean  "enable_custom_assessment",    default: false
   end
 
   create_table "custom_field_permissions", force: :cascade do |t|
@@ -1042,6 +1063,12 @@ ActiveRecord::Schema.define(version: 20200121040853) do
     t.datetime "updated_at"
   end
 
+  create_table "necessities", force: :cascade do |t|
+    t.string   "content",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "needs", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at"
@@ -1173,6 +1200,12 @@ ActiveRecord::Schema.define(version: 20200121040853) do
   add_index "progress_notes", ["material_id"], name: "index_progress_notes_on_material_id", using: :btree
   add_index "progress_notes", ["progress_note_type_id"], name: "index_progress_notes_on_progress_note_type_id", using: :btree
   add_index "progress_notes", ["user_id"], name: "index_progress_notes_on_user_id", using: :btree
+
+  create_table "protection_concerns", force: :cascade do |t|
+    t.string   "content",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
   create_table "provinces", force: :cascade do |t|
     t.string   "name",           default: ""
@@ -1812,10 +1845,14 @@ ActiveRecord::Schema.define(version: 20200121040853) do
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"
+  add_foreign_key "client_necessities", "clients"
+  add_foreign_key "client_necessities", "necessities"
   add_foreign_key "client_needs", "clients"
   add_foreign_key "client_needs", "needs"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
+  add_foreign_key "client_protection_concerns", "clients"
+  add_foreign_key "client_protection_concerns", "protection_concerns"
   add_foreign_key "client_right_government_forms", "client_rights"
   add_foreign_key "client_right_government_forms", "government_forms"
   add_foreign_key "client_type_government_forms", "client_types"

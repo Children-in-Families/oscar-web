@@ -211,6 +211,8 @@ en:
               taken: has already been taken
         domain:
           attributes:
+            custom_assessment_setting_id:
+              blank: can't be blank
             identity:
               blank: can't be blank
               taken: has already been taken
@@ -1025,6 +1027,7 @@ en:
       assessment: CSI Assessment
       custom_assessment: Custom Assessment
     by: By
+    call: Call
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
@@ -1044,6 +1047,10 @@ en:
     enrolled_program_trackings:
       tracking: Tracking
     for: For
+    hotline:
+      end_datetime: End Call At
+      received_by: Received Call by
+      start_datetime: Start Call At
     incomplete: Incomplete
     index:
       book: Client book
@@ -1753,10 +1760,12 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
+      concern_location: Location Description
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
       name_of_referee: Name Of Referee
+      nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
       placements:
@@ -2144,22 +2153,22 @@ en:
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
         code: Custom ID Number1
-        concern_address: Concern Address
-        concern_address_type: Concern Address Type
-        concern_commune_id: Concern Commune
-        concern_district_id: Concern District
-        concern_email: Concern Email
-        concern_email_owner: Concern Email Owner
-        concern_house: Concern House
+        concern_address: Address Name
+        concern_address_type: Address Type
+        concern_commune_id: Commune / Sangkat
+        concern_district_id: District / Khan
+        concern_email: Relevant Email Contact
+        concern_email_owner: Email Owner
+        concern_house: House Number
         concern_is_outside: Concern is Outside Cambodia
-        concern_location: Concern Location
-        concern_outside_address: Concern Outside Address
-        concern_phone: Concern Phone
-        concern_phone_owner: Concern Phone Owner
-        concern_province_id: Concern Province
-        concern_same_as_client: Concern Same as Client
-        concern_street: Concern Street
-        concern_village_id: Concern Village
+        concern_location: Location Description
+        concern_outside_address: Outside Cambodia Address
+        concern_phone: Relevant Contact Phone
+        concern_phone_owner: Phone Owner
+        concern_province_id: Province
+        concern_same_as_client: Same as Client
+        concern_street: Street Number
+        concern_village_id: Village
         commune: Commune/Sangkat
         commune_en: Address - Commune/Sangkat (English)
         commune_kh: Address - Commune/Sangkat (Khmer)
@@ -4531,6 +4540,41 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  referee_attr: &REFEREE_ATTR
+    address_type: Address Type
+    address_types:
+      business: Business
+      dormitory: Dormitory
+      home: Home
+      other: Other
+      rci: RCI
+    adult: Adult
+    anonymous: Anonymous
+    answered_call: Answered Call
+    called_before: Called Before
+    commune_id: Commune
+    created_at: Created At
+    current_address: Current Address
+    district_id: District
+    email: Email
+    gender: Gender
+    house_number: House Number
+    id: ID
+    name: Name
+    outside: Outside Cambodia
+    outside_address: Outside Address
+    phone: Phone
+    province_id: Province
+    requested_update: Requested Update
+    street_number: Street Number
+    updated_at: Updated At
+    village_id: Village
+  referees:
+    index:
+      <<: *REFEREE_ATTR
+    show:
+      about: About
+      <<: *REFEREE_ATTR
   referral_sources:
     create:
       failed_create: Failed to create a referral source.
@@ -4689,6 +4733,8 @@ en:
       switched_country_thailand: You’ve switched your country setting to Thailand.
     create:
       successfully_created: Setting have been successfully created.
+    custom_assessment_setting_fields:
+      are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
       cambodia:
         custom_id1_local: Custom ID1 (Khmer)

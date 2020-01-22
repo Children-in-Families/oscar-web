@@ -167,6 +167,25 @@ module ClientsHelper
     current_address << selected_country.titleize
   end
 
+  def concern_merged_address(client)
+    current_address = []
+    current_address << "#{I18n.t('datagrid.columns.clients.concern_house')} #{client.concern_house}" if client.concern_house.present?
+    current_address << "#{I18n.t('datagrid.columns.clients.concern_street')} #{client.concern_street}" if client.concern_street.present?
+
+    if I18n.locale.to_s == 'km'
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_village_id')} #{client.concern_village.name_kh}" if client.concern_village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_commune_id')} #{client.concern_commune.name_kh}" if client.concern_commune.present?
+      current_address << client.concern_district.name.split(' / ').first if client.concern_district.present?
+      current_address << client.concern_province.name.split(' / ').first if client.concern_province.present?
+    else
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_village_id')} #{client.concern_village.name_en}" if client.concern_village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_commune_id')} #{client.concern_commune.name_en}" if client.concern_commune.present?
+      current_address << client.concern_district.name.split(' / ').last if client.concern_district.present?
+      current_address << client.concern_province.name.split(' / ').last if client.concern_province.present?
+    end
+    current_address << selected_country.titleize
+  end
+
   def format_array_value(value)
     value.is_a?(Array) ? check_is_array_date?(value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')).join(' , ') : check_is_string_date?(value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"'))
   end
@@ -1053,7 +1072,7 @@ module ClientsHelper
   end
 
   def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties, *@calls].group_by do |association|
       class_name = association.class.name.downcase
       if class_name == 'clientenrollment' || class_name == 'leaveprogram' || class_name == 'casenote'
         created_date = association.created_at
@@ -1063,6 +1082,8 @@ module ClientsHelper
           association.exit_date
         elsif class_name == 'casenote'
           association.meeting_date
+        elsif class_name == 'call'
+          association.start_datetime
         end
         distance_between_dates = (date_field.to_date - created_date.to_date).to_i
         created_date + distance_between_dates.day

@@ -80,14 +80,14 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <DateInput 
+          <DateInput
             T={T}
             required
             isError={errorFields.includes('date_of_call')}
-            getCurrentDate 
-            label="Date of Call" 
-            onChange={onChange('call', 'date_of_call')} 
-            value={call.date_of_call} 
+            getCurrentDate
+            label="Date of Call"
+            onChange={onChange('call', 'date_of_call')}
+            value={call.date_of_call}
           />
         </div>
       </div>
@@ -107,7 +107,7 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-         <DateTimePicker
+          <DateTimePicker
             T={T}
             isError={errorFields.includes('end_datetime')}
             label="Time Call Ended"
@@ -118,7 +118,6 @@ export default props => {
         </div>
       </div>
 
-     
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <RadioGroup

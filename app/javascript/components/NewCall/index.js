@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
-// import Loading from '../Commons/Loading'
+import objectToFormData from 'object-to-formdata'
+import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
 import CallAdministrativeInfo from './admin'
 import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import CallAbout from './callAbout'
+import NoClientAttachedModal from './noClientAttachedModal'
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json';
 import km from '../../utils/locales/km.json';
 import my from '../../utils/locales/my.json';
 import './styles.scss'
+import ProvidingUpdate from './providingUpdate'
 
 const CallForms = props => {
   var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
@@ -28,12 +31,11 @@ const CallForms = props => {
 
   const {
     data: {
-      call,
-      client: { client, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
+      call: { call, client_ids },
+      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
-      selectedCountry, internationalReferredClient, quantitativeType, quantitativeCase,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages
+      currentProvinces, districts, communes, villages, donors, agencies, necessities, protection_concerns, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients
     }
   } = props
 
@@ -42,23 +44,24 @@ const CallForms = props => {
   const [errorFields, setErrorFields] = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
+  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
-  const [callData, setCallData] = useState(call) // to work for both new & edit, useState({ call | {} })
+  const [callData, setCallData] = useState({ client_ids, ...call})
   const [refereeData, setRefereeData] = useState(referee)
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData] = useState(carer)
   const [caseActionNotRequired, setCaseActionNotRequiredModalOpen] = useState(false)
+  const [providingUpdate, setProvidingUpdateModalOpen] = useState(false)
+  const [noClientAttached, setNoClientAttachedModalOpen] = useState(false)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
   const adminTabData = { call: callData, users, errorFields, T, step }
 
-  const refereeTabData = { errorFields, client: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
-
-  const referralTabData = { users, errorFields, client: clientData, birthProvinces, ratePoor, ...address, refereeRelationships, phoneOwners, T, referee: refereeTabData  }
+  const refereeTabData = { errorFields, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
+  const referralTabData = { users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
-  const callAboutTabData = { client: clientData, T }
+  const callAboutTabData = { clients: clientData, T, necessities, protection_concerns }
 
   const tabs = [
     {text: T.translate("newCall.index.tabs.caller_info"), step: 1},
@@ -82,9 +85,9 @@ const CallForms = props => {
   }
 
   const onChange = (obj, field) => event => {
-    const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
+    const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime', 'newObject', 'object']
     const value = inputType.includes(event.type) ? event.data : event.target.value
-    
+
     if (typeof field !== 'object')
       field = { [field]: value }
 
@@ -93,7 +96,10 @@ const CallForms = props => {
         setCallData({...callData, ...field})
         break;
       case 'client':
-        setClientData({...clientData, ...field})
+        if(event.type === 'newObject')
+          setClientData([...clientData, {}])
+        else
+          setClientData(field)
         break;
       case 'referee':
         setRefereeData({...refereeData, ...field })
@@ -122,24 +128,27 @@ const CallForms = props => {
 
     components.forEach(component => {
       if (step === component.step) {
-        component.fields.forEach(field => {
-          // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
-          if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
+        const isArray = Array.isArray(component.data)
+        if(isArray)
+          component.fields.forEach(field => {
+            component.data.forEach(data => {
+              if (data[field] === '' || (Array.isArray(data[field]) && !data[field].length) || data[field] === null || data[field] === undefined) {
+                errors.push(field)
+                errorSteps.push(component.step)
+              }
+            })
+          })
+        else
+          component.fields.forEach(field => {
+            // (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) && errors.push(field)
+            if (component.data[field] === '' || (Array.isArray(component.data[field]) && !component.data[field].length) || component.data[field] === null) {
 
-            errors.push(field)
-            errorSteps.push(component.step)
-          }
-        })
+              errors.push(field)
+              errorSteps.push(component.step)
+            }
+          })
       }
     })
-
-    // if (errors.length > 0) {
-    //   setErrorFields(errors)
-    //   return false
-    // } else {
-    //   setErrorFields([])
-    //   return true
-    // }
 
     if (errors.length > 0) {
       setErrorFields(errors)
@@ -150,7 +159,6 @@ const CallForms = props => {
       setErrorSteps([])
       return true
     }
-    // return true
   }
 
   const handleTab = goingToStep => {
@@ -177,14 +185,19 @@ const CallForms = props => {
   const checkCallType = () => callback => {
     if (callData.call_type == "New Referral: Case Action NOT Required") {
       setCaseActionNotRequiredModalOpen(true)
-    } else
+    } else if (callData.call_type == "Providing Update") {
+      setProvidingUpdateModalOpen(true)
+    } else if (callData.call_type === "Seeking Information" || callData.call_type === "Spam Call" || callData.call_type === "Wrong Number") {
+      setNoClientAttachedModalOpen(true)
+    } else {
       callback()
+    }
   }
 
-  const handleSave = event => {
+  const handleSave = () => {
     if (handleValidation()) {
       handleCheckValue(refereeData)
-      handleCheckValue(clientData)
+      clientData.map(client => handleCheckValue(client))
       handleCheckValue(carerData)
       if(refereeData.requested_update === false)
         setTaskData({})
@@ -194,36 +207,46 @@ const CallForms = props => {
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
-        const action = clientData.id ? 'PUT' : 'POST'
-        const url = clientData.id ? `/api/v1/calls/${clientData.id}` : '/api/v1/calls'
+        const action = callData.id ? 'PUT' : 'POST'
+        const url = callData.id ? `/api/v1/calls/${callData.id}` : '/api/v1/calls'
         const message = T.translate("newCall.index.message.call_has_been_created")
+
+        let formData = new FormData()
+        formData = objectToFormData(refereeData, {}, formData, 'referee')
+        formData = objectToFormData(callData, {}, formData, 'call')
+        // taskData may need to be filterd out if no client attached
+        formData = objectToFormData(taskData, {}, formData, 'task')
+
+        if (callData.call_type === "New Referral: Case Action Required" || callData.call_type === "New Referral: Case Action NOT Required" || callData.call_type === "Phone Counseling") {
+          formData = objectToFormData(clientData, {}, formData, 'clients')
+          formData = objectToFormData(carerData, {}, formData, 'carer')
+        }
+
         $.ajax({
           url,
           type: action,
-          data: {
-            call: { ...callData },
-            client: { ...clientData },
-            referee: { ...refereeData },
-            carer: { ...carerData },
-            task: { ...taskData }
-          },
-          beforeSend: (req) => {
-            setLoading(true)
-          }
+          data: formData,
+          processData: false,
+          contentType: false,
+          beforeSend: () => { setLoading(true) }
         })
-        .success(response => {
-          const clientUrls = response.client_urls;
+        .done(response => {
+          if (response.client_urls && response.client_urls.length > 0) {
+            response.client_urls.forEach(url => {
+              window.open(`${url}?notice=${message}`, '_blank')
+            })
+          }
           document.location.href = `/calls/${response.call.id}?notice=${message}`
-          if (clientUrls) {
-            clientUrls.forEach(url => {
-              window.open(`${url}?notice=${message}`, '_blank');
-            });
-          }
         })
-        .error(err => {
-          console.log("err: ", err);
+        .fail(error => {
+          setLoading(false)
+          setOnSave(false)
+          const errorFields = JSON.parse(error.responseText)
+          console.log('errorFields', errorFields)
+          setErrorFields(Object.keys(errorFields))
+          if(errorFields.kid_id)
+            setErrorSteps([3])
         })
-
       }
     }
   }
@@ -241,6 +264,22 @@ const CallForms = props => {
     } else {
       object.outside_address = ''
     }
+
+    if(object.concern_is_outside === undefined)
+      return
+
+    if(object.concern_is_outside) {
+      object.concern_province_id = null
+      object.concern_district_id = null
+      object.concern_commune_id = null
+      object.concern_village_id = null
+      object.concern_street_number = ''
+      object.concern_current_address = ''
+      object.concern_address_type = ''
+      object.concern_house_number = ''
+    } else {
+      object.concern_outside_address = ''
+    }
   }
 
   const handleCancel = () => {
@@ -251,7 +290,7 @@ const CallForms = props => {
     setStep(step - 1)
   }
 
-  const renderModalFooter = () => {
+  const caseActionNotRequiredModalFooter = () => {
     return (
       <>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
@@ -264,14 +303,43 @@ const CallForms = props => {
 
   return (
     <div className='containerClass'>
-      {/* <Loading loading={loading} text='Please wait while we are making a request to server.'/> */}
+      <Loading loading={loading} text={T.translate("index.wait")}/>
+
       <Modal
-        title="Attention"
+        title={T.translate("newCall.admin.confirmation")}
         isOpen={caseActionNotRequired}
         type='warning'
         closeAction={() => setCaseActionNotRequiredModalOpen(false)}
         content="You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection."
-        footer={ renderModalFooter() }
+        footer={ caseActionNotRequiredModalFooter() }
+      />
+      <Modal
+        title={T.translate("newCall.admin.go_to_client")}
+        isOpen={providingUpdate}
+        type='primary'
+        closeAction={() => setProvidingUpdateModalOpen(false)}
+        content={
+          <ProvidingUpdate
+            data={{providingUpdateClients, callData, T}}
+            onChange={onChange}
+            onSave={() => { setProvidingUpdateModalOpen(false); handleSave() }}
+            closeAction={() => setProvidingUpdateModalOpen(false) }
+          />
+        }
+      />
+      <Modal
+        title={`${T.translate("newCall.admin.save_call_as")} ${callData.call_type}?`}
+        isOpen={noClientAttached}
+        type='warning'
+        closeAction={() => setNoClientAttachedModalOpen(false)}
+        content={
+          <NoClientAttachedModal
+            data={{callData, T}}
+            onChange={onChange}
+            onSave={() => { setNoClientAttachedModalOpen(false); handleSave() }}
+            closeAction={() => setNoClientAttachedModalOpen(false) }
+          />
+        }
       />
 
       <div className='tabHead'>
@@ -285,9 +353,7 @@ const CallForms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange}
-
-/>
+            <RefereeInfo data={refereeTabData} onChange={onChange} />
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>

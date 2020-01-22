@@ -50,12 +50,14 @@ export default props => {
 
   const renderContent = () => {
     return (
-      <>
+      <div style={{minHeight: 300}}>
         { invalid && <p style={{color: 'red'}}>Please Input all the required fields</p> }
         <div style={styles.modalContentWrapper}>
-          <TextInput required disabled={true} label='Task Details' onChange={onChangeText} value={task.name} />
           <DateInput required label='Completion Date' onChange={onChangeDate} value={task.completion_date} />
+          <TextInput required disabled={true} label='Task Details' value={task.name || `Call ${referee.name} on ${referee.phone} to update about`} />
+          <TextInput required disabled={true} label='Domain' value='Domain 3B' />
         </div>
+        {/* below code is for multiple tasks. Delete if client decide to never use multiple tasks */}
         {/* {
           tasks.map((task, index) => (
             <div key={index} style={styles.modalContentWrapper}>
@@ -66,7 +68,7 @@ export default props => {
           ))
         }
         <button className='btn btn-primary' onClick={() => setTasks([...tasks, initialData])}>Add Task</button> */}
-      </>
+      </div>
     )
   }
 
@@ -93,9 +95,15 @@ export default props => {
 }
 
 const styles = {
+  // modalContentWrapper: {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'space-around'
+  // }
   modalContentWrapper: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around'
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 10
   }
 }

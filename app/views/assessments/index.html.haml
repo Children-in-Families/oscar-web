@@ -66,18 +66,19 @@
                   %span.caret
                 %ul.dropdown-menu.btn-block
                   - @custom_assessment_settings.each do |cs|
-                    - if policy(@custom_assessment).create?(cs.id)
-                      %li
-                        = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
-                          = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                    - if cs.domains.any?
+                      - if policy(@custom_assessment).create?(cs.id)
+                        %li
+                          = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
+                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                      - else
+                        %li.disabled-li
+                          = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
+                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
                     - else
-                      %li.disabled-li
-                        = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
+                      %li
+                        = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
                           = "#{t('.begin_now')} #{cs.custom_assessment_name}"
-              - else
-                = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                  .btn.btn-block.btn-primary.button
-                    = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}

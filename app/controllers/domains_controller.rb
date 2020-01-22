@@ -3,6 +3,7 @@ class DomainsController < AdminController
 
   before_action :find_domain, only: [:edit, :update, :destroy]
   before_action :find_domain_group, except: [:index, :destroy]
+  before_action :find_custom_assessment_setting, except: :index
 
   def index
     @domains = Domain.csi_domains.page(params[:page_1]).per(10)
@@ -77,5 +78,9 @@ class DomainsController < AdminController
 
   def find_domain_group
     @domain_group = DomainGroup.order(:name)
+  end
+
+  def find_custom_assessment_setting
+    @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 end

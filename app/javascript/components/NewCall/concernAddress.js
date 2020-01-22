@@ -10,8 +10,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, disabled, outside, T, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [] } } = props
-
+  const { onChange, disabled, outside, data: { currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [], T } } = props
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
   const [communes, setcommunes] = useState(currentCommunes.map(commune => ({ label: commune.name_kh + ' / ' + commune.name_en, value: commune.id})))
@@ -84,7 +83,7 @@ export default props => {
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               T={T}
-              label={T.translate("newCall.concernAddress.outside_cambodia")}
+              label={T.translate("newCall.concernAddress.province")}
               options={provinces}
               isDisabled={disabled}
               value={objectData.concern_province_id}

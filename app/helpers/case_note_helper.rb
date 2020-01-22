@@ -41,15 +41,15 @@ module CaseNoteHelper
     end
   end
 
-  def new_custom_link
+  def new_custom_link(custom_assessment_name)
     if case_notes_editable? && policy(@client).create?
-      link_to new_client_case_note_path(@client, custom: true) do
-        @current_setting.custom_assessment
+      link_to new_client_case_note_path(@client, custom: true, custom_name: custom_assessment_name) do
+        custom_assessment_name
       end
     else
       link_to_if false, '' do
         content_tag :a, class: 'disabled' do
-          @current_setting.custom_assessment
+          custom_assessment_name
         end
       end
     end

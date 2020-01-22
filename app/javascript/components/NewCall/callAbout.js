@@ -5,80 +5,33 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { client, T } } = props
-  const basicNecessities = [
-    {
-      label: T.translate("newCall.callAbout.basicNecessities.looking_for_help"),
-      value: "Looking for health/medical help (including emergencies, pregnancy, other health concerns)."
-    },
-    {
-      label: T.translate("newCall.callAbout.basicNecessities.looking_for_education"),
-      value: "Looking for education and material requests for school registration; return to school; need help to stay in school."
-    },
-    {
-      label: T.translate("newCall.callAbout.basicNecessities.looking_for_food"),
-      value: "Looking for food, water, milk, shelter support."
-    },
-    {
-      label: T.translate("newCall.callAbout.basicNecessities.looking_for_vocational"),
-      value: "Looking for vocational training/employment."
-    },
-    {
-      label: T.translate("newCall.callAbout.basicNecessities.caregivers_looking"),
-      value: "Caregivers looking to send their children to an RCI."
-    }
-  ];
+  const { onChange, data: { clients, T, necessities, protection_concerns } } = props
+  const client = clients[0]
+  const basicNecessities = necessities.map(necessity => ({ label: necessity.content, value: necessity.id }))
+  const childProtectionConcerns = protection_concerns.map(concern => ({ label: concern.content, value: concern.id }))
 
-  const childProtectionConcerns = [
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.physical_violence"),
-      value: "Physical violence"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.emotional_violence"),
-      value: "Emotional violence"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.sexual_violence"),
-      value: "Sexual violence"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.neglect_supervision"),
-      value: "Neglect / lack of adult supervision"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.resecue_of_trafficking"),
-      value: "Rescue of trafficking victim (migration / collaboration with authorities to rescue)"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.forced_labour"),
-      value: "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child."
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.drug_use"),
-      value: "Drug use (seeking rehabilitation support)"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.alcohol_use"),
-      value: "Alcohol use (seeking rehabilitation support)"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.separated_child"),
-      value: "Separated child - abandoned; lost; street living."
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.children_and_parent"),
-      value: "Children and parent living on the street."
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.disability"),
-      value: "Disability"
-    },
-    {
-      label: T.translate("newCall.callAbout.childProtectionConcerns.other"),
-      value: "Other"
-    },
-  ];
+  const handleOnChangeText = name => event => modifyClientObject({ [name]: event.target.value })
+  const handleOnChangeSelect = name => data => {
+    const modifyObject = { ...client, [name]: data.data }
+
+    const newObjects = clients.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
+
+  const modifyClientObject = field => {
+    const modifyObject = { ...client, ...field }
+
+    const newObjects = clients.map((object, indexObject) => {
+      const newObject = indexObject === 0 ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
 
   return (
     <>
@@ -94,10 +47,11 @@ export default props => {
         <div className='col-md-12 col-lg-9'>
           <SelectInput
             T={T}
+            isMulti
             label={T.translate("newCall.callAbout.basic_necessities")}
             options={basicNecessities}
-            value={client.basic_necessity}
-            onChange={onChange('client', 'basic_necessity')} />
+            value={client.necessity_ids}
+            onChange={handleOnChangeSelect('necessity_ids')} />
         </div>
       </div>
 
@@ -105,15 +59,16 @@ export default props => {
         <div className='col-md-12 col-lg-9'>
           <SelectInput
             T={T}
+            isMulti
             label={T.translate("newCall.callAbout.child_protection")}
             options={childProtectionConcerns}
-            value={client.child_protection_concern}
-            onChange={onChange('client','child_protection_concern')} />
+            value={client.protection_concern_ids}
+            onChange={handleOnChangeSelect('protection_concern_ids')} />
         </div>
       </div>
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <TextArea label={T.translate("newCall.callAbout.enter_a_brief")} value={client.brief_note_summary} onChange={onChange('client', 'brief_note_summary')} />
+          <TextArea label={T.translate("newCall.callAbout.enter_a_brief")} value={client.brief_note_summary} onChange={handleOnChangeText('brief_note_summary')} />
         </div>
       </div>
     </>
