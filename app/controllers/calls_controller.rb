@@ -52,6 +52,10 @@ class CallsController < AdminController
     @call = Call.find(params[:call_id])
     @referee = @call.referee
 
+    if @referee.present? && @referee.anonymous
+      redirect_to call_path(@call) 
+    end
+
     # OVERRIDE THE country_address_fields method
     @referee_districts = @referee&.province&.districts || []
     @referee_communes = @referee&.province&.districts&.flat_map(&:communes) || []

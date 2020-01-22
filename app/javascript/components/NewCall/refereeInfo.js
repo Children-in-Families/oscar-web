@@ -124,7 +124,7 @@ export default props => {
   }
 
   const renderNameField = () => {
-    if(referee.called_before) {
+    if(referee.called_before && !referee.anonymous) {
       return (
         <SelectInput
           T={T}

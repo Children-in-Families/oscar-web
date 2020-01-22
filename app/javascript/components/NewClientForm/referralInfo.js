@@ -273,91 +273,94 @@ export default props => {
       </div>
     
       <br/>
-      <legend>
+      {isRedirectFromCall &&
+        <>
+        <legend>
+          <div className="row">
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <p>{T.translate("newCall.referralInfo.location_of_concern")}</p>
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <Checkbox label={T.translate("newCall.referralInfo.same_as_client")} checked={client.concern_same_as_client} onChange={onCheckSameAsClient} />
+            </div>
+            {!client.concern_same_as_client &&
+              <div className="col-xs-12 col-md-6 col-lg-6">
+                <Checkbox
+                  label={T.translate("newCall.referralInfo.concern_is_outside_cambodia")}
+                  checked={client.concern_is_outside || false}
+                  onChange={onChange("client", "concern_is_outside")}
+                />
+              </div>
+            }
+          </div>
+        </legend>
+
+        <ConcernAddress
+          T={T}
+          disabled={client.concern_same_as_client}
+          outside={client.concern_is_outside || false}
+          onChange={onChange}
+          data={{
+            addressTypes,
+            currentDistricts: districts,
+            currentCommunes: communes,
+            currentVillages: villages,
+            currentProvinces,
+            objectKey: "client",
+            objectData: client
+          }}
+        />
+
         <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>{T.translate("newCall.referralInfo.location_of_concern")}</p>
-          </div>
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <Checkbox label={T.translate("newCall.referralInfo.same_as_client")} checked={client.concern_same_as_client} onChange={onCheckSameAsClient} />
-          </div>
-          {!client.concern_same_as_client &&
-            <div className="col-xs-12 col-md-6 col-lg-6">
-              <Checkbox
-                label={T.translate("newCall.referralInfo.concern_is_outside_cambodia")}
-                checked={client.concern_is_outside || false}
-                onChange={onChange("client", "concern_is_outside")}
-              />
+          <div className="col-xs-12 col-md-6">
+            <div className="row">
+              <div className="col-xs-12 col-md-6">
+                <TextInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.relevant_contact_phone")}
+                  onChange={onChange("client", "concern_phone")}
+                  value={client.concern_phone}
+                />
+              </div>
+              <div className="col-xs-12 col-md-6">
+                <SelectInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.phone_owner")}
+                  options={phoneEmailOwnerOpts}
+                  value={client.concern_phone_owner}
+                  onChange={onChange("client", "concern_phone_owner")}
+                />
+              </div>
             </div>
-          }
-        </div>
-      </legend>
-
-      <ConcernAddress
-        T={T}
-        disabled={client.concern_same_as_client}
-        outside={client.concern_is_outside || false}
-        onChange={onChange}
-        data={{
-          addressTypes,
-          currentDistricts: districts,
-          currentCommunes: communes,
-          currentVillages: villages,
-          currentProvinces,
-          objectKey: "client",
-          objectData: client
-        }}
-      />
-
-      <div className="row">
-        <div className="col-xs-12 col-md-6">
-          <div className="row">
-            <div className="col-xs-12 col-md-6">
-              <TextInput
-                T={T}
-                label={T.translate("newCall.referralInfo.relevant_contact_phone")}
-                onChange={onChange("client", "concern_phone")}
-                value={client.concern_phone}
-              />
-            </div>
-            <div className="col-xs-12 col-md-6">
-              <SelectInput
-                T={T}
-                label={T.translate("newCall.referralInfo.phone_owner")}
-                options={phoneEmailOwnerOpts}
-                value={client.concern_phone_owner}
-                onChange={onChange("client", "concern_phone_owner")}
-              />
+            <div className="row">
+              <div className="col-xs-12 col-md-6">
+                <TextInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.relevant_email")}
+                  onChange={onChange("client", "concern_email")}
+                  value={client.concern_email}
+                />
+              </div>
+              <div className="col-xs-12 col-md-6">
+                <SelectInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.email_owner")}
+                  options={phoneEmailOwnerOpts}
+                  value={client.concern_email_owner}
+                  onChange={onChange("client", "concern_email_owner")}
+                />
+              </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-xs-12 col-md-6">
-              <TextInput
-                T={T}
-                label={T.translate("newCall.referralInfo.relevant_email")}
-                onChange={onChange("client", "concern_email")}
-                value={client.concern_email}
-              />
-            </div>
-            <div className="col-xs-12 col-md-6">
-              <SelectInput
-                T={T}
-                label={T.translate("newCall.referralInfo.email_owner")}
-                options={phoneEmailOwnerOpts}
-                value={client.concern_email_owner}
-                onChange={onChange("client", "concern_email_owner")}
-              />
-            </div>
+          <div className={"col-xs-12 col-md-6" + (client.concern_is_outside ? ' hidden' : '')}>
+            <TextArea
+              label={T.translate("newCall.referralInfo.locatin_description")}
+              value={client.concern_location}
+              onChange={onChange('client', 'concern_location')} />
           </div>
         </div>
-        <div className={"col-xs-12 col-md-6" + (client.concern_is_outside ? ' hidden' : '')}>
-          <TextArea
-            label={T.translate("newCall.referralInfo.locatin_description")}
-            value={client.concern_location}
-            onChange={onChange('client', 'concern_location')} />
-        </div>
-      </div>
-      
+        </>
+      }
     </div>
   )
 }

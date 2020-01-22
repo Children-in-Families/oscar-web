@@ -70,8 +70,31 @@ export default props => {
     return newList
   }
 
+  useEffect(() => {
+    if (refereeData.anonymous) {
+      const fields = {
+        anonymous: true,
+        outside: false,
+        name: T.translate("newCall.refereeInfo.anonymous"),
+        phone: "",
+        email: "",
+        gender: "",
+        street_number: "",
+        house_number: "",
+        current_address: "",
+        outside_address: "",
+        address_type: "",
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        village_id: null
+      };
+      onChange("referee", { ...fields })({ type: "select" });
+    }
+  }, [refereeData.anonymous]);
+
   const renderNameField = () => {
-    if(refereeData.called_before) {
+    if(refereeData.called_before && !refereeData.anonymous) {
       return (
         <SelectInput
           T={T}
