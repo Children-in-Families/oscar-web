@@ -21,6 +21,8 @@ class CallsController < AdminController
     @client = Client.new
     @referees = Referee.all
     @providing_update_clients = Client.accessible_by(current_ability).map{ |client| { label: client.name, value: client.id }}
+    @necessities = Necessity.order(:created_at)
+    @protection_concerns = ProtectionConcern.order(:created_at)
     @call = Call.new
   end
 

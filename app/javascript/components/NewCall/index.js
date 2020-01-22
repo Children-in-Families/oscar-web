@@ -32,9 +32,9 @@ const CallForms = props => {
   const {
     data: {
       call: { call, client_ids },
-      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
+      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
+      currentProvinces, districts, communes, villages, donors, agencies, necessities, protection_concerns, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients
     }
   } = props
@@ -44,7 +44,7 @@ const CallForms = props => {
   const [errorFields, setErrorFields] = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
+  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState({ client_ids, ...call})
   const [refereeData, setRefereeData] = useState(referee)
@@ -61,7 +61,7 @@ const CallForms = props => {
   const refereeTabData = { errorFields, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
   const referralTabData = { users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
-  const callAboutTabData = { clients: clientData, T }
+  const callAboutTabData = { clients: clientData, T, necessities, protection_concerns }
 
   const tabs = [
     {text: T.translate("newCall.index.tabs.caller_info"), step: 1},

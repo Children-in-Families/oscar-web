@@ -346,7 +346,8 @@ module Api
           client_needs_attributes: [:id, :rank, :need_id],
           client_problems_attributes: [:id, :rank, :problem_id],
           family_ids: [],
-          call_ids: []
+          call_ids: [],
+          necessity_ids: [], protection_concern_ids: []
         ])
   
       end
