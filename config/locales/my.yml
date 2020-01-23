@@ -627,7 +627,7 @@ my:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
       providing_update: "Providing Update"
-      phone_counseling: "Phone Counseling"
+      phone_counseling: "Phone Counselling"
       seeking_information: "Seeking Information"
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"

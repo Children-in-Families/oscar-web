@@ -12,7 +12,7 @@ class Call < ActiveRecord::Base
   FIELDS = %w( phone_call_id call_type start_datetime end_datetime phone_counselling_summary information_provided )
   TYPES  = [
             "New Referral: Case Action Required", "New Referral: Case Action NOT Required",
-            "Providing Update", "Phone Counseling",
+            "Providing Update", "Phone Counselling",
             "Seeking Information", "Spam Call", "Wrong Number"
           ]
 
@@ -33,7 +33,7 @@ class Call < ActiveRecord::Base
   # validates :information_provided, presence: true, if: :seeking_information?
 
   # def phone_counseling?
-  #   call_type == "Phone Counseling"
+  #   call_type == "Phone Counselling"
   # end
 
   # def seeking_information?
