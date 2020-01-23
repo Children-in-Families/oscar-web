@@ -191,18 +191,6 @@ export default props => {
         </div>
       </div>
 
-      {/* Pirun: Phone Counselling Summary should be the client column, not call column */}
-      {/* <div className="row">
-        <div className="col-xs-12">
-          <TextArea
-            label
-            placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
-            label="Phone Counselling Summary"
-            value={callData.phone_counselling_summary}
-            onChange={onChange('call', 'phone_counselling_summary')} />
-        </div>
-      </div> */}
-
        <div className="row">
         <div className="col-xs-12">
           <TextArea
