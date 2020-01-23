@@ -27,6 +27,10 @@ module AdvancedSearchHelper
     has_advanced_search? && advanced_search_params[:exit_form_check].present? ? true : false
   end
 
+  def hotline_check
+    has_advanced_search? && advanced_search_params[:hotline_check].present? ? true : false
+  end
+
   def wizard_enrollment_checked?
     has_advanced_search? && advanced_search_params[:wizard_enrollment_check].present? ? true : false
   end
@@ -156,8 +160,7 @@ module AdvancedSearchHelper
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
-      hotline_call: I18n.t('datagrid.columns.calls.hotline_call'),
-      **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
+      hotline: I18n.t('datagrid.columns.calls.hotline')
     }
     translations[key.to_sym] || ''
   end

@@ -473,4 +473,11 @@ body[id='clients-index'] {
   .wide-mb {
     margin-bottom: 20px;
   }
+
+  .hotline-call-column {
+    a.disabled {
+      color: #333333 !important;
+      cursor: not-allowed;
+    }
+  }
 }

@@ -125,10 +125,33 @@ class CIF.AdvancedFilterBuilder
         'sortable': { 'inherit_no_sortable': false, 'inherit_no_drop': false }
 
   setRuleFromSavedSearch: ->
+    self = @
     advancedSearchId = $('#advanced_search_id').val()
     if advancedSearchId and advancedSearchId.length > 0
       rules = $("a[data-save-search-#{advancedSearchId}]").data("save-search-#{advancedSearchId}")
       $('button.client-advance-search').click()
+      self.handleAddHotlineFilter()
+      $('.program-stream-column li.visibility, .hotline-call-column li.visibility').each ->
+        fieldCheckedBoxValue = $($(this).find('input')[0]).val()
+        values = self.getSaveSearchFields(rules.rules)
+        $($(this).find('input')[0]).iCheck('check') if values.includes(fieldCheckedBoxValue)
+
       $('#builder').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
 
     return
+
+  handleAddHotlineFilter: ->
+    fields = $('#hotline-fields').data('fields')
+    if $('#hotline-checkbox').is(':checked')
+      $('#builder').queryBuilder('addFilter', fields)
+      return
+
+  getSaveSearchFields: (rules)->
+    results = []
+    cb = (e) ->
+      results.push e.id
+      e.rules and e.rules.forEach(cb)
+      return
+
+    rules.forEach(cb)
+    return results

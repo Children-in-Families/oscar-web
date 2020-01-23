@@ -371,6 +371,7 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      concern_basic_fields: Client Fields Concern
       created_at: Created Date
       created_by: Created By
       csi_domain_scores: CSI Domain Scores
@@ -636,8 +637,8 @@ en:
       sync_with_google: Sync with Google Calendar
   calls:
     call_type: Call types
-    end_datetime: End call date
-    hotline_call: Hotline Call
+    end_datetime: End-Call Datetime
+    hotline: Hotline
     index:
       add_new_call: Add New Call
       export_xls: Export to XLS
@@ -658,7 +659,7 @@ en:
     phone_call_id: Phone call ID
     phone_counselling_summary: Phone counselling summary
     phone_type: Phone type
-    start_datetime: Start datetime
+    start_datetime: Start Datetime
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -949,6 +950,7 @@ en:
         successfully_updated: Client has been successfully updated.
     form_option:
       basic_fields: Client Basic Fields
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
       enrollment: Enrollment
@@ -995,6 +997,7 @@ en:
   client_advanced_searches:
     form_option:
       basic_fields: Client Basic Fields
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
       enrollment: Enrollment
@@ -1016,6 +1019,7 @@ en:
       custom_form_column: Custom form columns
       delete_group: Delete
       export_to_xls: Export to XLS
+      hotline_column: Hotline Call Columns
       no_results: No Result Found
       program_stream_column: Program stream columns
       reset: Reset
@@ -1047,9 +1051,9 @@ en:
       tracking: Tracking
     for: For
     hotline:
-      end_datetime: End Call At
+      end_datetime:
       received_by: Received Call by
-      start_datetime: Start Call At
+      start_datetime: Start Datetime
     incomplete: Incomplete
     index:
       book: Client book
@@ -1287,6 +1291,7 @@ en:
         custom_form_column: Custom Form columns
         delete_group: Delete
         export_to_xls: Export to XLS
+        hotline_column: Hotline Columns
         no_results: No Result Found
         program_stream_column: Program stream columns
         reset: Reset
@@ -1295,10 +1300,12 @@ en:
       form_option:
         basic_fields: Basic Fields
         csi_domain_scores: Csi Domain Scores
+        concern_basic_fields: Client Fields Concern
         custom_form: Custom Form
         enrollment: Enrollment
         exit_program: Exit Program
         filter_option: Please choose your query options below
+        hotline: Hotline
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
@@ -1757,7 +1764,7 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
-      concern_location: Location Description
+      concern_location: Location Of Concern
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
@@ -2093,14 +2100,14 @@ en:
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         call_type: Call types
-        end_datetime: End call date
+        end_datetime: End-Call Datetime
         hotline_call: Hotline Call
         information_provided: Information provided
         manage: Manage
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
-        start_datetime: Start datetime
+        start_datetime: Start Datetime
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -2158,7 +2165,7 @@ en:
         concern_email_owner: Email Owner
         concern_house: House Number
         concern_is_outside: Concern is Outside Cambodia
-        concern_location: Location Description
+        concern_location: Location Of Concern
         concern_outside_address: Outside Cambodia Address
         concern_phone: Relevant Contact Phone
         concern_phone_owner: Phone Owner
@@ -2216,12 +2223,13 @@ en:
         live_with: Primary Carer Name
         local_family_name: Family Name
         local_given_name: Given Name
-        location_description: Location description
+        location_description: Location Description
         main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
         name: Name
         name_of_referee: Name of Referee
+        necessity_id: Basic Necessities
         nickname: Nickname
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
@@ -2250,6 +2258,7 @@ en:
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
+        protection_concern_id: Child Protection Concerns
         province: Birth Province
         quantitative_case_values: Specific Referral Data Option
         quantitative_types: Custom Referral Data

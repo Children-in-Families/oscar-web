@@ -536,6 +536,10 @@ class ClientGrid < BaseGrid
     live_with
   end
 
+  def client_concern_fields
+    Client::HOTLINE_FIELDS
+  end
+
   def client_hotline_fields
     Client::HOTLINE_FIELDS
   end
@@ -545,12 +549,16 @@ class ClientGrid < BaseGrid
     client_hotline_fields.each do |hotline_field|
       value = ''
       column(hotline_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.clients.#{hotline_field}") }, class: 'client-hotline-field') do |object|
-        if hotline_field[/_id/i]
+        if hotline_field[/concern_province_id|concern_district_id|concern_commune_id|concern_village_id/i]
           address_name = hotline_field.gsub('_id', '')
           value = object.send(address_name.to_sym).try(:name)
+        elsif hotline_field[/protection_concern_id|necessity_id/]
+          association_name = hotline_field.gsub('_id', '')
+          klass_name       = association_name.pluralize.to_sym
+          value = object.send(klass_name).distinct.map(&:content).join(', ')
         else
           value = object.send(hotline_field.to_sym)
-          value = (value == true || value == false) ? yes_no[value.to_s.to_sym] : value
+          value = (value == true || value == false) ? yes_no[value.to_s.to_sym] : value.try(:titleize)
         end
         value
       end
@@ -609,7 +617,7 @@ class ClientGrid < BaseGrid
     call_fields.each do |call_field|
       column(call_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.calls.#{call_field}") }, preload: :calls, class: 'call-field') do |object|
         if call_field[/date/i]
-          object.calls.distinct.map{ |call| date_format(call.send(call_field.to_sym)) }.join(', ')
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%d %B %Y %I:%M%p') }.join("\n")
         else
           object.calls.distinct.map{ |call| call.send(call_field.to_sym) }.join(', ')
         end

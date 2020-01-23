@@ -19,7 +19,7 @@ module ClientAdvancedSearchesConcern
 
     respond_to do |f|
       f.html do
-        @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
+       @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
         @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
         clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
         @clients                = clients
@@ -66,6 +66,12 @@ module ClientAdvancedSearchesConcern
     @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
+  def hotline_call_column
+    client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
+    call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
+    @hotline_call_columns = client_hotlines.merge(call_hotlines)
+  end
+
   def program_stream_fields
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
       @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
@@ -81,7 +87,7 @@ module ClientAdvancedSearchesConcern
       @builder_fields = @builder_fields + custom_form_fields if @advanced_search_params[:wizard_custom_form_check].present?
       @builder_fields = @builder_fields + @quantitative_fields if @advanced_search_params[:wizard_quantitative_check].present?
     else
-      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields + get_call_basic_fields
+      @builder_fields = get_client_basic_fields + custom_form_fields + program_stream_fields
       @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
     end
   end
@@ -99,13 +105,43 @@ module ClientAdvancedSearchesConcern
     AdvancedSearches::ClientFields.new(user: current_user).render
   end
 
-  def get_call_basic_fields
+  def get_hotline_fields
     args = {
       translation: get_basic_field_translations, number_field: [],
       text_field: ['phone_counselling_summary', 'information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
       dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
     }
-    AdvancedSearches::AdvancedSearchFields.new('hotline_call', args).render
+
+    hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+
+    @hotline_fields = get_client_hotline_fields + hotline_fields
+  end
+
+  def get_client_hotline_fields
+    client_fields = I18n.t('datagrid.columns.clients')
+    dropdown_list_options = [
+      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.client_address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
+      ['concern_province_id', Province.dropdown_list_option],
+      ['concern_district_id', District.dropdown_list_option],
+      ['concern_commune_id', Commune.dropdown_list_option],
+      ['concern_village_id', Village.dropdown_list_option],
+      ['concern_is_outside', { true: 'Yes', false: 'No' }],
+      ['concern_same_as_client', { true: 'Yes', false: 'No' }],
+      ['protection_concern_id', ProtectionConcern.dropdown_list_option],
+      ['necessity_id', Necessity.dropdown_list_option]
+    ]
+
+    args = {
+      translation: client_fields.merge({ concern_basic_fields: I18n.t('advanced_search.fields.concern_basic_fields') }), number_field: [],
+      text_field: hotline_text_type_list, date_picker_field: [],
+      dropdown_list_option: dropdown_list_options
+    }
+
+    @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
+  end
+
+  def hotline_text_type_list
+    %w(concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description nickname)
   end
 
   def custom_form_values

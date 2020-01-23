@@ -118,7 +118,7 @@ module ClientsHelper
       referred_from:                 t('datagrid.columns.clients.referred_from'),
       referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
       type_of_service:               t('datagrid.columns.type_of_service'),
-      hotline_call:                  t('datagrid.columns.calls.hotline_call'),
+      hotline:                       t('datagrid.columns.calls.hotline'),
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
     label_tag "#{column}_", label_column[column.to_sym]
@@ -717,6 +717,7 @@ module ClientsHelper
     return column.header.truncate(65) if grid.class.to_s != 'ClientGrid' || @clients.blank?
     count = 0
     class_name  = header_classes(grid, column)
+    class_name  = class_name == "call-field" ? column.header.parameterize.underscore : class_name
 
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
@@ -779,6 +780,8 @@ module ClientsHelper
           elsif class_name == 'type_of_service'
             type_of_services = map_type_of_services(client)
             count += type_of_services.count
+          elsif class_name == 'start_datetime'
+            count += client.calls.distinct.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
           end
