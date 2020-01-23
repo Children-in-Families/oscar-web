@@ -617,7 +617,7 @@ class ClientGrid < BaseGrid
     call_fields.each do |call_field|
       column(call_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.calls.#{call_field}") }, preload: :calls, class: 'call-field') do |object|
         if call_field[/date/i]
-          object.calls.distinct.map{ |call| date_format(call.send(call_field.to_sym)) }.join(', ')
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%d %B %Y %I:%M%p') }.join("\n")
         else
           object.calls.distinct.map{ |call| call.send(call_field.to_sym) }.join(', ')
         end
