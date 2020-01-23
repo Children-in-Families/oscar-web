@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
@@ -7,6 +7,21 @@ import { TextArea } from "../Commons/inputs";
 
 export default props => {
   const { onChange, data: { errorFields, call, carerDistricts, carerCommunes, carerVillages, carer, clients, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, phoneOwners, T } } = props
+  const [clientIndex, setClientIndex] = useState(0)
+  const currentClient = clients[clientIndex]
+
+  const handleOnChangeText = name => event => modifyClientObject(clientIndex, { [name]: event.target.value })
+  const modifyClientObject = (index, field) => {
+    const getObject    = clients[index]
+    const modifyObject = { ...getObject, ...field }
+
+    const newObjects = clients.map((object, indexObject) => {
+      const newObject = indexObject === index ? modifyObject : object
+      return newObject
+    })
+
+    onChange('client', newObjects)({type: 'object'})
+  }
 
   return (
     <div className="containerClass">
@@ -85,59 +100,21 @@ export default props => {
       <CustomInfo id="customInfo" onChange={onChange} data={{errorFields, ratePoor, clients, T}} />
       <hr/>
 
-      <div className="row">
-        <div className="phoneCounsellingSummary">
-          <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#phoneCounsellingSummary">
-            <label className="makeSpaceCustom">{T.translate("newCall.referralMoreInfo.phone_counselling")}</label>
-            <span className="pointer">
-              <i className="fa fa-chevron-up"></i>
-              <i className="fa fa-chevron-down"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div id="phoneCounsellingSummary" className="collapse">
-        <br/>
+      { call.call_type === "Phone Counselling" ?
         <div className="row">
           <div className="col-xs-12 col-md-9">
             <TextArea
-              hidden="true"
-              placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
+              T={T}
+              required={ call.call_type === "Phone Counselling" }
+              placeholder={T.translate("newCall.admin.add_note_about_the_content")}
               label="Phone Counselling Summary"
-              value={call.phone_counselling_summary}
-              onChange={onChange('call', 'phone_counselling_summary')} />
+              value={currentClient.phone_counselling_summary}
+              isError={errorFields.includes('phone_counselling_summary')}
+              onChange={handleOnChangeText('phone_counselling_summary')} />
           </div>
         </div>
-      </div>
-      <hr/>
-
-      {/* <div className="row">
-        <div className="informationProvided">
-          <div className="col-xs-10 collapsed" data-toggle="collapse" data-target="#informationProvided">
-            <label className="makeSpaceCustom">{T.translate("newCall.referralMoreInfo.information_provide")}</label>
-            <span className="pointer">
-              <i className="fa fa-chevron-up"></i>
-              <i className="fa fa-chevron-down"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div id="informationProvided" className="collapse">
-        <br/>
-        <div className="row">
-          <div className="col-xs-12 col-md-9">
-            <TextArea
-              hidden="true"
-              placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
-              label="Information Provided"
-              value={call.information_provided}
-              onChange={onChange('call', 'information_provided')} />
-          </div>
-        </div>
-      </div>
-      <hr/> */}
+        : <div></div>
+      }
     </div>
   )
 }

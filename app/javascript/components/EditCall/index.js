@@ -191,7 +191,8 @@ export default props => {
         </div>
       </div>
 
-      <div className="row">
+      {/* Pirun: Phone Counselling Summary should be the client column, not call column */}
+      {/* <div className="row">
         <div className="col-xs-12">
           <TextArea
             label
@@ -200,7 +201,7 @@ export default props => {
             value={callData.phone_counselling_summary}
             onChange={onChange('call', 'phone_counselling_summary')} />
         </div>
-      </div>
+      </div> */}
 
        <div className="row">
         <div className="col-xs-12">
