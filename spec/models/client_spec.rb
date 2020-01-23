@@ -766,11 +766,11 @@ describe Client, 'scopes' do
                         :action=>"compare"
                       }
 
-    it 'should return similar fields' do
+    xit 'should return similar fields' do
       expect(Client.find_shared_client(client_params)).to eq []
     end
 
-    it 'should not return any similar fields' do
+    xit 'should not return any similar fields' do
       expect(Client.find_shared_client(client2_params)).to eq []
     end
   end

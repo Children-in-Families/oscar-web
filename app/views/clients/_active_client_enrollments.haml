@@ -5,7 +5,7 @@
       %li= recent_record
 - else
   - client_enrollments = program_stream_name(active_programs, 'active_program_stream')
-  - all_programs = client_enrollments.map{ |c| c.program_stream.name }.uniq
+  - all_programs = client_enrollments.map{ |c| c.program_stream_name }.uniq
   - if all_programs.any?
     %ul{'data-program_streams': '' }
       - all_programs.each do |program_name|

@@ -16,6 +16,7 @@ module AdvancedSearches
     def get_sql
       custom_formable_type = @entity_type.titleize
       sql_string = "#{@entity_type.pluralize}.id IN (?)"
+      return { id: sql_string, values: [] } if $param_rules.blank?
       properties_field = 'custom_field_properties.properties'
       custom_field_properties = CustomFieldProperty.where(custom_formable_type: custom_formable_type, custom_field_id: @selected_custom_form)
 
@@ -24,12 +25,12 @@ module AdvancedSearches
       results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
 
       query_string  = get_query_string(results, 'formbuilder', properties_field)
-
-      properties_result = custom_field_properties.where(query_string.reject(&:blank?).join(" AND "))
+      sql           = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+      properties_result = custom_field_properties.where(sql)
 
       client_ids = properties_result.pluck(:custom_formable_id).uniq
-      { id: sql_string, values: client_ids }
 
+      { id: sql_string, values: client_ids }
     end
   end
 end

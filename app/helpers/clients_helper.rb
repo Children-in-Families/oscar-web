@@ -434,18 +434,18 @@ module ClientsHelper
   end
 
   def program_stream_name(object, rule)
-    hashes          = Hash.new { |h, k| h[k] = [] }
-
-    results         = client_advanced_search_data(object, rule)
-    return object if return_default_filter(object, rule, results)
-    results.each { |k, o, v| hashes[k] << { o => v } }
-    sql_hash        = mapping_query_string(object, hashes, 'client_enrollments.program_stream_id', rule)
-
-    sub_query_array = mapping_sub_query_array(object, 'client_enrollments.program_stream_id', rule)
-    query_array     = mapping_query_string_with_query_value(sql_hash, @data[:condition])
-    sql_string      = object.where(query_array).where(sub_query_array)
-
-    sql_string.present? ? sql_string : []
+    properties_field = 'client_enrollment_trackings.properties'
+    basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    return object if basic_rules.nil?
+    basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+    results      = mapping_form_builder_param_value(basic_rules, 'tracking')
+    query_string  = get_query_string(results, 'tracking', properties_field)
+    default_value_param = params['all_values']
+    if default_value_param
+      object
+    else
+      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" AND ")).distinct
+    end
   end
 
   def mapping_sub_query_array(object, association, rule)
@@ -517,22 +517,22 @@ module ClientsHelper
   end
 
   def form_builder_query(object, form_type, field_name)
-    return object unless params[:client_advanced_search].present?
-    data    = {}
-
-    return object if params[:client_advanced_search][:basic_rules].nil?
-    data    = JSON.parse(params[:client_advanced_search][:basic_rules]).with_indifferent_access
-
-    results             = mapping_form_builder_param_value(data, form_type)
-
-    default_value_param = params['all_values']
-
-    results = mapping_form_builder_param_value(data, field_name) if default_value_param
-
+    return object if params['all_values'].present?
     properties_field = 'client_enrollment_trackings.properties'
-    query_string = get_query_string(results, form_type, properties_field)
 
-    object.where(query_string.reject(&:blank?).join(" AND "))
+    selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
+    basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+    results      = mapping_form_builder_param_value(basic_rules, form_type)
+
+    return object if results.flatten.blank?
+
+    query_string  = get_query_string(results, form_type, properties_field)
+    if form_type == 'formbuilder'
+      properties_result = object.where(query_string.reject(&:blank?).join(" AND "))
+    else
+      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+    end
   end
 
   def case_note_query_results(object, case_note_date_query, case_note_type_query)
@@ -630,12 +630,12 @@ module ClientsHelper
     rule_array = []
     data[:rules].each_with_index do |h, index|
       if h.has_key?(:rules)
-        mapping_form_builder_param_value(h, form_type, field_name=nil, data_mapping)
+        mapping_form_builder_param_value(h, form_type, field_name, data_mapping)
       end
       if field_name.nil?
-       next if !(h[:id] =~ /^(#{form_type})/i)
+        next if !(h[:id] =~ /^(#{form_type})/i)
       else
-       next if h[:id] != field_name
+        next if h[:id] != field_name
       end
       h[:condition] = data[:condition]
       rule_array << h
@@ -708,8 +708,17 @@ module ClientsHelper
 
       if class_name[/^(programexitdate)/i].present?
         ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
-        object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
-        count += date_filter(object, class_name).flatten.count
+        if $param_rules.nil?
+          object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
+          count += date_filter(object, class_name).flatten.count
+        else
+          basic_rules = $param_rules['basic_rules']
+          basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_exit_program_date_param_value(basic_rules)
+          query_string = get_exit_program_date_query_string(results)
+          object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids }).where(query_string)
+        end
+        count = object.distinct.count
       else
         @clients.each do |client|
           if class_name == 'case_note_type'

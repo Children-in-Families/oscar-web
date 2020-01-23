@@ -15,7 +15,7 @@ namespace :change_casenote_data do
         UPDATE case_notes SET attendee = mapping_values.attendee, interaction_type = mapping_values.interaction_type FROM (VALUES #{values}) AS mapping_values (case_note_id, attendee, interaction_type) WHERE case_notes.id = mapping_values.case_note_id;
         UPDATE case_note_domain_groups SET note = '#{dummy_text}', attachments = ARRAY[]::varchar[];
       SQL
-      ActiveRecord::Base.connection.execute(sql)
+      ActiveRecord::Base.connection.execute(sql) if values.present?
       puts "Done updating case note!!!"
     end
   end
