@@ -26,7 +26,8 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
-    @HOTLINE_TRANSLATE   = $(optionTranslation).data('hotline')
+    @HOTLINE_TRANSLATE   = optionTranslation.data('hotline')
+    @CONCERN_BASIC_FIELDS   = optionTranslation.data('concern-basic-fields')
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
@@ -763,6 +764,7 @@ class CIF.ClientAdvanceSearch
       $('.hotline-call-column .i-checks').iCheck('uncheck')
       $('.hotline-call-column a.dropdown-toggle').addClass('disabled')
       self.handleRemoveFilterBuilder(self.HOTLINE_TRANSLATE, self.HOTLINE_TRANSLATE)
+      self.handleRemoveFilterBuilder(self.CONCERN_BASIC_FIELDS, self.CONCERN_BASIC_FIELDS)
       return
 
   handleAddHotlineFilter: ->

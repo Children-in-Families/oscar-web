@@ -112,22 +112,36 @@ module ClientAdvancedSearchesConcern
       dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
     }
 
-    @hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+    hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+
+    @hotline_fields = get_client_hotline_fields + hotline_fields
   end
 
   def get_client_hotline_fields
     client_fields = I18n.t('datagrid.columns.clients')
+    dropdown_list_options = [
+      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.client_address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
+      ['concern_province_id', Province.dropdown_list_option],
+      ['concern_district_id', District.dropdown_list_option],
+      ['concern_commune_id', Commune.dropdown_list_option],
+      ['concern_village_id', Village.dropdown_list_option],
+      ['concern_is_outside', { true: 'Yes', false: 'No' }],
+      ['concern_same_as_client', { true: 'Yes', false: 'No' }],
+      ['protection_concern_id', ProtectionConcern.dropdown_list_option],
+      ['necessity_id', Necessity.dropdown_list_option]
+    ]
+
     args = {
-      translation: client_fields.merge({ basic_fields: I18n.t('advanced_search.fields.basic_fields') }), number_field: [],
+      translation: client_fields.merge({ concern_basic_fields: I18n.t('advanced_search.fields.concern_basic_fields') }), number_field: [],
       text_field: hotline_text_type_list, date_picker_field: [],
-      dropdown_list_option: []
+      dropdown_list_option: dropdown_list_options
     }
 
-    @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('basic_fields', args).render
+    @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
   end
 
   def hotline_text_type_list
-    %w(concern_address concern_address_type concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description nickname)
+    %w(concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description nickname)
   end
 
   def custom_form_values

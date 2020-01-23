@@ -1,4 +1,5 @@
 class Commune < ActiveRecord::Base
+  attr_accessor :name
   has_paper_trail
 
   belongs_to :district
@@ -11,7 +12,8 @@ class Commune < ActiveRecord::Base
   validates :district, :name_kh, :name_en, presence: true
   validates :code, presence: true, uniqueness: true
 
-  attr_accessor :name
+  scope :dropdown_list_option, -> { all.map{|c| { c.id => c.name } } }
+
 
   def name
     "#{name_kh} / #{name_en}"

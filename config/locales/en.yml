@@ -371,6 +371,7 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      concern_basic_fields: Client Fields Concern
       created_at: Created Date
       created_by: Created By
       csi_domain_scores: CSI Domain Scores
@@ -949,6 +950,7 @@ en:
         successfully_updated: Client has been successfully updated.
     form_option:
       basic_fields: Client Basic Fields
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
       enrollment: Enrollment
@@ -995,6 +997,7 @@ en:
   client_advanced_searches:
     form_option:
       basic_fields: Client Basic Fields
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
       enrollment: Enrollment
@@ -1297,6 +1300,7 @@ en:
       form_option:
         basic_fields: Basic Fields
         csi_domain_scores: Csi Domain Scores
+        concern_basic_fields: Client Fields Concern
         custom_form: Custom Form
         enrollment: Enrollment
         exit_program: Exit Program
@@ -1760,7 +1764,7 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
-      concern_location: Location Description
+      concern_location: Location Of Concern
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
@@ -2161,7 +2165,7 @@ en:
         concern_email_owner: Email Owner
         concern_house: House Number
         concern_is_outside: Concern is Outside Cambodia
-        concern_location: Location Description
+        concern_location: Location Of Concern
         concern_outside_address: Outside Cambodia Address
         concern_phone: Relevant Contact Phone
         concern_phone_owner: Phone Owner
@@ -2219,12 +2223,13 @@ en:
         live_with: Primary Carer Name
         local_family_name: Family Name
         local_given_name: Given Name
-        location_description: Location description
+        location_description: Location Description
         main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
         name: Name
         name_of_referee: Name of Referee
+        necessity_id: Basic Necessities
         nickname: Nickname
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
@@ -2253,6 +2258,7 @@ en:
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
+        protection_concern_id: Child Protection Concerns
         province: Birth Province
         quantitative_case_values: Specific Referral Data Option
         quantitative_types: Custom Referral Data

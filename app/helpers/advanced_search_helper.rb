@@ -160,8 +160,7 @@ module AdvancedSearchHelper
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
-      hotline: I18n.t('datagrid.columns.calls.hotline'),
-      **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
+      hotline: I18n.t('datagrid.columns.calls.hotline')
     }
     translations[key.to_sym] || ''
   end
