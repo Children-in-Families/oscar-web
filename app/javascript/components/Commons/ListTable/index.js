@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { reject, isEmpty, titleize } from '../../DetailCall/helper'
 
-export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
+export const HorizontalTable = ({ title, data, renderItem, linkHeader, disabledEdit=false }) => {
   let keyLists = Object.keys(reject(data)) || []
 
   return (
@@ -10,7 +10,7 @@ export const HorizontalTable = ({ title, data, renderItem, linkHeader }) => {
         <div className="ibox-title">
           <h5>{title}</h5>
           <div className="ibox-tools">
-            <a className="btn btn-success btn-outline" href={linkHeader} target="_blank">
+            <a className={`btn btn-success btn-outline ${disabledEdit ? 'disabled' : ''}`} href={linkHeader} target="_blank">
               <i className="fa fa-pencil"></i>
             </a>
             <a className="collapse-link">

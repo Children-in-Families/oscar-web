@@ -8,5 +8,6 @@ class Referee < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_many :calls, dependent: :restrict_with_error
 
-  # validates :answered_call, :called_before, presence: true
+  validates :name, presence: true
+  validates :answered_call, :called_before, inclusion: { in: [ true, false ] }
 end
