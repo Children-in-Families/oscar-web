@@ -1,7 +1,10 @@
 class CallsController < AdminController
-  load_and_authorize_resource find_by: :id, except: :quantitative_case
+  # load_and_authorize_resource find_by: :id, except: :quantitative_case
+  load_and_authorize_resource find_by: :id
 
-  before_action :set_association, except: [:index, :destroy, :version]
+  # before_action :set_association, except: [:index, :destroy, :version]
+  before_action :set_association, only: [:new, :edit, :update, :show]
+  before_action :country_address_fields, only: [:new]
 
   def index
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
@@ -18,6 +21,8 @@ class CallsController < AdminController
   end
 
   def new
+    @referee  = Referee.new
+    @carer  = Carer.new
     @client = Client.new
     @referees = Referee.all
     @providing_update_clients = Client.accessible_by(current_ability).map{ |client| { label: client.name, value: client.id }}
@@ -33,7 +38,7 @@ class CallsController < AdminController
   end
 
   def edit
-    @client = Client.new
+    # @client = Client.new
     @call = Call.find(params[:id])
   end
 
@@ -65,24 +70,24 @@ class CallsController < AdminController
   def update_referee
     
   end
-  
 
-  def create
-    call = Call.new(call_params)
-    if call.save
-      render json: call
-    else
-      render json: call.errors, status: :unprocessable_entity
-    end
-  end
 
-  def quantitative_case
-    if params[:id].blank?
-      render json: QuantitativeCase.all, root: :data
-    else
-      render json: QuantitativeCase.quantitative_cases_by_type(params[:id]), root: :data
-    end
-  end
+  # def create
+  #   call = Call.new(call_params)
+  #   if call.save
+  #     render json: call
+  #   else
+  #     render json: call.errors, status: :unprocessable_entity
+  #   end
+  # end
+
+  # def quantitative_case
+  #   if params[:id].blank?
+  #     render json: QuantitativeCase.all, root: :data
+  #   else
+  #     render json: QuantitativeCase.quantitative_cases_by_type(params[:id]), root: :data
+  #   end
+  # end
 
   private
 
@@ -101,7 +106,7 @@ class CallsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @users           = User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| [user.name, user.id] }
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
@@ -128,16 +133,14 @@ class CallsController < AdminController
 
     # @carer   = @client.carer.present? ? @client.carer : Carer.new
     # @referee = @client.referee.present? ? @client.referee : Referee.new
-    @carer     = params["action"] == "edit" ? @client.carer : Carer.new
-    @referee   = params["action"] == "edit" ? @client.referee : Referee.new
-    
+
     @relation_to_caller = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
     @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
     @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
     @referral_source = []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
-    country_address_fields
+    # country_address_fields
   end
 
   def referral_source_name(referral_source)
@@ -193,13 +196,13 @@ class CallsController < AdminController
     # @carer_villages                 = []
   end
 
-  def exited_clients(user_ids)
-    sql = user_ids.map do |user_id|
-      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
-    end.join(" OR ")
-    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
-      client_id = version.changeset[:client_id].last
-    end
-    Client.where(id: client_ids, status: 'Exited').ids
-  end
+  # def exited_clients(user_ids)
+  #   sql = user_ids.map do |user_id|
+  #     "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
+  #   end.join(" OR ")
+  #   client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
+  #     client_id = version.changeset[:client_id].last
+  #   end
+  #   Client.where(id: client_ids, status: 'Exited').ids
+  # end
 end
