@@ -91,7 +91,9 @@ export default props => {
     const errors = []
     
     validationFields.forEach(field => {
-      if(callData[field].length <= 0 || callData[field] === null) {
+      if (callData[field] === null) {
+        errors.push(field)
+      } else if(callData[field].length < 1) {
         errors.push(field)
       }
     })
