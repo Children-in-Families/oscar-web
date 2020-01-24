@@ -657,7 +657,6 @@ en:
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
-    phone_counselling_summary: Phone counselling summary
     phone_type: Phone type
     start_datetime: Start Date Time
   cancel: Cancel
@@ -2236,6 +2235,7 @@ en:
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         other_info_of_exit: Other - More Information
+        phone_counselling_summary: Phone Counselling Summary
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
         placements:
@@ -2573,6 +2573,7 @@ en:
       rci: RCI
       dormitory: Dormitory
       other: Other
+    phone_counselling_summary: Phone Counselling Summary
     phone_owner:
       self: Self
       family_member: Family Member
