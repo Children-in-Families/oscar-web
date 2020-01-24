@@ -28,7 +28,7 @@ export default props => {
     T.translate("newCall.admin.calltypes.new_referral_notifier"),
     T.translate("newCall.admin.calltypes.providing_update"),
     T.translate("newCall.admin.calltypes.phone_conseling"),
-    T.translate("newCall.admin.calltypes.seeking_infomation"),
+    T.translate("newCall.admin.calltypes.seeking_information"),
     T.translate("newCall.admin.calltypes.spam_call"),
     T.translate("newCall.admin.calltypes.wrong_number")
   ];

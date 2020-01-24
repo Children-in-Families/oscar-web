@@ -14,17 +14,18 @@ export default props => {
   //                   'phone_counseling', 'seeking_information', 'spam_call', 'wrong_number'];
 
   const callTypes = [
-    T.translate("newCall.admin.calltypes.new_referral_case"),
-    T.translate("newCall.admin.calltypes.new_referral_notifier"),
-    T.translate("newCall.admin.calltypes.providing_update"),
-    T.translate("newCall.admin.calltypes.phone_conseling"),
-    T.translate("newCall.admin.calltypes.seeking_infomation"),
-    T.translate("newCall.admin.calltypes.spam_call"),
-    T.translate("newCall.admin.calltypes.wrong_number")
+    { label: T.translate("newCall.admin.calltypes.new_referral_case"), value: "New Referral: Case Action Required" },
+    { label: T.translate("newCall.admin.calltypes.new_referral_notifier"), value: "New Referral: Case Action NOT Required" },
+    { label: T.translate("newCall.admin.calltypes.providing_update"), value: "Providing Update" },
+    { label: T.translate("newCall.admin.calltypes.phone_conseling"), value: "Phone Counselling" },
+    { label: T.translate("newCall.admin.calltypes.seeking_information"), value: "Seeking Information" },
+    { label: T.translate("newCall.admin.calltypes.spam_call"), value: "Spam Call" },
+    { label: T.translate("newCall.admin.calltypes.wrong_number"), value: "Wrong Number" }
   ];
 
+
   const callTypeList = callTypes.map(type => (
-    { label: type, value: type, isFixed: false }
+    { label: type.label, value: type.value, isFixed: false }
   ));
 
   return (
@@ -37,20 +38,6 @@ export default props => {
         </div>
       </legend>
 
-      {/* removed since it should be set after the call is saved */}
-      {/* <div className='row'>
-        <div className='col-md-12 col-lg-9'>
-          <TextInput
-            T={T}
-            required
-            isError={errorFields.includes('phone_call_id')}
-            label={T.translate("newCall.admin.phone_call")}
-            onChange={onChange('call', 'phone_call_id')}
-            value={call.phone_call_id}
-            />
-        </div>
-      </div> */}
-
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <SelectInput
@@ -62,18 +49,6 @@ export default props => {
             value={call.receiving_staff_id}
             onChange={onChange('call', 'receiving_staff_id')}
           />
-
-          {/* 2. Is Receiving Staff of hotline the same as Receving Staff Member in AHT?
-          If yes, use the following instead. */}
-          {/* <SelectInput
-            T={T}
-            required
-            isError={errorFields.includes('receiving_staff_id')}
-            label='Receiving Staff'
-            options={userLists}
-            value={call.receiving_staff_id}
-            onChange={(value) => { onChange('call', 'receiving_staff_id')(value); onChange('client', 'received_by_id')(value) }}
-            /> */}
         </div>
       </div>
 
