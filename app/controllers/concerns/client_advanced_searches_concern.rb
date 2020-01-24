@@ -108,7 +108,7 @@ module ClientAdvancedSearchesConcern
   def get_hotline_fields
     args = {
       translation: get_basic_field_translations, number_field: [],
-      text_field: ['phone_counselling_summary', 'information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
+      text_field: ['information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
       dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
     }
 
@@ -141,7 +141,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_text_type_list
-    %w(concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description nickname)
+    %w(nickname concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description brief_note_summary phone_counselling_summary)
   end
 
   def custom_form_values

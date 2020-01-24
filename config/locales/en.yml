@@ -657,9 +657,8 @@ en:
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
-    phone_counselling_summary: Phone counselling summary
     phone_type: Phone type
-    start_datetime: Start Datetime
+    start_datetime: Start Date Time
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -1053,7 +1052,7 @@ en:
     hotline:
       end_datetime:
       received_by: Received Call by
-      start_datetime: Start Datetime
+      start_datetime: Start Date Time
     incomplete: Incomplete
     index:
       book: Client book
@@ -2107,7 +2106,7 @@ en:
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
-        start_datetime: Start Datetime
+        start_datetime: Start Date Time
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -2146,6 +2145,7 @@ en:
         birth_province: Client Birth Province
         birth_province_en: Client Birth Province (English)
         birth_province_kh: Client Birth Province (Khmer)
+        brief_note_summary: Brief Note Summary
         cambodia: Cambodia
         carer_name: Carer Name
         carer_phone: Carer Phone
@@ -2235,6 +2235,7 @@ en:
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         other_info_of_exit: Other - More Information
+        phone_counselling_summary: Phone Counselling Summary
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
         placements:
@@ -2537,6 +2538,7 @@ en:
     agencies_involved: Other Agencies Involved
     agency_names: Agency Name
     birth_province: Client Birth Province
+    brief_note_summary: Brief Note Summary
     cambodia: Cambodia
     case_worker: Case Worker
     case_worker_or_staff: Case Worker / Staff
@@ -2571,6 +2573,7 @@ en:
       rci: RCI
       dormitory: Dormitory
       other: Other
+    phone_counselling_summary: Phone Counselling Summary
     phone_owner:
       self: Self
       family_member: Family Member

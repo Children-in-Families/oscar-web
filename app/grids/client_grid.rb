@@ -536,10 +536,6 @@ class ClientGrid < BaseGrid
     live_with
   end
 
-  def client_concern_fields
-    Client::HOTLINE_FIELDS
-  end
-
   def client_hotline_fields
     Client::HOTLINE_FIELDS
   end
@@ -558,6 +554,7 @@ class ClientGrid < BaseGrid
           value = object.send(klass_name).distinct.map(&:content).join(', ')
         else
           value = object.send(hotline_field.to_sym)
+          value = hotline_field == 'address_type' ? value.titleize : value
           value = (value == true || value == false) ? yes_no[value.to_s.to_sym] : value.try(:titleize)
         end
         value
@@ -658,7 +655,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:client_address_type, header: -> { I18n.t('datagrid.columns.clients.client_address_type') }) do |object|
-    object.address_type
+    object.address_type && object.address_type.titleize
   end
 
   column(:client_email, header: -> { I18n.t('datagrid.columns.clients.client_email') }) do |object|
