@@ -7,6 +7,7 @@ export default props => {
   const {
     onChange,
     data: {
+      call,
       users,
       clients,
       referee,
@@ -79,8 +80,9 @@ export default props => {
   useEffect(() => {
     const newObjects = clients.map(client => {
       let newObject = { ...client }
-      if(client.referee_relationship === 'self') {
+      if(client.referee_relationship === 'self' || call.call_type === "Phone Counselling" ) {
         const fields = {
+          referee_relationship: 'self',
           outside: referee.outside,
           province_id: referee.province_id,
           district_id: referee.district_id,
@@ -100,7 +102,7 @@ export default props => {
     setAddressOptions(currentClient, 'address')
 
     onChange('client', newObjects)({type: 'object'})
-  }, [referee])
+  }, [referee, call])
 
   useEffect(() => {
     setAddressOptions(currentClient, 'address')
@@ -247,7 +249,7 @@ export default props => {
             <p>{T.translate("newCall.referralInfo.client_referral")}</p>
           </div>
 
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className={ `col-xs-12 col-md-6 col-lg-4 ${ call.call_type === 'Phone Counselling' ? 'hidden' : '' }` }>
             { renderClientNavigation()}
           </div>
         </div>
@@ -327,6 +329,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
+            isDisabled={call.call_type === 'Phone Counselling'}
             T={T}
             label={T.translate("newCall.referralInfo.relationshio_to_caller")}
             options={refereeRelationshipOpts}
@@ -347,7 +350,7 @@ export default props => {
           />
         </div>
 
-        <div className="col-xs-12">
+        <div className={ `col-xs-12 ${ call.call_type === 'Phone Counselling' ? 'hidden' : '' }` }>
           <button className="btn btn-primary" style={{margin: 5}} onClick={() => onChange('client', {})({type: 'newObject'})}>Add Another Client</button>
           { clients.length > 1 &&
             <button className="btn btn-danger" style={{margin: 5}} onClick={removeClient}>Remove Client</button>

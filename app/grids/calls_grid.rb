@@ -14,7 +14,6 @@ class CallsGrid
   filter(:start_datetime, :date)
   filter(:end_datetime, :date)
   filter(:information_provided)
-  filter(:phone_counselling_summary)
 
   column(:id)
   column(:phone_call_id, header: 'Phone call ID')
@@ -32,7 +31,6 @@ class CallsGrid
     model.end_datetime && model.end_datetime.strftime("%I:%M%p")
   end
   column(:information_provided, order: false)
-  column(:phone_counselling_summary, order: false)
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
   #   render partial: 'calls/actions', locals: { object: object }
   # end

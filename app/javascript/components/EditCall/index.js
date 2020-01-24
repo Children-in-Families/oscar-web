@@ -28,7 +28,7 @@ export default props => {
     T.translate("newCall.admin.calltypes.new_referral_notifier"),
     T.translate("newCall.admin.calltypes.providing_update"),
     T.translate("newCall.admin.calltypes.phone_conseling"),
-    T.translate("newCall.admin.calltypes.seeking_infomation"),
+    T.translate("newCall.admin.calltypes.seeking_information"),
     T.translate("newCall.admin.calltypes.spam_call"),
     T.translate("newCall.admin.calltypes.wrong_number")
   ];
@@ -188,17 +188,6 @@ export default props => {
             options={callTypeList}
             value={callData.call_type}
             onChange={onChange('call','call_type')} />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-xs-12">
-          <TextArea
-            label
-            placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
-            label="Phone Counselling Summary"
-            value={callData.phone_counselling_summary}
-            onChange={onChange('call', 'phone_counselling_summary')} />
         </div>
       </div>
 

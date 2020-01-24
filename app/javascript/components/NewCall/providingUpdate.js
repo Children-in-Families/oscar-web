@@ -31,10 +31,10 @@ export default props => {
     <>
       <div className="row">
         <div className="col-xs-12">
-          <p>{T.translate("newCall.admin.please_select_client")}</p>
           <SelectInput
+            required
             T={T}
-            label=""
+            label={T.translate("newCall.admin.please_select_client")}
             options={providingUpdateClients}
             value={
               (callData.client_ids.length > 0 && callData.client_ids[0]) ||

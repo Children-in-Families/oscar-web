@@ -59,7 +59,7 @@ const CallForms = props => {
   const adminTabData = { call: callData, users, errorFields, T, step }
 
   const refereeTabData = { errorFields, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
-  const referralTabData = { users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
+  const referralTabData = { call: callData, users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
   const callAboutTabData = { clients: clientData, T, necessities, protection_concerns }
 
@@ -114,13 +114,15 @@ const CallForms = props => {
   }
 
   const handleValidation = () => {
+    const counselling = callData.call_type === "Phone Counselling"
     const components = [
       { step: 1, data: refereeData, fields: ['name', 'answered_call', 'called_before'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 1, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'end_datetime'] },
       { step: 2, data: clientData, fields: ['gender', 'user_ids']},
-      { step: 3, data: clientData, fields: [] },
-      { step: 4, data: clientData, fields: [] }
+      { step: 3, data: clientData, fields: counselling ? ['phone_counselling_summary'] : [] },
+      { step: 4, data: clientData, fields: [] },
+      { step: 4, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'end_datetime'] }
     ]
 
     const errors = []
@@ -183,9 +185,9 @@ const CallForms = props => {
   }
 
   const checkCallType = () => callback => {
-    if (callData.call_type == "New Referral: Case Action NOT Required") {
+    if (callData.call_type === "New Referral: Case Action NOT Required") {
       setCaseActionNotRequiredModalOpen(true)
-    } else if (callData.call_type == "Providing Update") {
+    } else if (callData.call_type === "Providing Update") {
       setProvidingUpdateModalOpen(true)
     } else if (callData.call_type === "Seeking Information" || callData.call_type === "Spam Call" || callData.call_type === "Wrong Number") {
       setNoClientAttachedModalOpen(true)

@@ -290,7 +290,7 @@ module Api
       def call_params
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
                                 :date_of_call, :start_datetime, :end_datetime, :call_type,
-                                :phone_counselling_summary, :information_provided,
+                                :information_provided,
                                 client_ids: []
                                 )
       end
@@ -334,7 +334,7 @@ module Api
           :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
           :concern_street, :concern_house, :concern_address, :concern_address_type,
           :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location, :concern_same_as_client,
-          :brief_note_summary,
+          :brief_note_summary, :phone_counselling_summary,
 
           interviewee_ids: [],
           client_type_ids: [],
