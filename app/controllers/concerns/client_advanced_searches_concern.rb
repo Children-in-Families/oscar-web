@@ -141,7 +141,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_text_type_list
-    %w(concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description nickname)
+    %w(nickname concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description brief_note_summary)
   end
 
   def custom_form_values

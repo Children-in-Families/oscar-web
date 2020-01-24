@@ -717,7 +717,7 @@ module ClientsHelper
     return column.header.truncate(65) if grid.class.to_s != 'ClientGrid' || @clients.blank?
     count = 0
     class_name  = header_classes(grid, column)
-    class_name  = class_name == "call-field" ? column.header.parameterize.underscore : class_name
+    class_name  = class_name == "call-field" ? column.name.to_s : class_name
 
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
