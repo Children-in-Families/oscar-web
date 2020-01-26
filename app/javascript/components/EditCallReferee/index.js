@@ -329,20 +329,11 @@ export default props => {
       </div> */}
 
       <div className='row'>
-        <div className='col-sm-12'>
-          <span className='btn btn-success btn-block' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
+        <div className='col-sm-12 text-right'>
+          <span className='btn btn-success form-btn' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
+          <span className='btn btn-default form-btn' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
         </div>
       </div>
-
-      <br />
-
-      <div className='row'>
-        <div className='col-sm-12'>
-          <span className='btn btn-default btn-block' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
-        </div>
-      </div>
-
     </div>
-  
   )
 }
