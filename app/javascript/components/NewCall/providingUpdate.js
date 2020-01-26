@@ -29,7 +29,7 @@ export default props => {
 
   return (
     <>
-      <div className="row">
+      <div className="row" style={{minHeight: 300}}>
         <div className="col-xs-12">
           <SelectInput
             required
