@@ -37,7 +37,7 @@ export default props => {
     <>
       <legend className='legend'>
         <div className="row">
-          <div className="col-md-12 col-lg-9">
+          <div className="col-xs-12">
             <p>{T.translate("newCall.callAbout.what_is_the_call")}</p>
           </div>
         </div>

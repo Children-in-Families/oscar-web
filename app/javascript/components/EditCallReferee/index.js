@@ -188,7 +188,7 @@ export default props => {
       {/* <TaskModal data={{referee, clientTask}} onChange={onChange} /> */}
       <legend>
         <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
+          <div className="col-xs-12 col-md-6">
             <p>{T.translate("newCall.refereeInfo.caller_info")}</p>
           </div>
         </div>

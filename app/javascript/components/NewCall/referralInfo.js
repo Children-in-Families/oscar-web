@@ -245,7 +245,7 @@ export default props => {
     <div className="containerClass">
       <legend>
         <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6">
             <p>{T.translate("newCall.referralInfo.client_referral")}</p>
           </div>
 

@@ -54,7 +54,7 @@ export default props => {
         { invalid && <p style={{color: 'red'}}>Please Input all the required fields</p> }
         <div style={styles.modalContentWrapper}>
           <DateInput required label='Completion Date' onChange={onChangeDate} value={task.completion_date} />
-          <TextInput required disabled={true} label='Task Details' value={task.name || `Call ${referee.name} on ${referee.phone} to update about`} />
+          <TextInput required disabled={true} label='Task Details' value={task.name || `Call ${referee.name} on ${referee.phone} to update about the client.`} />
           <TextInput required disabled={true} label='Domain' value='Domain 3B' />
         </div>
         {/* below code is for multiple tasks. Delete if client decide to never use multiple tasks */}
