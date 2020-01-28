@@ -160,6 +160,8 @@ class ClientsController < AdminController
   end
 
   def destroy
+    @client.enter_ngos.each(&:destroy_fully!)
+    @client.exit_ngos.each(&:destroy_fully!)
     @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
     @client.reload.destroy
@@ -245,7 +247,7 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @users           = User.deleted_user.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
@@ -256,23 +258,18 @@ class ClientsController < AdminController
       @families        = Family.order(:name)
     elsif current_user.manager?
       family_ids = current_user.families.ids
-      User.where(id: subordinate_users).each do |user|
-        user.clients.each do |client|
-          family_ids << client.family.try(:id)
-        end
-      end
-      Client.where(id: exited_clients(subordinate_users)).each do |client|
-        family_ids << client.family.try(:id)
-      end
-      current_user.clients.each do |client|
-        family_ids << client.family.try(:id)
-      end
+      exited_client_ids = exited_clients(subordinate_users)
+
+      family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
+      family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
+      clients     = Client.accessible_by(current_ability)
+      family_ids += clients.where(user_id: current_user.id).pluck(:current_family_id)
+
       @families = Family.where(id: family_ids)
     elsif current_user.case_worker?
       family_ids = current_user.families.ids
-      current_user.clients.each do |client|
-        family_ids << client.family.try(:id)
-      end
+      clients    = Client.accessible_by(current_ability)
+      family_ids += clients.where(user_id: current_user.id).pluck(:current_family_id)
       @families = Family.where(id: family_ids)
     end
 
@@ -340,16 +337,13 @@ class ClientsController < AdminController
     redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
   end
 
-  def exited_clients(users)
-    client_ids = []
-    users.each do |user|
-      PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where_object_changes(user_id: user).each do |version|
-        next if version.changeset[:user_id].last != user
-        client_id = version.changeset[:client_id].last
-        next if !Client.find_by(id: client_id).presence.try(:exit_ngo?)
-        client_ids << client_id if client_id.present?
-      end
+  def exited_clients(user_ids)
+    sql = user_ids.map do |user_id|
+      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
+    end.join(" OR ")
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
+      client_id = version.changeset[:client_id].last
     end
-    client_ids.uniq
+    Client.where(id: client_ids, status: 'Exited').ids
   end
 end

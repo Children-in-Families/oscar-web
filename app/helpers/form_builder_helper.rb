@@ -1,5 +1,5 @@
 module FormBuilderHelper
-  def get_query_string(results, form_type, properties_field)
+  def get_query_string(results, form_type, properties_field, program_name=nil)
     results.map do |result|
       condition = ''
       result.map do |h|
@@ -105,54 +105,53 @@ module FormBuilderHelper
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
-        "lower(properties ->> '#{field}') = '#{value.downcase}'"
+        "(lower(properties ->> '#{field}') = '#{value.downcase}')"
       else
-        "properties -> '#{field}' ? '#{value}'"
+        "(properties -> '#{field}' ? '#{value}')"
       end
     when 'not_equal'
       if input_type == 'text' && field.exclude?('&')
-        "lower(properties ->> '#{field}') != '#{value.downcase}'"
+        "(lower(properties ->> '#{field}') != '#{value.downcase}')"
       else
-        "NOT(properties -> '#{field}' ? '#{value}')"
+        "(NOT(properties -> '#{field}' ? '#{value}'))"
       end
     when 'less'
-      "(properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != '')"
     when 'less_or_equal'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != '')"
     when 'greater'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != '')"
     when 'greater_or_equal'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != '')"
     when 'contains'
-      "properties ->> '#{field}' ILIKE '%#{value.squish}%'"
+      "(properties ->> '#{field}' ILIKE '%#{value.squish}%')"
     when 'not_contains'
-      "properties ->> '#{field}' NOT ILIKE '%#{value.squish}%'"
+      "(properties ->> '#{field}' NOT ILIKE '%#{value.squish}%')"
     when 'is_empty'
       if type == 'checkbox'
-        "properties -> '#{field}' ? ''"
+        "(properties -> '#{field}' ? '')"
       else
-        "properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL"
+        "(properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL)"
       end
     when 'is_not_empty'
       if type == 'checkbox'
-        "NOT(properties -> '#{field}' ? '')"
+        "(NOT(properties -> '#{field}' ? ''))"
       else
-        "NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL"
+        "(NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL)"
       end
     when 'between'
-      "(properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''"
+      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != '')"
     end
   end
 
   def map_type_of_services(object)
     if $param_rules.nil?
-      program_streams = object.program_streams.joins(:services)
-      type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
+      return_default_client_type_of_services(object)
     else
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       results = mapping_program_stream_service_param_value(basic_rules)
-
+      return return_default_client_type_of_services(object) if results.flatten.blank?
       query_string = get_program_service_query_string(results)
 
       program_streams = object.program_streams.joins(:services).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams)
@@ -162,6 +161,11 @@ module FormBuilderHelper
 
       type_of_services = program_streams.distinct.map{|ps| ps.services.where(serivce_query_string.reject(&:blank?).join(" AND ")) }.flatten.uniq
     end
+  end
+
+  def return_default_client_type_of_services(object)
+    program_streams = object.program_streams.joins(:services)
+    type_of_services = program_streams.map{|ps| ps.services }.flatten.uniq
   end
 
   def mapping_service_param_value(data, field_name=nil, data_mapping=[])

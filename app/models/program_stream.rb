@@ -44,7 +44,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def build_permission
-    User.non_strategic_overviewers.each do |user|
+    User.deleted_user.non_strategic_overviewers.each do |user|
       self.program_stream_permissions.find_or_create_by(user: user)
     end
   end

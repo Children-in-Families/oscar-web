@@ -18,6 +18,7 @@ FactoryGirl.define do
 
     after(:build) do |referral|
       referral.class.skip_callback(:save, :after, :create_referral_history)
+      referral.class.skip_callback(:save, :after, :make_a_copy_to_target_ngo)
     end
 
     trait :client_with_history do
