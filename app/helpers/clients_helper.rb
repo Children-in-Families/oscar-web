@@ -438,13 +438,17 @@ module ClientsHelper
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     return object if basic_rules.nil?
     basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results      = mapping_form_builder_param_value(basic_rules, 'tracking')
-    query_string  = get_query_string(results, 'tracking', properties_field)
+    results      = mapping_form_builder_param_value(basic_rules, rule)
+    query_string  = get_query_string(results, rule, properties_field)
     default_value_param = params['all_values']
     if default_value_param
       object
-    else
+    elsif rule == 'tracking'
       properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" AND ")).distinct
+    elsif rule == 'active_program_stream'
+      properties_result = object.includes(:program_stream).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams).distinct
+    else
+      object
     end
   end
 
