@@ -41,6 +41,8 @@ const CallForms = props => {
 
   const [loading, setLoading] = useState(false)
   const [onSave, setOnSave] = useState(false)
+  const [dupClientModalOpen, setDupClientModalOpen]     = useState(false)
+  const [dupFields, setDupFields]     = useState([])
   const [errorFields, setErrorFields] = useState([])
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
@@ -171,6 +173,8 @@ const CallForms = props => {
     if((goForward && handleValidation()) || (goOver && handleValidation(1) && handleValidation(2)) || goBack)
       if(step === 1)
         checkCallType()(() => setStep(goingToStep))
+      else if (step === 2 )
+        checkClientExist()(() => setStep(goingToStep))
       else
         setStep(goingToStep)
   }
@@ -179,6 +183,9 @@ const CallForms = props => {
     if (handleValidation()) {
       if (step === 1 )
         checkCallType()(() => setStep(step + 1))
+      else if (step === 2 ) {
+        checkClientExist()(() => setStep(step + 1))
+      }
       else
         setStep(step + 1)
     }
@@ -196,6 +203,41 @@ const CallForms = props => {
     }
   }
 
+  const checkClientExist = () => callback => {
+    const data =  {
+      given_name: clientData[0].given_name ,
+      family_name: clientData[0].family_name,
+      local_given_name: clientData[0].local_given_name,
+      local_family_name: clientData[0].local_family_name,
+      date_of_birth: clientData[0].date_of_birth || '',
+      birth_province_id: clientData[0].birth_province_id || '',
+      current_province_id: clientData[0].province_id || '',
+      district_id: clientData[0].district_id || '',
+      village_id: clientData[0].village_id || '',
+      commune_id: clientData[0].commune_id || ''
+    }
+
+    if(clientData[0].outside === undefined || clientData[0].outside === false) {
+      if(data.given_name !== '' || data.family_name !== '' || data.local_given_name !== '' || data.local_family_name !== '' || data.date_of_birth !== '' || data.birth_province_id !== '' || data.current_province_id !== '' || data.district_id !== '' || data.village_id !== '' || data.commune_id !== '') {
+        $.ajax({
+          type: 'GET',
+          url: '/api/clients/compare',
+          data: data,
+          beforeSend: () => { setLoading(true) }
+        }).success(response => {
+          if(response.similar_fields.length > 0) {
+            setDupFields(response.similar_fields)
+            setDupClientModalOpen(true)
+          } else
+            callback()
+          setLoading(false)
+        })
+      } else
+        callback()
+    } else
+      callback()
+  }
+
   const handleSave = () => {
     if (handleValidation()) {
       handleCheckValue(refereeData)
@@ -203,54 +245,79 @@ const CallForms = props => {
       handleCheckValue(carerData)
       if(refereeData.requested_update === false)
         setTaskData({})
-      // todo
-      // if (clientData.family_ids.length === 0)
-      if (false)
-        setAttachFamilyModal(true)
-      else {
-        setOnSave(true)
-        const action = callData.id ? 'PUT' : 'POST'
-        const url = callData.id ? `/api/v1/calls/${callData.id}` : '/api/v1/calls'
-        const message = T.translate("newCall.index.message.call_has_been_created")
 
-        let formData = new FormData()
-        formData = objectToFormData(refereeData, {}, formData, 'referee')
-        formData = objectToFormData(callData, {}, formData, 'call')
-        // taskData may need to be filterd out if no client attached
-        formData = objectToFormData(taskData, {}, formData, 'task')
+      setOnSave(true)
+      const action = callData.id ? 'PUT' : 'POST'
+      const url = callData.id ? `/api/v1/calls/${callData.id}` : '/api/v1/calls'
+      const message = T.translate("newCall.index.message.call_has_been_created")
 
-        if (callData.call_type === "New Referral: Case Action Required" || callData.call_type === "New Referral: Case Action NOT Required" || callData.call_type === "Phone Counselling") {
-          formData = objectToFormData(clientData, {}, formData, 'clients')
-          formData = objectToFormData(carerData, {}, formData, 'carer')
+      let formData = new FormData()
+      formData = objectToFormData(refereeData, {}, formData, 'referee')
+      formData = objectToFormData(callData, {}, formData, 'call')
+      // taskData may need to be filterd out if no client attached
+      formData = objectToFormData(taskData, {}, formData, 'task')
+
+      if (callData.call_type === "New Referral: Case Action Required" || callData.call_type === "New Referral: Case Action NOT Required" || callData.call_type === "Phone Counselling") {
+        formData = objectToFormData(clientData, {}, formData, 'clients')
+        formData = objectToFormData(carerData, {}, formData, 'carer')
+      }
+
+      $.ajax({
+        url,
+        type: action,
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: () => { setLoading(true) }
+      })
+      .done(response => {
+        if (response.client_urls && response.client_urls.length > 0) {
+          response.client_urls.forEach(url => {
+            window.open(`${url}?notice=${message}`, '_blank')
+          })
         }
+        document.location.href = `/calls/${response.call.id}?notice=${message}`
+      })
+      .fail(error => {
+        setLoading(false)
+        setOnSave(false)
+        const errorFields = JSON.parse(error.responseText)
+        // console.log('errorFields', errorFields)
+        setErrorFields(Object.keys(errorFields))
+        if(errorFields.kid_id)
+          setErrorSteps([3])
+      })
+    }
+  }
 
-        $.ajax({
-          url,
-          type: action,
-          data: formData,
-          processData: false,
-          contentType: false,
-          beforeSend: () => { setLoading(true) }
-        })
-        .done(response => {
-          if (response.client_urls && response.client_urls.length > 0) {
-            response.client_urls.forEach(url => {
-              window.open(`${url}?notice=${message}`, '_blank')
+  const renderModalContent = data => {
+    return (
+      <>
+        <p>{T.translate("index.similar_record")}</p>
+        <ul>
+          {
+            data.map((fields,index) => {
+              let newFields = fields.split('_')
+              newFields.splice(0, 1)
+              return <li key={index} style={{textTransform: 'capitalize'}}>{newFields.join(' ')}</li>
             })
           }
-          document.location.href = `/calls/${response.call.id}?notice=${message}`
-        })
-        .fail(error => {
-          setLoading(false)
-          setOnSave(false)
-          const errorFields = JSON.parse(error.responseText)
-          console.log('errorFields', errorFields)
-          setErrorFields(Object.keys(errorFields))
-          if(errorFields.kid_id)
-            setErrorSteps([3])
-        })
-      }
-    }
+        </ul>
+        <p>{T.translate("index.checking_message")}</p>
+      </>
+    )
+  }
+
+  const renderModalFooter = () => {
+    return (
+      <>
+        <p>{T.translate("index.duplicate_message")}</p>
+        <div style={{display:'flex', justifyContent: 'flex-end'}}>
+          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>{T.translate("index.continue")}</button>
+          <button style={{margin: 5}} className='btn btn-default' onClick={() => setDupClientModalOpen(false)}>{T.translate("index.cancel")}</button>
+        </div>
+      </>
+    )
   }
 
   const handleCheckValue = object => {
@@ -306,6 +373,15 @@ const CallForms = props => {
   return (
     <div className='containerClass'>
       <Loading loading={loading} text={T.translate("index.wait")}/>
+
+      <Modal
+        title={T.translate("index.warning")}
+        isOpen={dupClientModalOpen}
+        type='warning'
+        closeAction={() => setDupClientModalOpen(false)}
+        content={ renderModalContent(dupFields) }
+        footer={ renderModalFooter() }
+      />
 
       <Modal
         title={T.translate("newCall.admin.confirmation")}
