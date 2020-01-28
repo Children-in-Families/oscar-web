@@ -753,18 +753,20 @@ class CIF.ClientAdvanceSearch
   handleHotlineFilter: ->
     self = @
     fields = $('#hotline-fields').data('fields')
-    $('#hotline-checkbox').on 'ifChecked', ->
+    $('#hotline-checkbox').off('ifChecked').on 'ifChecked', ->
       $('.hotline-call-column a.dropdown-toggle').removeClass('disabled')
       $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
       # $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
       self.initSelect2()
+      #hide call datetime and call type spam call
+      $("optgroup[label='Hotline'] option[value*='_datetime']").addClass('hide')
 
-    $('#hotline-checkbox').on 'ifUnchecked', ->
+    $('#hotline-checkbox').off('ifUnchecked').on 'ifUnchecked', ->
       $('#client_advanced_search_hotline_check').val('')
       $('.hotline-call-column .i-checks').iCheck('uncheck')
       $('.hotline-call-column a.dropdown-toggle').addClass('disabled')
-      self.handleRemoveFilterBuilder(self.HOTLINE_TRANSLATE, self.HOTLINE_TRANSLATE)
       self.handleRemoveFilterBuilder(self.CONCERN_BASIC_FIELDS, self.CONCERN_BASIC_FIELDS)
+      self.handleRemoveFilterBuilder(self.HOTLINE_TRANSLATE, self.HOTLINE_TRANSLATE)
       return
 
   handleAddHotlineFilter: ->

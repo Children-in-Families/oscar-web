@@ -542,9 +542,11 @@ class ClientGrid < BaseGrid
 
   dynamic do
     yes_no = { true: 'Yes', false: 'No' }
+    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
     client_hotline_fields.each do |hotline_field|
       value = ''
-      column(hotline_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.clients.#{hotline_field}") }, class: 'client-hotline-field') do |object|
+      header_text = content_headers.include?(hotline_field) ? "Concern #{I18n.t("datagrid.columns.clients.#{hotline_field}")}" : I18n.t("datagrid.columns.clients.#{hotline_field}")
+      column(hotline_field.to_sym, order: false, header: -> { header_text }, class: 'client-hotline-field') do |object|
         if hotline_field[/concern_province_id|concern_district_id|concern_commune_id|concern_village_id/i]
           address_name = hotline_field.gsub('_id', '')
           value = object.send(address_name.to_sym).try(:name)

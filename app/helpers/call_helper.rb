@@ -51,7 +51,9 @@ module CallHelper
   end
 
   def call_type
-    [Call::TYPES, I18n.t('calls.type').values].transpose.to_h
+    values = [Call::TYPES, I18n.t('calls.type').values].transpose.to_h
+    values.delete('Spam Call')
+    values
   end
 
   def get_basic_field_translations
