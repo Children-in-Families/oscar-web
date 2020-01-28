@@ -56,7 +56,7 @@
         - elsif @client.status == 'Exited'
           .row
             .col-xs-12
-              %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
+              %button.btn.btn-success.mini-margin.enter-ngo-for-client{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
               = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
@@ -420,13 +420,17 @@
                 %thead
                   %tr
                     %th= t('.case_histories')
+                    - unless Rails.env.production?
+                      %th Created Date
                     %th= t('.date')
                     %th.text-center= t('.detail')
                 %tbody
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
-                    %tr.case-history-row{ data: {date: case_history.new_date } }
+                    %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name,name: case_history_label(case_history), created_date: case_history.created_at} }
                       %td= case_history_label(case_history)
+                      - unless Rails.env.production?
+                        %td= case_history.created_at.to_s
                       %td= date_format(case_history.new_date)
                       %td
                         .text-center
@@ -439,6 +443,8 @@
                         = render_case_history(case_history, case_history_name)
                 %tr
                   %td= t('.initial_referral_date')
+                  - unless Rails.env.production?
+                    %td= @client.created_at.to_s
                   %td= date_format(@client.initial_referral_date)
                   %td
                     .text-center

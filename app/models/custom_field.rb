@@ -74,7 +74,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def build_permission
-    User.non_strategic_overviewers.each do |user|
+    User.deleted_user.non_strategic_overviewers.each do |user|
       self.custom_field_permissions.find_or_create_by(user_id: user.id)
     end
   end

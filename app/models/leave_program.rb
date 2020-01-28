@@ -26,7 +26,7 @@ class LeaveProgram < ActiveRecord::Base
   end
 
   def self.properties_by(value)
-    value = value.gsub("'", "''")
+    value = value.gsub(/\'+/, "''")
     field_properties = select("leave_programs.id, leave_programs.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
   end
@@ -50,7 +50,7 @@ class LeaveProgram < ActiveRecord::Base
   private
 
   def create_leave_program_history
-      LeaveProgramHistory.initial(self)
+    LeaveProgramHistory.initial(self)
   end
 
   def exit_date_value

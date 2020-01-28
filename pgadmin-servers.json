@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "OSCaR Develeopment Server",
+            "Group": "OSCaR",
+            "Port": 5432,
+            "Username": "oscar",
+            "Host": "db",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "postgres"
+        }
+    }
+}

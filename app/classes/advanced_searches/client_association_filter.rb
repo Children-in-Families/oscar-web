@@ -152,33 +152,41 @@ module AdvancedSearches
 
     def created_by_user_query
       user    = ''
-      clients = @clients.joins(:versions)
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      case_worker_rules = mapping_service_param_value(basic_rules, 'user_id')
+      case_worker_id = case_worker_rules.first.present? && case_worker_rules.first[0].has_key?('value') ? case_worker_rules.first[0]['value'] : nil
+      if case_worker_id && @operator == 'equal'
+        clients = @clients.joins(:versions, :case_worker_clients).where(case_worker_clients: { user_id: case_worker_id })
+      else
+        clients = @clients.joins(:versions)
+      end
+
       user    = User.find(@value) if @value.present?
+
       client_ids = []
+      none_event_create_client_ids = []
       case @operator
       when 'equal'
         if user.email == ENV['OSCAR_TEAM_EMAIL']
-          ids = clients.where("versions.event = ?", 'create').distinct.ids
-          client_ids << clients.where(id: ids).distinct.ids
-          client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit iLike ?)", 'create', @value, 'create', '%rotati%').distinct.ids
-          client_ids.flatten.uniq
+          client_ids = clients.where("versions.event = ? AND (versions.whodunnit = ? OR versions.whodunnit iLike ?)", 'create', @value, "%rotati%").distinct.ids
+          if client_ids.blank?
+            client_ids = clients.group(:id).having("COUNT(versions) = (SELECT COUNT(*) FROM versions WHERE versions.item_type = ? AND versions.item_id = clients.id AND versions.event = ?)", 'Client', 'update').ids
+          else
+            none_event_create_client_ids = clients.group(:id).having("COUNT(versions) = (SELECT COUNT(*) FROM versions WHERE versions.item_type = ? AND versions.item_id = clients.id AND versions.event = ?)", 'Client', 'update').ids
+          end
+          return (client_ids + none_event_create_client_ids)
         else
-          clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
+          client_ids = clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
         end
       when 'not_equal'
-        if user.email == ENV['OSCAR_TEAM_EMAIL']
-          ids = clients.where("versions.event = ?", 'create').distinct.ids
-          client_ids << clients.where.not(id: ids).distinct.ids
-          client_ids << clients.where("(versions.event = ? AND versions.whodunnit = ?) OR (versions.event = ? AND versions.whodunnit iLike ?)", 'create', @value, 'create', '%rotati%').distinct.ids
-          client_ids.flatten.uniq
-        else
-          clients.where("versions.event = ? AND versions.whodunnit = ?", 'create', @value).ids
-        end
+        client_ids = clients.where("versions.event = ? AND versions.whodunnit != ?", 'create', @value).distinct.ids
       when 'is_empty'
-        []
+        client_ids = []
       when 'is_not_empty'
-        clients.ids
+        client_ids = clients.ids
       end
+      client_ids
     end
 
     def exit_ngo_exit_reasons_query
@@ -211,7 +219,7 @@ module AdvancedSearches
       when 'is_not_empty'
         clients = clients.where.not(exit_ngos: { exit_circumstance: '' })
       end
-      clients.ids
+      clients.distinct.ids
     end
 
     def exit_ngo_text_field_query(field)
@@ -579,45 +587,33 @@ module AdvancedSearches
     end
 
     def family_name_field_query
-      family = Family.find_by('lower(name) = ?', @value.downcase)
-      families = Family.where.not("children = '{}' OR children is null").uniq
-      find_family = families.where('name ILIKE ?', "%#{@value.downcase}%")
       case @operator
       when 'equal'
-        client_ids = @clients.where(current_family_id: family.id).ids if family
-        # client_ids = @clients.joins(:families).where('lower(families.name) = ?', @value.downcase).ids
+        client_ids = @clients.where("current_family_id = (SELECT id FROM families WHERE lower(families.name) = ?)", @value.downcase).ids
       when 'not_equal'
-        #client_ids = @clients.joins(:families).where.not('lower(families.name) = ?', @value.downcase).ids
-        client_ids = @clients.where.not(current_family_id: family.id).ids if family
+        client_ids = Client.where("clients.current_family_id != (SELECT id FROM families WHERE lower(families.name) = ?) OR clients.current_family_id IS NULL", @value.downcase).ids
       when 'contains'
-        client_ids = @clients.where(current_family_id: find_family.ids).ids if find_family
+        client_ids = @clients.joins(:families).where("lower(families.name) iLike ?", "%#{@value.downcase}%").ids
       when 'not_contains'
-        client_ids = @clients.where.not(current_family_id: find_family.ids).ids if find_family
+        client_ids = @clients.joins(:families).where("lower(families.name) NOT iLike ?", "%#{@value.downcase}%").ids
       when 'is_empty'
-        client_ids = @clients.where(current_family_id: nil).ids
+        client_ids = Client.where("clients.current_family_id IS NULL").ids
       when 'is_not_empty'
-        client_ids = @clients.where.not(current_family_id: nil).ids
+        client_ids = Client.where("clients.current_family_id IS NOT NULL").ids
       end
 
       clients = client_ids.present? ? client_ids : []
     end
 
     def user_id_field_query
-      clients = @clients.joins(:users)
+      clients = @clients.joins(:case_worker_clients)
       ids = clients.distinct.ids
       case @operator
       when 'equal'
-        client_ids = clients.where('users.id = ?', @value).distinct.ids
+        client_ids = clients.where('case_worker_clients.user_id = ?', @value).distinct.ids
         client_ids & ids
       when 'not_equal'
-        client_ids =[]
-        @clients.each do |client|
-          if client.user_ids.exclude?(@value.to_i)
-            client_ids << client.id
-          end
-        end
-        client_ids.flatten
-        # clients.where.not('users.id = ?', @value).distinct.ids
+        @clients.includes(:case_worker_clients).where('case_worker_clients.user_id != ? OR case_worker_clients.user_id IS NULL', @value).distinct.ids
       when 'is_empty'
         @clients.where.not(id: ids).ids
       when 'is_not_empty'

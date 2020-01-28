@@ -24,13 +24,12 @@
                     %abbr{ title: 'required' } *
                     = t('.exit_date')
                   .input-group
-                    / = f.text_field :exit_date, required: true, class: 'date form-control  datepicker-dropdown exit_date', type: 'text', name: 'exit_ngo[exit_date]'
-                    = f.text_field :exit_date, required: true, class: 'date optional form-control date-picker', type: 'text', name: 'exit_ngo[exit_date]'
+                    = f.text_field :exit_date, required: true, class: 'date form-control exit_date', type: 'text', name: 'exit_ngo[exit_date]'
                     %span.input-group-addon
                       %i.fa.fa-calendar-check-o
 
               .form-inputs.i-checks
-                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::EXIT_REASONS, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: t('.exit_reasons')
+                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::EXIT_REASONS.sort, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: t('.exit_reasons')
               .form-inputs
                 = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
@@ -49,3 +48,4 @@
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
             = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled, data: { disable_with: t('.exiting') }
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191107074516) do
+ActiveRecord::Schema.define(version: 20191224080942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -457,8 +457,6 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.string   "profile"
     t.integer  "referral_source_category_id"
     t.string   "archived_slug"
-    t.integer  "default_assessments_count",        default: 0,          null: false
-    t.integer  "custom_assessments_count",         default: 0,          null: false
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
   end
@@ -599,12 +597,15 @@ ActiveRecord::Schema.define(version: 20191107074516) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: "", null: false
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -619,9 +620,11 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
+  add_index "enter_ngos", ["deleted_at"], name: "index_enter_ngos_on_deleted_at", using: :btree
 
   create_table "exit_ngos", force: :cascade do |t|
     t.integer  "client_id"
@@ -632,9 +635,11 @@ ActiveRecord::Schema.define(version: 20191107074516) do
     t.date     "exit_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
+  add_index "exit_ngos", ["deleted_at"], name: "index_exit_ngos_on_deleted_at", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -1678,7 +1683,6 @@ ActiveRecord::Schema.define(version: 20191107074516) do
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
-  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"

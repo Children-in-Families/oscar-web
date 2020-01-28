@@ -14,18 +14,34 @@ FactoryGirl.define do
     school_grade '4'
     relevant_referral_information { FFaker::Lorem.paragraph }
     referral_source_category_id 4
-    # code { rand(1000...2000).to_s }
-    # sequence(:code){|n| Time.now.to_f.to_s.last(4) + n.to_s }
 
-    association :province, factory: :province
-    association :district, factory: :district
-    association :commune, factory: :commune
-    association :village, factory: :village
-    association :referral_source, factory: :referral_source
     association :received_by, factory: :user
 
     before(:create) do |client|
       client.users << FactoryGirl.create(:user)
+    end
+
+    after(:build) do |client|
+      client.class.skip_callback(:save, :after, :create_client_history, :create_or_update_shared_client)
+      client.class.skip_callback(:create, :after, :set_slug_as_alias)
+      client.slug = "app-#{client.id}"
+    end
+
+    trait :client_with_history do
+      after(:build) do |client|
+        client.class.set_callback(:save, :after, :create_client_history)
+      end
+    end
+
+    trait :with_referral_source do
+      association :referral_source, factory: :referral_source
+    end
+
+    trait :with_village do
+      association :village, factory: :village
+      association :commune, factory: :commune
+      association :district, factory: :district
+      association :province, factory: :province
     end
 
     trait :accepted do

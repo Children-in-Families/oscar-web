@@ -27,8 +27,6 @@ module CfiInitialReferralDate
 
         puts "#{client.id} - #{client.initial_referral_date}"
       end
-
-      puts 'Done!'
     end
   end
 end

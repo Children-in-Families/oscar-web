@@ -1,8 +1,8 @@
 describe AdvancedSearches::ClientAssociationFilter, 'Method' do
-  let!(:user)           { create(:user) }
-  let!(:agency)         { create(:agency) }
-  let!(:custom_field)   { create(:custom_field) }
-  let!(:program_stream) { create(:program_stream) }
+  let!(:user)                  { create(:user) }
+  let!(:agency)                { create(:agency) }
+  let!(:custom_field)          { create(:custom_field) }
+  let!(:program_stream)        { create(:program_stream) }
 
   let!(:client)                { create(:client, date_of_birth: 10.years.ago) }
   let!(:agency_client)         { create(:agency_client, client: client, agency: agency) }

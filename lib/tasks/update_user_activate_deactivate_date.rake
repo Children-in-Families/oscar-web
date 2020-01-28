@@ -14,6 +14,5 @@ namespace :user_activate_deactivate do
         end
       end
     end
-    puts 'Done!!!'
   end
 end
