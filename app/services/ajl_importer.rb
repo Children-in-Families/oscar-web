@@ -10,13 +10,12 @@ module AjlImporter
     end
 
     def import_all
-      sheets = ['users', 'families', 'donors', 'clients' ]
+      sheets = ['users', 'families', 'donors', 'clients']
 
       sheets.each do |sheet_name|
         sheet_index = workbook.sheets.index(sheet_name)
         workbook.default_sheet = workbook.sheets[sheet_index]
         workbook.row(1).each_with_index { |header, i| headers[header] = i }
-        binding.pry
         self.send(sheet_name.to_sym)
       end
     end
@@ -34,7 +33,8 @@ module AjlImporter
         new_user['manager_id']      = User.find_by(first_name: manager_name).try(:id) unless new_user['roles'].include?("manager")
         new_user['manager_ids']     = [new_user['manager_id']]
 
-        User.create(new_user)
+        user = User.new(new_user)
+        user.save(validate:false)
       end
     end
 
@@ -51,10 +51,10 @@ module AjlImporter
         new_family['district_id'] = find_district(district_name)
         commune_name              = workbook.row(row_index)[headers['Commune / Sangkat']]
         new_family['commune_id']  = find_commune(commune_name)
-        village_name              = workbook.row(row_index)[headers['Village']]
+        village_name              = workbook.row(row_index)[headers['Village']] || ''
         new_family['village_id']  = find_village(village_name)
-
-        Family.create(new_family)
+        family = Family.new(new_family)
+        family.save(validate:false)
       end
     end
 
@@ -64,7 +64,8 @@ module AjlImporter
         new_donor['name']        = workbook.row(row_index)[headers['*Name']]
         new_donor['description'] = workbook.row(row_index)[headers['Description']]
 
-        Donor.create(new_donor)
+        donor = Donor.new(new_donor)
+        donor.save(validate:false)
       end
     end
 
@@ -75,14 +76,14 @@ module AjlImporter
         new_client['family_name']         = workbook.row(row_index)[headers['Family Name (English)']]
         family_id                         = workbook.row(row_index)[headers['Family ID']]
         new_client['current_family_id']   = Family.find_by(code: family_id).try(:id)
-        donor_name                        = workbook.row(row_index)[headers['Family ID']]
+        donor_name                        = workbook.row(row_index)[headers['Donor ID']]
         new_client['donor_id']            = Donor.find_by(name: donor_name).try(:id)
-        case_worker_name                  = workbook.row(row_index)[headers['* Case Worker / Staff']]
+        case_worker_name                  = workbook.row(row_index)[headers['*Case Worker ID']]
         new_client['user_id']             = User.find_by(first_name: case_worker_name).try(:id)
         new_client['user_ids']            = [new_client['user_id']]
 
-        client = Client.create(new_client)
-
+        client = Client.new(new_client)
+        client.save(validate:false)
         family_name   = workbook.row(row_index)[headers['Family ID']]
         family        = find_family(family_name)
 
@@ -90,6 +91,7 @@ module AjlImporter
           family.children << client.id
           family.save
         end
+        client.save
       end
     end
 
