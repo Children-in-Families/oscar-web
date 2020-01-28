@@ -782,13 +782,10 @@ class CIF.ClientAdvanceSearch
 
       basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
 
-<<<<<<< HEAD
-=======
       if $('#builder').queryBuilder('getSQL', false, true)
         sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
         $('#raw_sql').val(sql_sting)
 
->>>>>>> stable
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
       $('#client_advanced_search_program_selected').val(programValues)
