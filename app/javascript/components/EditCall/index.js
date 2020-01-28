@@ -37,6 +37,8 @@ export default props => {
     { label: type, value: type, isFixed: false }
   ));
 
+  const noClientAttached = callData.call_type === "Seeking Information" || callData.call_type === "Spam Call" || callData.call_type === "Wrong Number"
+
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
     const value = inputType.includes(event.type) ? event.data : event.target.value
@@ -49,6 +51,10 @@ export default props => {
         setCallData({...callData, ...field})
         break;
     }
+  }
+
+  const handleCancel = () => {
+    document.location.href = `/calls/${callData.id}`
   }
 
   const handleSave = () => {
@@ -81,11 +87,13 @@ export default props => {
   }
 
   const handleValidation = () => {
-    const validationFields = ['phone_call_id', 'receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime']
+    const validationFields = noClientAttached ? ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime', 'information_provided'] : ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime']
     const errors = []
     
     validationFields.forEach(field => {
-      if(callData[field].length <= 0 || callData[field] === null) {
+      if (callData[field] === null) {
+        errors.push(field)
+      } else if(callData[field].length < 1) {
         errors.push(field)
       }
     })
@@ -108,19 +116,6 @@ export default props => {
           </div>
         </div>
       </legend>
-
-      <div className='row'>
-        <div className='col-sm-12'>
-          <TextInput
-            T={T}
-            required
-            isError={errorFields.includes('phone_call_id')}
-            label={T.translate("newCall.admin.phone_call")}
-            onChange={onChange('call', 'phone_call_id')}
-            value={callData.phone_call_id}
-            />
-        </div>
-      </div>
       
       <div className='row'>
         <div className='col-sm-12'>
@@ -191,30 +186,29 @@ export default props => {
         </div>
       </div>
 
-       <div className="row">
-        <div className="col-xs-12">
-          <TextArea
-            placeholder={T.translate("newCall.referralMoreInfo.add_note_about_the_content")}
-            label="Information Provided"
-            value={callData.information_provided}
-            onChange={onChange('call', 'information_provided')} />
+      { noClientAttached ?
+        <div className="row">
+          <div className="col-xs-12">
+            <TextArea
+              T={T}
+              required
+              isError={errorFields.includes('information_provided')}
+              placeholder={T.translate("newCall.admin.add_note_about_the_content")}
+              label="Information Provided"
+              value={callData.information_provided}
+              onChange={onChange('call', 'information_provided')} />
+          </div>
         </div>
-      </div>
+      :
+      <div></div>
+      }
 
       <div className='row'>
-        <div className='col-sm-12'>
-          <span className='btn btn-success btn-block' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
-        </div>
-      </div>
-
-      <br />
-
-      <div className='row'>
-        <div className='col-sm-12'>
-          <span className='btn btn-default btn-block' onClick={() => {}}>{T.translate("newCall.index.cancel")}</span>
+        <div className='col-sm-12 text-right'>
+          <span className='btn btn-success form-btn' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
+          <span className='btn btn-default form-btn' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
         </div>
       </div>
     </>
-  
   )
 }

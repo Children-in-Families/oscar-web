@@ -260,7 +260,7 @@ module Api
         call = Call.find(params[:call_id])
         referee = call.referee
         if referee.update_attributes(referee_params)
-          render json: call
+          render json: { call: call }
         else
           render json: referee.errors
         end
@@ -271,7 +271,7 @@ module Api
         call = Call.find(params[:id])
 
         if call.update_attributes(call_params)
-          render json: call
+          render json: { call: call }
         else
           render json: call.errors
         end

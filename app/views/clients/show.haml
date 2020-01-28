@@ -415,6 +415,12 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
+              - if @client.phone_counselling_summary.present?
+                %tr
+                  %td.spacing-first-col
+                    = t('.phone_counselling_summary')
+                  %td
+                    = @client.phone_counselling_summary
         .row
           .col-xs-12
             %table.table.table-bordered

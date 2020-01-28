@@ -14,10 +14,7 @@ export default props => {
       refereeVillages,
       referee,
       referees,
-      client,
       currentProvinces,
-      referralSourceCategory,
-      referralSource,
       addressTypes
     }
   } = props;
@@ -49,20 +46,6 @@ export default props => {
     { label: T.translate("newCall.refereeInfo.ageOpts.18_plus"), value: true },
     { label: T.translate("newCall.refereeInfo.ageOpts.under_18"), value: false }
   ];
-
-  const referralSourceCategoryLists = referralSourceCategory.map(category => ({
-    label: category[0],
-    value: category[1]
-  }));
-
-  const referralSourceLists = referralSource
-    .filter(
-      source =>
-        source.ancestry !== null &&
-        source.ancestry == client.referral_source_category_id
-    )
-    .map(source => ({ label: source.name, value: source.id }));
-
 
   const refereeLists = () => {
     let newList = []
@@ -141,12 +124,9 @@ export default props => {
     })({ type: "select" });
   }
 
-  const onReferralSourceCategoryChange = data => {
-    onChange("client", {
-      referral_source_category_id: data.data,
-      referral_source_id: null
-    })({ type: "select" });
-  };
+  const handleCancel = () => {
+    document.location.href = `/calls/${call.id}`
+  }
 
   const handleSave = () => {
     if(handleValidation()) {
@@ -161,15 +141,8 @@ export default props => {
         }
       })
       .success(response => {
-        const clientUrls = response.client_urls;
-        const message = T.translate("newCall.index.message.call_has_been_updated")
-
+        const message = T.translate("newCall.index.message.referee_has_been_updated")
         document.location.href = `/calls/${response.call.id}?notice=${message}`
-        if (clientUrls) {
-          clientUrls.forEach(url => {
-            window.open(`${url}?notice=${message}`, '_blank');
-          });
-        }
       })
       .error(err => {
         console.log("err: ", err);
@@ -213,10 +186,9 @@ export default props => {
   return (
       <div className="containerClass">
       {/* <TaskModal data={{referee, clientTask}} onChange={onChange} /> */}
-
       <legend>
         <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
+          <div className="col-xs-12 col-md-6">
             <p>{T.translate("newCall.refereeInfo.caller_info")}</p>
           </div>
         </div>
@@ -345,7 +317,7 @@ export default props => {
         }}
       />
 
-      <div className="row">
+      {/* <div className="row">
         <div className="col-xs-12">
           <Checkbox
             disabled={true}
@@ -354,23 +326,14 @@ export default props => {
             onChange={onChange("referee", "requested_update")}
           />
         </div>
-      </div>
+      </div> */}
 
       <div className='row'>
-        <div className='col-sm-12'>
-          <span className='btn btn-success btn-block' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
+        <div className='col-sm-12 text-right'>
+          <span className='btn btn-success form-btn' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
+          <span className='btn btn-default form-btn' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
         </div>
       </div>
-
-      <br />
-
-      <div className='row'>
-        <div className='col-sm-12'>
-          <span className='btn btn-default btn-block' onClick={() => {}}>{T.translate("newCall.index.cancel")}</span>
-        </div>
-      </div>
-
     </div>
-  
   )
 }

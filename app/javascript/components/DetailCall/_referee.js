@@ -4,6 +4,18 @@ import { HorizontalTable } from '../Commons/ListTable'
 
 export default ({data, call}) => {
 
+  const formatObjVal = (field, value) => {
+    const boolFields = ['outside', 'anonymous', 'answered_call', 'called_before', 'adult', 'requested_update']
+    const titleizeFields = ['gender', 'address_type']
+
+    if (boolFields.indexOf(field) > -1) {
+      return value ? 'Yes' : 'No'
+    } else if (titleizeFields.indexOf(field) > -1) {
+      return titleize(value)
+    }
+    return value
+  }
+
   const renderItem = (obj, key) => {
     return (
       <tr key={`${key}`}>
@@ -11,7 +23,7 @@ export default ({data, call}) => {
           {titleize(key)}
         </td>
         <td>
-          {obj[key]}
+          { formatObjVal(key, obj[key]) }
         </td>
       </tr>
     )
