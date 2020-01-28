@@ -108,7 +108,7 @@ module ClientAdvancedSearchesConcern
   def get_hotline_fields
     args = {
       translation: get_basic_field_translations, number_field: [],
-      text_field: ['information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
+      text_field: ['information_provided'], date_picker_field: [],
       dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
     }
 

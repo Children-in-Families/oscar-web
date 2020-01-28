@@ -171,13 +171,13 @@ module FormBuilderHelper
     when 'not_equal'
       "#{class_name}.#{field_name} != '#{value}'"
     when 'less'
-      "#{class_name}.#{field_name} < #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{class_name}.#{field_name} < '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
     when 'less_or_equal'
-      "#{class_name}.#{field_name} <= #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{class_name}.#{field_name} <= '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
     when 'greater'
-      "#{class_name}.#{field_name} > #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{class_name}.#{field_name} > '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
     when 'greater_or_equal'
-      "#{class_name}.#{field_name} >= #{value} AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{class_name}.#{field_name} >= '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
     when 'contains'
       "#{class_name}.#{field_name} ILIKE '%#{value.squish}%' AND #{class_name}.#{field_name} IS NOT NULL"
     when 'not_contains'
