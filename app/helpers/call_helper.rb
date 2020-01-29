@@ -1,7 +1,8 @@
 module CallHelper
   def call_report_builder_fields
     args = group_call_field_types
-    call_builder_fields = AdvancedSearches::AdvancedSearchFields.new(args)
+
+    call_builder_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args)
   end
 
   def group_call_field_types
