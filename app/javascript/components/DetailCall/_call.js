@@ -3,7 +3,11 @@ import { formatDate, formatTime, titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
 export default ({data}) => {
-  
+  const hiddenFields =
+    data.call_type === "Seeking Information" || data.call_type === "Spam Call" || data.call_type === "Wrong Number"
+      ? "created_at|updated_at|receiving_staff_id|referee_id|^id$"
+      : "created_at|updated_at|information_provided|receiving_staff_id|referee_id|^id$";
+
   const renderItem = (obj, key) => {
     return (
       <tr key={`${key}`}>
@@ -53,7 +57,7 @@ export default ({data}) => {
       data={data}
       linkHeader={`/calls/${data.id}/edit`}
       renderItem={renderItem}
-      rejectField="created_at|updated_at|phone_call_id|receiving_staff_id|referee_id|^id$"
+      rejectField={ hiddenFields }
     />
   )
 }
