@@ -53,6 +53,7 @@ export default ({data}) => {
       data={data}
       linkHeader={`/calls/${data.id}/edit`}
       renderItem={renderItem}
+      rejectField="created_at|updated_at|phone_call_id|receiving_staff_id|referee_id|^id$"
     />
   )
 }

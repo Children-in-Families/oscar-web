@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { reject, isEmpty, titleize } from '../../DetailCall/helper'
 
-export const HorizontalTable = ({ title, data, renderItem, linkHeader, disabledEdit=false }) => {
-  let keyLists = Object.keys(reject(data)) || []
+export const HorizontalTable = ({ title, data, renderItem, linkHeader, disabledEdit=false, rejectField = "id|created_at|updated_at" }) => {
+  let keyLists = Object.keys(reject(data, rejectField)) || []
 
   return (
     <div className='col-sm-12'>
