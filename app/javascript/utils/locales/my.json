@@ -211,12 +211,6 @@
     "Police": "Police"
   },
   "newCall": {
-    "calls_old": {
-      "no_call": "No call",
-      "create_new_call": "Create New Call",
-      "phone_call_id": "Phone Call ID",
-      "call_type": "Call Type"
-    },
     "address": {
       "outside_address": "Outside Address",
       "provicne": "Province",
@@ -227,6 +221,14 @@
       "house_number": "House Number",
       "address_name": "Address Name",
       "address_type": "Address Type"
+    },
+    "addTaskModal": {
+      "completion_date": "Completion Date",
+      "task_details": "Task Details",
+      "domain": "Domain",
+      "save": "Save",
+      "cancel": "Cancel",
+      "add_new_tasks": "Add New Tasks"
     },
     "admin": {
       "calltypes": {
@@ -340,6 +342,16 @@
       "previous": "Previous",
       "next": "Next",
       "save": "Save"
+    },
+    "noClientAttachedModal": {
+      "information_provided": "Information Provided",
+      "go_back": "Go Back",
+      "save": "Save"
+    },
+    "providingUpdate": {
+      "please_select_client": "Please select client",
+      "go_back": "Go Back",
+      "go": "Go"
     },
     "refereeInfo": {
       "genderLists": {

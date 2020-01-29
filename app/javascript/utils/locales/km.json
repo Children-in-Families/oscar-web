@@ -211,12 +211,6 @@
     "Police": "ប៉ូលីស"
   },
   "newCall": {
-    "calls_old": {
-      "no_call": "No call",
-      "create_new_call": "Create New Call",
-      "phone_call_id": "Phone Call ID",
-      "call_type": "Call Type"
-    },
     "address": {
       "outside_address": "អាសយដ្ឋានខាងក្រៅ",
       "provicne": "ខេត្ត/ក្រុង",
@@ -227,6 +221,14 @@
       "house_number": "អាសយដ្ឋាន - លេខផ្ទះ",
       "address_name": "អាសយដ្ឋាន - ឈ្មោះ",
       "address_type": "អាសយដ្ឋាន - ប្រភេទ"
+    },
+    "addTaskModal": {
+      "completion_date": "Completion Date",
+      "task_details": "Task Details",
+      "domain": "Domain",
+      "save": "Save",
+      "cancel": "Cancel",
+      "add_new_tasks": "Add New Tasks"
     },
     "admin": {
       "calltypes": {
@@ -241,7 +243,6 @@
       "call_information": "Call Information",
       "phone_call": "Phone Call ID #",
       "receiving_staff": "បុគ្គលិកទទួលករណី",
-
       "call_type": "Call Type",
       "confirmation": "Confirmation",
       "save_call_as": "Are you sure you want to record this call as",
@@ -341,6 +342,16 @@
       "previous": "ទំព័រមុន",
       "next": "ទំព័របន្ទាប់",
       "save": "រក្សាទុក"
+    },
+    "noClientAttachedModal": {
+      "information_provided": "Information Provided",
+      "go_back": "Go Back",
+      "save": "Save"
+    },
+    "providingUpdate": {
+      "please_select_client": "Please select client",
+      "go_back": "Go Back",
+      "go": "Go"
     },
     "refereeInfo": {
       "genderLists": {
