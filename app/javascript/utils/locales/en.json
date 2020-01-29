@@ -422,5 +422,94 @@
       "school_grade": "School Grade",
       "main_school_contact": "Main School Contact"
     }
+  },
+  "callsOld": {
+    "index": {
+      "no_call": "No call",
+      "create_new_call": "Create New Call",
+      "phone_call_id": "Phone Call ID",
+      "call_type": "Call Type"
+    }
+  },
+  "commons": {
+    "listTable": {
+      "index": {
+        "action": "Action",
+        "no_client": "No Client"
+      }
+    }
+  },
+  "detailCall": {
+    "call": {
+    },
+    "listClient":{
+      "list_clients": "List Clients"
+    },
+    "referee": {
+      "referee": "Referee"
+    },
+    "index": {
+    }
+  },
+  "editCall": {
+    "index": {
+      "calltypes": {
+        "new_referral_case": "New Referral: Case Action Required",
+        "new_referral_notifier": "New Referral: Case Action NOT Required",
+        "providing_update": "Providing Update",
+        "phone_conseling": "Phone Counselling",
+        "seeking_information": "Seeking Information",
+        "spam_call": "Spam Call",
+        "wrong_number": "Wrong Number"
+      },
+      "message": {
+        "call_has_been_updated": "Call has been successfully updated"
+      },
+      "call_information": "Call Information",
+      "receiving_staff": "Receiving Staff Members",
+      "date_of_call": "Date of Call",
+      "time_call_began": "Time Call Began",
+      "time_call_ended": "Time Call Ended",
+      "call_type": "Call Type",
+      "information_provided": "Information Provided",
+      "cancel": "Cancel",
+      "save": "save"
+    }
+  },
+  "editCallReferee": {
+    "index": {
+      "genderLists": {
+        "female": "Female",
+        "male": "Male",
+        "other": "Other",
+        "unknown": "Unknown"
+      },
+      "answeredCallOpts": {
+        "call_answered": "Answered Call",
+        "return_missed_call": "Returning Missed Call"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "Under 18"
+      },
+      "calledBeforeOpts": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "anonymous": "Anonymous",
+      "name": "Name",
+      "referee_has_been_updated": "Referee has been successfully updated",
+      "caller_info": "Caller Information",
+      "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
+      "have_you_called": "Have you called the Childsafe Hotline Before?",
+      "anonymous_referee": "Anonymous Referee",
+      "gender": "Gender",
+      "are_you_over_18": "Are you over 18 years old?",
+      "referee_phone": "Referee Phone Number",
+      "referee_email": "Referee Email Address",
+      "outside_cambodia": "Outside Cambodia",
+      "cancel": "Cancel",
+      "save": "save"
+    }
   }
 }
