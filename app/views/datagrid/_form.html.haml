@@ -196,8 +196,8 @@
               = label_tag 'client_contact_phone_', t('datagrid.columns.client_contact_phone')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'client_address_type_', 'client_address_type', checked = default_setting('client_address_type_', @client_default_columns) || params[:client_address_type_].present?, class: 'i-checks'
-              = label_tag 'client_address_type_', t('datagrid.columns.client_address_type')
+              = check_box_tag 'address_type_', 'address_type', checked = default_setting('address_type_', @client_default_columns) || params[:address_type_].present?, class: 'i-checks'
+              = label_tag 'address_type_', t('datagrid.columns.address_type')
           %li
             .visibility.col-sm-12
               = check_box_tag 'client_email_', 'client_email', checked = default_setting('client_email_', @client_default_columns) || params[:client_email_].present?, class: 'i-checks'

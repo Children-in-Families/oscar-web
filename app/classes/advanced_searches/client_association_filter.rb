@@ -81,8 +81,6 @@ module AdvancedSearches
         values = carer_email_query
       when 'client_contact_phone'
         values = client_contact_phone_query
-      when 'client_address_type'
-        values = client_address_type_query
       when 'client_email_address'
         values = client_email_address_query
       when 'phone_owner'
@@ -905,25 +903,6 @@ module AdvancedSearches
         client_ids = @clients.where("client_phone = ?", "").ids
       when 'is_not_empty'
         client_ids = @clients.where.not("client_phone = ?", "").ids
-      end
-
-      clients = client_ids.present? ? client_ids : []
-    end
-
-    def client_address_type_query
-      case @operator
-      when 'equal'
-        client_ids = @clients.where("address_type = ?", @value.downcase).ids
-      when 'not_equal'
-        client_ids = @clients.where.not("address_type = ?", @value.downcase).ids
-      when 'contains'
-        client_ids = @clients.where("address_type iLIKE ?", "%#{@value.downcase}%").ids
-      when 'not_contains'
-        client_ids = @clients.where("address_type NOT iLIKE ?", "%#{@value.downcase}%").ids
-      when 'is_empty'
-        client_ids = @clients.where("address_type = ?", "").ids
-      when 'is_not_empty'
-        client_ids = @clients.where.not("address_type = ?", "").ids
       end
 
       clients = client_ids.present? ? client_ids : []

@@ -353,7 +353,7 @@ my:
       case_worker: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       client_contact_phone: Client Contact Phone
-      client_address_type: Client Address Type
+      address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
@@ -2186,7 +2186,7 @@ my:
         referee_email: Referee Email
         referee_relationship_to_client: Referee Relationship to client
         client_contact_phone: Client Contact Phone
-        client_address_type: Client Address Type
+        address_type: Client Address Type
         client_email: Client Email
         phone_owner: Phone Owner
         reject_note: ျငင္းပယ္သည့္ မွတ္စု
@@ -2448,7 +2448,7 @@ my:
       helping_professional: Helping Professional
       government_local: Government / Local Authority
       other: Other
-    client_address_types:
+    address_types:
       home: Home
       business: Business
       rci: RCI
