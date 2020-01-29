@@ -5,6 +5,7 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
     _ajaxChangeDistrict()
     _initICheckBox()
     _handleCustomAssessmentCheckbox()
+    _handleInitCocoonForCustomAssessmentSetting()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -13,6 +14,11 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
 
   _initSelect2 = ->
     $('select').select2()
+
+  _handleInitCocoonForCustomAssessmentSetting = ->
+    $('#custom_assessment_settings').off('cocoon:after-insert').on 'cocoon:after-insert', ->
+      _initICheckBox()
+      _handleCustomAssessmentCheckbox()
 
   _handleCustomAssessmentCheckbox = ->
     _disableCustomAssessmentSetting()
