@@ -104,7 +104,7 @@ class ClientColumnsVisibility
       phone_owner_: :phone_owner,
       referee_relationship_to_client_: :referee_relationship_to_client,
       client_contact_phone_: :client_contact_phone,
-      client_address_type_: :client_address_type,
+      address_type_: :address_type,
       client_email_: :client_email
     }
   end

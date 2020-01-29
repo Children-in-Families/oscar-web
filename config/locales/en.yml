@@ -366,7 +366,7 @@ en:
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
       client_contact_phone: Client Contact Phone
-      client_address_type: Client Address Type
+      address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
       commune: Commune/Sangkat
@@ -2121,7 +2121,7 @@ en:
       carer_phone: Care Phone
       changelog: Changelog
       client_contact_phone: Client Contact Phone
-      client_address_type: Client Address Type
+      address_type: Client Address Type
       client_email: Client Email
       client_enrollments:
         action: Action
@@ -2276,7 +2276,7 @@ en:
         referee_email: Referee Email
         referee_relationship_to_client: Referee Relationship to client
         client_contact_phone: Client Contact Phone
-        client_address_type: Client Address Type
+        address_type: Client Address Type
         client_email: Client Email
         phone_owner: Phone Owner
         reject_note: Note on referral rejection
@@ -2568,7 +2568,7 @@ en:
       helping_professional: Helping Professional
       government_local: Government / Local Authority
       other: Other
-    client_address_types:
+    address_types:
       home: Home
       business: Business
       rci: RCI

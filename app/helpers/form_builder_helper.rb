@@ -59,7 +59,7 @@ module FormBuilderHelper
       condition = ''
       result.map do |h|
         condition = h[:condition]
-        general_query(h[:id], h[:field], h[:operator], h[:value], class_name)
+        general_query(h[:id], h[:field], h[:operator], h[:value], h[:type], class_name)
       end.join(" #{condition} ")
     end
   end
@@ -163,31 +163,32 @@ module FormBuilderHelper
     end
   end
 
-  def general_query(id, field, operator, value, class_name)
+  def general_query(id, field, operator, value, type, class_name)
     field_name = id
+    table_name_field_name = type == 'string' ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
     case operator
     when 'equal'
-      "#{class_name}.#{field_name} = '#{value}'"
+      "#{table_name_field_name} = '#{value}'"
     when 'not_equal'
-      "#{class_name}.#{field_name} != '#{value}'"
+      "#{table_name_field_name} != '#{value}'"
     when 'less'
-      "#{class_name}.#{field_name} < '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{table_name_field_name} < '#{value}' AND #{table_name_field_name} IS NOT NULL"
     when 'less_or_equal'
-      "#{class_name}.#{field_name} <= '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{table_name_field_name} <= '#{value}' AND #{table_name_field_name} IS NOT NULL"
     when 'greater'
-      "#{class_name}.#{field_name} > '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{table_name_field_name} > '#{value}' AND #{table_name_field_name} IS NOT NULL"
     when 'greater_or_equal'
-      "#{class_name}.#{field_name} >= '#{value}' AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{table_name_field_name} >= '#{value}' AND #{table_name_field_name} IS NOT NULL"
     when 'contains'
-      "#{class_name}.#{field_name} ILIKE '%#{value.squish}%' AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{table_name_field_name} ILIKE '%#{value.squish}%' AND #{table_name_field_name} IS NOT NULL"
     when 'not_contains'
-      "#{class_name}.#{field_name} NOT ILIKE '%#{value.squish}%' OR #{class_name}.#{field_name} IS NULL"
+      "#{table_name_field_name} NOT ILIKE '%#{value.squish}%' OR #{table_name_field_name} IS NULL"
     when 'is_empty'
-      "#{class_name}.#{field_name} = '' OR #{class_name}.#{field_name} IS NULL"
+      "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
     when 'is_not_empty'
-      "#{class_name}.#{field_name} != '' AND #{class_name}.#{field_name} IS NOT NULL"
+      "#{table_name_field_name} != '' AND #{table_name_field_name} IS NOT NULL"
     when 'between'
-      "#{class_name}.#{field_name} BETWEEN ('#{value.first}' AND '#{value.last}') OR #{class_name}.#{field_name} IS NOT NULL"
+      "#{table_name_field_name} BETWEEN ('#{value.first}' AND '#{value.last}') OR #{table_name_field_name} IS NOT NULL"
     end
   end
 

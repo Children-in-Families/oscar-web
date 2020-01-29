@@ -120,7 +120,7 @@ module ClientAdvancedSearchesConcern
   def get_client_hotline_fields
     client_fields = I18n.t('datagrid.columns.clients')
     dropdown_list_options = [
-      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.client_address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
+      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
       ['concern_province_id', Province.dropdown_list_option],
       ['concern_district_id', District.dropdown_list_option],
       ['concern_commune_id', Commune.dropdown_list_option],

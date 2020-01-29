@@ -355,7 +355,7 @@ km:
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       client_contact_phone: លេខទំនាក់ទំនងរបស់អតិថិជន
-      client_address_type: ប្រភេទអាសយដ្ឋានរបស់អតិថិជន
+      address_type: ប្រភេទអាសយដ្ឋានរបស់អតិថិជន
       client_email_address: អ៊ីមែលរបស់អតិថិជន
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
@@ -2070,7 +2070,7 @@ km:
       carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
       changelog: ប្រវត្តិកំណែ
       client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
-      client_address_type: ប្រភេទអាសយដ្ឋាន
+      address_type: ប្រភេទអាសយដ្ឋាន
       client_email: អ៊ីមែលរបស់អតិថិជន
       client_enrollments:
         action: សកម្មភាព
@@ -2203,7 +2203,7 @@ km:
         referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
         referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
         client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
-        client_address_type: ប្រភេទអាសយដ្ឋាន
+        address_type: ប្រភេទអាសយដ្ឋាន
         client_email: អ៊ីមែលរបស់អតិថិជន
         phone_owner: ម្ចាស់ទូរស័ព្ទ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -2471,7 +2471,7 @@ km:
       helping_professional: ជួយវិជ្ជាជីវៈ
       government_local: រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន
       other: ផ្សេងៗ
-    client_address_types:
+    address_types:
       home: ផ្ទះ
       business: មុខជំនួញ
       rci: RCI

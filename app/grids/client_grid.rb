@@ -656,7 +656,7 @@ class ClientGrid < BaseGrid
     object.client_phone
   end
 
-  column(:client_address_type, header: -> { I18n.t('datagrid.columns.clients.client_address_type') }) do |object|
+  column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
     object.address_type && object.address_type.titleize
   end
 
