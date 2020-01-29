@@ -5,8 +5,8 @@ import { HorizontalTable } from '../Commons/ListTable'
 export default ({data}) => {
   const hiddenFields =
     data.call_type === "Seeking Information" || data.call_type === "Spam Call" || data.call_type === "Wrong Number"
-      ? "created_at|updated_at|receiving_staff_id|referee_id|^id$"
-      : "created_at|updated_at|information_provided|receiving_staff_id|referee_id|^id$";
+      ? "created_at|updated_at|referee_id|^id$"
+      : "created_at|updated_at|information_provided|referee_id|^id$";
 
   const renderItem = (obj, key) => {
     return (

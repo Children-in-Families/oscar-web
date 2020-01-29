@@ -1,3 +1,2 @@
-- data = { call: @call, referee: @referee, clients: @clients, hidden: @clients.empty? }
-
+- data = { call: {id: @call.id, phone_call_id: @call.phone_call_id, information_provided: @call.information_provided, receiving_staff: @call.receiving_staff.name, start_datetime: @call.start_datetime, end_datetime: @call.end_datetime, call_type: @call.call_type, information_provided: @call.information_provided, date_of_call: @call.date_of_call }, referee: @referee, clients: @clients, hidden: @clients.empty? }
 = react_component('DetailCall', { data: data })
