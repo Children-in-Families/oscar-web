@@ -134,19 +134,3 @@ CIF.Common =
 
       return
 
-    Ladda.bind '.ladda-button', timeout: 60000
-    $(".ladda-button").on 'click', ->
-        # Bind normal buttons
-        # Bind progress buttons and simulate loading progress
-        Ladda.bind '.progress-demo .ladda-button', callback: (instance) ->
-          progress = 0
-          interval = setInterval((->
-            progress = Math.min(progress + Math.random() * 0.1, 1)
-            instance.setProgress progress
-            if progress == 1
-              instance.stop()
-              clearInterval interval
-            return
-          ), 200)
-          return
-

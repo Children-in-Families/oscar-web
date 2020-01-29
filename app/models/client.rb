@@ -104,7 +104,7 @@ class Client < ActiveRecord::Base
   scope :active_fc,                                ->        { where(status: 'Active FC') }
   scope :without_assessments,                      ->        { includes(:assessments).where(assessments: { client_id: nil }) }
   scope :active_status,                            ->        { where(status: 'Active') }
-  scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
+  scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }).distinct }
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
@@ -675,7 +675,7 @@ class Client < ActiveRecord::Base
   end
 
   def notify_managers
-    ClientMailer.exited_notification(self, User.managers.non_locked.pluck(:email)).deliver_now
+    ClientMailer.exited_notification(self, User.deleted_user.managers.non_locked.pluck(:email)).deliver_now
   end
 
   def disconnect_client_user_relation
