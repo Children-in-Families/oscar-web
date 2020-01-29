@@ -25,16 +25,6 @@ export default props => {
   const [refereeData, setRefereeData] = useState(referee)
   const [loading, setLoading] = useState(false)
 
-  const answeredCallOpts = [
-    { label: T.translate("newCall.refereeInfo.answeredCallOpts.call_answered"), value: true },
-    { label: T.translate("newCall.refereeInfo.answeredCallOpts.return_missed_call"), value: false }
-  ];
-
-  const calledBeforeOpts = [
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.yes"), value: true },
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.no"), value: false }
-  ];
-
   const genderLists = [
     { label: T.translate("newCall.refereeInfo.genderLists.female"), value: "female" },
     { label: T.translate("newCall.refereeInfo.genderLists.male"), value: "male" },
@@ -76,34 +66,34 @@ export default props => {
     }
   }, [refereeData.anonymous]);
 
-  const renderNameField = () => {
-    if(refereeData.called_before && !refereeData.anonymous) {
-      return (
-        <SelectInput
-          T={T}
-          label="Name"
-          required
-          isDisabled={refereeData.anonymous}
-          options={refereeLists()}
-          onChange={onRefereeNameChange}
-          isError={errorFields.includes("name")}
-          value={refereeData.id}
-        />
-      )
-    } else {
-      return (
-        <TextInput
-          T={T}
-          required
-          disabled={refereeData.anonymous}
-          isError={errorFields.includes("name")}
-          value={refereeData.name}
-          label="Name"
-          onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
-        />
-      )
-    }
-  }
+  // const renderNameField = () => {
+  //   if(refereeData.called_before && !refereeData.anonymous) {
+  //     return (
+  //       <SelectInput
+  //         T={T}
+  //         label="Name"
+  //         required
+  //         isDisabled={refereeData.anonymous}
+  //         options={refereeLists()}
+  //         onChange={onRefereeNameChange}
+  //         isError={errorFields.includes("name")}
+  //         value={refereeData.id}
+  //       />
+  //     )
+  //   } else {
+  //     return (
+  //       <TextInput
+  //         T={T}
+  //         required
+  //         disabled={refereeData.anonymous}
+  //         isError={errorFields.includes("name")}
+  //         value={refereeData.name}
+  //         label="Name"
+  //         onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
+  //       />
+  //     )
+  //   }
+  // }
 
   const onRefereeNameChange = evt => {
     let {email, id, name, gender, phone, province_id, district_id, commune_id, village_id, street_number, house_number, address_type, current_address} = referees.filter(r => r.id == evt.data)[0] || {}
@@ -195,36 +185,6 @@ export default props => {
       </legend>
 
       <div className="row">
-        <div className="col-xs-12">
-          {/* todo: add required */}
-          <RadioGroup
-            inline
-            required
-            isError={errorFields.includes("answered_call")}
-            onChange={onChange("referee", "answered_call")}
-            options={answeredCallOpts}
-            label={T.translate("newCall.refereeInfo.did_you_answer_the_call")}
-            value={refereeData.answered_call}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-xs-12">
-          {/* todo: add required */}
-          <RadioGroup
-            inline
-            required
-            isError={errorFields.includes("called_before")}
-            label={T.translate("newCall.refereeInfo.have_you_called")}
-            options={calledBeforeOpts}
-            onChange={onChange("referee", "called_before")}
-            value={refereeData.called_before}
-          />
-        </div>
-      </div>
-
-      <div className="row">
         <div className="col-xs-12 col-sm-6 col-md-3">
           <Checkbox
             label={T.translate("newCall.refereeInfo.anonymous_referee")}
@@ -238,7 +198,16 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          {renderNameField()}
+          {/* {renderNameField()} */}
+          <TextInput
+            T={T}
+            required
+            disabled={refereeData.anonymous}
+            isError={errorFields.includes("name")}
+            value={refereeData.name}
+            label="Name"
+            onChange={(value) => { onChange('referee', 'name')(value) }}
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
@@ -267,7 +236,6 @@ export default props => {
           <TextInput
             T={T}
             label={T.translate("newCall.refereeInfo.referee_phone")}
-            type="number"
             disabled={refereeData.anonymous}
             onChange={onChange("referee", "phone")}
             value={refereeData.phone}
@@ -302,7 +270,7 @@ export default props => {
       </legend>
 
       <Address
-        disabled={false}
+        disabled={refereeData.anonymous}
         outside={refereeData.outside || false}
         onChange={onChange}
         data={{
@@ -316,17 +284,6 @@ export default props => {
           T
         }}
       />
-
-      {/* <div className="row">
-        <div className="col-xs-12">
-          <Checkbox
-            disabled={true}
-            label={T.translate("newCall.refereeInfo.this_caller_has_requested")}
-            checked={refereeData.requested_update || false}
-            onChange={onChange("referee", "requested_update")}
-          />
-        </div>
-      </div> */}
 
       <div className='row'>
         <div className='col-sm-12 text-right'>

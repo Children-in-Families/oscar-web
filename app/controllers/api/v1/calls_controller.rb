@@ -291,6 +291,7 @@ module Api
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
                                 :date_of_call, :start_datetime, :end_datetime, :call_type,
                                 :information_provided,
+                                :answered_call, :called_before, :requested_update,
                                 client_ids: []
                                 )
       end
@@ -299,8 +300,7 @@ module Api
         params.require(:referee).permit(
           :name, :phone, :outside, :address_type, :commune_id,
           :current_address, :district_id, :email, :gender, :house_number,
-          :outside_address, :province_id, :street_number, :village_id, :anonymous,
-          :answered_call, :called_before, :adult, :requested_update
+          :outside_address, :province_id, :street_number, :village_id, :anonymous, :adult
         )
       end
 

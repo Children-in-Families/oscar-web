@@ -17,6 +17,7 @@ class Call < ActiveRecord::Base
   after_save :set_phone_call_id, if: -> { phone_call_id.blank? }
 
   validates :receiving_staff_id, :date_of_call, :start_datetime, :end_datetime, presence: true
+  validates :called_before, :answered_call, inclusion: { in: [true, false] }
   validates :call_type, presence: true, inclusion: { in: TYPES }
   validates :information_provided, presence: true, if: :seeking_information?
 

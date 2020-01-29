@@ -5,11 +5,11 @@ import { HorizontalTable } from '../Commons/ListTable'
 export default ({data, call}) => {
 
   const formatObjVal = (field, value) => {
-    const boolFields = ['outside', 'anonymous', 'answered_call', 'called_before', 'adult', 'requested_update']
+    const boolFields = ['outside', 'anonymous', 'adult']
     const titleizeFields = ['gender', 'address_type']
 
     if (boolFields.indexOf(field) > -1) {
-      return value ? 'Yes' : 'No'
+      return value === null ? '' : value ? 'Yes' : 'No'
     } else if (titleizeFields.indexOf(field) > -1) {
       return titleize(value)
     }

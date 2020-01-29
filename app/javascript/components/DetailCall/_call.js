@@ -15,7 +15,7 @@ export default ({data}) => {
           {titleize(formatKey(key))}
         </td>
         <td>
-          {formatLabel(obj, key)}
+          <strong>{formatLabel(obj, key)}</strong>
         </td>
       </tr>
     )
@@ -24,16 +24,21 @@ export default ({data}) => {
   const formatLabel = (obj, key) => {
     switch (key) {
       case 'date_of_call':
-        return <strong>{formatDate(obj[key])}</strong>
+        return formatDate(obj[key])
       
       case 'start_datetime':
-        return <strong>{formatTime(obj[key])}</strong>
+        return formatTime(obj[key])
 
       case 'end_datetime':
-        return <strong>{formatTime(obj[key])}</strong>
+        return formatTime(obj[key])
+
+      case 'answered_call':
+      case 'called_before':
+      case 'requested_update':
+        return obj[key] ? 'Yes' : 'No'
 
       default:
-        return <strong>{obj[key]}</strong>
+        return obj[key]
     }
   }
 
