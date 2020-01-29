@@ -3,7 +3,7 @@ import { TextInput, DateInput } from "../Commons/inputs"
 import Modal from '../Commons/Modal'
 
 export default props => {
-  const { data: { referee, clientTask }, onChange } = props
+  const { data: { referee, clientTask, T }, onChange } = props
   const [invalid, setInvalid] = useState(false)
   const [isOpen, setIsOpen]   = useState(referee.requested_update || false)
   const initialData = {
@@ -51,11 +51,11 @@ export default props => {
   const renderContent = () => {
     return (
       <div style={{minHeight: 300}}>
-        { invalid && <p style={{color: 'red'}}>Please Input all the required fields</p> }
+        { invalid && <p style={{ color: 'red' }}>{T.translate("newCall.addTaskModal.please_input_all_require_field")}</p> }
         <div style={styles.modalContentWrapper}>
-          <DateInput required label='Completion Date' onChange={onChangeDate} value={task.completion_date} />
-          <TextInput required disabled={true} label='Task Details' value={task.name || `Call ${referee.name} on ${referee.phone} to update about the client.`} />
-          <TextInput required disabled={true} label='Domain' value='Domain 3B' />
+          <DateInput required label={T.translate("newCall.addTaskModal.completion_date")} onChange={onChangeDate} value={task.completion_date} />
+          <TextInput required disabled={true} label={T.translate("newCall.addTaskModal.task_details")} value={task.name || `Call ${referee.name} on ${referee.phone} to update about the client.`} />
+          <TextInput required disabled={true} label={T.translate("newCall.addTaskModal.domain")} value='Domain 3B' />
         </div>
         {/* below code is for multiple tasks. Delete if client decide to never use multiple tasks */}
         {/* {
@@ -75,8 +75,8 @@ export default props => {
   const renderFooter = () => {
     return (
       <div style={{display:'flex', justifyContent: 'flex-end'}}>
-        <button style={{margin: 5}} className='btn btn-primary' onClick={saveTasks}>Save</button>
-        <button style={{margin: 5}} className='btn btn-default' onClick={() => setIsOpen(false)}>Cancel</button>
+        <button style={{ margin: 5 }} className='btn btn-primary' onClick={saveTasks}>{T.translate("newCall.addTaskModal.save")}</button>
+        <button style={{ margin: 5 }} className='btn btn-default' onClick={() => setIsOpen(false)}>{T.translate("newCall.addTaskModal.cancel")}</button>
         {/* <button style={{margin: 5}} className='btn btn-default' onClick={() => onChange("referee", { requested_update: false })({type: 'checkbox'})}>Cancel</button> */}
       </div>
     )
@@ -84,7 +84,7 @@ export default props => {
 
   return (
     <Modal
-      title='Add New Tasks'
+      title={T.translate("newCall.addTaskModal.add_new_tasks")}
       isOpen={isOpen}
       type='success'
       closeAction={() => setIsOpen(false)}

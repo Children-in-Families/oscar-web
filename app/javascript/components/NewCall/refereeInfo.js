@@ -154,7 +154,7 @@ export default props => {
 
   return (
     <div className="containerClass">
-      <TaskModal data={{referee, clientTask}} onChange={onChange} />
+      <TaskModal data={{referee, clientTask, T}} onChange={onChange} />
 
       <legend>
         <div className="row">

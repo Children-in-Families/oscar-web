@@ -223,6 +223,7 @@
       "address_type": "Address Type"
     },
     "addTaskModal": {
+      "please_input_all_require_field": "Please Input all the required fields",
       "completion_date": "Completion Date",
       "task_details": "Task Details",
       "domain": "Domain",
@@ -344,6 +345,7 @@
       "save": "Save"
     },
     "noClientAttachedModal": {
+      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
       "information_provided": "Information Provided",
       "go_back": "Go Back",
       "save": "Save"
