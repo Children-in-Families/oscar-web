@@ -20,7 +20,6 @@
       .col-xs-12
         - domain_note_by_case_note.each do |domain|
           - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
-
           - tasks = @case_note.client.tasks.where(domain_id: domain.id)
           - if domain_note.object.persisted?
             - tasks = tasks.by_case_note_domain_group(domain_note.object)

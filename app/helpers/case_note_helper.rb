@@ -93,6 +93,9 @@ module CaseNoteHelper
       end
     else
       domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+      domain_group_ids = case_note.assessment.assessment_domains.map do |assessment_domain|
+        assessment_domain.domain.domain_group.id if assessment_domain.goal?
+      end
       domain_group_ids = domain_group_ids.presence ? domain_group_ids : case_note.selected_domain_group_ids
     end
 
