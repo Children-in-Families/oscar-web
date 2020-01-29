@@ -1,13 +1,14 @@
 import React from 'react'
 import { HorizontalTable, VerticalTable } from '../Commons/ListTable'
 
-export default ({data, columns}) => {
+export default ({data, columns, T}) => {
 
   return (
     <VerticalTable
-      title="List Clients"
+      title={T.translate("detailCall.listClient.list_clients")}
       data={data}
       columns={columns}
+      T={T}
     />
   )
 }

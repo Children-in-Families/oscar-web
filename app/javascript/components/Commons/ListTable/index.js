@@ -40,7 +40,7 @@ export const HorizontalTable = ({ title, data, renderItem, linkHeader, disabledE
   )
 }
 
-export const VerticalTable = ({ title, data, renderItem, columns }) => {
+export const VerticalTable = ({ title, data, renderItem, columns, T }) => {
 
   return (
     <div className='col-sm-12'>
@@ -65,7 +65,7 @@ export const VerticalTable = ({ title, data, renderItem, columns }) => {
                     {
                       data && data[0] && columns.map(key => <th key={key} scope="col">{titleize(key)}</th>)
                     }
-                    <th scope="col">Action</th>
+                    <th scope="col">{T.translate("commons.listTable.index.action")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -76,7 +76,7 @@ export const VerticalTable = ({ title, data, renderItem, columns }) => {
                         ?
                           <tr key={`${i}`}>
                             <td className="spacing-first-col" colspan={Object.keys(obj).length}>
-                              No Client
+                              {T.translate("commons.listTable.index.no_client")}
                             </td>
                           </tr>
                         :

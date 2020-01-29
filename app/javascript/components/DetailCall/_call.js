@@ -2,8 +2,7 @@ import React from 'react'
 import { formatDate, formatTime, titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data}) => {
-  
+export default ({data, T}) => {
   const renderItem = (obj, key) => {
     return (
       <tr key={`${key}`}>
@@ -21,7 +20,7 @@ export default ({data}) => {
     switch (key) {
       case 'date_of_call':
         return <strong>{formatDate(obj[key])}</strong>
-      
+
       case 'start_datetime':
         return <strong>{formatTime(obj[key])}</strong>
 
@@ -36,10 +35,10 @@ export default ({data}) => {
   const formatKey = key => {
     switch (key) {
       case 'start_datetime':
-        return "Time Call Began"
+        return T.translate("detailCall.call.time_call_began")
 
       case "end_datetime":
-        return "Time Call Ended"
+        return T.translate("detailCall.call.time_call_end")
 
       default:
         return key
@@ -48,11 +47,12 @@ export default ({data}) => {
 
 
   return (
-    <HorizontalTable 
-      title="About Call"
+    <HorizontalTable
+      title={T.translate("detailCall.call.about_call")}
       data={data}
       linkHeader={`/calls/${data.id}/edit`}
       renderItem={renderItem}
+      T={T}
     />
   )
 }

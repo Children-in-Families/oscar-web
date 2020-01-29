@@ -249,7 +249,7 @@
       "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
       "information_provide": "Information Provided",
       "go": "Go",
-      "go_back": "Go Back",
+      "go_back": "ត្រលប់ក្រោយ",
       "go_to_client": "Go to Client",
       "please_select_client": "Please select client"
     },
@@ -345,12 +345,12 @@
     },
     "noClientAttachedModal": {
       "information_provided": "Information Provided",
-      "go_back": "Go Back",
-      "save": "Save"
+      "go_back": "ត្រលប់ក្រោយ",
+      "save": "រក្សាទុក"
     },
     "providingUpdate": {
       "please_select_client": "Please select client",
-      "go_back": "Go Back",
+      "go_back": "ត្រលប់ក្រោយ",
       "go": "Go"
     },
     "refereeInfo": {
@@ -446,18 +446,22 @@
   "commons": {
     "listTable": {
       "index": {
-        "action": "Action",
-        "no_client": "No Client"
+        "action": "សកម្មភាព",
+        "no_client": "គ្មានអតិថិជន"
       }
     }
   },
   "detailCall": {
-    "call": {},
+    "call": {
+      "time_call_began": "Time Call Began",
+      "time_call_end": "Time Call Ended",
+      "about_call": "About Call"
+    },
     "listClient": {
-      "list_clients": "List Clients"
+      "list_clients": "បញ្ជឺអតិថិជន"
     },
     "referee": {
-      "referee": "Referee"
+      "referee": "អ្នកបញ្ជូន"
     },
     "index": {}
   },
@@ -476,14 +480,14 @@
         "call_has_been_updated": "Call has been successfully updated"
       },
       "call_information": "Call Information",
-      "receiving_staff": "Receiving Staff Members",
+      "receiving_staff": "បុគ្គលិកទទួលករណី",
       "date_of_call": "Date of Call",
       "time_call_began": "Time Call Began",
       "time_call_ended": "Time Call Ended",
       "call_type": "Call Type",
       "information_provided": "Information Provided",
-      "cancel": "Cancel",
-      "save": "save"
+      "cancel": "ទុកជាមោឃៈ",
+      "save": "រក្សាទុក"
     }
   },
   "editCallReferee": {
@@ -507,19 +511,19 @@
         "no": "No"
       },
       "anonymous": "Anonymous",
-      "name": "Name",
+      "name": "ឈ្មោះ",
       "referee_has_been_updated": "Referee has been successfully updated",
       "caller_info": "Caller Information",
       "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
       "have_you_called": "Have you called the Childsafe Hotline Before?",
-      "anonymous_referee": "Anonymous Referee",
-      "gender": "Gender",
-      "are_you_over_18": "Are you over 18 years old?",
-      "referee_phone": "Referee Phone Number",
-      "referee_email": "Referee Email Address",
-      "outside_cambodia": "Outside Cambodia",
-      "cancel": "Cancel",
-      "save": "save"
+      "anonymous_referee": "អនាមិកអ្នកបញ្ជូន",
+      "gender": "ភេទ",
+      "are_you_over_18": "តើអ្នកមានអាយុលើសពី ១៨ ឆ្នាំឬទេ?",
+      "referee_phone": "លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី",
+      "referee_email": "អ៊ុីម៉ែលរបស់អ្នកបញ្ជូនករណី",
+      "outside_cambodia": "នៅក្រៅប្រទេសកម្ពុជា",
+      "cancel": "ទុកជាមោឃៈ",
+      "save": "រក្សាទុក"
     }
   }
 }

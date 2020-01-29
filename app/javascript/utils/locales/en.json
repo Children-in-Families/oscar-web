@@ -453,6 +453,9 @@
   },
   "detailCall": {
     "call": {
+      "time_call_began": "Time Call Began",
+      "time_call_end": "Time Call Ended",
+      "about_call": "About Call"
     },
     "listClient":{
       "list_clients": "List Clients"
@@ -519,6 +522,7 @@
       "are_you_over_18": "Are you over 18 years old?",
       "referee_phone": "Referee Phone Number",
       "referee_email": "Referee Email Address",
+      "address": "Address",
       "outside_cambodia": "Outside Cambodia",
       "cancel": "Cancel",
       "save": "save"

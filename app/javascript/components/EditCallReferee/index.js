@@ -26,25 +26,25 @@ export default props => {
   const [loading, setLoading] = useState(false)
 
   const answeredCallOpts = [
-    { label: T.translate("newCall.refereeInfo.answeredCallOpts.call_answered"), value: true },
-    { label: T.translate("newCall.refereeInfo.answeredCallOpts.return_missed_call"), value: false }
+    { label: T.translate("editCallReferee.index.answeredCallOpts.call_answered"), value: true },
+    { label: T.translate("editCallReferee.index.answeredCallOpts.return_missed_call"), value: false }
   ];
 
   const calledBeforeOpts = [
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.yes"), value: true },
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.no"), value: false }
+    { label: T.translate("editCallReferee.index.calledBeforeOpts.yes"), value: true },
+    { label: T.translate("editCallReferee.index.calledBeforeOpts.no"), value: false }
   ];
 
   const genderLists = [
-    { label: T.translate("newCall.refereeInfo.genderLists.female"), value: "female" },
-    { label: T.translate("newCall.refereeInfo.genderLists.male"), value: "male" },
-    { label: T.translate("newCall.refereeInfo.genderLists.other"), value: "other" },
-    { label: T.translate("newCall.refereeInfo.genderLists.unknown"), value: "unknown" }
+    { label: T.translate("editCallReferee.index.genderLists.female"), value: "female" },
+    { label: T.translate("editCallReferee.index.genderLists.male"), value: "male" },
+    { label: T.translate("editCallReferee.index.genderLists.other"), value: "other" },
+    { label: T.translate("editCallReferee.index.genderLists.unknown"), value: "unknown" }
   ];
 
   const ageOpts = [
-    { label: T.translate("newCall.refereeInfo.ageOpts.18_plus"), value: true },
-    { label: T.translate("newCall.refereeInfo.ageOpts.under_18"), value: false }
+    { label: T.translate("editCallReferee.index.ageOpts.18_plus"), value: true },
+    { label: T.translate("editCallReferee.index.ageOpts.under_18"), value: false }
   ];
 
   const refereeLists = () => {
@@ -58,7 +58,7 @@ export default props => {
       const fields = {
         anonymous: true,
         outside: false,
-        name: T.translate("newCall.refereeInfo.anonymous"),
+        name: T.translate("editCallReferee.index.anonymous"),
         phone: "",
         email: "",
         gender: "",
@@ -81,7 +81,7 @@ export default props => {
       return (
         <SelectInput
           T={T}
-          label="Name"
+          label={T.translate("editCallReferee.index.name")}
           required
           isDisabled={refereeData.anonymous}
           options={refereeLists()}
@@ -98,7 +98,7 @@ export default props => {
           disabled={refereeData.anonymous}
           isError={errorFields.includes("name")}
           value={refereeData.name}
-          label="Name"
+          label={T.translate("editCallReferee.index.name")}
           onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
         />
       )
@@ -141,7 +141,7 @@ export default props => {
         }
       })
       .success(response => {
-        const message = T.translate("newCall.index.message.referee_has_been_updated")
+        const message = T.translate("editCallReferee.index.referee_has_been_updated")
         document.location.href = `/calls/${response.call.id}?notice=${message}`
       })
       .error(err => {
@@ -153,7 +153,7 @@ export default props => {
   const handleValidation = () => {
     const validationFields = ['name']
     const errors = []
-    
+
     validationFields.forEach(field => {
       if(refereeData[field].length <= 0 || refereeData[field] === null) {
         errors.push(field)
@@ -172,7 +172,7 @@ export default props => {
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
     const value = inputType.includes(event.type) ? event.data : event.target.value
-    
+
     if (typeof field !== 'object')
       field = { [field]: value }
 
@@ -189,7 +189,7 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6">
-            <p>{T.translate("newCall.refereeInfo.caller_info")}</p>
+            <p>{T.translate("editCallReferee.index.caller_info")}</p>
           </div>
         </div>
       </legend>
@@ -203,7 +203,7 @@ export default props => {
             isError={errorFields.includes("answered_call")}
             onChange={onChange("referee", "answered_call")}
             options={answeredCallOpts}
-            label={T.translate("newCall.refereeInfo.did_you_answer_the_call")}
+            label={T.translate("editCallReferee.index.did_you_answer_the_call")}
             value={refereeData.answered_call}
           />
         </div>
@@ -216,7 +216,7 @@ export default props => {
             inline
             required
             isError={errorFields.includes("called_before")}
-            label={T.translate("newCall.refereeInfo.have_you_called")}
+            label={T.translate("editCallReferee.index.have_you_called")}
             options={calledBeforeOpts}
             onChange={onChange("referee", "called_before")}
             value={refereeData.called_before}
@@ -227,7 +227,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-md-3">
           <Checkbox
-            label={T.translate("newCall.refereeInfo.anonymous_referee")}
+            label={T.translate("editCallReferee.index.anonymous_referee")}
             checked={refereeData.anonymous || false}
             onChange={onChange("referee", "anonymous")}
           />
@@ -243,7 +243,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             T={T}
-            label={T.translate("newCall.refereeInfo.gender")}
+            label={T.translate("editCallReferee.index.gender")}
             isDisabled={refereeData.anonymous}
             options={genderLists}
             onChange={onChange("referee", "gender")}
@@ -253,7 +253,7 @@ export default props => {
         <div className="col-xs-12 col-md-6">
           <RadioGroup
             inline
-            label={T.translate("newCall.refereeInfo.are_you_over_18")}
+            label={T.translate("editCallReferee.index.are_you_over_18")}
             isDisabled={refereeData.anonymous}
             options={ageOpts}
             onChange={onChange("referee", "adult")}
@@ -261,12 +261,12 @@ export default props => {
           />
         </div>
       </div>
-      
+
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label={T.translate("newCall.refereeInfo.referee_phone")}
+            label={T.translate("editCallReferee.index.referee_phone")}
             type="number"
             disabled={refereeData.anonymous}
             onChange={onChange("referee", "phone")}
@@ -276,7 +276,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label={T.translate("newCall.refereeInfo.referee_email")}
+            label={T.translate("editCallReferee.index.referee_email")}
             disabled={refereeData.anonymous}
             onChange={onChange("referee", "email")}
             value={refereeData.email}
@@ -287,12 +287,12 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>{T.translate("newCall.refereeInfo.address")}</p>
+            <p>{T.translate("editCallReferee.index.address")}</p>
           </div>
           {!refereeData.anonymous && (
             <div className="col-xs-12 col-md-6 col-lg-3">
               <Checkbox
-                label={T.translate("newCall.refereeInfo.outside_cambodia")}
+                label={T.translate("editCallReferee.index.outside_cambodia")}
                 checked={refereeData.outside || false}
                 onChange={onChange("referee", "outside")}
               />
@@ -330,8 +330,8 @@ export default props => {
 
       <div className='row'>
         <div className='col-sm-12 text-right'>
-          <span className='btn btn-success form-btn' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
-          <span className='btn btn-default form-btn' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
+          <span className='btn btn-success form-btn' onClick={handleSave}>{T.translate("editCallReferee.index.save")}</span>
+          <span className='btn btn-default form-btn' onClick={handleCancel}>{T.translate("editCallReferee.index.cancel")}</span>
         </div>
       </div>
     </div>

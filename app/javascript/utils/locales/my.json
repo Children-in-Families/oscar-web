@@ -452,7 +452,11 @@
     }
   },
   "detailCall": {
-    "call": {},
+    "call": {
+      "time_call_began": "Time Call Began",
+      "time_call_end": "Time Call Ended",
+      "about_call": "About Call"
+    },
     "listClient": {
       "list_clients": "List Clients"
     },
