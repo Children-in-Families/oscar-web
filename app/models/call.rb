@@ -18,10 +18,10 @@ class Call < ActiveRecord::Base
 
   validates :receiving_staff_id, :date_of_call, :start_datetime, :end_datetime, presence: true
   validates :call_type, presence: true, inclusion: { in: TYPES }
-  validates :information_provided, presence: true, if: :no_client_attached?
+  validates :information_provided, presence: true, if: :seeking_information?
 
-  def no_client_attached?
-    call_type === "Seeking Information" || call_type === "Spam Call" || call_type === "Wrong Number"
+  def seeking_information?
+    call_type === "Seeking Information"
   end
 
   def case_action_not_required?

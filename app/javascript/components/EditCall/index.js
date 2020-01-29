@@ -38,6 +38,7 @@ export default props => {
   ));
 
   const noClientAttached = callData.call_type === "Seeking Information" || callData.call_type === "Spam Call" || callData.call_type === "Wrong Number"
+  const seekingInformation = callData.call_type === "Seeking Information"
 
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
@@ -87,7 +88,7 @@ export default props => {
   }
 
   const handleValidation = () => {
-    const validationFields = noClientAttached ? ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime', 'information_provided'] : ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime']
+    const validationFields = seekingInformation ? ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime', 'information_provided'] : ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime']
     const errors = []
     
     validationFields.forEach(field => {
@@ -191,7 +192,7 @@ export default props => {
           <div className="col-xs-12">
             <TextArea
               T={T}
-              required
+              required={ seekingInformation }
               isError={errorFields.includes('information_provided')}
               placeholder={T.translate("newCall.admin.add_note_about_the_content")}
               label="Information Provided"
