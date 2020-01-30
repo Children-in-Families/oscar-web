@@ -29,4 +29,4 @@
     .col-xs-12.col-sm-1
       .form-group
         = link_to_remove_association '', f, class: 'btn btn-outline btn-danger fa fa-times', data: {confirm: t('.are_you_sure')}
-        = f.input_field :enable_custom_assessment, class: "i-checks", as: :boolean, id: "checkbox_custom_assessment_setting"
+        = f.check_box :enable_custom_assessment, class: "i-checks", as: :boolean, id: "checkbox_custom_assessment_setting"
