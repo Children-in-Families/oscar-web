@@ -7,11 +7,11 @@
     .col-xs-12.col-sm-3
       %label.control-label
         %abbr{ title: 'required' }= '*'
-      %label.control-label= 'Max Assessment'
-    .col-xs-12.col-sm-push-3.col-sm-2
-      %label.control-label
-        %abbr{ title: 'required' }= '*'
-      %label.control-label= 'Eligible'
+      %label.control-label= 'Maximum time between assessments'
+    -# .col-xs-12.col-sm-push-3.col-sm-2
+    -#   %label.control-label
+    -#     %abbr{ title: 'required' }= '*'
+    -#   %label.control-label= 'Eligible'
 
   .row
     .col-xs-12.col-sm-3
@@ -23,9 +23,9 @@
     .col-xs-12.col-sm-3
       .form-group
         = f.input :custom_assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
-    .col-xs-12.col-sm-2
-      .form-group
-        = f.input :custom_age, placeholder: 'Age', label: false
+    -# .col-xs-12.col-sm-2
+    -#   .form-group
+    -#     = f.input :custom_age, placeholder: 'Age', label: false
     .col-xs-12.col-sm-1
       .form-group
         = link_to_remove_association '', f, class: 'btn btn-outline btn-danger fa fa-times', data: {confirm: t('.are_you_sure')}
