@@ -14,13 +14,24 @@ describe NgoUsageReport, 'generator' do
 
     it 'returns NGO info' do
       Organization.current.update(created_at: Date.today)
-
       expect(@report.ngo_info(Organization.current)).to eq({
         ngo_name: 'Organization Testing',
         ngo_on_board: date_format(Date.today),
         fcf: 'No',
         ngo_country: 'Cambodia'
       })
+    end
+
+    it 'returns NGO info with country name blank.' do
+      Organization.current.update(created_at: Date.today)
+      Setting.first.update(country_name: '')
+      expect(@report.ngo_info(Organization.current)).to eq({
+        ngo_name: 'Organization Testing',
+        ngo_on_board: date_format(Date.today),
+        fcf: 'No',
+        ngo_country: ''
+      })
+      Setting.first.update(country_name: 'cambodia')
     end
 
     it 'returns NGO Users info' do

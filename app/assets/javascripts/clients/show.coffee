@@ -9,8 +9,9 @@ CIF.ClientsShow = do ->
     _initUploader()
     _initDatePicker()
     _initICheckBox()
-    _handleDisableDatePickerWhenEditEnterAndExitNgo()
-    _handleDisableDatePickerExitNgo()
+    _preventEditDatepickerEnterNgoExitNgoCaseHistory()
+    _preventCreateDatepickerEnterNgo()
+    _preventCreateDatepickerExitNgo()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
@@ -18,33 +19,82 @@ CIF.ClientsShow = do ->
       radioClass: 'iradio_square-green'
 
   _initDatePicker = ->
-    $('.enter_ngos, .exit_ngos, .exit_date').datepicker
+    $('.enter_ngos, .exit_ngos, .exit_date, .enter_date').datepicker
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
       orientation: 'bottom'
       disableTouchKeyboard: true
 
-  _handleDisableDatePickerWhenEditEnterAndExitNgo = ->
+  _preventEditDatepickerEnterNgoExitNgoCaseHistory = ->
     $('button.edit-case-history-ngo').on 'click', ->
-      currentRow = $(this).closest('tr')[0]
-      previousDate = $($(currentRow).next()[0]).data('date')
-      nextDate     = $($(currentRow).prev()[0]).data('date')
-      className    = $(this).data('class-name')
+      currentRow          = $(this).closest('tr')[0]
+      currentDate         = $($(currentRow)).data('date')
+      previousDate        = $($(currentRow).next()[0]).data('date')
+      nextDate            = $($(currentRow).prev()[0]).data('date')
+      className           = $(this).data('class-name')
 
       if _.isElement(currentRow) and !_.isEmpty(nextDate) and !_.isEmpty(previousDate)
-        $(".#{className}").datepicker('setStartDate', previousDate)
-        $(".#{className}").datepicker('setEndDate', nextDate)
+        if className == "exit_ngos"
+          _getNextDatePreviousDate(currentDate, nextDate, previousDate,className)
+        else
+          $(".#{className}").datepicker('setStartDate', previousDate)
+          $(".#{className}").datepicker('setEndDate', nextDate)
       else if _.isElement(currentRow) and !_.isEmpty(previousDate)
-        $(".#{className}").datepicker('setStartDate', previousDate)
+        if className == "exit_ngos"
+          _getPreviousDate(previousDate, currentDate,className)
+        else
+          $(".#{className}").datepicker('setStartDate', previousDate)
       else if _.isElement(currentRow) and !_.isEmpty(nextDate)
         $(".#{className}").datepicker('setEndDate', nextDate)
 
-  _handleDisableDatePickerExitNgo = ->
+
+  _getPreviousDate = (previousDate, currentDate,className) ->
+    date = _getMaxValueLeaveProgramDate(currentDate)
+    if date != ''
+      $(".#{className}").datepicker('setStartDate', date)
+    else
+      $(".#{className}").datepicker('setStartDate', previousDate)
+
+  _getNextDatePreviousDate = (currentDate,nextDate, previousDate,className) ->
+    date = _getMaxValueLeaveProgramDate(currentDate)
+    if date != ''
+      $(".#{className}").datepicker('setStartDate', date )
+      $(".#{className}").datepicker('setEndDate', nextDate)
+    else
+      $(".#{className}").datepicker('setStartDate', previousDate)
+      $(".#{className}").datepicker('setEndDate', nextDate)
+
+  _getMaxValueLeaveProgramDate = (currentDate) ->
+    leaveProgramDates   = []
+    $('#case-history-table tr.case-history-row').each (index, element) ->
+      date = element.dataset.date
+      if element.dataset.classname == "leave_programs" and date <= currentDate
+        leaveProgramDates.push(new Date (date))
+    leaveDate = Math.max.apply(Math, leaveProgramDates)
+    date = new Date(leaveDate)
+
+  _preventCreateDatepickerEnterNgo = ->
+    $('button.enter-ngo-for-client').on 'click', ->
+      exitNgoDates      = []
+      $('#case-history-table tr.case-history-row').each (index, element) ->
+        date = element.dataset.date
+        if element.dataset.classname == "exit_ngos"
+          exitNgoDates.push(new Date (date))
+      maxExitDate = Math.max.apply(Math, exitNgoDates)
+      date = new Date(maxExitDate)
+      $(".enter_date").datepicker('setStartDate', date)
+
+  _preventCreateDatepickerExitNgo = ->
     $('button.exit-ngo-for-client').on 'click', ->
-      startDate = $('#case-history-table tr.case-history-row').first().data('date')
-      if !_.isEmpty(startDate)
-        $('.exit_date').datepicker('setStartDate', startDate)
+    leaveProgramDates = []
+    $('#case-history-table tr.case-history-row').each (index, element) ->
+      date = element.dataset.date
+      if element.dataset.classname == "leave_programs"
+        leaveProgramDates.push(new Date (date))
+      maxLeaveDate = Math.max.apply(Math, leaveProgramDates)
+      date = new Date(maxLeaveDate)
+      $(".exit_date").datepicker('setStartDate', date)
 
   _initSelect2 = ->
     $('select').select2()

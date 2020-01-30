@@ -909,11 +909,11 @@ en:
         exit_reason_options:
           agency_lack_resource: Agency lacks sufficient resources
           client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
           client_refuse_service: Client refused service
-          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          move_out_within_international: Client is/moved outside NGO target area (International)
-          no_meet_service_criteria: Client does not meet / no longer meets service criteria
-          not_required_support: Client does not require / no longer requires support
           other_reason: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
@@ -931,11 +931,11 @@ en:
         exit_reason_options:
           agency_lack_resource: Agency lacks sufficient resources
           client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
           client_refuse_service: Client refused service
-          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          move_out_within_international: Client is/moved outside NGO target area (International)
-          no_meet_service_criteria: Client does not meet / no longer meets service criteria
-          not_required_support: Client does not require / no longer requires support
           other_reason: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
@@ -1100,6 +1100,8 @@ en:
     edit:
       enrollment: Edit Enrollment
     form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
       cancel: Cancel
       enrollment_date: Enrollment Date
       save: Save
@@ -1176,6 +1178,8 @@ en:
     edit:
       enrollment: Edit Enrollment
     form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
       allow_file_size: Allowed file types
       cancel: Cancel
       enrollment_date: Enrollment Date

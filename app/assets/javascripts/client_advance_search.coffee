@@ -28,6 +28,8 @@ class CIF.ClientAdvanceSearch
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
     @HOTLINE_TRANSLATE   = optionTranslation.data('hotline')
     @CONCERN_BASIC_FIELDS   = optionTranslation.data('concern-basic-fields')
+    loaderButton = document.querySelector('.ladda-button-columns-visibility')
+    @LOADER = Ladda.create(loaderButton) if loaderButton
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('#custom-form-data').data('value')
@@ -145,7 +147,7 @@ class CIF.ClientAdvanceSearch
         $('#custom-form-column').removeClass('hidden')
         $('#wizard-custom-form .loader').addClass('hidden')
 
-  addCustomBuildersFields: (ids, url) ->
+  addCustomBuildersFields: (ids, url, loader=undefined) ->
     self = @
     action  = _.last(url.split('/'))
     element = if action == 'get_custom_field' then '.main-report-builder .custom-form-column' else '.main-report-builder .program-stream-column'
@@ -158,6 +160,8 @@ class CIF.ClientAdvanceSearch
         $('#builder').queryBuilder('addFilter', fieldList)
         self.initSelect2()
         self.addFieldToColumnPicker(element, fieldList)
+        loader.stop() if loader
+        return
 
   addCustomBuildersFieldsInWizard: (ids, url) ->
     self = @
@@ -187,8 +191,11 @@ class CIF.ClientAdvanceSearch
         checkField  = fieldName
         label       = value.label
         $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
-        $(".#{headerClass} input.i-checks").iCheck
-          checkboxClass: 'icheckbox_square-green'
+
+      $("input.i-checks.#{headerClass}").iCheck
+        checkboxClass: 'icheckbox_square-green'
+
+    return
 
   formBuiderFormatHeader: (value) ->
     keyWords = value.split('|')
@@ -199,7 +206,7 @@ class CIF.ClientAdvanceSearch
 
   checkboxElement: (field, name, label) ->
     "<li class='visibility checkbox-margin #{name}'>
-      <input type='checkbox' name='#{field}_' id='#{field}_' value='#{field}' class='i-checks' style='position: absolute; opacity: 0;'>
+      <input type='checkbox' name='#{field}_' id='#{field}_' value='#{field}' class='i-checks #{name}' style='position: absolute; opacity: 0;'>
       <label for='#{field}_'>#{label}</label>
     </li>"
 
@@ -315,11 +322,15 @@ class CIF.ClientAdvanceSearch
       self.programSelected.push programId
       $('.main-report-builder .program-association').show()
       if $('#enrollment-checkbox').is(':checked')
-        self.addCustomBuildersFields(programId, self.ENROLLMENT_URL)
+        self.LOADER.start()
+        self.addCustomBuildersFields(programId, self.ENROLLMENT_URL, self.LOADER)
       if $('#tracking-checkbox').is(':checked')
-        self.addCustomBuildersFields(programId, self.TRACKING_URL)
+        self.LOADER.start()
+        self.addCustomBuildersFields(programId, self.TRACKING_URL, self.LOADER)
+
       if $('#exit-form-checkbox').is(':checked')
-        self.addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL)
+        self.LOADER.start()
+        self.addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL, self.LOADER)
 
     $('#report-builder-wizard select.program-stream-select').on 'select2-selecting', (psElement) ->
       programId = psElement.val
@@ -382,17 +393,23 @@ class CIF.ClientAdvanceSearch
   triggerEnrollmentFields: ->
     self = @
     $('#enrollment-checkbox').on 'ifChecked', ->
-      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL, self.LOADER)
+    return
 
   triggerTrackingFields: ->
     self = @
     $('#tracking-checkbox').on 'ifChecked', ->
-      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL, self.LOADER)
+    return
 
   triggerExitProgramFields: ->
     self = @
     $('#exit-form-checkbox').on 'ifChecked', ->
-      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL)
+      self.LOADER.start()
+      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL, self.LOADER)
+    return
 
   addgroupCallback: ->
     self = @
@@ -793,8 +810,9 @@ class CIF.ClientAdvanceSearch
 
       basicRules = $(builderElement).queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
 
-      sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
-      $('#raw_sql').val(sql_sting)
+      if $('#builder').queryBuilder('getSQL', false, true)
+        sql_sting = $('#builder').queryBuilder('getSQL', false, true).sql
+        $('#raw_sql').val(sql_sting)
 
       self.setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
