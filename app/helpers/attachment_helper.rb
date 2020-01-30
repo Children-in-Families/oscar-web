@@ -18,6 +18,10 @@ module AttachmentHelper
     return '_blank' if pdf?(object) || image?(object)
   end
 
+  def file_dir_or_symlink_exists?(path_to_file)
+    File.exist?(path_to_file) || File.symlink?(path_to_file)
+  end
+
   private
 
   def pdf?(object)

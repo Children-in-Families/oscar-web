@@ -81,7 +81,7 @@ class CsiStatistic
 
   def default_assessment_amount
     data = []
-    return data unless @clients.any?
+    return data unless (@clients && @clients.any?)
 
     clients = @clients.joins(:assessments).where(assessments: { default: true }).order('assessments.created_at')
     assessments_count = Client.maximum('assessments_count')

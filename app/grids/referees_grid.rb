@@ -3,19 +3,16 @@ class RefereesGrid
   scope do
     Referee.includes(:province, :district, :commune, :village)
   end
-  # id name gender adult anonymous answered_call called_before phone email province_id district_id commune_id village_id address_type current_address house_number outside outside_address requested_update street_number created_at updated_at)
+  # id name gender adult anonymous phone email province_id district_id commune_id village_id address_type current_address house_number outside outside_address street_number created_at updated_at)
   filter(:id, :integer)
   filter(:name)
   filter(:gender, :enum, select: [['Male', 'male'], ['Female', 'female']])
   filter(:adult, :enum, select: %w(Yes No))
   filter(:anonymous, :enum, select: %w(Yes No))
-  filter(:answered_call, :enum, select: %w(Yes No))
-  filter(:called_before, :enum, select: %w(Yes No))
   filter(:phone)
   filter(:email)
   filter(:address_type, :enum, select: :address_types)
   filter(:outside, :enum, select: %w(Yes No))
-  filter(:requested_update, :enum, select: %w(Yes No))
   filter(:created_at, :date, :range => true)
 
   dynamic do

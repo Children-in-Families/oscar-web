@@ -835,14 +835,14 @@ th-TH:
         exit_ngo:
         exit_note:
         exit_reason_options:
-          agency_lack_resource:
-          client_died:
-          client_refuse_service:
-          move_out_within_cambodia:
-          move_out_within_international:
-          no_meet_service_criteria:
-          not_required_support:
-          other_reason:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          other_reason: Other
         exit_reasons:
         exit_status:
         exiting:
@@ -857,14 +857,14 @@ th-TH:
         exit_ngo:
         exit_note:
         exit_reason_options:
-          agency_lack_resource:
-          client_died:
-          client_refuse_service:
-          move_out_within_cambodia:
-          move_out_within_international:
-          no_meet_service_criteria:
-          not_required_support:
-          other_reason:
+          agency_lack_resource: Agency lacks sufficient resources
+          client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
+          client_refuse_service: Client refused service
+          other_reason: Other
         exit_reasons:
         exit_status:
         exiting:

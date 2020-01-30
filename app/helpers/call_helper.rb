@@ -59,4 +59,34 @@ module CallHelper
   def get_basic_field_translations
     I18n.t('calls')
   end
+
+  def start_time
+    time_range
+  end
+
+  def end_time
+    time_range
+  end
+
+  def time_range
+    times = [{'00' => "12:00AM"}]
+    ('01'..'23').each{|d| times << {d => "#{d}:00#{d.to_i <= 11 ? "AM" : "PM"}"} }
+    times
+  end
+
+  def answered_call
+    yes_no_dropdown
+  end
+
+  def called_before
+    yes_no_dropdown
+  end
+
+  def requested_update
+    yes_no_dropdown
+  end
+
+  def yes_no_dropdown
+    { true: 'Yes', false: 'No' }
+  end
 end

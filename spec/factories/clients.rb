@@ -24,6 +24,7 @@ FactoryGirl.define do
     after(:build) do |client|
       client.class.skip_callback(:save, :after, :create_client_history, :create_or_update_shared_client)
       client.class.skip_callback(:create, :after, :set_slug_as_alias)
+      client.slug = "app-#{client.id}"
     end
 
     trait :client_with_history do
