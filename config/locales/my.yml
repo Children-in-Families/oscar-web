@@ -623,6 +623,7 @@ my:
       add_new_call: Add New Call
       hotline: Hotline
       phone_call_id: Phone Call ID
+      export_xls: Export to XLS
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -1022,6 +1023,10 @@ my:
     enrolled_program_trackings:
       tracking: ေနာက္ေၾကာင္းမ်ား
     for: အဘို့
+    hotline:
+      end_datetime: End Date Time
+      received_by: Received Call by
+      start_datetime: Start Date Time
     incomplete: မစုံလင်သော
     index:
       book: ဖောက်သည် စာအုပ်
@@ -1224,7 +1229,7 @@ my:
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     book:
-      book:
+      book: Client Book
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
@@ -1729,10 +1734,12 @@ my:
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
       local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
+      concern_location: Location Of Concern
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       manage: စီမံခန့်ခွဲ
       name: နာမည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      nickname: Nickname
       note: မွတ္စု
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placements:
@@ -2185,6 +2192,29 @@ my:
         referee_phone: Referee Phone
         referee_email: Referee Email
         referee_relationship_to_client: Referee Relationship to client
+        referees:
+          address_type: Address Type
+          adult: Adult
+          anonymous: Anonymous
+          answered_call: Answered Call
+          called_before: Called Before
+          commune_id: Commune
+          created_at: Created At
+          current_address: Current Address
+          district_id: District
+          email: Email
+          gender: Gender
+          house_number: House Number
+          id: ID
+          name: Name
+          outside: Outside Cambodia
+          outside_address: Outside Address
+          phone: Phone
+          province_id: Province
+          requested_update: Requested Update
+          street_number: Street Number
+          updated_at: Updated At
+          village_id: Village
         client_contact_phone: Client Contact Phone
         client_address_type: Client Address Type
         client_email: Client Email
@@ -3778,6 +3808,7 @@ my:
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
       account: အေကာင့္
       agencies: ေအဂ်င္စီမ်ား
+      caller_referees: Caller / Referees
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
       calls: Calls
       clients: အမႈဥည္မ်ား
@@ -4447,6 +4478,28 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  referees:
+    show:
+      about: About
+      name: Name
+      address_type: Address Type
+      current_address: Current Address
+      email: Email
+      gender: Gender
+      house_number: House Number
+      outside_address: Outside Address
+      street_number: Street Number
+      outside: Outside
+      anonymous: Anonymous
+      province_id: Province
+      district_id: District
+      commune_id: Commune
+      village_id: Village
+      phone: Phone
+      answered_call: Answered Call
+      called_before: Called Before
+      adult: Adult
+      requested_update: Requested Update
   referral_sources:
     create:
       failed_create: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ဖန္တီးျခင္းမေအာင္ျမင္ပါ

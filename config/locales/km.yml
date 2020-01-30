@@ -625,7 +625,7 @@ km:
       add_new_call: Add New Call
       hotline: Hotline
       phone_call_id: Phone Call ID
-      export_to_xls: Export to XLS
+      export_xls: Export to XLS
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -999,6 +999,7 @@ km:
       assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
     by: ដោយ
+    call: Call
     case_histories:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       case_history: ប្រវត្តិនៃករណី
@@ -1018,6 +1019,10 @@ km:
     enrolled_program_trackings:
       tracking: តាមដាន
     for: សំរាប់
+    hotline:
+      end_datetime: End Date Time
+      received_by: Received Call by
+      start_datetime: Start Date Time
     incomplete: មិនទានបំពេញចប់
     index:
       book: បណ្តុំព័ត៌មានអតិថិជន
@@ -1725,10 +1730,12 @@ km:
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
+      concern_location: Location Of Concern
       main_school_contact: ជនបង្គោលសម្រាប់ទំនាក់ទំនងនៅសាលារៀន
       manage: សកម្មភាព
       name: ឈ្មោះ
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      nickname: ឈ្មោះហៅក្រៅ
       note: កំណត់ហេតុ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       placements:
@@ -2346,6 +2353,29 @@ km:
       referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
       referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
+      referees:
+        address_type: ប្រភេទអាស័យដ្ឋាន
+        adult: Adult
+        anonymous: Anonymous
+        answered_call: Answered Call
+        called_before: Called Before
+        commune_id: ឃុំ/សង្កាត់
+        created_at: កាលបរិច្ឆេទនៃការបង្កើត
+        current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
+        district_id: ស្រុក/ខណ្ឌ
+        email: ឣុីម៉ែល
+        gender: ភេទ
+        house_number: ផ្ទះលេខ
+        id: ID
+        name: ឈ្មោះ
+        outside: Outside Cambodia
+        outside_address: Outside Address
+        phone: លេខទូរស័ព្ទ
+        province_id: ខេត្ត/ក្រុង
+        requested_update: Requested Update
+        street_number: ផ្លូវ
+        updated_at: Updated At
+        village_id: ភូមិ
       select_columns: ជ្រើសរើសជួរឈរ
       show_all: បង្ហាញទាំងអស់
       support_amount: ប្រាក់ឧបត្ថម្ភ
@@ -3780,6 +3810,7 @@ km:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
       agencies: អង្គភាព
+      caller_referees: Caller / Referees
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       calls: Calls
       clients: ឣតិថិជន
@@ -4446,6 +4477,28 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  referees:
+    show:
+      about: អំពី
+      name: ឈ្មោះ
+      address_type: ប្រភេទអាសយដ្ឋាន
+      current_address: អាសយដ្ឋានបច្ចុប្បន្ន
+      email: អុីម៉ែល
+      gender: ភេទ
+      house_number: ផ្ទះលេខ
+      outside_address: Outside Address
+      street_number: ផ្លូវលេខ
+      outside: Outside
+      anonymous: Anonymous
+      province_id: ខេត្ត / ក្រុង
+      district_id: ស្រុក/ខណ្ឌ
+      commune_id: ឃុំ/សង្កាត់
+      village_id: ភូមិ
+      phone: លេខទូរស័ព្ទ
+      answered_call: Answered Call
+      called_before: Called Before
+      adult: Adult
+      requested_update: Requested Update
   referral_sources:
     create:
       failed_create: ប្រភពនៃការបញ្ជូនមិនត្រូវបានបង្កើត

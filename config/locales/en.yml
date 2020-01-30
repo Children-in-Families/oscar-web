@@ -1050,7 +1050,7 @@ en:
       tracking: Tracking
     for: For
     hotline:
-      end_datetime:
+      end_datetime: End Date Time
       received_by: Received Call by
       start_datetime: Start Date Time
     incomplete: Incomplete
@@ -4585,6 +4585,28 @@ en:
     show:
       about: About
       <<: *REFEREE_ATTR
+  referees:
+    show:
+      about: About
+      name: Name
+      address_type: Address Type
+      current_address: Current Address
+      email: Email
+      gender: Gender
+      house_number: House Number
+      outside_address: Outside Address
+      street_number: Street Number
+      outside: Outside
+      anonymous: Anonymous
+      province_id: Province
+      district_id: District
+      commune_id: Commune
+      village_id: Village
+      phone: Phone
+      answered_call: Answered Call
+      called_before: Called Before
+      adult: Adult
+      requested_update: Requested Update
   referral_sources:
     create:
       failed_create: Failed to create a referral source.
