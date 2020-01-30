@@ -636,7 +636,9 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    answered_call: Answer Call
     call_type: Call types
+    called_before: Called Before
     end_datetime: Date Call Ended
     end_time: Time Call Ended
     hotline: Hotline
@@ -646,8 +648,6 @@ en:
       hotline: Hotline
       results: Results
       report_builder: Report Builder
-
-
     information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
@@ -659,6 +659,7 @@ en:
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
     phone_type: Phone type
+    requested_update: Requested Update
     start_datetime: Date Call Began
     start_time: Time Call Began
   cancel: Cancel
@@ -2104,7 +2105,9 @@ en:
       all_custom_csi_assessments: All Custom Assessments
       all_result_framework_assessment: All Result Framework Assessment
       calls:
+        answered_call: Answer Call
         call_type: Call types
+        called_before: Called Before
         end_datetime: Date Call Ended
         end_time: Time Call Ended
         hotline_call: Hotline Call
@@ -2113,6 +2116,7 @@ en:
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
+        requested_update: Requested Update
         start_datetime: Date Call Began
         start_time: Time Call Began
       carer_address: Carer Address

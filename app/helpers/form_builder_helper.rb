@@ -171,7 +171,7 @@ module FormBuilderHelper
     field_name = id.gsub(/_time/, '_datetime')
     value      = type == 'string'  ? value.downcase : value
 
-    lower_field_name      = type == 'string' && field_name.exclude?('datetime') ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
+    lower_field_name      = type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
     table_name_field_name = ['start_time', 'end_time'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
     table_name_field_name = ['start_datetime', 'end_datetime'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
     case operator

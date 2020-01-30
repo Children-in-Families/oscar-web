@@ -13,6 +13,9 @@ class CallsGrid
   filter(:receiving_staff_id, :enum, select: :receiving_staff_options)
   filter(:start_datetime, :date)
   filter(:end_datetime, :date)
+  filter(:answered_call, :enum, select: %w(Yes No))
+  filter(:called_before, :enum, select: %w(Yes No))
+  filter(:requested_update, :enum, select: %w(Yes No))
   filter(:information_provided)
 
   column(:id)
@@ -29,6 +32,15 @@ class CallsGrid
   end
   column(:end_datetime) do |model|
     model.end_datetime && model.end_datetime.strftime("%I:%M%p")
+  end
+  column(:answered_call, order: false) do |object|
+    object.answered_call == true ? 'Yes' : 'No'
+  end
+  column(:called_before, order: false) do |object|
+    object.called_before == true ? 'Yes' : 'No'
+  end
+  column(:requested_update, order: false) do |object|
+    object.requested_update == true ? 'Yes' : 'No'
   end
   column(:information_provided, order: false)
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
