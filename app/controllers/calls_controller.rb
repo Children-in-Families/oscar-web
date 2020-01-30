@@ -7,6 +7,7 @@ class CallsController < AdminController
   before_action :country_address_fields, only: [:new]
 
   def index
+    binding.pry
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
       scope.order(:created_at).page(params[:page]).page(params[:page]).per(20)
     end
@@ -70,7 +71,7 @@ class CallsController < AdminController
   end
 
   def update_referee
-    
+
   end
 
 
@@ -113,7 +114,7 @@ class CallsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
-    
+
     @client          = params["action"] == "edit" ? Call.find(params[:id]).clients.last : Client.new
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
@@ -166,7 +167,7 @@ class CallsController < AdminController
     @birth_provinces = []
     ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
-    
+
     @current_provinces        = Province.order(:name)
     @states                   = State.order(:name)
     @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
@@ -182,7 +183,7 @@ class CallsController < AdminController
     @carer_districts            = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
     @carer_communes             = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
     @carer_villages             = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
-    
+
     # @townships                = []
     # @districts                = []
     # @subdistricts             = []
