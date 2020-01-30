@@ -637,7 +637,8 @@ en:
       sync_with_google: Sync with Google Calendar
   calls:
     call_type: Call types
-    end_datetime: End-Call Datetime
+    end_datetime: Date Call Ended
+    end_time: Time Call Ended
     hotline: Hotline
     index:
       add_new_call: Add New Call
@@ -658,7 +659,8 @@ en:
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
     phone_type: Phone type
-    start_datetime: Start Date Time
+    start_datetime: Date Call Began
+    start_time: Time Call Began
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -1052,7 +1054,7 @@ en:
     hotline:
       end_datetime:
       received_by: Received Call by
-      start_datetime: Start Date Time
+      start_datetime: Time Call Began
     incomplete: Incomplete
     index:
       book: Client book
@@ -2103,14 +2105,16 @@ en:
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         call_type: Call types
-        end_datetime: End-Call Datetime
+        end_datetime: Date Call Ended
+        end_time: Time Call Ended
         hotline_call: Hotline Call
         information_provided: Information provided
         manage: Manage
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
-        start_datetime: Start Date Time
+        start_datetime: Date Call Began
+        start_time: Time Call Began
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number

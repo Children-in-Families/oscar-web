@@ -775,8 +775,6 @@ class CIF.ClientAdvanceSearch
       $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
       # $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
       self.initSelect2()
-      #hide call datetime and call type spam call
-      $("optgroup[label='Hotline'] option[value*='_datetime']").addClass('hide')
 
     $('#hotline-checkbox').off('ifUnchecked').on 'ifUnchecked', ->
       $('#client_advanced_search_hotline_check').val('')
