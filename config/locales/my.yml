@@ -198,6 +198,8 @@ my:
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         domain:
           attributes:
+            custom_assessment_setting_id:
+              blank: can't be blank
             identity:
               blank: ကြက္လပ္ခ်န္ထား၍ မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
@@ -4602,6 +4604,8 @@ my:
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
     create:
       successfully_created: အောင်မြင်စွာဖန်တီး
+    custom_assessment_setting_fields:
+      are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
       cambodia:
         custom_id1_local: Custom ID1 (Khmer)

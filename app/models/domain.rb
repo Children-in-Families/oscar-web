@@ -12,7 +12,8 @@ class Domain < ActiveRecord::Base
   has_paper_trail
 
   validates :domain_group, presence: true
-  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_domain}
+  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_assessment_setting}
+  validates :custom_assessment_setting_id, presence: true
 
   default_scope { order('domain_group_id ASC, name ASC') }
 

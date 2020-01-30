@@ -11,7 +11,7 @@ class AssessmentsController < AdminController
     @default_assessment = @client.assessments.new
     @custom_assessment  = @client.assessments.new(default: false)
     @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
-    @custom_assessment_settings = CustomAssessmentSetting.all
+    @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
   def new
