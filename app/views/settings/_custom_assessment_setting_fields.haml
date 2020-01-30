@@ -8,10 +8,10 @@
       %label.control-label
         %abbr{ title: 'required' }= '*'
       %label.control-label= 'Maximum time between assessments'
-    -# .col-xs-12.col-sm-push-3.col-sm-2
-    -#   %label.control-label
-    -#     %abbr{ title: 'required' }= '*'
-    -#   %label.control-label= 'Eligible'
+    .col-xs-12.col-sm-push-3.col-sm-2
+      %label.control-label
+        %abbr{ title: 'required' }= '*'
+      %label.control-label= 'Eligible'
 
   .row
     .col-xs-12.col-sm-3
@@ -23,10 +23,10 @@
     .col-xs-12.col-sm-3
       .form-group
         = f.input :custom_assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
-    -# .col-xs-12.col-sm-2
-    -#   .form-group
-    -#     = f.input :custom_age, placeholder: 'Age', label: false
+    .col-xs-12.col-sm-2
+      .form-group
+        = f.input :custom_age, placeholder: 'Age', label: false
     .col-xs-12.col-sm-1
       .form-group
-        = link_to_remove_association '', f, class: 'btn btn-outline btn-danger fa fa-times', data: {confirm: t('.are_you_sure')}
+        = link_to_remove_association '', f, class: 'btn btn-outline btn-danger btn-sm fa fa-times', data: {confirm: t('.are_you_sure')}
         = f.check_box :enable_custom_assessment, class: "i-checks", as: :boolean, id: "checkbox_custom_assessment_setting"
