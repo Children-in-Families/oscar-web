@@ -215,6 +215,20 @@
               %li.csi-header
                 %strong= t('.csi_domain_scores')
               %li
+          - Client::HOTLINE_FIELDS.each do |hotline_field|
+            %li
+              .visibility.col-sm-12
+                = check_box_tag "#{hotline_field}_", hotline_field, checked = default_setting("#{hotline_field}_", @client_default_columns) || params["#{hotline_field}_"].present?, class: 'i-checks'
+                = label_tag "#{hotline_field}_", t("datagrid.columns.clients.#{hotline_field}")
+          - if enable_default_assessment?
+            - if current_organization.try(:aht) == true
+              %li.csi-header
+                %strong= t('.result_framework_assessment')
+              %li
+            - else
+              %li.csi-header
+                %strong= t('.csi_domain_scores')
+              %li
               .visibility.col-sm-12
                 = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = default_setting('date_of_assessments_', @client_default_columns) || params[:date_of_assessments_].present?, class: 'i-checks'
                 = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
