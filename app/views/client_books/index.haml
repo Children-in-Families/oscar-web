@@ -15,18 +15,21 @@
       .ibox-content
         - group_client_associations.each do |date, associations|
           - associations.each do |association|
-            - if association.class.name.downcase == 'assessmentdecorator'
+            - class_name = association.class.name.downcase
+            - if class_name    == 'assessmentdecorator'
               = render 'assessments', assessment: association, date: date
-            - elsif association.class.name.downcase == 'casenote'
+            - elsif class_name == 'casenote'
               = render 'case_notes', case_note: association, date: date
-            - elsif association.class.name.downcase == 'clientenrollment' && association.program_stream_id.present?
+            - elsif class_name == 'clientenrollment' && association.program_stream_id.present?
               = render 'client_enrollments', client_enrollment: association, date: date
-            - elsif association.class.name.downcase == 'clientenrollmenttracking'
+            - elsif class_name == 'clientenrollmenttracking'
               = render 'enrolled_program_trackings', enrollment_tracking: association, date: date
-            - elsif association.class.name.downcase == 'leaveprogram'
+            - elsif class_name == 'leaveprogram'
               = render 'leave_programs', leave_program: association, date: date
-            - elsif association.class.name.downcase == 'customfieldproperty'
+            - elsif class_name == 'customfieldproperty'
               = render 'custom_field_properties', custom_field_property: association, date: date
+            - elsif class_name == 'call'
+              = render 'calls', call: association, date: date
 
 %a#back-to-top.btn.btn-primary.btn-lg.back-to-top{"data-placement" => "top", "data-toggle" => "tooltip", :href => "#", :role => "button", :title => "Back to Top"}
   %span.glyphicon.glyphicon-chevron-up

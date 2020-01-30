@@ -12,5 +12,7 @@ FactoryGirl.define do
     commune nil
     village nil
     client nil
+    # answered_call false
+    # called_before false
   end
 end

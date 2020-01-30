@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
   before_action :set_paper_trail_whodunnit, :current_setting
+  before_action :prevent_routes
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -85,6 +86,14 @@ class ApplicationController < ActionController::Base
     lang = params[:locale] || locale.to_s
     if browser.firefox? && browser.platform.mac? && lang == 'km'
       "Khmer fonts for Firefox do not render correctly. Please use Google Chrome browser instead if you intend to use OSCaR in Khmer language."
+    end
+  end
+
+  def prevent_routes
+    if current_setting.try(:enable_hotline) == false && params[:controller] == "calls"
+      redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
+    elsif current_setting.try(:enable_client_form) == false && params[:controller] == "clients"
+      redirect_to root_path, notice: t('unauthorized.you_cannot_access_this_page')
     end
   end
 end

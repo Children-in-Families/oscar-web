@@ -17,6 +17,8 @@ class AdminController < ApplicationController
     @user_count    = User.accessible_by(current_ability).count
     @partner_count = Partner.count
     @agency_count  = Agency.count
+    @calls_count   = Call.count
+    @referees_count        = Referee.count
     @referral_source_count = ReferralSource.count
   end
 end

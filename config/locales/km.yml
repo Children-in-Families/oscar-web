@@ -620,6 +620,20 @@ km:
   calendars:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
+  calls:
+    index:
+      add_new_call: Add New Call
+      hotline: Hotline
+      phone_call_id: Phone Call ID
+      export_to_xls: Export to XLS
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Case Action NOT Required"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counseling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
@@ -2041,6 +2055,7 @@ km:
     columns:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      all_result_framework_assessment: All Result Framework Assessment
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំ
@@ -2392,6 +2407,7 @@ km:
       no_case_note: កំណត់ត្រាករណីហួសកំណត់
       reset: សំអាត
       referee: អ្នកបញ្ជូន
+      result_framework_assessment: Result Framework Assessment
       carer: អ្នកថែទាំ
       search: ស្វែងរក
       type_of_service: ប្រភេទសេវាកម្ម
@@ -3764,7 +3780,9 @@ km:
       account: គណនី
       agencies: អង្គភាព
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
+      calls: Calls
       clients: ឣតិថិជន
+      client_forms: Client Forms
       country: ប្រទេស
       csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
       custom_fields: ទម្រង់បែបបទ
@@ -4573,6 +4591,9 @@ km:
     case_note:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: ប្រទេស
       settings: ការកំណត់
@@ -5015,6 +5036,7 @@ km:
   unauthorized:
     case_worker_unauthorized: កំណត់ត្រាត្រូវបានរក្សាទុកដោយជោគជ័យប៉ុន្តែវាមិនត្រូវបានកំណត់សម្រាប់អ្នក ដូច្នេះអ្នកមិនអាចមើលវាបានទេ។ ប្រសិនបើអ្នកត្រូវការមើលកំណត់ត្រានេះសូមនិយាយជាមួយបុគ្គលិកគ្រប់គ្រងករណី ឬ អេដមីន។
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?

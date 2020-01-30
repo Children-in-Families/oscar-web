@@ -7,7 +7,7 @@ export default props => {
     if(value) {
       const toAarray = value.split('-')
       const year = toAarray[0]
-      const month = toAarray[1]
+      const month = toAarray[1] - 1
       const day = toAarray[2]
 
       return new Date(year, month, day)

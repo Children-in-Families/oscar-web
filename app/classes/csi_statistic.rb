@@ -87,12 +87,6 @@ class CsiStatistic
     assessments_count = Client.maximum('assessments_count')
     client = Client.find_by(assessments_count: assessments_count)
     assessment_max_count = client.assessments.defaults.count
-    # max_count = clients.map { |a| a.assessments.defaults.size }.max.to_i
-    # clients.includes(:assessments)
-    # assessment_max_count.times do |i|
-    #   data << clients.includes(:assessments).map { |c| c.assessments.defaults[i].id if c.assessments.defaults[i].present? }
-    # end
-    # binding.pry
     data = clients.includes(:assessments).map { |c| c.assessments.defaults.ids }
   end
 

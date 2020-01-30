@@ -52,6 +52,14 @@ module ApplicationHelper
     end
   end
 
+  def is_active_controller(controller_name, class_name = nil)
+      if params[:controller] =~ /#{controller_name}/i
+       class_name == nil ? "active" : class_name
+      else
+        nil
+      end
+  end
+
   def clients_menu_active
     names = %w(clients tasks assessments case_notes cases government_reports leave_programs client_enrollments client_enrollment_trackings client_advanced_searches client_enrolled_programs client_enrolled_program_trackings leave_enrolled_programs)
     if names.include?(controller_name) && params[:family_id].nil?
@@ -146,7 +154,7 @@ module ApplicationHelper
   end
 
   def date_time_format(date_time)
-    date_time.in_time_zone('Bangkok').strftime('%d %B %Y %H:%M:%S')
+    date_time.in_time_zone('Bangkok').strftime('%d %B %Y %I:%M%p')
   end
 
   def ability_to_write(object)

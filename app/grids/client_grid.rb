@@ -26,7 +26,7 @@ class ClientGrid < BaseGrid
     # associations.delete(:user)
 
     # Client.includes(associations).order('clients.status, clients.given_name')
-    Client.all
+    Client
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -536,6 +536,27 @@ class ClientGrid < BaseGrid
     live_with
   end
 
+  def client_hotline_fields
+    Client::HOTLINE_FIELDS
+  end
+
+  dynamic do
+    yes_no = { true: 'Yes', false: 'No' }
+    client_hotline_fields.each do |hotline_field|
+      value = ''
+      column(hotline_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.clients.#{hotline_field}") }, class: 'client-hotline-field') do |object|
+        if hotline_field[/_id/i]
+          address_name = hotline_field.gsub('_id', '')
+          value = object.send(address_name.to_sym).try(:name)
+        else
+          value = object.send(hotline_field.to_sym)
+          value = (value == true || value == false) ? yes_no[value.to_s.to_sym] : value
+        end
+        value
+      end
+    end
+  end
+
   # column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   dynamic do
@@ -578,6 +599,22 @@ class ClientGrid < BaseGrid
   column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
     services = map_type_of_services(object)
     render partial: 'clients/type_of_services', locals: { type_of_services: services }
+  end
+
+  def call_fields
+    Call::FIELDS
+  end
+
+  dynamic do
+    call_fields.each do |call_field|
+      column(call_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.calls.#{call_field}") }, preload: :calls, class: 'call-field') do |object|
+        if call_field[/date/i]
+          object.calls.distinct.map{ |call| date_format(call.send(call_field.to_sym)) }.join(', ')
+        else
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) }.join(', ')
+        end
+      end
+    end
   end
 
   column(:referee_name, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|

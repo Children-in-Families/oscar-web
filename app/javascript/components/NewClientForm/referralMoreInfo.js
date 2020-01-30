@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
@@ -24,72 +24,84 @@ export default props => {
       </div>
       <br/>
       <div className="row">
-        <div className="careInfo">
-          <div className="col-xs-4 collapsed" data-toggle="collapse" data-target="#careInfo">
-            <label>{T.translate("referralMoreInfo.carer_info")}</label>
-          </div>
-          <div className="col collapsed" data-toggle="collapse" data-target="#careInfo">
-            <span className="pointer">
-              <i className="fa fa-chevron-up"></i>
-              <i className="fa fa-chevron-down"></i>
-            </span>
+        <div className="careInfo collapsed" data-toggle="collapse" data-target="#careInfo">
+          <div style={styles.sectionHead}>
+            <div className="col-xs-4">
+              <label>{T.translate("referralMoreInfo.carer_info")}</label>
+            </div>
+            <div className="col-xs-8">
+              <span className="pointer">
+                <i className="fa fa-chevron-up"></i>
+                <i className="fa fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes, T }} onChange={onChange} />
 
-      <hr/>
       <div className="row">
-        <div className="schoolInfo">
-          <div className="col-xs-4 collapsed" data-toggle="collapse" data-target="#schoolInfo">
-            <label>{T.translate("referralMoreInfo.school_info")}</label>
-          </div>
-          <div className="col collapsed" data-toggle="collapse" data-target="#schoolInfo">
-            <span className="pointer">
-              <i className="fa fa-chevron-up"></i>
-              <i className="fa fa-chevron-down"></i>
-            </span>
+        <div className="schoolInfo collapsed" data-toggle="collapse" data-target="#schoolInfo">
+          <div style={styles.sectionHead}>
+            <div className="col-xs-4" >
+              <label>{T.translate("referralMoreInfo.school_info")}</label>
+            </div>
+            <div className="col-xs-8">
+              <span className="pointer">
+                <i className="fa fa-chevron-up"></i>
+                <i className="fa fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} />
 
-      <hr/>
       <div className="row">
-        <div className="donorInfo">
-          <div className="col-xs-4 collapsed" data-toggle="collapse" data-target="#donorInfo">
-            <label>{T.translate("referralMoreInfo.donor_info")}</label>
-          </div>
-          <div className="col collapsed" data-toggle="collapse" data-target="#donorInfo">
-            <span className="pointer">
-              <i className="fa fa-chevron-up"></i>
-              <i className="fa fa-chevron-down"></i>
-            </span>
+        <div className="donorInfo collapsed" data-toggle="collapse" data-target="#donorInfo">
+          <div style={styles.sectionHead}>
+            <div className="col-xs-4">
+              <label>{T.translate("referralMoreInfo.donor_info")}</label>
+            </div>
+            <div className="col-xs-8">
+              <span className="pointer">
+                <i className="fa fa-chevron-up"></i>
+                <i className="fa fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       <DonorInfo id="donorInfo" data={{ donors, agencies, client, T }} onChange={onChange} />
 
-      <hr/>
       <div className="row">
-        <div className="customInfo">
-          <div className="col-xs-4 collapsed" data-toggle="collapse" data-target="#customInfo">
-            <label>{T.translate("referralMoreInfo.other_info")}</label>
-          </div>
-          <div className="col collapsed" data-toggle="collapse" data-target="#customInfo">
-            <span className="pointer">
-              <i className="fa fa-chevron-up"></i>
-              <i className="fa fa-chevron-down"></i>
-            </span>
+        <div className="customInfo collapsed" data-toggle="collapse" data-target="#customInfo">
+          <div style={styles.sectionHead}>
+            <div className="col-xs-4">
+              <label>{T.translate("referralMoreInfo.other_info")}</label>
+            </div>
+            <div className="col-xs-8">
+              <span className="pointer">
+                <i className="fa fa-chevron-up"></i>
+                <i className="fa fa-chevron-down"></i>
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       <CustomInfo id="customInfo" onChange={onChange} data={{errorFields, ratePoor, client, T }} />
-      <hr/>
     </div>
   )
+}
+
+const styles = {
+  sectionHead: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    height: 75
+  }
 }

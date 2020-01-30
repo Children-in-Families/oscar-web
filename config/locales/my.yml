@@ -618,6 +618,19 @@ my:
   calendars:
     index:
       sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
+  calls:
+    index:
+      add_new_call: Add New Call
+      hotline: Hotline
+      phone_call_id: Phone Call ID
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Case Action NOT Required"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counseling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
@@ -2031,6 +2044,7 @@ my:
     columns:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      all_result_framework_assessment: All Result Framework Assessment
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
@@ -2371,6 +2385,7 @@ my:
       no_case_note: ဖြစ်ရပ်မှန်မှတ်ချက်များအတွက်ရက်လွန်
       reset: အကုန္ျပင္ဆင္သည္
       referee: Referee
+      result_framework_assessment: Result Framework Assessment
       carer: Carer
       search: ရွာေဖြသည္
       type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
@@ -3763,7 +3778,9 @@ my:
       account: အေကာင့္
       agencies: ေအဂ်င္စီမ်ား
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
+      calls: Calls
       clients: အမႈဥည္မ်ား
+      client_forms: Client Forms
       country: ႏုိင္ငံ
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_fields: ပံုစံထုတ္စက္
@@ -4575,6 +4592,9 @@ my:
     case_note:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
       max_case_note: အများဆုံး
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
     country:
       country: ႏုိင္ငံ
       settings: အျပင္အဆင္မ်ား
@@ -5021,6 +5041,7 @@ my:
   unauthorized:
     case_worker_unauthorized: အဆိုပါစံချိန်ကိုအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ, ဒါပေမယ့်သင်ဖို့တာဝန်မပေးတဲ့အတွက်, သင်ကမြင်နိုင်မရှိကြပေ။ သငျသညျဤမှတ်တမ်းကြည့်ရှုရန်လိုအပ်ပါတယ်လျှင်, တာဝန်ပေးအပ်ကိစ္စတွင်မန်နေဂျာဒါမှမဟုတ် admin ရဲ့ပြောဆို၏။
     default: ဤစာမ်က္ႏွာကို ၀င္ေရာက္ရန္ အခြင့္မရွိပါ
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား

@@ -278,8 +278,9 @@ class ClientsController < AdminController
 
     @carer = @client.carer.present? ? @client.carer : Carer.new
     @referee = @client.referee.present? ? @client.referee : Referee.new
-    @referee_relationships = Client::REFEREE_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
     @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
     @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
