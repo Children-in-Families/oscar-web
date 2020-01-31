@@ -1,6 +1,6 @@
 {
   "address": {
-    "outside_address": "អាសយដ្ឋានខាងក្រៅ",
+    "outside_address": "អាសយដ្ឋាននៅក្រៅ",
     "provicne": "ខេត្ត/ក្រុង",
     "district": "អាសយដ្ឋាន - ស្រុក/ខណ្ឌ",
     "commune": "អាសយដ្ឋាន - ឃុំ/សង្កាត់",
@@ -23,12 +23,12 @@
     "gender": "ភេទ",
     "carer_phone": "លេខទូរស័ព្ទអ្នកថែទាំ",
     "carer_email": "អ៊ុីម៉ែលរបស់អ្នកថែទាំ",
-    "client_relationship": "ទំនាក់ទំនងរបស់អតិថិជន",
+    "client_relationship": "ទំនាក់ទំនងជាមួយអតិថិជន",
     "family_record": "គ្រួសារ",
     "address": "អាសយដ្ឋាន",
-    "same_as_client": "ដូចអតិថិជនដែរ",
-    "outside_cambodia": "នៅក្រៅប្រទេសកម្ពុជា",
-    "sam_as_client": "ដូចអតិថិជនដែរ"
+    "same_as_client": "ដូចអតិថិជន",
+    "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
+    "sam_as_client": "ដូចអតិថិជន"
   },
   "createFamilyModal": {
     "wait_for_server_req": "សូមរង់ចាំខណៈពេលដែលយើងកំពុងស្នើសុំទៅកាន់ Server ។",
@@ -46,7 +46,7 @@
     "has_already_taken": "ត្រូវបានបង្កើតម្តងហើយ"
   },
   "donorInfo": {
-    "other_agencies": "ទីភ្នាក់ងារផ្សេងទៀតចូលរួម",
+    "other_agencies": "ទីភ្នាក់ងារចូលរួមផ្សេងទៀត",
     "donor": "ម្ចាស់ជំនួយ"
   },
   "index": {
@@ -71,15 +71,15 @@
   "refereeInfo": {
     "anonymous": "អនាមិក",
     "referee_info": "ព័ត៌មានអ្នកបញ្ជូន",
-    "anonymous_referee": "អនាមិកអ្នកបញ្ជូន",
-    "name": "ឈ្មោះអ្នកបញ្ជូនករណី",
+    "anonymous_referee": "ជនអនាមិកអ្នកបញ្ជូន",
+    "name": "ឈ្មោះអ្នកបញ្ជូន",
     "gender": "ភេទ",
-    "referee_phone": "លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី",
-    "referee_email": "អ៊ុីម៉ែលរបស់អ្នកបញ្ជូនករណី",
+    "referee_phone": "លេខទូរស័ព្ទអ្នកបញ្ជូន",
+    "referee_email": "អ៊ុីម៉ែលអ្នកបញ្ជូនករណី",
     "referral_source_cat": "ប្រភេទប្រភពនៃការបញ្ជូន",
     "referral_source": "ប្រភពនៃការបញ្ជូន",
     "address": "ឣាសយដ្ឋាន",
-    "outside_cam": "នៅក្រៅប្រទេសកម្ពុជា",
+    "outside_cam": "អាសយដ្ឋានខាងក្រៅ",
     "male": "ប្រុស",
     "female": "ស្រី",
     "other": "ផ្សេងៗ",
@@ -97,17 +97,17 @@
     "client_relationship": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ?",
     "caller_relationship": "ទំនាក់ទំនងរវាងអ្នកទូរស័ព្ទ",
     "contact_info": "ព័ត៌មានទំនាក់ទំនង",
-    "client_is_outside": "អតិថិជនគឺនៅខាងក្រៅប្រទេសកម្ពុជា",
+    "client_is_outside": "អតិថិជនអាសយដ្ឋានខាងក្រៅ",
     "what_3_word": "What3Words",
     "client_phone": "លេខទូរស័ព្ទរបស់អតិថិជន",
     "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
-    "client_email": "អ៊ុីម៉ែលរបស់អតិថិជន",
+    "client_email": "អ៊ុីម៉ែលពាក់ព័ន្ធអតិថិជន",
     "profile": "ប្រវត្តិរូប",
     "remove": "លុបចេញ"
   },
   "referralMoreInfo": {
     "referral_more_info": "អតិថិជន / ការបញ្ជូន - ព័ត៌មានបន្ថែម",
-    "do_you_want": "តើអ្នកចង់បន្ថែមទេ",
+    "do_you_want": "តើអ្នកចង់បន្ថែមព័ត៌មានទៀតទេ",
     "carer_info": "ព័ត៌មានអ្នកថែទាំ?",
     "school_info": "ព័ត៌មានសាលា?",
     "donor_info": "ព័ត៌មានម្ចាស់ជំនួយ?",
@@ -149,7 +149,7 @@
     "Other": "ផ្សេងៗ",
     "Child": "Child",
     "In same community": "In same community",
-    "Client": "Client",
+    "Client": "អតិថិជន",
     "Stranger": "Stranger"
   },
   "clientRelationShip": {
@@ -212,7 +212,7 @@
   },
   "newCall": {
     "address": {
-      "outside_address": "អាសយដ្ឋានខាងក្រៅ",
+      "outside_address": "អាសយដ្ឋាននៅក្រៅ",
       "provicne": "ខេត្ត/ក្រុង",
       "district": "អាសយដ្ឋាន - ស្រុក/ខណ្ឌ",
       "commune": "អាសយដ្ឋាន - ឃុំ/សង្កាត់",
@@ -226,9 +226,9 @@
       "please_input_all_require_field": "Please Input all the required fields",
       "completion_date": "Completion Date",
       "task_details": "Task Details",
-      "domain": "Domain",
-      "save": "Save",
-      "cancel": "Cancel",
+      "domain": "កត្តា",
+      "save": "រក្សាទុក",
+      "cancel": "ទុកជាមោឃះ",
       "add_new_tasks": "Add New Tasks"
     },
     "admin": {
@@ -241,45 +241,45 @@
         "spam_call": "Spam Call",
         "wrong_number": "Wrong Number"
       },
-      "call_information": "Call Information",
-      "phone_call": "Phone Call ID #",
+      "call_information": "ព័ត៌មាននៃការហៅទូរស័ព្ទ",
+      "phone_call": "អត្តលេខការហៅទូរស័ព្ទ #",
       "receiving_staff": "បុគ្គលិកទទួលករណី",
-      "call_type": "Call Type",
+      "call_type": "ប្រភេទនៃការហៅទូរស័ព្ទ",
       "confirmation": "Confirmation",
       "save_call_as": "Are you sure you want to record this call as",
-      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
-      "information_provide": "Information Provided",
-      "go": "Go",
+      "add_note_about_the_content": "បញ្ចូលកំណត់ត្រានៃខ្លឹមសារការសន្ទនារបស់អ្នកជាមួយអ្នកហៅទូរស័ព្ទ។",
+      "information_provide": "ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល",
+      "go": "ចូល",
       "go_back": "ត្រលប់ក្រោយ",
-      "go_to_client": "Go to Client",
+      "go_to_client": "ចូលទៅរកអតិថិជន",
       "please_select_client": "Please select client"
     },
     "callAbout": {
       "basicNecessities": {
-        "looking_for_help": "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
-        "looking_for_education": "Looking for education and material requests for school registration; return to school; need help to stay in school.",
-        "looking_for_food": "Looking for food, water, milk, shelter support.",
-        "looking_for_vocational": "Looking for vocational training/employment.",
-        "caregivers_looking": "Caregivers looking to send their children to an RCI."
+        "looking_for_help": "ស្វែងរកជំនួយផ្នែកសុខភាព (ដូចជា ការសង្គ្រោះបឋម ផ្ទៃពោះ និងបញ្ហាសុខភាពផ្សេងៗ)។",
+        "looking_for_education": "ស្វែងរកការអប់រំ និងសំណើរសុំការចុះឈ្មោះចូលរៀន ការចូលរៀនវិញ និងការស្នាក់នៅក្នុងសាលា។",
+        "looking_for_food": "ស្វែងរកអាហារ ទឹក ទឹកដោះគោ ការឧបត្ថម្ភទីជម្រក។",
+        "looking_for_vocational": "ស្វែករកវគ្គបណ្តុះបណ្តាល/ការងារ។",
+        "caregivers_looking": "អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។"
       },
       "childProtectionConcerns": {
-        "physical_violence": "Physical violence",
-        "emotional_violence": "Emotional violence",
-        "sexual_violence": "Sexual violence",
-        "neglect_supervision": "Neglect / lack of adult supervision",
-        "resecue_of_trafficking": "Rescue of trafficking victim (migration / collaboration with authorities to rescue)",
-        "forced_labour": "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.",
-        "drug_use": "Drug use (seeking rehabilitation support)",
-        "alcohol_use": "Alcohol use (seeking rehabilitation support)",
-        "separated_child": "Separated child - abandoned; lost; street living.",
-        "children_and_parent": "Children and parent living on the street.",
-        "disability": "Disability",
+        "physical_violence": "អំពើហឹង្សាផ្នែករាងកាយ",
+        "emotional_violence": "អំពើហឹង្សាផ្នែកផ្លូវអារម្មណ៍",
+        "sexual_violence": "អំពើហឹង្សាផ្នែកផ្លូវភេទ",
+        "neglect_supervision": "ទទួលរងភាពព្រងើយកន្តើយ / ខ្វះការណែនាំពីមនុស្សពេញវ័យ",
+        "resecue_of_trafficking": "ជនរងគ្រោះពីការជួញដូរ (ការចំណាកស្រុក / សហការណ៍ជាមួយអាជ្ញាធរដើម្បីជួយសង្រ្គោះ)",
+        "forced_labour": "ការកេងប្រវ័ញ្ចកំលាំងពលកម្ម (ការជួញដូរផ្លូវភេទ ការកេងប្រវ័ញ្ច ការលក់ដូរតាមផ្លូវ ឡឥដ្ឋ ឬពលកម្មដែលធ្វើឱ្យមានគ្រោះថ្នាក់ដល់សុខមាលភាពកុមារ។)",
+        "drug_use": "ការប្រើបា្រស់គ្រឿងញៀន (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)",
+        "alcohol_use": "ការប្រើប្រាស់គ្រឿងស្រវឹង (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)",
+        "separated_child": "កុមារត្រូវបានបែកចេញដោយ - បោះបង់ចោល វង្វេង រស់នៅតាមផ្លូវ។",
+        "children_and_parent": "កុមារ និងឳពុក/ម្តាយរស់នៅតាមផ្លូវ។",
+        "disability": "ពិការភាព",
         "other": "ផ្សេងៗ"
       },
-      "what_is_the_call": "What is the call about / seeking support for?",
-      "basic_necessities": "Basic Necessities",
-      "child_protection": "Child Protection Concerns",
-      "enter_a_brief": "Enter a brief note summarising the call"
+      "what_is_the_call": "តើការហៅទូរស័ព្ទបាននិយាយពីអ្វី / ស្វែងរកជំនួយអ្វី?",
+      "basic_necessities": "តម្រូវការបឋម",
+      "child_protection": "ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ",
+      "enter_a_brief": "សូមបញ្ចូលកំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ"
     },
     "carerInfo": {
       "genderLists": {
@@ -292,20 +292,20 @@
       "gender": "ភេទ",
       "carer_phone": "លេខទូរស័ព្ទអ្នកថែទាំ",
       "carer_email": "អ៊ុីម៉ែលរបស់អ្នកថែទាំ",
-      "relationship": "ទំនាក់ទំនងរបស់អតិថិជន",
+      "relationship": "ទំនាក់ទំនងជាមួយអតិថិជន",
       "family_record": "គ្រួសារ",
       "address": "អាសយដ្ឋាន",
-      "same_as_client": "ដូចអតិថិជនដែរ",
-      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ"
+      "same_as_client": "ដូចអតិថិជន",
+      "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ"
     },
     "clientAddressInfo": {
       "address": "អាសយដ្ឋាន",
-      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
-      "client_contact": "Client Contact Phone",
-      "phone_owner": "Phone Owner",
-      "client_email": "Client Email Contact",
-      "email_owner": "Email Owner",
-      "location_description": "Location Description"
+      "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ",
+      "client_contact": "លេខទូរស័ព្ទពាក់ព័ន្ធអតិថិជន",
+      "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
+      "client_email": "អ៊ុីម៉ែលពាក់ព័ន្ធអតិថិជន",
+      "email_owner": "ម្ចាស់អ៊ុីម៉ែល",
+      "location_description": "ការពិពណ៌នានៃទីកន្លែង"
     },
     "concernAddress": {
       "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
@@ -324,18 +324,18 @@
       "is_client_rated": "តើអតិថិជនត្រូវបានវាយតំលៃសំរាប់អត្តសញ្ញាណប័ណ្ណក្រីក្រដែរឬទេ?"
     },
     "donorInfo": {
-      "other_agencies": "ទីភ្នាក់ងារផ្សេងទៀតចូលរួម",
+      "other_agencies": "ទីភ្នាក់ងារចូលរួមផ្សេងទៀត",
       "donor": "ម្ចាស់ជំនួយ"
     },
     "index": {
       "tabs": {
-        "caller_info": "Caller Informationn",
-        "client_referral_info": "Client / Referral Information",
-        "client_referral_question": "Client / Referral - Do you want to add:",
-        "client_referral_call": "Client / Referral - Call about"
+        "caller_info": "ព័ត៌មានអ្នកហៅទូរស័ព្ទ",
+        "client_referral_info": "ព័ត៌មានអតិថិជន / ការបញ្ជូន",
+        "client_referral_question": "អតិថិជន / ការបញ្ជូន - តើអ្នកចង់បន្ថែមព័ត៌មានទៀតទេ",
+        "client_referral_call": "អតិថិជន / ការបញ្ជូន - បាននិយាយអំពី"
       },
       "message": {
-        "call_has_been_created": "Call has been successfully created",
+        "call_has_been_created": "ការហៅទូរស័ព្ទបានរក្សាទុកដោយជោគជ័យ",
         "call_has_been_updated": "Call has been successfully updated",
         "referee_has_been_updated": "Referee has been successfully updated"
       },
@@ -345,15 +345,15 @@
       "save": "រក្សាទុក"
     },
     "noClientAttachedModal": {
-      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
-      "information_provided": "Information Provided",
+      "add_note_about_the_content": "បញ្ចូលកំណត់ត្រានៃខ្លឹមសារការសន្ទនារបស់អ្នកជាមួយអ្នកហៅទូរស័ព្ទ។",
+      "information_provided": "ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល",
       "go_back": "ត្រលប់ក្រោយ",
       "save": "រក្សាទុក"
     },
     "providingUpdate": {
       "please_select_client": "Please select client",
       "go_back": "ត្រលប់ក្រោយ",
-      "go": "Go"
+      "go": "ចូល"
     },
     "refereeInfo": {
       "genderLists": {
@@ -363,32 +363,32 @@
         "unknown": "អត់ទាន់ដឹង"
       },
       "answeredCallOpts": {
-        "call_answered": "Answered Call",
-        "return_missed_call": "Returning Missed Call"
+        "call_answered": "បានឆ្លើយការហៅទូរស័ព្ទ",
+        "return_missed_call": "បានហៅទូរស័ព្ទវិញសម្រាប់ការខកខាន"
       },
       "ageOpts": {
-        "18_plus": "១៨ឡើង",
-        "under_18": "អាយុក្រោម១៨"
+        "18_plus": "អាយុលើស ១៨",
+        "under_18": "អាយុក្រោម ១៨"
       },
       "calledBeforeOpts": {
         "yes": "បាទ / ចាស",
         "no": "ទេ"
       },
       "anonymous": "អនាមិក",
-      "caller_info": "Caller Information",
-      "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
-      "have_you_called": "Have you called the Childsafe Hotline Before?",
-      "anonymous_referee": "អនាមិកអ្នកបញ្ជូន",
-      "name": "ឈ្មោះអ្នកបញ្ជូនករណី",
+      "caller_info": "ព័ត៌មានអ្នកហៅទូរស័ព្ទ",
+      "did_you_answer_the_call": "តើអ្នកបានឆ្លើយការហៅទូរស័ព្ទនេះទេ ឬអ្នកបានហៅទូរស័ព្ទត្រឡប់វិញពេលខកខានការហៅទូរស័ព្ទ?",
+      "have_you_called": "តើអ្នកធ្លាប់ហៅទូរស័ព្ទមកកាន់ភ្នាក់ងារ២៤ម៉ោងផ្នែកសុវត្ថិភាពកុមារពីមុនដែរឬទេ?",
+      "anonymous_referee": "ជនអនាមិកអ្នកបញ្ជូន",
+      "name": "ឈ្មោះអ្នកបញ្ជូន",
       "gender": "ភេទ",
       "are_you_over_18": "តើអ្នកមានអាយុលើសពី ១៨ ឆ្នាំឬទេ?",
-      "referee_phone": "លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី",
-      "referee_email": "អ៊ុីម៉ែលរបស់អ្នកបញ្ជូនករណី",
+      "referee_phone": "លេខទូរស័ព្ទអ្នកបញ្ជូន",
+      "referee_email": "អ៊ុីម៉ែលអ្នកបញ្ជូនករណី",
       "referral_source_catgeory": "ប្រភេទប្រភពនៃការបញ្ជូន",
       "referral_source": "ប្រភពនៃការបញ្ជូន",
       "address": "ឣាសយដ្ឋាន",
-      "outside_cambodia": "នៅក្រៅប្រទេសកម្ពុជា",
-      "this_caller_has_requested": "This caller has requested an update on the case after intervention is completed."
+      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
+      "this_caller_has_requested": "អ្នកហៅទូរស័ព្ទបានស្នើសុំបច្ចុប្បន្នភាពព័ត៌មានអំពីករណីបន្ទាប់ពីការអន្តរាគមន៍បញ្ចប់។"
     },
     "referralInfo": {
       "genderLists": {
@@ -397,7 +397,7 @@
         "other": "ផ្សេងៗ",
         "unknown": "អត់ទាន់ដឹង"
       },
-      "client_referral": "Client / Referral Information",
+      "client_referral": "ព័ត៌មានអតិថិជន / ការបញ្ជូន",
       "given_name": "នាមខ្លួនជាអក្សរឡាតាំង",
       "family_name": "នាមត្រកូលជាអក្សរឡាតាំង",
       "given_name_khmer": "នាមខ្លួនជាអក្សរខ្មែរ",
@@ -408,28 +408,28 @@
       "birth_province": "ស្រុកកំណើត",
       "relationshio_to_caller": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ",
       "contact_info": "ព័ត៌មានទំនាក់ទំនង",
-      "client_is_outside": "អតិថិជនគឺនៅខាងក្រៅប្រទេសកម្ពុជា",
+      "client_is_outside": "អតិថិជនអាសយដ្ឋានខាងក្រៅ",
       "case_worker": "បុគ្គលិកគ្រប់គ្រងករណី",
-      "client_contact_phone": "លេខទូរស័ព្ទរបស់អតិថិជន",
+      "client_contact_phone": "លេខទូរស័ព្ទពាក់ព័ន្ធអតិថិជន",
       "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
-      "client_email": "Client Email Contact",
-      "email_owner": "អ៊ុីម៉ែលរបស់អតិថិជន",
-      "location_description": "Location Description",
-      "location_of_concern": "Location of concern",
-      "same_as_client": "ដូចអតិថិជនដែរ",
-      "concern_is_outside_cambodia": "Concern is outside Cambodia",
-      "relevant_contact_phone": "Relevant Contact Phone",
-      "relevant_email": "Relevant Email Contact",
-      "locatin_description": "Location Description"
+      "client_email": "អ៊ុីម៉ែលពាក់ព័ន្ធអតិថិជន",
+      "email_owner": "ម្ចាស់អ៊ុីម៉ែល",
+      "location_description": "ការពិពណ៌នានៃទីកន្លែង",
+      "location_of_concern": "ទីកន្លែងកើតហេតុ",
+      "same_as_client": "ដូចអតិថិជន",
+      "concern_is_outside_cambodia": "ព្រឹត្តិការណ៍កើតឡើងក្រៅប្រទេសកម្ពុជា",
+      "relevant_contact_phone": "លេខទូរស័ព្ទអ្នកពាក់ព័ន្ធ",
+      "relevant_email": "អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ",
+      "locatin_description": "ការពិពណ៌នានៃទីកន្លែង"
     },
     "referralMoreInfo": {
-      "client_referral_more_info": "Client / Referral - More Information",
-      "do_you_want_to_add": "តើអ្នកចង់បន្ថែមទេ",
+      "client_referral_more_info": "អតិថិជន / ការបញ្ជូន - ព័ត៌មានបន្ថែម",
+      "do_you_want_to_add": "តើអ្នកចង់បន្ថែមព័ត៌មានទៀតទេ",
       "carer_info": "ព័ត៌មានអ្នកថែទាំ?",
       "school_info": "ព័ត៌មានសាលា?",
       "donor_info": "ព័ត៌មានម្ចាស់ជំនួយ?",
       "other_info": "ព័ត៌មាន​ផ្សេងទៀត",
-      "phone_counselling": "Phone Counselling Summary"
+      "phone_counselling": "ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ"
     },
     "schoolInfo": {
       "school_name": "ឈ្មោះសាលារៀន",
@@ -439,10 +439,10 @@
   },
   "callsOld": {
     "index": {
-      "no_call": "No call",
-      "create_new_call": "Create New Call",
-      "phone_call_id": "Phone Call ID",
-      "call_type": "Call Type"
+      "no_call": "មិនមានការហៅទូរស័ព្ទ",
+      "create_new_call": "បន្ថែមការហៅទូរស័ព្ទថ្មី",
+      "phone_call_id": "អត្តលេខការហៅទូរស័ព្ទ",
+      "call_type": "ប្រភេទនៃការហៅទូរស័ព្ទ"
     }
   },
   "commons": {
@@ -481,13 +481,13 @@
       "message": {
         "call_has_been_updated": "Call has been successfully updated"
       },
-      "call_information": "Call Information",
+      "call_information": "ព័ត៌មាននៃការហៅទូរស័ព្ទ",
       "receiving_staff": "បុគ្គលិកទទួលករណី",
       "date_of_call": "Date of Call",
       "time_call_began": "Time Call Began",
       "time_call_ended": "Time Call Ended",
-      "call_type": "Call Type",
-      "information_provided": "Information Provided",
+      "call_type": "ប្រភេទនៃការហៅទូរស័ព្ទ",
+      "information_provided": "ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល",
       "cancel": "ទុកជាមោឃៈ",
       "save": "រក្សាទុក"
     }
@@ -495,35 +495,35 @@
   "editCallReferee": {
     "index": {
       "genderLists": {
-        "female": "Female",
-        "male": "Male",
-        "other": "Other",
-        "unknown": "Unknown"
+        "female": "ស្រី",
+        "male": "ប្រុស",
+        "other": "ផ្សេងៗ",
+        "unknown": "អត់ទាន់ដឹង"
       },
       "answeredCallOpts": {
-        "call_answered": "Answered Call",
-        "return_missed_call": "Returning Missed Call"
+        "call_answered": "បានឆ្លើយការហៅទូរស័ព្ទ",
+        "return_missed_call": "បានហៅទូរស័ព្ទវិញសម្រាប់ការខកខាន"
       },
       "ageOpts": {
-        "18_plus": "18+",
-        "under_18": "Under 18"
+        "18_plus": "អាយុលើស ១៨",
+        "under_18": "អាយុក្រោម ១៨"
       },
       "calledBeforeOpts": {
-        "yes": "Yes",
-        "no": "No"
+        "yes": "បាទ / ចាស",
+        "no": "ទេ"
       },
-      "anonymous": "Anonymous",
+      "anonymous": "អនាមិក",
       "name": "ឈ្មោះ",
       "referee_has_been_updated": "Referee has been successfully updated",
-      "caller_info": "Caller Information",
-      "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
-      "have_you_called": "Have you called the Childsafe Hotline Before?",
-      "anonymous_referee": "អនាមិកអ្នកបញ្ជូន",
+      "caller_info": "ព័ត៌មានអ្នកហៅទូរស័ព្ទ",
+      "did_you_answer_the_call": "តើអ្នកបានឆ្លើយការហៅទូរស័ព្ទនេះទេ ឬអ្នកបានហៅទូរស័ព្ទត្រឡប់វិញពេលខកខានការហៅទូរស័ព្ទ?",
+      "have_you_called": "តើអ្នកធ្លាប់ហៅទូរស័ព្ទមកកាន់ភ្នាក់ងារ២៤ម៉ោងផ្នែកសុវត្ថិភាពកុមារពីមុនដែរឬទេ?",
+      "anonymous_referee": "ជនអនាមិកអ្នកបញ្ជូន",
       "gender": "ភេទ",
       "are_you_over_18": "តើអ្នកមានអាយុលើសពី ១៨ ឆ្នាំឬទេ?",
-      "referee_phone": "លេខទូរស័ព្ទរបស់អ្នកបញ្ជូនករណី",
-      "referee_email": "អ៊ុីម៉ែលរបស់អ្នកបញ្ជូនករណី",
-      "outside_cambodia": "នៅក្រៅប្រទេសកម្ពុជា",
+      "referee_phone": "លេខទូរស័ព្ទអ្នកបញ្ជូន",
+      "referee_email": "អ៊ុីម៉ែលអ្នកបញ្ជូនករណី",
+      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
       "cancel": "ទុកជាមោឃៈ",
       "save": "រក្សាទុក"
     }
