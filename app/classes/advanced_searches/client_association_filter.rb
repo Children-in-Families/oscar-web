@@ -152,6 +152,7 @@ module AdvancedSearches
 
     def created_by_user_query
       user    = ''
+      return [] if $param_rules.nil?
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
       case_worker_rules = mapping_service_param_value(basic_rules, 'user_id')
