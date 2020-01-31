@@ -629,27 +629,27 @@ class ClientGrid < BaseGrid
   end
 
   column(:referee_name, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|
-    object.referee.name
+    object.referee && object.referee.name
   end
 
   column(:referee_phone, header: -> { I18n.t('datagrid.columns.clients.referee_phone') }) do |object|
-    object.referee.phone
+    object.referee && object.referee.phone
   end
 
   column(:referee_email, header: -> { I18n.t('datagrid.columns.clients.referee_email') }) do |object|
-    object.referee.email
+    object.referee && object.referee.email
   end
 
   column(:carer_name, header: -> { I18n.t('datagrid.columns.clients.carer_name') }) do |object|
-    object.carer.name
+    object.carer && object.carer.name
   end
 
   column(:carer_phone, header: -> { I18n.t('datagrid.columns.clients.carer_phone') }) do |object|
-    object.carer.phone
+    object.carer && object.carer.phone
   end
 
   column(:carer_email, header: -> { I18n.t('datagrid.columns.clients.carer_email') }) do |object|
-    object.carer.email
+    object.carer && object.carer.email
   end
 
   column(:referee_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.referee_relationship_to_client') }) do |object|
