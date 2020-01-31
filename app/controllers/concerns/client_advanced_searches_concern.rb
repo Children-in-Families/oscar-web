@@ -109,7 +109,12 @@ module ClientAdvancedSearchesConcern
     args = {
       translation: get_basic_field_translations, number_field: [],
       text_field: ['information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
-      dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
+      dropdown_list_option: [
+        ['answered_call', { true: 'Yes', false: 'No' }],
+        ['called_before', { true: 'Yes', false: 'No' }],
+        ['requested_update', { true: 'Yes', false: 'No' }],
+        *get_dropdown_list(['phone_call_id', 'call_type', 'start_time', 'end_time'])
+      ]
     }
 
     hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render

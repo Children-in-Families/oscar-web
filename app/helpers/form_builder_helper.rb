@@ -168,31 +168,43 @@ module FormBuilderHelper
   end
 
   def general_query(id, field, operator, value, type, class_name)
-    field_name = id
-    table_name_field_name = type == 'string' ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
+    field_name = id.gsub(/_time/, '_datetime')
+    value      = type == 'string'  ? value.downcase : value
+
+    lower_field_name      = type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
+    table_name_field_name = ['start_time', 'end_time'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
+    table_name_field_name = ['start_datetime', 'end_datetime'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
     case operator
     when 'equal'
       "#{table_name_field_name} = '#{value}'"
     when 'not_equal'
       "#{table_name_field_name} != '#{value}'"
     when 'less'
-      "#{table_name_field_name} < '#{value}' AND #{table_name_field_name} IS NOT NULL"
+      "#{table_name_field_name} < '#{value}' AND #{lower_field_name} IS NOT NULL"
     when 'less_or_equal'
-      "#{table_name_field_name} <= '#{value}' AND #{table_name_field_name} IS NOT NULL"
+      "#{table_name_field_name} <= '#{value}' AND #{lower_field_name} IS NOT NULL"
     when 'greater'
-      "#{table_name_field_name} > '#{value}' AND #{table_name_field_name} IS NOT NULL"
+      "#{table_name_field_name} > '#{value}' AND #{lower_field_name} IS NOT NULL"
     when 'greater_or_equal'
-      "#{table_name_field_name} >= '#{value}' AND #{table_name_field_name} IS NOT NULL"
+      "#{table_name_field_name} >= '#{value}' AND #{lower_field_name} IS NOT NULL"
     when 'contains'
-      "#{table_name_field_name} ILIKE '%#{value.squish}%' AND #{table_name_field_name} IS NOT NULL"
+      "#{table_name_field_name} ILIKE '%#{value.squish}%' AND #{lower_field_name} IS NOT NULL"
     when 'not_contains'
-      "#{table_name_field_name} NOT ILIKE '%#{value.squish}%' OR #{table_name_field_name} IS NULL"
+      "#{table_name_field_name} NOT ILIKE '%#{value.squish}%' OR #{lower_field_name} IS NULL"
     when 'is_empty'
-      "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
+      if field_name[/datetime/]
+        "#{lower_field_name} IS NULL"
+      else
+        "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
+      end
     when 'is_not_empty'
-      "#{table_name_field_name} != '' AND #{table_name_field_name} IS NOT NULL"
+      if field_name[/datetime/]
+        "#{lower_field_name} IS NOT NULL"
+      else
+        "#{table_name_field_name} != '' AND #{lower_field_name} IS NOT NULL"
+      end
     when 'between'
-      "#{table_name_field_name} BETWEEN ('#{value.first}' AND '#{value.last}') OR #{table_name_field_name} IS NOT NULL"
+      "#{table_name_field_name} BETWEEN '#{value.first}' AND '#{value.last}' AND #{table_name_field_name} IS NOT NULL"
     end
   end
 
