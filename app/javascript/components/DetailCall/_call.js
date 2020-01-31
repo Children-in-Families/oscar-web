@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatDate, formatTime, titleize } from './helper'
+import { formatDate, titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
 export default ({data}) => {
@@ -25,12 +25,6 @@ export default ({data}) => {
     switch (key) {
       case 'date_of_call':
         return formatDate(obj[key])
-      
-      case 'start_datetime':
-        return formatTime(obj[key])
-
-      case 'end_datetime':
-        return formatTime(obj[key])
 
       case 'answered_call':
       case 'called_before':

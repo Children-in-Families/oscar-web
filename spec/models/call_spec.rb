@@ -22,26 +22,66 @@ describe Call, 'validations' do
       expect(call).to be_valid
     end
   end
+  context 'end_call_after_start_call' do
+    let(:valid_call){ FactoryGirl.build(:call, start_datetime: DateTime.now, end_datetime: DateTime.now + 1) }
+    let(:invalid_call){ FactoryGirl.build(:call, start_datetime: DateTime.now, end_datetime: DateTime.now - 1) }
+    it 'valid' do
+      expect(valid_call).to be_valid 
+    end
+    it 'invalid' do
+      expect(invalid_call).to be_invalid
+    end
+  end
 end
 
-describe Call, 'methods' do
-  let!(:seeking_info) { create(:call, call_type: 'Seeking Information', information_provided: "Something" ) }
-  let!(:case_not_required) { create(:call, call_type: 'New Referral: Case Action NOT Required' ) }
+describe Call, 'methods' do  
   context '#seeking_information?' do
+    let!(:seeking_info) { create(:call, call_type: 'Seeking Information', information_provided: "Something" ) }
     it 'returns true' do
       expect(seeking_info.seeking_information?).to be_truthy
-    end
-    it 'returns false' do
-      expect(case_not_required.seeking_information?).to be_falsey
     end
   end
 
   context '#case_action_not_required?' do
+    let!(:case_not_required) { create(:call, call_type: 'New Referral: Case Action NOT Required' ) }
     it 'returns true' do
       expect(case_not_required.case_action_not_required?).to be_truthy
     end
+  end
+
+  context '#spam?' do
+    let!(:spam_call) { create(:call, call_type: 'Spam Call') }
+    it 'returns true' do
+      expect(spam_call.spam?).to be_truthy
+    end
+  end
+
+  context '#wrong_number?' do
+    let!(:wrong_call) { create(:call, call_type: 'Wrong Number') }
+    it 'returns true' do
+      expect(wrong_call.wrong_number?).to be_truthy
+    end
+  end
+
+  context '#no_client_attached?' do
+    let!(:wrong_call) { create(:call, call_type: 'Wrong Number') }
+    let!(:spam_call) { create(:call, call_type: 'Spam Call') }
+    let!(:seeking_info) { create(:call, call_type: 'Seeking Information', information_provided: "Something" ) }
+    let!(:case_required) { create(:call, call_type: 'New Referral: Case Action Required') }
+    let!(:case_not_required) { create(:call, call_type: 'New Referral: Case Action NOT Required' ) }
+    let!(:providing_update) { create(:call, call_type: 'Providing Update' ) }
+    let!(:counselling) { create(:call, call_type: 'Phone Counselling' ) }
+    
+    it 'returns true' do
+      expect(wrong_call.no_client_attached?).to be_truthy
+      expect(spam_call.no_client_attached?).to be_truthy
+      expect(seeking_info.no_client_attached?).to be_truthy
+    end
     it 'returns false' do
-      expect(seeking_info.case_action_not_required?).to be_falsey
+      expect(case_required.no_client_attached?).to be_falsey
+      expect(case_not_required.no_client_attached?).to be_falsey
+      expect(providing_update.no_client_attached?).to be_falsey
+      expect(counselling.no_client_attached?).to be_falsey
     end
   end
 end

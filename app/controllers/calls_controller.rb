@@ -3,8 +3,9 @@ class CallsController < AdminController
   load_and_authorize_resource find_by: :id
 
   # before_action :set_association, except: [:index, :destroy, :version]
-  before_action :set_association, only: [:new, :edit, :update, :show]
+  before_action :set_association, only: [:new, :show]
   before_action :country_address_fields, only: [:new]
+  before_action :find_call, :find_users, only: [:edit, :update]
 
   def index
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
@@ -38,16 +39,13 @@ class CallsController < AdminController
   end
 
   def edit
-    @call = Call.find(params[:id])
   end
 
   def update
-    call = Call.find(params[:id])
-
-    if call.update_attributes(call_params)
-      render json: call
+    if @call.update_attributes(call_params)
+      redirect_to call_path(@call), notice: t('.successfully_updated')
     else
-      render json: call.errors
+      render :edit
     end
   end
 
@@ -71,10 +69,10 @@ class CallsController < AdminController
   private
 
   def call_params
-    params.require(:call).permit(
-                            :phone_call_id, :receiving_staff_id, :referee_id,
-                            :start_datetime, :end_datetime, :call_type
-                          )
+    params.require(:call).permit(:answered_call, :called_before, :receiving_staff_id,
+                                :date_of_call, :start_datetime, :end_datetime,
+                                :information_provided
+                                )
   end
 
   def remove_blank_exit_reasons
@@ -170,5 +168,13 @@ class CallsController < AdminController
       client_id = version.changeset[:client_id].last
     end
     Client.where(id: client_ids, status: 'Exited').ids
+  end
+
+  def find_users
+    @users = User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| [user.name, user.id] }
+  end
+
+  def find_call
+    @call = Call.find(params[:id])
   end
 end

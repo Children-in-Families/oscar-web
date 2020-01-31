@@ -1,7 +1,55 @@
-- data = { call: @call, users: @users }
+-# - data = { call: @call, users: @users }
 
+-# .row
+-#   .col-xs-12
+-#     .ibox
+-#       .ibox-content
+-#         = react_component('EditCall', { data: data })
 .row
   .col-xs-12
-    .ibox
-      .ibox-content
-        = react_component('EditCall', { data: data })
+    .ibox.float-e-margins
+      .ibox-title
+        %h5= "#{t('.edit_call')} ##{@call.phone_call_id} #{@call.call_type}"
+      = simple_form_for(@call) do |f|
+        .ibox-content
+          = error_notification(f)
+          .form-inputs
+            .row
+              .col-xs-12
+                .i-checks
+                  %label.required.control-label
+                    %abbr{ title: 'required' } *
+                    = t('.referee_answered_call')
+                  = f.input :answered_call, as: :radio_buttons, required: true, collection: [[t('.answered_call'), true], [t('.returning_missed_call'), false]], label: false
+              .col-xs-12
+                .i-checks
+                  %label.required.control-label
+                    %abbr{ title: 'required' } *
+                    = t('.referee_called_before')
+                  = f.input :called_before, as: :radio_buttons, required: true, collection: [[t('.yes'), true], [t('.no'), false]], label: false
+            .row
+              .col-xs-12.col-sm-6
+                = f.association :receiving_staff, required: true, collection: @users, label: t('.receiving_staff')
+            .row
+              .col-xs-12.col-sm-6.form-group.date
+                %label.date.required.control-label{ for: 'call_date_of_call' }
+                  %abbr{ title: 'required' } *
+                  = t('.date_of_call')
+                .input-group.date
+                  = f.text_field :date_of_call, required: true, class: 'date form-control date-picker', type: 'text', name: 'call[date_of_call]', id: 'call_date_of_call'
+                  %span.input-group-addon
+                    %i.fa.fa-calendar-check-o
+            .row
+              .col-xs-12.col-sm-6
+                = f.input :start_datetime, as: :time, label: t('.time_call_began'), input_html: { type: 'time' }
+            .row
+              .col-xs-12.col-sm-6
+                = f.input :end_datetime, as: :time, label: t('.time_call_ended'), input_html: { type: 'time' }
+            - if @call.no_client_attached?
+              .row
+                .col-xs-12.col-sm-6
+                  = f.input :information_provided, as: :text, required: true, placeholder: t('.add_note_about_the_content'), label: t('.information_provided')
+
+        .ibox-footer
+          = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
+          = link_to t('cancel'), call_path(@call), class: 'btn btn-default form-btn'
