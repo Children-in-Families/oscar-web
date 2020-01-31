@@ -65,7 +65,7 @@ class CallsController < AdminController
   end
 
   def update_referee
-    
+
   end
 
   private
@@ -95,6 +95,7 @@ class CallsController < AdminController
     if current_user.admin?
       @families        = Family.order(:name)
     elsif current_user.manager?
+      exited_client_ids = exited_clients(subordinate_users)
       family_ids = current_user.families.ids
       family_ids += User.joins(:clients).where(id: subordinate_users).where.not(clients: { current_family_id: nil }).select('clients.current_family_id AS client_current_family_id').map(&:client_current_family_id)
       family_ids += Client.where(id: exited_client_ids).pluck(:current_family_id)
@@ -138,7 +139,7 @@ class CallsController < AdminController
     @birth_provinces = []
     ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
-    
+
     @current_provinces        = Province.order(:name)
     # @states = State.order(:name)
     # @townships = []
@@ -159,5 +160,15 @@ class CallsController < AdminController
     @carer_districts = []
     @carer_communes  = []
     @carer_villages  = []
+  end
+
+  def exited_clients(user_ids)
+    sql = user_ids.map do |user_id|
+      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
+    end.join(" OR ")
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
+      client_id = version.changeset[:client_id].last
+    end
+    Client.where(id: client_ids, status: 'Exited').ids
   end
 end
