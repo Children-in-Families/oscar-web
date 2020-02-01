@@ -1,8 +1,6 @@
 class CallsController < AdminController
-  # load_and_authorize_resource find_by: :id, except: :quantitative_case
   load_and_authorize_resource find_by: :id
 
-  # before_action :set_association, except: [:index, :destroy, :version]
   before_action :set_association, only: [:new, :show]
   before_action :country_address_fields, only: [:new]
   before_action :find_call, :find_users, only: [:edit, :update]
@@ -75,19 +73,10 @@ class CallsController < AdminController
                                 )
   end
 
-  def remove_blank_exit_reasons
-    return if params[:client][:exit_reasons].blank?
-    params[:client][:exit_reasons].reject!(&:blank?)
-  end
-
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| [user.name, user.id] }
-    @interviewees    = Interviewee.order(:created_at)
-    @client_types    = ClientType.order(:created_at)
-    @needs           = Need.order(:created_at)
-    @problems        = Problem.order(:created_at)
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
     if current_user.admin?

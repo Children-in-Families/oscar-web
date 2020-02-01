@@ -41,10 +41,10 @@
                     %i.fa.fa-calendar-check-o
             .row
               .col-xs-12.col-sm-6
-                = f.input :start_datetime, as: :time, label: t('.time_call_began'), input_html: { type: 'time' }
+                = f.input :start_datetime, as: :time, html5: true, label: t('.time_call_began'), input_html: { value: @call.start_datetime ? @call.start_datetime.strftime("%H:%M") : '' }
             .row
               .col-xs-12.col-sm-6
-                = f.input :end_datetime, as: :time, label: t('.time_call_ended'), input_html: { type: 'time' }
+                = f.input :end_datetime, as: :time, html5: true, label: t('.time_call_ended'), input_html: { value: @call.end_datetime ? @call.end_datetime.strftime("%H:%M") : '' }
             - if @call.no_client_attached?
               .row
                 .col-xs-12.col-sm-6
