@@ -1668,13 +1668,16 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_names: ေအဂ်င္စီနာမည္
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      basic_necessities: Basic Necessities
       birth_province: ေမြးရာ ခ႐ိုင္
       book: ဖောက်သည် စာအုပ်
+      brief_note_summary: Brief Note Summarising the Call
       cambodia: ကေမာၻဒီးယား
       case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      child_protection_concerns: Child Protection Concerns
       client_able_answers: အမႈသည္ Able အေျဖမ်ား
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
@@ -1735,6 +1738,7 @@ my:
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       note: မွတ္စု
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
         carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား
