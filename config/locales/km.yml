@@ -125,6 +125,19 @@ km:
               taken: ត្រូវបានប្រើរួចហើយ
         assessment_domain:
           blank: មិនអាចរំលង
+        call:
+          attributes:
+            receiving_staff_id:
+              blank: មិនអាចរំលង
+            start_datetime:
+              blank: មិនអាចរំលង
+            end_datetime:
+              blank: មិនអាចរំលង
+            call_type:
+              blank: មិនអាចរំលង
+              inclusion: មិនមាននៅក្នុងបញ្ជី
+            information_provided:
+              blank: មិនអាចរំលង
         case:
           attributes:
             exit_date:

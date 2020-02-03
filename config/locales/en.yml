@@ -105,17 +105,6 @@ en:
       blank: can't be blank
     errors:
       models:
-        call:
-          attributes:
-            receiving_staff_id:
-              blank: can't be blank
-            start_datetime:
-              blank: can't be blank
-            end_datetime:
-              blank: can't be blank
-            call_type:
-              blank: can't be blank
-              inclusion: is not included in the list
         able_screening_question:
           attributes:
             mode:
@@ -136,6 +125,19 @@ en:
               taken: has already been taken
         assessment_domain:
           blank: can't be blank
+        call:
+          attributes:
+            receiving_staff_id:
+              blank: can't be blank
+            start_datetime:
+              blank: can't be blank
+            end_datetime:
+              blank: can't be blank
+            call_type:
+              blank: can't be blank
+              inclusion: is not included in the list
+            information_provided:
+              blank: can't be blank
         case:
           attributes:
             exit_date:

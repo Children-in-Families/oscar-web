@@ -48,7 +48,7 @@
             - if @call.no_client_attached?
               .row
                 .col-xs-12.col-sm-6
-                  = f.input :information_provided, as: :text, required: true, placeholder: t('.add_note_about_the_content'), label: t('.information_provided')
+                  = f.input :information_provided, as: :text, required: @call.seeking_information?, placeholder: t('.add_note_about_the_content'), label: t('.information_provided')
 
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
