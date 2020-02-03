@@ -19,7 +19,7 @@
               - Call.column_names.each do |field_name|
                 - next if ['id', 'created_at', 'updated_at'].include?(field_name)
                 %tr
-                  %td= t("call.#{field_name}")
+                  %td= t("client_books.calls.#{field_name}")
                   - if field_name[/datetime/]
                     %td= call.send(field_name.to_sym) && call.send(field_name.to_sym).strftime("%I:%M%p")
                   - elsif field_name[/referee|receiving_staff/]

@@ -18,7 +18,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12">
           <TextArea
-            required
+            required={ callData.call_type === "Seeking Information" }
             placeholder={T.translate("newCall.noClientAttachedModal.add_note_about_the_content")}
             label={T.translate("newCall.noClientAttachedModal.information_provided")}
             value={callData.information_provided}
@@ -30,7 +30,7 @@ export default props => {
             {T.translate("newCall.noClientAttachedModal.go_back")}
           </button>
           <button
-            style={(callData.information_provided !== "" && styles.allowButton) || styles.preventButton}
+            style={(callData.call_type === "Seeking Information" && callData.information_provided === "" && styles.preventButton) || styles.allowButton}
             onClick={handleSave}
           >
             {T.translate("newCall.noClientAttachedModal.save")}

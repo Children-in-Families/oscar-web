@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { reject, isEmpty, titleize } from '../../DetailCall/helper'
 
-export const HorizontalTable = ({ title, data, renderItem, linkHeader, disabledEdit=false }) => {
-  let keyLists = Object.keys(reject(data)) || []
+export const HorizontalTable = ({ title, data, renderItem, linkHeader, disabledEdit=false, rejectField = "id|created_at|updated_at" }) => {
+  let keyLists = Object.keys(reject(data, rejectField)) || []
 
   return (
     <div className='col-sm-12'>
@@ -40,7 +40,7 @@ export const HorizontalTable = ({ title, data, renderItem, linkHeader, disabledE
   )
 }
 
-export const VerticalTable = ({ title, data, renderItem, columns, T }) => {
+export const VerticalTable = ({ title, data, renderItem, columns, T, local }) => {
 
   return (
     <div className='col-sm-12'>
@@ -63,7 +63,7 @@ export const VerticalTable = ({ title, data, renderItem, columns, T }) => {
                 <thead>
                   <tr>
                     {
-                      data && data[0] && columns.map(key => <th key={key} scope="col">{titleize(key)}</th>)
+                      data && data[0] && columns.map(key => <th key={key} scope="col">{T.translate("commons.listTable.index."+titleize(key))}</th>)
                     }
                     <th scope="col">{T.translate("commons.listTable.index.action")}</th>
                   </tr>
@@ -88,7 +88,7 @@ export const VerticalTable = ({ title, data, renderItem, columns, T }) => {
                                     style={{cursor: 'pointer'}}
                                     key={key}
                                     className="spacing-first-col"
-                                    data-href={`/clients/${obj['slug']}`}
+                                    data-href={`/clients/${obj['slug']}?local=${local}`}
                                     onClick={(e) => {
                                       window.open(e.target.getAttribute('data-href'), "_blank")
                                     }}
@@ -103,7 +103,7 @@ export const VerticalTable = ({ title, data, renderItem, columns, T }) => {
                             <td
                               className="spacing-first-col"
                             >
-                              <a className="btn btn-xs btn-success btn-outline" href={`/clients/${obj['slug']}/edit?type=call`} target="_blank">
+                              <a className="btn btn-xs btn-success btn-outline" href={`/clients/${obj['slug']}/edit?type=call&local=${local}`} target="_blank">
                                 <i className="fa fa-pencil"></i>
                               </a>
                             </td>

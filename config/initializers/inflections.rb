@@ -14,7 +14,8 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
-ActiveSupport::Inflector.inflections do |inflect|
+ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular "is", "are"
   inflect.irregular "has", "have"
+  inflect.acronym 'RCI'
 end

@@ -355,7 +355,7 @@ km:
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       client_contact_phone: លេខទំនាក់ទំនងរបស់អតិថិជន
-      client_address_type: ប្រភេទអាសយដ្ឋានរបស់អតិថិជន
+      address_type: ប្រភេទអាសយដ្ឋានរបស់អតិថិជន
       client_email_address: អ៊ីមែលរបស់អតិថិជន
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
@@ -621,11 +621,19 @@ km:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
   calls:
+    answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+    call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
+    called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+    end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+    end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
+    hotline: លេខទូរស័ព្ទបន្ទាប់
     index:
-      add_new_call: Add New Call
-      hotline: Hotline
-      phone_call_id: Phone Call ID
+      add_new_call: បន្ថែមការហៅថ្មី
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      hotline: លេខទូរស័ព្ទបន្ទាប់
+      results: លទ្ធផល
+      report_builder: Report Builder
+    information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -634,6 +642,11 @@ km:
       seeking_information: "Seeking Information"
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
+    phone_call_id: Phone call ID
+    phone_type: Phone type
+    requested_update: Requested Update
+    start_datetime: Date Call Began
+    start_time: Time Call Began
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
@@ -883,11 +896,11 @@ km:
         exit_reason_options:
           agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
           client_died: អតិថិជនបានទទួលមរណៈភាព
+          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
           client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
-          move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
-          move_out_within_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
-          no_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
-          not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
           other_reason: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
@@ -905,11 +918,11 @@ km:
         exit_reason_options:
           agency_lack_resource: អង្គភាពខ្វះធនធានគ្រប់គ្រាន់
           client_died: អតិថិជនបានទទួលមរណៈភាព
+          client_does_not_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
+          client_does_not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
+          client_move_out_international: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
+          client_move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
           client_refuse_service: អតិថិជនបដិសេធមិនទទួលយកសេវាកម្ម
-          move_out_within_cambodia: អតិថិជននៅក្រៅ / ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (ក្នុងប្រទេសកម្ពុជា)
-          move_out_within_international: អតិថិជននៅក្រៅ/ចាកចេញទៅក្រៅតំបន់គោលដៅអង្គការ (អន្តរជាតិ)
-          no_meet_service_criteria: អតិថិជនមិនត្រូវ​ /​ ឈប់ត្រូវតាមលក្ខខណ្ឌសេវាកម្ម
-          not_required_support: អតិថិជនមិនត្រូវការ / ឈប់ត្រូវការការឧបត្ថម្ភ
           other_reason: ផ្សេងៗ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         exit_status: ស្ថានភាព
@@ -999,7 +1012,19 @@ km:
       assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
     by: ដោយ
-    call: Call
+    call: ការហៅទូរស័ព្ទ
+    calls:
+      answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+      call_type: ប្រភេទនៃការហៅ
+      called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+      date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+      end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
+      receiving_staff_id: បុគ្គលិកទទួលការហៅទូរស័ព្ទ
+      referee_id: អ្នកបញ្ជូន
+      requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+      start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
     case_histories:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       case_history: ប្រវត្តិនៃករណី
@@ -1020,9 +1045,9 @@ km:
       tracking: តាមដាន
     for: សំរាប់
     hotline:
-      end_datetime: End Date Time
-      received_by: Received Call by
-      start_datetime: Start Date Time
+      end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+      received_by: បុគ្គលិកទទួលការហៅទូរស័ព្ទ
+      start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
     incomplete: មិនទានបំពេញចប់
     index:
       book: បណ្តុំព័ត៌មានអតិថិជន
@@ -2063,6 +2088,27 @@ km:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       all_result_framework_assessment: All Result Framework Assessment
+      calls:
+        answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+        call_type: ប្រភេទការហៅទូរស័ព្ទ
+        called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+        end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+        end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
+        has_dob: បាទ / ចាស
+        hotline_call: ការហៅលេខទូរស័ព្ទបន្ទាប់
+        id: អត្តលេខ
+        information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+        manage: គ្រប់គ្រង
+        no_dob: ទេ
+        phone_call: ការហៅទូរស័ព្ទ
+        phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
+        phone_counselling_summary: ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ
+        phone_type: ប្រភេទទូរស័ព្ទ
+        referee_id: អ្នកបញ្ជូន
+        receiving_staff_id: បុគ្គលិកទទួលករណី
+        requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+        start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
+        start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំ
@@ -2077,7 +2123,7 @@ km:
       carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
       changelog: ប្រវត្តិកំណែ
       client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
-      client_address_type: ប្រភេទអាសយដ្ឋាន
+      address_type: ប្រភេទអាសយដ្ឋាន
       client_email: អ៊ីមែលរបស់អតិថិជន
       client_enrollments:
         action: សកម្មភាព
@@ -2210,7 +2256,7 @@ km:
         referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
         referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
         client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
-        client_address_type: ប្រភេទអាសយដ្ឋាន
+        address_type: ប្រភេទអាសយដ្ឋាន
         client_email: អ៊ីមែលរបស់អតិថិជន
         phone_owner: ម្ចាស់ទូរស័ព្ទ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
@@ -2354,27 +2400,31 @@ km:
       referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
       referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
       referees:
-        address_type: ប្រភេទអាស័យដ្ឋាន
-        adult: Adult
-        anonymous: Anonymous
-        answered_call: Answered Call
-        called_before: Called Before
+        address_type: ប្រភេទអាសយដ្ឋាន
+        adult: មនុស្សធំ
+        anonymous: ជនអនាមិក
+        answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+        called_before: បានហៅទូរស័ព្ទពីមុន
         commune_id: ឃុំ/សង្កាត់
         created_at: កាលបរិច្ឆេទនៃការបង្កើត
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         district_id: ស្រុក/ខណ្ឌ
         email: ឣុីម៉ែល
+        female: ស្រី
         gender: ភេទ
+        has_dob: 'បាទ / ចាស'
         house_number: ផ្ទះលេខ
-        id: ID
+        id: អត្តលេខ
+        male: ប្រុស
         name: ឈ្មោះ
-        outside: Outside Cambodia
-        outside_address: Outside Address
+        no_dob: 'ទេ'
+        outside: អាសយដ្ឋាននៅក្រៅ
+        outside_address: អាសយដ្ឋាននៅក្រៅ
         phone: លេខទូរស័ព្ទ
         province_id: ខេត្ត/ក្រុង
-        requested_update: Requested Update
+        requested_update: ស្នើសុំកាលបរិច្ឆេទ
         street_number: ផ្លូវ
-        updated_at: Updated At
+        updated_at: កែប្រែ
         village_id: ភូមិ
       select_columns: ជ្រើសរើសជួរឈរ
       show_all: បង្ហាញទាំងអស់
@@ -2470,7 +2520,7 @@ km:
     able_state: ស្ថានភាព Able
     address: ឣាសយដ្ឋាន
     agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
-    phone_counselling_summary: Phone Counselling Summary
+    phone_counselling_summary: ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ
     agency_names: ឈ្មោះអង្គភាព
     birth_province: ស្រុកកំណើត
     cambodia: កម្ពុជា
@@ -2501,7 +2551,7 @@ km:
       helping_professional: ជួយវិជ្ជាជីវៈ
       government_local: រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន
       other: ផ្សេងៗ
-    client_address_types:
+    address_types:
       home: ផ្ទះ
       business: មុខជំនួញ
       rci: RCI
@@ -3810,9 +3860,9 @@ km:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
       agencies: អង្គភាព
-      caller_referees: Caller / Referees
+      caller_referees: អ្នកហៅទូរស័ព្ទ / អ្នកបញ្ជូនករណី
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
-      calls: Calls
+      calls: ការហៅទូរស័ព្ទ
       clients: ឣតិថិជន
       client_forms: Client Forms
       country: ប្រទេស
@@ -4477,28 +4527,41 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  referee_attr: &REFEREE_ATTR
+    address_type: អាសយដ្ឋាន - ប្រភេទ
+    address_types:
+      business: មុខជំនួញ
+      dormitory: អន្តេវាសិកដ្ឋាន
+      home: ផ្ទះ
+      other: ផ្សេងៗ
+      rci: RCI
+    adult: មនុស្សធំ
+    anonymous: អនាមិក
+    answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+    called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+    commune_id: អាសយដ្ឋាន - ឃុំ/សង្កាត់
+    created_at: កាលបរិច្ឆេទ
+    current_address: អាសយដ្ឋានបច្ចុប្បន្ន
+    district_id: អាសយដ្ឋាន - ស្រុក/ខណ្ឌ
+    email: អ៊ុីម៉ែល
+    gender: ភេទ
+    house_number: អាសយដ្ឋាន - លេខផ្ទះ
+    id: ID
+    name: ឈ្មោះ
+    outside: អាសយដ្ឋានខាងក្រៅ
+    outside_address: អាសយដ្ឋាននៅក្រៅ
+    phone: លេខទូស័ព្ទ
+    province_id: ខេត្ត/ក្រុង
+    requested_update: Requested Update
+    street_number: អាសយដ្ឋាន - លេខផ្លូវ
+    updated_at: Updated At
+    village_id: អាសយដ្ឋាន - ភូមិ
   referees:
+    index:
+      <<: *REFEREE_ATTR
     show:
       about: អំពី
-      name: ឈ្មោះ
-      address_type: ប្រភេទអាសយដ្ឋាន
-      current_address: អាសយដ្ឋានបច្ចុប្បន្ន
-      email: អុីម៉ែល
-      gender: ភេទ
-      house_number: ផ្ទះលេខ
-      outside_address: Outside Address
-      street_number: ផ្លូវលេខ
-      outside: Outside
-      anonymous: Anonymous
-      province_id: ខេត្ត / ក្រុង
-      district_id: ស្រុក/ខណ្ឌ
-      commune_id: ឃុំ/សង្កាត់
-      village_id: ភូមិ
-      phone: លេខទូរស័ព្ទ
-      answered_call: Answered Call
-      called_before: Called Before
-      adult: Adult
-      requested_update: Requested Update
+      <<: *REFEREE_ATTR
   referral_sources:
     create:
       failed_create: ប្រភពនៃការបញ្ជូនមិនត្រូវបានបង្កើត
@@ -4646,8 +4709,8 @@ km:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា
     client_forms:
-      hotline: Hotline
-      client_forms: Client Forms
+      hotline: លេខទូរស័ព្ទបន្ទាប់
+      client_forms: ទម្រង់អតិថិជន
     country:
       country: ប្រទេស
       settings: ការកំណត់

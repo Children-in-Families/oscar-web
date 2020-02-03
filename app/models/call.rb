@@ -1,5 +1,5 @@
 class Call < ActiveRecord::Base
-  FIELDS = %w( phone_call_id call_type start_datetime end_datetime information_provided )
+  FIELDS = %w( phone_call_id call_type start_datetime end_datetime start_time end_time information_provided answered_call called_before requested_update )
   TYPES  = [
             "New Referral: Case Action Required", "New Referral: Case Action NOT Required",
             "Providing Update", "Phone Counselling",
@@ -17,11 +17,12 @@ class Call < ActiveRecord::Base
   after_save :set_phone_call_id, if: -> { phone_call_id.blank? }
 
   validates :receiving_staff_id, :date_of_call, :start_datetime, :end_datetime, presence: true
+  validates :called_before, :answered_call, inclusion: { in: [true, false] }
   validates :call_type, presence: true, inclusion: { in: TYPES }
-  validates :information_provided, presence: true, if: :no_client_attached?
+  validates :information_provided, presence: true, if: :seeking_information?
 
-  def no_client_attached?
-    call_type === "Seeking Information" || call_type === "Spam Call" || call_type === "Wrong Number"
+  def seeking_information?
+    call_type === "Seeking Information"
   end
 
   def case_action_not_required?

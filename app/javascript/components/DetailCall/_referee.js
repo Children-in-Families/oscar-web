@@ -2,14 +2,14 @@ import React from 'react'
 import { titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data, call, T}) => {
+export default ({data, call, T, local}) => {
 
   const formatObjVal = (field, value) => {
-    const boolFields = ['outside', 'anonymous', 'answered_call', 'called_before', 'adult', 'requested_update']
+    const boolFields = ['outside', 'anonymous', 'adult']
     const titleizeFields = ['gender', 'address_type']
 
     if (boolFields.indexOf(field) > -1) {
-      return value ? 'Yes' : 'No'
+      return value === null ? '' : value ? 'Yes' : 'No'
     } else if (titleizeFields.indexOf(field) > -1) {
       return titleize(value)
     }
@@ -20,7 +20,7 @@ export default ({data, call, T}) => {
     return (
       <tr key={`${key}`}>
         <td className="spacing-first-col">
-          {titleize(key)}
+          { T.translate("commons.listTable.index."+titleize(key)) }
         </td>
         <td>
           { formatObjVal(key, obj[key]) }
@@ -33,7 +33,7 @@ export default ({data, call, T}) => {
     <HorizontalTable
       title={T.translate("detailCall.referee.referee")}
       data={data}
-      linkHeader={`/calls/${call.id}/edit/referee`}
+      linkHeader={`/calls/${call.id}/edit/referee?local=${local}`}
       renderItem={renderItem}
       T={T}
     />

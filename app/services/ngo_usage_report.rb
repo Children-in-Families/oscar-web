@@ -7,7 +7,7 @@ class NgoUsageReport
   end
 
   def ngo_info(org)
-    country = Setting.first.country_name.downcase
+    country = Setting.first.present? ? Setting.first.country_name.downcase : ''
     {
       ngo_name: org.full_name,
       ngo_on_board: org.created_at.strftime("%d %B %Y"),

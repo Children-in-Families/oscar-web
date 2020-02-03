@@ -60,7 +60,7 @@ export default props => {
             required
             isError={errorFields.includes('date_of_call')}
             getCurrentDate
-            label="Date of Call"
+            label={T.translate("newCall.admin.date_of_call")}
             onChange={onChange('call', 'date_of_call')}
             value={call.date_of_call}
           />
@@ -72,7 +72,7 @@ export default props => {
           <DateTimePicker
             T={T}
             isError={errorFields.includes('start_datetime')}
-            label="Time Call Began"
+            label={T.translate("newCall.admin.time_call_began")}
             required={true}
             onChange={onChange('call', 'start_datetime')}
             value={call.start_datetime}
@@ -85,7 +85,7 @@ export default props => {
           <DateTimePicker
             T={T}
             isError={errorFields.includes('end_datetime')}
-            label="Time Call Ended"
+            label={T.translate("newCall.admin.time_call_ended")}
             required={true}
             onChange={onChange('call', 'end_datetime')}
             value={call.end_datetime}

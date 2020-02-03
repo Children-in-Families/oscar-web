@@ -14,10 +14,10 @@
         %label.control-label
           %abbr{ title: 'required' }= '*'
         %label.control-label= t('.max_assessment')
-      .col-xs-12.col-sm-push-3.col-sm-3
-        %label.control-label
-          %abbr{ title: 'required' }= '*'
-        %label.control-label= t('.eligible')
+      -# .col-xs-12.col-sm-push-3.col-sm-3
+      -#   %label.control-label
+      -#     %abbr{ title: 'required' }= '*'
+      -#   %label.control-label= t('.eligible')
 
     .row
       / .col-xs-12.col-sm-4
@@ -32,9 +32,9 @@
       .col-xs-12.col-sm-3
         .form-group
           = f.input :custom_assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
-      .col-xs-12.col-sm-3
-        .form-group
-          = f.input :custom_age, placeholder: t('.age'), label: false
+      -# .col-xs-12.col-sm-3
+      -#   .form-group
+      -#     = f.input :custom_age, placeholder: t('.age'), label: false
     .row
       .col-xs-12
         %p

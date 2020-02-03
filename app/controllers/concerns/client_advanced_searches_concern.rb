@@ -109,7 +109,12 @@ module ClientAdvancedSearchesConcern
     args = {
       translation: get_basic_field_translations, number_field: [],
       text_field: ['information_provided'], date_picker_field: ['start_datetime', 'end_datetime'],
-      dropdown_list_option: get_dropdown_list(['phone_call_id', 'call_type'])
+      dropdown_list_option: [
+        ['answered_call', { true: 'Yes', false: 'No' }],
+        ['called_before', { true: 'Yes', false: 'No' }],
+        ['requested_update', { true: 'Yes', false: 'No' }],
+        *get_dropdown_list(['phone_call_id', 'call_type', 'start_time', 'end_time'])
+      ]
     }
 
     hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
@@ -120,7 +125,7 @@ module ClientAdvancedSearchesConcern
   def get_client_hotline_fields
     client_fields = I18n.t('datagrid.columns.clients')
     dropdown_list_options = [
-      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.client_address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
+      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
       ['concern_province_id', Province.dropdown_list_option],
       ['concern_district_id', District.dropdown_list_option],
       ['concern_commune_id', Commune.dropdown_list_option],

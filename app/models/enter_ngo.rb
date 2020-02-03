@@ -1,7 +1,8 @@
 class EnterNgo < ActiveRecord::Base
   has_paper_trail
+  acts_as_paranoid double_tap_destroys_fully: true
 
-  belongs_to :client
+  belongs_to :client, with_deleted: true
 
   alias_attribute :new_date, :accepted_date
 

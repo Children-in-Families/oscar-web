@@ -51,10 +51,26 @@ module CallHelper
   end
 
   def call_type
-    [Call::TYPES, I18n.t('calls.type').values].transpose.to_h
+    values = [Call::TYPES, I18n.t('calls.type').values].transpose.to_h
+    values.delete('Spam Call')
+    values
   end
 
   def get_basic_field_translations
     I18n.t('calls')
+  end
+
+  def start_time
+    time_range
+  end
+
+  def end_time
+    time_range
+  end
+
+  def time_range
+    times = [{'00' => "12:00AM"}]
+    ('01'..'23').each{|d| times << {d => "#{d}:00#{d.to_i <= 11 ? "AM" : "PM"}"} }
+    times
   end
 end

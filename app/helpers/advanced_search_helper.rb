@@ -73,7 +73,7 @@ module AdvancedSearchHelper
       carer_phone: I18n.t('advanced_search.fields.carer_phone'),
       carer_email: I18n.t('advanced_search.fields.carer_email'),
       client_contact_phone: I18n.t('advanced_search.fields.client_contact_phone'),
-      client_address_type: I18n.t('advanced_search.fields.client_address_type'),
+      address_type: I18n.t('advanced_search.fields.address_type'),
       client_email_address: I18n.t('advanced_search.fields.client_email_address'),
       code: custom_id_translation('custom_id1'),
       school_grade: I18n.t('advanced_search.fields.school_grade'),
@@ -230,17 +230,18 @@ module AdvancedSearchHelper
   end
 
   def custom_id_translation(type)
-    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
+    @customer_id_setting ||= Setting.first
+    if I18n.locale == :en || @customer_id_setting.country_name == 'lesotho'
       if type == 'custom_id1'
-        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
+        @customer_id_setting.custom_id1_latin.present? ? @customer_id_setting.custom_id1_latin : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
+        @customer_id_setting.custom_id2_latin.present? ? @customer_id_setting.custom_id2_latin : I18n.t('clients.other_detail.custom_id_number2')
       end
     else
       if type == 'custom_id1'
-        Setting.first.custom_id1_local.present? ? Setting.first.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
+        @customer_id_setting.custom_id1_local.present? ? @customer_id_setting.custom_id1_local : I18n.t('clients.other_detail.custom_id_number1')
       else
-        Setting.first.custom_id2_local.present? ? Setting.first.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
+        @customer_id_setting.custom_id2_local.present? ? @customer_id_setting.custom_id2_local : I18n.t('clients.other_detail.custom_id_number2')
       end
     end
   end

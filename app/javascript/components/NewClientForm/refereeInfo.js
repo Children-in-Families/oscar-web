@@ -24,7 +24,7 @@ export default props => {
       const fields = {
         anonymous: true,
         outside: false,
-        name: T.translate("refereeInfo.anonymous"),
+        name: "Anonymous",
         phone: '',
         email: '',
         gender: '',

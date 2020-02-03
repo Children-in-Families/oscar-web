@@ -148,7 +148,7 @@
     "Government / Local Authority": "រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន",
     "Other": "ផ្សេងៗ",
     "Child": "Child",
-    "In same community": "In same community",
+    "In same community": "នៅក្នុងសហគមន៍តែមួយ",
     "Client": "អតិថិជន",
     "Stranger": "Stranger"
   },
@@ -223,9 +223,9 @@
       "address_type": "អាសយដ្ឋាន - ប្រភេទ"
     },
     "addTaskModal": {
-      "please_input_all_require_field": "Please Input all the required fields",
-      "completion_date": "Completion Date",
-      "task_details": "Task Details",
+      "please_input_all_require_field": "សូមបំពេញប្រអប់ដែលជាតម្រូវការ",
+      "completion_date": "កាលបរិច្ឆេទបញ្ចប់កាតព្វកិច្ច",
+      "task_details": "ព័ត៌មានកាតព្វកិច្ចលំអិត",
       "domain": "កត្តា",
       "save": "រក្សាទុក",
       "cancel": "ទុកជាមោឃះ",
@@ -241,18 +241,24 @@
         "spam_call": "Spam Call",
         "wrong_number": "Wrong Number"
       },
+      "referee_answered_call": "តើអ្នកបញ្ជូនបានឆ្លើយការហៅទូរស័ព្ទនេះ ឬបានហៅទូរស័ព្ទត្រឡប់មកវិញឬទេ?",
+      "referee_called_before": "តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ?",
       "call_information": "ព័ត៌មាននៃការហៅទូរស័ព្ទ",
       "phone_call": "អត្តលេខការហៅទូរស័ព្ទ #",
       "receiving_staff": "បុគ្គលិកទទួលករណី",
       "call_type": "ប្រភេទនៃការហៅទូរស័ព្ទ",
-      "confirmation": "Confirmation",
-      "save_call_as": "Are you sure you want to record this call as",
+      "confirmation": "ការបញ្ជាក់",
+      "save_call_as": "តើអ្នកប្រាកដថាអ្នកចង់កត់ត្រាការហៅទូរស័ព្ទនេះជា?",
       "add_note_about_the_content": "បញ្ចូលកំណត់ត្រានៃខ្លឹមសារការសន្ទនារបស់អ្នកជាមួយអ្នកហៅទូរស័ព្ទ។",
       "information_provide": "ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល",
       "go": "ចូល",
       "go_back": "ត្រលប់ក្រោយ",
       "go_to_client": "ចូលទៅរកអតិថិជន",
-      "please_select_client": "Please select client"
+      "please_select_client": "Pសូមជ្រើសរើសអតិថិជន",
+      "verify_message": "អ្នកត្រូវបានជ្រើសរើស 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
+      "date_of_call": "កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ",
+      "time_call_began": "ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម",
+      "time_call_ended": "ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់"
     },
     "callAbout": {
       "basicNecessities": {
@@ -298,6 +304,10 @@
       "same_as_client": "ដូចអតិថិជន",
       "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ"
     },
+    "caseActionNotRequiredModalFooter": {
+      "iam_sure": "I'm Sure",
+      "go_back": "ត្រលប់ក្រោយ"
+    },
     "clientAddressInfo": {
       "address": "អាសយដ្ឋាន",
       "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ",
@@ -336,8 +346,8 @@
       },
       "message": {
         "call_has_been_created": "ការហៅទូរស័ព្ទបានរក្សាទុកដោយជោគជ័យ",
-        "call_has_been_updated": "Call has been successfully updated",
-        "referee_has_been_updated": "Referee has been successfully updated"
+        "call_has_been_updated": "ការហៅទូរស័ព្ទត្រូវបានកែប្រែដោយជោគជ័យ",
+        "referee_has_been_updated": "អ្នកបញ្ជូនត្រូវបានកែប្រែដោយជោគជ័យ"
       },
       "cancel": "ទុកជាមោឃៈ",
       "previous": "ទំព័រមុន",
@@ -351,7 +361,7 @@
       "save": "រក្សាទុក"
     },
     "providingUpdate": {
-      "please_select_client": "Please select client",
+      "please_select_client": "សូមជ្រើសរើសអតិថិជន",
       "go_back": "ត្រលប់ក្រោយ",
       "go": "ចូល"
     },
@@ -420,7 +430,9 @@
       "concern_is_outside_cambodia": "ព្រឹត្តិការណ៍កើតឡើងក្រៅប្រទេសកម្ពុជា",
       "relevant_contact_phone": "លេខទូរស័ព្ទអ្នកពាក់ព័ន្ធ",
       "relevant_email": "អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ",
-      "locatin_description": "ការពិពណ៌នានៃទីកន្លែង"
+      "locatin_description": "ការពិពណ៌នានៃទីកន្លែង",
+      "add_another_client": "បន្ថែមអតិថិជនថ្មី",
+      "remove_client": "លុបចេញអតិថិជន"
     },
     "referralMoreInfo": {
       "client_referral_more_info": "អតិថិជន / ការបញ្ជូន - ព័ត៌មានបន្ថែម",
@@ -449,15 +461,33 @@
     "listTable": {
       "index": {
         "action": "សកម្មភាព",
-        "no_client": "គ្មានអតិថិជន"
+        "Address Type": "ប្រភេទអាសយដ្ឋាន",
+        "Adult": "មនុស្សធំ",
+        "Anonymous": "អនាមិក",
+        "Answered Call": "ឆ្លើយការហៅទូរស័ព្ទ",
+        "Call Type": "ប្រភេទនៃការហៅ",
+        "Called Before": "ធ្លាប់បានហៅទូរស័ព្ទពីមុន",
+        "Current Address": "អាសយដ្ឋានបច្ចុប្បន្ន",
+        "Date Of Call": "កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ",
+        "Email": "អ៊ុីម៉ែល",
+        "Full Name": "ឈ្មោះពេញ",
+        "Gender": "ភេទ",
+        "Name": "ឈ្មោះ",
+        "House Number": "អាសយដ្ឋាន - លេខផ្ទះ",
+        "no_client": "គ្មានអតិថិជន",
+        "Phone": "លេខទូរស័ព្ទ",
+        "Phone Call Id": "អត្តលេខការហៅទូរស័ព្ទ",
+        "Receiving Staff": "បុគ្គលិកទទួលករណី",
+        "Requested Update": "ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន",
+        "Street Number": "អាសយដ្ឋាន - លេខផ្លូវ",
+        "Time Call Began": "ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម",
+        "Time Call Ended": "ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់"
       }
     }
   },
   "detailCall": {
     "call": {
-      "time_call_began": "Time Call Began",
-      "time_call_end": "Time Call Ended",
-      "about_call": "About Call"
+      "about_call": "អំពីការហៅទូរស័ព្ទ"
     },
     "listClient": {
       "list_clients": "បញ្ជឺអតិថិជន"
@@ -479,13 +509,13 @@
         "wrong_number": "Wrong Number"
       },
       "message": {
-        "call_has_been_updated": "Call has been successfully updated"
+        "call_has_been_updated": "ការហៅទូរស័ព្ទត្រូវបានកែប្រែដោយជោគជ័យ"
       },
       "call_information": "ព័ត៌មាននៃការហៅទូរស័ព្ទ",
       "receiving_staff": "បុគ្គលិកទទួលករណី",
-      "date_of_call": "Date of Call",
-      "time_call_began": "Time Call Began",
-      "time_call_ended": "Time Call Ended",
+      "date_of_call": "កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ",
+      "time_call_began": "ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម",
+      "time_call_ended": "ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់",
       "call_type": "ប្រភេទនៃការហៅទូរស័ព្ទ",
       "information_provided": "ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល",
       "cancel": "ទុកជាមោឃៈ",
@@ -512,9 +542,10 @@
         "yes": "បាទ / ចាស",
         "no": "ទេ"
       },
+      "address": "អាសយដ្ឋាន",
       "anonymous": "អនាមិក",
       "name": "ឈ្មោះ",
-      "referee_has_been_updated": "Referee has been successfully updated",
+      "referee_has_been_updated": "អ្នកបញ្ជូនត្រូវបានកែប្រែដោយជោគជ័យ",
       "caller_info": "ព័ត៌មានអ្នកហៅទូរស័ព្ទ",
       "did_you_answer_the_call": "តើអ្នកបានឆ្លើយការហៅទូរស័ព្ទនេះទេ ឬអ្នកបានហៅទូរស័ព្ទត្រឡប់វិញពេលខកខានការហៅទូរស័ព្ទ?",
       "have_you_called": "តើអ្នកធ្លាប់ហៅទូរស័ព្ទមកកាន់ភ្នាក់ងារ២៤ម៉ោងផ្នែកសុវត្ថិភាពកុមារពីមុនដែរឬទេ?",

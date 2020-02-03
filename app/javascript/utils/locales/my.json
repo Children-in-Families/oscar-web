@@ -241,6 +241,8 @@
         "spam_call": "Spam Call",
         "wrong_number": "Wrong Number"
       },
+      "referee_answered_call": "Did the referee answer this call or return a missed call?",
+      "referee_called_before": "Has the referee called the Childsafe Hotline Before?",
       "call_information": "Call Information",
       "phone_call": "Phone Call ID #",
       "receiving_staff": "Receiving Staff",
@@ -252,7 +254,11 @@
       "go": "Go",
       "go_back": "Go Back",
       "go_to_client": "Go to Client",
-      "please_select_client": "Please select client"
+      "please_select_client": "Please select client",
+      "verify_message": "You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
+      "date_of_call": "Date of Call",
+      "time_call_began": "Time Call Began",
+      "time_call_ended": "Time Call Ended"
     },
     "callAbout": {
       "basicNecessities": {
@@ -297,6 +303,10 @@
       "address": "Address",
       "same_as_client": "Same as Client",
       "outside_cambodia": "Outside Cambodia"
+    },
+    "caseActionNotRequiredModalFooter": {
+      "iam_sure": "I'm Sure",
+      "go_back": "Go Back"
     },
     "clientAddressInfo": {
       "address": "Address",
@@ -420,7 +430,9 @@
       "concern_is_outside_cambodia": "Concern is outside Cambodia",
       "relevant_contact_phone": "Relevant Contact Phone",
       "relevant_email": "Relevant Email Contact",
-      "locatin_description": "Location Description"
+      "locatin_description": "Location Description",
+      "add_another_client": "Add Another Client",
+      "remove_client": "Remove Client"
     },
     "referralMoreInfo": {
       "client_referral_more_info": "Client / Referral - More Information",
@@ -449,14 +461,32 @@
     "listTable": {
       "index": {
         "action": "Action",
-        "no_client": "No Client"
+        "Address Type": "Address Type",
+        "Adult": "Adult",
+        "Anonymous": "Anonymous",
+        "Answered Call": "Answered Call",
+        "Call Type": "Call Type",
+        "Called Before": "Called Before",
+        "Current Address": "Current Address",
+        "Date Of Call": "Date Of Call",
+        "Email": "Email",
+        "Full Name": "Full Name",
+        "Gender": "Gender",
+        "Name": "Name",
+        "House Number": "House Number",
+        "no_client": "No Client",
+        "Phone": "Phone",
+        "Phone Call Id": "Phone Call Id",
+        "Receiving Staff": "Receiving Staff",
+        "Requested Update": "Requested Update",
+        "Street Number": "Street Number",
+        "Time Call Began": "Time Call Began",
+        "Time Call Ended": "Time Call Ended"
       }
     }
   },
   "detailCall": {
     "call": {
-      "time_call_began": "Time Call Began",
-      "time_call_end": "Time Call Ended",
       "about_call": "About Call"
     },
     "listClient": {

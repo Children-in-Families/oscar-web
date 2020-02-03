@@ -4,11 +4,11 @@
       %label.control-label
         %abbr{ title: 'required' }= '*'
       %label.control-label= 'Custom Assessment'
-    .col-xs-12.col-sm-3
+    .col-xs-12.col-sm-4
       %label.control-label
         %abbr{ title: 'required' }= '*'
-      %label.control-label= 'Max Assessment'
-    .col-xs-12.col-sm-push-3.col-sm-2
+      %label.control-label= 'Maximum time between assessments'
+    .col-xs-12.col-sm-push-2.col-sm-2
       %label.control-label
         %abbr{ title: 'required' }= '*'
       %label.control-label= 'Eligible'
@@ -28,5 +28,5 @@
         = f.input :custom_age, placeholder: 'Age', label: false
     .col-xs-12.col-sm-1
       .form-group
-        = link_to_remove_association '', f, class: 'btn btn-outline btn-danger fa fa-times', data: {confirm: t('.are_you_sure')}
-        = f.input_field :enable_custom_assessment, class: "i-checks", as: :boolean, id: "checkbox_custom_assessment_setting"
+        = link_to_remove_association '', f, class: 'btn btn-outline btn-danger btn-sm fa fa-times', data: {confirm: t('.are_you_sure')}
+        = f.check_box :enable_custom_assessment, class: "i-checks", as: :boolean, id: "checkbox_custom_assessment_setting"

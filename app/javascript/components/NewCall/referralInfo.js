@@ -351,9 +351,9 @@ export default props => {
         </div>
 
         <div className={ `col-xs-12 ${ call.call_type === 'Phone Counselling' ? 'hidden' : '' }` }>
-          <button className="btn btn-primary" style={{margin: 5}} onClick={() => onChange('client', {})({type: 'newObject'})}>Add Another Client</button>
+          <button className="btn btn-primary" style={{ margin: 5 }} onClick={() => onChange('client', {})({ type: 'newObject' })}>{T.translate("newCall.referralInfo.add_another_client")}</button>
           { clients.length > 1 &&
-            <button className="btn btn-danger" style={{margin: 5}} onClick={removeClient}>Remove Client</button>
+            <button className="btn btn-danger" style={{ margin: 5 }} onClick={removeClient}>{T.translate("newCall.referralInfo.remove_client")}</button>
           }
         </div>
 

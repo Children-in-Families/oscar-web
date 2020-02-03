@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200123113423) do
+ActiveRecord::Schema.define(version: 20200129160216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,10 +146,13 @@ ActiveRecord::Schema.define(version: 20200123113423) do
     t.datetime "start_datetime"
     t.datetime "end_datetime"
     t.string   "call_type",            default: ""
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "information_provided", default: ""
     t.date     "date_of_call"
+    t.boolean  "answered_call"
+    t.boolean  "called_before"
+    t.boolean  "requested_update",     default: false
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
@@ -1283,27 +1286,24 @@ ActiveRecord::Schema.define(version: 20200123113423) do
   end
 
   create_table "referees", force: :cascade do |t|
-    t.string   "address_type",     default: ""
-    t.string   "current_address",  default: ""
-    t.string   "email",            default: ""
-    t.string   "gender",           default: ""
-    t.string   "house_number",     default: ""
-    t.string   "outside_address",  default: ""
-    t.string   "street_number",    default: ""
-    t.boolean  "outside",          default: false
-    t.boolean  "anonymous",        default: false
+    t.string   "address_type",    default: ""
+    t.string   "current_address", default: ""
+    t.string   "email",           default: ""
+    t.string   "gender",          default: ""
+    t.string   "house_number",    default: ""
+    t.string   "outside_address", default: ""
+    t.string   "street_number",   default: ""
+    t.boolean  "outside",         default: false
+    t.boolean  "anonymous",       default: false
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"
     t.integer  "village_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.string   "name",             default: ""
-    t.string   "phone",            default: ""
-    t.boolean  "answered_call"
-    t.boolean  "called_before"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "name",            default: ""
+    t.string   "phone",           default: ""
     t.boolean  "adult"
-    t.boolean  "requested_update", default: false
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree

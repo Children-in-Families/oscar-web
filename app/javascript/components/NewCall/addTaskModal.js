@@ -3,9 +3,9 @@ import { TextInput, DateInput } from "../Commons/inputs"
 import Modal from '../Commons/Modal'
 
 export default props => {
-  const { data: { referee, clientTask, T }, onChange } = props
+  const { data: { referee, clientTask, call, T }, onChange } = props
   const [invalid, setInvalid] = useState(false)
-  const [isOpen, setIsOpen]   = useState(referee.requested_update || false)
+  const [isOpen, setIsOpen]   = useState(call.requested_update || false)
   const initialData = {
     name: '',
     completion_date: null,
@@ -15,15 +15,15 @@ export default props => {
   const [task, setTask]     = useState(clientTask || initialData)
 
   useEffect(() => {
-    setIsOpen(referee.requested_update || false)
-  }, [referee.requested_update])
+    setIsOpen(call.requested_update || false)
+  }, [call.requested_update])
 
   // const deleteTask = index => setTasks(tasks.filter((task, taskIndex) => taskIndex !== index))
 
   // const onChangeDate = index => data => modifyObject(index, { completion_date: data.data })
   const onChangeDate = data => setTask({...task, completion_date: data.data})
   // const onChangeText = index => event => modifyObject(index, { name: event.target.value })
-  const onChangeText = () => setTask({...task, name: event.target.value})
+  // const onChangeText = () => setTask({...task, name: event.target.value})
 
   // const modifyObject = (index, field) => {
   //   const getObject    = tasks[index]

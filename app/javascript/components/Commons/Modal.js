@@ -11,7 +11,8 @@ const modal = props => {
       padding: 10,
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      fontWeight: 'bold'
     },
     modalContent: {
       padding: 10

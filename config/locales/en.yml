@@ -366,7 +366,7 @@ en:
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
       client_contact_phone: Client Contact Phone
-      client_address_type: Client Address Type
+      address_type: Client Address Type
       client_email_address: Client Email Address
       code: Custom ID Number1
       commune: Commune/Sangkat
@@ -636,8 +636,11 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    answered_call: Answer Call
     call_type: Call types
-    end_datetime: End-Call Datetime
+    called_before: Called Before
+    end_datetime: Date Call Ended
+    end_time: Time Call Ended
     hotline: Hotline
     index:
       add_new_call: Add New Call
@@ -645,8 +648,6 @@ en:
       hotline: Hotline
       results: Results
       report_builder: Report Builder
-
-
     information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
@@ -658,7 +659,9 @@ en:
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
     phone_type: Phone type
-    start_datetime: Start Date Time
+    requested_update: Requested Update
+    start_datetime: Date Call Began
+    start_time: Time Call Began
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -909,11 +912,11 @@ en:
         exit_reason_options:
           agency_lack_resource: Agency lacks sufficient resources
           client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
           client_refuse_service: Client refused service
-          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          move_out_within_international: Client is/moved outside NGO target area (International)
-          no_meet_service_criteria: Client does not meet / no longer meets service criteria
-          not_required_support: Client does not require / no longer requires support
           other_reason: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
@@ -931,11 +934,11 @@ en:
         exit_reason_options:
           agency_lack_resource: Agency lacks sufficient resources
           client_died: Client died
+          client_does_not_meet_service_criteria: Client does not meet / no longer meets service criteria
+          client_does_not_required_support: Client does not require / no longer requires support
+          client_move_out_international: Client is/moved outside NGO target area (International)
+          client_move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
           client_refuse_service: Client refused service
-          move_out_within_cambodia: Client is/moved outside NGO target area (within Cambodia)
-          move_out_within_international: Client is/moved outside NGO target area (International)
-          no_meet_service_criteria: Client does not meet / no longer meets service criteria
-          not_required_support: Client does not require / no longer requires support
           other_reason: Other
         exit_reasons: Reason for Exit / Case Rejection
         exit_status: Status
@@ -1030,6 +1033,18 @@ en:
       custom_assessment: Custom Assessment
     by: By
     call: Call
+    calls:
+      answered_call: Answer Call
+      call_type: Call Type
+      called_before: Called Before
+      date_of_call: Date of Call
+      end_datetime: Date Call Ended
+      information_provided: Information Provided
+      phone_call_id: Phone Call ID
+      receiving_staff_id: Receiving Staff
+      referee_id: Referee
+      requested_update: Requested Update
+      start_datetime: Date Call Began
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
@@ -1052,7 +1067,7 @@ en:
     hotline:
       end_datetime: End Date Time
       received_by: Received Call by
-      start_datetime: Start Date Time
+      start_datetime: Time Call Began
     incomplete: Incomplete
     index:
       book: Client book
@@ -1100,6 +1115,8 @@ en:
     edit:
       enrollment: Edit Enrollment
     form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
       cancel: Cancel
       enrollment_date: Enrollment Date
       save: Save
@@ -1176,6 +1193,8 @@ en:
     edit:
       enrollment: Edit Enrollment
     form:
+      accepted_date: "NGO Accept Date"
+      exit_date: "NGO Exit Date"
       allow_file_size: Allowed file types
       cancel: Cancel
       enrollment_date: Enrollment Date
@@ -2098,15 +2117,26 @@ en:
       all_custom_csi_assessments: All Custom Assessments
       all_result_framework_assessment: All Result Framework Assessment
       calls:
+        answered_call: Answer Call
         call_type: Call types
-        end_datetime: End-Call Datetime
+        called_before: Called Before
+        end_datetime: Date Call Ended
+        end_time: Time Call Ended
+        has_dob: 'Yes'
         hotline_call: Hotline Call
+        id: ID
         information_provided: Information provided
         manage: Manage
+        no_dob: 'Yes'
+        phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
-        start_datetime: Start Date Time
+        referee_id: Referee
+        receiving_staff_id: Receiving staff
+        requested_update: Requested Update
+        start_datetime: Date Call Began
+        start_time: Time Call Began
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -2121,7 +2151,7 @@ en:
       carer_phone: Care Phone
       changelog: Changelog
       client_contact_phone: Client Contact Phone
-      client_address_type: Client Address Type
+      address_type: Client Address Type
       client_email: Client Email
       client_enrollments:
         action: Action
@@ -2276,7 +2306,7 @@ en:
         referee_email: Referee Email
         referee_relationship_to_client: Referee Relationship to client
         client_contact_phone: Client Contact Phone
-        client_address_type: Client Address Type
+        address_type: Client Address Type
         client_email: Client Email
         phone_owner: Phone Owner
         reject_note: Note on referral rejection
@@ -2430,10 +2460,14 @@ en:
         current_address: Current Address
         district_id: District
         email: Email
+        female: Female
         gender: Gender
+        has_dob: 'Yes'
         house_number: House Number
         id: ID
+        male: Male
         name: Name
+        no_dob: 'No'
         outside: Outside Cambodia
         outside_address: Outside Address
         phone: Phone
@@ -2568,7 +2602,7 @@ en:
       helping_professional: Helping Professional
       government_local: Government / Local Authority
       other: Other
-    client_address_types:
+    address_types:
       home: Home
       business: Business
       rci: RCI
@@ -4585,28 +4619,6 @@ en:
     show:
       about: About
       <<: *REFEREE_ATTR
-  referees:
-    show:
-      about: About
-      name: Name
-      address_type: Address Type
-      current_address: Current Address
-      email: Email
-      gender: Gender
-      house_number: House Number
-      outside_address: Outside Address
-      street_number: Street Number
-      outside: Outside
-      anonymous: Anonymous
-      province_id: Province
-      district_id: District
-      commune_id: Commune
-      village_id: Village
-      phone: Phone
-      answered_call: Answered Call
-      called_before: Called Before
-      adult: Adult
-      requested_update: Requested Update
   referral_sources:
     create:
       failed_create: Failed to create a referral source.

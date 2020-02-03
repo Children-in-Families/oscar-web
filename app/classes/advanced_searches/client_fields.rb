@@ -62,17 +62,17 @@ module AdvancedSearches
         ['referral_source_category_id', referral_source_category_options],
         ['type_of_service', get_type_of_services],
         ['referee_relationship', get_sql_referee_relationship],
-        ['client_address_type', get_sql_client_address_types],
+        ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner]
       ]
     end
 
     def gender_list
-      [Client::GENDER_OPTIONS, I18n.t('default_client_fields.gender_list').values].transpose.to_h
+      [Client::GENDER_OPTIONS.sort, I18n.t('default_client_fields.gender_list').values].transpose.to_h
     end
 
     def exit_reasons_options
-      ExitNgo::EXIT_REASONS.map{|s| { s => s }  }
+      [ExitNgo::EXIT_REASONS.sort, I18n.t('client.exit_ngos.form.exit_reason_options').values].transpose.map{|k, v| { k => v }  }
     end
 
     def case_note_type_options
@@ -230,8 +230,8 @@ module AdvancedSearches
       [Client::REFEREE_RELATIONSHIPS, I18n.t('default_client_fields.referee_relationship').values].transpose.to_h
     end
 
-    def get_sql_client_address_types
-      [Client::ADDRESS_TYPES, I18n.t('default_client_fields.client_address_types').values].transpose.to_h
+    def get_sql_address_types
+      [Client::ADDRESS_TYPES, I18n.t('default_client_fields.address_types').values].transpose.to_h
     end
 
     def get_sql_phone_owner

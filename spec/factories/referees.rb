@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :referee do
+    name "MyString"
     address_type "MyString"
     current_address "MyString"
     email "MyString"
@@ -11,8 +12,5 @@ FactoryGirl.define do
     district nil
     commune nil
     village nil
-    client nil
-    # answered_call false
-    # called_before false
   end
 end

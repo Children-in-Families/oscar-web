@@ -23,6 +23,16 @@ export default props => {
 
   let T = setDefaultLanguage(url)
 
+  const answeredCallOpts = [
+    { label: T.translate("newCall.refereeInfo.answeredCallOpts.call_answered"), value: true },
+    { label: T.translate("newCall.refereeInfo.answeredCallOpts.return_missed_call"), value: false }
+  ];
+
+  const calledBeforeOpts = [
+    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.yes"), value: true },
+    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.no"), value: false }
+  ];
+
   const callTypes = [
     T.translate("editCall.index.calltypes.new_referral_case"),
     T.translate("editCall.index.calltypes.new_referral_notifier"),
@@ -38,6 +48,7 @@ export default props => {
   ));
 
   const noClientAttached = callData.call_type === "Seeking Information" || callData.call_type === "Spam Call" || callData.call_type === "Wrong Number"
+  const seekingInformation = callData.call_type === "Seeking Information"
 
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
@@ -87,7 +98,7 @@ export default props => {
   }
 
   const handleValidation = () => {
-    const validationFields = noClientAttached ? ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime', 'information_provided'] : ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime']
+    const validationFields = seekingInformation ? ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime', 'information_provided'] : ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime']
     const errors = []
 
     validationFields.forEach(field => {
@@ -117,8 +128,36 @@ export default props => {
         </div>
       </legend>
 
+      <div className="row">
+        <div className="col-xs-12">
+          <RadioGroup
+            inline
+            required
+            isError={errorFields.includes("answered_call")}
+            options={answeredCallOpts}
+            label={T.translate("newCall.admin.referee_answered_call")}
+            value={callData.answered_call}
+            onChange={onChange("call", "answered_call")}
+          />
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-xs-12">
+          <RadioGroup
+            inline
+            required
+            isError={errorFields.includes("called_before")}
+            label={T.translate("newCall.admin.referee_called_before")}
+            options={calledBeforeOpts}
+            value={callData.called_before}
+            onChange={onChange("call", "called_before")}
+          />
+        </div>
+      </div>
+
       <div className='row'>
-        <div className='col-sm-12'>
+        <div className='col-sm-12 col-md-6'>
           <SelectInput
             T={T}
             required
@@ -129,11 +168,7 @@ export default props => {
             onChange={onChange('call', 'receiving_staff_id')}
           />
         </div>
-      </div>
-
-
-      <div className='row'>
-        <div className='col-sm-12'>
+        <div className='col-sm-12 col-md-6'>
           <DateInput
             T={T}
             required
@@ -147,7 +182,7 @@ export default props => {
       </div>
 
       <div className='row'>
-        <div className='col-sm-12'>
+        <div className='col-sm-12 col-md-6'>
           <DateTimePicker
             T={T}
             isError={errorFields.includes('start_datetime')}
@@ -157,10 +192,7 @@ export default props => {
             value={callData.start_datetime}
           />
         </div>
-      </div>
-
-      <div className='row'>
-        <div className='col-sm-12'>
+        <div className='col-sm-12 col-md-6'>
          <DateTimePicker
             T={T}
             isError={errorFields.includes('end_datetime')}
@@ -173,7 +205,7 @@ export default props => {
       </div>
 
       <div className='row'>
-        <div className='col-sm-12'>
+        <div className='col-sm-12 col-md-6'>
           <RadioGroup
             disabled={true}
             T={T}
@@ -184,24 +216,32 @@ export default props => {
             value={callData.call_type}
             onChange={onChange('call','call_type')} />
         </div>
-      </div>
-
-      { noClientAttached ?
-        <div className="row">
-          <div className="col-xs-12">
+        { noClientAttached ?
+          <div className="col-xs-12 col-md-6">
             <TextArea
               T={T}
-              required
+              required={ seekingInformation }
               isError={errorFields.includes('information_provided')}
               placeholder={T.translate("newCall.admin.add_note_about_the_content")}
               label={T.translate("editCall.index.information_provided")}
               value={callData.information_provided}
               onChange={onChange('call', 'information_provided')} />
           </div>
+          :
+          <div></div>
+        }
+      </div>
+
+      {/* <div className="row">
+        <div className="col-xs-12">
+          <Checkbox
+            disabled={true}
+            label={T.translate("newCall.refereeInfo.this_caller_has_requested")}
+            checked={callData.requested_update || false}
+            onChange={onChange("call", "requested_update")}
+          />
         </div>
-      :
-      <div></div>
-      }
+      </div> */}
 
       <div className='row'>
         <div className='col-sm-12 text-right'>

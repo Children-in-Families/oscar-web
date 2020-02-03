@@ -542,9 +542,11 @@ class ClientGrid < BaseGrid
 
   dynamic do
     yes_no = { true: 'Yes', false: 'No' }
+    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
     client_hotline_fields.each do |hotline_field|
       value = ''
-      column(hotline_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.clients.#{hotline_field}") }, class: 'client-hotline-field') do |object|
+      header_text = content_headers.include?(hotline_field) ? "Concern #{I18n.t("datagrid.columns.clients.#{hotline_field}")}" : I18n.t("datagrid.columns.clients.#{hotline_field}")
+      column(hotline_field.to_sym, order: false, header: -> { header_text }, class: 'client-hotline-field') do |object|
         if hotline_field[/concern_province_id|concern_district_id|concern_commune_id|concern_village_id/i]
           address_name = hotline_field.gsub('_id', '')
           value = object.send(address_name.to_sym).try(:name)
@@ -594,6 +596,7 @@ class ClientGrid < BaseGrid
   end
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
+    # selected_program_id = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
   end
 
@@ -614,7 +617,10 @@ class ClientGrid < BaseGrid
     call_fields.each do |call_field|
       column(call_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.calls.#{call_field}") }, preload: :calls, class: 'call-field') do |object|
         if call_field[/date/i]
-          object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%d %B %Y %I:%M%p') }.join("\n")
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%d %B %Y') }.join("\n")
+        elsif call_field[/time/]
+          field_name = call_field.gsub('time', 'datetime')
+          object.calls.distinct.map{ |call| call.send(field_name.to_sym) && call.send(field_name.to_sym).strftime('%I:%M%p') }.join("\n")
         else
           object.calls.distinct.map{ |call| call.send(call_field.to_sym) }.join(', ')
         end
@@ -654,7 +660,7 @@ class ClientGrid < BaseGrid
     object.client_phone
   end
 
-  column(:client_address_type, header: -> { I18n.t('datagrid.columns.clients.client_address_type') }) do |object|
+  column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
     object.address_type && object.address_type.titleize
   end
 
@@ -727,8 +733,8 @@ class ClientGrid < BaseGrid
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
     version = object.versions.find_by(event: 'create')
-    if version.present? && version.whodunnit.present?
-      version.whodunnit.include?('rotati') ? 'OSCaR Team' : User.find_by(id: version.whodunnit.to_i).try(:name)
+    if (version.present? && version.whodunnit.present?) && !version.whodunnit.include?('rotati')
+      User.find_by(id: version.whodunnit.to_i).try(:name)
     else
       'OSCaR Team'
     end
@@ -1142,7 +1148,7 @@ class ClientGrid < BaseGrid
             properties = properties[format_field_value] if properties.present?
           else
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
-            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
+            properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
           end
         elsif fields.first == 'programexitdate'
           ids = object.client_enrollments.inactive.ids
@@ -1157,7 +1163,15 @@ class ClientGrid < BaseGrid
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:properties)
             properties = properties[format_field_value] if properties.present?
           else
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
+            if $param_rules.nil?
+              properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
+            else
+              basic_rules = $param_rules['basic_rules']
+              basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+              results = mapping_exit_program_date_param_value(basic_rules)
+              query_string = get_exit_program_date_query_string(results)
+              properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).where(query_string).properties_by(format_field_value)
+            end
           end
         end
 
