@@ -1,4 +1,3 @@
-
 import en from '../../utils/locales/en.json';
 import km from '../../utils/locales/km.json';
 import my from '../../utils/locales/my.json';

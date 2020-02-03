@@ -126,5 +126,6 @@
 //= require registrations/form
 //= require referral_sources/index
 //= require client_books/index
+//= require calls/form
 //= require calls/index
 //= require referees/index
