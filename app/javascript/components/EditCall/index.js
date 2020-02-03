@@ -169,11 +169,20 @@ export default props => {
           />
         </div>
         <div className='col-sm-12 col-md-6'>
-          <DateInput
+          {/* <DateInput
             T={T}
             required
             isError={errorFields.includes('date_of_call')}
             getCurrentDate
+            label="Date of Call"
+            onChange={onChange('call', 'date_of_call')}
+            value={callData.date_of_call}
+          /> */}
+          <TextInput
+            T={T}
+            type="date"
+            required
+            isError={errorFields.includes('date_of_call')}
             label={T.translate("editCall.index.date_of_call")}
             onChange={onChange('call', 'date_of_call')}
             value={callData.date_of_call}
@@ -183,7 +192,16 @@ export default props => {
 
       <div className='row'>
         <div className='col-sm-12 col-md-6'>
-          <DateTimePicker
+          {/* <DateTimePicker
+            T={T}
+            isError={errorFields.includes('start_datetime')}
+            label="Time Call Began"
+            required={true}
+            onChange={onChange('call', 'start_datetime')}
+            value={callData.start_datetime}
+          /> */}
+          <TextInput
+            type="time"
             T={T}
             isError={errorFields.includes('start_datetime')}
             label={T.translate("editCall.index.time_call_began")}
@@ -193,7 +211,16 @@ export default props => {
           />
         </div>
         <div className='col-sm-12 col-md-6'>
-         <DateTimePicker
+         {/* <DateTimePicker
+            T={T}
+            isError={errorFields.includes('end_datetime')}
+            label="Time Call Ended"
+            required={true}
+            onChange={onChange('call', 'end_datetime')}
+            value={callData.end_datetime}
+          /> */}
+          <TextInput
+            type="time"
             T={T}
             isError={errorFields.includes('end_datetime')}
             label={T.translate("editCall.index.time_call_ended")}

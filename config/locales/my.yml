@@ -123,6 +123,19 @@ my:
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         assessment_domain:
           blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        call:
+          attributes:
+            receiving_staff_id:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            start_datetime:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            end_datetime:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            call_type:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              inclusion: အဆိုပါစာရင်းထဲတွင်မပါဝင်တာဖြစ်ပါတယ်
+            information_provided:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         case:
           attributes:
             exit_date:
@@ -625,6 +638,21 @@ my:
     end_datetime: Date Call Ended
     end_time: Time Call Ended
     hotline: Hotline
+    edit:
+      edit_call: Edit Call
+      referee_answered_call: Did the referee answer this call or return a missed call?
+      answered_call: Answered Call
+      returning_missed_called: Returning Missed Call
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      yes: "Yes"
+      no: "No"
+      receiving_staff: Receiving Staff
+      date_of_call: Date of Call
+      time_call_began: Time Call Began
+      time_call_ended: Time Call Ended
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      information_provided: Information Provided
+      add_note_about_the_content: Add a note about the content of your conversation with the caller.
     index:
       add_new_call: Add New Call
       export_xls: Export to XLS

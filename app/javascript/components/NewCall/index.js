@@ -44,6 +44,7 @@ const CallForms = props => {
   const [dupClientModalOpen, setDupClientModalOpen]     = useState(false)
   const [dupFields, setDupFields]     = useState([])
   const [errorFields, setErrorFields] = useState([])
+  const [errorObjects, setErrorObjects] = useState({})
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids, ...clients }])
@@ -58,7 +59,7 @@ const CallForms = props => {
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
-  const adminTabData = { call: callData, users, errorFields, T, step }
+  const adminTabData = { call: callData, users, errorFields, errorObjects, T, step }
 
   const refereeTabData = { errorFields, call: callData, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
   const referralTabData = { call: callData, users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
@@ -281,10 +282,10 @@ const CallForms = props => {
       .fail(error => {
         setLoading(false)
         setOnSave(false)
-        const errorFields = JSON.parse(error.responseText)
-        // console.log('errorFields', errorFields)
-        setErrorFields(Object.keys(errorFields))
-        if(errorFields.kid_id)
+        const fieldErrors = JSON.parse(error.responseText)
+        setErrorFields(Object.keys(fieldErrors))
+        setErrorObjects(fieldErrors)
+        if(fieldErrors.kid_id)
           setErrorSteps([3])
       })
     }

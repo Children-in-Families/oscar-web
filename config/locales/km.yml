@@ -125,6 +125,19 @@ km:
               taken: ត្រូវបានប្រើរួចហើយ
         assessment_domain:
           blank: មិនអាចរំលង
+        call:
+          attributes:
+            receiving_staff_id:
+              blank: មិនអាចរំលង
+            start_datetime:
+              blank: មិនអាចរំលង
+            end_datetime:
+              blank: មិនអាចរំលង
+            call_type:
+              blank: មិនអាចរំលង
+              inclusion: មិនមាននៅក្នុងបញ្ជី
+            information_provided:
+              blank: មិនអាចរំលង
         case:
           attributes:
             exit_date:
@@ -627,6 +640,21 @@ km:
     end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
     end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
     hotline: លេខទូរស័ព្ទបន្ទាប់
+    edit:
+      edit_call: កែសម្រួលការហៅ
+      referee_answered_call: តើអ្នកបញ្ជូនបានឆ្លើយការហៅទូរស័ព្ទនេះ ឬបានហៅទូរស័ព្ទត្រឡប់មកវិញឬទេ?
+      answered_call: បានឆ្លើយការហៅទូរស័ព្ទ
+      returning_missed_called: បានហៅទូរស័ព្ទវិញសម្រាប់ការខកខាន
+      referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      yes: "បាទ / ចាស"
+      no: "ទេ"
+      receiving_staff: បុគ្គលិកទទួលករណី
+      date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+      time_call_began: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
+      time_call_ended: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
+      referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      add_note_about_the_content: បញ្ចូលកំណត់ត្រានៃខ្លឹមសារការសន្ទនារបស់អ្នកជាមួយអ្នកហៅទូរស័ព្ទ។
     index:
       add_new_call: បន្ថែមការហៅថ្មី
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
