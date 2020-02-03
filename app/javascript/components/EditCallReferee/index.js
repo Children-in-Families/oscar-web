@@ -134,7 +134,7 @@ export default props => {
       })
       .success(response => {
         const message = T.translate("editCallReferee.index.referee_has_been_updated")
-        document.location.href = `/calls/${response.call.id}?notice=${message}`
+        document.location.href = `/calls/${response.call.id}?notice=${message}&local=${url}`
       })
       .error(err => {
         console.log("err: ", err);

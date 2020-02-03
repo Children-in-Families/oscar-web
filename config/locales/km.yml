@@ -642,11 +642,11 @@ km:
       seeking_information: "Seeking Information"
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
-    phone_call_id: Phone call ID
-    phone_type: Phone type
-    requested_update: Requested Update
-    start_datetime: Date Call Began
-    start_time: Time Call Began
+    phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
+    phone_type: ប្រភេទលេខទូរស័ព្ទ
+    requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+    start_datetime: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+    start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
@@ -3864,11 +3864,11 @@ km:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
       agencies: អង្គភាព
-      caller_referees: អ្នកហៅទូរស័ព្ទ / អ្នកបញ្ជូនករណី
+      caller_referees: អ្នកបញ្ជូនករណី
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       calls: ការហៅទូរស័ព្ទ
       clients: ឣតិថិជន
-      client_forms: Client Forms
+      client_forms: ទម្រង់អតិថិជន
       country: ប្រទេស
       csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
       custom_fields: ទម្រង់បែបបទ
@@ -4556,7 +4556,7 @@ km:
     outside_address: អាសយដ្ឋាននៅក្រៅ
     phone: លេខទូស័ព្ទ
     province_id: ខេត្ត/ក្រុង
-    requested_update: Requested Update
+    requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
     street_number: អាសយដ្ឋាន - លេខផ្លូវ
     updated_at: Updated At
     village_id: អាសយដ្ឋាន - ភូមិ

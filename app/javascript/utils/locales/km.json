@@ -147,10 +147,10 @@
     "Helping Professional": "ជួយវិជ្ជាជីវៈ",
     "Government / Local Authority": "រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន",
     "Other": "ផ្សេងៗ",
-    "Child": "Child",
+    "Child": "កុមារ",
     "In same community": "នៅក្នុងសហគមន៍តែមួយ",
     "Client": "អតិថិជន",
-    "Stranger": "Stranger"
+    "Stranger": "ជនចម្លែក"
   },
   "clientRelationShip": {
     "Parent": "ឪពុកម្តាយ",
@@ -229,7 +229,7 @@
       "domain": "កត្តា",
       "save": "រក្សាទុក",
       "cancel": "ទុកជាមោឃះ",
-      "add_new_tasks": "Add New Tasks"
+      "add_new_tasks": "បន្ថែមកាតព្វកិច្ចថ្មី"
     },
     "admin": {
       "calltypes": {
@@ -255,7 +255,7 @@
       "go_back": "ត្រលប់ក្រោយ",
       "go_to_client": "ចូលទៅរកអតិថិជន",
       "please_select_client": "Pសូមជ្រើសរើសអតិថិជន",
-      "verify_message": "អ្នកត្រូវបានជ្រើសរើស 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
+      "verify_message": "អ្នកបានជ្រើសរើសយក 'Case Action NOT Required' សម្រាប់ការហៅនេះ។ នេះមានន័យថាអ្នកមិនជឿថាការហៅនេះទាមទារឱ្យមានការតាមដានទៀតទេ។ សូមប្រាកដលើការហៅចូលនេះ។ ចុច 'ខ្ញុំប្រាកដ' ដើម្បីបន្ត។ ចុច 'ត្រលប់ក្រោយ' ប្រសិនបើអ្នកចង់ផ្លាស់ប្តូរជម្រើសរបស់អ្នក។",
       "date_of_call": "កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ",
       "time_call_began": "ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម",
       "time_call_ended": "ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់"
@@ -305,7 +305,7 @@
       "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ"
     },
     "caseActionNotRequiredModalFooter": {
-      "iam_sure": "I'm Sure",
+      "iam_sure": "ខ្ញុំប្រាកដ",
       "go_back": "ត្រលប់ក្រោយ"
     },
     "clientAddressInfo": {

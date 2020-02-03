@@ -35,7 +35,7 @@ const CallForms = props => {
       client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
       currentProvinces, districts, communes, villages, donors, agencies, necessities, protection_concerns, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients, local
     }
   } = props
 
@@ -276,7 +276,7 @@ const CallForms = props => {
             window.open(`${url}?notice=${message}`, '_blank')
           })
         }
-        document.location.href = `/calls/${response.call.id}?notice=${message}`
+        document.location.href = `/calls/${response.call.id}?notice=${message}&local=${local}`
       })
       .fail(error => {
         setLoading(false)
