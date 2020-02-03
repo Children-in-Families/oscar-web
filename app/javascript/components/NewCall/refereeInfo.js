@@ -106,7 +106,7 @@ export default props => {
   }
 
   const onRefereeNameChange = evt => {
-    let {email, id, name, gender, phone, province_id, district_id, commune_id, village_id, street_number, house_number, address_type, current_address, outside, outside_address} = referees.filter(r => r.id == evt.data)[0] || {}
+    let {email, id, name, gender, phone, province_id, district_id, commune_id, village_id, street_number, house_number, address_type, current_address, outside, outside_address, adult} = referees.filter(r => r.id == evt.data)[0] || {}
     onChange("referee", {
       id,
       name,
@@ -122,7 +122,8 @@ export default props => {
       address_type,
       current_address,
       outside,
-      outside_address
+      outside_address,
+      adult
     })({ type: "select" });
   }
 
