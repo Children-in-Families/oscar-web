@@ -28,9 +28,9 @@ module AdvancedSearches
       sql           = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
       properties_result = custom_field_properties.where(sql)
 
-      client_ids = properties_result.pluck(:custom_formable_id).uniq
+      object_ids = properties_result.pluck(:custom_formable_id).uniq
 
-      { id: sql_string, values: client_ids }
+      { id: sql_string, values: object_ids }
     end
   end
 end

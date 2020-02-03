@@ -7,7 +7,7 @@ module FormBuilderHelper
         if form_type == 'tracking'
           tracking_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
         elsif form_type == 'formbuilder'
-          form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
+          form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
         end
       end.join(" #{condition} ")
     end
@@ -99,48 +99,48 @@ module FormBuilderHelper
     end
   end
 
-  def form_builder_query_string(id, field, operator, value, type, input_type, properties_field='')
+  def form_builder_query_string(id, field, operator, value, type, input_type, properties_field='properties')
     value = format_value(value, input_type)
     field = format_value(field, input_type)
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
-        "(lower(properties ->> '#{field}') = '#{value.downcase}')"
+        "lower(#{properties_field} ->> '#{field}') = '#{value.downcase}'"
       else
-        "(properties -> '#{field}' ? '#{value}')"
+        "#{properties_field} -> '#{field}' ? '#{value}'"
       end
     when 'not_equal'
       if input_type == 'text' && field.exclude?('&')
-        "(lower(properties ->> '#{field}') != '#{value.downcase}')"
+        "lower(#{properties_field} ->> '#{field}') != '#{value.downcase}'"
       else
-        "(NOT(properties -> '#{field}' ? '#{value}'))"
+        "NOT(#{properties_field} -> '#{field}' ? '#{value}')"
       end
     when 'less'
-      "((properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'less_or_equal'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'greater'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'greater_or_equal'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'contains'
-      "(properties ->> '#{field}' ILIKE '%#{value.squish}%')"
+      "#{properties_field} ->> '#{field}' ILIKE '%#{value.squish}%'"
     when 'not_contains'
-      "(properties ->> '#{field}' NOT ILIKE '%#{value.squish}%')"
+      "#{properties_field} ->> '#{field}' NOT ILIKE '%#{value.squish}%'"
     when 'is_empty'
       if type == 'checkbox'
-        "(properties -> '#{field}' ? '')"
+        "#{properties_field} -> '#{field}' ? ''"
       else
-        "(properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL)"
+        "#{properties_field} -> '#{field}' ? '' OR (#{properties_field} -> '#{field}') IS NULL"
       end
     when 'is_not_empty'
       if type == 'checkbox'
-        "(NOT(properties -> '#{field}' ? ''))"
+        "NOT(#{properties_field} -> '#{field}' ? '')"
       else
-        "(NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL)"
+        "NOT(#{properties_field} -> '#{field}' ? '') OR (#{properties_field} -> '#{field}') IS NOT NULL"
       end
     when 'between'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
     end
   end
 
