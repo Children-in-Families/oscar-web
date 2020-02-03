@@ -1726,13 +1726,16 @@ en:
       agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
+      basic_necessities: Basic Necessities
       birth_province: Client Birth Province
       book: Client book
+      brief_note_summary: Brief Note Summarising the Call
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      child_protection_concerns: Child Protection Concerns
       client_able_answers: Client Able Answers
       code: Custom ID Number1
       commune: Commune/Sangkat
@@ -1795,6 +1798,7 @@ en:
       nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
+      phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: Carer Address
         carer_names: Carer Names
