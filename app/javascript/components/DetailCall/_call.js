@@ -54,7 +54,7 @@ export default ({data, T, local}) => {
     <HorizontalTable
       title={T.translate("detailCall.call.about_call")}
       data={data}
-      linkHeader={`/calls/${data.id}/edit?local=${local}`}
+      linkHeader={`/calls/${data.id}/edit?locale=${local}`}
       renderItem={renderItem}
       T={T}
       rejectField={ hiddenFields }

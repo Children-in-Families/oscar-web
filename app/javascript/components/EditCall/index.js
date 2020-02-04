@@ -84,7 +84,7 @@ export default props => {
         const clientUrls = response.client_urls;
         const message = T.translate("editCall.index.message.call_has_been_updated")
 
-        document.location.href = `/calls/${response.call.id}?notice=${message}&local=${url}`
+        document.location.href = `/calls/${response.call.id}?notice=${message}&locale=${url}`
         if (clientUrls) {
           clientUrls.forEach(url => {
             window.open(`${url}?notice=${message}`, '_blank');

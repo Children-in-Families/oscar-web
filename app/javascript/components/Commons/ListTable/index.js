@@ -88,7 +88,7 @@ export const VerticalTable = ({ title, data, renderItem, columns, T, local }) =>
                                     style={{cursor: 'pointer'}}
                                     key={key}
                                     className="spacing-first-col"
-                                    data-href={`/clients/${obj['slug']}?local=${local}`}
+                                    data-href={`/clients/${obj['slug']}?locale=${local}`}
                                     onClick={(e) => {
                                       window.open(e.target.getAttribute('data-href'), "_blank")
                                     }}

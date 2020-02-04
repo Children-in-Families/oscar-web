@@ -33,7 +33,7 @@ export default ({data, call, T, local}) => {
     <HorizontalTable
       title={T.translate("detailCall.referee.referee")}
       data={data}
-      linkHeader={`/calls/${call.id}/edit/referee?local=${local}`}
+      linkHeader={`/calls/${call.id}/edit/referee?locale=${local}`}
       renderItem={renderItem}
       T={T}
     />

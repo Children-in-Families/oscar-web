@@ -40,6 +40,7 @@ const CallForms = props => {
   } = props
 
   const [loading, setLoading] = useState(false)
+  const [duplicateLoading, setDuplicateLoading] = useState(false)
   const [onSave, setOnSave] = useState(false)
   const [dupClientModalOpen, setDupClientModalOpen]     = useState(false)
   const [dupFields, setDupFields]     = useState([])
@@ -224,14 +225,14 @@ const CallForms = props => {
           type: 'GET',
           url: '/api/clients/compare',
           data: data,
-          beforeSend: () => { setLoading(true) }
+          beforeSend: () => { setDuplicateLoading(true) }
         }).success(response => {
           if(response.similar_fields.length > 0) {
             setDupFields(response.similar_fields)
             setDupClientModalOpen(true)
           } else
             callback()
-          setLoading(false)
+          setDuplicateLoading(false)
         })
       } else
         callback()
@@ -277,7 +278,7 @@ const CallForms = props => {
             window.open(`${url}?notice=${message}`, '_blank')
           })
         }
-        document.location.href = `/calls/${response.call.id}?notice=${message}&local=${local}`
+        document.location.href = `/calls/${response.call.id}?notice=${message}&locale=${local}`
       })
       .fail(error => {
         setLoading(false)
@@ -374,6 +375,7 @@ const CallForms = props => {
   return (
     <div className='containerClass'>
       <Loading loading={loading} text={T.translate("index.wait")}/>
+      <Loading loading={duplicateLoading} text={T.translate("index.duplicate_checker")} />
 
       <Modal
         title={T.translate("index.warning")}
