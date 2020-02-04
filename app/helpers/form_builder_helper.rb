@@ -48,7 +48,13 @@ module FormBuilderHelper
     when 'equal'
       "#{class_name}.id = #{value}"
     when 'not_equal'
-      "#{class_name}.id != #{value} OR #{class_name}.id IS NULL"
+      if class_name == 'program_streams'
+        sql = "#{class_name}.id = #{value} OR #{class_name}.id IS NULL"
+        client_ids = Client.joins(:program_streams).where(sql).distinct.ids
+        "clients.id NOT IN (#{client_ids.join(',')}) OR #{class_name}.id IS NULL"
+      else
+        "#{class_name}.id != #{value} OR #{class_name}.id IS NULL"
+      end
     when 'is_empty'
       "#{class_name}.id IS NULL"
     when 'is_not_empty'

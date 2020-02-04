@@ -444,9 +444,9 @@ module ClientsHelper
     if default_value_param
       object
     elsif rule == 'tracking'
-      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" AND ")).distinct
+      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
     elsif rule == 'active_program_stream'
-      properties_result = object.includes(:program_stream).where(query_string.reject(&:blank?).join(" AND ")).references(:program_streams).distinct
+      properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
     else
       object
     end
