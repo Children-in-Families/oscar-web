@@ -3,7 +3,7 @@ namespace :client_status do
   task correct: :environment do
     ngo_client_ids_hash = Hash.new{|hash, key| hash[key] = Array.new }
     Organization.pluck(:short_name).each do |short_name|
-      next if short_name == 'share'
+      next if short_name == 'shared'
       Organization.switch_to short_name
       exit_ngo_date = "SELECT created_at FROM exit_ngos WHERE exit_ngos.client_id = clients.id AND exit_ngos.deleted_at IS NULL ORDER BY created_at DESC LIMIT 1"
       enter_ngo_date = "SELECT created_at FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL ORDER BY created_at DESC LIMIT 1"
@@ -90,12 +90,19 @@ namespace :client_status do
           puts "#{short_name}: destroyed last accept NGO and changed status client #{client.slug} to Active done!!!"
         end
       end
-
       Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL) = 2").distinct.each do |client|
         if client.enter_ngos.count > client.exit_ngos.count
           next if client.exit_ngos.present? && (client.enter_ngos.last.created_at > client.exit_ngos.last.created_at)
           client.enter_ngos.first.destroy
           puts "#{short_name}: destroyed first accept NGO of client #{client.slug} done!!!"
+        end
+      end
+
+      Client.joins(:enter_ngos, :client_enrollments).where("(SELECT COUNT(*) FROM enter_ngos WHERE enter_ngos.client_id = clients.id AND enter_ngos.deleted_at IS NULL) >= 1 AND clients.status = 'Accepted'").each do |client|
+        if client.enter_ngos.count > client.exit_ngos.count && client.exit_ngos.count.zero? && (client.client_enrollments.present? && client.client_enrollments.where(status: 'Exited').count.zero?)
+          client.status = 'Active'
+          client.save!(validate: false)
+          puts "#{short_name}: Update client accept NGO status to 'Active' of client #{client.slug} done!!!"
         end
       end
 
