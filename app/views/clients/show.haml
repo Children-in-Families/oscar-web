@@ -433,7 +433,7 @@
                     - @client.necessities.each do |necessity|
                       %p
                         %strong.label.label-default
-                          = necessity.content
+                          = t('.basicNecessities.' + necessity.id.to_s)
               - if @client.protection_concerns.any?
                 %tr
                   %td.spacing-first-col
@@ -442,7 +442,7 @@
                     - @client.protection_concerns.each do |concern|
                       %p
                         %strong.label.label-default
-                          = concern.content
+                          = t('.childProtectionConcerns.' + concern.id.to_s)
               - if @client.brief_note_summary.present?
                 %tr
                   %td.spacing-first-col
@@ -472,7 +472,7 @@
                   %tr
                     %th= t('.case_histories')
                     - unless Rails.env.production?
-                      %th Created Date
+                      %th= t('.created_date')
                     %th= t('.date')
                     %th.text-center= t('.detail')
                 %tbody
@@ -507,10 +507,10 @@
               %table.table.table-bordered.table-hover
                 %thead
                   %tr
-                    %th Hotlines
-                    %th Call Type
-                    %th Date of Call
-                    %th.text-center Detail
+                    %th= t('.hotlines')
+                    %th= t('.call_type')
+                    %th= t('.date_of_call')
+                    %th.text-center= t('.detail')
                 %tbody
                   - @client.calls.most_recents.each do |call|
                     %tr
