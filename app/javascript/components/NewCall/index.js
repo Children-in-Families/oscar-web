@@ -35,15 +35,17 @@ const CallForms = props => {
       client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
       currentProvinces, districts, communes, villages, donors, agencies, necessities, protection_concerns, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients, local
     }
   } = props
 
   const [loading, setLoading] = useState(false)
+  const [duplicateLoading, setDuplicateLoading] = useState(false)
   const [onSave, setOnSave] = useState(false)
   const [dupClientModalOpen, setDupClientModalOpen]     = useState(false)
   const [dupFields, setDupFields]     = useState([])
   const [errorFields, setErrorFields] = useState([])
+  const [errorObjects, setErrorObjects] = useState({})
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
   const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids, ...clients }])
@@ -58,7 +60,7 @@ const CallForms = props => {
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
 
-  const adminTabData = { call: callData, users, errorFields, T, step }
+  const adminTabData = { call: callData, users, errorFields, errorObjects, T, step }
 
   const refereeTabData = { errorFields, call: callData, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
   const referralTabData = { call: callData, users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
@@ -223,14 +225,14 @@ const CallForms = props => {
           type: 'GET',
           url: '/api/clients/compare',
           data: data,
-          beforeSend: () => { setLoading(true) }
+          beforeSend: () => { setDuplicateLoading(true) }
         }).success(response => {
           if(response.similar_fields.length > 0) {
             setDupFields(response.similar_fields)
             setDupClientModalOpen(true)
           } else
             callback()
-          setLoading(false)
+          setDuplicateLoading(false)
         })
       } else
         callback()
@@ -276,15 +278,15 @@ const CallForms = props => {
             window.open(`${url}?notice=${message}`, '_blank')
           })
         }
-        document.location.href = `/calls/${response.call.id}?notice=${message}`
+        document.location.href = `/calls/${response.call.id}?notice=${message}&locale=${local}`
       })
       .fail(error => {
         setLoading(false)
         setOnSave(false)
-        const errorFields = JSON.parse(error.responseText)
-        // console.log('errorFields', errorFields)
-        setErrorFields(Object.keys(errorFields))
-        if(errorFields.kid_id)
+        const fieldErrors = JSON.parse(error.responseText)
+        setErrorFields(Object.keys(fieldErrors))
+        setErrorObjects(fieldErrors)
+        if(fieldErrors.kid_id)
           setErrorSteps([3])
       })
     }
@@ -363,8 +365,8 @@ const CallForms = props => {
     return (
       <>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
-          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setCaseActionNotRequiredModalOpen(false), setStep(step + 1))}>I'm Sure</button>
-          <button style={{margin: 5}} className='btn btn-default' onClick={() => setCaseActionNotRequiredModalOpen(false)}>Go Back</button>
+          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setCaseActionNotRequiredModalOpen(false), setStep(step + 1))}>{T.translate("newCall.caseActionNotRequiredModalFooter.iam_sure")}</button>
+          <button style={{margin: 5}} className='btn btn-default' onClick={() => setCaseActionNotRequiredModalOpen(false)}>{T.translate("newCall.caseActionNotRequiredModalFooter.go_back")}</button>
         </div>
       </>
     )
@@ -373,6 +375,7 @@ const CallForms = props => {
   return (
     <div className='containerClass'>
       <Loading loading={loading} text={T.translate("index.wait")}/>
+      <Loading loading={duplicateLoading} text={T.translate("index.duplicate_checker")} />
 
       <Modal
         title={T.translate("index.warning")}
@@ -388,7 +391,7 @@ const CallForms = props => {
         isOpen={caseActionNotRequired}
         type='warning'
         closeAction={() => setCaseActionNotRequiredModalOpen(false)}
-        content="You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection."
+        content={T.translate("newCall.admin.verify_message")}
         footer={ caseActionNotRequiredModalFooter() }
       />
       <Modal

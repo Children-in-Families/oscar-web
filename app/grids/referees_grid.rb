@@ -4,16 +4,16 @@ class RefereesGrid
     Referee.includes(:province, :district, :commune, :village)
   end
   # id name gender adult anonymous phone email province_id district_id commune_id village_id address_type current_address house_number outside outside_address street_number created_at updated_at)
-  filter(:id, :integer)
-  filter(:name)
-  filter(:gender, :enum, select: [['Male', 'male'], ['Female', 'female']])
-  filter(:adult, :enum, select: %w(Yes No))
-  filter(:anonymous, :enum, select: %w(Yes No))
-  filter(:phone)
-  filter(:email)
-  filter(:address_type, :enum, select: :address_types)
-  filter(:outside, :enum, select: %w(Yes No))
-  filter(:created_at, :date, :range => true)
+  filter(:id, :integer, header: -> { I18n.t('datagrid.columns.referees.id') })
+  filter(:name, header: -> { I18n.t('datagrid.columns.referees.name') })
+  filter(:gender, :enum, select: :gender, header: -> { I18n.t('datagrid.columns.referees.gender') })
+  filter(:adult, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.referees.adult') })
+  filter(:anonymous, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.referees.anonymous') })
+  filter(:phone, header: -> { I18n.t('datagrid.columns.referees.phone') })
+  filter(:email, header: -> { I18n.t('datagrid.columns.referees.email') })
+  filter(:address_type, :enum, select: :address_types, header: -> { I18n.t('datagrid.columns.referees.address_type') })
+  filter(:outside, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.referees.outside') })
+  filter(:created_at, :date, :range => true, header: -> { I18n.t('datagrid.columns.referees.created_at') })
 
   dynamic do
     yes_no = { true: 'Yes', false: 'No' }
@@ -54,5 +54,13 @@ class RefereesGrid
     km_types = [["ផ្ទះ", 'home'], ["មុខជំនួញ", 'business'], ["RCI", 'rci'], ["អន្តេវាសិកដ្ឋាន", 'dormitory'], ["ផ្សេងៗ", 'other']]
     en_types = ["Home", "Business", "RCI", "Dormitory", "Other"]
     I18n.locale == :km ? km_types : en_types.map{ |type| [type, type.downcase] }
+  end
+
+  def yes_no
+    [[I18n.t('datagrid.columns.referees.has_dob'), 'Yes'], [I18n.t('datagrid.columns.referees.no_dob'), 'No']]
+  end
+
+  def gender
+    [[I18n.t('datagrid.columns.referees.male'), 'male'], [I18n.t('datagrid.columns.referees.female'), 'female']]
   end
 end

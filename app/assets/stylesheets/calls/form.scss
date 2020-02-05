@@ -1,0 +1,13 @@
+body[id='calls-edit'],
+body[id='calls-update']
+{
+  .i-checks {
+    span.radio {
+      display: inline-block;
+      margin-right: 20px;
+    }
+  }
+  input.time {
+    line-height: inherit;
+  }  
+}

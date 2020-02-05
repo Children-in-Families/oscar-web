@@ -55,6 +55,7 @@
     "referral_more_info": "Client / Referral - More Information",
     "referral_vulnerability": "Client / Referral - Vulnerability Information and Referral Note",
     "wait": "Please wait while we are making a request to server.",
+    "duplicate_checker": "Duplicate Checker Running. Please give us a moment!",
     "cancel": "Cancel",
     "next": "Next",
     "previous": "Previous",
@@ -211,12 +212,6 @@
     "Police": "Police"
   },
   "newCall": {
-    "calls_old": {
-      "no_call": "No call",
-      "create_new_call": "Create New Call",
-      "phone_call_id": "Phone Call ID",
-      "call_type": "Call Type"
-    },
     "address": {
       "outside_address": "Outside Address",
       "provicne": "Province",
@@ -227,6 +222,15 @@
       "house_number": "House Number",
       "address_name": "Address Name",
       "address_type": "Address Type"
+    },
+    "addTaskModal": {
+      "please_input_all_require_field": "Please Input all the required fields",
+      "completion_date": "Completion Date",
+      "task_details": "Task Details",
+      "domain": "Domain",
+      "save": "Save",
+      "cancel": "Cancel",
+      "add_new_tasks": "Add New Tasks"
     },
     "admin": {
       "calltypes": {
@@ -251,7 +255,11 @@
       "go": "Go",
       "go_back": "Go Back",
       "go_to_client": "Go to Client",
-      "please_select_client": "Please select client"
+      "please_select_client": "Please select client",
+      "verify_message": "You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
+      "date_of_call": "Date of Call",
+      "time_call_began": "Time Call Began",
+      "time_call_ended": "Time Call Ended"
     },
     "callAbout": {
       "basicNecessities": {
@@ -296,6 +304,10 @@
       "address": "Address",
       "same_as_client": "Same as Client",
       "outside_cambodia": "Outside Cambodia"
+    },
+    "caseActionNotRequiredModalFooter": {
+      "iam_sure": "I'm Sure",
+      "go_back": "Go Back"
     },
     "clientAddressInfo": {
       "address": "Address",
@@ -342,6 +354,17 @@
       "previous": "Previous",
       "next": "Next",
       "save": "Save"
+    },
+    "noClientAttachedModal": {
+      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
+      "information_provided": "Information Provided",
+      "go_back": "Go Back",
+      "save": "Save"
+    },
+    "providingUpdate": {
+      "please_select_client": "Please select client",
+      "go_back": "Go Back",
+      "go": "Go"
     },
     "refereeInfo": {
       "genderLists": {
@@ -408,7 +431,9 @@
       "concern_is_outside_cambodia": "Concern is outside Cambodia",
       "relevant_contact_phone": "Relevant Contact Phone",
       "relevant_email": "Relevant Email Contact",
-      "locatin_description": "Location Description"
+      "locatin_description": "Location Description",
+      "add_another_client": "Add Another Client",
+      "remove_client": "Remove Client"
     },
     "referralMoreInfo": {
       "client_referral_more_info": "Client / Referral - More Information",
@@ -423,6 +448,117 @@
       "school_name": "School Name",
       "school_grade": "School Grade",
       "main_school_contact": "Main School Contact"
+    }
+  },
+  "callsOld": {
+    "index": {
+      "no_call": "No call",
+      "create_new_call": "Create New Call",
+      "phone_call_id": "Phone Call ID",
+      "call_type": "Call Type"
+    }
+  },
+  "commons": {
+    "listTable": {
+      "index": {
+        "action": "Action",
+        "Address Type": "Address Type",
+        "Adult": "Adult",
+        "Anonymous": "Anonymous",
+        "Answered Call": "Answered Call",
+        "Call Type": "Call Type",
+        "Called Before": "Called Before",
+        "Current Address": "Current Address",
+        "Date Of Call": "Date Of Call",
+        "Email": "Email",
+        "Full Name": "Full Name",
+        "Gender": "Gender",
+        "Name": "Name",
+        "House Number": "House Number",
+        "no_client": "No Client",
+        "Phone": "Phone",
+        "Phone Call Id": "Phone Call Id",
+        "Receiving Staff": "Receiving Staff",
+        "Requested Update": "Requested Update",
+        "Street Number": "Street Number",
+        "Time Call Began": "Time Call Began",
+        "Time Call Ended": "Time Call Ended"
+      }
+    }
+  },
+  "detailCall": {
+    "call": {
+      "about_call": "About Call"
+    },
+    "listClient":{
+      "list_clients": "List Clients"
+    },
+    "referee": {
+      "referee": "Referee"
+    },
+    "index": {
+    }
+  },
+  "editCall": {
+    "index": {
+      "calltypes": {
+        "new_referral_case": "New Referral: Case Action Required",
+        "new_referral_notifier": "New Referral: Case Action NOT Required",
+        "providing_update": "Providing Update",
+        "phone_conseling": "Phone Counselling",
+        "seeking_information": "Seeking Information",
+        "spam_call": "Spam Call",
+        "wrong_number": "Wrong Number"
+      },
+      "message": {
+        "call_has_been_updated": "Call has been successfully updated"
+      },
+      "call_information": "Call Information",
+      "receiving_staff": "Receiving Staff Members",
+      "date_of_call": "Date of Call",
+      "time_call_began": "Time Call Began",
+      "time_call_ended": "Time Call Ended",
+      "call_type": "Call Type",
+      "information_provided": "Information Provided",
+      "cancel": "Cancel",
+      "save": "save"
+    }
+  },
+  "editCallReferee": {
+    "index": {
+      "genderLists": {
+        "female": "Female",
+        "male": "Male",
+        "other": "Other",
+        "unknown": "Unknown"
+      },
+      "answeredCallOpts": {
+        "call_answered": "Answered Call",
+        "return_missed_call": "Returning Missed Call"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "Under 18"
+      },
+      "calledBeforeOpts": {
+        "yes": "Yes",
+        "no": "No"
+      },
+      "anonymous": "Anonymous",
+      "name": "Name",
+      "referee_has_been_updated": "Referee has been successfully updated",
+      "caller_info": "Caller Information",
+      "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
+      "have_you_called": "Have you called the Childsafe Hotline Before?",
+      "anonymous_referee": "Anonymous Referee",
+      "gender": "Gender",
+      "are_you_over_18": "Are you over 18 years old?",
+      "referee_phone": "Referee Phone Number",
+      "referee_email": "Referee Email Address",
+      "address": "Address",
+      "outside_cambodia": "Outside Cambodia",
+      "cancel": "Cancel",
+      "save": "save"
     }
   }
 }

@@ -33,6 +33,7 @@ const styles = {
     borderColor: 'red'
   },
   box: {
-    boxShadow: 'none'
+    boxShadow: 'none',
+    lineHeight: 'inherit'
   }
 }

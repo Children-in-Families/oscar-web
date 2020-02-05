@@ -105,17 +105,6 @@ en:
       blank: can't be blank
     errors:
       models:
-        call:
-          attributes:
-            receiving_staff_id:
-              blank: can't be blank
-            start_datetime:
-              blank: can't be blank
-            end_datetime:
-              blank: can't be blank
-            call_type:
-              blank: can't be blank
-              inclusion: is not included in the list
         able_screening_question:
           attributes:
             mode:
@@ -136,6 +125,19 @@ en:
               taken: has already been taken
         assessment_domain:
           blank: can't be blank
+        call:
+          attributes:
+            receiving_staff_id:
+              blank: can't be blank
+            start_datetime:
+              blank: can't be blank
+            end_datetime:
+              blank: can't be blank
+            call_type:
+              blank: can't be blank
+              inclusion: is not included in the list
+            information_provided:
+              blank: can't be blank
         case:
           attributes:
             exit_date:
@@ -636,6 +638,21 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    edit:
+      edit_call: Edit Call
+      referee_answered_call: Did the referee answer this call or return a missed call?
+      answered_call: Answered Call
+      returning_missed_called: Returning Missed Call
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      yes: "Yes"
+      no: "No"
+      receiving_staff: Receiving Staff
+      date_of_call: Date of Call
+      time_call_began: Time Call Began
+      time_call_ended: Time Call Ended
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      information_provided: Information Provided
+      add_note_about_the_content: Add a note about the content of your conversation with the caller.
     answered_call: Answer Call
     call_type: Call types
     called_before: Called Before
@@ -1033,6 +1050,18 @@ en:
       custom_assessment: Custom Assessment
     by: By
     call: Call
+    calls:
+      answered_call: Answer Call
+      call_type: Call Type
+      called_before: Called Before
+      date_of_call: Date of Call
+      end_datetime: Date Call Ended
+      information_provided: Information Provided
+      phone_call_id: Phone Call ID
+      receiving_staff_id: Receiving Staff
+      referee_id: Referee
+      requested_update: Requested Update
+      start_datetime: Date Call Began
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
@@ -1053,7 +1082,7 @@ en:
       tracking: Tracking
     for: For
     hotline:
-      end_datetime:
+      end_datetime: End Date Time
       received_by: Received Call by
       start_datetime: Time Call Began
     incomplete: Incomplete
@@ -1709,13 +1738,16 @@ en:
       agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
+      basic_necessities: Basic Necessities
       birth_province: Client Birth Province
       book: Client book
+      brief_note_summary: Brief Note Summarising the Call
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      child_protection_concerns: Child Protection Concerns
       client_able_answers: Client Able Answers
       code: Custom ID Number1
       commune: Commune/Sangkat
@@ -1778,6 +1810,7 @@ en:
       nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
+      phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: Carer Address
         carer_names: Carer Names
@@ -2110,12 +2143,18 @@ en:
         called_before: Called Before
         end_datetime: Date Call Ended
         end_time: Time Call Ended
+        has_dob: 'Yes'
         hotline_call: Hotline Call
+        id: ID
         information_provided: Information provided
         manage: Manage
+        no_dob: 'Yes'
+        phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
+        referee_id: Referee
+        receiving_staff_id: Receiving staff
         requested_update: Requested Update
         start_datetime: Date Call Began
         start_time: Time Call Began
@@ -2442,10 +2481,14 @@ en:
         current_address: Current Address
         district_id: District
         email: Email
+        female: Female
         gender: Gender
+        has_dob: 'Yes'
         house_number: House Number
         id: ID
+        male: Male
         name: Name
+        no_dob: 'No'
         outside: Outside Cambodia
         outside_address: Outside Address
         phone: Phone

@@ -34,7 +34,7 @@ export default props => {
           <SelectInput
             required
             T={T}
-            label={T.translate("newCall.admin.please_select_client")}
+            label={T.translate("newCall.providingUpdate.please_select_client")}
             options={providingUpdateClients}
             value={
               (callData.client_ids.length > 0 && callData.client_ids[0]) ||
@@ -44,8 +44,8 @@ export default props => {
           />
         </div>
         <div className="col-xs-12 text-right">
-          <button className="btn btn-default" onClick={closeAction}>{T.translate("newCall.admin.go_back")}</button>
-          <button style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>{T.translate("newCall.admin.go")}</button>
+          <button className="btn btn-default" onClick={closeAction}>{T.translate("newCall.providingUpdate.go_back")}</button>
+          <button style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>{T.translate("newCall.providingUpdate.go")}</button>
         </div>
       </div>
     </>

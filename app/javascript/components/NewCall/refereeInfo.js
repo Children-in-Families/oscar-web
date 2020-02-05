@@ -132,7 +132,7 @@ export default props => {
       return (
         <SelectInput
           T={T}
-          label="Name"
+          label={T.translate("newCall.refereeInfo.name")}
           required
           isDisabled={referee.anonymous}
           options={refereeLists()}
@@ -149,7 +149,7 @@ export default props => {
           disabled={referee.anonymous}
           isError={errorFields.includes("name")}
           value={referee.name}
-          label="Name"
+          label={T.translate("newCall.refereeInfo.name")}
           onChange={(value) => { onChange('referee', 'name')(value) }}
         />
       )
@@ -158,7 +158,7 @@ export default props => {
 
   return (
     <div className="containerClass">
-      <TaskModal data={{referee, clientTask, call}} onChange={onChange} />
+      <TaskModal data={{referee, clientTask, call, T}} onChange={onChange} />
 
       <legend>
         <div className="row">

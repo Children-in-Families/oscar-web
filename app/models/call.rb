@@ -21,12 +21,26 @@ class Call < ActiveRecord::Base
   validates :call_type, presence: true, inclusion: { in: TYPES }
   validates :information_provided, presence: true, if: :seeking_information?
 
+  validate :end_call_after_start_call
+
   def seeking_information?
-    call_type === "Seeking Information"
+    call_type == "Seeking Information"
   end
 
   def case_action_not_required?
     call_type == "New Referral: Case Action NOT Required"
+  end
+
+  def spam?
+    call_type == "Spam Call"
+  end
+
+  def wrong_number?
+    call_type == "Wrong Number"
+  end
+
+  def no_client_attached?
+    seeking_information? || spam? || wrong_number?
   end
 
   private
@@ -36,5 +50,12 @@ class Call < ActiveRecord::Base
     date    = self.date_of_call.strftime('%Y%m%d')
     call_id = "#{date}-#{id}"
     self.update_columns(phone_call_id: call_id)
+  end
+
+  def end_call_after_start_call
+    return if start_datetime.blank? || end_datetime.blank?
+    if end_datetime < start_datetime
+      errors.add(:end_datetime, "must be after time call began")
+    end
   end
 end

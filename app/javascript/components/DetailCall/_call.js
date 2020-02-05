@@ -1,8 +1,8 @@
 import React from 'react'
-import { formatDate, formatTime, titleize } from './helper'
+import { formatDate, titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data}) => {
+export default ({data, T, local}) => {
   const hiddenFields =
     data.call_type === "Seeking Information" || data.call_type === "Spam Call" || data.call_type === "Wrong Number"
       ? "created_at|updated_at|referee_id|^id$"
@@ -12,7 +12,7 @@ export default ({data}) => {
     return (
       <tr key={`${key}`}>
         <td className="spacing-first-col">
-          {titleize(formatKey(key))}
+          { T.translate("commons.listTable.index."+titleize(formatKey(key))) }
         </td>
         <td>
           <strong>{formatLabel(obj, key)}</strong>
@@ -25,12 +25,6 @@ export default ({data}) => {
     switch (key) {
       case 'date_of_call':
         return formatDate(obj[key])
-      
-      case 'start_datetime':
-        return formatTime(obj[key])
-
-      case 'end_datetime':
-        return formatTime(obj[key])
 
       case 'answered_call':
       case 'called_before':
@@ -57,11 +51,12 @@ export default ({data}) => {
 
 
   return (
-    <HorizontalTable 
-      title="About Call"
+    <HorizontalTable
+      title={T.translate("detailCall.call.about_call")}
       data={data}
-      linkHeader={`/calls/${data.id}/edit`}
+      linkHeader={`/calls/${data.id}/edit?locale=${local}`}
       renderItem={renderItem}
+      T={T}
       rejectField={ hiddenFields }
     />
   )

@@ -8,10 +8,8 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { users, call, errorFields, T, step } } = props
+  const { onChange, data: { users, call, errorFields, errorObjects, T, step } } = props
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
-  // const callTypes = ['case_action_required', 'notifier_concern', 'providing_update',
-  //                   'phone_counseling', 'seeking_information', 'spam_call', 'wrong_number'];
 
   const callTypes = [
     { label: T.translate("newCall.admin.calltypes.new_referral_case"), value: "New Referral: Case Action Required" },
@@ -55,12 +53,21 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <DateInput
+          {/* <DateInput
             T={T}
             required
             isError={errorFields.includes('date_of_call')}
             getCurrentDate
-            label="Date of Call"
+            label={T.translate("newCall.admin.date_of_call")}
+            onChange={onChange('call', 'date_of_call')}
+            value={call.date_of_call}
+          /> */}
+          <TextInput
+            T={T}
+            type="date"
+            required
+            isError={errorFields.includes('date_of_call')}
+            label={T.translate("newCall.admin.date_of_call")}
             onChange={onChange('call', 'date_of_call')}
             value={call.date_of_call}
           />
@@ -69,10 +76,19 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <DateTimePicker
+          {/* <DateTimePicker
             T={T}
             isError={errorFields.includes('start_datetime')}
             label="Time Call Began"
+            required={true}
+            onChange={onChange('call', 'start_datetime')}
+            value={call.start_datetime}
+          /> */}
+          <TextInput
+            type="time"
+            T={T}
+            isError={errorFields.includes('start_datetime')}
+            label={T.translate("newCall.admin.time_call_began")}
             required={true}
             onChange={onChange('call', 'start_datetime')}
             value={call.start_datetime}
@@ -82,12 +98,27 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <DateTimePicker
+          {/* <DateTimePicker
             T={T}
             isError={errorFields.includes('end_datetime')}
-            label="Time Call Ended"
+            label={T.translate("newCall.admin.time_call_ended")}
             required={true}
             onChange={onChange('call', 'end_datetime')}
+            value={call.end_datetime}
+          /> */}
+          <TextInput
+            type="time"
+            T={T}
+            isError={errorFields.includes("end_datetime")}
+            errorText={
+              errorFields.includes("end_datetime") &&
+              errorObjects["end_datetime"]
+                ? errorObjects["end_datetime"][0]
+                : ''
+            }
+            label={T.translate("newCall.admin.time_call_ended")}
+            required={true}
+            onChange={onChange("call", "end_datetime")}
             value={call.end_datetime}
           />
         </div>

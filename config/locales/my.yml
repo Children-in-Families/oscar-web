@@ -123,6 +123,19 @@ my:
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         assessment_domain:
           blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        call:
+          attributes:
+            receiving_staff_id:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            start_datetime:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            end_datetime:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            call_type:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              inclusion: အဆိုပါစာရင်းထဲတွင်မပါဝင်တာဖြစ်ပါတယ်
+            information_provided:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         case:
           attributes:
             exit_date:
@@ -619,10 +632,34 @@ my:
     index:
       sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
   calls:
+    answered_call: Answer Call
+    call_type: Call types
+    called_before: Called Before
+    end_datetime: Date Call Ended
+    end_time: Time Call Ended
+    hotline: Hotline
+    edit:
+      edit_call: Edit Call
+      referee_answered_call: Did the referee answer this call or return a missed call?
+      answered_call: Answered Call
+      returning_missed_called: Returning Missed Call
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      yes: "Yes"
+      no: "No"
+      receiving_staff: Receiving Staff
+      date_of_call: Date of Call
+      time_call_began: Time Call Began
+      time_call_ended: Time Call Ended
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      information_provided: Information Provided
+      add_note_about_the_content: Add a note about the content of your conversation with the caller.
     index:
       add_new_call: Add New Call
+      export_xls: Export to XLS
       hotline: Hotline
-      phone_call_id: Phone Call ID
+      results: Results
+      report_builder: Report Builder
+    information_provided: Information provided
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -631,6 +668,11 @@ my:
       seeking_information: "Seeking Information"
       spam_call: "Spam Call"
       wrong_number: "Wrong Number"
+    phone_call_id: Phone call ID
+    phone_type: Phone type
+    requested_update: Requested Update
+    start_datetime: Date Call Began
+    start_time: Time Call Began
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
@@ -1003,6 +1045,19 @@ my:
       assessment: CSI စိစစ္အကဲျဖတ္မႈမ်ား
       custom_assessment: ထုံးစံအကဲဖြတ်
     by: အားဖြင့်
+    call: Call
+    calls:
+      answered_call: Answer Call
+      call_type: Call Type
+      called_before: Called Before
+      date_of_call: Date of Call
+      end_datetime: Date Call Ended
+      information_provided: Information Provided
+      phone_call_id: Phone Call ID
+      receiving_staff_id: Receiving Staff
+      referee_id: Referee
+      requested_update: Requested Update
+      start_datetime: Date Call Began
     case_histories:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
@@ -1022,6 +1077,10 @@ my:
     enrolled_program_trackings:
       tracking: ေနာက္ေၾကာင္းမ်ား
     for: အဘို့
+    hotline:
+      end_datetime: End Date Time
+      received_by: Received Call by
+      start_datetime: Start Date Time
     incomplete: မစုံလင်သော
     index:
       book: ဖောက်သည် စာအုပ်
@@ -1224,7 +1283,7 @@ my:
       close: ပိတ်
       export_to_xls: XLS အျဖစ္ ထုတ္ရန္
     book:
-      book:
+      book: Client Book
     case_history_detail:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       client: ကေလးနာမည္
@@ -1668,13 +1727,16 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_names: ေအဂ်င္စီနာမည္
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      basic_necessities: Basic Necessities
       birth_province: ေမြးရာ ခ႐ိုင္
       book: ဖောက်သည် စာအုပ်
+      brief_note_summary: Brief Note Summarising the Call
       cambodia: ကေမာၻဒီးယား
       case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      child_protection_concerns: Child Protection Concerns
       client_able_answers: အမႈသည္ Able အေျဖမ်ား
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
@@ -1729,12 +1791,15 @@ my:
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
       local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
+      concern_location: Location Of Concern
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       manage: စီမံခန့်ခွဲ
       name: နာမည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      nickname: Nickname
       note: မွတ္စု
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
         carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား
@@ -2045,6 +2110,27 @@ my:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
+      calls:
+        answered_call: Answer Call
+        call_type: Call types
+        called_before: Called Before
+        end_datetime: Date Call Ended
+        end_time: Time Call Ended
+        has_dob: 'Yes'
+        hotline_call: Hotline Call
+        id: ID
+        information_provided: Information provided
+        manage: Manage
+        no_dob: 'Yes'
+        phone_call: Phone Call
+        phone_call_id: Phone call ID
+        phone_counselling_summary: Phone counselling summary
+        phone_type: Phone type
+        referee_id: Referee
+        receiving_staff_id: Receiving staff
+        requested_update: Requested Update
+        start_datetime: Date Call Began
+        start_time: Time Call Began
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
@@ -2185,6 +2271,33 @@ my:
         referee_phone: Referee Phone
         referee_email: Referee Email
         referee_relationship_to_client: Referee Relationship to client
+        referees:
+          address_type: Address Type
+          adult: Adult
+          anonymous: Anonymous
+          answered_call: Answered Call
+          called_before: Called Before
+          commune_id: Commune
+          created_at: Created At
+          current_address: Current Address
+          district_id: District
+          email: Email
+          female: Female
+          gender: Gender
+          has_dob: 'Yes'
+          house_number: House Number
+          id: ID
+          male: Male
+          name: Name
+          no_dob: 'No'
+          outside: Outside Cambodia
+          outside_address: Outside Address
+          phone: Phone
+          province_id: Province
+          requested_update: Requested Update
+          street_number: Street Number
+          updated_at: Updated At
+          village_id: Village
         client_contact_phone: Client Contact Phone
         address_type: Client Address Type
         client_email: Client Email
@@ -2323,6 +2436,37 @@ my:
         visit_date: လာေရာက္ေတြ႕ဆံုသည့္ ရက္စြဲ
       rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       reason_for_family_separation: မိသားစုကြဲရျခင္း၏ အေၾကာင္းရင္း
+      referee_name: Referee Name
+      referee_phone: Referee Phone
+      referee_email: Referee Email
+      referee_relationship_to_client: Referee Relationship to client
+      referees:
+        address_type: Address Type
+        adult: Adult
+        anonymous: Anonymous
+        answered_call: Answered Call
+        called_before: Called Before
+        commune_id: Commune
+        created_at: Created At
+        current_address: Current Address
+        district_id: District
+        email: Email
+        female: Female
+        gender: Gender
+        has_dob: 'Yes'
+        house_number: House Number
+        id: ID
+        male: Male
+        name: Name
+        no_dob: 'No'
+        outside: Outside Cambodia
+        outside_address: Outside Address
+        phone: Phone
+        province_id: Province
+        requested_update: Requested Update
+        street_number: Street Number
+        updated_at: Updated At
+        village_id: Village
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       select_columns: ေကာ္လံကို ေရြးခ်ယ္ပါ
       show_all: အားလံုးကို ျပပါ
@@ -3778,6 +3922,7 @@ my:
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
       account: အေကာင့္
       agencies: ေအဂ်င္စီမ်ား
+      caller_referees: Caller / Referees
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
       calls: Calls
       clients: အမႈဥည္မ်ား

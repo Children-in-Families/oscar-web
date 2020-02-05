@@ -19,22 +19,24 @@ export default props => {
     }
   } = props;
 
-  let T = setDefaultLanguage()
+  var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
+
+  let T = setDefaultLanguage(url)
 
   const [errorFields, setErrorFields] = useState([])
   const [refereeData, setRefereeData] = useState(referee)
   const [loading, setLoading] = useState(false)
 
   const genderLists = [
-    { label: T.translate("newCall.refereeInfo.genderLists.female"), value: "female" },
-    { label: T.translate("newCall.refereeInfo.genderLists.male"), value: "male" },
-    { label: T.translate("newCall.refereeInfo.genderLists.other"), value: "other" },
-    { label: T.translate("newCall.refereeInfo.genderLists.unknown"), value: "unknown" }
+    { label: T.translate("editCallReferee.index.genderLists.female"), value: "female" },
+    { label: T.translate("editCallReferee.index.genderLists.male"), value: "male" },
+    { label: T.translate("editCallReferee.index.genderLists.other"), value: "other" },
+    { label: T.translate("editCallReferee.index.genderLists.unknown"), value: "unknown" }
   ];
 
   const ageOpts = [
-    { label: T.translate("newCall.refereeInfo.ageOpts.18_plus"), value: true },
-    { label: T.translate("newCall.refereeInfo.ageOpts.under_18"), value: false }
+    { label: T.translate("editCallReferee.index.ageOpts.18_plus"), value: true },
+    { label: T.translate("editCallReferee.index.ageOpts.under_18"), value: false }
   ];
 
   const refereeLists = () => {
@@ -48,7 +50,7 @@ export default props => {
       const fields = {
         anonymous: true,
         outside: false,
-        name: T.translate("newCall.refereeInfo.anonymous"),
+        name: T.translate("editCallReferee.index.anonymous"),
         phone: "",
         email: "",
         gender: "",
@@ -131,8 +133,8 @@ export default props => {
         }
       })
       .success(response => {
-        const message = T.translate("newCall.index.message.referee_has_been_updated")
-        document.location.href = `/calls/${response.call.id}?notice=${message}`
+        const message = T.translate("editCallReferee.index.referee_has_been_updated")
+        document.location.href = `/calls/${response.call.id}?notice=${message}&locale=${url}`
       })
       .error(err => {
         console.log("err: ", err);
@@ -143,7 +145,7 @@ export default props => {
   const handleValidation = () => {
     const validationFields = ['name']
     const errors = []
-    
+
     validationFields.forEach(field => {
       if(refereeData[field].length <= 0 || refereeData[field] === null) {
         errors.push(field)
@@ -162,7 +164,7 @@ export default props => {
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'datetime']
     const value = inputType.includes(event.type) ? event.data : event.target.value
-    
+
     if (typeof field !== 'object')
       field = { [field]: value }
 
@@ -179,7 +181,7 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6">
-            <p>{T.translate("newCall.refereeInfo.caller_info")}</p>
+            <p>{T.translate("editCallReferee.index.caller_info")}</p>
           </div>
         </div>
       </legend>
@@ -187,7 +189,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-md-3">
           <Checkbox
-            label={T.translate("newCall.refereeInfo.anonymous_referee")}
+            label={T.translate("editCallReferee.index.anonymous_referee")}
             checked={refereeData.anonymous || false}
             onChange={onChange("referee", "anonymous")}
           />
@@ -205,14 +207,14 @@ export default props => {
             disabled={refereeData.anonymous}
             isError={errorFields.includes("name")}
             value={refereeData.name}
-            label="Name"
+            label={T.translate("editCallReferee.index.name")}
             onChange={(value) => { onChange('referee', 'name')(value) }}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             T={T}
-            label={T.translate("newCall.refereeInfo.gender")}
+            label={T.translate("editCallReferee.index.gender")}
             isDisabled={refereeData.anonymous}
             options={genderLists}
             onChange={onChange("referee", "gender")}
@@ -222,7 +224,7 @@ export default props => {
         <div className="col-xs-12 col-md-6">
           <RadioGroup
             inline
-            label={T.translate("newCall.refereeInfo.are_you_over_18")}
+            label={T.translate("editCallReferee.index.are_you_over_18")}
             isDisabled={refereeData.anonymous}
             options={ageOpts}
             onChange={onChange("referee", "adult")}
@@ -230,12 +232,13 @@ export default props => {
           />
         </div>
       </div>
-      
+
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
             label={T.translate("newCall.refereeInfo.referee_phone")}
+            type="number"
             disabled={refereeData.anonymous}
             onChange={onChange("referee", "phone")}
             value={refereeData.phone}
@@ -244,7 +247,7 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             T={T}
-            label={T.translate("newCall.refereeInfo.referee_email")}
+            label={T.translate("editCallReferee.index.referee_email")}
             disabled={refereeData.anonymous}
             onChange={onChange("referee", "email")}
             value={refereeData.email}
@@ -255,12 +258,12 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>{T.translate("newCall.refereeInfo.address")}</p>
+            <p>{T.translate("editCallReferee.index.address")}</p>
           </div>
           {!refereeData.anonymous && (
             <div className="col-xs-12 col-md-6 col-lg-3">
               <Checkbox
-                label={T.translate("newCall.refereeInfo.outside_cambodia")}
+                label={T.translate("editCallReferee.index.outside_cambodia")}
                 checked={refereeData.outside || false}
                 onChange={onChange("referee", "outside")}
               />
@@ -287,8 +290,8 @@ export default props => {
 
       <div className='row'>
         <div className='col-sm-12 text-right'>
-          <span className='btn btn-success form-btn' onClick={handleSave}>{T.translate("newCall.index.save")}</span>
-          <span className='btn btn-default form-btn' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
+          <span className='btn btn-success form-btn' onClick={handleSave}>{T.translate("editCallReferee.index.save")}</span>
+          <span className='btn btn-default form-btn' onClick={handleCancel}>{T.translate("editCallReferee.index.cancel")}</span>
         </div>
       </div>
     </div>

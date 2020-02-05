@@ -2,7 +2,7 @@ import React from 'react'
 import { titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data, call}) => {
+export default ({data, call, T, local}) => {
 
   const formatObjVal = (field, value) => {
     const boolFields = ['outside', 'anonymous', 'adult']
@@ -20,7 +20,7 @@ export default ({data, call}) => {
     return (
       <tr key={`${key}`}>
         <td className="spacing-first-col">
-          {titleize(key)}
+          { T.translate("commons.listTable.index."+titleize(key)) }
         </td>
         <td>
           { formatObjVal(key, obj[key]) }
@@ -31,10 +31,11 @@ export default ({data, call}) => {
 
   return (
     <HorizontalTable
-      title="Referee"
+      title={T.translate("detailCall.referee.referee")}
       data={data}
-      linkHeader={`/calls/${call.id}/edit/referee`}
+      linkHeader={`/calls/${call.id}/edit/referee?locale=${local}`}
       renderItem={renderItem}
+      T={T}
     />
   )
 }
