@@ -63,6 +63,43 @@ export default props => {
     )
     .map(source => ({ label: source.name, value: source.id }));
 
+  const [districts, setDistricts]         = useState(refereeDistricts)
+  const [communes, setCommunes]           = useState(refereeCommunes)
+  const [villages, setVillages]           = useState(refereeVillages)
+
+  const onCheckCalledBefore = data => {
+    const calledBefore = data.data
+    const callField = { called_before: calledBefore }
+    onChange("call", { ...callField })({ type: "radio" });
+
+    if(!calledBefore && referee.id !== null) {
+      setDistricts([])
+      setCommunes([])
+      setVillages([])
+
+      const refereeFields = {
+        id: null,
+        outside: false,
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        village_id: null,
+        name: '',
+        gender: '',
+        adult: null,
+        phone: '',
+        email: '',
+        street_number: '',
+        house_number: '',
+        current_address: '',
+        address_type: '',
+        outside_address: ''
+      }
+
+      onChange('referee', { ...refereeFields })({type: 'select'})
+    }
+  }
+
   useEffect(() => {
     if (referee.anonymous) {
       const fields = {
@@ -190,7 +227,7 @@ export default props => {
             isError={errorFields.includes("called_before")}
             label={T.translate("newCall.refereeInfo.have_you_called")}
             options={calledBeforeOpts}
-            onChange={onChange("call", "called_before")}
+            onChange={onCheckCalledBefore}
             value={call.called_before}
           />
         </div>
