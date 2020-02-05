@@ -2,7 +2,7 @@ import React from 'react'
 import { titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data, call, T, local}) => {
+export default ({ data, call, T, locale}) => {
 
   const formatObjVal = (field, value) => {
     const boolFields = ['outside', 'anonymous', 'adult']
@@ -33,7 +33,7 @@ export default ({data, call, T, local}) => {
     <HorizontalTable
       title={T.translate("detailCall.referee.referee")}
       data={data}
-      linkHeader={`/calls/${call.id}/edit/referee?locale=${local}`}
+      linkHeader={`/calls/${call.id}/edit/referee?locale=${locale}`}
       renderItem={renderItem}
       T={T}
     />

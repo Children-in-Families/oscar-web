@@ -127,6 +127,8 @@ en:
           blank: can't be blank
         call:
           attributes:
+            answered_call:
+              inclusion: is not included in the list
             receiving_staff_id:
               blank: can't be blank
             start_datetime:
@@ -135,6 +137,8 @@ en:
               blank: can't be blank
             call_type:
               blank: can't be blank
+              inclusion: is not included in the list
+            called_before:
               inclusion: is not included in the list
             information_provided:
               blank: can't be blank
@@ -642,10 +646,10 @@ en:
       edit_call: Edit Call
       referee_answered_call: Did the referee answer this call or return a missed call?
       answered_call: Answered Call
-      returning_missed_called: Returning Missed Call
+      returning_missed_call: Returning Missed Call
       referee_called_before: Has the referee called the Childsafe Hotline Before?
-      yes: "Yes"
-      no: "No"
+      'yes': "Yes"
+      'no': "No"
       receiving_staff: Receiving Staff
       date_of_call: Date of Call
       time_call_began: Time Call Began
@@ -2148,7 +2152,7 @@ en:
         id: ID
         information_provided: Information provided
         manage: Manage
-        no_dob: 'Yes'
+        no_dob: 'No'
         phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary

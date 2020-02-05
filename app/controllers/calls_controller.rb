@@ -34,6 +34,7 @@ class CallsController < AdminController
     @call = Call.find(params[:id])
     @referee = @call.referee
     @clients = @call.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
+    @locale = params[:locale]
   end
 
   def edit

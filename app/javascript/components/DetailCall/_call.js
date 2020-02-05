@@ -2,7 +2,7 @@ import React from 'react'
 import { formatDate, titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data, T, local}) => {
+export default ({data, T, locale}) => {
   const hiddenFields =
     data.call_type === "Seeking Information" || data.call_type === "Spam Call" || data.call_type === "Wrong Number"
       ? "created_at|updated_at|referee_id|^id$"
@@ -54,7 +54,7 @@ export default ({data, T, local}) => {
     <HorizontalTable
       title={T.translate("detailCall.call.about_call")}
       data={data}
-      linkHeader={`/calls/${data.id}/edit?locale=${local}`}
+      linkHeader={`/calls/${data.id}/edit?locale=${locale}`}
       renderItem={renderItem}
       T={T}
       rejectField={ hiddenFields }

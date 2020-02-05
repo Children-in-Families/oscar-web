@@ -4,17 +4,16 @@ import Referee from './_referee'
 import Call from './_call'
 import ListClient from './_list-client'
 
-export default ({data: {call, referee, clients, hidden}}) => {
-  var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
+export default ({data: {call, referee, clients, hidden, locale}}) => {
 
-  let T = setDefaultLanguage(url)
+  let T = setDefaultLanguage(locale)
 
   return (
     <div className='row'>
       <div className='col-sm-12 col-md-6'>
         <Call
           data={call}
-          local={url}
+          locale={locale}
           T={T}
         />
       </div>
@@ -22,7 +21,7 @@ export default ({data: {call, referee, clients, hidden}}) => {
         <Referee
           data={referee}
           call={call}
-          local={url}
+          locale={locale}
           T={T}
         />
       </div>
@@ -30,7 +29,7 @@ export default ({data: {call, referee, clients, hidden}}) => {
         <ListClient
           columns={['full_name', 'gender']}
           data={clients}
-          local={url}
+          locale={locale}
           T={T}
         />
       </div>

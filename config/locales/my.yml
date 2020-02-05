@@ -125,6 +125,8 @@ my:
           blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         call:
           attributes:
+            answered_call:
+              inclusion: is not included in the list
             receiving_staff_id:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
             start_datetime:
@@ -134,6 +136,8 @@ my:
             call_type:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               inclusion: အဆိုပါစာရင်းထဲတွင်မပါဝင်တာဖြစ်ပါတယ်
+            called_before:
+              inclusion: មិនមាននៅក្នុងបញ្ជី
             information_provided:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         case:
@@ -642,10 +646,10 @@ my:
       edit_call: Edit Call
       referee_answered_call: Did the referee answer this call or return a missed call?
       answered_call: Answered Call
-      returning_missed_called: Returning Missed Call
+      returning_missed_call: Returning Missed Call
       referee_called_before: Has the referee called the Childsafe Hotline Before?
-      yes: "Yes"
-      no: "No"
+      'yes': "Yes"
+      'no': "No"
       receiving_staff: Receiving Staff
       date_of_call: Date of Call
       time_call_began: Time Call Began
