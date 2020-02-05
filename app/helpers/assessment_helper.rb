@@ -138,7 +138,7 @@ module AssessmentHelper
         mapping_assessment_query_rules(h, field_name=nil, data_mapping)
       end
       if field_name.nil?
-       next if !(h[:id] =~ /^(domainscore|assessment_completed|assessment_number|month_number|date_nearest)/i)
+       next if !(h[:id] =~ /^(domainscore|assessment_completed|assessment_completed_date|assessment_number|month_number|date_nearest)/i)
       else
        next if h[:id] != field_name
       end
@@ -156,8 +156,8 @@ module AssessmentHelper
         value = h[:value] == 0 ? 1 : h[:value]
         value = value.try(:to_i).present? ? h[:value] : 1
 
-        if h[:field] == 'assessment_completed'
-          date_of_assessments_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
+        if h[:field][/assessment_completed|assessment_completed_date/]
+          date_of_completed_assessments_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
         elsif h[:field] == identity && ['assessment_has_changed', 'assessment_has_not_changed', 'month_has_changed', 'month_has_not_changed'].exclude?(h[:operator])
           assessment_score_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], domain_id)
         elsif h[:field] == 'assessment_number'
@@ -217,6 +217,29 @@ module AssessmentHelper
       "assessments.created_at IS NULL"
     when 'is_not_empty'
       "assessments.created_at IS NOT NULL"
+    end
+  end
+
+  def date_of_completed_assessments_query_string(id, field, operator, value, type, input_type)
+    case operator
+    when 'equal'
+      "assessments.completed = true AND date(assessments.created_at) = #{value.to_date}"
+    when 'not_equal'
+      "assessments.completed = true AND date(assessments.created_at) != #{value.to_date} OR assessments.created_at IS NULL"
+    when 'less'
+      "assessments.completed = true AND date(assessments.created_at) < #{value.to_date}"
+    when 'less_or_equal'
+      "assessments.completed = true AND date(assessments.created_at) <= #{value.to_date}"
+    when 'greater'
+      "assessments.completed = true AND date(assessments.created_at) > #{value.to_date}"
+    when 'greater_or_equal'
+      "assessments.completed = true AND date(assessments.created_at) >= #{value.to_date}"
+    when 'between'
+      "assessments.completed = true AND (date(assessments.created_at) BETWEEN '#{value[0].to_date}' AND '#{value[1].to_date}')"
+    when 'is_empty'
+      "assessments.completed = true AND assessments.created_at IS NULL"
+    when 'is_not_empty'
+      "assessments.completed = true AND assessments.created_at IS NOT NULL"
     end
   end
 

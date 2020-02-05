@@ -331,6 +331,7 @@ en:
       agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
+      assessment_completed_date: Assessment Completed Date
       assessment_number: Assessment#
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -2051,6 +2052,7 @@ en:
         all_csi_assessments: All CSI Assessments
         all_custom_csi_assessments: All Custom Assessments
         any_assessments: Has Assessments
+        assessment_completed_date: Assessment Completed Date
         assessments: Assessments
         assessments_due_to: Assessments Due To
         birth_province: Client Birth Province

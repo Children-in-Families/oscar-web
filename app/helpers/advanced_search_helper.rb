@@ -141,6 +141,7 @@ module AdvancedSearchHelper
       time_in_cps: I18n.t('advanced_search.fields.time_in_cps'),
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
       assessment_number: I18n.t('advanced_search.fields.assessment_number'),
+      assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date'),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
