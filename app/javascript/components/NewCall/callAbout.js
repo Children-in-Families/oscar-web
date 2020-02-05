@@ -7,8 +7,8 @@ import {
 export default props => {
   const { onChange, data: { clients, T, necessities, protection_concerns } } = props
   const client = clients[0]
-  const basicNecessities = necessities.map(necessity => ({ label: necessity.content, value: necessity.id }))
-  const childProtectionConcerns = protection_concerns.map(concern => ({ label: concern.content, value: concern.id }))
+  const basicNecessities = necessities.map(necessity => ({ label: T.translate("newCall.callAbout.basicNecessities." + necessity.id), value: necessity.id }))
+  const childProtectionConcerns = protection_concerns.map(concern => ({ label: T.translate("newCall.callAbout.childProtectionConcerns." + concern.id), value: concern.id }))
 
   const handleOnChangeText = name => event => modifyClientObject({ [name]: event.target.value })
   const handleOnChangeSelect = name => data => {
