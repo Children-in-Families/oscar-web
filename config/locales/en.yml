@@ -1743,25 +1743,48 @@ en:
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
       basic_necessities: Basic Necessities
+      basicNecessities:
+        '1': Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        '2': Looking for education and material requests for school registration; return to school; need help to stay in school.
+        '3': Looking for food, water, milk, shelter support.
+        '4': Looking for vocational training/employment.
+        '5': Caregivers looking to send their children to an RCI
       birth_province: Client Birth Province
       book: Client book
       brief_note_summary: Brief Note Summarising the Call
+      call_type: Call Type
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
       child_protection_concerns: Child Protection Concerns
+      childProtectionConcerns:
+        '1': Physical violence
+        '2': Emotional violence
+        '3': Sexual violence
+        '4': Neglect / lack of adult supervision
+        '5': Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        '6': Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        '7': Drug use (seeking rehabilitation support)
+        '8': Alcohol use (seeking rehabilitation support)
+        '9': Separated child - abandoned; lost; street living.
+        '10': Children and parent living on the street.
+        '11': Disability
+        '12': Other
       client_able_answers: Client Able Answers
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      concern_location: Location of Concern
+      created_date: Created Date
       current_address: Current Address
       current_province: Current Province
       custom_id_number1: Custom ID Number 1
       custom_id_number2: Custom ID Number 2
       date: Date
       date_of_birth: Date of Birth
+      date_of_call: Date of Call
       detail: Detail
       district: District/Khan
       donor: Donor
@@ -1796,6 +1819,7 @@ en:
       government_report: Government Report
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
+      hotlines: Hotlines
       house_number: House
       id: ID
       id_poor: ID Poor
@@ -1806,7 +1830,6 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
-      concern_location: Location Of Concern
       main_school_contact: Main School Contact
       manage: Manage
       name: Name

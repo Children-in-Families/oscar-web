@@ -1732,25 +1732,48 @@ my:
       agency_names: ေအဂ်င္စီနာမည္
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       basic_necessities: Basic Necessities
+      basicNecessities:
+        '1': Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        '2': Looking for education and material requests for school registration; return to school; need help to stay in school.
+        '3': Looking for food, water, milk, shelter support.
+        '4': Looking for vocational training/employment.
+        '5': Caregivers looking to send their children to an RCI
       birth_province: ေမြးရာ ခ႐ိုင္
       book: ဖောက်သည် စာအုပ်
       brief_note_summary: Brief Note Summarising the Call
+      call_type: Call Type
       cambodia: ကေမာၻဒီးယား
       case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       child_protection_concerns: Child Protection Concerns
+      childProtectionConcerns:
+        '1': Physical violence
+        '2': Emotional violence
+        '3': Sexual violence
+        '4': Neglect / lack of adult supervision
+        '5': Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        '6': Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        '7': Drug use (seeking rehabilitation support)
+        '8': Alcohol use (seeking rehabilitation support)
+        '9': Separated child - abandoned; lost; street living.
+        '10': Children and parent living on the street.
+        '11': Disability
+        '12': Other
       client_able_answers: အမႈသည္ Able အေျဖမ်ား
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ပါၿပီ
+      concern_location: Location of Concern
+      created_date: Created Date
       current_address: လက္ရွိ လိပ္စာ
       current_province: လက္ရွိ ေနထုိင္ရာ ခ႐ိုင္
       custom_id_number1: Custom ID Number1
       custom_id_number2: Custom ID Number2
       date: နေ့စှဲ
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      date_of_call: Date of Call
       detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
@@ -1785,6 +1808,7 @@ my:
       government_report: အစိုးရ အစီရင္ခံစာမ်ား
       has_been_in_government_care: အစိုးရ၏ ေစာင့္ေရွာက္မႈ ခံယူဖူး
       has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူး
+      hotlines: Hotlines
       house_number: အိမ္နံပါတ္
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
@@ -1795,7 +1819,6 @@ my:
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
       local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
-      concern_location: Location Of Concern
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       manage: စီမံခန့်ခွဲ
       name: နာမည္
