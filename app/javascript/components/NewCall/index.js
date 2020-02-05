@@ -451,7 +451,7 @@ const CallForms = props => {
         </div>
       </div>
 
-      <div className='actionfooter'>
+      <div className='actionfooter' style={{paddingTop: '15px'}}>
         <div className='leftWrapper'>
           <span className='btn btn-default' onClick={handleCancel}>{T.translate("newCall.index.cancel")}</span>
         </div>

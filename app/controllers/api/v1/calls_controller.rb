@@ -17,11 +17,33 @@ module Api
 
         if tagged_with_new_client?(call.call_type)
           carer = Carer.new(carer_params)
-          clients = client_params[:clients].map do |client|
+
+          clients = client_params[:clients].map.with_index do |client, index|
             new_client = Client.new(client)
             new_client.name_of_referee = referee.name
             new_client.received_by_id = call.receiving_staff_id
             new_client.initial_referral_date = call.date_of_call
+
+            if index > 0
+              new_client.concern_province_id = client_params[:clients].first[:concern_province_id] if client_params[:clients].first[:concern_province_id]
+              new_client.concern_district_id = client_params[:clients].first[:concern_district_id] if client_params[:clients].first[:concern_district_id]
+              new_client.concern_commune_id = client_params[:clients].first[:concern_commune_id] if client_params[:clients].first[:concern_commune_id]
+              new_client.concern_village_id = client_params[:clients].first[:concern_village_id] if client_params[:clients].first[:concern_village_id]
+              new_client.concern_is_outside = client_params[:clients].first[:concern_is_outside] if client_params[:clients].first[:concern_is_outside]
+              new_client.concern_outside_address = client_params[:clients].first[:concern_outside_address] if client_params[:clients].first[:concern_outside_address]
+              new_client.concern_street = client_params[:clients].first[:concern_street] if client_params[:clients].first[:concern_street]
+              new_client.concern_house = client_params[:clients].first[:concern_house] if client_params[:clients].first[:concern_house]
+
+              new_client.concern_address = client_params[:clients].first[:concern_address] if client_params[:clients].first[:concern_address]
+              new_client.concern_address_type = client_params[:clients].first[:concern_address_type] if client_params[:clients].first[:concern_address_type]
+              new_client.concern_phone = client_params[:clients].first[:concern_phone] if client_params[:clients].first[:concern_phone]
+              new_client.concern_phone_owner = client_params[:clients].first[:concern_phone_owner] if client_params[:clients].first[:concern_phone_owner]
+              new_client.concern_email = client_params[:clients].first[:concern_email] if client_params[:clients].first[:concern_email]
+              new_client.concern_email_owner = client_params[:clients].first[:concern_email_owner] if client_params[:clients].first[:concern_email_owner]
+              new_client.concern_location = client_params[:clients].first[:concern_location] if client_params[:clients].first[:concern_location]
+              new_client.concern_same_as_client = client_params[:clients].first[:concern_same_as_client] if client_params[:clients].first[:concern_same_as_client]
+            end
+
             new_client
           end
 
