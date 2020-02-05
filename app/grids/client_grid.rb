@@ -955,16 +955,6 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults.where(query_string) }
   end
 
-  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date') }, html: false) do |object|
-    basic_rules = $param_rules['basic_rules']
-    basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-    query_string = get_assessment_query_string(results, 'assessment_completed_date', '', object.id, basic_rules)
-
-    assessments = object.assessments.defaults.completed.where(query_string)
-    assessments.pluck(:created_at).join(', ')
-  end
-
   column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
     render partial: 'clients/referral', locals: { object: object }
   end
