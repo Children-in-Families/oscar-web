@@ -26,6 +26,20 @@ export default props => {
     { label: type.label, value: type.value, isFixed: false }
   ));
 
+  const onCallTypeChanged = data => {
+    const type = data.data;
+    let requestedUpdate = call.requested_update;
+    if (
+      type === "Seeking Information" ||
+      type === "Spam Call" ||
+      type === "Wrong Number"
+    ) {
+      requestedUpdate = false;
+    }
+    const callFields = { requested_update: requestedUpdate, call_type: type };
+    onChange("call", { ...callFields })({ type: "radio" });
+  };
+
   return (
     <>
       <legend className='legend'>
@@ -134,7 +148,7 @@ export default props => {
             label={T.translate("newCall.admin.call_type")}
             options={callTypeList}
             value={call.call_type}
-            onChange={onChange('call','call_type')} />
+            onChange={onCallTypeChanged} />
         </div>
       </div>
     </>

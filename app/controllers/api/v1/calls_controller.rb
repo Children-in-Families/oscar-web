@@ -60,7 +60,7 @@ module Api
                   client.referee_id = referee.id
                   client.carer_id = carer.id
                   client.save
-                  if params[:task].present?
+                  if params[:task].present? && call.requested_update
                     create_tasks(client, referee)
                   end
                   if (call.call_type == "New Referral: Case Action Required")
@@ -90,7 +90,7 @@ module Api
             if call.valid?
               referee.save
 
-              if params[:task].present?
+              if params[:task].present? && call.requested_update
                 clients = Client.where(id: call.client_ids)
                 clients.each do |client|
                   create_tasks(client, referee)

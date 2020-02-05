@@ -102,6 +102,7 @@ export default props => {
 
   useEffect(() => {
     if (referee.anonymous) {
+      const callFields = { requested_update: false }
       const fields = {
         id: null,
         anonymous: true,
@@ -121,6 +122,7 @@ export default props => {
         commune_id: null,
         village_id: null
       };
+      onChange("call", { ...callFields })({ type: "checkbox" });
       onChange("referee", { ...fields })({ type: "select" });
     }
   }, [referee.anonymous]);
@@ -344,6 +346,14 @@ export default props => {
       <div className="row">
         <div className="col-xs-12">
           <Checkbox
+            disabled={
+              referee.anonymous ||
+              referee.name === "" ||
+              call.call_type === "" ||
+              call.call_type === "Seeking Information" ||
+              call.call_type === "Spam Call" ||
+              call.call_type === "Wrong Number"
+            }
             label={T.translate("newCall.refereeInfo.this_caller_has_requested")}
             checked={call.requested_update || false}
             onChange={onChange("call", "requested_update")}
