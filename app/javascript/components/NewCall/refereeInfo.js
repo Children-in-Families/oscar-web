@@ -103,12 +103,14 @@ export default props => {
   useEffect(() => {
     if (referee.anonymous) {
       const fields = {
+        id: null,
         anonymous: true,
         outside: false,
         name: "Anonymous",
         phone: "",
         email: "",
         gender: "",
+        adult: null,
         street_number: "",
         house_number: "",
         current_address: "",
@@ -250,7 +252,7 @@ export default props => {
           <SelectInput
             T={T}
             label={T.translate("newCall.refereeInfo.gender")}
-            isDisabled={referee.anonymous || call.called_before}
+            isDisabled={referee.anonymous}
             options={genderLists}
             onChange={onChange("referee", "gender")}
             value={referee.gender}
@@ -260,7 +262,7 @@ export default props => {
           <RadioGroup
             inline
             label={T.translate("newCall.refereeInfo.are_you_over_18")}
-            disabled={referee.anonymous || call.called_before}
+            disabled={referee.anonymous}
             options={ageOpts}
             onChange={onChange("referee", "adult")}
             value={referee.adult}
@@ -272,7 +274,7 @@ export default props => {
           <TextInput
             T={T}
             label={T.translate("newCall.refereeInfo.referee_phone")}
-            disabled={referee.anonymous || call.called_before}
+            disabled={referee.anonymous}
             onChange={onChange("referee", "phone")}
             value={referee.phone}
           />
@@ -281,7 +283,7 @@ export default props => {
           <TextInput
             T={T}
             label={T.translate("newCall.refereeInfo.referee_email")}
-            disabled={referee.anonymous || call.called_before}
+            disabled={referee.anonymous}
             onChange={onChange("referee", "email")}
             value={referee.email}
           />
@@ -315,7 +317,6 @@ export default props => {
           {!referee.anonymous && (
             <div className="col-xs-12 col-md-6 col-lg-3">
               <Checkbox
-                disabled={call.called_before}
                 label={T.translate("newCall.refereeInfo.outside_cambodia")}
                 checked={referee.outside || false}
                 onChange={onChange("referee", "outside")}
@@ -325,7 +326,7 @@ export default props => {
         </div>
       </legend>
       <Address
-        disabled={referee.anonymous || call.called_before}
+        disabled={referee.anonymous}
         outside={referee.outside || false}
         onChange={onChange}
         data={{

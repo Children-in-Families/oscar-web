@@ -8,11 +8,13 @@ module Api
       end
 
       def create
-        referee = if params["referee"]["id"].present?
-          Referee.find_by(id: params["referee"]["id"])
+        if params["referee"]["id"].present?
+          referee = Referee.find_by(id: params["referee"]["id"])
+          referee.update_attributes(referee_params)
         else
-          Referee.new(referee_params)
+          referee = Referee.new(referee_params)
         end
+
         call = Call.new(call_params)
 
         if tagged_with_new_client?(call.call_type)
