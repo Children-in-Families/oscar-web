@@ -11,8 +11,8 @@ module CallHelper
 
     number_fields = []; text_fields = []; date_picker_fields = []; dropdown_list_options = []
 
-    @calls_grid.filters.zip(@calls_grid.header).each do |filter, header_name|
-      field_name = header_name.parameterize.underscore
+    @calls_grid.filters.zip(@calls_grid.columns.map(&:name)).each do |filter, column_name|
+      field_name = column_name
       case filter.class.name
       when /integerfilter/i
         number_fields << field_name
@@ -34,7 +34,7 @@ module CallHelper
 
   def get_dropdown_list(dropdown_list_options)
     dropdown_list_options.map do |field_name|
-      [field_name, self.send(field_name.to_sym)]
+      [field_name, self.send(field_name)]
     end
   end
 
