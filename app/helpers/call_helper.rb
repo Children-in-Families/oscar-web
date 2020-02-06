@@ -34,59 +34,61 @@ module CallHelper
 
   def get_dropdown_list(dropdown_list_options)
     dropdown_list_options.map do |field_name|
-      [field_name, self.send(field_name)]
+      [field_name, CallHelper.send(field_name)]
     end
-  end
-
-  def referee
-    Referee.pluck(:name, :id)
-  end
-
-  def receiving_staff
-    User.case_workers.map { |user| [user.name, user.id] }
-  end
-
-  def phone_call_id
-    Call.pluck(:phone_call_id).map { |phone_call_id| { phone_call_id => phone_call_id } }
-  end
-
-  def call_type
-    values = [Call::TYPES, I18n.t('calls.type').values].transpose.to_h
-    values.delete('Spam Call')
-    values
   end
 
   def get_basic_field_translations
     I18n.t('calls')
   end
 
-  def start_time
-    time_range
-  end
+  class << self
+    def referee_id
+      Referee.pluck(:name, :id).map{ |name, id| { id => name } }
+    end
 
-  def end_time
-    time_range
-  end
+    def receiving_staff_id
+      User.case_workers.map { |user| { user.id => user.name } }
+    end
 
-  def time_range
-    times = [{'00' => "12:00AM"}]
-    ('01'..'23').each{|d| times << {d => "#{d}:00#{d.to_i <= 11 ? "AM" : "PM"}"} }
-    times
-  end
+    def phone_call_id
+      Call.pluck(:phone_call_id).map { |phone_call_id| { phone_call_id => phone_call_id } }
+    end
 
-  def answered_call
-    yes_no_dropdown
-  end
+    def call_type
+      values = [Call::TYPES, I18n.t('calls.type').values].transpose.to_h
+      values.delete('Spam Call')
+      values
+    end
 
-  def called_before
-    yes_no_dropdown
-  end
+    def start_time
+      time_range
+    end
 
-  def requested_update
-    yes_no_dropdown
-  end
+    def end_time
+      time_range
+    end
 
-  def yes_no_dropdown
-    { true: 'Yes', false: 'No' }
+    def time_range
+      times = [{'00' => "12:00AM"}]
+      ('01'..'23').each{|d| times << {d => "#{d}:00#{d.to_i <= 11 ? "AM" : "PM"}"} }
+      times
+    end
+
+    def answered_call
+      yes_no_dropdown
+    end
+
+    def called_before
+      yes_no_dropdown
+    end
+
+    def requested_update
+      yes_no_dropdown
+    end
+
+    def yes_no_dropdown
+      { true: 'Yes', false: 'No' }
+    end
   end
 end

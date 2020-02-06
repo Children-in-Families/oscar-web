@@ -21,10 +21,10 @@ class CallsGrid
   column(:id, header: -> { I18n.t('datagrid.columns.calls.id') })
   column(:phone_call_id, header: -> { I18n.t('datagrid.columns.calls.phone_call_id') })
   column(:call_type, header: -> { I18n.t('datagrid.columns.calls.call_type') })
-  column(:referee, order: proc { |object| object.joins(:referee).order("referees.name") }, header: -> { I18n.t('datagrid.columns.calls.referee_id') }) do |object|
+  column(:referee_id, order: proc { |object| object.joins(:referee).order("referees.name") }, header: -> { I18n.t('datagrid.columns.calls.referee_id') }) do |object|
     object.referee.try(:name)
   end
-  column(:receiving_staff, order: proc { |object| object.joins(:receiving_staff).order('users.first_name, users.last_name') }, header: -> { I18n.t('datagrid.columns.calls.receiving_staff_id') } ) do |object|
+  column(:receiving_staff_id, order: proc { |object| object.joins(:receiving_staff).order('users.first_name, users.last_name') }, header: -> { I18n.t('datagrid.columns.calls.receiving_staff_id') } ) do |object|
     object.receiving_staff.try(:name)
   end
   column(:start_datetime, header: -> { I18n.t('datagrid.columns.calls.start_datetime') }) do |model|
