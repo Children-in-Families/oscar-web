@@ -30,6 +30,8 @@ export default ({data, T, locale}) => {
       case 'called_before':
       case 'requested_update':
         return obj[key] ? 'Yes' : 'No'
+      case 'call_type':
+        return T.translate(`detailCall.call.${obj[key]}`)
 
       default:
         return obj[key]

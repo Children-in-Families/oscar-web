@@ -489,7 +489,14 @@
   },
   "detailCall": {
     "call": {
-      "about_call": "About Call"
+      "about_call": "About Call",
+      "New Referral: Case Action Required": "New Referral: Case Action Required",
+      "New Referral: Case Action NOT Required": "New Referral: Case Action NOT Required",
+      "Providing Update": "Providing Update",
+      "Phone Counselling": "Phone Counselling",
+      "Seeking Information": "Seeking Information",
+      "Spam Call": "Spam Call",
+      "Wrong Number": "Wrong Number"
     },
     "listClient":{
       "list_clients": "List Clients"

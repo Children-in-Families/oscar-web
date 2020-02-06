@@ -20,7 +20,9 @@ class CallsGrid
 
   column(:id, header: -> { I18n.t('datagrid.columns.calls.id') })
   column(:phone_call_id, header: -> { I18n.t('datagrid.columns.calls.phone_call_id') })
-  column(:call_type, header: -> { I18n.t('datagrid.columns.calls.call_type') })
+  column(:call_type, header: -> { I18n.t('datagrid.columns.calls.call_type') }) do |object|
+    I18n.t("datagrid.columns.calls.types.#{object.call_type.parameterize.underscore}")
+  end
   column(:referee, order: proc { |object| object.joins(:referee).order("referees.name") }, header: -> { I18n.t('datagrid.columns.calls.referee_id') }) do |object|
     object.referee.try(:name)
   end

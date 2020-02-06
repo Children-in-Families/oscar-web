@@ -9,7 +9,7 @@
   .col-xs-12
     .ibox.float-e-margins
       .ibox-title
-        %h5= "#{t('.edit_call')} ##{@call.phone_call_id} #{@call.call_type}"
+        %h5= "#{t('.edit_call')} ##{@call.phone_call_id} #{t(".types.#{@call.call_type.parameterize.underscore}")}"
       = simple_form_for(@call) do |f|
         .ibox-content
           = error_notification(f)

@@ -643,20 +643,27 @@ en:
       sync_with_google: Sync with Google Calendar
   calls:
     edit:
-      edit_call: Edit Call
-      referee_answered_call: Did the referee answer this call or return a missed call?
+      add_note_about_the_content: Add a note about the content of your conversation with the caller.
       answered_call: Answered Call
-      returning_missed_call: Returning Missed Call
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
-      'yes': "Yes"
+      date_of_call: Date of Call
+      edit_call: Edit Call
+      information_provided: Information Provided
       'no': "No"
       receiving_staff: Receiving Staff
-      date_of_call: Date of Call
+      referee_answered_call: Did the referee answer this call or return a missed call?
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      returning_missed_call: Returning Missed Call
       time_call_began: Time Call Began
       time_call_ended: Time Call Ended
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
-      information_provided: Information Provided
-      add_note_about_the_content: Add a note about the content of your conversation with the caller.
+      types:
+        new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+        new_referral_case_action_required: "New Referral: Case Action Required"
+        phone_counselling: Phone Counselling
+        providing_update: Providing Update
+        seeking_information: Seeking Information
+        spam_call: Spam Call
+        wrong_number: Wrong Number
+      'yes': "Yes"
     answered_call: Answer Call
     call_type: Call types
     called_before: Called Before
@@ -2185,6 +2192,14 @@ en:
         requested_update: Requested Update
         start_datetime: Date Call Began
         start_time: Time Call Began
+        types:
+          new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+          new_referral_case_action_required: "New Referral: Case Action Required"
+          phone_counselling: Phone Counselling
+          providing_update: Providing Update
+          seeking_information: Seeking Information
+          spam_call: Spam Call
+          wrong_number: Wrong Number
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
