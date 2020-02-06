@@ -1749,6 +1749,14 @@ my:
       book: ဖောက်သည် စာအုပ်
       brief_note_summary: Brief Note Summarising the Call
       call_type: Call Type
+      callType:
+        new_referral:_case_action_required: "New Referral: Case Action Required"
+        new_referral:_case_action_not_required: "New Referral: Case Action NOT Required"
+        providing_update: "Providing Update"
+        phone_counselling: "Phone Counselling"
+        seeking_information: "Seeking Information"
+        spam_call: "Spam Call"
+        wrong_number: "Wrong Number"
       cambodia: ကေမာၻဒီးယား
       case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
@@ -2216,6 +2224,22 @@ my:
         case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
         code: Custom ID Number1
+        concern_address: Address Name
+        concern_address_type: Address Type
+        concern_commune_id: Commune / Sangkat
+        concern_district_id: District / Khan
+        concern_email: Relevant Email Contact
+        concern_email_owner: Email Owner
+        concern_house: House Number
+        concern_is_outside: Concern is Outside Cambodia
+        concern_location: Location Of Concern
+        concern_outside_address: Outside Cambodia Address
+        concern_phone: Relevant Contact Phone
+        concern_phone_owner: Phone Owner
+        concern_province_id: Province
+        concern_same_as_client: Same as Client
+        concern_street: Street Number
+        concern_village_id: Village
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
         commune_en: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (အင်္ဂလိပ်)
         commune_kh: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (ခမာ)

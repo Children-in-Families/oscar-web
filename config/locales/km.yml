@@ -1742,8 +1742,16 @@ km:
         '5': អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។
       birth_province: ស្រុកកំណើត
       book: បណ្តុំព័ត៌មានអតិថិជន
-      brief_note_summary: Brief Note Summarising the Call
+      brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
       call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
+      callType:
+        new_referral:_case_action_required: "ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ"
+        new_referral:_case_action_not_required: "ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា"
+        providing_update: "ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន"
+        phone_counselling: "ការប្រឹក្សាតាមទូរស័ព្ទ"
+        seeking_information: "ស្វែងរកព័ត៌មាន"
+        spam_call: "ការហៅទូរស័ព្ទរំខាន"
+        wrong_number: "ច្រឡំលេខ"
       cambodia: កម្ពុជា
       case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី
@@ -2232,6 +2240,22 @@ km:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         changelogs: ប្រវត្តិកំណែ
         code: លេខកូដផ្ទាល់ខ្លួនទី១
+        concern_address: អាសយដ្ឋាន - ឈ្មោះ
+        concern_address_type: ប្រភេទអាសយដ្ឋាន
+        concern_commune_id: ឃុំ/សង្កាត់
+        concern_district_id: ស្រុក/ខណ្ឌ
+        concern_email: អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ
+        concern_email_owner: ម្ចាស់អ៊ុីម៉ែល
+        concern_house: ផ្ទះលេខ
+        concern_is_outside: ព្រឹត្តិការណ៍កើតឡើងក្រៅប្រទេសកម្ពុជា
+        concern_location: ទីកន្លែងកើតហេតុ
+        concern_outside_address: អាសយដ្ឋានខាងក្រៅ
+        concern_phone: លេខទូរស័ព្ទអ្នកពាក់ព័ន្ធ
+        concern_phone_owner: ម្ចាស់ទូរស័ព្ទ
+        concern_province_id: ខេត្ត/ក្រុង
+        concern_same_as_client: ដូចអតិថិជន
+        concern_street: ផ្លូវ
+        concern_village_id: ភូមិ
         commune: ឃុំ/សង្កាត់
         commune_en: អាស័យដ្ឋាន - ឃុំ/សង្កាត់ (ឡាតាំង)
         commune_kh: អាស័យដ្ឋាន​ - ឃុំ/សង្កាត់ (ខ្មែរ)

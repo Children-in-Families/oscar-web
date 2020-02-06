@@ -1760,6 +1760,14 @@ en:
       book: Client book
       brief_note_summary: Brief Note Summarising the Call
       call_type: Call Type
+      callType:
+        new_referral:_case_action_required: "New Referral: Case Action Required"
+        new_referral:_case_action_not_required: "New Referral: Case Action NOT Required"
+        providing_update: "Providing Update"
+        phone_counselling: "Phone Counselling"
+        seeking_information: "Seeking Information"
+        spam_call: "Spam Call"
+        wrong_number: "Wrong Number"
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History
