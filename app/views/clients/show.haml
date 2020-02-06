@@ -515,7 +515,7 @@
                   - @client.calls.most_recents.each do |call|
                     %tr
                       %td= call.phone_call_id
-                      %td= t('.callType.' + call.call_type.split.join('_').underscore)
+                      %td= t('.callType.' + call.call_type.parameterize.underscore)
                       %td= date_format(call.date_of_call)
                       %td.text-center
                         = link_to call_path(call) do
