@@ -53,7 +53,7 @@ class CallsGrid
   end
 
   def call_type_options
-    Call::TYPES.zip(Call::TYPES)
+    Call::TYPES.map{|type| [I18n.t("datagrid.columns.calls.types.#{type.parameterize.underscore}"), type]}
   end
 
   def referee_options
