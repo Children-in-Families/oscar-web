@@ -3,6 +3,7 @@ class ClientGrid < BaseGrid
   include ClientsHelper
   include ApplicationHelper
   include FormBuilderHelper
+  include AssessmentHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -950,9 +951,14 @@ class ClientGrid < BaseGrid
     basic_rules = $param_rules['basic_rules']
     basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
     results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-    query_string = get_assessment_query_string(results, 'assessment_completed_date', '', object.id, basic_rules)
-
-    render partial: 'clients/assessments', locals: { object: object.assessments.defaults.where(query_string) }
+    assessment_completed_sql, assessment_number = assessment_filter_values(results)
+    sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE assessments.client_id IS NOT NULL #{assessment_completed_sql}) >= #{assessment_number})".squish
+    if assessment_number.present? && assessment_completed_sql.present?
+      assessments = object.assessments.defaults.where(sql).order('created_at').offset(2-1).limit(1)
+    elsif assessment_completed_sql.present?
+      assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
+    end
+    render partial: 'clients/assessments', locals: { object: assessments }
   end
 
   column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|

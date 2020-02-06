@@ -265,4 +265,23 @@ module AssessmentHelper
       "assessment_domains.domain_id IS NOT NULL OR assessment_domains.score IS NOT NULL"
     end
   end
+
+  def assessment_filter_values(results)
+    assessment_number = nil
+    date_1, date_2 = nil, nil
+    assessment_completed_sql = ''
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        if h[:id] == 'assessment_completed'
+          values = h[:value]
+          date_1, date_2 = values.first, values.last
+          assessment_completed_sql = "AND assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'"
+        elsif h[:id] == 'assessment_number'
+          assessment_number = h[:value]
+        end
+      end
+    end
+    [assessment_completed_sql, assessment_number]
+  end
 end

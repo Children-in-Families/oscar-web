@@ -42,69 +42,16 @@ module AdvancedSearches
         basic_rules = $param_rules['basic_rules']
         basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
         results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-        query_string = get_assessment_query_string(results, identity, @domain_id, nil, basic_rules)
-
-        clients = clients.where(query_string)
+        # query_string = get_assessment_query_string(results, identity, @domain_id, nil, basic_rules)
+        assessment_completed_sql, assessment_number = assessment_filter_values(results)
+        sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE clients.id = assessments.client_id #{assessment_completed_sql}) >= #{assessment_number})".squish
+        if assessment_completed_sql.present? && assessment_number.present?
+          clients = clients.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id }).where(sql)
+        else
+          clients = clients.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id })
+        end
         clients.ids
       end
-
-      # if @basic_rules.third.nil?
-      #   basic_rules = $param_rules['basic_rules']
-      #   basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-      #   results = mapping_assessment_query_rules(basic_rules)
-      #   query_string = get_assessment_without_complated_date_query_string(results, domain.identity, @domain_id)
-      #   client_ids = Client.joins(assessments: :assessment_domains).where(query_string).distinct.ids
-      #   return client_ids
-      # elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_number'
-      #   between_date_value= @basic_rules.third['value']
-      #   assessment_number = @basic_rules.second['value']
-
-      #   clients = Client.joins(:assessments).all.each do |client|
-      #     dates     = return_dates(custom_domain, client)
-      #     date_from = between_date_value[0].to_date
-      #     date_to   = between_date_value[1].to_date
-      #     next unless dates[assessment_number.to_i-1].present?
-      #     next unless dates[assessment_number.to_i-1].to_date >= date_from && dates[assessment_number.to_i-1].to_date <= date_to
-
-      #     date      = dates[assessment_number.to_i-1].to_date
-      #     if date.present?
-      #       if custom_domain == true
-      #         number_assessments  = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
-      #       else
-      #         number_assessments  = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
-      #       end
-      #       assessments         << number_assessments.first.id if number_assessments.present?
-      #     end
-      #   end
-
-      #   assessment_filter_domainscore_query(assessments.flatten)
-      # elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'month_number'
-      #   between_date_value= @basic_rules.third['value']
-      #   month_number = @basic_rules.second['value']
-      #   clients = Client.includes(:assessments).all.each do |client|
-      #     next if client.assessments.blank?
-      #     dates     = return_dates(custom_domain, client)
-      #     date_from = between_date_value[0].to_date
-      #     date_to   = between_date_value[1].to_date
-      #     next unless dates.uniq[month_number.to_i-1].present?
-      #     next unless dates.uniq[assessment_number.to_i-1].to_date >= date_from && dates.uniq[assessment_number.to_i-1].to_date <= date_to
-
-      #     date      = dates.uniq[month_number.to_i-1]
-      #     if date.present?
-      #       if custom_domain == true
-      #         month_assessments   = client.assessments.customs.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
-      #       else
-      #         month_assessments   = client.assessments.defaults.where("DATE(assessments.created_at) between ? AND ?", date.to_date.beginning_of_month, date.to_date.end_of_month)
-      #       end
-      #       assessments        << month_assessments.ids if month_assessments.present?
-      #     end
-      #   end
-      #   assessment_filter_domainscore_query(assessments.flatten)
-      # elsif @basic_rules.second.present? && @basic_rules.second['id'] == 'assessment_completed'
-      #   score_change_query
-      # else
-      #   only_domainscore_field_query
-      # end
     end
 
     def score_change_query

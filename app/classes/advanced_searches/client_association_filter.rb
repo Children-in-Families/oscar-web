@@ -1,6 +1,7 @@
 module AdvancedSearches
   class ClientAssociationFilter
     include ActionView::Helpers::DateHelper
+    include AssessmentHelper
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -99,7 +100,12 @@ module AdvancedSearches
     end
 
     def assessment_number_query
-      @clients.joins(:assessments).group(:id).having("COUNT(assessments) >= ?", @value).ids
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE clients.id = assessments.client_id #{assessment_completed_sql}) >= #{@value})".squish
+      @clients.joins(:assessments).where(sql).ids
     end
 
     def month_number_query
