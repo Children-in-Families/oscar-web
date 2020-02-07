@@ -673,6 +673,8 @@ km:
       results: លទ្ធផល
       report_builder: Report Builder
     information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+    new:
+      new_call: បង្កើតការហៅទូរស័ព្ទថ្មី
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"

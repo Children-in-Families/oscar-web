@@ -361,6 +361,11 @@
       "go_back": "ត្រលប់ក្រោយ",
       "save": "រក្សាទុក"
     },
+    "confirmRemoveClientModal": {
+      "are_you_sure": "តើអ្នកប្រាកដហើយ?",
+      "no": "ទេ",
+      "yes": "បាទ/ចាស"
+    },
     "providingUpdate": {
       "please_select_client": "សូមជ្រើសរើសអតិថិជន",
       "go_back": "ត្រលប់ក្រោយ",
@@ -433,7 +438,8 @@
       "relevant_email": "អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ",
       "locatin_description": "ការពិពណ៌នានៃទីកន្លែង",
       "add_another_client": "បន្ថែមអតិថិជនថ្មី",
-      "remove_client": "លុបចេញអតិថិជន"
+      "remove_client": "លុបចេញអតិថិជន",
+      "confirmation": "ការបញ្ជាក់"
     },
     "referralMoreInfo": {
       "client_referral_more_info": "អតិថិជន / ការបញ្ជូន - ព័ត៌មានបន្ថែម",

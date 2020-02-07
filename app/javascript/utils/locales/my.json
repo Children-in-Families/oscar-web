@@ -361,6 +361,11 @@
       "go_back": "Go Back",
       "save": "Save"
     },
+    "confirmRemoveClientModal": {
+      "are_you_sure": "Are you sure you want to remove?",
+      "no": "No",
+      "yes": "Yes"
+    },
     "providingUpdate": {
       "please_select_client": "Please select client",
       "go_back": "Go Back",
@@ -433,7 +438,8 @@
       "relevant_email": "Relevant Email Contact",
       "locatin_description": "Location Description",
       "add_another_client": "Add Another Client",
-      "remove_client": "Remove Client"
+      "remove_client": "Remove Client",
+      "confirmation": "Confirmation"
     },
     "referralMoreInfo": {
       "client_referral_more_info": "Client / Referral - More Information",

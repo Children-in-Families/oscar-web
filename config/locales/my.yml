@@ -671,6 +671,8 @@ my:
       results: Results
       report_builder: Report Builder
     information_provided: Information provided
+    new:
+      new_call: New Call
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { SelectInput, TextArea, TextInput, Checkbox, DateInput } from "../Commons/inputs";
 import ConcernAddress from "./concernAddress";
 import Address from './address'
+import Modal from '../Commons/Modal'
+import ConfirmRemoveClientModal from "./confirmRemoveClientModal";
 
 export default props => {
   const {
@@ -49,6 +51,8 @@ export default props => {
   const [concernDistricts, setConcernDistricts] = useState(currentDistricts);
   const [concernCommunes, setConcernCommunes] = useState(currentCommunes);
   const [concernVillages, setConcernVillages] = useState(currentVillages);
+
+  const [confirmRemoveClient, setConfirmRemoveClientModalOpen] = useState(false)
 
   const setAddressOptions = (obj, type) => {
     if (type === 'concern_address') {
@@ -259,6 +263,20 @@ export default props => {
 
   return (
     <div className="containerClass">
+      <Modal
+        title={T.translate("newCall.referralInfo.confirmation")}
+        isOpen={confirmRemoveClient}
+        type='warning'
+        closeAction={() => setConfirmRemoveClientModalOpen(false)}
+        content={
+          <ConfirmRemoveClientModal
+            data={{T}}
+            onClick={() => { setConfirmRemoveClientModalOpen(false); removeClient() }}
+            closeAction={() => setConfirmRemoveClientModalOpen(false) }
+          />
+        }
+      />
+
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6">
@@ -412,7 +430,7 @@ export default props => {
       <div className={ `col-xs-12 text-right ${ call.call_type === 'Phone Counselling' ? 'hidden' : '' }` }>
         <button className="btn btn-primary" style={{ margin: 5 }} onClick={() => onChange('client', {})({ type: 'newObject' })}>{T.translate("newCall.referralInfo.add_another_client")}</button>
         { clients.length > 1 &&
-          <button className="btn btn-danger" style={{ margin: 5 }} onClick={removeClient}>{T.translate("newCall.referralInfo.remove_client")}</button>
+          <button className="btn btn-danger" style={{ margin: 5 }} onClick={() => setConfirmRemoveClientModalOpen(true) }>{T.translate("newCall.referralInfo.remove_client")}</button>
         }
       </div>
 

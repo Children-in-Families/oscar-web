@@ -365,8 +365,8 @@ const CallForms = props => {
     return (
       <>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
-          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setCaseActionNotRequiredModalOpen(false), setStep(step + 1))}>{T.translate("newCall.caseActionNotRequiredModalFooter.iam_sure")}</button>
           <button style={{margin: 5}} className='btn btn-default' onClick={() => setCaseActionNotRequiredModalOpen(false)}>{T.translate("newCall.caseActionNotRequiredModalFooter.go_back")}</button>
+          <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setCaseActionNotRequiredModalOpen(false), setStep(step + 1))}>{T.translate("newCall.caseActionNotRequiredModalFooter.iam_sure")}</button>
         </div>
       </>
     )
