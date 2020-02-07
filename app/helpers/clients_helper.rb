@@ -520,9 +520,9 @@ module ClientsHelper
     object.present? ? object : []
   end
 
-  def form_builder_query(object, form_type, field_name)
+  def form_builder_query(object, form_type, field_name, properties_field=nil)
     return object if params['all_values'].present?
-    properties_field = 'client_enrollment_trackings.properties'
+    properties_field = properties_field.present? ? properties_field : 'client_enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
@@ -752,7 +752,7 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]

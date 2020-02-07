@@ -182,8 +182,17 @@ class FamilyGrid < BaseGrid
         if fields.last == 'Has This Form'
           properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).count]
         else
+          properties_field = 'custom_field_properties.properties'
           format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-          properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
+
+          basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+          basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+
+          query_string = get_query_string(results, 'formbuilder', properties_field)
+          sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+
+          properties   = object.custom_field_properties.joins(:custom_field).where(sql).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
         end
         render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
       end
