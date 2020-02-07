@@ -567,9 +567,10 @@ class ClientGrid < BaseGrid
     object.follow_up_date.present? ? object.follow_up_date : ''
   end
 
-  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
-    # selected_program_id = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
-    render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
+  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object, a, b, c|
+    # all_programs = client_enrollments.map{ |c| c.program_stream_name }.uniq
+    client_enrollments = program_stream_name(object.client_enrollments.active, 'active_program_stream')
+    render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
   end
 
   column(:received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name')}, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|

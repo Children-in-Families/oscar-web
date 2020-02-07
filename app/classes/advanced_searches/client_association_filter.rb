@@ -1,6 +1,9 @@
 module AdvancedSearches
   class ClientAssociationFilter
     include ActionView::Helpers::DateHelper
+    include FormBuilderHelper
+    include ClientsHelper
+
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -503,16 +506,14 @@ module AdvancedSearches
 
     def active_program_stream_query
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
-      case @operator
-      when 'equal'
-        clients.where('client_enrollments.program_stream_id = ?', @value).distinct.ids
-      when 'not_equal'
-        clients.where.not('client_enrollments.program_stream_id = ?', @value).distinct.ids
-      when 'is_empty'
-        @clients.where.not(id: clients.distinct.ids).ids
-      when 'is_not_empty'
-        clients.distinct.ids
-      end
+
+      basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      return object if basic_rules.nil?
+      basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results      = mapping_form_builder_param_value(basic_rules, 'active_program_stream')
+      query_string  = get_query_string(results, 'active_program_stream', 'program_streams')
+
+      clients.includes(client_enrollments: :program_stream).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct.ids
     end
 
     def enrolled_program_stream_query
