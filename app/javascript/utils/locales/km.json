@@ -94,7 +94,7 @@
     "local_family_name": "នាមត្រកូលជាអក្សរខ្មែរ",
     "gender": "ភេទ",
     "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
-    "birth_province": "ស្រុកកំណើត",
+    "birth_province": "ខេត្តកំណើត",
     "client_relationship": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ?",
     "caller_relationship": "ទំនាក់ទំនងរវាងអ្នកទូរស័ព្ទ",
     "contact_info": "ព័ត៌មានទំនាក់ទំនង",
@@ -303,7 +303,7 @@
       "family_record": "គ្រួសារ",
       "address": "អាសយដ្ឋាន",
       "same_as_client": "ដូចអតិថិជន",
-      "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ"
+      "outside_cambodia": "អតិថិជននៅក្រៅប្រទេសកម្ពុជា"
     },
     "caseActionNotRequiredModalFooter": {
       "iam_sure": "ខ្ញុំប្រាកដ",
@@ -320,7 +320,7 @@
     },
     "concernAddress": {
       "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
-      "province": "ស្រុកកំណើត",
+      "province": "ខេត្តកំណើត",
       "district": "អាសយដ្ឋាន - ស្រុក/ខណ្ឌ",
       "commune": "អាសយដ្ឋាន - ឃុំ/សង្កាត់",
       "village": "អាសយដ្ឋាន - ភូមិ",
@@ -421,10 +421,10 @@
       "nickname": "ឈ្មោះហៅក្រៅ",
       "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
       "gender": "ភេទ",
-      "birth_province": "ស្រុកកំណើត",
+      "birth_province": "ខេត្តកំណើត",
       "relationshio_to_caller": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ",
       "contact_info": "ព័ត៌មានទំនាក់ទំនង",
-      "client_is_outside": "អតិថិជនអាសយដ្ឋានខាងក្រៅ",
+      "client_is_outside": "អតិថិជននៅក្រៅប្រទេសកម្ពុជា",
       "case_worker": "បុគ្គលិកគ្រប់គ្រងករណី",
       "client_contact_phone": "លេខទូរស័ព្ទពាក់ព័ន្ធអតិថិជន",
       "phone_owner": "ម្ចាស់ទូរស័ព្ទ",

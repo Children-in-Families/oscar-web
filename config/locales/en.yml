@@ -4841,6 +4841,8 @@ en:
     client_forms:
       hotline: Hotline
       client_forms: Client Forms
+      'yes': 'Yes'
+      'no' : 'No'
     country:
       country: Country
       settings: Settings

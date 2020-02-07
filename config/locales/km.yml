@@ -4811,6 +4811,8 @@ km:
     client_forms:
       hotline: លេខទូរស័ព្ទបន្ទាប់
       client_forms: ទម្រង់អតិថិជន
+      'yes': 'បាទ / ចាស'
+      'no' : 'ទេ'
     country:
       country: ប្រទេស
       settings: ការកំណត់

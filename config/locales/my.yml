@@ -4844,6 +4844,8 @@ my:
     client_forms:
       hotline: Hotline
       client_forms: Client Forms
+      'yes': 'Yes'
+      'no' : 'No'
     country:
       country: ႏုိင္ငံ
       settings: အျပင္အဆင္မ်ား
