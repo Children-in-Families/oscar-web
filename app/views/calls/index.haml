@@ -11,7 +11,7 @@
 .m-t-md
 .row
   .col-xs-12
-    .ibox-content#call-advance-search-form.collapse.main-report-builder
+    .ibox-content#call-advance-search-form.main-report-builder{ class: !params.has_key?(:query_builder_json) && 'collapse' }
       = render 'calls/call_advanced_searches/advanced_search'
 .row.ibox-space
   .col-xs-12

@@ -15,7 +15,11 @@ class CallsController < AdminController
     end
 
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
-      scope.where(id: call_ids).order(:created_at).page(params[:page]).page(params[:page]).per(20)
+      if call_ids.present?
+        scope.where(id: call_ids).order(:created_at).page(params[:page]).page(params[:page]).per(20)
+      else
+        scope.order(:created_at).page(params[:page]).page(params[:page]).per(20)
+      end
     end
     respond_to do |f|
       f.html do

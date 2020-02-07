@@ -1,13 +1,7 @@
 CIF.CallsIndex = do ->
   _init = ->
-    _initSelect2()
     _initAdavanceSearchFilter()
-
-
-  _initSelect2 = ->
-    $('#calls-index select').select2
-      minimumInputLength: 0,
-      allowClear: true
+    _setAdavanceSearchFilter()
 
   _initAdavanceSearchFilter = ->
     $.fn.queryBuilder.define 'select2', ((options) ->
@@ -22,10 +16,10 @@ CIF.CallsIndex = do ->
           rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
           return
         @on 'afterUpdateRuleFilter', (e, rule) ->
-          rule.$el.find(".rule-filter-container [name$=_filter]").select2
+          rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
           return
         @on 'afterUpdateRuleOperator', (e, rule) ->
-          rule.$el.find(".rule-operator-container [name$=_operator]").select2
+          rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
           return
         @on 'beforeDeleteRule', (e, rule) ->
           rule.$el.find(".rule-filter-container [name$=_filter]").select2 'destroy'
@@ -39,6 +33,7 @@ CIF.CallsIndex = do ->
       showIcon: false
 
     filters = $("#call-builder-fields").data('fields')
+
     $('#builder').queryBuilder
       plugins: [
         'select2'
@@ -55,6 +50,9 @@ CIF.CallsIndex = do ->
         $('#query_builder_json').val null
       return
 
+  _setAdavanceSearchFilter = ->
+    queryJson = $('#builder').data('basic-search-rules')
+    $('#builder').queryBuilder 'setRules', queryJson if queryJson
 
   _getCallPath = ->
     return if $('table.calls tbody tr').text().trim() == 'No results found' || $('table.clients tbody tr').text().trim() == 'មិនមានលទ្ធផល' || $('table.clients tbody tr').text().trim() == 'No data available in table'
