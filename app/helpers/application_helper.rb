@@ -204,6 +204,12 @@ module ApplicationHelper
     current_user.custom_field_permissions.find_by(custom_field_id: value).editable
   end
 
+  def custom_field_readable?(value)
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
+    current_user.custom_field_permissions.find_by(custom_field_id: value).readable
+  end
+
   def action_search?
     Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
   end
