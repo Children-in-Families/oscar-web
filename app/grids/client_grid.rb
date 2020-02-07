@@ -954,7 +954,7 @@ class ClientGrid < BaseGrid
     assessment_completed_sql, assessment_number = assessment_filter_values(results)
     sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE assessments.client_id IS NOT NULL #{assessment_completed_sql}) >= #{assessment_number})".squish
     if assessment_number.present? && assessment_completed_sql.present?
-      assessments = object.assessments.defaults.where(sql).order('created_at').offset(2-1).limit(1)
+      assessments = object.assessments.defaults.where(sql).order('created_at').offset(assessment_number - 1).limit(1)
     elsif assessment_completed_sql.present?
       assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
     end
