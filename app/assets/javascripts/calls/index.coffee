@@ -46,6 +46,14 @@ CIF.CallsIndex = do ->
       filters: filters
       lang_code: 'en'
 
+    $('#call-advanced-search').on 'submit', (e) ->
+      query = $('#builder').queryBuilder('getRules')
+      if query
+        $('#query_builder_json').val JSON.stringify(query)
+      else
+        e.preventDefault()
+        $('#query_builder_json').val null
+      return
 
 
   _getCallPath = ->
