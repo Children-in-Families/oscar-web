@@ -7,13 +7,9 @@ module FormBuilderHelper
         if form_type == 'tracking'
           tracking_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
         elsif form_type == 'formbuilder'
-<<<<<<< HEAD
-          form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
+          form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
         elsif form_type == 'active_program_stream'
           program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], 'program_streams')
-=======
-          form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
->>>>>>> c0e9f626ab1b726637b48daa1949133a9c9e7044
         end
       end.join(" #{condition} ")
     end
