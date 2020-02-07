@@ -1747,13 +1747,13 @@ km:
       brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
       call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
       callType:
-        new_referral:_case_action_required: "ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ"
-        new_referral:_case_action_not_required: "ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា"
-        providing_update: "ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន"
-        phone_counselling: "ការប្រឹក្សាតាមទូរស័ព្ទ"
-        seeking_information: "ស្វែងរកព័ត៌មាន"
-        spam_call: "ការហៅទូរស័ព្ទរំខាន"
-        wrong_number: "ច្រឡំលេខ"
+        new_referral_case_action_not_required: ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា
+        new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
+        phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
+        providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
+        seeking_information: ស្វែងរកព័ត៌មាន
+        spam_call: ការហៅទូរស័ព្ទរំខាន
+        wrong_number:  ច្រឡំលេខ
       cambodia: កម្ពុជា
       case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី
