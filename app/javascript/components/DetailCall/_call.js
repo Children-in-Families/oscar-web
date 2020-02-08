@@ -8,6 +8,13 @@ export default ({data, T, locale}) => {
       ? "created_at|updated_at|referee_id|^id$"
       : "created_at|updated_at|information_provided|referee_id|^id$";
 
+  const buildList = (items) => {
+    const listItems = items.map((item, index) =>
+      (<li key={index}>{item}</li>)
+    )
+    return <ul>{listItems}</ul>
+  }
+
   const renderItem = (obj, key) => {
     return (
       <tr key={`${key}`}>
@@ -15,7 +22,11 @@ export default ({data, T, locale}) => {
           { T.translate("commons.listTable.index."+titleize(formatKey(key))) }
         </td>
         <td>
-          <strong>{formatLabel(obj, key)}</strong>
+          {
+            Array.isArray(obj[key]) ?
+              buildList(obj[key])
+            : formatLabel(obj, key)
+          }
         </td>
       </tr>
     )

@@ -11,6 +11,10 @@ class Call < ActiveRecord::Base
 
   has_many :hotlines, dependent: :destroy
   has_many :clients, through: :hotlines
+  has_many :call_protection_concerns, dependent: :destroy
+  has_many :protection_concerns, through: :call_protection_concerns
+  has_many :call_necessities, dependent: :destroy
+  has_many :necessities, through: :call_necessities
 
   scope :most_recents, -> { order(date_of_call: :desc) }
 

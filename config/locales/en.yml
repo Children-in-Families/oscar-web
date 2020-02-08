@@ -645,10 +645,32 @@ en:
     edit:
       add_note_about_the_content: Add a note about the content of your conversation with the caller.
       answered_call: Answered Call
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      basic_necessity: Basic Necessities
       date_of_call: Date of Call
       edit_call: Edit Call
       information_provided: Information Provided
       'no': "No"
+      protection_concern: Child Protection Concerns
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
       referee_called_before: Has the referee called the Childsafe Hotline Before?
@@ -690,6 +712,27 @@ en:
     phone_call_id: Phone call ID
     phone_type: Phone type
     requested_update: Requested Update
+    show:
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
     start_datetime: Date Call Began
     start_time: Time Call Began
   cancel: Cancel
@@ -1854,6 +1897,7 @@ en:
       nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
+      other_more_information: Other-More Information
       phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: Carer Address
@@ -2338,6 +2382,7 @@ en:
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         other_info_of_exit: Other - More Information
+        other_more_information: Other-More Information
         phone_counselling_summary: Phone Counselling Summary
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date

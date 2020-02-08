@@ -267,7 +267,8 @@
         "2": "Looking for education and material requests for school registration; return to school; need help to stay in school.",
         "3": "Looking for food, water, milk, shelter support.",
         "4": "Looking for vocational training/employment.",
-        "5": "Caregivers looking to send their children to an RCI."
+        "5": "Caregivers looking to send their children to an RCI.",
+        "6": "Other"
       },
       "childProtectionConcerns": {
         "1": "Physical violence",
@@ -286,7 +287,8 @@
       "what_is_the_call": "What is the call about / seeking support for?",
       "basic_necessities": "Basic Necessities",
       "child_protection": "Child Protection Concerns",
-      "enter_a_brief": "Enter a brief note summarising the call"
+      "enter_a_brief": "Enter a brief note summarising the call",
+      "other_more_information": "Other-More Information"
     },
     "carerInfo": {
       "genderLists": {
@@ -472,8 +474,10 @@
         "Adult": "Adult",
         "Anonymous": "Anonymous",
         "Answered Call": "Answered Call",
+        "Basic Necessities": "Basic Necessities",
         "Call Type": "Call Type",
         "Called Before": "Called Before",
+        "Child Protection Concerns": "Child Protection Concerns",
         "Current Address": "Current Address",
         "Date Of Call": "Date Of Call",
         "Email": "Email",

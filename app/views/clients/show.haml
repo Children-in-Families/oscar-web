@@ -425,24 +425,13 @@
                   %td
                     %strong
                       = @client.phone_counselling_summary
-              - if @client.necessities.any?
+              - if @client.other_more_information.present?
                 %tr
                   %td.spacing-first-col
-                    = t('.basic_necessities')
+                    = t('.other_more_information')
                   %td
-                    - @client.necessities.each do |necessity|
-                      %p
-                        %strong.label.label-default
-                          = t('.basicNecessities.' + necessity.id.to_s)
-              - if @client.protection_concerns.any?
-                %tr
-                  %td.spacing-first-col
-                    = t('.child_protection_concerns')
-                  %td
-                    - @client.protection_concerns.each do |concern|
-                      %p
-                        %strong.label.label-default
-                          = t('.childProtectionConcerns.' + concern.id.to_s)
+                    %strong
+                      = @client.other_more_information
               - if @client.brief_note_summary.present?
                 %tr
                   %td.spacing-first-col
