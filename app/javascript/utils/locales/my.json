@@ -258,7 +258,7 @@
       "please_select_client": "Please select client",
       "verify_message": "You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
       "date_of_call": "Date of Call",
-      "time_call_began": "Time Call Began",
+      "time_call_began": "Time of Call",
       "time_call_ended": "Time Call Ended"
     },
     "callAbout": {
@@ -492,7 +492,7 @@
         "Receiving Staff": "Receiving Staff",
         "Requested Update": "Requested Update",
         "Street Number": "Street Number",
-        "Time Call Began": "Time Call Began",
+        "Start Datetime": "Time of Call",
         "Time Call Ended": "Time Call Ended"
       }
     }
@@ -533,7 +533,7 @@
       "call_information": "Call Information",
       "receiving_staff": "Receiving Staff Members",
       "date_of_call": "Date of Call",
-      "time_call_began": "Time Call Began",
+      "time_call_began": "Time of Call",
       "time_call_ended": "Time Call Ended",
       "call_type": "Call Type",
       "information_provided": "Information Provided",

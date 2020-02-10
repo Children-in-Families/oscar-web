@@ -162,7 +162,7 @@ module Api
 
       def call_params
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
-                                :date_of_call, :start_datetime, :end_datetime, :call_type,
+                                :date_of_call, :start_datetime, :call_type,
                                 :information_provided,
                                 :answered_call, :called_before, :requested_update,
                                 client_ids: [], necessity_ids: [], protection_concern_ids: []

@@ -675,7 +675,7 @@ my:
       referee_answered_call: Did the referee answer this call or return a missed call?
       referee_called_before: Has the referee called the Childsafe Hotline Before?
       returning_missed_call: Returning Missed Call
-      time_call_began: Time Call Began
+      time_call_began: Time of Call
       time_call_ended: Time Call Ended
       types:
         new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
@@ -727,8 +727,8 @@ my:
     phone_call_id: Phone call ID
     phone_type: Phone type
     requested_update: Requested Update
-    start_datetime: Date Call Began
-    start_time: Time Call Began
+    start_datetime: Date of Call
+    start_time: Time of Call
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
@@ -1113,7 +1113,7 @@ my:
       receiving_staff_id: Receiving Staff
       referee_id: Referee
       requested_update: Requested Update
-      start_datetime: Date Call Began
+      start_datetime: Time of Call
     case_histories:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
@@ -2202,6 +2202,7 @@ my:
         answered_call: Answer Call
         call_type: Call types
         called_before: Called Before
+        date_of_call: Date of Call
         end_datetime: Date Call Ended
         end_time: Time Call Ended
         has_dob: 'Yes'
@@ -2217,8 +2218,8 @@ my:
         referee_id: Referee
         receiving_staff_id: Receiving staff
         requested_update: Requested Update
-        start_datetime: Date Call Began
-        start_time: Time Call Began
+        start_datetime: Date of Call
+        start_time: Time of Call
         types:
           new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
           new_referral_case_action_required: "New Referral: Case Action Required"

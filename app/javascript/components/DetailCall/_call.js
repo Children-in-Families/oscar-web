@@ -19,7 +19,7 @@ export default ({data, T, locale}) => {
     return (
       <tr key={`${key}`}>
         <td className="spacing-first-col">
-          { T.translate("commons.listTable.index."+titleize(formatKey(key))) }
+          { T.translate("commons.listTable.index."+titleize(key)) }
         </td>
         <td>
           {
@@ -48,20 +48,6 @@ export default ({data, T, locale}) => {
         return obj[key]
     }
   }
-
-  const formatKey = key => {
-    switch (key) {
-      case 'start_datetime':
-        return "Time Call Began"
-
-      case "end_datetime":
-        return "Time Call Ended"
-
-      default:
-        return key
-    }
-  }
-
 
   return (
     <HorizontalTable

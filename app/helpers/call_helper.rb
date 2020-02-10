@@ -64,10 +64,6 @@ module CallHelper
     time_range
   end
 
-  def end_time
-    time_range
-  end
-
   def time_range
     times = [{'00' => "12:00AM"}]
     ('01'..'23').each{|d| times << {d => "#{d}:00#{d.to_i <= 11 ? "AM" : "PM"}"} }

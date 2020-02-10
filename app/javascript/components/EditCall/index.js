@@ -98,7 +98,7 @@ export default props => {
   }
 
   const handleValidation = () => {
-    const validationFields = seekingInformation ? ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime', 'information_provided'] : ['receiving_staff_id', 'date_of_call', 'start_datetime', 'end_datetime']
+    const validationFields = seekingInformation ? ['receiving_staff_id', 'date_of_call', 'start_datetime', 'information_provided'] : ['receiving_staff_id', 'date_of_call', 'start_datetime']
     const errors = []
 
     validationFields.forEach(field => {
@@ -208,25 +208,6 @@ export default props => {
             required={true}
             onChange={onChange('call', 'start_datetime')}
             value={callData.start_datetime}
-          />
-        </div>
-        <div className='col-sm-12 col-md-6'>
-         {/* <DateTimePicker
-            T={T}
-            isError={errorFields.includes('end_datetime')}
-            label="Time Call Ended"
-            required={true}
-            onChange={onChange('call', 'end_datetime')}
-            value={callData.end_datetime}
-          /> */}
-          <TextInput
-            type="time"
-            T={T}
-            isError={errorFields.includes('end_datetime')}
-            label={T.translate("editCall.index.time_call_ended")}
-            required={true}
-            onChange={onChange('call', 'end_datetime')}
-            value={callData.end_datetime}
           />
         </div>
       </div>
