@@ -4,6 +4,7 @@ CIF.CallsIndex = do ->
     _setAdavanceSearchFilter()
 
   _initAdavanceSearchFilter = ->
+    $('#call-search-btn').val($('#call-search-btn').data('search'))
     $.fn.queryBuilder.define 'select2', ((options) ->
       if !$.fn.select2 or !$.fn.select2.constructor
         Utils.error 'MissingLibrary', 'Select2 is required'
@@ -44,6 +45,8 @@ CIF.CallsIndex = do ->
     $('#call-advanced-search').on 'submit', (e) ->
       query = $('#builder').queryBuilder('getRules')
       if query
+        res = $('#builder').queryBuilder('getSQL', false, false)
+        $('#query_string').val res.sql
         $('#query_builder_json').val JSON.stringify(query)
       else
         e.preventDefault()

@@ -6,17 +6,12 @@ class CallsController < AdminController
   before_action :find_call, :find_users, only: [:edit, :update]
 
   def index
-    @calls   = JSON.parse(Call.all.to_json)
-    call_ids = []
-    if(@query_json = params[:query_builder_json].presence)
-      evaluator = JqueryQueryBuilder::Evaluator.new(@query_json)
-      @calls    = evaluator.get_matching_objects(@calls)
-      call_ids  = @calls.map{|call| call['id'] }
-    end
-
+    @query_json = params[:query_builder_json].presence
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
-      if call_ids.present?
-        scope.where(id: call_ids).order(:created_at).page(params[:page]).page(params[:page]).per(20)
+      if(@query_json)
+        query_string = params[:query_string]
+        query_string = query_string.gsub(/'true'|= 'false'/, "'true'" => 'true', "= 'false'" => 'IS NULL')
+        scope.where(query_string).order(:created_at).page(params[:page]).page(params[:page]).per(20)
       else
         scope.order(:created_at).page(params[:page]).page(params[:page]).per(20)
       end
@@ -24,6 +19,7 @@ class CallsController < AdminController
     respond_to do |f|
       f.html do
         @calls_grid
+        @query_json
       end
       f.xls do
         send_data  @calls_grid.to_xls, filename: "calls_report-#{Time.now}.xls"

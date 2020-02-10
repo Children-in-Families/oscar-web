@@ -13,10 +13,10 @@ module AdvancedSearches
 
     def render
       group                 = header_translation(group_label)
-      number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, header_translation(item), group) }
-      text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, header_translation(item), group) }
-      date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, header_translation(item), group) }
-      drop_list_fields      = dropdown_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, header_translation(item.first), item.last, group) }
+      number_fields         = number_type_list.map { |item| AdvancedSearches::QueryFieldType.number_options(item, header_translation(item), group) }
+      text_fields           = text_type_list.map { |item| AdvancedSearches::QueryFieldType.text_options(item, header_translation(item), group) }
+      date_picker_fields    = date_type_list.map { |item| AdvancedSearches::QueryFieldType.date_picker_options(item, header_translation(item), group) }
+      drop_list_fields      = dropdown_type_list.map { |item| AdvancedSearches::QueryFieldType.drop_list_options(item.first, header_translation(item.first), item.last, group) }
 
       search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
 
