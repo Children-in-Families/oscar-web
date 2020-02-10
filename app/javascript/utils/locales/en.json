@@ -388,14 +388,13 @@
         "18_plus": "18+",
         "under_18": "Under 18"
       },
-      "calledBeforeOpts": {
-        "yes": "Yes",
-        "no": "No"
-      },
+      "yes": "Yes",
+      "no": "No",
       "anonymous": "Anonymous",
       "caller_info": "Caller Information",
       "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
       "have_you_called": "Have you called the Childsafe Hotline Before?",
+      "are_you_a_child_safe_agent": "Are you a child safe agent?",
       "anonymous_referee": "Anonymous Referee",
       "name": "Name",
       "gender": "Gender",
@@ -477,6 +476,7 @@
         "Basic Necessities": "Basic Necessities",
         "Call Type": "Call Type",
         "Called Before": "Called Before",
+        "Childsafe Agent": "Childsafe Agent",
         "Child Protection Concerns": "Child Protection Concerns",
         "Current Address": "Current Address",
         "Date Of Call": "Date Of Call",
@@ -558,10 +558,8 @@
         "18_plus": "18+",
         "under_18": "Under 18"
       },
-      "calledBeforeOpts": {
-        "yes": "Yes",
-        "no": "No"
-      },
+      "yes": "Yes",
+      "no": "No",
       "anonymous": "Anonymous",
       "name": "Name",
       "referee_has_been_updated": "Referee has been successfully updated",

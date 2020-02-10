@@ -1,8 +1,23 @@
 CIF.CallsIndex = do ->
   _init = ->
+    _fixedHeaderTableColumns()
     _initSelect2()
     _initAdavanceSearchFilter()
     _getCallPath()
+
+  _fixedHeaderTableColumns = ->
+    $('.calls-table').removeClass('table-responsive')
+    if !$('table.calls tbody tr td').hasClass('noresults')
+      $('table.calls').dataTable(
+        'bPaginate': false
+        'bFilter': false
+        'bInfo': false
+        'bSort': false
+        'sScrollY': 'auto'
+        'bAutoWidth': true
+        'sScrollX': '100%')
+    else
+      $('.users-table').addClass('table-responsive')
 
   _initSelect2 = ->
     $('#calls-index select').select2

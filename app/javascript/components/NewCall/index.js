@@ -122,7 +122,7 @@ const CallForms = props => {
     const components = [
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
-      { step: 1, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'answered_call', 'called_before'] },
+      { step: 1, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'answered_call', 'called_before', 'childsafe_agent'] },
       { step: 2, data: clientData, fields: ['gender', 'user_ids']},
       { step: 3, data: clientData, fields: counselling ? ['phone_counselling_summary'] : [] },
       { step: 4, data: clientData, fields: [] },

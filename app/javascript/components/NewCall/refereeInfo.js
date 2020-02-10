@@ -38,7 +38,6 @@ export default props => {
     return newList
   }
 
-
   const answeredCallOpts = [
     { label: T.translate("newCall.refereeInfo.answeredCallOpts.call_answered"), value: true },
     { label: T.translate("newCall.refereeInfo.answeredCallOpts.return_missed_call"), value: false }
@@ -47,10 +46,11 @@ export default props => {
     { label: T.translate("newCall.refereeInfo.ageOpts.18_plus"), value: true },
     { label: T.translate("newCall.refereeInfo.ageOpts.under_18"), value: false }
   ];
-  const calledBeforeOpts = [
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.yes"), value: true },
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.no"), value: false }
+  const yesNoOpts = [
+    { label: T.translate("newCall.refereeInfo.yes"), value: true },
+    { label: T.translate("newCall.refereeInfo.no"), value: false }
   ];
+
   const referralSourceCategoryLists = referralSourceCategory.map(category => ({
     label: category[0],
     value: category[1]
@@ -230,9 +230,22 @@ export default props => {
             required
             isError={errorFields.includes("called_before")}
             label={T.translate("newCall.refereeInfo.have_you_called")}
-            options={calledBeforeOpts}
+            options={yesNoOpts}
             onChange={onCheckCalledBefore}
             value={call.called_before}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-12">
+          <RadioGroup
+            inline
+            required
+            isError={errorFields.includes("childsafe_agent")}
+            label={T.translate("newCall.refereeInfo.are_you_a_child_safe_agent")}
+            options={yesNoOpts}
+            onChange={onChange("call", "childsafe_agent")}
+            value={call.childsafe_agent}
           />
         </div>
       </div>

@@ -15,6 +15,7 @@ class CallsGrid
   filter(:date_of_call, :date, range: true, header: -> { I18n.t('datagrid.columns.calls.date_of_call') })
   filter(:answered_call, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.answered_call') })
   filter(:called_before, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.called_before') })
+  filter(:childsafe_agent, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.childsafe_agent') })
   filter(:requested_update, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.requested_update') })
   filter(:information_provided, header: -> { I18n.t('datagrid.columns.calls.information_provided') })
 
@@ -45,6 +46,9 @@ class CallsGrid
   end
   column(:called_before, order: false, header: -> { I18n.t('datagrid.columns.calls.called_before') }) do |object|
     object.called_before == true ? 'Yes' : 'No'
+  end
+  column(:childsafe_agent, order: false, header: -> { I18n.t('datagrid.columns.calls.childsafe_agent') }) do |object|
+    object.childsafe_agent == true ? 'Yes' : 'No'
   end
   column(:requested_update, order: false, header: -> { I18n.t('datagrid.columns.calls.requested_update') }) do |object|
     object.requested_update == true ? 'Yes' : 'No'

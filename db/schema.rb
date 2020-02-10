@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200210020427) do
+ActiveRecord::Schema.define(version: 20200210102631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20200210020427) do
     t.boolean  "answered_call"
     t.boolean  "called_before"
     t.boolean  "requested_update",     default: false
+    t.boolean  "childsafe_agent"
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree

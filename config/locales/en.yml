@@ -645,6 +645,7 @@ en:
     edit:
       add_note_about_the_content: Add a note about the content of your conversation with the caller.
       answered_call: Answered Call
+      are_you_a_child_safe_agent: Are you a child safe agent?
       basic_necessities:
         "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
         "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
@@ -2229,6 +2230,7 @@ en:
         answered_call: Answer Call
         call_type: Call types
         called_before: Called Before
+        childsafe_agent: Childsafe Agent
         date_of_call: Date of Call
         end_datetime: Date Call Ended
         end_time: Time Call Ended

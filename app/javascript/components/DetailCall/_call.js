@@ -39,6 +39,7 @@ export default ({data, T, locale}) => {
 
       case 'answered_call':
       case 'called_before':
+      case 'childsafe_agent':
       case 'requested_update':
         return obj[key] ? 'Yes' : 'No'
       case 'call_type':

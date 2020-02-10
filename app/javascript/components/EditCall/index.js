@@ -29,8 +29,8 @@ export default props => {
   ];
 
   const calledBeforeOpts = [
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.yes"), value: true },
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.no"), value: false }
+    { label: T.translate("newCall.refereeInfo.yes"), value: true },
+    { label: T.translate("newCall.refereeInfo.no"), value: false }
   ];
 
   const callTypes = [
