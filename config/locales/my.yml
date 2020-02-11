@@ -125,6 +125,8 @@ my:
           blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         call:
           attributes:
+            answered_call:
+              inclusion: is not included in the list
             receiving_staff_id:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
             start_datetime:
@@ -134,6 +136,8 @@ my:
             call_type:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
               inclusion: အဆိုပါစာရင်းထဲတွင်မပါဝင်တာဖြစ်ပါတယ်
+            called_before:
+              inclusion: មិនមាននៅក្នុងបញ្ជី
             information_provided:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         case:
@@ -640,20 +644,50 @@ my:
     end_time: Time Call Ended
     hotline: Hotline
     edit:
-      edit_call: Edit Call
-      referee_answered_call: Did the referee answer this call or return a missed call?
-      answered_call: Answered Call
-      returning_missed_called: Returning Missed Call
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
-      yes: "Yes"
-      no: "No"
-      receiving_staff: Receiving Staff
-      date_of_call: Date of Call
-      time_call_began: Time Call Began
-      time_call_ended: Time Call Ended
-      referee_called_before: Has the referee called the Childsafe Hotline Before?
-      information_provided: Information Provided
       add_note_about_the_content: Add a note about the content of your conversation with the caller.
+      answered_call: Answered Call
+      are_you_a_child_safe_agent: Are you a child safe agent?
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      basic_necessity: Basic Necessities
+      date_of_call: Date of Call
+      edit_call: Edit Call
+      information_provided: Information Provided
+      'no': "No"
+      protection_concern: Child Protection Concerns
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
+      receiving_staff: Receiving Staff
+      referee_answered_call: Did the referee answer this call or return a missed call?
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      returning_missed_call: Returning Missed Call
+      time_call_began: Time of Call
+      time_call_ended: Time Call Ended
+      types:
+        new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+        new_referral_case_action_required: "New Referral: Case Action Required"
+        phone_counselling: Phone Counselling
+        providing_update: Providing Update
+        seeking_information: Seeking Information
+        spam_call: Spam Call
+        wrong_number: Wrong Number
+      'yes': "Yes"
     index:
       add_new_call: Add New Call
       export_xls: Export to XLS
@@ -661,6 +695,29 @@ my:
       results: Results
       report_builder: Report Builder
     information_provided: Information provided
+    new:
+      new_call: New Call
+    show:
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -672,8 +729,8 @@ my:
     phone_call_id: Phone call ID
     phone_type: Phone type
     requested_update: Requested Update
-    start_datetime: Date Call Began
-    start_time: Time Call Began
+    start_datetime: Date of Call
+    start_time: Time of Call
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
@@ -1058,7 +1115,7 @@ my:
       receiving_staff_id: Receiving Staff
       referee_id: Referee
       requested_update: Requested Update
-      start_datetime: Date Call Began
+      start_datetime: Time of Call
     case_histories:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
@@ -1729,25 +1786,56 @@ my:
       agency_names: ေအဂ်င္စီနာမည္
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       basic_necessities: Basic Necessities
+      basicNecessities:
+        '1': Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        '2': Looking for education and material requests for school registration; return to school; need help to stay in school.
+        '3': Looking for food, water, milk, shelter support.
+        '4': Looking for vocational training/employment.
+        '5': Caregivers looking to send their children to an RCI
       birth_province: ေမြးရာ ခ႐ိုင္
       book: ဖောက်သည် စာအုပ်
       brief_note_summary: Brief Note Summarising the Call
+      call_type: Call Type
+      callType:
+        new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+        new_referral_case_action_required: "New Referral: Case Action Required"
+        phone_counselling: Phone Counselling
+        providing_update: Providing Update
+        seeking_information: Seeking Information
+        spam_call: Spam Call
+        wrong_number: Wrong Number
       cambodia: ကေမာၻဒီးယား
       case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       child_protection_concerns: Child Protection Concerns
+      childProtectionConcerns:
+        '1': Physical violence
+        '2': Emotional violence
+        '3': Sexual violence
+        '4': Neglect / lack of adult supervision
+        '5': Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        '6': Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        '7': Drug use (seeking rehabilitation support)
+        '8': Alcohol use (seeking rehabilitation support)
+        '9': Separated child - abandoned; lost; street living.
+        '10': Children and parent living on the street.
+        '11': Disability
+        '12': Other
       client_able_answers: အမႈသည္ Able အေျဖမ်ား
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ပါၿပီ
+      concern_location: Location of Concern
+      created_date: Created Date
       current_address: လက္ရွိ လိပ္စာ
       current_province: လက္ရွိ ေနထုိင္ရာ ခ႐ိုင္
       custom_id_number1: Custom ID Number1
       custom_id_number2: Custom ID Number2
       date: နေ့စှဲ
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      date_of_call: Date of Call
       detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
@@ -1782,6 +1870,7 @@ my:
       government_report: အစိုးရ အစီရင္ခံစာမ်ား
       has_been_in_government_care: အစိုးရ၏ ေစာင့္ေရွာက္မႈ ခံယူဖူး
       has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူး
+      hotlines: Hotlines
       house_number: အိမ္နံပါတ္
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
@@ -1792,7 +1881,6 @@ my:
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
       local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
-      concern_location: Location Of Concern
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       manage: စီမံခန့်ခွဲ
       name: နာမည္
@@ -1800,6 +1888,7 @@ my:
       nickname: Nickname
       note: မွတ္စု
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      other_more_information: အခြား - နောက်ထပ်သတင်းအချက်အလက်များ
       phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
@@ -2115,6 +2204,8 @@ my:
         answered_call: Answer Call
         call_type: Call types
         called_before: Called Before
+        childsafe_agent: Childsafe Agent
+        date_of_call: Date of Call
         end_datetime: Date Call Ended
         end_time: Time Call Ended
         has_dob: 'Yes'
@@ -2130,8 +2221,17 @@ my:
         referee_id: Referee
         receiving_staff_id: Receiving staff
         requested_update: Requested Update
-        start_datetime: Date Call Began
-        start_time: Time Call Began
+        start_date: စသည့္ရက္စြဲ
+        start_datetime: Date of Call
+        start_time: Time of Call
+        types:
+          new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+          new_referral_case_action_required: "New Referral: Case Action Required"
+          phone_counselling: Phone Counselling
+          providing_update: Providing Update
+          seeking_information: Seeking Information
+          spam_call: Spam Call
+          wrong_number: Wrong Number
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
@@ -2175,6 +2275,22 @@ my:
         case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
         code: Custom ID Number1
+        concern_address: Address Name
+        concern_address_type: Address Type
+        concern_commune_id: Commune / Sangkat
+        concern_district_id: District / Khan
+        concern_email: Relevant Email Contact
+        concern_email_owner: Email Owner
+        concern_house: House Number
+        concern_is_outside: Concern is Outside Cambodia
+        concern_location: Location Of Concern
+        concern_outside_address: Outside Cambodia Address
+        concern_phone: Relevant Contact Phone
+        concern_phone_owner: Phone Owner
+        concern_province_id: Province
+        concern_same_as_client: Same as Client
+        concern_street: Street Number
+        concern_village_id: Village
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
         commune_en: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (အင်္ဂလိပ်)
         commune_kh: လိပ်စာ - ရပ်ရွာလူထု / Sangkat (ခမာ)
@@ -2385,6 +2501,7 @@ my:
       manage: စီမံသည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      other_more_information: အခြား - နောက်ထပ်သတင်းအချက်အလက်များ
       partner: မိတ္ဖက္
       partners:
         address: လိပ္စာ
@@ -4777,6 +4894,8 @@ my:
     client_forms:
       hotline: Hotline
       client_forms: Client Forms
+      'yes': 'Yes'
+      'no' : 'No'
     country:
       country: ႏုိင္ငံ
       settings: အျပင္အဆင္မ်ား

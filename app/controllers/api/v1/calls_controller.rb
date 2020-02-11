@@ -8,20 +8,44 @@ module Api
       end
 
       def create
-        referee = if params["referee"]["id"].present?
-          Referee.find_by(id: params["referee"]["id"])
+        if params["referee"]["id"].present?
+          referee = Referee.find_by(id: params["referee"]["id"])
+          referee.update_attributes(referee_params)
         else
-          Referee.new(referee_params)
+          referee = Referee.new(referee_params)
         end
+
         call = Call.new(call_params)
 
         if tagged_with_new_client?(call.call_type)
           carer = Carer.new(carer_params)
-          clients = client_params[:clients].map do |client|
+
+          clients = client_params[:clients].map.with_index do |client, index|
             new_client = Client.new(client)
             new_client.name_of_referee = referee.name
             new_client.received_by_id = call.receiving_staff_id
             new_client.initial_referral_date = call.date_of_call
+
+            if index > 0
+              new_client.concern_province_id = client_params[:clients].first[:concern_province_id] if client_params[:clients].first[:concern_province_id]
+              new_client.concern_district_id = client_params[:clients].first[:concern_district_id] if client_params[:clients].first[:concern_district_id]
+              new_client.concern_commune_id = client_params[:clients].first[:concern_commune_id] if client_params[:clients].first[:concern_commune_id]
+              new_client.concern_village_id = client_params[:clients].first[:concern_village_id] if client_params[:clients].first[:concern_village_id]
+              new_client.concern_is_outside = client_params[:clients].first[:concern_is_outside] if client_params[:clients].first[:concern_is_outside]
+              new_client.concern_outside_address = client_params[:clients].first[:concern_outside_address] if client_params[:clients].first[:concern_outside_address]
+              new_client.concern_street = client_params[:clients].first[:concern_street] if client_params[:clients].first[:concern_street]
+              new_client.concern_house = client_params[:clients].first[:concern_house] if client_params[:clients].first[:concern_house]
+
+              new_client.concern_address = client_params[:clients].first[:concern_address] if client_params[:clients].first[:concern_address]
+              new_client.concern_address_type = client_params[:clients].first[:concern_address_type] if client_params[:clients].first[:concern_address_type]
+              new_client.concern_phone = client_params[:clients].first[:concern_phone] if client_params[:clients].first[:concern_phone]
+              new_client.concern_phone_owner = client_params[:clients].first[:concern_phone_owner] if client_params[:clients].first[:concern_phone_owner]
+              new_client.concern_email = client_params[:clients].first[:concern_email] if client_params[:clients].first[:concern_email]
+              new_client.concern_email_owner = client_params[:clients].first[:concern_email_owner] if client_params[:clients].first[:concern_email_owner]
+              new_client.concern_location = client_params[:clients].first[:concern_location] if client_params[:clients].first[:concern_location]
+              new_client.concern_same_as_client = client_params[:clients].first[:concern_same_as_client] if client_params[:clients].first[:concern_same_as_client]
+            end
+
             new_client
           end
 
@@ -36,7 +60,7 @@ module Api
                   client.referee_id = referee.id
                   client.carer_id = carer.id
                   client.save
-                  if params[:task].present?
+                  if params[:task].present? && call.requested_update
                     create_tasks(client, referee)
                   end
                   if (call.call_type == "New Referral: Case Action Required")
@@ -66,7 +90,7 @@ module Api
             if call.valid?
               referee.save
 
-              if params[:task].present?
+              if params[:task].present? && call.requested_update
                 clients = Client.where(id: call.client_ids)
                 clients.each do |client|
                   create_tasks(client, referee)
@@ -138,10 +162,10 @@ module Api
 
       def call_params
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
-                                :date_of_call, :start_datetime, :end_datetime, :call_type,
+                                :date_of_call, :start_datetime, :call_type,
                                 :information_provided,
-                                :answered_call, :called_before, :requested_update,
-                                client_ids: []
+                                :answered_call, :called_before, :childsafe_agent, :requested_update,
+                                client_ids: [], necessity_ids: [], protection_concern_ids: []
                                 )
       end
 
@@ -183,7 +207,7 @@ module Api
           :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
           :concern_street, :concern_house, :concern_address, :concern_address_type,
           :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location, :concern_same_as_client,
-          :brief_note_summary, :phone_counselling_summary,
+          :brief_note_summary, :phone_counselling_summary, :other_more_information,
 
           interviewee_ids: [],
           client_type_ids: [],
@@ -196,8 +220,7 @@ module Api
           client_needs_attributes: [:id, :rank, :need_id],
           client_problems_attributes: [:id, :rank, :problem_id],
           family_ids: [],
-          call_ids: [],
-          necessity_ids: [], protection_concern_ids: []
+          call_ids: []
         ])
 
       end

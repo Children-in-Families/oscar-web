@@ -258,35 +258,37 @@
       "please_select_client": "Please select client",
       "verify_message": "You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
       "date_of_call": "Date of Call",
-      "time_call_began": "Time Call Began",
+      "time_call_began": "Time of Call",
       "time_call_ended": "Time Call Ended"
     },
     "callAbout": {
       "basicNecessities": {
-        "looking_for_help": "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
-        "looking_for_education": "Looking for education and material requests for school registration; return to school; need help to stay in school.",
-        "looking_for_food": "Looking for food, water, milk, shelter support.",
-        "looking_for_vocational": "Looking for vocational training/employment.",
-        "caregivers_looking": "Caregivers looking to send their children to an RCI."
+        "1": "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
+        "2": "Looking for education and material requests for school registration; return to school; need help to stay in school.",
+        "3": "Looking for food, water, milk, shelter support.",
+        "4": "Looking for vocational training/employment.",
+        "5": "Caregivers looking to send their children to an RCI.",
+        "6": "Other"
       },
       "childProtectionConcerns": {
-        "physical_violence": "Physical violence",
-        "emotional_violence": "Emotional violence",
-        "sexual_violence": "Sexual violence",
-        "neglect_supervision": "Neglect / lack of adult supervision",
-        "resecue_of_trafficking": "Rescue of trafficking victim (migration / collaboration with authorities to rescue)",
-        "forced_labour": "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.",
-        "drug_use": "Drug use (seeking rehabilitation support)",
-        "alcohol_use": "Alcohol use (seeking rehabilitation support)",
-        "separated_child": "Separated child - abandoned; lost; street living.",
-        "children_and_parent": "Children and parent living on the street.",
-        "disability": "Disability",
-        "other": "Other"
+        "1": "Physical violence",
+        "2": "Emotional violence",
+        "3": "Sexual violence",
+        "4": "Neglect / lack of adult supervision",
+        "5": "Rescue of trafficking victim (migration / collaboration with authorities to rescue)",
+        "6": "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.",
+        "7": "Drug use (seeking rehabilitation support)",
+        "8": "Alcohol use (seeking rehabilitation support)",
+        "9": "Separated child - abandoned; lost; street living.",
+        "10": "Children and parent living on the street.",
+        "11": "Disability",
+        "12": "Other"
       },
       "what_is_the_call": "What is the call about / seeking support for?",
       "basic_necessities": "Basic Necessities",
       "child_protection": "Child Protection Concerns",
-      "enter_a_brief": "Enter a brief note summarising the call"
+      "enter_a_brief": "Enter a brief note summarising the call",
+      "other_more_information": "Other-More Information"
     },
     "carerInfo": {
       "genderLists": {
@@ -361,6 +363,11 @@
       "go_back": "Go Back",
       "save": "Save"
     },
+    "confirmRemoveClientModal": {
+      "are_you_sure": "Are you sure you want to remove?",
+      "no": "No",
+      "yes": "Yes"
+    },
     "providingUpdate": {
       "please_select_client": "Please select client",
       "go_back": "Go Back",
@@ -381,14 +388,13 @@
         "18_plus": "18+",
         "under_18": "Under 18"
       },
-      "calledBeforeOpts": {
-        "yes": "Yes",
-        "no": "No"
-      },
+      "yes": "Yes",
+      "no": "No",
       "anonymous": "Anonymous",
       "caller_info": "Caller Information",
       "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
       "have_you_called": "Have you called the Childsafe Hotline Before?",
+      "are_you_a_child_safe_agent": "Are you a child safe agent?",
       "anonymous_referee": "Anonymous Referee",
       "name": "Name",
       "gender": "Gender",
@@ -433,7 +439,8 @@
       "relevant_email": "Relevant Email Contact",
       "locatin_description": "Location Description",
       "add_another_client": "Add Another Client",
-      "remove_client": "Remove Client"
+      "remove_client": "Remove Client",
+      "confirmation": "Confirmation"
     },
     "referralMoreInfo": {
       "client_referral_more_info": "Client / Referral - More Information",
@@ -466,13 +473,17 @@
         "Adult": "Adult",
         "Anonymous": "Anonymous",
         "Answered Call": "Answered Call",
+        "Basic Necessities": "Basic Necessities",
         "Call Type": "Call Type",
         "Called Before": "Called Before",
+        "Childsafe Agent": "Childsafe Agent",
+        "Child Protection Concerns": "Child Protection Concerns",
         "Current Address": "Current Address",
         "Date Of Call": "Date Of Call",
         "Email": "Email",
         "Full Name": "Full Name",
         "Gender": "Gender",
+        "Information Provided": "Information Provided",
         "Name": "Name",
         "House Number": "House Number",
         "no_client": "No Client",
@@ -481,14 +492,21 @@
         "Receiving Staff": "Receiving Staff",
         "Requested Update": "Requested Update",
         "Street Number": "Street Number",
-        "Time Call Began": "Time Call Began",
+        "Start Datetime": "Time of Call",
         "Time Call Ended": "Time Call Ended"
       }
     }
   },
   "detailCall": {
     "call": {
-      "about_call": "About Call"
+      "about_call": "About Call",
+      "New Referral: Case Action Required": "New Referral: Case Action Required",
+      "New Referral: Case Action NOT Required": "New Referral: Case Action NOT Required",
+      "Providing Update": "Providing Update",
+      "Phone Counselling": "Phone Counselling",
+      "Seeking Information": "Seeking Information",
+      "Spam Call": "Spam Call",
+      "Wrong Number": "Wrong Number"
     },
     "listClient": {
       "list_clients": "List Clients"
@@ -515,7 +533,7 @@
       "call_information": "Call Information",
       "receiving_staff": "Receiving Staff Members",
       "date_of_call": "Date of Call",
-      "time_call_began": "Time Call Began",
+      "time_call_began": "Time of Call",
       "time_call_ended": "Time Call Ended",
       "call_type": "Call Type",
       "information_provided": "Information Provided",
@@ -539,10 +557,8 @@
         "18_plus": "18+",
         "under_18": "Under 18"
       },
-      "calledBeforeOpts": {
-        "yes": "Yes",
-        "no": "No"
-      },
+      "yes": "Yes",
+      "no": "No",
       "anonymous": "Anonymous",
       "name": "Name",
       "referee_has_been_updated": "Referee has been successfully updated",

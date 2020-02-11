@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { SelectInput, TextArea, TextInput, Checkbox, DateInput } from "../Commons/inputs";
 import ConcernAddress from "./concernAddress";
 import Address from './address'
+import Modal from '../Commons/Modal'
+import ConfirmRemoveClientModal from "./confirmRemoveClientModal";
 
 export default props => {
   const {
@@ -50,19 +52,36 @@ export default props => {
   const [concernCommunes, setConcernCommunes] = useState(currentCommunes);
   const [concernVillages, setConcernVillages] = useState(currentVillages);
 
-  const setAddressOptions = (obj, type) => {
-    const dataState = {
-      districts: type === 'concern_address' ? setConcernDistricts : setDistricts,
-      communes: type === 'concern_address' ? setConcernCommunes : setCommunes,
-      villages: type === 'concern_address' ? setConcernVillages : setVillages
-    }
+  const [confirmRemoveClient, setConfirmRemoveClientModalOpen] = useState(false)
 
-    if(obj.province_id !== null && obj.province_id !== undefined)
-      fetchData('provinces', obj.province_id, 'districts', dataState)
-    if(obj.district_id !== null && obj.district_id !== undefined)
-      fetchData('districts', obj.district_id, 'communes', dataState)
-    if(obj.commune_id !== null && obj.commune_id !== undefined)
-      fetchData('communes', obj.commune_id, 'villages', dataState)
+  const setAddressOptions = (obj, type) => {
+    if (type === 'concern_address') {
+      const concernDataState = {
+        districts: setConcernDistricts,
+        communes: setConcernCommunes,
+        villages: setConcernVillages
+      }
+
+      if(obj.concern_province_id !== null && obj.concern_province_id !== undefined)
+        fetchData('provinces', obj.concern_province_id, 'districts', concernDataState)
+      if(obj.concern_district_id !== null && obj.concern_district_id !== undefined)
+        fetchData('districts', obj.concern_district_id, 'communes', concernDataState)
+      if(obj.concern_commune_id !== null && obj.concern_commune_id !== undefined)
+        fetchData('communes', obj.concern_commune_id, 'villages', concernDataState)
+    } else {
+      const dataState = {
+        districts: setDistricts,
+        communes: setCommunes,
+        villages: setVillages
+      }
+
+      if(obj.province_id !== null && obj.province_id !== undefined)
+        fetchData('provinces', obj.province_id, 'districts', dataState)
+      if(obj.district_id !== null && obj.district_id !== undefined)
+        fetchData('districts', obj.district_id, 'communes', dataState)
+      if(obj.commune_id !== null && obj.commune_id !== undefined)
+        fetchData('communes', obj.commune_id, 'villages', dataState)
+    }
   }
 
   const resetAddressOptions = type => {
@@ -106,6 +125,7 @@ export default props => {
 
   useEffect(() => {
     setAddressOptions(currentClient, 'address')
+    setAddressOptions(currentClient, 'concern_address')
   }, [clientIndex])
 
   useEffect(() => {
@@ -243,6 +263,20 @@ export default props => {
 
   return (
     <div className="containerClass">
+      <Modal
+        title={T.translate("newCall.referralInfo.confirmation")}
+        isOpen={confirmRemoveClient}
+        type='warning'
+        closeAction={() => setConfirmRemoveClientModalOpen(false)}
+        content={
+          <ConfirmRemoveClientModal
+            data={{T}}
+            onClick={() => { setConfirmRemoveClientModalOpen(false); removeClient() }}
+            closeAction={() => setConfirmRemoveClientModalOpen(false) }
+          />
+        }
+      />
+
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6">
@@ -349,14 +383,6 @@ export default props => {
             onChange={handleOnChangeOther('user_ids')}
           />
         </div>
-
-        <div className={ `col-xs-12 ${ call.call_type === 'Phone Counselling' ? 'hidden' : '' }` }>
-          <button className="btn btn-primary" style={{ margin: 5 }} onClick={() => onChange('client', {})({ type: 'newObject' })}>{T.translate("newCall.referralInfo.add_another_client")}</button>
-          { clients.length > 1 &&
-            <button className="btn btn-danger" style={{ margin: 5 }} onClick={removeClient}>{T.translate("newCall.referralInfo.remove_client")}</button>
-          }
-        </div>
-
       </div>
       <legend>
         <div className="row">
@@ -401,91 +427,105 @@ export default props => {
         </div>
       </div>
 
-      <br/>
-      <legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>{T.translate("newCall.referralInfo.location_of_concern")}</p>
-          </div>
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <Checkbox label={T.translate("newCall.referralInfo.same_as_client")} checked={currentClient.concern_same_as_client} onChange={onCheckSameAsClient} />
-          </div>
-          {!currentClient.concern_same_as_client &&
-            <div className="col-xs-12 col-md-6 col-lg-6">
-              <Checkbox
-                label={T.translate("newCall.referralInfo.concern_is_outside_cambodia")}
-                checked={currentClient.concern_is_outside || false}
-                onChange={handleOnChangeOther("concern_is_outside")}
-              />
-            </div>
-          }
-        </div>
-      </legend>
-
-      <ConcernAddress
-        disabled={currentClient.concern_same_as_client}
-        outside={currentClient.concern_is_outside || false}
-        onChange={hanldeOnChangeAddressInputs}
-        data={{
-          addressTypes,
-          currentDistricts: concernDistricts,
-          currentCommunes: concernCommunes,
-          currentVillages: concernVillages,
-          currentProvinces,
-          objectKey: "client",
-          objectData: currentClient,
-          T
-        }}
-      />
-
-      <div className="row">
-        <div className="col-xs-12 col-md-6">
-          <div className="row">
-            <div className="col-xs-12 col-md-6">
-              <TextInput
-                T={T}
-                label={T.translate("newCall.referralInfo.relevant_contact_phone")}
-                onChange={handleOnChangeText("concern_phone")}
-                value={currentClient.concern_phone}
-              />
-            </div>
-            <div className="col-xs-12 col-md-6">
-              <SelectInput
-                T={T}
-                label={T.translate("newCall.referralInfo.phone_owner")}
-                options={phoneEmailOwnerOpts}
-                value={currentClient.concern_phone_owner}
-                onChange={handleOnChangeOther("concern_phone_owner")}
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-xs-12 col-md-6">
-              <TextInput
-                T={T}
-                label={T.translate("newCall.referralInfo.relevant_email")}
-                onChange={handleOnChangeText("concern_email")}
-                value={currentClient.concern_email}
-              />
-            </div>
-            <div className="col-xs-12 col-md-6">
-              <SelectInput
-                T={T}
-                label={T.translate("newCall.referralInfo.email_owner")}
-                options={phoneEmailOwnerOpts}
-                value={currentClient.concern_email_owner}
-                onChange={handleOnChangeOther("concern_email_owner")}
-              />
-            </div>
-          </div>
-        </div>
-        <div className={"col-xs-12 col-md-6" + (currentClient.concern_is_outside ? ' hidden' : '')}>
-          <TextArea
-            label={T.translate("newCall.referralInfo.locatin_description")}
-            value={currentClient.concern_location}
-            onChange={handleOnChangeText('concern_location')} />
-        </div>
+      <div className={ `col-xs-12 text-right ${ call.call_type === 'Phone Counselling' ? 'hidden' : '' }` }>
+        <button className="btn btn-primary" style={{ margin: 5 }} onClick={() => onChange('client', {})({ type: 'newObject' })}>{T.translate("newCall.referralInfo.add_another_client")}</button>
+        { clients.length > 1 &&
+          <button className="btn btn-danger" style={{ margin: 5 }} onClick={() => setConfirmRemoveClientModalOpen(true) }>{T.translate("newCall.referralInfo.remove_client")}</button>
+        }
       </div>
+
+      <br/>
+
+      { clientIndex === 0 ?
+        <>
+        <legend>
+          <div className="row">
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <p>{T.translate("newCall.referralInfo.location_of_concern")}</p>
+            </div>
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <Checkbox label={T.translate("newCall.referralInfo.same_as_client")} checked={currentClient.concern_same_as_client} onChange={onCheckSameAsClient} />
+            </div>
+            {!currentClient.concern_same_as_client &&
+              <div className="col-xs-12 col-md-6 col-lg-6">
+                <Checkbox
+                  label={T.translate("newCall.referralInfo.concern_is_outside_cambodia")}
+                  checked={currentClient.concern_is_outside || false}
+                  onChange={handleOnChangeOther("concern_is_outside")}
+                />
+              </div>
+            }
+          </div>
+        </legend>
+
+        <ConcernAddress
+          disabled={clients[0].concern_same_as_client}
+          outside={clients[0].concern_is_outside || false}
+          onChange={hanldeOnChangeAddressInputs}
+          data={{
+            addressTypes,
+            currentDistricts: concernDistricts,
+            currentCommunes: concernCommunes,
+            currentVillages: concernVillages,
+            currentProvinces,
+            objectKey: "client",
+            objectData: clients[0],
+            T
+          }}
+        />
+
+        <div className="row">
+          <div className="col-xs-12 col-md-6">
+            <div className="row">
+              <div className="col-xs-12 col-md-6">
+                <TextInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.relevant_contact_phone")}
+                  onChange={handleOnChangeText("concern_phone")}
+                  value={clients[0].concern_phone}
+                />
+              </div>
+              <div className="col-xs-12 col-md-6">
+                <SelectInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.phone_owner")}
+                  options={phoneEmailOwnerOpts}
+                  value={clients[0].concern_phone_owner}
+                  onChange={handleOnChangeOther("concern_phone_owner")}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-xs-12 col-md-6">
+                <TextInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.relevant_email")}
+                  onChange={handleOnChangeText("concern_email")}
+                  value={clients[0].concern_email}
+                />
+              </div>
+              <div className="col-xs-12 col-md-6">
+                <SelectInput
+                  T={T}
+                  label={T.translate("newCall.referralInfo.email_owner")}
+                  options={phoneEmailOwnerOpts}
+                  value={clients[0].concern_email_owner}
+                  onChange={handleOnChangeOther("concern_email_owner")}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={"col-xs-12 col-md-6" + (clients[0].concern_is_outside ? ' hidden' : '')}>
+            <TextArea
+              label={T.translate("newCall.referralInfo.locatin_description")}
+              value={clients[0].concern_location}
+              onChange={handleOnChangeText('concern_location')} />
+          </div>
+        </div>
+      </>
+      :
+      <div></div>
+      }
     </div>
   );
 };

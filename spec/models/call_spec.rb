@@ -5,7 +5,6 @@ end
 describe Call, 'validations' do
   it { is_expected.to validate_presence_of(:receiving_staff_id) }
   it { is_expected.to validate_presence_of(:start_datetime) }
-  it { is_expected.to validate_presence_of(:end_datetime) }
   it { is_expected.to validate_presence_of(:call_type) }
   it { is_expected.to validate_inclusion_of(:call_type).in_array(Call::TYPES)}
   it { is_expected.to validate_inclusion_of(:called_before).in_array([true, false])}
@@ -20,16 +19,6 @@ describe Call, 'validations' do
     it 'valid' do
       call.information_provided = "Something"
       expect(call).to be_valid
-    end
-  end
-  context 'end_call_after_start_call' do
-    let(:valid_call){ FactoryGirl.build(:call, start_datetime: DateTime.now, end_datetime: DateTime.now + 1) }
-    let(:invalid_call){ FactoryGirl.build(:call, start_datetime: DateTime.now, end_datetime: DateTime.now - 1) }
-    it 'valid' do
-      expect(valid_call).to be_valid 
-    end
-    it 'invalid' do
-      expect(invalid_call).to be_invalid
     end
   end
 end

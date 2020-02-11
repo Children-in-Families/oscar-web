@@ -2,20 +2,31 @@ import React from 'react'
 import { formatDate, titleize } from './helper'
 import { HorizontalTable } from '../Commons/ListTable'
 
-export default ({data, T, local}) => {
+export default ({data, T, locale}) => {
   const hiddenFields =
     data.call_type === "Seeking Information" || data.call_type === "Spam Call" || data.call_type === "Wrong Number"
       ? "created_at|updated_at|referee_id|^id$"
       : "created_at|updated_at|information_provided|referee_id|^id$";
 
+  const buildList = (items) => {
+    const listItems = items.map((item, index) =>
+      (<li key={index}>{item}</li>)
+    )
+    return <ul>{listItems}</ul>
+  }
+
   const renderItem = (obj, key) => {
     return (
       <tr key={`${key}`}>
         <td className="spacing-first-col">
-          { T.translate("commons.listTable.index."+titleize(formatKey(key))) }
+          { T.translate("commons.listTable.index."+titleize(key)) }
         </td>
         <td>
-          <strong>{formatLabel(obj, key)}</strong>
+          {
+            Array.isArray(obj[key]) ?
+              buildList(obj[key])
+            : formatLabel(obj, key)
+          }
         </td>
       </tr>
     )
@@ -28,33 +39,22 @@ export default ({data, T, local}) => {
 
       case 'answered_call':
       case 'called_before':
+      case 'childsafe_agent':
       case 'requested_update':
         return obj[key] ? 'Yes' : 'No'
+      case 'call_type':
+        return T.translate(`detailCall.call.${obj[key]}`)
 
       default:
         return obj[key]
     }
   }
 
-  const formatKey = key => {
-    switch (key) {
-      case 'start_datetime':
-        return "Time Call Began"
-
-      case "end_datetime":
-        return "Time Call Ended"
-
-      default:
-        return key
-    }
-  }
-
-
   return (
     <HorizontalTable
       title={T.translate("detailCall.call.about_call")}
       data={data}
-      linkHeader={`/calls/${data.id}/edit?locale=${local}`}
+      linkHeader={`/calls/${data.id}/edit?locale=${locale}`}
       renderItem={renderItem}
       T={T}
       rejectField={ hiddenFields }

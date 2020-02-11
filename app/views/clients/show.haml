@@ -425,24 +425,13 @@
                   %td
                     %strong
                       = @client.phone_counselling_summary
-              - if @client.necessities.any?
+              - if @client.other_more_information.present?
                 %tr
                   %td.spacing-first-col
-                    = t('.basic_necessities')
+                    = t('.other_more_information')
                   %td
-                    - @client.necessities.each do |necessity|
-                      %p
-                        %strong.label.label-default
-                          = necessity.content
-              - if @client.protection_concerns.any?
-                %tr
-                  %td.spacing-first-col
-                    = t('.child_protection_concerns')
-                  %td
-                    - @client.protection_concerns.each do |concern|
-                      %p
-                        %strong.label.label-default
-                          = concern.content
+                    %strong
+                      = @client.other_more_information
               - if @client.brief_note_summary.present?
                 %tr
                   %td.spacing-first-col
@@ -472,7 +461,7 @@
                   %tr
                     %th= t('.case_histories')
                     - unless Rails.env.production?
-                      %th Created Date
+                      %th= t('.created_date')
                     %th= t('.date')
                     %th.text-center= t('.detail')
                 %tbody
@@ -507,15 +496,15 @@
               %table.table.table-bordered.table-hover
                 %thead
                   %tr
-                    %th Hotlines
-                    %th Call Type
-                    %th Date of Call
-                    %th.text-center Detail
+                    %th= t('.hotlines')
+                    %th= t('.call_type')
+                    %th= t('.date_of_call')
+                    %th.text-center= t('.detail')
                 %tbody
                   - @client.calls.most_recents.each do |call|
                     %tr
                       %td= call.phone_call_id
-                      %td= call.call_type
+                      %td= t('.callType.' + call.call_type.parameterize.underscore)
                       %td= date_format(call.date_of_call)
                       %td.text-center
                         = link_to call_path(call) do

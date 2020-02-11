@@ -1899,7 +1899,8 @@ basic_necessities = [
   "Looking for education and material requests for school registration; return to school; need help to stay in school.",
   "Looking for food, water, milk, shelter support.",
   "Looking for vocational training/employment.",
-  "Caregivers looking to send their children to an RCI."
+  "Caregivers looking to send their children to an RCI.",
+  "Other"
 ]
 child_protection_concerns = [
   "Physical violence",

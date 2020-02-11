@@ -26,6 +26,20 @@ export default props => {
     { label: type.label, value: type.value, isFixed: false }
   ));
 
+  const onCallTypeChanged = data => {
+    const type = data.data;
+    let requestedUpdate = call.requested_update;
+    if (
+      type === "Seeking Information" ||
+      type === "Spam Call" ||
+      type === "Wrong Number"
+    ) {
+      requestedUpdate = false;
+    }
+    const callFields = { requested_update: requestedUpdate, call_type: type };
+    onChange("call", { ...callFields })({ type: "radio" });
+  };
+
   return (
     <>
       <legend className='legend'>
@@ -98,34 +112,6 @@ export default props => {
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          {/* <DateTimePicker
-            T={T}
-            isError={errorFields.includes('end_datetime')}
-            label={T.translate("newCall.admin.time_call_ended")}
-            required={true}
-            onChange={onChange('call', 'end_datetime')}
-            value={call.end_datetime}
-          /> */}
-          <TextInput
-            type="time"
-            T={T}
-            isError={errorFields.includes("end_datetime")}
-            errorText={
-              errorFields.includes("end_datetime") &&
-              errorObjects["end_datetime"]
-                ? errorObjects["end_datetime"][0]
-                : ''
-            }
-            label={T.translate("newCall.admin.time_call_ended")}
-            required={true}
-            onChange={onChange("call", "end_datetime")}
-            value={call.end_datetime}
-          />
-        </div>
-      </div>
-
-      <div className='row'>
-        <div className='col-md-12 col-lg-9'>
           <RadioGroup
             disabled={step > 1}
             T={T}
@@ -134,7 +120,7 @@ export default props => {
             label={T.translate("newCall.admin.call_type")}
             options={callTypeList}
             value={call.call_type}
-            onChange={onChange('call','call_type')} />
+            onChange={onCallTypeChanged} />
         </div>
       </div>
     </>

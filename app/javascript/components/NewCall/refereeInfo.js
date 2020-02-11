@@ -38,7 +38,6 @@ export default props => {
     return newList
   }
 
-
   const answeredCallOpts = [
     { label: T.translate("newCall.refereeInfo.answeredCallOpts.call_answered"), value: true },
     { label: T.translate("newCall.refereeInfo.answeredCallOpts.return_missed_call"), value: false }
@@ -47,10 +46,11 @@ export default props => {
     { label: T.translate("newCall.refereeInfo.ageOpts.18_plus"), value: true },
     { label: T.translate("newCall.refereeInfo.ageOpts.under_18"), value: false }
   ];
-  const calledBeforeOpts = [
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.yes"), value: true },
-    { label: T.translate("newCall.refereeInfo.calledBeforeOpts.no"), value: false }
+  const yesNoOpts = [
+    { label: T.translate("newCall.refereeInfo.yes"), value: true },
+    { label: T.translate("newCall.refereeInfo.no"), value: false }
   ];
+
   const referralSourceCategoryLists = referralSourceCategory.map(category => ({
     label: category[0],
     value: category[1]
@@ -63,15 +63,55 @@ export default props => {
     )
     .map(source => ({ label: source.name, value: source.id }));
 
+  const [districts, setDistricts]         = useState(refereeDistricts)
+  const [communes, setCommunes]           = useState(refereeCommunes)
+  const [villages, setVillages]           = useState(refereeVillages)
+
+  const onCheckCalledBefore = data => {
+    const calledBefore = data.data
+    const callField = { called_before: calledBefore }
+    onChange("call", { ...callField })({ type: "radio" });
+
+    if(!calledBefore && referee.id !== null) {
+      setDistricts([])
+      setCommunes([])
+      setVillages([])
+
+      const refereeFields = {
+        id: null,
+        outside: false,
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        village_id: null,
+        name: '',
+        gender: '',
+        adult: null,
+        phone: '',
+        email: '',
+        street_number: '',
+        house_number: '',
+        current_address: '',
+        address_type: '',
+        outside_address: ''
+      }
+
+      onChange('referee', { ...refereeFields })({type: 'select'})
+    }
+  }
+
   useEffect(() => {
     if (referee.anonymous) {
+      const callFields = { requested_update: false }
       const fields = {
+        id: null,
         anonymous: true,
         outside: false,
         name: "Anonymous",
         phone: "",
         email: "",
         gender: "",
+        adult: null,
         street_number: "",
         house_number: "",
         current_address: "",
@@ -82,6 +122,7 @@ export default props => {
         commune_id: null,
         village_id: null
       };
+      onChange("call", { ...callFields })({ type: "checkbox" });
       onChange("referee", { ...fields })({ type: "select" });
     }
   }, [referee.anonymous]);
@@ -189,9 +230,22 @@ export default props => {
             required
             isError={errorFields.includes("called_before")}
             label={T.translate("newCall.refereeInfo.have_you_called")}
-            options={calledBeforeOpts}
-            onChange={onChange("call", "called_before")}
+            options={yesNoOpts}
+            onChange={onCheckCalledBefore}
             value={call.called_before}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-xs-12">
+          <RadioGroup
+            inline
+            required
+            isError={errorFields.includes("childsafe_agent")}
+            label={T.translate("newCall.refereeInfo.are_you_a_child_safe_agent")}
+            options={yesNoOpts}
+            onChange={onChange("call", "childsafe_agent")}
+            value={call.childsafe_agent}
           />
         </div>
       </div>
@@ -213,7 +267,7 @@ export default props => {
           <SelectInput
             T={T}
             label={T.translate("newCall.refereeInfo.gender")}
-            isDisabled={referee.anonymous || call.called_before}
+            isDisabled={referee.anonymous}
             options={genderLists}
             onChange={onChange("referee", "gender")}
             value={referee.gender}
@@ -223,7 +277,7 @@ export default props => {
           <RadioGroup
             inline
             label={T.translate("newCall.refereeInfo.are_you_over_18")}
-            disabled={referee.anonymous || call.called_before}
+            disabled={referee.anonymous}
             options={ageOpts}
             onChange={onChange("referee", "adult")}
             value={referee.adult}
@@ -235,7 +289,7 @@ export default props => {
           <TextInput
             T={T}
             label={T.translate("newCall.refereeInfo.referee_phone")}
-            disabled={referee.anonymous || call.called_before}
+            disabled={referee.anonymous}
             onChange={onChange("referee", "phone")}
             value={referee.phone}
           />
@@ -244,7 +298,7 @@ export default props => {
           <TextInput
             T={T}
             label={T.translate("newCall.refereeInfo.referee_email")}
-            disabled={referee.anonymous || call.called_before}
+            disabled={referee.anonymous}
             onChange={onChange("referee", "email")}
             value={referee.email}
           />
@@ -278,7 +332,6 @@ export default props => {
           {!referee.anonymous && (
             <div className="col-xs-12 col-md-6 col-lg-3">
               <Checkbox
-                disabled={call.called_before}
                 label={T.translate("newCall.refereeInfo.outside_cambodia")}
                 checked={referee.outside || false}
                 onChange={onChange("referee", "outside")}
@@ -288,7 +341,7 @@ export default props => {
         </div>
       </legend>
       <Address
-        disabled={referee.anonymous || call.called_before}
+        disabled={referee.anonymous}
         outside={referee.outside || false}
         onChange={onChange}
         data={{
@@ -306,6 +359,14 @@ export default props => {
       <div className="row">
         <div className="col-xs-12">
           <Checkbox
+            disabled={
+              referee.anonymous ||
+              referee.name === "" ||
+              call.call_type === "" ||
+              call.call_type === "Seeking Information" ||
+              call.call_type === "Spam Call" ||
+              call.call_type === "Wrong Number"
+            }
             label={T.translate("newCall.refereeInfo.this_caller_has_requested")}
             checked={call.requested_update || false}
             onChange={onChange("call", "requested_update")}

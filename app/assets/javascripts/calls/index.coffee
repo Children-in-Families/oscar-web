@@ -1,7 +1,43 @@
 CIF.CallsIndex = do ->
   _init = ->
+    _toggleBasicFilter()
+    _toggleAdvancedFilter()
     _initAdavanceSearchFilter()
     _setAdavanceSearchFilter()
+    _fixedHeaderTableColumns()
+    _initSelect2()
+    _getCallPath()
+
+
+  _toggleBasicFilter = ->
+    $("button.btn-filter").on 'click', ->
+      $('#builder').queryBuilder('reset');
+      $("div#call-advance-search-form").removeClass('in').hide()
+
+  _toggleAdvancedFilter = ->
+    $("button.call-advance-search").on 'click', ->
+      $('#builder').queryBuilder('reset');
+      $("div#call-advance-search-form").show()
+      $("div#call-search-form").removeClass('in')
+
+  _fixedHeaderTableColumns = ->
+    $('.calls-table').removeClass('table-responsive')
+    if !$('table.calls tbody tr td').hasClass('noresults')
+      $('table.calls').dataTable(
+        'bPaginate': false
+        'bFilter': false
+        'bInfo': false
+        'bSort': false
+        'sScrollY': 'auto'
+        'bAutoWidth': true
+        'sScrollX': '100%')
+    else
+      $('.users-table').addClass('table-responsive')
+
+  _initSelect2 = ->
+    $('#calls-index #call-search-form select').select2
+      minimumInputLength: 0,
+      allowClear: true
 
   _initAdavanceSearchFilter = ->
     $('#call-search-btn').val($('#call-search-btn').data('search'))

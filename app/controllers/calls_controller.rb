@@ -3,14 +3,14 @@ class CallsController < AdminController
 
   before_action :set_association, only: [:new, :show]
   before_action :country_address_fields, only: [:new]
-  before_action :find_call, :find_users, only: [:edit, :update]
+  before_action :find_call, :find_associations, only: [:edit, :update]
 
   def index
     @query_json = params[:query_builder_json].presence
+    query_string = params[:query_string]
+    query_string = Call.mapping_query_field(query_string)
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
       if(@query_json)
-        query_string = params[:query_string]
-        query_string = query_string.gsub(/'true'|= 'false'/, "'true'" => 'true', "= 'false'" => 'IS NULL')
         scope.where(query_string).order(:created_at).page(params[:page]).page(params[:page]).per(20)
       else
         scope.order(:created_at).page(params[:page]).page(params[:page]).per(20)
@@ -42,6 +42,9 @@ class CallsController < AdminController
     @call = Call.find(params[:id])
     @referee = @call.referee
     @clients = @call.clients.map{|client| {slug: client.slug, full_name: client.en_and_local_name, gender: client.gender }}
+    @locale = params[:locale]
+    @call_necessity_ids = @call.necessity_ids
+    @call_protection_concern_ids = @call.protection_concern_ids
   end
 
   def edit
@@ -75,9 +78,10 @@ class CallsController < AdminController
   private
 
   def call_params
-    params.require(:call).permit(:answered_call, :called_before, :receiving_staff_id,
-                                :date_of_call, :start_datetime, :end_datetime,
-                                :information_provided
+    params.require(:call).permit(:answered_call, :called_before, :childsafe_agent, :receiving_staff_id,
+                                :date_of_call, :start_datetime,
+                                :information_provided,
+                                necessity_ids: [], protection_concern_ids: []
                                 )
   end
 
@@ -167,8 +171,10 @@ class CallsController < AdminController
     Client.where(id: client_ids, status: 'Exited').ids
   end
 
-  def find_users
+  def find_associations
     @users = User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| [user.name, user.id] }
+    @necessities = Necessity.order(:created_at)
+    @protection_concerns = ProtectionConcern.order(:created_at)
   end
 
   def find_call

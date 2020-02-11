@@ -94,7 +94,7 @@
     "local_family_name": "នាមត្រកូលជាអក្សរខ្មែរ",
     "gender": "ភេទ",
     "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
-    "birth_province": "ស្រុកកំណើត",
+    "birth_province": "ខេត្តកំណើត",
     "client_relationship": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ?",
     "caller_relationship": "ទំនាក់ទំនងរវាងអ្នកទូរស័ព្ទ",
     "contact_info": "ព័ត៌មានទំនាក់ទំនង",
@@ -234,13 +234,13 @@
     },
     "admin": {
       "calltypes": {
-        "new_referral_case": "New Referral: Case Action Required",
-        "new_referral_notifier": "New Referral: Case Action NOT Required",
-        "providing_update": "Providing Update",
-        "phone_conseling": "Phone Counselling",
-        "seeking_information": "Seeking Information",
-        "spam_call": "Spam Call",
-        "wrong_number": "Wrong Number"
+        "new_referral_case": "ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ",
+        "new_referral_notifier": "ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា",
+        "providing_update": "ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន",
+        "phone_conseling": "ការប្រឹក្សាតាមទូរស័ព្ទ",
+        "seeking_information": "ស្វែងរកព័ត៌មាន",
+        "spam_call": "ការហៅទូរស័ព្ទរំខាន",
+        "wrong_number": "ច្រឡំលេខ"
       },
       "referee_answered_call": "តើអ្នកបញ្ជូនបានឆ្លើយការហៅទូរស័ព្ទនេះ ឬបានហៅទូរស័ព្ទត្រឡប់មកវិញឬទេ?",
       "referee_called_before": "តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ?",
@@ -263,30 +263,32 @@
     },
     "callAbout": {
       "basicNecessities": {
-        "looking_for_help": "ស្វែងរកជំនួយផ្នែកសុខភាព (ដូចជា ការសង្គ្រោះបឋម ផ្ទៃពោះ និងបញ្ហាសុខភាពផ្សេងៗ)។",
-        "looking_for_education": "ស្វែងរកការអប់រំ និងសំណើរសុំការចុះឈ្មោះចូលរៀន ការចូលរៀនវិញ និងការស្នាក់នៅក្នុងសាលា។",
-        "looking_for_food": "ស្វែងរកអាហារ ទឹក ទឹកដោះគោ ការឧបត្ថម្ភទីជម្រក។",
-        "looking_for_vocational": "ស្វែករកវគ្គបណ្តុះបណ្តាល/ការងារ។",
-        "caregivers_looking": "អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។"
+        "1": "ស្វែងរកជំនួយផ្នែកសុខភាព (ដូចជា ការសង្គ្រោះបឋម ផ្ទៃពោះ និងបញ្ហាសុខភាពផ្សេងៗ)។",
+        "2": "ស្វែងរកការអប់រំ និងសំណើរសុំការចុះឈ្មោះចូលរៀន ការចូលរៀនវិញ និងការស្នាក់នៅក្នុងសាលា។",
+        "3": "ស្វែងរកអាហារ ទឹក ទឹកដោះគោ ការឧបត្ថម្ភទីជម្រក។",
+        "4": "ស្វែករកវគ្គបណ្តុះបណ្តាល/ការងារ។",
+        "5": "អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។",
+        "6": "ផ្សេងៗ"
       },
       "childProtectionConcerns": {
-        "physical_violence": "អំពើហឹង្សាផ្នែករាងកាយ",
-        "emotional_violence": "អំពើហឹង្សាផ្នែកផ្លូវអារម្មណ៍",
-        "sexual_violence": "អំពើហឹង្សាផ្នែកផ្លូវភេទ",
-        "neglect_supervision": "ទទួលរងភាពព្រងើយកន្តើយ / ខ្វះការណែនាំពីមនុស្សពេញវ័យ",
-        "resecue_of_trafficking": "ជនរងគ្រោះពីការជួញដូរ (ការចំណាកស្រុក / សហការណ៍ជាមួយអាជ្ញាធរដើម្បីជួយសង្រ្គោះ)",
-        "forced_labour": "ការកេងប្រវ័ញ្ចកំលាំងពលកម្ម (ការជួញដូរផ្លូវភេទ ការកេងប្រវ័ញ្ច ការលក់ដូរតាមផ្លូវ ឡឥដ្ឋ ឬពលកម្មដែលធ្វើឱ្យមានគ្រោះថ្នាក់ដល់សុខមាលភាពកុមារ។)",
-        "drug_use": "ការប្រើបា្រស់គ្រឿងញៀន (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)",
-        "alcohol_use": "ការប្រើប្រាស់គ្រឿងស្រវឹង (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)",
-        "separated_child": "កុមារត្រូវបានបែកចេញដោយ - បោះបង់ចោល វង្វេង រស់នៅតាមផ្លូវ។",
-        "children_and_parent": "កុមារ និងឳពុក/ម្តាយរស់នៅតាមផ្លូវ។",
-        "disability": "ពិការភាព",
-        "other": "ផ្សេងៗ"
+        "1": "អំពើហឹង្សាផ្នែករាងកាយ",
+        "2": "អំពើហឹង្សាផ្នែកផ្លូវអារម្មណ៍",
+        "3": "អំពើហឹង្សាផ្នែកផ្លូវភេទ",
+        "4": "ទទួលរងភាពព្រងើយកន្តើយ / ខ្វះការណែនាំពីមនុស្សពេញវ័យ",
+        "5": "ជនរងគ្រោះពីការជួញដូរ (ការចំណាកស្រុក / សហការណ៍ជាមួយអាជ្ញាធរដើម្បីជួយសង្រ្គោះ)",
+        "6": "ការកេងប្រវ័ញ្ចកំលាំងពលកម្ម (ការជួញដូរផ្លូវភេទ ការកេងប្រវ័ញ្ច ការលក់ដូរតាមផ្លូវ ឡឥដ្ឋ ឬពលកម្មដែលធ្វើឱ្យមានគ្រោះថ្នាក់ដល់សុខមាលភាពកុមារ។)",
+        "7": "ការប្រើបា្រស់គ្រឿងញៀន (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)",
+        "8": "ការប្រើប្រាស់គ្រឿងស្រវឹង (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)",
+        "9": "កុមារត្រូវបានបែកចេញដោយ - បោះបង់ចោល វង្វេង រស់នៅតាមផ្លូវ។",
+        "10": "កុមារ និងឳពុក/ម្តាយរស់នៅតាមផ្លូវ។",
+        "11": "ពិការភាព",
+        "12": "ផ្សេងៗ"
       },
       "what_is_the_call": "តើការហៅទូរស័ព្ទបាននិយាយពីអ្វី / ស្វែងរកជំនួយអ្វី?",
       "basic_necessities": "តម្រូវការបឋម",
       "child_protection": "ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ",
-      "enter_a_brief": "សូមបញ្ចូលកំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ"
+      "enter_a_brief": "សូមបញ្ចូលកំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ",
+      "other_more_information": "ព័ត៌មានផ្សេងទៀត"
     },
     "carerInfo": {
       "genderLists": {
@@ -303,7 +305,7 @@
       "family_record": "គ្រួសារ",
       "address": "អាសយដ្ឋាន",
       "same_as_client": "ដូចអតិថិជន",
-      "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ"
+      "outside_cambodia": "អតិថិជននៅក្រៅប្រទេសកម្ពុជា"
     },
     "caseActionNotRequiredModalFooter": {
       "iam_sure": "ខ្ញុំប្រាកដ",
@@ -320,7 +322,7 @@
     },
     "concernAddress": {
       "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
-      "province": "ស្រុកកំណើត",
+      "province": "ខេត្តកំណើត",
       "district": "អាសយដ្ឋាន - ស្រុក/ខណ្ឌ",
       "commune": "អាសយដ្ឋាន - ឃុំ/សង្កាត់",
       "village": "អាសយដ្ឋាន - ភូមិ",
@@ -361,6 +363,11 @@
       "go_back": "ត្រលប់ក្រោយ",
       "save": "រក្សាទុក"
     },
+    "confirmRemoveClientModal": {
+      "are_you_sure": "តើអ្នកប្រាកដហើយ?",
+      "no": "ទេ",
+      "yes": "បាទ/ចាស"
+    },
     "providingUpdate": {
       "please_select_client": "សូមជ្រើសរើសអតិថិជន",
       "go_back": "ត្រលប់ក្រោយ",
@@ -381,14 +388,13 @@
         "18_plus": "អាយុលើស ១៨",
         "under_18": "អាយុក្រោម ១៨"
       },
-      "calledBeforeOpts": {
-        "yes": "បាទ / ចាស",
-        "no": "ទេ"
-      },
+      "yes": "បាទ / ចាស",
+      "no": "ទេ",
       "anonymous": "អនាមិក",
       "caller_info": "ព័ត៌មានអ្នកហៅទូរស័ព្ទ",
       "did_you_answer_the_call": "តើអ្នកបានឆ្លើយការហៅទូរស័ព្ទនេះទេ ឬអ្នកបានហៅទូរស័ព្ទត្រឡប់វិញពេលខកខានការហៅទូរស័ព្ទ?",
       "have_you_called": "តើអ្នកធ្លាប់ហៅទូរស័ព្ទមកកាន់ភ្នាក់ងារ២៤ម៉ោងផ្នែកសុវត្ថិភាពកុមារពីមុនដែរឬទេ?",
+      "are_you_a_child_safe_agent": "តើអ្នកជាភ្នាក់ងារសុវត្ថិភាពកុមារទេ?",
       "anonymous_referee": "ជនអនាមិកអ្នកបញ្ជូន",
       "name": "ឈ្មោះអ្នកបញ្ជូន",
       "gender": "ភេទ",
@@ -416,10 +422,10 @@
       "nickname": "ឈ្មោះហៅក្រៅ",
       "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
       "gender": "ភេទ",
-      "birth_province": "ស្រុកកំណើត",
+      "birth_province": "ខេត្តកំណើត",
       "relationshio_to_caller": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ",
       "contact_info": "ព័ត៌មានទំនាក់ទំនង",
-      "client_is_outside": "អតិថិជនអាសយដ្ឋានខាងក្រៅ",
+      "client_is_outside": "អតិថិជននៅក្រៅប្រទេសកម្ពុជា",
       "case_worker": "បុគ្គលិកគ្រប់គ្រងករណី",
       "client_contact_phone": "លេខទូរស័ព្ទពាក់ព័ន្ធអតិថិជន",
       "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
@@ -433,7 +439,8 @@
       "relevant_email": "អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ",
       "locatin_description": "ការពិពណ៌នានៃទីកន្លែង",
       "add_another_client": "បន្ថែមអតិថិជនថ្មី",
-      "remove_client": "លុបចេញអតិថិជន"
+      "remove_client": "លុបចេញអតិថិជន",
+      "confirmation": "ការបញ្ជាក់"
     },
     "referralMoreInfo": {
       "client_referral_more_info": "អតិថិជន / ការបញ្ជូន - ព័ត៌មានបន្ថែម",
@@ -466,13 +473,17 @@
         "Adult": "មនុស្សធំ",
         "Anonymous": "អនាមិក",
         "Answered Call": "ឆ្លើយការហៅទូរស័ព្ទ",
+        "Basic Necessities": "តម្រូវការបឋម",
         "Call Type": "ប្រភេទនៃការហៅ",
         "Called Before": "ធ្លាប់បានហៅទូរស័ព្ទពីមុន",
+        "Childsafe Agent": "ភ្នាក់ងារសុវត្ថិភាពកុមារ",
+        "Child Protection Concerns": "ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ",
         "Current Address": "អាសយដ្ឋានបច្ចុប្បន្ន",
         "Date Of Call": "កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ",
         "Email": "អ៊ុីម៉ែល",
         "Full Name": "ឈ្មោះពេញ",
         "Gender": "ភេទ",
+        "Information Provided": "ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល",
         "Name": "ឈ្មោះ",
         "House Number": "អាសយដ្ឋាន - លេខផ្ទះ",
         "no_client": "គ្មានអតិថិជន",
@@ -481,14 +492,21 @@
         "Receiving Staff": "បុគ្គលិកទទួលករណី",
         "Requested Update": "ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន",
         "Street Number": "អាសយដ្ឋាន - លេខផ្លូវ",
-        "Time Call Began": "ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម",
+        "Start Datetime": "ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម",
         "Time Call Ended": "ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់"
       }
     }
   },
   "detailCall": {
     "call": {
-      "about_call": "អំពីការហៅទូរស័ព្ទ"
+      "about_call": "អំពីការហៅទូរស័ព្ទ",
+      "New Referral: Case Action Required": "ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ",
+      "New Referral: Case Action NOT Required": "ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា",
+      "Providing Update": "ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន",
+      "Phone Counselling": "ការប្រឹក្សាតាមទូរស័ព្ទ",
+      "Seeking Information": "ស្វែងរកព័ត៌មាន",
+      "Spam Call": "ការហៅទូរស័ព្ទរំខាន",
+      "Wrong Number": "ច្រឡំលេខ"
     },
     "listClient": {
       "list_clients": "បញ្ជឺអតិថិជន"
@@ -501,13 +519,13 @@
   "editCall": {
     "index": {
       "calltypes": {
-        "new_referral_case": "New Referral: Case Action Required",
-        "new_referral_notifier": "New Referral: Case Action NOT Required",
-        "providing_update": "Providing Update",
-        "phone_conseling": "Phone Counselling",
-        "seeking_information": "Seeking Information",
-        "spam_call": "Spam Call",
-        "wrong_number": "Wrong Number"
+        "New Referral: Case Action Required": "ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ",
+        "New Referral: Case Action NOT Required": "ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា",
+        "Providing Update": "ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន",
+        "Phone Counselling": "ការប្រឹក្សាតាមទូរស័ព្ទ",
+        "Seeking Information": "ស្វែងរកព័ត៌មាន",
+        "Spam Call": "ការហៅទូរស័ព្ទរំខាន",
+        "Wrong Number": "ច្រឡំលេខ"
       },
       "message": {
         "call_has_been_updated": "ការហៅទូរស័ព្ទត្រូវបានកែប្រែដោយជោគជ័យ"
@@ -539,10 +557,8 @@
         "18_plus": "អាយុលើស ១៨",
         "under_18": "អាយុក្រោម ១៨"
       },
-      "calledBeforeOpts": {
-        "yes": "បាទ / ចាស",
-        "no": "ទេ"
-      },
+      "yes": "បាទ / ចាស",
+      "no": "ទេ",
       "address": "អាសយដ្ឋាន",
       "anonymous": "អនាមិក",
       "name": "ឈ្មោះ",

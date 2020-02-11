@@ -1,14 +1,35 @@
 body[id='calls-index'] {
   table.calls {
-    thead.head-width tr > th {
-      min-width: 40px;
-      max-width: 120px;
-      width: 120px;
+    th {
+      padding-right: 10px;
+      // min-width: 40px;
+      min-width: 100px;
+      // width: 120px;
+    }
+
+    th.phone_call_id,
+    th.receiving_staff_id,
+    th.call_type,
+    th.receiving_staff,
+    th.date_of_call,
+    th.answered_call,
+    th.called_before,
+    th.start_date,
+    th.childsafe_agent,
+    th.requested_update {
+      min-width: 180px;
+    }
+    th.information_provided {
+      min-width: 200px;
     }
 
     tbody tr > td {
       // text-align: center;
       cursor: pointer;
     }
+  }
+
+  .dataTables_scrollBody {
+    max-height: 500px !important;
   }
 }
