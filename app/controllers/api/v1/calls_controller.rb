@@ -162,10 +162,10 @@ module Api
 
       def call_params
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
-                                :date_of_call, :start_datetime, :end_datetime, :call_type,
+                                :date_of_call, :start_datetime, :call_type,
                                 :information_provided,
-                                :answered_call, :called_before, :requested_update, :not_a_phone_call,
-                                client_ids: []
+                                :answered_call, :called_before, :childsafe_agent, :requested_update, :not_a_phone_call,
+                                client_ids: [], necessity_ids: [], protection_concern_ids: []
                                 )
       end
 
@@ -207,7 +207,7 @@ module Api
           :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
           :concern_street, :concern_house, :concern_address, :concern_address_type,
           :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location, :concern_same_as_client,
-          :brief_note_summary, :phone_counselling_summary,
+          :brief_note_summary, :phone_counselling_summary, :other_more_information,
 
           interviewee_ids: [],
           client_type_ids: [],
@@ -220,8 +220,7 @@ module Api
           client_needs_attributes: [:id, :rank, :need_id],
           client_problems_attributes: [:id, :rank, :problem_id],
           family_ids: [],
-          call_ids: [],
-          necessity_ids: [], protection_concern_ids: []
+          call_ids: []
         ])
 
       end

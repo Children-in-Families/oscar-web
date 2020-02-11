@@ -5,22 +5,12 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { clients, T, necessities, protection_concerns } } = props
+  const { onChange, data: { clients, call, T, necessities, protection_concerns } } = props
   const client = clients[0]
   const basicNecessities = necessities.map(necessity => ({ label: T.translate("newCall.callAbout.basicNecessities." + necessity.id), value: necessity.id }))
   const childProtectionConcerns = protection_concerns.map(concern => ({ label: T.translate("newCall.callAbout.childProtectionConcerns." + concern.id), value: concern.id }))
 
   const handleOnChangeText = name => event => modifyClientObject({ [name]: event.target.value })
-  const handleOnChangeSelect = name => data => {
-    const modifyObject = { ...client, [name]: data.data }
-
-    const newObjects = clients.map((object, indexObject) => {
-      const newObject = indexObject === 0 ? modifyObject : object
-      return newObject
-    })
-
-    onChange('client', newObjects)({type: 'object'})
-  }
 
   const modifyClientObject = field => {
     const modifyObject = { ...client, ...field }
@@ -50,8 +40,8 @@ export default props => {
             isMulti
             label={T.translate("newCall.callAbout.basic_necessities")}
             options={basicNecessities}
-            value={client.necessity_ids}
-            onChange={handleOnChangeSelect('necessity_ids')} />
+            value={call.necessity_ids}
+            onChange={onChange('call','necessity_ids')} />
         </div>
       </div>
 
@@ -62,8 +52,13 @@ export default props => {
             isMulti
             label={T.translate("newCall.callAbout.child_protection")}
             options={childProtectionConcerns}
-            value={client.protection_concern_ids}
-            onChange={handleOnChangeSelect('protection_concern_ids')} />
+            value={call.protection_concern_ids}
+            onChange={onChange('call','protection_concern_ids')} />
+        </div>
+      </div>
+      <div className='row'>
+        <div className='col-md-12 col-lg-9'>
+          <TextArea label={T.translate("newCall.callAbout.other_more_information")} value={client.other_more_information} onChange={handleOnChangeText('other_more_information')} />
         </div>
       </div>
       <div className='row'>

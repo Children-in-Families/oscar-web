@@ -10,14 +10,14 @@ export default ({data: {call, referee, clients, hidden, locale}}) => {
 
   return (
     <div className='row'>
-      <div className='col-sm-12 col-md-6'>
+      <div className='col-sm-12'>
         <Call
           data={call}
           locale={locale}
           T={T}
         />
       </div>
-      <div className='col-sm-12 col-md-6'>
+      <div className='col-sm-12'>
         <Referee
           data={referee}
           call={call}

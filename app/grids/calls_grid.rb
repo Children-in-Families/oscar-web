@@ -11,10 +11,11 @@ class CallsGrid
   filter(:call_type, :enum, select: :call_type_options, header: -> { I18n.t('datagrid.columns.calls.call_type') })
   filter(:referee_id, :enum, select: :referee_options, header: -> { I18n.t('datagrid.columns.calls.referee_id') })
   filter(:receiving_staff_id, :enum, select: :receiving_staff_options, header: -> { I18n.t('datagrid.columns.calls.receiving_staff_id') })
-  filter(:start_datetime, :date, header: -> { I18n.t('datagrid.columns.calls.start_datetime') })
-  filter(:end_datetime, :date, header: -> { I18n.t('datagrid.columns.calls.end_datetime') })
+  # filter(:start_datetime, :date, header: -> { I18n.t('datagrid.columns.calls.start_datetime') })
+  filter(:date_of_call, :date, range: true, header: -> { I18n.t('datagrid.columns.calls.date_of_call') })
   filter(:answered_call, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.answered_call') })
   filter(:called_before, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.called_before') })
+  filter(:childsafe_agent, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.childsafe_agent') })
   filter(:requested_update, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.requested_update') })
   filter(:information_provided, header: -> { I18n.t('datagrid.columns.calls.information_provided') })
 
@@ -29,17 +30,25 @@ class CallsGrid
   column(:receiving_staff, order: proc { |object| object.joins(:receiving_staff).order('users.first_name, users.last_name') }, header: -> { I18n.t('datagrid.columns.calls.receiving_staff_id') } ) do |object|
     object.receiving_staff.try(:name)
   end
-  column(:start_datetime, header: -> { I18n.t('datagrid.columns.calls.start_datetime') }) do |model|
-    model.start_datetime && model.start_datetime.strftime("%I:%M%p")
+
+  column(:date_of_call, html: true, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
+    object.date_of_call.present? ? object.date_of_call.strftime("%d %B %Y") : ''
   end
-  column(:end_datetime, header: -> { I18n.t('datagrid.columns.calls.end_datetime') }) do |model|
-    model.end_datetime && model.end_datetime.strftime("%I:%M%p")
+  column(:date_of_call, html: false, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
+    object.date_of_call.present? ? object.date_of_call : ''
   end
+
+  # column(:start_datetime, header: -> { I18n.t('datagrid.columns.calls.start_datetime') }) do |model|
+  #   model.start_datetime && model.start_datetime.strftime("%I:%M%p")
+  # end
   column(:answered_call, order: false, header: -> { I18n.t('datagrid.columns.calls.answered_call') }) do |object|
     object.answered_call == true ? 'Yes' : 'No'
   end
   column(:called_before, order: false, header: -> { I18n.t('datagrid.columns.calls.called_before') }) do |object|
     object.called_before == true ? 'Yes' : 'No'
+  end
+  column(:childsafe_agent, order: false, header: -> { I18n.t('datagrid.columns.calls.childsafe_agent') }) do |object|
+    object.childsafe_agent == true ? 'Yes' : 'No'
   end
   column(:requested_update, order: false, header: -> { I18n.t('datagrid.columns.calls.requested_update') }) do |object|
     object.requested_update == true ? 'Yes' : 'No'

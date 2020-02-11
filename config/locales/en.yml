@@ -645,16 +645,39 @@ en:
     edit:
       add_note_about_the_content: Add a note about the content of your conversation with the caller.
       answered_call: Answered Call
+      are_you_a_child_safe_agent: Are you a child safe agent?
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      basic_necessity: Basic Necessities
       date_of_call: Date of Call
       edit_call: Edit Call
       information_provided: Information Provided
       'no': "No"
       not_a_phone_call: Not a Phone Call
+      protection_concern: Child Protection Concerns
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
       referee_called_before: Has the referee called the Childsafe Hotline Before?
       returning_missed_call: Returning Missed Call
-      time_call_began: Time Call Began
+      time_call_began: Time of Call
       time_call_ended: Time Call Ended
       types:
         new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
@@ -692,8 +715,29 @@ en:
     phone_call_id: Phone call ID
     phone_type: Phone type
     requested_update: Requested Update
-    start_datetime: Date Call Began
-    start_time: Time Call Began
+    show:
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
+    start_datetime: Date of Call
+    start_time: Time of Call
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -1076,7 +1120,7 @@ en:
       receiving_staff_id: Receiving Staff
       referee_id: Referee
       requested_update: Requested Update
-      start_datetime: Date Call Began
+      start_datetime: Time of Call
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
@@ -1099,7 +1143,7 @@ en:
     hotline:
       end_datetime: End Date Time
       received_by: Received Call by
-      start_datetime: Time Call Began
+      start_datetime: Time of Call
     incomplete: Incomplete
     index:
       book: Client book
@@ -1856,6 +1900,7 @@ en:
       nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
+      other_more_information: Other-More Information
       phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: Carer Address
@@ -2187,6 +2232,8 @@ en:
         answered_call: Answer Call
         call_type: Call types
         called_before: Called Before
+        childsafe_agent: Childsafe Agent
+        date_of_call: Date of Call
         end_datetime: Date Call Ended
         end_time: Time Call Ended
         has_dob: 'Yes'
@@ -2203,8 +2250,8 @@ en:
         referee_id: Referee
         receiving_staff_id: Receiving staff
         requested_update: Requested Update
-        start_datetime: Date Call Began
-        start_time: Time Call Began
+        start_datetime: Date of Call
+        start_time: Time of Call
         types:
           new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
           new_referral_case_action_required: "New Referral: Case Action Required"
@@ -2341,6 +2388,7 @@ en:
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         other_info_of_exit: Other - More Information
+        other_more_information: Other-More Information
         phone_counselling_summary: Phone Counselling Summary
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date

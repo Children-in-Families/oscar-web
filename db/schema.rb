@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200129160216) do
+ActiveRecord::Schema.define(version: 20200210102631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,12 +139,31 @@ ActiveRecord::Schema.define(version: 20200129160216) do
 
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
+  create_table "call_necessities", force: :cascade do |t|
+    t.integer  "call_id"
+    t.integer  "necessity_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "call_necessities", ["call_id"], name: "index_call_necessities_on_call_id", using: :btree
+  add_index "call_necessities", ["necessity_id"], name: "index_call_necessities_on_necessity_id", using: :btree
+
+  create_table "call_protection_concerns", force: :cascade do |t|
+    t.integer  "call_id"
+    t.integer  "protection_concern_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "call_protection_concerns", ["call_id"], name: "index_call_protection_concerns_on_call_id", using: :btree
+  add_index "call_protection_concerns", ["protection_concern_id"], name: "index_call_protection_concerns_on_protection_concern_id", using: :btree
+
   create_table "calls", force: :cascade do |t|
     t.integer  "referee_id"
     t.string   "phone_call_id",        default: ""
     t.integer  "receiving_staff_id"
     t.datetime "start_datetime"
-    t.datetime "end_datetime"
     t.string   "call_type",            default: ""
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
@@ -153,6 +172,7 @@ ActiveRecord::Schema.define(version: 20200129160216) do
     t.boolean  "answered_call"
     t.boolean  "called_before"
     t.boolean  "requested_update",     default: false
+    t.boolean  "childsafe_agent"
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
@@ -340,16 +360,6 @@ ActiveRecord::Schema.define(version: 20200129160216) do
   add_index "client_interviewees", ["client_id"], name: "index_client_interviewees_on_client_id", using: :btree
   add_index "client_interviewees", ["interviewee_id"], name: "index_client_interviewees_on_interviewee_id", using: :btree
 
-  create_table "client_necessities", force: :cascade do |t|
-    t.integer  "client_id"
-    t.integer  "necessity_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "client_necessities", ["client_id"], name: "index_client_necessities_on_client_id", using: :btree
-  add_index "client_necessities", ["necessity_id"], name: "index_client_necessities_on_necessity_id", using: :btree
-
   create_table "client_needs", force: :cascade do |t|
     t.integer  "rank"
     t.integer  "client_id"
@@ -371,16 +381,6 @@ ActiveRecord::Schema.define(version: 20200129160216) do
 
   add_index "client_problems", ["client_id"], name: "index_client_problems_on_client_id", using: :btree
   add_index "client_problems", ["problem_id"], name: "index_client_problems_on_problem_id", using: :btree
-
-  create_table "client_protection_concerns", force: :cascade do |t|
-    t.integer  "client_id"
-    t.integer  "protection_concern_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-  end
-
-  add_index "client_protection_concerns", ["client_id"], name: "index_client_protection_concerns_on_client_id", using: :btree
-  add_index "client_protection_concerns", ["protection_concern_id"], name: "index_client_protection_concerns_on_protection_concern_id", using: :btree
 
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
@@ -553,6 +553,7 @@ ActiveRecord::Schema.define(version: 20200129160216) do
     t.string   "location_description",             default: ""
     t.string   "brief_note_summary",               default: ""
     t.string   "phone_counselling_summary",        default: ""
+    t.string   "other_more_information",           default: ""
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1830,6 +1831,10 @@ ActiveRecord::Schema.define(version: 20200129160216) do
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "calendars", "users"
+  add_foreign_key "call_necessities", "calls"
+  add_foreign_key "call_necessities", "necessities"
+  add_foreign_key "call_protection_concerns", "calls"
+  add_foreign_key "call_protection_concerns", "protection_concerns"
   add_foreign_key "calls", "referees"
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
@@ -1850,14 +1855,10 @@ ActiveRecord::Schema.define(version: 20200129160216) do
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
   add_foreign_key "client_interviewees", "interviewees"
-  add_foreign_key "client_necessities", "clients"
-  add_foreign_key "client_necessities", "necessities"
   add_foreign_key "client_needs", "clients"
   add_foreign_key "client_needs", "needs"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
-  add_foreign_key "client_protection_concerns", "clients"
-  add_foreign_key "client_protection_concerns", "protection_concerns"
   add_foreign_key "client_right_government_forms", "client_rights"
   add_foreign_key "client_right_government_forms", "government_forms"
   add_foreign_key "client_type_government_forms", "client_types"

@@ -383,6 +383,7 @@ my:
       custom_csi_domain_scores: Custom ဒိုမိန္း အမွတ္မ်ား
       custom_csi_group: At
       custom_form: အေကာက္ခြန္ပံုစံ
+      concern_basic_fields: Client Fields Concern
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
       date_of_referral: ရည်ညွန်း၏နေ့စွဲ
@@ -645,16 +646,39 @@ my:
     edit:
       add_note_about_the_content: Add a note about the content of your conversation with the caller.
       answered_call: Answered Call
+      are_you_a_child_safe_agent: Are you a child safe agent?
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      basic_necessity: Basic Necessities
       date_of_call: Date of Call
       edit_call: Edit Call
       information_provided: Information Provided
       'no': "No"
       not_a_phone_call: Not a Phone Call
+      protection_concern: Child Protection Concerns
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
       referee_called_before: Has the referee called the Childsafe Hotline Before?
       returning_missed_call: Returning Missed Call
-      time_call_began: Time Call Began
+      time_call_began: Time of Call
       time_call_ended: Time Call Ended
       types:
         new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
@@ -675,6 +699,27 @@ my:
     new:
       new_call: New Call
     not_a_phone_call: Not a Phone Call
+    show:
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -686,8 +731,8 @@ my:
     phone_call_id: Phone call ID
     phone_type: Phone type
     requested_update: Requested Update
-    start_datetime: Date Call Began
-    start_time: Time Call Began
+    start_datetime: Date of Call
+    start_time: Time of Call
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
@@ -983,6 +1028,7 @@ my:
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
     form_option:
       basic_fields: အမႈသည္အေျခခံအကြက္မ်ား
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       custom_form: အေကာက္ခြန္ ပံုစံ
       enrollment: စာရင္းသြင္းျခင္း
@@ -1029,6 +1075,7 @@ my:
   client_advanced_searches:
     form_option:
       basic_fields: အမႈသည္၏ အေျခခံ အေနအထားမ်ား
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
       custom_form: အေကာက္ခြန္ပံုစံ
       enrollment: စာရင္းေပးသြင္းမႈ
@@ -1072,7 +1119,7 @@ my:
       receiving_staff_id: Receiving Staff
       referee_id: Referee
       requested_update: Requested Update
-      start_datetime: Date Call Began
+      start_datetime: Time of Call
     case_histories:
       accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
@@ -1340,6 +1387,7 @@ my:
         search: ရွာေဖြရန္
       form_option:
         basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
+        concern_basic_fields: Client Fields Concern
         csi_domain_scores: အကဲဖြတ် ဒိုမိန္း ရမွတ္မ်ား
         custom_form: အေကာက္ခြန္ ပံုစံ
         enrollment: စာရင္းသြင္းျခင္း
@@ -1845,6 +1893,7 @@ my:
       nickname: Nickname
       note: မွတ္စု
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      other_more_information: အခြား - နောက်ထပ်သတင်းအချက်အလက်များ
       phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
@@ -2160,6 +2209,8 @@ my:
         answered_call: Answer Call
         call_type: Call types
         called_before: Called Before
+        childsafe_agent: Childsafe Agent
+        date_of_call: Date of Call
         end_datetime: Date Call Ended
         end_time: Time Call Ended
         has_dob: 'Yes'
@@ -2176,8 +2227,8 @@ my:
         referee_id: Referee
         receiving_staff_id: Receiving staff
         requested_update: Requested Update
-        start_datetime: Date Call Began
-        start_time: Time Call Began
+        start_datetime: Date of Call
+        start_time: Time of Call
         types:
           new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
           new_referral_case_action_required: "New Referral: Case Action Required"
@@ -2218,6 +2269,7 @@ my:
         birth_province: ေမြးရာ ခ႐ိုင္
         birth_province_en: client မွေးဖွားခြင်းပြည်နယ် (အင်္ဂလိပ်)
         birth_province_kh: client မွေးဖွားခြင်းပြည်နယ် (ခမာ)
+        brief_note_summary: Brief Note Summary
         cambodia: ကေမာၻဒီးယား
         carer_name: Carer Name
         carer_phone: Carer Phone
@@ -2295,15 +2347,18 @@ my:
         live_with: အတူေန
         local_family_name: မိသားစုနာမည္ (ေဒသသံုးျဖင့့္)
         local_given_name: ေမြးနာမည္ (ေဒသသံုးျဖင့္)
+        location_description: Location Description
         main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
         manage: စီမံသည္
         myanmar: ျမန္မာႏိုင္ငံ
         name: နာမည္
         name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+        necessity_id: Basic Necessities
         ngo_accepted_date: NGO က လက္ခံသည့္ ရက္စြဲ
         ngo_exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
         no_dob: မဟုတ္ပါ
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        phone_counselling_summary: Phone Counselling Summary
         placement_case_type: ေနရာခ်ထားသည့္အမႈအမ်ိဳးအစား
         placement_start_date: ေနရာခ်ထားမႈ စတင္သည့္ ရက္စြဲ
         placements:
@@ -2327,6 +2382,7 @@ my:
         program_enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
         program_exit_date: အစီအစဥ္မွထြက္သည့္ ရက္စြဲ
         program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
+        protection_concern_id: Child Protection Concerns
         province: ေမြးရာ ခ႐ိုင္
         quantitative_case_values: ပမာဏအမႈ
         quantitative_types: ပမဏအမ်ိဳးအစား
@@ -2455,6 +2511,7 @@ my:
       manage: စီမံသည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      other_more_information: အခြား - နောက်ထပ်သတင်းအချက်အလက်များ
       partner: မိတ္ဖက္
       partners:
         address: လိပ္စာ

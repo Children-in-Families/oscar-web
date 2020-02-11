@@ -31,8 +31,8 @@ const CallForms = props => {
 
   const {
     data: {
-      call: { call, client_ids },
-      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids },
+      call: { call, client_ids, necessity_ids, protection_concern_ids },
+      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
       currentProvinces, districts, communes, villages, donors, agencies, necessities, protection_concerns, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients, local
@@ -48,9 +48,9 @@ const CallForms = props => {
   const [errorObjects, setErrorObjects] = useState({})
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, necessity_ids, protection_concern_ids, ...clients }])
+  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
-  const [callData, setCallData] = useState({ client_ids, ...call})
+  const [callData, setCallData] = useState({ client_ids, necessity_ids, protection_concern_ids, ...call})
   const [refereeData, setRefereeData] = useState(referee)
   const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData] = useState(carer)
@@ -65,7 +65,7 @@ const CallForms = props => {
   const refereeTabData = { errorFields, call: callData, clients: clientData, clientTask, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
   const referralTabData = { call: callData, users, errorFields, clients: clientData, birthProvinces, ratePoor, refereeRelationships, phoneOwners, T, referee: refereeData, ...address,  }
   const moreReferralTabData = { ratePoor, carer: carerData, schoolGrade, donors, agencies, families, carerDistricts, carerCommunes, carerVillages, clientRelationships, call: callData, ...referralTabData }
-  const callAboutTabData = { clients: clientData, T, necessities, protection_concerns }
+  const callAboutTabData = { clients: clientData, call: callData, T, necessities, protection_concerns }
 
   const tabs = [
     {text: T.translate("newCall.index.tabs.caller_info"), step: 1},
@@ -122,11 +122,11 @@ const CallForms = props => {
     const components = [
       { step: 1, data: refereeData, fields: ['name'] },
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
-      { step: 1, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'end_datetime', 'answered_call', 'called_before'] },
+      { step: 1, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'answered_call', 'called_before', 'childsafe_agent'] },
       { step: 2, data: clientData, fields: ['gender', 'user_ids']},
       { step: 3, data: clientData, fields: counselling ? ['phone_counselling_summary'] : [] },
       { step: 4, data: clientData, fields: [] },
-      { step: 4, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime', 'end_datetime'] }
+      { step: 4, data: callData, fields: ['receiving_staff_id', 'call_type', 'date_of_call', 'start_datetime'] }
     ]
 
     const errors = []

@@ -27,6 +27,12 @@
                     %abbr{ title: 'required' } *
                     = t('.referee_called_before')
                   = f.input :called_before, as: :radio_buttons, required: true, collection: [[t('.yes'), true], [t('.no'), false]], label: false
+              .col-xs-12
+                .i-checks
+                  %label.required.control-label
+                    %abbr{ title: 'required' } *
+                    = t('.are_you_a_child_safe_agent')
+                  = f.input :childsafe_agent, as: :radio_buttons, required: true, collection: [[t('.yes'), true], [t('.no'), false]], label: false
             .row
               .col-xs-12.col-sm-6
                 = f.association :receiving_staff, required: true, collection: @users, label: t('.receiving_staff')
@@ -47,13 +53,16 @@
             .row
               .col-xs-12.col-sm-6
                 = f.input :start_datetime, as: :time, html5: true, label: t('.time_call_began'), input_html: { value: @call.start_datetime ? @call.start_datetime.strftime("%H:%M") : '' }
-            .row
-              .col-xs-12.col-sm-6
-                = f.input :end_datetime, as: :time, html5: true, label: t('.time_call_ended'), input_html: { value: @call.end_datetime ? @call.end_datetime.strftime("%H:%M") : '' }
             - if @call.no_client_attached?
               .row
                 .col-xs-12.col-sm-6
                   = f.input :information_provided, as: :text, required: @call.seeking_information?, placeholder: t('.add_note_about_the_content'), label: t('.information_provided')
+            .row
+              .col-xs-12.col-sm-6
+                = f.association :necessities, collection: @necessities.map{|necessity| [t(".basic_necessities.#{necessity.id}"), necessity.id] }, multiple: true, label: t('.basic_necessity')
+            .row
+              .col-xs-12.col-sm-6
+                = f.association :protection_concerns, collection: @protection_concerns.map{|concern| [t(".protection_concerns.#{concern.id}"), concern.id] }, multiple: true, label: t('.protection_concern')
 
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }

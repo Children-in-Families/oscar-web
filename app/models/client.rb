@@ -57,10 +57,6 @@ class Client < ActiveRecord::Base
   belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
 
-  has_many :client_protection_concerns, dependent: :destroy
-  has_many :protection_concerns, through: :client_protection_concerns
-  has_many :client_necessities, dependent: :destroy
-  has_many :necessities, through: :client_necessities
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
