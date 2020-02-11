@@ -1,5 +1,5 @@
 class Call < ActiveRecord::Base
-  FIELDS = %w( phone_call_id call_type start_datetime start_time information_provided answered_call called_before requested_update childsafe_agent)
+  FIELDS = %w( phone_call_id call_type date_of_call start_datetime information_provided answered_call called_before requested_update childsafe_agent)
   TYPES  = [
             "New Referral: Case Action Required", "New Referral: Case Action NOT Required",
             "Providing Update", "Phone Counselling",
@@ -50,7 +50,7 @@ class Call < ActiveRecord::Base
     query_string = query_string.gsub(/childsafe_agent = 'false'/, 'childsafe_agent IS NULL OR childsafe_agent is false')
     query_string = query_string.gsub(/called_before = 'false'/, 'called_before IS NULL OR called_before is false')
     query_string = query_string.gsub(/answered_call = 'false'/, 'answered_call IS NULL OR answered_call is false')
-    query_string = query_string.gsub(/'start_time'/, "DATE_PART('hour', start_datetime)")
+    query_string = query_string.gsub(/start_datetime/, "DATE_PART('hour', start_datetime)")
   end
 
   private

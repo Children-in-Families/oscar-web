@@ -15,7 +15,7 @@
       = render 'calls/call_advanced_searches/advanced_search'
 .row.ibox-space
   .col-xs-12
-    .ibox.float-e-margins#call-search-form.collapse{ class: params.has_key?(:calls_grid) && 'in' }
+    .ibox.float-e-margins#call-search-form.collapse{ class: !params.has_key?(:query_builder_json) && 'in' }
       .ibox-content
         = datagrid_form_for @calls_grid, url: calls_url, html: { class: 'grid-form' }
 

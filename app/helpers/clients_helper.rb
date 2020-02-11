@@ -787,7 +787,7 @@ module ClientsHelper
           elsif class_name == 'type_of_service'
             type_of_services = map_type_of_services(client)
             count += type_of_services.count
-          elsif class_name == 'start_datetime'
+          elsif class_name == 'date_of_call'
             count += client.calls.distinct.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
@@ -1093,7 +1093,7 @@ module ClientsHelper
         elsif class_name == 'casenote'
           association.meeting_date
         elsif class_name == 'call'
-          association.start_datetime
+          association.date_of_call
         end
         distance_between_dates = (date_field.to_date - created_date.to_date).to_i
         created_date + distance_between_dates.day

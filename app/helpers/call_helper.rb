@@ -9,7 +9,7 @@ module CallHelper
       [header, I18n.t("datagrid.columns.calls.#{header.to_s}")]
     end.to_h
 
-    translations = translations.merge({ start_date: I18n.t("datagrid.columns.calls.start_date"), start_time: I18n.t("datagrid.columns.calls.start_time") })
+    translations = translations.merge({ date_of_call: I18n.t("datagrid.columns.calls.date_of_call"), start_datetime: I18n.t("datagrid.columns.calls.start_datetime") })
 
     number_fields = []; text_fields = []; date_picker_fields = []; dropdown_list_options = []
 
@@ -20,7 +20,7 @@ module CallHelper
         number_fields << field_name
       when /defaultfilter(?!.*childsafe_agent)/i
         text_fields << field_name
-      when /datefilter|start_date/i
+      when /datefilter|date_of_call/i
         date_picker_fields << field_name
       when /enumfilter|childsafe/i
         dropdown_list_options << field_name
@@ -64,7 +64,7 @@ module CallHelper
       values
     end
 
-    def start_time
+    def start_datetime
       time_range
     end
 
@@ -73,8 +73,9 @@ module CallHelper
     end
 
     def time_range
-      times = [{'00' => "12:00"}]
-      ('01'..'23').each{|d| times << {d => "#{d}:00"} }
+      times = [{'00' => "12:00AM"}]
+      ('01'..'11').each{|d| times << {d => "#{d}:00AM"} }
+      ('12'..'23').to_a.zip(['12', *('01'..'11').to_a]).each{|t, d| times << {t => "#{d}:00PM"} }
       times
     end
 

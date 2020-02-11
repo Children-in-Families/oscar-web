@@ -643,6 +643,13 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    answered_call: Answer Call
+    call_type: Call types
+    called_before: Called Before
+    childsafe_agent: Childsafe Agent
+    date_of_call: Date of Call
+    end_datetime: Date Call Ended
+    end_time: Time Call Ended
     edit:
       add_note_about_the_content: Add a note about the content of your conversation with the caller.
       answered_call: Answered Call
@@ -688,12 +695,6 @@ en:
         spam_call: Spam Call
         wrong_number: Wrong Number
       'yes': "Yes"
-    answered_call: Answer Call
-    call_type: Call types
-    called_before: Called Before
-    childsafe_agent: Childsafe Agent
-    end_datetime: Date Call Ended
-    end_time: Time Call Ended
     hotline: Hotline
     index:
       add_new_call: Add New Call
@@ -736,8 +737,7 @@ en:
         "10": Children and parent living on the street.
         "11": Disability
         "12": Other
-    start_datetime: Date of Call
-    start_time: Time of Call
+    start_datetime: Time of Call
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -2250,8 +2250,7 @@ en:
         receiving_staff_id: Receiving staff
         requested_update: Requested Update
         start_date: Start Date
-        start_datetime: Date of Call
-        start_time: Time of Call
+        start_datetime: Time of Call
         types:
           new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
           new_referral_case_action_required: "New Referral: Case Action Required"

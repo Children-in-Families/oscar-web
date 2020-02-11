@@ -35,11 +35,7 @@ class CallsGrid
     object.date_of_call.present? ? object.date_of_call.strftime("%d %B %Y") : ''
   end
 
-  column(:start_date, order: true, header: -> { I18n.t('datagrid.columns.calls.start_date') }) do |model|
-    model.start_datetime && model.start_datetime.strftime("%d %B %Y")
-  end
-
-  column(:start_time, header: -> { I18n.t('datagrid.columns.calls.start_time') }) do |model|
+  column(:start_datetime, header: -> { I18n.t('datagrid.columns.calls.start_datetime') }) do |model|
     model.start_datetime && model.start_datetime.strftime("%I:%M%p")
   end
 
