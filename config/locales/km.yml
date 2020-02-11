@@ -651,6 +651,7 @@ km:
       edit_call: កែសម្រួលការហៅ
       information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
       'no': "ទេ"
+      not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
       receiving_staff: បុគ្គលិកទទួលករណី
       referee_answered_call: តើអ្នកបញ្ជូនបានឆ្លើយការហៅទូរស័ព្ទនេះ ឬបានហៅទូរស័ព្ទត្រឡប់មកវិញឬទេ?
       referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
@@ -675,6 +676,7 @@ km:
     information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
     new:
       new_call: បង្កើតការហៅទូរស័ព្ទថ្មី
+    not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -2176,6 +2178,7 @@ km:
         information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
         manage: គ្រប់គ្រង
         no_dob: ទេ
+        not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
         phone_call: ការហៅទូរស័ព្ទ
         phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
         phone_counselling_summary: ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ

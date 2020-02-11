@@ -112,6 +112,7 @@ module ClientAdvancedSearchesConcern
       dropdown_list_option: [
         ['answered_call', { true: 'Yes', false: 'No' }],
         ['called_before', { true: 'Yes', false: 'No' }],
+        ['not_a_phone_call', {true: 'Yes', false: 'No'}],
         ['requested_update', { true: 'Yes', false: 'No' }],
         *get_dropdown_list(['phone_call_id', 'call_type', 'start_time', 'end_time'])
       ]

@@ -4,7 +4,8 @@ import {
   TextInput,
   RadioGroup,
   DateInput,
-  DateTimePicker
+  DateTimePicker,
+  Checkbox
 } from '../Commons/inputs'
 
 export default props => {
@@ -63,6 +64,17 @@ export default props => {
           />
         </div>
       </div>
+
+      <div className='row'>
+        <div className='col-md-12 col-lg-9'>
+          <Checkbox
+            label={T.translate("newCall.admin.not_a_phone_call")}
+            checked={call.not_a_phone_call || false}
+            onChange={onChange('call', 'not_a_phone_call')}
+          />
+        </div>
+      </div>
+      <br/>
 
 
       <div className='row'>

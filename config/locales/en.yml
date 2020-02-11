@@ -649,6 +649,7 @@ en:
       edit_call: Edit Call
       information_provided: Information Provided
       'no': "No"
+      not_a_phone_call: Not a Phone Call
       receiving_staff: Receiving Staff
       referee_answered_call: Did the referee answer this call or return a missed call?
       referee_called_before: Has the referee called the Childsafe Hotline Before?
@@ -679,6 +680,7 @@ en:
     information_provided: Information provided
     new:
       new_call: New Call
+    not_a_phone_call: Not a Phone Call
     type:
       case_action_required: "New Referral: Case Action Required"
       notifier_concern: "New Referral: Case Action NOT Required"
@@ -2193,6 +2195,7 @@ en:
         information_provided: Information provided
         manage: Manage
         no_dob: 'No'
+        not_a_phone_call: Not a Phone Call
         phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary

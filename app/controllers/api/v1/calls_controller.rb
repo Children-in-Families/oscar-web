@@ -164,7 +164,7 @@ module Api
         params.require(:call).permit(:phone_call_id, :receiving_staff_id,
                                 :date_of_call, :start_datetime, :end_datetime, :call_type,
                                 :information_provided,
-                                :answered_call, :called_before, :requested_update,
+                                :answered_call, :called_before, :requested_update, :not_a_phone_call,
                                 client_ids: []
                                 )
       end

@@ -259,7 +259,8 @@
       "verify_message": "You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
       "date_of_call": "Date of Call",
       "time_call_began": "Time Call Began",
-      "time_call_ended": "Time Call Ended"
+      "time_call_ended": "Time Call Ended",
+      "not_a_phone_call": "Not a Phone Call"
     },
     "callAbout": {
       "basicNecessities": {
@@ -489,7 +490,8 @@
         "Requested Update": "Requested Update",
         "Street Number": "Street Number",
         "Time Call Began": "Time Call Began",
-        "Time Call Ended": "Time Call Ended"
+        "Time Call Ended": "Time Call Ended",
+        "Not A Phone Call": "Not A Phone Call"
       }
     }
   },

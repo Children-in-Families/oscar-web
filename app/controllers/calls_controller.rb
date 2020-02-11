@@ -70,7 +70,7 @@ class CallsController < AdminController
   def call_params
     params.require(:call).permit(:answered_call, :called_before, :receiving_staff_id,
                                 :date_of_call, :start_datetime, :end_datetime,
-                                :information_provided
+                                :information_provided, :not_a_phone_call
                                 )
   end
 
