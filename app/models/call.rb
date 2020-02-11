@@ -1,5 +1,5 @@
 class Call < ActiveRecord::Base
-  FIELDS = %w( phone_call_id call_type start_datetime start_time information_provided answered_call called_before requested_update )
+  FIELDS = %w( phone_call_id call_type start_datetime start_time information_provided answered_call called_before requested_update childsafe_agent)
   TYPES  = [
             "New Referral: Case Action Required", "New Referral: Case Action NOT Required",
             "Providing Update", "Phone Counselling",

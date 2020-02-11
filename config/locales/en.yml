@@ -691,6 +691,7 @@ en:
     answered_call: Answer Call
     call_type: Call types
     called_before: Called Before
+    childsafe_agent: Childsafe Agent
     end_datetime: Date Call Ended
     end_time: Time Call Ended
     hotline: Hotline
