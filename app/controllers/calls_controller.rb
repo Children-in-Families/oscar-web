@@ -8,7 +8,7 @@ class CallsController < AdminController
   def index
     @query_json = params[:query_builder_json].presence
     query_string = params[:query_string]
-    query_string = Call.mapping_query_field(query_string)
+    query_string = Call.mapping_query_field(query_string) if @query_json.present?
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
       if(@query_json)
         scope.where(query_string).order(:created_at).page(params[:page]).page(params[:page]).per(20)
