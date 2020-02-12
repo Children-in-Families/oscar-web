@@ -684,7 +684,7 @@ km:
       time_call_began: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
       time_call_ended: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
       types:
-        new_referral_case_action_not_required: ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា
+        new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
         new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
         phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
         providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
@@ -1796,7 +1796,7 @@ km:
       brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
       call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
       callType:
-        new_referral_case_action_not_required: ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា
+        new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
         new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
         phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
         providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
@@ -2239,7 +2239,7 @@ km:
         start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
         start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
         types:
-          new_referral_case_action_not_required: ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា
+          new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
           new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
           phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
           providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
