@@ -735,6 +735,8 @@ km:
         '12': ផ្សេងៗ
     start_datetime: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
     start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
+    update:
+      successfully_updated: ការហៅទូរស័ព្ទត្រូវបានកែសម្រួលដោយជោគជ័យ
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
