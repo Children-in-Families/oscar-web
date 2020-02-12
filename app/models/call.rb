@@ -50,6 +50,12 @@ class Call < ActiveRecord::Base
     query_string = query_string.gsub(/childsafe_agent = 'false'/, 'childsafe_agent IS NULL OR childsafe_agent is false')
     query_string = query_string.gsub(/called_before = 'false'/, 'called_before IS NULL OR called_before is false')
     query_string = query_string.gsub(/answered_call = 'false'/, 'answered_call IS NULL OR answered_call is false')
+    query_string = query_string.gsub(/childsafe_agent = ''/, 'childsafe_agent IS NULL')
+    query_string = query_string.gsub(/called_before = ''/, 'called_before IS NULL')
+    query_string = query_string.gsub(/answered_call = ''/, 'answered_call IS NULL')
+    query_string = query_string.gsub(/childsafe_agent != ''/, 'childsafe_agent IS NOT NULL')
+    query_string = query_string.gsub(/called_before != ''/, 'called_before IS NOT NULL')
+    query_string = query_string.gsub(/answered_call != ''/, 'answered_call IS NOT NULL')
     query_string = query_string.gsub(/start_datetime/, "DATE_PART('hour', start_datetime)")
   end
 

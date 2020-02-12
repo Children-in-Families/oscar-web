@@ -40,6 +40,12 @@ CIF.CallsIndex = do ->
       allowClear: true
 
   _initAdavanceSearchFilter = ->
+    filterTranslation =
+      addCustomGroup: $('#builder').data('filter-translation-add-custom-group')
+      addFilter: $('#builder, #wizard-builder').data('filter-translation-add-filter')
+      addGroup: $('#builder, #wizard-builder').data('filter-translation-add-group')
+      deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
+
     $('#call-search-btn').val($('#call-search-btn').data('search'))
     $.fn.queryBuilder.define 'select2', ((options) ->
       if !$.fn.select2 or !$.fn.select2.constructor
@@ -70,11 +76,29 @@ CIF.CallsIndex = do ->
       showIcon: false
 
     filters = $("#call-builder-fields").data('fields')
-
     $('#builder').queryBuilder
       plugins: [
         'select2'
       ]
+      icons:
+        remove_rule: 'fa fa-minus'
+      lang:
+        delete_rule: ' '
+        add_rule: filterTranslation.addFilter
+        add_group: filterTranslation.addGroup
+        delete_group: filterTranslation.deleteGroup
+        operators:
+          is_empty: 'is blank'
+          is_not_empty: 'is not blank'
+          equal: 'is'
+          not_equal: 'is not'
+          less: '<'
+          less_or_equal: '<='
+          greater: '>'
+          greater_or_equal: '>='
+          contains: 'includes'
+          not_contains: 'excludes'
+          average: 'average'
       filters: filters
       lang_code: 'en'
 
