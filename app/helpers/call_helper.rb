@@ -5,27 +5,14 @@ module CallHelper
   end
 
   def group_call_field_types
-    translations = @calls_grid.datagrid_attributes[2..-1].map do |header|
+    translations = @calls_grid.columns.map(&:name).uniq.map do |header|
       [header, I18n.t("datagrid.columns.calls.#{header.to_s}")]
     end.to_h
 
-    translations = translations.merge({ date_of_call: I18n.t("datagrid.columns.calls.date_of_call"), start_datetime: I18n.t("datagrid.columns.calls.start_datetime") })
-
-    number_fields = []; text_fields = []; date_picker_fields = []; dropdown_list_options = []
-
-    @calls_grid.filters.zip(@calls_grid.columns.map(&:name).uniq).each do |filter, column_name|
-      field_name = column_name
-      case "#{filter.class.name.downcase}#{field_name.to_s}"
-      when /integerfilter/i
-        number_fields << field_name
-      when /defaultfilter(?!.*childsafe_agent)/i
-        text_fields << field_name
-      when /datefilter|date_of_call/i
-        date_picker_fields << field_name
-      when /enumfilter|childsafe/i
-        dropdown_list_options << field_name
-      end
-    end
+    number_fields = ['id']
+    text_fields = ['information_provided']
+    date_picker_fields = ['date_of_call']
+    dropdown_list_options = %w(phone_call_id call_type start_datetime answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id)
 
     {
       translation: translations, number_field: number_fields,
@@ -36,7 +23,12 @@ module CallHelper
 
   def get_dropdown_list(dropdown_list_options)
     dropdown_list_options.map do |field_name|
-      [field_name, CallHelper.send(field_name)]
+      origin_field_name = field_name
+      if ['protection_concern_id', 'necessity_id'].include?(field_name)
+        field_name = field_name.gsub('_id', '')
+        field_name = field_name.pluralize
+      end
+      [origin_field_name, CallHelper.send(field_name)]
     end
   end
 
@@ -93,6 +85,14 @@ module CallHelper
 
     def childsafe_agent
       yes_no_dropdown
+    end
+
+    def protection_concerns
+      ProtectionConcern.dropdown_list_option
+    end
+
+    def necessities
+      Necessity.dropdown_list_option
     end
 
     def yes_no_dropdown

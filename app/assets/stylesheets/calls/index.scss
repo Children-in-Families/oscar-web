@@ -19,7 +19,7 @@ body[id='calls-index'] {
     th.requested_update {
       min-width: 180px;
     }
-    th.information_provided {
+    th.information_provided, th.protection_concern_id, th.necessity_id {
       min-width: 200px;
     }
 
