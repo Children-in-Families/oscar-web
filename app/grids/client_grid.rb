@@ -952,7 +952,7 @@ class ClientGrid < BaseGrid
     basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
     results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
     assessment_completed_sql, assessment_number = assessment_filter_values(results)
-    sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE assessments.client_id IS NOT NULL #{assessment_completed_sql}) >= #{assessment_number})".squish
+    sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE assessments.client_id IS NOT NULL) >= #{assessment_number})".squish
     if assessment_number.present? && assessment_completed_sql.present?
       assessments = object.assessments.defaults.where(sql).order('created_at').offset(assessment_number - 1).limit(1)
     elsif assessment_completed_sql.present?
