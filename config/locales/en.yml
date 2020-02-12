@@ -738,6 +738,8 @@ en:
         "11": Disability
         "12": Other
     start_datetime: Time of Call
+    update:
+      successfully_updated: Call has been successfully updated.
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}

@@ -733,6 +733,8 @@ my:
     requested_update: Requested Update
     start_datetime: Date of Call
     start_time: Time of Call
+    update:
+      successfully_updated: အောင်မြင်စွာအဆင့်မြှင့်တင်
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
