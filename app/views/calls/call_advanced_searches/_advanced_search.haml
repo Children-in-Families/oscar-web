@@ -7,7 +7,7 @@
             .col-xs-12
               %span.basic-filter-error
                 %i Please Select Field to Filter
-              #builder.advanced-search-builder{ data: { basic_search_rules: @query_json, filter_translation: { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }} }
+              #builder.advanced-search-builder{ data: { basic_search_rules: @query_json, filter_translation: { add_filter: t('clients.client_advanced_searches.advanced_search.add_new_filter'), add_group: t('clients.client_advanced_searches.advanced_search.add_new_filter.add_new_group'), delete_group: t('clients.client_advanced_searches.advanced_search.add_new_filter.delete_group') }} }
 
               = hidden_field_tag :query_builder_json
               = hidden_field_tag :query_string

@@ -627,8 +627,13 @@ class ClientGrid < BaseGrid
             value = value.blank? || value == false ? false : value
             value = yes_no[value.to_s.to_sym]
           end.join(', ')
+        elsif call_field[/protection_concern_id|necessity_id/]
+          field_name = call_field.gsub('_id', '')
+          field_name = field_name.pluralize
+          object.calls.map do |call|
+            call.send(field_name.to_sym).pluck(:content).join(', ')
+          end.join(', ')
         else
-          binding.pry
           object.calls.distinct.map{ |call| call.send(call_field.to_sym) }.join(', ')
         end
       end

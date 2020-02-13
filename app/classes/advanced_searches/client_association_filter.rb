@@ -971,11 +971,11 @@ module AdvancedSearches
       @basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
 
       results      = mapping_allowed_param_value(@basic_rules, field)
-      klass_name   = field == 'necessity_id' ? 'client_necessities' : 'client_protection_concerns'
+      klass_name   = field == 'necessity_id' ? 'call_necessities' : 'call_protection_concerns'
       query_string = get_any_query_string(results, klass_name)
       sql          = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{@basic_rules[:condition]} ")
 
-      client_ids = Client.includes(klass_name.to_sym).where(sql).references(klass_name.to_sym).distinct.ids
+      client_ids = Client.includes(calls: klass_name.to_sym).where(sql).references(calls: klass_name.to_sym).distinct.ids
     end
   end
 end

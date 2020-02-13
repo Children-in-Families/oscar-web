@@ -52,6 +52,12 @@ class CallsGrid
     object.requested_update == true ? 'Yes' : 'No'
   end
   column(:information_provided, order: false, header: -> { I18n.t('datagrid.columns.calls.information_provided') })
+  column(:protection_concern_id, order: false, header: -> { I18n.t('datagrid.columns.calls.protection_concern_id') }) do |object|
+    object.protection_concerns.present? ? object.protection_concerns.pluck(:content).join(', ') : ''
+  end
+  column(:necessity_id, order: false, header: -> { I18n.t('datagrid.columns.calls.necessity_id') }) do |object|
+    object.necessities.present? ? object.necessities.pluck(:content).join(', ') : ''
+  end
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
   #   render partial: 'calls/actions', locals: { object: object }
   # end
@@ -64,7 +70,7 @@ class CallsGrid
   end
 
   def referee_options
-    Referee.all.pluck(:name, :id)
+    Referee.where(anonymous: false).pluck(:name, :id)
   end
 
   def receiving_staff_options

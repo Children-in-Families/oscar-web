@@ -409,7 +409,7 @@ const CallForms = props => {
         }
       />
       <Modal
-        title={`${T.translate("newCall.admin.save_call_as")} ${callData.call_type}?`}
+        title={`${T.translate("newCall.admin.save_call_as")} ${T.translate("detailCall.call." + callData.call_type)}?`}
         isOpen={noClientAttached}
         type='warning'
         closeAction={() => setNoClientAttachedModalOpen(false)}

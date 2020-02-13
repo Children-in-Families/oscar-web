@@ -703,6 +703,7 @@ en:
       results: Results
       report_builder: Report Builder
     information_provided: Information provided
+    necessity_id: Basic Necessities
     new:
       new_call: New Call
     type:
@@ -715,6 +716,7 @@ en:
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
     phone_type: Phone type
+    protection_concern_id: Child Protection Concerns
     requested_update: Requested Update
     show:
       basic_necessities:
@@ -2243,11 +2245,13 @@ en:
         id: ID
         information_provided: Information Provided
         manage: Manage
+        necessity_id: Basic Necessities
         no_dob: 'No'
         phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
+        protection_concern_id: Child Protection Concerns
         referee_id: Referee
         receiving_staff_id: Receiving staff
         requested_update: Requested Update

@@ -171,7 +171,7 @@ module FormBuilderHelper
     field_name = id
     value      = type == 'string'  ? value.downcase : value
 
-    lower_field_name      = type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
+    lower_field_name      = string_field(type, field_name, value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
     table_name_field_name = ['start_datetime'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
     table_name_field_name = ['date_of_call'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
 
@@ -223,6 +223,10 @@ module FormBuilderHelper
     when 'between'
       "#{table_name_field_name} BETWEEN '#{value.first}' AND '#{value.last}' AND #{table_name_field_name} IS NOT NULL"
     end
+  end
+
+  def string_field(type, field_name, value)
+    type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) && ['protection_concern_id', 'necessity_id'].exclude?(field_name)
   end
 
   def map_type_of_services(object)
