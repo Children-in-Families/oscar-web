@@ -376,7 +376,7 @@ km:
       client_email_address: អ៊ីមែលរបស់អតិថិជន
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
-      concern_basic_fields: Client Fields Concern
+      concern_basic_fields: កន្លែងកើតហេតុរបស់អតិថិជន
       completed: ពេញលេញហើយឬនៅ?
       created_at: កាលបរិច្ឆេទ
       created_by: បង្កើត​ឡើង​ដោយ
@@ -486,6 +486,7 @@ km:
         year_7: ឆ្នាំទី ៧
         year_8: ឆ្នាំទី ៨
       school_name: ឈ្មោះសាលារៀន
+      search: ស្វែងរក
       slug: លេខសម្គាល់
       state: State
       status: ស្ថានភាព
@@ -642,6 +643,8 @@ km:
     answered_call: ឆ្លើយការហៅទូរស័ព្ទ
     call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
     called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+    childsafe_agent: ភ្នាក់ងារសុវត្ថិភាពកុមារ
+    date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
     end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
     end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
     hotline: លេខទូរស័ព្ទបន្ទាប់
@@ -683,7 +686,7 @@ km:
       time_call_began: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
       time_call_ended: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
       types:
-        new_referral_case_action_not_required: ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា
+        new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
         new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
         phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
         providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
@@ -700,6 +703,7 @@ km:
     information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
     new:
       new_call: បង្កើតការហៅទូរស័ព្ទថ្មី
+    necessity_id: តម្រូវការបឋម
     not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
     type:
       case_action_required: "New Referral: Case Action Required"
@@ -711,6 +715,7 @@ km:
       wrong_number: "Wrong Number"
     phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
     phone_type: ប្រភេទលេខទូរស័ព្ទ
+    protection_concern_id: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
     requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
     show:
       basic_necessities:
@@ -735,6 +740,8 @@ km:
         '12': ផ្សេងៗ
     start_datetime: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
     start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
+    update:
+      successfully_updated: ការហៅទូរស័ព្ទត្រូវបានកែសម្រួលដោយជោគជ័យ
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
@@ -1375,6 +1382,7 @@ km:
         custom_form_column: ជួរឈរទម្រង់បែបបទ
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
         export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+        hotline_column: ជួរឈរលេខទូរស័ព្ទបន្ទាប់
         no_results: មិនមានលទ្ធផល
         program_stream_column: ជួរឈរកម្មវិធីចម្បង
         reset: សំអាត
@@ -1388,6 +1396,7 @@ km:
         enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
         exit_program: ចាកចេញពីកម្មវិធី
         filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
+        hotline: លេខទូរស័ព្ទបន្ទាប់
         program_stream: កម្មវិធីចម្បង
         quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
         tracking: តាមដាន
@@ -1797,7 +1806,7 @@ km:
       brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
       call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
       callType:
-        new_referral_case_action_not_required: ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា
+        new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
         new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
         phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
         providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
@@ -2228,19 +2237,22 @@ km:
         id: អត្តលេខ
         information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
         manage: គ្រប់គ្រង
+        necessity_id: តម្រូវការបឋម
         no_dob: ទេ
         not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
         phone_call: ការហៅទូរស័ព្ទ
         phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
         phone_counselling_summary: ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ
         phone_type: ប្រភេទទូរស័ព្ទ
+        protection_concern_id: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
         referee_id: អ្នកបញ្ជូន
         receiving_staff_id: បុគ្គលិកទទួលករណី
         requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+        start_date: កាលបរិច្ឆេទចាប់ផ្តើម
         start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
         start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
         types:
-          new_referral_case_action_not_required: ការបញ្ជូនថ្មីៈ ផ្តល់ដំណឹងពីបញ្ហា
+          new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
           new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
           phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
           providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន

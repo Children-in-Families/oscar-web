@@ -168,17 +168,30 @@ module FormBuilderHelper
   end
 
   def general_query(id, field, operator, value, type, class_name)
-    field_name = id.gsub(/_time/, '_datetime')
+    field_name = id
     value      = type == 'string'  ? value.downcase : value
 
-    lower_field_name      = type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
-    table_name_field_name = ['start_time'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
-    table_name_field_name = ['start_datetime'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
+    lower_field_name      = string_field(type, field_name, value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
+    table_name_field_name = ['start_datetime'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
+    table_name_field_name = ['date_of_call'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
+
     case operator
     when 'equal'
-      "#{table_name_field_name} = '#{value}'"
+      if value == 'true'
+        "#{table_name_field_name} = #{value}"
+      elsif value == 'false'
+        "#{table_name_field_name} = #{value} OR #{table_name_field_name} IS NULL"
+      else
+        "#{table_name_field_name} = '#{value}'"
+      end
     when 'not_equal'
-      "#{table_name_field_name} != '#{value}'"
+      if value == 'true'
+        "#{table_name_field_name} != #{value}"
+      elsif value == 'false'
+        "#{table_name_field_name} != #{value} OR #{table_name_field_name} IS NOT NULL"
+      else
+        "#{table_name_field_name} != '#{value}'"
+      end
     when 'less'
       "#{table_name_field_name} < '#{value}' AND #{lower_field_name} IS NOT NULL"
     when 'less_or_equal'
@@ -194,18 +207,26 @@ module FormBuilderHelper
     when 'is_empty'
       if field_name[/datetime/]
         "#{lower_field_name} IS NULL"
+      elsif field_name[/called_before|childsafe|answered_call|requested_update/]
+        "#{table_name_field_name} IS NULL"
       else
         "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
       end
     when 'is_not_empty'
       if field_name[/datetime/]
         "#{lower_field_name} IS NOT NULL"
+      elsif field_name[/called_before|childsafe|answered_call|requested_update/]
+        "#{table_name_field_name} IS NOT NULL"
       else
         "#{table_name_field_name} != '' AND #{lower_field_name} IS NOT NULL"
       end
     when 'between'
       "#{table_name_field_name} BETWEEN '#{value.first}' AND '#{value.last}' AND #{table_name_field_name} IS NOT NULL"
     end
+  end
+
+  def string_field(type, field_name, value)
+    type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) && ['protection_concern_id', 'necessity_id'].exclude?(field_name)
   end
 
   def map_type_of_services(object)

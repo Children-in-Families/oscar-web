@@ -24,23 +24,21 @@ class CallsGrid
   column(:call_type, header: -> { I18n.t('datagrid.columns.calls.call_type') }) do |object|
     I18n.t("datagrid.columns.calls.types.#{object.call_type.parameterize.underscore}")
   end
-  column(:referee, order: proc { |object| object.joins(:referee).order("referees.name") }, header: -> { I18n.t('datagrid.columns.calls.referee_id') }) do |object|
+  column(:referee_id, order: proc { |object| object.joins(:referee).order("referees.name") }, header: -> { I18n.t('datagrid.columns.calls.referee_id') }) do |object|
     object.referee.try(:name)
   end
-  column(:receiving_staff, order: proc { |object| object.joins(:receiving_staff).order('users.first_name, users.last_name') }, header: -> { I18n.t('datagrid.columns.calls.receiving_staff_id') } ) do |object|
+  column(:receiving_staff_id, order: proc { |object| object.joins(:receiving_staff).order('users.first_name, users.last_name') }, header: -> { I18n.t('datagrid.columns.calls.receiving_staff_id') } ) do |object|
     object.receiving_staff.try(:name)
   end
 
-  column(:date_of_call, html: true, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
+  column(:date_of_call, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
     object.date_of_call.present? ? object.date_of_call.strftime("%d %B %Y") : ''
   end
-  column(:date_of_call, html: false, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
-    object.date_of_call.present? ? object.date_of_call : ''
+
+  column(:start_datetime, header: -> { I18n.t('datagrid.columns.calls.start_datetime') }) do |model|
+    model.start_datetime && model.start_datetime.strftime("%I:%M%p")
   end
 
-  # column(:start_datetime, header: -> { I18n.t('datagrid.columns.calls.start_datetime') }) do |model|
-  #   model.start_datetime && model.start_datetime.strftime("%I:%M%p")
-  # end
   column(:answered_call, order: false, header: -> { I18n.t('datagrid.columns.calls.answered_call') }) do |object|
     object.answered_call == true ? 'Yes' : 'No'
   end
@@ -54,6 +52,12 @@ class CallsGrid
     object.requested_update == true ? 'Yes' : 'No'
   end
   column(:information_provided, order: false, header: -> { I18n.t('datagrid.columns.calls.information_provided') })
+  column(:protection_concern_id, order: false, header: -> { I18n.t('datagrid.columns.calls.protection_concern_id') }) do |object|
+    object.protection_concerns.present? ? object.protection_concerns.pluck(:content).join(', ') : ''
+  end
+  column(:necessity_id, order: false, header: -> { I18n.t('datagrid.columns.calls.necessity_id') }) do |object|
+    object.necessities.present? ? object.necessities.pluck(:content).join(', ') : ''
+  end
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
   #   render partial: 'calls/actions', locals: { object: object }
   # end
@@ -66,7 +70,7 @@ class CallsGrid
   end
 
   def referee_options
-    Referee.all.pluck(:name, :id)
+    Referee.where(anonymous: false).pluck(:name, :id)
   end
 
   def receiving_staff_options

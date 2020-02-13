@@ -8,16 +8,18 @@ body[id='calls-index'] {
     }
 
     th.phone_call_id,
+    th.receiving_staff_id,
     th.call_type,
     th.receiving_staff,
     th.date_of_call,
     th.answered_call,
     th.called_before,
+    th.start_date,
     th.childsafe_agent,
     th.requested_update {
       min-width: 180px;
     }
-    th.information_provided {
+    th.information_provided, th.protection_concern_id, th.necessity_id {
       min-width: 200px;
     }
 

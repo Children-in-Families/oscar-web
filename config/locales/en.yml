@@ -486,6 +486,7 @@ en:
         year_7: Year 7
         year_8: Year 8
       school_name: School Name
+      search: Search
       slug: ID
       state: State
       status: Status
@@ -642,6 +643,13 @@ en:
     index:
       sync_with_google: Sync with Google Calendar
   calls:
+    answered_call: Answer Call
+    call_type: Call types
+    called_before: Called Before
+    childsafe_agent: Childsafe Agent
+    date_of_call: Date of Call
+    end_datetime: Date Call Ended
+    end_time: Time Call Ended
     edit:
       add_note_about_the_content: Add a note about the content of your conversation with the caller.
       answered_call: Answered Call
@@ -688,11 +696,6 @@ en:
         spam_call: Spam Call
         wrong_number: Wrong Number
       'yes': "Yes"
-    answered_call: Answer Call
-    call_type: Call types
-    called_before: Called Before
-    end_datetime: Date Call Ended
-    end_time: Time Call Ended
     hotline: Hotline
     index:
       add_new_call: Add New Call
@@ -701,6 +704,7 @@ en:
       results: Results
       report_builder: Report Builder
     information_provided: Information provided
+    necessity_id: Basic Necessities
     new:
       new_call: New Call
     not_a_phone_call: Not a Phone Call
@@ -714,6 +718,7 @@ en:
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
     phone_type: Phone type
+    protection_concern_id: Child Protection Concerns
     requested_update: Requested Update
     show:
       basic_necessities:
@@ -736,8 +741,9 @@ en:
         "10": Children and parent living on the street.
         "11": Disability
         "12": Other
-    start_datetime: Date of Call
-    start_time: Time of Call
+    start_datetime: Time of Call
+    update:
+      successfully_updated: Call has been successfully updated.
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -2239,19 +2245,21 @@ en:
         has_dob: 'Yes'
         hotline_call: Hotline Call
         id: ID
-        information_provided: Information provided
+        information_provided: Information Provided
         manage: Manage
+        necessity_id: Basic Necessities
         no_dob: 'No'
         not_a_phone_call: Not a Phone Call
         phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
+        protection_concern_id: Child Protection Concerns
         referee_id: Referee
         receiving_staff_id: Receiving staff
         requested_update: Requested Update
-        start_datetime: Date of Call
-        start_time: Time of Call
+        start_date: Start Date
+        start_datetime: Time of Call
         types:
           new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
           new_referral_case_action_required: "New Referral: Case Action Required"

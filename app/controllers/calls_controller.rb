@@ -6,12 +6,23 @@ class CallsController < AdminController
   before_action :find_call, :find_associations, only: [:edit, :update]
 
   def index
+    @query_json = params[:query_builder_json].presence
+    query_string = params[:query_string]
+    query_string = Call.mapping_query_field(query_string) if @query_json.present?
     @calls_grid = CallsGrid.new(params[:calls_grid]) do |scope|
-      scope.order(:created_at).page(params[:page]).page(params[:page]).per(20)
+      if(@query_json)
+        calls = scope.joins("LEFT OUTER JOIN call_protection_concerns ON call_protection_concerns.call_id = calls.id LEFT OUTER JOIN protection_concerns ON protection_concerns.id = call_protection_concerns.protection_concern_id")
+        calls = calls.joins("LEFT OUTER JOIN call_necessities ON call_necessities.call_id = calls.id LEFT OUTER JOIN necessities ON necessities.id = call_necessities.necessity_id")
+        calls.where(query_string).order(:created_at)
+      else
+        scope.order(:created_at)
+      end
     end
     respond_to do |f|
       f.html do
-        @calls_grid
+        @results    = @calls_grid.assets.size
+        @calls_grid = @calls_grid.scope {|scope| scope.page(params[:page]).per(20) }
+        @query_json
       end
       f.xls do
         send_data  @calls_grid.to_xls, filename: "calls_report-#{Time.now}.xls"

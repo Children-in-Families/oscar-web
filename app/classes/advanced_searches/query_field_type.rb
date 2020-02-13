@@ -1,9 +1,8 @@
 module AdvancedSearches
-  class FilterTypes
+  class QueryFieldType
     def self.text_options(field_name, label, group)
       {
         id: field_name,
-        field: label,
         optgroup: group,
         label: label,
         type: 'string',
@@ -14,7 +13,6 @@ module AdvancedSearches
     def self.number_options(field_name, label, group)
       {
         id: field_name,
-        field: label,
         optgroup: group,
         label: label,
         type: 'integer',
@@ -25,7 +23,6 @@ module AdvancedSearches
     def self.date_picker_options(field_name, label, group)
       {
         id: field_name,
-        field: label,
         optgroup: group,
         label: label,
         type: 'date',
@@ -45,7 +42,6 @@ module AdvancedSearches
       is_association = is_association?(field_name, values)
       {
         id: field_name,
-        field: label,
         optgroup: group,
         label: label,
         type: 'string',
@@ -61,7 +57,6 @@ module AdvancedSearches
       foramted_data = format_data(field_name, values)
       {
         id: field_name,
-        field: label,
         optgroup: group,
         label: label,
         input: 'select',

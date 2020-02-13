@@ -2,8 +2,8 @@ module ApplicationHelper
   Thredded::ApplicationHelper
 
   def flash_alert
-    notice = params[:notice] || notice
-    alert = params[:alert] || alert
+    notice = params[:notice] || flash[:notice]
+    alert = params[:alert] || flash[:alert]
     if notice
       { 'message-type': 'notice', 'message': notice }
     elsif alert

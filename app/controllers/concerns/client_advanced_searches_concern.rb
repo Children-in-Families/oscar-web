@@ -108,13 +108,14 @@ module ClientAdvancedSearchesConcern
   def get_hotline_fields
     args = {
       translation: get_basic_field_translations, number_field: [],
-      text_field: ['information_provided'], date_picker_field: ['start_datetime'],
+      text_field: ['information_provided'], date_picker_field: ['date_of_call'],
       dropdown_list_option: [
         ['answered_call', { true: 'Yes', false: 'No' }],
+        ['childsafe_agent', { true: 'Yes', false: 'No' }],
         ['called_before', { true: 'Yes', false: 'No' }],
         ['not_a_phone_call', {true: 'Yes', false: 'No'}],
         ['requested_update', { true: 'Yes', false: 'No' }],
-        *get_dropdown_list(['phone_call_id', 'call_type', 'start_time'])
+        *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
       ]
     }
 
@@ -132,9 +133,7 @@ module ClientAdvancedSearchesConcern
       ['concern_commune_id', Commune.dropdown_list_option],
       ['concern_village_id', Village.dropdown_list_option],
       ['concern_is_outside', { true: 'Yes', false: 'No' }],
-      ['concern_same_as_client', { true: 'Yes', false: 'No' }],
-      ['protection_concern_id', ProtectionConcern.dropdown_list_option],
-      ['necessity_id', Necessity.dropdown_list_option]
+      ['concern_same_as_client', { true: 'Yes', false: 'No' }]
     ]
 
     args = {

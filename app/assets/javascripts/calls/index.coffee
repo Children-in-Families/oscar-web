@@ -1,9 +1,24 @@
 CIF.CallsIndex = do ->
   _init = ->
+    _toggleBasicFilter()
+    _toggleAdvancedFilter()
+    _initAdavanceSearchFilter()
+    _setAdavanceSearchFilter()
     _fixedHeaderTableColumns()
     _initSelect2()
-    _initAdavanceSearchFilter()
     _getCallPath()
+
+
+  _toggleBasicFilter = ->
+    $("button.btn-filter").on 'click', ->
+      $('#builder').queryBuilder('reset');
+      $("div#call-advance-search-form").removeClass('in').hide()
+
+  _toggleAdvancedFilter = ->
+    $("button.call-advance-search").on 'click', ->
+      $('#builder').queryBuilder('reset');
+      $("div#call-advance-search-form").show()
+      $("div#call-search-form").removeClass('in')
 
   _fixedHeaderTableColumns = ->
     $('.calls-table').removeClass('table-responsive')
@@ -20,16 +35,87 @@ CIF.CallsIndex = do ->
       $('.users-table').addClass('table-responsive')
 
   _initSelect2 = ->
-    $('#calls-index select').select2
+    $('#calls-index #call-search-form select').select2
       minimumInputLength: 0,
       allowClear: true
 
   _initAdavanceSearchFilter = ->
-    # advanceFilter = new CIF.CallAdvanceSearch()
-    # advanceFilter.initBuilderFilter('#call-builder-fields')
-    # advanceFilter.setValueToBuilderSelected()
-    # advanceFilter.getTranslation()
-    return
+    filterTranslation =
+      addCustomGroup: $('#builder').data('filter-translation-add-custom-group')
+      addFilter: $('#builder, #wizard-builder').data('filter-translation-add-filter')
+      addGroup: $('#builder, #wizard-builder').data('filter-translation-add-group')
+      deleteGroup: $('#builder, #wizard-builder').data('filter-translation-delete-group')
+
+    $('#call-search-btn').val($('#call-search-btn').data('search'))
+    $.fn.queryBuilder.define 'select2', ((options) ->
+      if !$.fn.select2 or !$.fn.select2.constructor
+        Utils.error 'MissingLibrary', 'Select2 is required'
+      Selectors = $(".rule-operator-container [name$=_operator], .rule-filter-container [name$=_filter]")
+      if Selectors
+        @on 'afterCreateRuleFilters', (e, rule) ->
+          rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
+          return
+        @on 'afterCreateRuleOperators', (e, rule) ->
+          rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
+          return
+        @on 'afterUpdateRuleFilter', (e, rule) ->
+          rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
+          return
+        @on 'afterUpdateRuleOperator', (e, rule) ->
+          rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
+          return
+        @on 'beforeDeleteRule', (e, rule) ->
+          rule.$el.find(".rule-filter-container [name$=_filter]").select2 'destroy'
+          rule.$el.find(".rule-operator-container [name$=_operator]").select2 'destroy'
+          return
+      return
+    ),
+      container: 'body'
+      style: 'btn-inverse btn-xs'
+      width: '250px'
+      showIcon: false
+
+    filters = $("#call-builder-fields").data('fields')
+    $('#builder').queryBuilder
+      plugins: [
+        'select2'
+      ]
+      icons:
+        remove_rule: 'fa fa-minus'
+      lang:
+        delete_rule: ' '
+        add_rule: filterTranslation.addFilter
+        add_group: filterTranslation.addGroup
+        delete_group: filterTranslation.deleteGroup
+        operators:
+          is_empty: 'is blank'
+          is_not_empty: 'is not blank'
+          equal: 'is'
+          not_equal: 'is not'
+          less: '<'
+          less_or_equal: '<='
+          greater: '>'
+          greater_or_equal: '>='
+          contains: 'includes'
+          not_contains: 'excludes'
+          average: 'average'
+      filters: filters
+      lang_code: 'en'
+
+    $('#call-advanced-search').on 'submit', (e) ->
+      query = $('#builder').queryBuilder('getRules')
+      if query
+        res = $('#builder').queryBuilder('getSQL', false, false)
+        $('#query_string').val res.sql
+        $('#query_builder_json').val JSON.stringify(query)
+      else
+        e.preventDefault()
+        $('#query_builder_json').val null
+      return
+
+  _setAdavanceSearchFilter = ->
+    queryJson = $('#builder').data('basic-search-rules')
+    $('#builder').queryBuilder 'setRules', queryJson if queryJson
 
   _getCallPath = ->
     return if $('table.calls tbody tr').text().trim() == 'No results found' || $('table.clients tbody tr').text().trim() == 'មិនមានលទ្ធផល' || $('table.clients tbody tr').text().trim() == 'No data available in table'

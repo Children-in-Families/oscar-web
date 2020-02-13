@@ -484,6 +484,7 @@ my:
         year_7: Year 7
         year_8: Year 8
       school_name: ေက်ာင္းနာမည္
+      search: ရွာေဖြသည္။
       slug: မွတ္ပံုတင္
       state: ပြည်နယ်
       status: အေနအထား
@@ -640,6 +641,8 @@ my:
     answered_call: Answer Call
     call_type: Call types
     called_before: Called Before
+    childsafe_agent: Childsafe Agent
+    date_of_call: Date of Call
     end_datetime: Date Call Ended
     end_time: Time Call Ended
     hotline: Hotline
@@ -698,6 +701,7 @@ my:
     information_provided: Information provided
     new:
       new_call: New Call
+    necessity_id: Basic Necessities
     not_a_phone_call: Not a Phone Call
     show:
       basic_necessities:
@@ -730,9 +734,12 @@ my:
       wrong_number: "Wrong Number"
     phone_call_id: Phone call ID
     phone_type: Phone type
+    protection_concern_id: Child Protection Concerns
     requested_update: Requested Update
     start_datetime: Date of Call
     start_time: Time of Call
+    update:
+      successfully_updated: အောင်မြင်စွာအဆင့်မြှင့်တင်
   cancel: ပယ္ဖ်က္ရန္
   cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
   cannot_be_greater:
@@ -1380,6 +1387,7 @@ my:
         custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
         delete_group: ဖ်က္ရန္
         export_to_xls: XLS အျဖစ္ ထုတ္ရန္
+        hotline_column: Hotline Columns
         no_results: မည္သည့္ရလဒ္မွ မေတြ႕ပါ။
         program_stream_column: အစီအစဥ္ စီးဆင္းမႈ ေကာ္လံ
         reset: အားလံုးကို မူလအတိုင္း ျပန္ျပင္ရန္။
@@ -1393,6 +1401,7 @@ my:
         enrollment: စာရင္းသြင္းျခင္း
         exit_program: ထြက္သည့္ အစီအစဥ္
         filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
+        hotline: Hotline
         program_stream: အစီအစဥ္ စီးဆင္းမႈ
         quantitative: ပမာဏအမ်ိဳးအစား
         tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
@@ -2218,15 +2227,18 @@ my:
         id: ID
         information_provided: Information provided
         manage: Manage
+        necessity_id: Basic Necessities
         no_dob: 'Yes'
         not_a_phone_call: Not a Phone Call
         phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary
         phone_type: Phone type
+        protection_concern_id: Child Protection Concerns
         referee_id: Referee
         receiving_staff_id: Receiving staff
         requested_update: Requested Update
+        start_date: စသည့္ရက္စြဲ
         start_datetime: Date of Call
         start_time: Time of Call
         types:

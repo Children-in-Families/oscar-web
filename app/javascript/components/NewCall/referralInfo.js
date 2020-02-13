@@ -342,7 +342,7 @@ export default props => {
           <SelectInput
             T={T}
             required
-            isError={errorFields.includes("gender")}
+            isError={errorFields.includes("gender") && (currentClient.gender === undefined || currentClient.gender === null)}
             label={T.translate("newCall.referralInfo.gender")}
             options={genderLists}
             value={currentClient.gender}
@@ -375,7 +375,7 @@ export default props => {
           <SelectInput
             T={T}
             required
-            isError={errorFields.includes('user_ids')}
+            isError={errorFields.includes('user_ids') && (currentClient.user_ids !== undefined && currentClient.user_ids.length < 1) || (currentClient.user_ids === undefined || currentClient.user_ids === null) }
             label={T.translate("newCall.referralInfo.case_worker")}
             isMulti
             options={userLists}
@@ -428,7 +428,7 @@ export default props => {
       </div>
 
       <div className={ `col-xs-12 text-right ${ call.call_type === 'Phone Counselling' ? 'hidden' : '' }` }>
-        <button className="btn btn-primary" style={{ margin: 5 }} onClick={() => onChange('client', {})({ type: 'newObject' })}>{T.translate("newCall.referralInfo.add_another_client")}</button>
+        <button className="btn btn-primary" style={{ margin: 5 }} onClick={() => { onChange('client', {})({ type: 'newObject' }); setClientIndex(clients.length) }}>{T.translate("newCall.referralInfo.add_another_client")}</button>
         { clients.length > 1 &&
           <button className="btn btn-danger" style={{ margin: 5 }} onClick={() => setConfirmRemoveClientModalOpen(true) }>{T.translate("newCall.referralInfo.remove_client")}</button>
         }
