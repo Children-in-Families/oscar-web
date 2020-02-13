@@ -66,6 +66,9 @@
             .row
               .col-xs-12.col-sm-6
                 = f.input :other_more_information, as: :text, label: t('.other_more_information')
+            .row
+              .col-xs-12.col-sm-6
+                = f.input :brief_note_summary, as: :text, label: t('.brief_note_summary')
 
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }

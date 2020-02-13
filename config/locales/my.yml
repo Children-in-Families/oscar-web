@@ -658,6 +658,7 @@ my:
         "5": Caregivers looking to send their children to an RCI.
         "6": Other
       basic_necessity: Basic Necessities
+      brief_note_summary: Brief Note Summary
       date_of_call: Date of Call
       edit_call: Edit Call
       information_provided: Information Provided
@@ -2217,6 +2218,7 @@ my:
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         answered_call: Answer Call
+        brief_note_summary: Brief Note Summary
         call_type: Call types
         called_before: Called Before
         childsafe_agent: Childsafe Agent

@@ -660,6 +660,7 @@ km:
         '5': អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។
         '6': ផ្សេងៗ
       basic_necessity: តម្រូវការបឋម
+      brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
       date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
       edit_call: កែសម្រួលការហៅ
       information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
@@ -2227,6 +2228,7 @@ km:
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+        brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
         call_type: ប្រភេទការហៅទូរស័ព្ទ
         called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
         childsafe_agent: ភ្នាក់ងារសុវត្ថិភាពកុមារ

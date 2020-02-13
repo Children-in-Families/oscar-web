@@ -64,6 +64,7 @@ class CallsGrid
   end
 
   column(:other_more_information, order: false, header: -> { I18n.t('datagrid.columns.calls.other_more_information') })
+  column(:brief_note_summary, order: false, header: -> { I18n.t('datagrid.columns.calls.brief_note_summary') })
 
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
   #   render partial: 'calls/actions', locals: { object: object }

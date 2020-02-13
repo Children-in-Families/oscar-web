@@ -63,7 +63,7 @@ export default props => {
       </div>
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <TextArea label={T.translate("newCall.callAbout.enter_a_brief")} value={client.brief_note_summary} onChange={handleOnChangeText('brief_note_summary')} />
+          <TextArea label={T.translate("newCall.callAbout.enter_a_brief")} value={call.brief_note_summary} onChange={onChange('call','brief_note_summary')} />
         </div>
       </div>
     </>
