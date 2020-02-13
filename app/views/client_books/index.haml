@@ -16,17 +16,17 @@
         - group_client_associations.each do |date, associations|
           - associations.each do |association|
             - class_name = association.class.name.downcase
-            - if class_name    == 'assessmentdecorator'
+            - if class_name == 'assessmentdecorator' && assessment_readable?
               = render 'assessments', assessment: association, date: date
-            - elsif class_name == 'casenote'
+            - elsif class_name == 'casenote' && case_notes_readable?
               = render 'case_notes', case_note: association, date: date
-            - elsif class_name == 'clientenrollment' && association.program_stream_id.present?
+            - elsif class_name == 'clientenrollment' && (association.program_stream_id && program_stream_readable?(association.program_stream_id))
               = render 'client_enrollments', client_enrollment: association, date: date
-            - elsif class_name == 'clientenrollmenttracking'
+            - elsif class_name == 'clientenrollmenttracking' && (association.program_stream && program_stream_readable?(association.program_stream.id))
               = render 'enrolled_program_trackings', enrollment_tracking: association, date: date
-            - elsif class_name == 'leaveprogram'
+            - elsif class_name == 'leaveprogram' && (association.program_stream_id && program_stream_readable?(association.program_stream_id))
               = render 'leave_programs', leave_program: association, date: date
-            - elsif class_name == 'customfieldproperty'
+            - elsif class_name == 'customfieldproperty' && custom_field_readable?(association.custom_field_id)
               = render 'custom_field_properties', custom_field_property: association, date: date
             - elsif class_name == 'call'
               = render 'calls', call: association, date: date

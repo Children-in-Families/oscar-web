@@ -460,13 +460,17 @@ module ClientsHelper
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     return object if basic_rules.nil?
     basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results      = mapping_form_builder_param_value(basic_rules, 'tracking')
-    query_string  = get_query_string(results, 'tracking', properties_field)
+    results      = mapping_form_builder_param_value(basic_rules, rule)
+    query_string  = get_query_string(results, rule, properties_field)
     default_value_param = params['all_values']
     if default_value_param
       object
+    elsif rule == 'tracking'
+      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
+    elsif rule == 'active_program_stream'
+      properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
     else
-      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" AND ")).distinct
+      object
     end
   end
 
@@ -538,9 +542,9 @@ module ClientsHelper
     object.present? ? object : []
   end
 
-  def form_builder_query(object, form_type, field_name)
+  def form_builder_query(object, form_type, field_name, properties_field=nil)
     return object if params['all_values'].present?
-    properties_field = 'client_enrollment_trackings.properties'
+    properties_field = properties_field.present? ? properties_field : 'client_enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
@@ -771,7 +775,7 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]

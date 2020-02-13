@@ -344,9 +344,10 @@ module ClientGridOptions
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
             enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
           else
-            enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-            enrollment_tracking_properties = property_filter(enrollment_tracking_properties, format_field_value)
-            enrollment_tracking_properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
+            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = form_builder_query(client_enrollment_trackings, fields.first, field[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
+
+            properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
           end
         elsif fields.first == 'programexitdate'
           ids = client.client_enrollments.inactive.ids
