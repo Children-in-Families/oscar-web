@@ -70,7 +70,7 @@ class CallsGrid
   end
 
   def referee_options
-    Referee.all.pluck(:name, :id)
+    Referee.where(anonymous: false).pluck(:name, :id)
   end
 
   def receiving_staff_options

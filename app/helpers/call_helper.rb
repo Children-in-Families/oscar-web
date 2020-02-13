@@ -12,7 +12,7 @@ module CallHelper
     number_fields = ['id']
     text_fields = ['information_provided']
     date_picker_fields = ['date_of_call']
-    dropdown_list_options = %w(phone_call_id call_type start_datetime answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id)
+    dropdown_list_options = %w(phone_call_id call_type start_datetime referee_id receiving_staff_id answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id)
 
     {
       translation: translations, number_field: number_fields,
@@ -39,7 +39,7 @@ module CallHelper
 
   class << self
     def referee_id
-      Referee.pluck(:name, :id).map{ |name, id| { id => name } }
+      Referee.where(anonymous: false).pluck(:name, :id).map{ |name, id| { id => name } }
     end
 
     def receiving_staff_id
