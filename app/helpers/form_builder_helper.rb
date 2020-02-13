@@ -215,7 +215,7 @@ module FormBuilderHelper
     when 'is_empty'
       if field_name[/datetime/]
         "#{lower_field_name} IS NULL"
-      elsif field_name[/called_before|childsafe|answered_call|requested_update/]
+      elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
         "#{table_name_field_name} IS NULL"
       else
         "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
@@ -223,7 +223,7 @@ module FormBuilderHelper
     when 'is_not_empty'
       if field_name[/datetime/]
         "#{lower_field_name} IS NOT NULL"
-      elsif field_name[/called_before|childsafe|answered_call|requested_update/]
+      elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
         "#{table_name_field_name} IS NOT NULL"
       else
         "#{table_name_field_name} != '' AND #{lower_field_name} IS NOT NULL"
@@ -234,7 +234,7 @@ module FormBuilderHelper
   end
 
   def string_field(type, field_name, value)
-    type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) && ['protection_concern_id', 'necessity_id'].exclude?(field_name)
+    type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) && ['protection_concern_id', 'necessity_id'].exclude?(field_name) && %w(called_before childsafe answered_call requested_update not_a_phone_call).exclude?(field_name)
   end
 
   def map_type_of_services(object)
