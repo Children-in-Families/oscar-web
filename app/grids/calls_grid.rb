@@ -18,6 +18,7 @@ class CallsGrid
   filter(:childsafe_agent, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.childsafe_agent') })
   filter(:requested_update, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.requested_update') })
   filter(:information_provided, header: -> { I18n.t('datagrid.columns.calls.information_provided') })
+  filter(:not_a_phone_call, select: :yes_no, header: -> { I18n.t('datagrid.columns.calls.not_a_phone_call') })
 
   column(:id, header: -> { I18n.t('datagrid.columns.calls.id') })
   column(:phone_call_id, header: -> { I18n.t('datagrid.columns.calls.phone_call_id') })
@@ -57,6 +58,9 @@ class CallsGrid
   end
   column(:necessity_id, order: false, header: -> { I18n.t('datagrid.columns.calls.necessity_id') }) do |object|
     object.necessities.present? ? object.necessities.pluck(:content).join(', ') : ''
+  end
+  column(:not_a_phone_call, order: false, header: -> { I18n.t('datagrid.columns.calls.not_a_phone_call') }) do |object|
+    object.not_a_phone_call == true ? 'Yes' : 'No'
   end
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
   #   render partial: 'calls/actions', locals: { object: object }

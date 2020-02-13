@@ -12,7 +12,7 @@ module CallHelper
     number_fields = ['id']
     text_fields = ['information_provided']
     date_picker_fields = ['date_of_call']
-    dropdown_list_options = %w(phone_call_id call_type start_datetime referee_id receiving_staff_id answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id)
+    dropdown_list_options = %w(phone_call_id call_type start_datetime referee_id receiving_staff_id answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id not_a_phone_call)
 
     {
       translation: translations, number_field: number_fields,
@@ -93,6 +93,10 @@ module CallHelper
 
     def necessities
       Necessity.dropdown_list_option
+    end
+
+    def not_a_phone_call
+      yes_no_dropdown
     end
 
     def yes_no_dropdown
