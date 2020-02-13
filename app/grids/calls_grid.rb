@@ -3,7 +3,7 @@ class CallsGrid
   include Datagrid
 
   scope do
-    Call.includes(:referee, :receiving_staff)
+    Call.includes(:referee, :receiving_staff, :protection_concerns, :necessities)
   end
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.calls.id') })
@@ -32,8 +32,12 @@ class CallsGrid
     object.receiving_staff.try(:name)
   end
 
-  column(:date_of_call, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
+  column(:date_of_call, html: true, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
     object.date_of_call.present? ? object.date_of_call.strftime("%d %B %Y") : ''
+  end
+
+  column(:date_of_call, html: false, header: -> { I18n.t('datagrid.columns.calls.date_of_call') }) do |object|
+    object.date_of_call.present? ? object.date_of_call : ''
   end
 
   column(:start_datetime, header: -> { I18n.t('datagrid.columns.calls.start_datetime') }) do |model|

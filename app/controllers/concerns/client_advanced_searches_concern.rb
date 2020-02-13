@@ -108,7 +108,8 @@ module ClientAdvancedSearchesConcern
   def get_hotline_fields
     args = {
       translation: get_basic_field_translations, number_field: [],
-      text_field: ['information_provided'], date_picker_field: ['date_of_call'],
+      text_field: ['information_provided', 'brief_note_summary', 'other_more_information'],
+      date_picker_field: ['date_of_call'],
       dropdown_list_option: [
         ['answered_call', { true: 'Yes', false: 'No' }],
         ['childsafe_agent', { true: 'Yes', false: 'No' }],
@@ -146,7 +147,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def hotline_text_type_list
-    %w(nickname concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description brief_note_summary phone_counselling_summary)
+    %w(nickname concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description phone_counselling_summary)
   end
 
   def custom_form_values

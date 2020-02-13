@@ -621,7 +621,7 @@ class ClientGrid < BaseGrid
           object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%d %B %Y') }.join("\n")
         elsif call_field[/start_datetime/]
           object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%I:%M%p') }.join("\n")
-        elsif ['called_before', 'childsafe_agent', 'answered_call', 'requested_update'].include?(call_field)
+        elsif ['called_before', 'childsafe_agent', 'answered_call', 'requested_update', 'not_a_phone_call'].include?(call_field)
           object.calls.distinct.map do |call|
             value = call.send(call_field.to_sym)
             value = value.blank? || value == false ? false : value

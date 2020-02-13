@@ -10,7 +10,7 @@ module CallHelper
     end.to_h
 
     number_fields = ['id']
-    text_fields = ['information_provided']
+    text_fields = ['information_provided', 'other_more_information', 'brief_note_summary']
     date_picker_fields = ['date_of_call']
     dropdown_list_options = %w(phone_call_id call_type start_datetime referee_id receiving_staff_id answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id not_a_phone_call)
 

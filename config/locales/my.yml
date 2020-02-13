@@ -639,6 +639,7 @@ my:
       sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
   calls:
     answered_call: Answer Call
+    brief_note_summary: Brief Note Summary
     call_type: Call types
     called_before: Called Before
     childsafe_agent: Childsafe Agent
@@ -705,6 +706,7 @@ my:
       new_call: New Call
     necessity_id: Basic Necessities
     not_a_phone_call: Not a Phone Call
+    brief_note_summary: Brief Note Summary
     show:
       basic_necessities:
         "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).

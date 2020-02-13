@@ -1,5 +1,5 @@
 class Call < ActiveRecord::Base
-  FIELDS = %w( phone_call_id call_type date_of_call start_datetime information_provided answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id not_a_phone_call)
+  FIELDS = %w( phone_call_id call_type date_of_call start_datetime information_provided answered_call called_before requested_update childsafe_agent protection_concern_id necessity_id not_a_phone_call brief_note_summary other_more_information)
   TYPES  = [
             "New Referral: Case Action Required", "New Referral: Case Action NOT Required",
             "Providing Update", "Phone Counselling",
@@ -50,15 +50,21 @@ class Call < ActiveRecord::Base
     query_string = query_string.gsub(/childsafe_agent = 'false'/, 'childsafe_agent IS NULL OR childsafe_agent is false')
     query_string = query_string.gsub(/called_before = 'false'/, 'called_before IS NULL OR called_before is false')
     query_string = query_string.gsub(/answered_call = 'false'/, 'answered_call IS NULL OR answered_call is false')
+    query_string = query_string.gsub(/not_a_phone_call = 'false'/, 'not_a_phone_call IS NULL OR not_a_phone_call is false')
     query_string = query_string.gsub(/requested_update = 'false'/, 'requested_update IS NULL OR requested_update is false')
+
     query_string = query_string.gsub(/childsafe_agent = ''/, 'childsafe_agent IS NULL')
     query_string = query_string.gsub(/called_before = ''/, 'called_before IS NULL')
     query_string = query_string.gsub(/answered_call = ''/, 'answered_call IS NULL')
-    query_string = query_string.gsub(/answered_call = ''/, 'requested_update IS NULL')
+    query_string = query_string.gsub(/not_a_phone_call = ''/, 'not_a_phone_call IS NULL')
+    query_string = query_string.gsub(/requested_update = ''/, 'requested_update IS NULL')
+
     query_string = query_string.gsub(/childsafe_agent != ''/, 'childsafe_agent IS NOT NULL')
     query_string = query_string.gsub(/called_before != ''/, 'called_before IS NOT NULL')
     query_string = query_string.gsub(/answered_call != ''/, 'answered_call IS NOT NULL')
+    query_string = query_string.gsub(/not_a_phone_call != ''/, 'not_a_phone_call IS NOT NULL')
     query_string = query_string.gsub(/requested_update != ''/, 'requested_update IS NOT NULL')
+
     query_string = query_string.gsub(/start_datetime/, "DATE_PART('hour', start_datetime)")
     query_string = query_string.gsub(/necessity_id/, "call_necessities.necessity_id")
     query_string = query_string.gsub(/protection_concern_id/, "call_protection_concerns.protection_concern_id")

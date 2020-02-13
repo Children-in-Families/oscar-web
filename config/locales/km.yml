@@ -641,6 +641,7 @@ km:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
   calls:
     answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+    brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
     call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
     called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
     childsafe_agent: ភ្នាក់ងារសុវត្ថិភាពកុមារ
@@ -707,14 +708,7 @@ km:
       new_call: បង្កើតការហៅទូរស័ព្ទថ្មី
     necessity_id: តម្រូវការបឋម
     not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
-    type:
-      case_action_required: "New Referral: Case Action Required"
-      notifier_concern: "New Referral: Case Action NOT Required"
-      providing_update: "Providing Update"
-      phone_counseling: "Phone Counselling"
-      seeking_information: "Seeking Information"
-      spam_call: "Spam Call"
-      wrong_number: "Wrong Number"
+    other_more_information: ព័ត៌មានផ្សេងទៀត
     phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
     phone_type: ប្រភេទលេខទូរស័ព្ទ
     protection_concern_id: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
@@ -742,6 +736,14 @@ km:
         '12': ផ្សេងៗ
     start_datetime: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
     start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Case Action NOT Required"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counselling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
     update:
       successfully_updated: ការហៅទូរស័ព្ទត្រូវបានកែសម្រួលដោយជោគជ័យ
   cancel: ទុកជាមោឃៈ

@@ -644,6 +644,7 @@ en:
       sync_with_google: Sync with Google Calendar
   calls:
     answered_call: Answer Call
+    brief_note_summary: Brief Note Summary
     call_type: Call types
     called_before: Called Before
     childsafe_agent: Childsafe Agent
@@ -710,14 +711,7 @@ en:
     new:
       new_call: New Call
     not_a_phone_call: Not a Phone Call
-    type:
-      case_action_required: "New Referral: Case Action Required"
-      notifier_concern: "New Referral: Case Action NOT Required"
-      providing_update: "Providing Update"
-      phone_counseling: "Phone Counselling"
-      seeking_information: "Seeking Information"
-      spam_call: "Spam Call"
-      wrong_number: "Wrong Number"
+    other_more_information: Other-More Information
     phone_call_id: Phone call ID
     phone_type: Phone type
     protection_concern_id: Child Protection Concerns
@@ -744,6 +738,14 @@ en:
         "11": Disability
         "12": Other
     start_datetime: Time of Call
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Case Action NOT Required"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counselling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
     update:
       successfully_updated: Call has been successfully updated.
   cancel: Cancel
