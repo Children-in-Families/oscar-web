@@ -26,9 +26,9 @@
                     - association = field_name.gsub('_id', '')
                     %td= call.send(field_name.to_sym) && call.send(association.to_sym).name
                   - elsif field_name[/call_type/]
-                    %td= call.send(field_name.to_sym) && call_type[call.send(field_name.to_sym)]
+                    %td= call.send(field_name.to_sym) && CallHelper.call_type[call.send(field_name.to_sym)]
                   - elsif field_name[/date_of_call/]
                     %td= call.send(field_name.to_sym) && date_format(call.send(field_name.to_sym))
                   - else
-                    %td= call.send(field_name.to_sym)
+                    %td= true_false_to_yes_no(call.send(field_name.to_sym))
 

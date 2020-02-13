@@ -36,7 +36,13 @@ module CallHelper
     I18n.t('calls')
   end
 
-
+  def true_false_to_yes_no(value)
+    if [true, false].include?(value)
+      { true => 'Yes', false => 'No' }[value]
+    else
+      value
+    end
+  end
   class << self
     def referee_id
       Referee.where(anonymous: false).pluck(:name, :id).map{ |name, id| { id => name } }
