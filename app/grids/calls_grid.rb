@@ -62,6 +62,9 @@ class CallsGrid
   column(:not_a_phone_call, order: false, header: -> { I18n.t('datagrid.columns.calls.not_a_phone_call') }) do |object|
     object.not_a_phone_call == true ? 'Yes' : 'No'
   end
+
+  column(:other_more_information, order: false, header: -> { I18n.t('datagrid.columns.calls.other_more_information') })
+
   # column(:action, header: -> { I18n.t('datagrid.columns.calls.manage') }, html: true, class: 'text-center') do |object|
   #   render partial: 'calls/actions', locals: { object: object }
   # end

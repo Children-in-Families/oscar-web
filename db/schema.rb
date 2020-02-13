@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200210102631) do
+ActiveRecord::Schema.define(version: 20200213062650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,18 +161,20 @@ ActiveRecord::Schema.define(version: 20200210102631) do
 
   create_table "calls", force: :cascade do |t|
     t.integer  "referee_id"
-    t.string   "phone_call_id",        default: ""
+    t.string   "phone_call_id",          default: ""
     t.integer  "receiving_staff_id"
     t.datetime "start_datetime"
-    t.string   "call_type",            default: ""
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "information_provided", default: ""
+    t.string   "call_type",              default: ""
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "information_provided",   default: ""
     t.date     "date_of_call"
     t.boolean  "answered_call"
     t.boolean  "called_before"
-    t.boolean  "requested_update",     default: false
+    t.boolean  "requested_update",       default: false
     t.boolean  "childsafe_agent"
+    t.boolean  "not_a_phone_call",       default: false
+    t.string   "other_more_information", default: ""
   end
 
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
@@ -553,7 +555,6 @@ ActiveRecord::Schema.define(version: 20200210102631) do
     t.string   "location_description",             default: ""
     t.string   "brief_note_summary",               default: ""
     t.string   "phone_counselling_summary",        default: ""
-    t.string   "other_more_information",           default: ""
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree

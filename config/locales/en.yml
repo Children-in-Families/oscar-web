@@ -667,6 +667,7 @@ en:
       information_provided: Information Provided
       'no': "No"
       not_a_phone_call: Not a Phone Call
+      other_more_information: Other-More Information
       protection_concern: Child Protection Concerns
       protection_concerns:
         "1": Physical violence
@@ -2250,6 +2251,7 @@ en:
         necessity_id: Basic Necessities
         no_dob: 'No'
         not_a_phone_call: Not a Phone Call
+        other_more_information: Other-More Information
         phone_call: Phone Call
         phone_call_id: Phone call ID
         phone_counselling_summary: Phone counselling summary

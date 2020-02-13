@@ -41,11 +41,10 @@ export default ({data, T, locale}) => {
       case 'called_before':
       case 'childsafe_agent':
       case 'requested_update':
+      case 'not_a_phone_call':
         return obj[key] ? 'Yes' : 'No'
       case 'call_type':
         return T.translate(`detailCall.call.${obj[key]}`)
-      case 'not_a_phone_call':
-        return obj[key] ? 'Yes' : 'No'
       default:
         return obj[key]
     }

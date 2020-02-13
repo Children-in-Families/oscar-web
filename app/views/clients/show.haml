@@ -425,13 +425,6 @@
                   %td
                     %strong
                       = @client.phone_counselling_summary
-              - if @client.other_more_information.present?
-                %tr
-                  %td.spacing-first-col
-                    = t('.other_more_information')
-                  %td
-                    %strong
-                      = @client.other_more_information
               - if @client.brief_note_summary.present?
                 %tr
                   %td.spacing-first-col

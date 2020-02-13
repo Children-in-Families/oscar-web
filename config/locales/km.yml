@@ -665,6 +665,7 @@ km:
       information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
       'no': "ទេ"
       not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+      other_more_information: ព័ត៌មានផ្សេងទៀត
       protection_concern: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
       protection_concerns:
         '1': អំពើហឹង្សាផ្នែករាងកាយ
@@ -2240,6 +2241,7 @@ km:
         necessity_id: តម្រូវការបឋម
         no_dob: ទេ
         not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+        other_more_information: ព័ត៌មានផ្សេងទៀត
         phone_call: ការហៅទូរស័ព្ទ
         phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
         phone_counselling_summary: ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ

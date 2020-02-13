@@ -63,6 +63,9 @@
             .row
               .col-xs-12.col-sm-6
                 = f.association :protection_concerns, collection: @protection_concerns.map{|concern| [t(".protection_concerns.#{concern.id}"), concern.id] }, multiple: true, label: t('.protection_concern')
+            .row
+              .col-xs-12.col-sm-6
+                = f.input :other_more_information, as: :text, label: t('.other_more_information')
 
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
