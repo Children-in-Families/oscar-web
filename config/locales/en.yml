@@ -2325,9 +2325,9 @@ en:
         concern_email: Relevant Email Contact
         concern_email_owner: Email Owner
         concern_house: House Number
-        concern_is_outside: Concern is Outside Cambodia
+        concern_is_outside: Concern is International
         concern_location: Location Of Concern
-        concern_outside_address: Outside Cambodia Address
+        concern_outside_address: International
         concern_phone: Relevant Contact Phone
         concern_phone_owner: Phone Owner
         concern_province_id: Province
@@ -2600,7 +2600,7 @@ en:
         male: Male
         name: Name
         no_dob: 'No'
-        outside: Outside Cambodia
+        outside: International
         outside_address: Outside Address
         phone: Phone
         province_id: Province
@@ -4737,7 +4737,7 @@ en:
     house_number: House Number
     id: ID
     name: Name
-    outside: Outside Cambodia
+    outside: International
     outside_address: Outside Address
     phone: Phone
     province_id: Province

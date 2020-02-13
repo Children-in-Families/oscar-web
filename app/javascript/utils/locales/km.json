@@ -27,7 +27,7 @@
     "family_record": "គ្រួសារ",
     "address": "អាសយដ្ឋាន",
     "same_as_client": "ដូចអតិថិជន",
-    "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
+    "outside_cambodia": "អាសយដ្ឋានក្រៅប្រទេស",
     "sam_as_client": "ដូចអតិថិជន"
   },
   "createFamilyModal": {
@@ -96,7 +96,7 @@
     "date_of_birth": "ថ្ងៃ ខែ ឆ្នាំ កំណើត",
     "birth_province": "ខេត្តកំណើត",
     "client_relationship": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ?",
-    "caller_relationship": "ទំនាក់ទំនងរវាងអ្នកទូរស័ព្ទ",
+    "caller_relationship": "ទំនាក់ទំនងរវាងអ្នកបញ្ជូន",
     "contact_info": "ព័ត៌មានទំនាក់ទំនង",
     "client_is_outside": "អតិថិជនអាសយដ្ឋានខាងក្រៅ",
     "what_3_word": "What3Words",
@@ -306,7 +306,7 @@
       "family_record": "គ្រួសារ",
       "address": "អាសយដ្ឋាន",
       "same_as_client": "ដូចអតិថិជន",
-      "outside_cambodia": "អតិថិជននៅក្រៅប្រទេសកម្ពុជា"
+      "outside_cambodia": "អតិថិជនក្រៅប្រទេស"
     },
     "caseActionNotRequiredModalFooter": {
       "iam_sure": "ខ្ញុំប្រាកដ",
@@ -314,7 +314,7 @@
     },
     "clientAddressInfo": {
       "address": "អាសយដ្ឋាន",
-      "outside_cambodia": "អាសយដ្ឋាននៅក្រៅ",
+      "outside_cambodia": "អាសយដ្ឋានក្រៅប្រទេស",
       "client_contact": "លេខទូរស័ព្ទពាក់ព័ន្ធអតិថិជន",
       "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
       "client_email": "អ៊ុីម៉ែលពាក់ព័ន្ធអតិថិជន",
@@ -322,7 +322,7 @@
       "location_description": "ការពិពណ៌នានៃទីកន្លែង"
     },
     "concernAddress": {
-      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
+      "outside_cambodia": "អាសយដ្ឋានក្រៅប្រទេស",
       "province": "ខេត្តកំណើត",
       "district": "អាសយដ្ឋាន - ស្រុក/ខណ្ឌ",
       "commune": "អាសយដ្ឋាន - ឃុំ/សង្កាត់",
@@ -405,7 +405,7 @@
       "referral_source_catgeory": "ប្រភេទប្រភពនៃការបញ្ជូន",
       "referral_source": "ប្រភពនៃការបញ្ជូន",
       "address": "ឣាសយដ្ឋាន",
-      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
+      "outside_cambodia": "អាសយដ្ឋានក្រៅប្រទេស",
       "this_caller_has_requested": "អ្នកហៅទូរស័ព្ទបានស្នើសុំបច្ចុប្បន្នភាពព័ត៌មានអំពីករណីបន្ទាប់ពីការអន្តរាគមន៍បញ្ចប់។"
     },
     "referralInfo": {
@@ -426,7 +426,7 @@
       "birth_province": "ខេត្តកំណើត",
       "relationshio_to_caller": "តើអ្នកបញ្ជូនមានទំនាក់ទំនងអ្វីជាមួយអតិថិជននេះ",
       "contact_info": "ព័ត៌មានទំនាក់ទំនង",
-      "client_is_outside": "អតិថិជននៅក្រៅប្រទេសកម្ពុជា",
+      "client_is_outside": "អតិថិជននៅក្រៅប្រទេស",
       "case_worker": "បុគ្គលិកគ្រប់គ្រងករណី",
       "client_contact_phone": "លេខទូរស័ព្ទពាក់ព័ន្ធអតិថិជន",
       "phone_owner": "ម្ចាស់ទូរស័ព្ទ",
@@ -435,7 +435,7 @@
       "location_description": "ការពិពណ៌នានៃទីកន្លែង",
       "location_of_concern": "ទីកន្លែងកើតហេតុ",
       "same_as_client": "ដូចអតិថិជន",
-      "concern_is_outside_cambodia": "ព្រឹត្តិការណ៍កើតឡើងក្រៅប្រទេសកម្ពុជា",
+      "concern_is_outside_cambodia": "កន្លែងកើតហេតុក្រៅប្រទេស",
       "relevant_contact_phone": "លេខទូរស័ព្ទអ្នកពាក់ព័ន្ធ",
       "relevant_email": "អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ",
       "locatin_description": "ការពិពណ៌នានៃទីកន្លែង",
@@ -574,7 +574,7 @@
       "are_you_over_18": "តើអ្នកមានអាយុលើសពី ១៨ ឆ្នាំឬទេ?",
       "referee_phone": "លេខទូរស័ព្ទអ្នកបញ្ជូន",
       "referee_email": "អ៊ុីម៉ែលអ្នកបញ្ជូនករណី",
-      "outside_cambodia": "អាសយដ្ឋានខាងក្រៅ",
+      "outside_cambodia": "អាសយដ្ឋានក្រៅប្រទេស",
       "cancel": "ទុកជាមោឃៈ",
       "save": "រក្សាទុក"
     }

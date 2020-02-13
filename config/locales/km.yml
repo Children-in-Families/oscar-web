@@ -2316,7 +2316,7 @@ km:
         concern_email: អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ
         concern_email_owner: ម្ចាស់អ៊ុីម៉ែល
         concern_house: ផ្ទះលេខ
-        concern_is_outside: ព្រឹត្តិការណ៍កើតឡើងក្រៅប្រទេសកម្ពុជា
+        concern_is_outside: ព្រឹត្តិការណ៍កើតឡើងក្រៅប្រទេស
         concern_location: ទីកន្លែងកើតហេតុ
         concern_outside_address: អាសយដ្ឋានខាងក្រៅ
         concern_phone: លេខទូរស័ព្ទអ្នកពាក់ព័ន្ធ
@@ -2591,7 +2591,7 @@ km:
         male: ប្រុស
         name: ឈ្មោះ
         no_dob: 'ទេ'
-        outside: អាសយដ្ឋាននៅក្រៅ
+        outside: អាសយដ្ឋាននៅក្រៅប្រទេស
         outside_address: អាសយដ្ឋាននៅក្រៅ
         phone: លេខទូរស័ព្ទ
         province_id: ខេត្ត/ក្រុង
@@ -4721,7 +4721,7 @@ km:
     house_number: អាសយដ្ឋាន - លេខផ្ទះ
     id: ID
     name: ឈ្មោះ
-    outside: អាសយដ្ឋានខាងក្រៅ
+    outside: អាសយដ្ឋានខាងក្រៅប្រទេស
     outside_address: អាសយដ្ឋាននៅក្រៅ
     phone: លេខទូស័ព្ទ
     province_id: ខេត្ត/ក្រុង
