@@ -26,7 +26,9 @@ class CaseNote < ActiveRecord::Base
         case_note_domain_groups.build(domain_group_id: dg.id)
       end
     else
-      custom_domains = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).domains.pluck(:domain_group_id).uniq
+      custom_domains = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name)
+      return [] if custom_domains.nil?
+      custom_domains = custom_domains.domains.pluck(:domain_group_id).uniq
       custom_domains.each do |dg|
         case_note_domain_groups.build(domain_group_id: dg)
       end
