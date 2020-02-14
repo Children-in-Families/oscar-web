@@ -49,7 +49,7 @@ module AdvancedSearches
         values: values,
         plugin: 'select2',
         data: { values: foramted_data, isAssociation: is_association},
-        operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
+        operators: field_name =! 'start_datetime' ? ['equal', 'not_equal', 'is_empty', 'is_not_empty'] : ['equal', 'not_equal', 'is_empty', 'is_not_empty', 'between']
       }
     end
 
