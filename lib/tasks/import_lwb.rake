@@ -11,7 +11,7 @@ namespace :lwb do
         puts "Shared tenant exists already."
       end
       begin
-        Organization.create_and_build_tanent(short_name: tenant_name, full_name: 'Anjali House', logo: File.open(Rails.root.join('app/assets/images/lwb logo.png')))
+        Organization.create_and_build_tanent(short_name: tenant_name, full_name: 'Love Without Boundary', logo: File.open(Rails.root.join('app/assets/images/lwb logo.png')))
         Organization.switch_to tenant_name
         Rake::Task['db:seed'].invoke
         ImportStaticService::DateService.new('Services', tenant_name, service_data_file).import
