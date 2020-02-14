@@ -664,7 +664,7 @@ km:
       brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
       date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
       edit_call: កែសម្រួលការហៅ
-      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
       'no': "ទេ"
       not_a_phone_call: មិនមែនការហៅតាមទូរស័ព្ទ
       other_more_information: ព័ត៌មានផ្សេងទៀត
@@ -703,7 +703,7 @@ km:
       hotline: លេខទូរស័ព្ទបន្ទាន់
       results: លទ្ធផល
       report_builder: Report Builder
-    information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+    information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
     new:
       new_call: បង្កើតការហៅទូរស័ព្ទថ្មី
     necessity_id: តម្រូវការបឋម
@@ -1120,7 +1120,7 @@ km:
       called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
       date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
       end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
-      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
       phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
       receiving_staff_id: បុគ្គលិកទទួលការហៅទូរស័ព្ទ
       referee_id: អ្នកបញ្ជូន
@@ -1594,7 +1594,7 @@ km:
       name: ឈ្មោះ
       next: បន្ទាប់
       previous: ត្រឡប់
-      province: ខេត្តកំណើត
+      province: ខេត្ត/ក្រុង
       received_by: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
@@ -2240,7 +2240,7 @@ km:
         has_dob: បាទ / ចាស
         hotline_call: ការហៅលេខទូរស័ព្ទបន្ទាន់
         id: អត្តលេខ
-        information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+        information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
         manage: គ្រប់គ្រង
         necessity_id: តម្រូវការបឋម
         no_dob: ទេ
