@@ -30,7 +30,7 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'school_name', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code', *setting_country_fields[:text_fields]]
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'school_name', 'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code', 'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email', 'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]].compact
     end
 
     def date_type_list
@@ -60,7 +60,10 @@ module AdvancedSearches
         ['referred_to', referral_to_options],
         ['referred_from', referral_from_options],
         ['referral_source_category_id', referral_source_category_options],
-        ['type_of_service', get_type_of_services]
+        ['type_of_service', get_type_of_services],
+        ['referee_relationship', get_sql_referee_relationship],
+        ['address_type', get_sql_address_types],
+        ['phone_owner', get_sql_phone_owner]
       ]
     end
 
@@ -184,7 +187,13 @@ module AdvancedSearches
       when 'cambodia'
         {
           text_fields: ['house_number', 'street_number'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
+          drop_down_fields: [
+            ['province_id', provinces],
+            ['district_id', districts],
+            ['birth_province_id', birth_provinces],
+            ['commune_id', communes],
+            ['village_id', villages]
+          ]
         }
       when 'lesotho'
         {
@@ -215,6 +224,18 @@ module AdvancedSearches
       else
         []
       end
+    end
+
+    def get_sql_referee_relationship
+      [Client::REFEREE_RELATIONSHIPS, I18n.t('default_client_fields.referee_relationship').values].transpose.to_h
+    end
+
+    def get_sql_address_types
+      [Client::ADDRESS_TYPES, I18n.t('default_client_fields.address_types').values].transpose.to_h
+    end
+
+    def get_sql_phone_owner
+      [Client::PHONE_OWNERS, I18n.t('default_client_fields.phone_owner').values].transpose.to_h
     end
   end
 end

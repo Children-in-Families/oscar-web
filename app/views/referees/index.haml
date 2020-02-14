@@ -1,0 +1,35 @@
+.row
+  .col-xs-12
+    .pull-left
+      %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#referee-search-form', "data-toggle" => 'collapse', type: 'button'}
+        %i.fa.fa-filter
+      %button.hidden.m-l-xs.btn.btn-primary.query.referee-advance-search{"aria-expanded" => 'false', "data-target" => '#referee-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
+        = t('.report_builder')
+    .pull-right
+      -# if can? :manage, :all
+        =# link_to "#{I18n.t('calls.index.add_new_call')}", new_call_path, class: 'btn btn-primary'
+      = link_to "#{I18n.t('calls.index.export_xls')}", current_url(format: 'xls'), class: "btn btn-info btn-export #{ @referees_grid.assets.size.zero? && 'disabled'}"
+.m-t-md
+.row.ibox-space
+  .col-xs-12
+    .ibox.float-e-margins#referee-search-form.collapse{ class: params.has_key?(:referees_grid) && 'in' }
+      .ibox-content
+        = datagrid_form_for @referees_grid, url: referees_url, html: { class: 'grid-form' }
+
+%input#params{ value: "#{params['referee_advanced_search']}", type: 'hidden' }
+.row
+  .col-xs-12
+    .ibox.float-e-margins
+      .ibox-title
+        %h5= @referees_grid.assets.size
+        %span.label.label-info= I18n.t('calls.index.results')
+        .ibox-tools
+          %a.collapse-link
+            %i.fa.fa-chevron-up
+          %a.fullscreen-link
+            %i.fa.fa-expand
+      .ibox-content
+        .referees-table
+          = datagrid_table @referees_grid, html: { class: 'table table-bordered table-striped table-hover referees'}
+      .ibox-footer.text-center
+        = paginate @referees_grid.assets

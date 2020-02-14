@@ -51,6 +51,7 @@ module AdvancedSearches
         type: 'string',
         input: 'select',
         values: values,
+        plugin: 'select2',
         data: { values: foramted_data, isAssociation: is_association},
         operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
@@ -65,6 +66,7 @@ module AdvancedSearches
         label: label,
         input: 'select',
         values: values,
+        plugin: 'select2',
         data: { values: foramted_data, isAssociation: false },
         operators: ['equal']
       }

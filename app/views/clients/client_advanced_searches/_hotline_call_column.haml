@@ -1,0 +1,15 @@
+.hotline-call-column
+  %ul.check-columns-visibility
+    %li.dropdown
+      %a.dropdown-toggle.btn.btn-default{ class: !hotline_check && 'disabled' , 'data-toggle' => 'dropdown', href: '#' }
+        = t('datagrid.columns.select_columns')
+        %span.caret
+      %ul.dropdown-menu.columns-visibility.append-child
+        - if hotline_call_columns.present?
+          - hotline_call_columns.each do |key, fields|
+            %li.dropdown-header{ class: key.parameterize }
+              = key
+            - fields.each do |field|
+              %li.visibility.checkbox-margin{ class: key.parameterize }
+                = check_box_tag "#{field[:id]}_", field[:id], params[:"#{field[:id]}_"].present?, class: 'i-checks'
+                = label_tag "#{field[:id]}_", field[:label]

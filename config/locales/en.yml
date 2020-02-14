@@ -125,6 +125,23 @@ en:
               taken: has already been taken
         assessment_domain:
           blank: can't be blank
+        call:
+          attributes:
+            answered_call:
+              inclusion: is not included in the list
+            receiving_staff_id:
+              blank: can't be blank
+            start_datetime:
+              blank: can't be blank
+            end_datetime:
+              blank: can't be blank
+            call_type:
+              blank: can't be blank
+              inclusion: is not included in the list
+            called_before:
+              inclusion: is not included in the list
+            information_provided:
+              blank: can't be blank
         case:
           attributes:
             exit_date:
@@ -185,6 +202,14 @@ en:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
               not_an_integer: must be an integer
+        custom_assessment_setting:
+          attributes:
+            custom_assessment_name:
+              blank: can't be blank
+            max_custom_assessment:
+              greater_than:
+                one: must be grater than Minimum
+                other: must be greater than %{count}
         department:
           attributes:
             name:
@@ -192,6 +217,8 @@ en:
               taken: has already been taken
         domain:
           attributes:
+            custom_assessment_setting_id:
+              blank: can't be blank
             identity:
               blank: can't be blank
               taken: has already been taken
@@ -337,14 +364,21 @@ en:
       birth_province: Client Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
+      carer_name: Carer Name
+      carer_phone: Carer Phone Number
+      carer_email: Carer Email Address
       case_note_date: Case Note Date
       case_note_type: Case Note Type
       case_type: Case Type
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      client_contact_phone: Client Contact Phone
+      address_type: Client Address Type
+      client_email_address: Client Email Address
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      concern_basic_fields: Client Fields Concern
       created_at: Created Date
       created_by: Created By
       csi_domain_scores: CSI Domain Scores
@@ -399,6 +433,7 @@ en:
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
       other_info_of_exit: Other - More Information
+      phone_owner: Phone Owner
       placement_start_date: Placement Start Date
       plot: Plot
       postal_code: Postal Code
@@ -418,6 +453,10 @@ en:
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
+      referee_relationship: Referee Relationship to Client
+      referee_name: Referee Name
+      referee_phone: Referee Phone Number
+      referee_email: Referee Email Address
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
       road: Road
@@ -448,6 +487,7 @@ en:
         year_7: Year 7
         year_8: Year 8
       school_name: School Name
+      search: Search
       slug: ID
       state: State
       status: Status
@@ -580,6 +620,9 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
+
+
+
       case_plan: Case Plan for
       domain: Domain
       due_date: Due Date
@@ -600,6 +643,112 @@ en:
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
+  calls:
+    answered_call: Answer Call
+    brief_note_summary: Brief Note Summary
+    call_type: Call types
+    called_before: Called Before
+    childsafe_agent: Childsafe Agent
+    date_of_call: Date of Call
+    end_datetime: Date Call Ended
+    end_time: Time Call Ended
+    edit:
+      add_note_about_the_content: Add a note about the content of your conversation with the caller.
+      answered_call: Answered Call
+      are_you_a_child_safe_agent: Are you a child safe agent?
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      basic_necessity: Basic Necessities
+      brief_note_summary: Brief Note Summary
+      date_of_call: Date of Call
+      edit_call: Edit Call
+      information_provided: Information Provided
+      'no': "No"
+      not_a_phone_call: Not a Phone Call
+      other_more_information: Other-More Information
+      protection_concern: Child Protection Concerns
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
+      receiving_staff: Receiving Staff
+      referee_answered_call: Did the referee answer this call or return a missed call?
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
+      returning_missed_call: Returning Missed Call
+      time_call_began: Time of Call
+      time_call_ended: Time Call Ended
+      types:
+        new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+        new_referral_case_action_required: "New Referral: Case Action Required"
+        phone_counselling: Phone Counselling
+        providing_update: Providing Update
+        seeking_information: Seeking Information
+        spam_call: Spam Call
+        wrong_number: Wrong Number
+      'yes': "Yes"
+    hotline: Hotline
+    index:
+      add_new_call: Add New Call
+      export_xls: Export to XLS
+      hotline: Hotline
+      results: Results
+      report_builder: Report Builder
+    information_provided: Information provided
+    necessity_id: Basic Necessities
+    new:
+      new_call: New Call
+    not_a_phone_call: Not a Phone Call
+    other_more_information: Other-More Information
+    phone_call_id: Phone call ID
+    phone_type: Phone type
+    protection_concern_id: Child Protection Concerns
+    requested_update: Requested Update
+    show:
+      basic_necessities:
+        "1": Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        "2": Looking for education and material requests for school registration; return to school; need help to stay in school.
+        "3": Looking for food, water, milk, shelter support.
+        "4": Looking for vocational training/employment.
+        "5": Caregivers looking to send their children to an RCI.
+        "6": Other
+      protection_concerns:
+        "1": Physical violence
+        "2": Emotional violence
+        "3": Sexual violence
+        "4": Neglect / lack of adult supervision
+        "5": Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        "6": Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        "7": Drug use (seeking rehabilitation support)
+        "8": Alcohol use (seeking rehabilitation support)
+        "9": Separated child - abandoned; lost; street living.
+        "10": Children and parent living on the street.
+        "11": Disability
+        "12": Other
+    start_datetime: Time of Call
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Case Action NOT Required"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counselling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
+    update:
+      successfully_updated: Call has been successfully updated.
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -636,6 +785,7 @@ en:
     add_task_form:
       completion_date: Completion Date
       domain: Domain
+      dimensions: Dimension
       enter_task_detail: Enter task details
       save: Save
       title: New Task
@@ -680,11 +830,13 @@ en:
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
+      dimensions: Dimensions
       goal: Goal
       note: Note
     form_without_assessment_domains:
       add_task: Add Task
       domain: Domain
+      dimensions: Dimensions
       goal: Goal
       note: Note
     index:
@@ -887,6 +1039,7 @@ en:
         successfully_updated: Client has been successfully updated.
     form_option:
       basic_fields: Client Basic Fields
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
       enrollment: Enrollment
@@ -933,6 +1086,7 @@ en:
   client_advanced_searches:
     form_option:
       basic_fields: Client Basic Fields
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
       enrollment: Enrollment
@@ -954,6 +1108,7 @@ en:
       custom_form_column: Custom form columns
       delete_group: Delete
       export_to_xls: Export to XLS
+      hotline_column: Hotline Call Columns
       no_results: No Result Found
       program_stream_column: Program stream columns
       reset: Reset
@@ -964,6 +1119,19 @@ en:
       assessment: CSI Assessment
       custom_assessment: Custom Assessment
     by: By
+    call: Call
+    calls:
+      answered_call: Answer Call
+      call_type: Call Type
+      called_before: Called Before
+      date_of_call: Date of Call
+      end_datetime: Date Call Ended
+      information_provided: Information Provided
+      phone_call_id: Phone Call ID
+      receiving_staff_id: Receiving Staff
+      referee_id: Referee
+      requested_update: Requested Update
+      start_datetime: Time of Call
     case_histories:
       accepted_date: NGO Accept Date
       case_history: Case Histories
@@ -983,6 +1151,10 @@ en:
     enrolled_program_trackings:
       tracking: Tracking
     for: For
+    hotline:
+      end_datetime: End Date Time
+      received_by: Received Call by
+      start_datetime: Time of Call
     incomplete: Incomplete
     index:
       book: Client book
@@ -1224,6 +1396,7 @@ en:
         custom_form_column: Custom Form columns
         delete_group: Delete
         export_to_xls: Export to XLS
+        hotline_column: Hotline Columns
         no_results: No Result Found
         program_stream_column: Program stream columns
         reset: Reset
@@ -1232,10 +1405,12 @@ en:
       form_option:
         basic_fields: Basic Fields
         csi_domain_scores: Csi Domain Scores
+        concern_basic_fields: Client Fields Concern
         custom_form: Custom Form
         enrollment: Enrollment
         exit_program: Exit Program
         filter_option: Please choose your query options below
+        hotline: Hotline
         program_stream: Program Stream
         quantitative: Custom Referral Data
         tracking: Tracking
@@ -1633,23 +1808,57 @@ en:
       agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
+      basic_necessities: Basic Necessities
+      basicNecessities:
+        '1': Looking for health/medical help (including emergencies, pregnancy, other health concerns).
+        '2': Looking for education and material requests for school registration; return to school; need help to stay in school.
+        '3': Looking for food, water, milk, shelter support.
+        '4': Looking for vocational training/employment.
+        '5': Caregivers looking to send their children to an RCI
       birth_province: Client Birth Province
       book: Client book
+      brief_note_summary: Brief Note Summarising the Call
+      call_type: Call Type
+      callType:
+        new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+        new_referral_case_action_required: "New Referral: Case Action Required"
+        phone_counselling: Phone Counselling
+        providing_update: Providing Update
+        seeking_information: Seeking Information
+        spam_call: Spam Call
+        wrong_number: Wrong Number
       cambodia: Cambodia
       case_histories: Case Histories
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      child_protection_concerns: Child Protection Concerns
+      childProtectionConcerns:
+        '1': Physical violence
+        '2': Emotional violence
+        '3': Sexual violence
+        '4': Neglect / lack of adult supervision
+        '5': Rescue of trafficking victim (migration / collaboration with authorities to rescue)
+        '6': Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.
+        '7': Drug use (seeking rehabilitation support)
+        '8': Alcohol use (seeking rehabilitation support)
+        '9': Separated child - abandoned; lost; street living.
+        '10': Children and parent living on the street.
+        '11': Disability
+        '12': Other
       client_able_answers: Client Able Answers
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      concern_location: Location of Concern
+      created_date: Created Date
       current_address: Current Address
       current_province: Current Province
       custom_id_number1: Custom ID Number 1
       custom_id_number2: Custom ID Number 2
       date: Date
       date_of_birth: Date of Birth
+      date_of_call: Date of Call
       detail: Detail
       district: District/Khan
       donor: Donor
@@ -1684,6 +1893,7 @@ en:
       government_report: Government Report
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
+      hotlines: Hotlines
       house_number: House
       id: ID
       id_poor: ID Poor
@@ -1698,8 +1908,11 @@ en:
       manage: Manage
       name: Name
       name_of_referee: Name Of Referee
+      nickname: Nickname
       note: Note
       other_info_of_exit: Other - More Information
+      other_more_information: Other-More Information
+      phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: Carer Address
         carer_names: Carer Names
@@ -2025,6 +2238,43 @@ en:
     columns:
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
+      all_result_framework_assessment: All Result Framework Assessment
+      calls:
+        answered_call: Answer Call
+        brief_note_summary: Brief Note Summary
+        call_type: Call types
+        called_before: Called Before
+        childsafe_agent: Childsafe Agent
+        date_of_call: Date of Call
+        end_datetime: Date Call Ended
+        end_time: Time Call Ended
+        has_dob: 'Yes'
+        hotline_call: Hotline Call
+        id: ID
+        information_provided: Information Provided
+        manage: Manage
+        necessity_id: Basic Necessities
+        no_dob: 'No'
+        not_a_phone_call: Not a Phone Call
+        other_more_information: Other-More Information
+        phone_call: Phone Call
+        phone_call_id: Phone call ID
+        phone_counselling_summary: Phone counselling summary
+        phone_type: Phone type
+        protection_concern_id: Child Protection Concerns
+        referee_id: Referee
+        receiving_staff_id: Receiving staff
+        requested_update: Requested Update
+        start_date: Start Date
+        start_datetime: Time of Call
+        types:
+          new_referral_case_action_not_required: "New Referral: Case Action NOT Required"
+          new_referral_case_action_required: "New Referral: Case Action Required"
+          phone_counselling: Phone Counselling
+          providing_update: Providing Update
+          seeking_information: Seeking Information
+          spam_call: Spam Call
+          wrong_number: Wrong Number
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -2034,7 +2284,13 @@ en:
       cases:
         case_type: Case Type
         telephone_number: Primary Carer Phone Number
+      carer_name: Care Name
+      carer_email: Care Email
+      carer_phone: Care Phone
       changelog: Changelog
+      client_contact_phone: Client Contact Phone
+      address_type: Client Address Type
+      client_email: Client Email
       client_enrollments:
         action: Action
         domain: Associated Domains
@@ -2058,7 +2314,11 @@ en:
         birth_province: Client Birth Province
         birth_province_en: Client Birth Province (English)
         birth_province_kh: Client Birth Province (Khmer)
+        brief_note_summary: Brief Note Summary
         cambodia: Cambodia
+        carer_name: Carer Name
+        carer_phone: Carer Phone
+        carer_email: Carer Email
         case_note_date: Case Note Date
         case_note_type: Case Note Type
         case_type: Case Type
@@ -2066,6 +2326,22 @@ en:
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
         code: Custom ID Number1
+        concern_address: Address Name
+        concern_address_type: Address Type
+        concern_commune_id: Commune / Sangkat
+        concern_district_id: District / Khan
+        concern_email: Relevant Email Contact
+        concern_email_owner: Email Owner
+        concern_house: House Number
+        concern_is_outside: Concern is International
+        concern_location: Location Of Concern
+        concern_outside_address: International
+        concern_phone: Relevant Contact Phone
+        concern_phone_owner: Phone Owner
+        concern_province_id: Province
+        concern_same_as_client: Same as Client
+        concern_street: Street Number
+        concern_village_id: Village
         commune: Commune/Sangkat
         commune_en: Address - Commune/Sangkat (English)
         commune_kh: Address - Commune/Sangkat (Khmer)
@@ -2116,15 +2392,20 @@ en:
         live_with: Primary Carer Name
         local_family_name: Family Name
         local_given_name: Given Name
+        location_description: Location Description
         main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
         name: Name
         name_of_referee: Name of Referee
+        necessity_id: Basic Necessities
+        nickname: Nickname
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         other_info_of_exit: Other - More Information
+        other_more_information: Other-More Information
+        phone_counselling_summary: Phone Counselling Summary
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
         placements:
@@ -2148,6 +2429,7 @@ en:
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
+        protection_concern_id: Child Protection Concerns
         province: Birth Province
         quantitative_case_values: Specific Referral Data Option
         quantitative_types: Custom Referral Data
@@ -2159,6 +2441,14 @@ en:
         referral_source_category: Referral Source Category
         referred_from: Referred From
         referred_to: Referred To
+        referee_name: Referee Name
+        referee_phone: Referee Phone
+        referee_email: Referee Email
+        referee_relationship_to_client: Referee Relationship to client
+        client_contact_phone: Client Contact Phone
+        address_type: Client Address Type
+        client_email: Client Email
+        phone_owner: Phone Owner
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
@@ -2262,6 +2552,7 @@ en:
         start_date: Start Date
         type: Type
         view: View
+      phone_owner: Phone Owner
       program_streams:
         action: Action
         description: Description
@@ -2294,6 +2585,37 @@ en:
       rated_for_id_poor: Is The Client Rated For ID Poor
       reason_for_family_separation: Reason for Family Separation
       rejected_note: Note on referral rejection
+      referee_name: Referee Name
+      referee_phone: Referee Phone
+      referee_email: Referee Email
+      referee_relationship_to_client: Referee Relationship to client
+      referees:
+        address_type: Address Type
+        adult: Adult
+        anonymous: Anonymous
+        answered_call: Answered Call
+        called_before: Called Before
+        commune_id: Commune
+        created_at: Created At
+        current_address: Current Address
+        district_id: District
+        email: Email
+        female: Female
+        gender: Gender
+        has_dob: 'Yes'
+        house_number: House Number
+        id: ID
+        male: Male
+        name: Name
+        no_dob: 'No'
+        outside: International
+        outside_address: Outside Address
+        phone: Phone
+        province_id: Province
+        requested_update: Requested Update
+        street_number: Street Number
+        updated_at: Updated At
+        village_id: Village
       select_columns: Select Columns
       show_all: Show All
       support_amount: Support Amount
@@ -2354,6 +2676,9 @@ en:
       has_overdue_task: Has Overdue Task
       no_case_note: Overdue for Case Note
       reset: Reset
+      referee: Referee
+      result_framework_assessment: Result Framework Assessment
+      carer: Carer
       search: Search
       type_of_service: Type of Service
     from: From
@@ -2385,8 +2710,10 @@ en:
     able_state: Able State
     address: Address
     agencies_involved: Other Agencies Involved
+    phone_counselling_summary: Phone Counselling Summary
     agency_names: Agency Name
     birth_province: Client Birth Province
+    brief_note_summary: Brief Note Summary
     cambodia: Cambodia
     case_worker: Case Worker
     case_worker_or_staff: Case Worker / Staff
@@ -2408,6 +2735,27 @@ en:
       male: Male
       other_gender: Other
       unknown: Unknown
+    referee_relationship:
+      self: Self
+      family_member: Family Member
+      friend: Friend
+      helping_professional: Helping Professional
+      government_local: Government / Local Authority
+      other: Other
+    address_types:
+      home: Home
+      business: Business
+      rci: RCI
+      dormitory: Dormitory
+      other: Other
+    phone_counselling_summary: Phone Counselling Summary
+    phone_owner:
+      self: Self
+      family_member: Family Member
+      friend: Friend
+      helping_professional: Helping Professional
+      government_local: Government / Local Authority
+      other: Other
     given_name: Given Name (Latin)
     has_been_in_government_care: Has the client lived in government care
     has_been_in_orphanage: Has the client lived in an orphanage
@@ -2871,6 +3219,41 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  dimensions:
+    dimension_identies:
+      risk_management_1a: (Risk management)
+      physical_health_2a: (Physical health)
+      work_skills_and_education_3a: (Work skills and education)
+      income_3b: (Income)
+      financial_management_3c: (Financial management)
+      recovery_from_trauma_4a: (Recovery from trauma)
+      resilence_4b: (Resilence)
+      values_5a: (Values)
+      family_relationships_6a: (Family relationships)
+      client_s_involvement_in_community_networks_6b: (Client's involvement in community Networks)
+      knowledge_of_legal_rights_7a: (Knowledge of legal rights)
+    dimension_list:
+      dimensions: Dimension
+    dimension_names:
+      a1: Safety
+      a2: Health
+      a3: Economic Sustainability
+      b3: Economic Sustainability
+      c3: Economic Sustainability
+      a4: Emotional well being
+      b4: Emotional well being
+      a5: Spiritual
+      a6: Social Connections
+      b6: Social Connections
+      a7: Justice
+    dimension_groups:
+      safety: Safety
+      health: Health
+      economic_sustainability: Economic Sustainability
+      emotional_well-being: Emotional well being
+      spiritual: Spiritual
+      social_connections: Social Connections
+      justice: Justice
   domain_groups:
     create:
       failed_create: Failed to create a domain group.
@@ -2955,6 +3338,7 @@ en:
       title: Edit Domain
     form:
       cancel: Cancel
+      custom_assessment_name: Custom Assessment Name
       description: Description
       domain_group: Domain Group
       identity: Identity
@@ -3105,6 +3489,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      results: ResultsExport to XLS
       report_builder: Report Builder
       results: Results
     new:
@@ -3668,8 +4053,12 @@ en:
       able_screening_questions: Able Screening Questions
       account: Account
       agencies: Agencies
+      caller_referees: Caller / Referees
+      calls: Calls
       changelogs: Changelogs
+      calls: Calls
       clients: Clients
+      client_forms: Client Forms
       country: Country
       csi_tools: Available Assessment Tools
       custom_fields: Custom Form
@@ -4335,6 +4724,41 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  referee_attr: &REFEREE_ATTR
+    address_type: Address Type
+    address_types:
+      business: Business
+      dormitory: Dormitory
+      home: Home
+      other: Other
+      rci: RCI
+    adult: Adult
+    anonymous: Anonymous
+    answered_call: Answered Call
+    called_before: Called Before
+    commune_id: Commune
+    created_at: Created At
+    current_address: Current Address
+    district_id: District
+    email: Email
+    gender: Gender
+    house_number: House Number
+    id: ID
+    name: Name
+    outside: International
+    outside_address: Outside Address
+    phone: Phone
+    province_id: Province
+    requested_update: Requested Update
+    street_number: Street Number
+    updated_at: Updated At
+    village_id: Village
+  referees:
+    index:
+      <<: *REFEREE_ATTR
+    show:
+      about: About
+      <<: *REFEREE_ATTR
   referral_sources:
     create:
       failed_create: Failed to create a referral source.
@@ -4471,6 +4895,7 @@ en:
       assessment: Customized Assessment Frequency Settings
       custom_assessment: Name
       default_assessment: CSI Assessment Frequency Settings
+      default_assessment_framework: Result Framework Assessment Frequency Settings
       disable_assessment: We are not using CSI Assessment Tool
       eligible: Eligible for client under
       max_assessment: Maximum time between assessments
@@ -4480,6 +4905,11 @@ en:
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum
+    client_forms:
+      hotline: Hotline
+      client_forms: Client Forms
+      'yes': 'Yes'
+      'no' : 'No'
     country:
       country: Country
       settings: Settings
@@ -4489,6 +4919,8 @@ en:
       switched_country_thailand: You’ve switched your country setting to Thailand.
     create:
       successfully_created: Setting have been successfully created.
+    custom_assessment_setting_fields:
+      are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
       cambodia:
         custom_id1_local: Custom ID1 (Khmer)
@@ -4923,6 +5355,7 @@ en:
   unauthorized:
     case_worker_unauthorized: The record has been successfully saved, but it is not assigned to you, so you are not able to view it. If you need to view this record, speak to the assigned case manager or an admin.
     default: You are not authorized to access this page.
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: Are you sure you want to delete?

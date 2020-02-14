@@ -1,0 +1,75 @@
+-# - data = { call: @call, users: @users }
+
+-# .row
+-#   .col-xs-12
+-#     .ibox
+-#       .ibox-content
+-#         = react_component('EditCall', { data: data })
+.row
+  .col-xs-12
+    .ibox.float-e-margins
+      .ibox-title
+        %h5= "#{t('.edit_call')} ##{@call.phone_call_id} #{t(".types.#{@call.call_type.parameterize.underscore}")}"
+      = simple_form_for(@call) do |f|
+        .ibox-content
+          = error_notification(f)
+          .form-inputs
+            .row
+              .col-xs-12
+                .i-checks
+                  %label.required.control-label
+                    %abbr{ title: 'required' } *
+                    = t('.referee_answered_call')
+                  = f.input :answered_call, as: :radio_buttons, required: true, collection: [[t('.answered_call'), true], [t('.returning_missed_call'), false]], label: false
+              .col-xs-12
+                .i-checks
+                  %label.required.control-label
+                    %abbr{ title: 'required' } *
+                    = t('.referee_called_before')
+                  = f.input :called_before, as: :radio_buttons, required: true, collection: [[t('.yes'), true], [t('.no'), false]], label: false
+              .col-xs-12
+                .i-checks
+                  %label.required.control-label
+                    %abbr{ title: 'required' } *
+                    = t('.are_you_a_child_safe_agent')
+                  = f.input :childsafe_agent, as: :radio_buttons, required: true, collection: [[t('.yes'), true], [t('.no'), false]], label: false
+            .row
+              .col-xs-12.col-sm-6
+                = f.association :receiving_staff, required: true, collection: @users, label: t('.receiving_staff')
+            .row
+              .col-xs-12.col-sm-6
+                .i-checks
+                  %label.required.control-label
+                    = f.input :not_a_phone_call, as: :boolean, checked_value: true, unchecked_value: false, label: t('.not_a_phone_call')
+            .row
+              .col-xs-12.col-sm-6.form-group.date
+                %label.date.required.control-label{ for: 'call_date_of_call' }
+                  %abbr{ title: 'required' } *
+                  = t('.date_of_call')
+                .input-group.date
+                  = f.text_field :date_of_call, required: true, class: 'date form-control date-picker', type: 'text', name: 'call[date_of_call]', id: 'call_date_of_call'
+                  %span.input-group-addon
+                    %i.fa.fa-calendar-check-o
+            .row
+              .col-xs-12.col-sm-6
+                = f.input :start_datetime, as: :time, html5: true, label: t('.time_call_began'), input_html: { value: @call.start_datetime ? @call.start_datetime.strftime("%H:%M") : '' }
+            - if @call.no_client_attached?
+              .row
+                .col-xs-12.col-sm-6
+                  = f.input :information_provided, as: :text, required: @call.seeking_information?, placeholder: t('.add_note_about_the_content'), label: t('.information_provided')
+            .row
+              .col-xs-12.col-sm-6
+                = f.association :necessities, collection: @necessities.map{|necessity| [t(".basic_necessities.#{necessity.id}"), necessity.id] }, multiple: true, label: t('.basic_necessity')
+            .row
+              .col-xs-12.col-sm-6
+                = f.association :protection_concerns, collection: @protection_concerns.map{|concern| [t(".protection_concerns.#{concern.id}"), concern.id] }, multiple: true, label: t('.protection_concern')
+            .row
+              .col-xs-12.col-sm-6
+                = f.input :other_more_information, as: :text, label: t('.other_more_information')
+            .row
+              .col-xs-12.col-sm-6
+                = f.input :brief_note_summary, as: :text, label: t('.brief_note_summary')
+
+        .ibox-footer
+          = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
+          = link_to t('cancel'), call_path(@call), class: 'btn btn-default form-btn'

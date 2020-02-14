@@ -19,6 +19,10 @@ staging:
   <<: *default
   database: <%= ENV['DATABASE_NAME'] %>
 
+ratanak_staging:
+  <<: *default
+  database: <%= ENV['DATABASE_NAME'] %>
+
 demo:
   <<: *default
   database: <%= ENV['DATABASE_NAME'] %>

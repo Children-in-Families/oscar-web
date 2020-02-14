@@ -117,7 +117,9 @@ module ClientsHelper
       referred_to:                   t('datagrid.columns.clients.referred_to'),
       referred_from:                 t('datagrid.columns.clients.referred_from'),
       referral_source_category_id:   t('datagrid.columns.clients.referral_source_category'),
-      type_of_service:               t('datagrid.columns.type_of_service')
+      type_of_service:               t('datagrid.columns.type_of_service'),
+      hotline:                       t('datagrid.columns.calls.hotline'),
+      **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -161,6 +163,25 @@ module ClientsHelper
       current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune.name_en}" if client.commune.present?
       current_address << client.district_name.split(' / ').last if client.district.present?
       current_address << client.province_name.split(' / ').last if client.province.present?
+    end
+    current_address << selected_country.titleize
+  end
+
+  def concern_merged_address(client)
+    current_address = []
+    current_address << "#{I18n.t('datagrid.columns.clients.concern_house')} #{client.concern_house}" if client.concern_house.present?
+    current_address << "#{I18n.t('datagrid.columns.clients.concern_street')} #{client.concern_street}" if client.concern_street.present?
+
+    if I18n.locale.to_s == 'km'
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_village_id')} #{client.concern_village.name_kh}" if client.concern_village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_commune_id')} #{client.concern_commune.name_kh}" if client.concern_commune.present?
+      current_address << client.concern_district.name.split(' / ').first if client.concern_district.present?
+      current_address << client.concern_province.name.split(' / ').first if client.concern_province.present?
+    else
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_village_id')} #{client.concern_village.name_en}" if client.concern_village.present?
+      current_address << "#{I18n.t('datagrid.columns.clients.concern_commune_id')} #{client.concern_commune.name_en}" if client.concern_commune.present?
+      current_address << client.concern_district.name.split(' / ').last if client.concern_district.present?
+      current_address << client.concern_province.name.split(' / ').last if client.concern_province.present?
     end
     current_address << selected_country.titleize
   end
@@ -371,7 +392,8 @@ module ClientsHelper
       time_in_ngo_: t('datagrid.columns.clients.time_in_ngo'),
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
-      type_of_service_: t('datagrid.columns.type_of_service')
+      type_of_service_: t('datagrid.columns.type_of_service'),
+      hotline_call_: t('datagrid.columns.calls.hotline_call')
     }
 
     Domain.order_by_identity.each do |domain|
@@ -438,13 +460,17 @@ module ClientsHelper
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
     return object if basic_rules.nil?
     basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results      = mapping_form_builder_param_value(basic_rules, 'tracking')
-    query_string  = get_query_string(results, 'tracking', properties_field)
+    results      = mapping_form_builder_param_value(basic_rules, rule)
+    query_string  = get_query_string(results, rule, properties_field)
     default_value_param = params['all_values']
     if default_value_param
       object
+    elsif rule == 'tracking'
+      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
+    elsif rule == 'active_program_stream'
+      properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
     else
-      properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" AND ")).distinct
+      object
     end
   end
 
@@ -516,9 +542,9 @@ module ClientsHelper
     object.present? ? object : []
   end
 
-  def form_builder_query(object, form_type, field_name)
+  def form_builder_query(object, form_type, field_name, properties_field=nil)
     return object if params['all_values'].present?
-    properties_field = 'client_enrollment_trackings.properties'
+    properties_field = properties_field.present? ? properties_field : 'client_enrollment_trackings.properties'
 
     selected_program_stream = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
     basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
@@ -693,6 +719,7 @@ module ClientsHelper
     return column.header.truncate(65) if grid.class.to_s != 'ClientGrid' || @clients.blank?
     count = 0
     class_name  = header_classes(grid, column)
+    class_name  = class_name == "call-field" ? column.name.to_s : class_name
 
     if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
@@ -748,7 +775,7 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]
@@ -764,6 +791,8 @@ module ClientsHelper
           elsif class_name == 'type_of_service'
             type_of_services = map_type_of_services(client)
             count += type_of_services.count
+          elsif class_name == 'date_of_call'
+            count += client.calls.distinct.count
           else
             count += date_filter(client.send(klass.to_sym), class_name).count
           end
@@ -1057,7 +1086,7 @@ module ClientsHelper
   end
 
   def group_client_associations
-    [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties].group_by do |association|
+    [*@assessments, *@case_notes, *@tasks, *@client_enrollment_leave_programs, *@client_enrollment_trackings, *@client_enrollments, *@case_histories, *@custom_field_properties, *@calls].group_by do |association|
       class_name = association.class.name.downcase
       if class_name == 'clientenrollment' || class_name == 'leaveprogram' || class_name == 'casenote'
         created_date = association.created_at
@@ -1067,6 +1096,8 @@ module ClientsHelper
           association.exit_date
         elsif class_name == 'casenote'
           association.meeting_date
+        elsif class_name == 'call'
+          association.date_of_call
         end
         distance_between_dates = (date_field.to_date - created_date.to_date).to_i
         created_date + distance_between_dates.day

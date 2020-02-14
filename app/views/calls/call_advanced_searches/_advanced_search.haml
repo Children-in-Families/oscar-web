@@ -1,0 +1,22 @@
+= simple_form_for :call_advanced_search, url: :calls, method: 'GET', html: { id: 'call-advanced-search' } do |f|
+  .row
+    .col-xs-12
+      .ibox
+        .ibox-content.no-border
+          .row
+            .col-xs-12
+              %span.basic-filter-error
+                %i Please Select Field to Filter
+              #builder.advanced-search-builder{ data: { basic_search_rules: @query_json, filter_translation: { add_filter: t('clients.client_advanced_searches.advanced_search.add_new_filter'), add_group: t('clients.client_advanced_searches.advanced_search.add_new_filter.add_new_group'), delete_group: t('clients.client_advanced_searches.advanced_search.add_new_filter.delete_group') }} }
+
+              = hidden_field_tag :query_builder_json
+              = hidden_field_tag :query_string
+
+              = f.hidden_field :basic_rules
+              = hidden_field_tag :locale, "#{params[:locale]}"
+              #call-builder-fields{ data: { fields: call_report_builder_fields.to_json } }
+        .ibox-footer
+          = f.submit class: 'btn btn-primary form-btn', id: 'call-search-btn', data: { disable_with: t('saving'), search: t('advanced_search.fields.search') } do
+            = t('advanced_search.fields.search')
+          = link_to t('.reset'), calls_path, class: 'btn btn-default'
+

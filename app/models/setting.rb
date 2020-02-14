@@ -5,6 +5,10 @@ class Setting < ActiveRecord::Base
   belongs_to :district
   belongs_to :commune
 
+  has_many :custom_assessment_settings
+
+  accepts_nested_attributes_for :custom_assessment_settings, allow_destroy: true
+
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 3, if: -> { enable_custom_assessment.present? && max_custom_assessment.present? && custom_assessment_frequency == 'month' }
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 0, if: -> { enable_custom_assessment.present? && max_custom_assessment.present? && custom_assessment_frequency == 'year' }
   validates_numericality_of :max_assessment, only_integer: true, greater_than: 3, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'month' }

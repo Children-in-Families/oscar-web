@@ -12,9 +12,14 @@ class Client < ActiveRecord::Base
   friendly_id :slug, use: :slugged
   mount_uploader :profile, ImageUploader
 
+  REFEREE_RELATIONSHIPS = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
+  RELATIONSHIP_TO_CALLER = ['Self', 'Child', 'Family Member', 'Friend', 'In same community', 'Client', 'Stranger', 'Other'].freeze
+  ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
+  PHONE_OWNERS    = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
+  HOTLINE_FIELDS  = %w(nickname concern_is_outside concern_outside_address concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_location concern_same_as_client location_description phone_counselling_summary)
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
+  HEADER_COUNTS   = %w( date_of_call case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
   GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
@@ -43,7 +48,17 @@ class Client < ActiveRecord::Base
   belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
   belongs_to :commune
   belongs_to :village
+  belongs_to :referee
+  belongs_to :carer
+  belongs_to :call
 
+  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
+  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
+  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
+  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
+
+  has_many :hotlines, dependent: :destroy
+  has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
   has_many :tasks,          dependent: :destroy
@@ -74,7 +89,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
   validate :address_contrain, on: [:create, :update]
 
   before_create :set_country_origin
@@ -130,14 +145,23 @@ class Client < ActiveRecord::Base
 
       field_name = compare_matching(input_name_field, client_name_field)
       dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
-      cp         = client_address_matching(options[:current_province], client[4].squish)
-      cd         = client_address_matching(options[:district], client[3].squish)
-      cc         = client_address_matching(options[:commune], client[2].squish)
-      cv         = client_address_matching(options[:village], client[1].squish)
-      bp         = birth_province_matching(options[:birth_province], client[5].squish)
+
+      province_name = Province.find_by(id: options[:current_province_id]).try(:name)
+      cp            = client_address_matching(province_name, client[4].squish)
+
+      district_name = District.find_by(id: options[:district_id]).try(:name)
+      cd            = client_address_matching(district_name, client[3].squish)
+
+      commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
+      cc            = client_address_matching(commune_name, client[2].squish)
+
+      village_name  = Village.find_by(id: options[:village_id]).try(:name)
+      cv            = client_address_matching(village_name, client[1].squish)
+
+      birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
+      bp                  = birth_province_matching(birth_province_name, client[5].squish)
 
       match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
-
       if match_percentages.compact.present?
         if match_percentages.compact.inject(:*) * 100 >= 75
           similar_fields << '#hidden_name_fields' if match_percentages[0].present?
@@ -256,7 +280,8 @@ class Client < ActiveRecord::Base
   end
 
 
-  def can_create_assessment?(default)
+  def can_create_assessment?(default, value)
+    latest_assessment = Assessment.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value})
     if default
       if assessments.defaults.count == 1
         return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
@@ -264,10 +289,10 @@ class Client < ActiveRecord::Base
         return assessments.defaults.latest_record.completed?
       end
     else
-      if assessments.customs.count == 1
-        return (Date.today >= (assessments.customs.latest_record.created_at + assessment_duration('min', false)).to_date) && assessments.customs.latest_record.completed?
-      elsif assessments.customs.count >= 2
-        return assessments.customs.latest_record.completed?
+      if latest_assessment.count == 1
+        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
+      elsif latest_assessment.count >= 2
+        return latest_assessment.latest_record.completed?
       end
     end
     true

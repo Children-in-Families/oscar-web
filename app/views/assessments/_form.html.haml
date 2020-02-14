@@ -12,9 +12,13 @@
             .ibox
               .ibox-title
                 %h5= "#{@assessment.client.name}"
-                %label.label.label-success
-                  = t('.domain')
-                  = t("domains.domain_names.#{domain.name.downcase.reverse}")
+                - if current_organization.try(:aht) == true
+                  %label.label.label-success
+                    = t("dimensions.dimension_names.#{domain.name.downcase.reverse}")
+                - else
+                  %label.label.label-success
+                    = t('.domain')
+                    = t("domains.domain_names.#{domain.name.downcase.reverse}")
                 .ibox-tools
                   = link_to client_assessments_path(@client), class: 'btn btn-default btn-back-default button' do
                     = t('.back')

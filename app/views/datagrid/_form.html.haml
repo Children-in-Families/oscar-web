@@ -166,10 +166,10 @@
               .visibility.col-sm-12
                 = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = default_setting('rated_for_id_poor_', @client_default_columns) || params[:rated_for_id_poor_].present?, class: 'i-checks'
                 = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'name_of_referee_', 'name_of_referee', checked = default_setting('name_of_referee_', @client_default_columns) || params[:name_of_referee_].present?, class: 'i-checks'
-              = label_tag 'name_of_referee_', t('datagrid.columns.name_of_referee')
+          -# %li
+          -#   .visibility.col-sm-12
+          -#     = check_box_tag 'name_of_referee_', 'name_of_referee', checked = default_setting('name_of_referee_', @client_default_columns) || params[:name_of_referee_].present?, class: 'i-checks'
+          -#     = label_tag 'name_of_referee_', t('datagrid.columns.name_of_referee')
           %li
             .visibility.col-sm-12
               = check_box_tag 'family_', 'family', checked = default_setting('family_', @client_default_columns) || params[:family_].present?, class: 'i-checks'
@@ -186,10 +186,49 @@
             .visibility.col-sm-12
               = check_box_tag 'case_note_type_', 'case_note_type', checked = default_setting('case_note_type_', @client_default_columns) || params[:case_note_type_].present?, class: 'i-checks'
               = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'referee_relationship_to_client_', 'referee_relationship_to_client', checked = default_setting('referee_relationship_to_client_', @client_default_columns) || params[:referee_relationship_to_client_].present?, class: 'i-checks'
+              = label_tag 'referee_relationship_to_client_', t('datagrid.columns.referee_relationship_to_client')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'client_contact_phone_', 'client_contact_phone', checked = default_setting('client_contact_phone_', @client_default_columns) || params[:client_contact_phone_].present?, class: 'i-checks'
+              = label_tag 'client_contact_phone_', t('datagrid.columns.client_contact_phone')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'address_type_', 'address_type', checked = default_setting('address_type_', @client_default_columns) || params[:address_type_].present?, class: 'i-checks'
+              = label_tag 'address_type_', t('datagrid.columns.address_type')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'client_email_', 'client_email', checked = default_setting('client_email_', @client_default_columns) || params[:client_email_].present?, class: 'i-checks'
+              = label_tag 'client_email_', t('datagrid.columns.client_email')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'phone_owner_', 'phone_owner', checked = default_setting('phone_owner_', @client_default_columns) || params[:phone_owner_].present?, class: 'i-checks'
+              = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
           - if enable_default_assessment?
-            %li.csi-header
-              %strong= t('.csi_domain_scores')
+            - if current_organization.try(:aht) == true
+              %li.csi-header
+                %strong= t('.result_framework_assessment')
+              %li
+            - else
+              %li.csi-header
+                %strong= t('.csi_domain_scores')
+              %li
+          - Client::HOTLINE_FIELDS.each do |hotline_field|
             %li
+              .visibility.col-sm-12
+                = check_box_tag "#{hotline_field}_", hotline_field, checked = default_setting("#{hotline_field}_", @client_default_columns) || params["#{hotline_field}_"].present?, class: 'i-checks'
+                = label_tag "#{hotline_field}_", t("datagrid.columns.clients.#{hotline_field}")
+          - if enable_default_assessment?
+            - if current_organization.try(:aht) == true
+              %li.csi-header
+                %strong= t('.result_framework_assessment')
+              %li
+            - else
+              %li.csi-header
+                %strong= t('.csi_domain_scores')
+              %li
               .visibility.col-sm-12
                 = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = default_setting('date_of_assessments_', @client_default_columns) || params[:date_of_assessments_].present?, class: 'i-checks'
                 = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
@@ -200,9 +239,11 @@
             %li
               .visibility.col-sm-12
                 = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = default_setting('all_csi_assessments_', @client_default_columns) || params[:all_csi_assessments_].present?, class: 'i-checks'
-                = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
+                - if current_organization.try(:aht) == true
+                  = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
+                - else
+                  = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
-
           - if enable_custom_assessment?
             %li.csi-header
               %strong= t('.custom_csi_domain_scores')
@@ -227,6 +268,37 @@
               .visibility.col-sm-12
                 = check_box_tag 'type_of_service_', 'type_of_service', checked = default_setting('type_of_service_', @client_default_columns) || params[:type_of_service_].present?, class: 'i-checks'
                 = label_tag 'type_of_service_', t('datagrid.columns.type_of_service')
+
+          %li.referee-header
+            %strong= t('.referee')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'referee_name_', 'referee_name', checked = default_setting('referee_name_', @client_default_columns) || params[:referee_name_].present?, class: 'i-checks'
+              = label_tag 'referee_name_', t('datagrid.columns.referee_name')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'referee_email_', 'referee_email', checked = default_setting('referee_email_', @client_default_columns) || params[:referee_email_].present?, class: 'i-checks'
+              = label_tag 'referee_email_', t('datagrid.columns.referee_email')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'referee_phone_', 'referee_phone', checked = default_setting('referee_phone_', @client_default_columns) || params[:referee_phone_].present?, class: 'i-checks'
+              = label_tag 'referee_phone_', t('datagrid.columns.referee_phone')
+
+          %li.carer-header
+            %strong= t('.carer')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'carer_name_', 'carer_name', checked = default_setting('carer_name_', @client_default_columns) || params[:carer_name_].present?, class: 'i-checks'
+              = label_tag 'carer_name_', t('datagrid.columns.carer_name')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'carer_email_', 'carer_email', checked = default_setting('carer_email_', @client_default_columns) || params[:carer_email_].present?, class: 'i-checks'
+              = label_tag 'carer_email_', t('datagrid.columns.carer_email')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'carer_phone_', 'carer_phone', checked = default_setting('carer_phone_', @client_default_columns) || params[:carer_phone_].present?, class: 'i-checks'
+              = label_tag 'carer_phone_', t('datagrid.columns.carer_phone')
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
@@ -287,13 +359,17 @@
     %hr/
     .row
       - grid.filters.each do |filter|
-        - if filter.type != :dynamic
-          .datagrid-filter.filter
-            = f.datagrid_label filter, title: filter.header
-            = f.datagrid_filter filter, partials: options[:partials]
+        .datagrid-filter.filter.form-group.col-xs-12.col-sm-6.col.md-4.col-lg-4
+          = f.datagrid_label filter
+          - if filter.type == :date
+            = f.datagrid_filter filter, partials: options[:partials], class: "form-control datepicker #{filter.options[:class]}"
+          - else
+            = f.datagrid_filter filter, partials: options[:partials], class: "form-control #{filter.options[:class]}"
+
     .row
-      .datagrid-actions
-        = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
-        - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
-        - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
-        = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-outline datagrid-reset'
+      .col-xs-12
+        .datagrid-actions
+          = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
+          - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
+          - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
+          = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-default btn-outline datagrid-reset'

@@ -15,14 +15,21 @@ class CaseNote < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
   scope :recent_meeting_dates , -> {order(meeting_date: :desc)}
-  
+
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
 
   before_create :set_assessment
 
-  def populate_notes
-    DomainGroup.all.each do |dg|
-      case_note_domain_groups.build(domain_group_id: dg.id)
+  def populate_notes(custom_name, default)
+    if default == "false"
+      DomainGroup.all.each do |dg|
+        case_note_domain_groups.build(domain_group_id: dg.id)
+      end
+    else
+      custom_domains = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).domains.pluck(:domain_group_id).uniq
+      custom_domains.each do |dg|
+        case_note_domain_groups.build(domain_group_id: dg)
+      end
     end
   end
 

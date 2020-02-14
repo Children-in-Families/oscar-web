@@ -14,6 +14,7 @@ class CaseNotesController < AdminController
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
     @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page]).per(1)
+    @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
   def new
@@ -21,11 +22,11 @@ class CaseNotesController < AdminController
     if params[:custom] == 'true'
       @case_note = @client.case_notes.new(custom: true)
       @case_note.assessment = @client.assessments.custom_latest_record
-      @case_note.populate_notes
+      @case_note.populate_notes(params[:custom_name], params[:custom])
     else
       @case_note = @client.case_notes.new
       @case_note.assessment = @client.assessments.default_latest_record
-      @case_note.populate_notes
+      @case_note.populate_notes(params[:custom], params[:custom])
     end
   end
 

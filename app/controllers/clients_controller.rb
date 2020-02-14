@@ -5,7 +5,7 @@ class ClientsController < AdminController
   include ClientGridOptions
 
   before_action :format_search_params, only: :index
-  before_action :get_quantitative_fields, only: [:index]
+  before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
@@ -224,7 +224,8 @@ class ClientsController < AdminController
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
-            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id,
+            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
+
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -273,6 +274,13 @@ class ClientsController < AdminController
       @families = Family.where(id: family_ids)
     end
 
+    @carer = @client.carer.present? ? @client.carer : Carer.new
+    @referee = @client.referee.present? ? @client.referee : Referee.new
+    @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
+    @address_types = Client::ADDRESS_TYPES.map{|type| {label: type, value: type.downcase}}
+    @phone_owners = Client::PHONE_OWNERS.map{|owner| {label: owner, value: owner.downcase}}
     @referral_source = @client.referral_source.present? ? ReferralSource.where(id: @client.referral_source_id).map{|r| [r.try(:name), r.id]} : []
     @referral_source_category = referral_source_name(ReferralSource.parent_categories)
     country_address_fields
@@ -292,6 +300,14 @@ class ClientsController < AdminController
     @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
     @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
     @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
+
+    @referee_districts                = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
+    @referee_communes                 = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
+    @referee_villages                 = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
+
+    @carer_districts                = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
+    @carer_communes                 = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
+    @carer_villages                 = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
   end
 
   def initial_visit_client

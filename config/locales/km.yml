@@ -125,6 +125,23 @@ km:
               taken: ត្រូវបានប្រើរួចហើយ
         assessment_domain:
           blank: មិនអាចរំលង
+        call:
+          attributes:
+            answered_call:
+              inclusion: មិនមាននៅក្នុងបញ្ជី
+            receiving_staff_id:
+              blank: មិនអាចរំលង
+            start_datetime:
+              blank: មិនអាចរំលង
+            end_datetime:
+              blank: មិនអាចរំលង
+            call_type:
+              blank: មិនអាចរំលង
+              inclusion: មិនមាននៅក្នុងបញ្ជី
+            called_before:
+              inclusion: មិនមាននៅក្នុងបញ្ជី
+            information_provided:
+              blank: មិនអាចរំលង
         case:
           attributes:
             exit_date:
@@ -185,6 +202,14 @@ km:
               blank: មិនអាចរំលង
               greater_than_or_equal_to: មិនអាចតូចជាង 1
               not_an_integer: អនុញ្ញាតតែលេខគត់ប៉ុណ្ណោះ
+        custom_assessment_setting:
+          attributes:
+            custom_assessment_name:
+              blank: មិនអាចរំលង
+            max_custom_assessment:
+              greater_than:
+                one: ត្រូវតែធំជាងអប្បរមា
+                other: ត្រូវតែធំជាង %{count}
         department:
           attributes:
             name:
@@ -192,6 +217,8 @@ km:
               taken: ត្រូវបានប្រើរួចហើយ
         domain:
           attributes:
+            custom_assessment_setting_id:
+              blank: មិនអាចរំលង
             identity:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
@@ -336,13 +363,20 @@ km:
       birth_province: ស្រុកកំណើត
       birth_province_id: ស្រុកកំណើត
       cambodia: កម្ពុជា
+      carer_name: ឈ្មោះអ្នកថែទាំ
+      carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
+      carer_email: អ៊ីមែលអ្នកថែទាំ
       case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
       case_note_type: ប្រភេទកំណត់ត្រាករណី
       case_type: ប្រភេទករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      client_contact_phone: លេខទំនាក់ទំនងរបស់អតិថិជន
+      address_type: ប្រភេទអាសយដ្ឋានរបស់អតិថិជន
+      client_email_address: អ៊ីមែលរបស់អតិថិជន
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
+      concern_basic_fields: កន្លែងកើតហេតុរបស់អតិថិជន
       completed: ពេញលេញហើយឬនៅ?
       created_at: កាលបរិច្ឆេទ
       created_by: បង្កើត​ឡើង​ដោយ
@@ -398,6 +432,7 @@ km:
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      phone_owner: Phone Owner
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       plot: Plot
       postal_code: Postal Code
@@ -417,6 +452,10 @@ km:
       referred_to_ec: បញ្ជួនទៅករណី EC
       referred_to_fc: បញ្ជួនទៅករណី FC
       referred_to_kc: បញ្ជួនទៅករណី KC
+      referee_relationship: ទំនាក់ទំនងរវាងអ្នកបញ្ជូននឹងអតិថិជន
+      referee_name: ឈ្មោះអ្នកបញ្ជូន
+      referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referee_email: អ៊ីមែលអ្នកបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       road: Road
@@ -447,6 +486,7 @@ km:
         year_7: ឆ្នាំទី ៧
         year_8: ឆ្នាំទី ៨
       school_name: ឈ្មោះសាលារៀន
+      search: ស្វែងរក
       slug: លេខសម្គាល់
       state: State
       status: ស្ថានភាព
@@ -599,6 +639,113 @@ km:
   calendars:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
+  calls:
+    answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+    brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
+    call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
+    called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+    childsafe_agent: ភ្នាក់ងារសុវត្ថិភាពកុមារ
+    date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+    end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+    end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
+    hotline: លេខទូរស័ព្ទបន្ទាប់
+    edit:
+      add_note_about_the_content: បញ្ចូលកំណត់ត្រានៃខ្លឹមសារការសន្ទនារបស់អ្នកជាមួយអ្នកហៅទូរស័ព្ទ។
+      answered_call: បានឆ្លើយការហៅទូរស័ព្ទ
+      are_you_a_child_safe_agent: តើអ្នកជាភ្នាក់ងារសុវត្ថិភាពកុមារទេ?
+      basic_necessities:
+        '1': ស្វែងរកជំនួយផ្នែកសុខភាព (ដូចជា ការសង្គ្រោះបឋម ផ្ទៃពោះ និងបញ្ហាសុខភាពផ្សេងៗ)។
+        '2': ស្វែងរកការអប់រំ និងសំណើរសុំការចុះឈ្មោះចូលរៀន ការចូលរៀនវិញ និងការស្នាក់នៅក្នុងសាលា។
+        '3': ស្វែងរកអាហារ ទឹក ទឹកដោះគោ ការឧបត្ថម្ភទីជម្រក។
+        '4': ស្វែករកវគ្គបណ្តុះបណ្តាល/ការងារ។
+        '5': អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។
+        '6': ផ្សេងៗ
+      basic_necessity: តម្រូវការបឋម
+      brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
+      date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+      edit_call: កែសម្រួលការហៅ
+      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      'no': "ទេ"
+      not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+      other_more_information: ព័ត៌មានផ្សេងទៀត
+      protection_concern: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
+      protection_concerns:
+        '1': អំពើហឹង្សាផ្នែករាងកាយ
+        '2': អំពើហឹង្សាផ្នែកផ្លូវអារម្មណ៍
+        '3': អំពើហឹង្សាផ្នែកផ្លូវភេទ
+        '4': ទទួលរងភាពព្រងើយកន្តើយ / ខ្វះការណែនាំពីមនុស្សពេញវ័យ
+        '5': ជនរងគ្រោះពីការជួញដូរ (ការចំណាកស្រុក / សហការណ៍ជាមួយអាជ្ញាធរដើម្បីជួយសង្រ្គោះ)
+        '6': ការកេងប្រវ័ញ្ចកំលាំងពលកម្ម (ការជួញដូរផ្លូវភេទ ការកេងប្រវ័ញ្ច ការលក់ដូរតាមផ្លូវ ឡឥដ្ឋ ឬពលកម្មដែលធ្វើឱ្យមានគ្រោះថ្នាក់ដល់សុខមាលភាពកុមារ។)
+        '7': ការប្រើបា្រស់គ្រឿងញៀន (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)
+        '8': ការប្រើប្រាស់គ្រឿងស្រវឹង (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)
+        '9': កុមារត្រូវបានបែកចេញដោយ - បោះបង់ចោល វង្វេង រស់នៅតាមផ្លូវ។
+        '10': កុមារ និងឳពុក/ម្តាយរស់នៅតាមផ្លូវ។
+        '11': ពិការភាព
+        '12': ផ្សេងៗ
+      receiving_staff: បុគ្គលិកទទួលករណី
+      referee_answered_call: តើអ្នកបញ្ជូនបានឆ្លើយការហៅទូរស័ព្ទនេះ ឬបានហៅទូរស័ព្ទត្រឡប់មកវិញឬទេ?
+      referee_called_before: តើអ្នកបញ្ជូនភ្ជាប់បានហៅទូរស័ព្ទមកកាន់បណ្តាញសុវត្ថិភាពកុមារពីមុនដែរឬទេ
+      returning_missed_call: បានហៅទូរស័ព្ទវិញសម្រាប់ការខកខាន
+      time_call_began: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
+      time_call_ended: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
+      types:
+        new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
+        new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
+        phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
+        providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
+        seeking_information: ស្វែងរកព័ត៌មាន
+        spam_call: ការហៅទូរស័ព្ទរំខាន
+        wrong_number:  ច្រឡំលេខ
+      'yes': "បាទ / ចាស"
+    index:
+      add_new_call: បន្ថែមការហៅថ្មី
+      export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      hotline: លេខទូរស័ព្ទបន្ទាប់
+      results: លទ្ធផល
+      report_builder: Report Builder
+    information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+    new:
+      new_call: បង្កើតការហៅទូរស័ព្ទថ្មី
+    necessity_id: តម្រូវការបឋម
+    not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+    other_more_information: ព័ត៌មានផ្សេងទៀត
+    phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
+    phone_type: ប្រភេទលេខទូរស័ព្ទ
+    protection_concern_id: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
+    requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+    show:
+      basic_necessities:
+        '1': ស្វែងរកជំនួយផ្នែកសុខភាព (ដូចជា ការសង្គ្រោះបឋម ផ្ទៃពោះ និងបញ្ហាសុខភាពផ្សេងៗ)។
+        '2': ស្វែងរកការអប់រំ និងសំណើរសុំការចុះឈ្មោះចូលរៀន ការចូលរៀនវិញ និងការស្នាក់នៅក្នុងសាលា។
+        '3': ស្វែងរកអាហារ ទឹក ទឹកដោះគោ ការឧបត្ថម្ភទីជម្រក។
+        '4': ស្វែករកវគ្គបណ្តុះបណ្តាល/ការងារ។
+        '5': អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។
+        '6': ផ្សេងៗ
+      protection_concerns:
+        '1': អំពើហឹង្សាផ្នែករាងកាយ
+        '2': អំពើហឹង្សាផ្នែកផ្លូវអារម្មណ៍
+        '3': អំពើហឹង្សាផ្នែកផ្លូវភេទ
+        '4': ទទួលរងភាពព្រងើយកន្តើយ / ខ្វះការណែនាំពីមនុស្សពេញវ័យ
+        '5': ជនរងគ្រោះពីការជួញដូរ (ការចំណាកស្រុក / សហការណ៍ជាមួយអាជ្ញាធរដើម្បីជួយសង្រ្គោះ)
+        '6': ការកេងប្រវ័ញ្ចកំលាំងពលកម្ម (ការជួញដូរផ្លូវភេទ ការកេងប្រវ័ញ្ច ការលក់ដូរតាមផ្លូវ ឡឥដ្ឋ ឬពលកម្មដែលធ្វើឱ្យមានគ្រោះថ្នាក់ដល់សុខមាលភាពកុមារ។)
+        '7': ការប្រើបា្រស់គ្រឿងញៀន (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)
+        '8': ការប្រើប្រាស់គ្រឿងស្រវឹង (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)
+        '9': កុមារត្រូវបានបែកចេញដោយ - បោះបង់ចោល វង្វេង រស់នៅតាមផ្លូវ។
+        '10': កុមារ និងឳពុក/ម្តាយរស់នៅតាមផ្លូវ។
+        '11': ពិការភាព
+        '12': ផ្សេងៗ
+    start_datetime: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+    start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
+    type:
+      case_action_required: "New Referral: Case Action Required"
+      notifier_concern: "New Referral: Case Action NOT Required"
+      providing_update: "Providing Update"
+      phone_counseling: "Phone Counselling"
+      seeking_information: "Seeking Information"
+      spam_call: "Spam Call"
+      wrong_number: "Wrong Number"
+    update:
+      successfully_updated: ការហៅទូរស័ព្ទត្រូវបានកែសម្រួលដោយជោគជ័យ
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
@@ -679,11 +826,13 @@ km:
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
+      dimensions: មាត្រដ្ឋាន
       goal: គោលដៅ
       note: កំណត់ត្រា
     form_without_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
+      dimensions: មាត្រដ្ឋាន
       goal: គោលដៅ
       note: កំណត់ត្រា
     index:
@@ -885,6 +1034,7 @@ km:
         successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
     form_option:
       basic_fields: ព័ត៌មានទូទៅរបស់អតិថិជន
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_form: ទម្រង់បែបបទ
       enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
@@ -931,6 +1081,7 @@ km:
   client_advanced_searches:
     form_option:
       basic_fields: ព័ត៌មានទូទៅរបស់អតិថិជន
+      concern_basic_fields: Client Fields Concern
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_form: ទម្រង់បែបបទ
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
@@ -962,6 +1113,19 @@ km:
       assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
     by: ដោយ
+    call: ការហៅទូរស័ព្ទ
+    calls:
+      answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+      call_type: ប្រភេទនៃការហៅ
+      called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+      date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+      end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
+      receiving_staff_id: បុគ្គលិកទទួលការហៅទូរស័ព្ទ
+      referee_id: អ្នកបញ្ជូន
+      requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+      start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
     case_histories:
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       case_history: ប្រវត្តិនៃករណី
@@ -981,6 +1145,10 @@ km:
     enrolled_program_trackings:
       tracking: តាមដាន
     for: សំរាប់
+    hotline:
+      end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+      received_by: បុគ្គលិកទទួលការហៅទូរស័ព្ទ
+      start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
     incomplete: មិនទានបំពេញចប់
     index:
       book: បណ្តុំព័ត៌មានអតិថិជន
@@ -1218,6 +1386,7 @@ km:
         custom_form_column: ជួរឈរទម្រង់បែបបទ
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
         export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+        hotline_column: ជួរឈរលេខទូរស័ព្ទបន្ទាប់
         no_results: មិនមានលទ្ធផល
         program_stream_column: ជួរឈរកម្មវិធីចម្បង
         reset: សំអាត
@@ -1225,11 +1394,13 @@ km:
         search: ស្វែងរក
       form_option:
         basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+        concern_basic_fields: Client Fields Concern
         csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
         custom_form: ទម្រង់បែបបទ
         enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
         exit_program: ចាកចេញពីកម្មវិធី
         filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
+        hotline: លេខទូរស័ព្ទបន្ទាប់
         program_stream: កម្មវិធីចម្បង
         quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
         tracking: តាមដាន
@@ -1628,23 +1799,57 @@ km:
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
       agency_names: ឈ្មោះអង្គភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      basic_necessities: តម្រូវការបឋម
+      basicNecessities:
+        '1': ស្វែងរកជំនួយផ្នែកសុខភាព (ដូចជា ការសង្គ្រោះបឋម ផ្ទៃពោះ និងបញ្ហាសុខភាពផ្សេងៗ)។
+        '2': ស្វែងរកការអប់រំ និងសំណើរសុំការចុះឈ្មោះចូលរៀន ការចូលរៀនវិញ និងការស្នាក់នៅក្នុងសាលា។
+        '3': ស្វែងរកអាហារ ទឹក ទឹកដោះគោ ការឧបត្ថម្ភទីជម្រក។
+        '4': ស្វែករកវគ្គបណ្តុះបណ្តាល/ការងារ។
+        '5': អ្នកថែទាំស្វែងរកមណ្ឌលថែទាំកុមារ (RCI) ដើម្បីដាក់កុមារ។
       birth_province: ស្រុកកំណើត
       book: បណ្តុំព័ត៌មានអតិថិជន
+      brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
+      call_type: ប្រភេទនៃការហៅទូរស័ព្ទ
+      callType:
+        new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
+        new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
+        phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
+        providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
+        seeking_information: ស្វែងរកព័ត៌មាន
+        spam_call: ការហៅទូរស័ព្ទរំខាន
+        wrong_number:  ច្រឡំលេខ
       cambodia: កម្ពុជា
       case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      child_protection_concerns: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
+      childProtectionConcerns:
+        '1': អំពើហឹង្សាផ្នែករាងកាយ
+        '2': អំពើហឹង្សាផ្នែកផ្លូវអារម្មណ៍
+        '3': អំពើហឹង្សាផ្នែកផ្លូវភេទ
+        '4': ទទួលរងភាពព្រងើយកន្តើយ / ខ្វះការណែនាំពីមនុស្សពេញវ័យ
+        '5': ជនរងគ្រោះពីការជួញដូរ (ការចំណាកស្រុក / សហការណ៍ជាមួយអាជ្ញាធរដើម្បីជួយសង្រ្គោះ)
+        '6': ការកេងប្រវ័ញ្ចកំលាំងពលកម្ម (ការជួញដូរផ្លូវភេទ ការកេងប្រវ័ញ្ច ការលក់ដូរតាមផ្លូវ ឡឥដ្ឋ ឬពលកម្មដែលធ្វើឱ្យមានគ្រោះថ្នាក់ដល់សុខមាលភាពកុមារ។)
+        '7': ការប្រើបា្រស់គ្រឿងញៀន (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)
+        '8': ការប្រើប្រាស់គ្រឿងស្រវឹង (ស្វែងរកការគាំទ្រផ្នែកស្តារនីតិសម្បទា)
+        '9': កុមារត្រូវបានបែកចេញដោយ - បោះបង់ចោល វង្វេង រស់នៅតាមផ្លូវ។
+        '10': កុមារ និងឳពុក/ម្តាយរស់នៅតាមផ្លូវ។
+        '11': ពិការភាព
+        '12': ផ្សេងៗ
       client_able_answers: ចំលើយ Able
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
+      concern_location: ទីកន្លែងកើតហេតុ
+      created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
       custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
       custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
       date: កាលបរិចេ្ឆទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
       detail: ព័ត៌មានលំអិត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
@@ -1679,6 +1884,7 @@ km:
       government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
+      hotlines: លេខទូរស័ព្ទបន្ទាប់
       house_number: ផ្ទះលេខ
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
@@ -1693,8 +1899,11 @@ km:
       manage: សកម្មភាព
       name: ឈ្មោះ
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      nickname: ឈ្មោះហៅក្រៅ
       note: កំណត់ហេតុ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      other_more_information: ព័ត៌មានផ្សេងទៀត
+      phone_counselling_summary: Phone Counselling Summary
       placements:
         carer_address: អាសយដ្ឋានអ្នកថែទាំ
         carer_names: ឈ្មោះអ្នកថែទាំ
@@ -2019,6 +2228,44 @@ km:
     columns:
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      all_result_framework_assessment: All Result Framework Assessment
+      calls:
+        answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+        brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
+        call_type: ប្រភេទការហៅទូរស័ព្ទ
+        called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+        childsafe_agent: ភ្នាក់ងារសុវត្ថិភាពកុមារ
+        date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
+        end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
+        end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
+        has_dob: បាទ / ចាស
+        hotline_call: ការហៅលេខទូរស័ព្ទបន្ទាប់
+        id: អត្តលេខ
+        information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+        manage: គ្រប់គ្រង
+        necessity_id: តម្រូវការបឋម
+        no_dob: ទេ
+        not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+        other_more_information: ព័ត៌មានផ្សេងទៀត
+        phone_call: ការហៅទូរស័ព្ទ
+        phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
+        phone_counselling_summary: ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ
+        phone_type: ប្រភេទទូរស័ព្ទ
+        protection_concern_id: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
+        referee_id: អ្នកបញ្ជូន
+        receiving_staff_id: បុគ្គលិកទទួលករណី
+        requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+        start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+        start_datetime: កាលបរិច្ឆេទនៃពេលវេលាចាប់ផ្តើម
+        start_time: ពេលវេលានៃការហៅទូរស័ព្ទបានចាប់ផ្តើម
+        types:
+          new_referral_case_action_not_required: ការបញ្ជូនករណីថ្មីៈ មិនតម្រូវឱ្យមានវិធានការ
+          new_referral_case_action_required: ការបញ្ជូនករណីថ្មីៈ តម្រូវឱ្យមានវិធានការ
+          phone_counselling: ការប្រឹក្សាតាមទូរស័ព្ទ
+          providing_update: ផ្តល់បច្ចុប្បន្នភាពព័ត៌មាន
+          seeking_information: ស្វែងរកព័ត៌មាន
+          spam_call: ការហៅទូរស័ព្ទរំខាន
+          wrong_number:  ច្រឡំលេខ
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំ
@@ -2028,7 +2275,13 @@ km:
       cases:
         case_type: ប្រភេទករណី
         telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
+      carer_name: ឈ្មោះអ្នកថែទាំ
+      carer_email: អ៊ីមែលអ្នកថែទាំ
+      carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
       changelog: ប្រវត្តិកំណែ
+      client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
+      address_type: ប្រភេទអាសយដ្ឋាន
+      client_email: អ៊ីមែលរបស់អតិថិជន
       client_enrollments:
         action: សកម្មភាព
         domain: កត្តា
@@ -2052,7 +2305,11 @@ km:
         birth_province: ស្រុកកំណើត
         birth_province_en: ស្រុកកំណើត (ឡាតាំង)
         birth_province_kh: ស្រុកកំណើត (ខ្មែរ)
+        brief_note_summary: កំណត់ត្រាសង្ខេបស្តីពីការបញ្ជូនរបស់អតិថិជន
         cambodia: កម្ពុជា
+        carer_name: ឈ្មោះអ្នកថែទាំ
+        carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
+        carer_email: អ៊ីមែលអ្នកថែទាំ
         case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
         case_note_type: ប្រភេទកំណត់ត្រាករណី
         case_type: ប្រភេទករណី
@@ -2060,6 +2317,22 @@ km:
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         changelogs: ប្រវត្តិកំណែ
         code: លេខកូដផ្ទាល់ខ្លួនទី១
+        concern_address: អាសយដ្ឋាន - ឈ្មោះ
+        concern_address_type: ប្រភេទអាសយដ្ឋាន
+        concern_commune_id: ឃុំ/សង្កាត់
+        concern_district_id: ស្រុក/ខណ្ឌ
+        concern_email: អ៊ុីម៉ែលអ្នកពាក់ព័ន្ធ
+        concern_email_owner: ម្ចាស់អ៊ុីម៉ែល
+        concern_house: ផ្ទះលេខ
+        concern_is_outside: ព្រឹត្តិការណ៍កើតឡើងក្រៅប្រទេស
+        concern_location: ទីកន្លែងកើតហេតុ
+        concern_outside_address: អាសយដ្ឋានខាងក្រៅ
+        concern_phone: លេខទូរស័ព្ទអ្នកពាក់ព័ន្ធ
+        concern_phone_owner: ម្ចាស់ទូរស័ព្ទ
+        concern_province_id: ខេត្ត/ក្រុង
+        concern_same_as_client: ដូចអតិថិជន
+        concern_street: ផ្លូវ
+        concern_village_id: ភូមិ
         commune: ឃុំ/សង្កាត់
         commune_en: អាស័យដ្ឋាន - ឃុំ/សង្កាត់ (ឡាតាំង)
         commune_kh: អាស័យដ្ឋាន​ - ឃុំ/សង្កាត់ (ខ្មែរ)
@@ -2110,15 +2383,20 @@ km:
         live_with: រស់នៅជាមួយ
         local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
         local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
+        location_description: ការពិពណ៌នានៃទីកន្លែង
         main_school_contact: ជនបង្គោលសម្រាប់ទំនាក់ទំនងនៅសាលារៀន
         manage: សកម្មភាព
         myanmar: មីយ៉ាន់ម៉ា
         name: ឈ្មោះ
         name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+        necessity_id: តម្រូវការបឋម
+        nickname: ឈ្មោះហៅក្រៅ
         ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
         ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
         no_dob: ទេ
         other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        other_more_information: ព័ត៌មានផ្សេងទៀត
+        phone_counselling_summary: ការប្រឹក្សាតាមទូរស័ព្ទ
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placements:
@@ -2142,6 +2420,7 @@ km:
         program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
         program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
         program_streams: ឈ្មោះកម្មវិធី
+        protection_concern_id: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
@@ -2153,6 +2432,14 @@ km:
         referral_source_category: ប្រភេទប្រភពនៃការបញ្ជូន
         referred_from: បញ្ជូនមកពីអង្គការ
         referred_to: បញ្ជូនទៅអង្គការដទៃ
+        referee_name: ឈ្មោះអ្នកបញ្ជូន
+        referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
+        referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
+        referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
+        client_contact_phone: លេខទូរស័ព្ទរបស់អតិថិជន
+        address_type: ប្រភេទអាសយដ្ឋាន
+        client_email: អ៊ីមែលរបស់អតិថិជន
+        phone_owner: ម្ចាស់ទូរស័ព្ទ
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
@@ -2256,6 +2543,7 @@ km:
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
         type: ប្រភេទ
         view: មើល
+      phone_owner: ម្ចាស់ទូរស័ព្ទ
       program_streams:
         action: សកម្មភាព
         description: ការបរិយាយ
@@ -2288,6 +2576,37 @@ km:
       rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
       reason_for_family_separation: មូលហេតុនៃការបែកចេញពីគ្រួសារ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      referee_name: ឈ្មោះអ្នកបញ្ជូន
+      referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referee_email: អ៊ីមែលអ្នកបញ្ជូនរបស់អតិថិជន
+      referee_relationship_to_client: ទំនាក់ទំនងរបស់អតិថិជន
+      referees:
+        address_type: ប្រភេទអាសយដ្ឋាន
+        adult: មនុស្សធំ
+        anonymous: ជនអនាមិក
+        answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+        called_before: បានហៅទូរស័ព្ទពីមុន
+        commune_id: ឃុំ/សង្កាត់
+        created_at: កាលបរិច្ឆេទនៃការបង្កើត
+        current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
+        district_id: ស្រុក/ខណ្ឌ
+        email: ឣុីម៉ែល
+        female: ស្រី
+        gender: ភេទ
+        has_dob: 'បាទ / ចាស'
+        house_number: ផ្ទះលេខ
+        id: អត្តលេខ
+        male: ប្រុស
+        name: ឈ្មោះ
+        no_dob: 'ទេ'
+        outside: អាសយដ្ឋាននៅក្រៅប្រទេស
+        outside_address: អាសយដ្ឋាននៅក្រៅ
+        phone: លេខទូរស័ព្ទ
+        province_id: ខេត្ត/ក្រុង
+        requested_update: ស្នើសុំកាលបរិច្ឆេទ
+        street_number: ផ្លូវ
+        updated_at: កែប្រែ
+        village_id: ភូមិ
       select_columns: ជ្រើសរើសជួរឈរ
       show_all: បង្ហាញទាំងអស់
       support_amount: ប្រាក់ឧបត្ថម្ភ
@@ -2348,6 +2667,9 @@ km:
       has_overdue_task: ភារកិច្ចហួសកំណត់
       no_case_note: កំណត់ត្រាករណីហួសកំណត់
       reset: សំអាត
+      referee: អ្នកបញ្ជូន
+      result_framework_assessment: Result Framework Assessment
+      carer: អ្នកថែទាំ
       search: ស្វែងរក
       type_of_service: ប្រភេទសេវាកម្ម
     from: ចាប់ពី
@@ -2379,6 +2701,7 @@ km:
     able_state: ស្ថានភាព Able
     address: ឣាសយដ្ឋាន
     agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
+    phone_counselling_summary: ការសង្ខេបនៃការផ្តល់ប្រឹក្សាតាមទូរស័ព្ទ
     agency_names: ឈ្មោះអង្គភាព
     birth_province: ស្រុកកំណើត
     cambodia: កម្ពុជា
@@ -2402,6 +2725,26 @@ km:
       male: ប្រុស
       other_gender: ផ្សេងៗ
       unknown: អត់ទាន់ដឹង
+    referee_relationship:
+      self: ខ្លួនឯង
+      family_member: សមាជិក​គ្រួសារ
+      friend: មិត្តភក្តិ
+      helping_professional: ជួយវិជ្ជាជីវៈ
+      government_local: រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន
+      other: ផ្សេងៗ
+    address_types:
+      home: ផ្ទះ
+      business: មុខជំនួញ
+      rci: RCI
+      dormitory: អន្តេវាសិកដ្ឋាន
+      other: ផ្សេងៗ
+    phone_owner:
+      self: ខ្លួនឯង
+      family_member: សមាជិក​គ្រួសារ
+      friend: មិត្តភក្តិ
+      helping_professional: ជួយវិជ្ជាជីវៈ
+      government_local: រដ្ឋាភិបាល / អាជ្ញាធរមូលដ្ឋាន
+      other: ផ្សេងៗ
     given_name: នាមខ្លួនជាអក្សរឡាតាំង
     has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
@@ -2865,6 +3208,41 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  dimensions:
+    dimension_identies:
+      risk_management_1a: "(ការគ្រប់គ្រងហានិភ័យ)"
+      physical_health_2a: "(សុខភាពរាង្គកាយ)"
+      work_skills_and_education_3a: "(ជំនាញនិងការអប់រំការងារ)"
+      income_3b: "(ចំណូល)"
+      financial_management_3c: "(ការគ្រប់គ្រងហិរវញ្ញវត្ថុ)"
+      recovery_from_trauma_4a: "(ការជាសះស្បើយឡើងវិញពីការប៉ះទង្គិះផ្លូវចិត្ត)"
+      resilence_4b: "(ភាពធន់)"
+      values_5a: "(គុណតម្លៃ)"
+      family_relationships_6a: "(ទំនាក់ទំនងគ្រួសារ)"
+      client_s_involvement_in_community_networks_6b: "(ការចូលរួមរបស់អតិថិជនក្នុងបណ្តាញសហគមន៍)"
+      knowledge_of_legal_rights_7a: "(ចំណេះដឹងអំពីសិទ្ធិស្របច្បាប់)"
+    dimension_list:
+      dimensions: មាត្រដ្ឋាន
+    dimension_names:
+      a1: សុវត្តិភាព
+      a2: សុខភាព
+      a3: និរន្តរភាពសេដ្ឋកិច្ច
+      b3: និរន្តរភាពសេដ្ឋកិច្ច
+      c3: និរន្តរភាពសេដ្ឋកិច្ច
+      a4: សុខុមាលភាពផ្លូវចិត្ត
+      b4: សុខុមាលភាពផ្លូវចិត្ត
+      a5: ប្រលឹងវិញ្ញាណ
+      a6: ទំនាក់ទំនងសង្គម
+      b6: ទំនាក់ទំនងសង្គម
+      a7: យុត្តិធម៌
+    dimension_groups:
+      safety: សុវត្តិភាព
+      health: សុខភាព
+      economic_sustainability: និរន្តរភាពសេដ្ឋកិច្ច
+      emotional_well-being: សុខុមាលភាពផ្លូវចិត្ត
+      spiritual: ប្រលឹងវិញ្ញាណ
+      social_connections: ទំនាក់ទំនងសង្គម
+      justice: យុត្តិធម៌
   domain_groups:
     create:
       failed_create: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -2949,6 +3327,7 @@ km:
       title: ពិនិត្យកែសម្រួលកត្តា
     form:
       cancel: ទុកជាមោឃៈ
+      custom_assessment_name: ឈ្មោះឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       description: ការបរិយាយ
       domain_group: ការប្រមូលផ្តុំកត្តា
       identity: សំគាល់
@@ -3662,8 +4041,11 @@ km:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
       agencies: អង្គភាព
+      caller_referees: អ្នកបញ្ជូនករណី
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
+      calls: ការហៅទូរស័ព្ទ
       clients: ឣតិថិជន
+      client_forms: ទម្រង់អតិថិជន
       country: ប្រទេស
       csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
       custom_fields: ទម្រង់បែបបទ
@@ -4326,6 +4708,41 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  referee_attr: &REFEREE_ATTR
+    address_type: អាសយដ្ឋាន - ប្រភេទ
+    address_types:
+      business: មុខជំនួញ
+      dormitory: អន្តេវាសិកដ្ឋាន
+      home: ផ្ទះ
+      other: ផ្សេងៗ
+      rci: RCI
+    adult: មនុស្សធំ
+    anonymous: អនាមិក
+    answered_call: ឆ្លើយការហៅទូរស័ព្ទ
+    called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
+    commune_id: អាសយដ្ឋាន - ឃុំ/សង្កាត់
+    created_at: កាលបរិច្ឆេទ
+    current_address: អាសយដ្ឋានបច្ចុប្បន្ន
+    district_id: អាសយដ្ឋាន - ស្រុក/ខណ្ឌ
+    email: អ៊ុីម៉ែល
+    gender: ភេទ
+    house_number: អាសយដ្ឋាន - លេខផ្ទះ
+    id: ID
+    name: ឈ្មោះ
+    outside: អាសយដ្ឋានខាងក្រៅប្រទេស
+    outside_address: អាសយដ្ឋាននៅក្រៅ
+    phone: លេខទូស័ព្ទ
+    province_id: ខេត្ត/ក្រុង
+    requested_update: ស្នើសុំបច្ចុប្បន្នភាពព័ត៌មាន
+    street_number: អាសយដ្ឋាន - លេខផ្លូវ
+    updated_at: Updated At
+    village_id: អាសយដ្ឋាន - ភូមិ
+  referees:
+    index:
+      <<: *REFEREE_ATTR
+    show:
+      about: អំពី
+      <<: *REFEREE_ATTR
   referral_sources:
     create:
       failed_create: ប្រភពនៃការបញ្ជូនមិនត្រូវបានបង្កើត
@@ -4462,6 +4879,7 @@ km:
       assessment: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_assessment: ឈ្មោះ
       default_assessment: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណលំនាំដើម CSI
+      default_assessment_framework: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណលំនាំដើមក្របខ័ណ្ឌលទ្ធផល
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
       eligible: មានសិទ្ធិសម្រាប់អតិថិជននៅក្រោម
       max_assessment: រយៈពេលអតិបរមារវាងការបា៉ន់ប្រមាណ
@@ -4471,6 +4889,11 @@ km:
     case_note:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា
+    client_forms:
+      hotline: លេខទូរស័ព្ទបន្ទាប់
+      client_forms: ទម្រង់អតិថិជន
+      'yes': 'បាទ / ចាស'
+      'no' : 'ទេ'
     country:
       country: ប្រទេស
       settings: ការកំណត់
@@ -4480,6 +4903,8 @@ km:
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
     create:
       successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    custom_assessment_setting_fields:
+      are_you_sure: Are you sure want to remove this assessment?
     custom_labels:
       cambodia:
         custom_id1_local: Custom ID1 (Khmer)
@@ -4911,6 +5336,7 @@ km:
   unauthorized:
     case_worker_unauthorized: កំណត់ត្រាត្រូវបានរក្សាទុកដោយជោគជ័យប៉ុន្តែវាមិនត្រូវបានកំណត់សម្រាប់អ្នក ដូច្នេះអ្នកមិនអាចមើលវាបានទេ។ ប្រសិនបើអ្នកត្រូវការមើលកំណត់ត្រានេះសូមនិយាយជាមួយបុគ្គលិកគ្រប់គ្រងករណី ឬ អេដមីន។
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
+    you_cannot_access_this_page: You cannot access this page.
   users:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
