@@ -60,9 +60,11 @@ CIF.CallsIndex = do ->
           return
         @on 'afterUpdateRuleFilter', (e, rule) ->
           rule.$el.find(".rule-filter-container [name$=_filter]").select2 options
+          rule.$el.find(".rule-value-container [name*=_value_]").select2(dropdownAutoWidth: true)
           return
         @on 'afterUpdateRuleOperator', (e, rule) ->
           rule.$el.find(".rule-operator-container [name$=_operator]").select2 options
+          rule.$el.find(".rule-value-container [name*=_value_]").select2(dropdownAutoWidth: true)
           return
         @on 'beforeDeleteRule', (e, rule) ->
           rule.$el.find(".rule-filter-container [name$=_filter]").select2 'destroy'
@@ -73,6 +75,7 @@ CIF.CallsIndex = do ->
       container: 'body'
       style: 'btn-inverse btn-xs'
       width: '250px'
+      dropdownAutoWidth: true
       showIcon: false
 
     filters = $("#call-builder-fields").data('fields')
