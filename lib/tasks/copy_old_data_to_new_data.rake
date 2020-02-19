@@ -20,9 +20,9 @@ namespace :copy_field_data do
           create_carer.save()
           client.carer_id = create_carer.id
         end
-        client.save(validate:false) if (client.carer_id || client.referee_id)
+        client.save(validate:false) if (client.carer_id_changed? || client.referee_id_changed?)
       end
-      Referee.where("name = '' OR name = 'unknow' OR name = 'unknown' OR name = 'Unknown' OR name = 'N/A' OR name = 'Animus'").update_all(name: 'Anonymous', anonymous: true)
+      Referee.where("name = '' OR name ILIKE '%unknow%' OR name ILIKE '%unknown%' OR name ILIKE '%Unknown%' OR name ILIKE '%N/A%' OR name ILIKE '%Animus&'").update_all(name: 'Anonymous', anonymous: true)
     end
   end
 end
