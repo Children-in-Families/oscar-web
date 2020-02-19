@@ -4,6 +4,7 @@ namespace :copy_field_data do
     Organization.where.not(short_name: 'shared').each do |org|
       Organization.switch_to org.short_name
       Client.all.each do |client|
+        next if (client.referee_id && Referee.find(client.referee_id).present?) || (client.carer_id && Carer.find(create_carer.id).present?)
         create_referee = Referee.new
         create_referee.name = client.name_of_referee
         create_referee.phone = client.referral_phone
@@ -13,7 +14,6 @@ namespace :copy_field_data do
         create_carer.name = client.live_with
         create_carer.phone = client.telephone_number
         create_carer.save(validate:false)
-
         client.referee_id = create_referee.id
         client.carer_id = create_carer.id
         client.save(validate:false)
