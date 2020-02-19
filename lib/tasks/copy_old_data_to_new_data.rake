@@ -17,11 +17,12 @@ namespace :copy_field_data do
           create_carer = Carer.new
           create_carer.name = client.live_with
           create_carer.phone = client.telephone_number
-          create_carer.save(validate:false)
+          create_carer.save()
           client.carer_id = create_carer.id
         end
         client.save(validate:false) if (client.carer_id || client.referee_id)
       end
+      Referee.where("name = '' OR name = 'unknow' OR name = 'unknown' OR name = 'Unknown' OR name = 'N/A' OR name = 'Animus'").update_all(name: 'Anonymous', anonymous: true)
     end
   end
 end
