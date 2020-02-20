@@ -22,6 +22,7 @@ class Domain < ActiveRecord::Base
   scope :csi_domains, -> { where(custom_domain: false) }
   scope :custom_csi_domains, -> { where(custom_domain: true) }
 
+  delegate :custom_assessment_name, to: :custom_assessment_setting, prefix: false, allow_nil: true
   enum domain_score_colors: { danger: 'Red', warning: 'Yellow', success: 'Blue', primary: 'Green' }
 
   def convert_identity

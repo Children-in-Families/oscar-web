@@ -50,11 +50,11 @@ class Assessment < ActiveRecord::Base
     customs.most_recents.first
   end
 
-  def initial?
+  def initial?(custom_assessment_setting_id=nil)
     if default?
       self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
     else
-      self == client.assessments.customs.most_recents.last || client.assessments.customs.count.zero?
+      self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
     end
   end
 
