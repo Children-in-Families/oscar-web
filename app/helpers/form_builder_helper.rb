@@ -177,7 +177,7 @@ module FormBuilderHelper
 
   def general_query(id, field, operator, value, type, class_name)
     field_name = id
-    value      = type == 'string'  ? value.downcase : value
+    value      = !value.is_a?(Array) && type == 'string'  ? value.downcase : value
 
     lower_field_name      = string_field(type, field_name, value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
     table_name_field_name = ['start_datetime'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name

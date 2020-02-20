@@ -280,7 +280,7 @@ class Client < ActiveRecord::Base
   end
 
 
-  def can_create_assessment?(default, value)
+  def can_create_assessment?(default, value='')
     latest_assessment = Assessment.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value})
     if default
       if assessments.defaults.count == 1

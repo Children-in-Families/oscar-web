@@ -648,7 +648,7 @@ km:
     date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
     end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
     end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
-    hotline: លេខទូរស័ព្ទបន្ទាប់
+    hotline: លេខទូរស័ព្ទបន្ទាន់
     edit:
       add_note_about_the_content: បញ្ចូលកំណត់ត្រានៃខ្លឹមសារការសន្ទនារបស់អ្នកជាមួយអ្នកហៅទូរស័ព្ទ។
       answered_call: បានឆ្លើយការហៅទូរស័ព្ទ
@@ -664,9 +664,9 @@ km:
       brief_note_summary: កំណត់ត្រាខ្លីដោយសង្ខេបពីការហៅទូរស័ព្ទ
       date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
       edit_call: កែសម្រួលការហៅ
-      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
       'no': "ទេ"
-      not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+      not_a_phone_call: មិនមែនការហៅតាមទូរស័ព្ទ
       other_more_information: ព័ត៌មានផ្សេងទៀត
       protection_concern: ការព្រួយបារម្មណ៍លើបញ្ហាការការពារកុមារ
       protection_concerns:
@@ -700,14 +700,14 @@ km:
     index:
       add_new_call: បន្ថែមការហៅថ្មី
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-      hotline: លេខទូរស័ព្ទបន្ទាប់
+      hotline: លេខទូរស័ព្ទបន្ទាន់
       results: លទ្ធផល
       report_builder: Report Builder
-    information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+    information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
     new:
       new_call: បង្កើតការហៅទូរស័ព្ទថ្មី
     necessity_id: តម្រូវការបឋម
-    not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+    not_a_phone_call: មិនមែនការហៅតាមទូរស័ព្ទ
     other_more_information: ព័ត៌មានផ្សេងទៀត
     phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
     phone_type: ប្រភេទលេខទូរស័ព្ទ
@@ -1120,7 +1120,7 @@ km:
       called_before: ធ្លាប់បានហៅទូរស័ព្ទពីមុន
       date_of_call: កាលបរិច្ឆេទនៃការហៅទូរស័ព្ទ
       end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
-      information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+      information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
       phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
       receiving_staff_id: បុគ្គលិកទទួលការហៅទូរស័ព្ទ
       referee_id: អ្នកបញ្ជូន
@@ -1386,7 +1386,7 @@ km:
         custom_form_column: ជួរឈរទម្រង់បែបបទ
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
         export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-        hotline_column: ជួរឈរលេខទូរស័ព្ទបន្ទាប់
+        hotline_column: ជួរឈរលេខទូរស័ព្ទបន្ទាន់
         no_results: មិនមានលទ្ធផល
         program_stream_column: ជួរឈរកម្មវិធីចម្បង
         reset: សំអាត
@@ -1400,7 +1400,7 @@ km:
         enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
         exit_program: ចាកចេញពីកម្មវិធី
         filter_option: សូមជ្រើសរើសសំណួររបស់អ្នកខាងក្រោម
-        hotline: លេខទូរស័ព្ទបន្ទាប់
+        hotline: លេខទូរស័ព្ទបន្ទាន់
         program_stream: កម្មវិធីចម្បង
         quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
         tracking: តាមដាន
@@ -1594,7 +1594,7 @@ km:
       name: ឈ្មោះ
       next: បន្ទាប់
       previous: ត្រឡប់
-      province: ខេត្តកំណើត
+      province: ខេត្ត/ក្រុង
       received_by: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
@@ -1884,7 +1884,7 @@ km:
       government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
       has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
-      hotlines: លេខទូរស័ព្ទបន្ទាប់
+      hotlines: លេខទូរស័ព្ទបន្ទាន់
       house_number: ផ្ទះលេខ
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
@@ -2239,13 +2239,13 @@ km:
         end_datetime: កាលបរិច្ឆេទនៃពេលវេលាបញ្ចប់
         end_time: ពេលវេលានៃការហៅទូរស័ព្ទបានបញ្ចប់
         has_dob: បាទ / ចាស
-        hotline_call: ការហៅលេខទូរស័ព្ទបន្ទាប់
+        hotline_call: ការហៅលេខទូរស័ព្ទបន្ទាន់
         id: អត្តលេខ
-        information_provided: ព័ត៌មានផ្តល់ប្រឡប់ទៅអ្នកហៅចូល
+        information_provided: ព័ត៌មានផ្តល់ត្រឡប់ទៅអ្នកហៅចូល
         manage: គ្រប់គ្រង
         necessity_id: តម្រូវការបឋម
         no_dob: ទេ
-        not_a_phone_call: មិនតាមរយៈទូរស័ព្ទ
+        not_a_phone_call: មិនមែនការហៅតាមទូរស័ព្ទ
         other_more_information: ព័ត៌មានផ្សេងទៀត
         phone_call: ការហៅទូរស័ព្ទ
         phone_call_id: អត្តលេខការហៅទូរស័ព្ទ
@@ -4890,7 +4890,7 @@ km:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា
     client_forms:
-      hotline: លេខទូរស័ព្ទបន្ទាប់
+      hotline: លេខទូរស័ព្ទបន្ទាន់
       client_forms: ទម្រង់អតិថិជន
       'yes': 'បាទ / ចាស'
       'no' : 'ទេ'
