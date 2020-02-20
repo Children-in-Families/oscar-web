@@ -2042,6 +2042,7 @@ en:
     assessment_tab:
       assessment: Assessment
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
+      begin_now: Add New
       client_you_like: Which client would you like to complete as Assessment for?
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment
