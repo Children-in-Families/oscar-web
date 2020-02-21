@@ -114,6 +114,7 @@
 //= require organizations/index
 //= require settings/index
 //= require settings/research_module
+//= require settings/custom_fields
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form

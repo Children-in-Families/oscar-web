@@ -81,6 +81,8 @@
                         = link_to t('.research_module'), research_module_settings_path
                   %li{ class: settings_menu_active('settings', 'custom_id_alias')}
                     = link_to t('.custom_labels'), custom_labels_settings_path
+                  %li{ class: settings_menu_active('settings', 'custom_fields')}
+                    = link_to t('.custom_fields'), custom_fields_settings_path
 
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path

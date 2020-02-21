@@ -10,7 +10,7 @@ module DevEnvImporter
     end
 
     def import_all
-      sheets = ['users', 'families', 'clients']
+      sheets = ['users', 'families', 'clients', 'meta_fields']
 
       sheets.each do |sheet_name|
         sheet_index = workbook.sheets.index(sheet_name)
@@ -82,6 +82,16 @@ module DevEnvImporter
           family.children << client.id
           family.save
         end
+      end
+    end
+
+    def meta_fields
+      (workbook_second_row..workbook.last_row).each do |row_index|
+        new_meta_field                      = {}
+        new_meta_field['field_name']        = workbook.row(row_index)[headers['Field Name']]
+        new_meta_field['field_type']        = workbook.row(row_index)[headers['Field Type']]
+
+        MetaField.create(new_meta_field)
       end
     end
 

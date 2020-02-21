@@ -62,6 +62,10 @@ class SettingsController < AdminController
     authorize @current_setting
   end
 
+  def custom_fields
+    @client_fields = MetaField.all
+  end
+
   private
 
   def country_address_fields

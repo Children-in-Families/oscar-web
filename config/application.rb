@@ -32,6 +32,7 @@ module CifWeb
     # Override rails template engine: erb to haml
     config.generators do |g|
       g.template_engine :haml
+      g.orm             :active_record
     end
 
     config.middleware.use Rack::Cors do

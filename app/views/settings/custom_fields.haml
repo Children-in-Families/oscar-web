@@ -1,0 +1,52 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5.text-center= t('.custom_fields')
+      .ibox-content
+        .row
+          .col-xs-12.col-sm-12
+            #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+
+              .panel.panel-default
+                #headingClientField.panel-heading{:role => "tab"}
+                  %h4.panel-title
+                    %a{"aria-controls" => "collapseClientField", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseClientField", :role => "button"}
+                      Clients
+                #collapseClientField.panel-collapse.collapse.in{"aria-labelledby" => "headingClientField", :role => "tabpanel"}
+                  .panel-body
+                    .row
+                      .col-xs-12.col-md-12
+                        .table-responsive
+                          %table.table.table-stripped.text-center
+                            %thead
+                              %tr
+                                %th.text-center Field Name
+                                %th.text-center Label
+                                %th.text-center Action
+                            %tbody
+                              - @client_fields.each do |client_field|
+                                %tr
+                                  %td= client_field.field_name
+                                  %td= I18n.t("clients.form.#{client_field.field_name.gsub('_id','')}")
+                                  %td
+                                    .i-checks
+                                      %input{:name => "client_fields[]", :type => "checkbox", :value => "#{client_field}", checked: "false"}
+
+              .panel.panel-default
+                #headingFamily.panel-heading{:role => "tab"}
+                  %h4.panel-title
+                    %a.collapsed{"aria-controls" => "collapseFamiliy", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseFamiliy", :role => "button"}
+                      Families
+                #collapseFamiliy.panel-collapse.collapse{"aria-labelledby" => "headingFamily", :role => "tabpanel"}
+                  .panel-body
+
+              .panel.panel-default
+                #headingPartner.panel-heading{:role => "tab"}
+                  %h4.panel-title
+                    %a.collapsed{"aria-controls" => "collapsePartner", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsePartner", :role => "button"}
+                      Partners
+                #collapsePartner.panel-collapse.collapse{"aria-labelledby" => "headingPartner", :role => "tabpanel"}
+                  .panel-body
+
+      .ibox-footer
