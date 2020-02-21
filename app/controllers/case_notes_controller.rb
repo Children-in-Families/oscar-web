@@ -13,7 +13,7 @@ class CaseNotesController < AdminController
     unless current_user.admin? || current_user.strategic_overviewer?
       redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
     end
-    @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page]).per(1)
+    @case_notes = @client.case_notes.recent_meeting_dates.page(params[:page])
     @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
@@ -33,12 +33,12 @@ class CaseNotesController < AdminController
   def create
     @case_note = @client.case_notes.new(case_note_params)
     if @case_note.save
-      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes]) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task]) if params.has_key?(:task)
       if params[:from_controller] == "dashboards"
         redirect_to root_path, notice: t('.successfully_created')
       else
-        redirect_to client_path(@client), notice: t('.successfully_created')
+        redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
       end
     else
       render :new
@@ -87,8 +87,8 @@ class CaseNotesController < AdminController
   def case_note_params
     # params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
 
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params
   end
 
