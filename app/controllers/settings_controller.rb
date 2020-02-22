@@ -63,7 +63,20 @@ class SettingsController < AdminController
   end
 
   def custom_fields
-    @client_fields = MetaField.all
+    @client_fields = MetaField.where(field_type: "client").order(:field_name)
+  end
+
+  def update_hidden_meta_fields
+    respond_to do |format|
+      if params[:meta_field_id].present? && params[:meta_field_hidden].present?
+        meta_field = MetaField.find(params[:meta_field_id])
+        meta_field.hidden = params[:meta_field_hidden]
+        meta_field.save
+        format.json { render json: { message: "Success" } }
+      else
+        format.json { render json: "Missing Params", status: :unprocessable_entity }
+      end
+    end
   end
 
   private

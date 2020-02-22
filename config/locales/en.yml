@@ -1382,6 +1382,7 @@ en:
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
+      followed_up_date: First Follow-Up Date
       from: From
       gender: Gender
       general_question: General Question
@@ -1426,8 +1427,10 @@ en:
       local_family_name: Family Name
       local_given_name: Given Name
       name: Name
+      name_of_referee: Name of Referee
       next: Next
       previous: Previous
+      profile: Photo
       province: Birth Province
       received_by: Referral Received By
       referral_phone: Referee Phone Number

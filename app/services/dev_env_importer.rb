@@ -90,6 +90,7 @@ module DevEnvImporter
         new_meta_field                      = {}
         new_meta_field['field_name']        = workbook.row(row_index)[headers['Field Name']]
         new_meta_field['field_type']        = workbook.row(row_index)[headers['Field Type']]
+        new_meta_field['hidden']            = true
 
         MetaField.create(new_meta_field)
       end

@@ -1352,6 +1352,7 @@ th-TH:
       follow_up_by:
       follow_up_date:
       followed_up_by:
+      followed_up_date:
       from:
       gender:
       general_question:
@@ -1396,8 +1397,10 @@ th-TH:
       local_family_name:
       local_given_name:
       name:
+      name_of_referee:
       next:
       previous:
+      profile:
       province:
       received_by:
       referral_phone:

@@ -325,6 +325,7 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'custom_fields' => 'settings#custom_fields'
+      put 'custom_fields' => 'settings#update_hidden_meta_fields'
     end
   end
 

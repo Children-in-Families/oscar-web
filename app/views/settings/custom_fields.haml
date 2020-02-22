@@ -30,8 +30,8 @@
                                   %td= client_field.field_name
                                   %td= I18n.t("clients.form.#{client_field.field_name.gsub('_id','')}")
                                   %td
-                                    .i-checks
-                                      %input{:name => "client_fields[]", :type => "checkbox", :value => "#{client_field}", checked: "false"}
+                                    .i-checks-meta-fields
+                                      %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{client_field.id}", "data-hidden" => "#{client_field.hidden}"}
 
               .panel.panel-default
                 #headingFamily.panel-heading{:role => "tab"}

@@ -1377,6 +1377,7 @@ km:
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
+      followed_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូរទៅ
@@ -1421,8 +1422,10 @@ km:
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       name: ឈ្មោះ
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       next: បន្ទាប់
       previous: ត្រឡប់
+      profile: រូបថត
       province: ខេត្តកំណើត
       received_by: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី

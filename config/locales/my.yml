@@ -1382,6 +1382,7 @@ my:
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
+      followed_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       from: မွ
       gender: က်ား မ
       general_question: အေထြေထြ ေမးခြန္း
@@ -1426,8 +1427,10 @@ my:
       local_family_name: မိသားစုနာမည္ (ေဒသအလိုက္)
       local_given_name: ေမြးနာမည္ (ေဒသအလုိက္)
       name: နာမည္
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       next: နောက်တစ်ခု
       previous: လွန်ခဲ့သော
+      profile: ရုပ်ပုံ
       province: ေမြးဖြားရာ ခ႐ိုင္
       received_by: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
