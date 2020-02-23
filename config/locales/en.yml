@@ -3084,6 +3084,7 @@ en:
       dependable_income: Dependable Income
       district: District
       family_members: Family Members
+      family_members_attributes: Family Members
       family_type: Family Type
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
@@ -3938,6 +3939,9 @@ en:
       contact_email: Email
       contact_mobile: Contact Mobile
       contact_name: Contact Name
+      contact_person_email: Email
+      contact_person_mobile: Contact Mobile
+      contact_person_name: Contact Name
       custom_forms: Custom Forms
       engagement: Engagement
       id: ID

@@ -5,6 +5,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _cocoonCallback()
     _initDatePicker()
     _initIcheck()
+    _hideMetaField()
 
   _initIcheck = ->
     $('.i-checks').iCheck
@@ -71,5 +72,18 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
           success: (response) ->
             for address in response.data
               subAddress.append("<option value='#{address.id}'>#{address.name}</option>")
+
+  _hideMetaField = ->
+    meta_fields = $('#family-meta-field').data "meta-fields"
+    meta_fields.forEach (meta_field) ->
+      if meta_field.hidden == true && meta_field.required == false
+        if meta_field.field_name == "family_members_attributes"
+          $("#family-members").css 'display','none'
+        if $(".family_#{meta_field.field_name}").hasClass "date"
+          $(".family_#{meta_field.field_name}").css 'display','none'
+        else
+          $(".family_#{meta_field.field_name}").parent().css 'display','none'
+          meta_field_filtered_id = meta_field.field_name.replace('_id','')
+          $(".family_#{meta_field_filtered_id}").parent().css 'display','none'
 
   { init: _init }

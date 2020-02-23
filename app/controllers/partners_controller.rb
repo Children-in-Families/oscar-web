@@ -10,6 +10,8 @@ class PartnersController < AdminController
   before_action :find_partner,     only:   [:show, :edit, :update, :destroy]
   before_action :find_association, except: [:index, :destroy, :version]
 
+  before_action :get_partner_meta_fields, only: [:edit, :update, :new, :create]
+
   def index
     @default_columns = Setting.first.try(:partner_default_columns)
     @partner_grid = PartnerGrid.new(params.fetch(:partner_grid, {}).merge!(dynamic_columns: @custom_form_fields))
@@ -91,5 +93,9 @@ class PartnersController < AdminController
   def find_association
     @province = Province.order(:name)
     @organization_types = OrganizationType.order(:name)
+  end
+
+  def get_partner_meta_fields
+    @partner_meta_fields = MetaField.where(field_type: "partner")
   end
 end

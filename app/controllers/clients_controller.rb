@@ -19,6 +19,8 @@ class ClientsController < AdminController
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
+  
+  before_action :get_client_meta_fields, only: [:edit, :update, :new, :create]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -119,7 +121,6 @@ class ClientsController < AdminController
     else
       @client = Client.new
     end
-    @client_meta_fields = MetaField.where(field_type: "client")
   end
 
   def edit
@@ -346,5 +347,9 @@ class ClientsController < AdminController
       client_id = version.changeset[:client_id].last
     end
     Client.where(id: client_ids, status: 'Exited').ids
+  end
+
+  def get_client_meta_fields
+    @client_meta_fields = MetaField.where(field_type: "client")
   end
 end

@@ -3069,6 +3069,7 @@ my:
       dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
       district: ခ႐ိုင္
       family_members: မိသားစုဝင်တွေ
+      family_members_attributes: မိသားစုဝင်တွေ
       family_type: မိသားစု အမ်ိဳးအစား
       female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
       female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
@@ -3942,6 +3943,9 @@ my:
       contact_email: အီးေမးလ္
       contact_mobile: ပံုစံ
       contact_name: ဆက္သြယ္သည့္နာမည္
+      contact_person_email: အီးေမးလ္
+      contact_person_mobile: ပံုစံ
+      contact_person_name: ဆက္သြယ္သည့္နာမည္
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       engagement: ေစ့စပ္ျခင္း
       id: မွတ္ပံုတင္

@@ -2957,6 +2957,7 @@ th-TH:
       dependable_income:
       district:
       family_members:
+      family_members_attributes:
       family_type:
       female_adult_count:
       female_children_count:
@@ -3747,6 +3748,9 @@ th-TH:
       contact_email:
       contact_mobile:
       contact_name:
+      contact_person_email:
+      contact_person_mobile:
+      contact_person_name:
       custom_forms:
       engagement:
       id:

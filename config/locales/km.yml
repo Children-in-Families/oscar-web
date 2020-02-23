@@ -3078,6 +3078,7 @@ km:
       dependable_income: ប្រាក់ចំណូលទៀងទាត់
       district: ស្រុក/ខណ្ឌ
       family_members: សមាជិក​គ្រួសារ
+      family_members_attributes: សមាជិក​គ្រួសារ
       family_type: ប្រភេទគ្រួសារ
       female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
       female_children_count: ចំនួនក្មេងស្រី
@@ -3929,6 +3930,9 @@ km:
       contact_email: ឣុីម៉ែល
       contact_mobile: លេខទូរស័ព្ទ
       contact_name: ឈ្មោះជនបង្គោល
+      contact_person_email: ឣុីម៉ែល
+      contact_person_mobile: លេខទូរស័ព្ទ
+      contact_person_name: ឈ្មោះជនបង្គោល
       custom_forms: ទម្រង់បែបបទ
       engagement: ការចូលរួម
       id: លេខសំគាល់

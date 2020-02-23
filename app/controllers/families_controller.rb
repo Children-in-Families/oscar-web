@@ -9,6 +9,8 @@ class FamiliesController < AdminController
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
 
+  before_action :get_family_meta_fields, only: [:edit, :update, :new, :create]
+
   def index
     @default_columns = Setting.first.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
@@ -118,5 +120,9 @@ class FamiliesController < AdminController
 
   def find_family
     @family = Family.find(params[:id])
+  end
+
+  def get_family_meta_fields
+    @family_meta_fields = MetaField.where(field_type: "family")
   end
 end

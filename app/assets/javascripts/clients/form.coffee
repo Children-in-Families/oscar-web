@@ -508,7 +508,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $("##{@.id} .modal-body").children().remove()
 
   _hideMetaField = ->
-    meta_fields = $('#client_meta_field').data "meta-fields"
+    meta_fields = $('#client-meta-field').data "meta-fields"
     meta_fields.forEach (meta_field) ->
       if meta_field.hidden == true && meta_field.required == false
         if $(".client_#{meta_field.field_name}").hasClass "date"

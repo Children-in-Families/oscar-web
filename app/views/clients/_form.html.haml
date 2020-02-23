@@ -1,3 +1,4 @@
+#client-meta-field{"data-meta-fields" => @client_meta_fields.to_json}
 = simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
   %p.hide#client-id= @client.id
   = hidden_field_tag :client_id, @client.id
