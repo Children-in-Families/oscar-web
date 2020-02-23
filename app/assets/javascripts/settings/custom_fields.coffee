@@ -9,6 +9,10 @@ CIF.SettingsCustom_fields = do ->
         checkboxClass: 'icheckbox_square-green'
       if $(this).find('input').data('hidden') == true
         $(this).iCheck("check")
+      if $(this).find('input').data('required') == true
+        $(this).iCheck("uncheck")
+        $(this).iCheck("disable")
+        $(this).attr 'title',"This field is required!\nYou can not hide this field."
 
   _handleActionHiddenField = ->
     $('.i-checks-meta-fields').each ->
@@ -24,6 +28,13 @@ CIF.SettingsCustom_fields = do ->
             meta_field_hidden: meta_field_hidden
           dataType: 'json'
           success: (data) ->
-            console.log "successful updated meta-field"
+            console.log "Successful updated meta-field"
+        
+        if $(this).data('hide-all') != null
+          field_type_hide_all = $(this).data('hide-all')
+          $('.i-checks-meta-fields').each ->
+            if $(this).find('input').hasClass field_type_hide_all
+              if meta_field_hidden == true
+                $(this).iCheck("check")
 
   { init: _init }  

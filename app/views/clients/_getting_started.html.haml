@@ -23,7 +23,7 @@
           %span.input-group-addon.initial-referral
             %i.fa.fa-calendar-check-o
         = f.error :initial_referral_date
-      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_follow_up_date
+      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_followed_up_date
         %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.follow_up_date')
         .input-group.date
           = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'

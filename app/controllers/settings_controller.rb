@@ -63,7 +63,12 @@ class SettingsController < AdminController
   end
 
   def custom_fields
-    @client_fields = MetaField.where(field_type: "client").order(:field_name)
+    @client_fields  = MetaField.where(field_type: "client").order(:field_name)
+    @family_fields  = MetaField.where(field_type: "family").where.not(field_name: "all_fields").order(:field_name)
+    @partner_fields = MetaField.where(field_type: "partner").where.not(field_name: "all_fields").order(:field_name)
+    
+    @all_family_field = MetaField.where(field_type: "family", field_name: "all_fields").limit(1)
+    @all_partner_field = MetaField.where(field_type: "partner", field_name: "all_fields").limit(1)
   end
 
   def update_hidden_meta_fields

@@ -23,7 +23,7 @@
                               %tr
                                 %th.text-center Field Name
                                 %th.text-center Label
-                                %th.text-center Action
+                                %th.text-center Hide
                             %tbody
                               - @client_fields.each do |client_field|
                                 %tr
@@ -31,22 +31,71 @@
                                   %td= I18n.t("clients.form.#{client_field.field_name.gsub('_id','')}")
                                   %td
                                     .i-checks-meta-fields
-                                      %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{client_field.id}", "data-hidden" => "#{client_field.hidden}"}
+                                      %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{client_field.id}", "data-hidden" => "#{client_field.hidden}", "data-required" => "#{client_field.required}"}
 
               .panel.panel-default
                 #headingFamily.panel-heading{:role => "tab"}
-                  %h4.panel-title
-                    %a.collapsed{"aria-controls" => "collapseFamiliy", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseFamiliy", :role => "button"}
-                      Families
+                  .row
+                    .col-xs-12.col-sm-6
+                      %h4.panel-title
+                        %a.collapsed{"aria-controls" => "collapseFamiliy", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseFamiliy", :role => "button"}
+                          Families
+                    .col-xs-12.col-sm-6.text-right
+                      .i-checks-meta-fields
+                        %label
+                          %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{@all_family_field.first.id}", "data-hidden" => "#{@all_family_field.first.hidden}", "data-required" => "#{@all_family_field.first.required}", "data-hide-all" => "family-fields"}
+                          Hide All
+
                 #collapseFamiliy.panel-collapse.collapse{"aria-labelledby" => "headingFamily", :role => "tabpanel"}
                   .panel-body
-
+                    .row
+                      .col-xs-12.col-md-12
+                        .table-responsive
+                          %table.table.table-stripped.text-center
+                            %thead
+                              %tr
+                                %th.text-center Field Name
+                                %th.text-center Label
+                                %th.text-center Hide
+                            %tbody
+                              - @family_fields.each do |family_field|
+                                %tr
+                                  %td= family_field.field_name
+                                  %td= I18n.t("families.form.#{family_field.field_name.gsub('_id','')}")
+                                  %td
+                                    .i-checks-meta-fields
+                                      %input.meta-field-checkbox.family-fields{:name => "meta_fields[]", :type => "checkbox", :value => "#{family_field.id}", "data-hidden" => "#{family_field.hidden}", "data-required" => "#{family_field.required}"}
               .panel.panel-default
                 #headingPartner.panel-heading{:role => "tab"}
-                  %h4.panel-title
-                    %a.collapsed{"aria-controls" => "collapsePartner", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsePartner", :role => "button"}
-                      Partners
+                  .row
+                    .col-xs-12.col-sm-6
+                      %h4.panel-title
+                        %a.collapsed{"aria-controls" => "collapsePartner", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsePartner", :role => "button"}
+                          Partners
+                    .col-xs-12.col-sm-6.text-right
+                      .i-checks-meta-fields
+                        %label
+                          %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{@all_partner_field.first.id}", "data-hidden" => "#{@all_partner_field.first.hidden}", "data-required" => "#{@all_partner_field.first.required}", "data-hide-all" => "partner-fields"}
+                          Hide All
+
                 #collapsePartner.panel-collapse.collapse{"aria-labelledby" => "headingPartner", :role => "tabpanel"}
                   .panel-body
+                    .row
+                      .col-xs-12.col-md-12
+                        .table-responsive
+                          %table.table.table-stripped.text-center
+                            %thead
+                              %tr
+                                %th.text-center Field Name
+                                %th.text-center Label
+                                %th.text-center Hide
+                            %tbody
+                              - @partner_fields.each do |partner_field|
+                                %tr
+                                  %td= partner_field.field_name
+                                  %td= I18n.t("partners.form.#{partner_field.field_name.gsub('_id','')}")
+                                  %td
+                                    .i-checks-meta-fields
+                                      %input.meta-field-checkbox.partner-fields{:name => "meta_fields[]", :type => "checkbox", :value => "#{partner_field.id}", "data-hidden" => "#{partner_field.hidden}", "data-required" => "#{partner_field.required}"}
 
       .ibox-footer

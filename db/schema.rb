@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200222132938) do
+ActiveRecord::Schema.define(version: 20200222145942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -959,10 +959,10 @@ ActiveRecord::Schema.define(version: 20200222132938) do
     t.string   "field_name"
     t.string   "field_type"
     t.boolean  "hidden",     default: true
-    t.string   "required"
+    t.boolean  "required",   default: false
     t.string   "label"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "needs", force: :cascade do |t|

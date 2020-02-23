@@ -28,6 +28,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _removeModalBodyDuplicateChecker()
     _preventClientDateOfBirth()
     _createClientConfirmModal()
+    _hideMetaField()
 
   _handReadonlySpecificPoint = ->
     $('#specific-point select[data-readonly="true"]').select2('readonly', true)
@@ -505,5 +506,16 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _removeModalBodyDuplicateChecker = ->
     $('#confirm-client-modal').on 'hidden.bs.modal', ->
       $("##{@.id} .modal-body").children().remove()
+
+  _hideMetaField = ->
+    meta_fields = $('#client_meta_field').data "meta-fields"
+    meta_fields.forEach (meta_field) ->
+      if meta_field.hidden == true && meta_field.required == false
+        if $(".client_#{meta_field.field_name}").hasClass "date"
+          $(".client_#{meta_field.field_name}").css 'display','none'
+        else
+          $(".client_#{meta_field.field_name}").parent().css 'display','none'
+          meta_field_filtered_id = meta_field.field_name.replace('_id','')
+          $(".client_#{meta_field_filtered_id}").parent().css 'display','none'
 
   { init: _init }

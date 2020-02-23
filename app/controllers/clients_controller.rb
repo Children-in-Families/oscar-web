@@ -119,6 +119,7 @@ class ClientsController < AdminController
     else
       @client = Client.new
     end
+    @client_meta_fields = MetaField.where(field_type: "client")
   end
 
   def edit
