@@ -41,9 +41,9 @@
                         %a.collapsed{"aria-controls" => "collapseFamiliy", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseFamiliy", :role => "button"}
                           Families
                     .col-xs-12.col-sm-6.text-right
-                      .i-checks-meta-fields
+                      .i-checks-meta-fields#meta-field-family-icheck
                         %label
-                          %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{@all_family_field.first.id}", "data-hidden" => "#{@all_family_field.first.hidden}", "data-required" => "#{@all_family_field.first.required}", "data-hide-all" => "family-fields"}
+                          %input.meta-field-checkbox#meta-field-family-hide-all{:name => "meta_fields[]", :type => "checkbox", :value => "#{@all_family_field.first.id}", "data-hidden" => "#{@all_family_field.first.hidden}", "data-required" => "#{@all_family_field.first.required}", "data-hide-all" => "family-fields"}
                           Hide All
 
                 #collapseFamiliy.panel-collapse.collapse{"aria-labelledby" => "headingFamily", :role => "tabpanel"}
@@ -73,9 +73,9 @@
                         %a.collapsed{"aria-controls" => "collapsePartner", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsePartner", :role => "button"}
                           Partners
                     .col-xs-12.col-sm-6.text-right
-                      .i-checks-meta-fields
+                      .i-checks-meta-fields#meta-field-partner-icheck
                         %label
-                          %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{@all_partner_field.first.id}", "data-hidden" => "#{@all_partner_field.first.hidden}", "data-required" => "#{@all_partner_field.first.required}", "data-hide-all" => "partner-fields"}
+                          %input.meta-field-checkbox#meta-field-partner-hide-all{:name => "meta_fields[]", :type => "checkbox", :value => "#{@all_partner_field.first.id}", "data-hidden" => "#{@all_partner_field.first.hidden}", "data-required" => "#{@all_partner_field.first.required}", "data-hide-all" => "partner-fields"}
                           Hide All
 
                 #collapsePartner.panel-collapse.collapse{"aria-labelledby" => "headingPartner", :role => "tabpanel"}

@@ -37,4 +37,12 @@ CIF.SettingsCustom_fields = do ->
               if meta_field_hidden == true
                 $(this).iCheck("check")
 
+        if $(this).hasClass 'family-fields'
+          if meta_field_hidden == false && $("#meta-field-family-hide-all").parent('[class*="icheckbox"]').hasClass("checked")
+            $('#meta-field-family-icheck').iCheck("uncheck")
+        
+        if $(this).hasClass 'partner-fields'
+          if meta_field_hidden == false && $("#meta-field-partner-hide-all").parent('[class*="icheckbox"]').hasClass("checked")
+            $('#meta-field-partner-icheck').iCheck("uncheck")
+
   { init: _init }  
