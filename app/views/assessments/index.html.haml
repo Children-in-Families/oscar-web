@@ -10,12 +10,13 @@
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
-                - if assessment.initial?
+                - if assessment.initial?(assessment.domains.last && assessment.domains.last.custom_assessment_setting_id)
                   = t('.initial_assessment')
                 - else
                   = t('.assessment_created_on')
                 %b
                   = date_format(assessment.created_at)
+                = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last.custom_assessment_setting.present?
                 %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
@@ -39,46 +40,38 @@
                   .btn.btn-block.btn-primary.button
                     = "#{t('.begin_now')} #{@current_setting.default_assessment}"
               - else
-                .btn.btn-block.btn-default.button.disabled#disabled_assessment_button
+                .btn.btn-block.btn-default.button.disabled
                   = "#{t('.begin_now')} #{@current_setting.default_assessment}"
 
         - if @current_setting.enable_custom_assessment && completed_initial_assessment?('customs')
           .row.margin-row
-            .col-xs-12.col-sm-8
-              %h5
-                - if current_organization.try(:aht) == true
-                  = t('.initial_assessment')
-                  %b
-                    = date_format(Date.today)
-                - else
-                  - if @client.assessments.customs.any?
-                    = t('.next_review')
-                    %b
-                      = date_format(@client.custom_next_assessment_date)
-                  - else
+            - @custom_assessment_settings.each do |css|
+              .col-xs-12.col-sm-8
+                %h5
+                  - if current_organization.try(:aht) == true
                     = t('.initial_assessment')
                     %b
                       = date_format(Date.today)
-            .col-xs-12.col-sm-4
-              - if @custom_domains.any?
-                %button.btn.btn-block.btn-primary.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
-                  = t('Custom Assessment')
-                  %span.caret
-                %ul.dropdown-menu.btn-block
-                  - @custom_assessment_settings.each do |cs|
-                    - if cs.domains.any?
-                      - if policy(@custom_assessment).create?(cs.id)
-                        %li
-                          = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
-                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
-                      - else
-                        %li.disabled-li
-                          = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
-                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                  - else
+                    - if @client.assessments.customs.any?
+                      = t('.next_review')
+                      %b
+                        = date_format(@client.custom_next_assessment_date(nil, css.id))
                     - else
-                      %li
-                        = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                          = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                      = t('.initial_assessment')
+                      %b
+                        = date_format(Date.today)
+              .col-xs-12.col-sm-4.m-b-sm
+                - if css.domains.any?
+                  - if policy(@custom_assessment).create?(css.id)
+                    = link_to new_client_assessment_path(@client, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button' do
+                      = "#{t('.begin_now')} #{css.custom_assessment_name}"
+                  - else
+                    .btn.btn-block.btn-default.button.disabled
+                      = "#{t('.begin_now')} #{css.custom_assessment_name}"
+                - else
+                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button' do
+                    = "#{t('.begin_now')} #{css.custom_assessment_name}"
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}

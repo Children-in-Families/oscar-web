@@ -263,10 +263,11 @@ class Client < ActiveRecord::Base
     (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
 
-  def custom_next_assessment_date(user_activated_date = nil)
-    return Date.today if assessments.customs.empty?
-    return nil if user_activated_date.present? && assessments.customs.latest_record.created_at < user_activated_date
-    (assessments.customs.latest_record.created_at + assessment_duration('max', false)).to_date
+  def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id=nil)
+    custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct
+    return Date.today if custom_assessments.empty?
+    return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
+    (custom_assessments.latest_record.created_at + assessment_duration('max', false)).to_date
   end
 
   def next_appointment_date
@@ -281,7 +282,7 @@ class Client < ActiveRecord::Base
 
 
   def can_create_assessment?(default, value='')
-    latest_assessment = Assessment.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value})
+    latest_assessment = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value}).distinct
     if default
       if assessments.defaults.count == 1
         return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
@@ -293,6 +294,8 @@ class Client < ActiveRecord::Base
         return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
       elsif latest_assessment.count >= 2
         return latest_assessment.latest_record.completed?
+      else
+        return true
       end
     end
     true

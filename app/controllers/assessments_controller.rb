@@ -1,4 +1,5 @@
 class AssessmentsController < AdminController
+  include ApplicationHelper
   include CreateBulkTask
 
   before_action :find_client
@@ -20,7 +21,12 @@ class AssessmentsController < AdminController
     if current_organization.try(:aht) == false
       authorize @assessment
     end
-    @assessment.populate_notes(params[:default], params[:custom_name])
+    css = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
+    if css.present? && !policy(@assessment).create?(css.id)
+      redirect_to client_assessments_path(@client), alert: "#{I18n.t('assessments.index.next_review')} of #{css.custom_assessment_name}: #{date_format(@client.custom_next_assessment_date(nil, css.id))}"
+    else
+      @assessment.populate_notes(params[:default], params[:custom_name])
+    end
   end
 
   def create

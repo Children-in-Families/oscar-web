@@ -2033,6 +2033,7 @@ my:
     assessment_tab:
       assessment: ရက်လွန်အကဲဖြတ်
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
+      begin_now: ယခုစမည္
       client_you_like: Which client would you like to complete as Assessment for?
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment

@@ -54,6 +54,17 @@
                       = destroy_link(@client, case_note)
 
             .panel-body
+              - if case_note.note.present?
+                .ibox.border-left-right.border-bottom
+                  .ibox-content
+                    .row
+                      .col-xs-12
+                        .panel.panel-default
+                          .panel-heading
+                            %h4= t('.note')
+                          .panel-body
+                            = simple_format case_note.note
+
               - case_note.case_note_domain_groups.each do |cdg|
                 - list_goals = []
                 - task_added = []

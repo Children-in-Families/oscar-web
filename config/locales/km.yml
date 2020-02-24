@@ -2034,6 +2034,7 @@ km:
     assessment_tab:
       assessment: ការប៉ាន់ប្រមាណ
       assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
+      begin_now: បង្កើតថ្មី
       client_you_like: តើអតិថិជនណាដែលអ្នកចង់បំពេញការប៉ាន់ប្រមាណ?
       csi_assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន

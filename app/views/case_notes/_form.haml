@@ -41,12 +41,17 @@
                   .row
                     .col-xs-12
                       #interaction-type.text-danger
+              - if f.object.case_note_domain_groups.blank?
+                .row
+                  .col-xs-12.col-md-6
+                    = f.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
+
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
             - if case_note_domain.object.any_assessment_domains?(@case_note)
               = render 'form_with_assessment_domains', { domain_note: case_note_domain }
             - else
-              = render 'form_without_assessment_domains', { domain_note: case_note_domain }
+              = render 'form_without_assessment_domains', { domain_note: case_note_domain, case_note_form: f }
 
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn', data: { disable_with: t('saving') }
