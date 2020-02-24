@@ -34,7 +34,7 @@
                         = t('.please_add_custom_domains')
 
             - elsif case_notes_editable? && policy(@client).create?
-              = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_custom_assessment), class: 'btn btn-primary'
+              = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
 
       .ibox-content
         - @case_notes.each do |case_note|
@@ -55,15 +55,13 @@
 
             .panel-body
               - if case_note.note.present?
-                .ibox.border-left-right.border-bottom
-                  .ibox-content
-                    .row
-                      .col-xs-12
-                        .panel.panel-default
-                          .panel-heading
-                            %h4= t('.note')
-                          .panel-body
-                            = simple_format case_note.note
+                .row
+                  .col-xs-12
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('.note')
+                      .panel-body
+                        = simple_format case_note.note
 
               - case_note.case_note_domain_groups.each do |cdg|
                 - list_goals = []
@@ -105,7 +103,7 @@
                                     %li.list-group-item
                                       = "#{index + 1}. "
                                       = task.name
-                        - if list_goals.present?
+                        - if list_goals.present? && enable_default_assessment? && case_note.note.blank?
                           .col-xs-12.col-sm-6
                             %p
                               %strong= "#{t('.goal')} :"

@@ -12,7 +12,8 @@
     .ibox-content{ class: "#{domain_note.object.domain_group.first_ordered? ? '' : 'collapse'}" }
       .row
         .col-xs-12.col-md-6
-          = domain_note.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
+          - if @current_setting.enable_default_assessment
+            = domain_note.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
           = domain_note.hidden_field :domain_group_id
         .col-xs-12.col-md-6
           - domains = fetch_domains(domain_note)

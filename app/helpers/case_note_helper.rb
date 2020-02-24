@@ -89,4 +89,13 @@ module CaseNoteHelper
       [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
     end
   end
+
+  def enable_default_assessment?
+    setting = @current_setting
+    setting && setting.enable_default_assessment
+  end
+
+  def not_using_assessment_tool?
+    (!enable_default_assessment? && !CustomAssessmentSetting.all.all?(&:enable_custom_assessment))
+  end
 end
