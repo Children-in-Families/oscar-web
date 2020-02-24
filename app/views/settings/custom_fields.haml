@@ -30,8 +30,12 @@
                                   %td= client_field.field_name
                                   %td= I18n.t("clients.form.#{client_field.field_name.gsub('_id','')}")
                                   %td
-                                    .i-checks-meta-fields
-                                      %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{client_field.id}", "data-hidden" => "#{client_field.hidden}", "data-required" => "#{client_field.required}"}
+                                    - if client_field.required
+                                      .i-checks-meta-fields{ data: { toggle: "tooltip", title: "This field is required!\nYou can not hide this field." } }
+                                        %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{client_field.id}", "data-hidden" => "#{client_field.hidden}", "data-required" => "#{client_field.required}"}
+                                    - else
+                                      .i-checks-meta-fields
+                                        %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "#{client_field.id}", "data-hidden" => "#{client_field.hidden}", "data-required" => "#{client_field.required}"}
 
               .panel.panel-default
                 #headingFamily.panel-heading{:role => "tab"}

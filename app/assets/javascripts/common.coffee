@@ -10,6 +10,7 @@ CIF.Common =
     @checkValidationErrorExistOnSaving()
     @intAssessmentClientSelected()
     @preventEditOnDatePicker()
+    @toolTipInitial()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
@@ -134,3 +135,5 @@ CIF.Common =
 
       return
 
+  toolTipInitial: ->
+    $('[data-toggle="tooltip"]').tooltip()
