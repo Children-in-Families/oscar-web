@@ -14,7 +14,7 @@ CIF.Common =
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
       autoclose: true,
-      format: 'yyyy-mm-dd',
+      format: 'yyyy-mm-dd'
       todayHighlight: true,
       disableTouchKeyboard: true,
       startDate: '1899,01,01',

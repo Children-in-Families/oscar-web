@@ -9,20 +9,21 @@ class CaseNote < ActiveRecord::Base
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
+  validates :note, presence: true, if: :not_using_assessment_tool?
 
   has_paper_trail
 
   accepts_nested_attributes_for :case_note_domain_groups
 
   scope :most_recents, -> { order(created_at: :desc) }
-  scope :recent_meeting_dates , -> { order(created_at: :desc) }
+  scope :recent_meeting_dates , -> { order(meeting_date: :desc) }
 
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
 
   before_create :set_assessment
 
   def populate_notes(custom_name, default)
-    if default == "false"
+    if default == "false" || not_using_assessment_tool?
       DomainGroup.all.each do |dg|
         case_note_domain_groups.build(domain_group_id: dg.id)
       end
@@ -55,5 +56,14 @@ class CaseNote < ActiveRecord::Base
 
   def set_assessment
     self.assessment = custom? ? client.assessments.custom_latest_record : client.assessments.default_latest_record
+  end
+
+  def enable_default_assessment?
+    setting = Setting.first
+    setting && setting.enable_default_assessment
+  end
+
+  def not_using_assessment_tool?
+    (!enable_default_assessment? && !CustomAssessmentSetting.all.all?(&:enable_custom_assessment))
   end
 end
