@@ -57,10 +57,12 @@ class CaseNotesController < AdminController
 
   def update
     if @case_note.update_attributes(case_note_params) && @case_note.save
-      params[:case_note][:case_note_domain_groups_attributes].each do |d|
-        add_more_attachments(d.second[:attachments], d.second[:id])
+      if params.dig(:case_note, :case_note_domain_groups_attributes)
+        params[:case_note][:case_note_domain_groups_attributes].each do |d|
+          add_more_attachments(d.second[:attachments], d.second[:id])
+        end
+        @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       end
-      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
       redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
