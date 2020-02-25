@@ -2039,11 +2039,13 @@ km:
       csi_assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
     case_note_tab:
+      begin_now: បង្កើតថ្មី
       case_note: កំណត់ត្រាករណី
       case_note_you_add: តើកំណត់ត្រាករណីនេះប្រើជាមួយការប៉ាន់ប្រមាណណា?(CSI​ ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
       csi_assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញកំណត់ត្រាករណី?
+      new_case_note: កំណត់ត្រាថ្មី
     client:
       ables: Ables
       clients: អតិថិជនបច្ចុប្បន្ន

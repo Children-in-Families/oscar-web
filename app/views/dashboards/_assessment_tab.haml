@@ -14,12 +14,12 @@
       %ul.dropdown-menu.btn-block.disabled#assessment-tab-dropdown
         - if @current_setting.enable_default_assessment
           %li
-            = link_to t('.csi_assessment'), '#', id: 'csi-assessment-link'
+            = link_to t('.csi_assessment'), '#', id: 'csi-assessment-link', class: 'btn btn-default custom-assessment-link disabled'
         - if @custom_domains.any?
           - @custom_assessment_settings.each do |cs|
             - if cs.domains.any?
               %li
-                = link_to new_client_assessment_path('', default: false, custom_name: cs.custom_assessment_name), class: 'custom-assessment-link' do
+                = link_to new_client_assessment_path('', default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link disabled' do
                   = "#{t('.begin_now')} #{cs.custom_assessment_name}"
             - else
               %li.disabled

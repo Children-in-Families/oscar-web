@@ -23,7 +23,7 @@
                       %abbr{ title: 'required' } *
                       = t('.on_date')
                     .input-group.date
-                      = f.text_field :meeting_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
+                      = f.text_field :meeting_date, value: f.object.meeting_date && f.object.meeting_date.to_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
                       %span.input-group-addon
                         %i.fa.fa-calendar-check-o
                     = f.error :meeting_date
