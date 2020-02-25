@@ -4,7 +4,7 @@
     .col-xs-12.col-sm-6
       %label.control-label
         = t('.client_you_complete_for')
-      = select_tag "clients", options_from_collection_for_select(@select_client_options, "id", "name"),{ class: "select form-group", id: 'client-select-case-note', :prompt => ''}
+      = select_tag "clients", options_from_collection_for_select(@select_client_options, "slug", "name"),{ class: "select form-group", id: 'client-select-case-note', :prompt => ''}
     - if Rails.env.production? or Rails.env.staging? && current_organization.short_name == 'cif'
       .col-xs-12.col-md-6.resize-margin
         = link_to t('.csi_assessment'), '#', id: 'csi-case-note-link', class: 'btn btn-block btn btn-default'
@@ -15,12 +15,20 @@
         %button.btn.btn-block.btn-default.form-group.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
           = t('.case_note')
           %span.caret
-        %ul.dropdown-menu.btn-block
-          %li
-            = link_to t('.csi_assessment'), '#', id: 'csi-case-note-link'
-          %li
-            - if Domain.custom_csi_domains.any?
-              = link_to t('.custom_assessment'), '#', id: 'custom-case-note-link'
-            - else
-              = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                = @current_setting.custom_assessment
+        %ul.dropdown-menu.btn-block#casenote-tab-dropdown
+          - if @current_setting.enable_default_assessment
+            %li
+              = link_to t('.csi_assessment'), '#', id: 'csi-case-note-link', class: 'btn btn-default custom-assessment-link disabled'
+          - if @custom_assessment_settings.present?
+            - @custom_assessment_settings.each do |cs|
+              - if cs.domains.any?
+                %li
+                  = link_to new_client_case_note_path('', default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link disabled' do
+                    = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+              - else
+                %li.disabled
+                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                    = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+          - else
+            %li
+              = link_to t('.new_case_note'), new_client_case_note_path('', custom: @current_setting.enable_default_assessment), class: 'btn btn-default custom-assessment-link disabled'

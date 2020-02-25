@@ -57,7 +57,7 @@ class CaseNotesController < AdminController
   end
 
   def update
-    if @case_note.update_attributes(case_note_params) && @case_note.save
+    if @case_note.update_attributes(case_note_params)
       params[:case_note][:case_note_domain_groups_attributes].each do |d|
         add_more_attachments(d.second[:attachments], d.second[:id])
       end
@@ -87,10 +87,10 @@ class CaseNotesController < AdminController
 
   def case_note_params
     # params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
-    default_params
+    meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
+    default_params = default_params.merge(meeting_date: meeting_date)
   end
 
   def add_more_attachments(new_file, case_note_domain_group_id)

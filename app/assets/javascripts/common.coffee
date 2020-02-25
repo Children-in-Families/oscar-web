@@ -31,12 +31,13 @@ CIF.Common =
 
   intAssessmentClientSelected: ->
     $('#client-select-assessment').on('select2-selected', (e) ->
+      $("ul#assessment-tab-dropdown a").removeClass('disabled')
       idClient = e.val
       if $('#csi-assessment-link').length
         csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
         a = document.getElementById('csi-assessment-link').href = csiLink
-      if $('.custom-assessment-link').length
-        customAssessmentLinks = $('.custom-assessment-link')
+      if $('ul#assessment-tab-dropdown .custom-assessment-link').length
+        customAssessmentLinks = $('ul#assessment-tab-dropdown .custom-assessment-link')
         $.each customAssessmentLinks, (index, element) ->
           url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
           $(element).attr('href', url)
@@ -44,15 +45,24 @@ CIF.Common =
       $("#assessment-tab-dropdown").removeClass('disabled')
       $(this).val('')
     ).on 'select2-removed', () ->
-      $("#assessment-tab-dropdown").addClass('disabled')
+      $("ul#assessment-tab-dropdown a").attr('href', "javascript:void(0)")
+      $("ul#assessment-tab-dropdown a").addClass('disabled')
 
-    $('#client-select-case-note').on 'select2-selected', (e) ->
-      id = e.val
-      csiLink = "/clients/#{id}/case_notes/new?country=cambodia&custom=false&from=dashboards"
-      a = document.getElementById('csi-case-note-link').href = csiLink
-      customLink = "/clients/#{id}/case_notes/new?country=cambodia&custom=true&from=dashboards"
-      a = document.getElementById('custom-case-note-link').href = customLink
+    $('#client-select-case-note').on('select2-selected', (e) ->
+      $("ul#casenote-tab-dropdown a").removeClass('disabled')
+      idClient = e.val
+      if $('#csi-case-note-link').length
+        csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
+        a = document.getElementById('csi-case-note-link').href = csiLink
+      if $('ul#casenote-tab-dropdown .custom-assessment-link').length
+        customAssessmentLinks = $('ul#casenote-tab-dropdown .custom-assessment-link')
+        $.each customAssessmentLinks, (index, element) ->
+          url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
+          $(element).attr('href', url)
       $(this).val('')
+    ).on 'select2-removed', () ->
+      $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
+      $("ul#casenote-tab-dropdown a").addClass('disabled')
 
   textShortener: ->
     if $('.clients-table').is(':visible')
