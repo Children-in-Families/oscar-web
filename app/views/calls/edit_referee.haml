@@ -1,0 +1,7 @@
+- data = { call: @call, refereeDistricts: @referee_districts, refereeCommunes: @referee_communes, refereeVillages: @referee_villages,referee: @referee, referees: @referees, currentProvinces: @current_provinces, addressTypes: @address_types  }
+
+.row
+  .col-xs-12
+    .ibox
+      .ibox-content
+        = react_component('EditCallReferee', { data: data })

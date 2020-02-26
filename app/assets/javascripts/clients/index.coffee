@@ -498,8 +498,7 @@ CIF.ClientsIndex = do ->
     advanceFilter.hideCsiCustomGroupInRootBuilder()
     advanceFilter.handleAllDomainOperatorOpen()
     advanceFilter.removeOperatorInWizardBuilder()
-    # $('.rule-operator-container').change ->
-    #   advanceFilter.initSelect2()
+    advanceFilter.handleHotlineFilter()
 
   # _removeProgramStreamExitDate = ->
   #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()

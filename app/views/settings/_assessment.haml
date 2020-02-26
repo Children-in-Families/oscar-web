@@ -1,7 +1,10 @@
 #default-assessment-setting.panel.panel-default
   .panel-heading
     %h3
-      = t('.default_assessment')
+      - if current_organization.try(:aht) == true
+        = t('.default_assessment_framework')
+      - else
+        = t('.default_assessment')
   .panel-body
     .row
       / .col-xs-12.col-sm-4
@@ -14,10 +17,10 @@
         %label.control-label
           %abbr{ title: 'required' }= '*'
         %label.control-label= t('.max_assessment')
-      .col-xs-12.col-sm-push-3.col-sm-3
-        %label.control-label
-          %abbr{ title: 'required' }= '*'
-        %label.control-label= t('.eligible')
+      -# .col-xs-12.col-sm-push-3.col-sm-3
+      -#   %label.control-label
+      -#     %abbr{ title: 'required' }= '*'
+      -#   %label.control-label= t('.eligible')
     .row
       / .col-xs-12.col-sm-4
       /   .form-group
@@ -31,48 +34,20 @@
       .col-xs-12.col-sm-3
         .form-group
           = f.input :assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
-      .col-xs-12.col-sm-3
-        .form-group
-          = f.input :age, placeholder: t('.age'), label: false, readonly: true
-
+      -# .col-xs-12.col-sm-3
+      -#   .form-group
+      -#     = f.input :age, placeholder: t('.age'), label: false, readonly: true
+-# = render 'custom_assessment', f: f
 #assessment-setting.panel.panel-default
   .panel-heading
-    %h3
-      = t('.assessment')
+    %h3= t('.assessment')
   .panel-body
-    .row
-      / .col-xs-12.col-sm-4
-      /   %label.control-label= t('.min_assessment')
-      .col-xs-12.col-sm-3
-        %label.control-label
-          %abbr{ title: 'required' }= '*'
-        %label.control-label= t('.custom_assessment')
-      .col-xs-12.col-sm-3
-        %label.control-label
-          %abbr{ title: 'required' }= '*'
-        %label.control-label= t('.max_assessment')
-      .col-xs-12.col-sm-push-3.col-sm-3
-        %label.control-label
-          %abbr{ title: 'required' }= '*'
-        %label.control-label= t('.eligible')
-
-    .row
-      / .col-xs-12.col-sm-4
-      /   .form-group
-      /     = f.input :min_assessment, label: false
-      .col-xs-12.col-sm-3
-        .form-group
-          = f.input :custom_assessment, label: false
-      .col-xs-12.col-sm-3
-        .form-group
-          = f.input :max_custom_assessment, label: false
-      .col-xs-12.col-sm-3
-        .form-group
-          = f.input :custom_assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
-      .col-xs-12.col-sm-3
-        .form-group
-          = f.input :custom_age, placeholder: t('.age'), label: false
-    .row
-      .col-xs-12
-        %p
-          %i= t('.noted')
+    #custom_assessment_settings.panel-body
+      = f.simple_fields_for :custom_assessment_settings do |ff|
+        = render 'custom_assessment_setting_fields', :f => ff
+      .links
+        = link_to_add_association 'Add New Customize Assessment', f, :custom_assessment_settings, class: 'btn btn-primary pull-right', id: 'disabled_add_custom_assessment'
+        .row
+          .col-xs-12
+            %p
+              %i= t('.noted')

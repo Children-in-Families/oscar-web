@@ -13,6 +13,11 @@ class SettingPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def client_forms?
+    current_org = Organization.current
+    user.admin?
+  end
+
   alias new? index?
   alias create? index?
   alias edit? index?

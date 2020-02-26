@@ -5,13 +5,16 @@ module AdvancedSearches
     ASSOCIATION_FIELDS = ['user_id', 'created_by', 'agency_name', 'donor_name', 'age', 'family', 'family_id',
                           'active_program_stream', 'enrolled_program_stream', 'case_note_date', 'case_note_type',
                           'date_of_assessments', 'date_of_custom_assessments', 'accepted_date',
-                          'exit_date', 'exit_note', 'other_info_of_exit',
+                          'exit_date', 'exit_note', 'other_info_of_exit', 'protection_concern_id', 'necessity_id',
                           'exit_circumstance', 'exit_reasons', 'referred_to', 'referred_from', 'time_in_cps', 'time_in_ngo',
-                          'assessment_number', 'month_number', 'date_nearest', 'assessment_completed','date_of_referral']
+                          'assessment_number', 'month_number', 'date_nearest', 'assessment_completed','date_of_referral',
+                          'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
+                          'client_contact_phone', 'client_email_address', 'phone_owner', 'referee_relationship']
 
     BLANK_FIELDS = ['created_at', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'district_id', 'subdistrict_id', 'township_id', 'state_id', 'commune_id', 'village_id', 'referral_source_category_id']
-    SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words)
+    SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words address_type concern_address_type)
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
+    CALL_FIELDS = Call::FIELDS
 
     def initialize(clients, basic_rules)
       @clients     = clients
@@ -28,7 +31,6 @@ module AdvancedSearches
         field    = rule['id']
         operator = rule['operator']
         value    = rule['value']
-
         form_builder = field != nil ? field.split('__') : []
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
@@ -114,7 +116,10 @@ module AdvancedSearches
           service_query = AdvancedSearches::ServiceSqlBuilder.new().get_sql
           @sql_string << service_query[:id]
           @values << service_query[:values]
-
+        elsif CALL_FIELDS.include?(field)
+          service_query = AdvancedSearches::Hotline::CallSqlBuilder.new().get_sql
+          @sql_string << service_query[:id]
+          @values << service_query[:values]
         elsif field != nil && form_builder.first != 'type_of_service'
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)

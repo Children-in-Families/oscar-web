@@ -46,40 +46,51 @@
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
-                - if @client.assessments.customs.any?
-                  = t('.next_review')
-                  %b
-                    = date_format(@client.custom_next_assessment_date)
-                - else
+                - if current_organization.try(:aht) == true
                   = t('.initial_assessment')
                   %b
                     = date_format(Date.today)
-            .col-xs-12.col-sm-4
-              - if policy(@custom_assessment).create?
-                - if @custom_domains.any?
-                  = link_to new_client_assessment_path(@client, default: false) do
-                    .btn.btn-block.btn-primary.button
-                      = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
                 - else
-                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                    .btn.btn-block.btn-primary.button
-                      = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
+                  - if @client.assessments.customs.any?
+                    = t('.next_review')
+                    %b
+                      = date_format(@client.custom_next_assessment_date)
+                  - else
+                    = t('.initial_assessment')
+                    %b
+                      = date_format(Date.today)
+            .col-xs-12.col-sm-4
+              - if @custom_domains.any?
+                %button.btn.btn-block.btn-primary.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
+                  = t('Custom Assessment')
+                  %span.caret
+                %ul.dropdown-menu.btn-block
+                  - @custom_assessment_settings.each do |cs|
+                    - if cs.domains.any?
+                      - if policy(@custom_assessment).create?(cs.id)
+                        %li
+                          = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
+                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                      - else
+                        %li.disabled-li
+                          = link_to new_client_assessment_path(@client, default: false, custom_name: cs.custom_assessment_name) do
+                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                    - else
+                      %li
+                        = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                          = "#{t('.begin_now')} #{cs.custom_assessment_name}"
 
-                  #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
-                    .modal-dialog{:role => "document"}
-                      .modal-content.panel-warning
-                        .modal-header.panel-heading
-                          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                            %span{"aria-hidden" => "true"} ×
-                          %h4
-                            %i.fa.fa-warning.fa-x2
-                            = t('.no_custom_domains_available')
-                        .modal-body.text-center
-                          = t('.please_add_custom_domains')
-              - else
-                .btn.btn-block.btn-default.button.disabled#disabled_assessment_button
-                  = "#{t('.begin_now')} #{@current_setting.custom_assessment}"
-
+                #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                  .modal-dialog{:role => "document"}
+                    .modal-content.panel-warning
+                      .modal-header.panel-heading
+                        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                          %span{"aria-hidden" => "true"} ×
+                        %h4
+                          %i.fa.fa-warning.fa-x2
+                          = t('.no_custom_domains_available')
+                      .modal-body.text-center
+                        = t('.please_add_custom_domains')
       .ibox-footer
         .row
           .col-xs-12.col-sm-6

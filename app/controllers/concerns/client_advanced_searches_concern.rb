@@ -1,4 +1,5 @@
 module ClientAdvancedSearchesConcern
+  include CallHelper
   def advanced_search
     if params[:advanced_search_id]
       advanced_search = AdvancedSearch.find(params[:advanced_search_id])
@@ -18,8 +19,7 @@ module ClientAdvancedSearchesConcern
 
     respond_to do |f|
       f.html do
-        # begin
-        @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
+       @csi_statistics         = CsiStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).assessment_domain_score.to_json
         @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.scope.where(id: @clients_by_user.ids).accessible_by(current_ability)).statistic_data.to_json
         clients                 = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets
         @clients                = clients
@@ -30,15 +30,6 @@ module ClientAdvancedSearchesConcern
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
         export_client_reports
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
-        # current_time = Time.now
-        # if params[:type] == 'basic_info'
-        #   export_client_reports
-        #   send_data @client_grid.to_xls, filename: "client_report-#{current_time}.xls"
-        # elsif params[:type] == 'csi_assessment'
-        #   send_data @client_grid.to_spreadsheet('default'), filename: "client_assessment_domain_report-#{current_time}.xls"
-        # elsif params[:type] == 'custom_assessment'
-        #   send_data @client_grid.to_spreadsheet('custom'), filename: "client_assessment_domain_report-#{current_time}.xls"
-        # end
       end
     end
   end
@@ -75,6 +66,12 @@ module ClientAdvancedSearchesConcern
     @custom_fields = CustomField.where(id: form_ids).order_by_form_title
   end
 
+  def hotline_call_column
+    client_hotlines = get_client_hotline_fields.group_by{ |field| field[:optgroup] }
+    call_hotlines = get_hotline_fields.group_by{ |field| field[:optgroup] }
+    @hotline_call_columns = client_hotlines.merge(call_hotlines)
+  end
+
   def program_stream_fields
     if params.dig(:client_advanced_search, :action_report_builder) == '#wizard-builder'
       @wizard_program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
@@ -106,6 +103,51 @@ module ClientAdvancedSearchesConcern
 
   def get_client_basic_fields
     AdvancedSearches::ClientFields.new(user: current_user).render
+  end
+
+  def get_hotline_fields
+    args = {
+      translation: get_basic_field_translations, number_field: [],
+      text_field: ['information_provided', 'brief_note_summary', 'other_more_information'],
+      date_picker_field: ['date_of_call'],
+      dropdown_list_option: [
+        ['answered_call', { true: 'Yes', false: 'No' }],
+        ['childsafe_agent', { true: 'Yes', false: 'No' }],
+        ['called_before', { true: 'Yes', false: 'No' }],
+        ['not_a_phone_call', {true: 'Yes', false: 'No'}],
+        ['requested_update', { true: 'Yes', false: 'No' }],
+        *get_dropdown_list(['phone_call_id', 'call_type', 'start_datetime', 'protection_concern_id', 'necessity_id']),
+      ]
+    }
+
+    hotline_fields = AdvancedSearches::AdvancedSearchFields.new('hotline', args).render
+
+    @hotline_fields = get_client_hotline_fields + hotline_fields
+  end
+
+  def get_client_hotline_fields
+    client_fields = I18n.t('datagrid.columns.clients')
+    dropdown_list_options = [
+      ['concern_address_type', [Client::ADDRESS_TYPES, Client::ADDRESS_TYPES.map{|type| I18n.t('default_client_fields.address_types')[type.downcase.to_sym] }].transpose.map{|k,v| { k.downcase => v } }],
+      ['concern_province_id', Province.dropdown_list_option],
+      ['concern_district_id', District.dropdown_list_option],
+      ['concern_commune_id', Commune.dropdown_list_option],
+      ['concern_village_id', Village.dropdown_list_option],
+      ['concern_is_outside', { true: 'Yes', false: 'No' }],
+      ['concern_same_as_client', { true: 'Yes', false: 'No' }]
+    ]
+
+    args = {
+      translation: client_fields.merge({ concern_basic_fields: I18n.t('advanced_search.fields.concern_basic_fields') }), number_field: [],
+      text_field: hotline_text_type_list, date_picker_field: [],
+      dropdown_list_option: dropdown_list_options
+    }
+
+    @client_hotline_fields = AdvancedSearches::AdvancedSearchFields.new('concern_basic_fields', args).render
+  end
+
+  def hotline_text_type_list
+    %w(nickname concern_address concern_email concern_email_owner concern_house concern_location concern_outside_address concern_phone concern_phone_owner concern_street location_description phone_counselling_summary)
   end
 
   def custom_form_values

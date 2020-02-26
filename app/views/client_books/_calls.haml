@@ -1,0 +1,34 @@
+.row
+  .col-xs-12
+    .client-call{ data: {"anchor-date": date} }
+      .ibox.collapsed
+        .ibox-title
+          %h5
+            = "#{t('client_books.call')} (#{call.phone_call_id}) - #{@client.en_and_local_name}"
+          %h5
+            = "#{I18n.t('client_books.hotline.start_datetime')}:"
+            = call.start_datetime && call.start_datetime.strftime("%d %B %Y %I:%M%p")
+            = I18n.t('client_books.hotline.received_by')
+            = call.receiving_staff.name
+          .ibox-tools
+            %a.collapse-link
+              %i.fa.fa-chevron-up
+        .ibox-content
+          .table-responsive
+            %table.table.table-bordered
+              - Call.column_names.each do |field_name|
+                - next if ['id', 'created_at', 'updated_at'].include?(field_name)
+                %tr
+                  %td= t("client_books.calls.#{field_name}")
+                  - if field_name[/datetime/]
+                    %td= call.send(field_name.to_sym) && call.send(field_name.to_sym).strftime("%I:%M%p")
+                  - elsif field_name[/referee|receiving_staff/]
+                    - association = field_name.gsub('_id', '')
+                    %td= call.send(field_name.to_sym) && call.send(association.to_sym).name
+                  - elsif field_name[/call_type/]
+                    %td= call.send(field_name.to_sym) && CallHelper.call_type[call.send(field_name.to_sym)]
+                  - elsif field_name[/date_of_call/]
+                    %td= call.send(field_name.to_sym) && date_format(call.send(field_name.to_sym))
+                  - else
+                    %td= true_false_to_yes_no(call.send(field_name.to_sym))
+

@@ -218,7 +218,7 @@ body[id='clients-index'] {
     cursor: default;
   }
 
-  .csi-header, .type-of-service-header {
+  .csi-header, .referee-header, .carer-header, .type-of-service-header, .hotline-call-header {
     padding: 5px 16px;
     strong {
       font-size: 13px;
@@ -474,6 +474,12 @@ body[id='clients-index'] {
     margin-bottom: 20px;
   }
 
+  .hotline-call-column {
+    a.disabled {
+      color: #333333 !important;
+      cursor: not-allowed;
+    }
+  }
   .ladda-button {
     color: inherit;
     background: white;

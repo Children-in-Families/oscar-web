@@ -11,28 +11,44 @@ class AssessmentsController < AdminController
     @default_assessment = @client.assessments.new
     @custom_assessment  = @client.assessments.new(default: false)
     @assessmets = AssessmentDecorator.decorate_collection(@client.assessments.order(:created_at))
+    @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
   def new
     @from_controller = params[:from]
     @assessment = @client.assessments.new(default: default?)
-    authorize @assessment
-    @assessment.populate_notes(params[:default])
+    if current_organization.try(:aht) == false
+      authorize @assessment
+    end
+    @assessment.populate_notes(params[:default], params[:custom_name])
   end
 
   def create
     @assessment = @client.assessments.new(assessment_params)
     @assessment.default = params[:default]
-    authorize @assessment
-    if @assessment.save
-      create_bulk_task(params[:task].uniq) if params.has_key?(:task)
-      if params[:from_controller] == "dashboards"
-        redirect_to root_path, notice: t('.successfully_created')
+    if current_organization.try(:aht) == true
+      if @assessment.save(validate: false)
+        create_bulk_task(params[:task].uniq) if params.has_key?(:task)
+        if params[:from_controller] == "dashboards"
+          redirect_to root_path, notice: t('.successfully_created')
+        else
+          redirect_to client_path(@client), notice: t('.successfully_created')
+        end
       else
-        redirect_to client_path(@client), notice: t('.successfully_created')
+        render :new
       end
     else
-      render :new
+      authorize @assessment
+      if @assessment.save
+        create_bulk_task(params[:task].uniq) if params.has_key?(:task)
+        if params[:from_controller] == "dashboards"
+          redirect_to root_path, notice: t('.successfully_created')
+        else
+          redirect_to client_path(@client), notice: t('.successfully_created')
+        end
+      else
+        render :new
+      end
     end
   end
 

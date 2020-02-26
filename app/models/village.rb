@@ -9,6 +9,8 @@ class Village < ActiveRecord::Base
   validates :commune, :name_kh, :name_en, presence: true
   validates :code, presence: true, uniqueness: true
 
+  scope :dropdown_list_option, -> { all.map{|c| { c.id => c.name } } }
+
   def code_format
     "#{name_kh} / #{name_en} (#{code})"
   end

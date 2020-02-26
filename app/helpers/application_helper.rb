@@ -2,6 +2,8 @@ module ApplicationHelper
   Thredded::ApplicationHelper
 
   def flash_alert
+    notice = params[:notice] || flash[:notice]
+    alert = params[:alert] || flash[:alert]
     if notice
       { 'message-type': 'notice', 'message': notice }
     elsif alert
@@ -48,6 +50,14 @@ module ApplicationHelper
     link_to(object, method: 'delete',  data: { confirm: t('are_you_sure') }, class: "btn btn-outline btn-danger #{btn_size} #{btn_status}") do
       fa_icon('trash')
     end
+  end
+
+  def is_active_controller(controller_name, class_name = nil)
+      if params[:controller] =~ /#{controller_name}/i
+       class_name == nil ? "active" : class_name
+      else
+        nil
+      end
   end
 
   def clients_menu_active
@@ -144,7 +154,7 @@ module ApplicationHelper
   end
 
   def date_time_format(date_time)
-    date_time.in_time_zone('Bangkok').strftime('%d %B %Y %H:%M:%S')
+    date_time.in_time_zone('Bangkok').strftime('%d %B %Y %I:%M%p')
   end
 
   def ability_to_write(object)
@@ -202,6 +212,12 @@ module ApplicationHelper
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
     current_user.custom_field_permissions.find_by(custom_field_id: value).editable
+  end
+
+  def custom_field_readable?(value)
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
+    current_user.custom_field_permissions.find_by(custom_field_id: value).readable
   end
 
   def action_search?

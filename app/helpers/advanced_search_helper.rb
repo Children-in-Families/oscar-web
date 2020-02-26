@@ -27,6 +27,10 @@ module AdvancedSearchHelper
     has_advanced_search? && advanced_search_params[:exit_form_check].present? ? true : false
   end
 
+  def hotline_check
+    has_advanced_search? && advanced_search_params[:hotline_check].present? ? true : false
+  end
+
   def wizard_enrollment_checked?
     has_advanced_search? && advanced_search_params[:wizard_enrollment_check].present? ? true : false
   end
@@ -65,6 +69,12 @@ module AdvancedSearchHelper
       family_name: I18n.t('advanced_search.fields.family_name'),
       local_given_name: "#{I18n.t('advanced_search.fields.local_given_name')} #{country_scope_label_translation}",
       local_family_name: "#{I18n.t('advanced_search.fields.local_family_name')} #{country_scope_label_translation}",
+      carer_name: I18n.t('advanced_search.fields.carer_name'),
+      carer_phone: I18n.t('advanced_search.fields.carer_phone'),
+      carer_email: I18n.t('advanced_search.fields.carer_email'),
+      client_contact_phone: I18n.t('advanced_search.fields.client_contact_phone'),
+      address_type: I18n.t('advanced_search.fields.address_type'),
+      client_email_address: I18n.t('advanced_search.fields.client_email_address'),
       code: custom_id_translation('custom_id1'),
       school_grade: I18n.t('advanced_search.fields.school_grade'),
       family_id: I18n.t('advanced_search.fields.family_id'),
@@ -81,6 +91,7 @@ module AdvancedSearchHelper
       directions: I18n.t('advanced_search.fields.directions'),
       street_line1: I18n.t('advanced_search.fields.street_line1'),
       street_line2: I18n.t('advanced_search.fields.street_line2'),
+      phone_owner: I18n.t('advanced_search.fields.phone_owner'),
       plot: I18n.t('advanced_search.fields.plot'),
       road: I18n.t('advanced_search.fields.road'),
       postal_code: I18n.t('advanced_search.fields.postal_code'),
@@ -137,6 +148,10 @@ module AdvancedSearchHelper
       created_by: I18n.t('advanced_search.fields.created_by'),
       referred_to: I18n.t('advanced_search.fields.referred_to'),
       referred_from: I18n.t('advanced_search.fields.referred_from'),
+      referee_name: I18n.t('advanced_search.fields.referee_name'),
+      referee_phone: I18n.t('advanced_search.fields.referee_phone'),
+      referee_email: I18n.t('advanced_search.fields.referee_email'),
+      referee_relationship: I18n.t('advanced_search.fields.referee_relationship'),
       # time_in_care: I18n.t('advanced_search.fields.time_in_care'),
       time_in_cps: I18n.t('advanced_search.fields.time_in_cps'),
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
@@ -144,7 +159,8 @@ module AdvancedSearchHelper
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
-      type_of_service:  I18n.t('advanced_search.fields.type_of_service')
+      type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
+      hotline: I18n.t('datagrid.columns.calls.hotline')
     }
     translations[key.to_sym] || ''
   end

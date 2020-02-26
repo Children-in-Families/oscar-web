@@ -1,0 +1,34 @@
+body[id='referees-index'] {
+  table.referees {
+    thead.head-width tr > th {
+      min-width: 175px;
+    }
+
+    thead.head-width tr {
+      th.id, th.adult {
+        min-width: 85px;
+      }
+    }
+
+    tbody tr > td {
+      // text-align: center;
+      cursor: pointer;
+    }
+
+    table.referees, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+      width: 100% !important;
+    }
+
+    .dataTables_scrollHeadInner{
+      padding-right: 0 !important;
+    }
+
+    .dataTables_scrollBody {
+      max-height: 500px !important;
+    }
+
+    .dataTables_info {
+      padding-top: 15px;
+    }
+  }
+}

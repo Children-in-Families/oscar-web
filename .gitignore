@@ -33,6 +33,7 @@ vendor/data
 dump.rdb
 .vscode/
 brakeman_report*.html
+
 /public/packs
 /public/packs-test
 /yarn-error.log

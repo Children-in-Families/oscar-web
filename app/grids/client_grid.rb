@@ -26,7 +26,7 @@ class ClientGrid < BaseGrid
     # associations.delete(:user)
 
     # Client.includes(associations).order('clients.status, clients.given_name')
-    Client.all
+    Client
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
@@ -115,7 +115,7 @@ class ClientGrid < BaseGrid
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
-  filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
+  # filter(:referral_phone, :string, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
@@ -536,6 +536,34 @@ class ClientGrid < BaseGrid
     live_with
   end
 
+  def client_hotline_fields
+    Client::HOTLINE_FIELDS
+  end
+
+  dynamic do
+    yes_no = { true: 'Yes', false: 'No' }
+    content_headers = %w(concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_same_as_client location_description)
+    client_hotline_fields.each do |hotline_field|
+      value = ''
+      header_text = content_headers.include?(hotline_field) ? "Concern #{I18n.t("datagrid.columns.clients.#{hotline_field}")}" : I18n.t("datagrid.columns.clients.#{hotline_field}")
+      column(hotline_field.to_sym, order: false, header: -> { header_text }, class: 'client-hotline-field') do |object|
+        if hotline_field[/concern_province_id|concern_district_id|concern_commune_id|concern_village_id/i]
+          address_name = hotline_field.gsub('_id', '')
+          value = object.send(address_name.to_sym).try(:name)
+        elsif hotline_field[/protection_concern_id|necessity_id/]
+          association_name = hotline_field.gsub('_id', '')
+          klass_name       = association_name.pluralize.to_sym
+          value = object.send(klass_name).distinct.map(&:content).join(', ')
+        else
+          value = object.send(hotline_field.to_sym)
+          value = hotline_field == 'address_type' ? value.titleize : value
+          value = (value == true || value == false) ? yes_no[value.to_s.to_sym] : value.try(:titleize)
+        end
+        value
+      end
+    end
+  end
+
   # column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   dynamic do
@@ -567,9 +595,10 @@ class ClientGrid < BaseGrid
     object.follow_up_date.present? ? object.follow_up_date : ''
   end
 
-  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
-    # selected_program_id = $param_rules['program_selected'].presence ? JSON.parse($param_rules['program_selected']) : []
-    render partial: 'clients/active_client_enrollments', locals: { active_programs: object.client_enrollments.active }
+  column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object, a, b, c|
+    # all_programs = client_enrollments.map{ |c| c.program_stream_name }.uniq
+    client_enrollments = program_stream_name(object.client_enrollments.active, 'active_program_stream')
+    render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
   end
 
   column(:received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name')}, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
@@ -579,6 +608,81 @@ class ClientGrid < BaseGrid
   column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
     services = map_type_of_services(object)
     render partial: 'clients/type_of_services', locals: { type_of_services: services }
+  end
+
+  def call_fields
+    Call::FIELDS
+  end
+
+  dynamic do
+    yes_no = { true: 'Yes', false: 'No' }
+    call_fields.each do |call_field|
+      column(call_field.to_sym, order: false, header: -> { I18n.t("datagrid.columns.calls.#{call_field}") }, preload: :calls, class: 'call-field') do |object|
+        if call_field[/date_of_call/i]
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%d %B %Y') }.join("; ")
+        elsif call_field[/start_datetime/]
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) && call.send(call_field.to_sym).strftime('%I:%M%p') }.join("; ")
+        elsif ['called_before', 'childsafe_agent', 'answered_call', 'requested_update', 'not_a_phone_call'].include?(call_field)
+          object.calls.distinct.map do |call|
+            value = call.send(call_field.to_sym)
+            value = value.blank? || value == false ? false : value
+            value = yes_no[value.to_s.to_sym]
+          end.join(', ')
+        elsif call_field[/protection_concern_id|necessity_id/]
+          field_name = call_field.gsub('_id', '')
+          field_name = field_name.pluralize
+          object.calls.map do |call|
+            call.send(field_name.to_sym).pluck(:content).join(', ')
+          end.join(', ')
+        else
+          object.calls.distinct.map{ |call| call.send(call_field.to_sym) }.join(', ')
+        end
+      end
+    end
+  end
+
+  column(:referee_name, header: -> { I18n.t('datagrid.columns.clients.referee_name') }) do |object|
+    object.referee && object.referee.name
+  end
+
+  column(:referee_phone, header: -> { I18n.t('datagrid.columns.clients.referee_phone') }) do |object|
+    object.referee && object.referee.phone
+  end
+
+  column(:referee_email, header: -> { I18n.t('datagrid.columns.clients.referee_email') }) do |object|
+    object.referee && object.referee.email
+  end
+
+  column(:carer_name, header: -> { I18n.t('datagrid.columns.clients.carer_name') }) do |object|
+    object.carer && object.carer.name
+  end
+
+  column(:carer_phone, header: -> { I18n.t('datagrid.columns.clients.carer_phone') }) do |object|
+    object.carer && object.carer.phone
+  end
+
+  column(:carer_email, header: -> { I18n.t('datagrid.columns.clients.carer_email') }) do |object|
+    object.carer && object.carer.email
+  end
+
+  column(:referee_relationship_to_client, header: -> { I18n.t('datagrid.columns.clients.referee_relationship_to_client') }) do |object|
+    object.referee_relationship
+  end
+
+  column(:client_contact_phone, header: -> { I18n.t('datagrid.columns.clients.client_contact_phone') }) do |object|
+    object.client_phone
+  end
+
+  column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
+    object.address_type && object.address_type.titleize
+  end
+
+  column(:client_email, header: -> { I18n.t('datagrid.columns.clients.client_email') }) do |object|
+    object.client_email
+  end
+
+  column(:phone_owner, header: -> { I18n.t('datagrid.columns.clients.phone_owner') }) do |object|
+    object.phone_owner
   end
 
   column(:type_of_service, html: false, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
@@ -852,7 +956,7 @@ class ClientGrid < BaseGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
+  # column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   # column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
   #   object.referral_source.try(:name)
@@ -906,9 +1010,9 @@ class ClientGrid < BaseGrid
     object.what3words
   end
 
-  column(:name_of_referee, header: -> { I18n.t('datagrid.columns.clients.name_of_referee') }) do |object|
-    object.name_of_referee
-  end
+  # column(:name_of_referee, header: -> { I18n.t('datagrid.columns.clients.name_of_referee') }) do |object|
+  #   object.name_of_referee
+  # end
 
   column(:main_school_contact, header: -> { I18n.t('datagrid.columns.clients.main_school_contact') }) do |object|
     object.main_school_contact
@@ -1034,7 +1138,7 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = form_builder_query(object.custom_field_properties, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value)
+              properties = form_builder_query(object.custom_field_properties, fields.first, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
             end
           end
         elsif fields.first == 'enrollmentdate'

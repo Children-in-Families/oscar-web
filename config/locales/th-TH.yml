@@ -588,6 +588,15 @@ th-TH:
   calendars:
     index:
       sync_with_google:
+  calls:
+    type:
+      case_action_required:
+      notifier_concern:
+      providing_update:
+      phone_counseling:
+      seeking_information:
+      spam_call:
+      wrong_number:
   cancel:
   cannot_be_blank:
   cannot_be_greater:

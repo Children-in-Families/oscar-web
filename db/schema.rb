@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20200222145942) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "user_id"
+    t.string   "hotline_check",      default: ""
   end
 
   add_index "advanced_searches", ["user_id"], name: "index_advanced_searches_on_user_id", using: :btree
@@ -138,6 +139,73 @@ ActiveRecord::Schema.define(version: 20200222145942) do
 
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
+  create_table "call_necessities", force: :cascade do |t|
+    t.integer  "call_id"
+    t.integer  "necessity_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "call_necessities", ["call_id"], name: "index_call_necessities_on_call_id", using: :btree
+  add_index "call_necessities", ["necessity_id"], name: "index_call_necessities_on_necessity_id", using: :btree
+
+  create_table "call_protection_concerns", force: :cascade do |t|
+    t.integer  "call_id"
+    t.integer  "protection_concern_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "call_protection_concerns", ["call_id"], name: "index_call_protection_concerns_on_call_id", using: :btree
+  add_index "call_protection_concerns", ["protection_concern_id"], name: "index_call_protection_concerns_on_protection_concern_id", using: :btree
+
+  create_table "calls", force: :cascade do |t|
+    t.integer  "referee_id"
+    t.string   "phone_call_id",          default: ""
+    t.integer  "receiving_staff_id"
+    t.datetime "start_datetime"
+    t.string   "call_type",              default: ""
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "information_provided",   default: ""
+    t.date     "date_of_call"
+    t.boolean  "answered_call"
+    t.boolean  "called_before"
+    t.boolean  "requested_update",       default: false
+    t.boolean  "childsafe_agent"
+    t.boolean  "not_a_phone_call",       default: false
+    t.string   "other_more_information", default: ""
+    t.string   "brief_note_summary",     default: ""
+  end
+
+  add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
+
+  create_table "carers", force: :cascade do |t|
+    t.string   "address_type",        default: ""
+    t.string   "current_address",     default: ""
+    t.string   "email",               default: ""
+    t.string   "gender",              default: ""
+    t.string   "house_number",        default: ""
+    t.string   "outside_address",     default: ""
+    t.string   "street_number",       default: ""
+    t.string   "client_relationship", default: ""
+    t.boolean  "outside",             default: false
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "name",                default: ""
+    t.string   "phone",               default: ""
+    t.boolean  "same_as_client",      default: false
+  end
+
+  add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
+  add_index "carers", ["district_id"], name: "index_carers_on_district_id", using: :btree
+  add_index "carers", ["province_id"], name: "index_carers_on_province_id", using: :btree
+  add_index "carers", ["village_id"], name: "index_carers_on_village_id", using: :btree
+
   create_table "case_closures", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -163,15 +231,14 @@ ActiveRecord::Schema.define(version: 20200222145942) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",                  default: ""
+    t.string   "attendee",         default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.string   "interaction_type",          default: ""
-    t.boolean  "custom",                    default: false
-    t.string   "selected_domain_group_ids", default: [],    array: true
+    t.string   "interaction_type", default: ""
+    t.boolean  "custom",           default: false
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -459,6 +526,35 @@ ActiveRecord::Schema.define(version: 20200222145942) do
     t.string   "archived_slug"
     t.integer  "assessments_count",                default: 0,          null: false
     t.integer  "current_family_id"
+    t.boolean  "outside",                          default: false
+    t.string   "outside_address",                  default: ""
+    t.string   "address_type",                     default: ""
+    t.string   "client_phone",                     default: ""
+    t.string   "phone_owner",                      default: ""
+    t.string   "client_email",                     default: ""
+    t.string   "referee_relationship",             default: ""
+    t.integer  "referee_id"
+    t.integer  "carer_id"
+    t.string   "nickname",                         default: ""
+    t.string   "relation_to_referee",              default: ""
+    t.boolean  "concern_is_outside",               default: false
+    t.string   "concern_outside_address",          default: ""
+    t.integer  "concern_province_id"
+    t.integer  "concern_district_id"
+    t.integer  "concern_commune_id"
+    t.integer  "concern_village_id"
+    t.string   "concern_street",                   default: ""
+    t.string   "concern_house",                    default: ""
+    t.string   "concern_address",                  default: ""
+    t.string   "concern_address_type",             default: ""
+    t.string   "concern_phone",                    default: ""
+    t.string   "concern_phone_owner",              default: ""
+    t.string   "concern_email",                    default: ""
+    t.string   "concern_email_owner",              default: ""
+    t.string   "concern_location",                 default: ""
+    t.boolean  "concern_same_as_client",           default: false
+    t.string   "location_description",             default: ""
+    t.string   "phone_counselling_summary",        default: ""
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -488,6 +584,17 @@ ActiveRecord::Schema.define(version: 20200222145942) do
   end
 
   add_index "communes", ["district_id"], name: "index_communes_on_district_id", using: :btree
+
+  create_table "custom_assessment_settings", force: :cascade do |t|
+    t.string   "custom_assessment_name",      default: "Custom Assessment"
+    t.integer  "max_custom_assessment",       default: 6
+    t.string   "custom_assessment_frequency", default: "month"
+    t.integer  "custom_age",                  default: 18
+    t.integer  "setting_id"
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.boolean  "enable_custom_assessment",    default: false
+  end
 
   create_table "custom_field_permissions", force: :cascade do |t|
     t.integer  "user_id"
@@ -563,27 +670,28 @@ ActiveRecord::Schema.define(version: 20200222145942) do
   add_index "domain_program_streams", ["deleted_at"], name: "index_domain_program_streams_on_deleted_at", using: :btree
 
   create_table "domains", force: :cascade do |t|
-    t.string   "name",                     default: ""
-    t.string   "identity",                 default: ""
-    t.text     "description",              default: ""
+    t.string   "name",                         default: ""
+    t.string   "identity",                     default: ""
+    t.text     "description",                  default: ""
     t.integer  "domain_group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "tasks_count",              default: 0
-    t.string   "score_1_color",            default: "danger"
-    t.string   "score_2_color",            default: "warning"
-    t.string   "score_3_color",            default: "info"
-    t.string   "score_4_color",            default: "primary"
-    t.text     "score_1_definition",       default: ""
-    t.text     "score_2_definition",       default: ""
-    t.text     "score_3_definition",       default: ""
-    t.text     "score_4_definition",       default: ""
-    t.boolean  "custom_domain",            default: false
-    t.text     "local_description",        default: ""
-    t.text     "score_1_local_definition", default: ""
-    t.text     "score_2_local_definition", default: ""
-    t.text     "score_3_local_definition", default: ""
-    t.text     "score_4_local_definition", default: ""
+    t.integer  "tasks_count",                  default: 0
+    t.string   "score_1_color",                default: "danger"
+    t.string   "score_2_color",                default: "warning"
+    t.string   "score_3_color",                default: "info"
+    t.string   "score_4_color",                default: "primary"
+    t.text     "score_1_definition",           default: ""
+    t.text     "score_2_definition",           default: ""
+    t.text     "score_3_definition",           default: ""
+    t.text     "score_4_definition",           default: ""
+    t.boolean  "custom_domain",                default: false
+    t.text     "local_description",            default: ""
+    t.text     "score_1_local_definition",     default: ""
+    t.text     "score_2_local_definition",     default: ""
+    t.text     "score_3_local_definition",     default: ""
+    t.text     "score_4_local_definition",     default: ""
+    t.integer  "custom_assessment_setting_id"
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
@@ -917,6 +1025,16 @@ ActiveRecord::Schema.define(version: 20200222145942) do
     t.datetime "updated_at"
   end
 
+  create_table "hotlines", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "call_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hotlines", ["call_id"], name: "index_hotlines_on_call_id", using: :btree
+  add_index "hotlines", ["client_id"], name: "index_hotlines_on_client_id", using: :btree
+
   create_table "interventions", force: :cascade do |t|
     t.string   "action",     default: ""
     t.datetime "created_at"
@@ -965,6 +1083,12 @@ ActiveRecord::Schema.define(version: 20200222145942) do
     t.datetime "updated_at",                 null: false
   end
 
+  create_table "necessities", force: :cascade do |t|
+    t.string   "content",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "needs", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at"
@@ -985,6 +1109,7 @@ ActiveRecord::Schema.define(version: 20200222145942) do
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
+    t.boolean  "aht",        default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1096,6 +1221,12 @@ ActiveRecord::Schema.define(version: 20200222145942) do
   add_index "progress_notes", ["progress_note_type_id"], name: "index_progress_notes_on_progress_note_type_id", using: :btree
   add_index "progress_notes", ["user_id"], name: "index_progress_notes_on_user_id", using: :btree
 
+  create_table "protection_concerns", force: :cascade do |t|
+    t.string   "content",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "provinces", force: :cascade do |t|
     t.string   "name",           default: ""
     t.text     "description",    default: ""
@@ -1165,6 +1296,32 @@ ActiveRecord::Schema.define(version: 20200222145942) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "referees", force: :cascade do |t|
+    t.string   "address_type",    default: ""
+    t.string   "current_address", default: ""
+    t.string   "email",           default: ""
+    t.string   "gender",          default: ""
+    t.string   "house_number",    default: ""
+    t.string   "outside_address", default: ""
+    t.string   "street_number",   default: ""
+    t.boolean  "outside",         default: false
+    t.boolean  "anonymous",       default: false
+    t.integer  "province_id"
+    t.integer  "district_id"
+    t.integer  "commune_id"
+    t.integer  "village_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "name",            default: ""
+    t.string   "phone",           default: ""
+    t.boolean  "adult"
+  end
+
+  add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
+  add_index "referees", ["district_id"], name: "index_referees_on_district_id", using: :btree
+  add_index "referees", ["province_id"], name: "index_referees_on_province_id", using: :btree
+  add_index "referees", ["village_id"], name: "index_referees_on_village_id", using: :btree
 
   create_table "referral_sources", force: :cascade do |t|
     t.string   "name",          default: ""
@@ -1247,6 +1404,8 @@ ActiveRecord::Schema.define(version: 20200222145942) do
     t.string   "custom_id1_local",            default: ""
     t.string   "custom_id2_latin",            default: ""
     t.string   "custom_id2_local",            default: ""
+    t.boolean  "enable_hotline",              default: false
+    t.boolean  "enable_client_form",          default: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1683,6 +1842,15 @@ ActiveRecord::Schema.define(version: 20200222145942) do
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
   add_foreign_key "calendars", "users"
+  add_foreign_key "call_necessities", "calls"
+  add_foreign_key "call_necessities", "necessities"
+  add_foreign_key "call_protection_concerns", "calls"
+  add_foreign_key "call_protection_concerns", "protection_concerns"
+  add_foreign_key "calls", "referees"
+  add_foreign_key "carers", "communes"
+  add_foreign_key "carers", "districts"
+  add_foreign_key "carers", "provinces"
+  add_foreign_key "carers", "villages"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_worker_clients", "clients"
@@ -1747,6 +1915,8 @@ ActiveRecord::Schema.define(version: 20200222145942) do
   add_foreign_key "government_forms", "districts"
   add_foreign_key "government_forms", "provinces"
   add_foreign_key "government_forms", "villages"
+  add_foreign_key "hotlines", "calls"
+  add_foreign_key "hotlines", "clients"
   add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"
@@ -1761,6 +1931,10 @@ ActiveRecord::Schema.define(version: 20200222145942) do
   add_foreign_key "quantitative_type_permissions", "quantitative_types"
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
+  add_foreign_key "referees", "communes"
+  add_foreign_key "referees", "districts"
+  add_foreign_key "referees", "provinces"
+  add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
