@@ -12,17 +12,22 @@
                   = t('.new_case_note')
                   %span.caret
                 %ul.dropdown-menu#case-note-dropdown
-                  - if enable_default_assessment?
+                  - if @current_setting.enable_default_assessment
                     %li
                       = new_link
-                  - elsif enable_custom_assessment?
-                    %li
-                      - @custom_assessment_settings.each do |cs|
-                        - if cs.domains.any?
-                          = new_custom_link(cs.custom_assessment_name)
-                        - else
+                  - if @custom_assessment_settings.present?
+                    - @custom_assessment_settings.each do |cs|
+                      - if cs.domains.any?
+                        %li
+                          = link_to new_client_case_note_path(@client, default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link' do
+                            = new_custom_link(cs.custom_assessment_name)
+                      - else
+                        %li.disabled
                           = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                            = cs.custom_assessment_name
+                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                  - else
+                    %li
+                      = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-default custom-assessment-link'
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}

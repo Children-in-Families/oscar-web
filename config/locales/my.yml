@@ -886,6 +886,7 @@ my:
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
     index:
       back: ေနာက္သုိ႔
+      begin_now: ယခုစမည္
       carer_address: ေစာင့္ေရွာက္သူ၏ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူမ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ၏ ဖုန္းနံပါတ္

@@ -23,6 +23,7 @@ class CaseNote < ActiveRecord::Base
   before_create :set_assessment
 
   def populate_notes(custom_name, default)
+    domains = nil
     if default == "false" || not_using_assessment_tool?
       DomainGroup.all.each do |dg|
         case_note_domain_groups.build(domain_group_id: dg.id)
