@@ -8,7 +8,6 @@ CIF.Common =
     @textShortener()
     @addLocalstorageAttribute()
     @checkValidationErrorExistOnSaving()
-    @intAssessmentClientSelected()
     @preventEditOnDatePicker()
 
   preventEditOnDatePicker: ->
@@ -28,41 +27,6 @@ CIF.Common =
   addLocalstorageAttribute: ->
     $('.btn-login').on 'click', ->
       localStorage.setItem('from login', true)
-
-  intAssessmentClientSelected: ->
-    $('#client-select-assessment').on('select2-selected', (e) ->
-      $("ul#assessment-tab-dropdown a").removeClass('disabled')
-      idClient = e.val
-      if $('#csi-assessment-link').length
-        csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
-        a = document.getElementById('csi-assessment-link').href = csiLink
-      if $('ul#assessment-tab-dropdown .custom-assessment-link').length
-        customAssessmentLinks = $('ul#assessment-tab-dropdown .custom-assessment-link')
-        $.each customAssessmentLinks, (index, element) ->
-          url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
-          $(element).attr('href', url)
-
-      $("#assessment-tab-dropdown").removeClass('disabled')
-      $(this).val('')
-    ).on 'select2-removed', () ->
-      $("ul#assessment-tab-dropdown a").attr('href', "javascript:void(0)")
-      $("ul#assessment-tab-dropdown a").addClass('disabled')
-
-    $('#client-select-case-note').on('select2-selected', (e) ->
-      $("ul#casenote-tab-dropdown a").removeClass('disabled')
-      idClient = e.val
-      if $('#csi-case-note-link').length
-        csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
-        a = document.getElementById('csi-case-note-link').href = csiLink
-      if $('ul#casenote-tab-dropdown .custom-assessment-link').length
-        customAssessmentLinks = $('ul#casenote-tab-dropdown .custom-assessment-link')
-        $.each customAssessmentLinks, (index, element) ->
-          url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
-          $(element).attr('href', url)
-      $(this).val('')
-    ).on 'select2-removed', () ->
-      $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
-      $("ul#casenote-tab-dropdown a").addClass('disabled')
 
   textShortener: ->
     if $('.clients-table').is(':visible')

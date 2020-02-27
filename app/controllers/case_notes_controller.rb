@@ -6,6 +6,7 @@ class CaseNotesController < AdminController
   before_action :set_case_note, only: [:edit, :update]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_case_note, only: [:edit, :update]
+  before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
   before_action -> { case_notes_permission('readable') }, only: [:index]
   before_action -> { case_notes_permission('editable') }, except: [:index]
 
@@ -21,12 +22,12 @@ class CaseNotesController < AdminController
     @from_controller = params[:from]
     if params[:custom] == 'true'
       @case_note = @client.case_notes.new(custom: true)
-      @case_note.assessment = @client.assessments.custom_latest_record
+      @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
       @case_note.populate_notes(params[:custom_name], params[:custom])
     else
       @case_note = @client.case_notes.new
-      @case_note.assessment = @client.assessments.default_latest_record if @current_setting.enable_default_assessment
-      @case_note.populate_notes(params[:custom], params[:custom])
+      @case_note.assessment = @client.assessments.default_latest_record
+      @case_note.populate_notes(params[:custom_name], params[:custom])
     end
   end
 
@@ -120,6 +121,10 @@ class CaseNotesController < AdminController
 
   def set_case_note
     @case_note = @client.case_notes.find(params[:id])
+  end
+
+  def set_custom_assessment_setting
+    @custom_assessment_setting = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
   end
 
   def authorize_case_note
