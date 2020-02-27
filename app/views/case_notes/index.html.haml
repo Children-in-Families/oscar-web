@@ -25,9 +25,7 @@
                         %li.disabled
                           = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
                             = "#{t('.begin_now')} #{cs.custom_assessment_name}"
-                  - else
-                    %li
-                      = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-default custom-assessment-link'
+
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}
@@ -56,7 +54,8 @@
                     = t('.case_note_on')
                     = date_format(case_note.meeting_date) if case_note.meeting_date
                     - if can? :manage, CaseNote
-                      = edit_link(@client, case_note)
+                      - cdg = case_note.case_note_domain_groups.first
+                      = edit_link(@client, case_note, cdg)
                     - if current_user.admin?
                       = destroy_link(@client, case_note)
 
@@ -69,7 +68,6 @@
                         %h4= t('.note')
                       .panel-body
                         = simple_format case_note.note
-
               - case_note.case_note_domain_groups.each do |cdg|
                 - list_goals = []
                 - task_added = []
@@ -81,7 +79,8 @@
                 - if cdg.note.present? || cdg.completed_tasks.any? || list_goals.present? || cdg.attachments.any? || task_added.flatten.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
-                      %h5= cdg.domain_identities
+                      - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg)
+                      %h5= cdg.domain_identities(custom_assessment_setting_id)
                       - if case_note.assessment_id.present?
                         .ibox-tools
                           - cdg.domains(case_note).each do |domain|
