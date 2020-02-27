@@ -43,5 +43,5 @@
         = render 'attachment_fields', { domain_note: domain_note }
     .row
       .col-xs-12
-        .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domains(@case_note))}"}
+        .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domains(@case_note), @case_note)}"}
           = t('.add_task')
