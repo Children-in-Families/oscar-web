@@ -27,6 +27,6 @@
                 = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
                   = "#{t('.begin_now')} #{cs.custom_assessment_name}"
 
-        - if not_using_assessment_tool?
+        - if not_using_assessment_tool? && !CustomAssessmentSetting.all.any?(&:enable_custom_assessment)
           %li
             = link_to t('.new_case_note'), new_client_case_note_path('', custom: false, custom: @current_setting.enable_default_assessment), class: 'btn btn-default custom-assessment-link disabled'
