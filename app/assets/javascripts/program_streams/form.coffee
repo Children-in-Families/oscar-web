@@ -150,13 +150,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(@).addClass('done')
 
   _preventProgramStreamWithoutTracking = ->
-    if $('#program_stream_tracking_required').is(':unchecked')
+    if $('#program_stream_tracking_required:visible').is(':unchecked')
       trackings = $('.nested-fields[style!="display: none;"]')
       if trackings.size() > 0
         for tracking in trackings
           trackingName = $(tracking).find('.program_stream_trackings_name:visible input[type="text"]').val()
           forms = $(tracking).find('.field-label').size()
-          if trackingName.trim() == '' || forms < 1
+          if (trackingName && trackingName.trim() == '') || forms < 1
             return true
       else
         return true
@@ -285,7 +285,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
    _editTrackingFormName = ->
     inputNames = $(".program_stream_trackings_name input[type='text']")
-    $(inputNames).on 'change', ->
+    $(inputNames).on 'input', ->
       _checkDuplicateTrackingName()
 
   _checkDuplicateTrackingName = ->
@@ -302,8 +302,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(element).addClass('error')
         unless $(inputWrapper).find('label.error').is(':visible')
           $(inputWrapper).append('<label class="error">Tracking name must be unique</label>')
-      else if noneDuplicates.includes($(element).val())
+      else if $(element).val() == ''
+        if $(inputWrapper).find('label.error').length == 0
+          $(inputWrapper).append("<label class='error'>Field can not be blank.</label>")
+          $(inputWrapper).addClass('has-error')
+          $(element).addClass('error')
+      else if $(element).val() != '' or $(element).val() != undefined
         $(element).removeClass('error')
+        $(inputWrapper).removeClass('has-error')
         if $(inputWrapper).find('label.error').is(':visible')
           $(inputWrapper).find('label.error').remove()
 
@@ -385,7 +391,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleServiceValidation = (services, serviceSelect2) ->
     if services
-      serviceSelect2.append("<label class='error'>Field cannot be blank.</label>")
+      serviceSelect2.append("<label class='error'>Field can not be blank.</label>")
       serviceSelect2.addClass('has-error')
       $('#type-of-service select').addClass('error')
     else
@@ -404,7 +410,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       operator = $(elementParent).siblings('.rule-operator-container').find('select').val()
       if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2')) and !(ruleOperator.includes(operator))
         $(strValue).addClass('error')
-        $(elementParent).append("<label class='error'>Field cannot be blank.</label>") unless $(elementParent).find('label.error').is(':visible')
+        $(elementParent).append("<label class='error'>Field can not be blank.</label>") unless $(elementParent).find('label.error').is(':visible')
         invalidStrValues++
 
     invalidValues = invalidIntValues + invalidStrValues
