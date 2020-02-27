@@ -21,6 +21,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       html: true
 
   _initSelect2 = ->
+    $('#task_domain_id').select2()
     $('#case_note_interaction_type').select2()
 
   _initUploader = ->
@@ -155,7 +156,6 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       _clearForm()
       domains = $(e.target).data('domains')
       $('#task_domain_id').html('')
-
       domains.map (domain) ->
         $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
 

@@ -3,7 +3,7 @@
     .ibox-title
       %h5
         = "#{t('.domain')} #{domain_note.object.domain_group.name}"
-        = "(#{get_domains(domain_note)})"
+        = "(#{get_domains(domain_note, @custom_assessment_setting&.id)})"
       .ibox-tools
         %a.collapse-link
           .btn.btn-outline.btn-primary
@@ -12,7 +12,8 @@
     .ibox-content{ class: "#{domain_note.object.domain_group.first_ordered? ? '' : 'collapse'}" }
       .row
         .col-xs-12.col-md-6
-          = domain_note.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
+          - if @current_setting.enable_default_assessment
+            = domain_note.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
           = domain_note.hidden_field :domain_group_id
         .col-xs-12.col-md-6
           - domains = fetch_domains(domain_note)
@@ -24,12 +25,15 @@
               .panel-heading
                 %strong
                   = t('.domain')
-                  = t("domains.domain_names.#{domain.name.downcase.reverse}")
+                  - if @case_note.custom
+                    = domain.name
+                  - else
+                    = t("domains.domain_names.#{domain.name.downcase.reverse}")
               = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
         .col-xs-12
           = render 'attachment_fields', { domain_note: domain_note }
       .row
         .col-xs-12
-          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domains(@case_note))}"}
+          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domains, @case_note)}"}
             = t('.add_task')
 

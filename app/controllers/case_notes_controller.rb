@@ -6,6 +6,7 @@ class CaseNotesController < AdminController
   before_action :set_case_note, only: [:edit, :update]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_case_note, only: [:edit, :update]
+  before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
   before_action -> { case_notes_permission('readable') }, only: [:index]
   before_action -> { case_notes_permission('editable') }, except: [:index]
 
@@ -21,17 +22,18 @@ class CaseNotesController < AdminController
     @from_controller = params[:from]
     if params[:custom] == 'true'
       @case_note = @client.case_notes.new(custom: true)
-      @case_note.assessment = @client.assessments.custom_latest_record
+      @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
       @case_note.populate_notes(params[:custom_name], params[:custom])
     else
       @case_note = @client.case_notes.new
       @case_note.assessment = @client.assessments.default_latest_record
-      @case_note.populate_notes(params[:custom], params[:custom])
+      @case_note.populate_notes(params[:custom_name], params[:custom])
     end
   end
 
   def create
     @case_note = @client.case_notes.new(case_note_params)
+    @case_note.meeting_date = "#{@case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes]) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task]) if params.has_key?(:task)
@@ -88,10 +90,10 @@ class CaseNotesController < AdminController
 
   def case_note_params
     # params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
     default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
-    default_params
+    meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
+    default_params = default_params.merge(meeting_date: meeting_date)
   end
 
   def add_more_attachments(new_file, case_note_domain_group_id)
@@ -119,6 +121,10 @@ class CaseNotesController < AdminController
 
   def set_case_note
     @case_note = @client.case_notes.find(params[:id])
+  end
+
+  def set_custom_assessment_setting
+    @custom_assessment_setting = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
   end
 
   def authorize_case_note

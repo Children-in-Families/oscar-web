@@ -27,6 +27,7 @@ CIF.DashboardsIndex = do ->
     _clickSaveReferral()
     _loadModalReminder()
     _handleSearchClient()
+    _handleMultiFormAssessmentCaseNote()
 
   _loadModalReminder = ->
     if localStorage.getItem('from login') == 'true'
@@ -311,5 +312,41 @@ CIF.DashboardsIndex = do ->
       ).blur ->
         $('#s2id_search-client-select2 .select2-chosen').attr('style', 'color: #999999').text(searchForClient) if $('#s2id_search-client-select2 .select2-chosen').val().length == 0
         return
+
+  _handleMultiFormAssessmentCaseNote = ->
+    $('#client-select-assessment').on('select2-selected', (e) ->
+      $("ul#assessment-tab-dropdown a").removeClass('disabled')
+      idClient = e.val
+      if $('#csi-assessment-link').length
+        csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
+        a = document.getElementById('csi-assessment-link').href = csiLink
+      if $('ul#assessment-tab-dropdown .custom-assessment-link').length
+        customAssessmentLinks = $('ul#assessment-tab-dropdown .custom-assessment-link')
+        $.each customAssessmentLinks, (index, element) ->
+          url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
+          $(element).attr('href', url)
+
+      $("#assessment-tab-dropdown").removeClass('disabled')
+      $(this).val('')
+    ).on 'select2-removed', () ->
+      $("ul#assessment-tab-dropdown a").attr('href', "javascript:void(0)")
+      $("ul#assessment-tab-dropdown a").addClass('disabled')
+
+    $('#client-select-case-note').on('select2-selected', (e) ->
+      $("ul#casenote-tab-dropdown a").removeClass('disabled')
+      idClient = e.val
+      if $('#csi-case-note-link').length
+        csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
+        a = document.getElementById('csi-case-note-link').href = csiLink
+      if $('ul#casenote-tab-dropdown .custom-assessment-link').length
+        customAssessmentLinks = $('ul#casenote-tab-dropdown .custom-assessment-link')
+        $.each customAssessmentLinks, (index, element) ->
+          url = $(element).attr('href').replace(/\/\//, "/#{idClient}/")
+          $(element).attr('href', url)
+      $(this).val('')
+    ).on 'select2-removed', () ->
+      $("ul#casenote-tab-dropdown a").attr('href', "javascript:void(0)")
+      $("ul#casenote-tab-dropdown a").addClass('disabled')
+
 
   { init: _init }

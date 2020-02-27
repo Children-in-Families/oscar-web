@@ -842,6 +842,7 @@ en:
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       back: Back
+      begin_now: Add New
       case_note_lists: Case note lists of
       case_note_on: Case note on
       completed_tasks: Completed Tasks
@@ -2047,11 +2048,13 @@ en:
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment
     case_note_tab:
+      begin_now: Add New
       case_note: Case Note
       case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment
       client_you_complete_for: Which client would you like to complete as Case Note for?
+      new_case_note: New case note
     client:
       ables: Ables
       clients: Active Clients

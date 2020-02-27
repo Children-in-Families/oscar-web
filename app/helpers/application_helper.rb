@@ -310,12 +310,16 @@ module ApplicationHelper
     enable_default_assessment? && enable_custom_assessment?
   end
 
+  def enable_any_csi_tools?
+    enable_default_assessment? || enable_custom_assessment?
+  end
+
   def enable_default_assessment?
     Setting.first.try(:enable_default_assessment)
   end
 
   def enable_custom_assessment?
-    Setting.first.try(:enable_custom_assessment)
+    CustomAssessmentSetting.where(enable_custom_assessment: true).present?
   end
 
   def enable_any_csi_tools?
