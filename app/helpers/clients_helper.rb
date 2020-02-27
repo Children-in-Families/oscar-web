@@ -965,7 +965,7 @@ module ClientsHelper
   end
 
   def date_condition_filter(rule, properties)
-    if rule
+    if rule && properties.present?
       case rule[:operator]
       when 'equal'
         properties = properties.select{|value| value.to_date == rule[:value].to_date  }
@@ -987,7 +987,7 @@ module ClientsHelper
         properties = properties.select{|value| value.to_date >= rule[:value].first.to_date && value.to_date <= rule[:value].last.to_date  }
       end
     end
-    properties
+    properties || []
   end
 
   def property_filter(properties, field_name)
