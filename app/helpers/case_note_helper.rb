@@ -87,8 +87,8 @@ module CaseNoteHelper
     return false if current_user.strategic_overviewer?
   end
 
-  def translate_domain_name(domains, case_note)
-    if case_note.custom
+  def translate_domain_name(domains, case_note=nil)
+    if case_note&.custom
       domains.map do |domain|
         [domain.id, t("domains.domain_names.#{domain.name}")]
       end
