@@ -73,13 +73,13 @@ module CaseNoteHelper
 
   def case_notes_readable?
     return true if current_user.admin? || current_user.strategic_overviewer?
-    current_user.permission.case_notes_readable
+    current_user.permission&.case_notes_readable
   end
 
   def case_notes_editable?
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
-    current_user.permission.case_notes_editable
+    current_user.permission&.case_notes_editable
   end
 
   def case_notes_deleted?
