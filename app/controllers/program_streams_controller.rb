@@ -39,7 +39,7 @@ class ProgramStreamsController < AdminController
   def create
     @program_stream = ProgramStream.new(program_stream_params)
     begin
-      if @program_stream.save
+      if program_stream_params[:domain_ids].reject(&:blank?).present? ? @program_stream.save(validate: false) : @program_stream.save
         redirect_to program_stream_path(@program_stream), notice: t('.successfully_created')
       else
         render :new
