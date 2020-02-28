@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200228124341) do
+ActiveRecord::Schema.define(version: 20200228125553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -799,6 +799,17 @@ ActiveRecord::Schema.define(version: 20200228124341) do
     t.datetime "updated_at",              null: false
     t.integer  "priority"
   end
+
+  create_table "field_setting_translations", force: :cascade do |t|
+    t.integer  "field_setting_id", null: false
+    t.string   "locale",           null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "label"
+  end
+
+  add_index "field_setting_translations", ["field_setting_id"], name: "index_field_setting_translations_on_field_setting_id", using: :btree
+  add_index "field_setting_translations", ["locale"], name: "index_field_setting_translations_on_locale", using: :btree
 
   create_table "field_settings", force: :cascade do |t|
     t.string   "name",                       null: false
