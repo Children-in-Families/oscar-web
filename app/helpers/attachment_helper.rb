@@ -6,7 +6,7 @@ module AttachmentHelper
   end
 
   def original_filetype(object)
-    object.file.content_type.split('/')
+    object.file.content_type && object.file.content_type.split('/')
   end
 
   def preview_or_download(object)
@@ -25,10 +25,10 @@ module AttachmentHelper
   private
 
   def pdf?(object)
-    original_filetype(object).last == 'pdf'
+    original_filetype(object) && original_filetype(object).last == 'pdf'
   end
 
   def image?(object)
-    original_filetype(object).first == 'image'
+    original_filetype(object) && original_filetype(object).first == 'image'
   end
 end
