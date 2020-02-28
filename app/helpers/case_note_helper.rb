@@ -1,6 +1,6 @@
 module CaseNoteHelper
   def edit_link(client, case_note, cdg=nil)
-    custom_assessment_setting_id = find_custom_assessment_setting_id(cdg)
+    custom_assessment_setting_id = find_custom_assessment_setting_id(cdg) if cdg
     custom_name = CustomAssessmentSetting.find(custom_assessment_setting_id).try(:custom_assessment_name) if custom_assessment_setting_id
     if case_notes_editable? && policy(case_note).edit?
       link_to(edit_client_case_note_path(client, case_note, custom: case_note.custom, custom_name: custom_name), class: 'btn btn-primary') do
