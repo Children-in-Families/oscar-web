@@ -10,7 +10,7 @@ class AddCustomCsiNameToSettings < ActiveRecord::Migration
     change_column :settings, :max_assessment, :integer, default: 6
     change_column :settings, :assessment_frequency, :string, default: 'month'
 
-    Setting.first.update(enable_custom_assessment: false, enable_default_assessment: false) if Setting.first.disable_assessment?
+    Setting.first.update(enable_custom_assessment: false, enable_default_assessment: false) if Setting.first && Setting.first.disable_assessment?
 
     Setting.first.update(enable_custom_assessment: true, enable_default_assessment: false) if ['mho', 'fsc', 'tlc'].include?(Organization.current.try(:short_name))
 
