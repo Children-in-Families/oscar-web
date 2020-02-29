@@ -1,0 +1,37 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5.text-center= t('.field_settings')
+      .ibox-content
+        .row
+          .col-xs-12.col-sm-12
+            #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+              - @field_settings.group_by(&:group).each do |group, fields|
+                .panel.panel-default
+                  #headingClientField.panel-heading{:role => "tab"}
+                    %h4.panel-title
+                      %a{"aria-controls" => "collapse-#{group.titleize}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group.titleize}", :role => "button"}
+                        = group.titleize
+                  .panel-collapse.collapse.in{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group.titleize}"}
+                    .panel-body
+                      .row
+                        .col-xs-12.col-md-12
+                          .table-responsive
+                            %table.table.table-stripped
+                              %thead
+                                %tr
+                                  %th Field Name
+                                  %th Label
+                                  %th Hide
+                              %tbody
+                                - fields.each do |field|
+                                  %tr
+                                    %td= field.name
+                                    %td= field.label
+                                    %td
+                                      .i-checks-meta-fields
+                                        %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "", 'data-hidden' => field.hidden }
+
+
+      .ibox-footer

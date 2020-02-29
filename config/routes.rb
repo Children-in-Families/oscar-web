@@ -149,7 +149,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :calls do  
+  resources :calls do
     get '/edit/referee', to: 'calls#edit_referee'
   end
   resources :referees, only: [:index, :show]
@@ -299,7 +299,7 @@ Rails.application.routes.draw do
       resources :settings, only: [:index]
       get 'translations/:lang' => 'translations#translation'
 
-      resources :calls do 
+      resources :calls do
         get '/edit/referee', to: 'calls#edit_referee'
         put '/edit/referee', to: 'calls#update_referee'
       end
@@ -340,6 +340,8 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
+
+      resources :field_settings, only: [:index, :update]
     end
   end
 
