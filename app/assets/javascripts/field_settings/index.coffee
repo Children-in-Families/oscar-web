@@ -2,7 +2,6 @@ CIF.Field_settingsIndex = do ->
   _init = ->
     _initICheckBox()
     _toggleSubmitButton()
-    # _handleActionHiddenField()
 
   _initICheckBox = ->
     $('.i-checks-meta-fields').iCheck(
@@ -21,7 +20,7 @@ CIF.Field_settingsIndex = do ->
         $(this).iCheck("disable")
 
   _toggleSubmitButton = ->
-    $("#accordion").on "click keyup change", "input", ->
+    $("#accordion").on "click keyup change ifChanged", "input", ->
       if $(@).closest("form").find("#field_setting_label").val().length == 0
         $(@).closest("form").find("input[type='submit']").addClass("hidden")
       else
