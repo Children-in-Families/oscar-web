@@ -57,6 +57,8 @@ module I18n::Backend::Custom
       end
     end
   end
+
+  alias_method :reload_custom_labels, :load_custom_labels
 end
 
 I18n::Backend::Simple.send(:include, I18n::Backend::Custom)

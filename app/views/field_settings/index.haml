@@ -16,22 +16,23 @@
                   .panel-collapse.collapse.in{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group.titleize}"}
                     .panel-body
                       .row
-                        .col-xs-12.col-md-12
-                          .table-responsive
-                            %table.table.table-stripped
-                              %thead
-                                %tr
-                                  %th Field Name
-                                  %th Label
-                                  %th Hide
-                              %tbody
-                                - fields.each do |field|
-                                  %tr
-                                    %td= field.name
-                                    %td= field.label
-                                    %td
-                                      .i-checks-meta-fields
-                                        %input.meta-field-checkbox{:name => "meta_fields[]", :type => "checkbox", :value => "", 'data-hidden' => field.hidden }
-
+                        .col-md-4
+                          %p Field Name
+                        .col-md-4
+                          %p Label
+                        .col-md-2
+                          %p Hide
+                        .col-md-2
+                      - fields.each do |field|
+                        = simple_form_for field do |f|
+                          .col-md-4
+                            = field.name
+                          .col-md-4
+                            = f.input :label, label: false
+                          .col-md-2
+                            .i-checks-meta-fields
+                              = f.input :hidden, label: false
+                          .col-md-2
+                            = f.submit 'Save', class: 'hidden', class: 'btn btn-primary form-btn hidden'
 
       .ibox-footer
