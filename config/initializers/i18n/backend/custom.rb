@@ -29,8 +29,6 @@ module I18n::Backend::Custom
   end
 
   def load_custom_labels
-    Organization.switch_to(Apartment::Tenant.current)
-
     FieldSetting.includes(:translations).find_each do |field_setting|
       data = translations[I18n.locale]
       data.extend(HashDeepTraverse)
@@ -48,9 +46,9 @@ module I18n::Backend::Custom
 
         path.each do |k|
           if k == path.last
-            pp '=========================='
-            pp data[k]
-            pp '=========================='
+            # pp '=========================='
+            # pp data[k]
+            # pp '=========================='
             data[k] = field_setting.label
           else
             data = data[k]
