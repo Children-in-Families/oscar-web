@@ -4971,6 +4971,9 @@ my:
       title:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
+  field_settings:
+    update:
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
     form_builder:
       file_field:

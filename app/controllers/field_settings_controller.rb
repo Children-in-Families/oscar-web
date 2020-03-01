@@ -9,6 +9,6 @@ class FieldSettingsController < AdminController
     @field_setting.update(params.require(:field_setting).permit(:label, :hidden))
     I18n.backend.reload_custom_labels
 
-    redirect_to field_settings_path, notice: 'Update success'
+    redirect_to field_settings_path, notice: t('.successfully_updated')
   end
 end

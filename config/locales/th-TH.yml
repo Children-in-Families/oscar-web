@@ -4321,6 +4321,9 @@ th-TH:
       title:
     update:
       successfully_updated:
+  field_settings:
+    update:
+      successfully_updated:
   shared:
     form_builder:
       file_field:

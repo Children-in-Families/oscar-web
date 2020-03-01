@@ -4955,6 +4955,9 @@ en:
       title: Research Module
     update:
       successfully_updated: Setting have been successfully updated.
+  field_settings:
+    update:
+      successfully_updated: Setting have been successfully updated.
   shared:
     form_builder:
       file_field:
