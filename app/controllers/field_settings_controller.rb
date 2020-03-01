@@ -1,6 +1,6 @@
 class FieldSettingsController < AdminController
   def index
-    @field_settings = FieldSetting.all
+    @field_settings = FieldSetting.order(:group, :name)
   end
 
   def update

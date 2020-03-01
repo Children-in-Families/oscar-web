@@ -14,6 +14,10 @@ class FieldSetting < ActiveRecord::Base
     type == 'group'
   end
 
+  def self.hidden_group?(group_name)
+    exists?(group: group_name, type: :group, hidden: true)
+  end
+
   private
 
   def assign_type
