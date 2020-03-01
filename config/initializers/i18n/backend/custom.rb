@@ -25,7 +25,8 @@ module I18n::Backend::Custom
   def load_translations(*filenames)
     filenames = I18n.load_path if filenames.empty?
     filenames.flatten.each { |filename| load_file(filename) }
-    load_custom_labels
+
+    load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
   end
 
   def load_custom_labels

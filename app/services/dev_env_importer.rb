@@ -10,7 +10,7 @@ module DevEnvImporter
     end
 
     def import_all
-      sheets = ['users', 'families', 'clients']
+      sheets = ['users', 'families', 'clients', 'field_settings']
 
       sheets.each do |sheet_name|
         sheet_index = workbook.sheets.index(sheet_name)
@@ -82,6 +82,21 @@ module DevEnvImporter
           family.children << client.id
           family.save
         end
+      end
+    end
+
+    def field_settings
+      (workbook_second_row..workbook.last_row).each do |row_index|
+        # In case sheet is messed up
+        next if workbook.row(row_index)[headers['name']].blank?
+
+        FieldSetting.create!(
+          name: workbook.row(row_index)[headers['name']],
+          label: workbook.row(row_index)[headers['label']],
+          type: workbook.row(row_index)[headers['type']],
+          hidden: workbook.row(row_index)[headers['hidden']],
+          group: workbook.row(row_index)[headers['group']]
+        )
       end
     end
 
