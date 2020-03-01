@@ -10,29 +10,41 @@
               - @field_settings.group_by(&:group).each do |group, fields|
                 .panel.panel-default
                   #headingClientField.panel-heading{:role => "tab"}
-                    %h4.panel-title
-                      %a{"aria-controls" => "collapse-#{group.titleize}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group.titleize}", :role => "button"}
-                        = group.titleize
-                  .panel-collapse.collapse.in{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group.titleize}"}
-                    .panel-body
-                      .row
-                        .col-md-4
-                          %p Field Name
-                        .col-md-4
-                          %p Label
-                        .col-md-2
-                          %p Hide
-                        .col-md-2
-                      - fields.each do |field|
-                        = simple_form_for field do |f|
+                    .row
+                      .col-md-6
+                        %h4.panel-title
+                          %a{"aria-controls" => "collapse-#{group.titleize}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group.titleize}", :role => "button"}
+                            = group.titleize
+                      .col-md-6
+                        - if group_setting = fields.find(&:group_setting?)
+                          .text-right
+                            = simple_form_for group_setting do |f|
+                              .i-checks-meta-fields
+                                = f.input :hidden, label: 'Hide', wrapper: false
+
+                  - if fields.any?(&:field_setting?)
+                    .panel-collapse.collapse.in{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group.titleize}"}
+                      .panel-body
+                        .row.header
                           .col-md-4
-                            = field.name
+                            %p Field Name
                           .col-md-4
-                            = f.input :label, label: false
+                            %p Label
                           .col-md-2
-                            .i-checks-meta-fields
-                              = f.input :hidden, label: false
+                            %p Hide
                           .col-md-2
-                            = f.submit 'Save', class: 'hidden', class: 'btn btn-primary form-btn hidden'
+                        - fields.each do |field|
+                          - next if field.group_setting?
+                          .row
+                            = simple_form_for field do |f|
+                              .col-md-4
+                                = field.name
+                              .col-md-4
+                                = f.input :label, label: false
+                              .col-md-2
+                                .i-checks-meta-fields
+                                  = f.input :hidden, label: false
+                              .col-md-2
+                                = f.submit 'Save', class: 'hidden', class: 'btn btn-primary form-btn hidden'
 
       .ibox-footer
