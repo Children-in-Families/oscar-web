@@ -13,13 +13,6 @@ CIF.Field_settingsIndex = do ->
       return
     )
 
-    $('.i-checks-meta-fields').each ->
-      if $(this).find('input').data('hidden') == true
-        $(this).iCheck("check")
-      if $(this).find('input').data('required') == true
-        $(this).iCheck("uncheck")
-        $(this).iCheck("disable")
-
   _toggleSubmitButton = ->
     $("#accordion .panel-collapse").on "click keyup change ifChanged", "input", ->
       if $(@).closest("form").find("#field_setting_label").val().length == 0

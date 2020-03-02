@@ -20,7 +20,7 @@
                           .text-right
                             = simple_form_for group_setting do |f|
                               .i-checks-meta-fields
-                                = f.input :hidden, label: 'Hide', wrapper: false
+                                = f.input :visible, label: 'Show', wrapper: false
 
                   - if fields.any?(&:field_setting?)
                     .panel-collapse.collapse.in{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group.titleize}"}
@@ -31,7 +31,7 @@
                           .col-md-4
                             %p Label
                           .col-md-2
-                            %p Hide
+                            %p Show
                           .col-md-2
                         - fields.each do |field|
                           - next if field.group_setting?
@@ -43,7 +43,7 @@
                                 = f.input :label, label: false
                               .col-md-2
                                 .i-checks-meta-fields
-                                  = f.input :hidden, label: false
+                                  = f.input :visible, label: false
                               .col-md-2
                                 = f.submit 'Save', class: 'hidden', class: 'btn btn-primary form-btn hidden'
 

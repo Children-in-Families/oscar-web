@@ -15,7 +15,7 @@ class FieldSetting < ActiveRecord::Base
   end
 
   def self.hidden_group?(group_name)
-    exists?(group: group_name, type: :group, hidden: true)
+    exists?(group: group_name, type: :group, visible: false)
   end
 
   private
