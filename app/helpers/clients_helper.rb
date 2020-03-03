@@ -34,7 +34,7 @@ module ClientsHelper
       :able_screening_questions,
       :clients,
       :client
-    ).to_json
+    )
   end
 
   def report_options(title, yaxis_title)
