@@ -6,7 +6,7 @@ module AttachmentHelper
   end
 
   def original_filetype(object)
-    object.file.content_type.split('/') if object.file.content_type
+    object.file.content_type && object.file.content_type.split('/')
   end
 
   def preview_or_download(object)
