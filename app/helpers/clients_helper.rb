@@ -28,6 +28,15 @@ module ClientsHelper
     end
   end
 
+  def rails_i18n_translations
+    # Change slice inputs to adapt your need
+    I18n.backend.send(:translations)[I18n.locale].slice(
+      :able_screening_questions,
+      :clients,
+      :client
+    ).to_json
+  end
+
   def report_options(title, yaxis_title)
     {
       library: {
