@@ -44,7 +44,7 @@ module AdvancedSearches
         results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
         # query_string = get_assessment_query_string(results, identity, @domain_id, nil, basic_rules)
         assessment_completed_sql, assessment_number = assessment_filter_values(results)
-        sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE clients.id = assessments.client_id) >= #{assessment_number})".squish
+        sql = "(assessments.completed = true #{assessment_completed_sql}) AND assessments.created_at = (SELECT created_at FROM assessments WHERE clients.id = assessments.client_id limit 1 offset #{assessment_number - 1})".squish
         if assessment_completed_sql.present? && assessment_number.present?
           clients = clients.where(assessment_domains: { score: @value.to_i, domain_id: @domain_id }).where(sql)
         else
