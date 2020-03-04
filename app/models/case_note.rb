@@ -4,12 +4,13 @@ class CaseNote < ActiveRecord::Base
 
   belongs_to :client
   belongs_to :assessment
+  belongs_to :custom_assessment_setting
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
-  validates :note, presence: true, if: :not_using_assessment_tool?
+  # validates :note, presence: true, if: :not_using_assessment_tool?
 
   has_paper_trail
 
