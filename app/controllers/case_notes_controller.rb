@@ -21,11 +21,11 @@ class CaseNotesController < AdminController
   def new
     @from_controller = params[:from]
     if params[:custom] == 'true'
-      @case_note = @client.case_notes.new(custom: true)
+      @case_note = @client.case_notes.new(custom: true, custom_assessment_setting_id: @custom_assessment_setting&.id)
       @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
       @case_note.populate_notes(params[:custom_name], params[:custom])
     else
-      @case_note = @client.case_notes.new
+      @case_note = @client.case_notes.new(custom_assessment_setting_id: @custom_assessment_setting&.id)
       @case_note.assessment = @client.assessments.default_latest_record
       @case_note.populate_notes(params[:custom_name], params[:custom])
     end
@@ -90,8 +90,8 @@ class CaseNotesController < AdminController
 
   def case_note_params
     # params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     meeting_date   = "#{default_params[:meeting_date]} #{Time.now.strftime("%T %z")}"
     default_params = default_params.merge(meeting_date: meeting_date)
   end

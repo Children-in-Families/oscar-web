@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200224030525) do
+ActiveRecord::Schema.define(version: 20200304044337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,18 +231,20 @@ ActiveRecord::Schema.define(version: 20200224030525) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",         default: ""
+    t.string   "attendee",                     default: ""
     t.datetime "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
-    t.string   "interaction_type", default: ""
-    t.boolean  "custom",           default: false
-    t.text     "note",             default: ""
+    t.string   "interaction_type",             default: ""
+    t.boolean  "custom",                       default: false
+    t.text     "note",                         default: ""
+    t.integer  "custom_assessment_setting_id"
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
+  add_index "case_notes", ["custom_assessment_setting_id"], name: "index_case_notes_on_custom_assessment_setting_id", using: :btree
 
   create_table "case_worker_clients", force: :cascade do |t|
     t.integer  "user_id"
@@ -1844,6 +1846,7 @@ ActiveRecord::Schema.define(version: 20200224030525) do
   add_foreign_key "carers", "villages"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
+  add_foreign_key "case_notes", "custom_assessment_settings"
   add_foreign_key "case_worker_clients", "clients"
   add_foreign_key "case_worker_clients", "users"
   add_foreign_key "case_worker_tasks", "tasks"

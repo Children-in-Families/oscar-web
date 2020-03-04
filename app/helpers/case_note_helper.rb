@@ -1,6 +1,6 @@
 module CaseNoteHelper
   def edit_link(client, case_note, cdg=nil)
-    custom_assessment_setting_id = find_custom_assessment_setting_id(cdg) if cdg
+    custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note) if cdg
     custom_name = CustomAssessmentSetting.find(custom_assessment_setting_id).try(:custom_assessment_name) if custom_assessment_setting_id
     if case_notes_editable? && policy(case_note).edit?
       link_to(edit_client_case_note_path(client, case_note, custom: case_note.custom, custom_name: custom_name), class: 'btn btn-primary') do
@@ -90,7 +90,7 @@ module CaseNoteHelper
   def translate_domain_name(domains, case_note=nil)
     if case_note&.custom
       domains.map do |domain|
-        [domain.id, t("domains.domain_names.#{domain.name}")]
+        [domain.id, domain.name]
       end
     else
       domains.map do |domain|
@@ -108,13 +108,11 @@ module CaseNoteHelper
     (!enable_default_assessment? && !CustomAssessmentSetting.all.all?(&:enable_custom_assessment))
   end
 
-  def find_custom_assessment_setting_id(cdg)
-    custom_assessment_setting_id = nil
-    @custom_assessment_settings.each do |cas|
-      domain = cas.domains.where(domain_group_id: cdg.domain_group.id).first
-      next if domain.blank?
-      custom_assessment_setting_id = domain.custom_assessment_setting_id
+  def find_custom_assessment_setting_id(cdg, case_note)
+    if case_note.custom_assessment_setting_id
+      custom_assessment_setting_id = case_note.custom_assessment_setting_id
+    else
+      custom_assessment_setting_id = cdg.domains(case_note).pluck(:custom_assessment_setting_id).last
     end
-    custom_assessment_setting_id
   end
 end
