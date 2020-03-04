@@ -40,7 +40,7 @@
                               .col-md-4
                                 = field.name
                               .col-md-4
-                                = f.input :label, label: false
+                                = f.input :label, label: false, input_html: {  value: field.label || t("clients.form.#{field.name}")  }
                               .col-md-2
                                 .i-checks-meta-fields
                                   = f.input :visible, label: false
