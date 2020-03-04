@@ -1,5 +1,4 @@
 module CreateBulkTask
-
   def create_bulk_task(task_in_params, parent_id=nil)
     task_attr = task_in_params.map do |task|
       task_attr = JSON.parse(task)

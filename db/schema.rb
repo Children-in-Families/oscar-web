@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200213071301) do
+ActiveRecord::Schema.define(version: 20200224030525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,13 +232,14 @@ ActiveRecord::Schema.define(version: 20200213071301) do
 
   create_table "case_notes", force: :cascade do |t|
     t.string   "attendee",         default: ""
-    t.date     "meeting_date"
+    t.datetime "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
     t.string   "interaction_type", default: ""
     t.boolean  "custom",           default: false
+    t.text     "note",             default: ""
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree

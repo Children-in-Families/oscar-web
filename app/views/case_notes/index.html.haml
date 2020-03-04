@@ -6,21 +6,26 @@
         .ibox-tools
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
           - if can? :create, CaseNote
-            - if enable_all_csi_tools?
+            - if enable_any_csi_tools?
               .btn-group#case-note-selection
                 %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
                   = t('.new_case_note')
                   %span.caret
                 %ul.dropdown-menu#case-note-dropdown
-                  %li
-                    = new_link
-                  %li
+                  - if @current_setting.enable_default_assessment
+                    %li
+                      = new_link
+                  - if @custom_assessment_settings.present?
                     - @custom_assessment_settings.each do |cs|
                       - if cs.domains.any?
-                        = new_custom_link(cs.custom_assessment_name)
+                        %li
+                          = link_to new_client_case_note_path(@client, default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link' do
+                            = new_custom_link(cs.custom_assessment_name)
                       - else
-                        = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                          = cs.custom_assessment_name
+                        %li.disabled
+                          = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}
@@ -34,7 +39,7 @@
                         = t('.please_add_custom_domains')
 
             - elsif case_notes_editable? && policy(@client).create?
-              = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_custom_assessment), class: 'btn btn-primary'
+              = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
 
       .ibox-content
         - @case_notes.each do |case_note|
@@ -43,17 +48,26 @@
               .row
                 .col-xs-8
                   %h3= display_case_note_attendee(case_note)
-                  %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format case_note.created_at}"
+                  %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format(case_note.created_at)}"
                 .col-xs-4.text-right
                   %h4
                     = t('.case_note_on')
                     = date_format(case_note.meeting_date) if case_note.meeting_date
                     - if can? :manage, CaseNote
-                      = edit_link(@client, case_note)
+                      - cdg = case_note.case_note_domain_groups.first
+                      = edit_link(@client, case_note, cdg)
                     - if current_user.admin?
                       = destroy_link(@client, case_note)
 
             .panel-body
+              - if case_note.note.present?
+                .row
+                  .col-xs-12
+                    .panel.panel-default
+                      .panel-heading
+                        %h4= t('.note')
+                      .panel-body
+                        = simple_format case_note.note
               - case_note.case_note_domain_groups.each do |cdg|
                 - list_goals = []
                 - task_added = []
@@ -65,7 +79,8 @@
                 - if cdg.note.present? || cdg.completed_tasks.any? || list_goals.present? || cdg.attachments.any? || task_added.flatten.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
-                      %h5= cdg.domain_identities
+                      - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg)
+                      %h5= cdg.domain_identities(custom_assessment_setting_id)
                       - if case_note.assessment_id.present?
                         .ibox-tools
                           - cdg.domains(case_note).each do |domain|
@@ -94,7 +109,7 @@
                                     %li.list-group-item
                                       = "#{index + 1}. "
                                       = task.name
-                        - if list_goals.present?
+                        - if list_goals.present? && enable_default_assessment? && case_note.note.blank?
                           .col-xs-12.col-sm-6
                             %p
                               %strong= "#{t('.goal')} :"

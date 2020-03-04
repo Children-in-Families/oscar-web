@@ -886,6 +886,7 @@ my:
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
     index:
       back: ေနာက္သုိ႔
+      begin_now: ယခုစမည္
       carer_address: ေစာင့္ေရွာက္သူ၏ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူမ်ား
       carer_phone_number: ေစာင့္ေရွာက္သူ၏ ဖုန္းနံပါတ္
@@ -2033,15 +2034,18 @@ my:
     assessment_tab:
       assessment: ရက်လွန်အကဲဖြတ်
       assessment_you_like: Which assessment would you like ? (CSI or Custom Assessment)
+      begin_now: ယခုစမည္
       client_you_like: Which client would you like to complete as Assessment for?
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment
     case_note_tab:
+      begin_now: ယခုစမည္
       case_note: အမႈမွတ္စု
       case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
       csi_assessment: CSI Assessment
       custom_assessment: Custom Assessment
       client_you_complete_for: Which client would you like to complete as Case Note for?
+      new_case_note: အမႈျခင္းရာမွတ္စုအသစ္
     client:
       ables: Ables
       clients: လုပ္ေဆာင္မႈရွိေသးေသာ အမႈသည္မ်ား

@@ -46,10 +46,7 @@ module Api
 
     def update
       client = Client.find(params[:client][:id])
-      Family.where('children @> ARRAY[?]::integer[]', [client.id]).each do |family|
-        family.children = family.children - [client.id]
-        family.save
-      end
+      new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
       referee = Referee.find_or_create_by(id: client.referee_id)
       referee.update_attributes(referee_params)
       client.referee_id = referee.id

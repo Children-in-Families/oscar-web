@@ -8,13 +8,12 @@ CIF.Common =
     @textShortener()
     @addLocalstorageAttribute()
     @checkValidationErrorExistOnSaving()
-    @intAssessmentClientSelected()
     @preventEditOnDatePicker()
 
   preventEditOnDatePicker: ->
     $('.date-picker').datepicker
       autoclose: true,
-      format: 'yyyy-mm-dd',
+      format: 'yyyy-mm-dd'
       todayHighlight: true,
       disableTouchKeyboard: true,
       startDate: '1899,01,01',
@@ -28,25 +27,6 @@ CIF.Common =
   addLocalstorageAttribute: ->
     $('.btn-login').on 'click', ->
       localStorage.setItem('from login', true)
-
-  intAssessmentClientSelected: ->
-    $('#client-select-assessment').on 'select2-selected', (e) ->
-      idClient = e.val
-      if $('#csi-assessment-link').length
-        csiLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=true&from=dashboards"
-        a = document.getElementById('csi-assessment-link').href = csiLink
-      if $('#custom-assessment-link').length
-        customLink = "/clients/#{idClient}/assessments/new?country=cambodia&default=false&from=dashboards"
-        a = document.getElementById('custom-assessment-link').href = customLink
-      $(this).val('')
-
-    $('#client-select-case-note').on 'select2-selected', (e) ->
-      id = e.val
-      csiLink = "/clients/#{id}/case_notes/new?country=cambodia&custom=false&from=dashboards"
-      a = document.getElementById('csi-case-note-link').href = csiLink
-      customLink = "/clients/#{id}/case_notes/new?country=cambodia&custom=true&from=dashboards"
-      a = document.getElementById('custom-case-note-link').href = customLink
-      $(this).val('')
 
   textShortener: ->
     if $('.clients-table').is(':visible')

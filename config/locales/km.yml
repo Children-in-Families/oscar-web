@@ -839,6 +839,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       back: ត្រលប់ក្រោយ
+      begin_now: បង្កើតថ្មី
       case_note_lists: បញ្ជីកំណត់ត្រា
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
@@ -2035,15 +2036,18 @@ km:
     assessment_tab:
       assessment: ការប៉ាន់ប្រមាណ
       assessment_you_like: តើការប៉ាន់ប្រមាណមួយណាដែលអ្នកចង់ប្រើ?(CSI ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
+      begin_now: បង្កើតថ្មី
       client_you_like: តើអតិថិជនណាដែលអ្នកចង់បំពេញការប៉ាន់ប្រមាណ?
       csi_assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
     case_note_tab:
+      begin_now: បង្កើតថ្មី
       case_note: កំណត់ត្រាករណី
       case_note_you_add: តើកំណត់ត្រាករណីនេះប្រើជាមួយការប៉ាន់ប្រមាណណា?(CSI​ ឬការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន)
       csi_assessment: ការប៉ាន់ប្រមាណ CSI
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       client_you_complete_for: តើអតិថិជនណាដែលអ្នកចង់បំពេញកំណត់ត្រាករណី?
+      new_case_note: កំណត់ត្រាថ្មី
     client:
       ables: Ables
       clients: អតិថិជនបច្ចុប្បន្ន
