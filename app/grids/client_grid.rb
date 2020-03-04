@@ -3,6 +3,7 @@ class ClientGrid < BaseGrid
   include ClientsHelper
   include ApplicationHelper
   include FormBuilderHelper
+  include AssessmentHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -1050,6 +1051,20 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
+  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date') }, html: true) do |object|
+    basic_rules = $param_rules['basic_rules']
+    basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+    results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+    assessment_completed_sql, assessment_number = assessment_filter_values(results)
+    sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE assessments.client_id IS NOT NULL) >= #{assessment_number})".squish
+    if assessment_number.present? && assessment_completed_sql.present?
+      assessments = object.assessments.defaults.where(sql).order('created_at').offset(assessment_number - 1).limit(1)
+    elsif assessment_completed_sql.present?
+      assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
+    end
+    render partial: 'clients/assessments', locals: { object: assessments }
+  end
+
   column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
     render partial: 'clients/referral', locals: { object: object }
   end
@@ -1094,12 +1109,12 @@ class ClientGrid < BaseGrid
       column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
-
       Domain.csi_domains.order_by_identity.each do |domain|
+        domain_id = domain.id
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-          assessment = client.assessments.defaults.latest_record
-          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+          assessment_domains = map_assessment_and_score(client, identity, domain_id)
+          assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
         end
       end
     end

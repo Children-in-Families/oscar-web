@@ -1675,6 +1675,7 @@ km:
       advanced_search: ការស្វែងរកដែលឆ្លាតវៃ
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      assessment_completed_date: កាលបរិច្ឆេទ ការប៉ាន់ប្រមាណដែលបានបំពេញ
       assessment_data: ទិន្នន័យពិន្ទុនៃការប៉ាន់ប្រមាណ
       assessment_number: ការប៉ាន់ប្រមាណ#
       assessments: ការប៉ាន់ប្រមាណ
@@ -2301,6 +2302,7 @@ km:
         agency_names: ឈ្មោះអង្គភាព
         all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
         all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+        assessment_completed_date: កាលបរិច្ឆេទ ការប៉ាន់ប្រមាណដែលបានបំពេញ
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលធ្វើការប៉ាន់ប្រមាណ
