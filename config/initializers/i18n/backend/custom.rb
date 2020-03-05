@@ -34,7 +34,7 @@ module I18n::Backend::Custom
       data = translations[I18n.locale]
       data.extend(HashDeepTraverse)
 
-      return if field_setting.label.blank?
+      next if field_setting.label.blank?
 
       paths = data.full_paths(field_setting.name)
       next if paths.blank?
