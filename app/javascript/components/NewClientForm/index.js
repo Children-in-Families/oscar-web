@@ -30,9 +30,8 @@ const Forms = props => {
 
   const {
     data: {
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
-      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
+      referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient, currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts, refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, translation
     }
   } = props
 
@@ -53,13 +52,13 @@ const Forms = props => {
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T }
-  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T, translation }
+  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData, T }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
 
   const tabs = [
-    {text: T.translate("index.referee_info"), step: 1},
+    {text: "Dadou Info", step: 1},
     {text: T.translate("index.referral_info"), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
     {text: T.translate("index.referral_vulnerability"), step: 4}

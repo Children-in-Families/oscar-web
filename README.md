@@ -22,6 +22,10 @@ make start_core
 
 Once the containers have fired up open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.
 
+### Rebuilding the Docker Images
+
+If anything changes that is in the `Dockerfile` itself (or related to that - such as adding new Gems or JS packages and then needing to re-run `bundle install` or `yarn install`), then you will need to rebuild the Docker Image to get the latest changes into the Image and therefore the running container. So from time to time, you will need to run: `docker-compose build app` to do that. This basically re-builds the Docker Image and if there are new Gems / JS packages they will be installed via the `bundle install` and `yarn install` calls made in `Dockerfile`.
+
 ### Gazetteer Data Import (OPTIONAL)
 
 Since importing the Gazetteer data takes sometime and the spreadsheet files are fairly large this as been left as an option if you need it.
