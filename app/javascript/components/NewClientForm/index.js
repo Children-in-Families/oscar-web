@@ -58,7 +58,7 @@ const Forms = props => {
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
 
   const tabs = [
-    {text: "Dadou Info", step: 1},
+    {text: T.translate("index.referee_info"), step: 1},
     {text: T.translate("index.referral_info"), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
     {text: T.translate("index.referral_vulnerability"), step: 4}
