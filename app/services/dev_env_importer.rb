@@ -95,6 +95,10 @@ module DevEnvImporter
           label: workbook.row(row_index)[headers['label']],
           type: workbook.row(row_index)[headers['type']],
           visible: workbook.row(row_index)[headers['visible']],
+          current_label: workbook.row(row_index)[headers['current_label']],
+          klass_name: workbook.row(row_index)[headers['klass_name']],
+          required: workbook.row(row_index)[headers['required']],
+          visible: workbook.row(row_index)[headers['visible']],
           group: workbook.row(row_index)[headers['group']]
         )
       end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200302053723) do
+ActiveRecord::Schema.define(version: 20200306064650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -812,12 +812,15 @@ ActiveRecord::Schema.define(version: 20200302053723) do
   add_index "field_setting_translations", ["locale"], name: "index_field_setting_translations_on_locale", using: :btree
 
   create_table "field_settings", force: :cascade do |t|
-    t.string   "name",                         null: false
-    t.string   "group",                        null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "type",       default: "field", null: false
-    t.boolean  "visible",    default: true,    null: false
+    t.string   "name",                            null: false
+    t.string   "group",                           null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "type",          default: "field", null: false
+    t.boolean  "visible",       default: true,    null: false
+    t.string   "current_label"
+    t.boolean  "required",      default: false
+    t.string   "klass_name"
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|

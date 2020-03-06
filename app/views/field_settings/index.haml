@@ -27,7 +27,7 @@
                       .panel-body
                         .row.header
                           .col-md-4
-                            %p Field Name
+                            %p Name
                           .col-md-4
                             %p Label
                           .col-md-2
@@ -38,7 +38,7 @@
                           .row
                             = simple_form_for field do |f|
                               .col-md-4
-                                = field.name
+                                = field.current_label
                               .col-md-4
                                 = f.input :label, label: false, input_html: {  value: field.label || t("clients.form.#{field.name}")  }
                               .col-md-2

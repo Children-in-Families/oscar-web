@@ -18,6 +18,15 @@ class FieldSetting < ActiveRecord::Base
     exists?(group: group_name, type: :group, visible: false)
   end
 
+  def possible_key_match?(key_paths)
+    key_paths.any? do |path|
+      path == self.group ||
+      path.to_s.pluralize == self.group.pluralize ||
+      path == self.klass_name ||
+      path.to_s.pluralize == self.klass_name.pluralize
+    end
+  end
+
   private
 
   def assign_type

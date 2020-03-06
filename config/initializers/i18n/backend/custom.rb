@@ -40,7 +40,7 @@ module I18n::Backend::Custom
       next if paths.blank?
 
       paths.each do |path|
-        next if path.count > 1 && path.all?{ |k| k =! field_setting.group && k.to_s.pluralize != field_setting.group.pluralize }
+        next if path.count > 1 && !field_setting.possible_key_match?(path)
         data = translations[I18n.locale]
 
         pp path
