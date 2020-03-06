@@ -11,7 +11,7 @@ import Address      from './address'
 import ConcernAddress from "./concernAddress";
 
 export default props => {
-  const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T } } = props
+  const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, translation } } = props
 
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
@@ -184,7 +184,7 @@ export default props => {
           <TextInput label={T.translate("referralInfo.given_name")} onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.family_name")} onChange={onChange('client', 'family_name')} value={client.family_name} />
+          <TextInput label={translation.clients.form.family_name} onChange={onChange('client', 'family_name')} value={client.family_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("referralInfo.local_given_name")} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
@@ -271,7 +271,7 @@ export default props => {
           </div>
         }
       </div>
-    
+
       <br/>
       {isRedirectFromCall &&
         <>
