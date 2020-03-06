@@ -35,6 +35,7 @@ module I18n::Backend::Custom
       data.extend(HashDeepTraverse)
 
       next if field_setting.label.blank?
+      next if data.blank?
 
       paths = data.full_paths(field_setting.name)
       next if paths.blank?
