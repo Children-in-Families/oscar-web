@@ -218,18 +218,20 @@
         .row
           .col-sm-12.col-md-6.first-table
             %table.table.table-bordered
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.local_given_name')} #{country_scope_label_translation}"
-                %td
-                  %strong
-                    = @client.local_given_name
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.local_family_name')} #{country_scope_label_translation}"
-                %td
-                  %strong
-                    = @client.local_family_name
+              - if policy(@client).show?(:local_given_name)
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.local_given_name')} #{country_scope_label_translation}"
+                  %td
+                    %strong
+                      = @client.local_given_name
+              - if policy(@client).show?(:local_family_name)
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.local_family_name')} #{country_scope_label_translation}"
+                  %td
+                    %strong
+                      = @client.local_family_name
               - if current_setting.try(:enable_hotline) == true
                 %tr
                   %td.spacing-first-col
@@ -499,4 +501,3 @@
   -# = render 'placement'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
-

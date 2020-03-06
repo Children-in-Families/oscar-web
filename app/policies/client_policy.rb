@@ -5,7 +5,7 @@ class ClientPolicy < ApplicationPolicy
 
   def show?(*field_names)
     return true if field_names.blank?
-    field = field_names.first
+    field = field_names.first.to_s
 
     field_setting = field_settings.find{ |field_setting| field_setting.name == field }
 
