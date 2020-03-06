@@ -29,20 +29,10 @@ class ClientGrid < BaseGrid
     Client
   end
 
-  filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
-    filter_shared_fileds('given_name', value, scope)
-  end
-
-  filter(:family_name, :string, header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |value, scope|
-    filter_shared_fileds('family_name', value, scope)
-  end
-
-  filter(:local_given_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) do |value, scope|
-    filter_shared_fileds('local_given_name', value, scope)
-  end
-
-  filter(:local_family_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) do |value, scope|
-    filter_shared_fileds('local_family_name', value, scope)
+  %w(given_name family_name local_given_name local_family_name).each do |field_name|
+    filter(field_name, :string, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+      filter_shared_fileds(field_name, value, scope)
+    end
   end
 
   filter(:gender, :enum, select: :gender_list, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
