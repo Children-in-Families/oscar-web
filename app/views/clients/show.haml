@@ -404,12 +404,14 @@
               -#   %td
               -#     %strong
               -#       = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
-              %tr
-                %td.spacing-first-col
-                  = t('.relevant_referral_information')
-                %td
-                  %strong
-                    = @client.relevant_referral_information
+
+              - if policy(@client).show?(:relevant_referral_information)
+                %tr
+                  %td.spacing-first-col
+                    = t('.relevant_referral_information')
+                  %td
+                    %strong
+                      = @client.relevant_referral_information
               %tr
                 %td.spacing-first-col
                   = t('.agencies_involved')
