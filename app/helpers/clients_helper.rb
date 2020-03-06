@@ -37,6 +37,12 @@ module ClientsHelper
     )
   end
 
+  def fields_visibility
+    field_settings.each_with_object({}) do |field_setting, output|
+      output[field_setting.name] = policy(Client).show?(field_setting.name)
+    end
+  end
+
   def report_options(title, yaxis_title)
     {
       library: {
