@@ -42,8 +42,12 @@
                               .col-md-4
                                 = f.input :label, label: false, input_html: {  value: field.label || t("clients.form.#{field.name}")  }
                               .col-md-2
-                                .i-checks-meta-fields
-                                  = f.input :visible, label: false
+                                - if field.required?
+                                  .i-checks-meta-fields{  data: { toggle: :tooltip }, title: 'Cannot hide required field' }
+                                    = f.input :visible, label: false, disabled: true
+                                - else
+                                  .i-checks-meta-fields
+                                    = f.input :visible, label: false
                               .col-md-2
                                 = f.submit 'Save', class: 'hidden', class: 'btn btn-primary form-btn hidden'
 
