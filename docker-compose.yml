@@ -32,6 +32,8 @@ services:
   webpack:
     image: oscar-web_app
     container_name: webpack
+    depends_on:
+      - app
     volumes:
       - .:/app
     ports:
