@@ -25,7 +25,7 @@ export default props => {
         anonymous: true,
         outside: false,
         name: "Anonymous",
-        phone: '',
+        phone: referee.phone,
         email: '',
         gender: '',
         street_number: '',
@@ -80,7 +80,7 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("refereeInfo.referee_phone")} type="number" disabled={referee.anonymous} onChange={onChange('referee', 'phone')} value={referee.phone} />
+          <TextInput label={T.translate("refereeInfo.referee_phone")} type="text" disabled={referee.anonymous} onChange={onChange('referee', 'phone')} value={referee.phone} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("refereeInfo.referee_email")} disabled={referee.anonymous} onChange={onChange('referee', 'email')} value={referee.email} />
