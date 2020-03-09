@@ -210,7 +210,7 @@ class ClientsController < AdminController
 
   def client_params
     remove_blank_exit_reasons
-    params.require(:client)
+    client_params = params.require(:client)
           .permit(
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
@@ -239,6 +239,14 @@ class ClientsController < AdminController
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id]
           )
+
+    field_settings.each do |field_setting|
+      next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
+
+      client_params.except!(field_setting.name.to_sym)
+    end
+
+    client_params
   end
 
   def remove_blank_exit_reasons

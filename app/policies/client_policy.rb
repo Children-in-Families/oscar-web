@@ -9,6 +9,6 @@ class ClientPolicy < ApplicationPolicy
 
     field_setting = field_settings.find{ |field_setting| field_setting.name == field }
 
-    field_setting.present? ? (field.required? || field_setting.visible?) : true
+    field_setting.present? ? (field_setting.required? || field_setting.visible?) : true
   end
 end
