@@ -51,10 +51,12 @@ class FamiliesController < AdminController
     custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
-    @client_grid = ClientGrid.new(params[:client_grid])
-    @results = @client_grid.scope.where(current_family_id: @family.id).uniq.size
-    client_ids = Client.where(current_family_id: @family.id)
-    @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).uniq }
+    client_ids = @family.current_clients.ids
+    if client_ids.present?
+      @client_grid = ClientGrid.new(params[:client_grid])
+      @results = @client_grid.scope.where(current_family_id: @family.id).uniq.size
+      @client_grid.scope { |scope| scope.includes(:enter_ngos, :exit_ngos).where(id: client_ids).page(params[:page]).per(10).uniq }
+    end
   end
 
   def edit
@@ -69,11 +71,10 @@ class FamiliesController < AdminController
   end
 
   def destroy
-    if @family.cases.count.zero?
-      @family.destroy
+    if @family.current_clients.blank? && @family.cases.destroy_all && @family.destroy
       redirect_to families_url, notice: t('.successfully_deleted')
     else
-      redirect_to families_url, alert: t('.alert')
+      redirect_to family_path(@family), alert: t('.alert')
     end
   end
 
