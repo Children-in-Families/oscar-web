@@ -7,17 +7,20 @@ class QuarterlyReportsGrid < BaseGrid
   end
 
   column(:code, html: true, header: -> { I18n.t('datagrid.columns.quarterly_reports.code') }) do |object|
-    link_to object.code, client_case_quarterly_report_path(object.case.client, object.case, object)
+    the_case = Case.with_deleted.find_by(id: object.case_id)
+    link_to object.code, client_case_quarterly_report_path(the_case.try(:client), the_case, object)
   end
 
   date_column(:visit_date, header: -> { I18n.t('datagrid.columns.quarterly_reports.visit_date') }, html: true)
 
   column(:case, header: -> { I18n.t('datagrid.columns.quarterly_reports.kc_name') }, html: true) do |object|
-    link_to entity_name(object.case.client), client_path(object.case.client) if object.kinship?
+    the_case = Case.with_deleted.find_by(id: object.case_id)
+    link_to entity_name(the_case.try(:client), client_path(the_case.try(:client))) if object.kinship?
   end
 
   column(:case, header: -> { I18n.t('datagrid.columns.quarterly_reports.fc_name') }, html: true) do |object|
-    link_to entity_name(object.case.client), client_path(object.case.client) if object.foster?
+    he_case = Case.with_deleted.find_by(id: object.case_id)
+    link_to entity_name(the_case.try(:client), client_path(the_case.try(:client))) if object.foster?
   end
 
   column(:general_health_or_appearance, header: -> { I18n.t('datagrid.columns.quarterly_reports.general_health_or_appearance') }, html: true) do |object|

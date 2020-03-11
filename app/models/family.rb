@@ -6,6 +6,8 @@ class Family < ActiveRecord::Base
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
   STATUSES = ['Active', 'Inactive']
 
+  acts_as_paranoid
+
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 
@@ -15,7 +17,7 @@ class Family < ActiveRecord::Base
   belongs_to :village
   belongs_to :user
 
-  has_many :cases, dependent: :restrict_with_error
+  has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
