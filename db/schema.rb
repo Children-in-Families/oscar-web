@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200304044337) do
+ActiveRecord::Schema.define(version: 20200311092201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,7 +293,10 @@ ActiveRecord::Schema.define(version: 20200304044337) do
     t.float    "time_in_care"
     t.boolean  "exited_from_cif",         default: false
     t.boolean  "current",                 default: true
+    t.datetime "deleted_at"
   end
+
+  add_index "cases", ["deleted_at"], name: "index_cases_on_deleted_at", using: :btree
 
   create_table "changelog_types", force: :cascade do |t|
     t.integer  "changelog_id"
@@ -781,9 +784,11 @@ ActiveRecord::Schema.define(version: 20200304044337) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
+    t.datetime "deleted_at"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
+  add_index "families", ["deleted_at"], name: "index_families_on_deleted_at", using: :btree
   add_index "families", ["district_id"], name: "index_families_on_district_id", using: :btree
   add_index "families", ["user_id"], name: "index_families_on_user_id", using: :btree
   add_index "families", ["village_id"], name: "index_families_on_village_id", using: :btree
