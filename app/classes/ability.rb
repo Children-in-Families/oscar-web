@@ -9,6 +9,7 @@ class Ability
     can :preview, ProgramStream
     can :manage, Call
     can :manage, Referee
+
     if user.nil?
       can :manage, Client
     elsif user.admin?
@@ -83,6 +84,9 @@ class Ability
       can :create, Family
       can :manage, Family, id: family_ids.compact.uniq
     end
+
+    cannot :read, Family if FieldSetting.hidden_group?('family')
+    cannot :read, Partner if FieldSetting.hidden_group?('partner')
   end
 
   def exited_clients(user_ids)

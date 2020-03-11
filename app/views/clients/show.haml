@@ -215,18 +215,20 @@
         .row
           .col-sm-12.col-md-6.first-table
             %table.table.table-bordered
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.local_given_name')} #{country_scope_label_translation}"
-                %td
-                  %strong
-                    = @client.local_given_name
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.local_family_name')} #{country_scope_label_translation}"
-                %td
-                  %strong
-                    = @client.local_family_name
+              - if policy(@client).show?(:local_given_name)
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.local_given_name')} #{country_scope_label_translation}"
+                  %td
+                    %strong
+                      = @client.local_given_name
+              - if policy(@client).show?(:local_family_name)
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.local_family_name')} #{country_scope_label_translation}"
+                  %td
+                    %strong
+                      = @client.local_family_name
               - if current_setting.try(:enable_hotline) == true
                 %tr
                   %td.spacing-first-col
@@ -399,12 +401,14 @@
               -#   %td
               -#     %strong
               -#       = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
-              %tr
-                %td.spacing-first-col
-                  = t('.relevant_referral_information')
-                %td
-                  %strong
-                    = @client.relevant_referral_information
+
+              - if policy(@client).show?(:relevant_referral_information)
+                %tr
+                  %td.spacing-first-col
+                    = t('.relevant_referral_information')
+                  %td
+                    %strong
+                      = @client.relevant_referral_information
               %tr
                 %td.spacing-first-col
                   = t('.agencies_involved')
@@ -496,4 +500,3 @@
   -# = render 'placement'
   = render 'referrals/confirm_referral'
   = render 'referrals/confirm_repeat_referral'
-

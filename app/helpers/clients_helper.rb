@@ -28,6 +28,21 @@ module ClientsHelper
     end
   end
 
+  def rails_i18n_translations
+    # Change slice inputs to adapt your need
+    I18n.backend.send(:translations)[I18n.locale].slice(
+      :able_screening_questions,
+      :clients,
+      :client
+    )
+  end
+
+  def fields_visibility
+    field_settings.each_with_object({}) do |field_setting, output|
+      output[field_setting.name] = policy(Client).show?(field_setting.name)
+    end
+  end
+
   def report_options(title, yaxis_title)
     {
       library: {

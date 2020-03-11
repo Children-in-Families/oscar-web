@@ -4941,6 +4941,9 @@ km:
       title: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
+  field_settings:
+    update:
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
     form_builder:
       file_field:
@@ -5516,4 +5519,3 @@ km:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."
     previous_label: ទំព័រមុន
-
