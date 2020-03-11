@@ -4,7 +4,7 @@ namespace :field_settings do
     workbook = Roo::Excelx.new('db/support/field_settings.xlsx')
     headers = {}
 
-    Organization.find_each do |org|
+    Organization.where.not(short_name: 'shared').find_each do |org|
       Organization.switch_to org.short_name
 
       sheet = workbook.sheet(0)
