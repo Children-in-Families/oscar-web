@@ -97,6 +97,7 @@ export default props => {
     let values = []
     if (action === 'select-option'){
       values = client.family_ids
+      values.push(data)
       values = values.filter((v, i, a) => a.indexOf(v) === i);
       onChange('client', 'family_ids')({data: values, type})
     }
