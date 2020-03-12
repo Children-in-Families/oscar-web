@@ -323,6 +323,7 @@ th-TH:
       agencies_involved:
       agency_name:
       agency_names:
+      assessment_completed_date:
       assessment_number:
       basic_fields:
       birth_province:
@@ -1909,6 +1910,7 @@ th-TH:
     columns:
       all_csi_assessments:
       all_custom_csi_assessments:
+      assessment_completed_date:
       carer_address:
       carer_names:
       carer_phone_number:
