@@ -1042,15 +1042,19 @@ class ClientGrid < BaseGrid
   end
 
   column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date') }, html: true) do |object|
-    basic_rules = $param_rules['basic_rules']
-    basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-    results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-    assessment_completed_sql, assessment_number = assessment_filter_values(results)
-    sql = "(assessments.completed = true)".squish
-    if assessment_number.present? && assessment_completed_sql.present?
-      assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
-    elsif assessment_completed_sql.present?
-      assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
+    if $param_rules
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true)".squish
+      if assessment_number.present? && assessment_completed_sql.present?
+        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
+      elsif assessment_completed_sql.present?
+        assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
+      end
+    else
+      assessments = object.assessments.defaults.order('created_at')
     end
     render partial: 'clients/assessments', locals: { object: assessments }
   end
