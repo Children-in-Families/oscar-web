@@ -659,10 +659,10 @@ class Client < ActiveRecord::Base
     client_age < age ? true : false
   end
 
-  def eligible_custom_csi?
+  def eligible_custom_csi?(custom_assessment)
     return true if date_of_birth.nil?
     client_age = age_as_years
-    age        = Setting.first.custom_age || 18
+    age        = custom_assessment.custom_age || 18
     client_age < age ? true : false
   end
 
