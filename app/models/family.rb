@@ -6,6 +6,8 @@ class Family < ActiveRecord::Base
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
   STATUSES = ['Active', 'Inactive']
 
+  acts_as_paranoid
+
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 
@@ -15,7 +17,7 @@ class Family < ActiveRecord::Base
   belongs_to :village
   belongs_to :user
 
-  has_many :cases, dependent: :restrict_with_error
+  has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
@@ -98,7 +100,7 @@ class Family < ActiveRecord::Base
   private
 
   def client_must_only_belong_to_a_family
-    clients = Family.where.not(id: self).pluck(:children).flatten.uniq
+    clients = Client.where.not(current_family_id: nil).where.not(current_family_id: self.id).ids
     existed_clients = children & clients
     existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
     error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"

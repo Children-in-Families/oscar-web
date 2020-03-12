@@ -344,11 +344,11 @@ class Client < ActiveRecord::Base
   end
 
   def has_any_quarterly_reports?
-    (cases.active.latest_kinship.present? && cases.latest_kinship.quarterly_reports.any?) || (cases.active.latest_foster.present? && cases.latest_foster.quarterly_reports.any?)
+    (cases.with_deleted.active.latest_kinship.present? && cases.with_deleted.latest_kinship.quarterly_reports.any?) || (cases.with_deleted.active.latest_foster.present? && cases.with_deleted.latest_foster.quarterly_reports.any?)
   end
 
   def latest_case
-    cases.active.latest_kinship.presence || cases.active.latest_foster.presence
+    cases.with_deleted.active.latest_kinship.presence || cases.with_deleted.active.latest_foster.presence
   end
 
   def age_as_years(date = Date.today)
