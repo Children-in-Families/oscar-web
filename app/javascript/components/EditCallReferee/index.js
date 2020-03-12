@@ -238,7 +238,7 @@ export default props => {
           <TextInput
             T={T}
             label={T.translate("newCall.refereeInfo.referee_phone")}
-            type="number"
+            type="text"
             disabled={refereeData.anonymous}
             onChange={onChange("referee", "phone")}
             value={refereeData.phone}
