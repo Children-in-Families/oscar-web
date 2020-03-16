@@ -347,6 +347,13 @@ en:
               wrong_length:
             roles:
               blank: can't be blank
+    attributes:
+      client:
+        difficulties: Difficulities
+        household_members: Household members
+        interview_locations: Interview location
+        hosting_number: How many are you hosting?
+        bic_others: Other
   add_event_success: Event has been added to calendar successfully.
   advanced_search:
     fields:
