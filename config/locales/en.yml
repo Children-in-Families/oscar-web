@@ -2310,6 +2310,11 @@ en:
         report: Report
         status: Status
       clients:
+        difficulties: Difficulities
+        household_members: Household members
+        interview_locations: Interview location
+        hosting_number: How many are you hosting?
+        bic_others: Other
         able: Able
         able_state: Able State
         address: Address

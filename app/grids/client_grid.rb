@@ -44,6 +44,20 @@ class ClientGrid < BaseGrid
     scope.where(slug: slugs)
   end
 
+  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
+    options = {
+      difficulties: Client::DIFFICULTIES,
+      household_members: Client::HOUSEHOLD_MEMBERS,
+      interview_locations: Client::INTERVIEW_LOCATIONS,
+      hosting_number: Client::HOSTING_NUMBER,
+      bic_others: Client::BIC_OTHERS
+    }
+
+    filter(field_name, :enum, select: options[field_name.to_sym], header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+      scope.where("#{field_name} = any(array[?])", value)
+    end
+  end
+
   def gender_list
     [I18n.t('default_client_fields.gender_list').values, Client::GENDER_OPTIONS].transpose
   end
@@ -71,7 +85,6 @@ class ClientGrid < BaseGrid
   def status_options
     scope.status_like
   end
-
 
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
@@ -727,6 +740,12 @@ class ClientGrid < BaseGrid
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
+  end
+
+  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
+    column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |object|
+      object.public_send(field_name.to_sym)&.join(' | ')
+    end
   end
 
   date_column(:created_at, html: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
