@@ -328,9 +328,9 @@ class UserNotification
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
       count_notification += 1 if setting.enable_default_assessment && (any_overdue_assessments? || any_due_today_assessments?)
-      count_notification += 1 if setting.enable_custom_assessment && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
+      count_notification += 1 if setting.enable_custom_assessment? && (any_overdue_custom_assessments? || any_due_today_custom_assessments?)
       count_notification += 1 if any_upcoming_csi_assessments? && Setting.first.enable_default_assessment
-      count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment
+      count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment?
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
     end

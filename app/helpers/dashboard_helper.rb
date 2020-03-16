@@ -82,7 +82,7 @@ module DashboardHelper
   def skipped_overdue_assessments?(client)
     skipped_assessments = nil
     CustomAssessmentSetting.all.each do |custom_assessment|
-      if @setting.enable_custom_assessment && @setting.enable_default_assessment
+      if @setting.enable_custom_assessment? && @setting.enable_default_assessment
         skipped_assessments = (!overdue_assessments_any?(client) && !overdue_custom_assessments_any?(client)) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
         skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_default_csi?
@@ -120,7 +120,7 @@ module DashboardHelper
   def skipped_duetoday_assessments?(client)
     skipped_assessments = nil
     CustomAssessmentSetting.all.each do |custom_assessment|
-      if @setting.enable_custom_assessment && @setting.enable_default_assessment
+      if @setting.enable_custom_assessment? && @setting.enable_default_assessment
         skipped_assessments = (!duetoday_assessments_any?(client) && !duetoday_custom_assessments_any?(client)) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
         skipped_assessments = !duetoday_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_default_csi?
@@ -157,7 +157,7 @@ module DashboardHelper
   def skipped_upcoming_assessments?(client)
     skipped_assessments = nil
     CustomAssessmentSetting.all.each do |custom_assessment|
-      if @setting.enable_custom_assessment && @setting.enable_default_assessment
+      if @setting.enable_custom_assessment? && @setting.enable_default_assessment
         skipped_assessments = (!upcoming_assessments_any?(client) && !upcoming_custom_assessments_any?(client)) || client.user_ids.exclude?(@user.id) || (!client.eligible_default_csi? && !client.eligible_custom_csi?(custom_assessment))
       elsif @setting.enable_default_assessment
         skipped_assessments = !upcoming_assessments_any?(client) || client.user_ids.exclude?(@user.id) || !client.eligible_default_csi?

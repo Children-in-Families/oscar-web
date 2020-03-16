@@ -8,10 +8,9 @@
       - next if overdue_forms.blank?
       - overdue_tasks = overdue_forms[:overdue_tasks]
       - client_overdue_default_assessment = client.next_assessment_date(@user.activated_at)
-      - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at)
       - next if skipped_overdue_tasks?(overdue_tasks) && skipped_overdue_forms?(overdue_forms, client) && skipped_overdue_assessments?(client)
-      - next if client_overdue_default_assessment.blank? && client_overdue_custom_assessment.blank? && overdue_tasks.blank? && overdue_forms[:overdue_forms].blank? && overdue_forms[:overdue_trackings].blank? && !overdue_tasks.blank?
-      - if overdue_tasks.present? || overdue_forms[:overdue_forms].present? || overdue_forms[:overdue_trackings].present? || (@setting.enable_default_assessment && @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_default_csi?) || (@setting.enable_custom_assessment && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_custom_csi?)
+      - next if client_overdue_default_assessment.blank? && client.assessments.customs.blank? && overdue_tasks.blank? && overdue_forms[:overdue_forms].blank? && overdue_forms[:overdue_trackings].blank? && !overdue_tasks.blank?
+      - if overdue_tasks.present? || overdue_forms[:overdue_forms].present? || overdue_forms[:overdue_trackings].present? || (@setting.enable_default_assessment && @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_default_csi?) || (@setting.enable_custom_assessment? && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.assessments.customs.present?)
         .ibox.border-left-right.border-bottom
           .ibox-title
             %h5
@@ -30,11 +29,15 @@
                   %td.col-xs-3= @setting.default_assessment
                   %td.col-xs-6.task-name.border-left-right
                   %td.col-xs-3= date_format(client_overdue_default_assessment)
-              - if @setting.enable_custom_assessment && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.eligible_custom_csi?
-                %tr
-                  %td.col-xs-3= @setting.custom_assessment
-                  %td.col-xs-6.task-name.border-left-right
-                  %td.col-xs-3= date_format(client_overdue_custom_assessment)
+              - if @setting.enable_custom_assessment? && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.assessments.customs.present?
+                - custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+                - CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                  - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting.id)
+                  %tr
+                    %td.col-xs-3= custom_assessment_setting.custom_assessment_name
+                    %td.col-xs-6.task-name.border-left-right
+                    %td.col-xs-3= date_format(client_overdue_custom_assessment)
+
               - if @form_params
                 - custom_field_index = 0
                 - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size
