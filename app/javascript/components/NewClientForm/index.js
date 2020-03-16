@@ -32,7 +32,7 @@ const Forms = props => {
     data: {
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships
+      translation, refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships
     }
   } = props
 
