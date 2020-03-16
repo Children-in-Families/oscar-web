@@ -591,7 +591,7 @@ class Client < ActiveRecord::Base
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
           end
         end
-        if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
+        if Setting.first.enable_custom_assessment && client.assessments.customs.any?
           repeat_notifications = client.repeat_notifications_schedule(false)
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
@@ -616,8 +616,11 @@ class Client < ActiveRecord::Base
       if Setting.first.enable_custom_assessment
         clients = joins(:assessments).where(assessments: { completed: false, default: false })
         clients.each do |client|
-          if client.eligible_custom_csi? && client.assessments.customs.any?
-            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+            if client.eligible_custom_csi?(custom_assessment_setting) && client.assessments.customs.any?
+              CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
+            end
           end
         end
       end

@@ -33,7 +33,7 @@ class CaseWorkerMailer < ApplicationMailer
     end
   end
 
-  def notify_incomplete_daily_csi_assessments(client)
+  def notify_incomplete_daily_csi_assessments(client, custom_assessment_setting=nil)
     dev_email = ENV['DEV_EMAIL']
     @client   = client
     recievers = client.users.non_locked.notify_email.pluck(:email)
@@ -45,7 +45,7 @@ class CaseWorkerMailer < ApplicationMailer
       @name = Setting.first.default_assessment
       mail(to: recievers, subject: "Incomplete #{@name}", bcc: dev_email)
     else
-      CustomAssessmentSetting.find_each do |custom_assessment_setting|
+      if custom_assessment_setting
         @name = custom_assessment_setting.custom_assessment_name
         mail(to: recievers, subject: "Incomplete #{@name}", bcc: dev_email)
       end
