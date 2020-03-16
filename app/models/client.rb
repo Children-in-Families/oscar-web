@@ -267,7 +267,7 @@ class Client < ActiveRecord::Base
     custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct
     return Date.today if custom_assessments.empty?
     return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
-    (custom_assessments.latest_record.created_at + assessment_duration('max', false)).to_date
+    (custom_assessments.latest_record.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
   end
 
   def next_appointment_date
@@ -659,10 +659,10 @@ class Client < ActiveRecord::Base
     client_age < age ? true : false
   end
 
-  def eligible_custom_csi?(custom_assessment)
+  def eligible_custom_csi?(custom_assessment_setting)
     return true if date_of_birth.nil?
     client_age = age_as_years
-    age        = custom_assessment.custom_age || 18
+    age        = custom_assessment_setting.custom_age || 18
     client_age < age ? true : false
   end
 
@@ -710,15 +710,21 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def assessment_duration(duration, default = true)
+  def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
     if duration == 'max'
       setting = Setting.first
       if default
         assessment_period    = setting.max_assessment
         assessment_frequency = setting.assessment_frequency
       else
-        assessment_period    = setting.max_custom_assessment
-        assessment_frequency = setting.custom_assessment_frequency
+        if custom_assessment_setting_id
+          custom_assessment_setting = CustomAssessmentSetting.find(custom_assessment_setting_id)
+          assessment_period    = custom_assessment_setting.max_custom_assessment
+          assessment_frequency = custom_assessment_setting.custom_assessment_frequency
+        else
+          assessment_period    = setting.max_custom_assessment
+          assessment_frequency = setting.custom_assessment_frequency
+        end
       end
     else
       assessment_period = 3

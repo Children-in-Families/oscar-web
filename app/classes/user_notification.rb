@@ -34,11 +34,15 @@ class UserNotification
         end
       end
 
-      if client.eligible_custom_csi? && client.assessments.customs.any?
-        if custom_client_ids.exclude?(client.id)
-          repeat_notifications = client.repeat_notifications_schedule(false)
-          if(repeat_notifications.include?(Date.today))
-            custom_client_ids << client.id
+      if CustomAssessmentSetting.any_custom_assessment_enable?
+        CustomAssessmentSetting.all.each do |custom_assessment|
+          if client.eligible_custom_csi?(custom_assessment) && client.assessments.customs.any?
+            if custom_client_ids.exclude?(client.id)
+              repeat_notifications = client.repeat_notifications_schedule(false)
+              if(repeat_notifications.include?(Date.today))
+                custom_client_ids << client.id
+              end
+            end
           end
         end
       end
