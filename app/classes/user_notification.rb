@@ -33,11 +33,16 @@ class UserNotification
           end
         end
       end
-      if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
-        if custom_client_ids.exclude?(client.id)
-          repeat_notifications = client.repeat_notifications_schedule(false)
-          if(repeat_notifications.include?(Date.today))
-            custom_client_ids << client.id
+
+      if CustomAssessmentSetting.any_custom_assessment_enable?
+        CustomAssessmentSetting.all.each do |custom_assessment|
+          if client.eligible_custom_csi?(custom_assessment) && client.assessments.customs.any?
+            if custom_client_ids.exclude?(client.id)
+              repeat_notifications = client.repeat_notifications_schedule(false)
+              if(repeat_notifications.include?(Date.today))
+                custom_client_ids << client.id
+              end
+            end
           end
         end
       end
@@ -310,7 +315,7 @@ class UserNotification
       count_notification += 1 if any_user_custom_field_frequency_due_today?
       count_notification += 1 if any_unsaved_referrals? && @user.referral_notification
       count_notification += 1 if any_repeat_referrals? && @user.referral_notification
-     
+
     end
     if @user.admin? || @user.any_case_manager?
       count_notification += 1 if any_partner_custom_field_frequency_overdue?
@@ -318,7 +323,7 @@ class UserNotification
       count_notification += 1 if any_family_custom_field_frequency_overdue?
       count_notification += 1 if any_family_custom_field_frequency_due_today?
     end
-    
+
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
       count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
@@ -328,7 +333,7 @@ class UserNotification
       count_notification += 1 if any_upcoming_custom_csi_assessments? && Setting.first.enable_custom_assessment
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?
-    end 
+    end
     if @user.admin? || @user.manager? || @user.any_case_manager?
       count_notification += review_program_streams.size
     end
