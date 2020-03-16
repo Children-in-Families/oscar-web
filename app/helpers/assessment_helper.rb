@@ -290,4 +290,12 @@ module AssessmentHelper
     end
     [assessment_completed_sql, assessment_number]
   end
+
+  def domain_name_translate(assessment, domain)
+    if assessment.default
+      t("domains.domain_names.#{domain.name.downcase.reverse}")
+    else
+      domain.name
+    end
+  end
 end
