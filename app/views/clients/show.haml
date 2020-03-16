@@ -42,14 +42,11 @@
             .col-xs-12
               .row
                 .col-xs-12
-                  = simple_form_for [ @client, @client.enter_ngos.build ] do |f|
-                    .form-inputs
-                      = f.hidden_field :accepted_date, value: Date.today
-                    .form-actions
-                      - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
-                        %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
-                      - else
-                        = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client', data: { disable_with: t('.accepting') }
+                  - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
+                    %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
+                  - else
+                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal' } }= t('.accept')
+                    = render 'clients/accept_client'
                 .col-xs-12
                   %button.btn.btn-danger.mini-margin{ "data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.reject')}
 

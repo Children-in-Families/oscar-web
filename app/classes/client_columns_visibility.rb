@@ -74,6 +74,7 @@ class ClientColumnsVisibility
       case_note_date_: :case_note_date,
       case_note_type_: :case_note_type,
       date_of_assessments_: :date_of_assessments,
+      assessment_completed_date_: :assessment_completed_date,
       all_csi_assessments_: :all_csi_assessments,
       date_of_custom_assessments_: :date_of_custom_assessments,
       all_custom_csi_assessments_: :all_custom_csi_assessments,

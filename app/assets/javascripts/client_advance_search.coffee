@@ -429,8 +429,7 @@ class CIF.ClientAdvanceSearch
       rule      = builder.queryBuilder('addRule', group)
       rule1     = builder.queryBuilder('addRule', group)
       rule2     = builder.queryBuilder('addRule', group)
-
-      rule.filter     = builder.queryBuilder('getFilterById', $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val())
+      rule.filter     = builder.queryBuilder('getFilterById', $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val()) if $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val()
       rule.value      = ''
       rule1.filter    = builder.queryBuilder('getFilterById', 'assessment_number')
       rule2.filter    = builder.queryBuilder('getFilterById', 'assessment_completed')

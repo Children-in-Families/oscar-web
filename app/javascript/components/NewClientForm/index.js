@@ -30,8 +30,9 @@ const Forms = props => {
 
   const {
     data: {
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
-      referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient, currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts, refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, translation
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships
     }
   } = props
 
@@ -45,7 +46,7 @@ const Forms = props => {
   const [errorSteps, setErrorSteps]   = useState([])
   const [errorFields, setErrorFields] = useState([])
 
-  const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...client })
+  const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id, ...client })
   const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
   const [carerData, setCarerData]     = useState(carer)
@@ -244,7 +245,7 @@ const Forms = props => {
       handleCheckValue(clientData)
       handleCheckValue(carerData)
 
-      if (clientData.family_ids.length === 0 && forceSave === false)
+      if (clientData.current_family_id === null && forceSave === false)
         setAttachFamilyModal(true)
       else {
         setOnSave(true)
@@ -294,6 +295,7 @@ const Forms = props => {
       <Loading loading={loading} text={T.translate("index.wait")}/>
 
       <Modal
+        className="p-md"
         title={T.translate("index.warning")}
         isOpen={dupClientModalOpen}
         type='warning'

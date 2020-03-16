@@ -9,7 +9,7 @@
     %ul{'data-date_of_assessments': '' }
       %li= date_format(recent_record)
 - else
-  - if object.most_recents.any?
+  - if object.present?
     %ul{'data-date_of_assessments': '' }
-      - date_filter(object.most_recents, 'date_of_assessments').each do |assessment|
+      - date_filter(object, 'date_of_assessments').each do |assessment|
         %li= date_format(assessment.created_at)

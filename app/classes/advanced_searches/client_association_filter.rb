@@ -1,9 +1,9 @@
 module AdvancedSearches
   class ClientAssociationFilter
     include ActionView::Helpers::DateHelper
+    include AssessmentHelper
     include FormBuilderHelper
     include ClientsHelper
-
     def initialize(clients, field, operator, values)
       @clients      = clients
       @field        = field
@@ -31,13 +31,13 @@ module AdvancedSearches
       when 'enrolled_program_stream'
         values = enrolled_program_stream_query
       when 'case_note_date'
-        values = advanced_case_note_query
+        values = advanced_case_note_query('case_note_date')
       when 'case_note_type'
-        values = advanced_case_note_query
+        values = advanced_case_note_query('case_note_type')
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
-      when 'assessment_completed'
-        values = date_of_assessments_query(nil)
+      when /assessment_completed|assessment_completed_date/
+        values = date_of_completed_assessments_query(nil)
       when 'date_of_custom_assessments'
         values = date_of_assessments_query(false)
       when 'accepted_date'
@@ -124,7 +124,12 @@ module AdvancedSearches
     end
 
     def assessment_number_query
-      @clients.joins(:assessments).group(:id).having("COUNT(assessments) >= ?", @value).ids
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true #{assessment_completed_sql}) AND ((SELECT COUNT(*) FROM assessments WHERE clients.id = assessments.client_id #{assessment_completed_sql}) >= #{@value})".squish
+      @clients.joins(:assessments).where(sql).ids
     end
 
     def month_number_query
@@ -356,6 +361,35 @@ module AdvancedSearches
       clients.ids
     end
 
+    def date_of_completed_assessments_query(type)
+      if type.nil?
+        clients = @clients.joins(:assessments).where(assessments: { completed: true })
+      else
+        clients = @clients.joins(:assessments).where(assessments: { completed: true, default: type })
+      end
+      case @operator
+      when 'equal'
+        clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
+      when 'not_equal'
+        clients = clients.where("date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
+      when 'less'
+        clients = clients.where('date(assessments.created_at) < ?', @value.to_date)
+      when 'less_or_equal'
+        clients = clients.where('date(assessments.created_at) <= ?', @value.to_date)
+      when 'greater'
+        clients = clients.where('date(assessments.created_at) > ?', @value.to_date)
+      when 'greater_or_equal'
+        clients = clients.where('date(assessments.created_at) >= ?', @value.to_date)
+      when 'between'
+        clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        clients = Client.includes(:assessments).where(assessments: { completed: true, created_at: nil })
+      when 'is_not_empty'
+        clients = clients.where.not(assessments: { created_at: nil })
+      end
+      clients.ids
+    end
+
     def case_note_type_field_query(basic_rules)
       param_values = []
       sql_string   = []
@@ -452,55 +486,16 @@ module AdvancedSearches
       hashes
     end
 
-    def advanced_case_note_query
+    def advanced_case_note_query(field_name)
       results = []
-      case_note_date_query_array     = ['']
-      case_note_type_query_array     = ['']
-      sub_case_note_date_query_array = ['']
-      sub_case_note_type_query_array = ['']
 
       @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
       basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
-      filter_values = basic_rules['rules']
+      results       = mapping_allowed_param_value(basic_rules, [field_name], data_mapping=[])
+      query_string  = get_any_query_string(results, 'case_notes')
+      sql           = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{basic_rules[:condition]} ")
       clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
-
-      sub_rule_index = nil
-      filter_values.each_with_index {|param, index| sub_rule_index = index if param.has_key?('condition')}
-
-      if sub_rule_index.present?
-        sub_case_note_date_sql_hash    = case_note_date_field_query(filter_values[sub_rule_index]['rules'])
-        sub_case_note_type_sql_hash    = case_note_type_field_query(filter_values[sub_rule_index]['rules'])
-        sub_case_note_date_query_array = mapping_query_string_with_query_value(sub_case_note_date_sql_hash, filter_values[sub_rule_index]['condition'])
-        sub_case_note_type_query_array = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, filter_values[sub_rule_index]['condition'])
-      end
-
-      case_note_date_sql_hash    = case_note_date_field_query(filter_values)
-      case_note_type_sql_hash    = case_note_type_field_query(filter_values)
-      case_note_date_query_array = mapping_query_string_with_query_value(case_note_date_sql_hash, basic_rules['condition'])
-      case_note_type_query_array = mapping_query_string_with_query_value(case_note_type_sql_hash, basic_rules['condition'])
-
-      if basic_rules['condition'] == 'AND'
-        results = clients.where(case_note_date_query_array)
-                         .where(sub_case_note_date_query_array)
-                         .where(case_note_type_query_array)
-                         .where(sub_case_note_type_query_array)
-      else
-        if sub_case_note_type_query_array.first.blank? && sub_case_note_date_query_array.first.blank?
-          results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array)
-        elsif sub_case_note_date_query_array.first.present? && sub_case_note_type_query_array.first.blank?
-          results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_date_query_array))
-        elsif sub_case_note_type_query_array.first.present? && sub_case_note_date_query_array.first.blank?
-          results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_type_query_array))
-        else
-          if case_note_date_query_array.first.present? && case_note_type_query_array.first.present?
-            results = case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array).or(clients.where(sub_case_note_type_query_array)).or(clients.where(sub_case_note_date_query_array))
-          else
-            results = clients.where(sub_case_note_type_query_array).or(clients.where(sub_case_note_date_query_array))
-          end
-        end
-      end
-
-      results.present? ? results.ids.uniq : []
+      client_ids    = clients.where(sql).ids
     end
 
     def case_note_query_results(clients, case_note_date_query_array, case_note_type_query_array)
@@ -529,13 +524,13 @@ module AdvancedSearches
     def active_program_stream_query
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
 
-      basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-      return object if basic_rules.nil?
-      basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-      results      = mapping_form_builder_param_value(basic_rules, 'active_program_stream')
-      query_string  = get_query_string(results, 'active_program_stream', 'program_streams')
+      # basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+      # return object if basic_rules.nil?
+      # basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      # results      = mapping_form_builder_param_value(basic_rules, 'active_program_stream')
+      # query_string  = get_query_string(results, 'active_program_stream', 'program_streams')
 
-      clients.includes(client_enrollments: :program_stream).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct.ids
+      clients.includes(client_enrollments: :program_stream).where(program_streams: { id: @value }).references(:program_streams).distinct.ids
     end
 
     def enrolled_program_stream_query

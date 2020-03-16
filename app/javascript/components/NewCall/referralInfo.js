@@ -406,7 +406,7 @@ export default props => {
         <div className="col-xs-12 col-md-6">
           <div className="row">
             <div className="col-xs-12 col-md-6">
-              <TextInput label={T.translate("newCall.referralInfo.client_contact_phone")} type="number" onChange={handleOnChangeText('client_phone')} value={currentClient.client_phone} />
+              <TextInput label={T.translate("newCall.referralInfo.client_contact_phone")} type="text" onChange={handleOnChangeText('client_phone')} value={currentClient.client_phone} />
             </div>
             <div className="col-xs-12 col-md-6">
               <SelectInput label={T.translate("newCall.referralInfo.phone_owner")} options={phoneEmailOwnerOpts} onChange={handleOnChangeOther('phone_owner')} value={currentClient.phone_owner}/>

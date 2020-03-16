@@ -79,7 +79,7 @@
                 - if cdg.note.present? || cdg.completed_tasks.any? || list_goals.present? || cdg.attachments.any? || task_added.flatten.present?
                   .ibox.border-left-right.border-bottom
                     .ibox-title
-                      - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg)
+                      - custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note)
                       %h5= cdg.domain_identities(custom_assessment_setting_id)
                       - if case_note.assessment_id.present?
                         .ibox-tools

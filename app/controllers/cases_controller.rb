@@ -9,11 +9,11 @@ class CasesController < AdminController
   def index
     @type = params[:case_type]
     if @type == 'EC'
-      @cases = @client.cases.exclude_referred.emergencies.inactive.order(exit_date: :desc)
+      @cases = @client.cases.with_deleted.exclude_referred.emergencies.inactive.order(exit_date: :desc)
     elsif @type == 'FC'
-      @cases = @client.cases.exclude_referred.fosters.inactive.order(exit_date: :desc)
+      @cases = @client.cases.with_deleted.exclude_referred.fosters.inactive.order(exit_date: :desc)
     elsif @type == 'KC'
-      @cases = @client.cases.exclude_referred.kinships.inactive.order(exit_date: :desc)
+      @cases = @client.cases.with_deleted.exclude_referred.kinships.inactive.order(exit_date: :desc)
     end
   end
 
@@ -21,11 +21,11 @@ class CasesController < AdminController
   end
 
   def new
-    @case = @client.cases.new(case_type: params[:case_type])
+    @case = @client.cases.with_deleted.new(case_type: params[:case_type])
   end
 
   def create
-    @case = @client.cases.new(case_params)
+    @case = @client.cases.with_deleted.new(case_params)
     # @case.user_id = @client.user.id if @client.user
     if @case.save
       redirect_to @client, notice: t('.successfully_created')
@@ -67,13 +67,13 @@ class CasesController < AdminController
   end
 
   def find_case
-    @case = @client.cases.exclude_referred.find(params[:id])
+    @case = @client.cases.with_deleted.exclude_referred.find(params[:id])
   end
 
   def can_create_case?
-    return if @client.cases.exclude_referred.active.size.zero?
-    return if @client.cases.exclude_referred.active.any? && @client.cases.exclude_referred.current.exited
-    return if @client.cases.exclude_referred.current.case_type == 'EC'
+    return if @client.cases.with_deleted.exclude_referred.active.size.zero?
+    return if @client.cases.with_deleted.exclude_referred.active.any? && @client.cases.with_deleted.exclude_referred.current.exited
+    return if @client.cases.with_deleted.exclude_referred.current.case_type == 'EC'
     redirect_to @client, notice: t('.already_have_a_case')
   end
 end
