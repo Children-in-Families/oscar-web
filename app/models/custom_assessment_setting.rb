@@ -12,4 +12,5 @@ class CustomAssessmentSetting < ActiveRecord::Base
   validates :custom_age, presence: true, if: -> { Setting.first.enable_custom_assessment.present? }
 
   scope :any_custom_assessment_enable?, -> { all.present? }
+  scope :only_enable_custom_assessment, -> { where(enable_custom_assessment: true) }
 end
