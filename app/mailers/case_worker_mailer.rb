@@ -17,20 +17,24 @@ class CaseWorkerMailer < ApplicationMailer
   end
 
   def notify_upcoming_csi_weekly(client)
+    dev_email = ENV['DEV_EMAIL']
     @client   = client
     recievers = client.users.non_locked.notify_email.pluck(:email)
     return if recievers.empty?
     default = @client.assessments.most_recents.first.try(:default)
     if default
       @name = Setting.first.default_assessment
+      mail(to: recievers, subject: "Upcoming #{@name}", bcc: dev_email)
     else
-      @name = Setting.first.custom_assessment
+      CustomAssessmentSetting.find_each do |custom_assessment_setting|
+        @name = custom_assessment_setting.custom_assessment_name
+        mail(to: recievers, subject: "Upcoming #{@name}", bcc: dev_email)
+      end
     end
-    dev_email = ENV['DEV_EMAIL']
-    mail(to: recievers, subject: "Upcoming #{@name}", bcc: dev_email)
   end
 
-  def notify_incomplete_daily_csi_assessments(client)
+  def notify_incomplete_daily_csi_assessments(client, custom_assessment_setting=nil)
+    dev_email = ENV['DEV_EMAIL']
     @client   = client
     recievers = client.users.non_locked.notify_email.pluck(:email)
     return if recievers.empty?
@@ -39,11 +43,13 @@ class CaseWorkerMailer < ApplicationMailer
     @overdue_date = assessment.created_at.to_date + 7
     if default
       @name = Setting.first.default_assessment
+      mail(to: recievers, subject: "Incomplete #{@name}", bcc: dev_email)
     else
-      @name = Setting.first.custom_assessment
+      if custom_assessment_setting
+        @name = custom_assessment_setting.custom_assessment_name
+        mail(to: recievers, subject: "Incomplete #{@name}", bcc: dev_email)
+      end
     end
-    dev_email = ENV['DEV_EMAIL']
-    mail(to: recievers, subject: "Incomplete #{@name}", bcc: dev_email)
   end
 
   def forms_notifity(user, short_name)
