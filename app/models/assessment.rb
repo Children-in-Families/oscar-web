@@ -89,7 +89,14 @@ class Assessment < ActiveRecord::Base
   def eligible_client_age
     return false if client.nil?
 
-    eligible = default? ? client.eligible_default_csi? : client.eligible_custom_csi?
+    eligible = if default?
+                client.eligible_default_csi?
+              else
+                custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+                CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                  client.eligible_custom_csi?(custom_assessment_setting)
+                end
+              end
     eligible ? true : errors.add(:base, "Assessment cannot be added due to client's age.")
   end
 
