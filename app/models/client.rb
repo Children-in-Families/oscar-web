@@ -264,10 +264,14 @@ class Client < ActiveRecord::Base
   end
 
   def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id=nil)
+    custom_assessments = []
     custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct if custom_assessment_setting_id
-    return Date.today if custom_assessments.nil?
-    return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
-    (custom_assessments.latest_record.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
+    if custom_assessment_setting_id && custom_assessments
+      return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
+      (custom_assessments.latest_record.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
+    else
+      Date.today
+    end
   end
 
   def next_appointment_date
