@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_organization, :current_setting
+  helper_method :field_settings
 
   rescue_from CanCan::AccessDenied do |exception|
     # redirect_to root_url, alert: exception.message
@@ -36,6 +37,14 @@ class ApplicationController < ActionController::Base
 
   def current_setting
     @current_setting = Setting.first
+  end
+
+  def field_settings
+    @field_settings ||= FieldSetting.all
+  end
+
+  def pundit_user
+    UserContext.new(current_user, field_settings)
   end
 
   private

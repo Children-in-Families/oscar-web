@@ -6,6 +6,8 @@ class Family < ActiveRecord::Base
     'Domestically Adopted', 'Child-Headed Household', 'No Family', 'Other']
   STATUSES = ['Active', 'Inactive']
 
+  acts_as_paranoid
+
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
 
@@ -15,7 +17,7 @@ class Family < ActiveRecord::Base
   belongs_to :village
   belongs_to :user
 
-  has_many :cases, dependent: :restrict_with_error
+  has_many :cases, dependent: :destroy
   has_many :clients, through: :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
@@ -95,10 +97,32 @@ class Family < ActiveRecord::Base
     Client.where(current_family_id: self.id)
   end
 
+  def destroy
+    if !deleted?
+      with_transaction_returning_status do
+        run_callbacks :destroy do
+          if persisted?
+            # Handle composite keys, otherwise we would just use
+            # `self.class.primary_key.to_sym => self.id`.
+            self.class
+              .delete_all(Hash[[Array(self.class.primary_key), Array(id)].transpose])
+          end
+
+          @_trigger_destroy_callback = true
+
+          stale_paranoid_value
+          self
+        end
+      end
+    else
+      destroy_fully! if paranoid_configuration[:double_tap_destroys_fully]
+    end
+  end
+
   private
 
   def client_must_only_belong_to_a_family
-    clients = Family.where.not(id: self).pluck(:children).flatten.uniq
+    clients = Client.where.not(current_family_id: nil).where.not(current_family_id: self.id).ids
     existed_clients = children & clients
     existed_clients = Client.where(id: existed_clients).map(&:en_and_local_name) if existed_clients.present?
     error_message = "#{existed_clients.join(', ')} #{'has'.pluralize(existed_clients.count)} already existed in other family"
@@ -115,5 +139,10 @@ class Family < ActiveRecord::Base
       client.families.uniq
       client.save(validate: false)
     end
+  end
+
+  def stale_paranoid_value
+    self.paranoid_value = self.class.delete_now_value
+    clear_attribute_changes([self.class.paranoid_column])
   end
 end

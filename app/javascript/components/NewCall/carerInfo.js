@@ -95,14 +95,13 @@ export default props => {
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 
   const onChangeFamily = ({ data, action, type }) => {
-    let value = []
+    let values = []
     if (action === 'select-option'){
-      value.push(data)
-    } else if (action === 'clear'){
-      value = []
+      values = client.family_ids
+      values.push(data)
+      values = values.filter((v, i, a) => a.indexOf(v) === i);
     }
-
-    const modifyObject = { ...client, family_ids: value }
+    const modifyObject = { ...client, current_family_id: data, family_ids: values }
 
     const newObjects = clients.map((object, indexObject) => {
       const newObject = indexObject === 0 ? modifyObject : object
@@ -127,7 +126,7 @@ export default props => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           {/* will change to carer object */}
-          <TextInput T={T} label={T.translate("newCall.carerInfo.carer_phone")} type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
+          <TextInput T={T} label={T.translate("newCall.carerInfo.carer_phone")} type="text" onChange={onChange('carer', 'phone')} value={carer.phone}/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput T={T} label={T.translate("newCall.carerInfo.carer_email")} onChange={onChange('carer', 'email')} value={carer.email} />
@@ -136,7 +135,8 @@ export default props => {
           <SelectInput T={T} label={T.translate("newCall.carerInfo.relationship")} options={clientRelationship} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput T={T} label={T.translate("newCall.carerInfo.family_record")} options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
+          <SelectInput T={T} label={T.translate("newCall.carerInfo.family_record")} options={familyLists} value={client.current_family_id} onChange={onChangeFamily} />
+          <TextInput type="hidden" name="client[current_family_id]" value={ client.current_family_id } />
         </div>
       </div>
       <legend>

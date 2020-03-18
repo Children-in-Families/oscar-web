@@ -37,6 +37,12 @@ module ClientsHelper
     )
   end
 
+  def fields_visibility
+    field_settings.each_with_object({}) do |field_setting, output|
+      output[field_setting.name] = policy(Client).show?(field_setting.name)
+    end
+  end
+
   def report_options(title, yaxis_title)
     {
       library: {
@@ -73,6 +79,11 @@ module ClientsHelper
       kid_id:                        custom_id_translation('custom_id2'),
       code:                          custom_id_translation('custom_id1'),
       age:                           t('datagrid.columns.clients.age'),
+      difficulties:                  t('datagrid.columns.clients.difficulties'),
+      household_members:             t('datagrid.columns.clients.household_members'),
+      hosting_number:                t('datagrid.columns.clients.hosting_number'),
+      bic_others:                    t('datagrid.columns.clients.bic_others'),
+      interview_locations:           t('datagrid.columns.clients.interview_locations'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
       local_given_name:              "#{t('datagrid.columns.clients.local_given_name')} #{country_scope_label_translation}",
@@ -477,7 +488,14 @@ module ClientsHelper
     elsif rule == 'tracking'
       properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
     elsif rule == 'active_program_stream'
-      properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
+      mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
+      program_stream_ids = mew_query_string.scan(/program_streams\.id = (\d+)/).flatten
+      if program_stream_ids.size >= 2
+        sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(", ")})")
+        properties_result = object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
+      else
+        properties_result = object.includes(client: :program_streams).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).references(:program_streams).distinct
+      end
     else
       object
     end

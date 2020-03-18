@@ -2,28 +2,23 @@ class Client < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
+  include ClientConstants
+
   extend FriendlyId
 
   require 'text'
+
+  serialize :difficulties, Array
+  serialize :household_members, Array
+  serialize :interview_locations, Array
+  serialize :hosting_number, Array
+  serialize :bic_others, Array
 
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
   friendly_id :slug, use: :slugged
   mount_uploader :profile, ImageUploader
-
-  REFEREE_RELATIONSHIPS = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
-  RELATIONSHIP_TO_CALLER = ['Self', 'Child', 'Family Member', 'Friend', 'In same community', 'Client', 'Stranger', 'Other'].freeze
-  ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
-  PHONE_OWNERS    = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
-  HOTLINE_FIELDS  = %w(nickname concern_is_outside concern_outside_address concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_location concern_same_as_client location_description phone_counselling_summary)
-  EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
-  CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( date_of_call case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
-
-  GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
-  GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
-  CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
@@ -344,11 +339,11 @@ class Client < ActiveRecord::Base
   end
 
   def has_any_quarterly_reports?
-    (cases.active.latest_kinship.present? && cases.latest_kinship.quarterly_reports.any?) || (cases.active.latest_foster.present? && cases.latest_foster.quarterly_reports.any?)
+    (cases.with_deleted.active.latest_kinship.present? && cases.with_deleted.latest_kinship.quarterly_reports.any?) || (cases.with_deleted.active.latest_foster.present? && cases.with_deleted.latest_foster.quarterly_reports.any?)
   end
 
   def latest_case
-    cases.active.latest_kinship.presence || cases.active.latest_foster.presence
+    cases.with_deleted.active.latest_kinship.presence || cases.with_deleted.active.latest_foster.presence
   end
 
   def age_as_years(date = Date.today)
@@ -771,5 +766,3 @@ class Client < ActiveRecord::Base
   end
 
 end
-
-

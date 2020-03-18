@@ -176,12 +176,14 @@ module FormBuilderHelper
   end
 
   def general_query(id, field, operator, value, type, class_name)
-    field_name = id
+    field_name = id == 'case_note_date' ? 'meeting_date' : id
+    field_name = field_name == 'case_note_type' ? 'interaction_type' : field_name
+
     value      = !value.is_a?(Array) && type == 'string'  ? value.downcase : value
 
     lower_field_name      = string_field(type, field_name, value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
     table_name_field_name = ['start_datetime'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
-    table_name_field_name = ['date_of_call'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
+    table_name_field_name = ['date_of_call', 'meeting_date'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
 
     case operator
     when 'equal'
@@ -213,7 +215,7 @@ module FormBuilderHelper
     when 'not_contains'
       "#{table_name_field_name} NOT ILIKE '%#{value.squish}%' OR #{lower_field_name} IS NULL"
     when 'is_empty'
-      if field_name[/datetime/]
+      if field_name[/datetime|meeting_date|case_note_date/]
         "#{lower_field_name} IS NULL"
       elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
         "#{table_name_field_name} IS NULL"
@@ -221,7 +223,7 @@ module FormBuilderHelper
         "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
       end
     when 'is_not_empty'
-      if field_name[/datetime/]
+      if field_name[/datetime|meeting_date|case_note_date/]
         "#{lower_field_name} IS NOT NULL"
       elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
         "#{table_name_field_name} IS NOT NULL"

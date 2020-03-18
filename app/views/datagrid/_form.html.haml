@@ -41,6 +41,8 @@
             - next if f.name == :domain_5a || f.name == :domain_5b
             - next if f.name == :domain_6a || f.name == :domain_6b
             - next if f.name == :assessments_due_to || f.name == :no_case_note || f.name == :overdue_task || f.name == :overdue_forms
+            - next if controller_name == 'clients' && !policy(Client).show?(f.name.to_s)
+
 
             - unless selected_country == 'cambodia'
               - next if f.name.in?([:commune, :village, :street_number, :house_number, :current_address])
@@ -234,6 +236,10 @@
                 = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
             %li
               .visibility.col-sm-12
+                = check_box_tag 'assessment_completed_date_', 'date_of_assessments', checked = default_setting('assessment_completed_date_', @client_default_columns) || params[:assessment_completed_date_].present?, class: 'i-checks'
+                = label_tag 'assessment_completed_date_', t('datagrid.columns.assessment_completed_date')
+            %li
+              .visibility.col-sm-12
                 = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = default_setting('all_csi_assessments_', @client_default_columns) || params[:all_csi_assessments_].present?, class: 'i-checks'
                 - if current_organization.try(:aht) == true
                   = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
@@ -247,6 +253,10 @@
               .visibility.col-sm-12
                 = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = default_setting('date_of_custom_assessments_', @client_default_columns) || params[:date_of_custom_assessments_].present?, class: 'i-checks'
                 = label_tag 'date_of_custom_assessments_', t('datagrid.columns.date_of_custom_assessments')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'date_of_custom_assessments_', 'date_of_custom_assessments', checked = default_setting('date_of_custom_assessments_', @client_default_columns) || params[:date_of_custom_assessments_].present?, class: 'i-checks'
+                = label_tag 'date_of_custom_assessments_', t('datagrid.columns.assessment_completed_date')
             %li
               .visibility.col-sm-12
                 = check_box_tag 'all_custom_csi_assessments_', 'all_custom_csi_assessments', checked = default_setting('all_custom_csi_assessments_', @client_default_columns) || params[:all_custom_csi_assessments_].present?, class: 'i-checks'
@@ -351,6 +361,7 @@
     %hr/
     .row
       - grid.filters.each do |filter|
+        - next if controller_name == 'clients' && !policy(Client).show?(filter.name.to_s)
         .datagrid-filter.filter.form-group.col-xs-12.col-sm-6.col.md-4.col-lg-4
           = f.datagrid_label filter
           - if filter.type == :date

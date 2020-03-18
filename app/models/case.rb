@@ -7,6 +7,7 @@ class Case < ActiveRecord::Base
   has_many :case_contracts, dependent: :destroy
   has_many :quarterly_reports, dependent: :destroy
 
+  acts_as_paranoid
   has_paper_trail
 
   scope :emergencies,    -> { where(case_type: 'EC') }

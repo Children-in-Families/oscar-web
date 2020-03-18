@@ -46,13 +46,13 @@ module Api
 
     def update
       client = Client.find(params[:client][:id])
-      new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
       referee = Referee.find_or_create_by(id: client.referee_id)
       referee.update_attributes(referee_params)
       client.referee_id = referee.id
       carer = Carer.find_or_create_by(id: client.carer_id)
       carer.update_attributes(carer_params)
       client.carer_id = carer.id
+      new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
@@ -68,11 +68,11 @@ module Api
     private
 
     def client_params
-      params.require(:client).permit(
+      client_params = params.require(:client).permit(
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-            :referral_phone, :received_by_id, :followed_up_by_id,
+            :referral_phone, :received_by_id, :followed_up_by_id, :current_family_id,
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
@@ -102,6 +102,14 @@ module Api
             client_problems_attributes: [:id, :rank, :problem_id],
             family_ids: []
           )
+
+      field_settings.each do |field_setting|
+        next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
+
+        client_params.except!(field_setting.name.to_sym)
+      end
+
+      client_params
     end
 
     def referee_params

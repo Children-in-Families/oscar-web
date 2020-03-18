@@ -3,6 +3,7 @@ class ClientGrid < BaseGrid
   include ClientsHelper
   include ApplicationHelper
   include FormBuilderHelper
+  include AssessmentHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
   COUNTRY_LANG = { "cambodia" => "(Khmer)", "thailand" => "(Thai)", "myanmar" => "(Burmese)", "lesotho" => "(Sesotho)", "uganda" => "(Swahili)" }
@@ -29,20 +30,10 @@ class ClientGrid < BaseGrid
     Client
   end
 
-  filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
-    filter_shared_fileds('given_name', value, scope)
-  end
-
-  filter(:family_name, :string, header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |value, scope|
-    filter_shared_fileds('family_name', value, scope)
-  end
-
-  filter(:local_given_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) do |value, scope|
-    filter_shared_fileds('local_given_name', value, scope)
-  end
-
-  filter(:local_family_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) do |value, scope|
-    filter_shared_fileds('local_family_name', value, scope)
+  %w(given_name family_name local_given_name local_family_name).each do |field_name|
+    filter(field_name, :string, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+      filter_shared_fileds(field_name, value, scope)
+    end
   end
 
   filter(:gender, :enum, select: :gender_list, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
@@ -51,6 +42,20 @@ class ClientGrid < BaseGrid
     slugs = SharedClient.where(gender: value.downcase).pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
+  end
+
+  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
+    options = {
+      difficulties: Client::DIFFICULTIES,
+      household_members: Client::HOUSEHOLD_MEMBERS,
+      interview_locations: Client::INTERVIEW_LOCATIONS,
+      hosting_number: Client::HOSTING_NUMBER,
+      bic_others: Client::BIC_OTHERS
+    }
+
+    filter(field_name, :enum, select: options[field_name.to_sym], header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+      scope.where("#{field_name} = any(array[?])", value)
+    end
   end
 
   def gender_list
@@ -80,7 +85,6 @@ class ClientGrid < BaseGrid
   def status_options
     scope.status_like
   end
-
 
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
@@ -738,6 +742,12 @@ class ClientGrid < BaseGrid
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
+  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
+    column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |object|
+      object.public_send(field_name.to_sym)&.join(' | ')
+    end
+  end
+
   date_column(:created_at, html: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
 
   column(:created_at, html: false, header: -> { I18n.t('datagrid.columns.clients.created_at') }) do |object|
@@ -1050,6 +1060,25 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
+  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date') }, html: true) do |object|
+    if $param_rules
+      basic_rules = $param_rules['basic_rules']
+      basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+      results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+      assessment_completed_sql, assessment_number = assessment_filter_values(results)
+      sql = "(assessments.completed = true)".squish
+      if assessment_number.present? && assessment_completed_sql.present?
+        assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
+      elsif assessment_completed_sql.present?
+        sql = assessment_completed_sql[/assessments\.created_at.*/]
+        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
+      end
+    else
+      assessments = object.assessments.defaults.order('created_at')
+    end
+    render partial: 'clients/assessments', locals: { object: assessments }
+  end
+
   column(:date_of_referral, header: -> { I18n.t('datagrid.columns.clients.date_of_referral') }, html: true) do |object|
     render partial: 'clients/referral', locals: { object: object }
   end
@@ -1094,12 +1123,12 @@ class ClientGrid < BaseGrid
       column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
-
       Domain.csi_domains.order_by_identity.each do |domain|
+        domain_id = domain.id
         identity = domain.identity
         column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
-          assessment = client.assessments.defaults.latest_record
-          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+          assessment_domains = map_assessment_and_score(client, identity, domain_id)
+          assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
         end
       end
     end

@@ -94,13 +94,15 @@ export default props => {
   const familyLists = families.map(family => ({ label: family.name, value: family.id }))
 
   const onChangeFamily = ({ data, action, type }) => {
-    let value = []
+    let values = []
     if (action === 'select-option'){
-      value.push(data)
-    } else if (action === 'clear'){
-      value = []
+      values = client.family_ids
+      values.push(data)
+      values = values.filter((v, i, a) => a.indexOf(v) === i);
+      onChange('client', 'family_ids')({data: values, type})
     }
-    onChange('client', 'family_ids')({data: value, type})
+    // onChange('client', 'family_ids')({data: value, type})
+    onChange('client', 'current_family_id')({data: data, type})
   }
 
   return (
@@ -116,7 +118,7 @@ export default props => {
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("carerInfo.carer_phone")} type="number" onChange={onChange('carer', 'phone')} value={carer.phone}/>
+          <TextInput label={T.translate("carerInfo.carer_phone")} type="text" onChange={onChange('carer', 'phone')} value={carer.phone}/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("carerInfo.carer_email")} onChange={onChange('carer', 'email')} value={carer.email} />
@@ -125,7 +127,8 @@ export default props => {
           <SelectInput label={T.translate("carerInfo.client_relationship")} options={clientRelationship} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label={T.translate("carerInfo.family_record")} options={familyLists} value={client.family_ids} onChange={onChangeFamily} />
+          <SelectInput label={T.translate("carerInfo.family_record")} options={familyLists} value={client.current_family_id} onChange={onChangeFamily} />
+          <TextInput type="hidden" name="client[current_family_id]" value={ client.current_family_id } />
         </div>
       </div>
       <legend>

@@ -347,6 +347,13 @@ en:
               wrong_length:
             roles:
               blank: can't be blank
+    attributes:
+      client:
+        difficulties: Difficulities
+        household_members: Household members
+        interview_locations: Interview location
+        hosting_number: How many are you hosting?
+        bic_others: Other
   add_event_success: Event has been added to calendar successfully.
   advanced_search:
     fields:
@@ -358,6 +365,7 @@ en:
       agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
+      assessment_completed_date: Assessment Completed Date
       assessment_number: Assessment#
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -2302,6 +2310,11 @@ en:
         report: Report
         status: Status
       clients:
+        difficulties: Difficulities
+        household_members: Household members
+        interview_locations: Interview location
+        hosting_number: How many are you hosting?
+        bic_others: Other
         able: Able
         able_state: Able State
         address: Address
@@ -2311,6 +2324,7 @@ en:
         all_csi_assessments: All CSI Assessments
         all_custom_csi_assessments: All Custom Assessments
         any_assessments: Has Assessments
+        assessment_completed_date: Assessment Completed Date
         assessments: Assessments
         assessments_due_to: Assessments Due To
         birth_province: Client Birth Province

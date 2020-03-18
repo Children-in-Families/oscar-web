@@ -13,13 +13,14 @@ export default props => {
 
   const onChangeFamily = ({ data, action, type }) => {
     setShowSave(true)
-    let value = []
-    if (action === 'select-option') {
-      value.push(data)
-    } else if (action === 'clear') {
-      value = []
+    let values = []
+    if (action === 'select-option'){
+      values = clientData.family_ids
+      values = values.filter((v, i, a) => a.indexOf(v) === i);
+      onChange('client', 'family_ids')({data: values, type})
     }
-    onChange('client', 'family_ids')({ data: value, type })
+    // onChange('client', 'family_ids')({data: value, type})
+    onChange('client', 'current_family_id')({data: data, type})
   }
 
   const handleCreateNewFamily = (boolean) => event => {
@@ -45,7 +46,7 @@ export default props => {
       let url = ''
 
       if(value === 'createNewFamilyRecord')
-        url = `/families/new?children=${response.id}`
+        url = `/families/new?children=${response.id || clientData.id}`
       else
         url = `/clients/${response.slug}?notice=` + T.translate("createFamilyModal.successfully_created")
 
@@ -54,7 +55,7 @@ export default props => {
   }
 
   return (
-    <>
+    <div className="p-md">
       <p>{T.translate("createFamilyModal.create_family_record")}</p>
       <br/>
 
@@ -85,7 +86,7 @@ export default props => {
         </div>
         <div className="col-xs-6">
           <p>{T.translate("createFamilyModal.attach_family_to_client")}</p>
-          { showSelect && <SelectInput options={familyLists} value={clientData.family_ids.length > 0 && clientData.family_ids[0] || null} onChange={onChangeFamily} /> }
+          { showSelect && <SelectInput options={familyLists} value={clientData.current_family_id && clientData.current_family_id} onChange={onChangeFamily} /> }
         </div>
       </div>
 
@@ -108,7 +109,7 @@ export default props => {
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
         <span type="button" style={showSave && styles.allowButton || styles.preventButton} onClick={handleSave}>{T.translate("createFamilyModal.save")}</span>
       </div>
-    </>
+    </div>
   )
 }
 
