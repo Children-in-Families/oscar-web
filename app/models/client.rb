@@ -258,7 +258,7 @@ class Client < ActiveRecord::Base
   end
 
   def next_assessment_date(user_activated_date = nil)
-    return Date.today if assessments.defaults.latest_record.empty?
+    return Date.today if assessments.defaults.latest_record.blank?
     return nil if user_activated_date.present? && (assessments.defaults.latest_record.present? && assessments.defaults.latest_record.created_at < user_activated_date)
     (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
