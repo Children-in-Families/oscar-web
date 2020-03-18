@@ -63,11 +63,11 @@ module DashboardHelper
     client.custom_next_assessment_date(@user.activated_at).between?(Date.tomorrow, 3.months.from_now) if client.custom_next_assessment_date(@user.activated_at).present?
   end
 
-  def client_custom_next_assessment_date(client, user)
+  def client_custom_next_assessment_date(client, activated_at=nil)
     custom_assessment_setting_ids = client_custom_assessment_setting(client)
     CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).map do |custom_assessment|
       next if client.eligible_custom_csi?(custom_assessment)
-      client.custom_next_assessment_date(user&.activated_at, custom_assessment&.id)
+      client.custom_next_assessment_date(activated_at, custom_assessment&.id)
     end.compact
   end
 
