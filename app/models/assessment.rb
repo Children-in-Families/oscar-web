@@ -39,15 +39,15 @@ class Assessment < ActiveRecord::Base
   end
 
   def self.latest_record
-    most_recents.first
+    most_recents.first || []
   end
 
   def self.default_latest_record
-    defaults.most_recents.first
+    defaults.most_recents.first || []
   end
 
   def self.custom_latest_record
-    customs.most_recents.first
+    customs.most_recents.first || []
   end
 
   def initial?(custom_assessment_setting_id=nil)
