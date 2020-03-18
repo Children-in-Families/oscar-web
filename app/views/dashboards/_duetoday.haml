@@ -7,7 +7,7 @@
     - @clients.each do |client, today_forms|
       - next if today_forms.blank?
       - today_tasks = today_forms[:today_tasks]
-      - client_duetoday_default_assessment = client.next_assessment_date(@user)
+      - client_duetoday_default_assessment = client.next_assessment_date(@user.activated_at)
       - client_duetoday_custom_assessment = client_custom_next_assessment_date(client, @user.activated_at)
       - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms, client) && skipped_duetoday_assessments?(client)
       - next if client_duetoday_default_assessment.blank? && client_duetoday_custom_assessment.blank? && today_tasks.blank? && today_forms[:today_forms].blank? && today_forms[:today_trackings].blank?
