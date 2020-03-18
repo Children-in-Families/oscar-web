@@ -29,16 +29,16 @@ services:
     stdin_open: true
     tty: true
   # NOTE: Temp solution for now - need to update webpacker.yml (see notes in that file)
-  webpack:
-    image: oscar-web_app
-    container_name: webpack
-    depends_on:
-      - app
-    volumes:
-      - .:/app
-    ports:
-      - "3035:3035"
-    entrypoint: './bin/webpack-dev-server'
+  # webpack:
+  #   image: oscar-web_app
+  #   container_name: webpack
+  #   depends_on:
+  #     - app
+  #   volumes:
+  #     - .:/app
+  #   ports:
+  #     - "3035:3035"
+  #   entrypoint: './bin/webpack-dev-server'
   db:
     image: postgres:9.4
     container_name: db

@@ -418,6 +418,8 @@ GEM
     hurley (0.2)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
+    i18n-js (3.6.0)
+      i18n (>= 0.6.6)
     inline_svg (0.10.0)
       activesupport (>= 4.0)
       loofah (>= 2.0)
@@ -826,6 +828,7 @@ DEPENDENCIES
   google-api-client (~> 0.10)
   guard-rspec (~> 4.6)
   haml-rails (~> 0.9)
+  i18n-js
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.4)
   jquery-rails

@@ -1,6 +1,6 @@
 # Just start the Rails app, webpack dev server and Postgres DB
 start_core:
-	docker-compose up --no-deps app webpack db
+	docker-compose up --no-deps app db
 
 # Start up all services (beware if you running this on a computer with less than 16GB RAM!)
 start_all:
