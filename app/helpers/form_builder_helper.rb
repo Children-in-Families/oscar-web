@@ -215,7 +215,7 @@ module FormBuilderHelper
     when 'not_contains'
       "#{table_name_field_name} NOT ILIKE '%#{value.squish}%' OR #{lower_field_name} IS NULL"
     when 'is_empty'
-      if field_name[/datetime/]
+      if field_name[/datetime|meeting_date|case_note_date/]
         "#{lower_field_name} IS NULL"
       elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
         "#{table_name_field_name} IS NULL"
@@ -223,7 +223,7 @@ module FormBuilderHelper
         "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
       end
     when 'is_not_empty'
-      if field_name[/datetime/]
+      if field_name[/datetime|meeting_date|case_note_date/]
         "#{lower_field_name} IS NOT NULL"
       elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
         "#{table_name_field_name} IS NOT NULL"

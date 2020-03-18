@@ -1070,7 +1070,8 @@ class ClientGrid < BaseGrid
       if assessment_number.present? && assessment_completed_sql.present?
         assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
       elsif assessment_completed_sql.present?
-        assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
+        sql = assessment_completed_sql[/assessments\.created_at.*/]
+        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
       end
     else
       assessments = object.assessments.defaults.order('created_at')

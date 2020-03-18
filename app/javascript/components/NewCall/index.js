@@ -32,7 +32,7 @@ const CallForms = props => {
   const {
     data: {
       call: { call, client_ids, necessity_ids, protection_concern_ids },
-      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids },
+      client: { clients, clientTask, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id },
       referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory,
       currentProvinces, districts, communes, villages, donors, agencies, necessities, protection_concerns, schoolGrade, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, providingUpdateClients, local
@@ -48,7 +48,7 @@ const CallForms = props => {
   const [errorObjects, setErrorObjects] = useState({})
   const [errorSteps, setErrorSteps]   = useState([])
   const [step, setStep] = useState(1)
-  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, ...clients }])
+  const [clientData, setClientData] = useState(call.id && clients || [{ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id, ...clients }])
   const [taskData, setTaskData] = useState(clientTask)
   const [callData, setCallData] = useState({ client_ids, necessity_ids, protection_concern_ids, ...call})
   const [refereeData, setRefereeData] = useState(referee)
