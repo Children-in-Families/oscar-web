@@ -1149,4 +1149,8 @@ module ClientsHelper
   def client_donors
     @client.donors.distinct
   end
+
+  def initial_referral_date_picker_format(client)
+    "#{client.initial_referral_date.year}, #{client.initial_referral_date.month}, #{@client.initial_referral_date.day}"
+  end
 end
