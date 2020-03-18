@@ -51,16 +51,24 @@ module DashboardHelper
     client.next_assessment_date(@user.activated_at).between?(Date.tomorrow, 3.months.from_now) if client.next_assessment_date(@user.activated_at).present?
   end
 
-  def overdue_custom_assessments_any?(client)
-    client.custom_next_assessment_date(@user.activated_at) < Date.today if client.custom_next_assessment_date(@user.activated_at).present?
+  def overdue_custom_assessments_any?(client, custom_assessment_setting=nil)
+    client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting&.id) < Date.today if client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting&.id).present?
   end
 
-  def duetoday_custom_assessments_any?(client)
-    client.custom_next_assessment_date(@user.activated_at) == Date.today if client.custom_next_assessment_date(@user.activated_at)
+  def duetoday_custom_assessments_any?(client, custom_assessment=nil)
+    client.custom_next_assessment_date(@user.activated_at, custom_assessment&.id) == Date.today if client.custom_next_assessment_date(@user.activated_at, custom_assessment&.id)
   end
 
   def upcoming_custom_assessments_any?(client)
     client.custom_next_assessment_date(@user.activated_at).between?(Date.tomorrow, 3.months.from_now) if client.custom_next_assessment_date(@user.activated_at).present?
+  end
+
+  def client_custom_next_assessment_date(client, user)
+    custom_assessment_setting_ids = client_custom_assessment_setting(client)
+    CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).map do |custom_assessment|
+      next if client.eligible_custom_csi?(custom_assessment)
+      client.custom_next_assessment_date(user&.activated_at, custom_assessment&.id)
+    end.compact
   end
 
   def skipped_overdue_tasks?(tasks)
