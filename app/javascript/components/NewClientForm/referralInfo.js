@@ -186,7 +186,7 @@ export default props => {
           <TextInput label={T.translate("referralInfo.given_name")} onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <p>TEST: {t(translation, 'clients.form.family_name')}</p>
+          <p>TEST FROM rails_118n_translation helper: {t(translation, 'clients.form.family_name')}</p>
           <TextInput label={I18n.t('clients.form.family_name')} onChange={onChange('client', 'family_name')} value={client.family_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
