@@ -7,7 +7,6 @@
       #rootwizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
         = f.simple_fields_for 'assessment_domains', order_assessment do |ad|
           - domain = ad.object.domain
-          @assessment.default
           %h4= domain_name_translate(@assessment, domain)
           %div{ class: "assessment-domain-item domain-#{domain.id}" }
             .ibox
