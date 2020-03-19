@@ -356,7 +356,6 @@ en:
         bic_others: Other
         presented_id: Presented ID
         id_number: ID number
-        preferred_language: Preferred Language
         whatsapp: Whatsapp
         other_phone_number: Phone Number - Alternate
         v_score: V-score from ODK
@@ -2338,7 +2337,6 @@ en:
         bic_others: Other
         presented_id: Presented ID
         id_number: ID number
-        preferred_language: Preferred Language
         whatsapp: Whatsapp
         other_phone_number: Phone Number - Alternate
         v_score: V-score from ODK
