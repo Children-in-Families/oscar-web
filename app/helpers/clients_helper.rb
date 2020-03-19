@@ -106,8 +106,8 @@ module ClientsHelper
       interview_locations:           t('datagrid.columns.clients.interview_locations'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
-      local_given_name:              "#{t('datagrid.columns.clients.local_given_name')} #{country_scope_label_translation}",
-      local_family_name:             "#{t('datagrid.columns.clients.local_family_name')} #{country_scope_label_translation}",
+      local_given_name:              local_name_label,
+      local_family_name:             local_name_label(:local_family_name),
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
       birth_province_id:             t('datagrid.columns.clients.birth_province'),
@@ -162,6 +162,13 @@ module ClientsHelper
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
     label_tag "#{column}_", label_column[column.to_sym]
+  end
+
+  def local_name_label(name_type = :local_given_name)
+    custom_field = FieldSetting.find_by(name: name_type)
+    label = t("datagrid.columns.clients.#{name_type}")
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.label.blank?
+    label
   end
 
   def ec_manageable
@@ -364,8 +371,8 @@ module ClientsHelper
       program_streams_: t('datagrid.columns.clients.program_streams'),
       given_name_: t('datagrid.columns.clients.given_name'),
       family_name_: t('datagrid.columns.clients.family_name'),
-      local_given_name_: "#{t('datagrid.columns.clients.local_given_name')} (#{country_scope_label_translation})",
-      local_family_name_: "#{t('datagrid.columns.clients.local_family_name')} (#{country_scope_label_translation})",
+      local_given_name_: local_name_label,
+      local_family_name_: local_name_label(:local_family_name),
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
