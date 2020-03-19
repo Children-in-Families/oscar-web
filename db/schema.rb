@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200316043514) do
+ActiveRecord::Schema.define(version: 20200319040152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -560,6 +560,27 @@ ActiveRecord::Schema.define(version: 20200316043514) do
     t.text     "hosting_number"
     t.text     "interview_locations"
     t.text     "bic_others"
+    t.string   "presented_id"
+    t.string   "id_number"
+    t.string   "preferred_language"
+    t.string   "whatsapp"
+    t.string   "other_phone_number"
+    t.integer  "v_score"
+    t.string   "brsc_branch"
+    t.string   "current_island"
+    t.string   "current_street"
+    t.string   "current_po_box"
+    t.string   "current_city"
+    t.string   "current_settlement"
+    t.string   "current_resident_own_or_rent"
+    t.string   "current_household_type"
+    t.string   "island2"
+    t.string   "street2"
+    t.string   "po_box2"
+    t.string   "city2"
+    t.string   "settlement2"
+    t.string   "resident_own_or_rent2"
+    t.string   "household_type2"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
