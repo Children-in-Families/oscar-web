@@ -3,6 +3,3 @@
 var componentRequireContext = require.context("components", true);
 var ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
-
-import I18n from "i18n-js";
-I18n.translations = <%= I18n::JS.translations.to_json %>;

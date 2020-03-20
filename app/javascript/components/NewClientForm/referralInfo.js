@@ -10,7 +10,6 @@ import {
 import Address      from './address'
 import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
-import I18n from 'i18n-js'
 
 export default props => {
   const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, translation, current_organization, brc_address } } = props
@@ -186,17 +185,14 @@ export default props => {
           <TextInput label={T.translate("referralInfo.given_name")} onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <p>TEST FROM rails_118n_translation helper: {t(translation, 'clients.form.family_name')}</p>
-          <TextInput label={I18n.t('clients.form.family_name')} onChange={onChange('client', 'family_name')} value={client.family_name} />
+          <p>{t(translation, 'clients.form.family_name')}</p>
+          <TextInput label={translation.clients.form.family_name} onChange={onChange('client', 'family_name')} value={client.family_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <p> LOCAL GIVEN NAME {I18n.t('clients.form.local_given_name')} </p>
-          <p> DOES NOT EXIST {I18n.t('clients.form.a_completely_madeup_key')} </p>
-          <p> ARE YOU SURE? {I18n.t('clients.actions.are_you_sure')} </p>
-          <TextInput label={I18n.t('clients.form.local_given_name')} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
+          <TextInput label={T.translate("referralInfo.local_given_name")} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={I18n.t("clients.form.local_family_name")} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
+          <TextInput label={T.translate("referralInfo.local_family_name")} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
         </div>
       </div>
       <div className="row">

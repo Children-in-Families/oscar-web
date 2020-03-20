@@ -2781,6 +2781,7 @@ en:
       male: Male
       other_gender: Other
       unknown: Unknown
+      prefer_not_to_say: Prefer not to answer
     referee_relationship:
       self: Self
       family_member: Family Member
