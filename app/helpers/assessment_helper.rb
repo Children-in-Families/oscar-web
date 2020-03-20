@@ -127,7 +127,8 @@ module AssessmentHelper
         if assessment_number.present? && assessment_completed_sql.present?
           assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
         elsif assessment_completed_sql.present?
-          assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
+          sql = assessment_completed_sql[/assessments\.created_at.*/]
+          assessments = object.assessments.defaults.completed.where(sql).order('created_at')
         end
         sub_query_string = get_assessment_query_string([results[0].reject{|arr| arr[:field] != identity }], identity, domain_id, object.id)
         assessment_domains = assessments.map{|assessment| assessment.assessment_domains.joins(:domain).where(sub_query_string.reject(&:blank?).join(" AND ")).where(domains: { identity: identity }) }.flatten.uniq

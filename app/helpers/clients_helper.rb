@@ -1192,4 +1192,12 @@ module ClientsHelper
   def client_donors
     @client.donors.distinct
   end
+
+  def get_quantitative_types
+    if current_organization.short_name != 'brc'
+      QuantitativeType.all
+    else
+      QuantitativeType.unscoped.order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
+    end
+  end
 end
