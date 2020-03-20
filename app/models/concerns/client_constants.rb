@@ -11,7 +11,7 @@ module ClientConstants
   HEADER_COUNTS   = %w( date_of_call case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
-  GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
+  GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown', 'prefer_not_to_say']
   CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
   DIFFICULTIES = [
