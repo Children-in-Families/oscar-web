@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, disabled, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [], T } } = props
+  const { onChange, disabled, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [], T, current_organization, brc_address } } = props
 
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
@@ -78,6 +78,71 @@ export default props => {
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
+              label={T.translate(`address.provicne${objectData.current_island}`)}
+              options={provinces}
+              isDisabled={disabled}
+              value={objectData.current_island}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.current_street}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'street_number')}
+              value={objectData.street_current_street}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.current_po_box}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'current_po_box')}
+              value={objectData.current_po_box}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.current_city}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'current_city')}
+              value={objectData.current_city}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.current_settlement}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'current_settlement')}
+              value={objectData.current_settlement}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.current_resident_own_or_rent}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'current_resident_own_or_rent')}
+              value={objectData.current_resident_own_or_rent}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.current_household_type}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'current_household_type')}
+              value={objectData.current_household_type}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
               label={T.translate("address.provicne")}
               options={provinces}
               isDisabled={disabled}
@@ -113,6 +178,70 @@ export default props => {
               options={villages}
               value={objectData.village_id}
               onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
+            />
+          </div>
+
+          // adaddad
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              label={T.translate(`address.provicne${objectData.island2}`)}
+              options={provinces}
+              isDisabled={disabled}
+              value={objectData.island2}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.street2}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'street_number')}
+              value={objectData.street_street2}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.po_box2}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'po_box2')}
+              value={objectData.po_box2}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.city2}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'city2')}
+              value={objectData.city2}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.settlement2}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'settlement2')}
+              value={objectData.settlement2}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.resident_own_or_rent2}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'resident_own_or_rent2')}
+              value={objectData.resident_own_or_rent2}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate(`address.${objectData.household_type2}`)}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'household_type2')}
+              value={objectData.household_type2}
             />
           </div>
         </div>
