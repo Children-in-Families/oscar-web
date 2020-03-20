@@ -1192,4 +1192,8 @@ module ClientsHelper
   def client_donors
     @client.donors.distinct
   end
+
+  def get_address_json
+    Client::BRC_ADDRESS.zip(Client::BRC_ADDRESS).to_h.to_json
+  end
 end
