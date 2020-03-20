@@ -349,11 +349,6 @@ en:
               blank: can't be blank
     attributes:
       client:
-        difficulties: Difficulities
-        household_members: Household members
-        interview_locations: Interview location
-        hosting_number: How many are you hosting?
-        bic_others: Other
         presented_id: Presented ID
         id_number: ID number
         whatsapp: Whatsapp
@@ -2330,11 +2325,6 @@ en:
         report: Report
         status: Status
       clients:
-        difficulties: Difficulities
-        household_members: Household members
-        interview_locations: Interview location
-        hosting_number: How many are you hosting?
-        bic_others: Other
         presented_id: Presented ID
         id_number: ID number
         whatsapp: Whatsapp

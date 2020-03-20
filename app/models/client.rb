@@ -8,12 +8,6 @@ class Client < ActiveRecord::Base
 
   require 'text'
 
-  serialize :difficulties, Array
-  serialize :household_members, Array
-  serialize :interview_locations, Array
-  serialize :hosting_number, Array
-  serialize :bic_others, Array
-
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 

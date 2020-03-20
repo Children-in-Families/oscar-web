@@ -74,20 +74,6 @@ class ClientGrid < BaseGrid
     end
   end
 
-  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
-    options = {
-      difficulties: Client::DIFFICULTIES,
-      household_members: Client::HOUSEHOLD_MEMBERS,
-      interview_locations: Client::INTERVIEW_LOCATIONS,
-      hosting_number: Client::HOSTING_NUMBER,
-      bic_others: Client::BIC_OTHERS
-    }
-
-    filter(field_name, :enum, select: options[field_name.to_sym], header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
-      scope.where("#{field_name} = any(array[?])", value)
-    end
-  end
-
   def gender_list
     [I18n.t('default_client_fields.gender_list').values, Client::GENDER_OPTIONS].transpose
   end
@@ -799,12 +785,6 @@ class ClientGrid < BaseGrid
     ).each do |field_name|
     column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |object|
       object.public_send(field_name.to_sym)
-    end
-  end
-
-  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
-    column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |object|
-      object.public_send(field_name.to_sym)&.join(' | ')
     end
   end
 
