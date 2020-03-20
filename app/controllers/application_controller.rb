@@ -70,8 +70,6 @@ class ApplicationController < ActionController::Base
       flash.clear
       flash[:alert] = detect_browser
     end
-    session[:previous_request_url] = session[:current_request_url]
-    session[:current_request_url] = request.url
     I18n.locale = locale || I18n.locale
   end
 
