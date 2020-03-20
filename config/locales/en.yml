@@ -349,11 +349,26 @@ en:
               blank: can't be blank
     attributes:
       client:
-        difficulties: Difficulities
-        household_members: Household members
-        interview_locations: Interview location
-        hosting_number: How many are you hosting?
-        bic_others: Other
+        presented_id: Presented ID
+        id_number: ID number
+        whatsapp: Whatsapp
+        other_phone_number: Phone Number - Alternate
+        v_score: V-score from ODK
+        brsc_branch: BRCS Branch
+        current_island: Island - Current address
+        current_street: Street - Current address
+        current_po_box: PO BOX - Current address
+        current_city: City - Current address
+        current_settlement: Settlement - Current address
+        current_resident_own_or_rent: Owned or Rented - Current address
+        current_household_type: Is your household staying in one of the following?
+        island2: Island - Other address
+        street2: Street - Other address
+        po_box2: Zip - Other address
+        city2: City - Other address
+        settlement2: Settlement - Other address
+        resident_own_or_rent2: Owned, Rented or Temporary - Other address
+        household_type2: Address Type - Other address
   add_event_success: Event has been added to calendar successfully.
   advanced_search:
     fields:
@@ -1561,7 +1576,7 @@ en:
       exit_date: NGO Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
-      family_name: Family Name (Latin NEW!)
+      family_name: Family Name (Latin)
       finish: Finish
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
@@ -2310,11 +2325,26 @@ en:
         report: Report
         status: Status
       clients:
-        difficulties: Difficulities
-        household_members: Household members
-        interview_locations: Interview location
-        hosting_number: How many are you hosting?
-        bic_others: Other
+        presented_id: Presented ID
+        id_number: ID number
+        whatsapp: Whatsapp
+        other_phone_number: Phone Number - Alternate
+        v_score: V-score from ODK
+        brsc_branch: BRCS Branch
+        current_island: Island - Current address
+        current_street: Street - Current address
+        current_po_box: PO BOX - Current address
+        current_city: City - Current address
+        current_settlement: Settlement - Current address
+        current_resident_own_or_rent: Owned or Rented - Current address
+        current_household_type: Is your household staying in one of the following?
+        island2: Island - Other address
+        street2: Street - Other address
+        po_box2: Zip - Other address
+        city2: City - Other address
+        settlement2: Settlement - Other address
+        resident_own_or_rent2: Owned, Rented or Temporary - Other address
+        household_type2: Address Type - Other address
         able: Able
         able_state: Able State
         address: Address

@@ -44,17 +44,33 @@ class ClientGrid < BaseGrid
     scope.where(slug: slugs)
   end
 
-  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
-    options = {
-      difficulties: Client::DIFFICULTIES,
-      household_members: Client::HOUSEHOLD_MEMBERS,
-      interview_locations: Client::INTERVIEW_LOCATIONS,
-      hosting_number: Client::HOSTING_NUMBER,
-      bic_others: Client::BIC_OTHERS
-    }
-
-    filter(field_name, :enum, select: options[field_name.to_sym], header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
-      scope.where("#{field_name} = any(array[?])", value)
+  %w(
+      presented_id
+      id_number
+      client_phone
+      whatsapp
+      other_phone_number
+      local_given_name
+      local_family_name
+      v_score
+      brsc_branch
+      current_island
+      current_street
+      current_po_box
+      current_city
+      current_settlement
+      current_resident_own_or_rent
+      current_household_type
+      island2
+      street2
+      po_box2
+      city2
+      settlement2
+      resident_own_or_rent2
+      household_type2
+    ).each do |field_name|
+    filter(field_name, :string, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+      filter_shared_fileds(field_name, value, scope)
     end
   end
 
@@ -742,9 +758,33 @@ class ClientGrid < BaseGrid
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  %w(difficulties household_members interview_locations hosting_number bic_others).each do |field_name|
+  %w(
+      presented_id
+      id_number
+      client_phone
+      whatsapp
+      other_phone_number
+      local_given_name
+      local_family_name
+      v_score
+      brsc_branch
+      current_island
+      current_street
+      current_po_box
+      current_city
+      current_settlement
+      current_resident_own_or_rent
+      current_household_type
+      island2
+      street2
+      po_box2
+      city2
+      settlement2
+      resident_own_or_rent2
+      household_type2
+    ).each do |field_name|
     column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |object|
-      object.public_send(field_name.to_sym)&.join(' | ')
+      object.public_send(field_name.to_sym)
     end
   end
 
