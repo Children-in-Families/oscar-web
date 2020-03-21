@@ -1560,14 +1560,23 @@ en:
       answer: Answer
       birth_province: Client Birth Province
       blank: can't be blank
+      brsc_branch: BRCS Branch
       cambodia: Cambodia
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      city2: City - Other address
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
       current_address: Current Address
+      current_city: City - Current address
+      current_household_type: Is your household staying in one of the following?
+      current_island: Island - Current address
+      current_po_box: PO BOX - Current address
       current_province: Current Province
+      current_resident_own_or_rent: Owned or Rented - Current address
+      current_settlement: Settlement - Current address
+      current_street: Street - Current address
       custom_forms: Custom Forms
       date_of_birth: Date of Birth
       district: District/Khan
@@ -1616,16 +1625,23 @@ en:
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
+      household_type2: Address Type - Other address
       id: ID
+      id_number: ID number
       id_poor: ID Poor
       initial_referral_date: Initial Referral Date
       is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
+      island2: Island - Other address
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
       name: Name
       next: Next
+      other_phone_number: Phone Number - Alternate
+      po_box2: Zip - Other address
+      preferred_language: Preferred Language
+      presented_id: Presented ID
       previous: Previous
       province: Birth Province
       received_by: Referral Received By
@@ -1633,15 +1649,20 @@ en:
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      resident_own_or_rent2: Owned, Rented or Temporary - Other address
       school_grade: School Grade
       school_name: School Name
+      settlement2: Settlement - Other address
       stage: Stage Question
       state: Accept/Reject
       status: Status
+      street2: Street - Other address
       street_number: Street
       telephone_number: Primary Carer Phone Number
       to: To
+      v_score: V-score from ODK
       village: Village
+      whatsapp: Whatsapp
       year: Year
       yes_no: Yes/No
     form_header:

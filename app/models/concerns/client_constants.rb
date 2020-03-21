@@ -73,4 +73,40 @@ module ClientConstants
     'Hurricane related',
     'Pregnant woman in the household'
   ]
+
+  ISLANDS = [
+      'New Providence',
+      'Andros',
+      'Eleuthera',
+      'Exuma',
+      'Abaco Islands',
+      'Grand Bahama',
+      'Others'
+    ].freeze
+
+  BRC_RESIDENT_TYPES = %w(Owners Rent).freeze
+
+  BRC_HOUSEHOLD_TYPES = [
+    "A government, agency or religious shelter",
+    "A friend or family member's home",
+    "A short-term rental at risk of eviction",
+    "In a tent, destroyed building, or vehicle",
+    "Back home",
+    "Other"
+  ]
+
+  BRC_PRESENTED_IDS = [
+    "Driver's License",
+    "National Insurance Card (NIB)",
+    "Bahamian Passport",
+    "Voters card",
+    "Other"
+  ].freeze
+
+  BRC_PREFERED_LANGS = %w(
+    Creole
+    English
+    French
+    Other
+  ).freeze
 end

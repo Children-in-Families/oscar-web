@@ -1528,14 +1528,23 @@ km:
       answer: ចំលើយ
       birth_province: ស្រុកកំណើត
       blank: មិនអាចរំលង
+      brsc_branch: BRCS Branch
       cambodia: កម្ពុជា
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      city2: City - Other address
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
+      current_city: City - Current address
+      current_household_type: Is your household staying in one of the following?
+      current_island: Island - Current address
+      current_po_box: PO BOX - Current address
       current_province: រាជធានី/ខេត្ត
+      current_resident_own_or_rent: Owned or Rented - Current address
+      current_settlement: Settlement - Current address
+      current_street: Street - Current address
       custom_forms: ទម្រង់បែបបទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
@@ -1584,16 +1593,22 @@ km:
       has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
       has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
       house_number: ផ្ទះលេខ
+      household_type2: Address Type - Other address
       id: លេខសំគាល់
+      id_number: ID number
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
+      island2: Island - Other address
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       name: ឈ្មោះ
       next: បន្ទាប់
+      other_phone_number: Phone Number - Alternate
+      po_box2: Zip - Other address
+      presented_id: Presented ID
       previous: ត្រឡប់
       province: ខេត្ត/ក្រុង
       received_by: បុគ្គលិកទទួលករណី
@@ -1601,15 +1616,20 @@ km:
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
+      resident_own_or_rent2: Owned, Rented or Temporary - Other address
       school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
+      settlement2: Settlement - Other address
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
+      street2: Street - Other address
       street_number: ផ្លូវ
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       to: ទៅដល់
+      v_score: V-score from ODK
       village: ភូមិ
+      whatsapp: Whatsapp
       year: ឆ្នាំ
       yes_no: បាទ/អត់ទេ
     form_header:
