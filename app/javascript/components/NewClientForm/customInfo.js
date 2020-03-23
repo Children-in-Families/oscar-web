@@ -78,7 +78,7 @@ export default props => {
         }
 
         {
-          fieldsVisibility && fieldsVisibility.v_score == true &&
+          fieldsVisibility && fieldsVisibility.brsc_branch == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={translation.clients.form['brsc_branch']}
