@@ -10,7 +10,7 @@ export default props => {
   const rateLists = ratePoor.map(rate => ({ label: rate[0], value: rate[1] }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const brcPreferedLangsList = brc_prefered_langs.map(preferred_language => ({ label: preferred_language, value: preferred_language }))
-  console.log("customInfo", current_organization);
+
   return (
     <div id={id} className="collapse">
       <br/>
@@ -87,7 +87,7 @@ export default props => {
             />
           </div>
         }
-        
+
       </div>
 
       <div className="row">
