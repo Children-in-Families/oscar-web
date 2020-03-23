@@ -325,11 +325,11 @@ const Forms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange} />
+            <RefereeInfo data={refereeTabData} onChange={onChange} translation={translation} fieldsVisibility={fieldsVisibility}/>
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={referralTabData} onChange={onChange} />
+            <ReferralInfo data={referralTabData} onChange={onChange} translation={translation} fieldsVisibility={fieldsVisibility}/>
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
