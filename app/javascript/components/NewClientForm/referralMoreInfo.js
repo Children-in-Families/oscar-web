@@ -5,7 +5,7 @@ import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 
 export default props => {
-  const { onChange, translation, current_organization, data: { errorFields, carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, T, brc_presented_ids, brc_prefered_langs } } = props
+  const { onChange, translation, fieldsVisibility, current_organization, data: { errorFields, carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, T, brc_presented_ids, brc_prefered_langs } } = props
 
   return (
     <div className="containerClass">
@@ -93,7 +93,7 @@ export default props => {
         </div>
       </div>
 
-      <CustomInfo id="customInfo" translation={translation} current_organization={current_organization} onChange={onChange} data={{errorFields, ratePoor, client, T, brc_presented_ids, brc_prefered_langs }} />
+      <CustomInfo id="customInfo" translation={translation} fieldsVisibility={fieldsVisibility} current_organization={current_organization} onChange={onChange} data={{errorFields, ratePoor, client, T, brc_presented_ids, brc_prefered_langs }} />
     </div>
   )
 }
