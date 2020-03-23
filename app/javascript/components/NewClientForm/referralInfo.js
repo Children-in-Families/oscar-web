@@ -248,9 +248,13 @@ export default props => {
       <Address translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T, brc_islands, brc_household_types, brc_resident_types }} />
 
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.what_3_word")} onChange={onChange('client', 'what3words')} value={client.what3words} />
-        </div>
+        {
+          fieldsVisibility && fieldsVisibility.what3words != false &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput label={T.translate("referralInfo.what_3_word")} onChange={onChange('client', 'what3words')} value={client.what3words} />
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("referralInfo.client_phone")} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>
