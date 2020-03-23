@@ -319,7 +319,7 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={adminTabData} onChange={onChange} />
+          <AdministrativeInfo data={adminTabData} onChange={onChange} translation={translation} />
         </div>
 
         <div className='rightComponent'>
