@@ -29,9 +29,10 @@
                   %td.col-xs-3= @setting.default_assessment
                   %td.col-xs-6.task-name.border-left-right
                   %td.col-xs-3= date_format(client_overdue_default_assessment)
-              - if @setting.enable_custom_assessment? && @assessment_params && overdue_custom_assessments_any?(client) && client.user_ids.include?(@user.id) && client.assessments.customs.present?
+              - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id) && client.assessments.customs.present?
                 - custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-                - CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                  - next unless client.eligible_custom_csi?(custom_assessment_setting) && overdue_custom_assessments_any?(client, custom_assessment_setting=nil)
                   - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting.id)
                   %tr
                     %td.col-xs-3= custom_assessment_setting.custom_assessment_name
