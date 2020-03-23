@@ -15,7 +15,7 @@
                 %abbr{ title: 'required' } *
                 = t('.accepted_date')
               .input-group
-                = f.text_field :accepted_date, class: 'date form-control enter_date', type: 'text', name: 'enter_ngo[accepted_date]'
+                = f.text_field :accepted_date, class: 'date form-control enter_date', type: 'text', readonly: 'readonly', name: 'enter_ngo[accepted_date]', data: { date_start_date: initial_referral_date_picker_format(@client) }
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
 

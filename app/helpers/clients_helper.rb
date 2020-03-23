@@ -1150,6 +1150,10 @@ module ClientsHelper
     @client.donors.distinct
   end
 
+  def initial_referral_date_picker_format(client)
+    "#{client.initial_referral_date.year}, #{client.initial_referral_date.month}, #{@client.initial_referral_date.day}"
+  end
+
   def get_quantitative_types
     if current_organization.short_name != 'brc'
       QuantitativeType.all
