@@ -267,7 +267,7 @@ class Client < ActiveRecord::Base
     custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct
     return Date.today if custom_assessments.empty?
     return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
-    (custom_assessments.latest_record.created_at + assessment_duration('max', false)).to_date
+    (custom_assessments.latest_record.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
   end
 
   def next_appointment_date
@@ -582,16 +582,16 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment)
+      next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment?)
       clients = joins(:assessments).active_accepted_status
       clients.each do |client|
-        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
+        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.count > 1
           repeat_notifications = client.repeat_notifications_schedule
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
           end
         end
-        if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
+        if Setting.first.enable_custom_assessment? && client.assessments.customs.count > 1
           repeat_notifications = client.repeat_notifications_schedule(false)
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
@@ -613,11 +613,14 @@ class Client < ActiveRecord::Base
         end
       end
 
-      if Setting.first.enable_custom_assessment
+      if Setting.first.enable_custom_assessment?
         clients = joins(:assessments).where(assessments: { completed: false, default: false })
         clients.each do |client|
-          if client.eligible_custom_csi? && client.assessments.customs.any?
-            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+            if client.eligible_custom_csi?(custom_assessment_setting) && client.assessments.customs.any?
+              CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
+            end
           end
         end
       end
@@ -659,10 +662,10 @@ class Client < ActiveRecord::Base
     client_age < age ? true : false
   end
 
-  def eligible_custom_csi?
+  def eligible_custom_csi?(custom_assessment_setting)
     return true if date_of_birth.nil?
     client_age = age_as_years
-    age        = Setting.first.custom_age || 18
+    age        = custom_assessment_setting.custom_age || 18
     client_age < age ? true : false
   end
 
@@ -710,15 +713,21 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def assessment_duration(duration, default = true)
+  def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
     if duration == 'max'
       setting = Setting.first
       if default
         assessment_period    = setting.max_assessment
         assessment_frequency = setting.assessment_frequency
       else
-        assessment_period    = setting.max_custom_assessment
-        assessment_frequency = setting.custom_assessment_frequency
+        if custom_assessment_setting_id
+          custom_assessment_setting = CustomAssessmentSetting.find(custom_assessment_setting_id)
+          assessment_period    = custom_assessment_setting.max_custom_assessment
+          assessment_frequency = custom_assessment_setting.custom_assessment_frequency
+        else
+          assessment_period    = setting.max_custom_assessment
+          assessment_frequency = setting.custom_assessment_frequency
+        end
       end
     else
       assessment_period = 3

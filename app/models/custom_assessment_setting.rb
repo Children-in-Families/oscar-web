@@ -10,4 +10,6 @@ class CustomAssessmentSetting < ActiveRecord::Base
   validates :custom_assessment_name, presence: true, if: -> { Setting.first.enable_custom_assessment.present? }
   validates :max_custom_assessment, presence: true, if: -> { Setting.first.enable_custom_assessment.present? }
   validates :custom_age, presence: true, if: -> { Setting.first.enable_custom_assessment.present? }
+
+  scope :any_custom_assessment_enable?, -> { all.present? }
 end
