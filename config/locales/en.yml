@@ -1660,6 +1660,7 @@ en:
       street_number: Street
       telephone_number: Primary Carer Phone Number
       to: To
+      user_ids: Case Worker / Assigned Staff Manager
       v_score: V-score from ODK
       village: Village
       whatsapp: Whatsapp

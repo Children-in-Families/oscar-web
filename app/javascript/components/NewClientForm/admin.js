@@ -49,7 +49,7 @@ export default props => {
             T={T}
             required
             isError={errorFields.includes('user_ids')}
-            label={T.translate("admin.case_worker")}
+            label={translation.clients.form.user_ids}
             isMulti
             options={userLists}
             value={client.user_ids}
