@@ -181,17 +181,16 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.given_name")} onChange={onChange('client', 'given_name')} value={client.given_name} />
+          <TextInput label={translation.clients.form.given_name} onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <p>{t(translation, 'clients.form.family_name')}</p>
           <TextInput label={translation.clients.form.family_name} onChange={onChange('client', 'family_name')} value={client.family_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.local_given_name")} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
+          <TextInput label={translation.clients.form.local_given_name} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.local_family_name")} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
+          <TextInput label={translation.clients.form.local_family_name} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
         </div>
       </div>
       <div className="row">
