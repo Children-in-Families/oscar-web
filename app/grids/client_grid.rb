@@ -44,6 +44,36 @@ class ClientGrid < BaseGrid
     scope.where(slug: slugs)
   end
 
+  %w(
+      presented_id
+      id_number
+      client_phone
+      whatsapp
+      other_phone_number
+      local_given_name
+      local_family_name
+      v_score
+      brsc_branch
+      current_island
+      current_street
+      current_po_box
+      current_city
+      current_settlement
+      current_resident_own_or_rent
+      current_household_type
+      island2
+      street2
+      po_box2
+      city2
+      settlement2
+      resident_own_or_rent2
+      household_type2
+    ).each do |field_name|
+    filter(field_name, :string, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+      filter_shared_fileds(field_name, value, scope)
+    end
+  end
+
   def gender_list
     [I18n.t('default_client_fields.gender_list').values, Client::GENDER_OPTIONS].transpose
   end
@@ -71,7 +101,6 @@ class ClientGrid < BaseGrid
   def status_options
     scope.status_like
   end
-
 
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
@@ -739,6 +768,36 @@ class ClientGrid < BaseGrid
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
+  end
+
+  %w(
+      presented_id
+      id_number
+      client_phone
+      whatsapp
+      other_phone_number
+      local_given_name
+      local_family_name
+      v_score
+      brsc_branch
+      current_island
+      current_street
+      current_po_box
+      current_city
+      current_settlement
+      current_resident_own_or_rent
+      current_household_type
+      island2
+      street2
+      po_box2
+      city2
+      settlement2
+      resident_own_or_rent2
+      household_type2
+    ).each do |field_name|
+    column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |object|
+      object.public_send(field_name.to_sym)
+    end
   end
 
   date_column(:created_at, html: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })

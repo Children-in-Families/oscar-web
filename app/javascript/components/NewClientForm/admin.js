@@ -5,7 +5,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, data: { users, client, errorFields, T } } = props
+  const { onChange, translation, data: { users, client, errorFields, T } } = props
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
   return (
@@ -37,7 +37,7 @@ export default props => {
             T={T}
             required
             isError={errorFields.includes('initial_referral_date')}
-            label={T.translate("admin.date_referral")}
+            label={translation.clients.form.initial_referral_date}
             value={client.initial_referral_date}
             onChange={onChange('client', 'initial_referral_date')} />
         </div>
@@ -49,7 +49,7 @@ export default props => {
             T={T}
             required
             isError={errorFields.includes('user_ids')}
-            label={T.translate("admin.case_worker")}
+            label={translation.clients.form.user_ids}
             isMulti
             options={userLists}
             value={client.user_ids}

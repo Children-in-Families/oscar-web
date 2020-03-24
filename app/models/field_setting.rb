@@ -5,6 +5,8 @@ class FieldSetting < ActiveRecord::Base
   validates :name, :group, presence: true
   validate :must_note_hide_required_field, if: :required?
 
+  default_scope -> { order(:created_at) }
+
   before_save :assign_type
 
   def field_setting?

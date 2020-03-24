@@ -7,7 +7,7 @@ import {
 import Address      from './address'
 
 export default props => {
-  const { onChange, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
+  const { onChange, fieldsVisibility, translation, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
 
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -120,7 +120,7 @@ export default props => {
         </div>
       </legend>
 
-      <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
+      <Address translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
     </div>
   )
 }

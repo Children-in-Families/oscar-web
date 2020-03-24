@@ -79,10 +79,31 @@ module ClientsHelper
       kid_id:                        custom_id_translation('custom_id2'),
       code:                          custom_id_translation('custom_id1'),
       age:                           t('datagrid.columns.clients.age'),
+      presented_id:                  t('datagrid.columns.clients.presented_id'),
+      id_number:                     t('datagrid.columns.clients.id_number'),
+      whatsapp:                      t('datagrid.columns.clients.whatsapp'),
+      other_phone_number:            t('datagrid.columns.clients.other_phone_number'),
+      v_score:                       t('datagrid.columns.clients.v_score'),
+      brsc_branch:                   t('datagrid.columns.clients.brsc_branch'),
+      current_island:                t('datagrid.columns.clients.current_island'),
+      current_street:                t('datagrid.columns.clients.current_street'),
+      current_po_box:                t('datagrid.columns.clients.current_po_box'),
+      current_city:                  t('datagrid.columns.clients.current_city'),
+      current_settlement:            t('datagrid.columns.clients.current_settlement'),
+      current_resident_own_or_rent:  t('datagrid.columns.clients.current_resident_own_or_rent'),
+      current_household_type:        t('datagrid.columns.clients.current_household_type'),
+      island2:                       t('datagrid.columns.clients.island2'),
+      street2:                       t('datagrid.columns.clients.street2'),
+      po_box2:                       t('datagrid.columns.clients.po_box2'),
+      city2:                         t('datagrid.columns.clients.city2'),
+      settlement2:                   t('datagrid.columns.clients.settlement2'),
+      resident_own_or_rent2:         t('datagrid.columns.clients.resident_own_or_rent2'),
+      household_type2:               t('datagrid.columns.clients.household_type2'),
+      interview_locations:           t('datagrid.columns.clients.interview_locations'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
-      local_given_name:              "#{t('datagrid.columns.clients.local_given_name')} #{country_scope_label_translation}",
-      local_family_name:             "#{t('datagrid.columns.clients.local_family_name')} #{country_scope_label_translation}",
+      local_given_name:              local_name_label,
+      local_family_name:             local_name_label(:local_family_name),
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
       birth_province_id:             t('datagrid.columns.clients.birth_province'),
@@ -137,6 +158,13 @@ module ClientsHelper
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
     label_tag "#{column}_", label_column[column.to_sym]
+  end
+
+  def local_name_label(name_type = :local_given_name)
+    custom_field = FieldSetting.find_by(name: name_type)
+    label = t("datagrid.columns.clients.#{name_type}")
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.label.blank?
+    label
   end
 
   def ec_manageable
@@ -339,8 +367,8 @@ module ClientsHelper
       program_streams_: t('datagrid.columns.clients.program_streams'),
       given_name_: t('datagrid.columns.clients.given_name'),
       family_name_: t('datagrid.columns.clients.family_name'),
-      local_given_name_: "#{t('datagrid.columns.clients.local_given_name')} (#{country_scope_label_translation})",
-      local_family_name_: "#{t('datagrid.columns.clients.local_family_name')} (#{country_scope_label_translation})",
+      local_given_name_: local_name_label,
+      local_family_name_: local_name_label(:local_family_name),
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
@@ -1167,6 +1195,10 @@ module ClientsHelper
 
   def initial_referral_date_picker_format(client)
     "#{client.initial_referral_date.year}, #{client.initial_referral_date.month}, #{@client.initial_referral_date.day}"
+  end
+
+  def get_address_json
+    Client::BRC_ADDRESS.zip(Client::BRC_ADDRESS).to_h.to_json
   end
 
   def get_quantitative_types
