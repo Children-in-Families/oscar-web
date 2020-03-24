@@ -226,7 +226,9 @@ class ClientsController < AdminController
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
             :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
-
+            :presented_id, :id_number, :whatsapp, :other_phone_number, :v_score, :brsc_branch, :current_island, :current_street,
+            :current_po_box, :current_city, :current_settlement, :current_resident_own_or_rent, :current_household_type,
+            :island2, :street2, :po_box2, :city2, :settlement2, :resident_own_or_rent2, :household_type2,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
