@@ -166,10 +166,10 @@ class User < ActiveRecord::Base
           end
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
-            if client_custom_next_assessment_date < Date.today
+            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
+            if  client_custom_next_assessment_date && client_custom_next_assessment_date < Date.today
               customized_overdue << client
-            elsif client_custom_next_assessment_date == Date.today
+            elsif  client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
               customized_due_today << client
             end
           end
@@ -202,7 +202,7 @@ class User < ActiveRecord::Base
             due_today << client
           end
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
+            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
             if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
               customized_overdue << client
             elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
@@ -219,7 +219,7 @@ class User < ActiveRecord::Base
           end
         elsif setting.enable_custom_assessment?
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id).to_date
+            client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id)&.to_date
             if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
               customized_overdue << client
             elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
