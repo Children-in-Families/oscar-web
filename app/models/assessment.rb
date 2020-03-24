@@ -50,11 +50,11 @@ class Assessment < ActiveRecord::Base
     customs.most_recents.first
   end
 
-  def initial?
+  def initial?(custom_assessment_setting_id=nil)
     if default?
       self == client.assessments.defaults.most_recents.last || client.assessments.defaults.count.zero?
     else
-      self == client.assessments.customs.most_recents.last || client.assessments.customs.count.zero?
+      self == client.assessments.customs.joins(:domains).where(domains: { custom_assessment_setting_id: custom_assessment_setting_id }).most_recents.last || client.assessments.customs.count.zero?
     end
   end
 
@@ -62,8 +62,13 @@ class Assessment < ActiveRecord::Base
     self == client.assessments.latest_record
   end
 
-  def populate_notes(default)
-    domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
+  def populate_notes(default, custom_name)
+    if custom_name.present?
+      custom_assessment_id= CustomAssessmentSetting.find_by(custom_assessment_name: custom_name).id
+      domains = default == 'true' ? Domain.csi_domains : CustomAssessmentSetting.find_by(id: custom_assessment_id).domains
+    else
+      domains = default == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
+    end
     domains.each do |domain|
       assessment_domains.build(domain: domain)
     end
@@ -84,7 +89,14 @@ class Assessment < ActiveRecord::Base
   def eligible_client_age
     return false if client.nil?
 
-    eligible = default? ? client.eligible_default_csi? : client.eligible_custom_csi?
+    eligible = if default?
+                client.eligible_default_csi?
+              else
+                custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+                CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                  client.eligible_custom_csi?(custom_assessment_setting)
+                end
+              end
     eligible ? true : errors.add(:base, "Assessment cannot be added due to client's age.")
   end
 

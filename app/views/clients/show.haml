@@ -42,13 +42,13 @@
             .col-xs-12
               .row
                 .col-xs-12
-                  = simple_form_for [ @client, @client.enter_ngos.build ] do |f|
-                    .form-inputs
-                      = f.hidden_field :accepted_date, value: Date.today
-                    .form-actions
-                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client', data: { disable_with: t('.accepting') }
+                  - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
+                    %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
+                  - else
+                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal' } }= t('.accept')
+                    = render 'clients/accept_client'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{ "data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.reject')}
 
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
@@ -227,6 +227,12 @@
                 %td
                   %strong
                     = @client.local_family_name
+              - if current_setting.try(:enable_hotline) == true
+                %tr
+                  %td.spacing-first-col
+                    = t('.nickname')
+                  %td
+                    = @client.nickname
               %tr
                 %td.spacing-first-col
                   = t('.donor')
@@ -240,6 +246,12 @@
                 %td.address
                   %strong
                     = country_address_field(@client)
+              - if current_setting.try(:enable_hotline) == true
+                %tr
+                  %td.spacing-first-col
+                    = t('.concern_location')
+                  %td.address
+                    %strong= concern_merged_address(@client).join(', ')
               %tr
                 %td.spacing-first-col
                   = t('.what3words')
@@ -259,25 +271,25 @@
                   = t('.name_of_referee')
                 %td
                   %strong
-                    = @client.name_of_referee
+                    = @client.referee.try(:name)
               %tr
                 %td.spacing-first-col
                   = t('.referral_phone')
                 %td
                   %strong
-                    = @client.referral_phone
+                    = @client.referee.try(:phone)
               %tr
                 %td.spacing-first-col
                   = t('.primary_carer_name')
                 %td
                   %strong
-                    = @client.live_with
+                    = @client.carer.try(:name)
               %tr
                 %td.spacing-first-col
                   = t('.primary_carer_phone_number')
                 %td
                   %strong
-                    = @client.telephone_number
+                    = @client.carer.try(:phone)
               - if Setting.first.country_name == "cambodia"
                 %tr
                   %td.spacing-first-col
@@ -375,18 +387,18 @@
                 %td
                   %strong
                     = @client.main_school_contact
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.has_been_in_orphanage')}?"
-                %td
-                  %strong
-                    = human_boolean(@client.has_been_in_orphanage) unless @client.has_been_in_orphanage.nil?
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.has_been_in_government_care')}?"
-                %td
-                  %strong
-                    = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = "#{t('.has_been_in_orphanage')}?"
+              -#   %td
+              -#     %strong
+              -#       = human_boolean(@client.has_been_in_orphanage) unless @client.has_been_in_orphanage.nil?
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = "#{t('.has_been_in_government_care')}?"
+              -#   %td
+              -#     %strong
+              -#       = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
               %tr
                 %td.spacing-first-col
                   = t('.relevant_referral_information')
@@ -400,6 +412,17 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
+        .row
+          .col-xs-12
+            %table.table.table-bordered
+              - if @client.phone_counselling_summary.present?
+                %tr
+                  %td.spacing-first-col
+                    = t('.phone_counselling_summary')
+                  %td
+                    %strong
+                      = @client.phone_counselling_summary
+
         .row
           .col-xs-12
             %table.table.table-bordered
@@ -421,7 +444,7 @@
                   %tr
                     %th= t('.case_histories')
                     - unless Rails.env.production?
-                      %th Created Date
+                      %th= t('.created_date')
                     %th= t('.date')
                     %th.text-center= t('.detail')
                 %tbody
@@ -450,6 +473,25 @@
                     .text-center
                       %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
                     = render 'case_history_detail', object: @client, index: 'initial_referral_date'
+        - if @client.calls.any?
+          .row
+            .col-xs-12
+              %table.table.table-bordered.table-hover
+                %thead
+                  %tr
+                    %th= t('.hotlines')
+                    %th= t('.call_type')
+                    %th= t('.date_of_call')
+                    %th.text-center= t('.detail')
+                %tbody
+                  - @client.calls.most_recents.each do |call|
+                    %tr
+                      %td= call.phone_call_id
+                      %td= t('.callType.' + call.call_type.parameterize.underscore)
+                      %td= date_format(call.date_of_call)
+                      %td.text-center
+                        = link_to call_path(call) do
+                          %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
 .row
   -# = render 'placement'
   = render 'referrals/confirm_referral'

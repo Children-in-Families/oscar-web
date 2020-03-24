@@ -19,6 +19,6 @@ class Case::QuarterlyReportsController < AdminController
   end
 
   def find_case
-    @case = Case.find(params[:case_id])
+    @case = Case.with_deleted.find(params[:case_id])
   end
 end

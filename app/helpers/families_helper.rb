@@ -154,4 +154,8 @@ module FamiliesHelper
   def selected_clients
     @family.id ? @clients.where("current_family_id = ?", @family.id).ids : @selected_children
   end
+
+  def children_exist?
+    @results && !@results.zero?
+  end
 end

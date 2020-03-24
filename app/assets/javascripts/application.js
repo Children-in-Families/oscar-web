@@ -28,7 +28,10 @@
 //= require form_builder/form-builder.min
 //= require form_builder/form-render.min
 //= require lodash/lodash.min.js
-//= require query_builder/query-builder.standalone.min.js
+// require query_builder/query-builder.standalone.min.js
+//= require jquery.extendext
+//= require doT
+//= require query-builder
 
 //remove query_builder/utils, query_builder/model and query_builder/plugin bcuz conflict with form-builder select option not show
 
@@ -114,6 +117,7 @@
 //= require organizations/index
 //= require settings/index
 //= require settings/research_module
+//= require settings/client_forms
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
@@ -122,3 +126,6 @@
 //= require registrations/form
 //= require referral_sources/index
 //= require client_books/index
+//= require calls/form
+//= require calls/index
+//= require referees/index

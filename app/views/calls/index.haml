@@ -1,0 +1,38 @@
+.row
+  .col-xs-12
+    .pull-left
+      %button.btn.btn-primary.btn-filter{ "aria-expanded" => 'false', "data-target" => '#call-search-form', "data-toggle" => 'collapse', type: 'button' }
+        %i.fa.fa-filter
+      %button.m-l-xs.btn.btn-primary.query.call-advance-search{"aria-expanded" => 'false', "data-target" => '#call-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
+        = t('.report_builder')
+    .pull-right
+      = link_to "#{I18n.t('calls.index.add_new_call')}", new_call_path, class: 'btn btn-primary'
+      = link_to "#{I18n.t('calls.index.export_xls')}", current_url(format: 'xls'), class: "btn btn-info btn-export #{@calls_grid.assets.size.zero? && 'disabled'}"
+.m-t-md
+.row
+  .col-xs-12
+    .ibox-content.collapse#call-advance-search-form.main-report-builder{ class: params.has_key?(:query_builder_json) && 'in' }
+      = render 'calls/call_advanced_searches/advanced_search'
+.row.ibox-space
+  .col-xs-12
+    .ibox.float-e-margins#call-search-form.collapse{ class: !params.has_key?(:query_builder_json) && 'in' }
+      .ibox-content
+        = datagrid_form_for @calls_grid, url: calls_url, html: { class: 'grid-form' }
+
+%input#params{ value: "#{params['call_advanced_search']}", type: 'hidden' }
+.row
+  .col-xs-12
+    .ibox.float-e-margins
+      .ibox-title
+        %h5= @results
+        %span.label.label-info= t('.results')
+        .ibox-tools
+          %a.collapse-link
+            %i.fa.fa-chevron-up
+          %a.fullscreen-link
+            %i.fa.fa-expand
+      .ibox-content
+        .calls-table
+          = datagrid_table @calls_grid, html: { class: 'table table-bordered table-striped table-hover calls'}
+      .ibox-footer.text-center
+        = paginate @calls_grid.assets

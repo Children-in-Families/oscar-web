@@ -7,7 +7,9 @@ module FormBuilderHelper
         if form_type == 'tracking'
           tracking_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
         elsif form_type == 'formbuilder'
-          form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input])
+          form_builder_query_string(h[:id], h[:field], h[:operator], h[:value], h[:type], h[:input], properties_field)
+        elsif form_type == 'active_program_stream'
+          program_stream_service_query(h[:id], h[:field], h[:operator], h[:value], 'program_streams')
         end
       end.join(" #{condition} ")
     end
@@ -30,6 +32,19 @@ module FormBuilderHelper
     data_mapping << rule_array
   end
 
+  def mapping_allowed_param_value(data, field_names, data_mapping=[])
+    rule_array = []
+    data[:rules].each_with_index do |h, index|
+      if h.has_key?(:rules)
+        mapping_allowed_param_value(h, field_names, data_mapping)
+      end
+      next if !(field_names.include?(h[:id]))
+      h[:condition] = data[:condition]
+      rule_array << h
+    end
+    data_mapping << rule_array
+  end
+
   def get_program_service_query_string(results)
     results.map do |result|
       condition = ''
@@ -41,12 +56,28 @@ module FormBuilderHelper
     end
   end
 
+  def get_any_query_string(results, class_name)
+    results.map do |result|
+      condition = ''
+      result.map do |h|
+        condition = h[:condition]
+        general_query(h[:id], h[:field], h[:operator], h[:value], h[:type], class_name)
+      end.join(" #{condition} ")
+    end
+  end
+
   def program_stream_service_query(id, field_name, operator, value, class_name)
     case operator
     when 'equal'
       "#{class_name}.id = #{value}"
     when 'not_equal'
-      "#{class_name}.id != #{value}"
+      if class_name == 'program_streams'
+        sql = "#{class_name}.id = #{value} OR #{class_name}.id IS NULL"
+        client_ids = Client.joins(:program_streams).where(sql).distinct.ids
+        "clients.id NOT IN (#{client_ids.join(',')}) OR #{class_name}.id IS NULL"
+      else
+        "#{class_name}.id != #{value} OR #{class_name}.id IS NULL"
+      end
     when 'is_empty'
       "#{class_name}.id IS NULL"
     when 'is_not_empty'
@@ -99,49 +130,113 @@ module FormBuilderHelper
     end
   end
 
-  def form_builder_query_string(id, field, operator, value, type, input_type, properties_field='')
+  def form_builder_query_string(id, field, operator, value, type, input_type, properties_field='properties')
     value = format_value(value, input_type)
     field = format_value(field, input_type)
     case operator
     when 'equal'
       if input_type == 'text' && field.exclude?('&')
-        "(lower(properties ->> '#{field}') = '#{value.downcase}')"
+        "lower(#{properties_field} ->> '#{field}') = '#{value.downcase}'"
       else
-        "(properties -> '#{field}' ? '#{value}')"
+        "#{properties_field} -> '#{field}' ? '#{value}'"
       end
     when 'not_equal'
       if input_type == 'text' && field.exclude?('&')
-        "(lower(properties ->> '#{field}') != '#{value.downcase}')"
+        "lower(#{properties_field} ->> '#{field}') != '#{value.downcase}'"
       else
-        "(NOT(properties -> '#{field}' ? '#{value}'))"
+        "NOT(#{properties_field} -> '#{field}' ? '#{value}')"
       end
     when 'less'
-      "((properties ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{'::numeric' if integer?(type) } < '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'less_or_equal'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } <= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'greater'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } > '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'greater_or_equal'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } >= '#{value}' AND #{properties_field} ->> '#{field}' != ''"
     when 'contains'
-      "(properties ->> '#{field}' ILIKE '%#{value.squish}%')"
+      "#{properties_field} ->> '#{field}' ILIKE '%#{value.squish}%'"
     when 'not_contains'
-      "(properties ->> '#{field}' NOT ILIKE '%#{value.squish}%')"
+      "#{properties_field} ->> '#{field}' NOT ILIKE '%#{value.squish}%'"
     when 'is_empty'
       if type == 'checkbox'
-        "(properties -> '#{field}' ? '')"
+        "#{properties_field} -> '#{field}' ? ''"
       else
-        "(properties -> '#{field}' ? '' OR (properties -> '#{field}') IS NULL)"
+        "#{properties_field} -> '#{field}' ? '' OR (#{properties_field} -> '#{field}') IS NULL"
       end
     when 'is_not_empty'
       if type == 'checkbox'
-        "(NOT(properties -> '#{field}' ? ''))"
+        "NOT(#{properties_field} -> '#{field}' ? '')"
       else
-        "(NOT(properties -> '#{field}' ? '') OR (properties -> '#{field}') IS NOT NULL)"
+        "NOT(#{properties_field} -> '#{field}' ? '') OR (#{properties_field} -> '#{field}') IS NOT NULL"
       end
     when 'between'
-      "((properties ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != '')"
+      "(#{properties_field} ->> '#{field}')#{ '::numeric' if integer?(type) } BETWEEN '#{value.first}' AND '#{value.last}' AND #{properties_field} ->> '#{field}' != ''"
     end
+  end
+
+  def general_query(id, field, operator, value, type, class_name)
+    field_name = id == 'case_note_date' ? 'meeting_date' : id
+    field_name = field_name == 'case_note_type' ? 'interaction_type' : field_name
+
+    value      = !value.is_a?(Array) && type == 'string'  ? value.downcase : value
+
+    lower_field_name      = string_field(type, field_name, value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
+    table_name_field_name = ['start_datetime'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
+    table_name_field_name = ['date_of_call', 'meeting_date'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
+
+    case operator
+    when 'equal'
+      if value == 'true'
+        "#{table_name_field_name} = #{value}"
+      elsif value == 'false'
+        "#{table_name_field_name} = #{value} OR #{table_name_field_name} IS NULL"
+      else
+        "#{table_name_field_name} = '#{value}'"
+      end
+    when 'not_equal'
+      if value == 'true'
+        "#{table_name_field_name} != #{value}"
+      elsif value == 'false'
+        "#{table_name_field_name} != #{value} OR #{table_name_field_name} IS NOT NULL"
+      else
+        "#{table_name_field_name} != '#{value}'"
+      end
+    when 'less'
+      "#{table_name_field_name} < '#{value}' AND #{lower_field_name} IS NOT NULL"
+    when 'less_or_equal'
+      "#{table_name_field_name} <= '#{value}' AND #{lower_field_name} IS NOT NULL"
+    when 'greater'
+      "#{table_name_field_name} > '#{value}' AND #{lower_field_name} IS NOT NULL"
+    when 'greater_or_equal'
+      "#{table_name_field_name} >= '#{value}' AND #{lower_field_name} IS NOT NULL"
+    when 'contains'
+      "#{table_name_field_name} ILIKE '%#{value.squish}%' AND #{lower_field_name} IS NOT NULL"
+    when 'not_contains'
+      "#{table_name_field_name} NOT ILIKE '%#{value.squish}%' OR #{lower_field_name} IS NULL"
+    when 'is_empty'
+      if field_name[/datetime|meeting_date|case_note_date/]
+        "#{lower_field_name} IS NULL"
+      elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
+        "#{table_name_field_name} IS NULL"
+      else
+        "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
+      end
+    when 'is_not_empty'
+      if field_name[/datetime|meeting_date|case_note_date/]
+        "#{lower_field_name} IS NOT NULL"
+      elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
+        "#{table_name_field_name} IS NOT NULL"
+      else
+        "#{table_name_field_name} != '' AND #{lower_field_name} IS NOT NULL"
+      end
+    when 'between'
+      "#{table_name_field_name} BETWEEN '#{value.first}' AND '#{value.last}' AND #{table_name_field_name} IS NOT NULL"
+    end
+  end
+
+  def string_field(type, field_name, value)
+    type == 'string' && field_name.exclude?('datetime') && ['true', 'false'].exclude?(value) && ['protection_concern_id', 'necessity_id'].exclude?(field_name) && %w(called_before childsafe answered_call requested_update not_a_phone_call).exclude?(field_name)
   end
 
   def map_type_of_services(object)

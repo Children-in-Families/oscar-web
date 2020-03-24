@@ -323,6 +323,7 @@ th-TH:
       agencies_involved:
       agency_name:
       agency_names:
+      assessment_completed_date:
       assessment_number:
       basic_fields:
       birth_province:
@@ -588,6 +589,15 @@ th-TH:
   calendars:
     index:
       sync_with_google:
+  calls:
+    type:
+      case_action_required:
+      notifier_concern:
+      providing_update:
+      phone_counseling:
+      seeking_information:
+      spam_call:
+      wrong_number:
   cancel:
   cannot_be_blank:
   cannot_be_greater:
@@ -1904,6 +1914,7 @@ th-TH:
     columns:
       all_csi_assessments:
       all_custom_csi_assessments:
+      assessment_completed_date:
       carer_address:
       carer_names:
       carer_phone_number:

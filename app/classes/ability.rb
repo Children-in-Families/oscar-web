@@ -7,6 +7,8 @@ class Ability
     can :manage, QuarterlyReport
     can :read, ProgramStream
     can :preview, ProgramStream
+    can :manage, Call
+    can :manage, Referee
     if user.nil?
       can :manage, Client
     elsif user.admin?
@@ -17,6 +19,8 @@ class Ability
       cannot :manage, QuarterlyReport
       cannot :manage, CustomFieldProperty
       cannot :manage, CaseNote
+      cannot :manage, Call
+      cannot :manage, Referee
 
       can :read, :all
       can :version, :all

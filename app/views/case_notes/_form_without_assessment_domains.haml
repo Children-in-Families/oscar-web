@@ -8,7 +8,7 @@
   .ibox-title
     %h5
       = "#{t('.domain')} #{domain_note.object.domain_group.name}"
-      =# "(#{get_domains(domain_note)})"
+      =# "(#{get_domains(domain_note, @custom_assessment_setting&.id)})"
     - domain_note_by_case_note.each do |domain|
       .case-note-domain-score{ class: "btn btn-primary btn-sm", data: { domain_name: domain.name } }
         = "#{domain.name}: #{domain.identity}"
@@ -23,4 +23,11 @@
           .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
             .panel-heading
               %strong= "#{t('.domain')} #{domain.name}: #{domain.identity}"
+              %strong
+                = t('.domain')
+                - if @case_note.custom
+                  = "#{domain.name}: #{domain.identity}"
+                - else
+                  = t("domains.domain_names.#{domain.name.downcase.reverse}")
+                  = domain.identity
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }

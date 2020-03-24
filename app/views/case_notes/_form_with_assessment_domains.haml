@@ -5,8 +5,11 @@
 .ibox.case-note-domain-group{ id: "domain-#{domain_note.object.domain_group.id}" }
   .ibox-title
     %h5
-      = "#{t('.domain')} #{domain_note.object.domain_group.name}"
-      =# "(#{get_domains(domain_note)})"
+      - if current_organization.try(:aht) == true
+        = "#{t('.dimensions')} #{domain_note.object.domain_group.name}"
+      - else
+        = "#{t('.domain')} #{domain_note.object.domain_group.name}"
+      = "(#{get_domains(domain_note)})"
       - domain_note_by_case_note.each do |domain|
         - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
         - next if ad.nil?

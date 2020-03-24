@@ -19,6 +19,7 @@ class AdvancedSearch < ActiveRecord::Base
                                 exit_form_check: exit_form_check,
                                 # basic_rules: queries.to_json,
                                 quantitative_check: quantitative_check,
+                                hotline_check: hotline_check,
                                 action_report_builder: '#builder' }
                                 }
   end

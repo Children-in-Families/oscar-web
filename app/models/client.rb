@@ -12,9 +12,14 @@ class Client < ActiveRecord::Base
   friendly_id :slug, use: :slugged
   mount_uploader :profile, ImageUploader
 
+  REFEREE_RELATIONSHIPS = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
+  RELATIONSHIP_TO_CALLER = ['Self', 'Child', 'Family Member', 'Friend', 'In same community', 'Client', 'Stranger', 'Other'].freeze
+  ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
+  PHONE_OWNERS    = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
+  HOTLINE_FIELDS  = %w(nickname concern_is_outside concern_outside_address concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_location concern_same_as_client location_description phone_counselling_summary)
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
+  HEADER_COUNTS   = %w( date_of_call case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
   GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
@@ -43,7 +48,17 @@ class Client < ActiveRecord::Base
   belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
   belongs_to :commune
   belongs_to :village
+  belongs_to :referee
+  belongs_to :carer
+  belongs_to :call
 
+  belongs_to :concern_province, class_name: 'Province',  foreign_key: 'concern_province_id'
+  belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
+  belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
+  belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
+
+  has_many :hotlines, dependent: :destroy
+  has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
   has_many :tasks,          dependent: :destroy
@@ -74,7 +89,7 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :name_of_referee, :gender, :referral_source_category_id, presence: true
+  validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
   validate :address_contrain, on: [:create, :update]
 
   before_create :set_country_origin
@@ -130,14 +145,23 @@ class Client < ActiveRecord::Base
 
       field_name = compare_matching(input_name_field, client_name_field)
       dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
-      cp         = client_address_matching(options[:current_province], client[4].squish)
-      cd         = client_address_matching(options[:district], client[3].squish)
-      cc         = client_address_matching(options[:commune], client[2].squish)
-      cv         = client_address_matching(options[:village], client[1].squish)
-      bp         = birth_province_matching(options[:birth_province], client[5].squish)
+
+      province_name = Province.find_by(id: options[:current_province_id]).try(:name)
+      cp            = client_address_matching(province_name, client[4].squish)
+
+      district_name = District.find_by(id: options[:district_id]).try(:name)
+      cd            = client_address_matching(district_name, client[3].squish)
+
+      commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
+      cc            = client_address_matching(commune_name, client[2].squish)
+
+      village_name  = Village.find_by(id: options[:village_id]).try(:name)
+      cv            = client_address_matching(village_name, client[1].squish)
+
+      birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
+      bp                  = birth_province_matching(birth_province_name, client[5].squish)
 
       match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
-
       if match_percentages.compact.present?
         if match_percentages.compact.inject(:*) * 100 >= 75
           similar_fields << '#hidden_name_fields' if match_percentages[0].present?
@@ -239,10 +263,11 @@ class Client < ActiveRecord::Base
     (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
 
-  def custom_next_assessment_date(user_activated_date = nil)
-    return Date.today if assessments.customs.empty?
-    return nil if user_activated_date.present? && assessments.customs.latest_record.created_at < user_activated_date
-    (assessments.customs.latest_record.created_at + assessment_duration('max', false)).to_date
+  def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id=nil)
+    custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct
+    return Date.today if custom_assessments.empty?
+    return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
+    (custom_assessments.latest_record.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
   end
 
   def next_appointment_date
@@ -256,7 +281,8 @@ class Client < ActiveRecord::Base
   end
 
 
-  def can_create_assessment?(default)
+  def can_create_assessment?(default, value='')
+    latest_assessment = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value}).distinct
     if default
       if assessments.defaults.count == 1
         return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
@@ -264,10 +290,12 @@ class Client < ActiveRecord::Base
         return assessments.defaults.latest_record.completed?
       end
     else
-      if assessments.customs.count == 1
-        return (Date.today >= (assessments.customs.latest_record.created_at + assessment_duration('min', false)).to_date) && assessments.customs.latest_record.completed?
-      elsif assessments.customs.count >= 2
-        return assessments.customs.latest_record.completed?
+      if latest_assessment.count == 1
+        return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
+      elsif latest_assessment.count >= 2
+        return latest_assessment.latest_record.completed?
+      else
+        return true
       end
     end
     true
@@ -316,11 +344,11 @@ class Client < ActiveRecord::Base
   end
 
   def has_any_quarterly_reports?
-    (cases.active.latest_kinship.present? && cases.latest_kinship.quarterly_reports.any?) || (cases.active.latest_foster.present? && cases.latest_foster.quarterly_reports.any?)
+    (cases.with_deleted.active.latest_kinship.present? && cases.with_deleted.latest_kinship.quarterly_reports.any?) || (cases.with_deleted.active.latest_foster.present? && cases.with_deleted.latest_foster.quarterly_reports.any?)
   end
 
   def latest_case
-    cases.active.latest_kinship.presence || cases.active.latest_foster.presence
+    cases.with_deleted.active.latest_kinship.presence || cases.with_deleted.active.latest_foster.presence
   end
 
   def age_as_years(date = Date.today)
@@ -554,16 +582,16 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment)
+      next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment?)
       clients = joins(:assessments).active_accepted_status
       clients.each do |client|
-        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
+        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.count > 1
           repeat_notifications = client.repeat_notifications_schedule
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
           end
         end
-        if Setting.first.enable_custom_assessment && client.eligible_custom_csi? && client.assessments.customs.any?
+        if Setting.first.enable_custom_assessment? && client.assessments.customs.count > 1
           repeat_notifications = client.repeat_notifications_schedule(false)
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
@@ -585,11 +613,14 @@ class Client < ActiveRecord::Base
         end
       end
 
-      if Setting.first.enable_custom_assessment
+      if Setting.first.enable_custom_assessment?
         clients = joins(:assessments).where(assessments: { completed: false, default: false })
         clients.each do |client|
-          if client.eligible_custom_csi? && client.assessments.customs.any?
-            CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client).deliver_now
+          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+            if client.eligible_custom_csi?(custom_assessment_setting) && client.assessments.customs.any?
+              CaseWorkerMailer.notify_incomplete_daily_csi_assessments(client, custom_assessment_setting).deliver_now
+            end
           end
         end
       end
@@ -631,10 +662,10 @@ class Client < ActiveRecord::Base
     client_age < age ? true : false
   end
 
-  def eligible_custom_csi?
+  def eligible_custom_csi?(custom_assessment_setting)
     return true if date_of_birth.nil?
     client_age = age_as_years
-    age        = Setting.first.custom_age || 18
+    age        = custom_assessment_setting.custom_age || 18
     client_age < age ? true : false
   end
 
@@ -682,15 +713,21 @@ class Client < ActiveRecord::Base
     case_worker_clients.destroy_all
   end
 
-  def assessment_duration(duration, default = true)
+  def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
     if duration == 'max'
       setting = Setting.first
       if default
         assessment_period    = setting.max_assessment
         assessment_frequency = setting.assessment_frequency
       else
-        assessment_period    = setting.max_custom_assessment
-        assessment_frequency = setting.custom_assessment_frequency
+        if custom_assessment_setting_id
+          custom_assessment_setting = CustomAssessmentSetting.find(custom_assessment_setting_id)
+          assessment_period    = custom_assessment_setting.max_custom_assessment
+          assessment_frequency = custom_assessment_setting.custom_assessment_frequency
+        else
+          assessment_period    = setting.max_custom_assessment
+          assessment_frequency = setting.custom_assessment_frequency
+        end
       end
     else
       assessment_period = 3

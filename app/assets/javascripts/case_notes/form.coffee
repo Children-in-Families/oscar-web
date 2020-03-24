@@ -30,15 +30,17 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     $('.case_note_domain_groups .help-block').hide()
     $('#case_note_domain_group_ids').select2(
       width: '100%'
-    ).on('change', ->
-      _checkCasenoteSelectedValue(@)
-    ).on 'select2-removing', (event)->
+    ).on('select2-selecting', (event)->
+      $("#domain-#{event.val}").show('slow')
+    ).on('select2-removing', (event)->
       if $("#domain-#{event.val} .task-arising .list-group-item").length > 0
         event.preventDefault()
         $('.case_note_domain_groups .help-block').show('slow')
       else
         $('.case_note_domain_groups .help-block').hide('slow')
         $("#domain-#{event.val}").hide('slow')
+    ).on 'change', ()->
+      _checkCasenoteSelectedValue(@)
       # $("#domain-#{e.val}").toggle('hide') if $("#domain-#{e.val} .case_note_case_note_domain_groups_tasks:visible").length == 0
     # ).on('select2-selecting', (e)->
     #   if event.target.textContent.length > 0
@@ -46,6 +48,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
 
   _checkCasenoteSelectedValue = (selectedObject)->
+    # $("#domain-#{event.val}").show('slow')
     if $(selectedObject).children(":selected").length > 0
       $(".ibox.case-note-domain-group.without-assessments#domain-#{$(selectedObject).children(":selected").val()}").show()
       $('.case-note-task-btn').removeAttr('disabled')
@@ -207,6 +210,29 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
           domains.map (domain) ->
             $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
 
+  _handlePreventBlankInput = ->
+    $('#case-note-submit-btn').on 'click', (e)  ->
+      caseNoteMeetingDate = $('#case_note_meeting_date').val()
+      caseNoteAttendee = $('#case_note_attendee').val()
+      caseNoteInteractionType = $('#case_note_interaction_type').val()
+      elements = ['#case_note_meeting_date', '#case_note_attendee', '#case_note_interaction_type']
+      for element in elements
+        _handlePreventFieldCannotBeBlank(element, e)
+      if caseNoteMeetingDate != '' and caseNoteAttendee != '' and caseNoteInteractionType != ''
+        document.getElementById('case-note-form').onsubmit = ->
+          true
+
+  _handlePreventFieldCannotBeBlank = (element, e) ->
+    cannotBeBlank = $('#case-note-form').data('translate')
+    parent = $(element).parents('.form-group')
+    labelMessage = $(parent).siblings().find('.text-danger')
+    if $(element).val() == ''
+      $(parent).addClass('has-error')
+      $(labelMessage).text(cannotBeBlank)
+      e.preventDefault()
+    else
+      $(parent).removeClass('has-error')
+      $(labelMessage).text('')
 
   _initNotification = (message)->
     messageOption = {

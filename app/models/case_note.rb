@@ -1,33 +1,47 @@
 class CaseNote < ActiveRecord::Base
   INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party','Supervision','Other'].freeze
+  paginates_per 1
 
   belongs_to :client
   belongs_to :assessment
+  belongs_to :custom_assessment_setting
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
   validate  :existence_domain_groups
+  # validates :note, presence: true, if: :not_using_assessment_tool?
 
   has_paper_trail
 
   accepts_nested_attributes_for :case_note_domain_groups
 
   scope :most_recents, -> { order(created_at: :desc) }
-  scope :recent_meeting_dates , -> {order(meeting_date: :desc)}
+  scope :recent_meeting_dates , -> { order(meeting_date: :desc) }
 
   scope :no_case_note_in, ->(value) { where('meeting_date <= ? AND id = (SELECT MAX(cn.id) FROM CASE_NOTES cn where CASE_NOTES.client_id = cn.client_id)', value) }
 
   before_create :set_assessment
 
-  def populate_notes
-    DomainGroup.all.each do |dg|
-      case_note_domain_groups.build(domain_group_id: dg.id)
+  def populate_notes(custom_name, default)
+    domains = nil
+    if default == "false" || not_using_assessment_tool?
+      DomainGroup.all.each do |dg|
+        case_note_domain_groups.build(domain_group_id: dg.id)
+      end
+    else
+      custom_domains = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name)
+      return [] if custom_domains.nil?
+      domain_group_ids = custom_domains.domains.pluck(:domain_group_id).uniq
+      domain_group_ids.each do |domain_group_id|
+        case_note_domain_groups.build(domain_group_id: domain_group_id)
+      end
     end
   end
 
   def complete_tasks(params)
+    return if params.nil?
     params.each do |_index, param|
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       task_ids = param[:task_ids] || []
@@ -51,5 +65,14 @@ class CaseNote < ActiveRecord::Base
     if selected_domain_group_ids.blank?
       errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}")
     end
+  end
+
+  def enable_default_assessment?
+    setting = Setting.first
+    setting && setting.enable_default_assessment
+  end
+
+  def not_using_assessment_tool?
+    (!enable_default_assessment? && !CustomAssessmentSetting.all.all?(&:enable_custom_assessment))
   end
 end

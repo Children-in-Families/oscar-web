@@ -7,6 +7,8 @@ class DashboardsController < AdminController
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
     @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
     @select_client_options = Client.accessible_by(current_ability).active_accepted_status
+    @custom_domains = Domain.custom_csi_domains
+    @custom_assessment_settings = CustomAssessmentSetting.all.where(enable_custom_assessment: true)
   end
 
   def update_program_stream_service

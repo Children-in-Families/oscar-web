@@ -57,6 +57,11 @@ Rails.application.routes.draw do
 
   resources :domains, except: [:show] do
     get 'version' => 'domains#version'
+    collection do
+      resources :custom_assessment_settings do
+        resources :domains
+      end
+    end
   end
 
   # resources :provinces, except: [:show] do
@@ -143,6 +148,11 @@ Rails.application.routes.draw do
       get 'delete' => 'attachments#delete'
     end
   end
+
+  resources :calls do  
+    get '/edit/referee', to: 'calls#edit_referee'
+  end
+  resources :referees, only: [:index, :show]
 
   resources :families do
     resources :custom_field_properties
@@ -294,6 +304,11 @@ Rails.application.routes.draw do
       resources :quantitative_types, only: [:index]
       resources :settings, only: [:index]
       get 'translations/:lang' => 'translations#translation'
+
+      resources :calls do 
+        get '/edit/referee', to: 'calls#edit_referee'
+        put '/edit/referee', to: 'calls#update_referee'
+      end
     end
   end
 
@@ -330,6 +345,7 @@ Rails.application.routes.draw do
       get 'default_columns' => 'settings#default_columns'
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
+      get 'client_forms' => 'settings#client_forms'
     end
   end
 

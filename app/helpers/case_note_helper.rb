@@ -1,7 +1,9 @@
 module CaseNoteHelper
-  def edit_link(client, case_note)
+  def edit_link(client, case_note, cdg=nil)
+    custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note) if cdg
+    custom_name = CustomAssessmentSetting.find(custom_assessment_setting_id).try(:custom_assessment_name) if custom_assessment_setting_id
     if case_notes_editable? && policy(case_note).edit?
-      link_to(edit_client_case_note_path(client, case_note, custom: case_note.custom), class: 'btn btn-primary') do
+      link_to(edit_client_case_note_path(client, case_note, custom: case_note.custom, custom_name: custom_name), class: 'btn btn-primary') do
         fa_icon('pencil')
       end
     else
@@ -41,15 +43,15 @@ module CaseNoteHelper
     end
   end
 
-  def new_custom_link
+  def new_custom_link(custom_assessment_name)
     if case_notes_editable? && policy(@client).create?
-      link_to new_client_case_note_path(@client, custom: true) do
-        @current_setting.custom_assessment
+      link_to new_client_case_note_path(@client, custom: true, custom_name: custom_assessment_name) do
+        custom_assessment_name
       end
     else
       link_to_if false, '' do
         content_tag :a, class: 'disabled' do
-          @current_setting.custom_assessment
+          custom_assessment_name
         end
       end
     end
@@ -57,7 +59,8 @@ module CaseNoteHelper
 
   def fetch_domains(cd)
     if params[:custom] == 'true'
-      cd.object.domain_group.domains.custom_csi_domains
+      custom_assessment_setting_id = @custom_assessment_setting&.id
+      cd.object.domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: custom_assessment_setting_id)
     else
       cd.object.domain_group.domains.csi_domains
     end
@@ -70,13 +73,13 @@ module CaseNoteHelper
 
   def case_notes_readable?
     return true if current_user.admin? || current_user.strategic_overviewer?
-    current_user.permission.case_notes_readable
+    current_user.permission&.case_notes_readable
   end
 
   def case_notes_editable?
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
-    current_user.permission.case_notes_editable
+    current_user.permission&.case_notes_editable
   end
 
   def tag_domain_group(case_note)
@@ -86,6 +89,7 @@ module CaseNoteHelper
   end
 
   def selected_domain_group_ids(case_note)
+    return [] if !case_note.persisted?
     domain_group_ids = []
     unless case_note.persisted?
       domain_group_ids = case_note.case_note_domain_groups.map do |case_note_domain_group|
@@ -138,9 +142,32 @@ module CaseNoteHelper
     return false if current_user.strategic_overviewer?
   end
 
-  def translate_domain_name(domains)
-    domains.map do |domain|
-      [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
+  def translate_domain_name(domains, case_note=nil)
+    if case_note&.custom
+      domains.map do |domain|
+        [domain.id, domain.name]
+      end
+    else
+      domains.map do |domain|
+        [domain.id, t("domains.domain_names.#{domain.name.downcase.reverse}")]
+      end
+    end
+  end
+
+  def enable_default_assessment?
+    setting = @current_setting
+    setting && setting.enable_default_assessment
+  end
+
+  def not_using_assessment_tool?
+    (!enable_default_assessment? && !CustomAssessmentSetting.all.all?(&:enable_custom_assessment))
+  end
+
+  def find_custom_assessment_setting_id(cdg, case_note)
+    if case_note.custom_assessment_setting_id
+      custom_assessment_setting_id = case_note.custom_assessment_setting_id
+    else
+      custom_assessment_setting_id = cdg.domains(case_note).pluck(:custom_assessment_setting_id).last
     end
   end
 end

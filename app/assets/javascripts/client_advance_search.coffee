@@ -26,6 +26,8 @@ class CIF.ClientAdvanceSearch
     @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
 
     @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
+    @HOTLINE_TRANSLATE   = optionTranslation.data('hotline')
+    @CONCERN_BASIC_FIELDS   = optionTranslation.data('concern-basic-fields')
     loaderButton = document.querySelector('.ladda-button-columns-visibility')
     @LOADER = Ladda.create(loaderButton) if loaderButton
 
@@ -112,9 +114,11 @@ class CIF.ClientAdvanceSearch
     )
 
   basicFilterSetRule: ->
+    self = @
     basicQueryRules = $('#builder').data('basic-search-rules')
     wizardBasicQueryRules = $('#wizard-builder').data('basic-search-rules')
     unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
+      self.handleAddHotlineFilter()
       $('#builder').queryBuilder('setRules', basicQueryRules)
     unless wizardBasicQueryRules == undefined or _.isEmpty(wizardBasicQueryRules.rules)
       $('#wizard-builder').queryBuilder('setRules', wizardBasicQueryRules)
@@ -425,8 +429,7 @@ class CIF.ClientAdvanceSearch
       rule      = builder.queryBuilder('addRule', group)
       rule1     = builder.queryBuilder('addRule', group)
       rule2     = builder.queryBuilder('addRule', group)
-
-      rule.filter     = builder.queryBuilder('getFilterById', $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val())
+      rule.filter     = builder.queryBuilder('getFilterById', $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val()) if $('select [label="' + csiDomainScoresTranslate + '"] [value^="domainscore"]').val()
       rule.value      = ''
       rule1.filter    = builder.queryBuilder('getFilterById', 'assessment_number')
       rule2.filter    = builder.queryBuilder('getFilterById', 'assessment_completed')
@@ -763,6 +766,28 @@ class CIF.ClientAdvanceSearch
     $('#quantitative-type-checkbox').on 'ifUnchecked', ->
       self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
 
+  handleHotlineFilter: ->
+    self = @
+    fields = $('#hotline-fields').data('fields')
+    $('#hotline-checkbox').off('ifChecked').on 'ifChecked', ->
+      $('.hotline-call-column a.dropdown-toggle').removeClass('disabled')
+      $('#builder').queryBuilder('addFilter', fields) if $('#builder:visible').length > 0
+      # $('#wizard-builder').queryBuilder('addFilter', fields) if $('#wizard-builder:visible').length > 0
+      self.initSelect2()
+
+    $('#hotline-checkbox').off('ifUnchecked').on 'ifUnchecked', ->
+      $('#client_advanced_search_hotline_check').val('')
+      $('.hotline-call-column .i-checks').iCheck('uncheck')
+      $('.hotline-call-column a.dropdown-toggle').addClass('disabled')
+      self.handleRemoveFilterBuilder(self.CONCERN_BASIC_FIELDS, self.CONCERN_BASIC_FIELDS)
+      self.handleRemoveFilterBuilder(self.HOTLINE_TRANSLATE, self.HOTLINE_TRANSLATE)
+      return
+
+  handleAddHotlineFilter: ->
+    fields = $('#hotline-fields').data('fields')
+    if $('#hotline-checkbox').is(':checked')
+      $('#builder').queryBuilder('addFilter', fields)
+      return
   ######################################################################################################################
 
   handleSearch: ->
@@ -842,6 +867,7 @@ class CIF.ClientAdvanceSearch
     if @enrollmentCheckbox.is(":checked") || @wizardEnrollmentCheckbox.is(':checked') then $(enrollmentCheck).val(1)
     if @trackingCheckbox.is(":checked") || @wizardTrackingCheckbox.is(':checked') then $(trackingCheck).val(1)
     if @exitCheckbox.is(":checked") || @wizardExitCheckbox.is(':checked') then $(exitFormCheck).val(1)
+    if ($('#hotline-checkbox').prop('checked')) then $('#client_advanced_search_hotline_check').val(1)
 
   handleStringfyRules: (rules) ->
     rules = JSON.stringify(rules)
@@ -948,6 +974,7 @@ class CIF.ClientAdvanceSearch
       if (self.trackingCheckbox.prop('checked') || self.wizardTrackingCheckbox.prop('checked')) then $(trackingCheck).val(1)
       if (self.exitCheckbox.prop('checked') || self.wizardExitCheckbox.prop('checked')) then $(exitFormCheck).val(1)
       if ($('#quantitative-type-checkbox').prop('checked')) then $('#advanced_search_quantitative_check').val(1)
+      if ($('#hotline-checkbox').prop('checked')) then $('#advanced_search_hotline_check').val(1)
 
       $('#advanced_search_custom_forms').val(customFormValues)
       $('#advanced_search_program_streams').val(programValues)
@@ -961,6 +988,7 @@ class CIF.ClientAdvanceSearch
       if $(checkbox).prop('checked')
         attrName = $(checkbox).attr('name')
         columnsVisibility[attrName] = $(checkbox).val()
+
     $('#advanced_search_field_visible').val(JSON.stringify(columnsVisibility))
 
   validateSaveQuery: ->

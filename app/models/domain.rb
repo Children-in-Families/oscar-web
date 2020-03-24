@@ -7,10 +7,13 @@ class Domain < ActiveRecord::Base
   has_many   :domain_program_streams, dependent: :restrict_with_error
   has_many   :program_streams, through: :domain_program_streams
 
+  belongs_to :custom_assessment_setting
+
   has_paper_trail
 
   validates :domain_group, presence: true
-  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_domain}
+  validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_assessment_setting}
+  validates :custom_assessment_setting_id, presence: true
 
   default_scope { order('domain_group_id ASC, name ASC') }
 
@@ -19,6 +22,7 @@ class Domain < ActiveRecord::Base
   scope :csi_domains, -> { where(custom_domain: false) }
   scope :custom_csi_domains, -> { where(custom_domain: true) }
 
+  delegate :custom_assessment_name, to: :custom_assessment_setting, prefix: false, allow_nil: true
   enum domain_score_colors: { danger: 'Red', warning: 'Yellow', success: 'Blue', primary: 'Green' }
 
   def convert_identity

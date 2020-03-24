@@ -1,6 +1,7 @@
 module ClientGridOptions
   extend ActiveSupport::Concern
   include ClientsHelper
+  include AssessmentHelper
 
   def choose_grid
     if current_user.admin? || current_user.strategic_overviewer?
@@ -33,6 +34,7 @@ module ClientGridOptions
     program_enrollment_date_report
     program_exit_date_report
     default_date_of_assessments
+    default_date_of_completed_assessments
     custom_date_of_assessments
     case_note_date_report
     case_note_type_report
@@ -200,6 +202,11 @@ module ClientGridOptions
     date_of_assessments('default')
   end
 
+  def default_date_of_completed_assessments
+    return unless @client_columns.visible_columns[:assessment_completed_date_].present?
+    date_of_completed_assessments
+  end
+
   def custom_date_of_assessments
     return unless @client_columns.visible_columns[:date_of_custom_assessments_].present?
     date_of_assessments('custom')
@@ -222,6 +229,27 @@ module ClientGridOptions
     else
       @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
         date_filter(eval(records).most_recents, "#{column}").map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if eval(records).any?
+      end
+    end
+  end
+
+  def date_of_completed_assessments
+    records = 'client.assessments.defaults.completed'
+    column = 'assessment_completed_date'
+
+    if params[:data].presence == 'recent'
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+        eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
+      end
+    else
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+        basic_rules = $param_rules['basic_rules']
+        basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+        results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+        query_string = get_assessment_query_string(results, 'assessment_completed_date', '', client.id, basic_rules)
+
+        assessments = client.assessments.defaults.completed.where(query_string)
+        assessments.map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if assessments.any?
       end
     end
   end
@@ -270,8 +298,8 @@ module ClientGridOptions
         records = 'client.assessments.defaults'
       end
       @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
-        assessment = eval(records).latest_record
-        assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+        assessment_domains = map_assessment_and_score(client, identity, domain.id)
+        assessment_domains.map{|assessment_domain| assessment_domain.try(:score) }.join(', ')
       end
     end
   end
@@ -344,9 +372,10 @@ module ClientGridOptions
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
             enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
           else
-            enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-            enrollment_tracking_properties = property_filter(enrollment_tracking_properties, format_field_value)
-            enrollment_tracking_properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
+            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
+            properties = form_builder_query(client_enrollment_trackings, fields.first, field[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
+
+            properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
           end
         elsif fields.first == 'exitprogramdate'
           ids = client.client_enrollments.inactive.ids

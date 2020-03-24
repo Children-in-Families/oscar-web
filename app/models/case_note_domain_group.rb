@@ -28,7 +28,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
     case_note.custom? ? domain_group.domains.custom_csi_domains : domain_group.domains.csi_domains
   end
 
-  def domain_identities
-    case_note.custom? ? domain_group.custom_domain_identities : domain_group.default_domain_identities
+  def domain_identities(custom_assessment_setting_id=nil)
+    case_note.custom? ? domain_group.custom_domain_identities(custom_assessment_setting_id) : domain_group.default_domain_identities
   end
 end

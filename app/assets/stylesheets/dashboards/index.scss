@@ -167,4 +167,9 @@ body[id='dashboards-index'] {
       margin-top:20px;
     }
   }
+
+  a.custom-assessment-link.disabled {
+    cursor: not-allowed;
+    color: #333333 !important;
+  }
 }

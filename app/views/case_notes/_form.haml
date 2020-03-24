@@ -3,6 +3,7 @@
     = simple_form_for([@case_note.client, @case_note], html: { id: 'case-note-form', novalidate: false, data: { translate: t('cannot_be_blank') } }) do |f|
       = hidden_field_tag :current_user, current_user.roles
       = hidden_field_tag :from_controller, @from_controller
+      = f.input :custom_assessment_setting_id, as: :hidden, input_html: { value: @custom_assessment_setting&.id }
       = f.input :custom, :as => :hidden, :input_html => { :value => true } if params[:custom] == 'true'
 
       .ibox
@@ -17,13 +18,13 @@
           .panel.panel-default
             .panel-body
               .row
-                .col-xs-12
+                .col-xs-12.col-md-6
                   .form-group.date.optional.case_note_meeting_date{ class: ('has-error' if f.error :meeting_date) }
                     %label.date.optional.control-label
                       %abbr{ title: 'required' } *
                       = t('.on_date')
                     .input-group.date
-                      = f.text_field :meeting_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
+                      = f.text_field :meeting_date, value: f.object.meeting_date && f.object.meeting_date.to_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
                       %span.input-group-addon
                         %i.fa.fa-calendar-check-o
                     = f.error :meeting_date
@@ -42,10 +43,15 @@
                     .col-xs-12
                       #interaction-type.text-danger
 
-          .row
-            .col-xs-12
-              = simple_fields_for :additional_fields do |ff|
-                = ff.input :note, as: :text, label: false, input_html: { value: @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
+          - if !@case_note.persisted? || not_using_assessment_tool?
+            .row
+              .col-xs-12
+                = f.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
+          - else
+            .row
+              .col-xs-12
+                = simple_fields_for :additional_fields do |ff|
+                  = ff.input :note, as: :text, label: false, input_html: { value: @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
 
           .row
             .col-xs-12
@@ -57,7 +63,10 @@
               - url = "/api/domain_groups/get_domains_by_domain_groups?custom=#{params[:custom]}"
               .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-url': url}
                 = t('.add_task')
-              %p.text-muted.text-right#add-task-message.pull-right= t('case_notes.form.add_task_message')
+              %p.text-right#add-task-message.text-warning.pull-right
+                = fa_icon 'warning'
+                = t('case_notes.form.add_task_message')
+
 
           .row#on-going-task-label
             .col-xs-12
@@ -65,7 +74,7 @@
 
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
-            - if case_note_domain.object.any_assessment_domains?(@case_note)
+            - if case_note_domain.object.any_assessment_domains?(@case_note) && enable_default_assessment?
               = render 'form_with_assessment_domains', { domain_note: case_note_domain }
             - else
               - next if get_domains(case_note_domain).blank?
