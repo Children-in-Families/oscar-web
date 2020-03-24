@@ -803,9 +803,11 @@ km:
       successfully_deleted_case_note: កំណត់ត្រាករណីត្រូវបានលុបដោយជោគជ័យ។
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      add_task_message: Please select the domain group before you can add the task.
       back: ត្រលប់ក្រោយ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: សូមជ្រើសរើសក្រុមកត្តាទាំងអស់ដែលអ្នកបានគាំទ្រដល់អតិថិជនក្នុងកំណត់ត្រាករណីនេះ។
       label_note: ចំណាំ
       meeting_detail: ព័ត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
@@ -813,6 +815,7 @@ km:
       on_date: 'កាលបរិច្ឆេទ:'
       on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       present: 'វត្តមានឣ្នកចូលរួម:'
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
@@ -844,6 +847,7 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: ក្រុមនៃកត្តា
       goal: គោលដៅ
       incompleted_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       new_case_note: កំណត់ត្រាថ្មី
@@ -5185,6 +5189,7 @@ km:
       tasks_of: កាតព្វកិច្ចរបស់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: ត្រូវបានបិទ

@@ -1,6 +1,7 @@
 CIF.Client_booksIndex = do ->
   _init = ->
     _jumpToDate()
+    _initSelect2()
 
     $(window).scroll ->
       if $(this).scrollTop() > 50
@@ -31,6 +32,9 @@ CIF.Client_booksIndex = do ->
         return
 
       return
+
+  _initSelect2 = ->
+    $('select').select2()
 
   _compareEqualDate = (selectedDate, elements) ->
     i = 0

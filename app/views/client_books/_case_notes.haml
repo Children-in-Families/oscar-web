@@ -16,57 +16,87 @@
               %i.fa.fa-chevron-up
         .ibox-content
           %p= display_case_note_attendee(case_note)
+          - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join(' ')
+          .row
+            .col-xs-12
+              .panel.panel-default
+                .panel-heading
+                  %h4= I18n.t('case_notes.index.note')
+                .panel-body
+                  = simple_format combined_notes
+
+          - domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+          - domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
+          .row
+            .col-xs-12
+              .panel.panel-default
+                .panel-heading
+                  %h4= "Domain Groups"
+                .panel-body
+                  = select_tag "", options_for_select(domain_groups, domain_group_ids), multiple: true, disabled: true
+
           - case_note.case_note_domain_groups.includes(:case_note, :domain_group).each do |cdg|
-            - if cdg.note.present?
-              .ibox.border-left-right.border-bottom
-                .ibox-title
-                  %h5= cdg.domain_identities
-                  - if case_note.assessment_id.present?
-                    .ibox-tools
-                      - cdg.domains(case_note).each do |domain|
-                        - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                        - next if ad.nil?
-                        %a.collapse-link
-                          %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
-                            = ad.score
-                .ibox-content
-                  .row
-                    .col-xs-12
+            - list_goals = []
+            - cdg.domains(case_note).each do |domain|
+              - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+              - if assessment_domain.present? && assessment_domain.goal?
+                - list_goals << assessment_domain.goal
+            - next unless cdg.completed_tasks.any? || list_goals.present?
+            .ibox.border-left-right.border-bottom
+              .ibox-title
+                %h5= cdg.domain_identities
+                - if case_note.assessment_id.present?
+                  .ibox-tools
+                    - cdg.domains(case_note).each do |domain|
+                      - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                      - next if ad.nil?
+                      %a.collapse-link
+                        %label.margin-score.case-note-domain-score{ class: "label label-#{ad.score_color_class} label-lg", 'data-original-title': "#{simple_format(ad.score_definition)}", 'data-toggle': 'tooltip' }
+                          = ad.score
+
+              .ibox-content
+                .row
+                  - if cdg.completed_tasks.any?
+                    .col-xs-12.col-sm-6
                       .panel.panel-default
                         .panel-heading
-                          %h4= I18n.t('case_notes.index.note')
-                        .panel-body
-                          = simple_format cdg.note
-                    - if cdg.completed_tasks.any?
-                      .col-xs-12.col-sm-6
-                        .panel.panel-default
-                          .panel-heading
-                            %h4= I18n.t('case_notes.index.completed_tasks')
-                          .panel-body.no-padding
-                            %ul.list-group
-                              - cdg.completed_tasks.each_with_index do |task, index|
-                                %li.list-group-item
-                                  = "#{index + 1}. "
-                                  = task.name
+                          %h4= I18n.t('case_notes.index.completed_tasks')
+                        .panel-body.no-padding
+                          %ul.list-group
+                            - cdg.completed_tasks.each_with_index do |task, index|
+                              %li.list-group-item
+                                = "#{index + 1}. "
+                                = task.name
+
+                  - if list_goals.present?
                     .col-xs-12.col-sm-6
-                      %p
-                        %strong= "#{I18n.t('case_notes.index.goal')} :"
-                      %ul
-                        - cdg.domains(case_note).each do |domain|
-                          - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                          - if assessment_domain.present? && assessment_domain.goal?
-                            %li= assessment_domain.goal
-                    - if cdg.attachments.any?
-                      .col-xs-12.col-sm-6
-                        .panel.panel-default
-                          .panel-heading
-                            %h4= I18n.t('case_notes.index.attachments')
-                          .panel-body
-                            .table-responsive
-                              %table.table.table-bordered
-                                - cdg.attachments.each_with_index do |attachment, index|
-                                  %tr
-                                    %td= original_filename(attachment)
-                                    %td.text-center
-                                      = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+                      .panel.panel-default
+                        .panel-heading
+                          %h4= I18n.t('case_notes.index.goal')
+                        .panel-body.no-padding
+                          %ul.list-group
+                            - list_goals.flatten.each_with_index do |goal, index|
+                              %li.list-group-item
+                                = "#{index + 1}. "
+                                = goal
+
+          .row
+            - file_names = case_note.case_note_domain_groups.pluck(:attachments).reject(&:blank?)
+            - case_note.case_note_domain_groups.each do |cdg|
+              - next if cdg.attachments.blank?
+              - attachment_names = cdg.attachments.map{|a| a.file.path.split('/').last }
+              - next if file_names.exclude? attachment_names
+              - file_names.delete(attachment_names)
+              .col-xs-12
+                .panel.panel-default
+                  .panel-heading
+                    %h4= I18n.t('case_notes.index.attachments')
+                  .panel-body
+                    .table-responsive
+                      %table.table.table-bordered
+                        - cdg.attachments.each_with_index do |attachment, index|
+                          %tr
+                            %td= original_filename(attachment)
+                            %td.text-center
+                              = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
 

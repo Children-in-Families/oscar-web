@@ -654,9 +654,11 @@ th-TH:
       successfully_deleted:
     form:
       add_task:
+      add_task_message:
       back:
       completed_tasks:
       domain:
+      domain_groups:
       label_note:
       meeting_detail:
       meeting_with:
@@ -664,6 +666,7 @@ th-TH:
       on_date:
       on_going_tasks:
       present:
+      remove_domain_group_hint:
       save:
       tasks:
       tasks_arising:
@@ -690,6 +693,7 @@ th-TH:
       case_note_on:
       completed_tasks:
       domain:
+      domain_groups:
       goal:
       incompleted_tasks:
       new_case_note:

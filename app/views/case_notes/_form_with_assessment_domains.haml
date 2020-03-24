@@ -1,4 +1,8 @@
-.ibox.case-note-domain-group
+= domain_note.hidden_field :note
+= domain_note.hidden_field :domain_group_id
+- domain_note_by_case_note = domain_note.object.domains(@case_note)
+
+.ibox.case-note-domain-group{ id: "domain-#{domain_note.object.domain_group.id}" }
   .ibox-title
     %h5
       - if current_organization.try(:aht) == true
@@ -6,42 +10,28 @@
       - else
         = "#{t('.domain')} #{domain_note.object.domain_group.name}"
       = "(#{get_domains(domain_note)})"
-      - domain_note.object.domains(@case_note).each do |domain|
+      - domain_note_by_case_note.each do |domain|
         - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
         - next if ad.nil?
+        - tasks = @case_note.client.tasks.where(domain_id: domain.id)
         %button.case-note-domain-score{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-sm", 'data-toggle': 'tooltip' }
-          = "#{ad.score}"
-    .ibox-tools
-      %a.collapse-link
-        .btn.btn-outline.btn-primary
-          %i.fa{ class: "fa-chevron-#{domain_note.object.domain_group.first_ordered? ? 'up' : 'down'}" }
+          = "#{domain.name}: #{domain.identity}"
 
-  .ibox-content{ class: "#{domain_note.object.domain_group.first_ordered? ? '' : 'collapse'}" }
+
+  .ibox-content
     .row
-      .col-xs-12.col-md-6
-        = domain_note.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
-        = domain_note.hidden_field :domain_group_id
-        %p
-          %strong= "#{t('.goal')} :"
-        %ul
-          - domain_note.object.domains(@case_note).each do |domain|
-            - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
-            - if assessment_domain.present? && assessment_domain.goal?
-              %li= assessment_domain.goal
-      .col-xs-12.col-md-6
-        - domain_note.object.domains(@case_note).each do |domain|
+      .col-xs-12
+        - domain_note_by_case_note.each do |domain|
           - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
           - tasks = @case_note.client.tasks.where(domain_id: domain.id)
           - if domain_note.object.persisted?
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
           - next if assessment_domain.nil?
-          .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks.incomplete.blank?)}" }
+          .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks, assessment_domain.goal?)}" }
             .panel-heading
-              %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
+              %strong
+                = "#{assessment_domain.domain.name} #{t('.goal')} -"
+              - if assessment_domain.present? && assessment_domain.goal?
+                = assessment_domain.goal
+
             = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
-      .col-xs-12
-        = render 'attachment_fields', { domain_note: domain_note }
-    .row
-      .col-xs-12
-        .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domain_note.object.domains(@case_note), @case_note)}"}
-          = t('.add_task')
