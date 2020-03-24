@@ -4,11 +4,11 @@ class CaseNotesController < AdminController
   include CaseNoteConcern
 
   before_action :set_client
+  before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
   before_action :set_case_note, only: [:edit, :update]
   before_action :fetch_domain_group, only: [:new, :create, :update, :edit]
   before_action :authorize_client, only: [:new, :create]
   before_action :authorize_case_note, only: [:edit, :update]
-  before_action :set_custom_assessment_setting, only: [:new, :create, :edit, :update]
   before_action -> { case_notes_permission('readable') }, only: [:index]
   before_action -> { case_notes_permission('editable') }, except: [:index]
 
@@ -25,9 +25,9 @@ class CaseNotesController < AdminController
     if params[:custom] == 'true'
       @case_note = @client.case_notes.new(custom: true, custom_assessment_setting_id: @custom_assessment_setting&.id)
       @case_note.assessment = @client.assessments.custom_latest_record if @current_setting.enable_default_assessment
-      @case_note.populate_notes(params[:custom_name], params[:custom])
+      @case_note.populate_notes(@case_note.custom_assessment_setting_id, params[:custom])
     else
-      @case_note = @client.case_notes.new(custom_assessment_setting_id: @custom_assessment_setting&.id)
+      @case_note = @client.case_notes.new()
       @case_note.assessment = @client.assessments.default_latest_record
       @case_note.populate_notes(params[:custom_name], params[:custom])
     end
@@ -161,9 +161,13 @@ class CaseNotesController < AdminController
     if params[:action].in? ['edit', 'update']
       @domain_groups = @case_note.domain_groups
     else
-      domains = params[:custom] == 'true' ? 'custom_csi_domains' : 'csi_domains'
-      domain_group_ids = Domain.send("#{domains}").pluck(:domain_group_id).uniq
-      @domain_groups = DomainGroup.where(id: domain_group_ids)
+      if params[:custom] == 'true' && params.dig('custom_name').present?
+        domain_group_ids = Domain.custom_csi_domains.where(custom_assessment_setting_id: @custom_assessment_setting&.id).pluck(:domain_group_id).uniq
+        @domain_groups = DomainGroup.where(id: domain_group_ids)
+      else
+        domain_group_ids = Domain.csi_domains.pluck(:domain_group_id).uniq
+        @domain_groups = DomainGroup.where(id: domain_group_ids)
+      end
     end
 
     case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group: @domain_groups)

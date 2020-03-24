@@ -10,7 +10,7 @@ module Api
     def get_domains
       domain_groups = JSON.parse(params[:domain_group_ids])
       if params[:custom] == 'true'
-        Domain.where(domain_group_id: domain_groups).custom_csi_domains
+        Domain.where(domain_group_id: domain_groups, custom_assessment_setting_id: params['custom_assessment_setting_id']).custom_csi_domains
       else
         Domain.where(domain_group_id: domain_groups).csi_domains
       end

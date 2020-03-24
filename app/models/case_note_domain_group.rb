@@ -20,12 +20,21 @@ class CaseNoteDomainGroup < ActiveRecord::Base
   end
 
   def any_assessment_domains?(case_note)
-    domains = case_note.custom? ? domain_group.domains.custom_csi_domains : domain_group.domains.csi_domains
+    domains = if case_note.custom?
+                case_note.custom_assessment_setting_id.nil? ? domain_group.domains.custom_csi_domains : domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id)
+              else
+                domain_group.domains.csi_domains
+              end
+
     domains.assessment_domains_by_assessment_id(case_note.assessment_id).any?
   end
 
   def domains(case_note)
-    case_note.custom? ? domain_group.domains.custom_csi_domains : domain_group.domains.csi_domains
+    if case_note.custom?
+      case_note.custom_assessment_setting_id.present? ? domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id) : domain_group.domains.custom_csi_domains
+    else
+      domain_group.domains.csi_domains
+    end
   end
 
   def domain_identities(custom_assessment_setting_id=nil)

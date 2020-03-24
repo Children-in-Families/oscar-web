@@ -84,23 +84,30 @@ module CaseNoteHelper
 
   def tag_domain_group(case_note)
     domain_group_ids = selected_domain_group_ids(case_note)
-    domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name("#{case_note.custom}"), dg.id] }
+    domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name("#{case_note.custom}", case_note.custom_assessment_setting_id), dg.id] }
     options_for_select(domain_groups, domain_group_ids)
   end
 
   def selected_domain_group_ids(case_note)
     return [] if !case_note.persisted?
     domain_group_ids = []
-    unless case_note.persisted?
+    if !case_note.persisted?
       domain_group_ids = case_note.case_note_domain_groups.map do |case_note_domain_group|
         case_note_domain_group.domains(case_note).pluck(:domain_group_id)
       end
+    elsif case_note.selected_domain_group_ids.present?
+      domain_group_ids = case_note.selected_domain_group_ids
     else
-      domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
-      domain_group_ids = case_note.assessment.assessment_domains.map do |assessment_domain|
-        assessment_domain.domain.domain_group.id if assessment_domain.goal?
+      domain_groups = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''")
+      if case_note.assessment
+        domain_group_ids = case_note.assessment.assessment_domains.map do |assessment_domain|
+          assessment_domain.domain.domain_group.id if assessment_domain.goal?
+        end
+      else
+        domain_group_ids = domain_groups.ids
       end
-      domain_group_ids = domain_group_ids.presence ? domain_group_ids : case_note.selected_domain_group_ids
+
+      domain_group_ids = domain_group_ids.present? ? domain_group_ids : case_note.selected_domain_group_ids
     end
 
     domain_group_ids.presence ? domain_group_ids.flatten.uniq : domain_group_ids

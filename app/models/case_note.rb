@@ -24,16 +24,16 @@ class CaseNote < ActiveRecord::Base
 
   before_create :set_assessment
 
-  def populate_notes(custom_name, default)
+  def populate_notes(custom_id, default)
     domains = nil
     if default == "false" || not_using_assessment_tool?
       DomainGroup.all.each do |dg|
         case_note_domain_groups.build(domain_group_id: dg.id)
       end
     else
-      custom_domains = CustomAssessmentSetting.find_by(custom_assessment_name: custom_name)
-      return [] if custom_domains.nil?
-      domain_group_ids = custom_domains.domains.pluck(:domain_group_id).uniq
+      custom_domain_setting = CustomAssessmentSetting.find(custom_id)
+      return [] if custom_domain_setting.nil?
+      domain_group_ids = custom_domain_setting.domains.pluck(:domain_group_id).uniq
       domain_group_ids.each do |domain_group_id|
         case_note_domain_groups.build(domain_group_id: domain_group_id)
       end

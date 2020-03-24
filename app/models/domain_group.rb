@@ -36,8 +36,8 @@ class DomainGroup < ActiveRecord::Base
     name == DomainGroup.first.name
   end
 
-  def domain_name(custom='false')
-    domain_identities = custom == 'true' ? custom_domain_identities : default_domain_identities
+  def domain_name(custom='false', custom_assessment_setting_id=nil)
+    domain_identities = custom == 'true' ? custom_domain_identities(custom_assessment_setting_id) : default_domain_identities
     "Domain #{name} (#{domain_identities})"
   end
 end

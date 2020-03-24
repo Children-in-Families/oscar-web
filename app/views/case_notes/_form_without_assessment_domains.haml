@@ -22,7 +22,6 @@
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
           .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
             .panel-heading
-              %strong= "#{t('.domain')} #{domain.name}: #{domain.identity}"
               %strong
                 = t('.domain')
                 - if @case_note.custom
