@@ -104,8 +104,8 @@ export default props => {
                 <TextInput
                   label={translation.clients.form['current_street']}
                   disabled={disabled}
-                  onChange={onChange(objectKey, 'street_number')}
-                  value={objectData.street_current_street}
+                  onChange={onChange(objectKey, 'current_street')}
+                  value={objectData.current_street}
                 />
               </div>
             }
@@ -181,8 +181,8 @@ export default props => {
                 <TextInput
                   label={translation.clients.form['street2']}
                   disabled={disabled}
-                  onChange={onChange(objectKey, 'street_number')}
-                  value={objectData.street_street2}
+                  onChange={onChange(objectKey, 'street2')}
+                  value={objectData.street2}
                 />
               </div>
             }
@@ -355,86 +355,86 @@ export default props => {
         </div>
       :
       <>
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("address.provicne")}
-            options={provinces}
-            isDisabled={disabled}
-            value={objectData.province_id}
-            onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: objectKey, field: 'province_id'})}
-          />
+        <div className="row">
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              label={T.translate("address.provicne")}
+              options={provinces}
+              isDisabled={disabled}
+              value={objectData.province_id}
+              onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: objectKey, field: 'province_id'})}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              label={T.translate("address.district")}
+              isDisabled={disabled}
+              options={districts}
+              value={objectData.district_id}
+              onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              label={T.translate("address.commune")}
+              isDisabled={disabled}
+              options={communes}
+              value={objectData.commune_id}
+              onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              label={T.translate("address.village")}
+              isDisabled={disabled}
+              options={villages}
+              value={objectData.village_id}
+              onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
+            />
+          </div>
         </div>
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("address.district")}
-            isDisabled={disabled}
-            options={districts}
-            value={objectData.district_id}
-            onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
-          />
-        </div>
+        <div className="row">
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate("address.street_number")}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'street_number')}
+              value={objectData.street_number}
+            />
+          </div>
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("address.commune")}
-            isDisabled={disabled}
-            options={communes}
-            value={objectData.commune_id}
-            onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
-          />
-        </div>
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate("address.house_number")}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'house_number')}
+              value={objectData.house_number}
+            />
+          </div>
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("address.village")}
-            isDisabled={disabled}
-            options={villages}
-            value={objectData.village_id}
-            onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
-          />
-        </div>
-      </div>
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate("address.address_name")}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'current_address')}
+              value={objectData.current_address}
+            />
+          </div>
 
-      <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("address.street_number")}
-            disabled={disabled}
-            onChange={onChange(objectKey, 'street_number')}
-            value={objectData.street_number}
-          />
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              label={T.translate("address.address_type")}
+              isDisabled={disabled}
+              options={typeOfAddress}
+              onChange={onChange(objectKey, 'address_type')}
+              value={objectData.address_type}
+            />
+          </div>
         </div>
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("address.house_number")}
-            disabled={disabled}
-            onChange={onChange(objectKey, 'house_number')}
-            value={objectData.house_number}
-          />
-        </div>
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("address.address_name")}
-            disabled={disabled}
-            onChange={onChange(objectKey, 'current_address')}
-            value={objectData.current_address}
-          />
-        </div>
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            label={T.translate("address.address_type")}
-            isDisabled={disabled}
-            options={typeOfAddress}
-            onChange={onChange(objectKey, 'address_type')}
-            value={objectData.address_type}
-          />
-        </div>
-      </div>
       </>
   )
 }

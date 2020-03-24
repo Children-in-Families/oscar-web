@@ -1193,15 +1193,15 @@ module ClientsHelper
     @client.donors.distinct
   end
 
+  def get_address_json
+    Client::BRC_ADDRESS.zip(Client::BRC_ADDRESS).to_h.to_json
+  end
+
   def get_quantitative_types
     if current_organization.short_name != 'brc'
       QuantitativeType.all
     else
       QuantitativeType.unscoped.order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
     end
-  end
-
-  def get_address_json
-    Client::BRC_ADDRESS.zip(Client::BRC_ADDRESS).to_h.to_json
   end
 end
