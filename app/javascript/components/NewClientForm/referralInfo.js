@@ -12,8 +12,7 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, translation } } = props
-
+  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_islands, brc_household_types, brc_resident_types } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
   const genderLists = [
@@ -182,17 +181,16 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.given_name")} onChange={onChange('client', 'given_name')} value={client.given_name} />
+          <TextInput label={translation.clients.form.given_name} onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <p>{t(translation, 'clients.form.family_name')}</p>
           <TextInput label={translation.clients.form.family_name} onChange={onChange('client', 'family_name')} value={client.family_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.local_given_name")} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
+          <TextInput label={translation.clients.form.local_given_name} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.local_family_name")} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
+          <TextInput label={translation.clients.form.local_family_name} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
         </div>
       </div>
       <div className="row">
@@ -247,12 +245,16 @@ export default props => {
         </div>
       </legend>
 
-      <Address disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T}} />
+      <Address translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T, brc_islands, brc_household_types, brc_resident_types }} />
 
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.what_3_word")} onChange={onChange('client', 'what3words')} value={client.what3words} />
-        </div>
+        {
+          fieldsVisibility && fieldsVisibility.what3words != false &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput label={T.translate("referralInfo.what_3_word")} onChange={onChange('client', 'what3words')} value={client.what3words} />
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("referralInfo.client_phone")} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>

@@ -9,6 +9,7 @@ module ClientConstants
   EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
   CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
   HEADER_COUNTS   = %w( date_of_call case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
+  BRC_ADDRESS     = %w(current_island current_street current_po_box current_city current_settlement current_resident_own_or_rent current_household_type island2 street2 po_box2 city2 settlement2 resident_own_or_rent2 household_type2).freeze
 
   GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
   GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown', 'prefer_not_to_say']
@@ -72,4 +73,40 @@ module ClientConstants
     'Hurricane related',
     'Pregnant woman in the household'
   ]
+
+  ISLANDS = [
+      'New Providence',
+      'Andros',
+      'Eleuthera',
+      'Exuma',
+      'Abaco Islands',
+      'Grand Bahama',
+      'Others'
+    ].freeze
+
+  BRC_RESIDENT_TYPES = %w(Owners Rent).freeze
+
+  BRC_HOUSEHOLD_TYPES = [
+    "A government, agency or religious shelter",
+    "A friend or family member's home",
+    "A short-term rental at risk of eviction",
+    "In a tent, destroyed building, or vehicle",
+    "Back home",
+    "Other"
+  ]
+
+  BRC_PRESENTED_IDS = [
+    "Driver's License",
+    "National Insurance Card (NIB)",
+    "Bahamian Passport",
+    "Voters card",
+    "Other"
+  ].freeze
+
+  BRC_PREFERED_LANGS = %w(
+    Creole
+    English
+    French
+    Other
+  ).freeze
 end

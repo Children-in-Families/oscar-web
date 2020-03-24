@@ -1533,14 +1533,23 @@ my:
       answer: အေျဖ
       birth_province: ေမြးဖြားသည့္ ခ႐ိုင္
       blank: အလွတ်မဖွစျနိုငျ
+      brsc_branch: BRCS Branch
       cambodia: ကေမာၻဒီးယား
       case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      city2: City - Other address
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ၿပီ
       current_address: လက္ရွိလိပ္စာ
+      current_city: City - Current address
+      current_household_type: Is your household staying in one of the following?
+      current_island: Island - Current address
+      current_po_box: PO BOX - Current address
       current_province: လက္ရွိေနထိုင္ရာ ခ႐ိုင္
+      current_resident_own_or_rent: Owned or Rented - Current address
+      current_settlement: Settlement - Current address
+      current_street: Street - Current address
       custom_forms: အခြန္ပံုစံမ်ား
       date_of_birth: ေမြးဖြာသည့္ ရက္၊ လ၊ ႏွစ္
       district: ခ႐ိုင္
@@ -1589,16 +1598,22 @@ my:
       has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈေအာက္ ေရာက္ဖူးသည္
       has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူးသည္
       house_number: အိမ္နံပါတ္
+      household_type2: Address Type - Other address
       id: မွတ္ပံုတင္
+      id_number: ID number
       id_poor: လူဆင္းရဲမွတ္ပံုတင္
       initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
       is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
+      island2: Island - Other address
       kid_id: ကေလးမွတ္ပံုတင္
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအလိုက္)
       local_given_name: ေမြးနာမည္ (ေဒသအလုိက္)
       name: နာမည္
       next: နောက်တစ်ခု
+      other_phone_number: Phone Number - Alternate
+      po_box2: Zip - Other address
+      presented_id: Presented ID
       previous: လွန်ခဲ့သော
       province: ေမြးဖြားရာ ခ႐ိုင္
       received_by: မွ လက္ခံသည္။
@@ -1606,15 +1621,20 @@ my:
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
       relevant_referral_information: သက္ဆိုင္ေသာ လြဲေျပာင္း အခ်က္အလက္
+      resident_own_or_rent2: Owned, Rented or Temporary - Other address
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
+      settlement2: Settlement - Other address
       stage: အဆင့္ေမးခြန္း
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
+      street2: Street - Other address
       street_number: လမ္း
       telephone_number: တယ်လီဖုန်းနံပါတ်
       to: သို႔
+      v_score: V-score from ODK
       village: ေက်းရြာ
+      whatsapp: Whatsapp
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
     form_header:
