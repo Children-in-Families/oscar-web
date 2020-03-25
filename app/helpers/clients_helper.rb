@@ -820,16 +820,17 @@ module ClientsHelper
             if params['all_values'] == class_name
               data_filter = date_filter(client.assessments.defaults, "#{class_name}")
             else
-              assessment_count = client.default_assessments_count
+              data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+              count += data_filter.flatten.count if data_filter
             end
             count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(date_of_custom_assessments)/i].present?
             if params['all_values'] == class_name
               data_filter = date_filter(client.assessments.customs, "#{class_name}")
             else
-              assessment_count = client.custom_assessments_count
+              data_filter = date_filter(client.assessments.customs, "#{class_name}")
+              count += data_filter.flatten.count if data_filter
             end
-            count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(formbuilder)/i].present?
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
