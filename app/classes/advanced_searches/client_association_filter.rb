@@ -31,9 +31,9 @@ module AdvancedSearches
       when 'enrolled_program_stream'
         values = enrolled_program_stream_query
       when 'case_note_date'
-        values = advanced_case_note_query('case_note_date')
+        values = advanced_case_note_query
       when 'case_note_type'
-        values = advanced_case_note_query('case_note_type')
+        values = advanced_case_note_query
       when 'date_of_assessments'
         values = date_of_assessments_query(true)
       when /assessment_completed|assessment_completed_date/
@@ -486,12 +486,12 @@ module AdvancedSearches
       hashes
     end
 
-    def advanced_case_note_query(field_name)
+    def advanced_case_note_query
       results = []
 
       @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
       basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
-      results       = mapping_allowed_param_value(basic_rules, [field_name], data_mapping=[])
+      results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
       query_string  = get_any_query_string(results, 'case_notes')
       sql           = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{basic_rules[:condition]} ")
       clients       = Client.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
