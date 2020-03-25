@@ -795,7 +795,7 @@ class ClientGrid < BaseGrid
       resident_own_or_rent2
       household_type2
     ).each do |field_name|
-    column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |object|
+    column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }, class: 'brc-fields') do |object|
       object.public_send(field_name.to_sym)
     end
   end
