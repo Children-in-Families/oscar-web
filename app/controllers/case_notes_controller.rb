@@ -171,6 +171,14 @@ class CaseNotesController < AdminController
     end
 
     case_note_domain_groups = CaseNoteDomainGroup.where(case_note: @case_note, domain_group: @domain_groups)
-    @case_note_domain_group_note = case_note_domain_groups.where.not(note: '').try(:first).try(:note)
+    @case_note_domain_group_note = case_note_domain_groups.where.not(note: '').map do |cndg|
+      if !@case_note.custom
+        group_name = cndg.domains(@case_note).map(&:identity).join(', ')
+        "#{group_name}\n#{cndg.note}"
+      else
+        group_name = cndg.domain_group.custom_domain_identities(@custom_assessment_setting&.id)
+        "#{group_name}\n#{cndg.note}"
+      end
+    end.join("\n\n").html_safe
   end
 end

@@ -43,15 +43,9 @@
                     .col-xs-12
                       #interaction-type.text-danger
 
-          - if !@case_note.persisted? || not_using_assessment_tool?
-            .row
-              .col-xs-12
-                = f.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
-          - else
-            .row
-              .col-xs-12
-                = simple_fields_for :additional_fields do |ff|
-                  = ff.input :note, as: :text, label: false, input_html: { value: @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
+          .row
+            .col-xs-12
+              = f.input :note, label: false, input_html: { value: @case_note.note.presence || @case_note_domain_group_note, rows: 6, placeholder: t('.note') }
 
           .row
             .col-xs-12

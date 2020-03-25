@@ -69,7 +69,7 @@
                       .panel-body
                         = simple_format case_note.note
               - else
-                - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join(' ')
+                - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join("\n")
                 .row
                   .col-xs-12
                     .panel.panel-default
