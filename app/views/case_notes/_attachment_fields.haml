@@ -1,10 +1,11 @@
 - if domain_note.object.class.to_s == 'CaseNote'
-  - case_note_domain_group = domain_note.try(:object).case_note_domain_groups.where("attachments != '{}'").first
+  - case_note_domain_groups = domain_note.try(:object).case_note_domain_groups.where("attachments != '{}'")
 - else
-  - case_note_domain_group = domain_note.object.attachments.first
+  - case_note_domain_groups = domain_note.object.attachments
 
-- if case_note_domain_group.present?
-  = render 'attachment', cdg: case_note_domain_group
+- if case_note_domain_groups.present?
+
+  = render 'attachment', cdgs: case_note_domain_groups
 
 .row
   .col-xs-12

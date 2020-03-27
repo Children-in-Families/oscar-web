@@ -1,7 +1,8 @@
 .table-responsive
   %table.table.table-bordered
-    - cdg.attachments.each_with_index do |attachment, index|
-      %tr
-        %td= original_filename(attachment)
-        %td.text-center
-          = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+    - cdgs.each do |cdg|
+      - cdg.attachments.each_with_index do |attachment, index|
+        %tr
+          %td= original_filename(attachment)
+          %td.text-center
+            = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
