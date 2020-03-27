@@ -22,6 +22,7 @@ namespace :tenant_data do
       puts "duplicate_checker_field start!!!"
       Rake::Task["client_to_shared:copy"].invoke(args.short_name)
       Rake::Task["duplicate_checker_field:update"].invoke(args.short_name)
+      Rake::Task["field_settings:import"].invoke(args.short_name)
       # Rake::Task["client_status:correct"].invoke()
       puts "Clean data done!!!"
     end

@@ -30,17 +30,28 @@ module ClientsHelper
 
   def rails_i18n_translations
     # Change slice inputs to adapt your need
-    I18n.backend.send(:translations)[I18n.locale].slice(
+    translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :able_screening_questions,
       :clients,
       :client
     )
+
+    if current_organization.short_name != 'brc' && I18n.locale.to_s == 'en'
+      translations[:clients][:form][:local_given_name] += " #{country_scope_label_translation}" if translations[:clients][:form][:local_given_name].exclude?(country_scope_label_translation)
+      translations[:clients][:form][:local_family_name] += " #{country_scope_label_translation}" if translations[:clients][:form][:local_family_name].exclude?(country_scope_label_translation)
+    end
+
+    translations
   end
 
   def fields_visibility
-    field_settings.each_with_object({}) do |field_setting, output|
+    result = field_settings.each_with_object({}) do |field_setting, output|
       output[field_setting.name] = policy(Client).show?(field_setting.name)
     end
+
+    result[:brc_client_address] = %w(current_island current_street current_po_box current_city current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:brc_client_other_address] = %w(island2 street2 po_box2 city2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
+    result
   end
 
   def report_options(title, yaxis_title)
@@ -102,8 +113,6 @@ module ClientsHelper
       interview_locations:           t('datagrid.columns.clients.interview_locations'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
-      local_given_name:              local_name_label,
-      local_family_name:             local_name_label(:local_family_name),
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
       birth_province_id:             t('datagrid.columns.clients.birth_province'),
