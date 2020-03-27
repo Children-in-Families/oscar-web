@@ -36,7 +36,7 @@ module ClientsHelper
       :client
     )
 
-    if current_organization.short_name != 'brc'
+    if current_organization.short_name != 'brc' && I18n.locale.to_s == 'en'
       translations[:clients][:form][:local_given_name] += " #{country_scope_label_translation}" if translations[:clients][:form][:local_given_name].exclude?(country_scope_label_translation)
       translations[:clients][:form][:local_family_name] += " #{country_scope_label_translation}" if translations[:clients][:form][:local_family_name].exclude?(country_scope_label_translation)
     end
