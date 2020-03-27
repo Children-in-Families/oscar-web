@@ -1,10 +1,13 @@
 namespace :field_settings do
   desc 'Import default field settings data'
-  task import: :environment do
+  task :import, [:short_name] => :environment do |task, args|
     workbook = Roo::Excelx.new('db/support/field_settings.xlsx')
     headers = {}
 
-    Organization.where.not(short_name: 'shared').find_each do |org|
+    organisations = Organization.where.not(short_name: 'shared')
+    organisations = organisations.where(short_name: args.short_name) if args && args.short_name.present?
+
+    organisations.find_each do |org|
       Organization.switch_to org.short_name
 
       sheet = workbook.sheet(0)
