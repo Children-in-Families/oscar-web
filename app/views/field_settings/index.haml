@@ -13,7 +13,7 @@
                     .row
                       .col-md-6
                         %h4.panel-title
-                          %a{"aria-controls" => "collapse-#{group.titleize}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group.titleize}", :role => "button"}
+                          %a{"aria-controls" => "collapse-#{group}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{group}", :role => "button"}
                             = group.titleize
                       .col-md-6
                         - if group_setting = fields.find(&:group_setting?)
@@ -23,7 +23,7 @@
                                 = f.input :visible, label: 'Show', wrapper: false
 
                   - if fields.any?(&:field_setting?)
-                    .panel-collapse.collapse.in{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group.titleize}"}
+                    .panel-collapse.collapse{"aria-labelledby" => "headingClientField", :role => "tabpanel", id: "collapse-#{group}"}
                       .panel-body
                         .row.header
                           .col-md-4
