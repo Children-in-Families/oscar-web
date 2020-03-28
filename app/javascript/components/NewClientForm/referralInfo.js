@@ -143,34 +143,6 @@ export default props => {
     onChange('client', { ...fields, 'concern_same_as_client': data.data })({type: 'select'})
   }
 
-  // useEffect(() => {
-  //   const isSelf = client.referee_relationship === 'self'
-
-  //   if(isSelf) {
-  //     if(referee.province_id !== null)
-  //       fetchData('provinces', referee.province_id, 'districts')
-  //     if(referee.district_id !== null)
-  //       fetchData('districts', referee.district_id, 'communes')
-  //     if(referee.commune_id !== null)
-  //       fetchData('communes', referee.commune_id, 'villages')
-  //   }
-
-  //   const fields = {
-  //     outside: isSelf ? referee.outside : false,
-  //     province_id: isSelf ? referee.province_id : null,
-  //     district_id: isSelf ? referee.district_id : null,
-  //     commune_id: isSelf ? referee.commune_id : null,
-  //     village_id: isSelf ? referee.village_id : null,
-  //     street_number: isSelf ? referee.street_number : '',
-  //     house_number: isSelf ? referee.house_number : '',
-  //     current_address: isSelf ? referee.current_address : '',
-  //     address_type: isSelf ? referee.address_type : '',
-  //     outside_address: isSelf ? referee.outside_address : ''
-  //   }
-
-  //   onChange('client', { ...fields })({type: 'select'})
-  // }, [client.referee_relationship, referee])
-
   return (
     <div className="containerClass">
       <legend>
@@ -210,15 +182,20 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <DateInput getCurrentDate label={T.translate("referralInfo.date_of_birth")} onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            asGroup
-            label={T.translate("referralInfo.birth_province")}
-            options={birthProvincesLists}
-            value={client.birth_province_id}
-            onChange={onChange('client', 'birth_province_id')}
-          />
-        </div>
+
+        {
+          fieldsVisibility.birth_province_id == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              asGroup
+              label={T.translate("referralInfo.birth_province")}
+              options={birthProvincesLists}
+              value={client.birth_province_id}
+              onChange={onChange('client', 'birth_province_id')}
+              />
+          </div>
+        }
+
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
