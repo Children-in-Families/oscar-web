@@ -1,6 +1,7 @@
 class FieldSettingsController < AdminController
   def index
-    @field_settings = FieldSetting.order(:group, :name)
+    org_name = current_organization.short_name == 'dev' ? 'brc' : current_organization.short_name
+    @field_settings = FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{org_name}").order(:group, :name)
   end
 
   def update
