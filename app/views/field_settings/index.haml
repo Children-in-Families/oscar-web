@@ -40,7 +40,7 @@
                               .col-md-4
                                 = field.current_label
                               .col-md-4
-                                = f.input :label, label: false, input_html: {  value: begin field.label || t("clients.form.#{field.name}", raise: I18n::MissingTranslationData) rescue field.current_label end  }
+                                = f.input :label, label: false, input_html: {  value: field.label.presence || field.current_label  }
                               .col-md-2
                                 - if field.required?
                                   .i-checks-meta-fields{  data: { toggle: :tooltip }, title: 'Cannot hide required field' }

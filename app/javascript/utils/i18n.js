@@ -7,6 +7,6 @@ export function t(data, key) {
       value = value[keys[i]]
     }
   }
-
+  
   return value || "missing key " + key;
 }
