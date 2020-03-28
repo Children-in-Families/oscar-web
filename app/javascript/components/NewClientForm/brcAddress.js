@@ -8,9 +8,10 @@ import { t } from '../../utils/i18n'
 
 export default props => {
   const { onChange, disabled, translation, fieldsVisibility,
-          data: { client, objectKey, objectData, T, current_organization, brc_address, brc_islands, brc_household_types, brc_resident_types }
+          data: { client, objectKey, objectData, T, current_organization, settlements, brc_address, brc_islands, brc_household_types, brc_resident_types }
         } = props
 
+  const [settlementList, setSettlementList] =  useState(settlements && settlements.map(settlement  => ({label: settlement, value: settlement})))
   const [brcIslands, setBrcIslands] = useState(brc_islands && brc_islands.map(island  => ({label: island, value: island})))
   const [brcHouseholdTypes, setBrcHouseholdTypes] = useState(brc_household_types && brc_household_types.map(household  => ({label: household, value: household})))
   const [brcResidentTypes, setBrcResidentTypes] = useState(brc_resident_types && brc_resident_types.map(type  => ({label: type, value: type})))
@@ -82,9 +83,10 @@ export default props => {
         {
           fieldsVisibility && fieldsVisibility.current_settlement != false &&
           <div className="col-xs-12 col-md-6 col-lg-4">
-            <TextInput
+            <SelectInput
               label={translation.clients.form['current_settlement']}
               disabled={disabled}
+              options={settlementList}
               onChange={onChange(objectKey, 'current_settlement')}
               value={objectData.current_settlement}
             />
@@ -186,9 +188,10 @@ export default props => {
         {
           fieldsVisibility && fieldsVisibility.settlement2 != false &&
           <div className="col-xs-12 col-md-6 col-lg-4">
-            <TextInput
+            <SelectInput
               label={translation.clients.form['settlement2']}
               disabled={disabled}
+              options={settlementList}
               onChange={onChange(objectKey, 'settlement2')}
               value={objectData.settlement2}
             />

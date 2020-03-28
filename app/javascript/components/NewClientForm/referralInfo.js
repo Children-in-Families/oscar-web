@@ -13,7 +13,7 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
+  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
@@ -257,7 +257,7 @@ export default props => {
       {
         fieldsVisibility && fieldsVisibility.brc_client_address == true &&
         <>
-        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, brc_household_types, brc_resident_types }} />
+        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_household_types, brc_resident_types }} />
         <legend className="brc-address">
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
