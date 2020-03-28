@@ -1565,6 +1565,7 @@ en:
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
       city2: City
+      client_phone: Client Contact Phone
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed

@@ -255,7 +255,7 @@ export default props => {
 
         {
          fieldsVisibility.presented_id == true &&
-         <div className="col-xs-12 col-md-6 col-lg-3" style={{ maxHeight: '59px' }}>
+         <div className="col-xs-12 col-md-6 col-lg-4" style={{ maxHeight: '59px' }}>
            <SelectInput
              label={translation.clients.form['presented_id']}
              options={brcPresentedIdList}
@@ -267,7 +267,7 @@ export default props => {
 
        {
          fieldsVisibility.id_number == true &&
-         <div className="col-xs-12 col-md-6 col-lg-3">
+         <div className="col-xs-12 col-md-6 col-lg-4">
            <TextInput
              label={translation.clients.form['id_number']}
              onChange={onChange('client', 'id_number')}
@@ -278,7 +278,7 @@ export default props => {
 
        {
          fieldsVisibility.whatsapp == true &&
-         <div className="col-xs-12 col-md-6 col-lg-3">
+         <div className="col-xs-12 col-md-6 col-lg-4">
            <TextInput
              label={translation.clients.form['whatsapp']}
              onChange={onChange('client', 'whatsapp')}
@@ -289,7 +289,7 @@ export default props => {
 
        {
          fieldsVisibility.other_phone_number == true &&
-         <div className="col-xs-12 col-md-6 col-lg-3">
+         <div className="col-xs-12 col-md-6 col-lg-4">
            <TextInput
              label={translation.clients.form['other_phone_number']}
              onChange={onChange('client', 'other_phone_number')}
@@ -300,7 +300,7 @@ export default props => {
 
        {
          fieldsVisibility.v_score == true &&
-         <div className="col-xs-12 col-md-6 col-lg-3">
+         <div className="col-xs-12 col-md-6 col-lg-4">
            <TextInput
              label={translation.clients.form['v_score']}
              type='number'
@@ -312,7 +312,7 @@ export default props => {
 
        {
          fieldsVisibility.brsc_branch == true &&
-         <div className="col-xs-12 col-md-6 col-lg-3">
+         <div className="col-xs-12 col-md-6 col-lg-4">
            <TextInput
              label={translation.clients.form['brsc_branch']}
              onChange={onChange('client', 'brsc_branch')}
@@ -321,13 +321,14 @@ export default props => {
          </div>
        }
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.client_phone")} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
+        <div className="col-xs-12 col-md-6 col-lg-4">
+          <TextInput label={t(translation, 'clients.form.client_phone')} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
+
+        <div className="col-xs-12 col-md-6 col-lg-4">
           <SelectInput label={T.translate("referralInfo.phone_owner")} options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
+        <div className="col-xs-12 col-md-6 col-lg-4">
           <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
         </div>
 
