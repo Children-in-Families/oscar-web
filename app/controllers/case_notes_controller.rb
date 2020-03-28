@@ -29,7 +29,7 @@ class CaseNotesController < AdminController
     else
       @case_note = @client.case_notes.new()
       @case_note.assessment = @client.assessments.default_latest_record
-      @case_note.populate_notes(params[:custom_name], params[:custom])
+      @case_note.populate_notes(nil, 'true')
     end
   end
 
@@ -68,9 +68,7 @@ class CaseNotesController < AdminController
   def update
     if @case_note.update_attributes(case_note_params) && @case_note.save
       if params.dig(:case_note, :case_note_domain_groups_attributes)
-        params[:case_note][:case_note_domain_groups_attributes].each do |d|
-          add_more_attachments(d.second[:attachments], d.second[:id])
-        end
+        add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       end
       create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
@@ -106,11 +104,11 @@ class CaseNotesController < AdminController
     default_params = default_params.merge(meeting_date: meeting_date)
   end
 
-  def add_more_attachments(new_file, case_note_domain_group_id)
-    if new_file.present?
-      case_note_domain_group = @case_note.case_note_domain_groups.find(case_note_domain_group_id)
+  def add_more_attachments(new_files)
+    if new_files.present?
+      case_note_domain_group = @case_note.case_note_domain_groups.first
       files = case_note_domain_group.attachments
-      files += new_file
+      files += new_files
       case_note_domain_group.attachments = files
       case_note_domain_group.save
     end

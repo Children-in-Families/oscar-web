@@ -68,6 +68,7 @@
 
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
+            = case_note_domain.input :attachments, as: :hidden
             - if case_note_domain.object.any_assessment_domains?(@case_note) && enable_default_assessment?
               = render 'form_with_assessment_domains', { domain_note: case_note_domain }
             - else
