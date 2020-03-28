@@ -13,8 +13,9 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_islands, brc_household_types, brc_resident_types } } = props
+  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
+  const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -274,6 +275,74 @@ export default props => {
             <TextInput label={T.translate("referralInfo.what_3_word")} onChange={onChange('client', 'what3words')} value={client.what3words} />
           </div>
         }
+
+        {
+         fieldsVisibility && fieldsVisibility.presented_id == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3" style={{ maxHeight: '59px' }}>
+           <SelectInput
+             label={translation.clients.form['presented_id']}
+             options={brcPresentedIdList}
+             onChange={onChange('client', 'presented_id')}
+             value={client.presented_id}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility && fieldsVisibility.id_number == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <TextInput
+             label={translation.clients.form['id_number']}
+             onChange={onChange('client', 'id_number')}
+             value={client.id_number}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility && fieldsVisibility.whatsapp == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <TextInput
+             label={translation.clients.form['whatsapp']}
+             onChange={onChange('client', 'whatsapp')}
+             value={client.whatsapp}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility && fieldsVisibility.other_phone_number == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <TextInput
+             label={translation.clients.form['other_phone_number']}
+             onChange={onChange('client', 'other_phone_number')}
+             value={client.other_phone_number}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility && fieldsVisibility.v_score == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <TextInput
+             label={translation.clients.form['v_score']}
+             type='number'
+             onChange={onChange('client', 'v_score')}
+             value={client.v_score}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility && fieldsVisibility.brsc_branch == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <TextInput
+             label={translation.clients.form['brsc_branch']}
+             onChange={onChange('client', 'brsc_branch')}
+             value={client.brsc_branch}
+           />
+         </div>
+       }
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("referralInfo.client_phone")} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
