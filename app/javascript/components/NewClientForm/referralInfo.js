@@ -288,17 +288,6 @@ export default props => {
        }
 
        {
-         fieldsVisibility.other_phone_number == true &&
-         <div className="col-xs-12 col-md-6 col-lg-4">
-           <TextInput
-             label={translation.clients.form['other_phone_number']}
-             onChange={onChange('client', 'other_phone_number')}
-             value={client.other_phone_number}
-           />
-         </div>
-       }
-
-       {
          fieldsVisibility.v_score == true &&
          <div className="col-xs-12 col-md-6 col-lg-4">
            <TextInput
@@ -331,6 +320,17 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-4">
           <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
         </div>
+
+        {
+          fieldsVisibility.other_phone_number == true &&
+          <div className="col-xs-12 col-md-6 col-lg-4">
+            <TextInput
+              label={translation.clients.form['other_phone_number']}
+              onChange={onChange('client', 'other_phone_number')}
+              value={client.other_phone_number}
+            />
+          </div>
+        }
 
         {
           isRedirectFromCall &&
