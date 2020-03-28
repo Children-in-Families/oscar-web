@@ -212,7 +212,7 @@ export default props => {
       </div>
 
       {
-        fieldsVisibility && fieldsVisibility.brc_client_address != true &&
+        fieldsVisibility.brc_client_address != true &&
         <>
           <legend>
             <div className="row">
@@ -232,7 +232,7 @@ export default props => {
       }
 
       {
-        fieldsVisibility && fieldsVisibility.brc_client_address == true &&
+        fieldsVisibility.brc_client_address == true &&
         <>
         <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_household_types, brc_resident_types }} />
         <legend className="brc-address">
@@ -247,14 +247,14 @@ export default props => {
 
       <div className="row">
         {
-          fieldsVisibility && fieldsVisibility.what3words != false &&
+          fieldsVisibility.what3words == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput label={T.translate("referralInfo.what_3_word")} onChange={onChange('client', 'what3words')} value={client.what3words} />
           </div>
         }
 
         {
-         fieldsVisibility && fieldsVisibility.presented_id == true &&
+         fieldsVisibility.presented_id == true &&
          <div className="col-xs-12 col-md-6 col-lg-3" style={{ maxHeight: '59px' }}>
            <SelectInput
              label={translation.clients.form['presented_id']}
@@ -266,7 +266,7 @@ export default props => {
        }
 
        {
-         fieldsVisibility && fieldsVisibility.id_number == true &&
+         fieldsVisibility.id_number == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <TextInput
              label={translation.clients.form['id_number']}
@@ -277,7 +277,7 @@ export default props => {
        }
 
        {
-         fieldsVisibility && fieldsVisibility.whatsapp == true &&
+         fieldsVisibility.whatsapp == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <TextInput
              label={translation.clients.form['whatsapp']}
@@ -288,7 +288,7 @@ export default props => {
        }
 
        {
-         fieldsVisibility && fieldsVisibility.other_phone_number == true &&
+         fieldsVisibility.other_phone_number == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <TextInput
              label={translation.clients.form['other_phone_number']}
@@ -299,7 +299,7 @@ export default props => {
        }
 
        {
-         fieldsVisibility && fieldsVisibility.v_score == true &&
+         fieldsVisibility.v_score == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <TextInput
              label={translation.clients.form['v_score']}
@@ -311,7 +311,7 @@ export default props => {
        }
 
        {
-         fieldsVisibility && fieldsVisibility.brsc_branch == true &&
+         fieldsVisibility.brsc_branch == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <TextInput
              label={translation.clients.form['brsc_branch']}

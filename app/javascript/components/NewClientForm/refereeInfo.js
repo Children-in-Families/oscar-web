@@ -108,7 +108,7 @@ export default props => {
       </div>
 
       {
-        fieldsVisibility && fieldsVisibility.brc_client_address !== true &&
+        fieldsVisibility.brc_client_address !== true &&
         <>
           <legend>
             <div className="row">

@@ -42,7 +42,7 @@ export default props => {
       <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes, T }} onChange={onChange} />
 
       {
-        fieldsVisibility && fieldsVisibility.client_school_information == true &&
+        fieldsVisibility.client_school_information == true &&
         <>
           <div className="row">
             <div className="schoolInfo collapsed" data-toggle="collapse" data-target="#schoolInfo">
