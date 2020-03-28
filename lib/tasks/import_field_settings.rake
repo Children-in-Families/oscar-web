@@ -27,6 +27,7 @@ namespace :field_settings do
           klass_name: sheet.row(row_index)[headers['klass_name']],
           required: sheet.row(row_index)[headers['required']].to_i,
           visible: sheet.row(row_index)[headers['visible']].to_i,
+          for_instances: workbook.row(row_index)[headers['for_instances']],
           group: sheet.row(row_index)[headers['group']]
         )
       end

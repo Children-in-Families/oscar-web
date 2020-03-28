@@ -355,20 +355,20 @@ en:
         other_phone_number: Phone Number - Alternate
         v_score: V-score from ODK
         brsc_branch: BRCS Branch
-        current_island: Island - Current address
-        current_street: Street - Current address
-        current_po_box: PO BOX - Current address
-        current_city: City - Current address
-        current_settlement: Settlement - Current address
-        current_resident_own_or_rent: Owned or Rented - Current address
+        current_island: Island
+        current_street: Street
+        current_po_box: PO BOX
+        current_city: City
+        current_settlement: Settlement
+        current_resident_own_or_rent: Owned or Rented
         current_household_type: Is your household staying in one of the following?
-        island2: Island - Other address
-        street2: Street - Other address
-        po_box2: Zip - Other address
-        city2: City - Other address
-        settlement2: Settlement - Other address
-        resident_own_or_rent2: Owned, Rented or Temporary - Other address
-        household_type2: Address Type - Other address
+        island2: Island
+        street2: Street
+        po_box2: Zip
+        city2: City
+        settlement2: Settlement
+        resident_own_or_rent2: Owned, Rented or Temporary
+        household_type2: Address Type
   add_event_success: Event has been added to calendar successfully.
   advanced_search:
     fields:
@@ -1568,19 +1568,19 @@ en:
       cambodia: Cambodia
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
-      city2: City - Other address
+      city2: City
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
       current_address: Current Address
-      current_city: City - Current address
+      current_city: City
       current_household_type: Is your household staying in one of the following?
-      current_island: Island - Current address
-      current_po_box: PO BOX - Current address
+      current_island: Island
+      current_po_box: PO BOX
       current_province: Current Province
-      current_resident_own_or_rent: Owned or Rented - Current address
-      current_settlement: Settlement - Current address
-      current_street: Street - Current address
+      current_resident_own_or_rent: Owned or Rented
+      current_settlement: Settlement
+      current_street: Street
       custom_forms: Custom Forms
       date_of_birth: Date of Birth
       district: District/Khan
@@ -1629,13 +1629,13 @@ en:
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
-      household_type2: Address Type - Other address
+      household_type2: Address Type
       id: ID
       id_number: ID number
       id_poor: ID Poor
       initial_referral_date: Date of Referral
       is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
-      island2: Island - Other address
+      island2: Island
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
       local_family_name: Family Name
@@ -1643,7 +1643,7 @@ en:
       name: Name
       next: Next
       other_phone_number: Phone Number - Alternate
-      po_box2: Zip - Other address
+      po_box2: Zip
       preferred_language: Preferred Language
       presented_id: Presented ID
       previous: Previous
@@ -1653,14 +1653,14 @@ en:
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
-      resident_own_or_rent2: Owned, Rented or Temporary - Other address
+      resident_own_or_rent2: Owned, Rented or Temporary
       school_grade: School Grade
       school_name: School Name
-      settlement2: Settlement - Other address
+      settlement2: Settlement
       stage: Stage Question
       state: Accept/Reject
       status: Status
-      street2: Street - Other address
+      street2: Street
       street_number: Street
       telephone_number: Primary Carer Phone Number
       to: To
@@ -2357,20 +2357,20 @@ en:
         other_phone_number: Phone Number - Alternate
         v_score: V-score from ODK
         brsc_branch: BRCS Branch
-        current_island: Island - Current address
-        current_street: Street - Current address
-        current_po_box: PO BOX - Current address
-        current_city: City - Current address
-        current_settlement: Settlement - Current address
-        current_resident_own_or_rent: Owned or Rented - Current address
+        current_island: Island
+        current_street: Street
+        current_po_box: PO BOX
+        current_city: City
+        current_settlement: Settlement
+        current_resident_own_or_rent: Owned or Rented
         current_household_type: Is your household staying in one of the following?
-        island2: Island - Other address
-        street2: Street - Other address
-        po_box2: Zip - Other address
-        city2: City - Other address
-        settlement2: Settlement - Other address
-        resident_own_or_rent2: Owned, Rented or Temporary - Other address
-        household_type2: Address Type - Other address
+        island2: Island
+        street2: Street
+        po_box2: Zip
+        city2: City
+        settlement2: Settlement
+        resident_own_or_rent2: Owned, Rented or Temporary
+        household_type2: Address Type
         able: Able
         able_state: Able State
         address: Address

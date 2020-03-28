@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200320030958) do
+ActiveRecord::Schema.define(version: 20200328004830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -856,6 +856,7 @@ ActiveRecord::Schema.define(version: 20200320030958) do
     t.string   "current_label"
     t.boolean  "required",      default: false
     t.string   "klass_name"
+    t.string   "for_instances"
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|

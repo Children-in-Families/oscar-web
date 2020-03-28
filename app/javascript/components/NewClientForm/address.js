@@ -84,6 +84,17 @@ export default props => {
     :
       callFrom == 'referralInfo' ?
         <div>
+          {
+            fieldsVisibility && fieldsVisibility.brc_client_address != false &&
+            <legend className="brc-address">
+              <div className="row">
+                <div className="col-xs-12 col-md-6 col-lg-6">
+                  <p>Current Address</p>
+                </div>
+              </div>
+            </legend>
+          }
+
           <div className="row">
             {
               fieldsVisibility && fieldsVisibility.current_island != false &&
@@ -121,7 +132,8 @@ export default props => {
                 />
               </div>
             }
-
+          </div>
+          <div className="row">
             {
               fieldsVisibility && fieldsVisibility.current_city != false &&
               <div className="col-xs-12 col-md-6 col-lg-4">
@@ -159,15 +171,40 @@ export default props => {
               </div>
             }
           </div>
+          <div className="row">
+            {
+              fieldsVisibility && fieldsVisibility.current_household_type != false &&
+              <div className="col-xs-12 col-md-6" style={{ maxHeight: '59px' }}>
+                <SelectInput
+                  label={translation.clients.form['current_household_type']}
+                  disabled={disabled}
+                  options={brcHouseholdTypes}
+                  onChange={onChange(objectKey, 'current_household_type')}
+                  value={objectData.current_household_type}
+                />
+              </div>
+            }
+          </div>
+
+          {
+            fieldsVisibility && fieldsVisibility.brc_client_other_address != false &&
+            <legend className="brc-address">
+              <div className="row">
+                <div className="col-xs-12 col-md-6 col-lg-6">
+                  <p>Other Address</p>
+                </div>
+              </div>
+            </legend>
+          }
 
           <div className="row">
 
             {
               fieldsVisibility && fieldsVisibility.island2 != false &&
-              <div className="col-xs-12 col-md-12 col-lg-6">
-                <TextInput
+              <div className="col-xs-12 col-md-12 col-lg-4">
+                <SelectInput
                   label={translation.clients.form['island2']}
-                  options={provinces}
+                  options={brcIslands}
                   isDisabled={disabled}
                   onChange={onChange(objectKey, 'island2')}
                   value={objectData.island2}
@@ -199,6 +236,8 @@ export default props => {
               </div>
             }
 
+          </div>
+          <div className="row">
             {
               fieldsVisibility && fieldsVisibility.city2 != false &&
               <div className="col-xs-12 col-md-6 col-lg-4">
@@ -226,21 +265,24 @@ export default props => {
             {
               fieldsVisibility && fieldsVisibility.resident_own_or_rent2 != false &&
               <div className="col-xs-12 col-md-6 col-lg-4">
-                <TextInput
+                <SelectInput
                   label={translation.clients.form['resident_own_or_rent2']}
                   disabled={disabled}
+                  options={brcResidentTypes}
                   onChange={onChange(objectKey, 'resident_own_or_rent2')}
                   value={objectData.resident_own_or_rent2}
                 />
               </div>
             }
-
+          </div>
+          <div className="row">
             {
               fieldsVisibility && fieldsVisibility.household_type2 != false &&
-              <div className="col-xs-12 col-md-6 col-lg-4">
-                <TextInput
+              <div className="col-xs-12 col-md-6 col-lg-6">
+                <SelectInput
                   label={translation.clients.form['household_type2']}
                   disabled={disabled}
+                  options={brcHouseholdTypes}
                   onChange={onChange(objectKey, 'household_type2')}
                   value={objectData.household_type2}
                 />
