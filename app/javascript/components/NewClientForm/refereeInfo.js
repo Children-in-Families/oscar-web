@@ -107,21 +107,27 @@ export default props => {
 
       </div>
 
-      <legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>{T.translate("refereeInfo.address")}</p>
-          </div>
-          {
-            !referee.anonymous &&
-            <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={T.translate("refereeInfo.outside_cam")} checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
-            </div>
-          }
-        </div>
-      </legend>
+      {
+        fieldsVisibility.referee_address == true &&
 
-      <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
+        <div>
+          <legend>
+            <div className="row">
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <p>{T.translate("refereeInfo.address")}</p>
+              </div>
+              {
+                !referee.anonymous &&
+                <div className="col-xs-12 col-md-6 col-lg-3">
+                  <Checkbox label={T.translate("refereeInfo.outside_cam")} checked={referee.outside || false} onChange={onChange('referee', 'outside')} />
+                </div>
+              }
+            </div>
+          </legend>
+
+          <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
+        </div>
+      }
     </div>
   )
 }
