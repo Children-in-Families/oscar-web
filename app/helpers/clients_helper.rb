@@ -782,7 +782,7 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              properties = form_builder_query(client.custom_field_properties, 'formbuilder', column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              properties = form_builder_query(client.custom_field_properties, fields.second, column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]
