@@ -586,11 +586,11 @@ class ClientGrid < BaseGrid
           rule = get_rule(params, quantitative_type.name.squish)
           if rule.presence && rule.dig(:type) == 'date'
             quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
-          elsif rule.presence
+          elsif rule.present?
             if rule.dig(:input) == 'select'
-              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
             else
-              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten)
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
             end
           end
           quantitative_type_values.join(', ')
