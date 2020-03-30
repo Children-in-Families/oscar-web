@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { t } from '../../utils/i18n'
 import {
   SelectInput,
   DateInput
@@ -37,7 +38,7 @@ export default props => {
             T={T}
             required
             isError={errorFields.includes('initial_referral_date')}
-            label={translation.clients.form.initial_referral_date}
+            label={t(translation, 'clients.form.initial_referral_date')}
             value={client.initial_referral_date}
             onChange={onChange('client', 'initial_referral_date')} />
         </div>
@@ -49,7 +50,7 @@ export default props => {
             T={T}
             required
             isError={errorFields.includes('user_ids')}
-            label={translation.clients.form.user_ids}
+            label={t(translation, 'clients.form.user_ids')}
             isMulti
             options={userLists}
             value={client.user_ids}

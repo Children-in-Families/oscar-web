@@ -8,12 +8,14 @@ import {
   TextArea
 }                   from '../Commons/inputs'
 import Address      from './address'
+import BrcAddress   from './brcAddress'
 import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_islands, brc_household_types, brc_resident_types } } = props
+  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
+  const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -141,34 +143,6 @@ export default props => {
     onChange('client', { ...fields, 'concern_same_as_client': data.data })({type: 'select'})
   }
 
-  // useEffect(() => {
-  //   const isSelf = client.referee_relationship === 'self'
-
-  //   if(isSelf) {
-  //     if(referee.province_id !== null)
-  //       fetchData('provinces', referee.province_id, 'districts')
-  //     if(referee.district_id !== null)
-  //       fetchData('districts', referee.district_id, 'communes')
-  //     if(referee.commune_id !== null)
-  //       fetchData('communes', referee.commune_id, 'villages')
-  //   }
-
-  //   const fields = {
-  //     outside: isSelf ? referee.outside : false,
-  //     province_id: isSelf ? referee.province_id : null,
-  //     district_id: isSelf ? referee.district_id : null,
-  //     commune_id: isSelf ? referee.commune_id : null,
-  //     village_id: isSelf ? referee.village_id : null,
-  //     street_number: isSelf ? referee.street_number : '',
-  //     house_number: isSelf ? referee.house_number : '',
-  //     current_address: isSelf ? referee.current_address : '',
-  //     address_type: isSelf ? referee.address_type : '',
-  //     outside_address: isSelf ? referee.outside_address : ''
-  //   }
-
-  //   onChange('client', { ...fields })({type: 'select'})
-  // }, [client.referee_relationship, referee])
-
   return (
     <div className="containerClass">
       <legend>
@@ -181,16 +155,16 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={translation.clients.form.given_name} onChange={onChange('client', 'given_name')} value={client.given_name} />
+          <TextInput label={t(translation, 'clients.form.given_name')} onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={translation.clients.form.family_name} onChange={onChange('client', 'family_name')} value={client.family_name} />
+          <TextInput label={t(translation, 'clients.form.family_name')} onChange={onChange('client', 'family_name')} value={client.family_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={translation.clients.form.local_given_name} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
+          <TextInput label={t(translation, 'clients.form.local_given_name')} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={translation.clients.form.local_family_name} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
+          <TextInput label={t(translation, 'clients.form.local_family_name')} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
         </div>
       </div>
       <div className="row">
@@ -208,15 +182,20 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <DateInput getCurrentDate label={T.translate("referralInfo.date_of_birth")} onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput
-            asGroup
-            label={T.translate("referralInfo.birth_province")}
-            options={birthProvincesLists}
-            value={client.birth_province_id}
-            onChange={onChange('client', 'birth_province_id')}
-          />
-        </div>
+
+        {
+          fieldsVisibility.birth_province_id == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput
+              asGroup
+              label={t(translation, 'clients.form.birth_province_id')}
+              options={birthProvincesLists}
+              value={client.birth_province_id}
+              onChange={onChange('client', 'birth_province_id')}
+              />
+          </div>
+        }
+
 
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
@@ -233,41 +212,125 @@ export default props => {
       </div>
 
       {
-        fieldsVisibility && fieldsVisibility.brc_client_address != true &&
-        <legend>
+        fieldsVisibility.brc_client_address != true &&
+        <>
+          <legend>
+            <div className="row">
+              <div className="col-xs-12 col-md-6 col-lg-3">
+                <p>{T.translate("referralInfo.contact_info")}</p>
+              </div>
+              {
+                client.referee_relationship !== 'self' &&
+                <div className="col-xs-12 col-md-6 col-lg-6">
+                  <Checkbox label={T.translate("referralInfo.client_is_outside")} checked={client.outside || false} onChange={onChange('client', 'outside')}/>
+                </div>
+              }
+            </div>
+          </legend>
+          <Address disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T}} />
+        </>
+      }
+
+      {
+        fieldsVisibility.brc_client_address == true &&
+        <>
+        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_household_types, brc_resident_types }} />
+        <legend className="brc-address">
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
               <p>{T.translate("referralInfo.contact_info")}</p>
             </div>
-            {
-              client.referee_relationship !== 'self' &&
-              <div className="col-xs-12 col-md-6 col-lg-6">
-                <Checkbox label={T.translate("referralInfo.client_is_outside")} checked={client.outside || false} onChange={onChange('client', 'outside')}/>
-              </div>
-            }
           </div>
         </legend>
+        </>
       }
-
-      <Address translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T, brc_islands, brc_household_types, brc_resident_types }} />
 
       <div className="row">
         {
-          fieldsVisibility && fieldsVisibility.what3words != false &&
+          fieldsVisibility.what3words == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput label={T.translate("referralInfo.what_3_word")} onChange={onChange('client', 'what3words')} value={client.what3words} />
+            <TextInput label={t(translation, 'clients.form.what_3_word')} onChange={onChange('client', 'what3words')} value={client.what3words} />
           </div>
         }
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.client_phone")} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
+        {
+         fieldsVisibility.presented_id == true &&
+         <div className="col-xs-12 col-md-6 col-lg-4" style={{ maxHeight: '59px' }}>
+           <SelectInput
+             label={ t(translation, 'clients.form.presented_id') }
+             options={brcPresentedIdList}
+             onChange={onChange('client', 'presented_id')}
+             value={client.presented_id}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility.id_number == true &&
+         <div className="col-xs-12 col-md-6 col-lg-4">
+           <TextInput
+             label={ t(translation, 'clients.form.id_number') }
+             onChange={onChange('client', 'id_number')}
+             value={client.id_number}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility.whatsapp == true &&
+         <div className="col-xs-12 col-md-6 col-lg-4">
+           <TextInput
+             label={ t(translation, 'clients.form.whatsapp') }
+             onChange={onChange('client', 'whatsapp')}
+             value={client.whatsapp}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility.v_score == true &&
+         <div className="col-xs-12 col-md-6 col-lg-4">
+           <TextInput
+             label={ t(translation, 'clients.form.v_score') }
+             type='number'
+             onChange={onChange('client', 'v_score')}
+             value={client.v_score}
+           />
+         </div>
+       }
+
+       {
+         fieldsVisibility.brsc_branch == true &&
+         <div className="col-xs-12 col-md-6 col-lg-4">
+           <TextInput
+             label={ t(translation, 'clients.form.brsc_branch') }
+             onChange={onChange('client', 'brsc_branch')}
+             value={client.brsc_branch}
+           />
+         </div>
+       }
+
+        <div className="col-xs-12 col-md-6 col-lg-4">
+          <TextInput label={t(translation, 'clients.form.client_phone')} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
+
+        <div className="col-xs-12 col-md-6 col-lg-4">
           <SelectInput label={T.translate("referralInfo.phone_owner")} options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-3">
+        <div className="col-xs-12 col-md-6 col-lg-4">
           <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
         </div>
+
+        {
+          fieldsVisibility.other_phone_number == true &&
+          <div className="col-xs-12 col-md-6 col-lg-4">
+            <TextInput
+              label={ t(translation, 'clients.form.other_phone_number') }
+              onChange={onChange('client', 'other_phone_number')}
+              value={client.other_phone_number}
+            />
+          </div>
+        }
 
         {
           isRedirectFromCall &&

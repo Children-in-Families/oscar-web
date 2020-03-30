@@ -7,7 +7,7 @@ import {
 import Address      from './address'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
+  const { onChange, fieldsVisibility, translation, current_organization, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
 
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -108,8 +108,9 @@ export default props => {
       </div>
 
       {
-        fieldsVisibility && fieldsVisibility.referee_address != false &&
-        <>
+        fieldsVisibility.referee_address == true &&
+
+        <div>
           <legend>
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
@@ -124,8 +125,8 @@ export default props => {
             </div>
           </legend>
 
-          <Address translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
-        </>
+          <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
+        </div>
       }
     </div>
   )

@@ -95,6 +95,8 @@ module ClientConstants
     "Other"
   ]
 
+  SETTLEMENTS = ['District', 'Neighborhood']
+
   BRC_PRESENTED_IDS = [
     "Driver's License",
     "National Insurance Card (NIB)",
