@@ -231,19 +231,23 @@ export default props => {
           <UploadInput label={T.translate("referralInfo.profile")} onChange={onProfileChange} object={client.profile} onChangeCheckbox={onChangeRemoveProfile} checkBoxValue={client.remove_profile || false} T={T} />
         </div>
       </div>
-      <legend>
-        <div className="row">
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>{T.translate("referralInfo.contact_info")}</p>
-          </div>
-          {
-            client.referee_relationship !== 'self' &&
-            <div className="col-xs-12 col-md-6 col-lg-6">
-              <Checkbox label={T.translate("referralInfo.client_is_outside")} checked={client.outside || false} onChange={onChange('client', 'outside')}/>
+
+      {
+        fieldsVisibility && fieldsVisibility.brc_client_address != true &&
+        <legend>
+          <div className="row">
+            <div className="col-xs-12 col-md-6 col-lg-3">
+              <p>{T.translate("referralInfo.contact_info")}</p>
             </div>
-          }
-        </div>
-      </legend>
+            {
+              client.referee_relationship !== 'self' &&
+              <div className="col-xs-12 col-md-6 col-lg-6">
+                <Checkbox label={T.translate("referralInfo.client_is_outside")} checked={client.outside || false} onChange={onChange('client', 'outside')}/>
+              </div>
+            }
+          </div>
+        </legend>
+      }
 
       <Address translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T, brc_islands, brc_household_types, brc_resident_types }} />
 

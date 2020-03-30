@@ -98,6 +98,7 @@ module DevEnvImporter
           klass_name: workbook.row(row_index)[headers['klass_name']],
           required: workbook.row(row_index)[headers['required']],
           visible: workbook.row(row_index)[headers['visible']],
+          for_instances: workbook.row(row_index)[headers['for_instances']],
           group: workbook.row(row_index)[headers['group']]
         )
       end
