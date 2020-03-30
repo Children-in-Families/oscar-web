@@ -775,7 +775,7 @@ module ClientsHelper
   end
 
   def header_counter(grid, column)
-    return column.header.truncate(65) if grid.class.to_s != 'ClientGrid' || @clients.blank?
+    return column.header.truncate(65) if grid.class.to_s != 'ClientGrid' || @clients_by_user.blank?
     count = 0
     class_name  = header_classes(grid, column)
     class_name  = class_name == "call-field" ? column.name.to_s : class_name
@@ -795,8 +795,8 @@ module ClientsHelper
       format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       fields = column.name.to_s.gsub('&qoute;', '"').split('__')
 
-      if class_name[/^(exitprogramdate)/i].present?
-        ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
+      if class_name[/^(programexitdate|exitprogramdate)/i].present?
+        ids = @clients_by_user.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         if $param_rules.nil?
           object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
           count += date_filter(object, class_name).flatten.count
@@ -809,11 +809,11 @@ module ClientsHelper
         end
         count = object.distinct.count
       else
-        @clients.each do |client|
-          if class_name == 'case_note_type'
-            count += case_note_query(client.send(klass.to_sym), class_name).count
-          elsif class_name == 'case_note_date'
-            count += case_note_query(client.send(klass.to_sym), class_name).count
+        @clients_by_user.each do |client|
+          if class_name == 'case_note_date'
+            count += case_note_count(client).count
+          elsif class_name == 'case_note_type'
+            count += case_note_count(client).count
           elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
             class_name = 'active_program_stream'
             program_stream_name_active = program_stream_name(client.send(klass.to_sym).active, class_name)
@@ -886,6 +886,15 @@ module ClientsHelper
     else
       column.header.truncate(65)
     end
+  end
+
+  def case_note_count(client)
+    results = []
+    @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
+    results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+    query_string  = get_any_query_string(results, 'case_notes')
+    client.case_notes.where(query_string)
   end
 
   def case_history_label(value)
