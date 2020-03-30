@@ -13,6 +13,7 @@ class ClientColumnsVisibility
       exit_note_: :exit_note,
       presented_id_: :presented_id,
       id_number_: :id_number,
+      legacy_brcs_id_: :legacy_brcs_id,
       whatsapp_: :whatsapp,
       other_phone_number_: :other_phone_number,
       v_score_: :v_score,

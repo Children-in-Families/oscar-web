@@ -92,6 +92,7 @@ module ClientsHelper
       age:                           t('datagrid.columns.clients.age'),
       presented_id:                  t('datagrid.columns.clients.presented_id'),
       id_number:                     t('datagrid.columns.clients.id_number'),
+      legacy_brcs_id:                t('datagrid.columns.clients.legacy_brcs_id'),
       whatsapp:                      t('datagrid.columns.clients.whatsapp'),
       other_phone_number:            t('datagrid.columns.clients.other_phone_number'),
       v_score:                       t('datagrid.columns.clients.v_score'),
