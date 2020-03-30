@@ -13,7 +13,7 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation , data: { client, referee, currentDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
+  const { onChange, fieldsVisibility, translation, data: { client, referee, currentDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))

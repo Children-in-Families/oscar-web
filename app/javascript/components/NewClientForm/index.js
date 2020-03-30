@@ -337,7 +337,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
-            <ReferralVulnerability data={referralVulnerabilityTabData} onChange={onChange} />
+            <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
           </div>
         </div>
       </div>
