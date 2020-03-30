@@ -1536,6 +1536,7 @@ km:
       cambodia: កម្ពុជា
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      client_phone: Client Contact Phone
       city2: City
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
@@ -1598,6 +1599,7 @@ km:
       has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
       house_number: ផ្ទះលេខ
       household_type2: Address Type
+      legacy_brcs_id: Legacy BRCS-ID number
       id: លេខសំគាល់
       id_number: ID number
       id_poor: កំរិតប័ណ្ណក្រីក្រ
@@ -1631,6 +1633,7 @@ km:
       street_number: ផ្លូវ
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       to: ទៅដល់
+      user_ids: Case Worker / Assigned Staff Manager
       v_score: V-score from ODK
       village: ភូមិ
       whatsapp: Whatsapp

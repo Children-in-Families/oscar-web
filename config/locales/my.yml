@@ -1541,6 +1541,7 @@ my:
       cambodia: ကေမာၻဒီးယား
       case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      client_phone: Client Contact Phone
       city2: City
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
@@ -1603,6 +1604,7 @@ my:
       has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူးသည္
       house_number: အိမ္နံပါတ္
       household_type2: Address Type
+      legacy_brcs_id: Legacy BRCS-ID number
       id: မွတ္ပံုတင္
       id_number: ID number
       id_poor: လူဆင္းရဲမွတ္ပံုတင္
@@ -1636,6 +1638,7 @@ my:
       street_number: လမ္း
       telephone_number: တယ်လီဖုန်းနံပါတ်
       to: သို႔
+      user_ids: Case Worker / Assigned Staff Manager
       v_score: V-score from ODK
       village: ေက်းရြာ
       whatsapp: Whatsapp
