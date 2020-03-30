@@ -34,7 +34,7 @@ export default props => {
           fieldsVisibility.current_island == true &&
           <div className="col-xs-12 col-md-6 col-lg-4" style={{ maxHeight: '59px' }}>
             <SelectInput
-              label={translation.clients.form['current_island']}
+              label={t(translation, 'clients.form.current_island')}
               options={brcIslands}
               isDisabled={disabled}
               onChange={onChange(objectKey, 'current_island')}
@@ -47,7 +47,7 @@ export default props => {
           fieldsVisibility.current_street == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <TextInput
-              label={translation.clients.form['current_street']}
+              label={t(translation, 'clients.form.current_street')}
               disabled={disabled}
               onChange={onChange(objectKey, 'current_street')}
               value={objectData.current_street}
@@ -59,7 +59,7 @@ export default props => {
           fieldsVisibility.current_po_box == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <TextInput
-              label={translation.clients.form['current_po_box']}
+              label={t(translation, 'clients.form.current_po_box')}
               disabled={disabled}
               onChange={onChange(objectKey, 'current_po_box')}
               value={objectData.current_po_box}
@@ -72,7 +72,7 @@ export default props => {
           fieldsVisibility.current_city == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <TextInput
-              label={translation.clients.form['current_city']}
+              label={t(translation, 'clients.form.current_city')}
               disabled={disabled}
               onChange={onChange(objectKey, 'current_city')}
               value={objectData.current_city}
@@ -84,7 +84,7 @@ export default props => {
           fieldsVisibility.current_settlement == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <SelectInput
-              label={translation.clients.form['current_settlement']}
+              label={t(translation, 'clients.form.current_settlement')}
               disabled={disabled}
               options={settlementList}
               onChange={onChange(objectKey, 'current_settlement')}
@@ -97,7 +97,7 @@ export default props => {
           fieldsVisibility.current_resident_own_or_rent == true &&
           <div className="col-xs-12 col-md-6 col-lg-4" style={{ maxHeight: '59px' }}>
             <SelectInput
-              label={translation.clients.form['current_resident_own_or_rent']}
+              label={t(translation, 'clients.form.current_resident_own_or_rent')}
               disabled={disabled}
               options={brcResidentTypes}
               onChange={onChange(objectKey, 'current_resident_own_or_rent')}
@@ -111,7 +111,7 @@ export default props => {
           fieldsVisibility.current_household_type == true &&
           <div className="col-xs-12 col-md-6" style={{ maxHeight: '59px' }}>
             <SelectInput
-              label={translation.clients.form['current_household_type']}
+              label={t(translation, 'clients.form.current_household_type')}
               disabled={disabled}
               options={brcHouseholdTypes}
               onChange={onChange(objectKey, 'current_household_type')}
@@ -138,7 +138,7 @@ export default props => {
           fieldsVisibility.island2 == true &&
           <div className="col-xs-12 col-md-12 col-lg-4">
             <SelectInput
-              label={translation.clients.form['island2']}
+              label={t(translation, 'clients.form.island2')}
               options={brcIslands}
               isDisabled={disabled}
               onChange={onChange(objectKey, 'island2')}
@@ -151,7 +151,7 @@ export default props => {
           fieldsVisibility.street2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <TextInput
-              label={translation.clients.form['street2']}
+              label={t(translation, 'clients.form.street2')}
               disabled={disabled}
               onChange={onChange(objectKey, 'street2')}
               value={objectData.street2}
@@ -163,7 +163,7 @@ export default props => {
           fieldsVisibility.po_box2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <TextInput
-              label={translation.clients.form['po_box2']}
+              label={t(translation, 'clients.form.po_box2')}
               disabled={disabled}
               onChange={onChange(objectKey, 'po_box2')}
               value={objectData.po_box2}
@@ -177,7 +177,7 @@ export default props => {
           fieldsVisibility.city2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <TextInput
-              label={translation.clients.form['city2']}
+              label={t(translation, 'clients.form.city2')}
               disabled={disabled}
               onChange={onChange(objectKey, 'city2')}
               value={objectData.city2}
@@ -189,7 +189,7 @@ export default props => {
           fieldsVisibility.settlement2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <SelectInput
-              label={translation.clients.form['settlement2']}
+              label={t(translation, 'clients.form.settlement2')}
               disabled={disabled}
               options={settlementList}
               onChange={onChange(objectKey, 'settlement2')}
@@ -202,7 +202,7 @@ export default props => {
           fieldsVisibility.resident_own_or_rent2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-4">
             <SelectInput
-              label={translation.clients.form['resident_own_or_rent2']}
+              label={t(translation, 'clients.form.resident_own_or_rent2')}
               disabled={disabled}
               options={brcResidentTypes}
               onChange={onChange(objectKey, 'resident_own_or_rent2')}
@@ -216,7 +216,7 @@ export default props => {
           fieldsVisibility.household_type2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-6">
             <SelectInput
-              label={translation.clients.form['household_type2']}
+              label={t(translation, 'clients.form.household_type2')}
               disabled={disabled}
               options={brcHouseholdTypes}
               onChange={onChange(objectKey, 'household_type2')}
