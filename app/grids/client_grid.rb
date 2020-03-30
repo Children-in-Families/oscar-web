@@ -68,7 +68,12 @@ class ClientGrid < BaseGrid
       resident_own_or_rent2
       household_type2
     ).each do |field_name|
-    filter(field_name, :string, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+
+    header = I18n.t("datagrid.columns.clients.#{field_name}")
+    header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')
+    header = I18n.t('datagrid.columns.other_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.end_with?('2')
+
+    filter(field_name, :string, header: header) do |value, scope|
       filter_shared_fileds(field_name, value, scope)
     end
   end
@@ -795,7 +800,11 @@ class ClientGrid < BaseGrid
       resident_own_or_rent2
       household_type2
     ).each do |field_name|
-    column(field_name, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }, class: 'brc-fields') do |object|
+    header = I18n.t("datagrid.columns.clients.#{field_name}")
+    header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')
+    header = I18n.t('datagrid.columns.other_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.end_with?('2')
+
+    column(field_name, header: header, class: 'brc-fields') do |object|
       object.public_send(field_name.to_sym)
     end
   end

@@ -2355,6 +2355,8 @@ en:
         quantity: Number of Place Available
         report: Report
         status: Status
+      current_address: "%{column} - Current Address"
+      other_address: "%{column} - Other Address"
       clients:
         presented_id: Presented ID
         id_number: ID number
