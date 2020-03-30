@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200330090123) do
+ActiveRecord::Schema.define(version: 20200330110449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -233,9 +233,9 @@ ActiveRecord::Schema.define(version: 20200330090123) do
     t.integer  "client_id"
     t.string   "interaction_type",             default: ""
     t.boolean  "custom",                       default: false
+    t.string   "selected_domain_group_ids",    default: [],    array: true
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
-    t.string   "selected_domain_group_ids",    default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -577,6 +577,7 @@ ActiveRecord::Schema.define(version: 20200330090123) do
     t.string   "settlement2"
     t.string   "resident_own_or_rent2"
     t.string   "household_type2"
+    t.string   "legacy_brcs_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -841,17 +842,16 @@ ActiveRecord::Schema.define(version: 20200330090123) do
   add_index "field_setting_translations", ["locale"], name: "index_field_setting_translations_on_locale", using: :btree
 
   create_table "field_settings", force: :cascade do |t|
-    t.string   "name",                             null: false
-    t.string   "group",                            null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.string   "type",           default: "field", null: false
-    t.boolean  "visible",        default: true,    null: false
+    t.string   "name",                            null: false
+    t.string   "group",                           null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "type",          default: "field", null: false
+    t.boolean  "visible",       default: true,    null: false
     t.string   "current_label"
-    t.boolean  "required",       default: false
+    t.boolean  "required",      default: false
     t.string   "klass_name"
     t.string   "for_instances"
-    t.string   "legacy_brcs_id"
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|

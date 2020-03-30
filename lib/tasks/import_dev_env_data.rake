@@ -2,7 +2,7 @@ namespace :import do
     desc 'Import data for use in the local Development environment only!'
     task dev_env_data: :environment do
       exit unless Rails.env.development?
-      tenant_name = 'dev'
+      tenant_name = 'brc'
       general_data_file = 'lib/devdata/general.xlsx'
       service_data_file = 'lib/devdata/services/service.xlsx'
       begin

@@ -242,12 +242,37 @@
                   - client_donors.each do|donor|
                     %strong.label.label-default.donor
                       = donor.name
-              %tr
-                %td.spacing-first-col
-                  = t('.address')
-                %td.address
-                  %strong
-                    = country_address_field(@client)
+
+              - %w(presented_id id_number legacy_brcs_id client_phone whatsapp other_phone_number v_score brsc_branch).each do |field_name|
+                - if policy(@client).show?(field_name.to_sym)
+                  %tr
+                    %td.spacing-first-col
+                      = t("clients.form.#{field_name}")
+                    %td.address
+                      %strong
+                        = @client.public_send(field_name.to_sym)
+
+
+              - if current_organization.short_name == 'brc'
+                %tr
+                  %td.spacing-first-col
+                    = t('.current_address')
+                  %td.address
+                    %strong
+                      = @client.brc_current_address
+                %tr
+                  %td.spacing-first-col
+                    = t('.other_address')
+                  %td.address
+                    %strong
+                      = @client.brc_other_address
+              - else
+                %tr
+                  %td.spacing-first-col
+                    = t('.address')
+                  %td.address
+                    %strong
+                      = country_address_field(@client)
               - if current_setting.try(:enable_hotline) == true
                 %tr
                   %td.spacing-first-col
@@ -262,12 +287,14 @@
                     = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
                       = @client.what3words
                       = image_tag 'what3words.png', class: 'what3words'
-              %tr
-                %td.spacing-first-col
-                  = t(".province.#{@client.country_origin_label}")
-                %td
-                  %strong
-                    = @client.birth_province
+
+              - if policy(@client).show?(:birth_province)
+                %tr
+                  %td.spacing-first-col
+                    = t(".province.#{@client.country_origin_label}")
+                  %td
+                    %strong
+                      = @client.birth_province
               %tr
                 %td.spacing-first-col
                   = t('.name_of_referee')
