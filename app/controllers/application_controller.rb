@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :find_association, if: :devise_controller?
-  before_action :set_locale
+  before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
 
@@ -80,6 +80,13 @@ class ApplicationController < ActionController::Base
       flash[:alert] = detect_browser
     end
     I18n.locale = locale || I18n.locale
+  end
+
+  def override_translation
+    pp "=============================="
+    pp current_organization
+    pp "=============================="
+    I18n.backend.override_translation
   end
 
   def default_url_options(options = {})

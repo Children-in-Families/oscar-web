@@ -44,7 +44,7 @@ module I18n::Backend::Custom
         next if path.count > 1 && !field_setting.possible_key_match?(path)
         data = translations[I18n.locale]
 
-        pp path
+        # pp path
 
         path.each do |k|
           if k == path.last
@@ -60,7 +60,7 @@ module I18n::Backend::Custom
     end
   end
 
-  alias_method :reload_custom_labels, :load_custom_labels
+  alias_method :override_translation, :load_custom_labels
 end
 
 I18n::Backend::Simple.send(:include, I18n::Backend::Custom)
