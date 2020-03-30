@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
     pp "=============================="
     pp current_organization
     pp "=============================="
-    I18n.backend.override_translation
+    I18n.backend.reload!
   end
 
   def default_url_options(options = {})
