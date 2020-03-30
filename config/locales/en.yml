@@ -362,6 +362,7 @@ en:
         current_settlement: Settlement
         current_resident_own_or_rent: Owned or Rented
         current_household_type: Is your household staying in one of the following?
+        legacy_brcs_id: Legacy BRCS-ID number
         island2: Island
         street2: Street
         po_box2: Zip
@@ -1631,6 +1632,7 @@ en:
       has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
       household_type2: Address Type
+      legacy_brcs_id: Legacy BRCS-ID number
       id: ID
       id_number: ID number
       id_poor: ID Poor
@@ -2366,6 +2368,7 @@ en:
         current_settlement: Settlement
         current_resident_own_or_rent: Owned or Rented
         current_household_type: Is your household staying in one of the following?
+        legacy_brcs_id: Legacy BRCS-ID number
         island2: Island
         street2: Street
         po_box2: Zip

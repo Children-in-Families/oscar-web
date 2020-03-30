@@ -277,6 +277,17 @@ export default props => {
        }
 
        {
+         fieldsVisibility.legacy_brcs_id == true &&
+         <div className="col-xs-12 col-md-6 col-lg-4">
+           <TextInput
+             label={ t(translation, 'clients.form.legacy_brcs_id') }
+             onChange={onChange('client', 'legacy_brcs_id')}
+             value={client.legacy_brcs_id}
+           />
+         </div>
+       }
+
+       {
          fieldsVisibility.whatsapp == true &&
          <div className="col-xs-12 col-md-6 col-lg-4">
            <TextInput
