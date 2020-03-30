@@ -377,7 +377,7 @@ module ClientGridOptions
 
             properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
           end
-        elsif fields.first == 'programexitdate'
+        elsif fields.first == 'exitprogramdate'
           ids = client.client_enrollments.inactive.ids
           if data == 'recent'
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)

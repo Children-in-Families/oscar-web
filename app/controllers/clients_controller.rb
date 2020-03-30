@@ -32,9 +32,7 @@ class ClientsController < AdminController
           next unless params['commit'].present?
           client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           @results                = client_grid.assets.size
-          @clients                = client_grid.assets
           $client_data            = @clients
-
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do

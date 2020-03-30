@@ -15,6 +15,7 @@ class Task < ActiveRecord::Base
   scope :overdue,                         -> { where('completion_date < ?', Date.today) }
   scope :today,                           -> { where('completion_date = ?', Date.today) }
   scope :upcoming,                        -> { where('completion_date > ?', Date.today) }
+  scope :the_latest,                      -> { incomplete.where('DATE(created_at) = ?', Time.zone.now) }
   scope :upcoming_within_three_months,    -> { where(completion_date: Date.tomorrow..3.months.from_now) }
   scope :by_case_note,                    -> { where(relation: 'case_note') }
   scope :by_assessment,                   -> { where(relation: 'assessment') }

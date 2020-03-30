@@ -268,7 +268,7 @@ module ClientsHelper
   end
 
   def form_builder_format_header(value)
-    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', programexitdate: 'Exit program' }
+    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', exitprogramdate: 'Exit program' }
     key_word  = value.first
     entity    = entities[key_word.to_sym]
     value     = value - [key_word]
@@ -742,7 +742,7 @@ module ClientsHelper
       field_name = 'meeting_date'
     elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments'])
       field_name = 'created_at'
-    elsif rule[/^(programexitdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
+    elsif rule[/^(exitprogramdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')
       field_name = 'exit_date'
     elsif rule[/^(enrollmentdate)/i].present?
@@ -752,7 +752,7 @@ module ClientsHelper
       field_name = rule
     end
 
-    relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
+    relation = rule[/^(enrollmentdate)|^(exitprogramdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
 
     hashes   = mapping_query_result(results)
     sql_hash = mapping_query_date(object, hashes, relation)
@@ -775,16 +775,16 @@ module ClientsHelper
   end
 
   def header_counter(grid, column)
-    return column.header.truncate(65) if grid.class.to_s != 'ClientGrid' || @clients.blank?
+    return column.header.truncate(65) if grid.class.to_s != 'ClientGrid' || @clients_by_user.blank?
     count = 0
     class_name  = header_classes(grid, column)
     class_name  = class_name == "call-field" ? column.name.to_s : class_name
 
-    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
+    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(exitprogramdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', formbuilder__Client: 'custom_field_properties' }
 
-      if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
+      if class_name[/^(exitprogramdate)/i].present? || class_name[/^(leaveprogram)/i]
         klass = 'leave_programs'
       elsif class_name[/^(enrollmentdate)/i].present? || column.header == I18n.t('datagrid.columns.clients.program_streams')
         klass = 'client_enrollments'
@@ -792,8 +792,11 @@ module ClientsHelper
         klass = klass_name[class_name.to_sym]
       end
 
-      if class_name[/^(programexitdate)/i].present?
-        ids = @clients.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
+      format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      fields = column.name.to_s.gsub('&qoute;', '"').split('__')
+
+      if class_name[/^(programexitdate|exitprogramdate)/i].present?
+        ids = @clients_by_user.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         if $param_rules.nil?
           object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
           count += date_filter(object, class_name).flatten.count
@@ -806,11 +809,11 @@ module ClientsHelper
         end
         count = object.distinct.count
       else
-        @clients.each do |client|
-          if class_name == 'case_note_type'
-            count += case_note_query(client.send(klass.to_sym), class_name).count
-          elsif class_name == 'case_note_date'
-            count += case_note_query(client.send(klass.to_sym), class_name).count
+        @clients_by_user.each do |client|
+          if class_name == 'case_note_date'
+            count += case_note_count(client).count
+          elsif class_name == 'case_note_type'
+            count += case_note_count(client).count
           elsif column.header == I18n.t('datagrid.columns.clients.program_streams')
             class_name = 'active_program_stream'
             program_stream_name_active = program_stream_name(client.send(klass.to_sym).active, class_name)
@@ -823,14 +826,21 @@ module ClientsHelper
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i].present?
-            data_filter = date_filter(client.assessments.defaults, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+            else
+              data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+              count += data_filter.flatten.count if data_filter
+            end
+            count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(date_of_custom_assessments)/i].present?
-            data_filter = date_filter(client.assessments.customs, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              data_filter = date_filter(client.assessments.customs, "#{class_name}")
+            else
+              data_filter = date_filter(client.assessments.customs, "#{class_name}")
+              count += data_filter.flatten.count if data_filter
+            end
           elsif class_name[/^(formbuilder)/i].present?
-            fields = column.name.to_s.gsub('&qoute;', '"').split('__')
-            format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
@@ -838,11 +848,16 @@ module ClientsHelper
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]
-            format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
             ids = client.client_enrollments.ids
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.name.to_s.split('__').third }, client_enrollment_trackings: { client_enrollment_id: ids })
             properties = form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
             count += property_filter(properties, format_field_value).size
+          # elsif class_name[/^(exitprogram)/i].present?
+          #   ids = client.client_enrollments.inactive.ids
+          #   leave_programs = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
+          #   properties = form_builder_query(leave_programs, 'exitprogram', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+          #   # count += date_filter(object, class_name).flatten.count
+          #   # count += trackings.flatten.reject(&:blank?).count
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
@@ -871,6 +886,15 @@ module ClientsHelper
     else
       column.header.truncate(65)
     end
+  end
+
+  def case_note_count(client)
+    results = []
+    @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+    basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
+    results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+    query_string  = get_any_query_string(results, 'case_notes')
+    client.case_notes.where(query_string)
   end
 
   def case_history_label(value)
@@ -1202,12 +1226,12 @@ module ClientsHelper
     @client.donors.distinct
   end
 
-  def get_address_json
-    Client::BRC_ADDRESS.zip(Client::BRC_ADDRESS).to_h.to_json
-  end
-
   def initial_referral_date_picker_format(client)
     "#{client.initial_referral_date.year}, #{client.initial_referral_date.month}, #{@client.initial_referral_date.day}"
+  end
+
+  def get_address_json
+    Client::BRC_ADDRESS.zip(Client::BRC_ADDRESS).to_h.to_json
   end
 
   def get_quantitative_types

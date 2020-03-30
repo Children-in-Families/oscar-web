@@ -119,8 +119,8 @@ module ApplicationHelper
     'active' if (controller_name == name && action_names == action)
   end
 
-  def hidden_class(bool)
-    'hidden' if bool
+  def hidden_class(tasks, assessment_domain=false)
+    'hidden' if tasks.blank? && !assessment_domain
   end
 
   def exit_modal_class(bool)

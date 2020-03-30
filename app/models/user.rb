@@ -166,8 +166,8 @@ class User < ActiveRecord::Base
             due_today << client
           end
           CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
-            if client_custom_next_assessment_date < Date.today
+            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
+            if  client_custom_next_assessment_date && client_custom_next_assessment_date < Date.today
               customized_overdue << client
             elsif  client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
               customized_due_today << client

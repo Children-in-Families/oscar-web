@@ -170,7 +170,7 @@ module Api
     end
 
     def domains
-      @domains ||= params[:default] == 'true' ? Domain.csi_domains : Domain.custom_csi_domains
+      @domains ||= params[:default] == 'true' ? Domain.csi_domains : Domain.custom_csi_domains.where(custom_assessment_setting_id: params['custom_assessment_setting_id'])
     end
 
     def page
