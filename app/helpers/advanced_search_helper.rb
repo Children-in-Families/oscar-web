@@ -70,7 +70,6 @@ module AdvancedSearchHelper
       legacy_brcs_id: I18n.t('datagrid.columns.clients.legacy_brcs_id'),
       whatsapp: I18n.t('datagrid.columns.clients.whatsapp'),
       other_phone_number: I18n.t('datagrid.columns.clients.other_phone_number'),
-      v_score: I18n.t('datagrid.columns.clients.v_score'),
       brsc_branch: I18n.t('datagrid.columns.clients.brsc_branch'),
       current_island: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_island')),
       current_street: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_street')),

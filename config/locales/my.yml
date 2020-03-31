@@ -1641,7 +1641,6 @@ my:
       telephone_number: တယ်လီဖုန်းနံပါတ်
       to: သို႔
       user_ids: Case Worker / Assigned Staff Manager
-      v_score: V-score from ODK
       village: ေက်းရြာ
       what_3_word: What3Words
       whatsapp: Whatsapp
@@ -2314,7 +2313,6 @@ my:
         id_number: ID number
         whatsapp: Whatsapp
         other_phone_number: Phone Number - Alternate
-        v_score: V-score from ODK
         brsc_branch: BRCS Branch
         current_island: Island
         current_street: Street

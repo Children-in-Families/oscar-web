@@ -1636,7 +1636,6 @@ km:
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       to: ទៅដល់
       user_ids: បុគ្គលិកគ្រប់គ្រងករណី
-      v_score: V-score from ODK
       village: ភូមិ
       what_3_word: What3Words
       whatsapp: Whatsapp
@@ -2330,7 +2329,6 @@ km:
         id_number: ID number
         whatsapp: Whatsapp
         other_phone_number: Phone Number - Alternate
-        v_score: V-score from ODK
         brsc_branch: BRCS Branch
         current_island: Island
         current_street: Street

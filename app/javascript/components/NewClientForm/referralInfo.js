@@ -243,18 +243,6 @@ export default props => {
          }
 
          {
-           fieldsVisibility.v_score == true &&
-           <div className="col-xs-12 col-md-6 col-lg-3">
-             <TextInput
-               label={ t(translation, 'clients.form.v_score') }
-               type='number'
-               onChange={onChange('client', 'v_score')}
-               value={client.v_score}
-             />
-           </div>
-         }
-
-         {
            fieldsVisibility.brsc_branch == true &&
            <div className="col-xs-12 col-md-6 col-lg-3">
              <TextInput

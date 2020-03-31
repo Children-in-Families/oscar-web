@@ -36,7 +36,6 @@ module AdvancedSearches
         'id_number',
         'legacy_brcs_id',
         'other_phone_number',
-        'v_score',
         'brsc_branch',
         'given_name', 'current_street', 'street2', 'current_po_box', 'po_box2', 'current_city', 'city2', 'family_name',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',

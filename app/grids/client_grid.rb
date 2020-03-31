@@ -50,7 +50,6 @@ class ClientGrid < BaseGrid
       legacy_brcs_id
       whatsapp
       other_phone_number
-      v_score
       brsc_branch
       current_island
       current_street
@@ -779,7 +778,6 @@ class ClientGrid < BaseGrid
       legacy_brcs_id
       whatsapp
       other_phone_number
-      v_score
       brsc_branch
       current_island
       current_street

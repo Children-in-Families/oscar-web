@@ -1647,7 +1647,6 @@ en:
       telephone_number: Primary Carer Phone Number
       to: To
       user_ids: Case Worker / Assigned Staff Manager
-      v_score: V-score from ODK
       village: Village
       what_3_word: What3Words
       whatsapp: Whatsapp
@@ -2341,7 +2340,6 @@ en:
         id_number: ID number
         whatsapp: Whatsapp
         other_phone_number: Phone Number - Alternate
-        v_score: V-score from ODK
         brsc_branch: BRCS Branch
         current_island: Island
         current_street: Street

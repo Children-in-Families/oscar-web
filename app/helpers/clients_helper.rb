@@ -95,7 +95,6 @@ module ClientsHelper
       legacy_brcs_id:                t('datagrid.columns.clients.legacy_brcs_id'),
       whatsapp:                      t('datagrid.columns.clients.whatsapp'),
       other_phone_number:            t('datagrid.columns.clients.other_phone_number'),
-      v_score:                       t('datagrid.columns.clients.v_score'),
       brsc_branch:                   t('datagrid.columns.clients.brsc_branch'),
       current_island:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
       current_street:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
