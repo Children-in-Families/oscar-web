@@ -1618,6 +1618,7 @@ my:
       name: နာမည္
       next: နောက်တစ်ခု
       other_phone_number: Phone Number - Alternate
+      phone_owner: Phone Owner
       po_box2: Zip
       presented_id: Presented ID
       previous: လွန်ခဲ့သော

@@ -1623,6 +1623,7 @@ en:
       name: Name
       next: Next
       other_phone_number: Phone Number - Alternate
+      phone_owner: Phone Owner
       po_box2: Zip
       preferred_language: Preferred Language
       presented_id: Presented ID

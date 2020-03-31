@@ -315,9 +315,13 @@ export default props => {
           <TextInput label={t(translation, 'clients.form.client_phone')} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label={T.translate("referralInfo.phone_owner")} options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
-        </div>
+        {
+          fieldsVisibility.phone_owner == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput label={T.translate("referralInfo.phone_owner")} options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
         </div>
