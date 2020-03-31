@@ -29,7 +29,7 @@ class CaseNotesController < AdminController
     else
       @case_note = @client.case_notes.new()
       @case_note.assessment = @client.assessments.default_latest_record
-      @case_note.populate_notes(nil, 'true')
+      @case_note.populate_notes(nil, 'false')
     end
   end
 

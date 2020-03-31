@@ -33,7 +33,7 @@ namespace :case_note_domain_group do
       Organization.switch_to short_name
       CaseNote.where(custom: true).where.not(custom_assessment_setting_id: nil).update_all(custom_assessment_setting_id: CustomAssessmentSetting.first&.id) if CustomAssessmentSetting.count == 1
       puts short_name
-      casenote_values = CaseNote.limit(10).map do |case_note|
+      casenote_values = CaseNote.limit.map do |case_note|
         next if case_note.selected_domain_group_ids.present?
         domain_group_ids = []
         domain_groups = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''")
