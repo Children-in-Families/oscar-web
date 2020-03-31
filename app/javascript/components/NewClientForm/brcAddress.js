@@ -20,7 +20,7 @@ export default props => {
     <div>
       {
         fieldsVisibility.brc_client_address == true &&
-        <legend className="brc-address">
+        <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-6">
               <p>Current Address</p>
@@ -32,7 +32,7 @@ export default props => {
       <div className="row">
         {
           fieldsVisibility.current_island == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4" style={{ maxHeight: '59px' }}>
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label={t(translation, 'clients.form.current_island')}
               options={brcIslands}
@@ -45,7 +45,7 @@ export default props => {
 
         {
           fieldsVisibility.current_street == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.current_street')}
               disabled={disabled}
@@ -57,7 +57,7 @@ export default props => {
 
         {
           fieldsVisibility.current_po_box == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.current_po_box')}
               disabled={disabled}
@@ -66,11 +66,10 @@ export default props => {
             />
           </div>
         }
-      </div>
-      <div className="row">
+
         {
           fieldsVisibility.current_city == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.current_city')}
               disabled={disabled}
@@ -80,9 +79,12 @@ export default props => {
           </div>
         }
 
+      </div>
+      <div className="row">
+
         {
           fieldsVisibility.current_settlement == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label={t(translation, 'clients.form.current_settlement')}
               disabled={disabled}
@@ -95,7 +97,7 @@ export default props => {
 
         {
           fieldsVisibility.current_resident_own_or_rent == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4" style={{ maxHeight: '59px' }}>
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label={t(translation, 'clients.form.current_resident_own_or_rent')}
               disabled={disabled}
@@ -105,8 +107,7 @@ export default props => {
             />
           </div>
         }
-      </div>
-      <div className="row">
+
         {
           fieldsVisibility.current_household_type == true &&
           <div className="col-xs-12 col-md-6" style={{ maxHeight: '59px' }}>
@@ -125,7 +126,7 @@ export default props => {
         fieldsVisibility.brc_client_other_address == true &&
         <legend className="brc-address">
           <div className="row">
-            <div className="col-xs-12 col-md-6 col-lg-6">
+            <div className="col-xs-12 col-md-6 col-lg-3">
               <p>Other Address</p>
             </div>
           </div>
@@ -136,7 +137,7 @@ export default props => {
 
         {
           fieldsVisibility.island2 == true &&
-          <div className="col-xs-12 col-md-12 col-lg-4">
+          <div className="col-xs-12 col-md-12 col-lg-3">
             <SelectInput
               label={t(translation, 'clients.form.island2')}
               options={brcIslands}
@@ -149,7 +150,7 @@ export default props => {
 
         {
           fieldsVisibility.street2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.street2')}
               disabled={disabled}
@@ -161,7 +162,7 @@ export default props => {
 
         {
           fieldsVisibility.po_box2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.po_box2')}
               disabled={disabled}
@@ -171,11 +172,9 @@ export default props => {
           </div>
         }
 
-      </div>
-      <div className="row">
         {
           fieldsVisibility.city2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.city2')}
               disabled={disabled}
@@ -185,9 +184,12 @@ export default props => {
           </div>
         }
 
+      </div>
+      <div className="row">
+
         {
           fieldsVisibility.settlement2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label={t(translation, 'clients.form.settlement2')}
               disabled={disabled}
@@ -200,7 +202,7 @@ export default props => {
 
         {
           fieldsVisibility.resident_own_or_rent2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               label={t(translation, 'clients.form.resident_own_or_rent2')}
               disabled={disabled}
@@ -210,8 +212,7 @@ export default props => {
             />
           </div>
         }
-      </div>
-      <div className="row">
+
         {
           fieldsVisibility.household_type2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-6">
