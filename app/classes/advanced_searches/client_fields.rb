@@ -35,7 +35,6 @@ module AdvancedSearches
       [
         'id_number',
         'legacy_brcs_id',
-        'whatsapp',
         'other_phone_number',
         'v_score',
         'brsc_branch',
@@ -81,6 +80,7 @@ module AdvancedSearches
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
+        ['whatsapp', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['donor_name', donor_options],

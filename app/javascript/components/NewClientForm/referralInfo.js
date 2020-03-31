@@ -340,10 +340,10 @@ export default props => {
         {
           fieldsVisibility.whatsapp == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
+            <Checkbox
               label={ t(translation, 'clients.form.whatsapp') }
+              checked={client.whatsapp}
               onChange={onChange('client', 'whatsapp')}
-              value={client.whatsapp}
             />
           </div>
         }
