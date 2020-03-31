@@ -114,6 +114,8 @@ module ClientsHelper
       interview_locations:           t('datagrid.columns.clients.interview_locations'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
+      local_given_name:              t('datagrid.columns.clients.local_given_name'),
+      local_family_name:             t('datagrid.columns.clients.local_family_name'),
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
       birth_province_id:             t('datagrid.columns.clients.birth_province'),
