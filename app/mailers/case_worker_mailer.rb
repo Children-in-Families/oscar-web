@@ -26,7 +26,7 @@ class CaseWorkerMailer < ApplicationMailer
       @name = Setting.first.default_assessment
       mail(to: recievers, subject: "Upcoming #{@name}", bcc: dev_email)
     else
-      CustomAssessmentSetting.find_each do |custom_assessment_setting|
+      CustomAssessmentSetting.only_enable_custom_assessment.find_each do |custom_assessment_setting|
         @name = custom_assessment_setting.custom_assessment_name
         mail(to: recievers, subject: "Upcoming #{@name}", bcc: dev_email)
       end
