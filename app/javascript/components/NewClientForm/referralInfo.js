@@ -318,7 +318,7 @@ export default props => {
         {
           fieldsVisibility.phone_owner == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput label={T.translate("referralInfo.phone_owner")} options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+            <SelectInput label={t(translation, 'clients.form.phone_owner')}  options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
           </div>
         }
 
