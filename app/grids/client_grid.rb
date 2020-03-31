@@ -48,7 +48,6 @@ class ClientGrid < BaseGrid
       presented_id
       id_number
       legacy_brcs_id
-      client_phone
       whatsapp
       other_phone_number
       v_score
@@ -778,11 +777,8 @@ class ClientGrid < BaseGrid
       presented_id
       id_number
       legacy_brcs_id
-      client_phone
       whatsapp
       other_phone_number
-      local_given_name
-      local_family_name
       v_score
       brsc_branch
       current_island

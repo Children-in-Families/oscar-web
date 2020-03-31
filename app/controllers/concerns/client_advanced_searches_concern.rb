@@ -101,7 +101,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_client_basic_fields
-    AdvancedSearches::ClientFields.new(user: current_user).render
+    AdvancedSearches::ClientFields.new(user: current_user, pundit_user: pundit_user).render
   end
 
   def get_hotline_fields

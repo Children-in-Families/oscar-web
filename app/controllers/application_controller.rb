@@ -83,9 +83,6 @@ class ApplicationController < ActionController::Base
   end
 
   def override_translation
-    pp "=============================="
-    pp current_organization
-    pp "=============================="
     I18n.backend.reload!
   end
 

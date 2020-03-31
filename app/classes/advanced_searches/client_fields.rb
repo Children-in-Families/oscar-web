@@ -3,9 +3,11 @@ module AdvancedSearches
     include AdvancedSearchHelper
     include ClientsHelper
     include ApplicationHelper
+    include Pundit
 
     def initialize(options = {})
       @user = options[:user]
+      @pundit_user = options[:pundit_user]
     end
 
     def render
@@ -30,15 +32,47 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'school_name', 'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code', 'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email', 'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]].compact
+      [
+        'id_number',
+        'legacy_brcs_id',
+        'whatsapp',
+        'other_phone_number',
+        'v_score',
+        'brsc_branch',
+        'given_name', 'current_street', 'street2', 'current_po_box', 'po_box2', 'current_city', 'city2', 'family_name',
+        'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
+        'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
+        'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
+        'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]
+      ].select do |field_name|
+        policy(Client).show?(field_name.to_sym)
+      end.compact
+    end
+
+    def current_user
+      @pundit_user
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at', 'date_of_referral']
+      [
+        'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
+        'case_note_date', 'created_at', 'date_of_referral'
+      ].select do |field_name|
+        policy(Client).show?(field_name.to_sym)
+      end.compact
     end
 
     def drop_down_type_list
       [
+        ['presented_id', Client::BRC_PRESENTED_IDS.map{ |pi| { pi => pi }}],
+        ['current_household_type', Client::BRC_HOUSEHOLD_TYPES.map{ |hht| { hht => hht }}],
+        ['household_type2', Client::BRC_HOUSEHOLD_TYPES.map{ |hht| { hht => hht }}],
+        ['current_resident_own_or_rent', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
+        ['resident_own_or_rent2', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
+        ['current_settlement', Client::SETTLEMENTS.map{ |s| { s => s }}],
+        ['settlement2', Client::SETTLEMENTS.map{ |s| { s => s }}],
+        ['current_island', Client::ISLANDS.map{ |island| { island => island }}],
+        ['island2', Client::ISLANDS.map{ |island| { island => island }}],
         ['created_by', user_select_options ],
         ['gender', gender_list],
         ['status', client_status],
@@ -64,7 +98,13 @@ module AdvancedSearches
         ['referee_relationship', get_sql_referee_relationship],
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner]
-      ]
+      ].select do |array|
+        policy(Client).show?(array[0].to_sym)
+      end.compact
+    end
+
+    def field_settings
+      @field_settings = FieldSetting.all
     end
 
     def gender_list
