@@ -285,6 +285,7 @@ class ClientsController < AdminController
 
     @carer = @client.carer.present? ? @client.carer : Carer.new
     @referee = @client.referee.present? ? @client.referee : Referee.new
+    @referee.anonymous = true if current_organization.short_name == 'brc' && @referee.new_record?
     @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
     @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
