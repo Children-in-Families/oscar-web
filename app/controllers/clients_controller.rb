@@ -303,7 +303,12 @@ class ClientsController < AdminController
     @birth_provinces = []
     ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
-    @current_provinces        = Province.order(:name)
+
+    if ['thailand', 'myanmar'].include?(selected_country&.downcase)
+      @current_provinces      = Province.order(:name).where.not("name ILIKE ?", "%/%")
+    else
+      @current_provinces      = Province.order(:name)
+    end
     @states                   = State.order(:name)
     @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
     @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
