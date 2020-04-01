@@ -206,6 +206,55 @@ export default props => {
           />
         </div>
 
+        {
+         fieldsVisibility.presented_id == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <SelectInput
+             label={ t(translation, 'clients.form.presented_id') }
+             options={brcPresentedIdList}
+             onChange={onChange('client', 'presented_id')}
+             value={client.presented_id}
+           />
+         </div>
+       }
+      </div>
+
+      <div className="row">
+         {
+           fieldsVisibility.id_number == true &&
+           <div className="col-xs-12 col-md-6 col-lg-3">
+             <TextInput
+               label={ t(translation, 'clients.form.id_number') }
+               onChange={onChange('client', 'id_number')}
+               value={client.id_number}
+             />
+           </div>
+         }
+
+         {
+           fieldsVisibility.legacy_brcs_id == true &&
+           <div className="col-xs-12 col-md-6 col-lg-3">
+             <TextInput
+               label={ t(translation, 'clients.form.legacy_brcs_id') }
+               onChange={onChange('client', 'legacy_brcs_id')}
+               value={client.legacy_brcs_id}
+             />
+           </div>
+         }
+
+         {
+           fieldsVisibility.brsc_branch == true &&
+           <div className="col-xs-12 col-md-6 col-lg-3">
+             <TextInput
+               label={ t(translation, 'clients.form.brsc_branch') }
+               onChange={onChange('client', 'brsc_branch')}
+               value={client.brsc_branch}
+             />
+           </div>
+         }
+      </div>
+
+      <div className="row">
         <div className="col-xs-12">
           <UploadInput label={T.translate("referralInfo.profile")} onChange={onProfileChange} object={client.profile} onChangeCheckbox={onChangeRemoveProfile} checkBoxValue={client.remove_profile || false} T={T} />
         </div>
@@ -233,8 +282,6 @@ export default props => {
 
       {
         fieldsVisibility.brc_client_address == true &&
-        <>
-        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_household_types, brc_resident_types }} />
         <legend className="brc-address">
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
@@ -242,7 +289,6 @@ export default props => {
             </div>
           </div>
         </legend>
-        </>
       }
 
       <div className="row">
@@ -253,92 +299,39 @@ export default props => {
           </div>
         }
 
-        {
-         fieldsVisibility.presented_id == true &&
-         <div className="col-xs-12 col-md-6 col-lg-4" style={{ maxHeight: '59px' }}>
-           <SelectInput
-             label={ t(translation, 'clients.form.presented_id') }
-             options={brcPresentedIdList}
-             onChange={onChange('client', 'presented_id')}
-             value={client.presented_id}
-           />
-         </div>
-       }
-
-       {
-         fieldsVisibility.id_number == true &&
-         <div className="col-xs-12 col-md-6 col-lg-4">
-           <TextInput
-             label={ t(translation, 'clients.form.id_number') }
-             onChange={onChange('client', 'id_number')}
-             value={client.id_number}
-           />
-         </div>
-       }
-
-       {
-         fieldsVisibility.legacy_brcs_id == true &&
-         <div className="col-xs-12 col-md-6 col-lg-4">
-           <TextInput
-             label={ t(translation, 'clients.form.legacy_brcs_id') }
-             onChange={onChange('client', 'legacy_brcs_id')}
-             value={client.legacy_brcs_id}
-           />
-         </div>
-       }
-
-       {
-         fieldsVisibility.whatsapp == true &&
-         <div className="col-xs-12 col-md-6 col-lg-4">
-           <TextInput
-             label={ t(translation, 'clients.form.whatsapp') }
-             onChange={onChange('client', 'whatsapp')}
-             value={client.whatsapp}
-           />
-         </div>
-       }
-
-       {
-         fieldsVisibility.v_score == true &&
-         <div className="col-xs-12 col-md-6 col-lg-4">
-           <TextInput
-             label={ t(translation, 'clients.form.v_score') }
-             type='number'
-             onChange={onChange('client', 'v_score')}
-             value={client.v_score}
-           />
-         </div>
-       }
-
-       {
-         fieldsVisibility.brsc_branch == true &&
-         <div className="col-xs-12 col-md-6 col-lg-4">
-           <TextInput
-             label={ t(translation, 'clients.form.brsc_branch') }
-             onChange={onChange('client', 'brsc_branch')}
-             value={client.brsc_branch}
-           />
-         </div>
-       }
-
-        <div className="col-xs-12 col-md-6 col-lg-4">
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={t(translation, 'clients.form.client_phone')} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>
 
-        <div className="col-xs-12 col-md-6 col-lg-4">
-          <SelectInput label={T.translate("referralInfo.phone_owner")} options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
-        </div>
-        <div className="col-xs-12 col-md-6 col-lg-4">
+        {
+          fieldsVisibility.phone_owner == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput label={t(translation, 'clients.form.phone_owner')}  options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+          </div>
+        }
+
+        <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
         </div>
 
         {
           fieldsVisibility.other_phone_number == true &&
-          <div className="col-xs-12 col-md-6 col-lg-4">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={ t(translation, 'clients.form.other_phone_number') }
               onChange={onChange('client', 'other_phone_number')}
               value={client.other_phone_number}
+            />
+          </div>
+        }
+
+        {
+          fieldsVisibility.whatsapp == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <Checkbox
+              label={ t(translation, 'clients.form.whatsapp') }
+              checked={client.whatsapp}
+              onChange={onChange('client', 'whatsapp')}
             />
           </div>
         }
@@ -355,6 +348,12 @@ export default props => {
       </div>
 
       <br/>
+
+      {
+        fieldsVisibility.brc_client_address == true &&
+        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_resident_types }} />
+      }
+
       {isRedirectFromCall &&
         <>
         <legend>

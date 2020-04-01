@@ -243,7 +243,7 @@
                     %strong.label.label-default.donor
                       = donor.name
 
-              - %w(presented_id id_number legacy_brcs_id client_phone whatsapp other_phone_number v_score brsc_branch).each do |field_name|
+              - %w(presented_id id_number legacy_brcs_id client_phone whatsapp other_phone_number brsc_branch).each do |field_name|
                 - if policy(@client).show?(field_name.to_sym)
                   %tr
                     %td.spacing-first-col

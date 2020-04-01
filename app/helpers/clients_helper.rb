@@ -49,8 +49,8 @@ module ClientsHelper
       output[field_setting.name] = policy(Client).show?(field_setting.name)
     end
 
-    result[:brc_client_address] = %w(current_island current_street current_po_box current_city current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
-    result[:brc_client_other_address] = %w(island2 street2 po_box2 city2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:brc_client_address] = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
     result
   end
 
@@ -95,19 +95,16 @@ module ClientsHelper
       legacy_brcs_id:                t('datagrid.columns.clients.legacy_brcs_id'),
       whatsapp:                      t('datagrid.columns.clients.whatsapp'),
       other_phone_number:            t('datagrid.columns.clients.other_phone_number'),
-      v_score:                       t('datagrid.columns.clients.v_score'),
       brsc_branch:                   t('datagrid.columns.clients.brsc_branch'),
       current_island:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
       current_street:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
       current_po_box:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_po_box')),
-      current_city:                  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_city')),
       current_settlement:            t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_settlement')),
       current_resident_own_or_rent:  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_resident_own_or_rent')),
       current_household_type:        t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_household_type')),
       island2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.island2')),
       street2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.street2')),
       po_box2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.po_box2')),
-      city2:                         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.city2')),
       settlement2:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
       resident_own_or_rent2:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
       household_type2:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),

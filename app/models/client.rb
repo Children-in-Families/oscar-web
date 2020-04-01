@@ -439,10 +439,9 @@ class Client < ActiveRecord::Base
   def brc_current_address
     [
       current_island,
+      current_settlement,
       current_street,
       current_po_box,
-      current_city,
-      current_settlement,
       current_resident_own_or_rent,
       current_household_type
     ].compact.join(', ')
@@ -451,10 +450,9 @@ class Client < ActiveRecord::Base
   def brc_other_address
     [
       island2,
+      settlement2,
       street2,
       po_box2,
-      city2,
-      settlement2,
       resident_own_or_rent2,
       household_type2
     ].compact.join(', ')
