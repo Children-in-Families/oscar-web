@@ -25,7 +25,7 @@ class CaseNote < ActiveRecord::Base
   before_create :set_assessment
 
   def populate_notes(custom_id, custom_case_note)
-    if custom_case_note == "true" || not_using_assessment_tool?
+    if custom_case_note == "true"
       custom_domain_setting = CustomAssessmentSetting.find(custom_id)
       return [] if custom_domain_setting.nil?
       domain_group_ids = custom_domain_setting.domains.pluck(:domain_group_id).uniq
