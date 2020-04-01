@@ -1537,18 +1537,16 @@ km:
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       client_phone: លេខទូរស័ព្ទរបស់អតិថិជន
-      city2: City
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
-      current_city: City
       current_household_type: Address Type
       current_island: Island
       current_po_box: PO BOX
       current_province: រាជធានី/ខេត្ត
       current_resident_own_or_rent: Acc. type
-      current_settlement: Settlement
+      current_settlement: City/Settlement
       current_street: Street
       custom_forms: ទម្រង់បែបបទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -1627,7 +1625,7 @@ km:
       resident_own_or_rent2: Acc. type
       school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
-      settlement2: Settlement
+      settlement2: City/Settlement
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
@@ -2333,16 +2331,14 @@ km:
         current_island: Island
         current_street: Street
         current_po_box: PO BOX
-        current_city: City
-        current_settlement: Settlement
+        current_settlement: City/Settlement
         current_resident_own_or_rent: Acc. type
         current_household_type: Address Type
         legacy_brcs_id: Legacy BRCS-ID number
         island2: Island
         street2: Street
         po_box2: Zip
-        city2: City
-        settlement2: Settlement
+        settlement2: City/Settlement
         resident_own_or_rent2: Acc. type
         household_type2: Address Type
         able: ឣតិថិជនក្នុងកម្មវិធីABLE

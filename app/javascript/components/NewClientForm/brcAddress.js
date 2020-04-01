@@ -66,28 +66,15 @@ export default props => {
           </div>
         }
 
-        {
-          fieldsVisibility.current_city == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, 'clients.form.current_city')}
-              disabled={disabled}
-              onChange={onChange(objectKey, 'current_city')}
-              value={objectData.current_city}
-            />
-          </div>
-        }
-
       </div>
       <div className="row">
 
         {
           fieldsVisibility.current_settlement == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
+            <TextInput
               label={t(translation, 'clients.form.current_settlement')}
               disabled={disabled}
-              options={settlementList}
               onChange={onChange(objectKey, 'current_settlement')}
               value={objectData.current_settlement}
             />
@@ -169,29 +156,15 @@ export default props => {
             />
           </div>
         }
-
-        {
-          fieldsVisibility.city2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, 'clients.form.city2')}
-              disabled={disabled}
-              onChange={onChange(objectKey, 'city2')}
-              value={objectData.city2}
-            />
-          </div>
-        }
-
       </div>
       <div className="row">
 
         {
           fieldsVisibility.settlement2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput
+            <TextInput
               label={t(translation, 'clients.form.settlement2')}
               disabled={disabled}
-              options={settlementList}
               onChange={onChange(objectKey, 'settlement2')}
               value={objectData.settlement2}
             />
