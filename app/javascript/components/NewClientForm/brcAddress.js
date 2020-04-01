@@ -43,6 +43,18 @@ export default props => {
         }
 
         {
+          fieldsVisibility.current_settlement == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={t(translation, 'clients.form.current_settlement')}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'current_settlement')}
+              value={objectData.current_settlement}
+            />
+          </div>
+        }
+
+        {
           fieldsVisibility.current_street == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
@@ -68,19 +80,6 @@ export default props => {
 
       </div>
       <div className="row">
-
-        {
-          fieldsVisibility.current_settlement == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, 'clients.form.current_settlement')}
-              disabled={disabled}
-              onChange={onChange(objectKey, 'current_settlement')}
-              value={objectData.current_settlement}
-            />
-          </div>
-        }
-
         {
           fieldsVisibility.current_resident_own_or_rent == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
@@ -96,7 +95,7 @@ export default props => {
 
         {
           fieldsVisibility.current_household_type == true &&
-          <div className="col-xs-12 col-md-6" style={{ maxHeight: '59px' }}>
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.current_household_type')}
               disabled={disabled}
@@ -134,6 +133,18 @@ export default props => {
         }
 
         {
+          fieldsVisibility.settlement2 == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={t(translation, 'clients.form.settlement2')}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'settlement2')}
+              value={objectData.settlement2}
+            />
+          </div>
+        }
+
+        {
           fieldsVisibility.street2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
@@ -158,19 +169,6 @@ export default props => {
         }
       </div>
       <div className="row">
-
-        {
-          fieldsVisibility.settlement2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={t(translation, 'clients.form.settlement2')}
-              disabled={disabled}
-              onChange={onChange(objectKey, 'settlement2')}
-              value={objectData.settlement2}
-            />
-          </div>
-        }
-
         {
           fieldsVisibility.resident_own_or_rent2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
@@ -186,7 +184,7 @@ export default props => {
 
         {
           fieldsVisibility.household_type2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-6">
+          <div className="col-xs-12 col-md-6 col-lg-3">
             <TextInput
               label={t(translation, 'clients.form.household_type2')}
               disabled={disabled}
