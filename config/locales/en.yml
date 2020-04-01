@@ -1553,11 +1553,11 @@ en:
       completed: Completed
       current_address: Current Address
       current_city: City
-      current_household_type: Is your household staying in one of the following?
+      current_household_type: Address Type
       current_island: Island
       current_po_box: PO BOX
       current_province: Current Province
-      current_resident_own_or_rent: Owned or Rented
+      current_resident_own_or_rent: Acc. type
       current_settlement: Settlement
       current_street: Street
       custom_forms: Custom Forms
@@ -1635,7 +1635,7 @@ en:
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
-      resident_own_or_rent2: Owned, Rented or Temporary
+      resident_own_or_rent2: Acc. type
       school_grade: School Grade
       school_name: School Name
       settlement2: Settlement
@@ -2346,15 +2346,15 @@ en:
         current_po_box: PO BOX
         current_city: City
         current_settlement: Settlement
-        current_resident_own_or_rent: Owned or Rented
-        current_household_type: Is your household staying in one of the following?
+        current_resident_own_or_rent: Acc. type
+        current_household_type: Address Type
         legacy_brcs_id: Legacy BRCS-ID number
         island2: Island
         street2: Street
         po_box2: Zip
         city2: City
         settlement2: Settlement
-        resident_own_or_rent2: Owned, Rented or Temporary
+        resident_own_or_rent2: Acc. type
         household_type2: Address Type
         able: Able
         able_state: Able State

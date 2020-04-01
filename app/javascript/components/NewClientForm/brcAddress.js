@@ -8,12 +8,11 @@ import { t } from '../../utils/i18n'
 
 export default props => {
   const { onChange, disabled, translation, fieldsVisibility,
-          data: { client, objectKey, objectData, T, current_organization, settlements, brc_address, brc_islands, brc_household_types, brc_resident_types }
+          data: { client, objectKey, objectData, T, current_organization, settlements, brc_address, brc_islands, brc_resident_types }
         } = props
 
   const [settlementList, setSettlementList] =  useState(settlements && settlements.map(settlement  => ({label: settlement, value: settlement})))
   const [brcIslands, setBrcIslands] = useState(brc_islands && brc_islands.map(island  => ({label: island, value: island})))
-  const [brcHouseholdTypes, setBrcHouseholdTypes] = useState(brc_household_types && brc_household_types.map(household  => ({label: household, value: household})))
   const [brcResidentTypes, setBrcResidentTypes] = useState(brc_resident_types && brc_resident_types.map(type  => ({label: type, value: type})))
 
   return (
@@ -111,10 +110,9 @@ export default props => {
         {
           fieldsVisibility.current_household_type == true &&
           <div className="col-xs-12 col-md-6" style={{ maxHeight: '59px' }}>
-            <SelectInput
+            <TextInput
               label={t(translation, 'clients.form.current_household_type')}
               disabled={disabled}
-              options={brcHouseholdTypes}
               onChange={onChange(objectKey, 'current_household_type')}
               value={objectData.current_household_type}
             />
@@ -216,10 +214,9 @@ export default props => {
         {
           fieldsVisibility.household_type2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-6">
-            <SelectInput
+            <TextInput
               label={t(translation, 'clients.form.household_type2')}
               disabled={disabled}
-              options={brcHouseholdTypes}
               onChange={onChange(objectKey, 'household_type2')}
               value={objectData.household_type2}
             />

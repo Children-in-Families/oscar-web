@@ -84,7 +84,15 @@ module ClientConstants
       'Others'
     ].freeze
 
-  BRC_RESIDENT_TYPES = %w(Owners Rent).freeze
+  BRC_RESIDENT_TYPES = [
+    'Owner',
+    'Stable rental/lease, not at risk of eviction',
+    'A short-term rental at risk of eviction',
+    'A government, agency or religious shelter',
+    "A friend or family member's home",
+    'In a tent, destroyed building, or vehicle',
+    "Back home"
+  ].freeze
 
   BRC_HOUSEHOLD_TYPES = [
     "A government, agency or religious shelter",

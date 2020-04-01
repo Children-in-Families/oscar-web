@@ -1548,11 +1548,11 @@ my:
       completed: ျပည့္ၿပီ
       current_address: လက္ရွိလိပ္စာ
       current_city: City
-      current_household_type: Is your household staying in one of the following?
+      current_household_type: Address Type
       current_island: Island
       current_po_box: PO BOX
       current_province: လက္ရွိေနထိုင္ရာ ခ႐ိုင္
-      current_resident_own_or_rent: Owned or Rented
+      current_resident_own_or_rent: Acc. type
       current_settlement: Settlement
       current_street: Street
       custom_forms: အခြန္ပံုစံမ်ား
@@ -1629,7 +1629,7 @@ my:
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
       relevant_referral_information: သက္ဆိုင္ေသာ လြဲေျပာင္း အခ်က္အလက္
-      resident_own_or_rent2: Owned, Rented or Temporary
+      resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       settlement2: Settlement
@@ -2319,15 +2319,15 @@ my:
         current_po_box: PO BOX
         current_city: City
         current_settlement: Settlement
-        current_resident_own_or_rent: Owned or Rented
-        current_household_type: Is your household staying in one of the following?
+        current_resident_own_or_rent: Acc. type
+        current_household_type: Address Type
         legacy_brcs_id: Legacy BRCS-ID number
         island2: Island
         street2: Street
         po_box2: Zip
         city2: City
         settlement2: Settlement
-        resident_own_or_rent2: Owned, Rented or Temporary
+        resident_own_or_rent2: Acc. type
         household_type2: Address Type
         able: Able
         able_state: Able State
