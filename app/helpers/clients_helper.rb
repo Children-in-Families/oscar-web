@@ -462,8 +462,13 @@ module ClientsHelper
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
+      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date'),
       hotline_call_: t('datagrid.columns.calls.hotline_call')
     }
+
+    (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
+      label_column["#{field_name}_".to_sym] = t("datagrid.columns.clients.#{field_name}")
+    end
 
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
