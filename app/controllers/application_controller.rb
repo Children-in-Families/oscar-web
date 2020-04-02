@@ -64,6 +64,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :program_warning
     devise_parameter_sanitizer.for(:account_update) << :domain_warning
     devise_parameter_sanitizer.for(:account_update) << :gender
+    devise_parameter_sanitizer.for(:account_update) << :preferred_language
     # devise_parameter_sanitizer.for(:account_update) << :staff_performance_notification
     devise_parameter_sanitizer.for(:account_update) << :referral_notification
   end
@@ -74,12 +75,16 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    locale = I18n.available_locales.include?(params[:locale].to_sym) ? params[:locale] : I18n.locale if params[:locale].present?
+    locale = I18n.locale
+    locale = current_user.preferred_language if user_signed_in?
+    locale = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+
     if detect_browser.present?
       flash.clear
       flash[:alert] = detect_browser
     end
-    I18n.locale = locale || I18n.locale
+
+    I18n.locale = locale
   end
 
   def override_translation

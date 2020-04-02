@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200331161800) do
+ActiveRecord::Schema.define(version: 20200402005626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -558,7 +558,6 @@ ActiveRecord::Schema.define(version: 20200331161800) do
     t.string   "phone_counselling_summary",        default: ""
     t.string   "presented_id"
     t.string   "id_number"
-    t.string   "preferred_language"
     t.string   "other_phone_number"
     t.string   "brsc_branch"
     t.string   "current_island"
@@ -1813,6 +1812,7 @@ ActiveRecord::Schema.define(version: 20200331161800) do
     t.datetime "activated_at"
     t.datetime "deactivated_at"
     t.datetime "deleted_at"
+    t.string   "preferred_language",             default: "en"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
