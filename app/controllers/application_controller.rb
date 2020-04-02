@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
   end
 
   def override_translation
-    I18n.backend.reload!
+    I18n.backend.reload! if request.get? && request.format.html?
   end
 
   def default_url_options(options = {})
