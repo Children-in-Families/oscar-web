@@ -104,7 +104,7 @@ namespace :client_status do
           client.save!(validate: false)
           puts "#{short_name}: Update client accept NGO status to 'Active' of client #{client.slug} done!!!"
         end
-        next if client.exit_ngos.last.nil?
+        next if client.exit_ngos.last.nil? || client.client_enrollments.last.status == 'Exited'
         if client.client_enrollments.last.created_at > client.enter_ngos.last.created_at && client.enter_ngos.last.created_at > client.exit_ngos.last.created_at
           client.status = 'Active'
           client.save!(validate: false)
