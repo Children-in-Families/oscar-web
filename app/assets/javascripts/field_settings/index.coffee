@@ -2,7 +2,8 @@ CIF.Field_settingsIndex = do ->
   _init = ->
     _initICheckBox()
     _toggleSubmitButton()
-    _handleGroupHiddenStateChange()
+    $("form.field_setting").validate()
+
 
   _initICheckBox = ->
     $('.i-checks-meta-fields').iCheck(
@@ -14,14 +15,7 @@ CIF.Field_settingsIndex = do ->
     )
 
   _toggleSubmitButton = ->
-    $("#accordion .panel-collapse").on "click keyup change ifChanged", "input", ->
-      if $(@).closest("form").find("#field_setting_label").val().length == 0
-        $(@).closest("form").find("input[type='submit']").addClass("hidden")
-      else
-        $(@).closest("form").find("input[type='submit']").removeClass("hidden")
-
-  _handleGroupHiddenStateChange = ->
-    $("#accordion").on "ifChanged", ".panel-heading input", ->
-      $(@).closest("form").submit()
+    $("form.field_setting").on "click keyup change ifChanged", "input", ->
+      $("form.field_setting input[type='submit']").attr("disabled", false)
 
   { init: _init }
