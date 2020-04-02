@@ -10,6 +10,14 @@ class RegistrationsController < Devise::RegistrationsController
     redirect_to new_user_session_path, notice: 'Registrations are not allowed.'
   end
 
+  def update
+    preferred_language_was = resource.preferred_language
+
+    super do |resource|
+      I18n.locale = resource.preferred_language if resource.valid? && current_user == resource && resource.preferred_language != preferred_language_was
+    end
+  end
+
   protected
 
   def update_resource(resource, params)
