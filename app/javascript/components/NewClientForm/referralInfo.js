@@ -21,7 +21,8 @@ export default props => {
     { label: T.translate("refereeInfo.female"), value: 'female' },
     { label: T.translate("refereeInfo.male"), value: 'male' },
     { label: T.translate("refereeInfo.other"), value: 'other' },
-    { label: T.translate("refereeInfo.unknown"), value: 'unknown' }
+    { label: T.translate("refereeInfo.unknown"), value: 'unknown' },
+    { label: t(translation, 'default_client_fields.gender_list.prefer_not_to_say'), value: 'prefer_not_to_say' }
   ]
   const phoneEmailOwnerOpts = phoneOwners.map(phone => ({ label: T.translate("phoneOwner." + phone.label), value: phone.value }))
   const birthProvincesLists = birthProvinces.map(province => ({label: province[0], options: province[1].map(value => ({label: value[0], value: value[1]}))}))

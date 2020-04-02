@@ -31,9 +31,8 @@ module ClientsHelper
   def rails_i18n_translations
     # Change slice inputs to adapt your need
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
-      :able_screening_questions,
       :clients,
-      :client
+      :default_client_fields
     )
 
     if current_organization.short_name != 'brc' && I18n.locale.to_s == 'en'
