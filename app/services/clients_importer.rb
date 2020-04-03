@@ -76,6 +76,7 @@ module ClientsImporter
         new_client                        = {}
         new_client['given_name']          = workbook.row(row_index)[headers['Given Name (English)']]
         new_client['family_name']         = workbook.row(row_index)[headers['Family Name (English)']]
+        new_client['gender']              = workbook.row(row_index)[headers['* Gender']]&.downcase
         family_id                         = workbook.row(row_index)[headers['Family ID']]
         new_client['current_family_id']   = Family.find_by(code: family_id).try(:id)
         donor_name                        = workbook.row(row_index)[headers['Donor ID']]
@@ -91,6 +92,7 @@ module ClientsImporter
         referral_source_category_id = referral_source_hash[workbook.row(row_index)[headers['*Referral Category']]]
         referral_source_name = workbook.row(row_index)[headers['* Referral Source']]
 
+        new_client['referral_source_category_id'] = referral_source_category_id
         new_client['referral_source_id']  = find_or_create_referral_source(referral_source_category_id, referral_source_name)
         new_client['referee_id']          = create_referee(workbook.row(row_index)[headers['* Name of Referee']])
 
