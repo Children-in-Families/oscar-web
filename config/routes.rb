@@ -347,7 +347,11 @@ Rails.application.routes.draw do
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
 
-      resources :field_settings, only: [:index, :update]
+      resources :field_settings, only: [:index] do
+        collection do
+          put :bulk_update
+        end
+      end
     end
   end
 
