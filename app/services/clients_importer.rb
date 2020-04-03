@@ -83,6 +83,8 @@ module ClientsImporter
         case_worker_id                    = workbook.row(row_index)[headers['*Case Worker ID']]
         new_client['user_id']             = case_worker_id
         new_client['user_ids']            = [case_worker_id]
+        new_client['date_of_birth']       = workbook.row(row_index)[headers['Date of Birth']].to_s
+        new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']].to_s
 
         new_client['received_by_id']      = received_by_id
 
