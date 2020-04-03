@@ -589,11 +589,11 @@ class ClientGrid < BaseGrid
           rule = get_rule(params, quantitative_type.name.squish)
           if rule.presence && rule.dig(:type) == 'date'
             quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
-          elsif rule.presence
+          elsif rule.present?
             if rule.dig(:input) == 'select'
-              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
             else
-              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten)
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
             end
           end
           quantitative_type_values.join(', ')
@@ -1171,7 +1171,7 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = form_builder_query(object.custom_field_properties, fields.first, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
             end
           end
         elsif fields.first == 'enrollmentdate'

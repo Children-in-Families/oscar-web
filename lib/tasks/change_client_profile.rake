@@ -13,7 +13,7 @@ namespace :change_client_profile do
         client.family_name = FFaker::Name.last_name
         client.local_given_name = client.given_name
         client.local_family_name = client.family_name
-        client.gender = client.gender == 'male' ? 'female' : 'male'
+        # client.gender = client.gender == 'male' ? 'female' : 'male'
 
         if province_ids.present?
           current_province_ids = province_ids - [client.province_id]
