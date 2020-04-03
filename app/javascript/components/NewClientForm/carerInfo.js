@@ -6,19 +6,22 @@ import {
 }             from '../Commons/inputs'
 
 export default props => {
-  const { onChange, renderAddressSwitch, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
+  const { onChange, renderAddressSwitch, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, subDistricts, families, addressTypes, T } } = props
 
   const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
   const [communes, setCommunes]           = useState(carerCommunes)
   const [villages, setVillages]           = useState(carerVillages)
+  const [townships, setTownships]         = useState(currentTownships)
+  const [subdistricts, setSubdistricts]   = useState(subDistricts)
+
 
   const fetchData = (parent, data, child) => {
     $.ajax({
       type: 'GET',
       url: `/api/${parent}/${data}/${child}`,
     }).success(res => {
-      const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages }
+      const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages, townships: setTownships, subdistricts: setSubdistricts }
       dataState[child](res.data)
     })
   }
@@ -30,13 +33,22 @@ export default props => {
       if(client.province_id !== null)
         fetchData('provinces', client.province_id, 'districts')
       if(client.district_id !== null)
-        fetchData('districts', client.district_id, 'communes')
+        if(current_organization.country == 'thailand'){
+          fetchData('subdistricts', client.district_id, 'subdistricts')
+        } else{
+          fetchData('districts', client.district_id, 'communes')
+        }
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
+      if(client.state_id !== null)
+        console.log(fetchData('townships', client.state_id, 'townships'))
+        fetchData('townships', client.state_id, 'townships')
     } else {
       setDistricts([])
       setCommunes([])
       setVillages([])
+      setTownships([])
+      setSubdistricts([])
     }
 
     const fields = {
@@ -45,6 +57,17 @@ export default props => {
       district_id: same ? client.district_id : null,
       commune_id: same ? client.commune_id : null,
       village_id: same ? client.village_id : null,
+      state_id: same ? client.state_id : null,
+      township_id: same ? client.township_id : null,
+      subdistrict_id: same ? client.subdistrict_id : null,
+      street_line1: same ? client.subdistrict_id : '',
+      street_line2: same ? client.subdistrict_id : '',
+      plot: same ? client.plot : '',
+      road: same ? client.road : '',
+      postal_code: same ? client.postal_code : '',
+      suburb: same ? client.suburb : '',
+      description_house_landmark: same ? client.description_house_landmark : '',
+      directions: same ? client.directions : '',
       street_number: same ? client.street_number : '',
       house_number: same ? client.house_number : '',
       current_address: same ? client.current_address : '',
@@ -63,9 +86,16 @@ export default props => {
       if(client.province_id !== null)
         fetchData('provinces', client.province_id, 'districts')
       if(client.district_id !== null)
-        fetchData('districts', client.district_id, 'communes')
+        if(current_organization.country == 'thailand'){
+          fetchData('subdistricts', client.district_id, 'subdistricts')
+        } else{
+          fetchData('districts', client.district_id, 'communes')
+        }
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
+      if(client.state_id !== null)
+        console.log(fetchData('townships', client.state_id, 'townships'))
+        fetchData('townships', client.state_id, 'townships')
     }
 
     const fields = {
@@ -74,11 +104,22 @@ export default props => {
       district_id: object.district_id,
       commune_id: object.commune_id,
       village_id: object.village_id,
+      state_id: object.state_id,
+      township_id: object.township_id,
+      subdistrict_id: object.subdistrict_id,
       street_number: object.street_number,
       house_number: object.house_number,
       current_address: object.current_address,
       address_type: object.address_type,
-      outside_address: object.outside_address
+      outside_address: object.outside_address,
+      street_line1: object.street_line1,
+      street_line2: object.street_line2,
+      plot: object.plot,
+      road: object.road,
+      postal_code: object.postal_code,
+      suburb: object.suburb,
+      description_house_landmark: object.description_house_landmark,
+      directions: object.directions
     }
 
     onChange('carer', { ...fields })({type: 'select'})

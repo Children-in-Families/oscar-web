@@ -36,6 +36,17 @@ export default props => {
         district_id: null,
         commune_id: null,
         village_id: null,
+        state_id: null,
+        township_id: null,
+        subdistrict_id: null,
+        street_line1: '',
+        street_line2: '',
+        plot: '',
+        road: '',
+        postal_code: '',
+        suburb: '',
+        description_house_landmark: '',
+        directions: ''
       }
       onChange('referee', { ...fields })({type: 'select'})
     }

@@ -5,6 +5,9 @@ class Referee < ActiveRecord::Base
   belongs_to :district
   belongs_to :commune
   belongs_to :village
+  belongs_to :state
+  belongs_to :subdistrict
+  belongs_to :township
   has_many :clients, dependent: :restrict_with_error
   has_many :calls, dependent: :restrict_with_error
 

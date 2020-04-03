@@ -61,7 +61,7 @@ const Forms = props => {
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, addressTypes, T, translation, current_organization }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_household_types, brc_presented_ids, brc_resident_types, settlements }
-  const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, ...referralTabData, T }
+  const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, subDistricts, ...referralTabData, T }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
 
   const tabs = [
