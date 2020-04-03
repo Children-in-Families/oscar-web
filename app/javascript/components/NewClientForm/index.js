@@ -8,6 +8,10 @@ import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
 import CreateFamilyModal from './createFamilyModal'
+import Address      from './address'
+import MyanmarAddress   from '../Addresses/myanmarAddress'
+import ThailandAddress   from '../Addresses/thailandAddress'
+import LesothoAddress   from '../Addresses/lesothoAddress'
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
@@ -30,10 +34,10 @@ const Forms = props => {
 
   const {
     data: {
+      current_organization,
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts,
-      current_organization, translation, fieldsVisibility,
+      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
       brc_address, brc_islands, brc_household_types, settlements, brc_resident_types, brc_presented_ids
     }
   } = props
@@ -196,7 +200,7 @@ const Forms = props => {
 
   const renderModalContent = data => {
     return (
-      <>
+      <div>
         <p>{T.translate("index.similar_record")}</p>
         <ul>
           {
@@ -208,19 +212,19 @@ const Forms = props => {
           }
         </ul>
         <p>{T.translate("index.checking_message")}</p>
-      </>
+      </div>
     )
   }
 
   const renderModalFooter = () => {
     return (
-      <>
+      <div>
         <p>{T.translate("index.duplicate_message")}</p>
         <div style={{display:'flex', justifyContent: 'flex-end'}}>
           <button style={{margin: 5}} className='btn btn-primary' onClick={() => (setDupClientModalOpen(false), setStep(step + 1))}>{T.translate("index.continue")}</button>
           <button style={{margin: 5}} className='btn btn-default' onClick={() => setDupClientModalOpen(false)}>{T.translate("index.cancel")}</button>
         </div>
-      </>
+      </div>
     )
   }
 
@@ -292,6 +296,23 @@ const Forms = props => {
     setStep(step - 1)
   }
 
+  const renderAddressSwitch = (objectData, objectKey, disabled) => {
+    const country_name = current_organization.country
+    switch (country_name) {
+      case 'myanmar':
+        return <MyanmarAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentStates, currentTownships, objectKey, objectData, T}} />
+        break;
+      case 'thailand':
+        return <ThailandAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentProvinces, subDistricts, objectKey, objectData, T}} />
+        break;
+      case 'lesotho':
+        return <LesothoAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, objectKey, objectData, T}} />
+        break;
+      default:
+        return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
+    }
+  }
+
   return (
     <div className='containerClass'>
       <Loading loading={loading} text={T.translate("index.wait")}/>
@@ -325,15 +346,15 @@ const Forms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange} translation={translation} fieldsVisibility={fieldsVisibility}/>
+            <RefereeInfo data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility}/>
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={referralTabData} onChange={onChange} translation={translation} currentOrganization={current_organization} fieldsVisibility={fieldsVisibility}/>
+            <ReferralInfo data={referralTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility}/>
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo translation={translation} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} />
+            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>

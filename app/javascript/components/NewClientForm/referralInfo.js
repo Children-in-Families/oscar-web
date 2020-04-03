@@ -7,16 +7,12 @@ import {
   UploadInput,
   TextArea
 }                   from '../Commons/inputs'
-import Address      from './address'
 import BrcAddress   from './brcAddress'
-import MyanmarAddress   from './myanmarAddress'
-import ThailandAddress   from './thailandAddress'
-import LesothoAddress   from './lesothoAddress'
 import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, currentOrganization, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
@@ -146,22 +142,6 @@ export default props => {
     onChange('client', { ...fields, 'concern_same_as_client': data.data })({type: 'select'})
   }
 
-  const renderAddressSwitch = country_name => {
-    switch (country_name) {
-      case 'myanmar':
-        return <MyanmarAddress disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentStates, currentTownships, objectKey: 'client', objectData: client, T}} />
-        break;
-      case 'thailand':
-        return <ThailandAddress disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentProvinces, subDistricts, objectKey: 'client', objectData: client, T}} />
-        break;
-      case 'lesotho':
-        return <LesothoAddress disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, objectKey: 'client', objectData: client, T}} />
-        break;
-      default:
-        return <Address disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T}} />
-    }
-  }
-
   return (
     <div className="containerClass">
       <legend>
@@ -232,7 +212,7 @@ export default props => {
 
       {
         fieldsVisibility.brc_client_address != true &&
-        <>
+        <div>
           <legend>
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
@@ -246,15 +226,13 @@ export default props => {
               }
             </div>
           </legend>
-          {
-            renderAddressSwitch(currentOrganization.country)
-          }
-        </>
+          { renderAddressSwitch(client, 'client', client.referee_relationship === 'self') }
+        </div>
       }
 
       {
         fieldsVisibility.brc_client_address == true &&
-        <>
+        <div>
         <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_household_types, brc_resident_types }} />
         <legend className="brc-address">
           <div className="row">
@@ -263,7 +241,7 @@ export default props => {
             </div>
           </div>
         </legend>
-        </>
+        </div>
       }
 
       <div className="row">

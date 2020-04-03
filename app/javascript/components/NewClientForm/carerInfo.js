@@ -4,10 +4,9 @@ import {
   TextInput,
   Checkbox
 }             from '../Commons/inputs'
-import Address from './address'
 
 export default props => {
-  const { onChange, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
+  const { onChange, renderAddressSwitch, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, families, addressTypes, T } } = props
 
   const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
@@ -150,7 +149,7 @@ export default props => {
           }
         </div>
       </legend>
-      <Address disabled={carer.same_as_client} outside={carer.outside} onChange={onChange} data={{client, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, addressTypes, objectKey: 'carer', objectData: carer, T}} />
+      { renderAddressSwitch(carer, 'carer', carer.same_as_client) }
     </div>
   )
 }
