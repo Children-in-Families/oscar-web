@@ -256,33 +256,36 @@ class ClientGrid < BaseGrid
     ids = []
     setting = Setting.first
     if value == Assessment::DUE_STATES[0]
-      Client.active_accepted_status.each do |c|
-        next if !c.eligible_default_csi? && !(client.assessments.customs.present?)
+      Client.active_accepted_status.each do |client|
+        next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
         if setting.enable_default_assessment? && setting.enable_custom_assessment?
-          ids << c.id if c.next_assessment_date == Date.today || c.custom_next_assessment_date == Date.today
+          ids << client.id if client.next_assessment_date == Date.today || client.custom_next_assessment_date == Date.today
         elsif setting.enable_default_assessment?
-          ids << c.id if c.next_assessment_date == Date.today
+          ids << client.id if client.next_assessment_date == Date.today
         elsif setting.enable_custom_assessment?
-          ids << c.id if c.custom_next_assessment_date == Date.today
+          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+            ids << client.id if client.custom_next_assessment_date(nil, custom_assessment_setting.id) == Date.today
+          end
         end
       end
     else
-      Client.joins(:assessments).active_accepted_status.each do |c|
-        next if !c.eligible_default_csi? && !(client.assessments.customs.present?)
+      Client.joins(:assessments).active_accepted_status.each do |client|
+        next if !client.eligible_default_csi? && !(client.assessments.customs.present?)
         custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
         if setting.enable_default_assessment? && setting.enable_custom_assessment?
-          if c.next_assessment_date  < Date.today
-            ids << c.id
+          if client.next_assessment_date  < Date.today
+            ids << client.id
           else
             CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-              ids << c.id if c.custom_next_assessment_date(nil, custom_assessment_setting.id) < Date.today
+              ids << client.id if client.custom_next_assessment_date(nil, custom_assessment_setting.id) < Date.today
             end
           end
         elsif setting.enable_default_assessment?
-          ids << c.id if c.next_assessment_date  < Date.today
+          ids << client.id if client.next_assessment_date  < Date.today
         elsif setting.enable_custom_assessment?
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            ids << c.id if c.custom_next_assessment_date(nil, custom_assessment_setting.id)  < Date.today
+            ids << client.id if client.custom_next_assessment_date(nil, custom_assessment_setting.id)  < Date.today
           end
         end
       end

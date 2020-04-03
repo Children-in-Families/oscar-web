@@ -258,16 +258,20 @@ class Client < ActiveRecord::Base
   end
 
   def next_assessment_date(user_activated_date = nil)
-    return Date.today if assessments.defaults.empty?
-    return nil if user_activated_date.present? && assessments.defaults.latest_record.created_at < user_activated_date
+    return Date.today if assessments.defaults.latest_record.blank?
+    return nil if user_activated_date.present? && (assessments.defaults.latest_record.present? && assessments.defaults.latest_record.created_at < user_activated_date)
     (assessments.defaults.latest_record.created_at + assessment_duration('max')).to_date
   end
 
   def custom_next_assessment_date(user_activated_date = nil, custom_assessment_setting_id=nil)
-    custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct
-    return Date.today if custom_assessments.empty?
-    return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
-    (custom_assessments.latest_record.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
+    custom_assessments = []
+    custom_assessments = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: custom_assessment_setting_id}).distinct if custom_assessment_setting_id
+    if custom_assessment_setting_id && custom_assessments.present?
+      return nil if user_activated_date.present? && custom_assessments.latest_record.created_at < user_activated_date
+      (custom_assessments.latest_record&.created_at + assessment_duration('max', false, custom_assessment_setting_id)).to_date
+    else
+      Date.today
+    end
   end
 
   def next_appointment_date
@@ -591,10 +595,13 @@ class Client < ActiveRecord::Base
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
           end
         end
-        if Setting.first.enable_custom_assessment? && client.assessments.customs.count > 1
-          repeat_notifications = client.repeat_notifications_schedule(false)
-          if(repeat_notifications.include?(Date.today))
-            CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+        if Setting.first.enable_custom_assessment && client.assessments.customs.count > 1
+          custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+          CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+            repeat_notifications = client.repeat_notifications_schedule(false)
+            if(repeat_notifications.include?(Date.today)) && client.eligible_custom_csi?(custom_assessment_setting)
+              CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+            end
           end
         end
       end
