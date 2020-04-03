@@ -241,6 +241,7 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.boolean  "custom",                       default: false
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
+    t.string   "selected_domain_group_ids",    default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
