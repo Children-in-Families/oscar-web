@@ -143,8 +143,10 @@
                 %thead
                   %th= t('.adult_name')
                   %th= t('.date_of_birth')
-                  %th= t('.gender')
-                  %th= t('.occupation')
+                  - if policy(FamilyMember).show?(:gender)
+                    %th= t('.gender')
+                  - if policy(FamilyMember).show?(:occupation)
+                    %th= t('.occupation')
                   %th= t('.relation')
                   %th= t('.guardian')
                 %tbody
@@ -152,8 +154,10 @@
                   %tr
                     %td= member.adult_name
                     %td= date_format member.date_of_birth
-                    %td= t("enumerize.defaults.gender.#{member.gender}")
-                    %td= member.occupation
+                    - if policy(FamilyMember).show?(:gender)
+                      %td= t("enumerize.defaults.gender.#{member.gender}")
+                    - if policy(FamilyMember).show?(:occupation)
+                      %td= member.occupation
                     %td= member.relation
                     %td= human_boolean(member.guardian)
 

@@ -12,8 +12,10 @@
     - if policy(FamilyMember).show?(:gender)
       .col-xs-12.col-sm-6.col-md-2
         = f.input :gender
-    .col-xs-12.col-sm-6.col-md-2
-      = f.input :occupation, label: t('.occupation')
+
+    - if policy(FamilyMember).show?(:occupation)
+      .col-xs-12.col-sm-6.col-md-2
+        = f.input :occupation, label: t('.occupation')
     .col-xs-12.col-sm-6.col-md-3
       = f.input :relation, collection: drop_down_relation, label: t('.relation'), class: 'select2'
     .col-xs-12.col-sm-6.col-md-2
