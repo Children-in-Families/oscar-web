@@ -360,14 +360,17 @@
   #filter_form
     %hr/
     .row
-      - grid.filters.each do |filter|
-        - next if controller_name == 'clients' && !policy(Client).show?(filter.name.to_s)
-        .datagrid-filter.filter.form-group.col-xs-12.col-sm-6.col.md-4.col-lg-4
-          = f.datagrid_label filter
-          - if filter.type == :date
-            = f.datagrid_filter filter, partials: options[:partials], class: "form-control datepicker #{filter.options[:class]}"
-          - else
-            = f.datagrid_filter filter, partials: options[:partials], class: "form-control #{filter.options[:class]}"
+      - if controller_name == 'families'
+        = render partial: 'datagrid/filter_form/family', locals: { f: f, grid: grid, options: options }
+      - else
+        - grid.filters.each do |filter|
+          - next if controller_name == 'clients' && !policy(Client).show?(filter.name.to_s)
+          .datagrid-filter.filter.form-group.col-xs-12.col-sm-6.col.md-4.col-lg-4
+            = f.datagrid_label filter
+            - if filter.type == :date
+              = f.datagrid_filter filter, partials: options[:partials], class: "form-control datepicker #{filter.options[:class]}"
+            - else
+              = f.datagrid_filter filter, partials: options[:partials], class: "form-control #{filter.options[:class]}"
 
     .row
       .col-xs-12
