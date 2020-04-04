@@ -3460,6 +3460,14 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  enumerize:
+    defaults:
+      gender:
+        female: Female
+        male: Male
+        other_gender: Other
+        unknown: Unknown
+        prefer_not_to_say: Prefer not to answer
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in

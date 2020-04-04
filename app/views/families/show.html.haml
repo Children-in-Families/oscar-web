@@ -143,6 +143,7 @@
                 %thead
                   %th= t('.adult_name')
                   %th= t('.date_of_birth')
+                  %th= t('.gender')
                   %th= t('.occupation')
                   %th= t('.relation')
                   %th= t('.guardian')
@@ -151,6 +152,7 @@
                   %tr
                     %td= member.adult_name
                     %td= date_format member.date_of_birth
+                    %td= t("enumerize.defaults.gender.#{member.gender}")
                     %td= member.occupation
                     %td= member.relation
                     %td= human_boolean(member.guardian)

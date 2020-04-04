@@ -9,6 +9,9 @@
           = f.input_field :date_of_birth, class: 'date optional form-control date-picker', as: :string
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
+    - if policy(FamilyMember).show?(:gender)
+      .col-xs-12.col-sm-6.col-md-2
+        = f.input :gender
     .col-xs-12.col-sm-6.col-md-2
       = f.input :occupation, label: t('.occupation')
     .col-xs-12.col-sm-6.col-md-3

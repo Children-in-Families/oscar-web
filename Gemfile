@@ -74,6 +74,7 @@ gem 'react-rails',            '~> 2.6.0'
 gem 'webpacker',              '~> 4.0.7'
 gem 'jquery_query_builder-rails', '~> 0.5.0'
 gem 'globalize', '~> 5.1.0'
+gem 'enumerize', '~> 2.3.1'
 
 group :development, :test do
   gem 'pry'
