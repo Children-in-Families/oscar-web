@@ -87,15 +87,14 @@ export default props => {
         fetchData('provinces', client.province_id, 'districts')
       if(client.district_id !== null)
         if(current_organization.country == 'thailand'){
-          fetchData('subdistricts', client.district_id, 'subdistricts')
+          fetchData('districts', client.district_id, 'subdistricts')
         } else{
           fetchData('districts', client.district_id, 'communes')
         }
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
       if(client.state_id !== null)
-        console.log(fetchData('townships', client.state_id, 'townships'))
-        fetchData('townships', client.state_id, 'townships')
+        fetchData('states', client.state_id, 'townships')
     }
 
     const fields = {

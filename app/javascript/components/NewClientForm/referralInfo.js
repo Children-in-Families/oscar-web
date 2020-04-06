@@ -27,6 +27,10 @@ export default props => {
   const [districts, setDistricts]         = useState(currentDistricts)
   const [communes, setCommunes]           = useState(currentCommunes)
   const [villages, setVillages]           = useState(currentVillages)
+  const [states, setStates]               = useState(currentStates)
+  const [townships, setTownships]         = useState(currentTownships)
+  const [subdistricts, setSubdistricts]   = useState(subDistricts)
+
   let urlParams                           = window.location.search
   let pattern                             = new RegExp(/type=call/gi)
   let isRedirectFromCall                  = pattern.test(urlParams)
@@ -46,15 +50,32 @@ export default props => {
         house_number: referee.house_number,
         current_address: referee.current_address,
         address_type: referee.address_type,
-        outside_address: referee.outside_address
+        outside_address: referee.outside_address,
+        state_id: referee.state_id,
+        township_id: referee.township_id,
+        subdistrict_id: referee.subdistrict_id,
+        street_line1: referee.street_line1,
+        street_line2: referee.street_line2,
+        plot: referee.plot,
+        road: referee.road,
+        postal_code: referee.postal_code,
+        suburb: referee.suburb,
+        description_house_landmark: referee.description_house_landmark,
+        directions: referee.directions
       }
 
       if(referee.province_id !== null)
         fetchData('provinces', referee.province_id, 'districts')
       if(referee.district_id !== null)
-        fetchData('districts', referee.district_id, 'communes')
+        if(current_organization.country == 'thailand'){
+          fetchData('subdistricts', referee.district_id, 'subdistricts')
+        } else{
+          fetchData('districts', referee.district_id, 'communes')
+        }
       if(referee.commune_id !== null)
         fetchData('communes', referee.commune_id, 'villages')
+      if(referee.state_id !== null)
+        fetchData('townships', referee.state_id, 'townships')
 
       const newObject = { ...client, ...fields }
       onChange('client', newObject)({type: 'select'})
@@ -87,12 +108,20 @@ export default props => {
       if(referee.province_id !== null)
         fetchData('provinces', referee.province_id, 'districts')
       if(referee.district_id !== null)
-        fetchData('districts', referee.district_id, 'communes')
+        if(current_organization.country == 'thailand'){
+          fetchData('districts', referee.district_id, 'subdistricts')
+        } else{
+          fetchData('districts', referee.district_id, 'communes')
+        }
       if(referee.commune_id !== null)
         fetchData('communes', referee.commune_id, 'villages')
+      if(referee.state_id !== null)
+        fetchData('states', referee.state_id, 'townships')
 
     } else if(previousSelect === 'self') {
       setDistricts([])
+      setSubdistricts([])
+      setTownships([])
       setCommunes([])
       setVillages([])
     }

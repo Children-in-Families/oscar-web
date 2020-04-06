@@ -37,7 +37,7 @@ const Forms = props => {
       current_organization,
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeCommunes, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
+      refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
       brc_address, brc_islands, brc_household_types, settlements, brc_resident_types, brc_presented_ids
     }
   } = props
@@ -303,7 +303,7 @@ const Forms = props => {
         return <MyanmarAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentStates, currentTownships, objectKey, objectData, T}} />
         break;
       case 'thailand':
-        return <ThailandAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentProvinces, subDistricts, objectKey, objectData, T}} />
+        return <ThailandAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentProvinces, subDistricts, refereeDistricts, refereeSubdistricts, carerDistricts, carerSubdistricts, objectKey, objectData, T}} />
         break;
       case 'lesotho':
         return <LesothoAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, objectKey, objectData, T}} />
@@ -312,7 +312,7 @@ const Forms = props => {
         return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
     }
   }
-
+  console.log(carerSubdistricts)
   return (
     <div className='containerClass'>
       <Loading loading={loading} text={T.translate("index.wait")}/>

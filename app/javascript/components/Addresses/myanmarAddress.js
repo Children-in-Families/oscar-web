@@ -6,13 +6,13 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, disabled, outside, data: { client, currentStates, objectKey, objectData, addressTypes, currentTownships = [], T } } = props
+  const { onChange, disabled, outside, data: { client, currentStates, objectKey, objectData, addressTypes, currentTownships, T } } = props
 
   const [states, setStates] = useState(currentStates.map(the_state => ({label: the_state.name, value: the_state.id})))
-  const [townships, setTownships] = useState(currentTownships.map(township => ({label: township.name, value: township.id})))
+  const [townships, settownships] = useState(currentTownships.map(township => ({label: township.name, value: township.id})))
   const typeOfAddress = addressTypes.map(type => ({ label: T.translate("addressType."+type.label), value: type.value }))
   useEffect(() => {
-    setTownships(currentTownships.map(township => ({label: township.name, value: township.id})))
+    settownships(currentTownships.map(township => ({label: township.name, value: township.id})))
   }, [currentTownships])
 
   const updateValues = object => {
@@ -21,7 +21,7 @@ export default props => {
     const parentConditions = {
       'states': {
         fieldsTobeUpdate: { township_id: null, [field]: data },
-        optionsTobeResets: [setTownships]
+        optionsTobeResets: [settownships]
       },
       'townships': {
         fieldsTobeUpdate: { [field]: data },
@@ -45,7 +45,7 @@ export default props => {
         url: `/api/${parent}/${data}/${child}`,
       }).success(res => {
         const formatedData = res.data.map(data => ({ label: data.name, value: data.id }))
-        const dataState = { townships: setTownships }
+        const dataState = { townships: settownships }
         dataState[child](formatedData)
       })
     }
