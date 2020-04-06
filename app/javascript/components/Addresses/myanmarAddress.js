@@ -6,14 +6,18 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, disabled, outside, data: { client, currentStates, objectKey, objectData, addressTypes, currentTownships, T } } = props
+  const { onChange, disabled, outside, data: { client, currentStates, objectKey, objectData, addressTypes, currentTownships, refereeTownships, carerTownships, T } } = props
 
   const [states, setStates] = useState(currentStates.map(the_state => ({label: the_state.name, value: the_state.id})))
-  const [townships, settownships] = useState(currentTownships.map(township => ({label: township.name, value: township.id})))
+  const [townships, setTownships] = useState(currentTownships.map(township => ({label: township.name, value: township.id})))
+  const [referee_townships, setRefereeTownships] = useState(refereeTownships.map(township => ({label: township.name, value: township.id})))
+  const [carer_townships, setCarerTownships] = useState(carerTownships.map(township => ({label: township.name, value: township.id})))
   const typeOfAddress = addressTypes.map(type => ({ label: T.translate("addressType."+type.label), value: type.value }))
   useEffect(() => {
-    settownships(currentTownships.map(township => ({label: township.name, value: township.id})))
-  }, [currentTownships])
+    setTownships(currentTownships.map(township => ({label: township.name, value: township.id})))
+    setRefereeTownships(refereeTownships.map(township => ({label: township.name, value: township.id})))
+    setCarerTownships(carerTownships.map(township => ({label: township.name, value: township.id})))
+  }, [currentTownships, refereeTownships, carerTownships])
 
   const updateValues = object => {
     const { parent, child, field, obj, data } = object
@@ -21,7 +25,7 @@ export default props => {
     const parentConditions = {
       'states': {
         fieldsTobeUpdate: { township_id: null, [field]: data },
-        optionsTobeResets: [settownships]
+        optionsTobeResets: [setTownships]
       },
       'townships': {
         fieldsTobeUpdate: { [field]: data },
@@ -36,7 +40,7 @@ export default props => {
   }
 
   const onChangeParent = object => ({ data }) => {
-    const { parent, child } = object
+    const { parent, child, obj } = object
 
     updateValues({ ...object, data})
     if(parent !== 'townships' && data !== null) {
@@ -44,8 +48,18 @@ export default props => {
         type: 'GET',
         url: `/api/${parent}/${data}/${child}`,
       }).success(res => {
+        let dataState = {}
         const formatedData = res.data.map(data => ({ label: data.name, value: data.id }))
-        const dataState = { townships: settownships }
+        switch (obj) {
+          case 'referee':
+            dataState = { districts: setRefereeTownships }
+            break;
+          case 'carer':
+            dataState = { townships: setCarerTownships }
+            break;
+          default:
+            dataState = { townships: setTownships }
+        }
         dataState[child](formatedData)
       })
     }

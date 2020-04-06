@@ -6,14 +6,14 @@ import {
 }             from '../Commons/inputs'
 
 export default props => {
-  const { onChange, renderAddressSwitch, current_organization, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, subDistricts, families, addressTypes, T } } = props
+  const { onChange, renderAddressSwitch, current_organization, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, carerSubdistricts, families, addressTypes, T } } = props
 
   const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
   const [communes, setCommunes]           = useState(carerCommunes)
   const [villages, setVillages]           = useState(carerVillages)
   const [townships, setTownships]         = useState(currentTownships)
-  const [subdistricts, setSubdistricts]   = useState(subDistricts)
+  const [subdistricts, setSubdistricts]   = useState(carerSubdistricts)
 
 
   const fetchData = (parent, data, child) => {
@@ -34,14 +34,14 @@ export default props => {
         fetchData('provinces', client.province_id, 'districts')
       if(client.district_id !== null)
         if(current_organization.country == 'thailand'){
-          fetchData('subdistricts', client.district_id, 'subdistricts')
+          fetchData('districts', client.district_id, 'subdistricts')
         } else{
           fetchData('districts', client.district_id, 'communes')
         }
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
       if(client.state_id !== null)
-        fetchData('townships', client.state_id, 'townships')
+        fetchData('states', client.state_id, 'townships')
     } else {
       setDistricts([])
       setCommunes([])

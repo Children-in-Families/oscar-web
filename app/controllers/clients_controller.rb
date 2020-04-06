@@ -304,28 +304,43 @@ class ClientsController < AdminController
     ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
 
-    if ['thailand', 'myanmar'].include?(selected_country&.downcase)
-      @current_provinces      = Province.order(:name).where.not("name ILIKE ?", "%/%")
+    if selected_country&.downcase == 'thailand'
+      @current_provinces        = Province.order(:name).where.not("name ILIKE ?", "%/%")
+      @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+      @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
+
+
+      @referee_districts        = @client.referee&.province.present? ? @client.referee.province.districts.order(:name) : []
+      @referee_subdistricts     = @client.referee.try(:district).present? ? @client.referee.district.subdistricts.order(:name) : []
+
+
+      @carer_districts          = @client.carer&.province.present? ? @client.carer.province.districts.order(:name) : []
+      @carer_subdistricts       = @client.carer.try(:district).present? ? @client.carer.district.subdistricts.order(:name) : []
+
+    elsif selected_country&.downcase == 'myanmar'
+      @states                   = State.order(:name)
+      @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
+
+      @referee_townships        = @client.referee&.state.present? ? @client.referee.state.townships.order(:name) : []
+      @carer_townships          = @client.carer&.state.present? ? @client.carer.state.townships.order(:name) : []
     else
-      @current_provinces      = Province.order(:name)
+      @current_provinces        = Province.order(:name)
+      @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+      @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
+      @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
+
+      @referee_districts        = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
+      @referee_communes         = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
+      @referee_villages         = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
+
+      @carer_districts          = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
+      @carer_communes           = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
+      @carer_villages           = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
     end
-    @states                   = State.order(:name)
-    @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
-    @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
-    @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
-    @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
-    @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
-
-    @referee_districts        = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
-    @referee_subdistricts     = @client.referee.try(:district).present? ? @client.referee.district.subdistricts.order(:name) : []
-    @referee_communes         = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
-    @referee_villages         = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
 
 
-    @carer_districts          = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
-    @carer_subdistricts       = @client.carer.try(:district).present? ? @client.carer.district.subdistricts.order(:name) : []
-    @carer_communes           = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
-    @carer_villages           = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
+
+
   end
 
   def initial_visit_client

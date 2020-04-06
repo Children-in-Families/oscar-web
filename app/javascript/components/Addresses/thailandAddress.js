@@ -15,7 +15,7 @@ export default props => {
   const [referee_subdistricts, setRefereeSubDistricts] = useState(refereeSubdistricts.map(subdistrict => ({ label: subdistrict.name, value: subdistrict.id})))
 
   const [carer_districts, setCarerDistricts] = useState(carerDistricts.map(district => ({label: district.name, value: district.id})))
-  const [carer_subdistricts, setcarerSubdistricts] = useState(carerSubdistricts.map(subdistrict => ({ label: subdistrict.name, value: subdistrict.id})))
+  const [carer_subdistricts, setCarerSubdistricts] = useState(carerSubdistricts.map(subdistrict => ({ label: subdistrict.name, value: subdistrict.id})))
 
 
   const typeOfAddress = addressTypes.map(type => ({ label: T.translate("addressType."+type.label), value: type.value }))
@@ -50,7 +50,7 @@ export default props => {
   }
 
   const onChangeParent = object => ({ data }) => {
-    const { parent, child } = object
+    const { parent, child, obj } = object
 
     updateValues({ ...object, data})
 
@@ -59,8 +59,18 @@ export default props => {
         type: 'GET',
         url: `/api/${parent}/${data}/${child}`,
       }).success(res => {
+        let dataState = {}
         const formatedData = res.data.map(data => ({ label: data.name, value: data.id }))
-        const dataState = { districts: setdistricts, subdistricts: setSubDistricts }
+        switch (obj) {
+          case 'referee':
+            dataState = { districts: setRefereeDistricts, subdistricts: setRefereeSubDistricts }
+            break;
+          case 'carer':
+            dataState = { districts: setCarerDistricts, subdistricts: setCarerSubdistricts }
+            break;
+          default:
+            dataState = { districts: setdistricts, subdistricts: setSubDistricts }
+        }
         dataState[child](formatedData)
       })
     }
@@ -76,7 +86,7 @@ export default props => {
         return is_district ? carer_districts : carer_subdistricts;
         break;
       default:
-        return districts;
+        return is_district ? districts : subdistricts;
     }
   }
 
