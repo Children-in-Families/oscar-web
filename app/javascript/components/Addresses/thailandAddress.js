@@ -22,11 +22,8 @@ export default props => {
   useEffect(() => {
     setdistricts(currentDistricts.map(district => ({label: district.name, value: district.id})))
     setSubDistricts(subDistricts.map(subDistrict => ({ label: subDistrict.name && subDistrict.name, value: subDistrict.id})))
-    setRefereeDistricts(refereeDistricts.map(district => ({label: district.name, value: district.id})))
-    setRefereeSubDistricts(refereeSubdistricts.map(subdistrict => ({ label: subdistrict.name && subdistrict.name, value: subdistrict.id})))
-    setCarerDistricts(carerDistricts.map(district => ({label: district.name, value: district.id})))
-    setCarerSubdistricts(carerSubdistricts.map(subdistrict => ({ label: subdistrict.name && subdistrict.name, value: subdistrict.id})))
-  }, [currentDistricts, subDistricts, refereeDistricts, refereeSubdistricts, carerDistricts, carerSubdistricts])
+
+  }, [currentDistricts, subDistricts])
 
   const updateValues = object => {
     const { parent, child, field, obj, data } = object
@@ -69,10 +66,9 @@ export default props => {
     }
   }
 
-  const handleDistrictOptions = (objectKey, district) => {
-    console.log(objectKey)
+  const handleDistrictOptions = (obj, district) => {
     const is_district = district == 'district'
-    switch (objectKey) {
+    switch (obj) {
       case 'referee':
         return is_district ? referee_districts : referee_subdistricts;
         break;
@@ -122,7 +118,7 @@ export default props => {
             <SelectInput
               label={T.translate("address.thailand.district")}
               isDisabled={disabled}
-              options={handleDistrictOptions(objectKey, 'districts')}
+              options={handleDistrictOptions(objectKey, 'district')}
               value={objectData.district_id}
               onChange={onChangeParent({parent: 'districts', child: 'subdistricts', obj: objectKey, field: 'district_id'})}
             />
@@ -134,7 +130,7 @@ export default props => {
             <SelectInput
               label={T.translate("address.thailand.subdistrict")}
               isDisabled={disabled}
-              options={handleDistrictOptions(objectKey, 'subdistricts')}
+              options={handleDistrictOptions(objectKey, 'subdistrict')}
               value={objectData.subdistrict_id}
               onChange={onChangeParent({parent: 'subdistricts', child: 'subdistricts', obj: objectKey, field: 'subdistrict_id'})}
             />

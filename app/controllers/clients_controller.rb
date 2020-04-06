@@ -317,13 +317,13 @@ class ClientsController < AdminController
     @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
 
     @referee_districts        = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
-    @referee_subdistricts     = @client.referee.try(:distinct).present? ? @client.referee.district.subdistricts.order(:name) : []
+    @referee_subdistricts     = @client.referee.try(:district).present? ? @client.referee.district.subdistricts.order(:name) : []
     @referee_communes         = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
     @referee_villages         = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
 
 
     @carer_districts          = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
-    @carer_subdistricts       = @client.carer.try(:distinct).present? ? @client.carer.district.subdistricts.order(:name) : []
+    @carer_subdistricts       = @client.carer.try(:district).present? ? @client.carer.district.subdistricts.order(:name) : []
     @carer_communes           = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
     @carer_villages           = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
   end

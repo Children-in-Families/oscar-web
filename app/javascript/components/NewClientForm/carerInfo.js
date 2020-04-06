@@ -6,7 +6,7 @@ import {
 }             from '../Commons/inputs'
 
 export default props => {
-  const { onChange, renderAddressSwitch, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, subDistricts, families, addressTypes, T } } = props
+  const { onChange, renderAddressSwitch, current_organization, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, subDistricts, families, addressTypes, T } } = props
 
   const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
@@ -41,7 +41,6 @@ export default props => {
       if(client.commune_id !== null)
         fetchData('communes', client.commune_id, 'villages')
       if(client.state_id !== null)
-        console.log(fetchData('townships', client.state_id, 'townships'))
         fetchData('townships', client.state_id, 'townships')
     } else {
       setDistricts([])

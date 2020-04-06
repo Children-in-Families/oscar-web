@@ -312,7 +312,7 @@ const Forms = props => {
         return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
     }
   }
-  console.log(carerSubdistricts)
+
   return (
     <div className='containerClass'>
       <Loading loading={loading} text={T.translate("index.wait")}/>
