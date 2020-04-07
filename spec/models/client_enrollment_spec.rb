@@ -100,11 +100,7 @@ describe ClientEnrollment, 'scopes' do
   end
 end
 
-xdescribe ClientEnrollment, 'callbacks' do
-  before do
-    ClientEnrollmentHistory.destroy_all
-  end
-
+describe ClientEnrollment, 'callbacks' do
   let!(:program_stream) { create(:program_stream) }
   let!(:other_program_stream) { create(:program_stream) }
   let!(:client) { create(:client, :accepted) }
@@ -112,7 +108,10 @@ xdescribe ClientEnrollment, 'callbacks' do
   let!(:other_client_enrollment) { create(:client_enrollment, program_stream: other_program_stream, client: client) }
 
   context 'after_save' do
-    context 'create_client_enrollment_history' do
+    xcontext 'create_client_enrollment_history' do
+      before do
+        ClientEnrollmentHistory.destroy_all
+      end
       it 'has 1 client enrollment history with the same attributes' do
         expect(ClientEnrollmentHistory.where({'object.id' => client_enrollment.id}).count).to eq(1)
         expect(ClientEnrollmentHistory.where({'object.id' => client_enrollment.id}).first.object['enrollment_date']).to eq(client_enrollment.enrollment_date)
