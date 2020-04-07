@@ -13,7 +13,6 @@
       - domain_note_by_case_note.each do |domain|
         - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
         - next if ad.nil?
-        - tasks = @case_note.client.tasks.where(domain_id: domain.id)
         %button.case-note-domain-score{ 'data-original-title': "#{simple_format(ad.score_definition)}", type: 'button', class: "btn btn-#{ad.score_color_class} btn-sm", 'data-toggle': 'tooltip' }
           = "#{domain.name}: #{domain.identity}"
 
@@ -23,11 +22,11 @@
       .col-xs-12
         - domain_note_by_case_note.each do |domain|
           - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id) if @case_note.assessment.present?
-          - tasks = @case_note.client.tasks.where(domain_id: domain.id)
+          - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
           - if domain_note.object.persisted?
             - tasks = tasks.by_case_note_domain_group(domain_note.object)
           - next if assessment_domain.nil?
-          .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks, assessment_domain.goal?)}" }
+          .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{!selected_domain_group(domain_note.object) && hidden_class(tasks, assessment_domain.goal?)}" }
             .panel-heading
               %strong
                 = "#{assessment_domain.domain.name} #{t('.goal')} -"
