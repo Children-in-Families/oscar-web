@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200311092201) do
+ActiveRecord::Schema.define(version: 20200407110427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -562,12 +562,14 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.boolean  "concern_same_as_client",           default: false
     t.string   "location_description",             default: ""
     t.string   "phone_counselling_summary",        default: ""
+    t.integer  "global_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
+  add_index "clients", ["global_id"], name: "index_clients_on_global_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
   add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
   add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
@@ -835,6 +837,14 @@ ActiveRecord::Schema.define(version: 20200311092201) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "globals", force: :cascade do |t|
+    t.string   "ulid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "globals", ["ulid"], name: "index_globals_on_ulid", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1877,6 +1887,7 @@ ActiveRecord::Schema.define(version: 20200311092201) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
+  add_foreign_key "clients", "globals"
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
