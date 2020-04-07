@@ -8,7 +8,26 @@
     "street_number": "អាសយដ្ឋាន - លេខផ្លូវ",
     "house_number": "អាសយដ្ឋាន - លេខផ្ទះ",
     "address_name": "អាសយដ្ឋាន - ឈ្មោះ",
-    "address_type": "អាសយដ្ឋាន - ប្រភេទ"
+    "address_type": "អាសយដ្ឋាន - ប្រភេទ",
+    "lesotho": {
+      "description_house_landmark": "Description of the house and a landmark",
+      "directions": "Directions",
+      "suburb": "Suburb"
+    },
+    "myanmar": {
+      "state": "State",
+      "township": "Township",
+      "street_line1": "Street Line 1",
+      "street_line2": "Street Line 2(Optional)"
+    },
+    "thailand": {
+      "district": "District",
+      "plot": "Plot/House number, Village",
+      "postal_code": "Postal Code",
+      "province": "Province",
+      "road": "Road",
+      "subdistrict": "Subdistrict"
+    }
   },
   "admin": {
     "admin_information": "ព័ត៌មានរដ្ឋបាល",

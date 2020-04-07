@@ -3,7 +3,7 @@ namespace :tenant_data do
   task :clean, [:short_name] => :environment do |task, args|
     short_name = args.short_name
     unless Rails.env.production?
-      Apartment::Tenant.drop(short_name)
+      # Apartment::Tenant.drop(short_name)
       puts "Drop schema done!!!"
       sql = "DELETE FROM shared.shared_clients WHERE shared.shared_clients.archived_slug iLIKE '#{short_name}-%';"
       ActiveRecord::Base.connection.execute(sql)

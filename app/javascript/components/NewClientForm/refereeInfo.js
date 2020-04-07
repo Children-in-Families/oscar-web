@@ -4,10 +4,9 @@ import {
   TextInput,
   Checkbox
 }                   from '../Commons/inputs'
-import Address      from './address'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, current_organization, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
 
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -37,6 +36,17 @@ export default props => {
         district_id: null,
         commune_id: null,
         village_id: null,
+        state_id: null,
+        township_id: null,
+        subdistrict_id: null,
+        street_line1: '',
+        street_line2: '',
+        plot: '',
+        road: '',
+        postal_code: '',
+        suburb: '',
+        description_house_landmark: '',
+        directions: ''
       }
       onChange('referee', { ...fields })({type: 'select'})
     }
@@ -120,8 +130,7 @@ export default props => {
           }
         </div>
       </legend>
-
-      <Address disabled={referee.anonymous} outside={referee.outside || false} onChange={onChange} data={{currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, addressTypes, objectKey: 'referee', objectData: referee, T}} />
+      { renderAddressSwitch(referee, 'referee', referee.anonymous) }
     </div>
   )
 }

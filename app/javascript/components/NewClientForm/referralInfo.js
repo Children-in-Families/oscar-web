@@ -7,13 +7,12 @@ import {
   UploadInput,
   TextArea
 }                   from '../Commons/inputs'
-import Address      from './address'
 import BrcAddress   from './brcAddress'
 import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, data: { client, referee, currentDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
@@ -29,6 +28,10 @@ export default props => {
   const [districts, setDistricts]         = useState(currentDistricts)
   const [communes, setCommunes]           = useState(currentCommunes)
   const [villages, setVillages]           = useState(currentVillages)
+  const [states, setStates]               = useState(currentStates)
+  const [townships, setTownships]         = useState(currentTownships)
+  const [subdistricts, setSubdistricts]   = useState(subDistricts)
+
   let urlParams                           = window.location.search
   let pattern                             = new RegExp(/type=call/gi)
   let isRedirectFromCall                  = pattern.test(urlParams)
@@ -41,19 +44,39 @@ export default props => {
         district_id: referee.district_id,
         commune_id: referee.commune_id,
         village_id: referee.village_id,
+        state_id: referee.state_id,
+        township_id: referee.township_id,
+        subdistrict_id: referee.subdistrict_id,
         street_number: referee.street_number,
         house_number: referee.house_number,
         current_address: referee.current_address,
         address_type: referee.address_type,
-        outside_address: referee.outside_address
+        outside_address: referee.outside_address,
+        state_id: referee.state_id,
+        township_id: referee.township_id,
+        subdistrict_id: referee.subdistrict_id,
+        street_line1: referee.street_line1,
+        street_line2: referee.street_line2,
+        plot: referee.plot,
+        road: referee.road,
+        postal_code: referee.postal_code,
+        suburb: referee.suburb,
+        description_house_landmark: referee.description_house_landmark,
+        directions: referee.directions
       }
 
       if(referee.province_id !== null)
         fetchData('provinces', referee.province_id, 'districts')
       if(referee.district_id !== null)
-        fetchData('districts', referee.district_id, 'communes')
+        if(current_organization.country == 'thailand'){
+          fetchData('subdistricts', referee.district_id, 'subdistricts')
+        } else{
+          fetchData('districts', referee.district_id, 'communes')
+        }
       if(referee.commune_id !== null)
         fetchData('communes', referee.commune_id, 'villages')
+      if(referee.state_id !== null)
+        fetchData('townships', referee.state_id, 'townships')
 
       const newObject = { ...client, ...fields }
       onChange('client', newObject)({type: 'select'})
@@ -86,12 +109,20 @@ export default props => {
       if(referee.province_id !== null)
         fetchData('provinces', referee.province_id, 'districts')
       if(referee.district_id !== null)
-        fetchData('districts', referee.district_id, 'communes')
+        if(current_organization.country == 'thailand'){
+          fetchData('districts', referee.district_id, 'subdistricts')
+        } else{
+          fetchData('districts', referee.district_id, 'communes')
+        }
       if(referee.commune_id !== null)
         fetchData('communes', referee.commune_id, 'villages')
+      if(referee.state_id !== null)
+        fetchData('states', referee.state_id, 'townships')
 
     } else if(previousSelect === 'self') {
       setDistricts([])
+      setSubdistricts([])
+      setTownships([])
       setCommunes([])
       setVillages([])
     }
@@ -263,7 +294,7 @@ export default props => {
 
       {
         fieldsVisibility.brc_client_address != true &&
-        <>
+        <div>
           <legend>
             <div className="row">
               <div className="col-xs-12 col-md-6 col-lg-3">
@@ -277,12 +308,14 @@ export default props => {
               }
             </div>
           </legend>
-          <Address disabled={client.referee_relationship === 'self'} outside={client.outside || false} onChange={onChange} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey: 'client', objectData: client, T}} />
-        </>
+          { renderAddressSwitch(client, 'client', client.referee_relationship === 'self') }
+        </div>
       }
 
       {
         fieldsVisibility.brc_client_address == true &&
+        <div>
+        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_household_types, brc_resident_types }} />
         <legend className="brc-address">
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
@@ -290,6 +323,7 @@ export default props => {
             </div>
           </div>
         </legend>
+        </div>
       }
 
       <div className="row">
