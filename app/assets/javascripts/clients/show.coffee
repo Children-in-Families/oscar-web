@@ -18,6 +18,7 @@ CIF.ClientsShow = do ->
       'bFilter': false
       'bAutoWidth': true
       'ordering': false
+      'bPaginate': false
 
   _initICheckBox = ->
     $('.i-checks').iCheck
