@@ -14,11 +14,13 @@ CIF.ClientsShow = do ->
     _preventCreateDatepickerExitNgo()
 
     $('table.families').dataTable
-      'sScrollY': 'auto'
-      'bFilter': false
-      'bAutoWidth': true
-      'ordering': false
       'bPaginate': false
+      'bFilter': false
+      'bInfo': false
+      'bSort': false
+      'sScrollY': 'auto'
+      'bAutoWidth': true
+      'sScrollX': '100%'
 
   _initICheckBox = ->
     $('.i-checks').iCheck
