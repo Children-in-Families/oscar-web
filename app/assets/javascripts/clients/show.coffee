@@ -13,6 +13,12 @@ CIF.ClientsShow = do ->
     _preventCreateDatepickerEnterNgo()
     _preventCreateDatepickerExitNgo()
 
+    $('table.families').dataTable
+      'sScrollY': 'auto'
+      'bFilter': false
+      'bAutoWidth': true
+      'ordering': false
+
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
