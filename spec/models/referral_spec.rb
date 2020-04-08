@@ -1,4 +1,4 @@
-describe Referral, :focus => true do
+describe Referral do
   before do
     allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
   end
