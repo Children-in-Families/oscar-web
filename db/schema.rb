@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200407110427) do
+ActiveRecord::Schema.define(version: 20200408093320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "uuid-ossp"
+  enable_extension "pg_ulid"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -838,13 +839,9 @@ ActiveRecord::Schema.define(version: 20200407110427) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "globals", force: :cascade do |t|
-    t.string   "ulid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "global_identities", force: :cascade do |t|
+    t.binary "ulid"
   end
-
-  add_index "globals", ["ulid"], name: "index_globals_on_ulid", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1360,8 +1357,10 @@ ActiveRecord::Schema.define(version: 20200407110427) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.string   "ngo_name",         default: ""
+    t.integer  "client_global_id"
   end
 
+  add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
 
   create_table "service_types", force: :cascade do |t|
@@ -1437,9 +1436,11 @@ ActiveRecord::Schema.define(version: 20200407110427) do
     t.string   "country_origin",    default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
+    t.integer  "global_id"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
+  add_index "shared_clients", ["global_id"], name: "index_shared_clients_on_global_id", using: :btree
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "sponsors", force: :cascade do |t|
@@ -1887,7 +1888,7 @@ ActiveRecord::Schema.define(version: 20200407110427) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
-  add_foreign_key "clients", "globals"
+  add_foreign_key "clients", "global_identities", column: "global_id", on_update: :restrict
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
