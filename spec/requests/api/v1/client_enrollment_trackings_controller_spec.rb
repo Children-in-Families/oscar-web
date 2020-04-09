@@ -1,6 +1,9 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::ClientEnrollmentTrackingsController, type: :request do
+describe Api::V1::ClientEnrollmentTrackingsController, type: :request do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
 
   let(:user)                            { create(:user) }
   let(:client)                          { create(:client, users: [user]) }
@@ -29,7 +32,7 @@ RSpec.describe Api::V1::ClientEnrollmentTrackingsController, type: :request do
         sign_in(user)
       end
 
-      context 'when try create client enrollment tracking with valid value' do
+      xcontext 'when try create client enrollment tracking with valid value' do
         before do
           post "#{client_enrollment_trackings_path}?tracking_id=#{tracking.id}", valid_params, @auth_headers
         end

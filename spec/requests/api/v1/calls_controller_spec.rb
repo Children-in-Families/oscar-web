@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::CallsController, type: :request do
+xdescribe Api::V1::CallsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'POST #create' do
