@@ -1,4 +1,7 @@
-describe AdvancedSearches::RuleFields, 'Method' do
+xdescribe AdvancedSearches::RuleFields, 'Method' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let(:admin) { create(:user, roles: 'admin') }
 
   before do
