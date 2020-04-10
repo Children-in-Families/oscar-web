@@ -589,11 +589,11 @@ class ClientGrid < BaseGrid
           rule = get_rule(params, quantitative_type.name.squish)
           if rule.presence && rule.dig(:type) == 'date'
             quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
-          elsif rule.presence
+          elsif rule.present?
             if rule.dig(:input) == 'select'
-              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+              quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
             else
-              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten)
+              quantitative_type_values = string_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
             end
           end
           quantitative_type_values.join(', ')
@@ -758,7 +758,8 @@ class ClientGrid < BaseGrid
   end
 
   column(:created_by, header: -> { I18n.t('datagrid.columns.clients.created_by') }) do |object|
-    version = object.versions.find_by(event: 'create')
+    versions = object.versions.where(event: 'create').reject{ |version| (version.changeset['slug'] && version.changeset['slug'].last.nil?) }
+    version  = versions.last
     if (version.present? && version.whodunnit.present?) && !version.whodunnit.include?('rotati')
       User.find_by(id: version.whodunnit.to_i).try(:name)
     else
@@ -1073,7 +1074,8 @@ class ClientGrid < BaseGrid
       if assessment_number.present? && assessment_completed_sql.present?
         assessments = object.assessments.defaults.where(sql).limit(1).offset(assessment_number - 1).order('created_at')
       elsif assessment_completed_sql.present?
-        assessments = object.assessments.defaults.completed.where("assessments.created_at BETWEEN '#{date_1}' AND '#{date_2}'").order('created_at')
+        sql = assessment_completed_sql[/assessments\.created_at.*/]
+        assessments = object.assessments.defaults.completed.where(sql).order('created_at')
       end
     else
       assessments = object.assessments.defaults.order('created_at')
@@ -1169,7 +1171,7 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = form_builder_query(object.custom_field_properties, fields.first, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
             end
           end
         elsif fields.first == 'enrollmentdate'

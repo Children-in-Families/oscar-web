@@ -313,9 +313,9 @@ module ClientGridOptions
           quantitative_type_values = object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value)
           rule = get_rule(params, quantitative_type.name.squish)
           if rule.presence && rule.dig(:type) == 'date'
-            quantitative_type_values = date_condition_filter(rule, quantitative_type_values)
+            quantitative_type_values = date_condition_filter(rule, quantitative_type_values).presence || quantitative_type_values
           elsif rule.presence
-            quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten)
+            quantitative_type_values = select_condition_filter(rule, quantitative_type_values.flatten).presence || quantitative_type_values
           end
           quantitative_type_values.join(', ')
         end

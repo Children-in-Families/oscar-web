@@ -58,7 +58,7 @@ export default props => {
 
       <div className="row">
         <div className="col-xs-12 col-sm-6 col-md-3">
-          <Checkbox label={T.translate("refereeInfo.anonymous_referee")} checked={referee.anonymous || false} onChange={onChange('referee', 'anonymous')} />
+          <Checkbox label={T.translate("refereeInfo.anonymous_referee")} checked={referee.anonymous || false} objectKey="referee" onChange={onChange('referee', 'anonymous')} />
         </div>
       </div>
       <br/>

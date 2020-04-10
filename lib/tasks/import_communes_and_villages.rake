@@ -1,41 +1,24 @@
 namespace :communes_and_villages do
   desc 'Import all communes and villages provided by NCDD'
   task :import, [:tenant] => [:environment] do |task, args|
-    files = [
-      'Gazetteer_BMC_12_Jul_2018.xlsx',
-      'Gazetteer_BAT_12_Jul_2018.xlsx',
-      'Gazetteer_KPC_12_Jul_2018.xlsx',
-      'Gazetteer_KAM_12_Jul_2018.xlsx',
-      'Gazetteer_KCH_12_Jul_2018.xlsx',
-      'Gazetteer_KSP_12_Jul_2018.xlsx',
-      'Gazetteer_KPT_12_Jul_2018.xlsx',
-      'Gazetteer_KDL_12_Jul_2018.xlsx',
-      'Gazetteer_KEP_12_Jul_2018.xlsx',
-      'Gazetteer_KKG_12_Jul_2018.xlsx',
-      'Gazetteer_KRT_12_Jul_2018.xlsx',
-      'Gazetteer_MKR_12_Jul_2018.xlsx',
-      'Gazetteer_OMC_12_Jul_2018.xlsx',
-      'Gazetteer_PLN_12_Jul_2018.xlsx',
-      'Gazetteer_PNP_12_Jul_2018.xlsx',
-      'Gazetteer_PUR_12_Jul_2018.xlsx',
-      'Gazetteer_PVG_12_Jul_2018.xlsx',
-      'Gazetteer_PVR_12_Jul_2018.xlsx',
-      'Gazetteer_RAT_12_Jul_2018.xlsx',
-      'Gazetteer_SHV_12_Jul_2018.xlsx',
-      'Gazetteer_SRP_12_Jul_2018.xlsx',
-      'Gazetteer_STG_12_Jul_2018.xlsx',
-      'Gazetteer_SVR_12_Jul_2018.xlsx',
-      'Gazetteer_TAK_12_Jul_2018.xlsx',
-      'Gazetteer_TKM_12_Jul_2018.xlsx'
-    ]
+    files = Dir.glob("vendor/data/villages/xlsx/*.xlsx").reject{|filename| filename.include?('~') }
 
     Organization.switch_to args[:tenant] if args[:tenant]
     puts "START | #{Organization.current.short_name} | at #{Time.now.to_s}"
 
-    files.each do |file_name|
-      puts "Importing: #{file_name}"
-      import = VillageImporter::Import.new(file_name)
-      import.communes_and_villages
+    # files.each do |file_name|
+    #   puts "Importing: #{file_name}"
+    #   import = VillageImporter::Import.new(file_name)
+    #   import.communes_and_villages
+    # end
+    province_hash = { "pursat" => "Gazetteer_PUR", "siemreap" => "Gazetteer_SRP", "oddar meanchey" => "Gazetteer_OMC", "pailin" => "Gazetteer_PLN", "preah vihear" => "Gazetteer_PVR", "stung treng" => "Gazetteer_STG", "kampong thom" => "Gazetteer_KPT", "tboung khmum" => "Gazetteer_TKM", "kep" => "Gazetteer_KEP", "preah sihanouk" => "Gazetteer_SHV", "ratanak kiri" => "Gazetteer_RAT", "kampong speu" => "Gazetteer_KSP", "kandal" => "Gazetteer_KDL", "prey veng" => "Gazetteer_PVG", "banteay meanchey" => "Gazetteer_BMC", "kampong cham" => "Gazetteer_KPC", "koh kong" => "Gazetteer_KKG", "svay rieng" => "Gazetteer_SVR", "battambang" => "Gazetteer_BAT", "kampot" => "Gazetteer_KAM", "takeo" => "Gazetteer_TAK", "phnom penh" => "Gazetteer_PNP", "kratie" => "Gazetteer_KRT", "kampong chhnang" => "Gazetteer_KCH", "mondul kiri" => "Gazetteer_MKR" }
+
+    Province.pluck(:id, :name).each do |id, province_name|
+      pname = province_name.split('/').last.squish.downcase
+      gazetteer_short_name = province_hash[pname]
+      path  = files.find{|filename| filename[/#{gazetteer_short_name}/] }
+      data = Importer::Data.new(id, path)
+      data.import
     end
 
     puts "FINISH | #{Organization.current.short_name} | at #{Time.now.to_s}"

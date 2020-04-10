@@ -169,7 +169,7 @@ class User < ActiveRecord::Base
             client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
             if client_custom_next_assessment_date < Date.today
               customized_overdue << client
-            elsif client_custom_next_assessment_date == Date.today
+            elsif  client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
               customized_due_today << client
             end
           end
@@ -203,7 +203,7 @@ class User < ActiveRecord::Base
             due_today << client
           end
           CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
+            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
             if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
               customized_overdue << client
             elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
@@ -220,7 +220,7 @@ class User < ActiveRecord::Base
           end
         elsif setting.enable_custom_assessment?
           CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id).to_date
+            client_custom_next_assessment_date = client.custom_next_assessment_date(self.activated_at, custom_assessment_setting.id)&.to_date
             if client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date < Date.today
               customized_overdue << client
             elsif client_custom_next_assessment_date.present? && client_custom_next_assessment_date.to_date == Date.today
