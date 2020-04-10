@@ -4,7 +4,7 @@ class CaseNote < ActiveRecord::Base
 
   belongs_to :client
   belongs_to :assessment
-  belongs_to :custom_assessment_setting
+  belongs_to :custom_assessment_setting, required: false
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
