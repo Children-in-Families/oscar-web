@@ -1,4 +1,4 @@
-namespace :ajl do
+namespace :ratanak_data do
     desc 'Import data for use in the local Development environment only!'
     task import: :environment do
       exit unless Rails.env.development?
@@ -18,12 +18,12 @@ namespace :ajl do
         Importer::Import.new('Agency', general_data_file).agencies
         Importer::Import.new('Department', general_data_file).departments
         Importer::Import.new('Province', general_data_file).provinces
-        Importer::Import.new('District', general_data_file).districts
+        # Importer::Import.new('District', general_data_file).districts
         Rake::Task['communes_and_villages:import'].invoke
         Rake::Task['communes_and_villages:import'].reenable
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-        # Rake::Task['client_importer:import'].invoke(tenant_name)
+        Rake::Task['client_importer:import'].invoke(tenant_name)
       rescue Apartment::TenantExists => e
         puts "Development environment tenant #{tenant_name} already exisits. If you want to delete this tenant then run `rake db:drop && rake db:setup` and run this rake task agin."
       end

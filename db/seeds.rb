@@ -1894,11 +1894,7 @@ User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', gender:
 # OSCaR Referral Source
 Organization.oscar.pluck(:full_name).each do |ngo|
   next if ngo == 'Demo'
-  begin
-    ReferralSource.find_or_create_by(name: "#{ngo} - OSCaR Referral")
-  rescue Exception => e
-    binding.pry
-  end
+  ReferralSource.find_or_create_by(name: "#{ngo} - OSCaR Referral")
 end
 
 
