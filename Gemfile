@@ -109,6 +109,7 @@ group :development do
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
   gem 'rack-mini-profiler', '~> 1.0'
+  gem 'metainspector'
 end
 
 group :test do
