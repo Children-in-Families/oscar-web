@@ -2,7 +2,11 @@ import React from 'react'
 import Checkbox from 'react-simple-checkbox'
 
 export default props => {
-  const { onChange, disabled = false, ...others } = props
+  const { onChange, disabled = false, objectKey, ...others } = props
+
+  const handleLabelStyle = () => {
+    return objectKey == 'referee' ? styles.fontBold : styles.font
+  }
 
   return (
     <>
@@ -15,7 +19,7 @@ export default props => {
         onChange={boolean => disabled ? '' : onChange({data: boolean, type: 'checkbox'})}
         {...others}
       />
-      <label style={disabled ? styles.disabled : styles.font}> {props.label} </label>
+      <label style={disabled ? styles.disabled : handleLabelStyle() }> {props.label} </label>
     </>
   )
 }
@@ -23,6 +27,11 @@ export default props => {
 const styles = {
   font:{
     fontWeight: 'normal',
+    fontSize: '14px'
+  },
+
+  fontBold:{
+    fontWeight: 'bold',
     fontSize: '14px'
   },
 
