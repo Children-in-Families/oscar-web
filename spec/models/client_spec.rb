@@ -1,8 +1,4 @@
 describe Client do
-  before do
-    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
-  end
-
   describe Client, 'associations' do
     it { is_expected.to belong_to(:referral_source) }
     it { is_expected.to belong_to(:province) }

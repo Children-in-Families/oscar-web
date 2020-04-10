@@ -23,6 +23,7 @@ FactoryGirl.define do
 
     after(:build) do |client|
       client.class.skip_callback(:save, :after, :create_client_history, :create_or_update_shared_client, :mark_referral_as_saved)
+      client.stub(:generate_random_char).and_return('abcd')
     end
 
     trait :client_with_history do
