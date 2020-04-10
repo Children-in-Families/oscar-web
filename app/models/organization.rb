@@ -15,6 +15,7 @@ class Organization < ActiveRecord::Base
   scope :test_ngos, -> { where(short_name: ['demo', 'tutorials']) }
   scope :cambodian, -> { where(country: 'cambodia') }
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
+  scope :oly_integrated, -> { where(integrated: true) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }

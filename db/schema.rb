@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200408093320) do
+ActiveRecord::Schema.define(version: 20200410054110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -564,13 +564,20 @@ ActiveRecord::Schema.define(version: 20200408093320) do
     t.string   "location_description",             default: ""
     t.string   "phone_counselling_summary",        default: ""
     t.integer  "global_id"
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
+  add_index "clients", ["external_id"], name: "index_clients_on_external_id", using: :btree
   add_index "clients", ["global_id"], name: "index_clients_on_global_id", using: :btree
+  add_index "clients", ["mosvy_number"], name: "index_clients_on_mosvy_number", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
   add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
   add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
@@ -1116,6 +1123,7 @@ ActiveRecord::Schema.define(version: 20200408093320) do
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
     t.boolean  "aht",        default: false
+    t.boolean  "integrated", default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1847,7 +1855,7 @@ ActiveRecord::Schema.define(version: 20200408093320) do
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "action_results", "government_forms"
-  add_foreign_key "advanced_searches", "users"
+  add_foreign_key "advanced_searches", "users", on_delete: :cascade
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
@@ -1901,6 +1909,7 @@ ActiveRecord::Schema.define(version: 20200408093320) do
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
+  add_foreign_key "donor_organizations", "organizations", name: "donor_organizations_id_fkey", on_update: :cascade
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
