@@ -18,7 +18,7 @@ namespace :ratanak_data do
         Importer::Import.new('Agency', general_data_file).agencies
         Importer::Import.new('Department', general_data_file).departments
         Importer::Import.new('Province', general_data_file).provinces
-        # Importer::Import.new('District', general_data_file).districts
+
         Rake::Task['communes_and_villages:import'].invoke
         Rake::Task['communes_and_villages:import'].reenable
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
