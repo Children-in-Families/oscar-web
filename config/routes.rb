@@ -260,7 +260,11 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
-      resources :organizations, only: [:index]
+      resources :organizations, only: [:index] do
+        collection do
+          get :clients
+        end
+      end
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
       resources :families, only: [:index, :create, :update] do

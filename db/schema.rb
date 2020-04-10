@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200404192532) do
+ActiveRecord::Schema.define(version: 20200410054110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "uuid-ossp"
+  enable_extension "pg_ulid"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -596,12 +597,21 @@ ActiveRecord::Schema.define(version: 20200404192532) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
+    t.integer  "global_id"
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
+  add_index "clients", ["external_id"], name: "index_clients_on_external_id", using: :btree
+  add_index "clients", ["global_id"], name: "index_clients_on_global_id", using: :btree
+  add_index "clients", ["mosvy_number"], name: "index_clients_on_mosvy_number", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
   add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
   add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
@@ -895,6 +905,10 @@ ActiveRecord::Schema.define(version: 20200404192532) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
+  create_table "global_identities", force: :cascade do |t|
+    t.binary "ulid"
+  end
+
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
     t.text     "action",             default: ""
@@ -1168,6 +1182,7 @@ ActiveRecord::Schema.define(version: 20200404192532) do
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
     t.boolean  "aht",        default: false
+    t.boolean  "integrated", default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1423,8 +1438,10 @@ ActiveRecord::Schema.define(version: 20200404192532) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.string   "ngo_name",         default: ""
+    t.integer  "client_global_id"
   end
 
+  add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
 
   create_table "service_types", force: :cascade do |t|
@@ -1500,9 +1517,11 @@ ActiveRecord::Schema.define(version: 20200404192532) do
     t.string   "country_origin",    default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
+    t.integer  "global_id"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
+  add_index "shared_clients", ["global_id"], name: "index_shared_clients_on_global_id", using: :btree
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "sponsors", force: :cascade do |t|
@@ -1910,7 +1929,7 @@ ActiveRecord::Schema.define(version: 20200404192532) do
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "action_results", "government_forms"
-  add_foreign_key "advanced_searches", "users"
+  add_foreign_key "advanced_searches", "users", on_delete: :cascade
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
@@ -1954,6 +1973,7 @@ ActiveRecord::Schema.define(version: 20200404192532) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
+  add_foreign_key "clients", "global_identities", column: "global_id", on_update: :restrict
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
@@ -1966,6 +1986,7 @@ ActiveRecord::Schema.define(version: 20200404192532) do
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
+  add_foreign_key "donor_organizations", "organizations", name: "donor_organizations_id_fkey", on_update: :cascade
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
