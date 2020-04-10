@@ -444,7 +444,7 @@ class Client < ActiveRecord::Base
       current_po_box,
       current_resident_own_or_rent,
       current_household_type
-    ].compact.join(', ')
+    ].select(&:present?).join(', ')
   end
 
   def brc_other_address
@@ -455,7 +455,7 @@ class Client < ActiveRecord::Base
       po_box2,
       resident_own_or_rent2,
       household_type2
-    ].compact.join(', ')
+    ].select(&:present?).join(', ')
   end
 
   def time_in_cps
