@@ -279,14 +279,16 @@
                     = t('.concern_location')
                   %td.address
                     %strong= concern_merged_address(@client).join(', ')
-              %tr
-                %td.spacing-first-col
-                  = t('.what3words')
-                %td
-                  %strong
-                    = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
-                      = @client.what3words
-                      = image_tag 'what3words.png', class: 'what3words'
+
+              - if policy(@client).show?(:what3words)
+                %tr
+                  %td.spacing-first-col
+                    = t('.what3words')
+                  %td
+                    %strong
+                      = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
+                        = @client.what3words
+                        = image_tag 'what3words.png', class: 'what3words'
 
               - if policy(@client).show?(:birth_province)
                 %tr
