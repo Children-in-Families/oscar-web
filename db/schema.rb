@@ -563,12 +563,12 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.boolean  "concern_same_as_client",           default: false
     t.string   "location_description",             default: ""
     t.string   "phone_counselling_summary",        default: ""
-    t.integer  "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
+    t.integer  "global_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1896,7 +1896,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
-  add_foreign_key "clients", "global_identities", column: "global_id", on_update: :restrict
+  add_foreign_key "clients", "global_identities", column: "global_id", on_update: :cascade
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
