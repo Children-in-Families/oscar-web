@@ -96,4 +96,53 @@ module Importer
       end
     end
   end
+
+  class Data
+    attr_reader :province_id, :path
+    def initialize(province_id, path)
+      @path = path
+      @province_id = province_id
+      workbook
+    end
+
+    def workbook
+      @workbook ||= Roo::Excelx.new(path)
+    end
+
+    def import
+      commune_id = nil
+      district_id = nil
+      (4..(workbook.last_row)).each do |index|
+        fields = %w(code name_kh name_en)
+        values = workbook.row(index)
+
+        row_type = values.first
+        if row_type.strip == "ស្រុក" || row_type.strip == "ខណ្ឌ" || row_type.strip == "ក្រុង"
+          attributes = {}
+          attributes['name'] = "#{values[2].squish} / #{values[3].squish}".squish
+          attributes['code'] = values[1].squish
+          attributes['province_id'] = province_id
+          district = District.find_or_create_by(attributes)
+          district_id = district&.id
+        elsif row_type.strip == "ឃុំ" || row_type.strip == "សង្កាត់"
+          data = values[1..3].map(&:squish)
+          data << district_id
+
+          fields << 'district_id'
+          attributes = [fields, data].transpose.to_h
+          commune = Commune.find_or_create_by(attributes)
+          commune_id = commune&.id
+        else
+          data = values[1..3].map(&:squish)
+          data << commune_id
+
+          fields << 'commune_id'
+          attributes = [fields, data].transpose.to_h
+          Village.find_or_create_by(attributes)
+        end
+      end
+
+      puts "Done #{path} !!!"
+    end
+  end
 end
