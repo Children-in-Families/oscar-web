@@ -327,27 +327,20 @@ export default props => {
       }
 
       <div className="row">
-        {
-          fieldsVisibility.what3words == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput label={t(translation, 'clients.form.what_3_word')} onChange={onChange('client', 'what3words')} value={client.what3words} />
-          </div>
-        }
-
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={t(translation, 'clients.form.client_phone')} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>
 
         {
-          fieldsVisibility.phone_owner == true &&
+          fieldsVisibility.whatsapp == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput label={t(translation, 'clients.form.phone_owner')}  options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+            <Checkbox
+              label={ t(translation, 'clients.form.whatsapp') }
+              checked={client.whatsapp}
+              onChange={onChange('client', 'whatsapp')}
+            />
           </div>
         }
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
-        </div>
 
         {
           fieldsVisibility.other_phone_number == true &&
@@ -361,15 +354,36 @@ export default props => {
         }
 
         {
-          fieldsVisibility.whatsapp == true &&
+          fieldsVisibility.other_phone_whatsapp == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
             <Checkbox
-              label={ t(translation, 'clients.form.whatsapp') }
-              checked={client.whatsapp}
-              onChange={onChange('client', 'whatsapp')}
+              label={ t(translation, 'clients.form.other_phone_whatsapp') }
+              checked={client.other_phone_whatsapp}
+              onChange={onChange('client', 'other_phone_whatsapp')}
             />
           </div>
         }
+
+        {
+          fieldsVisibility.what3words == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput label={t(translation, 'clients.form.what_3_word')} onChange={onChange('client', 'what3words')} value={client.what3words} />
+          </div>
+        }
+
+        {
+          fieldsVisibility.phone_owner == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <SelectInput label={t(translation, 'clients.form.phone_owner')}  options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+          </div>
+        }
+
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
+        </div>
+      </div>
+
+      <div className="row">
 
         {
           isRedirectFromCall &&

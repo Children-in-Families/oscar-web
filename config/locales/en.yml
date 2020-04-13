@@ -1621,6 +1621,7 @@ en:
       name: Name
       next: Next
       other_phone_number: Phone Number - Alternate
+      other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
       phone_owner: Phone Owner
       po_box2: Zip
       preferred_language: Preferred Language
@@ -1647,7 +1648,7 @@ en:
       user_ids: Case Worker / Assigned Staff Manager
       village: Village
       what_3_word: What3Words
-      whatsapp: Whatsapp
+      whatsapp: Whatsapp?
       year: Year
       yes_no: Yes/No
     form_header:
@@ -3513,6 +3514,7 @@ en:
       date_of_birth: Date of Birth
       guardian: Guardian
       occupation: Occupation
+      note: Relevant Referral Information / Notes
       relation: Relationship with Children
       remove_member: Remove Member
     form:
@@ -3582,6 +3584,7 @@ en:
       member_count: Member Count
       name: Name
       'no': 'No'
+      note: Relevant Referral Information / Notes
       occupation: Occupation
       province: Province
       read_less: read less
