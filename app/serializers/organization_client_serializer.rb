@@ -4,6 +4,10 @@ class OrganizationClientSerializer < ActiveModel::Serializer
              :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id, :protection_status,
              :services, :status, :case_worker_name, :case_worker_mobile
 
+  def global_id
+    object.global_identity&.ulid
+  end
+
   def organization_id
     Organization.current.id
   end
@@ -32,11 +36,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
     object.village&.code || ""
   end
 
-  def reason_for_referral
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
-  end
-
   def protection_status
-    ""
+    object.reason_for_referral
   end
 end

@@ -3,25 +3,40 @@ namespace :client_global_id do
   task migrate: :environment do
     Organization.where.not(short_name: 'shared').pluck(:short_name).each do |short_name|
       Organization.switch_to short_name
-      Referral.all.each do |referral|
+      Referral.where(client_global_id: nil).each do |referral|
         short_name = referral.referred_from
         referral_slug = referral.slug
-        Organization.switch_to short_name
+        client_global_id = nil
         if referral_slug
-          client = Client.find(referral_slug[/\d+/])
-          if client
+          begin
+            Organization.switch_to referral.slug.split('-').first
+          rescue Apartment::TenantNotFound => e
+            puts e
+            next
+          end
+          client = Client.find(referral_slug[/\d+/]) if Client.exists?(referral_slug[/\d+/])
+          if client && client.global_id.nil?
             client.global_id = GlobalIdentity.create(ulid: ULID.generate).id
-            client.save
-            referral.client_global
+            client_global_id = client.global_id
+            client.save(validate: false)
           end
         end
+        Organization.switch_to short_name
+        if referral.saved
+          if Client.exists?(referral.client_id)
+            client = Client.find(referral.client_id)
+            client.global_id = client_global_id || GlobalIdentity.create(ulid: ULID.generate).id
+            client.save(validate: false)
+          end
+        end
+        referral.update_column(:client_global_id, client&.global_id || client_global_id) if referral.client_global_id.nil?
+        puts "Referral: #{referral.client_global_id}"
       end
 
-      Client.all.each do |client|
-        if client.global_id.blank?
-          client.global_id = GlobalIdentity.create(ulid: ULID.generate).id
-          client.save!
-        end
+      Client.where(global_id: nil).each do |client|
+        client.global_id = GlobalIdentity.create(ulid: ULID.generate).id
+        client.save(validate: false)
+        puts "Client: #{client.slug}"
       end
     end
   end
