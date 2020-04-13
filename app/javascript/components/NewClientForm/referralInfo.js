@@ -363,9 +363,7 @@ export default props => {
             />
           </div>
         }
-      </div>
 
-      <div className="row">
         {
           fieldsVisibility.what3words == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
@@ -383,6 +381,9 @@ export default props => {
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
         </div>
+      </div>
+
+      <div className="row">
 
         {
           isRedirectFromCall &&
