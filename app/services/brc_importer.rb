@@ -88,10 +88,7 @@ class BrcImporter
       new_family['status']      = workbook.row(row_index)[headers['*Family Status']]
 
       # Make random data
-      if new_family['name'].present?
-        v = new_family['name'].to_s + '123abc'
-        new_family['name'] = v.split('').map{ |c| v.split('').sample }.join
-      end
+      new_family['name'] = "#{FFaker::Name.first_name} #{FFaker::Name.last_name}"
 
       family = Family.new(new_family)
       family.save(validate: false)
@@ -145,13 +142,25 @@ class BrcImporter
       new_client.each do |k, v|
         new_client[k] = nil if v == '0' || v == 0
         # Make data random
-        sensitive_fields = %w(given_name family_name local_given_name local_family_name client_phone id_number other_phone_number island2 current_island current_street street2 legacy_brcs_id po_box2 current_po_box)
+        sensitive_fields = %w(id_number legacy_brcs_id)
 
         if k.in?(sensitive_fields) && v.present?
-          v = v.to_s + '123abc'
+          v = v.to_s + '123'
           new_client[k] = v.split('').map{ |c| v.split('').sample }.join
         end
       end
+
+      # Make data random
+      new_client['given_name'] = FFaker::Name.first_name
+      new_client['family_name'] = FFaker::Name.last_name
+      new_client['local_given_name'] = FFaker::Name.first_name
+      new_client['local_family_name'] = FFaker::Name.last_name
+
+      new_client['current_street'] = FFaker::Address.street_address
+      new_client['street2'] = FFaker::Address.street_address
+
+      new_client['client_phone'] = FFaker::PhoneNumber.phone_number
+      new_client['other_phone_number'] = FFaker::PhoneNumber.phone_number
 
       family = Family.find_by(code: family_id)
 
