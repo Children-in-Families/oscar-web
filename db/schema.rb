@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 20200410054110) do
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "uuid-ossp"
-  enable_extension "pg_ulid"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -173,8 +172,8 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.boolean  "answered_call"
     t.boolean  "called_before"
     t.boolean  "requested_update",       default: false
-    t.boolean  "childsafe_agent"
     t.boolean  "not_a_phone_call",       default: false
+    t.boolean  "childsafe_agent"
     t.string   "other_more_information", default: ""
     t.string   "brief_note_summary",     default: ""
   end
@@ -242,7 +241,6 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.boolean  "custom",                       default: false
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
-    t.string   "selected_domain_group_ids",    default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -785,6 +783,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
+    t.datetime "deleted_at"
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
@@ -795,7 +794,6 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
-    t.datetime "deleted_at"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -1094,6 +1092,16 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.string   "status",     default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "meta_fields", force: :cascade do |t|
+    t.string   "field_name"
+    t.string   "field_type"
+    t.boolean  "hidden",     default: true
+    t.boolean  "required",   default: false
+    t.string   "label"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "necessities", force: :cascade do |t|
@@ -1790,9 +1798,9 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
-    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -1855,7 +1863,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "action_results", "government_forms"
-  add_foreign_key "advanced_searches", "users", on_delete: :cascade
+  add_foreign_key "advanced_searches", "users"
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
@@ -1881,6 +1889,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
@@ -1896,7 +1905,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
-  add_foreign_key "clients", "global_identities", column: "global_id", on_update: :cascade
+  add_foreign_key "clients", "global_identities", column: "global_id", on_delete: :restrict
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
@@ -1909,7 +1918,6 @@ ActiveRecord::Schema.define(version: 20200410054110) do
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "donor_organizations", "donors"
   add_foreign_key "donor_organizations", "organizations"
-  add_foreign_key "donor_organizations", "organizations", name: "donor_organizations_id_fkey", on_update: :cascade
   add_foreign_key "enter_ngo_users", "enter_ngos"
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
