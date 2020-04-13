@@ -1870,6 +1870,7 @@ my:
         '11': Disability
         '12': Other
       client_able_answers: အမႈသည္ Able အေျဖမ်ား
+      client_global_identity: Client Global Identity
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ပါၿပီ

@@ -5,6 +5,7 @@
 - ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral.referred_to != 'external referral']
 = simple_form_for [@client, @referral || @client.referrals.build] do |f|
   = f.hidden_field :slug, value: @client.archived_slug
+  = f.hidden_field :client_global_id, value: @client.global_id
   .row
     .col-xs-12.col-sm-8.col-sm-offset-2
       %p.text-danger.external-referral-warning.text-hide

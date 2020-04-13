@@ -1876,6 +1876,7 @@ en:
         '11': Disability
         '12': Other
       client_able_answers: Client Able Answers
+      client_global_identity: Client Global Identity
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed

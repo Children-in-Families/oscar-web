@@ -29,7 +29,7 @@ class Organization < ActiveRecord::Base
       Apartment::Tenant.switch!(tenant_name)
     end
 
-    def create_and_build_tanent(fields = {})
+    def create_and_build_tenant(fields = {})
       transaction do
         org = create(fields)
         Apartment::Tenant.create(fields[:short_name])

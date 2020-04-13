@@ -3,13 +3,13 @@ namespace :client_global_id do
   task migrate: :environment do
     Organization.where.not(short_name: 'shared').pluck(:short_name).each do |short_name|
       Organization.switch_to short_name
-      Referral.where(client_global_id: nil).each do |referral|
-        short_name = referral.referred_from
+      Referral.received.where(client_global_id: nil).each do |referral|
+        referred_from = referral.referred_from
         referral_slug = referral.slug
         client_global_id = nil
-        if referral_slug
+        if referral_slug || referred_from
           begin
-            Organization.switch_to referral.slug.split('-').first
+            Organization.switch_to(referred_from || referral.slug.split('-').first)
           rescue Apartment::TenantNotFound => e
             puts e
             next
