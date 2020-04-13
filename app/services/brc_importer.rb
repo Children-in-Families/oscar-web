@@ -127,8 +127,7 @@ class BrcImporter
       new_client['current_street']      = workbook.row(row_index)[headers['Street - Current address']]
       new_client['current_po_box']      = workbook.row(row_index)[headers['Zip Code/PO BOX - Current address']]
       new_client['current_settlement']  = workbook.row(row_index)[headers['City/Settlement - Current address']]
-      new_client['current_resident_own_or_rent']  = workbook.row(row_index)[headers['Owned or Rented - Current address']]
-      new_client['current_household_type']  = workbook.row(row_index)[headers['Is your household staying in one of the following?']]
+      new_client['current_resident_own_or_rent']  = workbook.row(row_index)[headers['Is your household staying in one of the following?']]
 
       new_client['island2']             = workbook.row(row_index)[headers['Island - Other address']]
       new_client['settlement2']         = workbook.row(row_index)[headers['City - Other address']]
