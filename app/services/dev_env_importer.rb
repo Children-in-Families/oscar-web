@@ -10,7 +10,7 @@ module DevEnvImporter
     end
 
     def import_all
-      sheets = ['users', 'families', 'clients', 'field_settings']
+      sheets = ['users', 'families', 'clients']
 
       sheets.each do |sheet_name|
         sheet_index = workbook.sheets.index(sheet_name)

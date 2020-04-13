@@ -84,7 +84,7 @@ module Api
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
             :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
             :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address, :location_description,
-            :presented_id, :legacy_brcs_id, :id_number, :whatsapp, :other_phone_number, :brsc_branch, :current_island, :current_street,
+            :presented_id, :legacy_brcs_id, :id_number, :whatsapp, :other_phone_whatsapp, :other_phone_number, :brsc_branch, :current_island, :current_street,
             :current_po_box, :current_settlement, :current_resident_own_or_rent, :current_household_type,
             :island2, :street2, :po_box2, :settlement2, :resident_own_or_rent2, :household_type2,
             :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,

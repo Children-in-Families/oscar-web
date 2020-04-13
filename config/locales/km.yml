@@ -1611,6 +1611,7 @@ km:
       name: ឈ្មោះ
       next: បន្ទាប់
       other_phone_number: Phone Number - Alternate
+      other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
       phone_owner: ម្ចាស់ទូរស័ព្ទ
       po_box2: Zip
       presented_id: Presented ID
@@ -1636,7 +1637,7 @@ km:
       user_ids: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
       what_3_word: What3Words
-      whatsapp: Whatsapp
+      whatsapp: Whatsapp?
       year: ឆ្នាំ
       yes_no: បាទ/អត់ទេ
     form_header:

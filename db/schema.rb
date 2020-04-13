@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200410054110) do
+ActiveRecord::Schema.define(version: 20200413025327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,12 +80,6 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -253,6 +247,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.integer  "client_id"
     t.string   "interaction_type",             default: ""
     t.boolean  "custom",                       default: false
+    t.string   "selected_domain_group_ids",    default: [],    array: true
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
   end
@@ -595,12 +590,13 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
+    t.integer  "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
-    t.integer  "global_id"
+    t.boolean  "other_phone_whatsapp",             default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -846,6 +842,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
     t.datetime "updated_at",                    null: false
     t.boolean  "guardian",      default: false
     t.string   "gender"
+    t.text     "note"
   end
 
   add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree

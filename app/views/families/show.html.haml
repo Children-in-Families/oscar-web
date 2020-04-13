@@ -151,6 +151,8 @@
                     %th= t('.relation')
                   - if policy(FamilyMember).show?(:guardian)
                     %th= t('.guardian')
+                  - if policy(FamilyMember).show?(:note)
+                    %th= t('.note')
                 %tbody
                 - @family.family_members.each do |member|
                   %tr
@@ -166,6 +168,8 @@
                       %td= member.relation
                     - if policy(FamilyMember).show?(:guardian)
                       %td= human_boolean(member.guardian)
+                    - if policy(FamilyMember).show?(:note)
+                      %th= member.note
 
 .row
   .col-xs-12.clients

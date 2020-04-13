@@ -1616,6 +1616,7 @@ my:
       name: နာမည္
       next: နောက်တစ်ခု
       other_phone_number: Phone Number - Alternate
+      other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
       phone_owner: Phone Owner
       po_box2: Zip
       presented_id: Presented ID
@@ -1641,7 +1642,7 @@ my:
       user_ids: Case Worker / Assigned Staff Manager
       village: ေက်းရြာ
       what_3_word: What3Words
-      whatsapp: Whatsapp
+      whatsapp: Whatsapp?
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
     form_header:
