@@ -12,6 +12,8 @@ class BrcImporter
     create_custom_referral_data
 
     sheets = %w(family user client)
+    # Skip importing user in staging
+    sheets = %w(family client)
     sheets.each do |sheet_name|
       sheet_index = workbook.sheets.index(sheet_name)
       workbook.default_sheet = workbook.sheets[sheet_index]
@@ -84,6 +86,13 @@ class BrcImporter
       new_family['code']        = workbook.row(row_index)[headers['*Family ID']]
       new_family['family_type'] = workbook.row(row_index)[headers['*Family Type']]
       new_family['status']      = workbook.row(row_index)[headers['*Family Status']]
+
+      # Make random data
+      if new_family['name'].present?
+        v = new_family['name'].to_s + '123abc'
+        new_family['name'] = v.split('').map{ |c| v.split('').sample }.join
+      end
+
       family = Family.new(new_family)
       family.save(validate: false)
 
@@ -135,6 +144,13 @@ class BrcImporter
 
       new_client.each do |k, v|
         new_client[k] = nil if v == '0' || v == 0
+        # Make data random
+        sensitive_fields = %w(given_name family_name local_given_name local_family_name client_phone id_number other_phone_number island2 current_island current_street street2 legacy_brcs_id po_box2 current_po_box)
+
+        if k.in?(sensitive_fields) && v.present?
+          v = v.to_s + '123abc'
+          new_client[k] = v.split('').map{ |c| v.split('').sample }.join
+        end
       end
 
       family = Family.find_by(code: family_id)
