@@ -137,12 +137,18 @@ class BrcImporter
         new_client[k] = nil if v == '0' || v == 0
       end
 
-      new_client['current_family_id']   = Family.find_by(code: family_id).try(:id)
+      family = Family.find_by(code: family_id)
+
+      new_client['current_family_id']   = family.try(:id)
       new_client['received_by_id']      = @case_worker.id
       new_client['referral_source_category_id'] = ReferralSource.find_by(name_en: 'Family')&.id
 
       client = Client.new(new_client)
       client.save!
+
+      if family.present?
+        family.update_columns(caregiver_information: workbook.row(row_index)[headers['Relevant Referral Information / Notes']])
+      end
 
       {
         'Change in Livelihood' => 'Change in Livelihood',
