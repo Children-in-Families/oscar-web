@@ -9,14 +9,14 @@ module Api
 
       def clients
         bulk_clients = []
-        Organization.oly_integrated.pluck(:short_name).each do |short_name|
+        Organization.only_integrated.pluck(:short_name).each do |short_name|
           Organization.switch_to short_name
           clients = JSON.parse ActiveModel::ArraySerializer.new(Client.limit(10).to_a, each_serializer: OrganizationClientSerializer).to_json
           bulk_clients << clients
         end
         Organization.switch_to 'public'
 
-        render json: bulk_clients.flatten, root: :data
+        render json: bulk_clients.flatten.compact, root: :data
       end
     end
   end
