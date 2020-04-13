@@ -1620,6 +1620,7 @@ th-TH:
       case_worker:
       case_worker_or_staff:
       client_able_answers:
+      client_global_identity: Client Global Identity
       code:
       commune:
       completed:

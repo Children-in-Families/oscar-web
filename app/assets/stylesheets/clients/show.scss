@@ -247,4 +247,8 @@ body[id='clients-show'] {
   .disabled.day {
     color: #999999 !important;
   }
+
+  .fa-envelope:hover:before{
+    content: "\f2b6";
+  }
 }

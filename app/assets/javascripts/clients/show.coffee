@@ -12,11 +12,15 @@ CIF.ClientsShow = do ->
     _preventEditDatepickerEnterNgoExitNgoCaseHistory()
     _preventCreateDatepickerEnterNgo()
     _preventCreateDatepickerExitNgo()
+    _globalIDToolTip()
 
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
+
+  _globalIDToolTip = ->
+    $('[data-toggle="tooltip"]').tooltip()
 
   _initDatePicker = ->
     $('.enter_ngos, .exit_ngos, .exit_date, .enter_date').datepicker

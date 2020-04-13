@@ -3,7 +3,7 @@ namespace :client_global_id do
   task migrate: :environment do
     Organization.where.not(short_name: 'shared').pluck(:short_name).each do |short_name|
       Organization.switch_to short_name
-      Referral.where(client_global_id: nil).each do |referral|
+      Referral.received.where(client_global_id: nil).each do |referral|
         referred_from = referral.referred_from
         referral_slug = referral.slug
         client_global_id = nil
