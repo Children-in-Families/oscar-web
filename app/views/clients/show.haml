@@ -218,14 +218,14 @@
               - if policy(@client).show?(:local_given_name)
                 %tr
                   %td.spacing-first-col
-                    = "#{t('.local_given_name')} #{country_scope_label_translation}"
+                    = current_organization.short_name == 'brc' ? t('clients.form.local_given_name') : "#{t('clients.form.local_given_name')} #{country_scope_label_translation}"
                   %td
                     %strong
                       = @client.local_given_name
               - if policy(@client).show?(:local_family_name)
                 %tr
                   %td.spacing-first-col
-                    = "#{t('.local_family_name')} #{country_scope_label_translation}"
+                    = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')} #{country_scope_label_translation}"
                   %td
                     %strong
                       = @client.local_family_name
