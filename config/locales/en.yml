@@ -3514,6 +3514,7 @@ en:
       date_of_birth: Date of Birth
       guardian: Guardian
       occupation: Occupation
+      note: Relevant Referral Information / Notes
       relation: Relationship with Children
       remove_member: Remove Member
     form:
@@ -3583,6 +3584,7 @@ en:
       member_count: Member Count
       name: Name
       'no': 'No'
+      note: Relevant Referral Information / Notes
       occupation: Occupation
       province: Province
       read_less: read less
