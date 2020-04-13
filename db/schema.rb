@@ -1904,7 +1904,7 @@ ActiveRecord::Schema.define(version: 20200410054110) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
-  add_foreign_key "clients", "global_identities", column: "global_id", on_delete: :restrict
+  add_foreign_key "clients", "global_identities", column: "global_id"
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"

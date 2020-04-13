@@ -109,7 +109,7 @@ class ClientsController < AdminController
       Organization.switch_to 'shared'
       attributes = SharedClient.find_by(archived_slug: @referral.slug).try(:attributes) || SharedClient.find_by(slug: @referral.slug).try(:attributes)
       if attributes.present?
-        attributes = attributes.except('duplicate_checker')
+        attributes = attributes.except('id', 'duplicate_checker')
         attributes = fetch_referral_attibutes(attributes, referral_source_id)
       else
         attributes

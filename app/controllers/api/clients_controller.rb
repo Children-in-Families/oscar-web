@@ -28,10 +28,10 @@ module Api
     def create
       client = Client.new(client_params)
 
-      referee = Referee.new(referee_params)
+      referee = Referee.find_or_initialize_by(referee_params)
       referee.save
 
-      carer = Carer.new(carer_params)
+      carer = Carer.find_or_initialize_by(carer_params)
       carer.save
 
       client.referee_id = referee.id
