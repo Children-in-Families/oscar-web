@@ -2,6 +2,7 @@ class ClientsController < AdminController
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
 
   include ClientAdvancedSearchesConcern
+  include FamilyAdvancedSearchesConcern
   include ClientGridOptions
 
   before_action :format_search_params, only: :index
@@ -19,6 +20,7 @@ class ClientsController < AdminController
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
+  before_action :family_builder_fields, only: :show
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -78,6 +80,10 @@ class ClientsController < AdminController
         referrals = @client.referrals
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
         # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+        if @client.family.present?
+          @family_grid = FamilyGrid.new(dynamic_columns: @custom_form_fields)
+          @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability).where(id: @client.current_family_id) }
+        end
       end
       format.pdf do
         form        = params[:form]

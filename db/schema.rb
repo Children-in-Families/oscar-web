@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20200330110449) do
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "uuid-ossp"
+  enable_extension "pg_ulid"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -80,6 +81,12 @@ ActiveRecord::Schema.define(version: 20200330110449) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -166,8 +173,8 @@ ActiveRecord::Schema.define(version: 20200330110449) do
     t.boolean  "answered_call"
     t.boolean  "called_before"
     t.boolean  "requested_update",       default: false
-    t.boolean  "not_a_phone_call",       default: false
     t.boolean  "childsafe_agent"
+    t.boolean  "not_a_phone_call",       default: false
     t.string   "other_more_information", default: ""
     t.string   "brief_note_summary",     default: ""
   end
@@ -233,9 +240,9 @@ ActiveRecord::Schema.define(version: 20200330110449) do
     t.integer  "client_id"
     t.string   "interaction_type",             default: ""
     t.boolean  "custom",                       default: false
-    t.string   "selected_domain_group_ids",    default: [],    array: true
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
+    t.string   "selected_domain_group_ids",    default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -578,6 +585,14 @@ ActiveRecord::Schema.define(version: 20200330110449) do
     t.string   "resident_own_or_rent2"
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
+    t.integer  "global_id"
+    t.boolean  "whatsapp",                         default: false
+    t.boolean  "other_phone_whatsapp",             default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1811,9 +1826,10 @@ ActiveRecord::Schema.define(version: 20200330110449) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
+    t.string   "preferred_language",             default: "en"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
