@@ -164,7 +164,9 @@ class ClientsController < AdminController
     @client.exit_ngos.each(&:destroy_fully!)
     @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
-    @client.reload.destroy
+
+    @client.case_worker_clients.destroy_all
+    @client.reload.delete
 
     redirect_to clients_url, notice: t('.successfully_deleted')
   end
