@@ -63,6 +63,7 @@ module AdvancedSearches
     def drop_down_type_list
       [
         ['presented_id', Client::BRC_PRESENTED_IDS.map{ |pi| { pi => pi }}],
+        ['preferred_language', Client::BRC_PREFERED_LANGS.map{ |pi| { pi => pi }}],
         ['current_household_type', Client::BRC_HOUSEHOLD_TYPES.map{ |hht| { hht => hht }}],
         ['household_type2', Client::BRC_HOUSEHOLD_TYPES.map{ |hht| { hht => hht }}],
         ['current_resident_own_or_rent', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],

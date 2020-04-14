@@ -12,9 +12,10 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types } } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types, brc_prefered_langs } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
+  const preferLanguages = brc_prefered_langs.map(lang => ({ label: lang, value: lang }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -239,19 +240,31 @@ export default props => {
         </div>
 
         {
-         fieldsVisibility.presented_id == true &&
+         fieldsVisibility.preferred_language == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <SelectInput
-             label={ t(translation, 'clients.form.presented_id') }
-             options={brcPresentedIdList}
-             onChange={onChange('client', 'presented_id')}
-             value={client.presented_id}
+             label={ t(translation, 'clients.form.preferred_language') }
+             options={preferLanguages}
+             onChange={onChange('client', 'preferred_language')}
+             value={client.preferred_language}
            />
          </div>
        }
       </div>
 
       <div className="row">
+        {
+           fieldsVisibility.presented_id == true &&
+           <div className="col-xs-12 col-md-6 col-lg-3">
+             <SelectInput
+               label={ t(translation, 'clients.form.presented_id') }
+               options={brcPresentedIdList}
+               onChange={onChange('client', 'presented_id')}
+               value={client.presented_id}
+             />
+           </div>
+         }
+
          {
            fieldsVisibility.id_number == true &&
            <div className="col-xs-12 col-md-6 col-lg-3">

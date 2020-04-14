@@ -15,75 +15,6 @@ module ClientConstants
   GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown', 'prefer_not_to_say']
   CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
-  DIFFICULTIES = [
-    'Difficulty hearing, even using hearing aid',
-    'Difficulty remebering or concentrating',
-    'Difficulty seeing, even if wearing glasses',
-    'Difficulty walking or climbing steps',
-    'Difficulty with (self-care such as) washing or dressing',
-    'Using your usual language, do you have dificulty communicating, for example understanding or being understood'
-  ].freeze
-
-  HOUSEHOLD_MEMBERS = [
-    'Children: 1',
-    'Children: 2',
-    'Children: 3',
-    'Children: 4',
-    'Children: 5',
-    'Children: More than 5',
-    'Females: 1',
-    'Females: 2',
-    'Females: 3',
-    'Females: 4',
-    'Females: 5',
-    'Females: More than 5',
-    'Males: 1',
-    'Males: 2',
-    'Males: 3',
-    'Males: 4',
-    'Males: 5',
-    'Males: More than 5',
-    'Missing: 1',
-    'Missing: 2',
-    'Missing: 3',
-    'Missing: 4',
-    'Missing: 5',
-    'Missing: More than 5'
-  ].freeze
-
-  INTERVIEW_LOCATIONS = [
-    'Abaco',
-    'Grand Bahama',
-    'New Providance',
-    'Other'
-  ].freeze
-
-  HOSTING_NUMBER = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    'More than 5'
-  ].freeze
-
-  BIC_OTHERS = [
-    'Consent + Contact via 3rd party mess',
-    'Have received RFL/PSS support',
-    'Hurricane related',
-    'Pregnant woman in the household'
-  ]
-
-  ISLANDS = [
-      'New Providence',
-      'Andros',
-      'Eleuthera',
-      'Exuma',
-      'Abaco Islands',
-      'Grand Bahama',
-      'Others'
-    ].freeze
-
   BRC_RESIDENT_TYPES = [
     'Owner',
     'Stable rental/lease, not at risk of eviction',
@@ -95,28 +26,50 @@ module ClientConstants
   ].freeze
 
   BRC_HOUSEHOLD_TYPES = [
+    "Owner",
+    "A stable rental/lease not at risk of eviction",
+    "A short-term rental at risk of eviction",
     "A government, agency or religious shelter",
     "A friend or family member's home",
-    "A short-term rental at risk of eviction",
     "In a tent, destroyed building, or vehicle",
     "Back home",
     "Other"
   ]
 
-  SETTLEMENTS = ['District', 'Neighborhood']
+  BRC_BRANCHES = [
+    "New Providence",
+    "Grand Bahama",
+    "Abaco",
+    "Acklins",
+    "Andros",
+    "Berry Islands",
+    "Bimini",
+    "Cat Island",
+    "Crooked Island",
+    "Eleuthera",
+    "Exuma and Cays",
+    "Harbour Island",
+    "Inagua",
+    "Long Island",
+    "Mayaguana",
+    "Ragged Island",
+    "Rum Cay",
+    "San Salvador",
+    "Spanish Wells",
+    "Other"
+  ]
 
   BRC_PRESENTED_IDS = [
-    "Driver's License",
-    "National Insurance Card (NIB)",
     "Bahamian Passport",
-    "Voters card",
+    "Driver's License",
+    "Voter's Card",
+    "National Insurance Card (NIB)",
     "Other"
   ].freeze
 
   BRC_PREFERED_LANGS = %w(
-    Creole
     English
+    Creole
     French
-    Other
   ).freeze
 end

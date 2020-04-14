@@ -26,39 +26,47 @@ class BrcImporter
     QuantitativeType.destroy_all
 
     quantitative_type = QuantitativeType.create!(name: 'Change in Livelihood')
-    quantitative_type.quantitative_cases.create!(value: 'yes')
-    quantitative_type.quantitative_cases.create!(value: 'no')
+    quantitative_type.quantitative_cases.create!(value: 'Yes')
+    quantitative_type.quantitative_cases.create!(value: 'No')
 
     quantitative_type = QuantitativeType.create!(name: 'Home Situation')
-    quantitative_type.quantitative_cases.create!(value: 'Anticipate being able to return and live into your residence within the next 30 days')
-    quantitative_type.quantitative_cases.create!(value: 'Anticipate being able to return and live into your residence within the next 30 days,')
-    quantitative_type.quantitative_cases.create!(value: 'Anticipate being able to return and live into your residence within the next 30 days, Experienced a change in family situation')
     quantitative_type.quantitative_cases.create!(value: 'Experienced a change in family situation')
-    quantitative_type.quantitative_cases.create!(value: 'Is at risk of being without a stable place to stay – for example not being able to pay rent/mortgage, or not able to stay with your host any longer')
-    quantitative_type.quantitative_cases.create!(value: 'Experienced a change in family situation (for example, injury or loss of family member, or have additional people move in) and/or experienced emotional impact/ difficulty coping as a result of the disaster')
+    quantitative_type.quantitative_cases.create!(value: 'Anticipate being able to return and live into your residence within the next 30 days')
 
     quantitative_type = QuantitativeType.create!(name: 'Disabilities')
-    quantitative_type.quantitative_cases.create!(value: 'Difficulty hearing, even using hearing aid')
-    quantitative_type.quantitative_cases.create!(value: 'Difficulty remebering or concentrating')
     quantitative_type.quantitative_cases.create!(value: 'Difficulty seeing, even if wearing glasses')
+    quantitative_type.quantitative_cases.create!(value: 'Difficulty hearing, even using hearing aid')
     quantitative_type.quantitative_cases.create!(value: 'Difficulty walking or climbing steps')
-    quantitative_type.quantitative_cases.create!(value: 'Difficulty with (self-care such as) washing or dressing')
+    quantitative_type.quantitative_cases.create!(value: 'Difficulty remebering or concentrating')
+    quantitative_type.quantitative_cases.create!(value: 'Difficulty with (self-care such as) washing or dresing')
     quantitative_type.quantitative_cases.create!(value: 'Using your usual language, do you have dificulty communicating, for example understanding or being understood')
     quantitative_type.quantitative_cases.create!(value: 'Yes - Needs follow up')
     quantitative_type.quantitative_cases.create!(value: 'No')
 
     quantitative_type = QuantitativeType.create!(name: 'Interview location')
     quantitative_type.quantitative_cases.create!(value: 'New Providence')
-    quantitative_type.quantitative_cases.create!(value: 'Abaco Islands')
     quantitative_type.quantitative_cases.create!(value: 'Grand Bahama')
+    quantitative_type.quantitative_cases.create!(value: 'Abaco')
+    quantitative_type.quantitative_cases.create!(value: 'Acklins')
     quantitative_type.quantitative_cases.create!(value: 'Andros')
+    quantitative_type.quantitative_cases.create!(value: 'Berry Islands')
+    quantitative_type.quantitative_cases.create!(value: 'Bimini')
+    quantitative_type.quantitative_cases.create!(value: 'Cat Island')
+    quantitative_type.quantitative_cases.create!(value: 'Crooked Island')
     quantitative_type.quantitative_cases.create!(value: 'Eleuthera')
-    quantitative_type.quantitative_cases.create!(value: 'Exuma')
-    quantitative_type.quantitative_cases.create!(value: 'Others')
+    quantitative_type.quantitative_cases.create!(value: 'Exuma and Cays')
+    quantitative_type.quantitative_cases.create!(value: 'Harbour Island')
+    quantitative_type.quantitative_cases.create!(value: 'Inagua')
+    quantitative_type.quantitative_cases.create!(value: 'Long Island')
+    quantitative_type.quantitative_cases.create!(value: 'Mayaguana')
+    quantitative_type.quantitative_cases.create!(value: 'Ragged Island')
+    quantitative_type.quantitative_cases.create!(value: 'Rum Cay')
+    quantitative_type.quantitative_cases.create!(value: 'San Salvador')
+    quantitative_type.quantitative_cases.create!(value: 'Spanish Wells')
 
     quantitative_type = QuantitativeType.create!(name: 'Consent')
-    quantitative_type.quantitative_cases.create!(value: 'Consent, Contact via 3rd party messages')
-    quantitative_type.quantitative_cases.create!(value: 'Consent')
+    quantitative_type.quantitative_cases.create!(value: 'Consent to collect, store and analyze information')
+    quantitative_type.quantitative_cases.create!(value: 'Contact via 3rd party messaging')
   end
 
   def import_user
@@ -215,6 +223,8 @@ class BrcImporter
     )
 
     if @case_worker.new_record?
+      @case_worker.first_name = 'Unassigned'
+      @case_worker.last_name = 'Case'
       @case_worker.password = Devise.friendly_token.first(8)
       @case_worker.save(validate:false)
     end

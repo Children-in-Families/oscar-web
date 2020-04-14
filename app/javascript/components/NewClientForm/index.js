@@ -39,7 +39,7 @@ const Forms = props => {
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
-      brc_address, brc_islands, brc_household_types, settlements, brc_resident_types, brc_presented_ids
+      brc_address, brc_islands, brc_household_types, settlements, brc_resident_types, brc_prefered_langs, brc_presented_ids
     }
   } = props
 
@@ -61,7 +61,7 @@ const Forms = props => {
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, addressTypes, T, translation, current_organization }
-  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_household_types, brc_presented_ids, brc_resident_types, settlements }
+  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_household_types, brc_presented_ids, brc_resident_types, brc_prefered_langs, settlements }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
 

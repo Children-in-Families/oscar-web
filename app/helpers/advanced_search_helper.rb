@@ -71,6 +71,7 @@ module AdvancedSearchHelper
       whatsapp: I18n.t('datagrid.columns.clients.whatsapp'),
       other_phone_number: I18n.t('datagrid.columns.clients.other_phone_number'),
       brsc_branch: I18n.t('datagrid.columns.clients.brsc_branch'),
+      preferred_language: I18n.t('datagrid.columns.clients.preferred_language'),
       current_island: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_island')),
       current_street: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_street')),
       current_po_box: I18n.t('datagrid.columns.current_address', column: I18n.t('datagrid.columns.clients.current_po_box')),

@@ -18,6 +18,7 @@ class ClientColumnsVisibility
       other_phone_number_: :other_phone_number,
       brsc_branch_: :brsc_branch,
       current_island_: :current_island,
+      preferred_language_: :preferred_language,
       current_street_: :current_street,
       current_po_box_: :current_po_box,
       current_city_: :current_city,
