@@ -8,10 +8,9 @@ import { t } from '../../utils/i18n'
 
 export default props => {
   const { onChange, disabled, translation, fieldsVisibility,
-          data: { client, objectKey, objectData, T, current_organization, settlements, brc_address, brc_islands, brc_resident_types }
+          data: { client, objectKey, objectData, T, current_organization, brc_address, brc_islands, brc_resident_types }
         } = props
 
-  const [settlementList, setSettlementList] =  useState(settlements && settlements.map(settlement  => ({label: settlement, value: settlement})))
   const [brcIslands, setBrcIslands] = useState(brc_islands && brc_islands.map(island  => ({label: island, value: island})))
   const [brcResidentTypes, setBrcResidentTypes] = useState(brc_resident_types && brc_resident_types.map(type  => ({label: type, value: type})))
 

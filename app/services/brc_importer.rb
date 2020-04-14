@@ -46,7 +46,6 @@ class BrcImporter
     quantitative_type = QuantitativeType.create!(name: 'Interview location')
     quantitative_type.quantitative_cases.create!(value: 'New Providence')
     quantitative_type.quantitative_cases.create!(value: 'Grand Bahama')
-    quantitative_type.quantitative_cases.create!(value: 'Abaco')
     quantitative_type.quantitative_cases.create!(value: 'Acklins')
     quantitative_type.quantitative_cases.create!(value: 'Andros')
     quantitative_type.quantitative_cases.create!(value: 'Berry Islands')
@@ -63,10 +62,11 @@ class BrcImporter
     quantitative_type.quantitative_cases.create!(value: 'Rum Cay')
     quantitative_type.quantitative_cases.create!(value: 'San Salvador')
     quantitative_type.quantitative_cases.create!(value: 'Spanish Wells')
+    quantitative_type.quantitative_cases.create!(value: 'Abaco Islands')
 
     quantitative_type = QuantitativeType.create!(name: 'Consent')
     quantitative_type.quantitative_cases.create!(value: 'Consent to collect, store and analyze information')
-    quantitative_type.quantitative_cases.create!(value: 'Contact via 3rd party messaging')
+    quantitative_type.quantitative_cases.create!(value: 'Contact via 3rd party messages')
   end
 
   def import_user
@@ -176,7 +176,14 @@ class BrcImporter
       new_client['referral_source_category_id'] = ReferralSource.find_by(name_en: 'Family')&.id
 
       client = Client.new(new_client)
-      client.save!
+
+      begin
+        client.save!
+      rescue => e
+        pp e
+        pp new_client
+        return
+      end
 
       if family.present?
         family.update_columns(caregiver_information: workbook.row(row_index)[headers['Relevant Referral Information / Notes']])
@@ -192,17 +199,20 @@ class BrcImporter
         value = workbook.row(row_index)[headers[header_name]]
 
         if value.present? && !value.in?(['0', 0])
-          value = value.strip
+          value = value.titleize if name == 'Change in Livelihood'
 
-          begin
-            quantitative_type = QuantitativeType.find_by!(name: name)
-            quantitative_case = quantitative_type.quantitative_cases.find_by!(value: value)
-            client.client_quantitative_cases.create!(quantitative_case: quantitative_case)
-          rescue
-            pp '-------------'
-            pp value
-            pp name
-            pp header_name
+          value.split("|").each do |v|
+            begin
+              v = v.strip
+              quantitative_type = QuantitativeType.find_by!(name: name)
+              quantitative_case = quantitative_type.quantitative_cases.find_by!(value: v)
+              client.client_quantitative_cases.create!(quantitative_case: quantitative_case)
+            rescue
+              pp '-------------'
+              pp "---#{v.strip}----"
+              pp name
+              pp header_name
+            end
           end
         end
       end

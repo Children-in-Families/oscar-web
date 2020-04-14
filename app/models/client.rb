@@ -82,6 +82,14 @@ class Client < ActiveRecord::Base
   validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
   validate :address_contrain, on: [:create, :update]
 
+  validates :gender, inclusion: { in: GENDER_OPTIONS }, allow_blank: true
+
+  validates :current_island, inclusion: { in: BRC_BRANCHES }, allow_blank: true
+  validates :island2, inclusion: { in: BRC_BRANCHES }, allow_blank: true
+
+  validates :current_resident_own_or_rent, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
+  validates :resident_own_or_rent2, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
+
   before_save :assign_global_id
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?

@@ -101,7 +101,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     Apartment::Tenant.drop('app') rescue nil
-    Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
+    Organization.create_and_build_tenant(full_name: 'Organization Testing', short_name: 'app')
     Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
     Apartment::Tenant.switch! 'app'
   end

@@ -17,29 +17,20 @@ module ClientConstants
 
   BRC_RESIDENT_TYPES = [
     'Owner',
+    "Rental",
     'Stable rental/lease, not at risk of eviction',
     'A short-term rental at risk of eviction',
     'A government, agency or religious shelter',
     "A friend or family member's home",
     'In a tent, destroyed building, or vehicle',
-    "Back home"
-  ].freeze
-
-  BRC_HOUSEHOLD_TYPES = [
-    "Owner",
-    "A stable rental/lease not at risk of eviction",
-    "A short-term rental at risk of eviction",
-    "A government, agency or religious shelter",
-    "A friend or family member's home",
-    "In a tent, destroyed building, or vehicle",
     "Back home",
-    "Other"
-  ]
+    'Other'
+  ].freeze
 
   BRC_BRANCHES = [
     "New Providence",
     "Grand Bahama",
-    "Abaco",
+    "Abaco Islands",
     "Acklins",
     "Andros",
     "Berry Islands",

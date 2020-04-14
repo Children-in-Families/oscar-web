@@ -12,7 +12,7 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, settlements, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_household_types, brc_resident_types, brc_prefered_langs } } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const preferLanguages = brc_prefered_langs.map(lang => ({ label: lang, value: lang }))
@@ -409,7 +409,7 @@ export default props => {
 
       {
         fieldsVisibility.brc_client_address == true &&
-        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, settlements, brc_resident_types }} />
+        <BrcAddress translation={ translation } fieldsVisibility={ fieldsVisibility } disabled={client.referee_relationship === 'self'} current_organization={current_organization} callFrom='referralInfo' outside={client.outside || false} translation={translation} onChange={onChange} data={{ addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, objectKey: 'client', objectData: client, T, brc_islands, brc_resident_types }} />
       }
 
       {isRedirectFromCall &&
