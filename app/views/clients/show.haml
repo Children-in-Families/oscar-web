@@ -330,7 +330,7 @@
                   = "#{t('.client_global_identity')}"
                 %td
                   %strong
-                    = fa_icon 'envelope', class: 'text-success', data: { toggle: 'tooltip', placement: 'top', original_title: @client.global_identity.ulid }
+                    = fa_icon 'envelope', class: 'text-success', data: { toggle: 'tooltip', placement: 'top', original_title: @client.global_identity&.ulid }
 
               %tr
                 %td.spacing-first-col
