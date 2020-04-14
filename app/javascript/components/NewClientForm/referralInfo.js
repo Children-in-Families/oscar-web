@@ -374,13 +374,12 @@ export default props => {
             <SelectInput label={t(translation, 'clients.form.phone_owner')}  options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
           </div>
         }
-
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
-        </div>
       </div>
 
       <div className="row">
+        <div className="col-xs-12 col-md-6 col-lg-3">
+          <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
+        </div>
 
         {
           isRedirectFromCall &&
