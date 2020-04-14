@@ -131,6 +131,7 @@ class BrcImporter
       new_client['gender']              = workbook.row(row_index)[headers['Gender']]&.downcase
       new_client['date_of_birth']       = workbook.row(row_index)[headers['Date of Birth']].to_s
       new_client['brsc_branch']         = workbook.row(row_index)[headers['BRCS Branch']]
+      new_client['preferred_language']  = workbook.row(row_index)[headers['Preferred Language']] || 'English'
       new_client['current_island']      = workbook.row(row_index)[headers['Island - Current address']]
       new_client['current_street']      = workbook.row(row_index)[headers['Street - Current address']]
       new_client['current_po_box']      = workbook.row(row_index)[headers['Zip Code/PO BOX - Current address']]
