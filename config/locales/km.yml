@@ -1613,7 +1613,7 @@ km:
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
       phone_owner: ម្ចាស់ទូរស័ព្ទ
-      po_box2: Zip
+      po_box2: PO Box
       presented_id: Presented ID
       previous: ត្រឡប់
       province: ខេត្ត/ក្រុង
@@ -2339,7 +2339,7 @@ km:
         legacy_brcs_id: Legacy BRCS-ID number
         island2: Island
         street2: Street
-        po_box2: Zip
+        po_box2: PO Box
         settlement2: City/Settlement
         resident_own_or_rent2: Acc. type
         household_type2: Address Type
