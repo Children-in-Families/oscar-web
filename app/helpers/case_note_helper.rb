@@ -156,4 +156,8 @@ module CaseNoteHelper
       custom_assessment_setting_id = cdg.domains(case_note).pluck(:custom_assessment_setting_id).last
     end
   end
+
+  def selected_domain_group(casenote_domai_group)
+    @case_note.selected_domain_group_ids.compact.map(&:to_i).include?(casenote_domai_group.domain_group_id)
+  end
 end

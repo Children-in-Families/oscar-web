@@ -16,7 +16,6 @@ class ClientColumnsVisibility
       legacy_brcs_id_: :legacy_brcs_id,
       whatsapp_: :whatsapp,
       other_phone_number_: :other_phone_number,
-      v_score_: :v_score,
       brsc_branch_: :brsc_branch,
       current_island_: :current_island,
       current_street_: :current_street,

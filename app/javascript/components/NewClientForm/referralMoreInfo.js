@@ -5,7 +5,13 @@ import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 
 export default props => {
-  const { onChange, translation, fieldsVisibility, data: { errorFields, carerDistricts, carerCommunes, brc_presented_ids, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, T } } = props
+  const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization,
+          data: { errorFields, carerDistricts, carerCommunes, brc_presented_ids,
+                  carerVillages, carer, client, clientRelationships, currentProvinces,
+                  currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
+                  schoolGrade, families, ratePoor, addressTypes, T
+                }
+        } = props
 
   return (
     <div className="containerClass">
@@ -39,7 +45,7 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes, T }} onChange={onChange} />
+      <CareInfo id="careInfo" current_organization={current_organization} data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, carerSubdistricts, currentCommunes, currentVillages, currentStates, currentTownships, families, addressTypes, T }} onChange={onChange} renderAddressSwitch={renderAddressSwitch} />
 
       {
         fieldsVisibility.client_school_information == true &&

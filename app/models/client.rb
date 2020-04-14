@@ -45,6 +45,7 @@ class Client < ActiveRecord::Base
   belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
   belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
+  belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id'
 
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
@@ -81,6 +82,7 @@ class Client < ActiveRecord::Base
   validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
   validate :address_contrain, on: [:create, :update]
 
+  before_create :assign_global_id
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
@@ -439,25 +441,23 @@ class Client < ActiveRecord::Base
   def brc_current_address
     [
       current_island,
+      current_settlement,
       current_street,
       current_po_box,
-      current_city,
-      current_settlement,
       current_resident_own_or_rent,
       current_household_type
-    ].compact.join(', ')
+    ].select(&:present?).join(', ')
   end
 
   def brc_other_address
     [
       island2,
+      settlement2,
       street2,
       po_box2,
-      city2,
-      settlement2,
       resident_own_or_rent2,
       household_type2
-    ].compact.join(', ')
+    ].select(&:present?).join(', ')
   end
 
   def time_in_cps
@@ -697,7 +697,7 @@ class Client < ActiveRecord::Base
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
     client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin, :global_id)
     suburb = self.suburb
     state_name = self.state_name
 
@@ -796,6 +796,12 @@ class Client < ActiveRecord::Base
     if village_id && commune_id && district_id && province_id
       vaillage = Village.find(village_id)
       errors.add(:village_id, 'does not exist in the commune you just selected.') if village.commune_id != commune_id
+    end
+  end
+
+  def assign_global_id
+    if global_id.blank?
+      self.global_id = GlobalIdentity.create(ulid: ULID.generate).id
     end
   end
 

@@ -1542,18 +1542,16 @@ my:
       case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       client_phone: Client Contact Phone
-      city2: City
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ၿပီ
       current_address: လက္ရွိလိပ္စာ
-      current_city: City
-      current_household_type: Is your household staying in one of the following?
+      current_household_type: Address Type
       current_island: Island
       current_po_box: PO BOX
       current_province: လက္ရွိေနထိုင္ရာ ခ႐ိုင္
-      current_resident_own_or_rent: Owned or Rented
-      current_settlement: Settlement
+      current_resident_own_or_rent: Acc. type
+      current_settlement: City/Settlement
       current_street: Street
       custom_forms: အခြန္ပံုစံမ်ား
       date_of_birth: ေမြးဖြာသည့္ ရက္၊ လ၊ ႏွစ္
@@ -1618,19 +1616,22 @@ my:
       name: နာမည္
       next: နောက်တစ်ခု
       other_phone_number: Phone Number - Alternate
+      other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      phone_owner: Phone Owner
       po_box2: Zip
       presented_id: Presented ID
       previous: လွန်ခဲ့သော
       province: ေမြးဖြားရာ ခ႐ိုင္
+      rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
       relevant_referral_information: သက္ဆိုင္ေသာ လြဲေျပာင္း အခ်က္အလက္
-      resident_own_or_rent2: Owned, Rented or Temporary
+      resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
-      settlement2: Settlement
+      settlement2: City/Settlement
       stage: အဆင့္ေမးခြန္း
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
@@ -1639,10 +1640,9 @@ my:
       telephone_number: တယ်လီဖုန်းနံပါတ်
       to: သို႔
       user_ids: Case Worker / Assigned Staff Manager
-      v_score: V-score from ODK
       village: ေက်းရြာ
       what_3_word: What3Words
-      whatsapp: Whatsapp
+      whatsapp: Whatsapp?
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
     form_header:
@@ -2312,22 +2312,19 @@ my:
         id_number: ID number
         whatsapp: Whatsapp
         other_phone_number: Phone Number - Alternate
-        v_score: V-score from ODK
         brsc_branch: BRCS Branch
         current_island: Island
         current_street: Street
         current_po_box: PO BOX
-        current_city: City
-        current_settlement: Settlement
-        current_resident_own_or_rent: Owned or Rented
-        current_household_type: Is your household staying in one of the following?
+        current_settlement: City/Settlement
+        current_resident_own_or_rent: Acc. type
+        current_household_type: Address Type
         legacy_brcs_id: Legacy BRCS-ID number
         island2: Island
         street2: Street
         po_box2: Zip
-        city2: City
-        settlement2: Settlement
-        resident_own_or_rent2: Owned, Rented or Temporary
+        settlement2: City/Settlement
+        resident_own_or_rent2: Acc. type
         household_type2: Address Type
         able: Able
         able_state: Able State
@@ -2789,7 +2786,7 @@ my:
       male: Male
       other_gender: Other
       unknown: Unknown
-      prefer_not_to_say: Prefer not to say
+      prefer_not_to_say: Prefer not to answer
     referee_relationship:
       self: Self
       family_member: Family Member
@@ -3460,6 +3457,14 @@ my:
     version:
       back: ေနာက္သုိ႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  enumerize:
+    defaults:
+      gender:
+        female: Female
+        male: Male
+        other_gender: Other
+        unknown: Unknown
+        prefer_not_to_say: Prefer not to answer
   errors:
     messages:
       already_confirmed: အတည္ျပဳၿပီးပါၿပီ။ ေက်းဇူးျပဳ၍ ၀င္ၾကည့္ပါ။

@@ -85,7 +85,6 @@ class Ability
       can :manage, Family, id: family_ids.compact.uniq
     end
 
-    cannot :read, Family if FieldSetting.hidden_group?('family')
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
   end
 

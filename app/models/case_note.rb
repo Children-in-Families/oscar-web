@@ -4,7 +4,7 @@ class CaseNote < ActiveRecord::Base
 
   belongs_to :client
   belongs_to :assessment
-  belongs_to :custom_assessment_setting
+  belongs_to :custom_assessment_setting, required: false
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
@@ -25,7 +25,7 @@ class CaseNote < ActiveRecord::Base
   before_create :set_assessment
 
   def populate_notes(custom_id, custom_case_note)
-    if custom_case_note == "true" || not_using_assessment_tool?
+    if custom_case_note == "true"
       custom_domain_setting = CustomAssessmentSetting.find(custom_id)
       return [] if custom_domain_setting.nil?
       domain_group_ids = custom_domain_setting.domains.pluck(:domain_group_id).uniq

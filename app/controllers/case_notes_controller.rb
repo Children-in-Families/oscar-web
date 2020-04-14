@@ -45,7 +45,8 @@ class CaseNotesController < AdminController
         redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
       end
     else
-      if params[:custom] == 'true'
+      if case_note_params[:custom] == 'true'
+        @custom_assessment_param = case_note_params[:custom]
         @case_note.assessment = @client.assessments.custom_latest_record
       else
         @case_note.assessment = @client.assessments.default_latest_record
@@ -159,8 +160,12 @@ class CaseNotesController < AdminController
     if params[:action].in? ['edit', 'update']
       @domain_groups = @case_note.domain_groups
     else
-      if params[:custom] == 'true' && params.dig('custom_name').present?
-        domain_group_ids = Domain.custom_csi_domains.where(custom_assessment_setting_id: @custom_assessment_setting&.id).pluck(:domain_group_id).uniq
+      if (@case_note.custom_assessment_setting_id.present?) || (params[:custom] == 'true' && @custom_assessment_setting&.id.present?)
+        if @case_note.custom_assessment_setting_id.present?
+          domain_group_ids = Domain.custom_csi_domains.where(custom_assessment_setting_id: @case_note.custom_assessment_setting_id).pluck(:domain_group_id).uniq
+        else
+          domain_group_ids = Domain.custom_csi_domains.where(custom_assessment_setting_id: @custom_assessment_setting&.id).pluck(:domain_group_id).uniq
+        end
         @domain_groups = DomainGroup.where(id: domain_group_ids)
       else
         domain_group_ids = Domain.csi_domains.pluck(:domain_group_id).uniq
@@ -174,7 +179,7 @@ class CaseNotesController < AdminController
         group_name = cndg.domains(@case_note).map(&:identity).join(', ')
         "#{group_name}\n#{cndg.note}"
       else
-        group_name = cndg.domain_group.custom_domain_identities(@custom_assessment_setting&.id)
+        group_name = cndg.domain_group.custom_domain_identities(@custom_assessment_setting&.id || @case_note.custom_assessment_setting_id)
         "#{group_name}\n#{cndg.note}"
       end
     end.join("\n\n").html_safe

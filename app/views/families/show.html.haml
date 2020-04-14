@@ -143,17 +143,33 @@
                 %thead
                   %th= t('.adult_name')
                   %th= t('.date_of_birth')
-                  %th= t('.occupation')
-                  %th= t('.relation')
-                  %th= t('.guardian')
+                  - if policy(FamilyMember).show?(:gender)
+                    %th= t('.gender')
+                  - if policy(FamilyMember).show?(:occupation)
+                    %th= t('.occupation')
+                  - if policy(FamilyMember).show?(:relation)
+                    %th= t('.relation')
+                  - if policy(FamilyMember).show?(:guardian)
+                    %th= t('.guardian')
+                  - if policy(FamilyMember).show?(:note)
+                    %th= t('.note')
                 %tbody
                 - @family.family_members.each do |member|
                   %tr
                     %td= member.adult_name
                     %td= date_format member.date_of_birth
-                    %td= member.occupation
-                    %td= member.relation
-                    %td= human_boolean(member.guardian)
+                    - if policy(FamilyMember).show?(:gender)
+                      %td
+                        - if member.gender?
+                          = t("enumerize.defaults.gender.#{member.gender}")
+                    - if policy(FamilyMember).show?(:occupation)
+                      %td= member.occupation
+                    - if policy(FamilyMember).show?(:relation)
+                      %td= member.relation
+                    - if policy(FamilyMember).show?(:guardian)
+                      %td= human_boolean(member.guardian)
+                    - if policy(FamilyMember).show?(:note)
+                      %th= member.note
 
 .row
   .col-xs-12.clients

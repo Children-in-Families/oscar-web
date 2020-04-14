@@ -218,14 +218,14 @@
               - if policy(@client).show?(:local_given_name)
                 %tr
                   %td.spacing-first-col
-                    = "#{t('.local_given_name')} #{country_scope_label_translation}"
+                    = current_organization.short_name == 'brc' ? t('clients.form.local_given_name') : "#{t('clients.form.local_given_name')} #{country_scope_label_translation}"
                   %td
                     %strong
                       = @client.local_given_name
               - if policy(@client).show?(:local_family_name)
                 %tr
                   %td.spacing-first-col
-                    = "#{t('.local_family_name')} #{country_scope_label_translation}"
+                    = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')} #{country_scope_label_translation}"
                   %td
                     %strong
                       = @client.local_family_name
@@ -243,7 +243,7 @@
                     %strong.label.label-default.donor
                       = donor.name
 
-              - %w(presented_id id_number legacy_brcs_id client_phone whatsapp other_phone_number v_score brsc_branch).each do |field_name|
+              - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
                 - if policy(@client).show?(field_name.to_sym)
                   %tr
                     %td.spacing-first-col
@@ -279,14 +279,16 @@
                     = t('.concern_location')
                   %td.address
                     %strong= concern_merged_address(@client).join(', ')
-              %tr
-                %td.spacing-first-col
-                  = t('.what3words')
-                %td
-                  %strong
-                    = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
-                      = @client.what3words
-                      = image_tag 'what3words.png', class: 'what3words'
+
+              - if policy(@client).show?(:what3words)
+                %tr
+                  %td.spacing-first-col
+                    = t('.what3words')
+                  %td
+                    %strong
+                      = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
+                        = @client.what3words
+                        = image_tag 'what3words.png', class: 'what3words'
 
               - if policy(@client).show?(:birth_province)
                 %tr
@@ -523,6 +525,18 @@
                       %td.text-center
                         = link_to call_path(call) do
                           %button.btn.btn-outline.btn-primary.btn-xs= fa_icon('eye')
+
+- if @family_grid.present?
+  .row
+    .col-xs-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h5= @results
+          %span.label.label-info= t('.results')
+        .ibox-content
+          .families-table
+            = datagrid_table @family_grid, order: false, html: { class: 'table table-bordered table-striped table-hover families'}
+
 .row
   -# = render 'placement'
   = render 'referrals/confirm_referral'

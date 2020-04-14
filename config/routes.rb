@@ -260,7 +260,11 @@ Rails.application.routes.draw do
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
-      resources :organizations, only: [:index]
+      resources :organizations, only: [:index] do
+        collection do
+          get :clients
+        end
+      end
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
       resources :families, only: [:index, :create, :update] do
@@ -347,7 +351,11 @@ Rails.application.routes.draw do
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
 
-      resources :field_settings, only: [:index, :update]
+      resources :field_settings, only: [:index] do
+        collection do
+          put :bulk_update
+        end
+      end
     end
   end
 

@@ -31,9 +31,8 @@ module ClientsHelper
   def rails_i18n_translations
     # Change slice inputs to adapt your need
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
-      :able_screening_questions,
       :clients,
-      :client
+      :default_client_fields
     )
 
     if current_organization.short_name != 'brc' && I18n.locale.to_s == 'en'
@@ -49,8 +48,8 @@ module ClientsHelper
       output[field_setting.name] = policy(Client).show?(field_setting.name)
     end
 
-    result[:brc_client_address] = %w(current_island current_street current_po_box current_city current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
-    result[:brc_client_other_address] = %w(island2 street2 po_box2 city2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:brc_client_address] = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
     result
   end
 
@@ -95,19 +94,16 @@ module ClientsHelper
       legacy_brcs_id:                t('datagrid.columns.clients.legacy_brcs_id'),
       whatsapp:                      t('datagrid.columns.clients.whatsapp'),
       other_phone_number:            t('datagrid.columns.clients.other_phone_number'),
-      v_score:                       t('datagrid.columns.clients.v_score'),
       brsc_branch:                   t('datagrid.columns.clients.brsc_branch'),
       current_island:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
       current_street:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
       current_po_box:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_po_box')),
-      current_city:                  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_city')),
       current_settlement:            t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_settlement')),
       current_resident_own_or_rent:  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_resident_own_or_rent')),
       current_household_type:        t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_household_type')),
       island2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.island2')),
       street2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.street2')),
       po_box2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.po_box2')),
-      city2:                         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.city2')),
       settlement2:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
       resident_own_or_rent2:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
       household_type2:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
@@ -367,6 +363,24 @@ module ClientsHelper
 
   def default_columns_visibility(column)
     label_column = {
+      presented_id_:                  t('datagrid.columns.clients.presented_id'),
+      id_number_:                     t('datagrid.columns.clients.id_number'),
+      legacy_brcs_id_:                t('datagrid.columns.clients.legacy_brcs_id'),
+      whatsapp_:                      t('datagrid.columns.clients.whatsapp'),
+      other_phone_number_:            t('datagrid.columns.clients.other_phone_number'),
+      brsc_branch_:                   t('datagrid.columns.clients.brsc_branch'),
+      current_island_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
+      current_street_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
+      current_po_box_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_po_box')),
+      current_settlement_:            t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_settlement')),
+      current_resident_own_or_rent_:  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_resident_own_or_rent')),
+      current_household_type_:        t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_household_type')),
+      island2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.island2')),
+      street2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.street2')),
+      po_box2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.po_box2')),
+      settlement2_:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
+      resident_own_or_rent2_:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
+      household_type2_:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
       live_with_: t('datagrid.columns.clients.live_with'),
       exit_reasons_: t('datagrid.columns.clients.exit_reasons'),
       exit_circumstance_: t('datagrid.columns.clients.exit_circumstance'),
@@ -448,8 +462,13 @@ module ClientsHelper
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
+      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date'),
       hotline_call_: t('datagrid.columns.calls.hotline_call')
     }
+
+    (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
+      label_column["#{field_name}_".to_sym] = t("datagrid.columns.clients.#{field_name}")
+    end
 
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
@@ -1230,7 +1249,7 @@ module ClientsHelper
   end
 
   def initial_referral_date_picker_format(client)
-    "#{client.initial_referral_date.year}, #{client.initial_referral_date.month}, #{@client.initial_referral_date.day}"
+    "#{client.initial_referral_date&.year}, #{client.initial_referral_date&.month}, #{@client.initial_referral_date&.day}"
   end
 
   def get_address_json
