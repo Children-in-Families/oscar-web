@@ -1,7 +1,7 @@
 namespace :safe_haven do
   desc 'Import all Safe Haven clients and related data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'shk', full_name: "Safe Haven", logo: File.open(Rails.root.join('app/assets/images/haven.png')))
+    org = Organization.create_and_build_tenant(short_name: 'shk', full_name: "Safe Haven", logo: File.open(Rails.root.join('app/assets/images/haven.png')))
     Organization.switch_to 'shk'
 
     Rake::Task['agencies:import'].invoke

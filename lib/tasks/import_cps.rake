@@ -1,7 +1,7 @@
 namespace :cps do
   desc "Import all Campasio clients and related data"
   task import: :environment do
-    Organization.create_and_build_tanent(short_name: 'cps', full_name: 'Compasio', logo: File.open(Rails.root.join('app/assets/images/compasio.png')))
+    Organization.create_and_build_tenant(short_name: 'cps', full_name: 'Compasio', logo: File.open(Rails.root.join('app/assets/images/compasio.png')))
     Organization.switch_to 'cps'
 
     import = CpsImporter::Import.new('Provinces')

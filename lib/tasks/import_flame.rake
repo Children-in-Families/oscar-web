@@ -1,7 +1,7 @@
 namespace :flame do
   desc 'Import all Flame clients and related data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'fco', full_name: "Flame Cambodia", logo: File.open(Rails.root.join('app/assets/images/flame.jpg')))
+    org = Organization.create_and_build_tenant(short_name: 'fco', full_name: "Flame Cambodia", logo: File.open(Rails.root.join('app/assets/images/flame.jpg')))
     Organization.switch_to 'fco'
 
     Rake::Task['agencies:import'].invoke
