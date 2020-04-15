@@ -9,4 +9,16 @@ class FamilyMember < ActiveRecord::Base
   MY_RELATIONS = [ 'ဖခင်', 'မိခင်', 'အစ်ကို', 'အစ်မ', 'ဘကြီး', 'အဒေါ်', 'အဘိုး', 'အဖွါး', 'ဆွေမျိုး', 'အိမ်နီးချင်း', 'မိတျဆှေ']
 
   enumerize :gender, in: ['female', 'male', 'other', 'unknown', 'prefer_not_to_say'], scope: true, predicates: { prefix: true }
+
+  after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
+
+  private
+
+  def save_aggregation_data
+    family&.save_aggregation_data
+  end
+
+  def brc?
+    Organization.current&.short_name == 'brc'
+  end
 end

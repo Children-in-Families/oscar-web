@@ -1,21 +1,25 @@
 module Brc::Family
   extend ActiveSupport::Concern
 
-  def male_adult_count
-    brc? ? family_members.where('gender = ? AND date_of_birth <= ?', :male, 18.years.ago).count : super
+  included do
+    after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
   end
 
-  def female_adult_count
-    brc? ? family_members.where('gender = ? AND date_of_birth <= ?', :female, 18.years.ago).count : super
+  def self.update_brc_aggregation_data
+    Organization.switch_to 'brc'
+    Family.find_each(&:save_aggregation_data)
   end
 
-  def male_children_count
-    brc? ? family_members.where('gender = ? AND date_of_birth > ?', :male, 18.years.ago).count : super
+  def save_aggregation_data
+    update_columns(
+      male_adult_count: family_members.where('gender = ? AND date_of_birth <= ?', :male, 18.years.ago).count,
+      female_adult_count: family_members.where('gender = ? AND date_of_birth <= ?', :female, 18.years.ago).count,
+      male_children_count: family_members.where('gender = ? AND date_of_birth > ?', :male, 18.years.ago).count,
+      female_children_count: family_members.where('gender = ? AND date_of_birth > ?', :female, 18.years.ago).count
+    )
   end
 
-  def female_children_count
-    brc? ? family_members.where('gender = ? AND date_of_birth > ?', :female, 18.years.ago).count : super
-  end
+  private
 
   def brc?
     Organization.current&.short_name == 'brc'
