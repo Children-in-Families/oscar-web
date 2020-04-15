@@ -106,7 +106,7 @@ class BrcImporter
       end
 
       family.family_members << FamilyMember.create!(
-        adult_name: family.name,
+        adult_name: new_family['name'],
         gender: workbook.row(row_index)[headers['Sex']].downcase,
         date_of_birth: workbook.row(row_index)[headers['Date of birth']]
       )
