@@ -98,8 +98,12 @@ class BrcImporter
       # Make random data
       new_family['name'] = "#{FFaker::Name.first_name} #{FFaker::Name.last_name}"
 
-      family = Family.new(new_family)
-      family.save(validate: false)
+      family = Family.find_by(code: new_family['code'])
+
+      if family.blank?
+        family = Family.new(new_family)
+        family.save(validate: false)
+      end
 
       family.family_members << FamilyMember.create!(
         adult_name: family.name,
