@@ -59,6 +59,11 @@ class Family < ActiveRecord::Base
   scope :by_status,                  ->(value) { where(status: value) }
   scope :by_family_type,             ->(value) { where(family_type: value) }
 
+  def self.update_brc_aggregation_data
+    Organization.switch_to 'brc'
+    Family.find_each(&:save_aggregation_data)
+  end
+
   def member_count
     male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i
   end

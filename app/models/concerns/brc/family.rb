@@ -5,11 +5,6 @@ module Brc::Family
     after_commit :save_aggregation_data, on: [:create, :update], if: :brc?
   end
 
-  def self.update_brc_aggregation_data
-    Organization.switch_to 'brc'
-    Family.find_each(&:save_aggregation_data)
-  end
-
   def save_aggregation_data
     update_columns(
       male_adult_count: family_members.where('gender = ? AND date_of_birth <= ?', :male, 18.years.ago).count,
