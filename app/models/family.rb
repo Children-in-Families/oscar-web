@@ -1,5 +1,7 @@
 class Family < ActiveRecord::Base
   include EntityTypeCustomField
+  include Brc::Family
+
   TYPES = ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
     'Birth Family (Only Father)', 'Extended Family / Kinship Care',
     'Short Term / Emergency Foster Care', 'Long Term Foster Care',
