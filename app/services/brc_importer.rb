@@ -96,7 +96,7 @@ class BrcImporter
       new_family['status']      = workbook.row(row_index)[headers['*Family Status']]
 
       # Make random data
-      new_family['name'] = "#{FFaker::Name.first_name} #{FFaker::Name.last_name}"
+      # new_family['name'] = "#{FFaker::Name.first_name} #{FFaker::Name.last_name}"
 
       family = Family.find_by(code: new_family['code'])
 
@@ -105,15 +105,11 @@ class BrcImporter
         family.save(validate: false)
       end
 
-      member = family.family_members.find_by(adult_name: workbook.row(row_index)[headers['*Name']])
-
-      if member.blank?
-        family.family_members << FamilyMember.create!(
-          adult_name: workbook.row(row_index)[headers['*Name']],
-          gender: workbook.row(row_index)[headers['Sex']].downcase,
-          date_of_birth: workbook.row(row_index)[headers['Date of birth']]
-        )
-      end
+      family.family_members << FamilyMember.create!(
+        adult_name: workbook.row(row_index)[headers['*Name']],
+        gender: workbook.row(row_index)[headers['Sex']]&.downcase,
+        date_of_birth: workbook.row(row_index)[headers['Date of birth']]
+      )
     end
   end
 
@@ -158,25 +154,25 @@ class BrcImporter
       new_client.each do |k, v|
         new_client[k] = nil if v == '0' || v == 0
         # Make data random
-        sensitive_fields = %w(id_number legacy_brcs_id)
-
-        if k.in?(sensitive_fields) && v.present?
-          v = v.to_s + '123'
-          new_client[k] = v.split('').map{ |c| v.split('').sample }.join
-        end
+        # sensitive_fields = %w(id_number legacy_brcs_id)
+        #
+        # if k.in?(sensitive_fields) && v.present?
+        #   v = v.to_s + '123'
+        #   new_client[k] = v.split('').map{ |c| v.split('').sample }.join
+        # end
       end
 
       # Make data random
-      new_client['given_name'] = FFaker::Name.first_name
-      new_client['family_name'] = FFaker::Name.last_name
-      new_client['local_given_name'] = FFaker::Name.first_name
-      new_client['local_family_name'] = FFaker::Name.last_name
-
-      new_client['current_street'] = FFaker::Address.street_address
-      new_client['street2'] = FFaker::Address.street_address
-
-      new_client['client_phone'] = FFaker::PhoneNumber.phone_number
-      new_client['other_phone_number'] = FFaker::PhoneNumber.phone_number
+      # new_client['given_name'] = FFaker::Name.first_name
+      # new_client['family_name'] = FFaker::Name.last_name
+      # new_client['local_given_name'] = FFaker::Name.first_name
+      # new_client['local_family_name'] = FFaker::Name.last_name
+      #
+      # new_client['current_street'] = FFaker::Address.street_address
+      # new_client['street2'] = FFaker::Address.street_address
+      #
+      # new_client['client_phone'] = FFaker::PhoneNumber.phone_number
+      # new_client['other_phone_number'] = FFaker::PhoneNumber.phone_number
 
       family = Family.find_by(code: family_id)
 
