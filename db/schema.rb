@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200414054443) do
+ActiveRecord::Schema.define(version: 20200417074727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1334,6 +1334,7 @@ ActiveRecord::Schema.define(version: 20200414054443) do
     t.integer  "quantitative_cases_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "multiple",                 default: true
   end
 
   create_table "quarterly_reports", force: :cascade do |t|
