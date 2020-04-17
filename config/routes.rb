@@ -257,6 +257,7 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index] do
         collection do
           get :clients
+          post 'clients/create_many' => 'organizations#create_many'
         end
       end
       resources :domain_groups, only: [:index]
