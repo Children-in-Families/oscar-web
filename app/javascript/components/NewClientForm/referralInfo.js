@@ -337,6 +337,13 @@ export default props => {
       }
 
       <div className="row">
+        {
+          fieldsVisibility.what3words == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput label={t(translation, 'clients.form.what_3_word')} onChange={onChange('client', 'what3words')} value={client.what3words} />
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={t(translation, 'clients.form.client_phone')} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
         </div>
@@ -371,13 +378,6 @@ export default props => {
               checked={client.other_phone_whatsapp}
               onChange={onChange('client', 'other_phone_whatsapp')}
             />
-          </div>
-        }
-
-        {
-          fieldsVisibility.what3words == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput label={t(translation, 'clients.form.what_3_word')} onChange={onChange('client', 'what3words')} value={client.what3words} />
           </div>
         }
 
