@@ -25,7 +25,7 @@ class BrcImporter
   def create_custom_referral_data
     QuantitativeType.destroy_all
 
-    quantitative_type = QuantitativeType.create!(name: 'Change in Livelihood')
+    quantitative_type = QuantitativeType.create!(name: 'Change in Livelihood', multiple: false)
     quantitative_type.quantitative_cases.create!(value: 'Yes')
     quantitative_type.quantitative_cases.create!(value: 'No')
 
