@@ -44,7 +44,8 @@ Capybara.register_driver :poltergeist do |app|
     js_errors: false,
     phantomjs_options: ['--debug=false', '--web-security=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any', '--webdriver-logfile=/var/log/phantomjs.log'],
     timeout: 60,
-    phantomjs: File.absolute_path(Phantomjs.path)
+    phantomjs: File.absolute_path(Phantomjs.path),
+    url_whitelist: %w(http://app.lvh.me http://lvh.me http://localhost 127.0.0.1)
   }
   Capybara::Poltergeist::Driver.new(app, options)
 end
@@ -107,29 +108,18 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.before(:each) do
     DatabaseCleaner.strategy = :transaction
     Apartment::Tenant.drop('app') rescue nil
     Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
-    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
     Apartment::Tenant.switch! 'app'
+    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
   end
 
   config.before(:each, js: true) do
     DatabaseCleaner.strategy = :truncation
     Capybara.default_max_wait_time = 10
     Capybara.always_include_port = true
-    Capybara.app_host = "http://localhost"
-  end
-
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
-      example.run
-    end
+    Capybara.app_host = "http://app.lvh.me"
   end
 
   config.after(:each) do

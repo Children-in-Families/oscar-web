@@ -38,12 +38,7 @@ describe 'Agency' do
       expect(page).to have_content('Test Agency')
     end
 
-    scenario 'invalid', js: true, focus: true do
-      puts "********"
-      org_short_name = Organization.current.short_name
-      puts org_short_name
-      puts page.html
-      puts "********"
+    scenario 'invalid', js: true do
       click_link 'Add New Agency'
 
       within('#new_agency') do
