@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200311092201) do
+ActiveRecord::Schema.define(version: 20200410054110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,8 +172,8 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.boolean  "answered_call"
     t.boolean  "called_before"
     t.boolean  "requested_update",       default: false
-    t.boolean  "childsafe_agent"
     t.boolean  "not_a_phone_call",       default: false
+    t.boolean  "childsafe_agent"
     t.string   "other_more_information", default: ""
     t.string   "brief_note_summary",     default: ""
   end
@@ -241,7 +241,6 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.boolean  "custom",                       default: false
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
-    t.string   "selected_domain_group_ids",    default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -562,12 +561,21 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.boolean  "concern_same_as_client",           default: false
     t.string   "location_description",             default: ""
     t.string   "phone_counselling_summary",        default: ""
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
+    t.integer  "global_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
   add_index "clients", ["current_family_id"], name: "index_clients_on_current_family_id", using: :btree
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
+  add_index "clients", ["external_id"], name: "index_clients_on_external_id", using: :btree
+  add_index "clients", ["global_id"], name: "index_clients_on_global_id", using: :btree
+  add_index "clients", ["mosvy_number"], name: "index_clients_on_mosvy_number", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
   add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
   add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
@@ -775,6 +783,7 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
+    t.datetime "deleted_at"
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
@@ -785,7 +794,6 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
-    t.datetime "deleted_at"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -835,6 +843,10 @@ ActiveRecord::Schema.define(version: 20200311092201) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "global_identities", force: :cascade do |t|
+    t.binary "ulid"
+  end
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1082,6 +1094,16 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.datetime "updated_at"
   end
 
+  create_table "meta_fields", force: :cascade do |t|
+    t.string   "field_name"
+    t.string   "field_type"
+    t.boolean  "hidden",     default: true
+    t.boolean  "required",   default: false
+    t.string   "label"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "necessities", force: :cascade do |t|
     t.string   "content",    default: ""
     t.datetime "created_at",              null: false
@@ -1109,6 +1131,7 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.boolean  "fcf_ngo",    default: false
     t.string   "country",    default: ""
     t.boolean  "aht",        default: false
+    t.boolean  "integrated", default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1350,8 +1373,10 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.string   "ngo_name",         default: ""
+    t.integer  "client_global_id"
   end
 
+  add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
 
   create_table "service_types", force: :cascade do |t|
@@ -1427,9 +1452,11 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.string   "country_origin",    default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
+    t.integer  "global_id"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
+  add_index "shared_clients", ["global_id"], name: "index_shared_clients_on_global_id", using: :btree
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "sponsors", force: :cascade do |t|
@@ -1771,9 +1798,9 @@ ActiveRecord::Schema.define(version: 20200311092201) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
-    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -1877,6 +1904,7 @@ ActiveRecord::Schema.define(version: 20200311092201) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
+  add_foreign_key "clients", "global_identities", column: "global_id"
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"

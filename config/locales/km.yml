@@ -1839,6 +1839,7 @@ km:
         '11': ពិការភាព
         '12': ផ្សេងៗ
       client_able_answers: ចំលើយ Able
+      client_global_identity: Client Global Identity
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
