@@ -13,7 +13,7 @@ class BrcImporter
 
     sheets = %w(family user client)
     # Skip importing user in staging
-    sheets = %w(family client)
+    # sheets = %w(family client)
     sheets.each do |sheet_name|
       sheet_index = workbook.sheets.index(sheet_name)
       workbook.default_sheet = workbook.sheets[sheet_index]
