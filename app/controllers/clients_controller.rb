@@ -79,7 +79,10 @@ class ClientsController < AdminController
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
         # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
         if @client.family.present?
-          @family_grid = FamilyGrid.new(dynamic_columns: Setting.first.try(:family_default_columns))
+          dynamic_columns = Setting.first.try(:family_default_columns) || []
+          dynamic_columns = dynamic_columns.select(&:present?)
+
+          @family_grid = FamilyGrid.new(dynamic_columns: dynamic_columns)
           @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability).where(id: @client.current_family_id) }
         end
       end
