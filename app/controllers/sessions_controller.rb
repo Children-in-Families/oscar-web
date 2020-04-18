@@ -1,6 +1,7 @@
 class SessionsController < Devise::SessionsController
   before_action :set_whodunnit, :set_current_ngo, :detect_browser
   after_action :increase_visit_count, only: :create
+  skip_before_action :set_locale, only: :create
 
   def set_whodunnit
     if current_user
