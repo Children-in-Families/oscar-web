@@ -16,7 +16,7 @@ class SessionsController < Devise::SessionsController
 
   def create
     super do |resource|
-      I18n.locale = resource.preferred_language
+      I18n.locale = params[:locale] = resource.preferred_language
     end
   end
 

@@ -20,7 +20,7 @@ class RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
 
     if resource_updated
-      I18n.locale = resource.preferred_language if current_user == resource && resource.preferred_language != preferred_language_was
+      I18n.locale = params[:locale] = resource.preferred_language if current_user == resource && resource.preferred_language != preferred_language_was
 
       if is_flashing_format?
         flash_key = update_needs_confirmation?(resource, prev_unconfirmed_email) ?
