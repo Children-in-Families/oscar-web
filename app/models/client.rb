@@ -318,30 +318,6 @@ class Client < ActiveRecord::Base
     where('status = ? or user_id = ?', status, user.id)
   end
 
-  # def has_no_ec_or_any_cases?
-  #   cases.emergencies.blank? || cases.active.blank?
-  # end
-
-  # def has_no_active_kc_and_fc?
-  #   cases.kinships.active.blank? && cases.fosters.active.blank?
-  # end
-
-  # def has_kc_and_fc?
-  #   cases.kinships.present? && cases.fosters.present?
-  # end
-
-  # def has_no_kc_and_fc?
-  #   !has_kc_or_fc?
-  # end
-
-  # def has_exited_kc_and_fc?
-  #   cases.latest_kinship.exited && cases.latest_foster.exited
-  # end
-
-  # def has_kc_or_fc?
-  #   cases.kinships.present? || cases.fosters.present?
-  # end
-
   def has_no_latest_kc_and_fc?
     !latest_case
   end
@@ -527,58 +503,6 @@ class Client < ActiveRecord::Base
     detail_cps
   end
 
-
-  # def time_in_care
-  #   date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
-  #   return date_time_in_care unless client_enrollments.any?
-  #   first_multi_enrolled_program_date = ''
-  #   last_multi_leave_program_date = ''
-  #   ordered_enrollments = client_enrollments.order(:enrollment_date)
-  #   ordered_enrollments.each_with_index do |enrollment, index|
-  #     current_enrollment_date = enrollment.enrollment_date
-  #     current_program_exit_date = enrollment.leave_program.try(:exit_date) || Date.today
-
-  #     next_program_enrollment = ordered_enrollments[index + 1].nil? ? ordered_enrollments[index - 1] : ordered_enrollments[index + 1]
-  #     next_program_enrollment_date = next_program_enrollment.enrollment_date
-  #     next_program_exit_date = next_program_enrollment.leave_program.try(:exit_date) || Date.today
-
-  #     if current_program_exit_date <= next_program_enrollment_date
-  #       if first_multi_enrolled_program_date.present? && last_multi_leave_program_date.present?
-  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
-
-  #         first_multi_enrolled_program_date = ''
-  #         last_multi_leave_program_date = ''
-  #       end
-  #       date_time_in_care = calculate_time_in_care(date_time_in_care, current_enrollment_date, current_program_exit_date)
-  #     else
-  #       first_multi_enrolled_program_date = current_enrollment_date if first_multi_enrolled_program_date == ''
-  #       last_multi_leave_program_date = current_program_exit_date > next_program_exit_date ? current_program_exit_date : next_program_exit_date
-
-  #       if index == ordered_enrollments.length - 1
-  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
-  #       end
-  #     end
-  #   end
-  #   date_time_in_care.store(:years, 0) unless date_time_in_care[:years].present?
-  #   date_time_in_care.store(:months, 0) unless date_time_in_care[:months].present?
-  #   date_time_in_care.store(:weeks, 0) unless date_time_in_care[:weeks].present?
-  #   date_time_in_care.store(:days, 0) unless date_time_in_care[:days].present?
-
-  #   if date_time_in_care[:days] > 0
-  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] + 1
-  #     date_time_in_care[:days] = 0
-  #   end
-  #   if date_time_in_care[:weeks] >= 4
-  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] - 4
-  #     date_time_in_care[:months] = date_time_in_care[:months] + 1
-  #   end
-  #   if date_time_in_care[:months] >= 12
-  #     date_time_in_care[:months] = date_time_in_care[:months] - 12
-  #     date_time_in_care[:years] = date_time_in_care[:years] + 1
-  #   end
-  #   date_time_in_care
-  # end
-
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
@@ -725,6 +649,31 @@ class Client < ActiveRecord::Base
     shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
+  end
+
+  def get_client_attribute(attribute)
+    client_attributes = {
+      external_id:            attribute[:external_id],
+      external_id_display:    attribute[:external_id_display],
+      mosvy_number:           attribute[:mosvy_number],
+      given_name:             attribute[:given_name],
+      family_name:            attribute[:family_name],
+      gender:                 attribute[:gender],
+      date_of_birth:          attribute[:date_of_birth],
+      reason_for_referral:    attribute[:reason_for_referral],
+      external_case_worker_id:   attribute[:external_case_worker_id],
+      external_case_worker_name: attribute[:external_case_worker_name],
+      **get_village(attribute[:address_current_village_code])
+    }
+  end
+
+  def get_village(village_code)
+    village = Village.find_by(code: village_code)
+    if village
+      { village_id: village.id, commune_id: village.commune&.id, district_id: village.commune.district&.id, province_id: village.commune.district.province&.id }
+    else
+      { village_id: nil }
+    end
   end
 
   private
