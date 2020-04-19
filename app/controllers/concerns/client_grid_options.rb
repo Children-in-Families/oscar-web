@@ -381,7 +381,7 @@ module ClientGridOptions
 
             properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
           end
-        elsif fields.first == 'programexitdate'
+        elsif fields.first == 'exitprogramdate'
           ids = client.client_enrollments.inactive.ids
           if data == 'recent'
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
@@ -408,6 +408,7 @@ module ClientGridOptions
 
   def admin_client_grid
     data = params[:data].presence
+
     if params.dig(:client_grid, :quantitative_types)
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))

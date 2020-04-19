@@ -89,6 +89,39 @@ class FamilyGrid < BaseGrid
     scope.caregiver_information_like(value)
   end
 
+  def filer_section(filter_name)
+    {
+      street: :address,
+      house: :address,
+      dependable_income: :general,
+      female_adult_count: :aggregrate,
+      male_adult_count: :aggregrate,
+      household_income: :general,
+      contract_date: :general,
+      caregiver_information: :general,
+      id: :general,
+      code: :general,
+      name: :general,
+      family_type: :aggregrate,
+      status: :general,
+      case_history: :general,
+      member_count: :aggregrate,
+      cases: :aggregrate,
+      case_workers: :aggregrate,
+      significant_family_member_count: :aggregrate,
+      female_children_count: :aggregrate,
+      male_children_count: :aggregrate,
+      female_adult_count: :aggregrate,
+      male_adult_count: :aggregrate,
+      village_id: :address,
+      commune_id: :address,
+      district_id: :address,
+      province_id: :address,
+      manage: :aggregrate,
+      changelo: :aggregrate
+    }[filter_name]
+  end
+
   column(:id, header: -> { I18n.t('datagrid.columns.families.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.families.code') })

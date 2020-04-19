@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
+  LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
 
   GENDER_OPTIONS = ['female', 'male', 'other', 'prefer not to say']
 
@@ -166,8 +167,8 @@ class User < ActiveRecord::Base
             due_today << client
           end
           CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id).to_date
-            if client_custom_next_assessment_date < Date.today
+            client_custom_next_assessment_date = client.custom_next_assessment_date(nil, custom_assessment_setting.id)&.to_date
+            if  client_custom_next_assessment_date && client_custom_next_assessment_date < Date.today
               customized_overdue << client
             elsif  client_custom_next_assessment_date && client_custom_next_assessment_date == Date.today
               customized_due_today << client

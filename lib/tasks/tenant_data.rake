@@ -3,7 +3,7 @@ namespace :tenant_data do
   task :clean, [:short_name] => :environment do |task, args|
     short_name = args.short_name
     unless Rails.env.production?
-      Apartment::Tenant.drop(short_name)
+      # Apartment::Tenant.drop(short_name)
       puts "Drop schema done!!!"
       sql = "DELETE FROM shared.shared_clients WHERE shared.shared_clients.archived_slug iLIKE '#{short_name}-%';"
       ActiveRecord::Base.connection.execute(sql)
@@ -22,6 +22,7 @@ namespace :tenant_data do
       Rake::Task["client_to_shared:copy"].invoke(args.short_name)
       puts "duplicate_checker_field start!!!"
       Rake::Task["duplicate_checker_field:update"].invoke(args.short_name)
+      Rake::Task["field_settings:import"].invoke(args.short_name)
       #Rake::Task["client_status:correct"].invoke()
       puts "Clean data done!!!"
     end

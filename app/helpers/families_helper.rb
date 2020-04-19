@@ -124,14 +124,16 @@ module FamiliesHelper
       current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_kh}" if object.commune.present?
       current_address << object.district_name.split(' / ').first if object.district.present?
       current_address << object.province_name.split(' / ').first if object.province.present?
-      current_address << 'កម្ពុជា'
+      current_address << 'កម្ពុជា' if Organization.current.short_name != 'brc'
+
     else
       current_address << "#{I18n.t('datagrid.columns.families.village')} #{object.village.name_en}" if object.village.present?
       current_address << "#{I18n.t('datagrid.columns.families.commune')} #{object.commune.name_en}" if object.commune.present?
       current_address << object.district_name.split(' / ').last if object.district.present?
       current_address << object.province_name.split(' / ').last if object.province.present?
-      current_address << 'Cambodia'
+      current_address << 'Cambodia' if Organization.current.short_name != 'brc'
     end
+    
     current_address.join(', ')
   end
 

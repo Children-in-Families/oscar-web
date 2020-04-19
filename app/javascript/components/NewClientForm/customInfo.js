@@ -1,11 +1,12 @@
 import React from 'react'
+import { t } from '../../utils/i18n'
 import {
   TextInput,
   SelectInput
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, id, data: { errorFields, ratePoor, client, T } } = props
+  const { onChange, fieldsVisibility, translation, id, data: { errorFields, ratePoor, client, T } } = props
 
   const rateLists = ratePoor.map(rate => ({ label: rate[0], value: rate[1] }))
 
@@ -25,9 +26,13 @@ export default props => {
             errorText={errorFields.includes('kid_id') && T.translate("customInfo.has_already_taken")}
           />
         </div>
-        <div className="col-xs-12 col-md-6 col-lg-6">
-          <SelectInput label={T.translate("customInfo.rate_client_id")} options={rateLists} value={client.rated_for_id_poor} onChange={onChange('client', 'rated_for_id_poor')} />
-        </div>
+
+        {
+          fieldsVisibility.rated_for_id_poor == true &&
+          <div className="col-xs-12 col-md-6 col-lg-6">
+            <SelectInput label={t(translation, 'clients.form.rated_for_id_poor')} options={rateLists} value={client.rated_for_id_poor} onChange={onChange('client', 'rated_for_id_poor')} />
+          </div>
+        }
       </div>
     </div>
   )

@@ -2,6 +2,8 @@ class Client < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   include EntityTypeCustomField
   include NextClientEnrollmentTracking
+  include ClientConstants
+
   extend FriendlyId
 
   require 'text'
@@ -11,19 +13,6 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
   mount_uploader :profile, ImageUploader
-
-  REFEREE_RELATIONSHIPS = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
-  RELATIONSHIP_TO_CALLER = ['Self', 'Child', 'Family Member', 'Friend', 'In same community', 'Client', 'Stranger', 'Other'].freeze
-  ADDRESS_TYPES    = ['Home', 'Business', 'RCI', 'Dormitory', 'Other'].freeze
-  PHONE_OWNERS    = ['Self', 'Family Member', 'Friend', 'Helping Professional', 'Government / Local Authority', 'Other'].freeze
-  HOTLINE_FIELDS  = %w(nickname concern_is_outside concern_outside_address concern_province_id concern_district_id concern_commune_id concern_village_id concern_street concern_house concern_address concern_address_type concern_phone concern_phone_owner concern_email concern_email_owner concern_location concern_same_as_client location_description phone_counselling_summary)
-  EXIT_REASONS    = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
-  CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
-  HEADER_COUNTS   = %w( date_of_call case_note_date case_note_type exit_date accepted_date date_of_assessments date_of_custom_assessments program_streams programexitdate enrollmentdate quantitative-type type_of_service).freeze
-
-  GRADES = ['Kindergarten 1', 'Kindergarten 2', 'Kindergarten 3', 'Kindergarten 4', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8'].freeze
-  GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown']
-  CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
   delegate :name, to: :referral_source, prefix: true, allow_nil: true
   delegate :name, to: :township, prefix: true, allow_nil: true
@@ -92,6 +81,14 @@ class Client < ActiveRecord::Base
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :gender, :referral_source_category_id, presence: true
   validate :address_contrain, on: [:create, :update]
+
+  validates :gender, inclusion: { in: GENDER_OPTIONS }, allow_blank: true
+
+  validates :current_island, inclusion: { in: BRC_BRANCHES }, allow_blank: true
+  validates :island2, inclusion: { in: BRC_BRANCHES }, allow_blank: true
+
+  validates :current_resident_own_or_rent, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
+  validates :resident_own_or_rent2, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
 
   before_save :assign_global_id
   before_create :set_country_origin
@@ -449,6 +446,28 @@ class Client < ActiveRecord::Base
     day_time_in_ngos
   end
 
+  def brc_current_address
+    [
+      current_island,
+      current_settlement,
+      current_street,
+      current_po_box,
+      current_resident_own_or_rent,
+      current_household_type
+    ].select(&:present?).join(', ')
+  end
+
+  def brc_other_address
+    [
+      island2,
+      settlement2,
+      street2,
+      po_box2,
+      resident_own_or_rent2,
+      household_type2
+    ].select(&:present?).join(', ')
+  end
+
   def time_in_cps
     date_time_in_cps   = { years: 0, months: 0, weeks: 0, days: 0 }
     return nil unless client_enrollments.present?
@@ -795,5 +814,3 @@ class Client < ActiveRecord::Base
   end
 
 end
-
-

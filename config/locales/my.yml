@@ -807,9 +807,11 @@ my:
       successfully_deleted_case_note: Assessment has been successfully deleted.
     form:
       add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
+      add_task_message: Please select the domain group before you can add the task.
       back: ေနာက္သို႔
       completed_tasks: ၿပီးၿပီးသား လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
+      domain_groups: Please select all Domain Groups you supported the client with in this case note.
       label_note: မွတ္ခ်က္
       meeting_detail: အစည္းအေ၀း အေသးစိတ္
       meeting_with: ႏွင့္ အစည္းအေ၀း
@@ -817,6 +819,7 @@ my:
       on_date: ရက္စြဲ
       on_going_tasks: လုပ္ေဆာင္ဆဲ လုပ္ငန္းမ်ား
       present: လာေရာက္စဥ္ေသာ္လည္းေကာင္း၊ စကားေျပာေနစဥ္ေသာ္လည္း ေဘးတြင္ မည္သူရွိေနပါသနည္း
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: သိမ္းသည္။
       tasks: လုပ္ငန္းမ်ား
       tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
@@ -847,6 +850,7 @@ my:
       case_note_on: ဆုိင္ရာ အမႈျခင္းရာမွတ္စု
       completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
       domain: ဒိုမိန္း
+      domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       goal: ရည္မွန္းခ်က္
       incompleted_tasks: မပြည့်စုံတာဝန်များကို
       new_case_note: အမႈျခင္းရာမွတ္စုအသစ္
@@ -1533,14 +1537,22 @@ my:
       answer: အေျဖ
       birth_province: ေမြးဖြားသည့္ ခ႐ိုင္
       blank: အလွတ်မဖွစျနိုငျ
+      brsc_branch: BRCS Branch
       cambodia: ကေမာၻဒီးယား
       case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      client_phone: Client Contact Phone
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ၿပီ
       current_address: လက္ရွိလိပ္စာ
+      current_household_type: Address Type
+      current_island: Island
+      current_po_box: PO BOX
       current_province: လက္ရွိေနထိုင္ရာ ခ႐ိုင္
+      current_resident_own_or_rent: Acc. type
+      current_settlement: City/Settlement
+      current_street: Street
       custom_forms: အခြန္ပံုစံမ်ား
       date_of_birth: ေမြးဖြာသည့္ ရက္၊ လ၊ ႏွစ္
       district: ခ႐ိုင္
@@ -1589,32 +1601,48 @@ my:
       has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈေအာက္ ေရာက္ဖူးသည္
       has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူးသည္
       house_number: အိမ္နံပါတ္
+      household_type2: Address Type
+      legacy_brcs_id: Legacy BRCS-ID number
       id: မွတ္ပံုတင္
+      id_number: ID number
       id_poor: လူဆင္းရဲမွတ္ပံုတင္
       initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
       is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
+      island2: Island
       kid_id: ကေလးမွတ္ပံုတင္
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအလိုက္)
       local_given_name: ေမြးနာမည္ (ေဒသအလုိက္)
       name: နာမည္
       next: နောက်တစ်ခု
+      other_phone_number: Phone Number - Alternate
+      other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      phone_owner: Phone Owner
+      po_box2: PO Box
+      presented_id: Presented ID
       previous: လွန်ခဲ့သော
       province: ေမြးဖြားရာ ခ႐ိုင္
+      rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
       relevant_referral_information: သက္ဆိုင္ေသာ လြဲေျပာင္း အခ်က္အလက္
+      resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
+      settlement2: City/Settlement
       stage: အဆင့္ေမးခြန္း
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
+      street2: Street
       street_number: လမ္း
       telephone_number: တယ်လီဖုန်းနံပါတ်
       to: သို႔
+      user_ids: Case Worker / Assigned Staff Manager
       village: ေက်းရြာ
+      what_3_word: What3Words
+      whatsapp: Whatsapp?
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
     form_header:
@@ -2278,7 +2306,27 @@ my:
         quantity: ရရွိႏုိင္ေသးေသာေနရာ အေရအတြက္
         report: အစီရင္ခံစာ
         status: အေနအထား
+      current_address: "%{column} - Current Address"
+      other_address: "%{column} - Other Address"
       clients:
+        presented_id: Presented ID
+        id_number: ID number
+        whatsapp: Whatsapp
+        other_phone_number: Phone Number - Alternate
+        brsc_branch: BRCS Branch
+        current_island: Island
+        current_street: Street
+        current_po_box: PO BOX
+        current_settlement: City/Settlement
+        current_resident_own_or_rent: Acc. type
+        current_household_type: Address Type
+        legacy_brcs_id: Legacy BRCS-ID number
+        island2: Island
+        street2: Street
+        po_box2: PO Box
+        settlement2: City/Settlement
+        resident_own_or_rent2: Acc. type
+        household_type2: Address Type
         able: Able
         able_state: Able State
         address: လိပ္စာ
@@ -2739,6 +2787,7 @@ my:
       male: Male
       other_gender: Other
       unknown: Unknown
+      prefer_not_to_say: Prefer not to answer
     referee_relationship:
       self: Self
       family_member: Family Member
@@ -3409,6 +3458,14 @@ my:
     version:
       back: ေနာက္သုိ႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  enumerize:
+    defaults:
+      gender:
+        female: Female
+        male: Male
+        other_gender: Other
+        unknown: Unknown
+        prefer_not_to_say: Prefer not to answer
   errors:
     messages:
       already_confirmed: အတည္ျပဳၿပီးပါၿပီ။ ေက်းဇူးျပဳ၍ ၀င္ၾကည့္ပါ။
@@ -4972,6 +5029,9 @@ my:
     research_module:
       research_module_label:
       title:
+    update:
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ
+  field_settings:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:

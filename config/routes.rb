@@ -251,6 +251,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :domain_groups, only: [] do
+      collection do
+        get :get_domains_by_domain_groups
+      end
+    end
+
     # resources :referral_sources
 
     namespace :v1, default: { format: :json } do
@@ -345,6 +351,12 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
+
+      resources :field_settings, only: [:index] do
+        collection do
+          put :bulk_update
+        end
+      end
     end
   end
 

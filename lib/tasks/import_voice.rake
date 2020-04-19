@@ -1,7 +1,7 @@
 namespace :voice do
   desc 'Import all Voice clients and related data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'voice', full_name: "Voice", logo: File.open(Rails.root.join('app/assets/images/voice.jpg')))
+    org = Organization.create_and_build_tenant(short_name: 'voice', full_name: "Voice", logo: File.open(Rails.root.join('app/assets/images/voice.jpg')))
     Organization.switch_to org.short_name
 
     Rake::Task['agencies:import'].invoke

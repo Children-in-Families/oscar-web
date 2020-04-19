@@ -28,6 +28,31 @@ module ClientsHelper
     end
   end
 
+  def rails_i18n_translations
+    # Change slice inputs to adapt your need
+    translations = I18n.backend.send(:translations)[I18n.locale].slice(
+      :clients,
+      :default_client_fields
+    )
+
+    if current_organization.short_name != 'brc' && I18n.locale.to_s == 'en'
+      translations[:clients][:form][:local_given_name] += " #{country_scope_label_translation}" if translations[:clients][:form][:local_given_name].exclude?(country_scope_label_translation)
+      translations[:clients][:form][:local_family_name] += " #{country_scope_label_translation}" if translations[:clients][:form][:local_family_name].exclude?(country_scope_label_translation)
+    end
+
+    translations
+  end
+
+  def fields_visibility
+    result = field_settings.each_with_object({}) do |field_setting, output|
+      output[field_setting.name] = policy(Client).show?(field_setting.name)
+    end
+
+    result[:brc_client_address] = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
+    result
+  end
+
   def report_options(title, yaxis_title)
     {
       library: {
@@ -64,10 +89,29 @@ module ClientsHelper
       kid_id:                        custom_id_translation('custom_id2'),
       code:                          custom_id_translation('custom_id1'),
       age:                           t('datagrid.columns.clients.age'),
+      presented_id:                  t('datagrid.columns.clients.presented_id'),
+      id_number:                     t('datagrid.columns.clients.id_number'),
+      legacy_brcs_id:                t('datagrid.columns.clients.legacy_brcs_id'),
+      whatsapp:                      t('datagrid.columns.clients.whatsapp'),
+      preferred_language:            t('datagrid.columns.clients.preferred_language'),
+      other_phone_number:            t('datagrid.columns.clients.other_phone_number'),
+      brsc_branch:                   t('datagrid.columns.clients.brsc_branch'),
+      current_island:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
+      current_street:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
+      current_po_box:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_po_box')),
+      current_settlement:            t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_settlement')),
+      current_resident_own_or_rent:  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_resident_own_or_rent')),
+      current_household_type:        t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_household_type')),
+      island2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.island2')),
+      street2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.street2')),
+      po_box2:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.po_box2')),
+      settlement2:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
+      resident_own_or_rent2:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
+      household_type2:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
-      local_given_name:              "#{t('datagrid.columns.clients.local_given_name')} #{country_scope_label_translation}",
-      local_family_name:             "#{t('datagrid.columns.clients.local_family_name')} #{country_scope_label_translation}",
+      local_given_name:              t('datagrid.columns.clients.local_given_name'),
+      local_family_name:             t('datagrid.columns.clients.local_family_name'),
       gender:                        t('datagrid.columns.clients.gender'),
       date_of_birth:                 t('datagrid.columns.clients.date_of_birth'),
       birth_province_id:             t('datagrid.columns.clients.birth_province'),
@@ -122,6 +166,13 @@ module ClientsHelper
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
     label_tag "#{column}_", label_column[column.to_sym]
+  end
+
+  def local_name_label(name_type = :local_given_name)
+    custom_field = FieldSetting.find_by(name: name_type)
+    label = t("datagrid.columns.clients.#{name_type}")
+    label = "#{label} #{country_scope_label_translation}" if custom_field.blank? || custom_field.label.blank?
+    label
   end
 
   def ec_manageable
@@ -216,7 +267,7 @@ module ClientsHelper
   end
 
   def form_builder_format_header(value)
-    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', programexitdate: 'Exit program' }
+    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', exitprogramdate: 'Exit program' }
     key_word  = value.first
     entity    = entities[key_word.to_sym]
     value     = value - [key_word]
@@ -312,6 +363,25 @@ module ClientsHelper
 
   def default_columns_visibility(column)
     label_column = {
+      presented_id_:                  t('datagrid.columns.clients.presented_id'),
+      id_number_:                     t('datagrid.columns.clients.id_number'),
+      legacy_brcs_id_:                t('datagrid.columns.clients.legacy_brcs_id'),
+      whatsapp_:                      t('datagrid.columns.clients.whatsapp'),
+      preferred_language_:            t('datagrid.columns.clients.preferred_language'),
+      other_phone_number_:            t('datagrid.columns.clients.other_phone_number'),
+      brsc_branch_:                   t('datagrid.columns.clients.brsc_branch'),
+      current_island_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_island')),
+      current_street_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_street')),
+      current_po_box_:                t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_po_box')),
+      current_settlement_:            t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_settlement')),
+      current_resident_own_or_rent_:  t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_resident_own_or_rent')),
+      current_household_type_:        t('datagrid.columns.current_address', column: t('datagrid.columns.clients.current_household_type')),
+      island2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.island2')),
+      street2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.street2')),
+      po_box2_:                       t('datagrid.columns.other_address', column: t('datagrid.columns.clients.po_box2')),
+      settlement2_:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
+      resident_own_or_rent2_:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
+      household_type2_:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
       live_with_: t('datagrid.columns.clients.live_with'),
       exit_reasons_: t('datagrid.columns.clients.exit_reasons'),
       exit_circumstance_: t('datagrid.columns.clients.exit_circumstance'),
@@ -324,8 +394,8 @@ module ClientsHelper
       program_streams_: t('datagrid.columns.clients.program_streams'),
       given_name_: t('datagrid.columns.clients.given_name'),
       family_name_: t('datagrid.columns.clients.family_name'),
-      local_given_name_: "#{t('datagrid.columns.clients.local_given_name')} (#{country_scope_label_translation})",
-      local_family_name_: "#{t('datagrid.columns.clients.local_family_name')} (#{country_scope_label_translation})",
+      local_given_name_: local_name_label,
+      local_family_name_: local_name_label(:local_family_name),
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
@@ -393,8 +463,13 @@ module ClientsHelper
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
+      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date'),
       hotline_call_: t('datagrid.columns.calls.hotline_call')
     }
+
+    (Client::HOTLINE_FIELDS + Call::FIELDS).each do |field_name|
+      label_column["#{field_name}_".to_sym] = t("datagrid.columns.clients.#{field_name}")
+    end
 
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
@@ -690,7 +765,7 @@ module ClientsHelper
       field_name = 'meeting_date'
     elsif rule.in?(['date_of_assessments', 'date_of_custom_assessments'])
       field_name = 'created_at'
-    elsif rule[/^(programexitdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
+    elsif rule[/^(exitprogramdate)/i].present? || object.class.to_s[/^(leaveprogram)/i]
       klass_name.merge!(rule => 'leave_programs')
       field_name = 'exit_date'
     elsif rule[/^(enrollmentdate)/i].present?
@@ -700,7 +775,7 @@ module ClientsHelper
       field_name = rule
     end
 
-    relation = rule[/^(enrollmentdate)|^(programexitdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
+    relation = rule[/^(enrollmentdate)|^(exitprogramdate)/i] ? "#{klass_name[rule]}.#{field_name}" : "#{klass_name[field_name.to_sym]}.#{field_name}"
 
     hashes   = mapping_query_result(results)
     sql_hash = mapping_query_date(object, hashes, relation)
@@ -728,11 +803,11 @@ module ClientsHelper
     class_name  = header_classes(grid, column)
     class_name  = class_name == "call-field" ? column.name.to_s : class_name
 
-    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(programexitdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
+    if Client::HEADER_COUNTS.include?(class_name) || class_name[/^(enrollmentdate)/i] || class_name[/^(exitprogramdate)/i] || class_name[/^(formbuilder)/i] || class_name[/^(tracking)/i]
       association = "#{class_name}_count"
       klass_name  = { exit_date: 'exit_ngos', accepted_date: 'enter_ngos', case_note_date: 'case_notes', case_note_type: 'case_notes', date_of_assessments: 'assessments', date_of_custom_assessments: 'assessments', formbuilder__Client: 'custom_field_properties' }
 
-      if class_name[/^(programexitdate)/i].present? || class_name[/^(leaveprogram)/i]
+      if class_name[/^(exitprogramdate)/i].present? || class_name[/^(leaveprogram)/i]
         klass = 'leave_programs'
       elsif class_name[/^(enrollmentdate)/i].present? || column.header == I18n.t('datagrid.columns.clients.program_streams')
         klass = 'client_enrollments'
@@ -740,7 +815,10 @@ module ClientsHelper
         klass = klass_name[class_name.to_sym]
       end
 
-      if class_name[/^(programexitdate)/i].present?
+      format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      fields = column.name.to_s.gsub('&qoute;', '"').split('__')
+
+      if class_name[/^(programexitdate|exitprogramdate)/i].present?
         ids = @clients_by_user.map { |client| client.client_enrollments.inactive.ids }.flatten.uniq
         if $param_rules.nil?
           object = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
@@ -771,14 +849,21 @@ module ClientsHelper
             data_filter = date_filter(client.client_enrollments.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }), "#{class_name} Date")
             count += data_filter.map(&:enrollment_date).flatten.count if data_filter.present?
           elsif class_name[/^(date_of_assessments)/i].present?
-            data_filter = date_filter(client.assessments.defaults, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+            else
+              data_filter = date_filter(client.assessments.defaults, "#{class_name}")
+              count += data_filter.flatten.count if data_filter
+            end
+            count += data_filter ? data_filter.count : assessment_count
           elsif class_name[/^(date_of_custom_assessments)/i].present?
-            data_filter = date_filter(client.assessments.customs, "#{class_name}")
-            count += data_filter.flatten.count if data_filter
+            if params['all_values'] == class_name
+              data_filter = date_filter(client.assessments.customs, "#{class_name}")
+            else
+              data_filter = date_filter(client.assessments.customs, "#{class_name}")
+              count += data_filter.flatten.count if data_filter
+            end
           elsif class_name[/^(formbuilder)/i].present?
-            fields = column.name.to_s.gsub('&qoute;', '"').split('__')
-            format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
@@ -786,11 +871,16 @@ module ClientsHelper
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]
-            format_field_value = column.name.to_s.split('__').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
             ids = client.client_enrollments.ids
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: column.name.to_s.split('__').third }, client_enrollment_trackings: { client_enrollment_id: ids })
             properties = form_builder_query(client_enrollment_trackings, 'tracking', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
             count += property_filter(properties, format_field_value).size
+          # elsif class_name[/^(exitprogram)/i].present?
+          #   ids = client.client_enrollments.inactive.ids
+          #   leave_programs = LeaveProgram.joins(:program_stream).where(program_streams: { name: column.header.split('|').first.squish }, leave_programs: { client_enrollment_id: ids })
+          #   properties = form_builder_query(leave_programs, 'exitprogram', column.name.to_s.gsub('&qoute;', '"')).properties_by(format_field_value)
+          #   # count += date_filter(object, class_name).flatten.count
+          #   # count += trackings.flatten.reject(&:blank?).count
           elsif class_name == 'quantitative-type'
             quantitative_type_values = client.quantitative_cases.joins(:quantitative_type).where(quantitative_types: {name: column.header }).pluck(:value)
             quantitative_type_values = property_filter(quantitative_type_values, column.header.split('|').third.try(:strip) || column.header.strip)
@@ -1161,6 +1251,10 @@ module ClientsHelper
 
   def initial_referral_date_picker_format(client)
     "#{client.initial_referral_date&.year}, #{client.initial_referral_date&.month}, #{@client.initial_referral_date&.day}"
+  end
+
+  def get_address_json
+    Client::BRC_ADDRESS.zip(Client::BRC_ADDRESS).to_h.to_json
   end
 
   def get_quantitative_types

@@ -14,6 +14,15 @@ CIF.ClientsShow = do ->
     _preventCreateDatepickerExitNgo()
     _globalIDToolTip()
 
+    $('table.families').dataTable
+      'bPaginate': false
+      'bFilter': false
+      'bInfo': false
+      'bSort': false
+      'sScrollY': 'auto'
+      'bAutoWidth': true
+      'sScrollX': '100%'
+
   _initICheckBox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'

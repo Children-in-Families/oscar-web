@@ -181,29 +181,43 @@ ActiveRecord::Schema.define(version: 20200417145348) do
   add_index "calls", ["referee_id"], name: "index_calls_on_referee_id", using: :btree
 
   create_table "carers", force: :cascade do |t|
-    t.string   "address_type",        default: ""
-    t.string   "current_address",     default: ""
-    t.string   "email",               default: ""
-    t.string   "gender",              default: ""
-    t.string   "house_number",        default: ""
-    t.string   "outside_address",     default: ""
-    t.string   "street_number",       default: ""
-    t.string   "client_relationship", default: ""
-    t.boolean  "outside",             default: false
+    t.string   "address_type",               default: ""
+    t.string   "current_address",            default: ""
+    t.string   "email",                      default: ""
+    t.string   "gender",                     default: ""
+    t.string   "house_number",               default: ""
+    t.string   "outside_address",            default: ""
+    t.string   "street_number",              default: ""
+    t.string   "client_relationship",        default: ""
+    t.boolean  "outside",                    default: false
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"
     t.integer  "village_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "name",                default: ""
-    t.string   "phone",               default: ""
-    t.boolean  "same_as_client",      default: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.string   "name",                       default: ""
+    t.string   "phone",                      default: ""
+    t.boolean  "same_as_client",             default: false
+    t.string   "suburb",                     default: ""
+    t.string   "description_house_landmark", default: ""
+    t.string   "directions",                 default: ""
+    t.string   "street_line1",               default: ""
+    t.string   "street_line2",               default: ""
+    t.string   "plot",                       default: ""
+    t.string   "road",                       default: ""
+    t.string   "postal_code",                default: ""
+    t.integer  "state_id"
+    t.integer  "township_id"
+    t.integer  "subdistrict_id"
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
   add_index "carers", ["district_id"], name: "index_carers_on_district_id", using: :btree
   add_index "carers", ["province_id"], name: "index_carers_on_province_id", using: :btree
+  add_index "carers", ["state_id"], name: "index_carers_on_state_id", using: :btree
+  add_index "carers", ["subdistrict_id"], name: "index_carers_on_subdistrict_id", using: :btree
+  add_index "carers", ["township_id"], name: "index_carers_on_township_id", using: :btree
   add_index "carers", ["village_id"], name: "index_carers_on_village_id", using: :btree
 
   create_table "case_closures", force: :cascade do |t|
@@ -568,6 +582,28 @@ ActiveRecord::Schema.define(version: 20200417145348) do
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
     t.integer  "global_id"
+    t.string   "presented_id"
+    t.string   "id_number"
+    t.string   "other_phone_number"
+    t.string   "brsc_branch"
+    t.string   "current_island"
+    t.string   "current_street"
+    t.string   "current_po_box"
+    t.string   "current_city"
+    t.string   "current_settlement"
+    t.string   "current_resident_own_or_rent"
+    t.string   "current_household_type"
+    t.string   "island2"
+    t.string   "street2"
+    t.string   "po_box2"
+    t.string   "city2"
+    t.string   "settlement2"
+    t.string   "resident_own_or_rent2"
+    t.string   "household_type2"
+    t.string   "legacy_brcs_id"
+    t.boolean  "whatsapp",                         default: false
+    t.boolean  "other_phone_whatsapp",             default: false
+    t.string   "preferred_language"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -812,6 +848,8 @@ ActiveRecord::Schema.define(version: 20200417145348) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.boolean  "guardian",      default: false
+    t.string   "gender"
+    t.text     "note"
   end
 
   add_index "family_members", ["family_id"], name: "index_family_members_on_family_id", using: :btree
@@ -821,6 +859,30 @@ ActiveRecord::Schema.define(version: 20200417145348) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "priority"
+  end
+
+  create_table "field_setting_translations", force: :cascade do |t|
+    t.integer  "field_setting_id", null: false
+    t.string   "locale",           null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "label"
+  end
+
+  add_index "field_setting_translations", ["field_setting_id"], name: "index_field_setting_translations_on_field_setting_id", using: :btree
+  add_index "field_setting_translations", ["locale"], name: "index_field_setting_translations_on_locale", using: :btree
+
+  create_table "field_settings", force: :cascade do |t|
+    t.string   "name",                            null: false
+    t.string   "group",                           null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "type",          default: "field", null: false
+    t.boolean  "visible",       default: true,    null: false
+    t.string   "current_label"
+    t.boolean  "required",      default: false
+    t.string   "klass_name"
+    t.string   "for_instances"
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|
@@ -1288,6 +1350,7 @@ ActiveRecord::Schema.define(version: 20200417145348) do
     t.integer  "quantitative_cases_count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "multiple",                 default: true
   end
 
   create_table "quarterly_reports", force: :cascade do |t|
@@ -1321,29 +1384,43 @@ ActiveRecord::Schema.define(version: 20200417145348) do
   end
 
   create_table "referees", force: :cascade do |t|
-    t.string   "address_type",    default: ""
-    t.string   "current_address", default: ""
-    t.string   "email",           default: ""
-    t.string   "gender",          default: ""
-    t.string   "house_number",    default: ""
-    t.string   "outside_address", default: ""
-    t.string   "street_number",   default: ""
-    t.boolean  "outside",         default: false
-    t.boolean  "anonymous",       default: false
+    t.string   "address_type",               default: ""
+    t.string   "current_address",            default: ""
+    t.string   "email",                      default: ""
+    t.string   "gender",                     default: ""
+    t.string   "house_number",               default: ""
+    t.string   "outside_address",            default: ""
+    t.string   "street_number",              default: ""
+    t.boolean  "outside",                    default: false
+    t.boolean  "anonymous",                  default: false
     t.integer  "province_id"
     t.integer  "district_id"
     t.integer  "commune_id"
     t.integer  "village_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.string   "name",            default: ""
-    t.string   "phone",           default: ""
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.string   "name",                       default: ""
+    t.string   "phone",                      default: ""
     t.boolean  "adult"
+    t.string   "suburb",                     default: ""
+    t.string   "description_house_landmark", default: ""
+    t.string   "directions",                 default: ""
+    t.string   "street_line1",               default: ""
+    t.string   "street_line2",               default: ""
+    t.string   "plot",                       default: ""
+    t.string   "road",                       default: ""
+    t.string   "postal_code",                default: ""
+    t.integer  "state_id"
+    t.integer  "township_id"
+    t.integer  "subdistrict_id"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
   add_index "referees", ["district_id"], name: "index_referees_on_district_id", using: :btree
   add_index "referees", ["province_id"], name: "index_referees_on_province_id", using: :btree
+  add_index "referees", ["state_id"], name: "index_referees_on_state_id", using: :btree
+  add_index "referees", ["subdistrict_id"], name: "index_referees_on_subdistrict_id", using: :btree
+  add_index "referees", ["township_id"], name: "index_referees_on_township_id", using: :btree
   add_index "referees", ["village_id"], name: "index_referees_on_village_id", using: :btree
 
   create_table "referral_sources", force: :cascade do |t|
@@ -1810,6 +1887,7 @@ ActiveRecord::Schema.define(version: 20200417145348) do
     t.datetime "activated_at"
     t.datetime "deactivated_at"
     t.datetime "deleted_at"
+    t.string   "preferred_language",             default: "en"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
@@ -1885,6 +1963,9 @@ ActiveRecord::Schema.define(version: 20200417145348) do
   add_foreign_key "carers", "communes"
   add_foreign_key "carers", "districts"
   add_foreign_key "carers", "provinces"
+  add_foreign_key "carers", "states"
+  add_foreign_key "carers", "subdistricts"
+  add_foreign_key "carers", "townships"
   add_foreign_key "carers", "villages"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
@@ -1913,7 +1994,6 @@ ActiveRecord::Schema.define(version: 20200417145348) do
   add_foreign_key "clients", "communes"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
-  add_foreign_key "clients", "global_identities", column: "global_id"
   add_foreign_key "clients", "states"
   add_foreign_key "clients", "subdistricts"
   add_foreign_key "clients", "townships"
@@ -1971,6 +2051,9 @@ ActiveRecord::Schema.define(version: 20200417145348) do
   add_foreign_key "referees", "communes"
   add_foreign_key "referees", "districts"
   add_foreign_key "referees", "provinces"
+  add_foreign_key "referees", "states"
+  add_foreign_key "referees", "subdistricts"
+  add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
   add_foreign_key "settings", "communes"

@@ -129,3 +129,4 @@
 //= require calls/form
 //= require calls/index
 //= require referees/index
+//= require field_settings/index

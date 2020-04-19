@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 require "rails/all"
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -27,7 +26,6 @@ module CifWeb
     # Autoload path
     config.autoload_paths << "#{Rails.root}/lib"
     config.autoload_paths << Rails.root.join('app/classes/**/*')
-
 
     # Override rails template engine: erb to haml
     config.generators do |g|
