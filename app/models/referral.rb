@@ -7,7 +7,7 @@ class Referral < ActiveRecord::Base
 
   alias_attribute :new_date, :date_of_referral
 
-  validates :client_name, :date_of_referral, :referred_from,
+  validates :client_name, :client_global_id, :slug, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :referee_id, :name_of_referee,
             :referral_phone, presence: true
 

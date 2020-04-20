@@ -168,7 +168,7 @@ class ClientsController < AdminController
     @client.assessments.delete_all
     @client.case_worker_clients.destroy_all
     @client.cases.delete_all
-    @client.destroy
+    @client.reload.destroy
 
     redirect_to clients_url, notice: t('.successfully_deleted')
   end
