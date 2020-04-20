@@ -602,7 +602,7 @@ ActiveRecord::Schema.define(version: 20200419053051) do
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
-    t.string   "preferred_language"
+    t.string   "preferred_language",               default: "English"
     t.string   "global_id"
   end
 
