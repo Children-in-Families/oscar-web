@@ -35,6 +35,41 @@ module Api
         end
       end
 
+      def transaction
+        if params[:tx_id].present?
+          begin
+            client_transaction = ClientsTransaction.find(params[:tx_id])
+            render json: { transaction_id: params[:tx_id], items: client_transaction.items }, root: :data
+          rescue Exception => e
+            render json: { message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: '500'
+          end
+        else
+          render json: { message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
+        end
+      end
+
+      def update_link
+        if params[:data].present?
+          data       = params[:data]
+          global_ids = data.map(&:values).map(&:last)
+          data_hash  = data.map{ |pay_load| [pay_load[:global_id], [pay_load[:external_id], pay_load[:external_id_display]] ] }.to_h
+          client_organizations = GlobalIdentityOrganization.where(global_id: global_ids).pluck(:global_id, :organization_id, :client_id).group_by(&:second)
+          client_organizations.each do |ngo_id, client_ngos|
+            ngo = Organization.find(ngo_id)
+            Organization.switch_to ngo.short_name
+            Client.where(id: client_ngos.map(&:last)).each do |client|
+              client.external_id = data_hash[client_ngos.first].first
+              cleint.external_id_display = data_hash[client_ngos.first].last
+              binding.pry
+              client.save
+            end
+          end
+          render json: { message: 'Record saved.' }, root: :data
+        else
+          render json: { message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
+        end
+      end
+
       private
 
         def clients_params

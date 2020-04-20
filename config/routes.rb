@@ -264,6 +264,8 @@ Rails.application.routes.draw do
         collection do
           get :clients
           post 'clients/create_many' => 'organizations#create_many'
+          get 'transactions/:tx_id' => 'organizations#transaction'
+          put 'clients/update_links' => 'organizations#update_link'
         end
       end
       resources :domain_groups, only: [:index]
