@@ -45,7 +45,7 @@ class Client < ActiveRecord::Base
   belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
   belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
-  belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id'
+  belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
@@ -66,6 +66,7 @@ class Client < ActiveRecord::Base
   has_many :exit_ngos, dependent: :destroy
   has_many :referrals, dependent: :destroy
   has_many :government_forms, dependent: :destroy
+  has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
 
   accepts_nested_attributes_for :tasks
 
@@ -94,7 +95,7 @@ class Client < ActiveRecord::Base
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
-  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client, :save_client_global_organization
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -809,8 +810,12 @@ class Client < ActiveRecord::Base
 
   def assign_global_id
     if global_id.blank?
-      self.global_id = GlobalIdentity.create(ulid: ULID.generate).id
+      self.global_id = GlobalIdentity.create(ulid: ULID.generate).ulid
     end
+  end
+
+  def save_client_global_organization
+    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id)
   end
 
 end

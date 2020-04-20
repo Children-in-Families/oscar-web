@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200417074727) do
+ActiveRecord::Schema.define(version: 20200419053051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -576,12 +576,6 @@ ActiveRecord::Schema.define(version: 20200417074727) do
     t.boolean  "concern_same_as_client",           default: false
     t.string   "location_description",             default: ""
     t.string   "phone_counselling_summary",        default: ""
-    t.string   "external_id"
-    t.string   "external_id_display"
-    t.string   "mosvy_number"
-    t.string   "external_case_worker_name"
-    t.string   "external_case_worker_id"
-    t.integer  "global_id"
     t.string   "presented_id"
     t.string   "id_number"
     t.string   "other_phone_number"
@@ -602,8 +596,14 @@ ActiveRecord::Schema.define(version: 20200417074727) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language"
+    t.string   "global_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -907,9 +907,21 @@ ActiveRecord::Schema.define(version: 20200417074727) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "global_identities", force: :cascade do |t|
-    t.binary "ulid"
+  create_table "global_identities", id: false, force: :cascade do |t|
+    t.string "ulid"
   end
+
+  add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
+
+  create_table "global_identity_organizations", force: :cascade do |t|
+    t.string  "global_id"
+    t.integer "organization_id"
+    t.integer "client_id"
+  end
+
+  add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
+  add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
+  add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1451,7 +1463,7 @@ ActiveRecord::Schema.define(version: 20200417074727) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.string   "ngo_name",         default: ""
-    t.integer  "client_global_id"
+    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1530,7 +1542,7 @@ ActiveRecord::Schema.define(version: 20200417074727) do
     t.string   "country_origin",    default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
-    t.integer  "global_id"
+    t.string   "global_id"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
@@ -2007,6 +2019,8 @@ ActiveRecord::Schema.define(version: 20200417074727) do
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
+  add_foreign_key "global_identity_organizations", "global_identities", column: "global_id", primary_key: "ulid"
+  add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"
