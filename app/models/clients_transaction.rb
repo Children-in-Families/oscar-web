@@ -11,6 +11,6 @@ class ClientsTransaction
 
   def self.initial(transaction_id, clients)
     attributes = clients
-    create(_id: transaction_id, items: attributes) unless find(transaction_id)
+    create(_id: transaction_id, items: attributes) if transaction_id && where(id: transaction_id).first.blank?
   end
 end

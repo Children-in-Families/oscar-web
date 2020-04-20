@@ -55,11 +55,11 @@ module Api
           messages = []
           clients.each do |client_attributes|
             client = nil
-            if client_attributes['global_id'].present?
-              global_identity = GlobalIdentity.find(client_attributes['global_id'])
-              client = global_identity.global_identity_organizations.last&.client
-            end
             begin
+              if client_attributes['global_id'].present?
+                global_identity = GlobalIdentity.find(client_attributes['global_id'])
+                client = global_identity.global_identity_organizations.last&.client
+              end
               if client
                 attributes = client.get_client_attribute(client_attributes)
                 client.update_attributes(attributes)
