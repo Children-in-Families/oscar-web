@@ -21,9 +21,11 @@ module Api
 
       def create_many
         # ClientsTransaction.initial(params[:transaction_id], clients_params)
+        respone_messages = []
         clients_params[:organization].group_by{ |data| data[:organization_name] }.each do |short_name, data|
           Organization.switch_to short_name
-          update_or_referred_client(data)
+          respone_messages << update_or_referred_client(data)
+          binding.pry
         end
 
         Organization.switch_to 'public'
@@ -47,22 +49,38 @@ module Api
         end
 
         def update_or_referred_client(clients)
+          messages = []
           clients.each do |client_attributes|
-            global_identity = GlobalIdentity.find_by(ulid: client_attributes['global_id'])
-            client = Client.find_by(global_id: global_identity)
+            client = nil
+            if client_attributes['global_id'].present?
+              global_identity = GlobalIdentity.find(client_attributes['global_id'])
+              client = global_identity.global_identity_organizations.last&.client
+            end
             begin
               if client
                 attributes = client.get_client_attribute(client_attributes)
                 client.update_attributes(attributes)
+                messages << { object_id: client_attributes[:external_id], message: 'Case has been update Successfully.' }
               else
                 referral_attributes = Referral.get_referral_attribute(client_attributes)
                 referral = Referral.find_by(external_id: client_attributes[:external_id])
-                Referral.create!(referral_attributes) unless referral
+                unless referral
+                  if Referral.create!(referral_attributes)
+                    global_identity = GlobalIdentity.find(referral_attributes[:client_global_id])
+                    external_system_id = ExternalSystem.find_by(token: current_user.email)&.id
+                    global_identity.external_system_global_identities.create!(
+                      external_system_id: external_system_id,
+                      external_id: referral_attributes[:external_id]
+                    )
+                  end
+                end
+                messages << { object_id: client_attributes[:external_id], message: 'Case has been referred Successfully.' }
               end
-            rescue Exception =>  e
-              puts e
+            rescue Exception =>  error
+              messages << { object_id: client_attributes[:external_id], message: error&.message }
             end
           end
+          messages
         end
     end
   end

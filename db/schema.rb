@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200419053051) do
+ActiveRecord::Schema.define(version: 20200420035550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -801,6 +801,27 @@ ActiveRecord::Schema.define(version: 20200419053051) do
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
   add_index "exit_ngos", ["deleted_at"], name: "index_exit_ngos_on_deleted_at", using: :btree
 
+  create_table "external_system_global_identities", force: :cascade do |t|
+    t.integer  "external_system_id"
+    t.string   "global_id"
+    t.string   "external_id"
+    t.string   "client_slug"
+    t.string   "organization_name"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "external_system_global_identities", ["external_system_id"], name: "index_external_system_global_identities_on_external_system_id", using: :btree
+  add_index "external_system_global_identities", ["global_id"], name: "index_external_system_global_identities_on_global_id", using: :btree
+
+  create_table "external_systems", force: :cascade do |t|
+    t.string   "name"
+    t.string   "url"
+    t.string   "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "families", force: :cascade do |t|
     t.string   "code"
     t.string   "name",                            default: ""
@@ -1463,13 +1484,13 @@ ActiveRecord::Schema.define(version: 20200419053051) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
+    t.string   "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
     t.string   "services"
-    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -2022,6 +2043,8 @@ ActiveRecord::Schema.define(version: 20200419053051) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "external_system_global_identities", "external_systems"
+  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
