@@ -20,16 +20,19 @@ module Api
       end
 
       def create_many
-        # ClientsTransaction.initial(params[:transaction_id], clients_params)
         respone_messages = []
-        clients_params[:organization].group_by{ |data| data[:organization_name] }.each do |short_name, data|
-          Organization.switch_to short_name
-          respone_messages << update_or_referred_client(data)
-          binding.pry
-        end
+        if params[:transaction_id].present?
+          clients_params[:organization].group_by{ |data| data[:organization_name] }.each do |short_name, data|
+            Organization.switch_to short_name
+            respone_messages << update_or_referred_client(data)
+          end
 
-        Organization.switch_to 'public'
-        render json: { message: 'The data has been received successfully.' }, root: :data
+          ClientsTransaction.initial(params[:transaction_id], respone_messages.flatten.compact)
+          Organization.switch_to 'public'
+          render json: { message: 'The data has been sent successfully.' }, root: :data
+        else
+          render json: { message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
+        end
       end
 
       private
@@ -60,7 +63,7 @@ module Api
               if client
                 attributes = client.get_client_attribute(client_attributes)
                 client.update_attributes(attributes)
-                messages << { object_id: client_attributes[:external_id], message: 'Case has been update Successfully.' }
+                messages << { external_id: client_attributes[:external_id], status: "200", message: 'Record saved.' }
               else
                 referral_attributes = Referral.get_referral_attribute(client_attributes)
                 referral = Referral.find_by(external_id: client_attributes[:external_id])
@@ -72,12 +75,12 @@ module Api
                       external_system_id: external_system_id,
                       external_id: referral_attributes[:external_id]
                     )
+                    messages << { object_id: client_attributes[:external_id], status: "200", message: 'Record saved.' }
                   end
                 end
-                messages << { object_id: client_attributes[:external_id], message: 'Case has been referred Successfully.' }
               end
             rescue Exception =>  error
-              messages << { object_id: client_attributes[:external_id], message: error&.message }
+              messages << { external_id: client_attributes[:external_id], status: "500", message: "Record error. Please check OSCaR logs for details." }
             end
           end
           messages

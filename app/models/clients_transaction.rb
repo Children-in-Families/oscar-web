@@ -4,23 +4,13 @@ class ClientsTransaction
 
   store_in database: ->{ ENV['PRIMERO_TRANSACTION'] }
 
-  field :transaction_id, type: String
-  field :object, type: Hash
+  field :_id, type: String
+  field :items, type: Array
 
   protected
 
   def self.initial(transaction_id, clients)
     attributes = clients
-    attributes['transaction_id'] = transaction_id
-    attributes['properties'] = format_property(attributes)
-    create(object: attributes)
-  end
-
-  def self.format_property(attributes)
-    mappings = {}
-    attributes['properties'].each do |k, v|
-      mappings[k] = k.gsub(/(\s|[.])/, '_')
-    end
-    attributes['properties'].map {|k, v| [mappings[k].downcase, v] }.to_h
+    create(_id: transaction_id, items: attributes) unless find(transaction_id)
   end
 end

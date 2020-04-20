@@ -94,7 +94,6 @@ class Referral < ActiveRecord::Base
       referee_id: attribute[:external_case_worker_id], #This got to be internal case referree id
       client_name: "#{attribute[:given_name]} #{attribute[:family_name]}",
       consent_form: [], # default attachment
-      client_id: nil, #Should we create New Schema for MoSVY?
       ngo_name: "MoSVY",
       client_global_id: ULID.generate,
       external_id: attribute[:external_id],
