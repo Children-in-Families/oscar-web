@@ -1,7 +1,8 @@
 class ApplicationPolicy
-  attr_reader :user, :record, :field_settings
+  attr_reader :user, :user_context, :record, :field_settings
 
   def initialize(user_context, record)
+    @user_context = user_context
     @user   = user_context.user
     @field_settings = user_context.field_settings
     @record = record
