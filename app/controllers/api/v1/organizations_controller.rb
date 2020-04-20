@@ -58,9 +58,8 @@ module Api
             ngo = Organization.find(ngo_id)
             Organization.switch_to ngo.short_name
             Client.where(id: client_ngos.map(&:last)).each do |client|
-              client.external_id = data_hash[client_ngos.first].first
-              cleint.external_id_display = data_hash[client_ngos.first].last
-              binding.pry
+              client.external_id = data_hash[client.global_id].first
+              client.external_id_display = data_hash[client.global_id].last
               client.save
             end
           end
