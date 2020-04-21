@@ -1,6 +1,8 @@
 module Api
   module V1
     class BirthProvincesController < Api::V1::BaseApiController
+      before_action :authenticate_user!
+
       def index
         current_org = Organization.current.short_name
         Organization.switch_to 'shared'

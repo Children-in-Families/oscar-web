@@ -1,6 +1,7 @@
 module Api
   module V1
     class Clients::ExitNgosController < Api::V1::BaseApiController
+      before_action :authenticate_user!
       before_action :find_client_by_slug
 
       def create

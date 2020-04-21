@@ -2,6 +2,7 @@ module Api
   module V1
     class CaseNotesController < Api::V1::BaseApiController
       include CaseNoteConcern
+      before_action :authenticate_user!
 
       before_action :find_client
 

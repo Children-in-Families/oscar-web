@@ -1,6 +1,7 @@
 module Api
   module V1
     class AssessmentsController < Api::V1::BaseApiController
+      before_action :authenticate_user!
       before_action :find_client
 
       def create

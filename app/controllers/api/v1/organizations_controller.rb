@@ -11,11 +11,11 @@ module Api
         bulk_clients = []
         Organization.only_integrated.pluck(:short_name).each do |short_name|
           Organization.switch_to short_name
-          if params.has_key?(:since_date) && params.has_key?(:referred_external)
+          if params.dig(:since_date).present? && params.dig(:referred_external).present?
             clients = JSON.parse ActiveModel::ArraySerializer.new(Client.where("created_at >= ? AND status = ?", "#{params[:since_date]}", 'Referred').limit(10).to_a, each_serializer: OrganizationClientSerializer).to_json
-          elsif params.has_key?(:since_date)
+          elsif params.dig(:since_date).present?
             clients = JSON.parse ActiveModel::ArraySerializer.new(Client.where("created_at >= ?", "#{params[:since_date]}").limit(10).to_a, each_serializer: OrganizationClientSerializer).to_json
-          elsif params.has_key?(:referred_external)
+          elsif params.dig(:referred_external).present?
             clients = JSON.parse ActiveModel::ArraySerializer.new(Client.where(status: 'Referred').limit(10).to_a, each_serializer: OrganizationClientSerializer).to_json
           else
             clients = JSON.parse ActiveModel::ArraySerializer.new(Client.limit(10).to_a, each_serializer: OrganizationClientSerializer).to_json

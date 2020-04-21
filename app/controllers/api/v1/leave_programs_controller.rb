@@ -2,7 +2,7 @@ module Api
   module V1
     class LeaveProgramsController < Api::V1::BaseApiController
       include FormBuilderAttachments
-
+      before_action :authenticate_user!
       before_action :find_client, :find_enrollment
 
       def create
