@@ -2,7 +2,6 @@ module Api
   module V1
     module ClientTasks
       class TasksController < Api::V1::BaseApiController
-        before_action :authenticate_user!
         before_action :find_client
         before_action :find_task, only: [:update, :destroy]
 

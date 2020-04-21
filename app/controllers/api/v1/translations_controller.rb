@@ -3,7 +3,6 @@ module Api
     class TranslationsController < Api::V1::BaseApiController
       require 'yaml'
       require 'json'
-      before_action :authenticate_user!
 
       def translation
         if ['en', 'km', 'my'].include?(params[:lang])

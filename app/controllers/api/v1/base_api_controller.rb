@@ -2,6 +2,7 @@ module Api
   module V1
     class BaseApiController < ApplicationController
       include DeviseTokenAuth::Concerns::SetUserByToken
+      before_action :authenticate_user!
 
       private
 

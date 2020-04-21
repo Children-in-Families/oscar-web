@@ -2,7 +2,6 @@ module Api
   module V1
     class ClientEnrollmentsController < Api::V1::BaseApiController
       include FormBuilderAttachments
-      before_action :authenticate_user!
 
       before_action :find_client
       before_action :find_client_enrollment, only: [:update, :destroy]

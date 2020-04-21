@@ -1,7 +1,6 @@
 module Api
   module V1
     class FamiliesController < Api::V1::BaseApiController
-      before_action :authenticate_user!
 
       def index
         render json: current_user.families
