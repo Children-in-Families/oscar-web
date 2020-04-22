@@ -1,6 +1,7 @@
 module Api
   module V1
-    class Oauth2Controller < Api::V1::BaseApiController
+    class Oauth2Controller < ActionController::Base
+      protect_from_forgery with: :null_session, except: :index, if: proc { |c| c.request.format == 'application/json' }
       before_action :switch_to_public!
       before_action :authenticate_user!, if: :user_authenticated?
       before_action :doorkeeper_authorize!, if: :doorkeeper_controller?
