@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
+  use_doorkeeper do
+    skip_controllers :applications, :authorized_applications
+  end
+
   get '/robots.txt' => 'organizations#robots'
 
   %w(404 500).each do |code|

@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   GENDER_OPTIONS = ['female', 'male', 'other', 'prefer not to say']
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+       :recoverable, :rememberable, :trackable, :validatable
 
   # has_one_time_password
   # enum otp_module: { otp_module_disabled: 0, otp_module_enabled: 1 }
