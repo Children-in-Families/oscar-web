@@ -267,7 +267,7 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index] do
         collection do
           get :clients
-          post 'clients/create_many' => 'organizations#create_many'
+          post 'clients/upsert' => 'organizations#upsert'
           get 'transactions/:tx_id' => 'organizations#transaction'
           put 'clients/update_links' => 'organizations#update_link'
         end

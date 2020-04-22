@@ -35,7 +35,6 @@ gem 'bootstrap-datepicker-rails', '~> 1.5'
 #change enoughRoomAbove = (offset.top - dropHeight) >= $window.scrollTop() to enoughRoomAbove = false,
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'doorkeeper',             '~> 4.4', '>= 4.4.3'
-gem 'devise-doorkeeper',      '~> 1.1', '>= 1.1.2'
 gem 'devise_token_auth',      '~> 0.1.37'
 gem 'omniauth',               '~> 1.3', '>= 1.3.1'
 gem 'jquery-validation-rails'

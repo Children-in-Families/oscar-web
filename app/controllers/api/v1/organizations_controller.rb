@@ -28,7 +28,7 @@ module Api
         render json: bulk_clients.flatten.compact, root: :data
       end
 
-      def create_many
+      def upsert
         respone_messages = []
         if params[:transaction_id].present?
           clients_params[:organization].group_by{ |data| data[:organization_name] }.each do |short_name, data|
@@ -113,7 +113,7 @@ module Api
                 unless referral
                   if Referral.create!(referral_attributes)
                     global_identity = GlobalIdentity.find(referral_attributes[:client_global_id])
-                    external_system_id = ExternalSystem.find_by(token: current_user.email)&.id
+                    external_system_id = ExternalSystem.find_by(token: @current_user.email)&.id
                     global_identity.external_system_global_identities.create!(
                       external_system_id: external_system_id,
                       external_id: referral_attributes[:external_id]
