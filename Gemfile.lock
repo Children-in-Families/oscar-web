@@ -159,10 +159,6 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-doorkeeper (1.1.2)
-      devise
-      doorkeeper
-      rails
     devise_token_auth (0.1.43)
       devise (> 3.5.2, < 4.5)
       rails (< 6)
@@ -843,7 +839,6 @@ DEPENDENCIES
   database_cleaner (~> 1.5, >= 1.5.1)
   datagrid (~> 1.4.2)
   devise (~> 3.5, >= 3.5.2)
-  devise-doorkeeper (~> 1.1, >= 1.1.2)
   devise_token_auth (~> 0.1.37)
   doorkeeper (~> 4.4, >= 4.4.3)
   dotenv-rails (~> 2.0.2)

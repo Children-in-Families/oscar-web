@@ -113,7 +113,7 @@ module Api
                 unless referral
                   if Referral.create!(referral_attributes)
                     global_identity = GlobalIdentity.find(referral_attributes[:client_global_id])
-                    external_system_id = ExternalSystem.find_by(token: current_user.email)&.id
+                    external_system_id = ExternalSystem.find_by(token: @current_user.email)&.id
                     global_identity.external_system_global_identities.create!(
                       external_system_id: external_system_id,
                       external_id: referral_attributes[:external_id]
