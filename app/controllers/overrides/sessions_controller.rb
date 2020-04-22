@@ -9,7 +9,7 @@ module Overrides
     private
 
       def switch_to_public!
-        Organization.switch_to 'public'
+        Organization.switch_to 'public' if request.subdomain == 'start' || request.subdomain.blank?
       end
   end
 end
