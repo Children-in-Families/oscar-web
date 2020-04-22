@@ -233,7 +233,7 @@
         %tr
           %td{ colspan: '5' }
             លេខទូរស័ព្ទ:
-            %input{ style: 'width: 590px; margin-left: 3px;', value: @client.telephone_number }
+            %input{ style: 'width: 590px; margin-left: 3px;', value: @client.carer&.phone.presence || @client.telephone_number }
 
   .panel-body.panel-border.no-margin-bottom
     .row
