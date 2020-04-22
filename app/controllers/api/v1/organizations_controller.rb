@@ -28,7 +28,7 @@ module Api
         render json: bulk_clients.flatten.compact, root: :data
       end
 
-      def create_many
+      def upsert
         respone_messages = []
         if params[:transaction_id].present?
           clients_params[:organization].group_by{ |data| data[:organization_name] }.each do |short_name, data|
