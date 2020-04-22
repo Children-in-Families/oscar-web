@@ -1,6 +1,6 @@
 class GovernmentFormsController < AdminController
-  include Pundit
   load_and_authorize_resource
+  
   before_action :find_client
   before_action :find_association, only: [:new, :create, :edit, :update]
   before_action :find_government_form, only: [:show, :edit, :update, :destroy]
