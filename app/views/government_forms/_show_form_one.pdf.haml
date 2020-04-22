@@ -127,7 +127,7 @@
           .col-xs-1
             ឈ្មោះ
           .col-xs-4
-            %input{ style: 'width: 100%;', value: @client.live_with }
+            %input{ style: 'width: 100%;', value: @client.carer&.name&.presence || @client.live_with }
           .col-xs-3
             ទំនាក់ទំនងជាមួយកុមារ:
           .col-xs-4
@@ -174,7 +174,7 @@
               .col-xs-2
                 លេខទូរស័ព្ទ:
               .col-xs-10
-                %input{style: 'width:96.6%; float: right;', value: @client.telephone_number }
+                %input{style: 'width:96.6%; float: right;', value: @client.carer&.phone.presence || @client.telephone_number }
   .footer{ style: 'page-break-after: always;' }
   %div#panel-top-bottom-dotted{style: 'border: 1px solid black; border-bottom: 1px dotted black;'}
     ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
@@ -285,7 +285,7 @@
         %br
         %div.other-label
           = render ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id)) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-          ផ្សេងៗ        
+          ផ្សេងៗ
         %div{ class: "other #{ 'empty' if @client.referral_source_category_id.present? if ReferralSource::REFERRAL_SOURCES.include?(ref_cat_name(@client.referral_source_category_id))}" }
           = ref_cat_name(@client.referral_source_category_id) if ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id))
 
