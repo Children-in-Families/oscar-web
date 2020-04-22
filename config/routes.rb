@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
-
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
@@ -187,7 +186,9 @@ Rails.application.routes.draw do
       get :referral_source_category, on: :collection
     end
 
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], controllers: {
+      sessions:  'overrides/sessions'
+    }
     resources :form_builder_attachments, only: :destroy
 
     resources :provinces, only: :index do
