@@ -153,23 +153,23 @@
                   .col-xs-1
                     ភូមិ:
                   .col-xs-3
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_village.try(:name_kh) }
+                    %input{ style: 'width: 100%;', value: @client.carer&.village&.name_kh.presence || @government_form.primary_carer_village.try(:name_kh) }
                 .row{ style: 'margin-bottom: 3px;' }
                   .col-xs-4
                     ក្រុង/ស្រុក/ខណ្ឌ:
                   .col-xs-8
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_district.try(:name_kh) }
+                    %input{ style: 'width: 100%;', value: @client.carer&.province&.district.presence || @government_form.primary_carer_district.try(:name_kh) }
               .col-xs-5
                 .row{ style: 'margin-bottom: 3px;' }
                   .col-xs-4
                     ឃុំ/សង្កាត់:
                   .col-xs-8
-                    %input{ style: 'width:100%;', value: @government_form.primary_carer_commune.try(:name_kh) }
+                    %input{ style: 'width:100%;', value: @client.carer&.commune&.name_kh.presence || @government_form.primary_carer_commune.try(:name_kh) }
                 .row
                   .col-xs-4
                     ខេត្ត/រាជធានី:
                   .col-xs-8
-                    %input{style: 'width:100%', value: @government_form.primary_carer_province.try(:name_kh) }
+                    %input{style: 'width:100%', value: @client.carer&.province&.name_kh.presence || @government_form.primary_carer_province.try(:name_kh) }
             .row
               .col-xs-2
                 លេខទូរស័ព្ទ:

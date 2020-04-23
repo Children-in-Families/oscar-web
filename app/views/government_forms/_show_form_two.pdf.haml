@@ -131,17 +131,17 @@
             %input{ style: 'width: 43px;', value: @client.family.try(:street) }
           %td{ colspan: '1' }
             ភូមិ:
-            %input{ style: 'width: 128px;', value: @client.family.try(:village).try(:name_kh) }
+            %input{ style: 'width: 128px;', value: @client.carer&.village&.name_kh.presence || @client.family.try(:village).try(:name_kh) }
           %td
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 222px;', value: @client.family.try(:commune).try(:name_kh) }
+            %input{ style: 'width: 222px;', value: @client.carer&.commune&.name_kh.presence || @client.family.try(:commune).try(:name_kh) }
         %tr{ style: 'page-break-inside: avoid;' }
           %td{ colspan: '3' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 275px; margin-left: 2px;', value: @client.family.try(:district).try(:name_kh) }
+            %input{ style: 'width: 275px; margin-left: 2px;', value: @client.carer&.district&.name_kh.presence || @client.family.try(:district).try(:name_kh) }
           %td{ colspan: '2' }
             ខេត្ត/រាជធានី:
-            %input{ style: 'width: 209px; margin-left: 2px;', value: @client.family.try(:province).try(:name_kh) }
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @client.carer&.province&.name_kh.presence || @client.family.try(:province).try(:name_kh) }
   .panel-body.panel-border.no-margin-bottom
     %table{ style: 'margin-top: 5px;' }
       %tr
