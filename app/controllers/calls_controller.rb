@@ -13,7 +13,7 @@ class CallsController < AdminController
       if(@query_json)
         calls = scope.joins("LEFT OUTER JOIN call_protection_concerns ON call_protection_concerns.call_id = calls.id LEFT OUTER JOIN protection_concerns ON protection_concerns.id = call_protection_concerns.protection_concern_id")
         calls = calls.joins("LEFT OUTER JOIN call_necessities ON call_necessities.call_id = calls.id LEFT OUTER JOIN necessities ON necessities.id = call_necessities.necessity_id")
-        calls.where(query_string).order(:created_at)
+        calls.where(query_string).distinct.order(:created_at)
       else
         scope.order(:created_at)
       end
