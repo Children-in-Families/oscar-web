@@ -85,7 +85,7 @@ export default props => {
   }, [referee])
 
   const onProfileChange = fileItems => {
-    onChange('clientProfile', fileItems[0].file)({type: 'file'})
+    onChange('clientProfile', fileItems[0] && fileItems[0].file)({type: 'file'})
   }
 
   const onChangeRemoveProfile = data => {
