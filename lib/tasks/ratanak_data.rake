@@ -2,7 +2,7 @@ namespace :ratanak_data do
     desc 'Import data for use in the local Development environment only!'
     task import: :environment do
       exit unless Rails.env.development?
-      tenant_name = 'ratanak'
+      tenant_name = 'colt'
       general_data_file = 'lib/devdata/general.xlsx'
       service_data_file = 'lib/devdata/services/service.xlsx'
       begin
@@ -23,7 +23,7 @@ namespace :ratanak_data do
         Rake::Task['communes_and_villages:import'].reenable
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-        Rake::Task['client_importer:import'].invoke(tenant_name)
+        # Rake::Task['client_importer:import'].invoke(tenant_name)
       rescue Apartment::TenantExists => e
         puts "Development environment tenant #{tenant_name} already exisits. If you want to delete this tenant then run `rake db:drop && rake db:setup` and run this rake task agin."
       end

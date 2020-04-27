@@ -13,7 +13,7 @@ class Domain < ActiveRecord::Base
 
   validates :domain_group, presence: true
   validates :name, :identity, presence: true, uniqueness: { case_sensitive: false, scope: :custom_assessment_setting}
-  validates :custom_assessment_setting_id, presence: true
+  validates :custom_assessment_setting_id, presence: true, if: :custom_domain?
 
   default_scope { order('domain_group_id ASC, name ASC') }
 
