@@ -144,7 +144,7 @@
                   %th= t('.adult_name')
                   %th= t('.date_of_birth')
                   - if policy(FamilyMember).show?(:gender)
-                    %th= t('.gender')
+                    %th= t('activerecord.attributes.family_member.gender')
                   - if policy(FamilyMember).show?(:occupation)
                     %th= t('.occupation')
                   - if policy(FamilyMember).show?(:relation)
