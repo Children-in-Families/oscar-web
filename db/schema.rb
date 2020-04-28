@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200424064043) do
+ActiveRecord::Schema.define(version: 20200428121016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -944,6 +944,12 @@ ActiveRecord::Schema.define(version: 20200424064043) do
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
+  create_table "global_services", id: false, force: :cascade do |t|
+    t.uuid "uuid"
+  end
+
+  add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
+
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
     t.text     "action",             default: ""
@@ -1550,14 +1556,15 @@ ActiveRecord::Schema.define(version: 20200424064043) do
     t.string   "name"
     t.integer  "parent_id"
     t.datetime "deleted_at"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.uuid     "uuid",       default: "uuid_generate_v4()"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid     "uuid"
   end
 
   add_index "services", ["deleted_at"], name: "index_services_on_deleted_at", using: :btree
   add_index "services", ["name"], name: "index_services_on_name", using: :btree
   add_index "services", ["parent_id"], name: "index_services_on_parent_id", using: :btree
+  add_index "services", ["uuid"], name: "index_services_on_uuid", using: :btree
 
   create_table "settings", force: :cascade do |t|
     t.string   "assessment_frequency",        default: "month"
@@ -2138,6 +2145,7 @@ ActiveRecord::Schema.define(version: 20200424064043) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
