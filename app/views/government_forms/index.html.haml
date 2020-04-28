@@ -8,9 +8,9 @@
               = link_to_client_show(@client)
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
-              = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
+              = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default btn-form' }
               - if policy(@client).create?
-                = link_to t('.add_form'), new_client_government_form_path(@client, form: params[:form]), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
+                = link_to t('.add_form'), new_client_government_form_path(@client, form: params[:form]), { class: "btn btn-primary #{('disabled' if @government_form)}" }
       .ibox-content
         %table.table.table-bordered
           %thead
