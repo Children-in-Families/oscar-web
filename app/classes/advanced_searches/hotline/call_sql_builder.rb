@@ -12,8 +12,7 @@ module AdvancedSearches
         results      = mapping_allowed_param_value(@basic_rules, Call::FIELDS)
         query_string = get_any_query_string(results, 'calls')
         sql          = query_string.reject(&:blank?).map{|query| "(#{query})" }.join(" #{@basic_rules[:condition]} ")
-
-        client_ids = Client.joins(:calls).where(sql).distinct.ids
+        client_ids = Client.includes(calls: :call_protection_concerns).where(sql).references(:calls).distinct.ids
 
         { id: sql_string, values: client_ids }
       end
