@@ -6,7 +6,7 @@ class RefereesGrid
   # id name gender adult anonymous phone email province_id district_id commune_id village_id address_type current_address house_number outside outside_address street_number created_at updated_at)
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.referees.id') })
   filter(:name, header: -> { I18n.t('datagrid.columns.referees.name') })
-  filter(:gender, :enum, select: :gender, header: -> { I18n.t('datagrid.columns.referees.gender') })
+  filter(:gender, :enum, select: :gender_list, header: -> { I18n.t('datagrid.columns.referees.gender') })
   filter(:adult, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.referees.adult') })
   filter(:anonymous, :enum, select: :yes_no, header: -> { I18n.t('datagrid.columns.referees.anonymous') })
   filter(:phone, header: -> { I18n.t('datagrid.columns.referees.phone') })
@@ -60,7 +60,7 @@ class RefereesGrid
     [[I18n.t('datagrid.columns.referees.has_dob'), 'Yes'], [I18n.t('datagrid.columns.referees.no_dob'), 'No']]
   end
 
-  def gender
+  def gender_list
     [[I18n.t('datagrid.columns.referees.male'), 'male'], [I18n.t('datagrid.columns.referees.female'), 'female']]
   end
 end
