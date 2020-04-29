@@ -771,7 +771,6 @@ class Client < ActiveRecord::Base
 
   def save_external_system_global
     if persisted? && external_id.present?
-      binding.pry
       external_system_global = global_identity.external_system_global_identities.find_by(external_id: external_id)
       external_system_global && external_system_global.update_attributes(client_slug: slug)
     end

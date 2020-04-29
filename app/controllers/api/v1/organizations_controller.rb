@@ -29,16 +29,42 @@ module Api
       end
 
       def upsert
-        respone_messages = []
-        if params[:transaction_id].present?
-          clients_params[:organization].group_by{ |data| data[:organization_name] }.each do |short_name, data|
+        client = nil
+        message = 'Record saved.'
+        if params[:organization].present?
+          if clients_params['global_id'].present?
+            global_identity = GlobalIdentity.find(clients_params['global_id'])
+            short_name = global_identity.organizations.first.short_name
             Organization.switch_to short_name
-            respone_messages << update_or_referred_client(data)
+            client = global_identity.global_identity_organizations.last&.client
+            attributes = client.get_client_attribute(clients_params)
+            if client.update_attributes(attributes)
+              render json: { external_id: client.external_id, message: message }
+            else
+              render json: { external_id: clients_params[:external_id], message: 'Record error. Please check OSCaR logs for details.' }, status: :unprocessable_entity
+            end
+          else
+            short_name = clients_params[:organization_name]
+            Organization.switch_to short_name
+            referral_attributes = Referral.get_referral_attribute(clients_params)
+            referral = Referral.find_by(external_id: clients_params[:external_id])
+            unless referral
+              referral = Referral.new(referral_attributes)
+              if referral.save
+                global_identity = GlobalIdentity.find(referral_attributes[:client_global_id])
+                external_system_id = ExternalSystem.find_by(token: @current_user.email)&.id
+                global_identity.external_system_global_identities.find_or_create_by(
+                  external_system_id: external_system_id,
+                  external_id: referral_attributes[:external_id]
+                )
+                render json: { external_id: clients_params[:external_id], message: message }
+              else
+                render json: { external_id: clients_params[:external_id], message: 'Record error. Please check OSCaR logs for details.' }, status: :unprocessable_entity
+              end
+            end
           end
-
-          ClientsTransaction.initial(params[:transaction_id], respone_messages.flatten.compact)
           Organization.switch_to 'public'
-          render json: { message: 'The data has been sent successfully.' }, root: :data
+          # render json: { message: message }, root: :data
         else
           render json: { message: 'Record error. Please check OSCaR logs for details.' }, root: :data, status: :unprocessable_entity
         end
@@ -81,52 +107,14 @@ module Api
       private
 
         def clients_params
-          params.permit(
-            organization:
-              [
-                :global_id, :external_id, :external_id_display, :mosvy_number,
-                :given_name, :family_name, :gender, :date_of_birth, :location_current_village_code,
-                :address_current_village_code, :reason_for_referral, :reason_for_exiting,
-                :organization_id, :organization_name, :external_case_worker_name,
-                :external_case_worker_id, :external_case_worker_mobile, :protection_status,
-                services: [:id, :name]
-              ]
+          params.require(:organization).permit(
+              :global_id, :external_id, :external_id_display, :mosvy_number,
+              :given_name, :family_name, :gender, :date_of_birth, :location_current_village_code,
+              :address_current_village_code, :reason_for_referral, :reason_for_exiting,
+              :organization_id, :organization_name, :external_case_worker_name,
+              :external_case_worker_id, :external_case_worker_mobile, :protection_status,
+              services: [:id, :name]
             )
-        end
-
-        def update_or_referred_client(clients)
-          messages = []
-          clients.each do |client_attributes|
-            client = nil
-            begin
-              if client_attributes['global_id'].present?
-                global_identity = GlobalIdentity.find(client_attributes['global_id'])
-                client = global_identity.global_identity_organizations.last&.client
-              end
-              if client
-                attributes = client.get_client_attribute(client_attributes)
-                client.update_attributes(attributes)
-                messages << { external_id: client_attributes[:external_id], status: "200", message: 'Record saved.' }
-              else
-                referral_attributes = Referral.get_referral_attribute(client_attributes)
-                referral = Referral.find_by(external_id: client_attributes[:external_id])
-                unless referral
-                  if Referral.create!(referral_attributes)
-                    global_identity = GlobalIdentity.find(referral_attributes[:client_global_id])
-                    external_system_id = ExternalSystem.find_by(token: @current_user.email)&.id
-                    global_identity.external_system_global_identities.create!(
-                      external_system_id: external_system_id,
-                      external_id: referral_attributes[:external_id]
-                    )
-                    messages << { object_id: client_attributes[:external_id], status: "200", message: 'Record saved.' }
-                  end
-                end
-              end
-            rescue Exception =>  error
-              messages << { external_id: client_attributes[:external_id], status: "500", message: "Record error. Please check OSCaR logs for details." }
-            end
-          end
-          messages
         end
     end
   end
