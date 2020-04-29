@@ -61,6 +61,8 @@ module Api
               else
                 render json: { external_id: clients_params[:external_id], message: 'Record error. Please check OSCaR logs for details.' }, status: :unprocessable_entity
               end
+            else
+              render json: { external_id: clients_params[:external_id], message: message }
             end
           end
           Organization.switch_to 'public'
