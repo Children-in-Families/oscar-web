@@ -217,11 +217,11 @@ export default props => {
         </div>
 
         {
-          fieldsVisibility.birth_province_id == true &&
+          fieldsVisibility.birth_province == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
               asGroup
-              label={t(translation, 'clients.form.birth_province_id')}
+              label={t(translation, 'clients.form.birth_province')}
               options={birthProvincesLists}
               value={client.birth_province_id}
               onChange={onChange('client', 'birth_province_id')}
