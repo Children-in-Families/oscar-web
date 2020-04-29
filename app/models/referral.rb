@@ -92,10 +92,10 @@ class Referral < ActiveRecord::Base
       name_of_referee: attribute[:external_case_worker_name],
       referral_phone: attribute[:external_case_worker_mobile],
       referee_id: attribute[:external_case_worker_id], #This got to be internal case referree id
-      client_name: "#{attribute[:given_name]} #{attribute[:family_name]}",
+      client_name: "#{attribute[:given_name]} #{attribute[:family_name]}".squish,
       consent_form: [], # default attachment
       ngo_name: "MoSVY",
-      client_global_id: ULID.generate,
+      client_global_id: GlobalIdentity.create(ulid: ULID.generate)&.ulid,
       external_id: attribute[:external_id],
       external_id_display: attribute[:external_id_display],
       mosvy_number: attribute[:mosvy_number],
