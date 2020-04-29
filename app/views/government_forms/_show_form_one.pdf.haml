@@ -158,7 +158,7 @@
                   .col-xs-4
                     ក្រុង/ស្រុក/ខណ្ឌ:
                   .col-xs-8
-                    %input{ style: 'width: 100%;', value: @client.carer&.district.presence || @government_form.primary_carer_district.try(:name_kh) }
+                    %input{ style: 'width: 100%;', value: @client.carer&.district&.name_kh.presence || @government_form.primary_carer_district.try(:name_kh) }
               .col-xs-5
                 .row{ style: 'margin-bottom: 3px;' }
                   .col-xs-4
