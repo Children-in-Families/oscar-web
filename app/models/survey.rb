@@ -1,6 +1,6 @@
 # Client asked to hide it for now
 class Survey < ActiveRecord::Base
-#   belongs_to :client
+  belongs_to :client
 
 #   has_paper_trail
 

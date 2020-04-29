@@ -1,6 +1,6 @@
 class GovernmentFormPolicy < ApplicationPolicy
   def create?
-    ClientPolicy.new(user, record.client).create?
+    ClientPolicy.new(user_context, record.client).create?
   end
 
   alias show? create?

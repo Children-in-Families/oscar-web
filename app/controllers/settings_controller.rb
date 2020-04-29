@@ -35,14 +35,22 @@ class SettingsController < AdminController
         render :edit
       end
     else
-      if @setting.update_attributes(setting_params)
-        if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
-          redirect_to :back, notice: t('.successfully_updated')
-        else
-          redirect_to settings_path, notice: t('.successfully_updated')
+      respond_to do |f|
+        f.html do
+          if @setting.update_attributes(setting_params)
+            if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
+              redirect_to :back, notice: t('.successfully_updated')
+            else
+              redirect_to settings_path, notice: t('.successfully_updated')
+            end
+          else
+            render :index
+          end
         end
-      else
-        render :index
+        f.json do
+          @setting.update_attributes(setting_params)
+          render json: { message: t('.successfully_updated') }, status: '200'
+        end
       end
     end
   end

@@ -22,7 +22,6 @@ class ClientsController < AdminController
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
-
     if has_params? || params[:advanced_search_id].present? || params[:client_advanced_search].present?
       advanced_search
     else
@@ -168,7 +167,7 @@ class ClientsController < AdminController
     @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
     @client.cases.delete_all
-    @client.destroy
+    @client.reload.destroy
 
     redirect_to clients_url, notice: t('.successfully_deleted')
   end
