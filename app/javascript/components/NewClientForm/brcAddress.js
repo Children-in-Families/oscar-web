@@ -55,7 +55,7 @@ export default props => {
 
         {
           fieldsVisibility.current_street == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
+          <div className="col-xs-12 col-md-6">
             <TextInput
               label={t(translation, 'clients.form.current_street')}
               disabled={disabled}
@@ -64,7 +64,8 @@ export default props => {
             />
           </div>
         }
-
+      </div>
+      <div className="row">
         {
           fieldsVisibility.current_po_box == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
@@ -77,8 +78,6 @@ export default props => {
           </div>
         }
 
-      </div>
-      <div className="row">
         {
           fieldsVisibility.current_resident_own_or_rent == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
@@ -145,7 +144,7 @@ export default props => {
 
         {
           fieldsVisibility.street2 == true &&
-          <div className="col-xs-12 col-md-6 col-lg-3">
+          <div className="col-xs-12 col-md-6">
             <TextInput
               label={t(translation, 'clients.form.street2')}
               disabled={disabled}
@@ -154,7 +153,8 @@ export default props => {
             />
           </div>
         }
-
+      </div>
+      <div className="row">
         {
           fieldsVisibility.po_box2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
@@ -166,8 +166,7 @@ export default props => {
             />
           </div>
         }
-      </div>
-      <div className="row">
+
         {
           fieldsVisibility.resident_own_or_rent2 == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
