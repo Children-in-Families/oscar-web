@@ -37,6 +37,7 @@ class CaseNotesController < AdminController
     @case_note = @client.case_notes.new(case_note_params)
     @case_note.meeting_date = "#{@case_note.meeting_date.strftime("%Y-%m-%d")}, #{Time.now.strftime("%H:%M:%S")}"
     if @case_note.save
+      add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes]) if params.dig(:case_note, :case_note_domain_groups_attributes)
       create_bulk_task(params[:task], @case_note.id) if params.has_key?(:task)
       if params[:from_controller] == "dashboards"
