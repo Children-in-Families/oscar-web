@@ -1,5 +1,5 @@
 module AdvancedSearches
-  class  ClientFields
+  class ClientFields
     include AdvancedSearchHelper
     include ClientsHelper
     include ApplicationHelper

@@ -38,7 +38,7 @@ module FamilyAdvancedSearchesConcern
   end
 
   def get_family_basic_fields
-    AdvancedSearches::Families::FamilyFields.new.render
+    AdvancedSearches::Families::FamilyFields.new(user: current_user, pundit_user: pundit_user).render
   end
 
   def custom_form_values

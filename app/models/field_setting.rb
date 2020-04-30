@@ -3,7 +3,6 @@ class FieldSetting < ActiveRecord::Base
 
   translates :label
   validates :name, :group, presence: true
-  validate :must_note_hide_required_field, if: :required?
 
   default_scope -> { order(:created_at) }
 
@@ -31,10 +30,6 @@ class FieldSetting < ActiveRecord::Base
   end
 
   private
-
-  def must_note_hide_required_field
-    errors.add(:visible, :invalid) unless visible?
-  end
 
   def assign_type
     self.type ||= 'type'

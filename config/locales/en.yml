@@ -103,6 +103,7 @@ en:
   activerecord:
     attributes:
       family_member:
+        adult_name: Name of Adult Member
         gender: Gender
     default:
       blank: can't be blank

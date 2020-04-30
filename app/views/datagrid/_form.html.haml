@@ -341,6 +341,10 @@
                   = columns_partners_visibility f.name
           - if controller_name == 'families'
             - grid.filters.each do |f|
+              - field_name = f.name
+              - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
+              - next unless policy(Family).show?(field_name)
+
               %li
                 .visibility.col-sm-12
                   = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @default_columns) || params["#{f.name}_"].present?, class: 'i-checks'
