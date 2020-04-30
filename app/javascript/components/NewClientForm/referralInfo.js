@@ -201,17 +201,21 @@ export default props => {
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
+        {
+          fieldsVisibility.gender == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
-            T={T}
-            required
-            isError={errorFields.includes('gender')}
-            label={T.translate("referralInfo.gender")}
-            options={genderLists}
-            value={client.gender}
-            onChange={onChange('client', 'gender')}
+          T={T}
+          required
+          isError={errorFields.includes('gender')}
+          label={t(translation, 'clients.form.gender')}
+          options={genderLists}
+          value={client.gender}
+          onChange={onChange('client', 'gender')}
           />
-        </div>
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <DateInput getCurrentDate label={T.translate("referralInfo.date_of_birth")} onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
         </div>
