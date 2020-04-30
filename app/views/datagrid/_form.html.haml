@@ -155,14 +155,20 @@
             .visibility.col-sm-12
               = check_box_tag 'exit_note_', 'exit_note', checked = default_setting('exit_note_', @client_default_columns) || params[:exit_note_].present?, class: 'i-checks'
               = label_tag 'exit_note_', t('datagrid.columns.exit_note')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'what3words_', 'what3words', checked = default_setting('what3words_', @client_default_columns) || params[:what3words_].present?, class: 'i-checks'
-              = label_tag 'what3words_', t('datagrid.columns.what3words')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'main_school_contact_', 'main_school_contact', checked = default_setting('main_school_contact_', @client_default_columns) || params[:main_school_contact_].present?, class: 'i-checks'
-              = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
+
+          - if policy(Client).show?(:what3words)
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'what3words_', 'what3words', checked = default_setting('what3words_', @client_default_columns) || params[:what3words_].present?, class: 'i-checks'
+                = label_tag 'what3words_', t('datagrid.columns.what3words')
+
+          - if policy(Client).show?(:school_info)
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'main_school_contact_', 'main_school_contact', checked = default_setting('main_school_contact_', @client_default_columns) || params[:main_school_contact_].present?, class: 'i-checks'
+                = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
+
+
           - if Setting.first.country_name == "cambodia"
             %li
               .visibility.col-sm-12
@@ -271,37 +277,40 @@
                 = check_box_tag 'type_of_service_', 'type_of_service', checked = default_setting('type_of_service_', @client_default_columns) || params[:type_of_service_].present?, class: 'i-checks'
                 = label_tag 'type_of_service_', t('datagrid.columns.type_of_service')
 
-          %li.referee-header
-            %strong= t('.referee')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'referee_name_', 'referee_name', checked = default_setting('referee_name_', @client_default_columns) || params[:referee_name_].present?, class: 'i-checks'
-              = label_tag 'referee_name_', t('datagrid.columns.referee_name')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'referee_email_', 'referee_email', checked = default_setting('referee_email_', @client_default_columns) || params[:referee_email_].present?, class: 'i-checks'
-              = label_tag 'referee_email_', t('datagrid.columns.referee_email')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'referee_phone_', 'referee_phone', checked = default_setting('referee_phone_', @client_default_columns) || params[:referee_phone_].present?, class: 'i-checks'
-              = label_tag 'referee_phone_', t('datagrid.columns.referee_phone')
+          - if policy(Client).show?(:referee_info)
+            %li.referee-header
+              %strong= t('.referee')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'referee_name_', 'referee_name', checked = default_setting('referee_name_', @client_default_columns) || params[:referee_name_].present?, class: 'i-checks'
+                = label_tag 'referee_name_', t('datagrid.columns.referee_name')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'referee_email_', 'referee_email', checked = default_setting('referee_email_', @client_default_columns) || params[:referee_email_].present?, class: 'i-checks'
+                = label_tag 'referee_email_', t('datagrid.columns.referee_email')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'referee_phone_', 'referee_phone', checked = default_setting('referee_phone_', @client_default_columns) || params[:referee_phone_].present?, class: 'i-checks'
+                = label_tag 'referee_phone_', t('datagrid.columns.referee_phone')
 
-          %li.carer-header
-            %strong= t('.carer')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'carer_name_', 'carer_name', checked = default_setting('carer_name_', @client_default_columns) || params[:carer_name_].present?, class: 'i-checks'
-              = label_tag 'carer_name_', t('datagrid.columns.carer_name')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'carer_email_', 'carer_email', checked = default_setting('carer_email_', @client_default_columns) || params[:carer_email_].present?, class: 'i-checks'
-              = label_tag 'carer_email_', t('datagrid.columns.carer_email')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'carer_phone_', 'carer_phone', checked = default_setting('carer_phone_', @client_default_columns) || params[:carer_phone_].present?, class: 'i-checks'
-              = label_tag 'carer_phone_', t('datagrid.columns.carer_phone')
+          - if policy(Client).show?(:carer_info)
+            %li.carer-header
+              %strong= t('.carer')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'carer_name_', 'carer_name', checked = default_setting('carer_name_', @client_default_columns) || params[:carer_name_].present?, class: 'i-checks'
+                = label_tag 'carer_name_', t('datagrid.columns.carer_name')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'carer_email_', 'carer_email', checked = default_setting('carer_email_', @client_default_columns) || params[:carer_email_].present?, class: 'i-checks'
+                = label_tag 'carer_email_', t('datagrid.columns.carer_email')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'carer_phone_', 'carer_phone', checked = default_setting('carer_phone_', @client_default_columns) || params[:carer_phone_].present?, class: 'i-checks'
+                = label_tag 'carer_phone_', t('datagrid.columns.carer_phone')
 
-          %li.divider.col-xs-12
+            %li.divider.col-xs-12
+
           %li
             .visibility.col-sm-12
               = check_box_tag 'manage_', 'manage', checked = default_setting('manage_', @client_default_columns) || params[:manage_].present?, class: 'i-checks'
