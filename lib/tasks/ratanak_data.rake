@@ -2,7 +2,7 @@ namespace :ratanak_data do
     desc 'Import data for use in the local Development environment only!'
     task import: :environment do
       exit unless Rails.env.development?
-      tenant_name = 'colt'
+      tenant_name = 'abcr'
       general_data_file = 'lib/devdata/general.xlsx'
       service_data_file = 'lib/devdata/services/service.xlsx'
       begin
