@@ -11,7 +11,9 @@
           .panel-body
             .row
               - grid.filters.select{ |filter| grid.filer_section(filter.name) == section.to_sym }.each do |filter|
-                - next unless policy(Family).show?(filter.name.to_sym)
+                - field_name = filter.name
+                - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
+                - next unless policy(Family).show?(field_name)
 
                 .col-xs-12.col-sm-6.col.md-4.col-lg-4
                   .datagrid-filter.filter.form-group
