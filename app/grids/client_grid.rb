@@ -712,10 +712,11 @@ class ClientGrid < BaseGrid
     other_phone_number
     other_phone_whatsapp
   ).each do |field_name|
-  header = I18n.t("datagrid.columns.clients.#{field_name}")
+    header = I18n.t("datagrid.columns.clients.#{field_name}")
 
-  column(field_name, header: header, class: 'brc-fields') do |object|
-    object.public_send(field_name.to_sym)
+    column(field_name, header: header, class: 'brc-fields') do |object|
+      object.public_send(field_name.to_sym)
+    end
   end
 
   column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
