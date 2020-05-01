@@ -1,6 +1,7 @@
 .col-xs-12.col-sm-12
   #accordion-family-filter.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
     - %w(general address aggregrate).each do |section|
+      - next if section == 'address' && Organization.brc?
       .panel.panel-default
         .panel-heading{:role => "tab", id: "heading-family-filer-#{section}"}
           %h4.panel-title
@@ -10,6 +11,8 @@
           .panel-body
             .row
               - grid.filters.select{ |filter| grid.filer_section(filter.name) == section.to_sym }.each do |filter|
+                - next unless policy(Family).show?(filter.name.to_sym)
+
                 .col-xs-12.col-sm-6.col.md-4.col-lg-4
                   .datagrid-filter.filter.form-group
                     = f.datagrid_label(filter)
