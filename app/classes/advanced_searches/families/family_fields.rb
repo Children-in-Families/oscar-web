@@ -2,6 +2,12 @@ module AdvancedSearches
   module Families
     class FamilyFields
       include AdvancedSearchHelper
+      include Pundit
+
+      def initialize(options = {})
+        @user = options[:user]
+        @pundit_user = options[:pundit_user]
+      end
 
       def render
         group                 = family_header('basic_fields')
@@ -12,10 +18,18 @@ module AdvancedSearches
 
         search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
 
-        search_fields.sort_by { |f| f[:label].downcase }
+        search_fields.sort_by { |f| f[:label].downcase }.select do |field|
+          field_name = field[:id]
+          field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
+          policy(Family).show?(field_name.to_sym)
+        end
       end
 
       private
+
+      def current_user
+        @pundit_user
+      end
 
       def number_type_list
         ['significant_family_member_count', 'household_income', 'female_children_count', 'male_children_count', 'female_adult_count', 'male_adult_count', 'id']
