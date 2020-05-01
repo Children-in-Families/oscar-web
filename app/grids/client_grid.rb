@@ -707,6 +707,17 @@ class ClientGrid < BaseGrid
     object.client_phone
   end
 
+  %w(
+    whatsapp
+    other_phone_number
+    other_phone_whatsapp
+  ).each do |field_name|
+  header = I18n.t("datagrid.columns.clients.#{field_name}")
+
+  column(field_name, header: header, class: 'brc-fields') do |object|
+    object.public_send(field_name.to_sym)
+  end
+
   column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
     object.address_type && object.address_type.titleize
   end
@@ -777,9 +788,6 @@ class ClientGrid < BaseGrid
       id_number
       legacy_brcs_id
       preferred_language
-      other_phone_whatsapp
-      whatsapp
-      other_phone_number
       brsc_branch
       current_island
       current_street
