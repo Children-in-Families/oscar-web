@@ -242,18 +242,6 @@ export default props => {
             onChange={onRelationshipChange}
           />
         </div>
-
-        {
-         fieldsVisibility.preferred_language == true &&
-         <div className="col-xs-12 col-md-6 col-lg-3">
-           <SelectInput
-             label={ t(translation, 'clients.form.preferred_language') }
-             options={preferLanguages}
-             onChange={onChange('client', 'preferred_language')}
-             value={client.preferred_language}
-           />
-         </div>
-       }
       </div>
 
       <div className="row">
@@ -302,6 +290,20 @@ export default props => {
            </div>
          }
       </div>
+
+      {
+       fieldsVisibility.preferred_language == true &&
+       <div className='row'>
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <SelectInput
+             label={ t(translation, 'clients.form.preferred_language') }
+             options={preferLanguages}
+             onChange={onChange('client', 'preferred_language')}
+             value={client.preferred_language}
+           />
+         </div>
+       </div>
+      }
 
       <div className="row">
         <div className="col-xs-12">
