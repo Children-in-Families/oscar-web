@@ -1,6 +1,7 @@
 .col-xs-12.col-sm-12
   #accordion-family-filter.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-    - %w(general aggregrate).each do |section|
+    - %w(general address aggregrate).each do |section|
+      - next if section == 'address' && Organization.brc?
       .panel.panel-default
         .panel-heading{:role => "tab", id: "heading-family-filer-#{section}"}
           %h4.panel-title
