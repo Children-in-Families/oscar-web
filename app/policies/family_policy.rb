@@ -5,7 +5,7 @@ class FamilyPolicy < ApplicationPolicy
 
     return false if field.in?(%w(member_count member_count_))
 
-    field_setting = field_settings.find{ |field_setting| field_setting.name == field && field_setting.klass_name == 'family' }
+    field_setting = field_settings.find{ |field_setting| (field_setting.name == field || field_setting.name == "#{field}_id") && field_setting.klass_name == 'family' }
 
     field_setting.present? ? (field_setting.required? || field_setting.visible?) : true
   end
