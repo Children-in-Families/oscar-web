@@ -1230,9 +1230,9 @@ module ClientsHelper
   end
 
   def custom_id_translation(type)
-    if I18n.locale == :en || Setting.first.country_name == 'lesotho'
+    if I18n.locale != :km || Setting.first.country_name != 'lesotho'
       if type == 'custom_id1'
-        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : t('.custom_id_number1')
+        Setting.first.custom_id1_latin.present? ? Setting.first.custom_id1_latin : I18n.t("#{I18n.locale.to_s}.clients.other_detail.custom_id_number1")
       else
         Setting.first.custom_id2_latin.present? ? Setting.first.custom_id2_latin : t('.custom_id_number2')
       end
