@@ -101,6 +101,10 @@ en:
         update:
           successfully_updated: Successfully updated
   activerecord:
+    attributes:
+      family_member:
+        adult_name: Name of Adult Member
+        gender: Gender
     default:
       blank: can't be blank
     errors:
@@ -2338,7 +2342,7 @@ en:
       clients:
         presented_id: Presented ID
         id_number: ID number
-        whatsapp: Whatsapp
+        whatsapp: Whatsapp?
         other_phone_number: Phone Number - Alternate
         brsc_branch: BRCS Branch
         current_island: Island
@@ -2460,6 +2464,7 @@ en:
         no_dob: 'No'
         other_info_of_exit: Other - More Information
         other_more_information: Other-More Information
+        other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
         phone_counselling_summary: Phone Counselling Summary
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
@@ -3514,6 +3519,7 @@ en:
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth
+      gender: Gender
       guardian: Guardian
       occupation: Occupation
       note: Relevant Referral Information / Notes
@@ -3576,6 +3582,7 @@ en:
       family_type: Family Type
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
+      gender: Gender
       general_info: About Family
       guardian: Guardian
       house: House
