@@ -215,7 +215,7 @@ Rails.application.routes.draw do
       get :compare, on: :collection
       get :render_client_statistics, on: :collection
       get :find_client_case_worker, on: :member
-      get :assessments, on: :collection
+      post :assessments, on: :collection
       get :search_client, on: :collection
     end
     resources :custom_fields do

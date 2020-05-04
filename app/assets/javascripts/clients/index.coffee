@@ -114,6 +114,7 @@ CIF.ClientsIndex = do ->
       bFilter: false
       processing: true
       serverSide: true
+      sServerMethod: 'POST'
       ajax: url
       oLanguage: {
         sProcessing: "<i class='fa fa-spinner fa-pulse fa-2x' style='color: #1ab394; z-index: 9999;'></i>"
