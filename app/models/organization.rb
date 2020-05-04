@@ -37,6 +37,10 @@ class Organization < ActiveRecord::Base
         org
       end
     end
+
+    def brc?
+      current&.short_name == 'brc'
+    end
   end
 
   def demo?

@@ -15,12 +15,6 @@ class SessionsController < Devise::SessionsController
     @current_ngo = Organization.current
   end
 
-  def create
-    super do |resource|
-      I18n.locale = params[:locale] = resource.preferred_language
-    end
-  end
-
   def detect_browser
     lang = params[:locale] || locale.to_s
     if browser.firefox? && browser.platform.mac? && lang == 'km'

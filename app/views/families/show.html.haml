@@ -49,12 +49,14 @@
                 %td
                   %strong
                     = family_case_history(@family)
-              %tr
-                %td.spacing-first-col
-                  = t('.address')
-                %td
-                  %strong
-                    = merged_address_family(@family)
+
+              - if policy(@family).show?(:province_id)
+                %tr
+                  %td.spacing-first-col
+                    = t('.address')
+                  %td
+                    %strong
+                      = merged_address_family(@family)
               %tr
                 %td.spacing-first-col
                   = t('.member_count')
@@ -69,26 +71,29 @@
                   %strong
                     = @family.caregiver_information
 
-              %tr
-                %td.spacing-first-col
-                  = t('.significant_family_member_count')
-                %td
-                  %strong
-                    = @family.significant_family_member_count
+              - if policy(@family).show?(:member_count)
+                %tr
+                  %td.spacing-first-col
+                    = t('.significant_family_member_count')
+                  %td
+                    %strong
+                      = @family.significant_family_member_count
 
-              %tr
-                %td.spacing-first-col
-                  = t('.household_income')
-                %td
-                  %strong
-                    = @family.household_income
+              - if policy(@family).show?(:household_income)
+                %tr
+                  %td.spacing-first-col
+                    = t('.household_income')
+                  %td
+                    %strong
+                      = @family.household_income
 
-              %tr
-                %td.spacing-first-col
-                  = "#{t('.dependable_income')}?"
-                %td
-                  %strong
-                    = human_boolean(@family.dependable_income)
+              - if policy(@family).show?(:dependable_income)
+                %tr
+                  %td.spacing-first-col
+                    = "#{t('.dependable_income')}?"
+                  %td
+                    %strong
+                      = human_boolean(@family.dependable_income)
 
               %tr
                 %td.spacing-first-col
@@ -117,19 +122,22 @@
                 %td
                   %strong
                     = @family.male_adult_count.to_i
-              %tr
-                %td.spacing-first-col
-                  = t('.contract_date')
-                %td
-                  %strong
-                    = date_format(@family.contract_date)
 
-              %tr
-                %td.spacing-first-col
-                  = t('.family_type')
-                %td
-                  %strong
-                    = family_type_translation(@family.family_type)
+              - if policy(@family).show?(:contract_date)
+                %tr
+                  %td.spacing-first-col
+                    = t('.contract_date')
+                  %td
+                    %strong
+                      = date_format(@family.contract_date)
+
+              - if policy(@family).show?(:family_type)
+                %tr
+                  %td.spacing-first-col
+                    = t('.family_type')
+                  %td
+                    %strong
+                      = family_type_translation(@family.family_type)
               %tr
                 %td.spacing-first-col
                   = t('.status')
@@ -141,10 +149,10 @@
             .col-sm-12
               %table.table.table-bordered
                 %thead
-                  %th= t('.adult_name')
+                  %th= t('activerecord.attributes.family_member.adult_name')
                   %th= t('.date_of_birth')
                   - if policy(FamilyMember).show?(:gender)
-                    %th= t('.gender')
+                    %th= t('activerecord.attributes.family_member.gender')
                   - if policy(FamilyMember).show?(:occupation)
                     %th= t('.occupation')
                   - if policy(FamilyMember).show?(:relation)
