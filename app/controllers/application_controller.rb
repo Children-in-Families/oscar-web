@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(_resource_or_scope)
-    dashboards_path(locale: resource.preferred_language)
+    dashboards_path(locale: current_user&.preferred_language || 'en')
   end
 
   def detect_browser
