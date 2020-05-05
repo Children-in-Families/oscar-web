@@ -632,7 +632,7 @@ class Client < ActiveRecord::Base
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
     client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin, :global_id)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin, :global_id, :external_id, :external_id_display, :mosvy_number, :external_case_worker_name, :external_case_worker_id)
     suburb = self.suburb
     state_name = self.state_name
 
@@ -654,7 +654,8 @@ class Client < ActiveRecord::Base
     Organization.switch_to current_org.short_name
   end
 
-  def get_client_attribute(attribute)
+  def self.get_client_attribute(attributes)
+    attribute = attributes.with_indifferent_access
     client_attributes = {
       external_id:            attribute[:external_id],
       external_id_display:    attribute[:external_id_display],
@@ -663,14 +664,15 @@ class Client < ActiveRecord::Base
       family_name:            attribute[:family_name],
       gender:                 attribute[:gender],
       date_of_birth:          attribute[:date_of_birth],
-      reason_for_referral:    attribute[:reason_for_referral],
+      reason_for_referral:    attribute[:referral_reason],
+      referral_source_id:     ReferralSource.find_by(name: attribute[:referred_from])&.id,
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
-      **get_village(attribute[:address_current_village_code])
+      **get_village(attribute[:address_current_village_code] || attribute[:village_code])
     }
   end
 
-  def get_village(village_code)
+  def self.get_village(village_code)
     village = Village.find_by(code: village_code)
     if village
       { village_id: village.id, commune_id: village.commune&.id, district_id: village.commune.district&.id, province_id: village.commune.district.province&.id }

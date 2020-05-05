@@ -8,10 +8,11 @@ class Referral < ActiveRecord::Base
   alias_attribute :new_date, :date_of_referral
 
   validates :client_name, :client_global_id, :date_of_referral, :referred_from,
-            :referred_to, :referral_reason, :referee_id, :name_of_referee,
+            :referred_to, :referral_reason, :name_of_referee,
             :referral_phone, presence: true
 
   validates :consent_form, presence: true, if: :making_referral?
+  validates :referee_id, presence: true, if: :slug_exist?
 
   validate :check_saved_referral_in_target_ngo, on: :update
   before_validation :set_referred_from
@@ -87,21 +88,27 @@ class Referral < ActiveRecord::Base
     referral_attributes = {
       date_of_referral: Date.today,
       referred_to: attribute[:organization_name],
-      referred_from: "MoSVY",
       referral_reason: attribute[:reason_for_referral].presence || "N/A",
       name_of_referee: attribute[:external_case_worker_name],
       referral_phone: attribute[:external_case_worker_mobile],
-      referee_id: attribute[:external_case_worker_id], #This got to be internal case referree id
+      referee_id: attribute[:external_case_worker_id], #This got to be internal case referee id
       client_name: "#{attribute[:given_name]} #{attribute[:family_name]}".squish,
       consent_form: [], # default attachment
       ngo_name: "MoSVY",
+      client_gender: attribute[:gender],
+      client_date_of_birth: attribute[:date_of_birth],
       client_global_id: GlobalIdentity.create(ulid: ULID.generate)&.ulid,
       external_id: attribute[:external_id],
       external_id_display: attribute[:external_id_display],
       mosvy_number: attribute[:mosvy_number],
       external_case_worker_name: attribute[:external_case_worker_name],
       external_case_worker_id: attribute[:external_case_worker_id],
+      village_code: attribute[:location_current_village_code],
       services: attribute[:services]&.map{ |service| service[:name] }.join(", ") || "" #before client got a service we need to enroll client to a program stream
     }
+  end
+
+  def slug_exist?
+    slug.present?
   end
 end
