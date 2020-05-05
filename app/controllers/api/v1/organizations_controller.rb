@@ -115,7 +115,7 @@ module Api
               :address_current_village_code, :reason_for_referral, :reason_for_exiting,
               :organization_id, :organization_name, :external_case_worker_name,
               :external_case_worker_id, :external_case_worker_mobile, :protection_status,
-              services: [:id, :name]
+              services: [:uuid, :name]
             )
         end
     end
