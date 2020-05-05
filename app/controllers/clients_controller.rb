@@ -117,6 +117,11 @@ class ClientsController < AdminController
         attributes
       end
       Organization.switch_to current_org.short_name
+      if @referral
+        client_name = @referral.client_name.split(' ')
+        client_attr = { given_name: client_name.first, family_name: client_name.last, gender: @referral.client_gender, date_of_birth: @referral.client_date_of_birth }
+        attributes = Client.get_client_attribute(@referral.attributes.merge(client_attr)) if attributes.nil?
+      end
       @client = Client.new(attributes)
     else
       @client = Client.new
@@ -371,8 +376,12 @@ class ClientsController < AdminController
   end
 
   def find_referral_source_by_referral
-    referral_source_org = Organization.find_by(short_name: @referral.referred_from).full_name
-    ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+    referral_source_org = Organization.find_by(short_name: @referral.referred_from)&.full_name
+    if referral_source_org
+      ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+    else
+      ReferralSource.find_by(name: @referral.referred_from)&.id
+    end
   end
 
   def fetch_referral_attibutes(attributes, referral_source_id)

@@ -37,7 +37,7 @@ module Api
             short_name = global_identity.organizations.first.short_name
             Organization.switch_to short_name
             client = global_identity.global_identity_organizations.last&.client
-            attributes = client.get_client_attribute(clients_params)
+            attributes = Client.get_client_attribute(clients_params)
             if client.update_attributes(attributes)
               render json: { external_id: client.external_id, message: message }
             else
@@ -49,10 +49,12 @@ module Api
             referral_attributes = Referral.get_referral_attribute(clients_params)
             referral = Referral.find_by(external_id: clients_params[:external_id])
             unless referral
-              referral = Referral.new(referral_attributes)
+              external_system = ExternalSystem.find_by(token: @current_user.email)
+              external_system_id = external_system&.id
+              external_system_name = external_system&.name
+              referral = Referral.new(referral_attributes.merge(referred_from: external_system_name))
               if referral.save
                 global_identity = GlobalIdentity.find(referral_attributes[:client_global_id])
-                external_system_id = ExternalSystem.find_by(token: @current_user.email)&.id
                 global_identity.external_system_global_identities.find_or_create_by(
                   external_system_id: external_system_id,
                   external_id: referral_attributes[:external_id]

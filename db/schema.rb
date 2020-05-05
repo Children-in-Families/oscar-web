@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200428121016) do
+ActiveRecord::Schema.define(version: 20200505091428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1539,6 +1539,9 @@ ActiveRecord::Schema.define(version: 20200428121016) do
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
     t.string   "services"
+    t.string   "client_gender",             default: ""
+    t.date     "client_date_of_birth"
+    t.string   "village_code",              default: ""
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1606,26 +1609,33 @@ ActiveRecord::Schema.define(version: 20200428121016) do
   add_index "settings", ["province_id"], name: "index_settings_on_province_id", using: :btree
 
   create_table "shared_clients", force: :cascade do |t|
-    t.string   "slug",              default: ""
-    t.string   "given_name",        default: ""
-    t.string   "family_name",       default: ""
-    t.string   "local_given_name",  default: ""
-    t.string   "local_family_name", default: ""
-    t.string   "gender",            default: ""
+    t.string   "slug",                      default: ""
+    t.string   "given_name",                default: ""
+    t.string   "family_name",               default: ""
+    t.string   "local_given_name",          default: ""
+    t.string   "local_family_name",         default: ""
+    t.string   "gender",                    default: ""
     t.date     "date_of_birth"
-    t.string   "live_with",         default: ""
-    t.string   "telephone_number",  default: ""
+    t.string   "live_with",                 default: ""
+    t.string   "telephone_number",          default: ""
     t.integer  "birth_province_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "country_origin",    default: ""
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "country_origin",            default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
     t.string   "global_id"
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
+  add_index "shared_clients", ["external_id"], name: "index_shared_clients_on_external_id", using: :btree
   add_index "shared_clients", ["global_id"], name: "index_shared_clients_on_global_id", using: :btree
+  add_index "shared_clients", ["mosvy_number"], name: "index_shared_clients_on_mosvy_number", using: :btree
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "sponsors", force: :cascade do |t|
