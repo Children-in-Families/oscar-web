@@ -27,7 +27,6 @@ module Api
 
     def create
       client = Client.new(client_params)
-
       referee = Referee.find_or_initialize_by(referee_params)
       referee.save
 
@@ -76,7 +75,7 @@ module Api
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id, :global_id,
+            :relevant_referral_information, :province_id, :global_id, :external_id, :external_id_display, :mosvy_number,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
