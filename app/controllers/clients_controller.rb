@@ -226,7 +226,7 @@ class ClientsController < AdminController
             :referral_phone, :received_by_id, :followed_up_by_id, :global_id,
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-            :has_been_in_orphanage, :has_been_in_government_care,
+            :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
             :relevant_referral_information, :province_id, :current_family_id,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,

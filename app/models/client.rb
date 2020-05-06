@@ -663,7 +663,7 @@ class Client < ActiveRecord::Base
       gender:                 attribute[:gender],
       date_of_birth:          attribute[:date_of_birth],
       reason_for_referral:    attribute[:referral_reason],
-      referral_source_id:     ReferralSource.find_by(name: attribute[:referred_from])&.id,
+      referral_source_category_id:     ReferralSource.find_by(name: attribute[:referred_from])&.id,
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
       **get_village(attribute[:address_current_village_code] || attribute[:village_code])
@@ -717,7 +717,11 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = Referral.find_by(slug: archived_slug, saved: false)
+    if external_id.present?
+      referral = Referral.find_by(external_id: external_id, saved: false)
+    else
+      referral = Referral.find_by(slug: archived_slug, saved: false)
+    end
     referral.update_attributes(client_id: id, saved: true) if referral.present?
   end
 
