@@ -28,6 +28,9 @@ class Family < ActiveRecord::Base
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
   has_paper_trail
+
+  before_validation :assign_family_type, if: [:new_record?, :brc?]
+
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, presence: true, inclusion: { in: STATUSES }
@@ -127,6 +130,14 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def assign_family_type
+    self.family_type = 'Other'
+  end
+
+  def brc?
+    Organization.brc?
+  end
 
   def client_must_only_belong_to_a_family
     clients = Client.where.not(current_family_id: nil).where.not(current_family_id: self.id).ids

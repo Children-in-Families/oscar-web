@@ -23,7 +23,10 @@
                 .panel-heading
                   %h4= I18n.t('case_notes.index.note')
                 .panel-body
-                  = simple_format combined_notes
+                  - if case_note.note.present?
+                    = case_note.note
+                  - else
+                    = simple_format combined_notes
 
           - domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
           - domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
@@ -33,7 +36,7 @@
                 .panel-heading
                   %h4= "Domain Groups"
                 .panel-body
-                  = select_tag "", options_for_select(domain_groups, domain_group_ids), multiple: true, disabled: true
+                  = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
 
           - case_note.case_note_domain_groups.includes(:case_note, :domain_group).each do |cdg|
             - list_goals = []

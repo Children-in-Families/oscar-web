@@ -8,9 +8,19 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
     _handleInitCocoonForCustomAssessmentSetting()
 
   _initICheckBox = ->
-    $('.i-checks').iCheck
+    $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
+    ).on('ifChecked', ->
+      currentSettingId = $(this).data('current-setting')
+      $.ajax
+        type: 'PUT'
+        url: "settings/#{currentSettingId}"
+        data: { setting: { enable_custom_assessment: true } }
+        dataType: 'JSON'
+        success: (json) ->
+          return
+    )
 
   _initSelect2 = ->
     $('select').select2()

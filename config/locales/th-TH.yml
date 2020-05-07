@@ -99,6 +99,10 @@ th-TH:
         update:
           successfully_updated:
   activerecord:
+    attributes:
+      family_member:
+        adult_name: Name of Adult Member
+        gender: Gender
     default:
       blank:
     errors:
