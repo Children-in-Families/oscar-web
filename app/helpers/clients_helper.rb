@@ -7,6 +7,10 @@ module ClientsHelper
     end
   end
 
+  def link_to_client_show(client)
+    link_to client.name, client_path(client) if client
+  end
+
   def order_case_worker(client)
     client.users.order('lower(first_name)', 'lower(last_name)')
   end

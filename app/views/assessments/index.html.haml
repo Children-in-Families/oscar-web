@@ -3,7 +3,7 @@
     .ibox
       .ibox-title
         %h5
-          %strong= "#{@client.name}"
+          %strong= link_to_client_show(@client)
         %h5.margin-title= t('.assessment_history')
       .ibox-content
         - @assessmets.each_with_index do |assessment, index|
