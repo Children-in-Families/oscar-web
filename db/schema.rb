@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200505091428) do
+ActiveRecord::Schema.define(version: 20200508071352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -604,6 +604,7 @@ ActiveRecord::Schema.define(version: 20200505091428) do
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
     t.string   "global_id"
+    t.boolean  "shared_service_enabled",           default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
