@@ -1642,6 +1642,7 @@ en:
       school_grade: School Grade
       school_name: School Name
       settlement2: City/Settlement
+      shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
       state: Accept/Reject
       status: Status

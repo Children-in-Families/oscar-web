@@ -223,7 +223,7 @@ class ClientsController < AdminController
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-            :referral_phone, :received_by_id, :followed_up_by_id, :global_id,
+            :referral_phone, :received_by_id, :followed_up_by_id, :global_id, :shared_service_enabled,
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,

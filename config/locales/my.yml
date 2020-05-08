@@ -1636,6 +1636,7 @@ my:
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       settlement2: City/Settlement
+      shared_service_enabled: Do you want to share client services with external system?
       stage: အဆင့္ေမးခြန္း
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
