@@ -101,6 +101,10 @@ km:
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
+    attributes:
+      family_member:
+        adult_name: Name of Adult Member
+        gender: Gender
     default:
       blank: មិនអាចរំលង
     errors:

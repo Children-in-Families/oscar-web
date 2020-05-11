@@ -9,7 +9,7 @@ export default props => {
           data: { errorFields, carerDistricts, carerCommunes, brc_presented_ids,
                   carerVillages, carer, client, clientRelationships, currentProvinces,
                   currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
-                  schoolGrade, families, ratePoor, addressTypes, T
+                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2,
                 }
         } = props
 
@@ -105,7 +105,7 @@ export default props => {
         </div>
       </div>
 
-      <CustomInfo id="customInfo" translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} data={{errorFields, ratePoor, client, T }} />
+      <CustomInfo id="customInfo" translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} data={{errorFields, ratePoor, client, T, customId1, customId2 }} />
     </div>
   )
 }

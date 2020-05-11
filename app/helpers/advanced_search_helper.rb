@@ -125,7 +125,7 @@ module AdvancedSearchHelper
       date_of_birth: I18n.t('advanced_search.fields.date_of_birth'),
       initial_referral_date: I18n.t('advanced_search.fields.initial_referral_date'),
       follow_up_date: I18n.t('advanced_search.fields.follow_up_date'),
-      gender: I18n.t('advanced_search.fields.gender'),
+      gender: I18n.t('datagrid.columns.clients.gender'),
       status: I18n.t('advanced_search.fields.status'),
       agency_name: I18n.t('advanced_search.fields.agency_name'),
       donor_name: I18n.t('advanced_search.fields.donor_id'),

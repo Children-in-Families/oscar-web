@@ -95,7 +95,7 @@ module AdvancedSearches
           @sql_string << exit_program_fields[:id]
           @values << exit_program_fields[:values]
 
-        elsif form_builder.first == 'exitprogramdate'
+        elsif form_builder.first == 'exitprogramdate' || form_builder.first == 'programexitdate'
           program_stream = ProgramStream.find_by(name: form_builder.second)
           if program_stream.present?
             exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql

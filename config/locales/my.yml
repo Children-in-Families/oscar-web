@@ -99,6 +99,10 @@ my:
         update:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
   activerecord:
+    attributes:
+      family_member:
+        adult_name: Name of Adult Member
+        gender: Gender
     default:
       blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
     errors:

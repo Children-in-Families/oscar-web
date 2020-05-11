@@ -347,7 +347,18 @@ module ClientGridOptions
             if fields.last == 'Has This Form'
               properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              if $param_rules
+                custom_field_id = client.custom_fields.find_by(form_title: fields.second)&.id
+                basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+                basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+                results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+                query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
+                sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+
+                custom_field_properties = client.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+              else
+                custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              end
               custom_field_properties = property_filter(custom_field_properties, format_field_value)
               custom_field_properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
             end

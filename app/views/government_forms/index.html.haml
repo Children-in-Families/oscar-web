@@ -2,12 +2,16 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @client.name
+        .row
+          .col-xs-12.col-sm-6.co-md-6
+            %h5
+              = link_to_client_show(@client)
+          .col-xs-12.col-sm-6.col-md-6
+            .ibox-tools
+              = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default btn-form' }
+              - if policy(@client).create?
+                = link_to t('.add_form'), new_client_government_form_path(@client, form: params[:form]), { class: "btn btn-primary #{('disabled' if @government_form)}" }
       .ibox-content
-        %p
-          = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
-          - if policy(@client).create?
-            = link_to t('.add_form'), new_client_government_form_path(@client, form: params[:form]), { class: "btn btn-primary btn-outline #{('disabled' if @government_form)}" }
         %table.table.table-bordered
           %thead
             %tr
