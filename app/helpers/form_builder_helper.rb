@@ -37,10 +37,11 @@ module FormBuilderHelper
     data[:rules].each_with_index do |h, index|
       if h.has_key?(:rules)
         mapping_allowed_param_value(h, field_names, data_mapping)
+      else
+        next if !(field_names.include?(h[:id]))
+        h[:condition] = data[:condition]
+        rule_array << h
       end
-      next if !(field_names.include?(h[:id]))
-      h[:condition] = data[:condition]
-      rule_array << h
     end
     data_mapping << rule_array
   end
@@ -57,11 +58,13 @@ module FormBuilderHelper
   end
 
   def get_any_query_string(results, class_name)
+
     results.map do |result|
       condition = ''
       result.map do |h|
         condition = h[:condition]
-        general_query(h[:id], h[:field], h[:operator], h[:value], h[:type], class_name)
+        klass_name = h[:id] == 'protection_concern_id' ? 'call_protection_concerns' : class_name
+        general_query(h[:id], h[:field], h[:operator], h[:value], h[:type], klass_name)
       end.join(" #{condition} ")
     end
   end
@@ -179,7 +182,6 @@ module FormBuilderHelper
     field_name = id == 'case_note_date' ? 'meeting_date' : id
     field_name = field_name == 'case_note_type' ? 'interaction_type' : field_name
     field_name = field_name[/quantitative__\d+/].present? ? 'id' : field_name
-
     value      = !value.is_a?(Array) && type == 'string'  ? value.downcase : value
 
     lower_field_name      = string_field(type, field_name, value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
@@ -224,7 +226,7 @@ module FormBuilderHelper
         "#{table_name_field_name} = '' OR #{table_name_field_name} IS NULL"
       end
     when 'is_not_empty'
-      if field_name[/datetime|meeting_date|case_note_date/]
+      if field_name[/date/]
         "#{lower_field_name} IS NOT NULL"
       elsif field_name[/called_before|childsafe|answered_call|requested_update|not_a_phone_call/]
         "#{table_name_field_name} IS NOT NULL"

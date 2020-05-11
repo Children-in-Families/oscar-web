@@ -5,37 +5,63 @@
       .row
         .col-xs-12.col-sm-6.col-md-4= f.input :name, label: t('.name')
         .col-xs-12.col-sm-6.col-md-4= f.input :code, label: t('.code')
-        .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :second, value_method: :first, label: t('.family_type')
+
+        - if policy(@family).show?(:family_type)
+          .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :second, value_method: :first, label: t('.family_type')
+
         .col-xs-12.col-sm-6.col-md-4= f.input :status, collection: Family::STATUSES, label: t('.status')
         .col-xs-12.col-sm-6.col-md-4= f.input :case_history, label: t('.case_history')
         -# .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address'), readonly: true
-        .col-xs-12.col-sm-6.col-md-4
-          = f.association :province, collection: @provinces, label: t('.province'), input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
-        .col-xs-12.col-sm-6.col-md-4
-          = f.association :district, collection: @districts, label: t('.district'), input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
-        .col-xs-12.col-sm-6.col-md-4
-          = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: (@family.old_commune if @family.commune_id.nil?)
-        .col-xs-12.col-sm-6.col-md-4
-          = f.association :village, collection: @villages.map{|v| [v.name, v.id] }, label:t('.village'), input_html: { data: { type: 'villages' } }, hint: (@family.old_village if @family.village_id.nil?)
-        .col-xs-12.col-sm-6.col-md-4.famliy-street= f.input :street, label: t('.street')
-        .col-xs-12.col-sm-6.col-md-4= f.input :house, label: t('.house')
-        .col-xs-12.col-sm-6.col-md-4= f.input :significant_family_member_count, label: t('.significant_family_member_count')
-        .col-xs-12.col-sm-6.col-md-4= f.input :female_children_count, label: t('.female_children_count')
-        .col-xs-12.col-sm-6.col-md-4= f.input :male_children_count, label: t('.male_children_count')
-        .col-xs-12.col-sm-6.col-md-4= f.input :female_adult_count, label: t('.female_adult_count')
-        .col-xs-12.col-sm-6.col-md-4= f.input :male_adult_count, label: t('.male_adult_count')
+
+        - if policy(@family).show?(:province_id)
+          .col-xs-12.col-sm-6.col-md-4
+            = f.association :province, collection: @provinces, label: t('.province'), input_html: { data: { type: 'provinces', 'subaddress' => 'district' } }
+
+        - if policy(@family).show?(:district_id)
+          .col-xs-12.col-sm-6.col-md-4
+            = f.association :district, collection: @districts, label: t('.district'), input_html: { data: { type: 'districts', 'subaddress' => 'commune' } }
+
+        - if policy(@family).show?(:commune_id)
+          .col-xs-12.col-sm-6.col-md-4
+            = f.association :commune, collection: @communes.map{|c| [c.name, c.id] }, label: t('.commune'), input_html: { data: { type: 'communes', 'subaddress' => 'village' } }, hint: (@family.old_commune if @family.commune_id.nil?)
+
+        - if policy(@family).show?(:village_id)
+          .col-xs-12.col-sm-6.col-md-4
+            = f.association :village, collection: @villages.map{|v| [v.name, v.id] }, label:t('.village'), input_html: { data: { type: 'villages' } }, hint: (@family.old_village if @family.village_id.nil?)
+
+        - if policy(@family).show?(:street)
+          .col-xs-12.col-sm-6.col-md-4.famliy-street
+            = f.input :street, label: t('.street')
+
+        - if policy(@family).show?(:house)
+          .col-xs-12.col-sm-6.col-md-4= f.input :house, label: t('.house')
+
+        - if policy(@family).show?(:member_count)
+          .col-xs-12.col-sm-6.col-md-4= f.input :significant_family_member_count, label: t('.significant_family_member_count')
+          .col-xs-12.col-sm-6.col-md-4= f.input :female_children_count, label: t('.female_children_count')
+          .col-xs-12.col-sm-6.col-md-4= f.input :male_children_count, label: t('.male_children_count')
+          .col-xs-12.col-sm-6.col-md-4= f.input :female_adult_count, label: t('.female_adult_count')
+          .col-xs-12.col-sm-6.col-md-4= f.input :male_adult_count, label: t('.male_adult_count')
+
+
         .col-xs-12.col-sm-6.col-md-4= f.input :children, collection: @clients.map { |client| [client.en_and_local_name.present? ? client.en_and_local_name : 'Unknown', client.id] }, selected: selected_clients, input_html: { multiple: true }, label: t('.children')
-        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.family_contract_date
-          %label.date.optional.control-label{ for: 'family_contract_date' }= t('.contract_date')
-          .input-group.date
-            = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
-            %span.input-group-addon
-              %i.fa.fa-calendar-check-o
-        .col-xs-12.col-sm-6.col-md-4= f.input :household_income, label: t('.household_income')
-        .col-xs-12.col-sm-6.col-md-4
-          .i-checks.dependable-income
-            %label= t('.dependable_income')
-            = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
+
+        - if policy(@family).show?(:contract_date)
+          .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.family_contract_date
+            %label.date.optional.control-label{ for: 'family_contract_date' }= t('.contract_date')
+            .input-group.date
+              = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+
+        - if policy(@family).show?(:household_income)
+          .col-xs-12.col-sm-6.col-md-4= f.input :household_income, label: t('.household_income')
+
+        - if policy(@family).show?(:dependable_income)
+          .col-xs-12.col-sm-6.col-md-4
+            .i-checks.dependable-income
+              %label= t('.dependable_income')
+              = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
         .col-xs-12.col-sm-6.col-md-4
           = f.input :caregiver_information, input_html: { rows: 5 }, label: t('.caregiver_information')
 

@@ -100,6 +100,10 @@ class ApplicationController < ActionController::Base
     root_url(host: request.domain, subdomain: 'start')
   end
 
+  def after_sign_in_path_for(_resource_or_scope)
+    dashboards_path(locale: current_user.preferred_language)
+  end
+
   def detect_browser
     lang = params[:locale] || locale.to_s
     if browser.firefox? && browser.platform.mac? && lang == 'km'

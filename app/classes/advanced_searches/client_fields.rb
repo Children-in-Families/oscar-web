@@ -1,5 +1,5 @@
 module AdvancedSearches
-  class  ClientFields
+  class ClientFields
     include AdvancedSearchHelper
     include ClientsHelper
     include ApplicationHelper
@@ -22,7 +22,10 @@ module AdvancedSearches
       custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
 
       search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
-      search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options
+
+      (search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options).select do |field|
+        policy(Client).show?(field[:id].to_sym)
+      end
     end
 
     private
@@ -43,9 +46,7 @@ module AdvancedSearches
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
         'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
         'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]
-      ].select do |field_name|
-        policy(Client).show?(field_name.to_sym)
-      end.compact
+      ].compact
     end
 
     def current_user
@@ -56,9 +57,7 @@ module AdvancedSearches
       [
         'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
         'case_note_date', 'created_at', 'date_of_referral'
-      ].select do |field_name|
-        policy(Client).show?(field_name.to_sym)
-      end.compact
+      ].compact
     end
 
     def drop_down_type_list
@@ -95,9 +94,7 @@ module AdvancedSearches
         ['referee_relationship', get_sql_referee_relationship],
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner]
-      ].select do |array|
-        policy(Client).show?(array[0].to_sym)
-      end.compact
+      ].compact
     end
 
     def field_settings

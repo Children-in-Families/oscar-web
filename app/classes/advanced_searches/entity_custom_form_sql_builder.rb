@@ -18,7 +18,7 @@ module AdvancedSearches
       sql_string = "#{@entity_type.pluralize}.id IN (?)"
       return { id: sql_string, values: [] } if $param_rules.blank?
       properties_field = 'custom_field_properties.properties'
-      custom_field_properties = CustomFieldProperty.where(custom_formable_type: custom_formable_type, custom_field_id: @selected_custom_form)
+      custom_field_properties = CustomFieldProperty.where(custom_formable_type: custom_formable_type, custom_field_id: @selected_custom_form&.id)
 
       basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
       basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
