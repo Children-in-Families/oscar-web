@@ -52,7 +52,9 @@ class Client < ActiveRecord::Base
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
   has_many :tasks,          dependent: :destroy
+  has_many :surveys,        dependent: :destroy
   has_many :agency_clients, dependent: :destroy
+  has_many :progress_notes, dependent: :destroy
   has_many :agencies, through: :agency_clients
   has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases

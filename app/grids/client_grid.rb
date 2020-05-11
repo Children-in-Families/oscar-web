@@ -707,6 +707,18 @@ class ClientGrid < BaseGrid
     object.client_phone
   end
 
+  %w(
+    whatsapp
+    other_phone_number
+    other_phone_whatsapp
+  ).each do |field_name|
+    header = I18n.t("datagrid.columns.clients.#{field_name}")
+
+    column(field_name, header: header, class: 'brc-fields') do |object|
+      object.public_send(field_name.to_sym)
+    end
+  end
+
   column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
     object.address_type && object.address_type.titleize
   end
@@ -777,9 +789,6 @@ class ClientGrid < BaseGrid
       id_number
       legacy_brcs_id
       preferred_language
-      other_phone_whatsapp
-      whatsapp
-      other_phone_number
       brsc_branch
       current_island
       current_street
@@ -1223,7 +1232,18 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              if $param_rules
+                custom_field_id = object.custom_fields.find_by(form_title: fields.second)&.id
+                basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+                basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+                results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+                query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
+                sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+
+                properties      = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+              else
+                properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              end
             end
           end
         elsif fields.first == 'enrollmentdate'

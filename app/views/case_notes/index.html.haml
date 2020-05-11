@@ -2,44 +2,49 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{t('.case_note_lists')} #{@client.name}"
-        .ibox-tools
-          = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
-          - if can? :create, CaseNote
-            - if enable_any_csi_tools?
-              .btn-group#case-note-selection
-                %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
-                  = t('.new_case_note')
-                  %span.caret
-                %ul.dropdown-menu#case-note-dropdown
-                  - if @current_setting.enable_default_assessment
-                    %li
-                      = new_link
-                  - if @custom_assessment_settings.present?
-                    - @custom_assessment_settings.each do |cs|
-                      - if cs.domains.any?
+        .row
+          .col-xs-12.col-sm-6.co-md-6
+            %h5
+              = t('.case_note_lists')
+              = link_to_client_show(@client)
+          .col-xs-12.col-sm-6.col-md-6
+            .ibox-tools
+              = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
+              - if can? :create, CaseNote
+                - if enable_any_csi_tools?
+                  .btn-group#case-note-selection
+                    %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+                      = t('.new_case_note')
+                      %span.caret
+                    %ul.dropdown-menu#case-note-dropdown
+                      - if @current_setting.enable_default_assessment
                         %li
-                          = link_to new_client_case_note_path(@client, default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link' do
-                            = new_custom_link(cs.custom_assessment_name)
-                      - else
-                        %li.disabled
-                          = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
-                            = "#{t('.begin_now')} #{cs.custom_assessment_name}"
+                          = new_link
+                      - if @custom_assessment_settings.present?
+                        - @custom_assessment_settings.each do |cs|
+                          - if cs.domains.any?
+                            %li
+                              = link_to new_client_case_note_path(@client, default: false, custom_name: cs.custom_assessment_name), class: 'btn btn-default custom-assessment-link' do
+                                = new_custom_link(cs.custom_assessment_name)
+                          - else
+                            %li.disabled
+                              = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' } do
+                                = "#{t('.begin_now')} #{cs.custom_assessment_name}"
 
 
-                #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
-                  .modal-dialog{:role => "document"}
-                    .modal-content.panel-warning
-                      .modal-header.panel-heading
-                        %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
-                        %h4.text-left
-                          %i.fa.fa-warning.fa-x2
-                          = t('.no_custom_domains_available')
-                      .modal-body.text-center
-                        = t('.please_add_custom_domains')
+                    #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
+                      .modal-dialog{:role => "document"}
+                        .modal-content.panel-warning
+                          .modal-header.panel-heading
+                            %button.btn-modal-cancel.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
+                            %h4.text-left
+                              %i.fa.fa-warning.fa-x2
+                              = t('.no_custom_domains_available')
+                          .modal-body.text-center
+                            = t('.please_add_custom_domains')
 
-            - elsif case_notes_editable? && policy(@client).create?
-              = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
+                - elsif case_notes_editable? && policy(@client).create?
+                  = link_to t('.new_case_note'), new_client_case_note_path(@client, custom: @current_setting.enable_default_assessment), class: 'btn btn-primary'
 
       .ibox-content
         - @case_notes.each do |case_note|

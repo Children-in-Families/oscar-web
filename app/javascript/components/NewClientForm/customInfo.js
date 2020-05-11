@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, id, data: { errorFields, ratePoor, client, T } } = props
+  const { onChange, fieldsVisibility, translation, id, data: { errorFields, ratePoor, client, T, customId1, customId2, } } = props
 
   const rateLists = ratePoor.map(rate => ({ label: rate[0], value: rate[1] }))
 
@@ -15,11 +15,11 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("customInfo.custom_id_1")} onChange={onChange('client', 'code')} value={client.code} />
+          <TextInput label={ customId1 } onChange={onChange('client', 'code')} value={client.code} />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
-            label={T.translate("customInfo.custom_id_2")}
+            label={ customId2 }
             onChange={onChange('client', 'kid_id')}
             value={client.kid_id}
             isError={errorFields.includes('kid_id')}
