@@ -35,17 +35,17 @@
       .col-xs-12
         %h3= 'អាសយដ្ឋានអ្នកថែទាំ'
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_province_id, as: :select, collection: @provinces, selected: @client.carer&.province&.id, label: 'ខេត្ត/រាជធានី', input_html: { disabled: 'disabled', data: { type: 'provinces', 'subaddress' => 'primaryCarerDistrict' } }
+        = f.input :primary_carer_province_id, as: :select, collection: @provinces, selected: @carer&.province&.id, label: 'ខេត្ត/រាជធានី', input_html: { disabled: 'disabled', data: { type: 'provinces', 'subaddress' => 'primaryCarerDistrict' } }
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_district_id, as: :select, collection: @primary_carer_districts, selected: @client.carer&.district&.id, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { disabled: 'disabled', data: { type: 'districts', 'subaddress' => 'primaryCarerCommune' } }
+        = f.input :primary_carer_district_id, as: :select, collection: @primary_carer_districts, selected: @carer&.district&.id, label: 'ក្រុង/ស្រុក/ខណ្ឌ', input_html: { disabled: 'disabled', data: { type: 'districts', 'subaddress' => 'primaryCarerCommune' } }
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_commune_id, as: :select, collection: @primary_carer_communes, selected: @client.carer&.commune&.id, label: 'ឃុំ/សង្កាត់', input_html: { disabled: 'disabled', data: { type: 'communes', 'subaddress' => 'primaryCarerVillage' } }
+        = f.input :primary_carer_commune_id, as: :select, collection: @primary_carer_communes, selected: @carer&.commune&.id, label: 'ឃុំ/សង្កាត់', input_html: { disabled: 'disabled', data: { type: 'communes', 'subaddress' => 'primaryCarerVillage' } }
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_village_id, as: :select, collection: @primary_carer_villages.map{ |v| [v.code_format, v.id] }, selected: @client.carer&.village&.id, label: 'ភូមិ', input_html: { disabled: 'disabled', data: { type: 'villages' } }
+        = f.input :primary_carer_village_id, as: :select, collection: @primary_carer_villages.map{ |v| [v.code_format, v.id] }, selected: @carer&.village&.id, label: 'ភូមិ', input_html: { disabled: 'disabled', data: { type: 'villages' } }
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_house, label: 'ផ្ទះលេខ'
+        = f.input :primary_carer_house, label: 'ផ្ទះលេខ', input_html: { disabled: 'disabled', value: @carer&.house_number }
       .col-xs-12.col-sm-4
-        = f.input :primary_carer_street, label: 'ផ្លូវលេខ'
+        = f.input :primary_carer_street, label: 'ផ្លូវលេខ', input_html: { disabled: 'disabled', value: @carer&.street_number }
       .col-xs-12
         %hr
         %h3= 'សូមដាក់ចំណាត់ថ្នាក់ក្នុងតារាងខាងក្រោមតម្លៃលេខដែលសមស្រប'
