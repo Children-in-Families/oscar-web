@@ -1,13 +1,15 @@
 class GovernmentFormsController < AdminController
   load_and_authorize_resource
-  
+
   before_action :find_client
+  before_action :find_carer
   before_action :find_association, only: [:new, :create, :edit, :update]
   before_action :find_government_form, only: [:show, :edit, :update, :destroy]
   before_action :find_form_name
   before_action :find_static_association, only: :show
 
   def index
+    @carer            = @client.carer
     @government_forms = @client.government_forms.filter({ name: @form_name})
   end
 
@@ -82,6 +84,7 @@ class GovernmentFormsController < AdminController
   end
 
   def edit
+    @car
     @government_form.populate_needs unless @government_form.needs.any?
     @government_form.populate_problems unless @government_form.problems.any?
     @government_form.populate_children_plans unless @government_form.children_plans.any?
@@ -120,6 +123,10 @@ class GovernmentFormsController < AdminController
       @client.birth_province_id = client_record.birth_province_id
     end
     Organization.switch_to current_org.short_name
+  end
+
+  def find_carer
+    @carer = @client.carer
   end
 
   def find_association
