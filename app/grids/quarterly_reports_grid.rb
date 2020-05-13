@@ -15,12 +15,12 @@ class QuarterlyReportsGrid < BaseGrid
 
   column(:case, header: -> { I18n.t('datagrid.columns.quarterly_reports.kc_name') }, html: true) do |object|
     the_case = Case.with_deleted.find_by(id: object.case_id)
-    link_to entity_name(the_case.try(:client), client_path(the_case.try(:client))) if object.kinship?
+    link_to entity_name(the_case.try(:client)), client_path(the_case.try(:client)) if object.kinship?
   end
 
   column(:case, header: -> { I18n.t('datagrid.columns.quarterly_reports.fc_name') }, html: true) do |object|
-    he_case = Case.with_deleted.find_by(id: object.case_id)
-    link_to entity_name(the_case.try(:client), client_path(the_case.try(:client))) if object.foster?
+    the_case = Case.with_deleted.find_by(id: object.case_id)
+    link_to entity_name(the_case.try(:client)), client_path(the_case.try(:client)) if object.foster?
   end
 
   column(:general_health_or_appearance, header: -> { I18n.t('datagrid.columns.quarterly_reports.general_health_or_appearance') }, html: true) do |object|
