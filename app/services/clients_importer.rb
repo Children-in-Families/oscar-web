@@ -28,6 +28,7 @@ module ClientsImporter
         new_user['last_name']       = workbook.row(row_index)[headers['Last Name']]
         new_user['email']           = workbook.row(row_index)[headers['*Email']]
         new_user['password']        = user_password
+        new_user['gender']           = workbook.row(row_index)[headers['*Gender']]
         new_user['roles']           = workbook.row(row_index)[headers['*Permission Level']].downcase
         manager_name                = workbook.row(row_index)[headers['Manager']] || ''
         new_user['manager_id']      = User.find_by(first_name: manager_name).try(:id) unless new_user['roles'].include?("manager")
@@ -60,15 +61,24 @@ module ClientsImporter
         new_family['commune_id']  = commune&.id
         village_name              = workbook.row(row_index)[headers['Village']] || ''
         new_family['village_id']  = find_village(commuen.villages, village_name)&.id
-        family = Family.new(new_family)
+
+        new_family['house'] = workbook.row(row_index)[headers['House#']] || ''
+        new_family['street'] = workbook.row(row_index)[headers['Street']] || ''
+
+        family = find_family_or_initialize_by(new_family)
         family.save(validate:false)
       end
+    end
+
+    def find_family_or_initialize_by(attributes, &block)
+      Family.find_by(attributes.slice('name')) || Family.new(attributes, &block)
     end
 
     def donors
       (workbook_second_row..workbook.last_row).each do |row_index|
         new_donor                 = {}
         new_donor['name']        = workbook.row(row_index)[headers['*Name']]
+        new_donor['code']        = workbook.row(row_index)[headers['*Donor ID']]
         new_donor['description'] = workbook.row(row_index)[headers['Description']]
 
         donor = Donor.new(new_donor)
