@@ -49,6 +49,7 @@ export default props => {
           <SelectInput
             T={T}
             required
+            isDisabled={ client.status == 'Exited' }
             isError={errorFields.includes('user_ids')}
             label={t(translation, 'clients.form.user_ids')}
             isMulti
