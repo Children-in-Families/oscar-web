@@ -48,9 +48,9 @@ export default props => {
         <div className='col-md-12 col-lg-9'>
           <SelectInput
             T={T}
-            required
+            required={ client.status != 'Exited' ? true : false }
             isDisabled={ client.status == 'Exited' }
-            isError={errorFields.includes('user_ids')}
+            isError={ errorFields.includes('user_ids') && client.status != 'Exited' }
             label={t(translation, 'clients.form.user_ids')}
             isMulti
             options={userLists}
