@@ -8,6 +8,10 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
     _handleInitCocoonForCustomAssessmentSetting()
 
   _initICheckBox = ->
+    $('.ichecks-radio_buttons').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
+
     $('.i-checks').iCheck(
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
