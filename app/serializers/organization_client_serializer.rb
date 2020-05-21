@@ -26,7 +26,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def referral_consent_form
-    return [] if object.referrals.externals.last.nil? || is_referred
+    return [] unless object.referrals.externals.last.present? || is_referred
     referral = object.referrals.externals.last
     referral.consent_form.map do |attachment|
       asset_path(attachment.url)
