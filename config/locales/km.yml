@@ -4142,6 +4142,7 @@ km:
       progress_note_types: កំណត់សំគាល់
       provinces: ខេត្ត
       quantitative_types: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
+      ratanak_csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
       referral_sources: ប្រភពនៃការបញ្ជូន
       release_logs: Release logs
       research_module: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
@@ -4996,6 +4997,7 @@ km:
       csi_tools: ឧបករណ៍ការបា៉ន់ប្រមាណ
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       default_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណលំនាំដើម
+      ratanak_csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
     navigation:
       country: ប្រទេស
     research_module:

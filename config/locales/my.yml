@@ -4172,6 +4172,7 @@ my:
       provinces: ခ႐ိုင္မ်ား
       quantitative_types: ပမာဏအမ်ိဳးအစား
       referral_sources: လႊဲေျပာင္းရမည့္ ရင္းျမစ္မ်ား
+      ratanak_csi_tools: ရရှိနိုင်အကဲဖြတ်
       release_logs: လႊတ္ေပးသည့္ မွတ္တမ္းမ်ား
       research_module: Research Module
       settings: အျပင္အဆင္မ်ား
@@ -5028,6 +5029,7 @@ my:
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
+      ratanak_csi_tools: ရရှိနိုင်အကဲဖြတ်
     navigation:
       country: ႏုိင္ငံ
     research_module:

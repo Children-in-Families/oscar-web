@@ -4163,6 +4163,7 @@ en:
       progress_note_types: Types of Note
       provinces: Provinces
       quantitative_types: Custom Referral Data
+      ratanak_csi_tools: Assessment Tools
       referral_sources: Referral Sources
       release_logs: Release logs
       research_module: Research Module
@@ -5020,6 +5021,7 @@ en:
       csi_tools: Available Assessment Tools
       custom_assessment: Custom Assessment Tool
       default_assessment: Default Assessment Tool
+      ratanak_csi_tools: Assessment Tools
     navigation:
       country: Country
     research_module:

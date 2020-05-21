@@ -3,7 +3,7 @@
     = simple_form_for @setting do |f|
       .ibox
         .ibox-title
-          %h5.text-center= t('.csi_tools')
+          %h5.text-center= assessment_tool_label
           .ibox-tools
             = f.input_field :enable_default_assessment, class: 'i-checks', as: :boolean
             %label= t('.default_assessment')
