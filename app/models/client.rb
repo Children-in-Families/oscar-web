@@ -634,6 +634,10 @@ class Client < ActiveRecord::Base
   def self.notify_incomplete_daily_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+
+      setting = Setting.first_or_initialize
+      next if setting.disable_required_fields?
+
       if Setting.first.enable_default_assessment
         clients = joins(:assessments).where(assessments: { completed: false, default: true })
         clients.each do |client|
