@@ -12,7 +12,7 @@ module ClientsHelper
   end
 
   def order_case_worker(client)
-    client.users.order('lower(first_name)', 'lower(last_name)')
+    client.users.distinct.sort
   end
 
   def partner(partner)
