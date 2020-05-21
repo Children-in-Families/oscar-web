@@ -1,9 +1,13 @@
 class Setting < ActiveRecord::Base
+  extend Enumerize
+
   has_paper_trail
 
   belongs_to :province
   belongs_to :district
   belongs_to :commune
+
+  enumerize :assessment_score_order, in: ['random_order', 'ascending_order'], scope: true, predicates: true
 
   has_many :custom_assessment_settings
 

@@ -30,7 +30,7 @@
                 = ad.input :reason, label: t('.reason'), placeholder: t('.reason_placeholder'), required: true, input_html: { class: 'reason' }
                 %label= t('.score_label')
                 - random = [1,2,3,4]
-                - rd = random.shuffle
+                - rd = current_setting.random_order? ? random.shuffle : random
                 #score-required
                 - if is_domain_definition(domain)
                   .score_option.with-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
