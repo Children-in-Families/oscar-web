@@ -4,6 +4,7 @@ class Referral < ActiveRecord::Base
   mount_uploaders :consent_form, ConsentFormUploader
 
   belongs_to :client
+  has_and_belongs_to_many :services
 
   alias_attribute :new_date, :date_of_referral
 
@@ -26,6 +27,7 @@ class Referral < ActiveRecord::Base
   scope :saved, -> { where(saved: true) }
   scope :received_and_saved, -> { received.saved }
   scope :most_recents, -> { order(created_at: :desc) }
+  scope :externals, -> { where(referred_to: 'external referral') }
 
   def non_oscar_ngo?
     referred_to == 'external referral'
@@ -42,6 +44,10 @@ class Referral < ActiveRecord::Base
 
   def making_referral?
     Organization.current.short_name == referred_from
+  end
+
+  def external_system
+    ExternalSystem.find_by(name: ngo_name)
   end
 
   private
