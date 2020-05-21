@@ -43,6 +43,7 @@ class Ability
       can :create, Task
       can :read, Task
       cannot [:edit, :update], ReferralSource
+      cannot :destroy, Client
 
       family_ids = user.families.ids
       user.clients.each do |client|
