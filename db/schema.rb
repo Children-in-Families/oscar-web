@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200520100815) do
+ActiveRecord::Schema.define(version: 20200521085502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,34 @@ ActiveRecord::Schema.define(version: 20200520100815) do
   end
 
   add_index "action_results", ["government_form_id"], name: "index_action_results_on_government_form_id", using: :btree
+
+  create_table "active_admin_comments", id: :bigserial, force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_type"
+    t.integer  "resource_id",   limit: 8
+    t.string   "author_type"
+    t.integer  "author_id",     limit: 8
+    t.datetime "created_at",              precision: 6, null: false
+    t.datetime "updated_at",              precision: 6, null: false
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "admin_users", id: :bigserial, force: :cascade do |t|
+    t.string   "email",                                default: "", null: false
+    t.string   "encrypted_password",                   default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at",             precision: 6,              null: false
+    t.datetime "updated_at",             precision: 6,              null: false
+  end
+
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "advanced_searches", force: :cascade do |t|
     t.string   "name"
@@ -253,9 +281,9 @@ ActiveRecord::Schema.define(version: 20200520100815) do
     t.integer  "client_id"
     t.string   "interaction_type",             default: ""
     t.boolean  "custom",                       default: false
+    t.string   "selected_domain_group_ids",    default: [],    array: true
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
-    t.string   "selected_domain_group_ids",    default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -596,6 +624,7 @@ ActiveRecord::Schema.define(version: 20200520100815) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
+    t.string   "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -842,7 +871,6 @@ ActiveRecord::Schema.define(version: 20200520100815) do
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
-    t.datetime "deleted_at"
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
@@ -853,6 +881,7 @@ ActiveRecord::Schema.define(version: 20200520100815) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
+    t.datetime "deleted_at"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -936,9 +965,11 @@ ActiveRecord::Schema.define(version: 20200520100815) do
   add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
-    t.string  "global_id"
-    t.integer "organization_id"
-    t.integer "client_id"
+    t.string   "global_id"
+    t.integer  "organization_id"
+    t.integer  "client_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
@@ -1195,16 +1226,6 @@ ActiveRecord::Schema.define(version: 20200520100815) do
     t.string   "status",     default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "meta_fields", force: :cascade do |t|
-    t.string   "field_name"
-    t.string   "field_type"
-    t.boolean  "hidden",     default: true
-    t.boolean  "required",   default: false
-    t.string   "label"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
   end
 
   create_table "necessities", force: :cascade do |t|
@@ -1582,10 +1603,10 @@ ActiveRecord::Schema.define(version: 20200520100815) do
     t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",      default: [],                  array: true
-    t.string   "family_default_columns",      default: [],                  array: true
-    t.string   "partner_default_columns",     default: [],                  array: true
-    t.string   "user_default_columns",        default: [],                  array: true
+    t.string   "client_default_columns",      default: [],                               array: true
+    t.string   "family_default_columns",      default: [],                               array: true
+    t.string   "partner_default_columns",     default: [],                               array: true
+    t.string   "user_default_columns",        default: [],                               array: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "org_name",                    default: ""
@@ -1608,6 +1629,7 @@ ActiveRecord::Schema.define(version: 20200520100815) do
     t.string   "custom_id2_local",            default: ""
     t.boolean  "enable_hotline",              default: false
     t.boolean  "enable_client_form",          default: true
+    t.string   "assessment_score_order",      default: "random_order",      null: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

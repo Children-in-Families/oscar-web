@@ -25,6 +25,10 @@ module ApplicationHelper
     'unauthorized-background' unless user_signed_in?
   end
 
+  def assessment_tool_label
+    Organization.ratanak? ? t('.ratanak_csi_tools') : t('.csi_tools')
+  end
+
   def status_style(status)
     case status
     when 'Active' then color = 'label-primary'
