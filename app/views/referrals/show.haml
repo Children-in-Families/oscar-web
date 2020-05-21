@@ -58,6 +58,10 @@
               %td
                 %strong= @referral.referral_reason
             %tr
+              %td= t('.type_of_service')
+              %td
+                %strong= @referral.services.distinct.map(&:name).join(', ')
+            %tr
               %td
                 = t('.consent_form')
               %td

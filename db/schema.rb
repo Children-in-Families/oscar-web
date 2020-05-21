@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200508071352) do
+ActiveRecord::Schema.define(version: 20200520100815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -604,7 +604,7 @@ ActiveRecord::Schema.define(version: 20200508071352) do
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
     t.string   "global_id"
-    t.boolean  "shared_service_enabled",           default: false
+    t.boolean  "referred_external",                default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1533,7 +1533,6 @@ ActiveRecord::Schema.define(version: 20200508071352) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
-    t.string   "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -1543,12 +1542,18 @@ ActiveRecord::Schema.define(version: 20200508071352) do
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
+    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
+
+  create_table "referrals_services", force: :cascade do |t|
+    t.integer "referral_id"
+    t.integer "service_id"
+  end
 
   create_table "service_types", force: :cascade do |t|
     t.string   "name",       default: ""
