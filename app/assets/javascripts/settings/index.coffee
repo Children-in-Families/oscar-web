@@ -6,6 +6,7 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
     _initICheckBox()
     _handleCustomAssessmentCheckbox()
     _handleInitCocoonForCustomAssessmentSetting()
+    _toggleDeleteIncomplete()
 
   _initICheckBox = ->
     $('.ichecks-radio_buttons').iCheck
@@ -25,6 +26,12 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
         success: (json) ->
           return
     )
+
+  _toggleDeleteIncomplete = ->
+    $("#setting_never_delete_incomplete_assessment").on "ifUnchecked", ->
+      $("#delete-incomplete-time").show()
+    $("#setting_never_delete_incomplete_assessment").on "ifChecked", ->
+      $("#delete-incomplete-time").hide()
 
   _initSelect2 = ->
     $('select').select2()
