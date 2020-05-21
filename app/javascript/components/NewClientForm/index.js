@@ -115,7 +115,7 @@ const Forms = props => {
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
-      { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }
+      { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] }
     ]
 
     const errors = []
