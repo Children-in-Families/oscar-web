@@ -31,8 +31,15 @@ class Setting < ActiveRecord::Base
   validates :max_custom_assessment, presence: true, if: -> { enable_custom_assessment.present? }
   validates :custom_age, presence: true, if: -> { enable_custom_assessment.present? }
 
+  validates :delete_incomplete_after_period_unit, presence: true, inclusion: { in: %w(days weeks months) }, unless: :never_delete_incomplete_assessment?
+  validates :delete_incomplete_after_period_value, presence: true, numericality: { only_integer: true, greater_than: 0 }, unless: :never_delete_incomplete_assessment?
+
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
+
+  def delete_incomplete_after_period
+    delete_incomplete_after_period_unit.send(delete_incomplete_after_period_unit.to_sym)
+  end
 
   private
 

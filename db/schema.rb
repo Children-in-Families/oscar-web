@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200521143523) do
+ActiveRecord::Schema.define(version: 20200521174221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1591,40 +1591,43 @@ ActiveRecord::Schema.define(version: 20200521143523) do
   add_index "services", ["uuid"], name: "index_services_on_uuid", using: :btree
 
   create_table "settings", force: :cascade do |t|
-    t.string   "assessment_frequency",        default: "month"
+    t.string   "assessment_frequency",                 default: "month"
     t.integer  "min_assessment"
-    t.integer  "max_assessment",              default: 6
-    t.string   "country_name",                default: ""
+    t.integer  "max_assessment",                       default: 6
+    t.string   "country_name",                         default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",      default: [],                               array: true
-    t.string   "family_default_columns",      default: [],                               array: true
-    t.string   "partner_default_columns",     default: [],                               array: true
-    t.string   "user_default_columns",        default: [],                               array: true
+    t.string   "client_default_columns",               default: [],                               array: true
+    t.string   "family_default_columns",               default: [],                               array: true
+    t.string   "partner_default_columns",              default: [],                               array: true
+    t.string   "user_default_columns",                 default: [],                               array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "org_name",                    default: ""
-    t.string   "old_commune",                 default: ""
+    t.string   "org_name",                             default: ""
+    t.string   "old_commune",                          default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                         default: 18
+    t.integer  "age",                                  default: 18
     t.integer  "commune_id"
-    t.string   "custom_assessment",           default: "Custom Assessment"
-    t.boolean  "enable_custom_assessment",    default: false
-    t.boolean  "enable_default_assessment",   default: true
-    t.integer  "max_custom_assessment",       default: 6
-    t.string   "custom_assessment_frequency", default: "month"
-    t.integer  "custom_age",                  default: 18
-    t.string   "default_assessment",          default: "CSI Assessment"
-    t.boolean  "sharing_data",                default: false
-    t.string   "custom_id1_latin",            default: ""
-    t.string   "custom_id1_local",            default: ""
-    t.string   "custom_id2_latin",            default: ""
-    t.string   "custom_id2_local",            default: ""
-    t.boolean  "enable_hotline",              default: false
-    t.boolean  "enable_client_form",          default: true
-    t.string   "assessment_score_order",      default: "random_order",      null: false
-    t.boolean  "disable_required_fields",     default: false,               null: false
+    t.string   "custom_assessment",                    default: "Custom Assessment"
+    t.boolean  "enable_custom_assessment",             default: false
+    t.boolean  "enable_default_assessment",            default: true
+    t.integer  "max_custom_assessment",                default: 6
+    t.string   "custom_assessment_frequency",          default: "month"
+    t.integer  "custom_age",                           default: 18
+    t.string   "default_assessment",                   default: "CSI Assessment"
+    t.boolean  "sharing_data",                         default: false
+    t.string   "custom_id1_latin",                     default: ""
+    t.string   "custom_id1_local",                     default: ""
+    t.string   "custom_id2_latin",                     default: ""
+    t.string   "custom_id2_local",                     default: ""
+    t.boolean  "enable_hotline",                       default: false
+    t.boolean  "enable_client_form",                   default: true
+    t.string   "assessment_score_order",               default: "random_order",      null: false
+    t.boolean  "disable_required_fields",              default: false,               null: false
+    t.boolean  "never_delete_incomplete_assessment",   default: false,               null: false
+    t.integer  "delete_incomplete_after_period_value", default: 7
+    t.string   "delete_incomplete_after_period_unit",  default: "days"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
