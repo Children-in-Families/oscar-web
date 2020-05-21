@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200521085502) do
+ActiveRecord::Schema.define(version: 20200521143523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1624,6 +1624,7 @@ ActiveRecord::Schema.define(version: 20200521085502) do
     t.boolean  "enable_hotline",              default: false
     t.boolean  "enable_client_form",          default: true
     t.string   "assessment_score_order",      default: "random_order",      null: false
+    t.boolean  "disable_required_fields",     default: false,               null: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

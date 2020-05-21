@@ -88,7 +88,7 @@ class SettingsController < AdminController
                                     :custom_age, :default_assessment, :custom_assessment, :max_case_note,
                                     :case_note_frequency, :org_name, :province_id, :district_id, :commune_id,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
-                                    :enable_hotline, :enable_client_form, :assessment_score_order,
+                                    :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     client_default_columns: [], family_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])
