@@ -197,19 +197,6 @@ export default props => {
         </div>
       </legend>
       <div className="row">
-        <div className="col-xs-12">
-          {
-            current_organization.integrated && <RadioGroup
-              inline
-              label={t(translation, 'clients.form.shared_service_enabled')}
-              options={yesNoOpts}
-              onChange={onCheckSharedServiceEnable}
-              value={client.shared_service_enabled}
-            />
-          }
-        </div>
-      </div>
-      <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput label={t(translation, 'clients.form.given_name')} onChange={onChange('client', 'given_name')} value={client.given_name} />
         </div>
