@@ -1,8 +1,10 @@
 class OrganizationClientSerializer < ActiveModel::Serializer
+  include ActionView::Helpers::AssetUrlHelper
+
   attributes :global_id, :external_id, :external_id_display, :mosvy_number, :mosvy_number, :given_name, :family_name,
              :gender, :date_of_birth, :location_current_village_code, :address_current_village_code, :reason_for_referral,
              :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id, :protection_status,
-             :services, :status, :case_worker_name, :case_worker_mobile, :is_referred
+             :services, :status, :case_worker_name, :case_worker_mobile, :is_referred, :referral_consent_form
 
   def global_id
     object.global_identity&.ulid
@@ -21,6 +23,14 @@ class OrganizationClientSerializer < ActiveModel::Serializer
     referral        = object.referrals.externals.last
     external_system = referral.external_system
     external_system.token == context.uid
+  end
+
+  def referral_consent_form
+    return [] if object.referrals.externals.last.nil? || is_referred
+    referral = object.referrals.externals.last
+    referral.consent_form.map do |attachment|
+      asset_path(attachment.url)
+    end
   end
 
   def services

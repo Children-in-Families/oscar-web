@@ -13,7 +13,7 @@ module Api
         Organization.only_integrated.pluck(:short_name).each do |short_name|
           Organization.switch_to short_name
           if params.dig(:since_date).present? && params.dig(:referred_external).present?
-            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.where("created_at >= ? OR updated_at >= ? AND status = ?", "#{params[:since_date]}", "#{params[:since_date]}", 'Referred').limit(10).to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
+            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.where("created_at >= ? OR updated_at >= ? AND referred_external = ?", "#{params[:since_date]}", "#{params[:since_date]}", true).limit(10).to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           elsif params.dig(:since_date).present?
             clients = JSON.parse ActiveModel::ArraySerializer.new(Client.where("created_at >= ? OR updated_at >= ?", "#{params[:since_date]}", "#{params[:since_date]}").limit(10).to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           elsif params.dig(:referred_external).present?
