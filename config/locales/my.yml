@@ -5033,6 +5033,10 @@ my:
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       ratanak_csi_tools: ရရှိနိုင်အကဲဖြတ်
+    integration:
+      integration_label: Share my NGO's client data with the External System?
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ!
+      title: External System Integration
     navigation:
       country: ႏုိင္ငံ
     research_module:

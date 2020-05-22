@@ -5001,6 +5001,10 @@ km:
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       default_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណលំនាំដើម
       ratanak_csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
+    integration:
+      integration_label: ចែករំលែកទិន្នន័យអតិថិជនរបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយអង្គការក្រៅ OSCaR?
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ!
+      title: External System Integration
     navigation:
       country: ប្រទេស
     research_module:

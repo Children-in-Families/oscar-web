@@ -358,6 +358,7 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
+      get 'integration' => 'settings#integration'
 
       resources :field_settings, only: [:index] do
         collection do
