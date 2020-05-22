@@ -1,0 +1,16 @@
+#settings-integration {
+  .integration {
+    .radio {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    label {
+      padding-left: 0;
+    }
+  }
+
+  label.disabled {
+    color: #333 !important;
+  }
+}

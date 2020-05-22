@@ -4326,6 +4326,10 @@ th-TH:
       csi_tools:
       custom_assessment:
       default_assessment:
+    integration:
+      integration_label:
+      successfully_updated:
+      title:
     navigation:
       country:
     research_module:
