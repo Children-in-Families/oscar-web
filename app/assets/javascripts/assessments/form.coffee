@@ -54,11 +54,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _addElement = ->
     $('.actions.clearfix ul').before("<hr/>")
 
+  _disableRequiredFields = ->
+    formid = $('form.assessment-form').attr('id')
+    form   = $('#'+formid)
+    form.data("disableRequiredFields")
+
   _formValidate = (form) ->
     scoreColor = undefined
     domainId   = undefined
 
     $('.score_option .btn-option').attr('required','required')
+
     # score with def
     $('.col-xs-12').on 'click', '.score_option .btn-option', ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
@@ -83,8 +89,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $($(@).siblings().get(-1)).val(score)
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
-        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
-        _initTaskRequire()
+        unless _disableRequiredFields()
+          $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+          _initTaskRequire()
 
         if scoreColor == 'success'
           $(".domain-#{domainId} .task_required").addClass('hidden')
@@ -92,10 +99,13 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
 
         $(select).prop('readonly', false)
-        if $(select).val() != ''
-          $(select).addClass('valid').removeClass('error required')
-        else
-          $(select).addClass('error required')
+
+        unless _disableRequiredFields()
+          if $(select).val() != ''
+            $(select).addClass('valid').removeClass('error required')
+          else
+            $(select).addClass('error required')
+
       else
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
@@ -129,17 +139,20 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       # $(@).children('label').addClass("label-#{scoreColor} active-label")
 
       if(scoreColor == 'danger' or scoreColor == 'warning' or scoreColor == 'success')
-        $(".domain-#{domainId} .task_required").removeClass('hidden').show()
+        unless _disableRequiredFields()
+          $(".domain-#{domainId} .task_required").removeClass('hidden').show()
 
         if scoreColor == 'success'
           $(".domain-#{domainId} .task_required").addClass('hidden')
 
         $(".domain-#{domainId} .goal-required-option").addClass('hidden')
         $(select).prop('readonly', false)
-        if $(select).val() != ''
-          $(select).addClass('valid').removeClass('error required')
-        else
-          $(select).addClass('error required')
+
+        unless _disableRequiredFields()
+          if $(select).val() != ''
+            $(select).addClass('valid').removeClass('error required')
+          else
+            $(select).addClass('error required')
       else if scoreColor == 'primary'
         $(".domain-#{domainId} .task_required").hide()
         $(".domain-#{domainId} .goal-required-option").removeClass('hidden')
@@ -150,9 +163,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         else
           $(select).addClass('valid') if $(select).val() != ''
 
-    form.validate errorElement: 'em'
-    errorPlacement: (error, element) ->
-      element.before error
+    unless _disableRequiredFields()
+      form.validate errorElement: 'em'
+      errorPlacement: (error, element) ->
+        element.before error
 
   _validateScore = (form) ->
     $('.task_required').addClass 'text-required'
@@ -186,11 +200,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       onStepChanging: (event, currentIndex, newIndex) ->
         currentTab  = "#rootwizard-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
+
+        return true if _disableRequiredFields()
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
+
         _scrollToError(event)
         _taskRequiredAtEnd(currentIndex)
         _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
+
         if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
           return true
         else
@@ -217,8 +235,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
 
       onFinishing: (event, currentIndex, newIndex) ->
-        form.validate().settings.ignore = ':disabled'
-        form.valid()
+        unless _disableRequiredFields()
+          form.validate().settings.ignore = ':disabled'
+          form.valid()
+
         _taskRequiredAtEnd(currentIndex)
         currentStep = $("#rootwizard-p-" + currentIndex)
 
@@ -255,15 +275,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $(document).on 'click', "#rootwizard a[href='#save']", ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       newIndex = currentIndex + 1
-      if !form.valid() or !_validateScore(form) or !_filedsValidator(currentIndex, newIndex)
+
+      if !_disableRequiredFields() && (!form.valid() || !_validateScore(form) || !_filedsValidator(currentIndex, newIndex))
         _filedsValidator(currentIndex, newIndex)
         _scrollToError(form)
         return false
       else
-        form.submit (e) ->
-          if form.valid()
-            btnSaving = $('#rootwizard').data('saving')
-            $("a[href='#save']").addClass('disabled').text(btnSaving)
+        unless _disableRequiredFields()
+          form.submit (e) ->
+            if form.valid()
+              btnSaving = $('#rootwizard').data('saving')
+              $("a[href='#save']").addClass('disabled').text(btnSaving)
         form.submit()
 
   _formEdit = (currentIndex) ->
@@ -307,12 +329,14 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         $(select).removeClass('valid').addClass('required')
 
   _filedsValidator = (currentIndex, newIndex ) ->
+    return if _disableRequiredFields()
+
     currentTab   = "#rootwizard-p-#{currentIndex}"
     scoreOption  = $("#{currentTab} .score_option")
 
     isScoreExist = if (scoreOption.children().last().val().length or $(currentTab).find('.active-label').length) then false else true
 
-    if(scoreOption.find('input.error').length || isScoreExist)
+    if (scoreOption.find('input.error').length || isScoreExist)
       $(currentTab).find('.score_option').addClass('is_error') if isScoreExist
       return false
     else
