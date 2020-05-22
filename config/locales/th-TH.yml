@@ -4357,6 +4357,10 @@ th-TH:
     research_module:
       research_module_label:
       title:
+    settings:
+      assessment_score_order: Assessment Score Order
+      assessment_strictness: Assessment Strictness
+      delete_incomplete_assessment: Delete incomplete assessment after certain period of time
     update:
       successfully_updated:
   field_settings:
