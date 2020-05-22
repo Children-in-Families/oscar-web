@@ -2,6 +2,28 @@ body[id='assessments-new'],
 body[id='assessments-create'],
 body[id='assessments-edit'],
 body[id='assessments-update'] {
+  .assessment-form.unrestricted_form {
+    .wizard {
+      .steps {
+        display: block;
+
+        li {
+          width: auto;
+
+          &:not(.current) a {
+            background-color: #9dc8e2;
+          }
+
+          a {
+            color: #fff;
+            font-size: 12px;
+            padding: 0.5em 0.8em;
+          }
+        }
+      }
+    }
+  }
+
   .wizard {
     .steps {
       display: none;

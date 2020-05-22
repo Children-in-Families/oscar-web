@@ -1,1 +1,4 @@
-= render 'form'
+- if current_setting.disable_required_fields?
+  = render 'unrestricted_form'
+- else
+  = render 'form'

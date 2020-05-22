@@ -605,6 +605,24 @@ en:
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
+    unrestricted_form:
+      add_task: Add Task
+      add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
+      at_least_one_task_required: At least one task is required
+      back: Back
+      cancel: Cancel
+      domain: Domain
+      finish: Done
+      finished_assessment_msg: This assessment is ready to be saved!
+      goal: 'Goal: what specific goal will the client be working toward over the next few months?'
+      next: Next
+      previous: Previous
+      reason: Observation
+      reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      save: Save
+      score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      set_goal: Would you like to set a goal?
+      tasks_arising: 'Tasks arising:'
     index:
       assessment_completed_on: Assessment completed on
       assessment_created_on: Assessment created on
