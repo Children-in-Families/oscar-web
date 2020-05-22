@@ -185,7 +185,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $("#rootwizard").steps
       headerTag: 'h4'
       bodyTag: bodyTag
-      # enableAllSteps: true
+      enableAllSteps: true
       transitionEffect: 'slideLeft'
       autoFocus: true
       titleTemplate: 'Domain #title#'
@@ -205,7 +205,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onStepChanging: (event, currentIndex, newIndex) ->
         console.log 'onStepChanging'
-        debugger
         currentTab  = "#rootwizard-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
 

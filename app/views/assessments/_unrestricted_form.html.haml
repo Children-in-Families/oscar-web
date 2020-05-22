@@ -72,19 +72,6 @@
                     .form-group.add-task-btn-wrapper
                       %button.assessment-task-btn.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                         = t('.add_task')
-        - if ['new', 'create'].include?(action_name)
-          %h4#header-domain-last Last Step
-          %div{ class: "assessment-domain-item domain-last" }
-            .ibox
-              .ibox-title
-                %h5= @assessment.client.name
-                .ibox-tools
-                  = link_to client_assessments_path(@client) do
-                    .btn.btn-default.btn-back-default.button
-                      = t('.back')
-              .ibox-content
-                %p#end-of-assessment-msg.text-center.bg-success= t('.finished_assessment_msg')
-
 
 - if policy(@client).create?
   = render 'add_task_form'
