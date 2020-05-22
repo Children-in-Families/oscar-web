@@ -4895,6 +4895,7 @@ km:
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
       save_and_download: រក្សាទុក & ទាញយក
+      type_of_service: ប្រភេទសេវាកម្ម
     index:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
@@ -4937,6 +4938,7 @@ km:
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
+      type_of_service: ប្រភេទសេវាកម្ម
     update:
       successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   reports:
@@ -5017,6 +5019,10 @@ km:
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       default_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណលំនាំដើម
       ratanak_csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
+    integration:
+      integration_label: ចែករំលែកទិន្នន័យអតិថិជនរបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយអង្គការក្រៅ OSCaR?
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ!
+      title: External System Integration
     navigation:
       country: ប្រទេស
     research_module:

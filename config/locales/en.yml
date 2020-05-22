@@ -4919,6 +4919,7 @@ en:
       referred_to: Referred to
       save: Save
       save_and_download: Save & Download
+      type_of_service: Type of Service
     index:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
@@ -4961,6 +4962,7 @@ en:
       referral_reason: What is the reason for this referral?
       referred_from: Reffered From
       referred_to: Referred To
+      type_of_service: Type of Service
     update:
       successfully_updated: Referral has been successfully updated.
   reports:
@@ -5041,6 +5043,10 @@ en:
       custom_assessment: Custom Assessment Tool
       default_assessment: Default Assessment Tool
       ratanak_csi_tools: Assessment Tools
+    integration:
+      integration_label: Share my NGO's client data with the External System?
+      successfully_updated: Successfully updated!
+      title: External System Integration
     navigation:
       country: Country
     research_module:

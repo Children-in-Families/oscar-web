@@ -4927,6 +4927,7 @@ my:
       referred_to: ရည်ညွှန်း
       save: ကယ်ဆယ်
       save_and_download: ကယ်တင် & Download
+      type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     index:
       cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
@@ -4969,6 +4970,7 @@ my:
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း
       referred_to: ရည်ညွှန်း
+      type_of_service: ဝန်ဆောင်မှုအမျိုးအစား
     update:
       successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
   reports:
@@ -5049,6 +5051,10 @@ my:
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       ratanak_csi_tools: ရရှိနိုင်အကဲဖြတ်
+    integration:
+      integration_label: Share my NGO's client data with the External System?
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ!
+      title: External System Integration
     navigation:
       country: ႏုိင္ငံ
     research_module:
