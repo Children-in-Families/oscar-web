@@ -605,6 +605,11 @@ en:
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
+    incomplete_detail:
+      goal: Goal
+      reason: Observation
+      score: Score
+      task: Tasks
     unrestricted_form:
       add_task: Add Task
       add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
