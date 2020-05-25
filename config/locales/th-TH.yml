@@ -555,6 +555,29 @@ th-TH:
       score_label:
       set_goal:
       tasks_arising:
+    incomplete_detail:
+      goal:
+      reason:
+      score:
+      task:
+    unrestricted_form:
+      add_task:
+      add_task_confirm:
+      at_least_one_task_required:
+      back:
+      cancel:
+      domain:
+      finish:
+      finished_assessment_msg:
+      goal:
+      next:
+      previous:
+      reason:
+      reason_placeholder:
+      save:
+      score_label:
+      set_goal:
+      tasks_arising:
     index:
       assessment_completed_on:
       assessment_created_on:
@@ -4339,6 +4362,10 @@ th-TH:
     research_module:
       research_module_label:
       title:
+    settings:
+      assessment_score_order: Assessment Score Order
+      assessment_strictness: Assessment Strictness
+      delete_incomplete_assessment: Delete incomplete assessment after certain period of time
     update:
       successfully_updated:
   field_settings:

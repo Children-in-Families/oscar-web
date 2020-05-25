@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200521174221) do
+ActiveRecord::Schema.define(version: 20200525030557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -632,8 +632,7 @@ ActiveRecord::Schema.define(version: 20200521174221) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
-    t.string   "global_id"
-    t.boolean  "referred_external",                default: false
+    t.boolean  "shared_service_enabled",           default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1554,6 +1553,7 @@ ActiveRecord::Schema.define(version: 20200521174221) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
+    t.string   "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -1563,7 +1563,6 @@ ActiveRecord::Schema.define(version: 20200521174221) do
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
-    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1630,10 +1629,10 @@ ActiveRecord::Schema.define(version: 20200521174221) do
     t.boolean  "enable_hotline",                       default: false
     t.boolean  "enable_client_form",                   default: true
     t.string   "assessment_score_order",               default: "random_order",      null: false
-    t.boolean  "disable_required_fields",              default: false,               null: false
     t.boolean  "never_delete_incomplete_assessment",   default: false,               null: false
     t.integer  "delete_incomplete_after_period_value", default: 7
     t.string   "delete_incomplete_after_period_unit",  default: "days"
+    t.boolean  "disable_required_fields",              default: false,               null: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

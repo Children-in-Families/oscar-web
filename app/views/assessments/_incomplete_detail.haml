@@ -16,7 +16,7 @@
             %tbody
               - assessment_domains = assessment.assessment_domains.order(:created_at)
               %tr
-                %th{ scope: :row } Score
+                %th{ scope: :row }= t('.score')
                 - assessment_domains.each do |assessment_domain|
                   %td
                     - if assessment_domain.score.blank?
@@ -24,7 +24,7 @@
                     - else
                       = fa_icon 'check', class: 'text-success'
               %tr
-                %th{ scope: :row } Observations
+                %th{ scope: :row }= t('.reason')
                 - assessment_domains.each do |assessment_domain|
                   %td
                     - if assessment_domain.reason.blank?
@@ -33,7 +33,7 @@
                       = fa_icon 'check', class: 'text-success'
 
               %tr
-                %th{ scope: :row } Goal
+                %th{ scope: :row }= t('.goal')
                 - assessment_domains.each do |assessment_domain|
                   %td
                     - if assessment_domain.goal.blank?
@@ -42,7 +42,7 @@
                       = fa_icon 'check', class: 'text-success'
 
               %tr
-                %th{ scope: :row } Tasks
+                %th{ scope: :row }= t('.task')
                 - assessment_domains.each do |assessment_domain|
                   %td
                     - if @client.tasks.by_domain_id(assessment_domain.domain_id).size.zero?

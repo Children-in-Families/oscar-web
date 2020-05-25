@@ -8,7 +8,7 @@ class ClientPolicy < ApplicationPolicy
     field = field_names.first.to_s
 
     hidden_fields = %w(
-      government_forms province donor_info kid_id carer
+      province donor_info kid_id carer
       custom_id1 custom_id2 carer_info custom_ids school_info referee_info
       school_name school_grade main_school_contact donor referee care
       current_address house_number street_number village commune district province_id
