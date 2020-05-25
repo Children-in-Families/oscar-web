@@ -555,6 +555,11 @@ th-TH:
       score_label:
       set_goal:
       tasks_arising:
+    incomplete_detail:
+      goal:
+      reason:
+      score:
+      task:
     unrestricted_form:
       add_task:
       add_task_confirm:
