@@ -1556,7 +1556,17 @@ my:
       reject_client: client ကိုငြင်းပယ်
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
+      national_id: 'National ID'
+      birth_cert: 'Birth Certificate'
+      family_book: 'Family Book'
+      passport: 'Passport'
+      travel_doc: 'Temporary Travel Document'
+      referral_doc: 'Referral Documents'
+      local_consent: 'Legal consent'
+      police_interview: 'Police interview'
+      other_legal_doc: 'Others'
       able: Able
+      legal_documents: Legal Documentations
       able_state: Able State
       address: လိပ္စာ
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
@@ -2336,6 +2346,15 @@ my:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id: 'National ID'
+        birth_cert: 'Birth Certificate'
+        family_book: 'Family Book'
+        passport: 'Passport'
+        travel_doc: 'Temporary Travel Document'
+        referral_doc: 'Referral Documents'
+        local_consent: 'Legal consent'
+        police_interview: 'Police interview'
+        other_legal_doc: 'Others'
         presented_id: Presented ID
         id_number: ID number
         whatsapp: Whatsapp

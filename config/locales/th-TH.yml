@@ -1364,7 +1364,17 @@ th-TH:
       reject_client:
       rejected_note:
     form:
+      national_id: 'National ID'
+      birth_cert: 'Birth Certificate'
+      family_book: 'Family Book'
+      passport: 'Passport'
+      travel_doc: 'Temporary Travel Document'
+      referral_doc: 'Referral Documents'
+      local_consent: 'Legal consent'
+      police_interview: 'Police interview'
+      other_legal_doc: 'Others'
       able:
+      legal_documents: Legal Documentations
       able_state:
       address:
       agencies_involved:
@@ -1961,6 +1971,15 @@ th-TH:
         report:
         status:
       clients:
+        national_id: 'National ID'
+        birth_cert: 'Birth Certificate'
+        family_book: 'Family Book'
+        passport: 'Passport'
+        travel_doc: 'Temporary Travel Document'
+        referral_doc: 'Referral Documents'
+        local_consent: 'Legal consent'
+        police_interview: 'Police interview'
+        other_legal_doc: 'Others'
         able:
         able_state:
         address:

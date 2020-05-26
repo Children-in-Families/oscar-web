@@ -91,7 +91,7 @@ module Api
             :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
             :concern_street, :concern_house, :concern_address, :concern_address_type,
             :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
-
+            :national_id,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -99,11 +99,13 @@ module Api
             donor_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
+            national_id_files: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id],
             family_ids: []
           )
+
 
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
