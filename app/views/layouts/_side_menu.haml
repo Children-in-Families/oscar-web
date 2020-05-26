@@ -84,7 +84,7 @@
               %ul.nav.nav-third-level
                 - if current_user.admin?
                   %li{ class: settings_menu_active('settings', 'index') }
-                    = link_to assessment_tool_label, settings_path
+                    = link_to t('.csi_tools'), settings_path
                   %li{ class: settings_menu_active('settings', 'default_columns') }
                     = link_to t('.default_columns'), default_columns_settings_path
                   - if Setting.first.country_name == "cambodia"
