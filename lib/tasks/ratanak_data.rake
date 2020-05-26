@@ -13,16 +13,16 @@ namespace :ratanak_data do
       begin
         # Organization.create_and_build_tenant(short_name: tenant_name, full_name: 'Anjali House', logo: File.open(Rails.root.join('app/assets/images/anjali logo.png')))
         Organization.switch_to tenant_name
-        # Rake::Task['db:seed'].invoke
-        # ImportStaticService::DateService.new('Services', tenant_name, service_data_file).import
-        # Importer::Import.new('Agency', general_data_file).agencies
-        # Importer::Import.new('Department', general_data_file).departments
-        # Importer::Import.new('Province', general_data_file).provinces
+        Rake::Task['db:seed'].invoke
+        ImportStaticService::DateService.new('Services', tenant_name, service_data_file).import
+        Importer::Import.new('Agency', general_data_file).agencies
+        Importer::Import.new('Department', general_data_file).departments
+        Importer::Import.new('Province', general_data_file).provinces
 
-        # Rake::Task['communes_and_villages:import'].invoke
-        # Rake::Task['communes_and_villages:import'].reenable
-        # Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
-        # Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
+        Rake::Task['communes_and_villages:import'].invoke
+        Rake::Task['communes_and_villages:import'].reenable
+        Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+        Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         Rake::Task['client_importer:import'].invoke(tenant_name)
       rescue Apartment::TenantExists => e
         puts "Development environment tenant #{tenant_name} already exisits. If you want to delete this tenant then run `rake db:drop && rake db:setup` and run this rake task agin."

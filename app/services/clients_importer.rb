@@ -52,17 +52,15 @@ module ClientsImporter
         new_family['status']      = workbook.row(row_index)[headers['*Family Status']]
         province_name             = workbook.row(row_index)[headers['Province / City']]&.squish
         province                  = find_province(province_name)
-        pry_if_blank?(new_family['province_id'], province_name)
         new_family['province_id'] = province&.id
+        pry_if_blank?(new_family['province_id'], province_name)
         district_name             = workbook.row(row_index)[headers['District / Khan']]&.squish
-        pry_if_blank?(new_family['district_id'], district_name)
         district                  = find_district(province, district_name)
-        binding.pry if district.blank?
         new_family['district_id'] = district&.id
+        pry_if_blank?(new_family['district_id'], district_name)
         commune_name              = workbook.row(row_index)[headers['Commune / Sangkat']]&.squish
         commune                   = find_commune(district, commune_name)
         new_family['commune_id']  = commune&.id
-        binding.pry if commune.blank?
         village_name              = workbook.row(row_index)[headers['Village']]&.squish || ''
         new_family['village_id']  = find_village(commune, village_name)&.id if commune
 
@@ -85,7 +83,7 @@ module ClientsImporter
         new_donor['code']        = workbook.row(row_index)[headers['*Donor ID']]
         new_donor['description'] = workbook.row(row_index)[headers['Description']]
 
-        donor = Donor.new(new_donor)
+        donor = Donor.find_by(new_donor.slice('name')) || Donor.new(new_donor)
         donor.save(validate:false)
       end
     end
@@ -109,16 +107,16 @@ module ClientsImporter
         referral_source_category_name     = workbook.row(row_index)[headers['*Referral Category']]
         referral_source_name              = workbook.row(row_index)[headers['* Referral Source']]
         new_client['referral_source_category_id'] = ReferralSource.find_by(name_en: referral_source_category_name)&.id
-        new_client['referral_source_id']  = find_or_create_referral_source(referral_source_category_name, new_client['referral_source_category_id'])
+        new_client['referral_source_id']  = find_or_create_referral_source(referral_source_name, new_client['referral_source_category_id'])
 
         referee_name                      = workbook.row(row_index)[headers['* Name of Referee']]
         referee_phone                     = workbook.row(row_index)[headers['Referee Phone Number']]
         new_client['referee_id']          = create_referee(name: referee_name, phone: referee_phone)
-        new_client['rated_for_id_poor']   = workbook.row(row)[headers['Is the Client Rated for ID Poor?']] || ''
-        new_client['has_been_in_orphanage'] = workbook.row(row)[headers['Has the client lived in an orphanage?']].squish.downcase == 'yes' ? true : false
-        new_client['has_been_in_government_care'] = workbook.row(row)[headers['Has the client lived in government care?']].squish.downcase == 'yes' ? true : false
-        new_client['relevant_referral_information']  = workbook.row(row)[headers['Relevant Referral Information / Notes']] || ''
 
+        new_client['rated_for_id_poor']   = workbook.row(row_index)[headers['Is the Client Rated for ID Poor?']] || ''
+        new_client['has_been_in_orphanage'] = workbook.row(row_index)[headers['Has the client lived in an orphanage?']].squish.downcase == 'yes' ? true : false
+        new_client['has_been_in_government_care'] = workbook.row(row_index)[headers['Has the client lived in government care?']]&.squish&.downcase == 'yes' ? true : false
+        new_client['relevant_referral_information']  = workbook.row(row_index)[headers['Relevant Referral Information / Notes']] || ''
         new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
         received_by_name                  = workbook.row(row_index)[headers['* Referral Received By']]
         new_client['received_by_id']      = create_user_received_by(first_name: received_by_name.split(' ').last.squish)
@@ -183,7 +181,11 @@ module ClientsImporter
         end
 
         next if Client.find_by(new_client.slice('given_name', 'family_name')).present?
-        client.save!
+        begin
+          client.save!
+        rescue Exception => e
+          binding.pry
+        end
         client.case_worker_clients.find_or_create_by(user_id: new_client['user_id']) if new_client['user_id'].present?
       end
     end
@@ -191,9 +193,9 @@ module ClientsImporter
     private
 
     def create_referee(attributes)
-      if name && name.downcase != 'unknown'
-        referee = Referee.find_or_create_by(name: attributes['name']) do |ref|
-                    ref.phone = attributes['phone']
+      if attributes[:name] && attributes[:name].downcase != 'unknown'
+        referee = Referee.find_or_create_by(name: attributes[:name]) do |ref|
+                    ref.phone = attributes[:phone]
                   end
       else
         referee = Referee.create(name: 'Anonymous', anonymous: true)
@@ -202,11 +204,12 @@ module ClientsImporter
     end
 
     def create_user_received_by(attributes)
-      user = User.find_or_create_by(first_name: attributes['first_name']) do |user|
+      attribute = attributes.with_indifferent_access
+      user = User.find_or_create_by(first_name: attribute['first_name']) do |user|
                 user.password = Devise.friendly_token.first(8)
-                user.last_name = attributes['first_name'] || attributes['first_name']
-                user.gender = attributes['gender'] || 'other'
-                user.email = "#{attributes['first_name']}@colt.org"
+                user.last_name = attribute['first_name'] || attribute['first_name']
+                user.gender = attribute['gender'] || 'other'
+                user.email = "#{attribute['first_name']}@colt.org"
                 user.roles = 'case worker'
               end
 
@@ -214,8 +217,9 @@ module ClientsImporter
     end
 
     def create_carer(attributes)
-      carer = Carer.find_or_create_by(name: attributes['name']) do |care|
-                care.phone = attributes['phone']
+      attribute = attributes.with_indifferent_access
+      carer = Carer.find_or_create_by(name: attribute['name']) do |care|
+                care.phone = attribute['phone']
               end
       carer&.id
     end
