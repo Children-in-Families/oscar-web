@@ -1551,6 +1551,16 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      national_id: 'National ID'
+      birth_cert: 'Birth Certificate'
+      family_book: 'Family Book'
+      passport: 'Passport'
+      travel_doc: 'Temporary Travel Document'
+      referral_doc: 'Referral Documents'
+      local_consent: 'Legal consent'
+      police_interview: 'Police interview'
+      other_legal_doc: 'Others'
+      legal_documents: Legal Documentations
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
       able_state: ស្ថានភាព Able
       address: ឣាសយដ្ឋាន
@@ -2353,6 +2363,15 @@ km:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id: 'National ID'
+        birth_cert: 'Birth Certificate'
+        family_book: 'Family Book'
+        passport: 'Passport'
+        travel_doc: 'Temporary Travel Document'
+        referral_doc: 'Referral Documents'
+        local_consent: 'Legal consent'
+        police_interview: 'Police interview'
+        other_legal_doc: 'Others'
         presented_id: Presented ID
         id_number: ID number
         whatsapp: Whatsapp

@@ -1561,12 +1561,14 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
+      legal_documents: Legal Documentations
       able: Able
       able_state: Able State
       address: Address
       agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       answer: Answer
+      birth_cert: 'Birth Certificate'
       birth_province: Client Birth Province
       blank: can't be blank
       brsc_branch: BRCS Branch
@@ -1593,6 +1595,7 @@ en:
       exit_date: NGO Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
+      family_book: 'Family Book'
       family_name: Family Name (Latin)
       finish: Finish
       follow_up_by: First Follow-Up By
@@ -1643,20 +1646,26 @@ en:
       island2: Island
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
+      local_consent: 'Legal consent'
       local_family_name: Family Name
       local_given_name: Given Name
       name: Name
+      national_id: 'National ID'
       next: Next
+      other_legal_doc: 'Others'
       other_phone_number: Phone Number - Alternate
       other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      passport: 'Passport'
       phone_owner: Phone Owner
       po_box2: PO Box
+      police_interview: 'Police interview'
       preferred_language: Preferred Language
       presented_id: Presented ID
       previous: Previous
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
+      referral_doc: 'Referral Documents'
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       reject_note: Note on referral rejection
@@ -1673,6 +1682,7 @@ en:
       street_number: Street
       telephone_number: Primary Carer Phone Number
       to: To
+      travel_doc: 'Temporary Travel Document'
       user_ids: Case Worker / Assigned Staff Manager
       village: Village
       what_3_word: What3Words
@@ -2364,6 +2374,15 @@ en:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id: 'National ID'
+        birth_cert: 'Birth Certificate'
+        family_book: 'Family Book'
+        passport: 'Passport'
+        travel_doc: 'Temporary Travel Document'
+        referral_doc: 'Referral Documents'
+        local_consent: 'Legal consent'
+        police_interview: 'Police interview'
+        other_legal_doc: 'Others'
         presented_id: Presented ID
         id_number: ID number
         whatsapp: Whatsapp?

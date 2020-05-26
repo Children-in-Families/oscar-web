@@ -3,6 +3,20 @@ class ClientPolicy < ApplicationPolicy
     record.status != 'Exited'
   end
 
+  def show_legal_doc?
+    [
+      :national_id,
+      :birth_cert,
+      :family_book,
+      :passport,
+      :travel_doc,
+      :referral_doc,
+      :local_consent,
+      :police_interview,
+      :other_legal_doc
+    ].any?{ |field| show?(field) }
+  end
+
   def show?(*field_names)
     return true if field_names.blank?
     field = field_names.first.to_s

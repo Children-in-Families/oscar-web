@@ -8,6 +8,16 @@ class Client < ActiveRecord::Base
 
   require 'text'
 
+  mount_uploaders :national_id_files, FileUploader
+  # mount_uploaders :birth_cert_files, FileUploader
+  # mount_uploaders :family_book_files, FileUploader
+  # mount_uploaders :passport_files, FileUploader
+  # mount_uploaders :travel_doc_files, FileUploader
+  # mount_uploaders :referral_doc_files, FileUploader
+  # mount_uploaders :local_consent_files, FileUploader
+  # mount_uploaders :police_interview_files, FileUploader
+  # mount_uploaders :other_legal_doc_files, FileUploader
+
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 

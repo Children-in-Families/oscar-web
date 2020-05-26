@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200525030557) do
+ActiveRecord::Schema.define(version: 20200526082659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -633,6 +633,24 @@ ActiveRecord::Schema.define(version: 20200525030557) do
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
     t.boolean  "shared_service_enabled",           default: false
+    t.boolean  "national_id",                      default: false,      null: false
+    t.boolean  "birth_cert",                       default: false,      null: false
+    t.boolean  "family_book",                      default: false,      null: false
+    t.boolean  "passport",                         default: false,      null: false
+    t.boolean  "travel_doc",                       default: false,      null: false
+    t.boolean  "referral_doc",                     default: false,      null: false
+    t.boolean  "local_consent",                    default: false,      null: false
+    t.boolean  "police_interview",                 default: false,      null: false
+    t.boolean  "other_legal_doc",                  default: false,      null: false
+    t.string   "national_id_files",                default: [],                      array: true
+    t.string   "birth_cert_files",                 default: [],                      array: true
+    t.string   "family_book_files",                default: [],                      array: true
+    t.string   "passport_files",                   default: [],                      array: true
+    t.string   "travel_doc_files",                 default: [],                      array: true
+    t.string   "referral_doc_files",               default: [],                      array: true
+    t.string   "local_consent_files",              default: [],                      array: true
+    t.string   "police_interview_files",           default: [],                      array: true
+    t.string   "other_legal_doc_files",            default: [],                      array: true
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
