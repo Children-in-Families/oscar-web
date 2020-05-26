@@ -34,7 +34,7 @@ class AssessmentsController < AdminController
     @assessment.default = params[:default]
     if current_organization.try(:aht) == true
       if @assessment.save(validate: false)
-        create_bulk_task(params[:task].uniq) if params.has_key?(:task)
+        create_bulk_task(params[:task].uniq, @assessment) if params.has_key?(:task)
         if params[:from_controller] == "dashboards"
           redirect_to root_path, notice: t('.successfully_created')
         else
@@ -46,7 +46,7 @@ class AssessmentsController < AdminController
     else
       authorize @assessment
       if @assessment.save
-        create_bulk_task(params[:task].uniq) if params.has_key?(:task)
+        create_bulk_task(params[:task].uniq, @assessment.id) if params.has_key?(:task)
         if params[:from_controller] == "dashboards"
           redirect_to root_path, notice: t('.successfully_created')
         else
@@ -71,7 +71,7 @@ class AssessmentsController < AdminController
     if @assessment.update_attributes(assessment_params)
       @assessment.update(updated_at: DateTime.now)
       @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
-      create_bulk_task(params[:task]) if params.has_key?(:task)
+      create_bulk_task(params[:task], @assessment) if params.has_key?(:task)
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
     else
       render :edit

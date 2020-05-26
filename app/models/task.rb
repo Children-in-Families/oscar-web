@@ -3,6 +3,7 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
   belongs_to :user
+  belongs_to :taskable, polymorphic: true
 
   has_paper_trail
 
@@ -19,7 +20,6 @@ class Task < ActiveRecord::Base
   scope :upcoming_within_three_months,    -> { where(completion_date: Date.tomorrow..3.months.from_now) }
   scope :by_case_note,                    -> { where(relation: 'case_note') }
   scope :by_assessment,                   -> { where(relation: 'assessment') }
-
 
   scope :overdue_incomplete, -> { incomplete.overdue }
   scope :today_incomplete,   -> { incomplete.today }
