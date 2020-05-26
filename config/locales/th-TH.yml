@@ -3558,7 +3558,6 @@ th-TH:
       progress_note_types:
       provinces:
       quantitative_types:
-      ratanak_csi_tools:
       referral_sources:
       release_logs:
       research_module:
@@ -4352,7 +4351,6 @@ th-TH:
       csi_tools:
       custom_assessment:
       default_assessment:
-      ratanak_csi_tools:
     integration:
       integration_label:
       successfully_updated:

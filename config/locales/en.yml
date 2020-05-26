@@ -4158,7 +4158,7 @@ en:
       clients: Clients
       client_forms: Hotline
       country: Country
-      csi_tools: Available Assessment Tools
+      csi_tools: Assessment Tools
       custom_fields: Custom Form
       custom_labels: Custom Labels
       dashboards: Dashboards
@@ -4187,7 +4187,6 @@ en:
       progress_note_types: Types of Note
       provinces: Provinces
       quantitative_types: Custom Referral Data
-      ratanak_csi_tools: Assessment Tools
       referral_sources: Referral Sources
       release_logs: Release logs
       research_module: Research Module
@@ -5044,10 +5043,9 @@ en:
       family_default_columns: Family
       partner_default_columns: Partner
     index:
-      csi_tools: Available Assessment Tools
+      csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool
       default_assessment: Default Assessment Tool
-      ratanak_csi_tools: Assessment Tools
     integration:
       integration_label: Share my NGO's client data with the External System?
       successfully_updated: Successfully updated!

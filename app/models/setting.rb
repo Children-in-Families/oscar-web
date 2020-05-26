@@ -38,7 +38,7 @@ class Setting < ActiveRecord::Base
   delegate :name, to: :district, prefix: true, allow_nil: true
 
   def delete_incomplete_after_period
-    delete_incomplete_after_period_unit.send(delete_incomplete_after_period_unit.to_sym)
+    delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
   end
 
   private
