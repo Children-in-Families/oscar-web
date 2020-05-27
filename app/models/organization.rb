@@ -15,6 +15,7 @@ class Organization < ActiveRecord::Base
   scope :test_ngos, -> { where(short_name: ['demo', 'tutorials']) }
   scope :cambodian, -> { where(country: 'cambodia') }
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
+  scope :only_integrated, -> { where(integrated: true) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
@@ -28,12 +29,16 @@ class Organization < ActiveRecord::Base
       Apartment::Tenant.switch!(tenant_name)
     end
 
-    def create_and_build_tanent(fields = {})
+    def create_and_build_tenant(fields = {})
       transaction do
         org = create(fields)
         Apartment::Tenant.create(fields[:short_name])
         org
       end
+    end
+
+    def brc?
+      current&.short_name == 'brc'
     end
   end
 

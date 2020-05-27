@@ -35,14 +35,22 @@ class SettingsController < AdminController
         render :edit
       end
     else
-      if @setting.update_attributes(setting_params)
-        if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
-          redirect_to :back, notice: t('.successfully_updated')
-        else
-          redirect_to settings_path, notice: t('.successfully_updated')
+      respond_to do |f|
+        f.html do
+          if @setting.update_attributes(setting_params)
+            if params[:default_columns].present? || params[:research_module].present? || params[:custom_labels].present? || params[:client_forms].present?
+              redirect_to :back, notice: t('.successfully_updated')
+            else
+              redirect_to settings_path, notice: t('.successfully_updated')
+            end
+          else
+            render :index
+          end
         end
-      else
-        render :index
+        f.json do
+          @setting.update_attributes(setting_params)
+          render json: { message: t('.successfully_updated') }, status: '200'
+        end
       end
     end
   end
@@ -101,7 +109,7 @@ class SettingsController < AdminController
       family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ assessment_completed_date_ all_csi_assessments_ date_of_custom_assessments_ all_custom_csi_assessments_ manage_ changelog_ type_of_service_)
     sub_columns += Client::HOTLINE_FIELDS.map{ |field| "#{field}_" }
     sub_columns += Call::FIELDS.map{ |field| "#{field}_" }
-    filter_columns = ClientGrid.new.filters.map(&:name)
+    filter_columns = ClientGrid.new.filters.map(&:name).select{ |field_name| policy(Client).show?(field_name) }
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]
     columns_name = filter_columns - filter_columns_not_used

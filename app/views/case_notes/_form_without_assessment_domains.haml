@@ -1,38 +1,36 @@
 - if get_domains(domain_note).present?
-  .ibox.case-note-domain-group
-    .ibox-title
-      %h5
-        = "#{t('.domain')} #{domain_note.object.domain_group.name}"
-        = "(#{get_domains(domain_note, @custom_assessment_setting&.id)})"
-      .ibox-tools
-        %a.collapse-link
-          .btn.btn-outline.btn-primary
-            %i.fa{ class: "fa-chevron-#{domain_note.object.domain_group.first_ordered? ? 'up' : 'down'}" }
+  = domain_note.hidden_field :note
+  = domain_note.hidden_field :domain_group_id
+  - domains = fetch_domains(domain_note)
 
-    .ibox-content{ class: "#{domain_note.object.domain_group.first_ordered? ? '' : 'collapse'}" }
-      .row
-        .col-xs-12.col-md-6
-          = domain_note.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
-          = domain_note.hidden_field :domain_group_id
-        .col-xs-12.col-md-6
-          - domains = fetch_domains(domain_note)
-          - domains.each do |domain|
-            - tasks = @case_note.client.tasks.where(domain_id: domain.id)
-            - if domain_note.object.persisted?
-              - tasks = tasks.by_case_note_domain_group(domain_note.object)
-            .panel{ class: "panel-default task-domain-#{domain.id} #{hidden_class(tasks.incomplete.blank?)}" }
-              .panel-heading
-                %strong
-                  = t('.domain')
-                  - if @case_note.custom
-                    = domain.name
-                  - else
-                    = t("domains.domain_names.#{domain.name.downcase.reverse}")
-              = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }
-        .col-xs-12
-          = render 'attachment_fields', { domain_note: domain_note }
-      .row
-        .col-xs-12
-          .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-persisted' => 'true', 'data-toggle' => 'modal', 'data-domains': "#{translate_domain_name(domains, @case_note)}"}
-            = t('.add_task')
+- persisted_case_note, domain_note_by_case_note = case_note_domain_without_assessment(domain_note, @case_note)
+.ibox.case-note-domain-group.without-assessments{ style: "display: #{persisted_case_note ? 'block' : 'none'}", id: "domain-#{domain_note.object.domain_group.id}" }
+  .ibox-title
+    %h5
+      = "#{t('.domain')} #{domain_note.object.domain_group.name}"
+      =# "(#{get_domains(domain_note, @custom_assessment_setting&.id)})"
+    - domain_note_by_case_note.each do |domain|
+      .case-note-domain-score{ class: "btn btn-primary btn-sm", data: { domain_name: domain.name } }
+        - if @case_note.custom
+          = "#{domain.name}: #{domain.identity}"
+        - else
+          = t("domains.domain_names.#{domain.name.downcase.reverse}")
+          = domain.identity
 
+  .ibox-content
+    .row
+      .col-xs-12.col-md-6
+        - domain_note_by_case_note.each do |domain|
+          - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
+          - if domain_note.object.persisted?
+            - tasks = tasks.by_case_note_domain_group(domain_note.object)
+          .panel{ class: "panel-primary panel-tasks-domain-#{ domain.id } #{!selected_domain_group(domain_note.object) && hidden_class(tasks)}", data: { domain_name_panel: domain.name } }
+            .panel-heading
+              %strong
+                = t('.domain')
+                - if @case_note.custom
+                  = "#{domain.name}: #{domain.identity}"
+                - else
+                  = t("domains.domain_names.#{domain.name.downcase.reverse}")
+                  = domain.identity
+            = render 'tasks_list', { domain_note: domain_note, domain: domain, tasks: tasks }

@@ -67,12 +67,14 @@ gem 'text',                   '~> 1.3', '>= 1.3.1'
 gem 'acts_as_paranoid',       '~> 0.6.1'
 gem 'ancestry',               '~> 3.0', '>= 3.0.5'
 gem 'sysrandom',              '~> 1.0', '>= 1.0.5'
-gem 'ulid',                   '~> 1.1'
 gem 'write_xlsx',             '~> 0.85.7'
 gem 'caxlsx',                 '~> 2.0', '>= 2.0.2'
 gem 'react-rails',            '~> 2.6.0'
 gem 'webpacker',              '~> 4.0.7'
 gem 'jquery_query_builder-rails', '~> 0.5.0'
+gem 'globalize', '~> 5.1.0'
+gem 'enumerize', '~> 2.3.1'
+gem 'ulid',                   '~> 1.2'
 
 group :development, :test do
   gem 'pry'
@@ -108,6 +110,7 @@ group :development do
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
   gem 'rack-mini-profiler', '~> 1.0'
+  gem 'metainspector'
 end
 
 group :test do

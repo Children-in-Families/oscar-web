@@ -1,6 +1,8 @@
 class DomainGroup < ActiveRecord::Base
+  include ActionView::Helpers
+
   has_many :domains
-  has_many :case_note_domain_groups
+  has_many :case_note_domain_groups, dependent: :destroy
 
   has_paper_trail
 
@@ -32,5 +34,10 @@ class DomainGroup < ActiveRecord::Base
 
   def first_ordered?
     name == DomainGroup.first.name
+  end
+
+  def domain_name(custom='false', custom_assessment_setting_id=nil)
+    domain_identities = custom == 'true' ? custom_domain_identities(custom_assessment_setting_id) : default_domain_identities
+    "Domain #{name} (#{domain_identities})"
   end
 end

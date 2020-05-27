@@ -8,7 +8,7 @@ namespace :tenant_data do
       sql = "DELETE FROM shared.shared_clients WHERE shared.shared_clients.archived_slug iLIKE '#{short_name}-%';"
       ActiveRecord::Base.connection.execute(sql)
       puts "Clean shared_clients done!"
-      system("PGPASSWORD=#{ENV['DATABASE_PASSWORD']} psql #{ENV['DATABASE_NAME']} -U #{ENV['DATABASE_USER']} -h #{ENV['DATABASE_HOST']} -p #{ENV['DATABASE_PORT']} < #{short_name}_production_2020_04_03.dump")
+      system("PGPASSWORD=#{ENV['DATABASE_PASSWORD']} psql #{ENV['DATABASE_NAME']} -U #{ENV['DATABASE_USER']} -h #{ENV['DATABASE_HOST']} -p #{ENV['DATABASE_PORT']} < #{short_name}_production_2020_05_05.dump")
       puts "Restore schema done!!!"
       Rake::Task["rake:db:migrate"].invoke()
       puts "Migration done!!!"
@@ -19,10 +19,11 @@ namespace :tenant_data do
       puts "Fake client info start!!!"
       Rake::Task["fake_client_info:update"].invoke(args.short_name)
       Rake::Task["archived_slug:update"].invoke(args.short_name)
-      puts "duplicate_checker_field start!!!"
       Rake::Task["client_to_shared:copy"].invoke(args.short_name)
+      puts "duplicate_checker_field start!!!"
       Rake::Task["duplicate_checker_field:update"].invoke(args.short_name)
-      # Rake::Task["client_status:correct"].invoke()
+      Rake::Task["field_settings:import"].invoke(args.short_name)
+      #Rake::Task["client_status:correct"].invoke()
       puts "Clean data done!!!"
     end
   end

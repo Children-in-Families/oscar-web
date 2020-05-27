@@ -1,7 +1,7 @@
 namespace :import_isf do
   desc 'Import Indochina Starfish Foundation clients and related data'
   task start: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'isf', full_name: 'Indochina Starfish Foundation', logo: File.open(Rails.root.join('app/assets/images/isf.png')))
+    org = Organization.create_and_build_tenant(short_name: 'isf', full_name: 'Indochina Starfish Foundation', logo: File.open(Rails.root.join('app/assets/images/isf.png')))
     Organization.switch_to org.short_name
 
     Rake::Task['agencies:import'].invoke

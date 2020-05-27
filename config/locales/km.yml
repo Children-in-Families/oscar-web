@@ -101,6 +101,10 @@ km:
         update:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
+    attributes:
+      family_member:
+        adult_name: Name of Adult Member
+        gender: Gender
     default:
       blank: មិនអាចរំលង
     errors:
@@ -803,9 +807,11 @@ km:
       successfully_deleted_case_note: កំណត់ត្រាករណីត្រូវបានលុបដោយជោគជ័យ។
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      add_task_message: Please select the domain group before you can add the task.
       back: ត្រលប់ក្រោយ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: សូមជ្រើសរើសក្រុមកត្តាទាំងអស់ដែលអ្នកបានគាំទ្រដល់អតិថិជនក្នុងកំណត់ត្រាករណីនេះ។
       label_note: ចំណាំ
       meeting_detail: ព័ត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
@@ -813,6 +819,7 @@ km:
       on_date: 'កាលបរិច្ឆេទ:'
       on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       present: 'វត្តមានឣ្នកចូលរួម:'
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: រក្សាទុក
       tasks: កាតព្វកិច្ច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
@@ -844,6 +851,7 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា
+      domain_groups: ក្រុមនៃកត្តា
       goal: គោលដៅ
       incompleted_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       new_case_note: កំណត់ត្រាថ្មី
@@ -1528,14 +1536,22 @@ km:
       answer: ចំលើយ
       birth_province: ស្រុកកំណើត
       blank: មិនអាចរំលង
+      brsc_branch: BRCS Branch
       cambodia: កម្ពុជា
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      client_phone: លេខទូរស័ព្ទរបស់អតិថិជន
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
+      current_household_type: Address Type
+      current_island: Island
+      current_po_box: PO BOX
       current_province: រាជធានី/ខេត្ត
+      current_resident_own_or_rent: Acc. type
+      current_settlement: City/Settlement
+      current_street: Street
       custom_forms: ទម្រង់បែបបទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
@@ -1584,32 +1600,48 @@ km:
       has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
       has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
       house_number: ផ្ទះលេខ
+      household_type2: Address Type
+      legacy_brcs_id: Legacy BRCS-ID number
       id: លេខសំគាល់
+      id_number: ID number
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       is_the_client_rated_for_id_poor: តើអតិថិជនមានប័ណ្ណក្រីក្រដែរឬទេ
+      island2: Island
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       name: ឈ្មោះ
       next: បន្ទាប់
+      other_phone_number: Phone Number - Alternate
+      other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      phone_owner: ម្ចាស់ទូរស័ព្ទ
+      po_box2: PO Box
+      presented_id: Presented ID
       previous: ត្រឡប់
       province: ខេត្ត/ក្រុង
+      rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតំលៃសំរាប់អត្តសញ្ញាណប័ណ្ណក្រីក្រដែរឬទេ?
       received_by: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
+      resident_own_or_rent2: Acc. type
       school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
+      settlement2: City/Settlement
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
+      street2: Street
       street_number: ផ្លូវ
       telephone_number: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
       to: ទៅដល់
+      user_ids: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
+      what_3_word: What3Words
+      whatsapp: Whatsapp?
       year: ឆ្នាំ
       yes_no: បាទ/អត់ទេ
     form_header:
@@ -1839,6 +1871,7 @@ km:
         '11': ពិការភាព
         '12': ផ្សេងៗ
       client_able_answers: ចំលើយ Able
+      client_global_identity: Client Global Identity
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
@@ -2293,7 +2326,27 @@ km:
         quantity: ចំនួនកន្លែងដែលនៅទំនេរ
         report: របាយការណ៍
         status: ស្ថានភាព
+      current_address: "%{column} - Current Address"
+      other_address: "%{column} - Other Address"
       clients:
+        presented_id: Presented ID
+        id_number: ID number
+        whatsapp: Whatsapp
+        other_phone_number: Phone Number - Alternate
+        brsc_branch: BRCS Branch
+        current_island: Island
+        current_street: Street
+        current_po_box: PO BOX
+        current_settlement: City/Settlement
+        current_resident_own_or_rent: Acc. type
+        current_household_type: Address Type
+        legacy_brcs_id: Legacy BRCS-ID number
+        island2: Island
+        street2: Street
+        po_box2: PO Box
+        settlement2: City/Settlement
+        resident_own_or_rent2: Acc. type
+        household_type2: Address Type
         able: ឣតិថិជនក្នុងកម្មវិធីABLE
         able_state: ស្ថានភាព Able
         address: ឣាសយដ្ឋាន
@@ -2729,6 +2782,7 @@ km:
       male: ប្រុស
       other_gender: ផ្សេងៗ
       unknown: អត់ទាន់ដឹង
+      prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
     referee_relationship:
       self: ខ្លួនឯង
       family_member: សមាជិក​គ្រួសារ
@@ -3399,6 +3453,14 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  enumerize:
+    defaults:
+      gender:
+        female: ស្រី
+        male: ប្រុស
+        other: ផ្សេងៗ
+        unknown: អត់ទាន់ដឹង
+        prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
   errors:
     messages:
       already_confirmed: ត្រូវបានបញ្ជាក់រួចហើយ សូមសាកល្បងចូល
@@ -4941,6 +5003,9 @@ km:
       title: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
+  field_settings:
+    update:
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
     form_builder:
       file_field:
@@ -5161,6 +5226,7 @@ km:
       tasks_of: កាតព្វកិច្ចរបស់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    task_added: Task Added
   thredded:
     content_moderation_states:
       content_blocked_notice: ត្រូវបានបិទ
@@ -5516,4 +5582,3 @@ km:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."
     previous_label: ទំព័រមុន
-

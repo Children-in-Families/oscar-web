@@ -1,7 +1,7 @@
 namespace :komar_rikreay do
   desc 'Import all Komar Rikreay clients and related data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'kmr', full_name: "KOMAR RIKREAY CAMBODIA", logo: File.open(Rails.root.join('app/assets/images/komar-rikreay.jpg')))
+    org = Organization.create_and_build_tenant(short_name: 'kmr', full_name: "KOMAR RIKREAY CAMBODIA", logo: File.open(Rails.root.join('app/assets/images/komar-rikreay.jpg')))
     Organization.switch_to 'kmr'
 
     Rake::Task['agencies:import'].invoke

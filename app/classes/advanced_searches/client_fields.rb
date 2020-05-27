@@ -1,11 +1,13 @@
 module AdvancedSearches
-  class  ClientFields
+  class ClientFields
     include AdvancedSearchHelper
     include ClientsHelper
     include ApplicationHelper
+    include Pundit
 
     def initialize(options = {})
       @user = options[:user]
+      @pundit_user = options[:pundit_user]
     end
 
     def render
@@ -20,7 +22,10 @@ module AdvancedSearches
       custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
 
       search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
-      search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options
+
+      (search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options).select do |field|
+        policy(Client).show?(field[:id].to_sym)
+      end
     end
 
     private
@@ -30,15 +35,39 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'school_name', 'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code', 'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email', 'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]].compact
+      [
+        'id_number',
+        'legacy_brcs_id',
+        'other_phone_number',
+        'current_household_type', 'household_type2',
+        'brsc_branch', 'current_settlement', 'settlement2',
+        'given_name', 'current_street', 'street2', 'current_po_box', 'po_box2', 'family_name',
+        'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
+        'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
+        'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
+        'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]
+      ].compact
+    end
+
+    def current_user
+      @pundit_user
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date', 'created_at', 'date_of_referral']
+      [
+        'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date',
+        'case_note_date', 'created_at', 'date_of_referral'
+      ].compact
     end
 
     def drop_down_type_list
       [
+        ['presented_id', Client::BRC_PRESENTED_IDS.map{ |pi| { pi => pi }}],
+        ['preferred_language', Client::BRC_PREFERED_LANGS.map{ |pi| { pi => pi }}],
+        ['current_resident_own_or_rent', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
+        ['resident_own_or_rent2', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],
+        ['current_island', Client::BRC_BRANCHES.map{ |island| { island => island }}],
+        ['island2', Client::BRC_BRANCHES.map{ |island| { island => island }}],
         ['created_by', user_select_options ],
         ['gender', gender_list],
         ['status', client_status],
@@ -47,6 +76,7 @@ module AdvancedSearches
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
+        ['whatsapp', { true: 'Yes', false: 'No' }],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['donor_name', donor_options],
@@ -64,7 +94,11 @@ module AdvancedSearches
         ['referee_relationship', get_sql_referee_relationship],
         ['address_type', get_sql_address_types],
         ['phone_owner', get_sql_phone_owner]
-      ]
+      ].compact
+    end
+
+    def field_settings
+      @field_settings = FieldSetting.all
     end
 
     def gender_list

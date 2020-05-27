@@ -8,7 +8,26 @@
     "street_number": "Street Number",
     "house_number": "House Number",
     "address_name": "Address Name",
-    "address_type": "Address Type"
+    "address_type": "Address Type",
+    "lesotho": {
+      "description_house_landmark": "Description of the house and a landmark",
+      "directions": "Directions",
+      "suburb": "Suburb"
+    },
+    "myanmar": {
+      "state": "ပြည်နယ်",
+      "township": "မြို့နယ်",
+      "street_line1": "လမ်းပေါ်လိုင်း 1",
+      "street_line2": "လမ်းပေါ်လိုင်း 2(optional)"
+    },
+    "thailand": {
+      "district": "District",
+      "plot": "Plot/House number, Village",
+      "postal_code": "Postal Code",
+      "province": "Province",
+      "road": "Road",
+      "subdistrict": "Subdistrict"
+    }
   },
   "admin": {
     "admin_information": "Administrative Information",

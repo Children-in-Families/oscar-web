@@ -1,7 +1,7 @@
 namespace :fsi do
   desc "update new FSI user lists"
   task update: :environment do
-    # org = Organization.create_and_build_tanent(short_name: 'fsi', full_name: "Friends International", logo: File.open(Rails.root.join('app/assets/images/fsi.png')))
+    # org = Organization.create_and_build_tenant(short_name: 'fsi', full_name: "Friends International", logo: File.open(Rails.root.join('app/assets/images/fsi.png')))
     # Organization.switch_to org.short_name
 
     # Rake::Task['agencies:import'].invoke

@@ -30,20 +30,10 @@ class ClientGrid < BaseGrid
     Client
   end
 
-  filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) do |value, scope|
-    filter_shared_fileds('given_name', value, scope)
-  end
-
-  filter(:family_name, :string, header: -> { I18n.t('datagrid.columns.clients.family_name') }) do |value, scope|
-    filter_shared_fileds('family_name', value, scope)
-  end
-
-  filter(:local_given_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) do |value, scope|
-    filter_shared_fileds('local_given_name', value, scope)
-  end
-
-  filter(:local_family_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) do |value, scope|
-    filter_shared_fileds('local_family_name', value, scope)
+  %w(given_name family_name local_given_name local_family_name).each do |field_name|
+    filter(field_name, :string, header: -> { I18n.t("datagrid.columns.clients.#{field_name}") }) do |value, scope|
+      filter_shared_fileds(field_name, value, scope)
+    end
   end
 
   filter(:gender, :enum, select: :gender_list, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
@@ -52,6 +42,38 @@ class ClientGrid < BaseGrid
     slugs = SharedClient.where(gender: value.downcase).pluck(:slug)
     Organization.switch_to current_org.short_name
     scope.where(slug: slugs)
+  end
+
+  %w(
+      presented_id
+      id_number
+      legacy_brcs_id
+      whatsapp
+      preferred_language
+      other_phone_whatsapp
+      other_phone_number
+      brsc_branch
+      current_island
+      current_street
+      current_po_box
+      current_settlement
+      current_resident_own_or_rent
+      current_household_type
+      island2
+      street2
+      po_box2
+      settlement2
+      resident_own_or_rent2
+      household_type2
+    ).each do |field_name|
+
+    header = I18n.t("datagrid.columns.clients.#{field_name}")
+    header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')
+    header = I18n.t('datagrid.columns.other_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.end_with?('2')
+
+    filter(field_name, :string, header: header) do |value, scope|
+      filter_shared_fileds(field_name, value, scope)
+    end
   end
 
   def gender_list
@@ -81,7 +103,6 @@ class ClientGrid < BaseGrid
   def status_options
     scope.status_like
   end
-
 
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
@@ -686,6 +707,18 @@ class ClientGrid < BaseGrid
     object.client_phone
   end
 
+  %w(
+    whatsapp
+    other_phone_number
+    other_phone_whatsapp
+  ).each do |field_name|
+    header = I18n.t("datagrid.columns.clients.#{field_name}")
+
+    column(field_name, header: header, class: 'brc-fields') do |object|
+      object.public_send(field_name.to_sym)
+    end
+  end
+
   column(:address_type, header: -> { I18n.t('datagrid.columns.clients.address_type') }) do |object|
     object.address_type && object.address_type.titleize
   end
@@ -749,6 +782,34 @@ class ClientGrid < BaseGrid
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
+  end
+
+  %w(
+      presented_id
+      id_number
+      legacy_brcs_id
+      preferred_language
+      brsc_branch
+      current_island
+      current_street
+      current_po_box
+      current_settlement
+      current_resident_own_or_rent
+      current_household_type
+      island2
+      street2
+      po_box2
+      settlement2
+      resident_own_or_rent2
+      household_type2
+    ).each do |field_name|
+    header = I18n.t("datagrid.columns.clients.#{field_name}")
+    header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')
+    header = I18n.t('datagrid.columns.other_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.end_with?('2')
+
+    column(field_name, header: header, class: 'brc-fields') do |object|
+      object.public_send(field_name.to_sym)
+    end
   end
 
   date_column(:created_at, html: true, header: -> { I18n.t('datagrid.columns.clients.created_at') })
@@ -1171,7 +1232,18 @@ class ClientGrid < BaseGrid
             if fields.last == 'Has This Form'
               properties = [object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count]
             else
-              properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              if $param_rules
+                custom_field_id = object.custom_fields.find_by(form_title: fields.second)&.id
+                basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+                basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+                results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+                query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
+                sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+
+                properties      = object.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+              else
+                properties = form_builder_query(object.custom_field_properties, fields.second, column_builder[:id].gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              end
             end
           end
         elsif fields.first == 'enrollmentdate'
@@ -1196,7 +1268,7 @@ class ClientGrid < BaseGrid
             client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
             properties = form_builder_query(client_enrollment_trackings, fields.first, column_builder[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
           end
-        elsif fields.first == 'programexitdate'
+        elsif fields.first == 'exitprogramdate'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
             properties = date_format(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date))
@@ -1223,7 +1295,7 @@ class ClientGrid < BaseGrid
 
         properties = property_filter(properties, fields.last)
 
-        if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
+        if fields.first == 'enrollmentdate' || fields.first == 'exitprogramdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('__').split(' ').first }
         else
           properties = properties.present? ? properties : []

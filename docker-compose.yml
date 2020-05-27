@@ -1,6 +1,7 @@
 version: '3'
 services:
   app:
+    image: oscar-web_app
     build: .
     container_name: app
     environment:
@@ -15,6 +16,9 @@ services:
       - OSCAR_TEAM_EMAIL=team@oscarhq.com
       - OSCAR_TEAM_PASSWORD=123456789
       - SENDER_EMAIL=admin@oscarhq.com
+      - POWER_BI_GROUP=power_bi_group
+      - READ_ONLY_DATABASE_USER=powerbi_dashboard_user
+      - READ_ONLY_DATABASE_PASSWORD=123456789
     volumes:
       - .:/app
     ports:
@@ -24,6 +28,17 @@ services:
       - mongo
     stdin_open: true
     tty: true
+  # NOTE: Temp solution for now - need to update webpacker.yml (see notes in that file)
+  webpack:
+    image: oscar-web_app
+    container_name: webpack
+    depends_on:
+      - app
+    volumes:
+      - .:/app
+    ports:
+      - "3035:3035"
+    entrypoint: './bin/webpack-dev-server'
   db:
     image: postgres:9.4
     container_name: db

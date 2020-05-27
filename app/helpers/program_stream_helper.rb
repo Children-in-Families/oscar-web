@@ -2,7 +2,7 @@ module ProgramStreamHelper
 
   def format_rule(rules)
     if rules['rules'].present? && rules['rules'].any?
-      forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'programexitdate', 'exitprogram', 'quantitative']
+      forms_prefixed = ['domainscore', 'formbuilder', 'tracking', 'enrollment', 'enrollmentdate', 'programexitdate', 'exitprogramdate', 'exitprogram', 'quantitative']
       rules['rules'].each do |rule|
         if rule['rules'].present?
           format_rule(rule)
@@ -73,8 +73,8 @@ module ProgramStreamHelper
     find_children(service_parents, the_ids, children)
   end
 
-  private 
-    
+  private
+
     def form_builder_selection_options(program_stream, program_stream_step='trackings')
       field_types        = group_field_types(program_stream, program_stream_step)
       @select_field      = field_types["select"]
@@ -83,7 +83,7 @@ module ProgramStreamHelper
     end
 
     def group_field_types(program_stream, program_stream_step)
-      group_field_types = Hash.new{|h,k| h[k] = []} 
+      group_field_types = Hash.new{|h,k| h[k] = []}
       group_by_option_type_label = form_builder_group_by_options_type_label(program_stream, program_stream_step)
       group_selection_field_types = group_selection_field_types(program_stream, program_stream_step)
       group_selection_field_types&.compact.each do |selection_field_types|
@@ -91,7 +91,7 @@ module ProgramStreamHelper
           next unless labels.present?
           labels.each do |label|
             next if selection_field_types[label].blank?
-              group_field_types[type] << selection_field_types[label] 
+              group_field_types[type] << selection_field_types[label]
           end
         end
       end
@@ -106,13 +106,13 @@ module ProgramStreamHelper
         program_stream.client_enrollments.each do |client_enrollment|
           client_enrollment.client_enrollment_trackings.each do |client_enrollment_tracking|
             choosen_option_form_tracking = client_enrollment_tracking.properties if client_enrollment_tracking.properties.present?
-            group_value_field_types <<  choosen_option_form_tracking 
+            group_value_field_types <<  choosen_option_form_tracking
           end
         end
-       group_value_field_types 
+       group_value_field_types
       when 'enrollment'
         program_stream.client_enrollments.each do |client_enrollment|
-          choosen_option_form = client_enrollment.properties if client_enrollment.properties.present? 
+          choosen_option_form = client_enrollment.properties if client_enrollment.properties.present?
          group_value_field_types << choosen_option_form
         end
        group_value_field_types
@@ -129,7 +129,7 @@ module ProgramStreamHelper
     end
 
     def form_builder_group_by_options_type_label(program_stream, program_stream_step)
-      group_options_type_label = Hash.new{|h,k| h[k] = []} 
+      group_options_type_label = Hash.new{|h,k| h[k] = []}
       form_builder_option = form_builder_options(program_stream, program_stream_step)
       form_builder_option["type"].each_with_index do |type_option_tracking,i|
         group_options_type_label[type_option_tracking] << form_builder_option["label"][i]
@@ -145,7 +145,7 @@ module ProgramStreamHelper
           tracking.fields.each do |tracking_field|
             tracking_field.each do |k,v|
               next unless k[/^(type|label)$/i]
-              form_builder_options[k] << v 
+              form_builder_options[k] << v
             end
           end
         end
@@ -154,32 +154,13 @@ module ProgramStreamHelper
         program_stream.send(program_stream_step).each do |step|
           step.each do |k,v|
             next unless k[/^(type|label)$/i]
-            form_builder_options[k] << v 
+            form_builder_options[k] << v
           end
         end
         return form_builder_options
-      else 
+      else
         {}
       end
       form_builder_options
     end
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    

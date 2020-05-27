@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :find_association, if: :devise_controller?
-  before_action :set_locale
+  before_action :set_locale, :override_translation
   before_action :set_paper_trail_whodunnit, :current_setting
   before_action :prevent_routes
 
@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_organization, :current_setting
+  helper_method :field_settings
 
   rescue_from CanCan::AccessDenied do |exception|
     # redirect_to root_url, alert: exception.message
@@ -38,6 +39,14 @@ class ApplicationController < ActionController::Base
     @current_setting = Setting.first
   end
 
+  def field_settings
+    @field_settings ||= FieldSetting.all
+  end
+
+  def pundit_user
+    UserContext.new(current_user, field_settings)
+  end
+
   private
 
   def configure_permitted_parameters
@@ -55,6 +64,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :program_warning
     devise_parameter_sanitizer.for(:account_update) << :domain_warning
     devise_parameter_sanitizer.for(:account_update) << :gender
+    devise_parameter_sanitizer.for(:account_update) << :preferred_language
     # devise_parameter_sanitizer.for(:account_update) << :staff_performance_notification
     devise_parameter_sanitizer.for(:account_update) << :referral_notification
   end
@@ -65,12 +75,20 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    locale = I18n.available_locales.include?(params[:locale].to_sym) ? params[:locale] : I18n.locale if params[:locale].present?
+    locale = I18n.locale
+    locale = current_user.preferred_language if user_signed_in?
+    locale = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+
     if detect_browser.present?
       flash.clear
       flash[:alert] = detect_browser
     end
-    I18n.locale = locale || I18n.locale
+
+    I18n.locale = locale
+  end
+
+  def override_translation
+    I18n.backend.reload! if request.get? && request.format.html?
   end
 
   def default_url_options(options = {})
@@ -80,6 +98,10 @@ class ApplicationController < ActionController::Base
 
   def after_sign_out_path_for(_resource_or_scope)
     root_url(host: request.domain, subdomain: 'start')
+  end
+
+  def after_sign_in_path_for(_resource_or_scope)
+    dashboards_path(locale: current_user&.preferred_language || 'en')
   end
 
   def detect_browser

@@ -41,7 +41,7 @@ export default props => {
       data = action === 'clear' ? null : selectedOption.value
     }
 
-    onChange({ data, removed, action, type: 'select' })
+    onChange({ data, removed, action, type: 'select', options: options, isMulti: isMulti })
   }
 
   const formatGroupLabel = data => (

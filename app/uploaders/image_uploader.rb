@@ -1,5 +1,6 @@
 class ImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
+  # include CarrierWave::MimeTypes
   include CarrierWave::MiniMagick
   process :auto_orient
   version :thumb do

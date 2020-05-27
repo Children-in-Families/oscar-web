@@ -28,10 +28,10 @@ module Api
     def create
       client = Client.new(client_params)
 
-      referee = Referee.new(referee_params)
+      referee = Referee.find_or_initialize_by(referee_params)
       referee.save
 
-      carer = Carer.new(carer_params)
+      carer = Carer.find_or_initialize_by(carer_params)
       carer.save
 
       client.referee_id = referee.id
@@ -68,7 +68,7 @@ module Api
     private
 
     def client_params
-      params.require(:client).permit(
+      client_params = params.require(:client).permit(
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -76,7 +76,7 @@ module Api
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id,
+            :relevant_referral_information, :province_id, :global_id,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
@@ -84,7 +84,9 @@ module Api
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
             :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
             :address_type, :phone_owner, :client_phone, :client_email, :referee_relationship, :outside, :outside_address, :location_description,
-
+            :presented_id, :legacy_brcs_id, :id_number, :whatsapp, :other_phone_whatsapp, :other_phone_number, :brsc_branch, :current_island, :current_street,
+            :current_po_box, :current_settlement, :current_resident_own_or_rent, :current_household_type,
+            :island2, :street2, :po_box2, :settlement2, :preferred_language, :resident_own_or_rent2, :household_type2,
             :nickname, :relation_to_referee, :concern_is_outside, :concern_outside_address,
             :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
             :concern_street, :concern_house, :concern_address, :concern_address_type,
@@ -102,17 +104,27 @@ module Api
             client_problems_attributes: [:id, :rank, :problem_id],
             family_ids: []
           )
+
+      field_settings.each do |field_setting|
+        next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
+
+        client_params.except!(field_setting.name.to_sym)
+      end
+
+      client_params
     end
 
     def referee_params
       params.require(:referee).permit(
-        :name, :phone, :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id, :anonymous
+        :name, :phone, :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id, :anonymous,
+        :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions
       )
     end
 
     def carer_params
       params.require(:carer).permit(
-        :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client
+        :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client,
+        :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions
       )
     end
 

@@ -1,6 +1,8 @@
 module Api
   module V1
     class CaseNotesController < Api::V1::BaseApiController
+      include CaseNoteConcern
+
       before_action :find_client
 
       def create
@@ -42,7 +44,8 @@ module Api
 
         default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
         default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
-        default_params
+        default_params = assign_params_to_case_note_domain_groups_params(default_params)
+        default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
       end
 
       def add_more_attachments(new_file, case_note_domain_group_id)

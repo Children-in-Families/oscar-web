@@ -4,6 +4,7 @@ every :day, :at => '00:00 am' do
   # runner 'Client.ec_reminder_in(90)', output: 'log/whenever.log'
   runner 'Client.notify_upcoming_csi_assessment', output: 'log/whenever.log'
   runner 'Client.notify_incomplete_daily_csi_assessment', output: 'log/whenever.log'
+  runner 'Family.update_brc_aggregation_data', output: 'log/whenever.log'
 end
 
 every :monday, at: '00:00 am' do

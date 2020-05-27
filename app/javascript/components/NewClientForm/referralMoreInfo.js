@@ -5,7 +5,13 @@ import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
 
 export default props => {
-  const { onChange, data: { errorFields, carerDistricts, carerCommunes, carerVillages, carer, client, clientRelationships, currentProvinces, currentDistricts, currentCommunes, currentVillages, donors, agencies, schoolGrade, families, ratePoor, addressTypes, T } } = props
+  const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization,
+          data: { errorFields, carerDistricts, carerCommunes, brc_presented_ids,
+                  carerVillages, carer, client, clientRelationships, currentProvinces,
+                  currentDistricts, currentCommunes, currentVillages, donors, agencies, currentStates, currentTownships, carerSubdistricts,
+                  schoolGrade, families, ratePoor, addressTypes, T, customId1, customId2,
+                }
+        } = props
 
   return (
     <div className="containerClass">
@@ -39,25 +45,31 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo" data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, currentCommunes, currentVillages, families, addressTypes, T }} onChange={onChange} />
+      <CareInfo id="careInfo" current_organization={current_organization} data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, carerSubdistricts, currentCommunes, currentVillages, currentStates, currentTownships, families, addressTypes, T }} onChange={onChange} renderAddressSwitch={renderAddressSwitch} />
 
-      <div className="row">
-        <div className="schoolInfo collapsed" data-toggle="collapse" data-target="#schoolInfo">
-          <div style={styles.sectionHead}>
-            <div className="col-xs-4" >
-              <label>{T.translate("referralMoreInfo.school_info")}</label>
-            </div>
-            <div className="col-xs-8">
-              <span className="pointer">
-                <i className="fa fa-chevron-up"></i>
-                <i className="fa fa-chevron-down"></i>
-              </span>
+      {
+        fieldsVisibility.client_school_information == true &&
+        <>
+          <div className="row">
+            <div className="schoolInfo collapsed" data-toggle="collapse" data-target="#schoolInfo">
+              <div style={styles.sectionHead}>
+                <div className="col-xs-4" >
+                  <label>{T.translate("referralMoreInfo.school_info")}</label>
+                </div>
+                <div className="col-xs-8">
+                  <span className="pointer">
+                    <i className="fa fa-chevron-up"></i>
+                    <i className="fa fa-chevron-down"></i>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} />
+          <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} />
+        </>
+      }
+
 
       <div className="row">
         <div className="donorInfo collapsed" data-toggle="collapse" data-target="#donorInfo">
@@ -93,7 +105,7 @@ export default props => {
         </div>
       </div>
 
-      <CustomInfo id="customInfo" onChange={onChange} data={{errorFields, ratePoor, client, T }} />
+      <CustomInfo id="customInfo" translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} data={{errorFields, ratePoor, client, T, customId1, customId2 }} />
     </div>
   )
 }

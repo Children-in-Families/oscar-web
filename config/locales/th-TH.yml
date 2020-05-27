@@ -99,6 +99,10 @@ th-TH:
         update:
           successfully_updated:
   activerecord:
+    attributes:
+      family_member:
+        adult_name: Name of Adult Member
+        gender: Gender
     default:
       blank:
     errors:
@@ -654,9 +658,11 @@ th-TH:
       successfully_deleted:
     form:
       add_task:
+      add_task_message:
       back:
       completed_tasks:
       domain:
+      domain_groups:
       label_note:
       meeting_detail:
       meeting_with:
@@ -664,6 +670,7 @@ th-TH:
       on_date:
       on_going_tasks:
       present:
+      remove_domain_group_hint:
       save:
       tasks:
       tasks_arising:
@@ -690,6 +697,7 @@ th-TH:
       case_note_on:
       completed_tasks:
       domain:
+      domain_groups:
       goal:
       incompleted_tasks:
       new_case_note:
@@ -1620,6 +1628,7 @@ th-TH:
       case_worker:
       case_worker_or_staff:
       client_able_answers:
+      client_global_identity: Client Global Identity
       code:
       commune:
       completed:
@@ -2292,6 +2301,7 @@ th-TH:
       male: Male
       other_gender: Other
       unknown: Unknown
+      prefer_not_to_say: Prefer not to say
     given_name:
     has_been_in_government_care:
     has_been_in_orphanage:
@@ -4321,6 +4331,9 @@ th-TH:
     research_module:
       research_module_label:
       title:
+    update:
+      successfully_updated:
+  field_settings:
     update:
       successfully_updated:
   shared:

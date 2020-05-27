@@ -22,7 +22,7 @@ class ClientsController < AdminController
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
-    if has_params? || params[:advanced_search_id]
+    if has_params? || params[:advanced_search_id].present? || params[:client_advanced_search].present?
       advanced_search
     else
       columns_visibility
@@ -31,10 +31,8 @@ class ClientsController < AdminController
           next unless params['commit'].present?
           client_grid             = @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           @results                = client_grid.assets.size
-          @clients                = client_grid.assets
           $client_data            = @clients
-
-          @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          @client_grid            = @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
           next unless params['commit'].present?
@@ -79,6 +77,10 @@ class ClientsController < AdminController
         referrals = @client.referrals
         @case_histories = (enter_ngos + exit_ngos + cps_enrollments + cps_leave_programs + referrals).sort { |current_record, next_record| -([current_record.created_at, current_record.new_date] <=> [next_record.created_at, next_record.new_date]) }
         # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+        if @client.family.present?
+          @family_grid = FamilyGrid.new
+          @family_grid = @family_grid.scope { |scope| scope.accessible_by(current_ability).where(id: @client.current_family_id) }
+        end
       end
       format.pdf do
         form        = params[:form]
@@ -109,7 +111,7 @@ class ClientsController < AdminController
       Organization.switch_to 'shared'
       attributes = SharedClient.find_by(archived_slug: @referral.slug).try(:attributes) || SharedClient.find_by(slug: @referral.slug).try(:attributes)
       if attributes.present?
-        attributes = attributes.except('duplicate_checker')
+        attributes = attributes.except('id', 'duplicate_checker')
         attributes = fetch_referral_attibutes(attributes, referral_source_id)
       else
         attributes
@@ -164,6 +166,7 @@ class ClientsController < AdminController
     @client.exit_ngos.each(&:destroy_fully!)
     @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
+    @client.cases.delete_all
     @client.reload.destroy
 
     redirect_to clients_url, notice: t('.successfully_deleted')
@@ -209,12 +212,12 @@ class ClientsController < AdminController
 
   def client_params
     remove_blank_exit_reasons
-    params.require(:client)
+    client_params = params.require(:client)
           .permit(
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-            :referral_phone, :received_by_id, :followed_up_by_id,
+            :referral_phone, :received_by_id, :followed_up_by_id, :global_id,
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
@@ -225,7 +228,9 @@ class ClientsController < AdminController
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
             :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :commune_id, :village_id, :referral_source_category_id, :referee_id, :carer_id,
-
+            :presented_id, :legacy_brcs_id, :id_number, :whatsapp, :other_phone_number, :brsc_branch, :current_island, :current_street,
+            :current_po_box, :current_settlement, :current_resident_own_or_rent, :current_household_type,
+            :island2, :street2, :po_box2, :settlement2, :resident_own_or_rent2, :household_type2,
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -238,6 +243,14 @@ class ClientsController < AdminController
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id]
           )
+
+    field_settings.each do |field_setting|
+      next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
+
+      client_params.except!(field_setting.name.to_sym)
+    end
+
+    client_params
   end
 
   def remove_blank_exit_reasons
@@ -276,6 +289,7 @@ class ClientsController < AdminController
 
     @carer = @client.carer.present? ? @client.carer : Carer.new
     @referee = @client.referee.present? ? @client.referee : Referee.new
+    @referee.anonymous = true if current_organization.short_name == 'brc' && @referee.new_record?
     @referee_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
     @client_relationships = Carer::CLIENT_RELATIONSHIPS.map{|relationship| {label: relationship, value: relationship.downcase}}
     @caller_relationships = Client::RELATIONSHIP_TO_CALLER.map{|relationship| {label: relationship, value: relationship.downcase}}
@@ -293,21 +307,44 @@ class ClientsController < AdminController
     @birth_provinces = []
     ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
-    @current_provinces        = Province.order(:name)
-    @states                   = State.order(:name)
-    @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
-    @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
-    @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
-    @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
-    @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
 
-    @referee_districts                = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
-    @referee_communes                 = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
-    @referee_villages                 = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
+    if selected_country&.downcase == 'thailand'
+      @current_provinces        = Province.order(:name).where.not("name ILIKE ?", "%/%")
+      @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+      @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
 
-    @carer_districts                = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
-    @carer_communes                 = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
-    @carer_villages                 = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
+
+      @referee_districts        = @client.referee&.province.present? ? @client.referee.province.districts.order(:name) : []
+      @referee_subdistricts     = @client.referee.try(:district).present? ? @client.referee.district.subdistricts.order(:name) : []
+
+
+      @carer_districts          = @client.carer&.province.present? ? @client.carer.province.districts.order(:name) : []
+      @carer_subdistricts       = @client.carer.try(:district).present? ? @client.carer.district.subdistricts.order(:name) : []
+
+    elsif selected_country&.downcase == 'myanmar'
+      @states                   = State.order(:name)
+      @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
+
+      @referee_townships        = @client.referee&.state.present? ? @client.referee.state.townships.order(:name) : []
+      @carer_townships          = @client.carer&.state.present? ? @client.carer.state.townships.order(:name) : []
+    else
+      @current_provinces        = Province.order(:name)
+      @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+      @communes                 = @client.district.present? ? @client.district.communes.order(:code) : []
+      @villages                 = @client.commune.present? ? @client.commune.villages.order(:code) : []
+
+      @referee_districts        = @client.referee.try(:province).present? ? @client.referee.province.districts.order(:name) : []
+      @referee_communes         = @client.referee.try(:district).present? ? @client.referee.district.communes.order(:code) : []
+      @referee_villages         = @client.referee.try(:commune).present? ? @client.referee.commune.villages.order(:code) : []
+
+      @carer_districts          = @client.carer.try(:province).present? ? @client.carer.province.districts.order(:name) : []
+      @carer_communes           = @client.carer.try(:district).present? ? @client.carer.district.communes.order(:code) : []
+      @carer_villages           = @client.carer.try(:commune).present? ? @client.carer.commune.villages.order(:code) : []
+    end
+
+
+
+
   end
 
   def initial_visit_client

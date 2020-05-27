@@ -85,6 +85,25 @@ module DevEnvImporter
       end
     end
 
+    def field_settings
+      (workbook_second_row..workbook.last_row).each do |row_index|
+        # In case sheet is messed up
+        next if workbook.row(row_index)[headers['name']].blank?
+
+        FieldSetting.create!(
+          name: workbook.row(row_index)[headers['name']],
+          label: workbook.row(row_index)[headers['label']],
+          type: workbook.row(row_index)[headers['type']],
+          current_label: workbook.row(row_index)[headers['current_label']],
+          klass_name: workbook.row(row_index)[headers['klass_name']],
+          required: workbook.row(row_index)[headers['required']],
+          visible: workbook.row(row_index)[headers['visible']],
+          for_instances: workbook.row(row_index)[headers['for_instances']],
+          group: workbook.row(row_index)[headers['group']]
+        )
+      end
+    end
+
     private
 
     def find_referral_source(name)

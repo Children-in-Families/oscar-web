@@ -82,6 +82,53 @@ module CaseNoteHelper
     current_user.permission&.case_notes_editable
   end
 
+  def tag_domain_group(case_note)
+    domain_group_ids = selected_domain_group_ids(case_note)
+    if domain_group_ids.present?
+      domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name("#{case_note.custom}", case_note.custom_assessment_setting_id), dg.id] }
+      options_for_select(domain_groups, domain_group_ids)
+    else
+      domain_group_ids = case_note.case_note_domain_groups.where("attachments != '{}' OR note != ''").pluck(:domain_group_id)
+      domain_groups = case_note.domain_groups.map{ |dg| [dg.domain_name, dg.id] }
+      options_for_select(domain_groups, domain_group_ids)
+    end
+  end
+
+  def selected_domain_group_ids(case_note)
+    case_note.selected_domain_group_ids.presence || []
+  end
+
+  def list_goals_and_tasks(cdg, case_note)
+    list_goals = []
+    ongoing_tasks = []
+    today_tasks = []
+    cdg.domains(case_note).each do |domain|
+      tasks = case_note.client.tasks.where(domain_id: domain.id)
+      ongoing_tasks << tasks.by_case_note_domain_group(cdg)
+      today_tasks << case_note_the_latest_tasks(tasks.by_case_note_domain_group(cdg))
+      assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+      if assessment_domain.present? && assessment_domain.goal?
+        list_goals << assessment_domain.goal
+      end
+    end
+
+    [list_goals, ongoing_tasks, today_tasks]
+  end
+
+  def case_note_ongoing_tasks(tasks)
+    ongoin_tasks = tasks.flatten.reject{ |task| task.completed || task.created_at.today? }
+  end
+
+  def case_note_the_latest_tasks(tasks)
+    tasks.reject{ |task| !task.created_at.today? || task.completed }
+  end
+
+  def case_note_domain_without_assessment(domain_note, case_note)
+    persisted_case_note = domain_note.object.domains(case_note).any?{|domain| case_note.client.tasks.where(domain_id: domain.id).by_case_note_domain_group(domain_note.object).present? } && case_note.persisted?
+    domain_note_by_case_note = domain_note.object.domains(case_note)
+    [persisted_case_note, domain_note_by_case_note]
+  end
+
   def case_notes_deleted?
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
@@ -114,5 +161,9 @@ module CaseNoteHelper
     else
       custom_assessment_setting_id = cdg.domains(case_note).pluck(:custom_assessment_setting_id).last
     end
+  end
+
+  def selected_domain_group(casenote_domai_group)
+    @case_note.selected_domain_group_ids.compact.map(&:to_i).include?(casenote_domai_group.domain_group_id)
   end
 end

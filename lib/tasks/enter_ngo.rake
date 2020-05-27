@@ -18,6 +18,12 @@ namespace :enter_ngo do
   task recover: :environment do
     Organization.where.not(short_name: 'shared').pluck(:short_name).each do |short_name|
       Organization.switch_to short_name
+      sql = <<-SQL.squish
+        ALTER TABLE clients DROP COLUMN IF EXISTS default_assessments_count;
+        ALTER TABLE clients DROP COLUMN IF EXISTS custom_assessments_count;
+        ALTER TABLE case_notes DROP COLUMN IF EXISTS selected_domain_group_ids;
+      SQL
+      ActiveRecord::Base.connection.execute(sql)
       Client.includes(:enter_ngos).where(status: 'Accepted').references(:enter_ngos).group("clients.id, enter_ngos.id").having('COUNT(enter_ngos) = 0').each do |client|
         version = PaperTrail::Version.where(item_type: 'EnterNgo', event: 'create').where("versions.object_changes ILIKE '%client_id:\n- \n- #{client.id}\n%'").first
         if version

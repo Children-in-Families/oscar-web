@@ -1775,25 +1775,24 @@ aht_domains =
 if Organization.current.try(:aht) == true
   aht_domains.each do |aht|
     ad = DomainGroup.find_or_create_by(name: aht[:group])
-    Domain.find_or_create_by(
-      name: aht[:name],
-      identity: aht[:identity],
-      description: aht[:description],
-      local_description: aht[:local_description],
-      domain_group_id: ad.id,
-      score_1_color: aht[:score_1_color],
-      score_2_color: aht[:score_2_color],
-      score_3_color: aht[:score_3_color],
-      score_4_color: aht[:score_4_color],
-      score_1_definition: aht[:score_1_definition],
-      score_2_definition: aht[:score_2_definition],
-      score_3_definition: aht[:score_3_definition],
-      score_4_definition: aht[:score_4_definition],
-      score_1_local_definition: aht[:score_1_local_definition],
-      score_2_local_definition: aht[:score_2_local_definition],
-      score_3_local_definition: aht[:score_3_local_definition],
-      score_4_local_definition: aht[:score_4_local_definition]
-    )
+    Domain.find_or_initialize_by(name: aht[:name], identity: aht[:identity], domain_group_id: ad.id) do |domain|
+      domain.description = aht[:description]
+      domain.local_description = aht[:local_description]
+      domain.score_1_color = aht[:score_1_color]
+      domain.score_2_color = aht[:score_2_color]
+      domain.score_3_color = aht[:score_3_color]
+      domain.score_4_color = aht[:score_4_color]
+      domain.score_1_definition = aht[:score_1_definition]
+      domain.score_2_definition = aht[:score_2_definition]
+      domain.score_3_definition = aht[:score_3_definition]
+      domain.score_4_definition = aht[:score_4_definition]
+      domain.score_1_local_definition = aht[:score_1_local_definition]
+      domain.score_2_local_definition = aht[:score_2_local_definition]
+      domain.score_3_local_definition = aht[:score_3_local_definition]
+      domain.score_4_local_definition = aht[:score_4_local_definition],
+      domain.custom_assessment_setting_id = nil
+      domain.save(validate: false)
+    end
   end
 else
   domains.each do |domain|
@@ -1824,7 +1823,7 @@ Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
 
 Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
-# Organization.create_and_build_tanent(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
+# Organization.create_and_build_tenant(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
 
 interviewees     = ['កុមារ', 'ឪពុកម្ដាយ', 'អ្នកអាណាព្យាបាល', 'អ្នកថែទាំ', 'ផ្សេងៗ (សូមបញ្ជាក់)']
 client_types     = ['កុមារកំព្រា', 'កុមារពិការ', 'កុមារត្រូវបានបោះបង់ចោល', 'កុមារអានាថាតាមចិញ្ចើមថ្នល់', 'កុមារញៀនសារធាតុញៀន', 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន', 'កុមារដែលទទួលផលប៉ះពាល់ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏', 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត', 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់', 'កុមារមានទំនាស់ជាមួយច្បាប់', 'ផ្សេងៗ']
@@ -1881,7 +1880,11 @@ case_closures.each do |case_closure|
   CaseClosure.find_or_create_by(name: case_closure)
 end
 
-setting = Setting.first_or_create(country_name: 'cambodia', min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
+if Organization.current.short_name == 'ratanak'
+  setting = Setting.first_or_create(default_assessment: "Results Framework Assessment", country_name: 'cambodia', enable_hotline: true, min_assessment: 3, case_note_frequency: 'day', max_case_note: 30, age: 100)
+else
+  setting = Setting.first_or_create(country_name: 'cambodia', min_assessment: 3, case_note_frequency: 'day', max_case_note: 30)
+end
 
 setting.update(org_name: Organization.current.full_name) if setting.org_name.blank? && Organization.current.present?
 

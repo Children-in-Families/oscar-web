@@ -101,6 +101,10 @@ en:
         update:
           successfully_updated: Successfully updated
   activerecord:
+    attributes:
+      family_member:
+        adult_name: Name of Adult Member
+        gender: Gender
     default:
       blank: can't be blank
     errors:
@@ -807,9 +811,11 @@ en:
       successfully_deleted_case_note: Case Note has been successfully deleted.
     form:
       add_task: Add Task
+      add_task_message: Please select the domain group before you can add the task.
       back: Back
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Please select all Domain Groups you supported the client with in this case note.
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
@@ -817,6 +823,7 @@ en:
       on_date: On Date
       on_going_tasks: On Going Tasks
       present: Who was there during the visit or conversation?
+      remove_domain_group_hint: You have created a task associated with this Domain Group. To remove this Domain tag, please remove the Task first.
       save: Save
       tasks: Tasks
       tasks_arising: Tasks Arising
@@ -848,6 +855,7 @@ en:
       case_note_on: Case note on
       completed_tasks: Completed Tasks
       domain: Domain
+      domain_groups: Domain Groups
       goal: Goal
       incompleted_tasks: Incompleted Tasks
       new_case_note: New case note
@@ -1538,14 +1546,22 @@ en:
       answer: Answer
       birth_province: Client Birth Province
       blank: can't be blank
+      brsc_branch: BRCS Branch
       cambodia: Cambodia
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      client_phone: Client Contact Phone
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
       current_address: Current Address
+      current_household_type: Address Type
+      current_island: Island
+      current_po_box: PO BOX
       current_province: Current Province
+      current_resident_own_or_rent: Acc. type
+      current_settlement: City/Settlement
+      current_street: Street
       custom_forms: Custom Forms
       date_of_birth: Date of Birth
       district: District/Khan
@@ -1594,32 +1610,49 @@ en:
       has_been_in_government_care: Has the client lived in government care
       has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
+      household_type2: Address Type
+      legacy_brcs_id: Legacy BRCS-ID number
       id: ID
+      id_number: ID number
       id_poor: ID Poor
-      initial_referral_date: Initial Referral Date
+      initial_referral_date: Date of Referral
       is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
+      island2: Island
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
       name: Name
       next: Next
+      other_phone_number: Phone Number - Alternate
+      other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
+      phone_owner: Phone Owner
+      po_box2: PO Box
+      preferred_language: Preferred Language
+      presented_id: Presented ID
       previous: Previous
       province: Birth Province
+      rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      resident_own_or_rent2: Acc. type
       school_grade: School Grade
       school_name: School Name
+      settlement2: City/Settlement
       stage: Stage Question
       state: Accept/Reject
       status: Status
+      street2: Street
       street_number: Street
       telephone_number: Primary Carer Phone Number
       to: To
+      user_ids: Case Worker / Assigned Staff Manager
       village: Village
+      what_3_word: What3Words
+      whatsapp: Whatsapp?
       year: Year
       yes_no: Yes/No
     form_header:
@@ -1848,6 +1881,7 @@ en:
         '11': Disability
         '12': Other
       client_able_answers: Client Able Answers
+      client_global_identity: Client Global Identity
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
@@ -1911,6 +1945,7 @@ en:
       name_of_referee: Name Of Referee
       nickname: Nickname
       note: Note
+      other_address: Other Address
       other_info_of_exit: Other - More Information
       other_more_information: Other-More Information
       phone_counselling_summary: Phone Counselling Summary
@@ -2302,7 +2337,27 @@ en:
         quantity: Number of Place Available
         report: Report
         status: Status
+      current_address: "%{column} - Current Address"
+      other_address: "%{column} - Other Address"
       clients:
+        presented_id: Presented ID
+        id_number: ID number
+        whatsapp: Whatsapp?
+        other_phone_number: Phone Number - Alternate
+        brsc_branch: BRCS Branch
+        current_island: Island
+        current_street: Street
+        current_po_box: PO BOX
+        current_settlement: City/Settlement
+        current_resident_own_or_rent: Acc. type
+        current_household_type: Address Type
+        legacy_brcs_id: Legacy BRCS-ID number
+        island2: Island
+        street2: Street
+        po_box2: PO Box
+        settlement2: City/Settlement
+        resident_own_or_rent2: Acc. type
+        household_type2: Address Type
         able: Able
         able_state: Able State
         address: Address
@@ -2409,6 +2464,7 @@ en:
         no_dob: 'No'
         other_info_of_exit: Other - More Information
         other_more_information: Other-More Information
+        other_phone_whatsapp: Whatsapp? (Phone Number - Alternate)
         phone_counselling_summary: Phone Counselling Summary
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
@@ -2430,6 +2486,7 @@ en:
           support_note: Support Note
         plot: Plot
         postal_code: Postal Code
+        preferred_language: Preferred Language
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
@@ -2739,6 +2796,7 @@ en:
       male: Male
       other_gender: Other
       unknown: Unknown
+      prefer_not_to_say: Prefer not to answer
     referee_relationship:
       self: Self
       family_member: Family Member
@@ -3410,6 +3468,14 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  enumerize:
+    defaults:
+      gender:
+        female: Female
+        male: Male
+        other_gender: Other
+        unknown: Unknown
+        prefer_not_to_say: Prefer not to answer
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in
@@ -3453,8 +3519,10 @@ en:
     family_member_fields:
       adult_name: Name of Adult Member
       date_of_birth: Date of Birth
+      gender: Gender
       guardian: Guardian
       occupation: Occupation
+      note: Relevant Referral Information / Notes
       relation: Relationship with Children
       remove_member: Remove Member
     form:
@@ -3514,6 +3582,7 @@ en:
       family_type: Family Type
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
+      gender: Gender
       general_info: About Family
       guardian: Guardian
       house: House
@@ -3524,6 +3593,7 @@ en:
       member_count: Member Count
       name: Name
       'no': 'No'
+      note: Relevant Referral Information / Notes
       occupation: Occupation
       province: Province
       read_less: read less
@@ -4955,6 +5025,9 @@ en:
     research_module:
       research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
       title: Research Module
+    update:
+      successfully_updated: Setting have been successfully updated.
+  field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
   shared:

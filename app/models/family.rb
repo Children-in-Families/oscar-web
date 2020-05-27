@@ -1,5 +1,7 @@
 class Family < ActiveRecord::Base
   include EntityTypeCustomField
+  include Brc::Family
+
   TYPES = ['Birth Family (Both Parents)', 'Birth Family (Only Mother)',
     'Birth Family (Only Father)', 'Extended Family / Kinship Care',
     'Short Term / Emergency Foster Care', 'Long Term Foster Care',
@@ -26,6 +28,9 @@ class Family < ActiveRecord::Base
   accepts_nested_attributes_for :family_members, reject_if: :all_blank, allow_destroy: true
 
   has_paper_trail
+
+  before_validation :assign_family_type, if: [:new_record?, :brc?]
+
   validates :family_type, presence: true, inclusion: { in: TYPES }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
   validates :status, presence: true, inclusion: { in: STATUSES }
@@ -57,8 +62,13 @@ class Family < ActiveRecord::Base
   scope :by_status,                  ->(value) { where(status: value) }
   scope :by_family_type,             ->(value) { where(family_type: value) }
 
+  def self.update_brc_aggregation_data
+    Organization.switch_to 'brc'
+    Family.find_each(&:save_aggregation_data)
+  end
+
   def member_count
-    male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i
+    brc? ? family_members.count : (male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i)
   end
 
   def emergency?
@@ -120,6 +130,14 @@ class Family < ActiveRecord::Base
   end
 
   private
+
+  def assign_family_type
+    self.family_type = 'Other'
+  end
+
+  def brc?
+    Organization.brc?
+  end
 
   def client_must_only_belong_to_a_family
     clients = Client.where.not(current_family_id: nil).where.not(current_family_id: self.id).ids

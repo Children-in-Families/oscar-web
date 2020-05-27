@@ -90,6 +90,17 @@ CIF.FamiliesIndex = do ->
     $('#family-advance-search-form #filter_form').hide()
 
   _toggleCollapseFilter = ->
+    # Triggering by using data attribute does not work in this page
+    $("#accordion-family-filter .panel-title a").click ->
+      $filterWrapper = $(@).closest("#accordion-family-filter")
+      $panelBody = $filterWrapper.find($(@).attr("href"))
+
+      if $panelBody.hasClass("in")
+        $("#accordion-family-filter .panel-collapse").removeClass("in")
+      else
+        $("#accordion-family-filter .panel-collapse").removeClass("in")
+        $panelBody.addClass("in")
+
     $('#family-search-form').on 'show.bs.collapse', ->
       $('#family-advance-search-form').collapse('hide')
 

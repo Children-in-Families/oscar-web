@@ -1,0 +1,24 @@
+.col-xs-12.col-sm-12
+  #accordion-family-filter.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+    - %w(general address aggregrate).each do |section|
+      - next if section == 'address' && Organization.brc?
+      .panel.panel-default
+        .panel-heading{:role => "tab", id: "heading-family-filer-#{section}"}
+          %h4.panel-title
+            %a{"aria-controls" => "collapse-#{section}", "aria-expanded" => "false", "data-parent" => "#accordion-family-filter", :href => "#collapse-#{section}", :role => "button"}
+              = section.titleize
+        .panel-collapse.collapse{"aria-labelledby" => "heading-family-filer-#{section}", :role => "tabpanel", id: "collapse-#{section}", class: "#{'in' if section == 'general'}"}
+          .panel-body
+            .row
+              - grid.filters.select{ |filter| grid.filer_section(filter.name) == section.to_sym }.each do |filter|
+                - field_name = filter.name
+                - field_name = 'member_count' if field_name.to_s.include?('significant_family_member_count')
+                - next unless policy(Family).show?(field_name)
+
+                .col-xs-12.col-sm-6.col.md-4.col-lg-4
+                  .datagrid-filter.filter.form-group
+                    = f.datagrid_label(filter)
+                    - if filter.type == :date
+                      = f.datagrid_filter filter, partials: options[:partials], class: "form-control datepicker #{filter.options[:class]}"
+                    - else
+                      = f.datagrid_filter filter, partials: options[:partials], class: "form-control #{filter.options[:class]}"

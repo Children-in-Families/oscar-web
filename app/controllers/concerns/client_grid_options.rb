@@ -243,12 +243,16 @@ module ClientGridOptions
       end
     else
       @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
-        basic_rules = $param_rules['basic_rules']
-        basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
-        results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
-        query_string = get_assessment_query_string(results, 'assessment_completed_date', '', client.id, basic_rules)
-
-        assessments = client.assessments.defaults.completed.where(query_string)
+        assessments = []
+        if $param_rules
+          basic_rules = $param_rules['basic_rules']
+          basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+          results = mapping_assessment_query_rules(basic_rules).reject(&:blank?)
+          query_string = get_assessment_query_string(results, 'assessment_completed_date', '', client.id, basic_rules)
+          assessments = client.assessments.defaults.completed.where(query_string)
+        else
+          assessments = client.assessments.defaults.completed
+        end
         assessments.map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if assessments.any?
       end
     end
@@ -343,7 +347,18 @@ module ClientGridOptions
             if fields.last == 'Has This Form'
               properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              if $param_rules
+                custom_field_id = client.custom_fields.find_by(form_title: fields.second)&.id
+                basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
+                basic_rules  = basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
+                results      = mapping_form_builder_param_value(basic_rules, 'formbuilder')
+                query_string = get_query_string(results, 'formbuilder', 'custom_field_properties.properties')
+                sql          = query_string.reverse.reject(&:blank?).map{|sql| "(#{sql})" }.join(" AND ")
+
+                custom_field_properties = client.custom_field_properties.where(custom_field_id: custom_field_id).where(sql).properties_by(format_field_value)
+              else
+                custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+              end
               custom_field_properties = property_filter(custom_field_properties, format_field_value)
               custom_field_properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
             end
@@ -377,7 +392,7 @@ module ClientGridOptions
 
             properties.map{ |properties| check_is_string_date?(properties) }.join(', ')
           end
-        elsif fields.first == 'programexitdate'
+        elsif fields.first == 'exitprogramdate'
           ids = client.client_enrollments.inactive.ids
           if data == 'recent'
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
@@ -404,6 +419,7 @@ module ClientGridOptions
 
   def admin_client_grid
     data = params[:data].presence
+
     if params.dig(:client_grid, :quantitative_types)
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))

@@ -1,7 +1,7 @@
 namespace :pepy do
   desc 'Import Pepy Empowering Youth Organization'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'pepy', full_name: "Pepy Empowering Youth", logo: File.open(Rails.root.join('app/assets/images/pepy_logo.jpg')))
+    org = Organization.create_and_build_tenant(short_name: 'pepy', full_name: "Pepy Empowering Youth", logo: File.open(Rails.root.join('app/assets/images/pepy_logo.jpg')))
     Organization.switch_to org.short_name
     Rake::Task['agencies:import'].invoke
     Rake::Task['departments:import'].invoke

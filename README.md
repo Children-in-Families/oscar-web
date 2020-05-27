@@ -26,11 +26,9 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 
 *NOTE* If this is the first time you have run this you may need to stop the containers and run it again!
 
-### Improve rendering speed with Webpack Dev Server
+### Rebuilding the Docker Images
 
-Run the following command to start the Webpack Dev Server in a new terminal.
-
-
+If anything changes that is in the `Dockerfile` itself (or related to that - such as adding new Gems or JS packages and then needing to re-run `bundle install` or `yarn install`), then you will need to rebuild the Docker Image to get the latest changes into the Image and therefore the running container. So from time to time, you will need to run: `docker-compose build app` to do that. This basically re-builds the Docker Image and if there are new Gems / JS packages they will be installed via the `bundle install` and `yarn install` calls made in `Dockerfile`.
 
 ### Gazetteer Data Import (OPTIONAL)
 

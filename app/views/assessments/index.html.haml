@@ -3,7 +3,7 @@
     .ibox
       .ibox-title
         %h5
-          %strong= "#{@client.name}"
+          %strong= link_to_client_show(@client)
         %h5.margin-title= t('.assessment_history')
       .ibox-content
         - @assessmets.each_with_index do |assessment, index|
@@ -16,7 +16,7 @@
                   = t('.assessment_created_on')
                 %b
                   = date_format(assessment.created_at)
-                = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last.custom_assessment_setting.present?
+                = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last&.custom_assessment_setting.present?
                 %label{ class: "#{assessment.completed_label_class}"}= assessment.completed_status
             .col-xs-12.col-sm-4
               .btn.btn-block.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
