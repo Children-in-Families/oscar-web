@@ -49,7 +49,7 @@ rake communes_and_villages:import['dev']
 Start bash session in the 'app' service container. Once you have a session, you can use it like you would normally use your local terminal, running `rake` tasks, starting the `rails c` console etc, etc
 
 ```
-make bash_app
+make rails_console
 ```
 
 There is also a make command to drop the database
