@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
 
-  ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
+  ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
   LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
 
@@ -67,6 +67,7 @@ class User < ActiveRecord::Base
   scope :job_title_are,   ->        { where.not(job_title: '').pluck(:job_title).uniq }
   scope :department_are,  ->        { joins(:department).pluck('departments.name', 'departments.id').uniq }
   scope :case_workers,    ->        { where(roles: 'case worker') }
+  scope :hotline_officer,    ->        { where(roles: 'hotline officer') }
   scope :admins,          ->        { where(roles: 'admin') }
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }

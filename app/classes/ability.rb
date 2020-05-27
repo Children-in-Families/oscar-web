@@ -84,6 +84,9 @@ class Ability
 
       can :create, Family
       can :manage, Family, id: family_ids.compact.uniq
+
+    elsif user.hotline_officer?
+      can :manage, Client
     end
 
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
