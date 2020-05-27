@@ -4,6 +4,7 @@ FactoryGirl.define do
     attendee { FFaker::Name.name }
     association :client, factory: :client
     association :assessment, factory: :assessment
+    association :custom_assessment_setting, factory: :custom_assessment_setting
     interaction_type 'Visit'
 
     trait :custom do

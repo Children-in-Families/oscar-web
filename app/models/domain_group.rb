@@ -2,7 +2,7 @@ class DomainGroup < ActiveRecord::Base
   include ActionView::Helpers
 
   has_many :domains
-  has_many :case_note_domain_groups
+  has_many :case_note_domain_groups, dependent: :destroy
 
   has_paper_trail
 

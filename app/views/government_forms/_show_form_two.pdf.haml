@@ -143,7 +143,7 @@
             ខេត្ត/រាជធានី:
             %input{ style: 'width: 209px; margin-left: 2px;', value: @client.family.try(:province).try(:name_kh) }
   .panel-body.panel-border.no-margin-bottom
-    %table{ style: 'margin-top: 5px;' }
+    %table{ style: 'margin-top: 2px;' }
       %tr
         %td
           ចំនួនកុមារសរុបក្នុងបន្ទុក:
@@ -213,27 +213,27 @@
         %tr
           %td
             ផ្ទះលេខ:
-            %input{ style: 'width: 48px;', value: @government_form.primary_carer_house }
+            %input{ style: 'width: 48px;', value: @carer&.house_number }
           %td
             ផ្លូវលេខ:
-            %input{ style: 'width: 43px;', value: @government_form.primary_carer_street }
+            %input{ style: 'width: 43px;', value: @carer&.street_number }
           %td{ colspan: '1' }
             ភូមិ:
-            %input{ style: 'width: 128px;', value: @government_form.primary_carer_village.try(:name_kh) }
+            %input{ style: 'width: 128px;', value: @carer&.village&.name_kh }
           %td
             ឃុំ/សង្កាត់:
-            %input{ style: 'width: 222px;', value: @government_form.primary_carer_commune.try(:name_kh) }
+            %input{ style: 'width: 222px;', value: @carer&.commune&.name_kh }
         %tr
           %td{ colspan: '3' }
             ក្រុង/ស្រុក/ខណ្ឌ:
-            %input{ style: 'width: 275px; margin-left: 2px;', value: @government_form.primary_carer_district.try(:name_kh) }
+            %input{ style: 'width: 275px; margin-left: 2px;', value: @carer&.district&.name_kh }
           %td{ colspan: '2' }
             ខេត្ត/រាជធានី:
-            %input{ style: 'width: 209px; margin-left: 2px;', value: @government_form.primary_carer_province.try(:name_kh) }
+            %input{ style: 'width: 209px; margin-left: 2px;', value: @carer&.province&.name_kh }
         %tr
           %td{ colspan: '5' }
             លេខទូរស័ព្ទ:
-            %input{ style: 'width: 590px; margin-left: 3px;', value: @client.telephone_number }
+            %input{ style: 'width: 590px; margin-left: 3px;', value: @carer&.phone.presence || @client.telephone_number }
 
   .panel-body.panel-border.no-margin-bottom
     .row

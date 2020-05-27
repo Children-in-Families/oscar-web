@@ -1,6 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::CaseNotesController, type: :request do
+describe Api::V1::CaseNotesController, type: :request do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
+
   let(:user) { create(:user) }
   let!(:client) { create(:client, users: [user], code: rand(1000..2000).to_s) }
   let(:assessment) { create(:assessment) }
