@@ -28,6 +28,7 @@ module ClientsImporter
         new_user['last_name']       = workbook.row(row_index)[headers['Last Name']]
         new_user['email']           = workbook.row(row_index)[headers['*Email']]
         new_user['password']        = user_password
+        new_user['gender']           = workbook.row(row_index)[headers['*Gender']]
         new_user['roles']           = workbook.row(row_index)[headers['*Permission Level']].downcase
         manager_name                = workbook.row(row_index)[headers['Manager']] || ''
         new_user['manager_id']      = User.find_by(first_name: manager_name).try(:id) unless new_user['roles'].include?("manager")
@@ -49,36 +50,45 @@ module ClientsImporter
         new_family['code']        = workbook.row(row_index)[headers['*Family ID']]
         new_family['family_type'] = workbook.row(row_index)[headers['*Family Type']]
         new_family['status']      = workbook.row(row_index)[headers['*Family Status']]
-        province_name             = workbook.row(row_index)[headers['Province']]
+        province_name             = workbook.row(row_index)[headers['Province / City']]&.squish
         province                  = find_province(province_name)
         new_family['province_id'] = province&.id
-        district_name             = workbook.row(row_index)[headers['District']]
-        district                  = find_district(province.districts, district_name)
+        pry_if_blank?(new_family['province_id'], province_name)
+        district_name             = workbook.row(row_index)[headers['District / Khan']]&.squish
+        district                  = find_district(province, district_name)
         new_family['district_id'] = district&.id
-        commune_name              = workbook.row(row_index)[headers['Commune / Sangkat']]
-        commune                   = find_commune(district.communes, commune_name)
+        pry_if_blank?(new_family['district_id'], district_name)
+        commune_name              = workbook.row(row_index)[headers['Commune / Sangkat']]&.squish
+        commune                   = find_commune(district, commune_name)
         new_family['commune_id']  = commune&.id
-        village_name              = workbook.row(row_index)[headers['Village']] || ''
-        new_family['village_id']  = find_village(commuen.villages, village_name)&.id
-        family = Family.new(new_family)
+        village_name              = workbook.row(row_index)[headers['Village']]&.squish || ''
+        new_family['village_id']  = find_village(commune, village_name)&.id if commune
+
+        new_family['house'] = workbook.row(row_index)[headers['House#']] || ''
+        new_family['street'] = workbook.row(row_index)[headers['Street']] || ''
+
+        family = find_family_or_initialize_by(new_family)
         family.save(validate:false)
       end
+    end
+
+    def find_family_or_initialize_by(attributes, &block)
+      Family.find_by(attributes.slice('name')) || Family.new(attributes, &block)
     end
 
     def donors
       (workbook_second_row..workbook.last_row).each do |row_index|
         new_donor                 = {}
         new_donor['name']        = workbook.row(row_index)[headers['*Name']]
+        new_donor['code']        = workbook.row(row_index)[headers['*Donor ID']]
         new_donor['description'] = workbook.row(row_index)[headers['Description']]
 
-        donor = Donor.new(new_donor)
+        donor = Donor.find_by(new_donor.slice('name')) || Donor.new(new_donor)
         donor.save(validate:false)
       end
     end
 
     def clients
-      referral_source_hash = { "NGO" => "2", "Government" => "3" }
-      received_by_id = create_user_received_by
       (workbook_second_row..workbook.last_row).each do |row_index|
         new_client                        = {}
         new_client['given_name']          = workbook.row(row_index)[headers['Given Name (English)']]
@@ -94,19 +104,28 @@ module ClientsImporter
         new_client['date_of_birth']       = workbook.row(row_index)[headers['Date of Birth']].to_s
         new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']].to_s
 
-        referral_source_category_anme     = workbook.row(row_index)[headers['*Referral Category']]
+        referral_source_category_name     = workbook.row(row_index)[headers['*Referral Category']]
         referral_source_name              = workbook.row(row_index)[headers['* Referral Source']]
-        new_client['referral_source_category_id'] = ReferralSource.find_by(name_en: referral_source_category_anme)&.id
-        new_client['referral_source_id']  = find_or_create_referral_source(referral_source_category_anme, new_client['referral_source_category_id'])
-        new_client['referee_id']          = create_referee(workbook.row(row_index)[headers['* Name of Referee']])
+        new_client['referral_source_category_id'] = ReferralSource.find_by(name_en: referral_source_category_name)&.id
+        new_client['referral_source_id']  = find_or_create_referral_source(referral_source_name, new_client['referral_source_category_id'])
 
+        referee_name                      = workbook.row(row_index)[headers['* Name of Referee']]
+        referee_phone                     = workbook.row(row_index)[headers['Referee Phone Number']]
+        new_client['referee_id']          = create_referee(name: referee_name, phone: referee_phone)
+
+        new_client['rated_for_id_poor']   = workbook.row(row_index)[headers['Is the Client Rated for ID Poor?']] || ''
+        new_client['has_been_in_orphanage'] = workbook.row(row_index)[headers['Has the client lived in an orphanage?']].squish.downcase == 'yes' ? true : false
+        new_client['has_been_in_government_care'] = workbook.row(row_index)[headers['Has the client lived in government care?']]&.squish&.downcase == 'yes' ? true : false
+        new_client['relevant_referral_information']  = workbook.row(row_index)[headers['Relevant Referral Information / Notes']] || ''
         new_client['name_of_referee']     = workbook.row(row_index)[headers['* Name of Referee']]
         received_by_name                  = workbook.row(row_index)[headers['* Referral Received By']]
-        new_client['received_by_id']      = received_by_id
+        new_client['received_by_id']      = create_user_received_by(first_name: received_by_name.split(' ').last.squish)
         new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']]
         followed_up_by_name               = workbook.row(row_index)[headers['First Follow-Up By']]
         new_client['followed_up_by_id']   = User.find_by(first_name: followed_up_by_name).try(:id)
         new_client['follow_up_date']      = workbook.row(row_index)[headers['First Follow-Up Date']]
+        new_client['school_name']         = workbook.row(row_index)[headers['School Name']]
+        new_client['main_school_contact'] = workbook.row(row_index)[headers['Main School Contact']]
         grade                             = workbook.row(row_index)[headers['School Grade']]
         new_client['school_grade']        = [Client::GRADES, I18n.t('advanced_search.fields.school_grade_list').values].transpose.to_h[grade]
 
@@ -147,6 +166,10 @@ module ClientsImporter
         new_client['user_id']             = User.find_by(first_name: case_worker_name.split(' ').last.squish).try(:id)
         new_client['user_ids']            = [new_client['user_id']]
 
+        carer_name        = workbook.row(row_index)[headers['Primary Carer Name']]
+        carer_phone       = workbook.row(row_index)[headers['Primary Carer Phone Number']]
+        new_client['carer_id'] = create_carer(name: carer_name, phone: carer_phone)
+
         client = Client.new(new_client)
         # client.save(validate:false)
         family_name   = workbook.row(row_index)[headers['Family ID']]
@@ -158,32 +181,47 @@ module ClientsImporter
         end
 
         next if Client.find_by(new_client.slice('given_name', 'family_name')).present?
-        client.save!
+        begin
+          client.save!
+        rescue Exception => e
+          binding.pry
+        end
         client.case_worker_clients.find_or_create_by(user_id: new_client['user_id']) if new_client['user_id'].present?
       end
     end
 
     private
 
-    def create_referee(name)
-      if name && name.downcase != 'unknown'
-        referee = Referee.find_or_create_by(name: name)
+    def create_referee(attributes)
+      if attributes[:name] && attributes[:name].downcase != 'unknown'
+        referee = Referee.find_or_create_by(name: attributes[:name]) do |ref|
+                    ref.phone = attributes[:phone]
+                  end
       else
         referee = Referee.create(name: 'Anonymous', anonymous: true)
       end
       referee&.id
     end
 
-    def create_user_received_by
-      user = User.find_or_create_by(first_name: 'CMS') do |user|
+    def create_user_received_by(attributes)
+      attribute = attributes.with_indifferent_access
+      user = User.find_or_create_by(first_name: attribute['first_name']) do |user|
                 user.password = Devise.friendly_token.first(8)
-                user.last_name = 'CMS'
-                user.gender = 'other'
-                user.email = 'cms@ratanak.org'
+                user.last_name = attribute['first_name'] || attribute['first_name']
+                user.gender = attribute['gender'] || 'other'
+                user.email = "#{attribute['first_name']}@colt.org"
                 user.roles = 'case worker'
               end
 
       user&.id
+    end
+
+    def create_carer(attributes)
+      attribute = attributes.with_indifferent_access
+      carer = Carer.find_or_create_by(name: attribute['name']) do |care|
+                care.phone = attribute['phone']
+              end
+      carer&.id
     end
 
     def find_or_create_referral_source(name, parent_id)
