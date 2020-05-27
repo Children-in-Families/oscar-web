@@ -437,18 +437,6 @@
                   %td
                     %strong
                       = @client.main_school_contact
-              -# %tr
-              -#   %td.spacing-first-col
-              -#     = "#{t('.has_been_in_orphanage')}?"
-              -#   %td
-              -#     %strong
-              -#       = human_boolean(@client.has_been_in_orphanage) unless @client.has_been_in_orphanage.nil?
-              -# %tr
-              -#   %td.spacing-first-col
-              -#     = "#{t('.has_been_in_government_care')}?"
-              -#   %td
-              -#     %strong
-              -#       = human_boolean(@client.has_been_in_government_care) unless @client.has_been_in_government_care.nil?
 
               - if policy(@client).show?(:relevant_referral_information)
                 %tr
@@ -464,10 +452,11 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
-        .row
-          .col-xs-12
-            %table.table.table-bordered
-              - if @client.phone_counselling_summary.present?
+
+        - if @client.phone_counselling_summary.present?
+          .row
+            .col-xs-12
+              %table.table.table-bordered
                 %tr
                   %td.spacing-first-col
                     = t('.phone_counselling_summary')
@@ -475,18 +464,40 @@
                     %strong
                       = @client.phone_counselling_summary
 
-        .row
-          .col-xs-12
-            %table.table.table-bordered
-              - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
-                - next unless quantitative_type_readable?(qtypes.first.id)
+        - if @client.quantitative_cases.any?
+          .row
+            .col-xs-12
+              %table.table.table-bordered
+                - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+                  - next unless quantitative_type_readable?(qtypes.first.id)
+                  %tr
+                    %td.align-justify
+                      = qtypes.first.name
+                    %td.align-justify
+                      - qtypes.last.each do |qcase|
+                        %strong.label.label-default
+                          = qcase.value
+
+        - if policy(Client).show_legal_doc?
+          #legal-document
+            %table.table.table-bordered.table-hover#case-history-table
+              %thead
                 %tr
-                  %td.align-justify
-                    = qtypes.first.name
-                  %td.align-justify
-                    - qtypes.last.each do |qcase|
-                      %strong.label.label-default
-                        = qcase.value
+                  %th(colspan="3")
+                    = t('clients.form.legal_documents')
+              %tbody
+                - %w(national_id birth_cert family_book passport travel_doc referral_doc local_consent police_interview other_legal_doc).each do |field|
+                  - attachments = @client.send("#{field}_files")
+                  - if policy(Client).show?(field.to_sym) && attachments.size > 0
+                    %tr
+                      %td(rowspan="#{ attachments.size + 1 }")
+                        %strong= t("clients.form.#{field}")
+
+                    - attachments.each_with_index do |attachment, index|
+                      %tr
+                        %td= original_filename(attachment)
+                        %td
+                          = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
 
         - if @case_histories.any?
           .row
