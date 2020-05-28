@@ -170,8 +170,9 @@ module ClientsImporter
         carer_phone       = workbook.row(row_index)[headers['Primary Carer Phone Number']]
         new_client['carer_id'] = create_carer(name: carer_name, phone: carer_phone)
 
-        client = Client.new(new_client)
-        # client.save(validate:false)
+        client = Client.find_by(new_client.slice('given_name', 'family_name')) || Client.new(new_client)
+        client.save!
+
         family_name   = workbook.row(row_index)[headers['Family ID']]
         family        = find_family(family_name)
 
@@ -180,12 +181,6 @@ module ClientsImporter
           family.save
         end
 
-        next if Client.find_by(new_client.slice('given_name', 'family_name')).present?
-        begin
-          client.save!
-        rescue Exception => e
-          binding.pry
-        end
         client.case_worker_clients.find_or_create_by(user_id: new_client['user_id']) if new_client['user_id'].present?
       end
     end
