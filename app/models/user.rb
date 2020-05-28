@@ -242,6 +242,8 @@ class User < ActiveRecord::Base
   def user_custom_field_frequency_overdue_or_due_today
     if self.manager?
       entity_type_custom_field_notification(User.where('manager_ids && ARRAY[?]', self.id))
+    elsif self.hotline_officer?
+      entity_type_custom_field_notification(User.where(id: self.id))
     elsif self.admin?
       entity_type_custom_field_notification(User.all)
     end
@@ -317,6 +319,8 @@ class User < ActiveRecord::Base
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
       User.all
+    elsif user.hotline_officer?
+      User.where(id: user.id)
     elsif user.manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     end
