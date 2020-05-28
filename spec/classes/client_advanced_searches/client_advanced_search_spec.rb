@@ -1,4 +1,7 @@
 describe AdvancedSearches::ClientAdvancedSearch, 'Method' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let!(:client)   { create(:client, given_name: 'test', code: 1000)  }
   let!(:client_2) { create(:client, given_name: 'test', code: 2000)  }
   let!(:client_3) { create(:client, given_name: 'test', code: 2010)  }
