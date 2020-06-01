@@ -7,5 +7,6 @@ FactoryGirl.define do
     start_datetime DateTime.now
     association :referee, factory: :referee
     call_type "Wrong Number"
+    childsafe_agent true
   end
 end

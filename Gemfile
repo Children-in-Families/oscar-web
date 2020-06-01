@@ -84,6 +84,7 @@ group :development, :test do
   gem 'launchy',              '~> 2.4', '>= 2.4.3'
   gem 'capybara',             '~> 2.15.4'
   gem 'poltergeist',          '~> 1.9.0'
+  gem 'phantomjs'
   gem 'shoulda-whenever',     '~> 0.0.2'
   gem 'bullet',               '~> 5.4', '>= 5.4.3'
   gem 'mongoid-rspec',        '~> 3.0'

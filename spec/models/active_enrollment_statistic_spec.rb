@@ -1,4 +1,7 @@
 describe ActiveEnrollmentStatistic, 'Client enrollment statistic data' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let!(:client_1){ create(:client) }
   let!(:client_2){ create(:client) }
   let!(:client_3){ create(:client) }

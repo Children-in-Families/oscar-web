@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::OrganizationsController, type: :request do
+describe Api::V1::OrganizationsController, type: :request do
 
   describe 'GET #index' do
 
@@ -13,7 +13,7 @@ RSpec.describe Api::V1::OrganizationsController, type: :request do
     end
 
     it 'should be returns the organizations with the correct data' do
-      expect(json['organizations'].size).to eq 4
+      expect(json['organizations'].size).to eq 1
     end
   end
 end
