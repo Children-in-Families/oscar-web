@@ -17,8 +17,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def services
-    return [] unless object&.shared_service_enabled
-    object.program_streams.joins(:services).distinct.map{ |ps| ps.services.map{ |service| { uuid: service.parent.uuid, name: service.parent.name } } }.compact.flatten.uniq
+    object.program_streams.joins(:services).distinct.map{ |ps| ps.services.map{ |service| { id: service.id, name: service.name } } }.compact.flatten.uniq
   end
 
   def case_worker_name
