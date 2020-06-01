@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::FamiliesController, type: :request do
+describe Api::V1::FamiliesController, type: :request do
   let(:user) { create(:user) }
   let!(:families) { create_list(:family, 2) }
 
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::FamiliesController, type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it 'should be returns the families with the correct data' do
+      xit 'should be returns the families with the correct data' do
         expect(json['families'].size).to eq 2
       end
     end

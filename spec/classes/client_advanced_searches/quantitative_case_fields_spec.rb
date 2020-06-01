@@ -1,4 +1,7 @@
 describe AdvancedSearches::QuantitativeCaseFields, 'Method' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let!(:user) { create(:user, :admin) }
   let!(:quantitative_type) { create(:quantitative_type) }
   let!(:quantitative_case) { create(:quantitative_case, quantitative_type: quantitative_type) }

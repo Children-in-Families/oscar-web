@@ -17,8 +17,11 @@ FactoryGirl.define do
     status 'Active'
     street { FFaker::Address.street_address }
     house { FFaker::Address.street_address }
-    # code { rand(1000...2000).to_s }
     sequence(:code){|n| Time.now.to_f.to_s.last(4) + n.to_s }
+
+    after(:build) do |family|
+      family.cases.skip_callback(:save, :after, :create_client_history)
+    end
 
     trait :emergency do
       family_type 'Short Term / Emergency Foster Care'

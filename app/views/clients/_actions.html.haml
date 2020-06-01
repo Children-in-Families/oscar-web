@@ -1,4 +1,5 @@
 - if can? :mange, Client
   = link_to edit_client_path(object), class: 'btn btn-xs btn-success btn-outline' do
     = fa_icon('pencil')
+- if can? :destroy, Client
   = remove_link(object, {case_report: object.cases.with_reports.size, case_contract: object.cases.with_contracts.size})

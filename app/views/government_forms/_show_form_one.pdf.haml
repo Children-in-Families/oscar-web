@@ -127,7 +127,7 @@
           .col-xs-1
             ឈ្មោះ
           .col-xs-4
-            %input{ style: 'width: 100%;', value: @client.live_with }
+            %input{ style: 'width: 100%;', value: @carer&.name&.presence || @client.live_with }
           .col-xs-3
             ទំនាក់ទំនងជាមួយកុមារ:
           .col-xs-4
@@ -145,36 +145,36 @@
                   .col-xs-2
                     ផ្ទះលេខ:
                   .col-xs-2
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_house }
+                    %input{ style: 'width: 100%;', value: @carer&.house_number }
                   .col-xs-2
                     ផ្លូវលេខ:
                   .col-xs-2
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_street }
+                    %input{ style: 'width: 100%;', value: @carer&.street_number }
                   .col-xs-1
                     ភូមិ:
                   .col-xs-3
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_village.try(:name_kh) }
+                    %input{ style: 'width: 100%;', value: @carer&.village&.name_kh.presence || @government_form.primary_carer_village.try(:name_kh) }
                 .row{ style: 'margin-bottom: 3px;' }
                   .col-xs-4
                     ក្រុង/ស្រុក/ខណ្ឌ:
                   .col-xs-8
-                    %input{ style: 'width: 100%;', value: @government_form.primary_carer_district.try(:name_kh) }
+                    %input{ style: 'width: 100%;', value: @carer&.district&.name_kh.presence || @government_form.primary_carer_district.try(:name_kh) }
               .col-xs-5
                 .row{ style: 'margin-bottom: 3px;' }
                   .col-xs-4
                     ឃុំ/សង្កាត់:
                   .col-xs-8
-                    %input{ style: 'width:100%;', value: @government_form.primary_carer_commune.try(:name_kh) }
+                    %input{ style: 'width:100%;', value: @carer&.commune&.name_kh.presence || @government_form.primary_carer_commune.try(:name_kh) }
                 .row
                   .col-xs-4
                     ខេត្ត/រាជធានី:
                   .col-xs-8
-                    %input{style: 'width:100%', value: @government_form.primary_carer_province.try(:name_kh) }
+                    %input{style: 'width:100%', value: @carer&.province&.name_kh.presence || @government_form.primary_carer_province.try(:name_kh) }
             .row
               .col-xs-2
                 លេខទូរស័ព្ទ:
               .col-xs-10
-                %input{style: 'width:96.6%; float: right;', value: @client.telephone_number }
+                %input{style: 'width:96.6%; float: right;', value: @carer&.phone.presence || @client.telephone_number }
   .footer{ style: 'page-break-after: always;' }
   %div#panel-top-bottom-dotted{style: 'border: 1px solid black; border-bottom: 1px dotted black;'}
     ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
@@ -285,7 +285,7 @@
         %br
         %div.other-label
           = render ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id)) ? 'government_forms/pdf/image_checked_box' : 'government_forms/pdf/image_unchecked_box'
-          ផ្សេងៗ        
+          ផ្សេងៗ
         %div{ class: "other #{ 'empty' if @client.referral_source_category_id.present? if ReferralSource::REFERRAL_SOURCES.include?(ref_cat_name(@client.referral_source_category_id))}" }
           = ref_cat_name(@client.referral_source_category_id) if ReferralSource::REFERRAL_SOURCES.exclude?(ref_cat_name(@client.referral_source_category_id))
 

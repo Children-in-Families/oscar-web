@@ -1,4 +1,7 @@
 describe AdvancedSearches::TrackingFields, 'Method' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let!(:client)             { create(:client) }
   let!(:program_stream)     { create(:program_stream) }
   let!(:tracking)           { create(:tracking, program_stream: program_stream) }

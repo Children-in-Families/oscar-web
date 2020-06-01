@@ -1,4 +1,8 @@
 describe Calendar do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
   end
