@@ -9,7 +9,7 @@ module Api
 
       def clients
         bulk_clients = []
-        date_time_param = Time.parse("#{params[:since_date]}") if params[:since_date].present?
+        date_time_param = Time.parse(params[:since_date]) if params[:since_date].present?
         Organization.only_integrated.pluck(:short_name).each do |short_name|
           Organization.switch_to short_name
           if params.dig(:since_date).present? && params.dig(:referred_external).present?
