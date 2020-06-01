@@ -30,6 +30,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
   end
 
   def domains(case_note)
+    return [] unless domain_group
     if case_note.custom?
       case_note.custom_assessment_setting_id.present? ? domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id) : domain_group.domains.custom_csi_domains
     else
