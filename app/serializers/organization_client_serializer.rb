@@ -34,7 +34,6 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def services
-    return [] unless object&.referred_external
     object.program_streams.joins(:services).distinct.map{ |ps| ps.services.map{ |service| { uuid: service.parent.uuid, name: service.parent.name } } }.compact.flatten.uniq
   end
 
