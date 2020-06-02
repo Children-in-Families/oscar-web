@@ -250,13 +250,13 @@ class User < ActiveRecord::Base
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
-    if self.admin? || self.manager?
+    if self.admin? || self.manager? || self.hotline_officer?
       entity_type_custom_field_notification(Partner.all)
     end
   end
 
   def family_custom_field_frequency_overdue_or_due_today
-    if self.admin?
+    if self.admin? || self.hotline_officer?
       entity_type_custom_field_notification(Family.all)
     elsif self.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
