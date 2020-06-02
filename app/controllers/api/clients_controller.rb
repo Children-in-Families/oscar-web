@@ -55,7 +55,7 @@ module Api
       new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
 
       # binding.pry
-      if true#client.update_attributes(client_params.except(:referee_id, :carer_id))
+      if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
           # redirect_to client_assessment_path(client, assessment), notice: t('.assessment_successfully_created')
@@ -102,6 +102,15 @@ module Api
             :local_consent,
             :police_interview,
             :other_legal_doc,
+            :remove_national_id_files,
+            :remove_birth_cert_files,
+            :remove_family_book_files,
+            :remove_passport_files,
+            :remove_travel_doc_files,
+            :remove_referral_doc_files,
+            :remove_local_consent_files,
+            :remove_police_interview_files,
+            :remove_other_legal_doc_files,
             national_id_files: [],
             birth_cert_files: [],
             family_book_files: [],

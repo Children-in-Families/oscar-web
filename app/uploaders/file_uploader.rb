@@ -17,15 +17,6 @@ class FileUploader < CarrierWave::Uploader::Base
     %w(jpg jpeg png doc docx xls xlsx pdf)
   end
 
-  def serializable_hash
-    {
-      :url => url,
-      :size => size,
-      :filename => url.split("/").last,
-      :content_type => content_type
-    }
-  end
-
   protected
 
   def image?(new_file)

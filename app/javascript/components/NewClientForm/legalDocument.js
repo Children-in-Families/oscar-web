@@ -19,6 +19,13 @@ export default props => {
     onChange('client', field)({type: 'file', data: fileItems});
   }
 
+  const onRemoveAttachments = (field) => (data) => {
+    let clientData = {};
+    clientData[field] = data.data;
+
+    onChange('client', clientData)({type: 'checkbox'})
+  }
+
   return (
     <div className="containerClass">
       <legend>
@@ -41,7 +48,8 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('national_id_files')}
                 object={client.national_id_files}
-                checkBoxValue={!client.national_id}
+                onChangeCheckbox={onRemoveAttachments('remove_national_id_files')}
+                checkBoxValue={client.remove_national_id_files || !client.national_id}
                 T={T}
               />
             </div>
