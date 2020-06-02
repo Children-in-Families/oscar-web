@@ -11,7 +11,7 @@
           .form-inputs
             = f.input :name, label: t('.name')
             = f.input :code, label: t('.code')
-            = f.association :clients, collection: @clients, multiple: true
+            = f.association :clients, collection: @clients, label_method: lambda{ |object| "#{object.en_and_local_name}(#{object.id})" }, multiple: true
             = f.input :description, input_html: { rows: '10' }, label: t('.description')
         .modal-footer
           .pull-left
