@@ -25,7 +25,7 @@ describe 'Agency' do
     end
   end
 
-  feature 'Create', js: true do
+  feature 'Create' do
     before do
       visit agencies_path
     end
@@ -38,8 +38,9 @@ describe 'Agency' do
       expect(page).to have_content('Test Agency')
     end
 
-    scenario 'invalid' do
+    scenario 'invalid', js: true do
       click_link 'Add New Agency'
+
       within('#new_agency') do
         click_button 'Save'
       end

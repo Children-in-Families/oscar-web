@@ -1,4 +1,7 @@
-describe AdvancedSearches::QuantitativeCaseSqlBuilder, 'Method' do
+xdescribe AdvancedSearches::QuantitativeCaseSqlBuilder, 'Method' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let!(:quantitative_type)          { create(:quantitative_type) }
 
   let!(:client)                     { create(:client) }

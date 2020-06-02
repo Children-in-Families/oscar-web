@@ -31,7 +31,6 @@ class Case < ActiveRecord::Base
   before_validation :set_attributes, if: -> { new_record? && start_date.nil? }
   before_save :update_client_status, :set_current_status
   before_create :add_family_children
-  after_create :update_client_code
   after_save :create_client_history
 
   def set_attributes
@@ -84,10 +83,6 @@ class Case < ActiveRecord::Base
     client.cases.exclude_referred.current == self
   end
 
-  # def fc_or_kc?
-  #   case_type == 'FC' || case_type == 'KC'
-  # end
-
   def kc?
     case_type == 'KC'
   end
@@ -121,10 +116,6 @@ class Case < ActiveRecord::Base
       client.status = client.status
     end
     client.save(validate: false)
-  end
-
-  def update_client_code
-    # client.update_attributes(code: generate_client_code) if client.code.blank? && not_ec?
   end
 
   def generate_client_code
