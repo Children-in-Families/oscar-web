@@ -46,7 +46,7 @@ class AssessmentsController < AdminController
     else
       authorize @assessment
       if @assessment.save
-        create_bulk_task(params[:task].uniq, @assessment.id) if params.has_key?(:task)
+        create_bulk_task(params[:task].uniq, @assessment) if params.has_key?(:task)
         if params[:from_controller] == "dashboards"
           redirect_to root_path, notice: t('.successfully_created')
         else
