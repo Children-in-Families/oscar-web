@@ -352,7 +352,9 @@ const Forms = props => {
       />
 
       <div className='tabHead'>
-        {tabs.map((tab, index) => renderTab(tab, index))}
+        {
+          tabs.slice(0, (fieldsVisibility.show_legal_doc == true ? 5 : 4)).map((tab, index) => renderTab(tab, index))
+        }
       </div>
 
       <div className='contentWrapper'>
@@ -377,9 +379,12 @@ const Forms = props => {
             <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
           </div>
 
-          <div style={{ display: step === 5 ? 'block' : 'none' }}>
-            <LegalDocument data={legalDocument} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
-          </div>
+          {
+            fieldsVisibility.show_legal_doc == true &&
+            <div style={{ display: step === 5 ? 'block' : 'none' }}>
+              <LegalDocument data={legalDocument} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
+            </div>
+          }
         </div>
       </div>
 
@@ -390,9 +395,9 @@ const Forms = props => {
 
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
-          { step !== 5 && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
+          { step !== (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
 
-          { step === 5 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
+          { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
         </div>
       </div>
     </div>

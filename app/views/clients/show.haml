@@ -488,16 +488,24 @@
               %tbody
                 - %w(national_id birth_cert family_book passport travel_doc referral_doc local_consent police_interview other_legal_doc).each do |field|
                   - attachments = @client.send("#{field}_files")
-                  - if policy(Client).show?(field.to_sym) && attachments.size > 0
-                    %tr
-                      %td(rowspan="#{ attachments.size + 1 }")
-                        %strong= t("clients.form.#{field}")
 
-                    - attachments.each_with_index do |attachment, index|
+                  - if policy(Client).show?(field.to_sym)
+                    - if attachments.any?
                       %tr
-                        %td= original_filename(attachment)
+                        %td(rowspan="#{ attachments.size + 1 }")
+                          %strong= t("clients.form.#{field}")
+
+
+                      - attachments.each_with_index do |attachment, index|
+                        %tr
+                          %td= original_filename(attachment)
+                          %td
+                            = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+                    - else
+                      %tr
                         %td
-                          = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+                          %strong= t("clients.form.#{field}")
+                        %td(colspan="2") No attachment
 
         - if @case_histories.any?
           .row

@@ -11,7 +11,7 @@ registerPlugin(FilePondPluginImagePreview)
 registerPlugin(FilePondPluginFileValidateType);
 
 export default props => {
-  const { label, required, onChange, object, onChangeCheckbox, checkBoxValue, T } = props
+  const { label, required, onChange, object, onChangeCheckbox, removeAttachmentcheckBoxValue, showFilePond, T } = props
   const existingFiles = object.filter(file => { return file.url && file.url.length > 0 } );
 
   const renderExistingFiles = (files) => {
@@ -35,14 +35,14 @@ export default props => {
         {label}
       </label>
 
-      { existingFiles.length > 0 &&
+      { existingFiles.length > 0 && showFilePond &&
         <div className='remove-files-wrapper' style={{textAlign: 'center'}}>
           { renderExistingFiles(existingFiles) }
 
           <div>
             <Checkbox
               label={T.translate("referralInfo.remove")}
-              checked={checkBoxValue}
+              checked={removeAttachmentcheckBoxValue}
               onChange={onChangeCheckbox}
             />
           </div>
@@ -50,7 +50,7 @@ export default props => {
       }
 
       {
-        checkBoxValue === false &&
+        showFilePond === true &&
         <FilePond
           allowMultiple={true}
           allowFileTypeValidation={true}

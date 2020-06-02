@@ -53,7 +53,6 @@ module Api
       client.carer_id = carer.id
       new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
 
-      # binding.pry
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
@@ -138,12 +137,6 @@ module Api
 
         client_params.except!(field_setting.name.to_sym)
       end
-
-      # Client::LEGAL_DOC_FIELDS.each do |file_field|
-      #   if client_params[file_field.to_sym].present?
-      #     client_params[file_field.to_sym].
-      #   end
-      # end
 
       client_params
     end
