@@ -79,7 +79,7 @@ GEM
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
     bbcoder (1.1.1)
-    bcrypt (3.1.10)
+    bcrypt (3.1.13)
     bootstrap-datepicker-rails (1.5.0)
       railties (>= 3.0)
     bootstrap-sass (3.3.6)
