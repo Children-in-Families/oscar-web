@@ -22,7 +22,6 @@ export default props => {
   const onRemoveAttachments = (field) => (data) => {
     let clientData = {};
     clientData[field] = data.data;
-
     onChange('client', clientData)({type: 'checkbox'})
   }
 
@@ -49,7 +48,8 @@ export default props => {
                 onChange={onAttachmentsChange('national_id_files')}
                 object={client.national_id_files}
                 onChangeCheckbox={onRemoveAttachments('remove_national_id_files')}
-                checkBoxValue={client.remove_national_id_files || !client.national_id}
+                removeAttachmentcheckBoxValue={client.remove_national_id_files}
+                showFilePond={client.national_id}
                 T={T}
               />
             </div>
@@ -69,7 +69,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('birth_cert_files')}
                 object={client.birth_cert_files}
-                checkBoxValue={!client.birth_cert}
+                onChangeCheckbox={onRemoveAttachments('remove_birth_cert_files')}
+                removeAttachmentcheckBoxValue={client.remove_birth_cert_files}
+                showFilePond={client.birth_cert}
                 T={T}
               />
             </div>
@@ -89,7 +91,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('family_book_files')}
                 object={client.family_book_files}
-                checkBoxValue={!client.family_book}
+                onChangeCheckbox={onRemoveAttachments('remove_family_book_files')}
+                removeAttachmentcheckBoxValue={client.remove_family_book_files}
+                showFilePond={client.family_book}
                 T={T}
               />
             </div>
@@ -109,7 +113,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('passport_files')}
                 object={client.passport_files}
-                checkBoxValue={!client.passport}
+                onChangeCheckbox={onRemoveAttachments('remove_passport_files')}
+                removeAttachmentcheckBoxValue={client.remove_passport_files}
+                showFilePond={client.passport}
                 T={T}
               />
             </div>
@@ -129,7 +135,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('travel_doc_files')}
                 object={client.travel_doc_files}
-                checkBoxValue={!client.travel_doc}
+                onChangeCheckbox={onRemoveAttachments('remove_travel_doc_files')}
+                removeAttachmentcheckBoxValue={client.remove_travel_doc_files}
+                showFilePond={client.travel_doc}
                 T={T}
               />
             </div>
@@ -149,7 +157,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('referral_doc_files')}
                 object={client.referral_doc_files}
-                checkBoxValue={!client.referral_doc}
+                onChangeCheckbox={onRemoveAttachments('remove_referral_doc_files')}
+                removeAttachmentcheckBoxValue={client.remove_referral_doc_files}
+                showFilePond={client.referral_doc}
                 T={T}
               />
             </div>
@@ -169,7 +179,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('local_consent_files')}
                 object={client.local_consent_files}
-                checkBoxValue={!client.local_consent}
+                onChangeCheckbox={onRemoveAttachments('remove_local_consent_files')}
+                removeAttachmentcheckBoxValue={client.remove_local_consent_files}
+                showFilePond={client.local_consent}
                 T={T}
               />
             </div>
@@ -189,7 +201,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('police_interview_files')}
                 object={client.police_interview_files}
-                checkBoxValue={!client.police_interview}
+                onChangeCheckbox={onRemoveAttachments('remove_police_interview_files')}
+                removeAttachmentcheckBoxValue={client.remove_police_interview_files}
+                showFilePond={client.police_interview}
                 T={T}
               />
             </div>
@@ -209,7 +223,9 @@ export default props => {
                 label=""
                 onChange={onAttachmentsChange('other_legal_doc_files')}
                 object={client.other_legal_doc_files}
-                checkBoxValue={!client.other_legal_doc}
+                onChangeCheckbox={onRemoveAttachments('remove_other_legal_doc_files')}
+                removeAttachmentcheckBoxValue={client.remove_other_legal_doc_files}
+                showFilePond={client.other_legal_doc}
                 T={T}
               />
             </div>
