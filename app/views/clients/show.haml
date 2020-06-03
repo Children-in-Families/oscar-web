@@ -482,29 +482,37 @@
             %table.table.table-bordered.table-hover#case-history-table
               %thead
                 %tr
-                  %th(colspan="3")
+                  %th(colspan="4")
                     = t('clients.form.legal_documents')
               %tbody
                 - %w(national_id birth_cert family_book passport travel_doc referral_doc local_consent police_interview other_legal_doc).each do |field|
                   - attachments = @client.send("#{field}_files")
 
                   - if policy(Client).show?(field.to_sym)
-                    - if attachments.any?
+                    - if @client.send(field.to_sym)
                       %tr
                         %td(rowspan="#{ attachments.size + 1 }")
                           %strong= t("clients.form.#{field}")
+                        %td(rowspan="#{ attachments.size + 1 }")
+                          %strong
+                            %span YES
 
+                        - if attachments.size == 0
+                          %td(colspan="2") No attachment
 
-                      - attachments.each_with_index do |attachment, index|
-                        %tr
-                          %td= original_filename(attachment)
-                          %td
-                            = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+                      - if attachments.any?
+                        - attachments.each_with_index do |attachment, index|
+                          %tr
+                            %td= original_filename(attachment)
+                            %td
+                              = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
                     - else
                       %tr
                         %td
                           %strong= t("clients.form.#{field}")
-                        %td(colspan="2") No attachment
+                        %td
+                          %strong NO
+                        %td(colspan="2")
 
         - if @case_histories.any?
           .row

@@ -1278,4 +1278,8 @@ module ClientsHelper
       QuantitativeType.unscoped.order("substring(quantitative_types.name, '^[0-9]+')::int, substring(quantitative_types.name, '[^0-9]*$')")
     end
   end
+
+  def get_address(address_name)
+    @client.public_send("#{address_name}") ? [@client.public_send("#{address_name}").slice('id', 'name')] : []
+  end
 end
