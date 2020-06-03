@@ -6,6 +6,7 @@ class Task < ActiveRecord::Base
   belongs_to :taskable, polymorphic: true
 
   has_paper_trail
+  acts_as_paranoid
 
   validates :name, presence: true
   validates :domain, presence: true
