@@ -145,8 +145,6 @@ module Api
         client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
       end
 
-      logger.debug client_params
-
       client_params
     end
 
