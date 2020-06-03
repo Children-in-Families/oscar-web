@@ -4,7 +4,7 @@ module CreateBulkTask
       task_attr = JSON.parse(task)
       task_attr['name'] = task_attr['name'].gsub('qout', '"').gsub('apos', "'")
       task_attr['taskable_id'] = parent.id
-      task_attr['taskable_type'] = parent&.object ? parent.object.class.to_s : parent.class.to_s
+      task_attr['taskable_type'] = parent.class.name
       task_attr.merge('case_note_id'=> "#{parent.id}", user_id: current_user.id)
     end
 
