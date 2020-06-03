@@ -142,7 +142,7 @@ module Api
         doc_field = attachment_field.gsub('_files', '')
         remove_field = "remove_#{attachment_field}"
 
-        client_params[remove_field.to_sym] = client_params[doc_field.to_sym].in?([false, 'false'])
+        client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
       end
 
       logger.debug client_params
