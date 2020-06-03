@@ -145,6 +145,7 @@ module Api
         client_params[remove_field.to_sym] = client_params[doc_field.to_sym].in?([false, 'false'])
       end
 
+      pp client_params
       client_params
     end
 
