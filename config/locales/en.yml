@@ -5023,6 +5023,10 @@ en:
       csi_tools: Available Assessment Tools
       custom_assessment: Custom Assessment Tool
       default_assessment: Default Assessment Tool
+    integration:
+      integration_label: Share my NGO's client data with the External System?
+      successfully_updated: Successfully updated!
+      title: External System Integration
     navigation:
       country: Country
     research_module:
