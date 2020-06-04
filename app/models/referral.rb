@@ -110,7 +110,7 @@ class Referral < ActiveRecord::Base
       external_case_worker_name: attribute[:external_case_worker_name],
       external_case_worker_id: attribute[:external_case_worker_id],
       village_code: attribute[:location_current_village_code],
-      services: attribute[:services]&.map{ |service| service[:name] }.join(", ") || "" #before client got a service we need to enroll client to a program stream
+      services: Service.where(name: attribute[:services]&.map{ |service| service[:name] }) #before client got a service we need to enroll client to a program stream
     }
   end
 
