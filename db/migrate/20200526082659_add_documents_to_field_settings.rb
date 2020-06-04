@@ -28,6 +28,6 @@ class AddDocumentsToFieldSettings < ActiveRecord::Migration
   end
 
   def down
-    FieldSetting.where(name: FIELDS).delete_all
+    FieldSetting.where(name: FIELDS.keys).delete_all
   end
 end
