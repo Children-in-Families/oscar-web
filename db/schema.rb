@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200528053755) do
+ActiveRecord::Schema.define(version: 20200603081325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -603,6 +603,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
+    t.string   "global_id"
     t.boolean  "referred_external",                default: false
     t.boolean  "national_id",                      default: false,      null: false
     t.boolean  "birth_cert",                       default: false,      null: false
@@ -622,8 +623,6 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "local_consent_files",              default: [],                      array: true
     t.string   "police_interview_files",           default: [],                      array: true
     t.string   "other_legal_doc_files",            default: [],                      array: true
-    t.string   "global_id"
-    t.boolean  "referred_external",                default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -832,6 +831,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   end
 
   add_index "external_system_global_identities", ["external_system_id"], name: "index_external_system_global_identities_on_external_system_id", using: :btree
+  add_index "external_system_global_identities", ["global_id"], name: "index_external_system_global_identities_on_global_id", using: :btree
 
   create_table "external_systems", force: :cascade do |t|
     t.string   "name"
@@ -954,11 +954,9 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
-    t.string   "global_id"
-    t.integer  "organization_id"
-    t.integer  "client_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string  "global_id"
+    t.integer "organization_id"
+    t.integer "client_id"
   end
 
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
@@ -1562,6 +1560,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
+    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1732,9 +1731,11 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "case_note_id",              default: ""
     t.integer  "taskable_id"
     t.string   "taskable_type"
+    t.datetime "deleted_at"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
+  add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -2137,6 +2138,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "external_system_global_identities", "external_systems"
+  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"

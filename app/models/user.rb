@@ -339,20 +339,20 @@ class User < ActiveRecord::Base
       return if manager_id_was == self.id
       update_manager_ids(self)
     else
-      the_manager_ids = User.find(self.manager_id).manager_ids
+      the_manager_ids = User.find_by(id: self.manager_id)&.manager_ids || []
       update_manager_ids(self, the_manager_ids.push(self.manager_id).flatten.compact.uniq)
     end
   end
 
   def update_manager_ids(user, the_manager_ids = [])
-    user.manager_ids = the_manager_ids
+    user.manager_ids = find_manager_manager(user.manager_id, the_manager_ids)
     user.save unless user.id == id
     return if user.case_worker?
-    case_workers = User.where(manager_id: user.id)
-    if case_workers.present?
-      case_workers.each do |case_worker|
-        next if case_worker.id == self.id
-        update_manager_ids(case_worker, the_manager_ids.push(user.id).flatten.compact.uniq)
+    subordinators = User.where(manager_id: user.id)
+    if subordinators.present?
+      subordinators.each do |subordinator|
+        next if subordinator.id == self.id
+        update_manager_ids(subordinator, the_manager_ids.push(user.id).flatten.compact.uniq)
       end
     end
   end
@@ -394,6 +394,12 @@ class User < ActiveRecord::Base
   def toggle_referral_notification
     return unless roles_changed? && roles == 'admin'
     self.update_columns(referral_notification: true)
+  end
+
+  def find_manager_manager(the_manager_id, manager_manager_ids)
+    subordinators = User.where(id: manager_manager_ids)
+    managers_ids = subordinators.pluck(:manager_ids)
+    manager_manager_ids & (managers_ids << the_manager_id).flatten.compact
   end
 
   def exited_clients(user_ids)
