@@ -91,7 +91,6 @@ module Api
             :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
             :concern_street, :concern_house, :concern_address, :concern_address_type,
             :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
-
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -111,12 +110,12 @@ module Api
         client_params.except!(field_setting.name.to_sym)
       end
 
-      Client::LEGAL_DOC_FIELDS.each do |attachment_field|
-        doc_field = attachment_field.gsub('_files', '')
-        remove_field = "remove_#{attachment_field}"
-
-        client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
-      end
+      # Client::LEGAL_DOC_FIELDS.each do |attachment_field|
+      #   doc_field = attachment_field.gsub('_files', '')
+      #   remove_field = "remove_#{attachment_field}"
+      #
+      #   client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
+      # end
 
       client_params
     end
