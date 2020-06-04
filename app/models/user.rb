@@ -324,6 +324,10 @@ class User < ActiveRecord::Base
   def detach_manager
     if roles.in?(['strategic overviewer', 'admin'])
       User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
+      User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: self.id }).each do |user|
+        user.manager_ids = find_manager_manager(user.manager_id, user.manager_ids)
+        user.save
+      end
     end
   end
 
@@ -391,8 +395,12 @@ class User < ActiveRecord::Base
     self.update_columns(referral_notification: true)
   end
 
-  def find_manager_manager(the_manager_id, manager_manager_ids)
-    subordinators = User.where(id: manager_manager_ids)
+  def find_manager_manager(the_manager_id, manager_manager_ids=[])
+    if manager_manager_ids.present?
+      subordinators = User.where(id: manager_manager_ids)
+    else
+      subordinators = User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: self.id })
+    end
     managers_ids = subordinators.pluck(:manager_ids)
     manager_manager_ids & (managers_ids << the_manager_id).flatten.compact
   end
