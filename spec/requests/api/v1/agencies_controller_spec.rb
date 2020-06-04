@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::AgenciesController, type: :request do
+describe Api::V1::AgenciesController, type: :request do
   let(:user) { create(:user) }
   let!(:agencies) { create_list(:agency, 5) }
 

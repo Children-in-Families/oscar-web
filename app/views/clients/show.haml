@@ -210,6 +210,8 @@
               = link_to edit_client_path(@client) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
+          - if can? :destroy, Client
+            %small
               = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash

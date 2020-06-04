@@ -6,6 +6,9 @@ start_core:
 start_all:
 	docker-compose up
 
+webpack_dev_server:
+	docker exec -it app bin/webpack-dev-server
+
 # Starts up a rails console in the app container
 rails_console:
 	docker exec -it app rails c

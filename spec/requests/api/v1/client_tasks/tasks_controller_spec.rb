@@ -1,6 +1,9 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::ClientTasks::TasksController, type: :request do
+describe Api::V1::ClientTasks::TasksController, type: :request do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let(:user) { create(:user) }
   let!(:client) { create(:client, users: [user]) }
   let!(:domains) { create_list(:domain, 12) }

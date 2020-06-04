@@ -37,6 +37,7 @@ describe AdvancedSearch, 'instance methods' do
                   tracking_check: 'd',
                   exit_form_check: 'e',
                   quantitative_check: 'f',
+                  hotline_check: '',
                   action_report_builder: "#builder"
                 },
               }
