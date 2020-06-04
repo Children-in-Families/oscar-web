@@ -1294,7 +1294,6 @@ class ClientGrid < BaseGrid
         end
 
         properties = property_filter(properties, fields.last)
-
         if fields.first == 'enrollmentdate' || fields.first == 'exitprogramdate'
           render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties, klass: fields.join('__').split(' ').first }
         else
