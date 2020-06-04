@@ -334,7 +334,7 @@ class User < ActiveRecord::Base
       return if manager_id_was == self.id
       update_manager_ids(self)
     else
-      the_manager_ids = User.find(self.manager_id).manager_ids
+      the_manager_ids = User.find_by(id: self.manager_id)&.manager_ids || []
       update_manager_ids(self, the_manager_ids.push(self.manager_id).flatten.compact.uniq)
     end
   end
