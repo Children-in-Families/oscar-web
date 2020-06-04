@@ -605,6 +605,29 @@ en:
       score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
+    incomplete_detail:
+      goal: Goal
+      reason: Observation
+      score: Score
+      task: Tasks
+    unrestricted_form:
+      add_task: Add Task
+      add_task_confirm: Would you prefer to add tasks at the last step of this assessment?
+      at_least_one_task_required: At least one task is required
+      back: Back
+      cancel: Cancel
+      domain: Domain
+      finish: Done
+      finished_assessment_msg: This assessment is ready to be saved!
+      goal: 'Goal: what specific goal will the client be working toward over the next few months?'
+      next: Next
+      previous: Previous
+      reason: Observation
+      reason_placeholder: Enter your observations on the client's situation, based on what you have see and been told by the client and their family.
+      save: Save
+      score_label: Choose which of the following descriptions most closely describe the client's situation, base on your observation.
+      set_goal: Would you like to set a goal?
+      tasks_arising: 'Tasks arising:'
     index:
       assessment_completed_on: Assessment completed on
       assessment_created_on: Assessment created on
@@ -4134,7 +4157,7 @@ en:
       clients: Clients
       client_forms: Hotline
       country: Country
-      csi_tools: Available Assessment Tools
+      csi_tools: Assessment Tools
       custom_fields: Custom Form
       custom_labels: Custom Labels
       dashboards: Dashboards
@@ -5017,14 +5040,23 @@ en:
       family_default_columns: Family
       partner_default_columns: Partner
     index:
-      csi_tools: Available Assessment Tools
+      csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool
       default_assessment: Default Assessment Tool
+      ratanak_csi_tools: Assessment Tools
+    integration:
+      integration_label: Share my NGO's client data with the External System?
+      successfully_updated: Successfully updated!
+      title: External System Integration
     navigation:
       country: Country
     research_module:
       research_module_label: Share my NGO's anonymous client data with the OSCaR Research Module
       title: Research Module
+    settings:
+      assessment_score_order: Assessment Score Order
+      assessment_strictness: Assessment Strictness
+      delete_incomplete_assessment: Delete incomplete assessment after certain period of time
     update:
       successfully_updated: Setting have been successfully updated.
   field_settings:
