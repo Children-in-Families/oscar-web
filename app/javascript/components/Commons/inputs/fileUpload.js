@@ -21,7 +21,7 @@ export default props => {
           return (<img key={index} src={file.thumb.url}/>);
         } else {
           return (
-            <a target="_blank" key={index} href={file.url}>File: { file.url.split("/").pop() }</a>
+            <a target="_blank" key={index} href={file.url}>File: { file.filename }</a>
           )
         }
       })
