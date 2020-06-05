@@ -13,6 +13,7 @@ registerPlugin(FilePondPluginFileValidateType);
 export default props => {
   const { label, required, onChange, object, onChangeCheckbox, removeAttachmentcheckBoxValue, showFilePond, T } = props
   const existingFiles = object.filter(file => { return file.url && file.url.length > 0 } );
+  const [files, setFiles] = useState([])
 
   const renderExistingFiles = (files) => {
     return (
@@ -26,6 +27,11 @@ export default props => {
         }
       })
     )
+  }
+
+  const onUpdateFiles = (fileItems) => {
+    setFiles(fileItems);
+    onChange(fileItems);
   }
 
   return (
@@ -52,12 +58,13 @@ export default props => {
       {
         showFilePond === true &&
         <FilePond
+          files={files}
           allowMultiple={true}
           allowFileTypeValidation={true}
           labelIdle="Choose files. <span class='filepond--label-action'>Browse</span>. Only file with extension <small>.jpg .jpeg .png .pdf</small> allowed."
           labelFileTypeNotAllowed="Invalid file type"
           acceptedFileTypes={"image/jpg, image/jpeg, image/png, application/pdf"}
-          onupdatefiles={onChange}
+          onupdatefiles={onUpdateFiles}
         />
       }
     </>
