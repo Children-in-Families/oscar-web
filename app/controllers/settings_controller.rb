@@ -87,8 +87,11 @@ class SettingsController < AdminController
                                     :max_assessment, :enable_custom_assessment, :enable_default_assessment, :age,
                                     :custom_age, :default_assessment, :custom_assessment, :max_case_note,
                                     :case_note_frequency, :org_name, :province_id, :district_id, :commune_id,
+                                    :delete_incomplete_after_period_unit,
+                                    :delete_incomplete_after_period_value,
+                                    :never_delete_incomplete_assessment,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,
-                                    :enable_hotline, :enable_client_form,
+                                    :enable_hotline, :enable_client_form, :assessment_score_order, :disable_required_fields,
                                     client_default_columns: [], family_default_columns: [],
                                     partner_default_columns: [], user_default_columns: [],
                                     custom_assessment_settings_attributes: [:id, :custom_assessment_name, :max_custom_assessment, :custom_assessment_frequency, :custom_age, :enable_custom_assessment, :_destroy])

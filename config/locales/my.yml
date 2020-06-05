@@ -602,6 +602,29 @@ my:
       score_label: အများဆုံးနီးကပ်စွာသင့်ရဲ့လေ့လာရေးအပေါ် client ကိုရဲ့အခြေအနေကိုအခြေစိုက်စခန်းကိုဖော်ပြရန်အောက်ပါဖော်ပြချက်များအရာကိုရွေးချယ်ပါ။
       set_goal: သင်တစ်ဦးရည်မှန်းချက်သတ်မှတ်ထားဖို့လိုပါသလား
       tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
+    incomplete_detail:
+      goal: Goal
+      reason: Observation
+      score: Score
+      task: Tasks
+    unrestricted_form:
+      add_task: လုပ္ငန္းအသစ္ ထပ္ထည့္ရန္။
+      add_task_confirm: သင်ဤအကဲဖြတ်၏နောက်ဆုံးခြေလှမ်းမှာတာဝန်များကိုထည့်သွင်းဖို့ပိုနှစ်သက်ပါ့မလား
+      at_least_one_task_required: အနည္းဆံုး လုပ္ငန္းတစ္ခု ထည့္ရန္ လိုအပ္သည္။
+      back: ေနာက္သို႔
+      cancel: ပယ္ဖ်က္ရန္
+      domain: ဒိုမိန္း
+      finish: ၿပီးပါၿပီ။
+      finished_assessment_msg: ဤသည်အကဲဖြတ်ကယ်ဖို့အဆင်သင့်ပါ!
+      goal: ရည္မွန္းခ်က္
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      reason: ရှုမွငျခွငျး, စောငျ့ရှောကျခွငျး
+      reason_placeholder: သင်တို့ကိုတွေ့မြင်ခဲ့ကြပြီး client ကိုနှင့်၎င်းတို့၏မိသားစုကပြောသည်ခဲ့တာဘယ်အရာကိုအပေါ်အခြေခံပြီး, client ရဲ့အခြေအနေအပေါ်သင့်ရဲ့လေ့လာတွေ့ရှိချက်ရိုက်ထည့်ပါ။
+      save: သိမ္းသည္။
+      score_label: အများဆုံးနီးကပ်စွာသင့်ရဲ့လေ့လာရေးအပေါ် client ကိုရဲ့အခြေအနေကိုအခြေစိုက်စခန်းကိုဖော်ပြရန်အောက်ပါဖော်ပြချက်များအရာကိုရွေးချယ်ပါ။
+      set_goal: သင်တစ်ဦးရည်မှန်းချက်သတ်မှတ်ထားဖို့လိုပါသလား
+      tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
     index:
       assessment_completed_on: အကဲဖြတ်အပေါ်ပြီးစီး
       assessment_created_on: အကဲဖြတ်အပေါ်ဖန်တီးဖို့
@@ -5028,11 +5051,20 @@ my:
       csi_tools: ရရှိနိုင်အကဲဖြတ်
       custom_assessment: နာမတျောကို
       default_assessment: ပျက်ကွက် အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
+      ratanak_csi_tools: ရရှိနိုင်အကဲဖြတ်
+    integration:
+      integration_label: Share my NGO's client data with the External System?
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ!
+      title: External System Integration
     navigation:
       country: ႏုိင္ငံ
     research_module:
       research_module_label:
       title:
+    settings:
+      assessment_score_order: Assessment Score Order
+      assessment_strictness: Assessment Strictness
+      delete_incomplete_assessment: Delete incomplete assessment after certain period of time
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   field_settings:
