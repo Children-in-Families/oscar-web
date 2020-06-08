@@ -498,7 +498,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           for labelField in labelFields
             text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
-              _removeActionFormBuilder(labelField)
+              _removeActionFormBuilder(labelField, elementId)
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
@@ -515,12 +515,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         text = label.textContent.allReplace(specialCharacters)
 
         if fields[name].includes(text)
-          _removeActionFormBuilder(label)
+          _removeActionFormBuilderTracking(label)
 
-  _removeActionFormBuilder = (label) ->
-    $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
-    parent = $(label).parent()
-    $(parent).find('.del-button, .copy-button').remove()
+  _removeActionFormBuilder = (label, elementId='') ->
+    if elementId.present? and $(elementId).is(':visible')
+      $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
+      parent = $(label).parent()
+      $(parent).find('.del-button, .copy-button').remove()
 
   _handlePreventRemoveFieldFormBuilderProgramStream = (url, elementId) ->
     return false if @programStreamId == ''
