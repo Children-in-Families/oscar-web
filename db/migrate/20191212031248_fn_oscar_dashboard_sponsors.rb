@@ -9,6 +9,7 @@ class FnOscarDashboardSponsors < ActiveRecord::Migration
               DECLARE
                 sql TEXT := '';
                 sch record;
+                donor_sql TEXT := '';
                 sponsor_r record;
               BEGIN
                 FOR sch IN
@@ -17,9 +18,15 @@ class FnOscarDashboardSponsors < ActiveRecord::Migration
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
                   WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
+                  IF (SELECT public.donors.name FROM public.donors WHERE public.donors.global_id = donor_global_id) = 'Save the Children' THEN
+                    donor_sql := format('SELECT %1$I.donors.id FROM %1$I.donors WHERE (LOWER(%1$I.donors.name) = %2$L OR LOWER(%1$I.donors.name) = %3$L)', sch.short_name, 'fcf', 'react');
+                  ELSE
+                    donor_sql := format('SELECT %1$I.donors.id FROM %1$I.donors WHERE (LOWER(%1$I.donors.name) = %2$L)', sch.short_name, '3pc');
+                  END IF;
                   sql := sql || format(
-                                  'SELECT %2$s.id, %1$L organization_name, %2$s.donor_id, %2$s.client_id FROM %1$I.%2$s UNION ',
-                                  sch.short_name, 'sponsors');
+                                  'SELECT %2$s.id, %1$L organization_name, %2$s.donor_id, %2$s.client_id FROM %1$I.%2$s
+                                  WHERE %1$I.sponsors.donor_id IN (%3$s) UNION ',
+                                  sch.short_name, 'sponsors', donor_sql);
                 END LOOP;
 
                 FOR sponsor_r IN EXECUTE left(sql, -7)

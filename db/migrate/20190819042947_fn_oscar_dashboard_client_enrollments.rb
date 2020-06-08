@@ -10,6 +10,7 @@ class FnOscarDashboardClientEnrollments < ActiveRecord::Migration
               DECLARE
                 sql TEXT := '';
                 sch record;
+                donor_sql TEXT := '';
                 cnrm_r record;
               BEGIN
                 FOR sch IN
@@ -18,6 +19,11 @@ class FnOscarDashboardClientEnrollments < ActiveRecord::Migration
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
                   WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
+                  IF (SELECT name FROM public.donors WHERE public.donors.global_id = donor_global_id) = 'Save the Children' THEN
+                    donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L OR LOWER(%1$I.donors.name) = %3$L)', sch.short_name, 'fcf', 'react');
+                  ELSE
+                    donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L)', sch.short_name, '3pc');
+                  END IF;
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.client_id, %2$s.program_stream_id,
                                    %2$s.status, %2$s.enrollment_date, %2$s.created_at, %2$s.updated_at FROM %1$I.%2$s UNION ',
