@@ -112,6 +112,8 @@ const Forms = props => {
       case 'carer':
         setCarerData({...carerData, ...field });
         break;
+      default:
+        console.log('not match');
     }
   }
 
