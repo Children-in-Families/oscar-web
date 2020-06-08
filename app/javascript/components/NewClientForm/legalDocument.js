@@ -14,15 +14,26 @@ import { t } from '../../utils/i18n'
 export default props => {
   const { onChange, fieldsVisibility, translation, data: { client, T } } = props
 
+  const [clientData, setClientData]   = useState({...client})
+
+  const onCheckBoxChange = (obj, field) => event => {
+    const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
+    const value = inputType.includes(event.type) ? event.data : event.target.value
+
+    if (typeof field !== 'object'){
+      client[field] = value
+      setClientData({...client})
+    }
+
+  }
+
   const onAttachmentsChange = (field) => fileItems => {
     fileItems = fileItems.map(file => (file.file));
-    onChange('client', field)({type: 'file', data: fileItems});
+    onCheckBoxChange('client', field)({type: 'file', data: fileItems});
   }
 
   const onRemoveAttachments = (field) => (data) => {
-    let clientData = {};
-    clientData[field] = data.data;
-    onChange('client', clientData)({type: 'checkbox'})
+    onChange('client', {[field]: data.data})({type: 'checkbox'})
   }
 
   return (
@@ -40,7 +51,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.national_id') } checked={client.national_id} onChange={onChange('client', 'national_id')} />
+              <Checkbox label={ t(translation, 'clients.form.national_id') } checked={client.national_id} onChange={onCheckBoxChange('client', 'national_id')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -62,7 +73,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.birth_cert') } checked={client.birth_cert} onChange={onChange('client', 'birth_cert')} />
+              <Checkbox label={ t(translation, 'clients.form.birth_cert') } checked={client.birth_cert} onChange={onCheckBoxChange('client', 'birth_cert')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -84,7 +95,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.family_book') } checked={client.family_book} onChange={onChange('client', 'family_book')} />
+              <Checkbox label={ t(translation, 'clients.form.family_book') } checked={client.family_book} onChange={onCheckBoxChange('client', 'family_book')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -106,7 +117,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.passport') } checked={client.passport} onChange={onChange('client', 'passport')} />
+              <Checkbox label={ t(translation, 'clients.form.passport') } checked={client.passport} onChange={onCheckBoxChange('client', 'passport')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -128,7 +139,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.travel_doc') } checked={client.travel_doc} onChange={onChange('client', 'travel_doc')} />
+              <Checkbox label={ t(translation, 'clients.form.travel_doc') } checked={client.travel_doc} onChange={onCheckBoxChange('client', 'travel_doc')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -150,7 +161,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.referral_doc') } checked={client.referral_doc} onChange={onChange('client', 'referral_doc')} />
+              <Checkbox label={ t(translation, 'clients.form.referral_doc') } checked={client.referral_doc} onChange={onCheckBoxChange('client', 'referral_doc')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -172,7 +183,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.local_consent') } checked={client.local_consent} onChange={onChange('client', 'local_consent')} />
+              <Checkbox label={ t(translation, 'clients.form.local_consent') } checked={client.local_consent} onChange={onCheckBoxChange('client', 'local_consent')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -194,7 +205,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.police_interview') } checked={client.police_interview} onChange={onChange('client', 'police_interview')} />
+              <Checkbox label={ t(translation, 'clients.form.police_interview') } checked={client.police_interview} onChange={onCheckBoxChange('client', 'police_interview')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
@@ -216,7 +227,7 @@ export default props => {
         <legend>
           <div className="row">
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={ t(translation, 'clients.form.other_legal_doc') } checked={client.other_legal_doc} onChange={onChange('client', 'other_legal_doc')} />
+              <Checkbox label={ t(translation, 'clients.form.other_legal_doc') } checked={client.other_legal_doc} onChange={onCheckBoxChange('client', 'other_legal_doc')} />
             </div>
             <div className="col-xs-12">
               <FileUploadInput
