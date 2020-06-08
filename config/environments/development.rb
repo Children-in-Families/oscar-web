@@ -67,6 +67,4 @@ Rails.application.configure do
     # Bullet.stacktrace_includes = true
     # Bullet.raise = true
   end
-
-  # config.asset_host = 'http://localhost:3000'
 end

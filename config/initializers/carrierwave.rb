@@ -1,6 +1,5 @@
 CarrierWave.configure do |config|
   config.storage = :file
-  # config.asset_host = ActionController::Base.asset_host
 
   if Rails.env.staging? || Rails.env.production? || Rails.env.demo? || Rails.env.ratanak_staging?
     config.fog_credentials = {
