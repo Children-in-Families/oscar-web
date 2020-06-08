@@ -109,9 +109,6 @@ const Forms = props => {
       case 'referee':
         setRefereeData({...refereeData, ...field })
         break;
-      case 'carer':
-        setCarerData({...carerData, ...field })
-        break;
     }
   }
 
