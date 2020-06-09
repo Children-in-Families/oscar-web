@@ -1,7 +1,7 @@
 namespace :referee_duplication do
   desc "Remove mtp referee duplication"
   task remove: :environment do
-    Organization.switch_to 'mtp'
+    Organization.switch_to 'mrs'
 
     referees = Referee.find_by_sql("SELECT id, name, phone count FROM (SELECT *, count(*) OVER (PARTITION BY name ) AS count FROM referees) tableWithCount WHERE tableWithCount.count > 1 AND tableWithCount.name != 'Anonymous'").group_by {|ref| ref.name }
     referees.each do |referee|
