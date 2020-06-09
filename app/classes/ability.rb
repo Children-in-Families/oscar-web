@@ -87,6 +87,7 @@ class Ability
 
     elsif user.hotline_officer?
       can :manage, Attachment
+      can :manage, Call
       can :manage, Case, exited: false
       can :manage, CaseNote
       can :manage, Client
