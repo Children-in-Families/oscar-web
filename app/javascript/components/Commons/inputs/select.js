@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { value, options, isMulti, isError, label, required, onChange, asGroup, T,  ...others } = props
+  const { value, options, isMulti, isError, label, required, onChange, asGroup, T, inlineClassName, ...others } = props
 
   const getSeletedObject = () => {
     if(options) {
@@ -56,6 +56,7 @@ export default props => {
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
+      <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
 
       <Select
         isMulti={isMulti}

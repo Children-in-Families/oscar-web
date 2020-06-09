@@ -17,6 +17,7 @@ import T from 'i18n-react'
 import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
 import my from '../../utils/locales/my.json'
+import 'intro.js/introjs.css';
 import './styles.scss'
 import { t } from '../../utils/i18n'
 
