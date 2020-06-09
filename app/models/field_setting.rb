@@ -32,6 +32,6 @@ class FieldSetting < ActiveRecord::Base
   private
 
   def assign_type
-    self.type ||= 'type'
+    self.type ||= 'field'
   end
 end
