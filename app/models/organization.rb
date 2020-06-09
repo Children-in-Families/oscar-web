@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  SUPPORTED_LANGUAGES = %w(en km my).freeze
+
   mount_uploader :logo, ImageUploader
 
   has_many :employees, class_name: 'User'
