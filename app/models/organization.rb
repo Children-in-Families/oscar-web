@@ -39,6 +39,33 @@ class Organization < ActiveRecord::Base
       end
     end
 
+    def seed_generic_data(organization_id)
+      organization = find(organization_id)
+
+      general_data_file = 'lib/devdata/general.xlsx'
+      service_data_file = 'lib/devdata/services/service.xlsx'
+
+      application_name = Rails.application.class.parent_name
+      application = Object.const_get(application_name)
+      application::Application.load_tasks
+
+      Apartment::Tenant.switch(organization.short_name) do
+        ActiveRecord::Base.transaction do
+          Rake::Task['db:seed'].invoke
+          ImportStaticService::DateService.new('Services', organization.short_name, service_data_file).import
+          Importer::Import.new('Agency', general_data_file).agencies
+          Importer::Import.new('Department', general_data_file).departments
+          Importer::Import.new('Province', general_data_file).provinces
+
+          Rake::Task['communes_and_villages:import'].invoke
+          Rake::Task['communes_and_villages:import'].reenable
+          Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+          Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
+          Rake::Task["field_settings:import"].invoke(organization.short_name)
+        end
+      end
+    end
+
     def brc?
       current&.short_name == 'brc'
     end
