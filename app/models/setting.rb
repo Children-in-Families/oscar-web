@@ -1,9 +1,13 @@
 class Setting < ActiveRecord::Base
+  extend Enumerize
+
   has_paper_trail
 
   belongs_to :province
   belongs_to :district
   belongs_to :commune
+
+  enumerize :assessment_score_order, in: ['random_order', 'ascending_order'], scope: true, predicates: true
 
   has_many :custom_assessment_settings
 
@@ -27,8 +31,15 @@ class Setting < ActiveRecord::Base
   validates :max_custom_assessment, presence: true, if: -> { enable_custom_assessment.present? }
   validates :custom_age, presence: true, if: -> { enable_custom_assessment.present? }
 
+  validates :delete_incomplete_after_period_unit, presence: true, inclusion: { in: %w(days weeks months) }, unless: :never_delete_incomplete_assessment?
+  validates :delete_incomplete_after_period_value, presence: true, numericality: { only_integer: true, greater_than: 0 }, unless: :never_delete_incomplete_assessment?
+
   delegate :name, to: :province, prefix: true, allow_nil: true
   delegate :name, to: :district, prefix: true, allow_nil: true
+
+  def delete_incomplete_after_period
+    delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
+  end
 
   private
 

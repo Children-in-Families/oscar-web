@@ -8,7 +8,7 @@ module CaseNoteConcern
     selected_case_note_domain_groups = case_note_domain_groups.select{|key, value| domain_group_ids.include? value["domain_group_id"]}
 
     value = selected_case_note_domain_groups.values.first
-    value['attachments'] = attachments if params[:action] == 'create'
+    value['attachments'] = attachments if params[:action] == 'create' && value
 
     non_selected_case_note_domain_groups = case_note_domain_groups.select{|key, value| domain_group_ids.exclude? value["domain_group_id"]}
     non_selected_case_note_domain_groups.values.each do |value|

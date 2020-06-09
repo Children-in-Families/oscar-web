@@ -555,6 +555,29 @@ th-TH:
       score_label:
       set_goal:
       tasks_arising:
+    incomplete_detail:
+      goal:
+      reason:
+      score:
+      task:
+    unrestricted_form:
+      add_task:
+      add_task_confirm:
+      at_least_one_task_required:
+      back:
+      cancel:
+      domain:
+      finish:
+      finished_assessment_msg:
+      goal:
+      next:
+      previous:
+      reason:
+      reason_placeholder:
+      save:
+      score_label:
+      set_goal:
+      tasks_arising:
     index:
       assessment_completed_on:
       assessment_created_on:
@@ -1341,7 +1364,17 @@ th-TH:
       reject_client:
       rejected_note:
     form:
+      national_id: 'National ID'
+      birth_cert: 'Birth Certificate'
+      family_book: 'Family Book'
+      passport: 'Passport'
+      travel_doc: 'Temporary Travel Document'
+      referral_doc: 'Referral Documents'
+      local_consent: 'Legal consent'
+      police_interview: 'Police interview'
+      other_legal_doc: 'Others'
       able:
+      legal_documents: Legal Documentations
       able_state:
       address:
       agencies_involved:
@@ -1938,6 +1971,15 @@ th-TH:
         report:
         status:
       clients:
+        national_id: 'National ID'
+        birth_cert: 'Birth Certificate'
+        family_book: 'Family Book'
+        passport: 'Passport'
+        travel_doc: 'Temporary Travel Document'
+        referral_doc: 'Referral Documents'
+        local_consent: 'Legal consent'
+        police_interview: 'Police interview'
+        other_legal_doc: 'Others'
         able:
         able_state:
         address:
@@ -4326,11 +4368,20 @@ th-TH:
       csi_tools:
       custom_assessment:
       default_assessment:
+      ratanak_csi_tools:
+    integration:
+      integration_label:
+      successfully_updated:
+      title:
     navigation:
       country:
     research_module:
       research_module_label:
       title:
+    settings:
+      assessment_score_order: Assessment Score Order
+      assessment_strictness: Assessment Strictness
+      delete_incomplete_assessment: Delete incomplete assessment after certain period of time
     update:
       successfully_updated:
   field_settings:
