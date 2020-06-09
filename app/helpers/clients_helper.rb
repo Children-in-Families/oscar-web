@@ -558,7 +558,7 @@ module ClientsHelper
       properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
     elsif rule == 'active_program_stream'
       mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
-      program_stream_ids = mew_query_string.scan(/program_streams\.id = (\d+)/).flatten
+      program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
       if program_stream_ids.size >= 2
         sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(", ")})")
         properties_result = object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
@@ -755,7 +755,7 @@ module ClientsHelper
         mapping_form_builder_param_value(h, form_type, field_name, data_mapping)
       end
       if field_name.nil?
-        next if h[:id].scan(form_type).blank?
+        next if h[:id]&.scan(form_type).blank?
       else
         next if h[:id] != field_name
       end
