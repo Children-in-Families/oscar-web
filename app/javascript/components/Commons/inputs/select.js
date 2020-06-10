@@ -56,7 +56,7 @@ export default props => {
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
-      <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
+      { inlineClassName && <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
 
       <Select
         isMulti={isMulti}

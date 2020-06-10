@@ -90,7 +90,7 @@ export default props => {
             value={referee.name}
             label={T.translate("refereeInfo.name")}
             onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
-            inlineClassName="selector1"
+            inlineClassName="referee-name"
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
