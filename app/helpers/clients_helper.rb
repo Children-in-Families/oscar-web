@@ -54,6 +54,7 @@ module ClientsHelper
 
     result[:brc_client_address] = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
     result[:brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:show_legal_doc] = policy(Client).show_legal_doc?
     result
   end
 
@@ -113,6 +114,15 @@ module ClientsHelper
       resident_own_or_rent2:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
       household_type2:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
       given_name:                    t('datagrid.columns.clients.given_name'),
+      national_id: t('datagrid.columns.clients.national_id'),
+      birth_cert: t('datagrid.columns.clients.birth_cert'),
+      family_book: t('datagrid.columns.clients.family_book'),
+      passport: t('datagrid.columns.clients.passport'),
+      travel_doc: t('datagrid.columns.clients.travel_doc'),
+      referral_doc: t('datagrid.columns.clients.referral_doc'),
+      local_consent: t('datagrid.columns.clients.local_consent'),
+      police_interview: t('datagrid.columns.clients.police_interview'),
+      other_legal_doc: t('datagrid.columns.clients.other_legal_doc'),
       family_name:                   t('datagrid.columns.clients.family_name'),
       local_given_name:              t('datagrid.columns.clients.local_given_name'),
       local_family_name:             t('datagrid.columns.clients.local_family_name'),
@@ -548,7 +558,7 @@ module ClientsHelper
       properties_result = object.joins(:client_enrollment_trackings).where(query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")).distinct
     elsif rule == 'active_program_stream'
       mew_query_string = query_string.reject(&:blank?).join(" #{basic_rules[:condition]} ")
-      program_stream_ids = mew_query_string.scan(/program_streams\.id = (\d+)/).flatten
+      program_stream_ids = mew_query_string&.scan(/program_streams\.id = (\d+)/)&.flatten || []
       if program_stream_ids.size >= 2
         sql_partial = mew_query_string.gsub(/program_streams\.id = \d+/, "program_streams.id IN (#{program_stream_ids.join(", ")})")
         properties_result = object.includes(client: :program_streams).where(sql_partial).references(:program_streams).distinct
@@ -745,7 +755,7 @@ module ClientsHelper
         mapping_form_builder_param_value(h, form_type, field_name, data_mapping)
       end
       if field_name.nil?
-        next if !(h[:id] =~ /^(#{form_type})/i)
+        next if h[:id]&.scan(form_type).blank?
       else
         next if h[:id] != field_name
       end
@@ -871,7 +881,7 @@ module ClientsHelper
             if fields.last == 'Has This Form'
               count += client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).count
             else
-              properties = form_builder_query(client.custom_field_properties, fields.second, column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
+              properties = form_builder_query(client.custom_field_properties, fields.first, column.name.to_s.gsub('&qoute;', '"'), 'custom_field_properties.properties').properties_by(format_field_value)
               count += property_filter(properties, format_field_value).size
             end
           elsif class_name[/^(tracking)/i]

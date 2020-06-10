@@ -605,6 +605,24 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "preferred_language",               default: "English"
     t.string   "global_id"
     t.boolean  "referred_external",                default: false
+    t.boolean  "national_id",                      default: false,      null: false
+    t.boolean  "birth_cert",                       default: false,      null: false
+    t.boolean  "family_book",                      default: false,      null: false
+    t.boolean  "passport",                         default: false,      null: false
+    t.boolean  "travel_doc",                       default: false,      null: false
+    t.boolean  "referral_doc",                     default: false,      null: false
+    t.boolean  "local_consent",                    default: false,      null: false
+    t.boolean  "police_interview",                 default: false,      null: false
+    t.boolean  "other_legal_doc",                  default: false,      null: false
+    t.string   "national_id_files",                default: [],                      array: true
+    t.string   "birth_cert_files",                 default: [],                      array: true
+    t.string   "family_book_files",                default: [],                      array: true
+    t.string   "passport_files",                   default: [],                      array: true
+    t.string   "travel_doc_files",                 default: [],                      array: true
+    t.string   "referral_doc_files",               default: [],                      array: true
+    t.string   "local_consent_files",              default: [],                      array: true
+    t.string   "police_interview_files",           default: [],                      array: true
+    t.string   "other_legal_doc_files",            default: [],                      array: true
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -929,16 +947,12 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "global_identities", id: false, force: :cascade do |t|
-    t.string "ulid"
-  end
-
-  add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
-
   create_table "global_identity_organizations", force: :cascade do |t|
-    t.string  "global_id"
-    t.integer "organization_id"
-    t.integer "client_id"
+    t.string   "global_id"
+    t.integer  "organization_id"
+    t.integer  "client_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
@@ -1576,38 +1590,43 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_index "services", ["uuid"], name: "index_services_on_uuid", using: :btree
 
   create_table "settings", force: :cascade do |t|
-    t.string   "assessment_frequency",        default: "month"
+    t.string   "assessment_frequency",                 default: "month"
     t.integer  "min_assessment"
-    t.integer  "max_assessment",              default: 6
-    t.string   "country_name",                default: ""
+    t.integer  "max_assessment",                       default: 6
+    t.string   "country_name",                         default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",      default: [],                  array: true
-    t.string   "family_default_columns",      default: [],                  array: true
-    t.string   "partner_default_columns",     default: [],                  array: true
-    t.string   "user_default_columns",        default: [],                  array: true
+    t.string   "client_default_columns",               default: [],                               array: true
+    t.string   "family_default_columns",               default: [],                               array: true
+    t.string   "partner_default_columns",              default: [],                               array: true
+    t.string   "user_default_columns",                 default: [],                               array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "org_name",                    default: ""
-    t.string   "old_commune",                 default: ""
+    t.string   "org_name",                             default: ""
+    t.string   "old_commune",                          default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                         default: 18
+    t.integer  "age",                                  default: 18
     t.integer  "commune_id"
-    t.string   "custom_assessment",           default: "Custom Assessment"
-    t.boolean  "enable_custom_assessment",    default: false
-    t.boolean  "enable_default_assessment",   default: true
-    t.integer  "max_custom_assessment",       default: 6
-    t.string   "custom_assessment_frequency", default: "month"
-    t.integer  "custom_age",                  default: 18
-    t.string   "default_assessment",          default: "CSI Assessment"
-    t.boolean  "sharing_data",                default: false
-    t.string   "custom_id1_latin",            default: ""
-    t.string   "custom_id1_local",            default: ""
-    t.string   "custom_id2_latin",            default: ""
-    t.string   "custom_id2_local",            default: ""
-    t.boolean  "enable_hotline",              default: false
-    t.boolean  "enable_client_form",          default: true
+    t.string   "custom_assessment",                    default: "Custom Assessment"
+    t.boolean  "enable_custom_assessment",             default: false
+    t.boolean  "enable_default_assessment",            default: true
+    t.integer  "max_custom_assessment",                default: 6
+    t.string   "custom_assessment_frequency",          default: "month"
+    t.integer  "custom_age",                           default: 18
+    t.string   "default_assessment",                   default: "CSI Assessment"
+    t.boolean  "sharing_data",                         default: false
+    t.string   "custom_id1_latin",                     default: ""
+    t.string   "custom_id1_local",                     default: ""
+    t.string   "custom_id2_latin",                     default: ""
+    t.string   "custom_id2_local",                     default: ""
+    t.boolean  "enable_hotline",                       default: false
+    t.boolean  "enable_client_form",                   default: true
+    t.string   "assessment_score_order",               default: "random_order",      null: false
+    t.boolean  "disable_required_fields",              default: false,               null: false
+    t.boolean  "never_delete_incomplete_assessment",   default: false,               null: false
+    t.integer  "delete_incomplete_after_period_value", default: 7
+    t.string   "delete_incomplete_after_period_unit",  default: "days"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1706,9 +1725,12 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.integer  "client_id"
     t.string   "relation",                  default: ""
     t.string   "case_note_id",              default: ""
+    t.integer  "taskable_id"
+    t.string   "taskable_type"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
+  add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false

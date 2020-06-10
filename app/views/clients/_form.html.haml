@@ -9,7 +9,6 @@
 -#   = f.hidden_field :archived_slug, input_html: { value: @client.archived_slug }
 -#   = f.hidden_field :status, input_html: { value: @client.status }
 -#   = f.hidden_field :country_origin, input_html: { value: @client.country_origin }
-
 -#   .client-steps{ data: {blank: t('.blank'), next: t('.next'), previous: t('.previous'), done: t('.done')} }
 -#     = render 'getting_started', f: f
 -#     = render 'living_detail', f: f
@@ -21,6 +20,5 @@
 -#     = link_to t('cancel'), client_path, class: 'btn btn-default cancel-client-button'
 -#   - else
 -#     = link_to t('cancel'), clients_path, class: 'btn btn-default cancel-client-button'
-
 -#   = render 'confirm_client'
 -#   = render 'confirm_client_with_family_record', f: f
