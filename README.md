@@ -1,10 +1,10 @@
 # OSCaR
 
-Open Source Case-management and Record-keeping.
+### Open Source Case-management and Record-keeping.
 
 ### Requirements
 
-* Docker Desktop (latest stable version)
+* Docker Desktop (latest stable version for your platform)
 
 ### Getting Started
 
@@ -148,6 +148,12 @@ rake communes_and_villages:import['dev']
 ### Docker Commands
 
 Start bash session in the 'app' service container. Once you have a session, you can use it like you would normally use your local terminal, running `rake` tasks, starting the `rails c` console etc, etc
+
+To start a bash terminal that is running inside the Docker container run:
+
+```
+make bash_console
+```
 
 ```
 make rails_console
