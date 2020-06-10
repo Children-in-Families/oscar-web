@@ -14,12 +14,6 @@ Given that we are using Docker, then most common development tasks you will just
 make start_core
 ```
 
-...and in a new terminal window run:
-
-```
-make webpack_dev_server
-```
-
 See the project [Makefile](./Makefile) for a list of all the available commands.
 
 Once the containers have fired up open a web browser and navigate to [http://localhost:3000](http://localhost:3000) to open the app. To login, click on the 'dev' organizations logo (there should only be the one logo) and the username (email) is any of the users (listed in the 'users' sheet) of the [lib/devdata/dev_tenant.xlsx](lib/devdata/dev_tenant.xlsx) spreadsheet with the password set to `123456789`.

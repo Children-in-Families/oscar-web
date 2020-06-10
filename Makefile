@@ -4,7 +4,7 @@ build_app:
 
 # Just start the Rails app, webpack dev server and Postgres DB
 start_core:
-	docker-compose up --no-deps app db
+	docker-compose up --no-deps app db webpack
 
 # Start up all services (beware if you running this on a computer with less than 16GB RAM!)
 start_all:
@@ -13,16 +13,13 @@ start_all:
 stop_all:
 	docker-compose down
 
-webpack_dev_server:
-	docker exec -it app bin/webpack-dev-server
+# Starts up a bash terminal in the app container
+bash_console:
+	docker exec -it app bash
 
 # Starts up a rails console in the app container
 rails_console:
 	docker exec -it app rails c
-
-# Starts up a bash terminal in the app container
-bash_console:
-	docker exec -it app bash
 
 # Starts up a guard console in the app container
 guard_console:
