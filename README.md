@@ -33,10 +33,10 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 If you have pending migrations that **prevent the Docker container from starting** for example:
 
 ```
-app              | You have 2 pending migrations:
-app              |   20200603071312 ________
-app              |   20200603081325 ________
-app              | Run `rake db:migrate` to update your database then try again.
+app | You have 2 pending migrations:
+app |   20200603071312 ________
+app |   20200603081325 ________
+app | Run `rake db:migrate` to update your database then try again.
 app exited with code 1
 ```
 
