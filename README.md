@@ -26,9 +26,112 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 
 *NOTE* If this is the first time you have run this you may need to stop the containers and run it again!
 
-### Rebuilding the Docker Images
+## Troubleshooting
 
-If anything changes that is in the `Dockerfile` itself (or related to that - such as adding new Gems or JS packages and then needing to re-run `bundle install` or `yarn install`), then you will need to rebuild the Docker Image to get the latest changes into the Image and therefore the running container. So from time to time, you will need to run: `docker-compose build app` to do that. This basically re-builds the Docker Image and if there are new Gems / JS packages they will be installed via the `bundle install` and `yarn install` calls made in `Dockerfile`.
+#### Issue pending migrations when starting Docker container
+
+If you have pending migrations that **prevent the Docker container from starting** for example:
+
+```
+app              | You have 2 pending migrations:
+app              |   20200603071312 ________
+app              |   20200603081325 ________
+app              | Run `rake db:migrate` to update your database then try again.
+app exited with code 1
+```
+
+Then you can fix this by running the following command and then starting services again.
+
+```
+make db_migrate
+```
+
+#### Issue pending migrations with running the application
+
+If after you start the application and you see the following in the terminal:
+
+```
+Migrations are pending. To resolve this issue, run: bin/rake db:migrate RAILS_ENV=development
+```
+
+Then you need to run the migration in a terminal session in the running docker container. Keep the services running and then run the following command:
+
+```
+make db_migrate
+```
+
+#### Issue during db migration
+
+If you get a an error while running database migrations for example:
+
+```
+StandardError: An error has occurred, this and all later migrations canceled:
+```
+
+Then you can drop the database and restart the services like so:
+
+```
+make stop_all
+make db_drop
+make start_core
+```
+
+Note after doing this you may still need to run the database migrations. If you still have an error with the migration then check the migrations and ask the developer who committed them to help you!
+
+#### Issue missing Gem dependency
+
+Sometimes you might start the service and the container cannot start because it returns an error due to a missing Gem dependency, something like this:
+
+```
+app |  Could not find ________ in any of the sources
+app |  Run `bundle install` to install missing gems.
+app |  exited with code 7
+```
+
+Then, it means there is a Gem depenency missing. You should rebuild the image like this and then start the services again.
+
+```
+make build_app
+```
+
+#### Issue version discrepency with a Gem
+
+Sometimes you might start the service and the container cannot start because it returns an error due to a version discrepency with a Gem, something like this:
+
+```
+app | The bundle currently has ______ locked at x.y.z.
+app | Try running `bundle update ______`
+app |
+app | If you are updating multiple gems in your Gemfile at once,
+app | try passing them all to `bundle update`
+app | Run `bundle install` to install missing gems.
+app | exited with code 7
+```
+
+Then, it means there is a Gem version discrepency. You should rebuild the image like this and then start the services again.
+
+```
+make build_app
+```
+
+#### Issue missing JavaScript dependency
+
+Then, it means there is a JavaScript package depenency missing. You should rebuild the image like this and then start the services again.
+
+In your terminal you might see something like this or someother error representing a missing JavaScript module.
+
+Usually what's happened is the yarn.lock file contains a reference to a module that is not currently in your `node_modules` folder:
+
+```
+Module not found: _____
+Error: Can't resolve _____
+```
+
+To fix this issue, run the following commands:
+
+```
+make yarn_install
+```
 
 ### Gazetteer Data Import (OPTIONAL)
 
