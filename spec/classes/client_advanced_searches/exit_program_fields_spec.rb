@@ -1,4 +1,8 @@
 describe AdvancedSearches::ExitProgramFields, 'Method' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
+
   let!(:client)             { create(:client) }
   let!(:program_stream)     { create(:program_stream) }
   let!(:client_enrollment)  { create(:client_enrollment, client: client, program_stream: program_stream) }

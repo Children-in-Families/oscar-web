@@ -31,7 +31,6 @@ Dir[Rails.root.join('spec/supports/**/*.rb')].each { |f| require f }
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-Capybara.javascript_driver = :poltergeist
 
 Capybara.register_server :thin do |app, port, host|
   require 'rack/handler/thin'
@@ -43,11 +42,17 @@ Capybara.server = :thin
 Capybara.register_driver :poltergeist do |app|
   options = {
     js_errors: false,
-    phantomjs_options: ['--load-images=true', '--ignore-ssl-errors=yes', '--ssl-protocol=any'],
-    timeout: 60
+    phantomjs_options: ['--debug=false', '--web-security=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any', '--webdriver-logfile=/var/log/phantomjs.log'],
+    timeout: 60,
+    phantomjs: File.absolute_path(Phantomjs.path),
+    url_whitelist: %w(http://app.lvh.me http://lvh.me http://localhost 127.0.0.1)
   }
   Capybara::Poltergeist::Driver.new(app, options)
 end
+
+Capybara.javascript_driver = :poltergeist
+
+Capybara.server_port = 3001
 
 RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = [:should , :expect] }
@@ -99,30 +104,22 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
     DatabaseCleaner.strategy = :transaction
     Apartment::Tenant.drop('app') rescue nil
-    Organization.create_and_build_tenant(full_name: 'Organization Testing', short_name: 'app')
-    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
+    Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
     Apartment::Tenant.switch! 'app'
+    Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
   end
 
   config.before(:each, js: true) do
-    page.driver.browser.url_blacklist = %w(http://use.typekit.net https://fonts.gstatic.com https://fonts.googleapis.com http://cdn.rawgit.com)
-    page.driver.browser.url_whitelist = %w(http://app.lvh.me http://lvh.me 127.0.0.1)
+    DatabaseCleaner.strategy = :truncation
     Capybara.default_max_wait_time = 10
     Capybara.always_include_port = true
-    Capybara.app_host = "http://app.oscar.test"
-  end
-
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      Setting.create(country_name: 'cambodia', max_case_note: 30, case_note_frequency: 'day', max_assessment: 6, age: 18, enable_default_assessment: true, enable_custom_assessment: true)
-      example.run
-    end
-  end
-
-  config.before(:each, :js) do
-    DatabaseCleaner.strategy = :truncation
+    Capybara.app_host = "http://app.lvh.me"
   end
 
   config.after(:each) do

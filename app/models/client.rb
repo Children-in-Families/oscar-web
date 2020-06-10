@@ -8,6 +8,16 @@ class Client < ActiveRecord::Base
 
   require 'text'
 
+  mount_uploaders :national_id_files, FileUploader
+  mount_uploaders :birth_cert_files, FileUploader
+  mount_uploaders :family_book_files, FileUploader
+  mount_uploaders :passport_files, FileUploader
+  mount_uploaders :travel_doc_files, FileUploader
+  mount_uploaders :referral_doc_files, FileUploader
+  mount_uploaders :local_consent_files, FileUploader
+  mount_uploaders :police_interview_files, FileUploader
+  mount_uploaders :other_legal_doc_files, FileUploader
+
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
@@ -635,6 +645,10 @@ class Client < ActiveRecord::Base
   def self.notify_incomplete_daily_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+
+      setting = Setting.first_or_initialize
+      next if setting.disable_required_fields?
+
       if Setting.first.enable_default_assessment
         clients = joins(:assessments).where(assessments: { completed: false, default: true })
         clients.each do |client|

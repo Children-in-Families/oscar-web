@@ -1,4 +1,7 @@
 describe AdvancedSearches::DomainScoreSqlBuilder, 'Method' do
+  before do
+    allow_any_instance_of(Client).to receive(:generate_random_char).and_return("abcd")
+  end
   let!(:client)                     { create(:client) }
   let!(:assessment)                 { create(:assessment, client: client) }
   let!(:assessment_domain)          { create(:assessment_domain, assessment: assessment, domain: domain, score: 4) }

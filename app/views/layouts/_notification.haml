@@ -4,7 +4,7 @@
   %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
     %i.fa.fa-bell
     - if @notification.all_count >= 1
-      %span.label.label-primary= @notification.all_count
+      %span.label.label-danger= @notification.all_count
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
     - if can? :manage, Client
       - @notification.review_program_streams.each do |ps|

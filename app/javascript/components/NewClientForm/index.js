@@ -7,6 +7,7 @@ import RefereeInfo from './refereeInfo'
 import ReferralInfo from './referralInfo'
 import ReferralMoreInfo from './referralMoreInfo'
 import ReferralVulnerability from './referralVulnerability'
+import LegalDocument from './legalDocument'
 import CreateFamilyModal from './createFamilyModal'
 import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
@@ -17,6 +18,7 @@ import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
 import my from '../../utils/locales/my.json'
 import './styles.scss'
+import { t } from '../../utils/i18n'
 
 const Forms = props => {
   var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
@@ -35,7 +37,7 @@ const Forms = props => {
   const {
     data: {
       current_organization,
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
@@ -64,12 +66,14 @@ const Forms = props => {
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
+  const legalDocument = { client: clientData, T }
 
   const tabs = [
     {text: T.translate("index.referee_info"), step: 1},
     {text: T.translate("index.referral_info"), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
-    {text: T.translate("index.referral_vulnerability"), step: 4}
+    {text: T.translate("index.referral_vulnerability"), step: 4},
+    {text: t(translation, 'clients.form.legal_documents'), step: 5}
   ]
 
   const classStyle = value => errorSteps.includes(value) ? 'errorTab' : step === value ? 'activeTab' : 'normalTab'
@@ -89,6 +93,8 @@ const Forms = props => {
   const onChange = (obj, field) => event => {
     const inputType = ['date', 'select', 'checkbox', 'radio', 'file']
     const value = inputType.includes(event.type) ? event.data : event.target.value
+
+    // console.log(value);
 
     if (typeof field !== 'object')
       field = { [field]: value }
@@ -115,7 +121,8 @@ const Forms = props => {
       { step: 1, data: clientData, fields: ['referral_source_category_id'] },
       { step: 2, data: clientData, fields: ['gender']},
       { step: 3, data: clientData, fields: [] },
-      { step: 4, data: clientData, fields: ['received_by_id', 'initial_referral_date', 'user_ids'] }
+      { step: 4, data: clientData, fields: clientData.status != 'Exited' ? ['received_by_id', 'initial_referral_date', 'user_ids'] : ['received_by_id', 'initial_referral_date'] },
+      { step: 5, data: clientData, fields: [] }
     ]
 
     const errors = []
@@ -345,7 +352,9 @@ const Forms = props => {
       />
 
       <div className='tabHead'>
-        {tabs.map((tab, index) => renderTab(tab, index))}
+        {
+          tabs.slice(0, (fieldsVisibility.show_legal_doc == true ? 5 : 4)).map((tab, index) => renderTab(tab, index))
+        }
       </div>
 
       <div className='contentWrapper'>
@@ -369,6 +378,13 @@ const Forms = props => {
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
             <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
           </div>
+
+          {
+            fieldsVisibility.show_legal_doc == true &&
+            <div style={{ display: step === 5 ? 'block' : 'none' }}>
+              <LegalDocument data={legalDocument} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
+            </div>
+          }
         </div>
       </div>
 
@@ -379,9 +395,9 @@ const Forms = props => {
 
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
-          { step !== 4 && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
+          { step !== (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
 
-          { step === 4 && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
+          { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
         </div>
       </div>
     </div>

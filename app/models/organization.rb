@@ -41,6 +41,14 @@ class Organization < ActiveRecord::Base
     def brc?
       current&.short_name == 'brc'
     end
+
+    def shared?
+      current&.short_name == 'shared'
+    end
+
+    def ratanak?
+      current&.short_name == 'ratanak'
+    end
   end
 
   def demo?
