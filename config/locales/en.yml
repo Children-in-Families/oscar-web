@@ -3438,6 +3438,8 @@ en:
       b4: 4B
       b5: 5B
       b6: 6B
+      b7: 7B
+      c3: 3C
     edit:
       title: Edit Domain
     form:
