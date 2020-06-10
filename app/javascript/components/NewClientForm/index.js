@@ -287,10 +287,15 @@ const Forms = props => {
         }).fail(error => {
           setLoading(false)
           setOnSave(false)
-          const errorFields = JSON.parse(error.responseText)
-          setErrorFields(Object.keys(errorFields))
-          if(errorFields.kid_id)
-            setErrorSteps([3])
+
+          if (error.statusText == "Request Entity Too Large") {
+            alert("Your data is too large, try upload your attachments part by part.");
+          } else {
+            const errorFields = JSON.parse(error.responseText)
+            setErrorFields(Object.keys(errorFields))
+            if(errorFields.kid_id)
+              setErrorSteps([3])
+          }
         })
       }
     }
