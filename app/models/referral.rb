@@ -72,10 +72,12 @@ class Referral < ActiveRecord::Base
   def make_a_copy_to_target_ngo
     current_org = Organization.current
     return if self.non_oscar_ngo? || current_org.short_name == referred_to
+    service_names = self.services.pluck(:name)
     Organization.switch_to referred_to
     referral = Referral.find_or_initialize_by(slug: attributes['slug'], saved: false)
     referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({client_id: nil})
     referral.consent_form = consent_form
+    referral.services << Service.where(name: service_names) if service_names.present?
     referral.save
     Organization.switch_to current_org.short_name
   end
