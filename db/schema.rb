@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200603081325) do
+ActiveRecord::Schema.define(version: 20200611041442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1553,16 +1553,15 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
+    t.string   "client_gender",             default: ""
+    t.date     "client_date_of_birth"
+    t.string   "village_code",              default: ""
+    t.string   "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
-    t.string   "services"
-    t.string   "client_gender",             default: ""
-    t.date     "client_date_of_birth"
-    t.string   "village_code",              default: ""
-    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree

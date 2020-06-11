@@ -34,7 +34,12 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def services
-    object.program_streams.joins(:services).distinct.map{ |ps| ps.services.map{ |service| { id: service.id, name: service.name } } }.compact.flatten.uniq
+    service_types = object.program_streams.joins(:services).distinct.map{ |ps| ps.services.map{ |service| { uuid: service.uuid, name: service.name } } }.compact.flatten.uniq
+    if service_types.present?
+      service_types
+    else
+      Referral.find_by(client_id: object.id)&.services&.pluck(:uuid, :name) || []
+    end
   end
 
   def case_worker_name
