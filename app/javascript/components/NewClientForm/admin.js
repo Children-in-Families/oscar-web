@@ -42,7 +42,8 @@ export default props => {
             isError={errorFields.includes('initial_referral_date')}
             label={t(translation, 'clients.form.initial_referral_date')}
             value={client.initial_referral_date}
-            onChange={onChange('client', 'initial_referral_date')} />
+            onChange={onChange('client', 'initial_referral_date')}
+            inlineClassName="admin-referral-date"/>
         </div>
       </div>
 
@@ -57,19 +58,29 @@ export default props => {
             isMulti
             options={userLists}
             value={client.user_ids}
-            onChange={onChange('client','user_ids')} />
+            onChange={onChange('client','user_ids')}
+            inlineClassName="case-worker"/>
         </div>
       </div>
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <SelectInput label={T.translate("admin.first_follow_by")} options={userLists} onChange={onChange('client', 'followed_up_by_id')} value={client.followed_up_by_id} />
+          <SelectInput
+          label={T.translate("admin.first_follow_by")}
+          options={userLists}
+          onChange={onChange('client', 'followed_up_by_id')}
+          value={client.followed_up_by_id}
+          inlineClassName="first-follow-by"/>
         </div>
       </div>
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <DateInput label={T.translate("admin.first_follow_date")} onChange={onChange('client','follow_up_date')} value={client.follow_up_date} />
+          <DateInput
+          label={T.translate("admin.first_follow_date")}
+          onChange={onChange('client','follow_up_date')}
+          value={client.follow_up_date}
+          inlineClassName="first-follow-date"/>
         </div>
       </div>
     </>

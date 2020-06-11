@@ -1,5 +1,25 @@
 en:
   inline_help:
+    admin:
+      admin_receiving_staff: Select the Case Worker who first received the client case. Referral means a case, or a client reported to your organization.
+      admin_referral_date:
+        Enter the actual date when the case was reported to your organization. Type the date using yyyy-mm-dd format OR select the date using the calendar in this field.
+      case_worker: Select the Case Worker(s)/Staff who will manage this case. You can choose more than one name. This information can be edited after the case is saved. The client profile will be visible to the Case Worker(s)/Staff you choose here.
+      first_follow_by: Select the Case Worker/Staff who first investigated the referred client.
+      first_follow_date: Enter the date when a Case Worker/Staff followed up with the client for the first time.
+
     referee:
+      email: N/A
+      gender: |+
+        Other - if the client’s gender is something other than male or female.
+        Unknown - if the client’s gender is not known. This can be edited later after you find out the gender.
       name: Referee means the person who called or informed your organization about the client. If the referee does not want to give their name, you can enter the name as “Anonymous”.
       phone: N/A
+      referral_source_category:
+        Select the type of organization who referred the client to your organization.
+        The Referral Source field will show the list of applicable organizations only AFTER a category is selected here.
+      referral_source: The list in this field will change based on the Referral Source Category you chose.
+        Admin/Manager/Case Worker, If a name is not on the list, add a new source from Manage >> Referral Sources.
+
+
+

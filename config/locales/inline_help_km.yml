@@ -3,3 +3,4 @@ km:
     referee:
       name: Referee means the person who called or informed your organization about the client. If the referee does not want to give their name, you can enter the name as “Anonymous”.
       phone: N/A
+      gender: Other - if the client’s gender is something other than male or female. Unknown - if the client’s gender is not known. This can be edited later after you find out the gender.

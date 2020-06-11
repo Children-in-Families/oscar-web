@@ -94,7 +94,13 @@ export default props => {
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label={T.translate("refereeInfo.gender")} isDisabled={referee.anonymous} options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} inlineClassName="referee-gender" />
+          <SelectInput label={T.translate("refereeInfo.gender")}
+            isDisabled={referee.anonymous}
+            options={genderLists}
+            onChange={onChange('referee', 'gender')}
+            value={referee.gender}
+            inlineClassName="referee-gender"
+          />
         </div>
       </div>
       <div className="row">
@@ -108,7 +114,12 @@ export default props => {
             />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("refereeInfo.referee_email")} disabled={referee.anonymous} onChange={onChange('referee', 'email')} value={referee.email} />
+          <TextInput
+          label={T.translate("refereeInfo.referee_email")}
+          disabled={referee.anonymous}
+          onChange={onChange('referee', 'email')}
+          value={referee.email}
+          inlineClassName="referee-email"/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
@@ -119,6 +130,7 @@ export default props => {
             options={referralSourceCategoryLists}
             value={client.referral_source_category_id}
             onChange={onReferralSourceCategoryChange}
+            inlineClassName="referral-source-category"
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -127,6 +139,7 @@ export default props => {
             label={T.translate("refereeInfo.referral_source")}
             onChange={onChange('client', 'referral_source_id')}
             value={client.referral_source_id}
+            inlineClassName="referral-source"
           />
         </div>
 
