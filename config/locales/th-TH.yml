@@ -4370,6 +4370,7 @@ th-TH:
       csi_tools:
       custom_assessment:
       default_assessment:
+      ratanak_csi_tools:
     integration:
       integration_label:
       successfully_updated:

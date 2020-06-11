@@ -5044,6 +5044,7 @@ km:
       csi_tools: ឧបករណ៍ការបា៉ន់ប្រមាណ
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       default_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណលំនាំដើម
+      ratanak_csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
     integration:
       integration_label: ចែករំលែកទិន្នន័យអតិថិជនរបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយអង្គការក្រៅ OSCaR?
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ!

@@ -5068,6 +5068,7 @@ en:
       csi_tools: Assessment Tools
       custom_assessment: Custom Assessment Tool
       default_assessment: Default Assessment Tool
+      ratanak_csi_tools: Assessment Tools
     integration:
       integration_label: Share my NGO's client data with the External System?
       successfully_updated: Successfully updated!
