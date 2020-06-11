@@ -59,9 +59,9 @@ development:
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
     https: false
-    host: localhost # change to host: webpack if using docker-compose
+    host: localhost
     port: 3035
-    public: localhost:3035 # change to public: webpack:3035 if using docker-compose
+    public: localhost:3035
     hmr: false
     # Inline should be set to true if using HMR
     inline: true
