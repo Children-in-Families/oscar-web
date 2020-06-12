@@ -52,7 +52,7 @@ export default props => {
 
   return (
     <div className='form-group'>
-      <label style={ isError && customError.errorText || {} }>
+      <label style={ isError && customError.errorText || { display: 'inline' } }>
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
@@ -99,7 +99,7 @@ const customStyles = {
       ...styles[':hover'],
       borderColor: '#1ab394',
     },
-  }),
+  })
 }
 
 const customError = {
