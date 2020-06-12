@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200609042124) do
+ActiveRecord::Schema.define(version: 20200611080519) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,20 @@ ActiveRecord::Schema.define(version: 20200609042124) do
   end
 
   add_index "action_results", ["government_form_id"], name: "index_action_results_on_government_form_id", using: :btree
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "token"
+  end
+
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "advanced_searches", force: :cascade do |t|
     t.string   "name"
@@ -1439,34 +1453,26 @@ ActiveRecord::Schema.define(version: 20200609042124) do
   add_index "referral_sources", ["ancestry"], name: "index_referral_sources_on_ancestry", using: :btree
 
   create_table "referrals", force: :cascade do |t|
-    t.string   "slug",                      default: ""
+    t.string   "slug",             default: ""
     t.date     "date_of_referral"
-    t.string   "referred_to",               default: ""
-    t.string   "referred_from",             default: ""
-    t.text     "referral_reason",           default: ""
-    t.string   "name_of_referee",           default: ""
-    t.string   "referral_phone",            default: ""
+    t.string   "referred_to",      default: ""
+    t.string   "referred_from",    default: ""
+    t.text     "referral_reason",  default: ""
+    t.string   "name_of_referee",  default: ""
+    t.string   "referral_phone",   default: ""
     t.integer  "referee_id"
-    t.string   "client_name",               default: ""
-    t.string   "consent_form",              default: [],                 array: true
-    t.boolean  "saved",                     default: false
+    t.string   "client_name",      default: ""
+    t.string   "consent_form",     default: [],                 array: true
+    t.boolean  "saved",            default: false
     t.integer  "client_id"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.string   "ngo_name",                  default: ""
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "ngo_name",         default: ""
     t.integer  "client_global_id"
-    t.string   "external_id"
-    t.string   "external_id_display"
-    t.string   "mosvy_number"
-    t.string   "external_case_worker_name"
-    t.string   "external_case_worker_id"
-    t.string   "services"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
-  add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
-  add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
 
   create_table "service_types", force: :cascade do |t|
     t.string   "name",       default: ""

@@ -54,7 +54,7 @@ namespace :field_settings do
 
   def create_assessment_setting
     field_setting = FieldSetting.find_or_initialize_by(name: :reason)
-    field_setting = field_setting.update!(
+    field_setting.update!(
       current_label: 'Observation',
       klass_name: :assessment,
       required: true,
@@ -80,7 +80,7 @@ namespace :field_settings do
 
     fields.each do |name, label|
       field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :client)
-      field_setting = field_setting.update!(
+      field_setting.update!(
         current_label: label,
         label: label,
         required: false,

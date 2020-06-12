@@ -33,35 +33,46 @@ class Organization < ActiveRecord::Base
 
     def create_and_build_tenant(fields = {})
       transaction do
-        org = create(fields)
-        Apartment::Tenant.create(fields[:short_name])
-        org
+        org = new(fields)
+
+        if org.save
+          Apartment::Tenant.create(fields[:short_name])
+          org
+        else
+          false
+        end
       end
     end
 
-    def seed_generic_data(organization_id)
-      organization = find(organization_id)
+    def create_and_seed_generic_data(fields = {})
+      ActiveRecord::Base.transaction do
+        org = new(fields)
 
-      general_data_file = 'lib/devdata/general.xlsx'
-      service_data_file = 'lib/devdata/services/service.xlsx'
+        if org.save!
+          Apartment::Tenant.create(fields[:short_name])
 
-      application_name = Rails.application.class.parent_name
-      application = Object.const_get(application_name)
-      application::Application.load_tasks
+          general_data_file = 'lib/devdata/general.xlsx'
+          service_data_file = 'lib/devdata/services/service.xlsx'
 
-      Apartment::Tenant.switch(organization.short_name) do
-        ActiveRecord::Base.transaction do
-          Rake::Task['db:seed'].invoke
-          ImportStaticService::DateService.new('Services', organization.short_name, service_data_file).import
-          Importer::Import.new('Agency', general_data_file).agencies
-          Importer::Import.new('Department', general_data_file).departments
-          Importer::Import.new('Province', general_data_file).provinces
+          CifWeb::Application.load_tasks
 
-          Rake::Task['communes_and_villages:import'].invoke
-          Rake::Task['communes_and_villages:import'].reenable
-          Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
-          Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-          Rake::Task["field_settings:import"].invoke(organization.short_name)
+          Apartment::Tenant.switch(org.short_name) do
+            Rake::Task['db:seed'].invoke
+            ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
+            Importer::Import.new('Agency', general_data_file).agencies
+            Importer::Import.new('Department', general_data_file).departments
+            Importer::Import.new('Province', general_data_file).provinces
+
+            Rake::Task['communes_and_villages:import'].invoke
+            Rake::Task['communes_and_villages:import'].reenable
+            Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+            Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
+            Rake::Task["field_settings:import"].invoke(org.short_name)
+          end
+
+          org
+        else
+          false
         end
       end
     end
