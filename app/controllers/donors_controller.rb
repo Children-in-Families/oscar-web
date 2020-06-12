@@ -4,8 +4,9 @@ class DonorsController < AdminController
   before_action :find_donor, only: [:update, :destroy]
 
   def index
-    @donors = Donor.order(:name).page(params[:page]).per(20)
-    @results     = Donor.count
+    @donors   = Donor.order(:name).page(params[:page]).per(20)
+    @results  = Donor.count
+    @clients  = Client.select(:id, :given_name, :family_name, :local_given_name, :local_family_name)
   end
 
   def create
@@ -42,7 +43,7 @@ class DonorsController < AdminController
   private
 
   def donor_params
-    params.require(:donor).permit(:name, :description, :code)
+    params.require(:donor).permit(:name, :description, :code, client_ids: [])
   end
 
   def find_donor

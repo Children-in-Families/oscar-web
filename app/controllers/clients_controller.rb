@@ -117,6 +117,11 @@ class ClientsController < AdminController
         attributes
       end
       Organization.switch_to current_org.short_name
+      if @referral
+        client_name = @referral.client_name.split(' ')
+        client_attr = { given_name: client_name.first, family_name: client_name.last, gender: @referral.client_gender, date_of_birth: @referral.client_date_of_birth }
+        attributes = Client.get_client_attribute(@referral.attributes.merge(client_attr)) if attributes.nil?
+      end
       @client = Client.new(attributes)
     else
       @client = Client.new
@@ -166,6 +171,7 @@ class ClientsController < AdminController
     @client.exit_ngos.each(&:destroy_fully!)
     @client.client_enrollments.each(&:destroy_fully!)
     @client.assessments.delete_all
+    @client.case_worker_clients.destroy_all
     @client.cases.delete_all
     @client.reload.destroy
 
@@ -217,10 +223,10 @@ class ClientsController < AdminController
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-            :referral_phone, :received_by_id, :followed_up_by_id, :global_id,
+            :referral_phone, :received_by_id, :followed_up_by_id, :global_id, :shared_service_enabled,
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-            :has_been_in_orphanage, :has_been_in_government_care,
+            :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
             :relevant_referral_information, :province_id, :current_family_id,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
@@ -268,7 +274,7 @@ class ClientsController < AdminController
     @problems        = Problem.order(:created_at)
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
-    if current_user.admin?
+    if current_user.admin? || current_user.hotline_officer?
       @families        = Family.order(:name)
     elsif current_user.manager?
       family_ids = current_user.families.ids
@@ -370,8 +376,12 @@ class ClientsController < AdminController
   end
 
   def find_referral_source_by_referral
-    referral_source_org = Organization.find_by(short_name: @referral.referred_from).full_name
-    ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+    referral_source_org = Organization.find_by(short_name: @referral.referred_from)&.full_name
+    if referral_source_org
+      ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+    else
+      ReferralSource.find_by(name: @referral.referred_from)&.id
+    end
   end
 
   def fetch_referral_attibutes(attributes, referral_source_id)

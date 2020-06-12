@@ -23,4 +23,5 @@ class SettingPolicy < ApplicationPolicy
   alias edit? index?
   alias update? index?
   alias default_columns? index?
+  alias integration? index?
 end

@@ -4,14 +4,14 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
 
-  ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
+  ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
   LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
 
   GENDER_OPTIONS = ['female', 'male', 'other', 'prefer not to say']
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+       :recoverable, :rememberable, :trackable, :validatable
 
   # has_one_time_password
   # enum otp_module: { otp_module_disabled: 0, otp_module_enabled: 1 }
@@ -67,6 +67,7 @@ class User < ActiveRecord::Base
   scope :job_title_are,   ->        { where.not(job_title: '').pluck(:job_title).uniq }
   scope :department_are,  ->        { joins(:department).pluck('departments.name', 'departments.id').uniq }
   scope :case_workers,    ->        { where(roles: 'case worker') }
+  scope :hotline_officer,    ->        { where(roles: 'hotline officer') }
   scope :admins,          ->        { where(roles: 'admin') }
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
@@ -241,19 +242,21 @@ class User < ActiveRecord::Base
   def user_custom_field_frequency_overdue_or_due_today
     if self.manager?
       entity_type_custom_field_notification(User.where('manager_ids && ARRAY[?]', self.id))
+    elsif self.hotline_officer?
+      entity_type_custom_field_notification(User.where(id: self.id))
     elsif self.admin?
       entity_type_custom_field_notification(User.all)
     end
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
-    if self.admin? || self.manager?
+    if self.admin? || self.manager? || self.hotline_officer?
       entity_type_custom_field_notification(Partner.all)
     end
   end
 
   def family_custom_field_frequency_overdue_or_due_today
-    if self.admin?
+    if self.admin? || self.hotline_officer?
       entity_type_custom_field_notification(Family.all)
     elsif self.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
@@ -316,6 +319,8 @@ class User < ActiveRecord::Base
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
       User.all
+    elsif user.hotline_officer?
+      User.where(id: user.id)
     elsif user.manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     end
@@ -334,20 +339,20 @@ class User < ActiveRecord::Base
       return if manager_id_was == self.id
       update_manager_ids(self)
     else
-      the_manager_ids = User.find(self.manager_id).manager_ids
+      the_manager_ids = User.find_by(id: self.manager_id)&.manager_ids || []
       update_manager_ids(self, the_manager_ids.push(self.manager_id).flatten.compact.uniq)
     end
   end
 
   def update_manager_ids(user, the_manager_ids = [])
-    user.manager_ids = the_manager_ids
+    user.manager_ids = find_manager_manager(user.manager_id, the_manager_ids)
     user.save unless user.id == id
     return if user.case_worker?
-    case_workers = User.where(manager_id: user.id)
-    if case_workers.present?
-      case_workers.each do |case_worker|
-        next if case_worker.id == self.id
-        update_manager_ids(case_worker, the_manager_ids.push(user.id).flatten.compact.uniq)
+    subordinators = User.where(manager_id: user.id)
+    if subordinators.present?
+      subordinators.each do |subordinator|
+        next if subordinator.id == self.id
+        update_manager_ids(subordinator, the_manager_ids.push(user.id).flatten.compact.uniq)
       end
     end
   end
@@ -389,6 +394,12 @@ class User < ActiveRecord::Base
   def toggle_referral_notification
     return unless roles_changed? && roles == 'admin'
     self.update_columns(referral_notification: true)
+  end
+
+  def find_manager_manager(the_manager_id, manager_manager_ids)
+    subordinators = User.where(id: manager_manager_ids)
+    managers_ids = subordinators.pluck(:manager_ids)
+    manager_manager_ids & (managers_ids << the_manager_id).flatten.compact
   end
 
   def exited_clients(user_ids)

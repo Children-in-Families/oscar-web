@@ -118,6 +118,7 @@
 //= require settings/index
 //= require settings/research_module
 //= require settings/client_forms
+//= require settings/integration
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
@@ -130,3 +131,4 @@
 //= require calls/index
 //= require referees/index
 //= require field_settings/index
+//= require donors/index

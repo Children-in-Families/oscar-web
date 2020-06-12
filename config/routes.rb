@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+  use_doorkeeper do
+    skip_controllers :applications, :authorized_applications
+  end
 
   get '/robots.txt' => 'organizations#robots'
 
@@ -183,7 +186,9 @@ Rails.application.routes.draw do
       get :referral_source_category, on: :collection
     end
 
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords], controllers: {
+      sessions:  'overrides/sessions'
+    }
     resources :form_builder_attachments, only: :destroy
 
     resources :provinces, only: :index do
@@ -263,6 +268,9 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index, :create] do
         collection do
           get :clients
+          post 'clients/upsert' => 'organizations#upsert'
+          get 'transactions/:tx_id' => 'organizations#transaction'
+          put 'clients/update_links' => 'organizations#update_link'
         end
       end
 
@@ -351,6 +359,7 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
+      get 'integration' => 'settings#integration'
 
       resources :field_settings, only: [:index] do
         collection do
