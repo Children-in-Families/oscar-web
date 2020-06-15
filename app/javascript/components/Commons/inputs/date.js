@@ -14,7 +14,7 @@ export default props => {
     }
   }
 
-  const { isError, onChange, value, getCurrentDate, T } = props
+  const { isError, onChange, value, getCurrentDate, Tុ,inlineClassName, ...others } = props
 
   const formatDateToString = value => {
     if(value) {
@@ -37,7 +37,7 @@ export default props => {
         { props.required && <abbr title='required'>* </abbr> }
         {props.label}
       </label>
-
+  { inlineClassName &&<i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
       <DatePicker
         className={isError && "error" || ""}
         onChange={onChangeDate}

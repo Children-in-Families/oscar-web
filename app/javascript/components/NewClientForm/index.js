@@ -13,10 +13,12 @@ import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
 import ThailandAddress   from '../Addresses/thailandAddress'
 import LesothoAddress   from '../Addresses/lesothoAddress'
+import Hints from '../Commons/Hints.js'
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
 import my from '../../utils/locales/my.json'
+import 'intro.js/introjs.css';
 import './styles.scss'
 import { t } from '../../utils/i18n'
 
@@ -39,7 +41,7 @@ const Forms = props => {
       current_organization,
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeTownships, carerTownships, customId1, customId2,
+      refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
       brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids
     }
@@ -338,7 +340,6 @@ const Forms = props => {
 
   return (
     <div className='containerClass'>
-      <Loading loading={loading} text={T.translate("index.wait")}/>
 
       <Modal
         className="p-md"
@@ -407,6 +408,7 @@ const Forms = props => {
           { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
         </div>
       </div>
+      <Hints enabled={true} helpText={inlineHelpTranslation} />
     </div>
   )
 }

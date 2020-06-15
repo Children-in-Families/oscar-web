@@ -954,11 +954,9 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
-    t.string   "global_id"
-    t.integer  "organization_id"
-    t.integer  "client_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string  "global_id"
+    t.integer "organization_id"
+    t.integer "client_id"
   end
 
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
@@ -1562,6 +1560,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
+    t.string   "services"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
