@@ -25,6 +25,14 @@ class FamilyGrid < BaseGrid
     scope.by_status(value)
   end
 
+  filter(:gender, header: -> { I18n.t('datagrid.columns.families.gender') }) do |value, scope|
+    scope.joins(:family_members).where("LOWER(family_members.adult_name ) ILIKE (?)", "%#{value.downcase}%")
+  end
+
+  filter(:date_of_birth, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |value, scope|
+    scope.joins(:family_members).where("LOWER(family_members.date_of_birth ) = ?", value)
+  end
+
   filter(:case_history, :string, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |value, scope|
     scope.case_history_like(value)
   end
@@ -104,6 +112,8 @@ class FamilyGrid < BaseGrid
       name: :general,
       family_type: :aggregrate,
       status: :general,
+      gender: :gender,
+      date_of_birth: :date_of_birth,
       case_history: :general,
       member_count: :aggregrate,
       cases: :aggregrate,
@@ -138,6 +148,30 @@ class FamilyGrid < BaseGrid
 
   column(:status, header: -> { I18n.t('datagrid.columns.families.status') }) do |object|
     object.status
+  end
+
+  column(:gender, html: true, header: -> { I18n.t('datagrid.columns.families.gender') }) do |object|
+    content_tag :ul, class: '' do
+      object.family_members.map(&:gender).each do |gender|
+        concat(content_tag(:li, gender.titleize))
+      end
+    end
+  end
+
+  column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |object|
+    content_tag :ul do
+      object.family_members.map(&:date_of_birth).compact.each do |dob|
+        concat(content_tag(:li, dob&.strftime("%d %B %Y")))
+      end
+    end
+  end
+
+  column(:gender, html: false, header: -> { I18n.t('datagrid.columns.families.gender') }) do |object|
+    object.family_members.map(&:gender).compact.join(", ")
+  end
+
+  column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |object|
+    object.family_members.map{ |member| member.date_of_birth&.strftime("%d %B %Y") }.compact.join(", ")
   end
 
   column(:case_history, html: true, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |object|
