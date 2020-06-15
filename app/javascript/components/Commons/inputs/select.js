@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { value, options, isMulti, isError, label, required, onChange, asGroup, T,  ...others } = props
+  const { value, options, isMulti, isError, label, required, onChange, asGroup, T, inlineClassName, ...others } = props
 
   const getSeletedObject = () => {
     if(options) {
@@ -52,10 +52,11 @@ export default props => {
 
   return (
     <div className='form-group'>
-      <label style={ isError && customError.errorText || {} }>
+      <label style={ isError && customError.errorText || { display: 'inline' } }>
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
+      { inlineClassName && <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
 
       <Select
         isMulti={isMulti}
@@ -98,7 +99,7 @@ const customStyles = {
       ...styles[':hover'],
       borderColor: '#1ab394',
     },
-  }),
+  })
 }
 
 const customError = {

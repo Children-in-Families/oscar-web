@@ -56,6 +56,14 @@ export default props => {
     onChange('client', { referral_source_category_id: data.data, referral_source_id: null })({type: 'select'})
   }
 
+  const selector1 = {
+    inline_classname: "selector1"
+  }
+
+  const selector2 = {
+    inline_classname: "selector2"
+  }
+
   return (
     <div className="containerClass">
       <legend>
@@ -82,18 +90,36 @@ export default props => {
             value={referee.name}
             label={T.translate("refereeInfo.name")}
             onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
+            inlineClassName="referee-name"
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label={T.translate("refereeInfo.gender")} isDisabled={referee.anonymous} options={genderLists} onChange={onChange('referee', 'gender')} value={referee.gender} />
+          <SelectInput label={T.translate("refereeInfo.gender")}
+            isDisabled={referee.anonymous}
+            options={genderLists}
+            onChange={onChange('referee', 'gender')}
+            value={referee.gender}
+            inlineClassName="referee-gender"
+          />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("refereeInfo.referee_phone")} type="text" disabled={referee.anonymous} onChange={onChange('referee', 'phone')} value={referee.phone} />
+          <TextInput
+            label={T.translate("refereeInfo.referee_phone")}
+            type="text" disabled={referee.anonymous}
+            onChange={onChange('referee', 'phone')}
+            value={referee.phone}
+            inlineClassName="referee-phone"
+            />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("refereeInfo.referee_email")} disabled={referee.anonymous} onChange={onChange('referee', 'email')} value={referee.email} />
+          <TextInput
+          label={T.translate("refereeInfo.referee_email")}
+          disabled={referee.anonymous}
+          onChange={onChange('referee', 'email')}
+          value={referee.email}
+          inlineClassName="referee-email"/>
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
@@ -104,6 +130,7 @@ export default props => {
             options={referralSourceCategoryLists}
             value={client.referral_source_category_id}
             onChange={onReferralSourceCategoryChange}
+            inlineClassName="referral-source-category"
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -112,6 +139,7 @@ export default props => {
             label={T.translate("refereeInfo.referral_source")}
             onChange={onChange('client', 'referral_source_id')}
             value={client.referral_source_id}
+            inlineClassName="referral-source"
           />
         </div>
 

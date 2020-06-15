@@ -125,4 +125,9 @@ body[id='clients-edit'], body[id='clients-update'] {
   .pointer {
     cursor: pointer;
   }
+  .form-group {
+    i.fa-info-circle.text-info {
+      color: $default-green;
+    }
+  }
 }
