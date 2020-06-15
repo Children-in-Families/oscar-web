@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Steps, Hints } from 'intro.js-react';
 
 const hints = props => {
   const { helpText, enabled } = props
+  const [ spinner, setSpinner ] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setSpinner(false), 1000)
+  }, []);
 
   const hintOptions = {
     hintAnimation: false,
@@ -13,6 +18,7 @@ const hints = props => {
     hintPosition: 'middle-middle'
   }
   const hintText = JSON.parse(helpText)
+
   const hints = [
     {
       element: '.admin-receiving-staff',
@@ -167,9 +173,7 @@ const hints = props => {
 
   ]
 
-  return (
-    <Hints enabled={enabled} hints={hints} options={hintOptions} />
-  )
+  return !spinner && <Hints enabled={enabled} hints={hints} options={hintOptions} />
 }
 
 export default hints

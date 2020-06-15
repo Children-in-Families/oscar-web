@@ -5,7 +5,7 @@ export default props => {
 
   return (
     <div className='form-group'>
-      <label style={isError && styles.errorText || {}}>
+      <label style={isError && styles.errorText || styles.inlineDisplay}>
         { required && <abbr title='required'>* </abbr> }
         {label}
       </label>
@@ -37,5 +37,8 @@ const styles = {
   box: {
     boxShadow: 'none',
     lineHeight: 'inherit'
+  },
+  inlineDisplay: {
+    display: 'inline'
   }
 }

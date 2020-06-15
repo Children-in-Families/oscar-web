@@ -13,6 +13,7 @@ import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
 import ThailandAddress   from '../Addresses/thailandAddress'
 import LesothoAddress   from '../Addresses/lesothoAddress'
+import Hints from '../Commons/Hints.js'
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
@@ -20,7 +21,6 @@ import my from '../../utils/locales/my.json'
 import 'intro.js/introjs.css';
 import './styles.scss'
 import { t } from '../../utils/i18n'
-import Hints from '../Commons/Hints'
 
 const Forms = props => {
   var url = window.location.href.split("&").slice(-1)[0].split("=")[1]
@@ -333,7 +333,6 @@ const Forms = props => {
 
   return (
     <div className='containerClass'>
-      <Loading loading={loading} text={T.translate("index.wait")}/>
 
       <Modal
         className="p-md"
