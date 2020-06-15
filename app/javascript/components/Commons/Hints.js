@@ -85,8 +85,8 @@ const hints = props => {
       ...hintPosition
     },
     {
-      element: '.referree-village',
-      hint: hintText.referee.referral_village,
+      element: '.village',
+      hint: hintText.address.village,
       ...hintPosition
     },
     {
@@ -165,19 +165,6 @@ const hints = props => {
       ...hintPosition
     },
 
-  ]
-
-  const clientHints = [
-    {
-      element: '.given-name',
-      hint: hintText.referral.given_name,
-      ...hintPosition
-    },
-    {
-      element: '.client-family-name',
-      hint: 'test hint 2',
-      ...hintPosition
-    },
   ]
 
   return (

@@ -1,5 +1,7 @@
 en:
   inline_help:
+    address:
+      village: N/A
     admin:
       admin_receiving_staff: Select the Case Worker who first received the client case. Referral means a case, or a client reported to your organization.
       admin_referral_date:

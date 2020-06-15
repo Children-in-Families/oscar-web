@@ -116,7 +116,7 @@ export default props => {
               options={villages}
               value={objectData.village_id}
               onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
-              inlineClassName="referree-village"
+              inlineClassName="village"
             />
           </div>
         </div>
