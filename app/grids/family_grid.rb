@@ -25,12 +25,12 @@ class FamilyGrid < BaseGrid
     scope.by_status(value)
   end
 
-  filter(:gender, header: -> { I18n.t('datagrid.columns.families.gender') }) do |value, scope|
-    scope.joins(:family_members).where("LOWER(family_members.adult_name ) ILIKE (?)", "%#{value.downcase}%")
+  filter(:gender, :enum, select: :gender_options, header: -> { I18n.t('datagrid.columns.families.gender') }) do |value, scope|
+    scope.joins(:family_members).where("family_members.gender = ?", value)
   end
 
-  filter(:date_of_birth, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |value, scope|
-    scope.joins(:family_members).where("LOWER(family_members.date_of_birth ) = ?", value)
+  filter(:date_of_birth, :date, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |value, scope|
+    scope.joins(:family_members).where("DATE(family_members.date_of_birth) = ?", value)
   end
 
   filter(:case_history, :string, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |value, scope|
@@ -81,6 +81,10 @@ class FamilyGrid < BaseGrid
     Family.joins(:district).pluck('districts.name', 'districts.id').uniq
   end
 
+  def gender_options
+    FamilyMember.gender.values.map{ |value| [I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
+  end
+
   filter(:dependable_income, :xboolean, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |value, scope|
     value ? scope.where(dependable_income: true) : scope.where(dependable_income: false)
   end
@@ -112,8 +116,8 @@ class FamilyGrid < BaseGrid
       name: :general,
       family_type: :aggregrate,
       status: :general,
-      gender: :gender,
-      date_of_birth: :date_of_birth,
+      gender: :general,
+      date_of_birth: :general,
       case_history: :general,
       member_count: :aggregrate,
       cases: :aggregrate,
