@@ -18,7 +18,7 @@ class FnOscarDashboardSponsors < ActiveRecord::Migration
                   INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
                   WHERE "public"."donors"."global_id" = donor_global_id
                 LOOP
-                  IF (SELECT public.donors.name FROM public.donors WHERE public.donors.global_id = donor_global_id) = 'Save the Children' THEN
+                  IF (SELECT public.donors.name FROM public.donors WHERE public.donors.global_id = donor_global_id) = '#{ENV['STC_DONOR_NAME']}' THEN
                     donor_sql := format('SELECT %1$I.donors.id FROM %1$I.donors WHERE (LOWER(%1$I.donors.name) = %2$L OR LOWER(%1$I.donors.name) = %3$L)', sch.short_name, 'fcf', 'react');
                   ELSE
                     donor_sql := format('SELECT %1$I.donors.id FROM %1$I.donors WHERE (LOWER(%1$I.donors.name) = %2$L)', sch.short_name, '3pc');
