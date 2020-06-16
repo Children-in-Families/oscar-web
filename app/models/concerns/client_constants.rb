@@ -15,6 +15,18 @@ module ClientConstants
   GENDER_OPTIONS  = ['female', 'male', 'other', 'unknown', 'prefer_not_to_say']
   CLIENT_LEVELS   = ['No', 'Level 1', 'Level 2']
 
+  LEGAL_DOC_FIELDS = %w(
+    national_id_files
+    birth_cert_files
+    family_book_files
+    passport_files
+    travel_doc_files
+    referral_doc_files
+    local_consent_files
+    police_interview_files
+    other_legal_doc_files
+  )
+
   BRC_RESIDENT_TYPES = [
     'Owner',
     "Rental",

@@ -53,6 +53,7 @@ module Api
       carer.update_attributes(carer_params)
       client.carer_id = carer.id
       new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
+
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
         if params[:client][:assessment_id]
           assessment = Assessment.find(params[:client][:assessment_id])
@@ -91,6 +92,33 @@ module Api
             :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
             :concern_street, :concern_house, :concern_address, :concern_address_type,
             :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
+            :national_id,
+            :birth_cert,
+            :family_book,
+            :passport,
+            :travel_doc,
+            :referral_doc,
+            :local_consent,
+            :police_interview,
+            :other_legal_doc,
+            :remove_national_id_files,
+            :remove_birth_cert_files,
+            :remove_family_book_files,
+            :remove_passport_files,
+            :remove_travel_doc_files,
+            :remove_referral_doc_files,
+            :remove_local_consent_files,
+            :remove_police_interview_files,
+            :remove_other_legal_doc_files,
+            national_id_files: [],
+            birth_cert_files: [],
+            family_book_files: [],
+            passport_files: [],
+            travel_doc_files: [],
+            referral_doc_files: [],
+            local_consent_files: [],
+            police_interview_files: [],
+            other_legal_doc_files: [],
             interviewee_ids: [],
             client_type_ids: [],
             user_ids: [],
@@ -104,18 +132,19 @@ module Api
             family_ids: []
           )
 
+
       field_settings.each do |field_setting|
         next if field_setting.group != 'client' || field_setting.required? || field_setting.visible?
 
         client_params.except!(field_setting.name.to_sym)
       end
 
-      # Client::LEGAL_DOC_FIELDS.each do |attachment_field|
-      #   doc_field = attachment_field.gsub('_files', '')
-      #   remove_field = "remove_#{attachment_field}"
-      #
-      #   client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
-      # end
+      Client::LEGAL_DOC_FIELDS.each do |attachment_field|
+        doc_field = attachment_field.gsub('_files', '')
+        remove_field = "remove_#{attachment_field}"
+
+        client_params[remove_field.to_sym] = true if client_params[doc_field.to_sym].in?([false, 'false'])
+      end
 
       client_params
     end

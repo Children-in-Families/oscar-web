@@ -65,6 +65,15 @@ class ClientGrid < BaseGrid
       settlement2
       resident_own_or_rent2
       household_type2
+      national_id
+      birth_cert
+      family_book
+      passport
+      travel_doc
+      referral_doc
+      local_consent
+      police_interview
+      other_legal_doc
     ).each do |field_name|
 
     header = I18n.t("datagrid.columns.clients.#{field_name}")
