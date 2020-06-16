@@ -2,6 +2,6 @@
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label'].html_safe
-  = f.input field_props['label'], as: :radio_buttons, collection: mapping_custom_field_values(field_props), label: false, input_html: { title: field_props['description'], name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]" }, checked: value
+  = f.input field_props['label'], as: :radio_buttons, required: false, collection: mapping_custom_field_values(field_props), label: false, input_html: { title: field_props['description'], name: "#{f.object_name}[#{remove_field_prop_unicode(field_props)}]" }, checked: value
   %span.help-block.hidden
     = t('cannot_be_blank')
