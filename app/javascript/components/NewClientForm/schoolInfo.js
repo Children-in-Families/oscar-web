@@ -13,7 +13,12 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("schoolInfo.school_name")} onChange={onChange('client', 'school_name')} value={client.school_name}/>
+          <TextInput
+            label={T.translate("schoolInfo.school_name")}
+            onChange={onChange('client', 'school_name')}
+            value={client.school_name}
+            inlineClassName="school-info"
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
@@ -21,10 +26,16 @@ export default props => {
             options={schoolGradeLists}
             value={client.school_grade}
             onChange={onChange('client', 'school_grade')}
+            inlineClassName="school-grade"
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-4">
-          <TextInput label={T.translate("schoolInfo.main_school_contact")} onChange={onChange('client', 'main_school_contact')} value={client.main_school_contact} />
+          <TextInput
+            label={T.translate("schoolInfo.main_school_contact")}
+            onChange={onChange('client', 'main_school_contact')}
+            value={client.main_school_contact}
+            inlineClassName="school-contact"
+          />
         </div>
       </div>
     </div>

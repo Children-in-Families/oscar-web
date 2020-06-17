@@ -170,6 +170,96 @@ const hints = props => {
       hint: hintText.referral.client_phone,
       ...hintPosition
     },
+    {
+      element: '.phone-owner',
+      hint: hintText.referral.phone_owner,
+      ...hintPosition
+    },
+    {
+      element: '.client-email',
+      hint: hintText.referral.client_email,
+      ...hintPosition
+    },
+    {
+      element: '.carer-name',
+      hint: hintText.carer.carer_name,
+      ...hintPosition
+    },
+    {
+      element: '.carer-gender',
+      hint: hintText.carer.carer_gender,
+      ...hintPosition
+    },
+    {
+      element: '.carer-phone',
+      hint: hintText.carer.carer_phone,
+      ...hintPosition
+    },
+    {
+      element: '.carer-email',
+      hint: hintText.carer.carer_email,
+      ...hintPosition
+    },
+    {
+      element: '.carer-relationship',
+      hint: hintText.carer.carer_relationship,
+      ...hintPosition
+    },
+    {
+      element: '.carer-family-record',
+      hint: hintText.carer.carer_family_record,
+      ...hintPosition
+    },
+    {
+      element: '.carer-same-as-client',
+      hint: hintText.carer.carer_same_as_client,
+      ...hintPosition
+    },
+    {
+      element: '.carer-international',
+      hint: hintText.carer.carer_gender,
+      ...hintPosition
+    },
+    {
+      element: '.school-info',
+      hint: hintText.school.school_info,
+      ...hintPosition
+    },
+    {
+      element: '.school-grade',
+      hint: hintText.school.school_grade,
+      ...hintPosition
+    },
+    {
+      element: '.school-contact',
+      hint: hintText.school.school_contact,
+      ...hintPosition
+    },
+    {
+      element: '.donor-involved',
+      hint: hintText.donor.donor_involved,
+      ...hintPosition
+    },
+    {
+      element: '.donor-donor',
+      hint: hintText.donor.donor_donor,
+      ...hintPosition
+    },
+    {
+      element: '.custom-id1',
+      hint: hintText.custom.custom_id1,
+      ...hintPosition
+    },
+    {
+      element: '.custom-id2',
+      hint: hintText.custom.custom_id2,
+      ...hintPosition
+    },
+    {
+      element: '.custom-id-poor',
+      hint: hintText.custom.custom_id_poor,
+      ...hintPosition
+    },
 
   ]
 

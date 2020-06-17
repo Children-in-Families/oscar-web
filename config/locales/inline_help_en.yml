@@ -9,7 +9,22 @@ en:
       case_worker: Select the Case Worker(s)/Staff who will manage this case. You can choose more than one name. This information can be edited after the case is saved. The client profile will be visible to the Case Worker(s)/Staff you choose here.
       first_follow_by: Select the Case Worker/Staff who first investigated the referred client.
       first_follow_date: Enter the date when a Case Worker/Staff followed up with the client for the first time.
-
+    carer:
+      carer_name: N/A
+      carer_gender: N/A
+      carer_phone: N/A
+      carer_email: N/A
+      carer_relationship: N/A
+      carer_family_record: N/A
+      carer_same_as_client: N/A
+      carer_international: N/A
+    custom:
+      custom_id1: N/A
+      custom_id2: N/A
+      custom_id_poor: N/A
+    donor:
+      donor_involved: N/A
+      donor_donor: N/A
     referee:
       email: N/A
       gender: |+
@@ -42,7 +57,13 @@ en:
       client_relationship: N/A
       client_is_outside: N/A
       what_3_word: N/A
-      client-phone: N/A
+      client_phone: N/A
+      phone_owner: N/A
+      client_email: N/A
+    school:
+      school_info: N/A
+      school_grade: N/A
+      school_contact: N/A
 
 
 

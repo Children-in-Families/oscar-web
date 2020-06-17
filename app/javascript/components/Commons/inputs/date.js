@@ -14,7 +14,7 @@ export default props => {
     }
   }
 
-  const { isError, onChange, value, getCurrentDate, Tុ,inlineClassName, ...others } = props
+  const { isError, onChange, value, getCurrentDate, T,inlineClassName, ...others } = props
 
   const formatDateToString = value => {
     if(value) {
@@ -37,15 +37,15 @@ export default props => {
         { props.required && <abbr title='required'>* </abbr> }
         {props.label}
       </label>
-  { inlineClassName &&<i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
+      { inlineClassName && <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
       <DatePicker
         className={isError && "error" || ""}
         onChange={onChangeDate}
         value={formatStringToDate(value)}
         minDate={new Date(1899, 12, 1)}
         maxDate={getCurrentDate && new Date() || null}
-      />
-      {isError && <span style={styles.errorText}>{T.translate("validation.cannot_blank")}</span>}
+        />
+      { isError && <span style={ styles.errorText }>{ T.translate("validation.cannot_blank") }</span> }
     </div>
   )
 }

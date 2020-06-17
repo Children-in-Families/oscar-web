@@ -148,24 +148,54 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("carerInfo.name")} onChange={onChange('carer', 'name')} value={carer.name} />
+          <TextInput
+            label={T.translate("carerInfo.name")}
+            onChange={onChange('carer', 'name')}
+            value={carer.name}
+            inlineClassName="carer-name"
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label={T.translate("carerInfo.gender")} options={genderLists} onChange={onChange('carer', 'gender')} value={carer.gender}  />
+          <SelectInput
+            label={T.translate("carerInfo.gender")}
+            options={genderLists} onChange={onChange('carer', 'gender')}
+            value={carer.gender}
+            inlineClassName="carer-gender"
+          />
         </div>
       </div>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("carerInfo.carer_phone")} type="text" onChange={onChange('carer', 'phone')} value={carer.phone}/>
+          <TextInput
+            label={T.translate("carerInfo.carer_phone")}
+            type="text" onChange={onChange('carer', 'phone')}
+            value={carer.phone}
+            inlineClassName="carer-phone"
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("carerInfo.carer_email")} onChange={onChange('carer', 'email')} value={carer.email} />
+          <TextInput
+            label={T.translate("carerInfo.carer_email")}
+            onChange={onChange('carer', 'email')}
+            value={carer.email}
+            inlineClassName="carer-email"
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label={T.translate("carerInfo.client_relationship")} options={clientRelationship} onChange={onChange('carer', 'client_relationship')} value={carer.client_relationship} />
+          <SelectInput
+            label={T.translate("carerInfo.client_relationship")}
+            options={clientRelationship} onChange={onChange('carer', 'client_relationship')}
+            value={carer.client_relationship}
+            inlineClassName="carer-relationship"
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput label={T.translate("carerInfo.family_record")} options={familyLists} value={client.current_family_id} onChange={onChangeFamily} />
+          <SelectInput
+            label={T.translate("carerInfo.family_record")}
+            options={familyLists} value={client.current_family_id}
+            onChange={onChangeFamily}
+            inlineClassName="carer-family-record"
+          />
           <TextInput type="hidden" name="client[current_family_id]" value={ client.current_family_id } />
         </div>
       </div>
@@ -177,13 +207,21 @@ export default props => {
           {
             !carer.outside &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={T.translate("carerInfo.same_as_client")} checked={carer.same_as_client} onChange={onCheckSameAsClient} />
+              <Checkbox
+                label={T.translate("carerInfo.same_as_client")}
+                checked={carer.same_as_client} onChange={onCheckSameAsClient}
+                inlineClassName="carer-same-as-client"
+              />
             </div>
           }
           {
             !carer.same_as_client &&
             <div className="col-xs-12 col-md-6 col-lg-3">
-              <Checkbox label={T.translate("carerInfo.outside_cambodia")} checked={carer.outside} onChange={onChange('carer', 'outside')} />
+              <Checkbox
+                label={T.translate("carerInfo.outside_cambodia")}
+                checked={carer.outside} onChange={onChange('carer', 'outside')}
+                inlineClassName="carer-international"
+              />
             </div>
           }
         </div>

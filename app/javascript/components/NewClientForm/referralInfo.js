@@ -427,14 +427,24 @@ export default props => {
         {
           fieldsVisibility.phone_owner == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput label={t(translation, 'clients.form.phone_owner')}  options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+            <SelectInput
+              label={t(translation, 'clients.form.phone_owner')}
+              options={phoneOwner} onChange={onChange('client', 'phone_owner')}
+              value={client.phone_owner}
+              inlineClassName="phone-owner"
+            />
           </div>
         }
       </div>
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
+          <TextInput
+            label={T.translate("referralInfo.client_email")}
+            onChange={onChange('client', 'client_email')}
+            value={client.client_email}
+            inlineClassName="client-email"
+          />
         </div>
 
         {
