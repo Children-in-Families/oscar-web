@@ -6,6 +6,9 @@ build_app:
 start_core:
 	docker-compose up --no-deps app db webpack
 
+start_mongo:
+	docker-compose up mongo
+
 # Start up all services (beware if you running this on a computer with less than 16GB RAM!)
 start_all:
 	docker-compose up
