@@ -1,26 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import introJs from 'intro.js';
+import React from 'react'
 
 export default props => {
-  const { isError, label, required, onChange, value, errorText, T, inlineClassName, ...others } = props
-
-  const [ hint, setHint ] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setHint(false);
-      introJs().setOptions({ hintPosition: 'middle-middle', hintAnimation: false }).addHints();
-    }, 1000)
-  }, []);
-
-  const handleShowHint = (hint) => {
-    const hintOption = {
-      hint: hint,
-      element: `.${inlineClassName}`,
-      hintPosition: 'middle-middle',
-      hintAnimation: false
-    }
-  }
+  const { isError, label, required, onChange, value, helpText, errorText, T, inlineClassName, ...others } = props
 
   return (
     <div className='form-group'>
@@ -30,11 +11,17 @@ export default props => {
       </label>
       {
         inlineClassName &&
-        <i
-          className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}
-          data-hint={'Hello world!'}
-          onClick={ () => handleShowHint() }
-        ></i>
+        <a
+          tabindex="0"
+          data-toggle="popover"
+          title="Help text"
+          role="button"
+          data-html={true}
+          data-placement="bottom"
+          data-trigger="focus"
+          data-content={ helpText || 'N/A' }>
+          <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
+        </a>
       }
       <input
         className='form-control'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import objectToFormData from 'object-to-formdata'
 import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
@@ -13,12 +13,10 @@ import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
 import ThailandAddress   from '../Addresses/thailandAddress'
 import LesothoAddress   from '../Addresses/lesothoAddress'
-// import Hints from '../Commons/Hints.js'
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
 import my from '../../utils/locales/my.json'
-import 'intro.js/introjs.css';
 import './styles.scss'
 import { t } from '../../utils/i18n'
 
@@ -162,6 +160,7 @@ const Forms = props => {
         checkClientExist()(() => setStep(goingToStep))
       else
         setStep(goingToStep)
+
   }
 
   const buttonNext = () => {
@@ -304,6 +303,7 @@ const Forms = props => {
 
   const buttonPrevious = () => {
     setStep(step - 1)
+    introJs().refresh();
   }
 
   const renderAddressSwitch = (objectData, objectKey, disabled) => {
@@ -360,12 +360,12 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={adminTabData} onChange={onChange} translation={translation} />
+          <AdministrativeInfo data={adminTabData} onChange={onChange} translation={translation} hintText={inlineHelpTranslation}/>
         </div>
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility}/>
+            <RefereeInfo data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>

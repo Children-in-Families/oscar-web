@@ -6,7 +6,7 @@ import {
 }                   from '../Commons/inputs'
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, hintText, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
 
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -91,6 +91,7 @@ export default props => {
             label={T.translate("refereeInfo.name")}
             onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
             inlineClassName="referee-name"
+            helpText={hintText.referee.name}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -111,15 +112,18 @@ export default props => {
             onChange={onChange('referee', 'phone')}
             value={referee.phone}
             inlineClassName="referee-phone"
+            helpText={hintText.referee.phone}
             />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
-          label={T.translate("refereeInfo.referee_email")}
-          disabled={referee.anonymous}
-          onChange={onChange('referee', 'email')}
-          value={referee.email}
-          inlineClassName="referee-email"/>
+            label={T.translate("refereeInfo.referee_email")}
+            disabled={referee.anonymous}
+            onChange={onChange('referee', 'email')}
+            value={referee.email}
+            inlineClassName="referee-email"
+            helpText={hintText.referee.email}
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput

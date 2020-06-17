@@ -56,8 +56,19 @@ export default props => {
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
-      { inlineClassName && <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
-
+      {
+        inlineClassName &&
+        <a
+          tabindex="0"
+          data-toggle="popover"
+          title="Help text"
+          role="button"
+          data-placement="bottom"
+          data-trigger="focus"
+          data-content="And here's some amazing content. It's very engaging. Right?">
+          <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
+        </a>
+      }
       <Select
         isMulti={isMulti}
         isClearable={options.some(v => !v.isFixed)}

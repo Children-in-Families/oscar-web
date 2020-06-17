@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, translation, data: { users, client, errorFields, T } } = props
+  const { onChange, translation, hintText, data: { users, client, errorFields, T } } = props
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
   return (
