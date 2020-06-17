@@ -157,7 +157,7 @@ class FamilyGrid < BaseGrid
   column(:gender, html: true, header: -> { I18n.t('datagrid.columns.families.gender') }) do |object|
     content_tag :ul, class: '' do
       object.family_members.map(&:gender).each do |gender|
-        concat(content_tag(:li, gender.titleize))
+        concat(content_tag(:li, gender&.titleize))
       end
     end
   end
