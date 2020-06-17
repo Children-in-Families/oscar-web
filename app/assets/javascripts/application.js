@@ -130,3 +130,4 @@
 //= require calls/index
 //= require referees/index
 //= require field_settings/index
+//= require donors/index
