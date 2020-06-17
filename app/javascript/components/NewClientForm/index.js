@@ -13,7 +13,7 @@ import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
 import ThailandAddress   from '../Addresses/thailandAddress'
 import LesothoAddress   from '../Addresses/lesothoAddress'
-import Hints from '../Commons/Hints.js'
+// import Hints from '../Commons/Hints.js'
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
@@ -401,7 +401,6 @@ const Forms = props => {
           { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
         </div>
       </div>
-      <Hints enabled={true} helpText={inlineHelpTranslation} />
     </div>
   )
 }
