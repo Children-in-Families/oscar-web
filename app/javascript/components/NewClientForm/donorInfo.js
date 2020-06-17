@@ -14,10 +14,20 @@ export default props => {
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput isMulti label={T.translate("donorInfo.other_agencies")} options={agencyLists} value={client.agency_ids} onChange={onChange('client', 'agency_ids')} />
+          <SelectInput
+            isMulti label={T.translate("donorInfo.other_agencies")}
+            options={agencyLists} value={client.agency_ids}
+            onChange={onChange('client', 'agency_ids')}
+            inlineClassName="donor-involved"
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <SelectInput isMulti label={T.translate("donorInfo.donor")} options={donorLists} value={client.donor_ids} onChange={onChange('client', 'donor_ids')} />
+          <SelectInput
+            isMulti label={T.translate("donorInfo.donor")}
+            options={donorLists} value={client.donor_ids}
+            onChange={onChange('client', 'donor_ids')}
+            inlineClassName="donor-donor"
+          />
         </div>
       </div>
     </div>
