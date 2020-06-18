@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200611041442) do
+ActiveRecord::Schema.define(version: 20200417074727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -618,25 +617,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
     t.string   "global_id"
-    t.boolean  "referred_external",                default: false
-    t.boolean  "national_id",                      default: false,      null: false
-    t.boolean  "birth_cert",                       default: false,      null: false
-    t.boolean  "family_book",                      default: false,      null: false
-    t.boolean  "passport",                         default: false,      null: false
-    t.boolean  "travel_doc",                       default: false,      null: false
-    t.boolean  "referral_doc",                     default: false,      null: false
-    t.boolean  "local_consent",                    default: false,      null: false
-    t.boolean  "police_interview",                 default: false,      null: false
-    t.boolean  "other_legal_doc",                  default: false,      null: false
-    t.string   "national_id_files",                default: [],                      array: true
-    t.string   "birth_cert_files",                 default: [],                      array: true
-    t.string   "family_book_files",                default: [],                      array: true
-    t.string   "passport_files",                   default: [],                      array: true
-    t.string   "travel_doc_files",                 default: [],                      array: true
-    t.string   "referral_doc_files",               default: [],                      array: true
-    t.string   "local_consent_files",              default: [],                      array: true
-    t.string   "police_interview_files",           default: [],                      array: true
-    t.string   "other_legal_doc_files",            default: [],                      array: true
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -834,27 +814,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
   add_index "exit_ngos", ["deleted_at"], name: "index_exit_ngos_on_deleted_at", using: :btree
 
-  create_table "external_system_global_identities", force: :cascade do |t|
-    t.integer  "external_system_id"
-    t.string   "global_id"
-    t.string   "external_id"
-    t.string   "client_slug"
-    t.string   "organization_name"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-  end
-
-  add_index "external_system_global_identities", ["external_system_id"], name: "index_external_system_global_identities_on_external_system_id", using: :btree
-  add_index "external_system_global_identities", ["global_id"], name: "index_external_system_global_identities_on_global_id", using: :btree
-
-  create_table "external_systems", force: :cascade do |t|
-    t.string   "name"
-    t.string   "url"
-    t.string   "token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "families", force: :cascade do |t|
     t.string   "code"
     t.string   "name",                            default: ""
@@ -980,8 +939,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   create_table "global_services", id: false, force: :cascade do |t|
     t.uuid "uuid"
   end
-
-  add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1521,19 +1478,15 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "consent_form",     default: [],                 array: true
     t.boolean  "saved",            default: false
     t.integer  "client_id"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.string   "ngo_name",                  default: ""
-    t.string   "client_gender",             default: ""
-    t.date     "client_date_of_birth"
-    t.string   "village_code",              default: ""
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.string   "ngo_name",         default: ""
     t.string   "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
-    t.string   "services"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1558,43 +1511,38 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_index "services", ["parent_id"], name: "index_services_on_parent_id", using: :btree
 
   create_table "settings", force: :cascade do |t|
-    t.string   "assessment_frequency",                 default: "month"
+    t.string   "assessment_frequency",        default: "month"
     t.integer  "min_assessment"
-    t.integer  "max_assessment",                       default: 6
-    t.string   "country_name",                         default: ""
+    t.integer  "max_assessment",              default: 6
+    t.string   "country_name",                default: ""
     t.integer  "max_case_note"
     t.string   "case_note_frequency"
-    t.string   "client_default_columns",               default: [],                               array: true
-    t.string   "family_default_columns",               default: [],                               array: true
-    t.string   "partner_default_columns",              default: [],                               array: true
-    t.string   "user_default_columns",                 default: [],                               array: true
+    t.string   "client_default_columns",      default: [],                  array: true
+    t.string   "family_default_columns",      default: [],                  array: true
+    t.string   "partner_default_columns",     default: [],                  array: true
+    t.string   "user_default_columns",        default: [],                  array: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "org_name",                             default: ""
-    t.string   "old_commune",                          default: ""
+    t.string   "org_name",                    default: ""
+    t.string   "old_commune",                 default: ""
     t.integer  "province_id"
     t.integer  "district_id"
-    t.integer  "age",                                  default: 18
+    t.integer  "age",                         default: 18
     t.integer  "commune_id"
-    t.string   "custom_assessment",                    default: "Custom Assessment"
-    t.boolean  "enable_custom_assessment",             default: false
-    t.boolean  "enable_default_assessment",            default: true
-    t.integer  "max_custom_assessment",                default: 6
-    t.string   "custom_assessment_frequency",          default: "month"
-    t.integer  "custom_age",                           default: 18
-    t.string   "default_assessment",                   default: "CSI Assessment"
-    t.boolean  "sharing_data",                         default: false
-    t.string   "custom_id1_latin",                     default: ""
-    t.string   "custom_id1_local",                     default: ""
-    t.string   "custom_id2_latin",                     default: ""
-    t.string   "custom_id2_local",                     default: ""
-    t.boolean  "enable_hotline",                       default: false
-    t.boolean  "enable_client_form",                   default: true
-    t.string   "assessment_score_order",               default: "random_order",      null: false
-    t.boolean  "disable_required_fields",              default: false,               null: false
-    t.boolean  "never_delete_incomplete_assessment",   default: false,               null: false
-    t.integer  "delete_incomplete_after_period_value", default: 7
-    t.string   "delete_incomplete_after_period_unit",  default: "days"
+    t.string   "custom_assessment",           default: "Custom Assessment"
+    t.boolean  "enable_custom_assessment",    default: false
+    t.boolean  "enable_default_assessment",   default: true
+    t.integer  "max_custom_assessment",       default: 6
+    t.string   "custom_assessment_frequency", default: "month"
+    t.integer  "custom_age",                  default: 18
+    t.string   "default_assessment",          default: "CSI Assessment"
+    t.boolean  "sharing_data",                default: false
+    t.string   "custom_id1_latin",            default: ""
+    t.string   "custom_id1_local",            default: ""
+    t.string   "custom_id2_latin",            default: ""
+    t.string   "custom_id2_local",            default: ""
+    t.boolean  "enable_hotline",              default: false
+    t.boolean  "enable_client_form",          default: true
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
@@ -1618,11 +1566,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "duplicate_checker"
     t.string   "archived_slug"
     t.string   "global_id"
-    t.string   "external_id"
-    t.string   "external_id_display"
-    t.string   "mosvy_number"
-    t.string   "external_case_worker_name"
-    t.string   "external_case_worker_id"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
@@ -2099,15 +2042,11 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
-  add_foreign_key "external_system_global_identities", "external_systems"
-  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
-  add_foreign_key "global_identity_organizations", "global_identities", column: "global_id", primary_key: "ulid"
-  add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
   add_foreign_key "government_form_family_plans", "family_plans"

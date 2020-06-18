@@ -6,10 +6,6 @@ class OrganizationClientSerializer < ActiveModel::Serializer
              :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id, :protection_status,
              :services, :status, :case_worker_name, :case_worker_mobile, :is_referred, :referral_consent_form
 
-  def global_id
-    object.global_identity&.ulid
-  end
-
   def organization_id
     Organization.current.id
   end
