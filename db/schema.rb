@@ -924,11 +924,9 @@ ActiveRecord::Schema.define(version: 20200603081325) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "global_identities", id: false, force: :cascade do |t|
-    t.string "ulid"
+  create_table "global_identities", force: :cascade do |t|
+    t.binary "ulid"
   end
-
-  add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
