@@ -94,6 +94,7 @@ export default props => {
               options={districts}
               value={objectData.district_id}
               onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
+              inlineClassName="referree-districs"
             />
           </div>
 
@@ -104,6 +105,7 @@ export default props => {
               options={communes}
               value={objectData.commune_id}
               onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
+              inlineClassName="referree-commune"
             />
           </div>
 
@@ -114,6 +116,7 @@ export default props => {
               options={villages}
               value={objectData.village_id}
               onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
+              inlineClassName="village"
             />
           </div>
         </div>
@@ -125,6 +128,7 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'street_number')}
               value={objectData.street_number}
+              inlineClassName="referree-street-number"
             />
           </div>
 
@@ -134,6 +138,7 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'house_number')}
               value={objectData.house_number}
+              inlineClassName="referree-house-number"
             />
           </div>
 
@@ -143,6 +148,7 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'current_address')}
               value={objectData.current_address}
+              inlineClassName="referree-address-name"
             />
           </div>
 
@@ -153,6 +159,7 @@ export default props => {
               options={typeOfAddress}
               onChange={onChange(objectKey, 'address_type')}
               value={objectData.address_type}
+              inlineClassName="referree-address-type"
             />
           </div>
         </div>

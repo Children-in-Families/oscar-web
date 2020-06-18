@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default props => {
-  const { isError, label, required, onChange, value, errorText, T, inlineClassName, ...others } = props
+  const { isError, label, required, onChange, value, helpText, errorText, T, inlineClassName, ...others } = props
 
   return (
     <div className='form-group'>
@@ -9,7 +9,20 @@ export default props => {
         { required && <abbr title='required'>* </abbr> }
         {label}
       </label>
-      { inlineClassName && <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
+      {
+        inlineClassName &&
+        <a
+          tabindex="0"
+          data-toggle="popover"
+          title="Help text"
+          role="button"
+          data-html={true}
+          data-placement="bottom"
+          data-trigger="focus"
+          data-content={ helpText || 'N/A' }>
+          <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
+        </a>
+      }
       <input
         className='form-control'
         onChange={onChange}
