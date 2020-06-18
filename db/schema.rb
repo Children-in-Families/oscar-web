@@ -604,7 +604,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
     t.string   "global_id"
-    t.boolean  "referred_external",                default: false
     t.boolean  "national_id",                      default: false,      null: false
     t.boolean  "birth_cert",                       default: false,      null: false
     t.boolean  "family_book",                      default: false,      null: false
@@ -623,6 +622,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "local_consent_files",              default: [],                      array: true
     t.string   "police_interview_files",           default: [],                      array: true
     t.string   "other_legal_doc_files",            default: [],                      array: true
+    t.boolean  "referred_external",                default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -947,12 +947,16 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
+  create_table "global_identities", id: false, force: :cascade do |t|
+    t.string "ulid"
+  end
+
+  add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
+
   create_table "global_identity_organizations", force: :cascade do |t|
-    t.string   "global_id"
-    t.integer  "organization_id"
-    t.integer  "client_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string  "global_id"
+    t.integer "organization_id"
+    t.integer "client_id"
   end
 
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
@@ -960,7 +964,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
   create_table "global_services", id: false, force: :cascade do |t|
-    t.uuid "uuid"
+    t.uuid "uuid", default: "uuid_generate_v4()"
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
@@ -1547,15 +1551,15 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
-    t.string   "client_gender",             default: ""
-    t.date     "client_date_of_birth"
-    t.string   "village_code",              default: ""
     t.string   "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
+    t.string   "client_gender",             default: ""
+    t.date     "client_date_of_birth"
+    t.string   "village_code",              default: ""
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1726,9 +1730,11 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "case_note_id",              default: ""
     t.integer  "taskable_id"
     t.string   "taskable_type"
+    t.datetime "deleted_at"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
+  add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
