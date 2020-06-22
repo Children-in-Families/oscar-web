@@ -10,6 +10,6 @@ class AddGlobalIdToClients < ActiveRecord::Migration
 
   def down
     # change_column :clients, :global_id, :integer, using: 'global_id::integer' if Client.columns_hash["global_id"].type == :string
-    remove_foreign_key :clients, column: :global_id if index_exists?(:clients, :global_id)
+    remove_foreign_key :clients, column: :global_id if foreign_keys(:clients).map(&:column).include?("global_id")
   end
 end
