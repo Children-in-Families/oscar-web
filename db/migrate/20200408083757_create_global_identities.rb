@@ -1,13 +1,16 @@
 class CreateGlobalIdentities < ActiveRecord::Migration
   def up
     drop_table :global_identities, force: :cascade if table_exists? :global_identities
-    create_table  :global_identities,
-      {
-        :id           => false,
-        :primary_key  => :ulid
-      } do |t|
-        t.string :ulid, index: { unique: true }
-      end
+
+    if !table_exists? :global_identities
+      create_table  :global_identities,
+        {
+          :id           => false,
+          :primary_key  => :ulid
+        } do |t|
+          t.string :ulid, index: { unique: true }
+        end
+    end
 
     if schema_search_path == "\"public\""
       execute <<-SQL.squish
