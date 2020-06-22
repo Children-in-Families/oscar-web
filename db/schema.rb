@@ -602,6 +602,7 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
+    t.string   "global_id"
     t.boolean  "national_id",                      default: false,      null: false
     t.boolean  "birth_cert",                       default: false,      null: false
     t.boolean  "family_book",                      default: false,      null: false
@@ -620,7 +621,6 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.string   "local_consent_files",              default: [],                      array: true
     t.string   "police_interview_files",           default: [],                      array: true
     t.string   "other_legal_doc_files",            default: [],                      array: true
-    t.integer  "global_id"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -935,6 +935,16 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.string  "ngo_name"
     t.integer "client_id"
   end
+
+  create_table "global_identity_organizations", force: :cascade do |t|
+    t.string  "global_id"
+    t.integer "organization_id"
+    t.integer "client_id"
+  end
+
+  add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
+  add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
+  add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1476,7 +1486,8 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.string   "ngo_name",         default: ""
-    t.integer  "client_global_id"
+    t.string   "client_global_id"
+    t.string   "services"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
