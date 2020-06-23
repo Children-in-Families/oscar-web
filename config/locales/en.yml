@@ -3432,12 +3432,15 @@ en:
       a4: 4A
       a5: 5A
       a6: 6A
+      a7: 7A
       b1: 1B
       b2: 2B
       b3: 3B
       b4: 4B
       b5: 5B
       b6: 6B
+      b7: 7B
+      c3: 3C
     edit:
       title: Edit Domain
     form:

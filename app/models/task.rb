@@ -52,7 +52,7 @@ class Task < ActiveRecord::Base
   def self.upcoming_incomplete_tasks
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      tasks    = incomplete.where(completion_date: Date.tomorrow).exclude_exited_ngo_clients
+      tasks    = with_deleted.incomplete.where(completion_date: Date.tomorrow).exclude_exited_ngo_clients
       user_ids = tasks.map(&:user_id).flatten.uniq
       users    = User.non_devs.non_locked.where(id: user_ids)
       users.each do |user|
@@ -62,7 +62,7 @@ class Task < ActiveRecord::Base
   end
 
   def self.by_case_note_domain_group(cdg)
-    cdg_tasks  = cdg.tasks.ids
+    cdg_tasks  = cdg.tasks.with_deleted.with_deleted.ids
     incomplete = self.incomplete.ids
     ids        = cdg_tasks + incomplete
     where(id: ids)

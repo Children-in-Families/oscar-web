@@ -9,6 +9,13 @@ en:
       case_worker: Select the Case Worker(s)/Staff who will manage this case. You can choose more than one name. This information can be edited after the case is saved. The client profile will be visible to the Case Worker(s)/Staff you choose here.
       first_follow_by: Select the Case Worker/Staff who first investigated the referred client.
       first_follow_date: Enter the date when a Case Worker/Staff followed up with the client for the first time.
+    assessments:
+      notes:
+        lists:
+          list1: |+
+            Once you start the assessment, you have one week to complete it. You can save the assessment at any point but ensure to finish it within a week. However, you won’t be allowed to save half-way if you choose to add Task at the end of the assessment.
+
+            Email reminders will be sent for incomplete assessments. After one week, the assessment will be auto-deleted. You will have to restart the assessment if you do not complete it within one week.
     carer:
       carer_name: Depending on the client’s situation, a primary carer can be anyone who is the first immediate person responsible for the client’s wellbeing. It can be a parent, foster parent, hospital staff, NGO staff, etc. You will need to update this when the client’s living situation changes.
       carer_gender: N/A
@@ -19,8 +26,27 @@ en:
       carer_same_as_client: N/A
       carer_international: N/A
     clients:
+      buttons:
+        save: The client’s information will be created/saved. The Duplicate Checker feature will check for any duplicate entries and warn you if any are found.
+      form:
+        notes:
+          step1:
+            lists:
+              list1: Click/hover over the icon next to a field to read tips/additional information.
+              list2: All fields marked with an * are required. You will not be able to proceed if they are blank.
+              list3: It is recommended to fill information in ALL the fields to help us better serve our clients.
+              list4: If you do not have all the information for optional fields, you can enter or edit information after the case is saved in the OSCaR.
+          step2:
+            lists:
+              list1: Enter the client’s name and family name in both Latin (see above) and Khmer. This helps in maintaining a complete record and avoid duplicates in the OSCaR system.
+          step4:
+            lists:
+              list1: "This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points <strong>through Manage >> Custom Referral Data.</strong>"
       show:
         accepted: Accepted – Organization has accepted the case and working with the client.
+        notes:
+          lists:
+            list1: Some information such as schooling, living details, primary carer, etc. can change with time. Please ensure you update such information when it changes.
     custom:
       custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels. This is different from Client ID auto-generated in OSCaR for every case.
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels.
@@ -29,6 +55,10 @@ en:
     donor:
       donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from Manage &gt;&gt; Agencies.
       donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from Manage &gt;&gt; Donors.
+    exit_form:
+      notes:
+        lists:
+          list1: The case will remain in the database and show the Exit status. Case Worker(s)/Staff will be removed from the exited client and can no longer see the case in the OSCaR system. Only the Admin/Manager can see exited clients.
     referee:
       email: N/A
       gender: Other - if the client’s gender is something other than male or female.

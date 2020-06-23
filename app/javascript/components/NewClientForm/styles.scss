@@ -135,4 +135,13 @@ body[id='clients-edit'], body[id='clients-update'] {
     border: none;
     background-color: rgba(255, 255, 255, 0);
   }
+
+  #save-buttom-wrapper {
+    display: inherit;
+  }
+
+  .popover {
+    position: relative;
+    z-index: 2060 !important;
+  }
 }
