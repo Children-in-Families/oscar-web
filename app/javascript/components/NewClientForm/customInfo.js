@@ -41,7 +41,6 @@ export default props => {
               label={t(translation, 'clients.form.rated_for_id_poor')}
               options={rateLists} value={client.rated_for_id_poor}
               onChange={onChange('client', 'rated_for_id_poor')}
-              inlineClassName="custom-id-poor"
               hintText={hintText.custom.custom_id_poor}
             />
           </div>
