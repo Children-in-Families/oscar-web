@@ -5,6 +5,7 @@ class Organization < ActiveRecord::Base
 
   has_many :donor_organizations, dependent: :destroy
   has_many :donors, through: :donor_organizations
+  has_many :global_identity_organizations, dependent: :destroy
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }
   scope :without_cwd, -> { where.not(short_name: 'cwd') }
@@ -39,6 +40,14 @@ class Organization < ActiveRecord::Base
 
     def brc?
       current&.short_name == 'brc'
+    end
+
+    def shared?
+      current&.short_name == 'shared'
+    end
+
+    def ratanak?
+      current&.short_name == 'ratanak'
     end
   end
 

@@ -74,6 +74,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
                   sql TEXT := '';
                   sch record;
                   shared_bp_name TEXT := '';
+                  donor_sql TEXT := '';
                   client_r record;
                 BEGIN
                   FOR sch IN
@@ -82,14 +83,20 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     INNER JOIN "public"."organizations" ON "public"."organizations"."id" = "public"."donor_organizations"."organization_id"
                     WHERE "public"."donors"."global_id" = donor_global_id
                   LOOP
+                    IF (SELECT name FROM public.donors WHERE public.donors.global_id = donor_global_id) = '#{ENV['STC_DONOR_NAME']}' THEN
+                      donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L OR LOWER(%1$I.donors.name) = %3$L)', sch.short_name, 'fcf', 'react');
+                    ELSE
+                      donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L)', sch.short_name, '3pc');
+                    END IF;
+
                     sql := sql || format(
                                     'SELECT clients.id, clients.slug, %1$L organization_name, clients.gender, clients.donor_id, clients.exit_date, clients.accepted_date,
                                     clients.date_of_birth, clients.status, clients.province_id, provinces.name as province_name, clients.district_id, districts.name as district_name,
                                     clients.birth_province_id, clients.assessments_count, clients.follow_up_date,
                                     clients.initial_referral_date, clients.referral_source_category_id, clients.created_at,
-                                    clients.updated_at FROM %1$I.clients LEFT OUTER JOIN %1$I.provinces ON %1$I.provinces.id = %1$I.clients.province_id
-                                    LEFT OUTER JOIN %1$I.districts ON %1$I.districts.id = %1$I.clients.district_id UNION ',
-                                    sch.short_name);
+                                    clients.updated_at FROM %1$I.clients INNER JOIN %1$I.sponsors ON %1$I.sponsors.client_id = %1$I.clients.id INNER JOIN %1$I.donors ON %1$I.donors.id = %1$I.sponsors.donor_id LEFT OUTER JOIN %1$I.provinces ON %1$I.provinces.id = %1$I.clients.province_id
+                                    LEFT OUTER JOIN %1$I.districts ON %1$I.districts.id = %1$I.clients.district_id WHERE %1$I.sponsors.donor_id IN (%2$s) UNION ',
+                                    sch.short_name, donor_sql);
                   END LOOP;
 
                   FOR client_r IN EXECUTE left(sql, -7)
@@ -140,9 +147,9 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
   def create_donors_organizations
     Organization.switch_to 'public'
-    donors = ['Save the Children', 'Friends']
+    donors = [ENV['STC_DONOR_NAME'], ENV['FD_DONOR_NAME']]
     donor_organizations = {
-      'Save the Children' => [
+      ENV['STC_DONOR_NAME'] => [
         'Children in Families',
         'This Life Cambodia',
         'First Step Cambodia',
@@ -156,7 +163,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
         'Holt',
         'Tentative - Voice'
       ],
-      'Friends' => [
+      ENV['FD_DONOR_NAME'] => [
         'Kaliyan Mith',
         'Mith Samlanh',
         'Friends International'
@@ -171,7 +178,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
     Donor.all.pluck(:id, :name).each do |donor_id, donor_name|
       organaization_names = donor_organizations[donor_name]
       organaization_names.each do |org_name|
-        organization = Organization.where("LOWER(organizations.full_name) ILIKE (?)", "%#{org_name}%").first
+        organization = Organization.where("LOWER(organizations.full_name) ILIKE (?)", "%#{org_name.downcase}%").first
         next unless organization
         donor_orgs << { donor_id: donor_id, organization_id: organization.id }
       end

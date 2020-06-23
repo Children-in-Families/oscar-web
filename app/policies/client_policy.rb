@@ -3,12 +3,26 @@ class ClientPolicy < ApplicationPolicy
     record.status != 'Exited'
   end
 
+  def show_legal_doc?
+    [
+      :national_id,
+      :birth_cert,
+      :family_book,
+      :passport,
+      :travel_doc,
+      :referral_doc,
+      :local_consent,
+      :police_interview,
+      :other_legal_doc
+    ].any?{ |field| show?(field) }
+  end
+
   def show?(*field_names)
     return true if field_names.blank?
     field = field_names.first.to_s
 
     hidden_fields = %w(
-      government_forms province donor_info kid_id carer
+      province donor_info kid_id carer
       custom_id1 custom_id2 carer_info custom_ids school_info referee_info
       school_name school_grade main_school_contact donor referee care
       current_address house_number street_number village commune district province_id
