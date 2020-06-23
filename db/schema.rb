@@ -606,7 +606,6 @@ ActiveRecord::Schema.define(version: 20200618080326) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
-    t.string   "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -614,6 +613,7 @@ ActiveRecord::Schema.define(version: 20200618080326) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
+    t.string   "global_id"
     t.boolean  "referred_external",                default: false
     t.boolean  "national_id",                      default: false,      null: false
     t.boolean  "birth_cert",                       default: false,      null: false

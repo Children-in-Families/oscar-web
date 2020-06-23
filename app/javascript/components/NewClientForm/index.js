@@ -163,6 +163,8 @@ const Forms = props => {
       else
         setStep(goingToStep)
 
+      $('.alert').hide();
+      $(`#step-${goingToStep}`).show();
   }
 
   const buttonNext = () => {
@@ -171,7 +173,11 @@ const Forms = props => {
         checkClientExist()(() => setStep(step + 1))
       else
         setStep(step + 1)
+
+      $('.alert').hide();
+      $(`#step-${step + 1}`).show();
     }
+
   }
 
   const checkClientExist = () => callback => {
@@ -310,7 +316,8 @@ const Forms = props => {
 
   const buttonPrevious = () => {
     setStep(step - 1)
-    introJs().refresh();
+    $('.alert').hide();
+    $(`#step-${step - 1}`).show();
   }
 
   const renderAddressSwitch = (objectData, objectKey, disabled) => {
@@ -405,7 +412,26 @@ const Forms = props => {
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
           { step !== (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
 
-          { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
+          { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) &&
+            <div id="save-buttom-wrapper">
+              <span
+                className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' }
+                onClick={() => handleSave()()}>{T.translate("index.save")}
+              </span>
+              <a
+                tabIndex="0"
+                data-toggle="popover"
+                title="Help text"
+                role="button"
+                data-html={true}
+                data-placement="auto"
+                data-trigger="focus"
+                data-container="body"
+                data-content={ inlineHelpTranslation.clients.buttons.save }>
+                <i className={`fa fa-info-circle text-info m-xs`}></i>
+              </a>
+            </div>
+          }
         </div>
       </div>
     </div>

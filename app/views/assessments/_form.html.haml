@@ -1,3 +1,8 @@
+.alert.alert-warning.alert-dismissible{ :role => "alert" }
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %ul
+    %li= I18n.t('inline_help.assessments.notes.lists.list1')
 = simple_form_for([@assessment.client, @assessment], html: { class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
