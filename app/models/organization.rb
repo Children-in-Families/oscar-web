@@ -20,6 +20,8 @@ class Organization < ActiveRecord::Base
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
   scope :only_integrated, -> { where(integrated: true) }
 
+  before_save :clean_supported_languages
+
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
 
@@ -117,5 +119,11 @@ class Organization < ActiveRecord::Base
     else
       Organization.test_ngos.pluck(:short_name).include?(self.short_name) || Organization.visible.pluck(:short_name).include?(self.short_name)
     end
+  end
+
+  private
+
+  def clean_supported_languages
+    self.supported_languages = supported_languages.select(&:present?)
   end
 end
