@@ -34,7 +34,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
     if service_types.present?
       service_types
     else
-      Referral.find_by(client_id: object.id)&.services&.pluck(:uuid, :name) || []
+      Referral.find_by(client_id: object.id)&.services&.map{ |service| { uuid: service.uuid, name: service.name } } || []
     end
   end
 
