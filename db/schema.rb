@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200417074727) do
+ActiveRecord::Schema.define(version: 20200603081325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -602,6 +602,24 @@ ActiveRecord::Schema.define(version: 20200417074727) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
+    t.boolean  "national_id",                      default: false,      null: false
+    t.boolean  "birth_cert",                       default: false,      null: false
+    t.boolean  "family_book",                      default: false,      null: false
+    t.boolean  "passport",                         default: false,      null: false
+    t.boolean  "travel_doc",                       default: false,      null: false
+    t.boolean  "referral_doc",                     default: false,      null: false
+    t.boolean  "local_consent",                    default: false,      null: false
+    t.boolean  "police_interview",                 default: false,      null: false
+    t.boolean  "other_legal_doc",                  default: false,      null: false
+    t.string   "national_id_files",                default: [],                      array: true
+    t.string   "birth_cert_files",                 default: [],                      array: true
+    t.string   "family_book_files",                default: [],                      array: true
+    t.string   "passport_files",                   default: [],                      array: true
+    t.string   "travel_doc_files",                 default: [],                      array: true
+    t.string   "referral_doc_files",               default: [],                      array: true
+    t.string   "local_consent_files",              default: [],                      array: true
+    t.string   "police_interview_files",           default: [],                      array: true
+    t.string   "other_legal_doc_files",            default: [],                      array: true
     t.string   "global_id"
   end
 
@@ -909,8 +927,23 @@ ActiveRecord::Schema.define(version: 20200417074727) do
   create_table "global_identities", id: false, force: :cascade do |t|
     t.string "ulid"
   end
-
   add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
+
+  create_table "global_identity_organizations", force: :cascade do |t|
+    t.string  "global_id"
+    t.integer "organization_id"
+    t.integer "client_id"
+  end
+
+  add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
+  add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
+  add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
+
+  create_table "global_identity_tmp", force: :cascade do |t|
+    t.binary  "ulid"
+    t.string  "ngo_name"
+    t.integer "client_id"
+  end
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1600,9 +1633,14 @@ ActiveRecord::Schema.define(version: 20200417074727) do
     t.integer  "client_id"
     t.string   "relation",                  default: ""
     t.string   "case_note_id",              default: ""
+    t.integer  "taskable_id"
+    t.string   "taskable_type"
+    t.datetime "deleted_at"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
+  add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
+  add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
     t.integer  "messageboard_id",             null: false
