@@ -260,6 +260,11 @@ const hints = props => {
       hint: hintText.custom.custom_id_poor,
       ...hintPosition
     },
+    {
+      element: '.relevant-info',
+      hint: hintText.custom.relevant_info,
+      ...hintPosition
+    },
 
   ]
 

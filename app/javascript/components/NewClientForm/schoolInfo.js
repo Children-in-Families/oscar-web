@@ -5,7 +5,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, id, data: { client, schoolGrade, T } } = props
+  const { onChange, id, hintText, data: { client, schoolGrade, T } } = props
   const schoolGradeLists = schoolGrade.map(grade => ({ label: T.translate("schoolGrade."+grade[0]), value: grade[1] }))
 
   return (
@@ -18,6 +18,7 @@ export default props => {
             onChange={onChange('client', 'school_name')}
             value={client.school_name}
             inlineClassName="school-info"
+            hintText={hintText.school.school_info}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -27,6 +28,7 @@ export default props => {
             value={client.school_grade}
             onChange={onChange('client', 'school_grade')}
             inlineClassName="school-grade"
+            hintText={hintText.school.school_grade}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-4">
@@ -35,6 +37,7 @@ export default props => {
             onChange={onChange('client', 'main_school_contact')}
             value={client.main_school_contact}
             inlineClassName="school-contact"
+            hintText={hintText.school.school_contact}
           />
         </div>
       </div>

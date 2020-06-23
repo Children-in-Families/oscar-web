@@ -320,12 +320,12 @@ const Forms = props => {
         break;
       default:
         if(objectKey == 'referee'){
-          return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, objectKey, objectData, T}} />
+          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, objectKey, objectData, T}} />
         }
         if(objectKey == 'carer'){
-          return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
+          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
         } else{
-          return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
+          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
         }
 
     }
@@ -369,15 +369,15 @@ const Forms = props => {
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={referralTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility}/>
+            <ReferralInfo data={referralTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} />
+            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
-            <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
+            <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           {

@@ -30,6 +30,7 @@ export default props => {
             value={client.received_by_id}
             onChange={onChange('client', 'received_by_id')}
             inlineClassName="admin-receiving-staff"
+            hintText={hintText.admin.admin_receiving_staff}
             />
         </div>
       </div>
@@ -43,7 +44,9 @@ export default props => {
             label={t(translation, 'clients.form.initial_referral_date')}
             value={client.initial_referral_date}
             onChange={onChange('client', 'initial_referral_date')}
-            inlineClassName="admin-referral-date"/>
+            inlineClassName="admin-referral-date"
+            hintText={hintText.admin.admin_referral_date}
+          />
         </div>
       </div>
 
@@ -59,7 +62,9 @@ export default props => {
             options={userLists}
             value={client.user_ids}
             onChange={onChange('client','user_ids')}
-            inlineClassName="case-worker"/>
+            inlineClassName="case-worker"
+            hintText={hintText.admin.case_worker}
+          />
         </div>
       </div>
 
@@ -70,7 +75,9 @@ export default props => {
           options={userLists}
           onChange={onChange('client', 'followed_up_by_id')}
           value={client.followed_up_by_id}
-          inlineClassName="first-follow-by"/>
+          inlineClassName="first-follow-by"
+          hintText={hintText.admin.first_follow_by}
+        />
         </div>
       </div>
 
@@ -80,7 +87,9 @@ export default props => {
           label={T.translate("admin.first_follow_date")}
           onChange={onChange('client','follow_up_date')}
           value={client.follow_up_date}
-          inlineClassName="first-follow-date"/>
+          inlineClassName="first-follow-date"
+          hintText={hintText.admin.first_follow_date}
+        />
         </div>
       </div>
     </>
