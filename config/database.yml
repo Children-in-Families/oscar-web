@@ -5,7 +5,7 @@ default: &default
   host: <%= ENV['DATABASE_HOST'] %>
   username: <%= ENV['DATABASE_USER'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
-  schema_search_path: "dev,cif,newsmile,public"
+  schema_search_path: "dev,cif,newsmile,public,shared_extensions"
 
 development:
   <<: *default

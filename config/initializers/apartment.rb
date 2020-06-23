@@ -55,7 +55,7 @@ Apartment.configure do |config|
   # The default behaviour is true.
   #
   # config.use_schemas = true
-
+  config.persistent_schemas = ['shared_extensions']
   # Apartment can be forced to use raw SQL dumps instead of schema.rb for creating new schemas.
   # Use this when you are using some extra features in PostgreSQL that can't be respresented in
   # schema.rb, like materialized views etc. (only applies with use_schemas set to true).
