@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, fieldsVisibility, translation, id, data: { errorFields, ratePoor, client, T, customId1, customId2, } } = props
+  const { onChange, fieldsVisibility, translation, id, hintText, data: { errorFields, ratePoor, client, T, customId1, customId2, } } = props
 
   const rateLists = ratePoor.map(rate => ({ label: rate[0], value: rate[1] }))
 
@@ -19,6 +19,7 @@ export default props => {
             label={ customId1 } onChange={onChange('client', 'code')}
             value={client.code}
             inlineClassName="custom-id1"
+            hintText={hintText.custom.custom_id1}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -29,6 +30,7 @@ export default props => {
             isError={errorFields.includes('kid_id')}
             errorText={errorFields.includes('kid_id') && T.translate("customInfo.has_already_taken")}
             inlineClassName="custom-id2"
+            hintText={hintText.custom.custom_id2}
           />
         </div>
 
@@ -40,6 +42,7 @@ export default props => {
               options={rateLists} value={client.rated_for_id_poor}
               onChange={onChange('client', 'rated_for_id_poor')}
               inlineClassName="custom-id-poor"
+              hintText={hintText.custom.custom_id_poor}
             />
           </div>
         }

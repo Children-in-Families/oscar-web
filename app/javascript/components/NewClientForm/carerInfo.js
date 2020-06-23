@@ -6,7 +6,7 @@ import {
 }             from '../Commons/inputs'
 
 export default props => {
-  const { onChange, renderAddressSwitch, current_organization, id, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, carerSubdistricts, families, addressTypes, T } } = props
+  const { onChange, renderAddressSwitch, current_organization, id, hintText, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, carerSubdistricts, families, addressTypes, T  } } = props
 
   const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
@@ -153,6 +153,7 @@ export default props => {
             onChange={onChange('carer', 'name')}
             value={carer.name}
             inlineClassName="carer-name"
+            hintText={hintText.carer.carer_name}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -161,6 +162,7 @@ export default props => {
             options={genderLists} onChange={onChange('carer', 'gender')}
             value={carer.gender}
             inlineClassName="carer-gender"
+            hintText={hintText.carer.carer_gender}
           />
         </div>
       </div>
@@ -171,6 +173,7 @@ export default props => {
             type="text" onChange={onChange('carer', 'phone')}
             value={carer.phone}
             inlineClassName="carer-phone"
+            hintText={hintText.carer.carer_phone}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -179,6 +182,7 @@ export default props => {
             onChange={onChange('carer', 'email')}
             value={carer.email}
             inlineClassName="carer-email"
+            hintText={hintText.carer.carer_email}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -187,6 +191,7 @@ export default props => {
             options={clientRelationship} onChange={onChange('carer', 'client_relationship')}
             value={carer.client_relationship}
             inlineClassName="carer-relationship"
+            hintText={hintText.carer.carer_relationship}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -195,6 +200,7 @@ export default props => {
             options={familyLists} value={client.current_family_id}
             onChange={onChangeFamily}
             inlineClassName="carer-family-record"
+            hintText={hintText.carer.carer_family_record}
           />
           <TextInput type="hidden" name="client[current_family_id]" value={ client.current_family_id } />
         </div>
@@ -210,7 +216,6 @@ export default props => {
               <Checkbox
                 label={T.translate("carerInfo.same_as_client")}
                 checked={carer.same_as_client} onChange={onCheckSameAsClient}
-                inlineClassName="carer-same-as-client"
               />
             </div>
           }
@@ -220,7 +225,6 @@ export default props => {
               <Checkbox
                 label={T.translate("carerInfo.outside_cambodia")}
                 checked={carer.outside} onChange={onChange('carer', 'outside')}
-                inlineClassName="carer-international"
               />
             </div>
           }

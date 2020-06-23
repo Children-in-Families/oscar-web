@@ -47,9 +47,14 @@
                   - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
                   - else
+                    %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}" } }
+                      = fa_icon "info-circle", class: 'text-info m-xs'
                     %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal' } }= t('.accept')
+
                     = render 'clients/accept_client'
                 .col-xs-12
+                  %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}" } }
+                    = fa_icon "info-circle", class: 'text-info m-xs'
                   %button.btn.btn-danger.mini-margin{ "data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.reject')}
 
             .col-xs-12
@@ -59,6 +64,8 @@
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin.enter-ngo-for-client{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
+              %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}" } }
+                = fa_icon "info-circle", class: 'text-info m-xs'
               = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')

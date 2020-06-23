@@ -13,7 +13,7 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs  } } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, hintText, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs  } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const preferLanguages = brc_prefered_langs.map(lang => ({ label: lang, value: lang }))
@@ -203,6 +203,7 @@ export default props => {
             onChange={onChange('client', 'given_name')}
             value={client.given_name}
             inlineClassName="given-name"
+            hintText={hintText.referral.given_name}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -211,6 +212,7 @@ export default props => {
             onChange={onChange('client', 'family_name')}
             value={client.family_name}
             inlineClassName="family-name"
+            hintText={hintText.referral.family_name}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -219,6 +221,7 @@ export default props => {
             onChange={onChange('client', 'local_given_name')}
             value={client.local_given_name}
             inlineClassName="local-given-name"
+            hintText={hintText.referral.local_given_name}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -227,6 +230,7 @@ export default props => {
             onChange={onChange('client', 'local_family_name')}
             value={client.local_family_name}
             inlineClassName="local-family-name"
+            hintText={hintText.referral.local_family_name}
           />
         </div>
       </div>
@@ -241,6 +245,7 @@ export default props => {
             value={client.gender}
             onChange={onChange('client', 'gender')}
             inlineClassName="client-gender"
+            hintText={hintText.referral.client_gender}
           />
         </div>
 
@@ -250,6 +255,7 @@ export default props => {
             onChange={onChange('client', 'date_of_birth')}
             value={client.date_of_birth}
             inlineClassName="client-date-of-birth"
+            hintText={hintText.referral.client_dat_of_birth}
           />
         </div>
 
@@ -263,7 +269,8 @@ export default props => {
               value={client.birth_province_id}
               onChange={onChange('client', 'birth_province_id')}
               inlineClassName="client-birth-province"
-              />
+              hintText={hintText.referral.client_birth_province}
+            />
           </div>
         }
 
@@ -275,6 +282,7 @@ export default props => {
             value={client.referee_relationship}
             onChange={onRelationshipChange}
             inlineClassName="client-relationship"
+            hintText={hintText.referral.client_relationship}
           />
         </div>
 
@@ -359,6 +367,7 @@ export default props => {
                     label={T.translate("referralInfo.client_is_outside")}
                     checked={client.outside || false} onChange={onChange('client', 'outside')}
                     inlineClassName="client-is-outside"
+                    hintText={hintText.referral.client_is_outside}
                   />
                 </div>
               }
@@ -388,6 +397,7 @@ export default props => {
               onChange={onChange('client', 'what3words')}
               value={client.what3words}
               inlineClassName="what-3-word"
+              hintText={hintText.referral.what_3_word}
             />
           </div>
         }
@@ -398,6 +408,7 @@ export default props => {
             type="text" onChange={onChange('client', 'client_phone')}
             value={client.client_phone}
             inlineClassName="client-phone"
+            hintText={hintText.referral.client_phone}
           />
         </div>
 
@@ -442,6 +453,7 @@ export default props => {
               options={phoneOwner} onChange={onChange('client', 'phone_owner')}
               value={client.phone_owner}
               inlineClassName="phone-owner"
+              hintText={hintText.referral.phone_owner}
             />
           </div>
         }
@@ -454,6 +466,7 @@ export default props => {
             onChange={onChange('client', 'client_email')}
             value={client.client_email}
             inlineClassName="client-email"
+            hintText={hintText.referral.client_email}
           />
         </div>
 

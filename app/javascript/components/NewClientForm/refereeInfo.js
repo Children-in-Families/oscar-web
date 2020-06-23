@@ -91,7 +91,7 @@ export default props => {
             label={T.translate("refereeInfo.name")}
             onChange={(value) => { onChange('referee', 'name')(value); onChange('client', 'name_of_referee')(value) }}
             inlineClassName="referee-name"
-            helpText={hintText.referee.name}
+            hintText={hintText.referee.name}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -101,6 +101,7 @@ export default props => {
             onChange={onChange('referee', 'gender')}
             value={referee.gender}
             inlineClassName="referee-gender"
+            hintText={hintText.referee.gender}
           />
         </div>
       </div>
@@ -112,7 +113,7 @@ export default props => {
             onChange={onChange('referee', 'phone')}
             value={referee.phone}
             inlineClassName="referee-phone"
-            helpText={hintText.referee.phone}
+            hintText={hintText.referee.phone}
             />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -122,7 +123,7 @@ export default props => {
             onChange={onChange('referee', 'email')}
             value={referee.email}
             inlineClassName="referee-email"
-            helpText={hintText.referee.email}
+            hintText={hintText.referee.email}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -135,6 +136,7 @@ export default props => {
             value={client.referral_source_category_id}
             onChange={onReferralSourceCategoryChange}
             inlineClassName="referral-source-category"
+            hintText={hintText.referee.referral_source_category}
           />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
@@ -144,6 +146,7 @@ export default props => {
             onChange={onChange('client', 'referral_source_id')}
             value={client.referral_source_id}
             inlineClassName="referral-source"
+            hintText={hintText.referee.referral_source}
           />
         </div>
 

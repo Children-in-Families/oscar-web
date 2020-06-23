@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { value, options, isMulti, isError, label, required, onChange, asGroup, T, inlineClassName, ...others } = props
+  const { value, options, isMulti, isError, label, required, onChange, asGroup, T, hintText, inlineClassName, ...others } = props
 
   const getSeletedObject = () => {
     if(options) {
@@ -59,13 +59,14 @@ export default props => {
       {
         inlineClassName &&
         <a
-          tabindex="0"
+          tabIndex="0"
           data-toggle="popover"
           title="Help text"
           role="button"
           data-placement="bottom"
           data-trigger="focus"
-          data-content="And here's some amazing content. It's very engaging. Right?">
+          data-content="And here's some amazing content. It's very engaging. Right?"
+          data-content={ hintText || 'N/A' }>
           <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
         </a>
       }
