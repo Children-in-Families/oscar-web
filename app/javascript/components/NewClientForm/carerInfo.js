@@ -172,7 +172,6 @@ export default props => {
             label={T.translate("carerInfo.carer_phone")}
             type="text" onChange={onChange('carer', 'phone')}
             value={carer.phone}
-            inlineClassName="carer-phone"
             hintText={hintText.carer.carer_phone}
           />
         </div>
@@ -181,7 +180,6 @@ export default props => {
             label={T.translate("carerInfo.carer_email")}
             onChange={onChange('carer', 'email')}
             value={carer.email}
-            inlineClassName="carer-email"
             hintText={hintText.carer.carer_email}
           />
         </div>
@@ -190,7 +188,6 @@ export default props => {
             label={T.translate("carerInfo.client_relationship")}
             options={clientRelationship} onChange={onChange('carer', 'client_relationship')}
             value={carer.client_relationship}
-            inlineClassName="carer-relationship"
             hintText={hintText.carer.carer_relationship}
           />
         </div>
@@ -199,7 +196,6 @@ export default props => {
             label={T.translate("carerInfo.family_record")}
             options={familyLists} value={client.current_family_id}
             onChange={onChangeFamily}
-            inlineClassName="carer-family-record"
             hintText={hintText.carer.carer_family_record}
           />
           <TextInput type="hidden" name="client[current_family_id]" value={ client.current_family_id } />

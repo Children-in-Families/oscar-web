@@ -254,7 +254,6 @@ export default props => {
             getCurrentDate label={T.translate("referralInfo.date_of_birth")}
             onChange={onChange('client', 'date_of_birth')}
             value={client.date_of_birth}
-            inlineClassName="client-date-of-birth"
             hintText={hintText.referral.client_dat_of_birth}
           />
         </div>
@@ -268,7 +267,6 @@ export default props => {
               options={birthProvincesLists}
               value={client.birth_province_id}
               onChange={onChange('client', 'birth_province_id')}
-              inlineClassName="client-birth-province"
               hintText={hintText.referral.client_birth_province}
             />
           </div>
@@ -281,7 +279,6 @@ export default props => {
             options={callerRelationship}
             value={client.referee_relationship}
             onChange={onRelationshipChange}
-            inlineClassName="client-relationship"
             hintText={hintText.referral.client_relationship}
           />
         </div>
@@ -366,8 +363,6 @@ export default props => {
                   <Checkbox
                     label={T.translate("referralInfo.client_is_outside")}
                     checked={client.outside || false} onChange={onChange('client', 'outside')}
-                    inlineClassName="client-is-outside"
-                    hintText={hintText.referral.client_is_outside}
                   />
                 </div>
               }
@@ -407,7 +402,6 @@ export default props => {
             label={t(translation, 'clients.form.client_phone')}
             type="text" onChange={onChange('client', 'client_phone')}
             value={client.client_phone}
-            inlineClassName="client-phone"
             hintText={hintText.referral.client_phone}
           />
         </div>
@@ -452,7 +446,6 @@ export default props => {
               label={t(translation, 'clients.form.phone_owner')}
               options={phoneOwner} onChange={onChange('client', 'phone_owner')}
               value={client.phone_owner}
-              inlineClassName="phone-owner"
               hintText={hintText.referral.phone_owner}
             />
           </div>
@@ -465,7 +458,6 @@ export default props => {
             label={T.translate("referralInfo.client_email")}
             onChange={onChange('client', 'client_email')}
             value={client.client_email}
-            inlineClassName="client-email"
             hintText={hintText.referral.client_email}
           />
         </div>

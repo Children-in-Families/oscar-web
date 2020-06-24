@@ -164,7 +164,10 @@ const Forms = props => {
         setStep(goingToStep)
 
       $('.alert').hide();
+      $('#save-btn-help-text').hide()
       $(`#step-${goingToStep}`).show();
+      if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+        $('#save-btn-help-text').show()
   }
 
   const buttonNext = () => {
@@ -176,6 +179,9 @@ const Forms = props => {
 
       $('.alert').hide();
       $(`#step-${step + 1}`).show();
+      $('#save-btn-help-text').hide()
+      if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+        $('#save-btn-help-text').show()
     }
 
   }
@@ -318,6 +324,7 @@ const Forms = props => {
     setStep(step - 1)
     $('.alert').hide();
     $(`#step-${step - 1}`).show();
+    $('#save-btn-help-text').hide()
   }
 
   const renderAddressSwitch = (objectData, objectKey, disabled) => {
@@ -418,20 +425,21 @@ const Forms = props => {
                 className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' }
                 onClick={() => handleSave()()}>{T.translate("index.save")}
               </span>
-              <a
-                tabIndex="0"
-                data-toggle="popover"
-                title="Help text"
-                role="button"
-                data-html={true}
-                data-placement="auto"
-                data-trigger="focus"
-                data-container="body"
-                data-content={ inlineHelpTranslation.clients.buttons.save }>
-                <i className={`fa fa-info-circle text-info m-xs`}></i>
-              </a>
             </div>
           }
+          <a
+            id="save-btn-help-text"
+            tabIndex="0"
+            data-toggle="popover"
+            title="Help text"
+            role="button"
+            data-html={true}
+            data-placement="auto"
+            data-trigger="focus"
+            data-container="body"
+            data-content={ inlineHelpTranslation.clients.buttons.save }>
+            <i className={`fa fa-info-circle text-info m-xs`}></i>
+          </a>
         </div>
       </div>
     </div>
