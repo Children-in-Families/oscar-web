@@ -668,7 +668,7 @@ class Client < ActiveRecord::Base
     Organization.switch_to current_org.short_name
   end
 
-  def self.get_client_attribute(attributes)
+  def self.get_client_attribute(attributes, referral_source_category_id=nil)
     attribute = attributes.with_indifferent_access
     client_attributes = {
       external_id:            attribute[:external_id],
@@ -679,7 +679,7 @@ class Client < ActiveRecord::Base
       gender:                 attribute[:gender],
       date_of_birth:          attribute[:date_of_birth],
       reason_for_referral:    attribute[:referral_reason],
-      referral_source_category_id:     ReferralSource.find_by(name: attribute[:referred_from])&.id,
+      referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
       **get_village(attribute[:address_current_village_code] || attribute[:village_code])
@@ -733,11 +733,7 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    if external_id.present?
-      referral = Referral.find_by(external_id: external_id, saved: false)
-    else
-      referral = Referral.find_by(slug: archived_slug, saved: false)
-    end
+    referral = find_referral
     referral.update_attributes(client_id: id, saved: true) if referral.present?
   end
 
@@ -781,7 +777,8 @@ class Client < ActiveRecord::Base
 
   def assign_global_id
     if global_id.blank?
-      self.global_id = GlobalIdentity.create(ulid: ULID.generate).ulid
+      referral = find_referral
+      self.global_id = referral ? referral.client_global_id : GlobalIdentity.create(ulid: ULID.generate).ulid
     end
   end
 
@@ -796,4 +793,12 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def find_referral
+    referral = nil
+    if external_id.present?
+      referral = Referral.find_by(external_id: external_id, saved: false)
+    else
+      referral = Referral.find_by(slug: archived_slug, saved: false)
+    end
+  end
 end
