@@ -34,7 +34,12 @@
                       %i.fa.fa-calendar-check-o
 
               .form-inputs.i-checks
-                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::EXIT_REASONS.sort, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: t('.exit_reasons')
+                %label.date.required.control-label{ for: 'client_exit_reasons' }
+                  %abbr{ title: 'required' } *
+                  = t('.exit_reasons')
+                %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.exit_form.reason')}", placement: "auto" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
+                = f.input :exit_reasons, as: :check_boxes, collection: [ExitNgo::EXIT_REASONS.sort, t('.exit_reason_options').values].transpose, label_method: :second, value_method: :first, label: false
               .form-inputs
                 = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
@@ -46,7 +51,12 @@
                   = user case_worker
 
               .form_inputs
-                = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: exit_circumstance_value}, readonly: true, required: true
+                %label.date.required.control-label{ for: 'client_exit_circumstance' }
+                  %abbr{ title: 'required' } *
+                  = t('.exit_circumstance')
+                %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.exit_form.circumstance')}", placement: "auto" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
+                = f.input :exit_circumstance, label: false, input_html: {value: exit_circumstance_value}, readonly: true, required: true
               .form-inputs
                 = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }, required: true
 
