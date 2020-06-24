@@ -17,7 +17,6 @@ export default props => {
             label={T.translate("schoolInfo.school_name")}
             onChange={onChange('client', 'school_name')}
             value={client.school_name}
-            inlineClassName="school-info"
             hintText={hintText.school.school_info}
           />
         </div>
@@ -27,7 +26,6 @@ export default props => {
             options={schoolGradeLists}
             value={client.school_grade}
             onChange={onChange('client', 'school_grade')}
-            inlineClassName="school-grade"
             hintText={hintText.school.school_grade}
           />
         </div>

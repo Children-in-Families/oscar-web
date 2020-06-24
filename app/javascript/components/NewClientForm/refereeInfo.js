@@ -112,7 +112,6 @@ export default props => {
             type="text" disabled={referee.anonymous}
             onChange={onChange('referee', 'phone')}
             value={referee.phone}
-            inlineClassName="referee-phone"
             hintText={hintText.referee.phone}
             />
         </div>
@@ -122,7 +121,6 @@ export default props => {
             disabled={referee.anonymous}
             onChange={onChange('referee', 'email')}
             value={referee.email}
-            inlineClassName="referee-email"
             hintText={hintText.referee.email}
           />
         </div>

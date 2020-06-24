@@ -132,7 +132,7 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'street_number')}
               value={objectData.street_number}
-              inlineClassName="referree-street-number"
+
             />
           </div>
 
@@ -142,7 +142,6 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'house_number')}
               value={objectData.house_number}
-              inlineClassName="referree-house-number"
             />
           </div>
 
@@ -152,7 +151,6 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'current_address')}
               value={objectData.current_address}
-              inlineClassName="referree-address-name"
             />
           </div>
 
@@ -163,7 +161,6 @@ export default props => {
               options={typeOfAddress}
               onChange={onChange(objectKey, 'address_type')}
               value={objectData.address_type}
-              inlineClassName="referree-address-type"
             />
           </div>
         </div>
