@@ -32,7 +32,7 @@ module Api
       def upsert
         client = nil
         message = 'Record saved.'
-        if params[:organization].present?
+        if params[:organization].present? && clients_params['organization_name'].present?
           if clients_params['global_id'].present?
             global_identity = GlobalIdentity.find(clients_params['global_id'])
             short_name = global_identity.organizations.first.short_name
@@ -45,7 +45,7 @@ module Api
               render json: { external_id: clients_params[:external_id], message: 'Record error. Please check OSCaR logs for details.' }, status: :unprocessable_entity
             end
           else
-            short_name = clients_params[:organization_name]
+            short_name = clients_params['organization_name']
             Organization.switch_to short_name
             referral_attributes = Referral.get_referral_attribute(clients_params)
             referral = Referral.find_by(external_id: clients_params[:external_id])
