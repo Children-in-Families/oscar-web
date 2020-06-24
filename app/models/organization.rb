@@ -23,6 +23,8 @@ class Organization < ActiveRecord::Base
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
 
+  before_save :clean_short_name, on: :create
+
   class << self
     def current
       find_by(short_name: Apartment::Tenant.current)
@@ -37,7 +39,7 @@ class Organization < ActiveRecord::Base
         org = new(fields)
 
         if org.save
-          Apartment::Tenant.create(fields[:short_name])
+          Apartment::Tenant.create(org.short_name)
           org
         else
           false
@@ -49,7 +51,7 @@ class Organization < ActiveRecord::Base
       org = new(fields)
 
       if org.save
-        Apartment::Tenant.create(fields[:short_name])
+        Apartment::Tenant.create(org.short_name)
 
         general_data_file = 'lib/devdata/general.xlsx'
         service_data_file = 'lib/devdata/services/service.xlsx'
@@ -107,6 +109,10 @@ class Organization < ActiveRecord::Base
 
   def cccu?
     short_name == 'cccu'
+  end
+
+  def clean_short_name
+    self.short_name = short_name.parameterize
   end
 
   def available_for_referral?
