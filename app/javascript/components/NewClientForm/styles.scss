@@ -140,8 +140,7 @@ body[id='clients-edit'], body[id='clients-update'] {
     display: inherit;
   }
 
-  .popover {
-    position: relative;
-    z-index: 2060 !important;
+  #save-btn-help-text {
+    display: none;
   }
 }
