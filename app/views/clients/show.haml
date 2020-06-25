@@ -54,6 +54,8 @@
               .row
                 .col-xs-12
                   - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
+                    %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
+                      = fa_icon "info-circle", class: 'text-info m-xs'
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
                   - else
                     %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
