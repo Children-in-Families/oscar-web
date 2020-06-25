@@ -133,6 +133,40 @@ To fix this issue, run the following commands:
 make yarn_install
 ```
 
+#### Issue with Mongo DB
+
+If you find Mongo DB is in a state that is not consistent or causing some unexpected errors that appear to be related to the MongoDB collections, you can completely remove the Mongo DB data files and start again. Note that in follownig this process all your local MongoDB data will be erased so take a backup if you need to first.
+
+```
+docker-compose stop mongo
+rm -rf tmp/mongo
+make start_mongo
+```
+
+Using the OSCaR Web Application try saving a record to the database. For example, [Create a New Client](http://dev.start.localhost:3000/clients/new?country=cambodia&locale=en). Once this is finished you should be able to see the data saved in MongoDB via the console:
+
+```
+make mongo_console
+...
+> db
+oscar_history_development
+> show collections
+client_histories
+> db.client_histories.find()[0]
+{
+	"_id" : ObjectId("5ef2fec9c245050001d8244f"),
+	"tenant" : "dev",
+	"object" : {
+		"id" : 11,
+		"code" : "",
+		"given_name" : "Darren",
+		"family_name" : "Jensen",
+		"gender" : "male",
+		"date_of_birth" : null,
+
+ETC.....
+```
+
 ### Gazetteer Data Import (OPTIONAL)
 
 Since importing the Gazetteer data takes sometime and the spreadsheet files are fairly large this as been left as an option if you need it.
