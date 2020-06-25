@@ -18,13 +18,13 @@
                 = @client.name
               - if @client.status
                 %td
-                  %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.status')}" } }
+                  %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.status')}" } }
                     = fa_icon "info-circle", class: 'text-info m-xs'
                   = "#{t('.status')} :"
                   %span.show-status= status_style(@client.status)
             %tr
               %td
-                %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.id')}" } }
+                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.id')}" } }
                   = fa_icon "info-circle", class: 'text-info m-xs'
                 = "#{t('.id')} :"
                 %strong= @client.slug
@@ -54,17 +54,17 @@
               .row
                 .col-xs-12
                   - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
-                    %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
+                    %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = fa_icon "info-circle", class: 'text-info m-xs'
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
                   - else
-                    %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
+                    %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = fa_icon "info-circle", class: 'text-info m-xs'
                     %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal' } }= t('.accept')
 
                     = render 'clients/accept_client'
                 .col-xs-12
-                  %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }
+                  %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }
                     = fa_icon "info-circle", class: 'text-info m-xs'
                   %button.btn.btn-danger.mini-margin{ "data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.reject')}
 
@@ -75,12 +75,12 @@
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin.enter-ngo-for-client{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
-              %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
+              %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                 = fa_icon "info-circle", class: 'text-info m-xs'
               = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
-              %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }
+              %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }
                 = fa_icon "info-circle", class: 'text-info m-xs'
 
     - if @client.status != 'Referred'
@@ -112,7 +112,7 @@
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
                 %li= link_to t('.referred_to'), client_referrals_path(@client, referral_type: 'referred_to')
                 %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
-              %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" } }
+              %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" } }
                 = fa_icon "info-circle", class: 'text-info m-xs'
             .btn-group.small-btn-margin
               %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ 'data-toggle' => 'dropdown' }
@@ -121,7 +121,7 @@
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
                 - ngos.each do |value, key|
                   %li= link_to value, new_client_referral_url(@client, ngo: key), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-              %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.refer_client')}", placement: "auto" } }
+              %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.refer_client')}", placement: "auto" } }
                 = fa_icon "info-circle", class: 'text-info m-xs'
           = link_to client_books_path(@client), data:{ toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
@@ -136,7 +136,7 @@
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } }
+            %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
           - if enable_any_csi_tools?
             = link_to client_assessments_path(@client) do
@@ -179,7 +179,7 @@
               - @group_client_custom_fields.each do |_, client_custom_fields|
                 %li
                   %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" } }
+            %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
@@ -190,21 +190,21 @@
                 - @free_client_forms.each do |custom_field|
                   %li
                     %p= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
-              %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" } }
+              %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.add_form')}", placement: "auto" } }
                 = fa_icon "info-circle", class: 'text-info m-xs'
           - if @client.client_enrollments.active.count > 0
             = link_to client_client_enrolled_programs_path(@client) do
               .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
+            %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
           - else
             .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit= t('.enrolled_program_streams')
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
+            %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
 
           = link_to client_client_enrollments_path(@client) do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
-          %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } }
+          %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } }
             = fa_icon "info-circle", class: 'text-info m-xs'
 
           - if government_forms_visible? && policy(@client).show?(:government_forms)
@@ -245,14 +245,14 @@
               = link_to edit_client_path(@client) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } }
+            %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
           - if can? :destroy, Client
             %small
               = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.delete')}", placement: "auto" } }
+            %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.delete')}", placement: "auto" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
       .ibox-content
         .row
