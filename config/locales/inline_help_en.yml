@@ -16,7 +16,7 @@ en:
       notes:
         lists:
           list1: |+
-            Once you start the assessment, you have one week to complete it. You can save the assessment at any point but ensure to finish it within a week. However, you won’t be allowed to save half-way if you choose to add Task at the end of the assessment.
+            <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Once you start the assessment, you have <strong>one week</strong> to complete it. You can save the assessment at any point but ensure to finish it within a week. However, you won’t be allowed to save half-way if you choose to add Task at the end of the assessment.<br />
             Email reminders will be sent for incomplete assessments. After one week, the assessment will be auto-deleted. You will have to restart the assessment if you do not complete it within one week.
     carer:
       carer_name: Depending on the client’s situation, a primary carer can be anyone who is the first immediate person responsible for the client’s wellbeing. It can be a parent, foster parent, hospital staff, NGO staff, etc. You will need to update this when the client’s living situation changes.
@@ -70,7 +70,7 @@ en:
         notes:
           step1:
             lists:
-              list1: Click/hover over the icon next to a field to read tips/additional information.
+              list1: Click/hover over the <i class="fa fa-info-circle fa-2x text-info"></i> icon next to a field to read tips/additional information.
               list2: All fields marked with an * are required. You will not be able to proceed if they are blank.
               list3: It is recommended to fill information in ALL the fields to help us better serve our clients.
               list4: If you do not have all the information for optional fields, you can enter or edit information after the case is saved in the OSCaR.
@@ -79,7 +79,7 @@ en:
               list1: Enter the client’s name and family name in both Latin (see above) and Khmer. This helps in maintaining a complete record and avoid duplicates in the OSCaR system.
           step4:
             lists:
-              list1: "This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through Manage >> Custom Referral Data."
+              list1: "This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through <strong>Manage >> Custom Referral Data</strong>."
     custom:
       custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels. This is different from Client ID auto-generated in OSCaR for every case.
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels.
