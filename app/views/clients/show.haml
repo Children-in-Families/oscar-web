@@ -92,7 +92,7 @@
       .row
         .col-xs-12
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-client{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
+            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-client{ data:{ toggle: "dropdown", trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.exit_ngo')}", placement: "auto" }, id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
               = t('.exit_ngo_btn')
               %span.caret
             %ul.dropdown-menu.btn-fit
@@ -103,8 +103,6 @@
                 - else
                   %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
                     .text-warning= t('.exit_ngo_btn')
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.exit_ngo')}", placement: "auto" } }
-              = fa_icon "info-circle", class: 'text-info m-xs'
           - if current_organization.available_for_referral?
             %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
             .btn-group.small-btn-margin
@@ -125,11 +123,9 @@
                   %li= link_to value, new_client_referral_url(@client, ngo: key), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
               %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.refer_client')}", placement: "auto" } }
                 = fa_icon "info-circle", class: 'text-info m-xs'
-          = link_to client_books_path(@client) do
+          = link_to client_books_path(@client), data:{ toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               = t('.book')
-            %a{:role => "button", :tabIndex => "0", :title => "Help text", data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } }
-              = fa_icon "info-circle", class: 'text-info m-xs'
           - if @client.client_enrollments.active.count > 0
             = render 'remaining_programs', client: @client
           - else
