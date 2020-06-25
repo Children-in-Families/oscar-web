@@ -416,28 +416,18 @@ const Forms = props => {
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
           { step !== (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
-
-          { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) &&
-            <div id="save-buttom-wrapper">
-              <span
-                className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' }
-                onClick={() => handleSave()()}>{T.translate("index.save")}
-              </span>
-            </div>
-          }
-          <a
+          <span
             id="save-btn-help-text"
-            tabIndex="0"
             data-toggle="popover"
             title="Help text"
             role="button"
             data-html={true}
             data-placement="auto"
-            data-trigger="focus"
-            data-container="body"
-            data-content={ inlineHelpTranslation.clients.buttons.save }>
-            <i className={`fa fa-info-circle text-info m-xs`}></i>
-          </a>
+            data-trigger="hover"
+            data-content={ inlineHelpTranslation.clients.buttons.save }
+            className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' }
+            onClick={() => handleSave()()}>{T.translate("index.save")}
+          </span>
         </div>
       </div>
     </div>

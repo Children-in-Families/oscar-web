@@ -1,4 +1,4 @@
-en:
+th-TH:
   inline_help:
     address:
       village: N/A
@@ -126,6 +126,4 @@ en:
       school_info: N/A
       school_grade: N/A
       school_contact: The main contact can be either the class teacher or anyone who can monitor the client’s progress at school.
-
-
 
