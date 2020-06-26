@@ -82,7 +82,7 @@
                               - if can? :destroy, Task
                                 %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
                     .form-group.add-task-btn-wrapper
-                      %button.assessment-task-btn.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
+                      %button.assessment-task-btn.btn.btn-primary.pull-right{ class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', data: { toggle: "model", domain_id: "#{domain.id}", target: "#tasksFromModal", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } }
                         = t('.add_task')
         - if ['new', 'create'].include?(action_name)
           %h4#header-domain-last Last Step
