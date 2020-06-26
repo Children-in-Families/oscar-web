@@ -56,15 +56,12 @@
                 - else
                   .score_option.without-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
                     = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)].shuffle, :first , :last
-                %label.text.required{"aria-required" => "true", :for => "assessment_assessment_domains_attributes_0_goal"}
-                  %abbr{:title => "required"} *
-                  = t('.goal')
-                = ad.label :goal, required: !current_setting.disable_required_fields?, label: false
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.goal')}".html_safe, placement: "right", html: true } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
+                = ad.label :goal, required: !current_setting.disable_required_fields?, label: t('.goal')
                 / .col-xs-12.col-sm-6.col-md-4
                 .goal-required-option{ id: "i-checks-#{domain.name.downcase.split.join('-')}", class: ad.object.score == 4 ? '' : 'hidden' }
                   %label= t('.set_goal')
-                  %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.goal')}".html_safe, placement: "auto", html: true } }
-                    = fa_icon "info-circle", class: 'text-info m-xs'
                   = ad.input :goal_required, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, input_html: { 'data-goal-option': domain.name.downcase.split.join('-') }
 
                 = ad.input :goal, label: false, required: (ad.object.goal_required? && !current_setting.disable_required_fields?), input_html: { class: 'goal', id: "goal-text-area-#{domain.name.downcase.split.join('-')}" }
@@ -79,10 +76,10 @@
                           %abbr{ title: 'required' } *
                           = t('.at_least_one_task_required')
                       %div{ class: "task-arising" }
+                        %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.task_arising')}".html_safe, placement: "right", html: true } }
+                          = fa_icon "info-circle", class: 'text-info m-xs'
                         %label.control-label
                           = t('.tasks_arising')
-                          %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.task_arising')}".html_safe, placement: "right", html: true } }
-                            = fa_icon "info-circle", class: 'text-info m-xs'
                           - if action_name == 'new'
                             .task-required-option{ id: "i-checks-tasks-#{domain.name.downcase.split.join('-')}" }
                               %label= t('.add_task_confirm')
@@ -94,7 +91,7 @@
                               - if can? :destroy, Task
                                 %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
                     .form-group.add-task-btn-wrapper
-                      %button.assessment-task-btn.btn.btn-primary.pull-right{ class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', data: { toggle: "model", domain_id: "#{domain.id}", target: "#tasksFromModal", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } }
+                      %button.assessment-task-btn.btn.btn-primary.pull-right{ class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', data: { toggle: "modal", domain_id: "#{domain.id}", target: "#tasksFromModal", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.add_task')}", placement: "auto" } }
                         = t('.add_task')
         - if ['new', 'create'].include?(action_name)
           %h4#header-domain-last Last Step
