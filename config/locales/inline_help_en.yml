@@ -38,13 +38,56 @@ en:
         goal: 'A goal should be <strong>SMART</strong>: <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>ttainable before the next assessment begins, <strong>R</strong>ealistic and <strong>T</strong>ime based (three or six months according to your organization assessment timeline). Discuss with your client’s family and/or caregiver to set a goal(s). Ensure you engage and involve the client in this discussion as much as you can. The goal can be optional if the client’s situation is not vulnerable.'
         observation: Read each option carefully. First, consider the client’s situation, ask questions and observe the situation. Choose an option based on these considerations.
         task_arising: You can either add task here or at the end of the assessment.
-
       case_notes:
         button: Document any communication or updates related to the client here.
         date: The actual date when the Case Worker interacted, communicated, and talked about or with the client.
         note: Case notes should provide accurate and objective descriptions of all the work you did with or for a client. Enter detailed notes summarizing each client interaction. Include things like what the client said or did, major topics of conversation; any interventions completed with or for the client. Do not include subjective statements or assessments which you are not qualified to make. For example, Case Worker should not make medical diagnoses, as they do not have medical degrees.
         type: Choose how you interacted the client":" Visit – Met client in person. Non-face to face – Contacted client without meeting in person. [For example phone, video call, email, message, Facebook, etc.] 3rd Party – Gathered information through another person. [For example teacher, NGO staff, doctor, neighbor, friend, etc.] Other – Any other way in which you tracked or contacted the client.
         who: Details of the person(s) present during the visit or the conversation.
+      buttons:
+        save: The client’s information will be created/saved. The Duplicate Checker feature will check for any duplicate entries and warn you if any are found.
+      form:
+        notes:
+          step1:
+            lists:
+              list1: Click/hover over the <i class="fa fa-info-circle fa-2x text-info"></i> icon next to a field to read tips/additional information.
+              list2: All fields marked with an * are required. You will not be able to proceed if they are blank.
+              list3: It is recommended to fill information in ALL the fields to help us better serve our clients.
+              list4: If you do not have all the information for optional fields, you can enter or edit information after the case is saved in the OSCaR.
+          step2:
+            lists:
+              list1: Enter the client’s name and family name in both Latin (see above) and Khmer. This helps in maintaining a complete record and avoid duplicates in the OSCaR system.
+          step4:
+            lists:
+              list1: "This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through <strong>Manage >> Custom Referral Data</strong>."
+      index:
+        buttons:
+          assessment_data: View and compare the CSI assessment scores of all the clients that appear in your search. The pop-up window will show you the assessment scores only for clients whose assessment was completed.
+          export_to_xls: |+
+            Export your report in an MS Excel spreadsheet file(.xls). Follow the prompts in your browser to download and save the file on your computer.<br />
+            All the headers are the same as the column selection you made while building the report.<br />
+            You can use this file for analysis or sharing with others.<br />
+          my_saved_search: Shows all saved search settings created by you.
+          load_saved_search: All custom saved search settings are stored here. Choose a custom saved search setting to apply the saved filter criteria.
+          other_saved_search: Shows all saved search settings created by other users.
+          overdue_filter_checkboxes: Clicking on one or more checkbox will immediately display the filtered results. You can further refine the results using other filters below.
+          quick_graph: |+
+            This generates the following charts based on the data in your report.
+            <ul>
+              <li>The <strong>CSI Domain Scores</strong> chart is used for quick analysis of CSI Domain Scores in assessment(s) of one or group of clients.</li>
+              <li>The <strong>Active Programs</strong> chart shows month-wise data of the clients who are enrolled in each program.</li>
+            </ul>
+            Hover your mouse over the points on the graph to view details.
+            Hide or unhide any data by clicking scores/program streams in the index on top.
+          report_builder: Generate reports by selecting desired categories, columns to be displayed, forms, program streams, client general information, etc. From here, you can save a generated report in MS Excel format on your computer.
+          report_builder_wizard: |+
+            Widget for quick report building. This widget has step by step instructions to help generate a report. <br />
+            Note: A report generated through <strong>Report Builder</strong> or <strong>Report Builder Wizard</strong> is the same, choose either option based on your comfort.
+          reset: Removes all the selected filters.
+          saved_search_setting: If you choose certain filters/categories very often, you can save them as custom search settings, thus saving you time. You can access the saved searches from <strong>Load Saved Search</strong>. Your saved search settings can be accessed by other users.
+          select_columns: |+
+            All columns are displayed by default. Deselect/select column headers from this list based on your requirements.
+            <span class="text-info"><u>Admin:</u></span> The default columns can be customized based on your organization preference. To make the change, going to Manage >>Setting>>Default Columns
       show:
         accepted: Accept indicates your organization will work with the client. The next step is to perform client assessment and enroll in the program stream(s).
         active_form: Add/View/Edit the custom forms already applied to the client.
@@ -64,22 +107,6 @@ en:
         reject: Reject indicates your organization cannot work with the client for some reason. The case will remain in the database and show Exited status with exit circumstance as Reject Referral.
         status: Accepted – Organization has accepted the case and working with the client. Active – Client is enrolled in one or more program streams. Exited – Organization has rejected the case or no longer supporting the client. Referred – Client record exists in the OSCaR system but not yet accepted or rejected.
         tasks: View all the overdue, current and upcoming tasks here. This is a read-only option for Managers and Caseworkers. New tasks can’t be added here.
-      buttons:
-        save: The client’s information will be created/saved. The Duplicate Checker feature will check for any duplicate entries and warn you if any are found.
-      form:
-        notes:
-          step1:
-            lists:
-              list1: Click/hover over the <i class="fa fa-info-circle fa-2x text-info"></i> icon next to a field to read tips/additional information.
-              list2: All fields marked with an * are required. You will not be able to proceed if they are blank.
-              list3: It is recommended to fill information in ALL the fields to help us better serve our clients.
-              list4: If you do not have all the information for optional fields, you can enter or edit information after the case is saved in the OSCaR.
-          step2:
-            lists:
-              list1: Enter the client’s name and family name in both Latin (see above) and Khmer. This helps in maintaining a complete record and avoid duplicates in the OSCaR system.
-          step4:
-            lists:
-              list1: "This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through <strong>Manage >> Custom Referral Data</strong>."
     custom:
       custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels. This is different from Client ID auto-generated in OSCaR for every case.
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels.
