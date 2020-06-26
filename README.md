@@ -26,6 +26,20 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 
 *NOTE* If this is the first time you have run this you may need to stop the containers and run it again!
 
+## Debugging using Pry
+
+If you want to debug the Rails application using Pry you need to attach to the container running Rails first. To do that in a new terminal window run:
+
+```
+make rails_attach
+```
+
+Now when your code runs and gets to the `binding.pry` line it will halt and a Pry REPL session will be available in the terminal window where you are attached.
+
+When you have finished dubugging just type `exit` in the Pry REPL session as you normally would. Keep this terminal attached for convenience if you need to use Pry again.
+
+NOTE: To detach the tty __without also terminating the Rails container__, you need to use the escape sequence __Ctrl+P__ followed by __Ctrl+Q__.
+
 ## Troubleshooting
 
 #### Issue pending migrations when starting Docker container
