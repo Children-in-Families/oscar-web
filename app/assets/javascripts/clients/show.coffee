@@ -13,6 +13,7 @@ CIF.ClientsShow = do ->
     _preventCreateDatepickerEnterNgo()
     _preventCreateDatepickerExitNgo()
     _globalIDToolTip()
+    _buttonHelpTextPophover()
 
     $('table.families').dataTable
       'bPaginate': false
@@ -224,5 +225,8 @@ CIF.ClientsShow = do ->
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _buttonHelpTextPophover = ->
+    $("button[data-content]").popover();
 
   { init: _init }
