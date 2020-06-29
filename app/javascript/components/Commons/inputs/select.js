@@ -61,8 +61,8 @@ export default props => {
         <a
           tabIndex="0"
           data-toggle="popover"
-          title="Help text"
           role="button"
+          data-html="true"
           data-placement="bottom"
           data-trigger="focus"
           data-content="And here's some amazing content. It's very engaging. Right?"
