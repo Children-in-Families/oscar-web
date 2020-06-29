@@ -12,11 +12,11 @@ class CaseNoteDomainGroup < ActiveRecord::Base
   default_scope { order(:domain_group_id) }
 
   def completed_tasks
-    tasks.completed
+    tasks.with_deleted.completed
   end
 
   def on_going_tasks
-    tasks.upcoming
+    tasks.with_deleted.upcoming
   end
 
   def any_assessment_domains?(case_note)
