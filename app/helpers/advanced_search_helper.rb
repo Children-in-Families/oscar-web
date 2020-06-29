@@ -203,6 +203,8 @@ module AdvancedSearchHelper
       code:                                     I18n.t('datagrid.columns.families.code'),
       family_type:                              I18n.t('datagrid.columns.families.family_type'),
       status:                                   I18n.t('datagrid.columns.families.status'),
+      gender:                                   I18n.t('datagrid.columns.families.gender'),
+      date_of_birth:                            I18n.t('datagrid.columns.families.date_of_birth'),
       case_history:                             I18n.t('datagrid.columns.families.case_history'),
       address:                                  I18n.t('datagrid.columns.families.address'),
       significant_family_member_count:          I18n.t('datagrid.columns.families.significant_family_member_count'),

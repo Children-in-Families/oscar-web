@@ -58,6 +58,8 @@ module FamiliesHelper
       code:                                     t('datagrid.columns.families.code'),
       family_type:                              t('datagrid.columns.families.family_type'),
       status:                                   t('datagrid.columns.families.status'),
+      gender:                                   t('datagrid.columns.families.gender'),
+      date_of_birth:                            t('datagrid.columns.families.date_of_birth'),
       case_history:                             t('datagrid.columns.families.case_history'),
       address:                                  t('datagrid.columns.families.address'),
       significant_family_member_count:          t('datagrid.columns.families.significant_family_member_count'),
@@ -99,6 +101,8 @@ module FamiliesHelper
       dependable_income_:                        t('datagrid.columns.families.dependable_income'),
       family_type_:                              t('datagrid.columns.families.family_type'),
       status_:                                   t('datagrid.columns.families.status'),
+      gender_:                                   t('datagrid.columns.families.gender'),
+      date_of_birth_:                            t('datagrid.columns.families.date_of_birth'),
       female_adult_count_:                       t('datagrid.columns.families.female_adult_count'),
       female_children_count_:                    t('datagrid.columns.families.female_children_count'),
       household_income_:                         t('datagrid.columns.families.household_income'),
@@ -133,7 +137,7 @@ module FamiliesHelper
       current_address << object.province_name.split(' / ').last if object.province.present?
       current_address << 'Cambodia' if Organization.current.short_name != 'brc'
     end
-    
+
     current_address.join(', ')
   end
 
