@@ -12,7 +12,7 @@ CIF.FamiliesIndex = do ->
     # _handleUncheckColumnVisibility()
     _initAdavanceSearchFilter()
     _hideFamilyFilters()
-    _setDefaultCheckColumnVisibilityAll()
+    # _setDefaultCheckColumnVisibilityAll()
     _initCheckbox()
 
   _initCheckbox = ->
