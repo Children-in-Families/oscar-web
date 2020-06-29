@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200618080326) do
+ActiveRecord::Schema.define(version: 20200629053513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1295,6 +1295,10 @@ ActiveRecord::Schema.define(version: 20200618080326) do
     t.boolean  "aht",                 default: false
     t.boolean  "integrated",          default: false
     t.string   "supported_languages", default: ["km", "en", "my"],              array: true
+    t.integer  "clients_count",       default: 0
+    t.integer  "active_client",       default: 0
+    t.integer  "accepted_client",     default: 0
+    t.boolean  "demo",                default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -2196,7 +2200,7 @@ ActiveRecord::Schema.define(version: 20200618080326) do
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
-  add_foreign_key "tasks", "clients"
+  add_foreign_key "tasks", "clients", on_delete: :nullify
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
