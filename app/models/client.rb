@@ -678,6 +678,7 @@ class Client < ActiveRecord::Base
       family_name:            attribute[:family_name],
       gender:                 attribute[:gender],
       date_of_birth:          attribute[:date_of_birth],
+      reason_for_referral:    attribute[:referral_reason],
       relevant_referral_information:    attribute[:referral_reason],
       referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
       external_case_worker_id:   attribute[:external_case_worker_id],
