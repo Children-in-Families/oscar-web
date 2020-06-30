@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  SUPPORTED_LANGUAGES = %w(en km my).freeze
+
   mount_uploader :logo, ImageUploader
 
   has_many :employees, class_name: 'User'
@@ -21,6 +23,8 @@ class Organization < ActiveRecord::Base
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
 
+  before_save :clean_short_name, on: :create
+
   class << self
     def current
       find_by(short_name: Apartment::Tenant.current)
@@ -32,9 +36,45 @@ class Organization < ActiveRecord::Base
 
     def create_and_build_tenant(fields = {})
       transaction do
-        org = create(fields)
-        Apartment::Tenant.create(fields[:short_name])
+        org = new(fields)
+
+        if org.save
+          Apartment::Tenant.create(org.short_name)
+          org
+        else
+          false
+        end
+      end
+    end
+
+    def create_and_seed_generic_data(fields = {})
+      org = new(fields)
+
+      if org.save
+        Apartment::Tenant.create(org.short_name)
+
+        general_data_file = 'lib/devdata/general.xlsx'
+        service_data_file = 'lib/devdata/services/service.xlsx'
+
+        CifWeb::Application.load_tasks
+
+        Apartment::Tenant.switch(org.short_name) do
+          Rake::Task['db:seed'].invoke
+          ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
+          Importer::Import.new('Agency', general_data_file).agencies
+          Importer::Import.new('Department', general_data_file).departments
+          Importer::Import.new('Province', general_data_file).provinces
+
+          Rake::Task['communes_and_villages:import'].invoke
+          Rake::Task['communes_and_villages:import'].reenable
+          Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+          Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
+          Rake::Task["field_settings:import"].invoke(org.short_name)
+        end
+
         org
+      else
+        false
       end
     end
 
@@ -69,6 +109,10 @@ class Organization < ActiveRecord::Base
 
   def cccu?
     short_name == 'cccu'
+  end
+
+  def clean_short_name
+    self.short_name = short_name.parameterize
   end
 
   def available_for_referral?
