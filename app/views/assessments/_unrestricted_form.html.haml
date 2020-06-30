@@ -1,3 +1,8 @@
+.alert.alert-warning.alert-dismissible{ :role => "alert" }
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %ul
+    %li= I18n.t('inline_help.assessments.notes.lists.list1').html_safe
 = simple_form_for([@assessment.client, @assessment], html: { class: 'assessment-form unrestricted_form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
@@ -20,7 +25,11 @@
                 .well
                   = ad.object.domain.translate_description.html_safe
                 #required-scroll
-                = ad.input :reason, label: t('.reason'), placeholder: t('.reason_placeholder'), required: !current_setting.disable_required_fields?, input_html: { class: 'reason' }
+                %label.text.required.control-label{"aria-required" => "true" }
+                  = t('.reason')
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.observation').html_safe}", placement: "right" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
+                = ad.input :reason, label: false, placeholder: t('.reason_placeholder'), required: !current_setting.disable_required_fields?, input_html: { class: 'reason' }
                 %label= t('.score_label')
                 - random = [1,2,3,4]
                 - rd = current_setting.random_order? ? random.shuffle : random
@@ -39,6 +48,8 @@
                 - else
                   .score_option.without-def{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
                     = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)].shuffle, :first , :last
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.goal')}".html_safe, placement: "right", html: true } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
                 = ad.label :goal, required: !current_setting.disable_required_fields?, label: t('.goal')
                 / .col-xs-12.col-sm-6.col-md-4
                 .goal-required-option{ id: "i-checks-#{domain.name.downcase.split.join('-')}", class: ad.object.score == 4 ? '' : 'hidden' }
@@ -57,6 +68,8 @@
                           %abbr{ title: 'required' } *
                           = t('.at_least_one_task_required')
                       %div{ class: "task-arising" }
+                        %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.task_arising')}".html_safe, placement: "right", html: true } }
+                          = fa_icon "info-circle", class: 'text-info m-xs'
                         %label.control-label
                           = t('.tasks_arising')
                           - if action_name == 'new'
@@ -70,7 +83,7 @@
                               - if can? :destroy, Task
                                 %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", 'data-persisted' => 'true', :style => "margin: 0;"}
                     .form-group.add-task-btn-wrapper
-                      %button.assessment-task-btn.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
+                      %button.assessment-task-btn.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', data: { toggle: "modal", domain_id: "#{domain.id}", target: "#tasksFromModal", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.add_task')}", placement: "auto" } }
                         = t('.add_task')
 
 - if policy(@client).create?

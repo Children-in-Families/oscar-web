@@ -12,10 +12,6 @@ body[id='clients-edit'], body[id='clients-update']{
       background: #1ab394;
   }
 
-  .loading-screen > div > div {
-    position: fixed;
-  }
-
   .remove-files-wrapper {
     img {
       margin: 5px;
@@ -95,6 +91,10 @@ body[id='clients-edit'], body[id='clients-update']{
   }
   .ref-source-cat-reminder{
     color: red;
+  }
+
+  #step-2, #step-4 {
+    display: none;
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 export default props => {
-  const { value, options, isMulti, isError, label, required, onChange, asGroup, T,  ...others } = props
+  const { value, options, isMulti, isError, label, required, onChange, asGroup, T, hintText, inlineClassName, ...others } = props
 
   const getSeletedObject = () => {
     if(options) {
@@ -52,11 +52,24 @@ export default props => {
 
   return (
     <div className='form-group'>
-      <label style={ isError && customError.errorText || {} }>
+      <label style={ isError && customError.errorText || { display: 'inline' } }>
         { required && <abbr title='required'>* </abbr> }
         { label }
       </label>
-
+      {
+        inlineClassName &&
+        <a
+          tabIndex="0"
+          data-toggle="popover"
+          role="button"
+          data-html="true"
+          data-placement="bottom"
+          data-trigger="focus"
+          data-content="And here's some amazing content. It's very engaging. Right?"
+          data-content={ hintText || 'N/A' }>
+          <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i>
+        </a>
+      }
       <Select
         isMulti={isMulti}
         isClearable={options.some(v => !v.isFixed)}
@@ -98,7 +111,7 @@ const customStyles = {
       ...styles[':hover'],
       borderColor: '#1ab394',
     },
-  }),
+  })
 }
 
 const customError = {

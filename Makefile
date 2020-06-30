@@ -20,6 +20,9 @@ stop_all:
 bash_console:
 	docker exec -it app bash
 
+bash_console:
+	docker exec -it app bash
+
 # Starts up a rails console in the app container
 rails_console:
 	docker exec -it app rails c
