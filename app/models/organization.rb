@@ -24,6 +24,7 @@ class Organization < ActiveRecord::Base
   validates :short_name, uniqueness: { case_sensitive: false }
 
   before_save :clean_short_name, on: :create
+  before_save :clean_supported_languages, if: :supported_languages?
 
   class << self
     def current
@@ -113,6 +114,10 @@ class Organization < ActiveRecord::Base
 
   def clean_short_name
     self.short_name = short_name.parameterize
+  end
+
+  def clean_supported_languages
+    self.supported_languages = supported_languages.select(&:present?)
   end
 
   def available_for_referral?
