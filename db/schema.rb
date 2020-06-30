@@ -1294,11 +1294,11 @@ ActiveRecord::Schema.define(version: 20200629053513) do
     t.string   "country",             default: ""
     t.boolean  "aht",                 default: false
     t.boolean  "integrated",          default: false
-    t.string   "supported_languages", default: ["km", "en", "my"],              array: true
     t.integer  "clients_count",       default: 0
     t.integer  "active_client",       default: 0
     t.integer  "accepted_client",     default: 0
     t.boolean  "demo",                default: false
+    t.string   "supported_languages", default: ["km", "en", "my"],              array: true
   end
 
   create_table "partners", force: :cascade do |t|
