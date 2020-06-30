@@ -129,7 +129,7 @@
                 %strong.count-margin= @client.assessments.count
                 = t('.view_assessments')
           - if can? :manage, CaseNote
-            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "right" } }
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
@@ -157,7 +157,7 @@
           -#   = link_to client_progress_notes_path(@client) do
           -#     %span.btn-sm.btn.btn-warning.small-btn-margin.btn-fit= t('.progress_note')
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', title: "Help text", content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" }, class: ('disabled' if @group_client_custom_fields.empty?) }
+            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_client_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" } }
               = t('.additional_forms')
               %span.caret
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
@@ -166,7 +166,7 @@
                   %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', title: "Help text", content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
                 = t('.add_form')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
@@ -174,10 +174,10 @@
                   %li
                     %p= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           - if @client.client_enrollments.active.count > 0
-            = link_to client_client_enrolled_programs_path(@client), data:{ toggle: "dropdown", html: 'true', trigger: 'hover', title: "Help text", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "right" } do
+            = link_to client_client_enrolled_programs_path(@client), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } do
               .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
           - else
-            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "right" } }
+            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
               = t('.enrolled_program_streams')
 
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
