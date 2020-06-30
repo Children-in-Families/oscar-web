@@ -10,7 +10,7 @@ class AssessmentDomain < ActiveRecord::Base
 
   belongs_to :assessment
   belongs_to :domain
-  has_and_belongs_to_many :progress_notes
+  # has_and_belongs_to_many :progress_notes
 
   has_paper_trail
 

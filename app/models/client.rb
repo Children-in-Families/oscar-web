@@ -8,6 +8,16 @@ class Client < ActiveRecord::Base
 
   require 'text'
 
+  mount_uploaders :national_id_files, FileUploader
+  mount_uploaders :birth_cert_files, FileUploader
+  mount_uploaders :family_book_files, FileUploader
+  mount_uploaders :passport_files, FileUploader
+  mount_uploaders :travel_doc_files, FileUploader
+  mount_uploaders :referral_doc_files, FileUploader
+  mount_uploaders :local_consent_files, FileUploader
+  mount_uploaders :police_interview_files, FileUploader
+  mount_uploaders :other_legal_doc_files, FileUploader
+
   attr_accessor :assessment_id
   attr_accessor :organization, :case_type
 
@@ -45,13 +55,13 @@ class Client < ActiveRecord::Base
   belongs_to :concern_district, class_name: 'District',  foreign_key: 'concern_district_id'
   belongs_to :concern_commune,  class_name: 'Commune',  foreign_key: 'concern_commune_id'
   belongs_to :concern_village,  class_name: 'Village',  foreign_key: 'concern_village_id'
-  belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id'
+  belongs_to :global_identity,  class_name: 'GlobalIdentity', foreign_key: 'global_id', primary_key: :ulid
 
   has_many :hotlines, dependent: :destroy
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
-  has_many :tasks,          dependent: :destroy
+  has_many :tasks,          dependent: :nullify
   has_many :surveys,        dependent: :destroy
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
@@ -68,6 +78,7 @@ class Client < ActiveRecord::Base
   has_many :exit_ngos, dependent: :destroy
   has_many :referrals, dependent: :destroy
   has_many :government_forms, dependent: :destroy
+  has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'client_id', dependent: :destroy
 
   accepts_nested_attributes_for :tasks
 
@@ -96,7 +107,7 @@ class Client < ActiveRecord::Base
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
-  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client, :save_client_global_organization
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -634,6 +645,10 @@ class Client < ActiveRecord::Base
   def self.notify_incomplete_daily_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+
+      setting = Setting.first_or_initialize
+      next if setting.disable_required_fields?
+
       if Setting.first.enable_default_assessment
         clients = joins(:assessments).where(assessments: { completed: false, default: true })
         clients.each do |client|
@@ -811,8 +826,12 @@ class Client < ActiveRecord::Base
 
   def assign_global_id
     if global_id.blank?
-      self.global_id = GlobalIdentity.create(ulid: ULID.generate).id
+      self.global_id = GlobalIdentity.create(ulid: ULID.generate).ulid
     end
+  end
+
+  def save_client_global_organization
+    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id)
   end
 
 end

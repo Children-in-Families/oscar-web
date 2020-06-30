@@ -3,8 +3,10 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
   belongs_to :user
+  belongs_to :taskable, polymorphic: true
 
   has_paper_trail
+  acts_as_paranoid
 
   validates :name, presence: true
   validates :domain, presence: true
@@ -19,7 +21,6 @@ class Task < ActiveRecord::Base
   scope :upcoming_within_three_months,    -> { where(completion_date: Date.tomorrow..3.months.from_now) }
   scope :by_case_note,                    -> { where(relation: 'case_note') }
   scope :by_assessment,                   -> { where(relation: 'assessment') }
-
 
   scope :overdue_incomplete, -> { incomplete.overdue }
   scope :today_incomplete,   -> { incomplete.today }
@@ -51,7 +52,7 @@ class Task < ActiveRecord::Base
   def self.upcoming_incomplete_tasks
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      tasks    = incomplete.where(completion_date: Date.tomorrow).exclude_exited_ngo_clients
+      tasks    = with_deleted.incomplete.where(completion_date: Date.tomorrow).exclude_exited_ngo_clients
       user_ids = tasks.map(&:user_id).flatten.uniq
       users    = User.non_devs.non_locked.where(id: user_ids)
       users.each do |user|
@@ -61,7 +62,7 @@ class Task < ActiveRecord::Base
   end
 
   def self.by_case_note_domain_group(cdg)
-    cdg_tasks  = cdg.tasks.ids
+    cdg_tasks  = cdg.tasks.with_deleted.with_deleted.ids
     incomplete = self.incomplete.ids
     ids        = cdg_tasks + incomplete
     where(id: ids)

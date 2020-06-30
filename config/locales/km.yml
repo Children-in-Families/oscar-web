@@ -604,6 +604,29 @@ km:
       score_label: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់អតិថិជនដោយផ្អែកលើការសង្កេតរបស់អ្នក។
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
+    incomplete_detail:
+      goal: Goal
+      reason: Observation
+      score: Score
+      task: Tasks
+    unrestricted_form:
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      add_task_confirm: តើអ្នកចង់បន្ថែមភារកិច្ចនៅជំហានចុងក្រោយនៃការវាយតម្លៃនេះទេ?
+      at_least_one_task_required: យ៉ាងហោចណាស់ត្រូវបង្កើតកាតព្វកិច្ចមួយ
+      back: ត្រលប់ក្រោយ
+      cancel: ទុកជាមោឃៈ
+      domain: កត្តា
+      finish: រក្សាទុក
+      finished_assessment_msg: ការប៉ាន់ប្រមាណនេះរួចរាល់ក្នុងការរក្សាទុក!
+      goal: គោលដៅ
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      reason: ការសង្កេត
+      reason_placeholder: បញ្ចូលការសង្កេតរបស់អ្នកទៅលើស្ថានភាពរបស់អតិថិជនដោយផ្អែកលើអ្វីដែលអ្នកបានឃើញហើយត្រូវបានប្រាប់ដោយអតិថិជននិងគ្រួសាររបស់ពួកគេ។
+      save: រក្សាទុក
+      score_label: ជ្រើសរើសការពិពណ៌នាខាងក្រោមណាមួយដែលរៀបរាប់យ៉ាងដិតដល់អំពីស្ថានភាពរបស់អតិថិជនដោយផ្អែកលើការសង្កេតរបស់អ្នក។
+      set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
+      tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     index:
       assessment_completed_on: ការប៉ាន់ប្រមាណដែលបានបំពេញ
       assessment_created_on: ការប៉ាន់ប្រមាណដែលបានបង្កើត
@@ -1528,6 +1551,16 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      national_id: 'National ID'
+      birth_cert: 'Birth Certificate'
+      family_book: 'Family Book'
+      passport: 'Passport'
+      travel_doc: 'Temporary Travel Document'
+      referral_doc: 'Referral Documents'
+      local_consent: 'Legal consent'
+      police_interview: 'Police interview'
+      other_legal_doc: 'Others'
+      legal_documents: Legal Documentations
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
       able_state: ស្ថានភាព Able
       address: ឣាសយដ្ឋាន
@@ -2329,6 +2362,15 @@ km:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id: 'National ID'
+        birth_cert: 'Birth Certificate'
+        family_book: 'Family Book'
+        passport: 'Passport'
+        travel_doc: 'Temporary Travel Document'
+        referral_doc: 'Referral Documents'
+        local_consent: 'Legal consent'
+        police_interview: 'Police interview'
+        other_legal_doc: 'Others'
         presented_id: Presented ID
         id_number: ID number
         whatsapp: Whatsapp
@@ -2541,6 +2583,7 @@ km:
         code: លេខសំគាល់គ្រួសារ
         commune: ឃុំ/សង្កាត់
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         dependable_income: ប្រាក់ចំណូលទៀងទាត់
         district: ស្រុក/ខណ្ឌ
         family: គ្រួសារ
@@ -2550,6 +2593,13 @@ km:
         female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
         female_children_count: ចំនួនក្មេងស្រី
         form_title: ឈ្មោះទម្រង់បែបបទ
+        gender: ភេទ
+        gender_list:
+          female: ស្រី
+          male: ប្រុស
+          other_gender: ផ្សេងៗ
+          unknown: អត់ទាន់ដឹង
+          prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
         house: ផ្ទះលេខ
         household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
         id: លេខសំគាល់
@@ -3375,12 +3425,15 @@ km:
       a4: ៤ក
       a5: ៥ក
       a6: ៦ក
+      a7: ៧ក
       b1: ១ខ
       b2: ២ខ
       b3: ៣ខ
       b4: ៤ខ
       b5: ៥ខ
       b6: ៦ខ
+      b7: ៧ខ
+      c3: ៣គ
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     form:
@@ -4996,11 +5049,20 @@ km:
       csi_tools: ឧបករណ៍ការបា៉ន់ប្រមាណ
       custom_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       default_assessment: ឧបករណ៍ការប៉ាន់ប្រមាណលំនាំដើម
+      ratanak_csi_tools: ឧបករណ៍ការប៉ាន់ប្រមាណ
+    integration:
+      integration_label: ចែករំលែកទិន្នន័យអតិថិជនរបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយអង្គការក្រៅ OSCaR?
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ!
+      title: External System Integration
     navigation:
       country: ប្រទេស
     research_module:
       research_module_label: ចែករំលែកទិន្នន័យអតិថិជនអនាមិករបស់អង្គការមិនមែនរដ្ឋាភិបាលជាមួយការស្រាវជ្រាវ OSCaR
       title: ការសិក្សាស្រាវជ្រាវទិន្នន័យ OSCaR
+    settings:
+      assessment_score_order: Assessment Score Order
+      assessment_strictness: Assessment Strictness
+      delete_incomplete_assessment: Delete incomplete assessment after certain period of time
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   field_settings:

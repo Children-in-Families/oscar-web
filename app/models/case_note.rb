@@ -7,6 +7,7 @@ class CaseNote < ActiveRecord::Base
   belongs_to :custom_assessment_setting, required: false
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
+  has_many   :tasks, as: :taskable
 
   validates :meeting_date, :attendee, presence: true
   validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
@@ -45,8 +46,8 @@ class CaseNote < ActiveRecord::Base
     params.each do |_index, param|
       case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
       task_ids = param[:task_ids] || []
-      case_note_domain_group.tasks = Task.where(id: task_ids)
-      case_note_domain_group.tasks.set_complete
+      case_note_domain_group.tasks = Task.with_deleted.where(id: task_ids)
+      case_note_domain_group.tasks.with_deleted.set_complete
       case_note_domain_group.save
     end
   end
