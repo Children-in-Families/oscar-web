@@ -92,6 +92,10 @@ body[id='clients-edit'], body[id='clients-update']{
   .ref-source-cat-reminder{
     color: red;
   }
+
+  #step-2, #step-4 {
+    display: none;
+  }
 }
 
 .client-option-family-record {

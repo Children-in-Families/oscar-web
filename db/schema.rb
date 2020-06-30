@@ -602,6 +602,8 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
+    t.string   "global_id"
+    t.boolean  "referred_external",                default: false
     t.boolean  "national_id",                      default: false,      null: false
     t.boolean  "birth_cert",                       default: false,      null: false
     t.boolean  "family_book",                      default: false,      null: false
@@ -817,6 +819,27 @@ ActiveRecord::Schema.define(version: 20200603081325) do
 
   add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
   add_index "exit_ngos", ["deleted_at"], name: "index_exit_ngos_on_deleted_at", using: :btree
+
+  create_table "external_system_global_identities", force: :cascade do |t|
+    t.integer  "external_system_id"
+    t.string   "global_id"
+    t.string   "external_id"
+    t.string   "client_slug"
+    t.string   "organization_name"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "external_system_global_identities", ["external_system_id"], name: "index_external_system_global_identities_on_external_system_id", using: :btree
+  add_index "external_system_global_identities", ["global_id"], name: "index_external_system_global_identities_on_global_id", using: :btree
+
+  create_table "external_systems", force: :cascade do |t|
+    t.string   "name"
+    t.string   "url"
+    t.string   "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -1483,10 +1506,19 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.string   "consent_form",     default: [],                 array: true
     t.boolean  "saved",            default: false
     t.integer  "client_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.string   "ngo_name",         default: ""
-    t.integer  "client_global_id"
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.string   "ngo_name",                  default: ""
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
+    t.string   "services"
+    t.string   "client_gender",             default: ""
+    t.date     "client_date_of_birth"
+    t.string   "village_code",              default: ""
+    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1571,6 +1603,11 @@ ActiveRecord::Schema.define(version: 20200603081325) do
     t.string   "duplicate_checker"
     t.string   "archived_slug"
     t.string   "global_id"
+    t.string   "external_id"
+    t.string   "external_id_display"
+    t.string   "mosvy_number"
+    t.string   "external_case_worker_name"
+    t.string   "external_case_worker_id"
   end
 
   add_index "shared_clients", ["duplicate_checker"], name: "index_shared_clients_on_duplicate_checker", using: :btree
@@ -2047,11 +2084,14 @@ ActiveRecord::Schema.define(version: 20200603081325) do
   add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
+  add_foreign_key "external_system_global_identities", "external_systems"
+  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
+  add_foreign_key "global_identity_organizations", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"

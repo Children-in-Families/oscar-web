@@ -7,9 +7,9 @@
       .modal-body.advanced-search-query
         %ul.nav.nav-tabs
           %li.active
-            %a{ href: '#my-saved-searches', 'data-toggle' => 'tab'}= t('.my_saved_search')
+            %a{ href: '#my-saved-searches', data: { toggle: 'tab', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.my_saved_search')}", placement: "auto" } }= t('.my_saved_search')
           %li
-            %a#other-saved-searches-tab{ href: '#other-saved-searches', 'data-toggle' => 'tab'}= t('.other_saved_search')
+            %a#other-saved-searches-tab{ href: '#other-saved-searches', data: { toggle: 'tab', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.other_saved_search')}", placement: "auto" } }= t('.other_saved_search')
         .tab-content
           = hidden_field_tag 'advanced_search_id', params[:advanced_search_id]
           = render 'clients/client_advanced_searches/my_saved_searches'
