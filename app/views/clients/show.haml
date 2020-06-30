@@ -57,11 +57,11 @@
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
-                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "focus", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
+                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
 
                     = render 'clients/accept_client'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } } #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } } #{t('.reject')}
 
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
