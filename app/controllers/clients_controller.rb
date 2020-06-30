@@ -119,7 +119,10 @@ class ClientsController < AdminController
       Organization.switch_to current_org.short_name
       if @referral
         client_name = @referral.client_name.split(' ')
-        client_attr = { given_name: client_name.first, family_name: client_name.last, gender: @referral.client_gender, date_of_birth: @referral.client_date_of_birth }
+        client_attr = { given_name: client_name.first, family_name: client_name.last,
+                        gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
+                        date_of_birth: @referral.client_date_of_birth
+                      }
         attributes = Client.get_client_attribute(@referral.attributes.merge(client_attr)) if attributes.nil?
       end
       @client = Client.new(attributes)
@@ -230,7 +233,7 @@ class ClientsController < AdminController
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
-            :relevant_referral_information, :province_id, :current_family_id,
+            :relevant_referral_information, :province_id, :current_family_id, :reason_for_referral,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
