@@ -24,6 +24,10 @@ bash_console:
 rails_console:
 	docker exec -it app rails c
 
+# Use this to attach to the running rails app terminal for use with Pry for example
+rails_attach:
+	docker attach $(shell docker-compose ps -q app)
+
 # Starts up a guard console in the app container
 guard_console:
 	docker exec -it app guard

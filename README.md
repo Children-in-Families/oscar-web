@@ -26,6 +26,20 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 
 *NOTE* If this is the first time you have run this you may need to stop the containers and run it again!
 
+## Debugging using Pry
+
+If you want to debug the Rails application using Pry you need to attach to the container running Rails first. To do that in a new terminal window run:
+
+```
+make rails_attach
+```
+
+Now when your code runs and gets to the `binding.pry` line it will halt and a Pry REPL session will be available in the terminal window where you are attached.
+
+When you have finished dubugging just type `exit` in the Pry REPL session as you normally would. Keep this terminal attached for convenience if you need to use Pry again.
+
+NOTE: To detach the tty __without also terminating the Rails container__, you need to use the escape sequence __Ctrl+P__ followed by __Ctrl+Q__.
+
 ## Troubleshooting
 
 #### Issue pending migrations when starting Docker container
@@ -131,6 +145,40 @@ To fix this issue, run the following commands:
 
 ```
 make yarn_install
+```
+
+#### Issue with Mongo DB
+
+If you find Mongo DB is in a state that is not consistent or causing some unexpected errors that appear to be related to the MongoDB collections, you can completely remove the Mongo DB data files and start again. Note that in follownig this process all your local MongoDB data will be erased so take a backup if you need to first.
+
+```
+docker-compose stop mongo
+rm -rf tmp/mongo
+make start_mongo
+```
+
+Using the OSCaR Web Application try saving a record to the database. For example, [Create a New Client](http://dev.start.localhost:3000/clients/new?country=cambodia&locale=en). Once this is finished you should be able to see the data saved in MongoDB via the console:
+
+```
+make mongo_console
+...
+> db
+oscar_history_development
+> show collections
+client_histories
+> db.client_histories.find()[0]
+{
+	"_id" : ObjectId("5ef2fec9c245050001d8244f"),
+	"tenant" : "dev",
+	"object" : {
+		"id" : 11,
+		"code" : "",
+		"given_name" : "Darren",
+		"family_name" : "Jensen",
+		"gender" : "male",
+		"date_of_birth" : null,
+
+ETC.....
 ```
 
 ### Gazetteer Data Import (OPTIONAL)

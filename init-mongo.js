@@ -1,10 +1,11 @@
 db.createUser({
-  user: 'oscar',
+  user: "oscar",
   pwd: '123456789',
+  customData: { employeeId: 12345 },
   roles: [
-    {
-      role: 'readWrite',
-      db: 'oscar_history_development',
-    },
-  ],
-});
+    { role: "clusterAdmin", db: "admin" },
+    { role: "readAnyDatabase", db: "admin" },
+    "readWrite"
+  ]},
+  { w: "majority" , wtimeout: 5000 }
+);

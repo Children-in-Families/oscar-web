@@ -2138,6 +2138,7 @@ th-TH:
         code:
         commune:
         contract_date:
+        date_of_birth:
         dependable_income:
         district:
         family:
@@ -2147,6 +2148,8 @@ th-TH:
         female_adult_count:
         female_children_count:
         form_title:
+        gender:
+        gender_list:
         house:
         household_income:
         id:

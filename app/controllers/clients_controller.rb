@@ -167,13 +167,16 @@ class ClientsController < AdminController
   end
 
   def destroy
-    @client.enter_ngos.each(&:destroy_fully!)
-    @client.exit_ngos.each(&:destroy_fully!)
-    @client.client_enrollments.each(&:destroy_fully!)
-    @client.assessments.delete_all
-    @client.case_worker_clients.destroy_all
-    @client.cases.delete_all
-    @client.reload.destroy
+    @client.transaction do
+      @client.enter_ngos.each(&:destroy_fully!)
+      @client.exit_ngos.each(&:destroy_fully!)
+      @client.client_enrollments.each(&:destroy_fully!)
+      @client.assessments.delete_all
+      @client.cases.delete_all
+      @client.tasks.update_all(client_id: nil)
+      @client.tasks.destroy_all
+      @client.reload.destroy
+    end
 
     redirect_to clients_url, notice: t('.successfully_deleted')
   end
