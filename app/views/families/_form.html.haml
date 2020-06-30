@@ -40,7 +40,7 @@
           .form-group.string.optional.family_case_history
             %label.string.optional.control-label{:for => "family_case_history"}
               = t('.case_history')
-            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", html: 'true', content: "#{I18n.t('inline_help.families.family_type')}", placement: "auto" } }
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", html: 'true', content: "#{I18n.t('inline_help.families.case_history')}", placement: "auto" } }
               = fa_icon "info-circle", class: 'text-info m-xs'
             = f.input :case_history, label: false
         -# .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address'), readonly: true

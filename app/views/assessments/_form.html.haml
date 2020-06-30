@@ -32,7 +32,7 @@
                 .well
                   = ad.object.domain.translate_description.html_safe
                 #required-scroll
-                %label.text.required.control-label{"aria-required" => "true", :for => "assessment_assessment_domains_attributes_0_reason"}
+                %label.text.required.control-label{"aria-required" => "true" }
                   %abbr{:title => "required"} *
                   = t('.reason')
                 %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.observation').html_safe}", placement: "right" } }
