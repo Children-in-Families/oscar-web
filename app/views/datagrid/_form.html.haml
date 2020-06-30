@@ -269,7 +269,7 @@
                 = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments')
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
 
-          - if Service.count == 63
+          - if Service.count > 0
             %li.type-of-service-header
               %strong= t('.type_of_service')
             %li
