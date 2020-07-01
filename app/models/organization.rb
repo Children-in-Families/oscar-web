@@ -51,8 +51,6 @@ class Organization < ActiveRecord::Base
     def seed_generic_data(org_id)
       org = find(org_id)
 
-      Apartment::Tenant.create(org.short_name)
-
       general_data_file = 'lib/devdata/general.xlsx'
       service_data_file = 'lib/devdata/services/service.xlsx'
 
