@@ -26,18 +26,21 @@ module Api
     end
 
     def create
+      client_saved = false
       client = Client.new(client_params)
+      client.transaction do
+        referee = Referee.find_or_initialize_by(referee_params)
+        referee.save
 
-      referee = Referee.find_or_initialize_by(referee_params)
-      referee.save
+        carer = Carer.find_or_initialize_by(carer_params)
+        carer.save
 
-      carer = Carer.find_or_initialize_by(carer_params)
-      carer.save
+        client.referee_id = referee.id
+        client.carer_id = carer.id
+        client_saved = client.save
+      end
 
-      client.referee_id = referee.id
-      client.carer_id = carer.id
-
-      if client.save
+      if client_saved
         render json: { slug: client.slug, id: client.id }, status: :ok
       else
         render json: client.errors, status: :unprocessable_entity
