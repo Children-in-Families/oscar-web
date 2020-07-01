@@ -31,7 +31,9 @@ module Api
       end
 
       def create
-        if org = Organization.create_and_seed_generic_data(params.permit(:demo, :full_name, :short_name, :logo, supported_languages: []))
+        if org = Organization.create_and_build_tenant(params.permit(:demo, :full_name, :short_name, :logo, supported_languages: []))
+          Organization.delay(queue: :priority).seed_generic_data(org.id)
+
           render json: org, status: :ok
         else
           render json: { msg: org.errors }, status: :unprocessable_entity

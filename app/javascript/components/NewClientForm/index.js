@@ -354,6 +354,7 @@ const Forms = props => {
 
   return (
     <div className='containerClass'>
+      <Loading loading={loading} text={T.translate("index.wait")}/>
 
       <Modal
         className="p-md"

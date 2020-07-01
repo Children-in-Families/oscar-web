@@ -26,6 +26,7 @@ class Organization < ActiveRecord::Base
   validates :short_name, uniqueness: { case_sensitive: false }
 
   before_save :clean_short_name, on: :create
+  before_save :clean_supported_languages, if: :supported_languages?
 
   class << self
     def current
@@ -49,34 +50,26 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def create_and_seed_generic_data(fields = {})
-      org = new(fields)
+    def seed_generic_data(org_id)
+      org = find(org_id)
 
-      if org.save
-        Apartment::Tenant.create(org.short_name)
+      general_data_file = 'lib/devdata/general.xlsx'
+      service_data_file = 'lib/devdata/services/service.xlsx'
 
-        general_data_file = 'lib/devdata/general.xlsx'
-        service_data_file = 'lib/devdata/services/service.xlsx'
+      CifWeb::Application.load_tasks
 
-        CifWeb::Application.load_tasks
+      Apartment::Tenant.switch(org.short_name) do
+        Rake::Task['db:seed'].invoke
+        ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
+        Importer::Import.new('Agency', general_data_file).agencies
+        Importer::Import.new('Department', general_data_file).departments
+        Importer::Import.new('Province', general_data_file).provinces
 
-        Apartment::Tenant.switch(org.short_name) do
-          Rake::Task['db:seed'].invoke
-          ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
-          Importer::Import.new('Agency', general_data_file).agencies
-          Importer::Import.new('Department', general_data_file).departments
-          Importer::Import.new('Province', general_data_file).provinces
-
-          Rake::Task['communes_and_villages:import'].invoke
-          Rake::Task['communes_and_villages:import'].reenable
-          Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
-          Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
-          Rake::Task["field_settings:import"].invoke(org.short_name)
-        end
-
-        org
-      else
-        false
+        Rake::Task['communes_and_villages:import'].invoke
+        Rake::Task['communes_and_villages:import'].reenable
+        Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
+        Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
+        Rake::Task["field_settings:import"].invoke(org.short_name)
       end
     end
 
@@ -115,6 +108,10 @@ class Organization < ActiveRecord::Base
 
   def clean_short_name
     self.short_name = short_name.parameterize
+  end
+
+  def clean_supported_languages
+    self.supported_languages = supported_languages.select(&:present?)
   end
 
   def available_for_referral?
