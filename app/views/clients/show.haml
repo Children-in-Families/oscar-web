@@ -128,7 +128,7 @@
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
                 = t('.view_assessments')
-          - if can? :manage, CaseNote
+          - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           - if @client.has_any_quarterly_reports?
@@ -216,7 +216,7 @@
           %a.collapse-link
             .btn.btn-outline.btn-primary
               %i.fa.fa-chevron-up
-          - if (can? :manage, Client) || (can? :rud, Client)
+          - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
             %small
               = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                 .btn.btn-outline.btn-success
