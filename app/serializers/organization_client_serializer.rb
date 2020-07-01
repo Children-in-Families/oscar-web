@@ -2,8 +2,8 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   include ActionView::Helpers::AssetUrlHelper
 
   attributes :global_id, :external_id, :external_id_display, :mosvy_number, :mosvy_number, :given_name, :family_name,
-             :gender, :date_of_birth, :location_current_village_code, :address_current_village_code, :reason_for_referral,
-             :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id, :protection_status,
+             :gender, :date_of_birth, :location_current_village_code, :address_current_village_code,
+             :organization_id, :organization_name, :external_case_worker_name, :external_case_worker_id, :reason_for_referral,
              :services, :status, :case_worker_name, :case_worker_mobile, :is_referred, :referral_consent_form
 
   def organization_id
@@ -47,9 +47,5 @@ class OrganizationClientSerializer < ActiveModel::Serializer
 
   def address_current_village_code
     object.village&.code || ""
-  end
-
-  def protection_status
-    object.reason_for_referral
   end
 end
