@@ -1,5 +1,8 @@
 class GlobalIdentity < ActiveRecord::Base
-  has_many :clients, dependent: :restrict_with_error
+  self.primary_key = "ulid"
+  has_many :clients, class_name: 'Client', foreign_key: 'global_id', dependent: :restrict_with_error
+  has_many :organizations, through: :global_identity_organizations
+  has_many :global_identity_organizations, class_name: 'GlobalIdentityOrganization', foreign_key: 'global_id', dependent: :destroy
 
   validates :ulid, presence: true, uniqueness: { case_sensitive: false }
 end

@@ -19,6 +19,7 @@ services:
       - POWER_BI_GROUP=power_bi_group
       - READ_ONLY_DATABASE_USER=powerbi_dashboard_user
       - READ_ONLY_DATABASE_PASSWORD=123456789
+      - WEBPACKER_DEV_SERVER_HOST=webpack
     volumes:
       - .:/app
     ports:
@@ -28,7 +29,6 @@ services:
       - mongo
     stdin_open: true
     tty: true
-  # NOTE: Temp solution for now - need to update webpacker.yml (see notes in that file)
   webpack:
     image: oscar-web_app
     container_name: webpack
@@ -38,7 +38,9 @@ services:
       - .:/app
     ports:
       - "3035:3035"
-    entrypoint: './bin/webpack-dev-server'
+    entrypoint: bash -c "rm -rf /app/public/packs; /app/bin/webpack-dev-server"
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
   db:
     image: postgres:9.4
     container_name: db

@@ -201,6 +201,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _handleAppendDomainAtTheEnd(currentIndex)
         _taskRequiredAtEnd(currentIndex)
         _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
+        $("[data-toggle='popover'], [data-trigger='hover']").popover
+          html: true
+
         return
 
       onStepChanging: (event, currentIndex, newIndex) ->

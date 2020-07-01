@@ -1,0 +1,20 @@
+#step-1.alert.alert-warning.alert-dismissible{ :role => "alert" }
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %ul
+    %li= I18n.t('inline_help.clients.form.notes.step1.lists.list1').html_safe
+    %li= I18n.t('inline_help.clients.form.notes.step1.lists.list2')
+    %li= I18n.t('inline_help.clients.form.notes.step1.lists.list3')
+    %li= I18n.t('inline_help.clients.form.notes.step1.lists.list4')
+
+#step-2.alert.alert-warning.alert-dismissible{ :role => "alert" }
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %ul
+    %li= I18n.t('inline_help.clients.form.notes.step2.lists.list1')
+
+#step-4.alert.alert-warning.alert-dismissible{ :role => "alert" }
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %ul
+    %li= I18n.t('inline_help.clients.form.notes.step4.lists.list1').html_safe

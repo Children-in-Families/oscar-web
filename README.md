@@ -1,10 +1,10 @@
 # OSCaR
 
-Open Source Case-management and Record-keeping.
+### Open Source Case-management and Record-keeping.
 
 ### Requirements
 
-* Docker Desktop (latest stable version)
+* Docker Desktop (latest stable version for your platform)
 
 ### Getting Started
 
@@ -14,10 +14,10 @@ Given that we are using Docker, then most common development tasks you will just
 make start_core
 ```
 
-...and in a new terminal window run:
+This starts a Rails, Postgres and Webpack container. If you need the Mongo container running then execute the following command in a separate terminal:
 
 ```
-make webpack_dev_server
+make start_mongo
 ```
 
 See the project [Makefile](./Makefile) for a list of all the available commands.
@@ -26,9 +26,160 @@ Once the containers have fired up open a web browser and navigate to [http://loc
 
 *NOTE* If this is the first time you have run this you may need to stop the containers and run it again!
 
-### Rebuilding the Docker Images
+## Debugging using Pry
 
-If anything changes that is in the `Dockerfile` itself (or related to that - such as adding new Gems or JS packages and then needing to re-run `bundle install` or `yarn install`), then you will need to rebuild the Docker Image to get the latest changes into the Image and therefore the running container. So from time to time, you will need to run: `docker-compose build app` to do that. This basically re-builds the Docker Image and if there are new Gems / JS packages they will be installed via the `bundle install` and `yarn install` calls made in `Dockerfile`.
+If you want to debug the Rails application using Pry you need to attach to the container running Rails first. To do that in a new terminal window run:
+
+```
+make rails_attach
+```
+
+Now when your code runs and gets to the `binding.pry` line it will halt and a Pry REPL session will be available in the terminal window where you are attached.
+
+When you have finished dubugging just type `exit` in the Pry REPL session as you normally would. Keep this terminal attached for convenience if you need to use Pry again.
+
+NOTE: To detach the tty __without also terminating the Rails container__, you need to use the escape sequence __Ctrl+P__ followed by __Ctrl+Q__.
+
+## Troubleshooting
+
+#### Issue pending migrations when starting Docker container
+
+If you have pending migrations that **prevent the Docker container from starting** for example:
+
+```
+app | You have 2 pending migrations:
+app |   20200603071312 ________
+app |   20200603081325 ________
+app | Run `rake db:migrate` to update your database then try again.
+app exited with code 1
+```
+
+Then you can fix this by running the following command and then starting services again.
+
+```
+make db_migrate
+```
+
+#### Issue pending migrations with running the application
+
+If after you start the application and you see the following in the terminal:
+
+```
+Migrations are pending. To resolve this issue, run: bin/rake db:migrate RAILS_ENV=development
+```
+
+Then you need to run the migration in a terminal session in the running docker container. Keep the services running and then run the following command:
+
+```
+make db_migrate
+```
+
+#### Issue during db migration
+
+If you get a an error while running database migrations for example:
+
+```
+StandardError: An error has occurred, this and all later migrations canceled:
+```
+
+Then you can drop the database and restart the services like so:
+
+```
+make stop_all
+make db_drop
+make start_core
+```
+
+Note after doing this you may still need to run the database migrations. If you still have an error with the migration then check the migrations and ask the developer who committed them to help you!
+
+#### Issue missing Gem dependency
+
+Sometimes you might start the service and the container cannot start because it returns an error due to a missing Gem dependency, something like this:
+
+```
+app |  Could not find ________ in any of the sources
+app |  Run `bundle install` to install missing gems.
+app |  exited with code 7
+```
+
+Then, it means there is a Gem depenency missing. You should rebuild the image like this and then start the services again.
+
+```
+make build_app
+```
+
+#### Issue version discrepency with a Gem
+
+Sometimes you might start the service and the container cannot start because it returns an error due to a version discrepency with a Gem, something like this:
+
+```
+app | The bundle currently has ______ locked at x.y.z.
+app | Try running `bundle update ______`
+app |
+app | If you are updating multiple gems in your Gemfile at once,
+app | try passing them all to `bundle update`
+app | Run `bundle install` to install missing gems.
+app | exited with code 7
+```
+
+Then, it means there is a Gem version discrepency. You should rebuild the image like this and then start the services again.
+
+```
+make build_app
+```
+
+#### Issue missing JavaScript dependency
+
+Then, it means there is a JavaScript package depenency missing. You should rebuild the image like this and then start the services again.
+
+In your terminal you might see something like this or someother error representing a missing JavaScript module.
+
+Usually what's happened is the yarn.lock file contains a reference to a module that is not currently in your `node_modules` folder:
+
+```
+Module not found: _____
+Error: Can't resolve _____
+```
+
+To fix this issue, run the following commands:
+
+```
+make yarn_install
+```
+
+#### Issue with Mongo DB
+
+If you find Mongo DB is in a state that is not consistent or causing some unexpected errors that appear to be related to the MongoDB collections, you can completely remove the Mongo DB data files and start again. Note that in follownig this process all your local MongoDB data will be erased so take a backup if you need to first.
+
+```
+docker-compose stop mongo
+rm -rf tmp/mongo
+make start_mongo
+```
+
+Using the OSCaR Web Application try saving a record to the database. For example, [Create a New Client](http://dev.start.localhost:3000/clients/new?country=cambodia&locale=en). Once this is finished you should be able to see the data saved in MongoDB via the console:
+
+```
+make mongo_console
+...
+> db
+oscar_history_development
+> show collections
+client_histories
+> db.client_histories.find()[0]
+{
+	"_id" : ObjectId("5ef2fec9c245050001d8244f"),
+	"tenant" : "dev",
+	"object" : {
+		"id" : 11,
+		"code" : "",
+		"given_name" : "Darren",
+		"family_name" : "Jensen",
+		"gender" : "male",
+		"date_of_birth" : null,
+
+ETC.....
+```
 
 ### Gazetteer Data Import (OPTIONAL)
 
@@ -45,6 +196,12 @@ rake communes_and_villages:import['dev']
 ### Docker Commands
 
 Start bash session in the 'app' service container. Once you have a session, you can use it like you would normally use your local terminal, running `rake` tasks, starting the `rails c` console etc, etc
+
+To start a bash terminal that is running inside the Docker container run:
+
+```
+make bash_console
+```
 
 ```
 make rails_console

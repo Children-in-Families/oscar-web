@@ -16,7 +16,7 @@ namespace :client_global_id do
           end
           client = Client.find(referral_slug[/\d+/]) if Client.exists?(referral_slug[/\d+/])
           if client && client.global_id.nil?
-            client.global_id = GlobalIdentity.create(ulid: ULID.generate).id
+            client.global_id = GlobalIdentity.create(ulid: ULID.generate).ulid
             client_global_id = client.global_id
             client.save(validate: false)
           end
@@ -25,7 +25,7 @@ namespace :client_global_id do
         if referral.saved
           if Client.exists?(referral.client_id)
             client = Client.find(referral.client_id)
-            client.global_id = client_global_id || GlobalIdentity.create(ulid: ULID.generate).id
+            client.global_id = client_global_id || GlobalIdentity.create(ulid: ULID.generate).ulid
             client.save(validate: false)
           end
         end
@@ -34,7 +34,7 @@ namespace :client_global_id do
       end
 
       Client.where(global_id: nil).each do |client|
-        client.global_id = GlobalIdentity.create(ulid: ULID.generate).id
+        client.global_id = GlobalIdentity.create(ulid: ULID.generate).ulid
         client.save(validate: false)
         puts "Client: #{client.slug}"
       end

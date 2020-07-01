@@ -65,6 +65,7 @@ CIF.ClientsIndex = do ->
     _removeReferralDataColumnsInWizardClientColumn()
     _handleShowCustomFormSelect()
     _reOrderRuleContainer()
+    _initHelpTextPophover()
 
   _reOrderRuleContainer = ->
     $.each $('.csi-group .rules-list'), (index, item)->
@@ -814,4 +815,8 @@ CIF.ClientsIndex = do ->
     else
       $(currentItem).closest('.rule-container').find('.rule-value-container').find('.select2-container').remove()
       $(currentItem).closest('.rule-container').find('.rule-value-container').find('input').show()
+
+  _initHelpTextPophover = ->
+    $("[data-trigger='hover']").popover()
+
   { init: _init }

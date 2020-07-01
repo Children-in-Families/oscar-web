@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200528053755) do
+ActiveRecord::Schema.define(version: 20200629053513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,22 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   end
 
   add_index "action_results", ["government_form_id"], name: "index_action_results_on_government_form_id", using: :btree
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "token"
+    t.string   "first_name"
+    t.string   "last_name"
+  end
+
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "advanced_searches", force: :cascade do |t|
     t.string   "name"
@@ -590,7 +606,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
-    t.integer  "global_id"
+    t.string   "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -770,15 +786,12 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",                   default: ""
-    t.text     "description",            default: ""
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "code",                   default: ""
-    t.string   "global_id",   limit: 32, default: "", null: false
+    t.string   "name",        default: ""
+    t.text     "description", default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "code",        default: ""
   end
-
-  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -825,6 +838,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   end
 
   add_index "external_system_global_identities", ["external_system_id"], name: "index_external_system_global_identities_on_external_system_id", using: :btree
+  add_index "external_system_global_identities", ["global_id"], name: "index_external_system_global_identities_on_global_id", using: :btree
 
   create_table "external_systems", force: :cascade do |t|
     t.string   "name"
@@ -940,9 +954,11 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "global_identities", force: :cascade do |t|
-    t.binary "ulid"
+  create_table "global_identities", id: false, force: :cascade do |t|
+    t.string "ulid"
   end
+
+  add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
     t.string   "global_id"
@@ -955,12 +971,6 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
-
-  create_table "global_services", id: false, force: :cascade do |t|
-    t.uuid "uuid"
-  end
-
-  add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1272,12 +1282,17 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "full_name"
     t.string   "short_name"
     t.string   "logo"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "fcf_ngo",    default: false
-    t.string   "country",    default: ""
-    t.boolean  "aht",        default: false
-    t.boolean  "integrated", default: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.boolean  "fcf_ngo",             default: false
+    t.string   "country",             default: ""
+    t.boolean  "aht",                 default: false
+    t.boolean  "integrated",          default: false
+    t.integer  "clients_count",       default: 0
+    t.integer  "active_client",       default: 0
+    t.integer  "accepted_client",     default: 0
+    t.boolean  "demo",                default: false
+    t.string   "supported_languages", default: ["km", "en", "my"],              array: true
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1534,7 +1549,6 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
-    t.integer  "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -1544,6 +1558,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
+    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -1636,7 +1651,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "country_origin",            default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
-    t.integer  "global_id"
+    t.string   "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -1714,9 +1729,11 @@ ActiveRecord::Schema.define(version: 20200528053755) do
     t.string   "case_note_id",              default: ""
     t.integer  "taskable_id"
     t.string   "taskable_type"
+    t.datetime "deleted_at"
   end
 
   add_index "tasks", ["client_id"], name: "index_tasks_on_client_id", using: :btree
+  add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
   add_index "tasks", ["taskable_type", "taskable_id"], name: "index_tasks_on_taskable_type_and_taskable_id", using: :btree
 
   create_table "thredded_categories", force: :cascade do |t|
@@ -2119,11 +2136,13 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "external_system_global_identities", "external_systems"
+  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
+  add_foreign_key "global_identity_organizations", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
@@ -2168,7 +2187,6 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
-  add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
@@ -2176,7 +2194,7 @@ ActiveRecord::Schema.define(version: 20200528053755) do
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
-  add_foreign_key "tasks", "clients"
+  add_foreign_key "tasks", "clients", on_delete: :nullify
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"

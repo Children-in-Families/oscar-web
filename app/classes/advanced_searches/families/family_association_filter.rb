@@ -15,6 +15,10 @@ module AdvancedSearches
           values = clients
         when 'case_workers'
           values = case_worker_field_query
+        when 'gender'
+          values = get_family_member_gender
+        when 'date_of_birth'
+          values = get_family_member_dob
         end
         { id: sql_string, values: values }
       end
@@ -49,6 +53,46 @@ module AdvancedSearches
           family_ids = @families.where(id: Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:family_id).uniq).ids
         end
         family_ids
+      end
+
+      def get_family_member_gender
+        families = @families.joins(:family_members).distinct
+        case @operator
+        when 'equal'
+          families = families.where('family_members.gender = ?', @value)
+        when 'not_equal'
+          families = families.where('family_members.gender != ?', @value)
+        when 'is_empty'
+          families = Family.includes(:family_members).where('family_members.gender IS NULL')
+        when 'is_not_empty'
+          families = families.where('family_members.gender IS NOT NULL')
+        end
+        families.ids
+      end
+
+      def get_family_member_dob
+        families = @families.joins(:family_members).distinct
+        case @operator
+        when 'equal'
+          families = families.where('date(family_members.date_of_birth) = ?', @value.to_date)
+        when 'not_equal'
+          families = families.where("date(family_members.date_of_birth) != ? OR family_members.date_of_birth IS NULL", @value.to_date)
+        when 'less'
+          families = families.where('date(family_members.date_of_birth) < ?', @value.to_date)
+        when 'less_or_equal'
+          families = families.where('date(family_members.date_of_birth) <= ?', @value.to_date)
+        when 'greater'
+          families = families.where('date(family_members.date_of_birth) > ?', @value.to_date)
+        when 'greater_or_equal'
+          families = families.where('date(family_members.date_of_birth) >= ?', @value.to_date)
+        when 'between'
+          families = families.where('date(family_members.date_of_birth) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+        when 'is_empty'
+          families = Family.includes(:family_members).where(family_members: { date_of_birth: nil })
+        when 'is_not_empty'
+          families = families.where.not(family_members: { date_of_birth: nil })
+        end
+        families.ids
       end
     end
   end
