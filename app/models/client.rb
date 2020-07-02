@@ -831,7 +831,7 @@ class Client < ActiveRecord::Base
   end
 
   def save_client_global_organization
-    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id)
+    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id) if global_identity_organizations.blank?
   end
 
 end
