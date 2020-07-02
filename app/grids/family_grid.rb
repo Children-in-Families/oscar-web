@@ -25,7 +25,7 @@ class FamilyGrid < BaseGrid
     scope.by_status(value)
   end
 
-  filter(:gender, :enum, select: :gender_options, header: -> { I18n.t('datagrid.columns.families.gender') }) do |value, scope|
+  filter(:gender, :enum, select: :gender_options, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |value, scope|
     scope.joins(:family_members).where("family_members.gender = ?", value)
   end
 
@@ -154,7 +154,7 @@ class FamilyGrid < BaseGrid
     object.status
   end
 
-  column(:gender, html: true, header: -> { I18n.t('datagrid.columns.families.gender') }) do |object|
+  column(:gender, html: true, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |object|
     content_tag :ul, class: '' do
       object.family_members.map(&:gender).each do |gender|
         concat(content_tag(:li, gender&.titleize))
@@ -170,7 +170,7 @@ class FamilyGrid < BaseGrid
     end
   end
 
-  column(:gender, html: false, header: -> { I18n.t('datagrid.columns.families.gender') }) do |object|
+  column(:gender, html: false, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |object|
     object.family_members.map(&:gender).compact.join(", ")
   end
 
