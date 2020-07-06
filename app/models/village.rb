@@ -18,4 +18,13 @@ class Village < ActiveRecord::Base
   def name
     "#{name_kh} / #{name_en}"
   end
+
+  def self.get_village(village_code)
+    village = find_by(code: village_code)
+    if village
+      { village_id: village.id, commune_id: village.commune&.id, district_id: village.commune.district&.id, province_id: village.commune.district.province&.id }
+    else
+      { village_id: nil }
+    end
+  end
 end

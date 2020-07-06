@@ -683,16 +683,19 @@ class Client < ActiveRecord::Base
       referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
       external_case_worker_id:   attribute[:external_case_worker_id],
       external_case_worker_name: attribute[:external_case_worker_name],
-      **get_village(attribute[:address_current_village_code] || attribute[:village_code])
+      **get_address_by_code(attribute[:address_current_village_code] || attribute[:village_code])
     }
   end
 
-  def self.get_village(village_code)
-    village = Village.find_by(code: village_code)
-    if village
-      { village_id: village.id, commune_id: village.commune&.id, district_id: village.commune.district&.id, province_id: village.commune.district.province&.id }
+  def self.get_address_by_code(the_address_code)
+    char_size = the_address_code&.length
+    case char_size
+    when 4
+      District.get_district(the_address_code)
+    when 6
+      Commune.get_commune(the_address_code)
     else
-      { village_id: nil }
+      Village.get_village(the_address_code)
     end
   end
 
