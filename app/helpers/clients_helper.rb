@@ -928,10 +928,14 @@ module ClientsHelper
   def case_note_count(client)
     results = []
     @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-    basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
-    results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
-    query_string  = get_any_query_string(results, 'case_notes')
-    client.case_notes.where(query_string)
+    if @basic_rules.present?
+      basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
+      results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+      query_string  = get_any_query_string(results, 'case_notes')
+      client.case_notes.where(query_string)
+    else
+      client.case_notes
+    end
   end
 
   def case_history_label(value)
