@@ -4,6 +4,7 @@ module PartnerAdvancedSearchesConcern
 
   def advanced_search
     basic_rules  = JSON.parse @basic_filter_params
+    $param_rules = nil
     $param_rules = find_params_advanced_search
     @partners    = AdvancedSearches::Partners::PartnerAdvancedSearch.new(basic_rules, Partner.all).filter
     custom_form_column

@@ -61,7 +61,7 @@ class Client < ActiveRecord::Base
   has_many :calls, through: :hotlines
   has_many :sponsors, dependent: :destroy
   has_many :donors, through: :sponsors
-  has_many :tasks,          dependent: :destroy
+  has_many :tasks,          dependent: :nullify
   has_many :surveys,        dependent: :destroy
   has_many :agency_clients, dependent: :destroy
   has_many :progress_notes, dependent: :destroy
@@ -831,7 +831,7 @@ class Client < ActiveRecord::Base
   end
 
   def save_client_global_organization
-    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id)
+    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id) if global_identity_organizations.blank?
   end
 
 end

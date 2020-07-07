@@ -40,13 +40,14 @@ module AdvancedSearches
       end
 
       def date_type_list
-        ['contract_date']
+        ['date_of_birth', 'contract_date']
       end
 
       def drop_down_type_list
         [
           ['family_type', family_type_options],
           ['status', status_options],
+          ['gender', gender_options],
           ['province_id', provinces],
           ['district_id', districts],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
@@ -87,6 +88,10 @@ module AdvancedSearches
       def case_workers_options
         user_ids = Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:user_id).uniq
         User.where(id: user_ids).order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+      end
+
+      def gender_options
+        FamilyMember.gender.values.map{ |value| [value, I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}")] }.to_h
       end
     end
   end

@@ -25,6 +25,14 @@ class FamilyGrid < BaseGrid
     scope.by_status(value)
   end
 
+  filter(:gender, :enum, select: :gender_options, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |value, scope|
+    scope.joins(:family_members).where("family_members.gender = ?", value)
+  end
+
+  filter(:date_of_birth, :date, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |value, scope|
+    scope.joins(:family_members).where("DATE(family_members.date_of_birth) = ?", value)
+  end
+
   filter(:case_history, :string, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |value, scope|
     scope.case_history_like(value)
   end
@@ -73,6 +81,10 @@ class FamilyGrid < BaseGrid
     Family.joins(:district).pluck('districts.name', 'districts.id').uniq
   end
 
+  def gender_options
+    FamilyMember.gender.values.map{ |value| [I18n.t("datagrid.columns.families.gender_list.#{value.gsub('other', 'other_gender')}"), value] }
+  end
+
   filter(:dependable_income, :xboolean, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |value, scope|
     value ? scope.where(dependable_income: true) : scope.where(dependable_income: false)
   end
@@ -104,6 +116,8 @@ class FamilyGrid < BaseGrid
       name: :general,
       family_type: :aggregrate,
       status: :general,
+      gender: :general,
+      date_of_birth: :general,
       case_history: :general,
       member_count: :aggregrate,
       cases: :aggregrate,
@@ -138,6 +152,30 @@ class FamilyGrid < BaseGrid
 
   column(:status, header: -> { I18n.t('datagrid.columns.families.status') }) do |object|
     object.status
+  end
+
+  column(:gender, html: true, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |object|
+    content_tag :ul, class: '' do
+      object.family_members.map(&:gender).each do |gender|
+        concat(content_tag(:li, gender&.titleize))
+      end
+    end
+  end
+
+  column(:date_of_birth, html: true, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |object|
+    content_tag :ul do
+      object.family_members.map(&:date_of_birth).compact.each do |dob|
+        concat(content_tag(:li, dob&.strftime("%d %B %Y")))
+      end
+    end
+  end
+
+  column(:gender, html: false, header: -> { I18n.t('activerecord.attributes.family_member.gender') }) do |object|
+    object.family_members.map(&:gender).compact.join(", ")
+  end
+
+  column(:date_of_birth, html: false, header: -> { I18n.t('datagrid.columns.families.date_of_birth') }) do |object|
+    object.family_members.map{ |member| member.date_of_birth&.strftime("%d %B %Y") }.compact.join(", ")
   end
 
   column(:case_history, html: true, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |object|

@@ -2583,6 +2583,7 @@ km:
         code: លេខសំគាល់គ្រួសារ
         commune: ឃុំ/សង្កាត់
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
+        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         dependable_income: ប្រាក់ចំណូលទៀងទាត់
         district: ស្រុក/ខណ្ឌ
         family: គ្រួសារ
@@ -2592,6 +2593,13 @@ km:
         female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
         female_children_count: ចំនួនក្មេងស្រី
         form_title: ឈ្មោះទម្រង់បែបបទ
+        gender: ភេទ
+        gender_list:
+          female: ស្រី
+          male: ប្រុស
+          other_gender: ផ្សេងៗ
+          unknown: អត់ទាន់ដឹង
+          prefer_not_to_say: សុំមិន​និយាយ​ល្អ​ជាង
         house: ផ្ទះលេខ
         household_income: ប្រាក់ចំណូលគ្រួសារប្រចាំខែ
         id: លេខសំគាល់
