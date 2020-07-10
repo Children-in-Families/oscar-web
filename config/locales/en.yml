@@ -102,9 +102,15 @@ en:
           successfully_updated: Successfully updated
   activerecord:
     attributes:
+      carer:
+        name: Primary Carer Name
+        phone: Primary Carer Phone Number
+        carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
         gender: Gender
+      referee:
+        referee_address: Address
     default:
       blank: can't be blank
     errors:
@@ -1561,6 +1567,15 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
+      case_note: Case Notes
+      referral_info: Client / Referral Information
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       legal_documents: Legal Documentations
       able: Able
       able_state: Able State
@@ -1598,6 +1613,8 @@ en:
       family_book: 'Family Book'
       family_name: Family Name (Latin)
       finish: Finish
+      followed_up_by_id: First Follow Up by
+      follow_up_date: Date of First Follow Up
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
@@ -1856,6 +1873,13 @@ en:
       close: Close
       warning: Warning
     show:
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       able: Able
       able_screening_questions: Able Screening Questions
       able_state: Able State
@@ -2373,6 +2397,13 @@ en:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        marital_status: Marital Status
+        nationality: Nationality
+        ethnicity: Ethnicity
+        location_of_concern: Location of concern
+        type_of_trafficking: Type of Trafficking
+        education_background: Education Background
+        department: Ratanak Team
         national_id: 'National ID'
         birth_cert: 'Birth Certificate'
         family_book: 'Family Book'
@@ -5093,6 +5124,10 @@ en:
     update:
       successfully_updated: Setting have been successfully updated.
   shared:
+    x_lists_of: "%{x} lists of"
+    new_x: "New %{x}"
+    max_x: "Max %{x}"
+    x_on: "%{x} on"
     form_builder:
       file_field:
         allow_file_size: Allowed file types

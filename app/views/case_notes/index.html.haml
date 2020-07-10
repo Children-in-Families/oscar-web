@@ -5,7 +5,7 @@
         .row
           .col-xs-12.col-sm-6.co-md-6
             %h5
-              = t('.case_note_lists')
+              = t('shared.x_lists_of', x: t('clients.form.case_note'))
               = link_to_client_show(@client)
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
@@ -14,7 +14,7 @@
                 - if enable_any_csi_tools?
                   .btn-group#case-note-selection
                     %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
-                      = t('.new_case_note')
+                      = t('shared.new_x', x: t('clients.form.case_note'))
                       %span.caret
                     %ul.dropdown-menu#case-note-dropdown
                       - if @current_setting.enable_default_assessment
@@ -56,7 +56,7 @@
                   %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format(case_note.created_at)}"
                 .col-xs-4.text-right
                   %h4
-                    = t('.case_note_on')
+                    = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
                     - if can? :manage, CaseNote
                       - cdg = case_note.case_note_domain_groups.first

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200629053513) do
+ActiveRecord::Schema.define(version: 20200710033402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -633,6 +633,13 @@ ActiveRecord::Schema.define(version: 20200629053513) do
     t.string   "local_consent_files",              default: [],                      array: true
     t.string   "police_interview_files",           default: [],                      array: true
     t.string   "other_legal_doc_files",            default: [],                      array: true
+    t.string   "marital_status"
+    t.string   "nationality"
+    t.string   "ethnicity"
+    t.string   "location_of_concern"
+    t.string   "type_of_trafficking"
+    t.text     "education_background"
+    t.string   "department"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -930,6 +937,7 @@ ActiveRecord::Schema.define(version: 20200629053513) do
     t.boolean  "required",      default: false
     t.string   "klass_name"
     t.string   "for_instances"
+    t.boolean  "label_only",    default: false
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|
@@ -971,6 +979,12 @@ ActiveRecord::Schema.define(version: 20200629053513) do
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
+
+  create_table "global_services", id: false, force: :cascade do |t|
+    t.uuid "uuid"
+  end
+
+  add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
 
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
@@ -1549,16 +1563,15 @@ ActiveRecord::Schema.define(version: 20200629053513) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
+    t.string   "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
-    t.string   "services"
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
-    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -2142,7 +2155,6 @@ ActiveRecord::Schema.define(version: 20200629053513) do
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
-  add_foreign_key "global_identity_organizations", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"

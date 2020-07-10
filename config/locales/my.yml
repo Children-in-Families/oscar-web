@@ -100,9 +100,15 @@ my:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
   activerecord:
     attributes:
+      carer:
+        name: မူလတန်းစောင့်ရှောက်သူအမည်အား
+        phone: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
+        carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
         gender: Gender
+      referee:
+        referee_address: Address
     default:
       blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
     errors:
@@ -1556,6 +1562,15 @@ my:
       reject_client: client ကိုငြင်းပယ်
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
+      case_note: အမႈမွတ္စု
+      referral_info: Client / Referral Information
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'Family Book'
@@ -1603,6 +1618,8 @@ my:
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
+      followed_up_by_id: First Follow Up by
+      follow_up_date: Date of First Follow Up
       from: မွ
       gender: က်ား မ
       general_question: အေထြေထြ ေမးခြန္း
@@ -1850,6 +1867,13 @@ my:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
     show:
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       able: Able
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
       able_state: Able State
@@ -2346,6 +2370,13 @@ my:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        marital_status: Marital Status
+        nationality: Nationality
+        ethnicity: Ethnicity
+        location_of_concern: Location of concern
+        type_of_trafficking: Type of Trafficking
+        education_background: Education Background
+        department: Ratanak Team
         national_id: 'National ID'
         birth_cert: 'Birth Certificate'
         family_book: 'Family Book'
@@ -5101,6 +5132,10 @@ my:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
+    x_lists_of: "%{x}စာရင်း"
+    new_x: "အသစ်%{x}"
+    max_x: "အများဆုံး%{x}"
+    x_on: "အပေါ်%{x}"
     form_builder:
       file_field:
         allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစားမ်ား
