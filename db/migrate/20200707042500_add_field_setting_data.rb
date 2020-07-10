@@ -83,7 +83,8 @@ class AddFieldSettingData < ActiveRecord::Migration
         klass_name: :client,
         required: false,
         visible: (Apartment::Tenant.current_tenant != 'ratanak'),
-        group: data[:group] || :client
+        group: data[:group] || :client,
+        current_label: data[:current_label]
       )
     end
 
