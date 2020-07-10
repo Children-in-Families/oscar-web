@@ -3,6 +3,7 @@ import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
+import { t } from '../../utils/i18n'
 
 export default props => {
   const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
