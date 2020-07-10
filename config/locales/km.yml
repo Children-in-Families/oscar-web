@@ -5103,7 +5103,7 @@ km:
     x_lists_of: "បញ្ជី%{x}"
     new_x: "%{x}ថ្មី"
     max_x: "%{x}អតិបរមា"
-    x_on: "#{x}នៅថ្ងៃ"
+    x_on: "%{x}នៅថ្ងៃ"
     form_builder:
       file_field:
         allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
