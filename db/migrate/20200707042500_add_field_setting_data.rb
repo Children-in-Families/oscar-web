@@ -103,5 +103,6 @@ class AddFieldSettingData < ActiveRecord::Migration
   def down
     FieldSetting.where(name: NEW_FIELDS.keys).delete_all
     FieldSetting.where(name: RENAME_FIELDS.keys).delete_all
+    FieldSetting.where(name: HIDDEN_FIELDS.keys).delete_all
   end
 end
