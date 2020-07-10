@@ -5126,6 +5126,8 @@ en:
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"
+    max_x: "Max %{x}"
+    x_on: "#{x} on"
     form_builder:
       file_field:
         allow_file_size: Allowed file types

@@ -56,7 +56,7 @@
                   %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format(case_note.created_at)}"
                 .col-xs-4.text-right
                   %h4
-                    = t('.case_note_on')
+                    = t('shared.x_on', x: t('clients.form.case_note'))
                     = date_format(case_note.meeting_date) if case_note.meeting_date
                     - if can? :manage, CaseNote
                       - cdg = case_note.case_note_domain_groups.first
