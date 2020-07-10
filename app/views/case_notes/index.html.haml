@@ -5,7 +5,7 @@
         .row
           .col-xs-12.col-sm-6.co-md-6
             %h5
-              = t('.case_note_lists')
+              = t('shared.x_lists_of', x: t('clients.form.case_note'))
               = link_to_client_show(@client)
           .col-xs-12.col-sm-6.col-md-6
             .ibox-tools
@@ -14,7 +14,7 @@
                 - if enable_any_csi_tools?
                   .btn-group#case-note-selection
                     %button.btn.btn-primary.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
-                      = t('.new_case_note')
+                      = t('shared.new_x', x: t('clients.form.case_note'))
                       %span.caret
                     %ul.dropdown-menu#case-note-dropdown
                       - if @current_setting.enable_default_assessment

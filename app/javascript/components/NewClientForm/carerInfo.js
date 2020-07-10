@@ -5,8 +5,10 @@ import {
   Checkbox
 }             from '../Commons/inputs'
 
+import { t } from '../../utils/i18n'
+
 export default props => {
-  const { onChange, renderAddressSwitch, current_organization, id, hintText, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, carerSubdistricts, families, addressTypes, T  } } = props
+  const { onChange, fieldsVisibility, translation, renderAddressSwitch, current_organization, id, hintText, data: { carerDistricts, carerCommunes, carerVillages, client, carer, clientRelationships, currentProvinces, currentStates, currentTownships, carerSubdistricts, families, addressTypes, T  } } = props
 
   const clientRelationship = clientRelationships.map(relationship => ({label: T.translate("clientRelationShip."+relationship.label), value: relationship.value}))
   const [districts, setDistricts]         = useState(carerDistricts)
@@ -147,15 +149,19 @@ export default props => {
     <div id={id} className="collapse">
       <br/>
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("carerInfo.name")}
-            onChange={onChange('carer', 'name')}
-            value={carer.name}
-            inlineClassName="carer-name"
-            hintText={hintText.carer.carer_name}
-          />
-        </div>
+        {
+          fieldsVisibility.carer_name == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={ t(translation, 'activerecord.attributes.carer.name')}
+              onChange={onChange('carer', 'name')}
+              value={carer.name}
+              inlineClassName="carer-name"
+              hintText={hintText.carer.carer_name}
+            />
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             label={T.translate("carerInfo.gender")}
@@ -167,14 +173,18 @@ export default props => {
         </div>
       </div>
       <div className="row">
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("carerInfo.carer_phone")}
-            type="text" onChange={onChange('carer', 'phone')}
-            value={carer.phone}
-            hintText={hintText.carer.carer_phone}
-          />
-        </div>
+        {
+          fieldsVisibility.carer_phone == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={ t(translation, 'activerecord.attributes.carer.phone')}
+              type="text" onChange={onChange('carer', 'phone')}
+              value={carer.phone}
+              hintText={hintText.carer.carer_phone}
+            />
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
             label={T.translate("carerInfo.carer_email")}

@@ -75,4 +75,31 @@ module ClientConstants
     Creole
     French
   ).freeze
+
+  MARITAL_STATUSES = %w(
+    Married
+    Single
+    Divorced
+  ).freeze
+
+  ETHNICITY = [
+    'Khmer',
+    'Khmer Islam',
+    'Vietnamese',
+    'Other'
+  ].freeze
+
+  TRAFFICKING_TYPES = [
+    'Labor trafficking',
+    'Sex trafficking',
+    'Others'
+  ].freeze
+
+  NATIONALITIES = %w(
+    Cambodian
+    Vietnamese
+    Laotian
+    Burmese
+    Other
+  ).freeze
 end
