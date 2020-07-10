@@ -26,13 +26,16 @@ class AddFieldSettingData < ActiveRecord::Migration
 
   HIDDEN_FIELDS = {
     school_name: {
-      group: :school_information
+      group: :school_information,
+      current_label: 'School Name'
     },
     school_grade: {
-      group: :school_information
+      group: :school_information,
+      current_label: 'School Grade'
     },
     main_school_contact: {
-      group: :school_information
+      group: :school_information,
+      current_label: 'Main School Contact'
     }
   }
 
