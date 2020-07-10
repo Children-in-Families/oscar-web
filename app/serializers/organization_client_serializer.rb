@@ -18,7 +18,7 @@ class OrganizationClientSerializer < ActiveModel::Serializer
     return false if object.referrals.externals.last.nil?
     referral        = object.referrals.externals.last
     external_system = referral.external_system
-    external_system.token == context.uid
+    external_system&.token == context.uid
   end
 
   def referral_consent_form
