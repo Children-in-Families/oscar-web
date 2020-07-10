@@ -74,6 +74,13 @@ class ClientGrid < BaseGrid
       local_consent
       police_interview
       other_legal_doc
+      marital_status
+      nationality
+      ethnicity
+      location_of_concern
+      type_of_trafficking
+      education_background
+      department
     ).each do |field_name|
 
     header = I18n.t("datagrid.columns.clients.#{field_name}")

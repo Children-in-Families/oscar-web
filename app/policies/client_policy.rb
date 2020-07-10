@@ -17,6 +17,15 @@ class ClientPolicy < ApplicationPolicy
     ].any?{ |field| show?(field) }
   end
 
+  def client_school_information?
+    [
+      :school_name,
+      :school_grade,
+      :main_school_contact,
+      :education_background
+    ].any?{ |field| show?(field) }
+  end
+
   def show?(*field_names)
     return true if field_names.blank?
     field = field_names.first.to_s

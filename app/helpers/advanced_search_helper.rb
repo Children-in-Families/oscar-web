@@ -65,6 +65,13 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
+      marital_status: I18n.t('datagrid.columns.clients.marital_status'),
+      nationality: I18n.t('datagrid.columns.clients.nationality'),
+      ethnicity: I18n.t('datagrid.columns.clients.ethnicity'),
+      location_of_concern: I18n.t('datagrid.columns.clients.location_of_concern'),
+      type_of_trafficking: I18n.t('datagrid.columns.clients.type_of_trafficking'),
+      education_background: I18n.t('datagrid.columns.clients.education_background'),
+      department: I18n.t('datagrid.columns.clients.department'),
       presented_id: I18n.t('datagrid.columns.clients.presented_id'),
       id_number: I18n.t('datagrid.columns.clients.id_number'),
       legacy_brcs_id: I18n.t('datagrid.columns.clients.legacy_brcs_id'),

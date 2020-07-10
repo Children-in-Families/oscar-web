@@ -102,9 +102,15 @@ km:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
     attributes:
+      carer:
+        name: ឈ្មោះអ្នកថែទាំចម្បង
+        phone: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
+        carer_information: ព័ត៌មានអ្នកថែទាំ?
       family_member:
         adult_name: Name of Adult Member
         gender: Gender
+      referee:
+        referee_address: ឣាសយដ្ឋាន
     default:
       blank: មិនអាចរំលង
     errors:
@@ -1551,6 +1557,15 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      case_note: កំណត់ត្រាករណី
+      referral_info: អតិថិជន / ការបញ្ជូន
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'Family Book'
@@ -1598,6 +1613,8 @@ km:
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
+      followed_up_by_id: First Follow Up by
+      follow_up_date: Date of First Follow Up
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូរទៅ
@@ -1847,6 +1864,13 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
     show:
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
       able_screening_questions: សំនួរ Able
       able_state: ស្ថានភាព Able
@@ -2363,6 +2387,13 @@ km:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        marital_status: Marital Status
+        nationality: Nationality
+        ethnicity: Ethnicity
+        location_of_concern: Location of concern
+        type_of_trafficking: Type of Trafficking
+        education_background: Education Background
+        department: Ratanak Team
         national_id: 'National ID'
         birth_cert: 'Birth Certificate'
         family_book: 'Family Book'
@@ -5072,6 +5103,10 @@ km:
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
+    x_lists_of: "បញ្ជី%{x}"
+    new_x: "%{x}ថ្មី"
+    max_x: "%{x}អតិបរមា"
+    x_on: "%{x}នៅថ្ងៃ"
     form_builder:
       file_field:
         allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត

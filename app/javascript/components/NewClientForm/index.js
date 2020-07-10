@@ -41,7 +41,7 @@ const Forms = props => {
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
-      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids
+      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes
     }
   } = props
 
@@ -63,14 +63,14 @@ const Forms = props => {
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
   const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, addressTypes, T, translation, current_organization }
-  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs }
+  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T }
 
   const tabs = [
     {text: T.translate("index.referee_info"), step: 1},
-    {text: T.translate("index.referral_info"), step: 2},
+    {text: t(translation, 'clients.form.referral_info'), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
     {text: T.translate("index.referral_vulnerability"), step: 4},
     {text: t(translation, 'clients.form.legal_documents'), step: 5}
@@ -382,7 +382,7 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={adminTabData} onChange={onChange} translation={translation} hintText={inlineHelpTranslation}/>
+          <AdministrativeInfo data={adminTabData} onChange={onChange} fieldsVisibility={fieldsVisibility} translation={translation} hintText={inlineHelpTranslation}/>
         </div>
 
         <div className='rightComponent'>

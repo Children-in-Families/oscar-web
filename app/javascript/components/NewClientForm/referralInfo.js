@@ -13,11 +13,17 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, hintText, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs  } } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, hintText, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes  } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const preferLanguages = brc_prefered_langs.map(lang => ({ label: lang, value: lang }))
   const phoneOwner = phoneOwners.map(phone => ({ label: T.translate("phoneOwner."+phone.label), value: phone.value }))
+
+  const maritalStatuseOptions = maritalStatuses.map(a => ({ label: a, value: a }))
+  const nationalityOptions = nationalities.map(a => ({ label: a, value: a }))
+  const ethnicityOptions = ethnicities.map(a => ({ label: a, value: a }))
+  const traffickingTypeOptions = traffickingTypes.map(a => ({ label: a, value: a }))
+
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
     { label: T.translate("refereeInfo.male"), value: 'male' },
@@ -192,7 +198,7 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-5">
-            <p>{T.translate("referralInfo.referral_info")}</p>
+            <p>{t(translation, 'clients.form.referral_info')}</p>
           </div>
         </div>
       </legend>
@@ -293,7 +299,70 @@ export default props => {
              value={client.preferred_language}
            />
          </div>
-       }
+        }
+      </div>
+
+      <div className="row">
+        {
+         fieldsVisibility.marital_status == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <SelectInput
+             label={ t(translation, 'clients.form.marital_status') }
+             options={maritalStatuseOptions}
+             onChange={onChange('client', 'marital_status')}
+             value={client.marital_status}
+           />
+         </div>
+        }
+
+        {
+         fieldsVisibility.nationality == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <SelectInput
+             label={ t(translation, 'clients.form.nationality') }
+             options={nationalityOptions}
+             onChange={onChange('client', 'nationality')}
+             value={client.nationality}
+           />
+         </div>
+        }
+
+        {
+         fieldsVisibility.ethnicity == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <SelectInput
+             label={ t(translation, 'clients.form.ethnicity') }
+             options={ethnicityOptions}
+             onChange={onChange('client', 'ethnicity')}
+             value={client.nationality}
+           />
+         </div>
+        }
+
+        {
+         fieldsVisibility.type_of_trafficking == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <SelectInput
+             label={ t(translation, 'clients.form.type_of_trafficking') }
+             options={traffickingTypeOptions}
+             onChange={onChange('client', 'type_of_trafficking')}
+             value={client.nationality}
+           />
+         </div>
+        }
+      </div>
+
+      <div className="row">
+        {
+         fieldsVisibility.location_of_concern == true &&
+         <div className="col-xs-12 col-md-6 col-lg-3">
+           <TextInput
+             label={ t(translation, 'clients.form.location_of_concern') }
+             onChange={onChange('client', 'location_of_concern')}
+             value={client.location_of_concern}
+           />
+         </div>
+        }
       </div>
 
       <div className="row">

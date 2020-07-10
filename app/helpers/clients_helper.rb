@@ -36,6 +36,7 @@ module ClientsHelper
     # Change slice inputs to adapt your need
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
+      :activerecord,
       :default_client_fields
     )
 
@@ -47,14 +48,17 @@ module ClientsHelper
     translations
   end
 
+  # Add klass_name_name for readability
   def fields_visibility
     result = field_settings.each_with_object({}) do |field_setting, output|
-      output[field_setting.name] = policy(Client).show?(field_setting.name)
+      output[field_setting.name] = output["#{field_setting.klass_name}_#{field_setting.name}"] = policy(Client).show?(field_setting.name)
     end
 
-    result[:brc_client_address] = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
-    result[:brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
-    result[:show_legal_doc] = policy(Client).show_legal_doc?
+    result[:brc_client_address] = result[:client_brc_client_address] = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:brc_client_other_address] = result[:client_brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
+    result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
+    result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
+    
     result
   end
 
@@ -90,6 +94,13 @@ module ClientsHelper
 
   def columns_visibility(column)
     label_column = {
+      marital_status: t('datagrid.columns.clients.marital_status'),
+      nationality: t('datagrid.columns.clients.nationality'),
+      ethnicity: t('datagrid.columns.clients.ethnicity'),
+      location_of_concern: t('datagrid.columns.clients.location_of_concern'),
+      type_of_trafficking: t('datagrid.columns.clients.type_of_trafficking'),
+      education_background: t('datagrid.columns.clients.education_background'),
+      department: t('datagrid.columns.clients.department'),
       slug:                          t('datagrid.columns.clients.id'),
       kid_id:                        custom_id_translation('custom_id2'),
       code:                          custom_id_translation('custom_id1'),

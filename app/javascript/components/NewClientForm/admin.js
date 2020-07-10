@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { t } from '../../utils/i18n'
 import {
+  TextInput,
   SelectInput,
   DateInput
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, translation, hintText, data: { users, client, errorFields, T } } = props
+  const { onChange, translation, fieldsVisibility, hintText, data: { users, client, errorFields, T } } = props
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
   return (
@@ -71,7 +72,7 @@ export default props => {
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <SelectInput
-          label={T.translate("admin.first_follow_by")}
+          label={t(translation, 'clients.form.followed_up_by_id')}
           options={userLists}
           onChange={onChange('client', 'followed_up_by_id')}
           value={client.followed_up_by_id}
@@ -84,13 +85,26 @@ export default props => {
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <DateInput
-          label={T.translate("admin.first_follow_date")}
+          label={t(translation, 'clients.form.follow_up_date')}
           onChange={onChange('client','follow_up_date')}
           value={client.follow_up_date}
           inlineClassName="first-follow-date"
           hintText={hintText.admin.first_follow_date}
         />
         </div>
+      </div>
+
+      <div className='row'>
+        {
+          fieldsVisibility.department == true &&
+          <div className="col-md-12 col-lg-9">
+            <TextInput
+              label={ t(translation, 'clients.form.department') }
+              onChange={onChange('client', 'department')}
+              value={client.department}
+            />
+          </div>
+        }
       </div>
     </>
   )
