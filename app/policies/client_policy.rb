@@ -17,6 +17,10 @@ class ClientPolicy < ApplicationPolicy
     ].any?{ |field| show?(field) }
   end
 
+  def client_stackholder_contacts?
+    Client::STACKHOLDER_CONTACTS_FIELDS.any?{ |field| show?(field) }
+  end
+
   def client_school_information?
     [
       :school_name,

@@ -1557,6 +1557,22 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      neighbor_name: "Neighbor/Friend: Name"
+      neighbor_phone: Phone Number
+      dosavy_name: "DoSAVY: Name"
+      dosavy_phone: Phone Number
+      chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+      chief_commune_phone: Phone Number
+      chief_village_name: "Chief of Village: Name"
+      chief_village_phone: Phone Number
+      ccwc_name: "CCWC: Name"
+      ccwc_phone: Phone Number
+      legal_team_name: "Legal Team: Name of Agency"
+      legal_representative_name: Name of Legal Representative
+      legal_team_phone: Phone Number
+      other_agency_name: "Others: Name of Agency"
+      other_representative_name: Name of Representative
+      other_agency_phone: Phone Number
       case_note: កំណត់ត្រាករណី
       referral_info: អតិថិជន / ការបញ្ជូន
       marital_status: Marital Status
@@ -2386,6 +2402,22 @@ km:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        neighbor_name: "Neighbor/Friend: Name"
+        neighbor_phone: Phone Number
+        dosavy_name: "DoSAVY: Name"
+        dosavy_phone: Phone Number
+        chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+        chief_commune_phone: Phone Number
+        chief_village_name: "Chief of Village: Name"
+        chief_village_phone: Phone Number
+        ccwc_name: "CCWC: Name"
+        ccwc_phone: Phone Number
+        legal_team_name: "Legal Team: Name of Agency"
+        legal_representative_name: Name of Legal Representative
+        legal_team_phone: Phone Number
+        other_agency_name: "Others: Name of Agency"
+        other_representative_name: Name of Representative
+        other_agency_phone: Phone Number
         marital_status: Marital Status
         nationality: Nationality
         ethnicity: Ethnicity
