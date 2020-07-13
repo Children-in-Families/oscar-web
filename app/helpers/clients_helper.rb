@@ -58,7 +58,8 @@ module ClientsHelper
     result[:brc_client_other_address] = result[:client_brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
     result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
     result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
-    
+    result[:stackholder_contacts] = result[:client_stackholder_contacts] = policy(Client).client_stackholder_contacts?
+
     result
   end
 
@@ -190,6 +191,11 @@ module ClientsHelper
       hotline:                       t('datagrid.columns.calls.hotline'),
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
+
+    Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
+      label_column[field] = t("datagrid.columns.clients.#{field}")
+    end
+
     label_tag "#{column}_", label_column[column.to_sym]
   end
 

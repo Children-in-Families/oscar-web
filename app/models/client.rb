@@ -747,7 +747,7 @@ class Client < ActiveRecord::Base
   private
 
   def create_client_history
-    ClientHistory.initial(self)
+    # ClientHistory.initial(self)
   end
 
   def notify_managers

@@ -200,6 +200,11 @@ module AdvancedSearchHelper
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
       hotline: I18n.t('datagrid.columns.calls.hotline')
     }
+
+    Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
+      translations[field] = I18n.t("datagrid.columns.clients.#{field}")
+    end
+
     translations[key.to_sym] || ''
   end
 

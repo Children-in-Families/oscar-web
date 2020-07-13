@@ -36,6 +36,22 @@ module AdvancedSearches
 
     def text_type_list
       [
+        'neighbor_name',
+        'neighbor_phone',
+        'dosavy_name',
+        'dosavy_phone',
+        'chief_commune_name',
+        'chief_commune_phone',
+        'chief_village_name',
+        'chief_village_phone',
+        'ccwc_name',
+        'ccwc_phone',
+        'legal_team_name',
+        'legal_representative_name',
+        'legal_team_phone',
+        'other_agency_name',
+        'other_representative_name',
+        'other_agency_phone',
         'department',
         'education_background',
         'location_of_concern',

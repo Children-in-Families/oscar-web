@@ -3,6 +3,7 @@ import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
+import StackHolderInfo from './stackHolderInfo'
 import { t } from '../../utils/i18n'
 
 export default props => {
@@ -68,6 +69,29 @@ export default props => {
           </div>
 
           <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} translation={translation} fieldsVisibility={fieldsVisibility} hintText={hintText} />
+        </>
+      }
+
+      {
+        fieldsVisibility.stackholder_contacts == true &&
+        <>
+          <div className="row">
+            <div className="schoolInfo collapsed" data-toggle="collapse" data-target="#stackHolderInfo">
+              <div style={styles.sectionHead}>
+                <div className="col-xs-4" >
+                  <label>Stakeholder Contacts</label>
+                </div>
+                <div className="col-xs-8">
+                  <span className="pointer">
+                    <i className="fa fa-chevron-up"></i>
+                    <i className="fa fa-chevron-down"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <StackHolderInfo id="stackHolderInfo" data={{ client, T }} onChange={onChange} translation={translation} fieldsVisibility={fieldsVisibility} hintText={hintText} />
         </>
       }
 
