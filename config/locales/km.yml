@@ -2079,7 +2079,7 @@ km:
           other: "%{count} ឆ្នាំ"
       time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
       time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
-      view_assessments: ការប៉ាន់ប្រមាណ
+      assessment: ការប៉ាន់ប្រមាណ
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
       view_fc_history_btn_link: មើលប្រវត្តិនៃ FC

@@ -2077,7 +2077,7 @@ my:
           other: "%{count} နှစ်ပေါင်း"
       time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
       time_in_ngo: Time in NGO
-      view_assessments: စိစစ္အကဲျဖတ္ခ်က္မ်ား
+      assessment: စိစစ္အကဲျဖတ္ခ်က္မ်ား
       view_case_notes: အမႈမွတ္စုမ်ား
       view_ec_history_btn_link: ECသမုိင္းေၾကာင္း
       view_fc_history_btn_link: FC သမုိင္း
