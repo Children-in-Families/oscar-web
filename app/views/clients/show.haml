@@ -447,7 +447,7 @@
                 - if policy(@client).show?(field.to_sym)
                   %tr
                     %td.spacing-first-col
-                      = t(".#{field}")
+                      = t("clients.form.#{field}")
                     %td
                       %strong
                         = @client.public_send(field.to_sym)
@@ -466,6 +466,15 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
+
+              - Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
+                - if policy(@client).show?(field.to_sym)
+                  %tr
+                    %td.spacing-first-col
+                      = t("clients.form.#{field}")
+                    %td
+                      %strong
+                        = @client.public_send(field.to_sym)
 
         - if @client.phone_counselling_summary.present?
           .row

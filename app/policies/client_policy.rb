@@ -4,7 +4,7 @@ class ClientPolicy < ApplicationPolicy
   end
 
   def show_legal_doc?
-    [
+    fields = [
       :national_id,
       :birth_cert,
       :family_book,
@@ -14,16 +14,25 @@ class ClientPolicy < ApplicationPolicy
       :local_consent,
       :police_interview,
       :other_legal_doc
-    ].any?{ |field| show?(field) }
+    ]
+
+    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
+  end
+
+  def client_stackholder_contacts?
+    field_settings.where(name: Client::STACKHOLDER_CONTACTS_FIELDS).any? &&
+    Client::STACKHOLDER_CONTACTS_FIELDS.any?{ |field| show?(field) }
   end
 
   def client_school_information?
-    [
+    fields = [
       :school_name,
       :school_grade,
       :main_school_contact,
       :education_background
-    ].any?{ |field| show?(field) }
+    ]
+
+    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
   end
 
   def show?(*field_names)
@@ -46,7 +55,11 @@ class ClientPolicy < ApplicationPolicy
     return false if Organization.brc? && (hidden_fields.include?(field) || hidden_fields.map{|f| f + '_'}.include?(field))
 
 
-    field_setting = field_settings.find{ |field_setting| field_setting.name == field && field_setting.klass_name == 'client' }
+    field_setting = field_settings.find do |field_setting|
+      field_setting.name == field &&
+      field_setting.klass_name == 'client' &&
+      (field_setting.for_instances.blank? || field_setting.for_instances.include?(Organization.current&.short_name))
+    end
 
     field_setting.present? ? (field_setting.required? || field_setting.visible?) : true
   end

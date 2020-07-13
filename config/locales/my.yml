@@ -1562,6 +1562,22 @@ my:
       reject_client: client ကိုငြင်းပယ်
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
+      neighbor_name: "Neighbor/Friend: Name"
+      neighbor_phone: Phone Number
+      dosavy_name: "DoSAVY: Name"
+      dosavy_phone: Phone Number
+      chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+      chief_commune_phone: Phone Number
+      chief_village_name: "Chief of Village: Name"
+      chief_village_phone: Phone Number
+      ccwc_name: "CCWC: Name"
+      ccwc_phone: Phone Number
+      legal_team_name: "Legal Team: Name of Agency"
+      legal_representative_name: Name of Legal Representative
+      legal_team_phone: Phone Number
+      other_agency_name: "Others: Name of Agency"
+      other_representative_name: Name of Representative
+      other_agency_phone: Phone Number
       case_note: အမႈမွတ္စု
       referral_info: Client / Referral Information
       marital_status: Marital Status
@@ -1685,6 +1701,7 @@ my:
       resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
+      main_school_contact: Main School Contact
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: အဆင့္ေမးခြန္း
@@ -2371,6 +2388,22 @@ my:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        neighbor_name: "Neighbor/Friend: Name"
+        neighbor_phone: Phone Number
+        dosavy_name: "DoSAVY: Name"
+        dosavy_phone: Phone Number
+        chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+        chief_commune_phone: Phone Number
+        chief_village_name: "Chief of Village: Name"
+        chief_village_phone: Phone Number
+        ccwc_name: "CCWC: Name"
+        ccwc_phone: Phone Number
+        legal_team_name: "Legal Team: Name of Agency"
+        legal_representative_name: Name of Legal Representative
+        legal_team_phone: Phone Number
+        other_agency_name: "Others: Name of Agency"
+        other_representative_name: Name of Representative
+        other_agency_phone: Phone Number
         marital_status: Marital Status
         nationality: Nationality
         ethnicity: Ethnicity

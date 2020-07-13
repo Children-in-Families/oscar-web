@@ -6,6 +6,22 @@ class ClientColumnsVisibility
 
   def columns_collection
     {
+      neighbor_name_: :neighbor_name,
+      neighbor_phone_: :neighbor_phone,
+      dosavy_name_: :dosavy_name,
+      dosavy_phone_: :dosavy_phone,
+      chief_commune_name_: :chief_commune_name,
+      chief_commune_phone_: :chief_commune_phone,
+      chief_village_name_: :chief_village_name,
+      chief_village_phone_: :chief_village_phone,
+      ccwc_name_: :ccwc_name,
+      ccwc_phone_: :ccwc_phone,
+      legal_team_name_: :legal_team_name,
+      legal_representative_name_: :legal_representative_name,
+      legal_team_phone_: :legal_team_phone,
+      other_agency_name_: :other_agency_name,
+      other_representative_name_: :other_representative_name,
+      other_agency_phone_: :other_agency_phone,
       live_with_: :live_with,
       exit_reasons_: :exit_reasons,
       exit_circumstance_: :exit_circumstance,

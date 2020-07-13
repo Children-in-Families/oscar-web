@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200710033402) do
+ActiveRecord::Schema.define(version: 20200713035828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,12 @@ ActiveRecord::Schema.define(version: 20200710033402) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -640,6 +646,22 @@ ActiveRecord::Schema.define(version: 20200710033402) do
     t.string   "type_of_trafficking"
     t.text     "education_background"
     t.string   "department"
+    t.string   "neighbor_name"
+    t.string   "neighbor_phone"
+    t.string   "dosavy_name"
+    t.string   "dosavy_phone"
+    t.string   "chief_commune_name"
+    t.string   "chief_commune_phone"
+    t.string   "chief_village_name"
+    t.string   "chief_village_phone"
+    t.string   "ccwc_name"
+    t.string   "ccwc_phone"
+    t.string   "legal_team_name"
+    t.string   "legal_representative_name"
+    t.string   "legal_team_phone"
+    t.string   "other_agency_name"
+    t.string   "other_representative_name"
+    t.string   "other_agency_phone"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
