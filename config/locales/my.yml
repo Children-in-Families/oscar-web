@@ -1701,6 +1701,7 @@ my:
       resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
+      main_school_contact: Main School Contact
       settlement2: City/Settlement
       stage: အဆင့္ေမးခြန္း
       state: လက္ခံ/ ျငင္းပယ္

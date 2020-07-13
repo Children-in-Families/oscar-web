@@ -447,7 +447,7 @@
                 - if policy(@client).show?(field.to_sym)
                   %tr
                     %td.spacing-first-col
-                      = t(".#{field}")
+                      = t("clients.form.#{field}")
                     %td
                       %strong
                         = @client.public_send(field.to_sym)
