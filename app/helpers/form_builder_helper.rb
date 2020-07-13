@@ -243,7 +243,7 @@ module FormBuilderHelper
   end
 
   def map_type_of_services(object)
-    if $param_rules.nil? || controller_name != 'clients'
+    if $param_rules.nil?
       return_default_client_type_of_services(object)
     else
       basic_rules = $param_rules['basic_rules']
