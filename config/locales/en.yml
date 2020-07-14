@@ -369,7 +369,7 @@ en:
       agency_name: Agency Name
       agency_names: Agency Name
       assessment_completed_date: "%{assessment} Completed Date"
-      assessment_number: Assessment#
+      assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
       birth_province_id: Birth Province
@@ -1391,9 +1391,9 @@ en:
       answer: Answer
       yes_no: Yes/No
     assessment_domain_score:
-      assessment_data: Assessment Score Data
-      assessment_date: Assessment Date
-      assessment_number: 'Assessment #'
+      assessment_data: "%{assessment} Score Data"
+      assessment_date: "%{assessment} Date"
+      assessment_number: "%{assessment} #"
       client_id: Client ID
       client_name: Client Name
       close: Close
@@ -1499,9 +1499,9 @@ en:
     create:
       successfully_created: Client has been successfully created.
     custom_assessment_domain_score:
-      assessment_data: Assessment Score Data
-      assessment_date: Assessment Date
-      assessment_number: 'Assessment #'
+      assessment_data: "%{assessment} Score Data"
+      assessment_date: "%{assessment} Date"
+      assessment_number: "%{assessment} #"
       client_id: Client ID
       client_name: Client Name
       close: Close
@@ -1784,19 +1784,21 @@ en:
       active_programs: Active Programs
       add_new_client: Add New Client
       advanced_search: Advanced Search
-      all_csi_assessments: All CSI Assessments
-      all_custom_csi_assessments: All Custom Assessments
+      all_csi_assessments: "All CSI %{assessment}"
+      all_custom_csi_assessments: "All Custom %{assessment}"
       assessment_data: "%{assessment} Data"
-      assessment_number: Assessment#
+      assessment_number: "%{assessment}#"
       assessments: Assessments
       case_statistics: Case Statistics
       client_amount: Clients
-      csi_assessment: CSI Assessment
+      csi_assessment: "CSI %{assessment}"
       csi_domain_scores: CSI Domain Scores
-      custom_assessment: Custom Assessment
+      custom_assessment: "Custom %{assessment}"
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
-      date_of_assessment: Date of Assessment
+      date_of_assessment: "Date of %{assessment}"
+      assessment_completed: "%{assessment} Completed"
+      date_of_custom_assessment: "Date of Custom %{assessment}"
       date_of_assessments: "Date of %{assessment}"
       domain_score: Domain Scores
       end: Loading end!
@@ -2473,8 +2475,8 @@ en:
         age: Age
         agencies_involved: Other Agencies Involved
         agency_names: Agency Name
-        all_csi_assessments: All CSI Assessments
-        all_custom_csi_assessments: All Custom Assessments
+        all_csi_assessments: "All CSI %{assessment}"
+        all_custom_csi_assessments: "All Custom %{assessment}"
         any_assessments: Has Assessments
         assessment_completed_date: "%{assessment} Completed Date"
         assessments: Assessments
@@ -2520,9 +2522,9 @@ en:
         current_province: Current Province
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
-        date_of_assessments: Date of Assessments
+        date_of_assessments: "Date of %{assessment}"
         date_of_birth: Date of Birth
-        date_of_custom_assessments: Date of Custom Assessment
+        date_of_custom_assessments: "Date of Custom %{assessment}"
         date_of_referral: Date of Referral
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -2648,7 +2650,7 @@ en:
         village_kh: Address - Village (Khmer)
         what3words: What3words
       date_of_assessments: "Date of %{assessment}"
-      date_of_custom_assessments: Date of Custom Assessment
+      date_of_custom_assessments: "Date of Custom %{assessment}"
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
       exit_reasons: Reason For Exit
