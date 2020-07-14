@@ -4,6 +4,8 @@ import {
   TextInput,
   Checkbox
 }                   from '../Commons/inputs'
+import { t } from '../../utils/i18n'
+
 
 export default props => {
   const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, hintText, data: { refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
@@ -153,7 +155,7 @@ export default props => {
       <legend>
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <p>{T.translate("refereeInfo.address")}</p>
+            <p>{ t(translation, 'activerecord.attributes.referee.referee_address') }</p>
           </div>
           {
             !referee.anonymous &&

@@ -46,7 +46,6 @@
                 - if policy(@client).show?(:province)
                   = "#{t('.current_province')} :"
                   %strong= @client.current_province
-
       .col-md-3
         - if @client.status == 'Referred'
           .row
@@ -124,13 +123,13 @@
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
           - if enable_any_csi_tools?
-            = link_to client_assessments_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.button')}", placement: "auto" } do
+            = link_to client_assessments_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.button', assessment: t('clients.show.assessment') )}", placement: "auto" } do
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
-                = t('.view_assessments')
+                = t('.assessment')
           - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } }
-              = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
+              = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('clients.form.case_note')}", client_case_notes_path(@client)
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client, @client.latest_case) do
@@ -251,6 +250,12 @@
                   %td
                     = @client.nickname
 
+              - %w(marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
+                - if policy(@client).show?(field.to_sym)
+                  %tr
+                    %td.spacing-first-col= t(".#{field}")
+                    %td= @client.public_send(field.to_sym)
+
               - if policy(@client).show?(:donor_info)
                 %tr
                   %td.spacing-first-col
@@ -330,13 +335,13 @@
               - if policy(@client).show?(:carer_info)
                 %tr
                   %td.spacing-first-col
-                    = t('.primary_carer_name')
+                    = t('activerecord.attributes.carer.name')
                   %td
                     %strong
                       = @client.carer.try(:name)
                 %tr
                   %td.spacing-first-col
-                    = t('.primary_carer_phone_number')
+                    = t('activerecord.attributes.carer.phone')
                   %td
                     %strong
                       = @client.carer.try(:phone)
@@ -408,6 +413,15 @@
                 %td
                   %strong
                     = user @client.followed_up_by
+
+              - if policy(@client).show?(:department)
+                %tr
+                  %td.spacing-first-col
+                    = t('.department')
+                  %td
+                    %strong
+                      = @client.department
+
               %tr
                 %td.spacing-first-col
                   = t('.case_worker_or_staff')
@@ -429,25 +443,14 @@
                   %strong
                     = date_format(@client.follow_up_date)
 
-              - if policy(@client).show?(:school_info)
-                %tr
-                  %td.spacing-first-col
-                    = t('.school_name')
-                  %td
-                    %strong
-                      = @client.school_name
-                %tr
-                  %td.spacing-first-col
-                    = t('.school_grade')
-                  %td
-                    %strong
-                      = @client.school_grade
-                %tr
-                  %td.spacing-first-col
-                    = t('.main_school_contact')
-                  %td
-                    %strong
-                      = @client.main_school_contact
+              - %w(school_name school_grade main_school_contact education_background).each do |field|
+                - if policy(@client).show?(field.to_sym)
+                  %tr
+                    %td.spacing-first-col
+                      = t("clients.form.#{field}")
+                    %td
+                      %strong
+                        = @client.public_send(field.to_sym)
 
               - if policy(@client).show?(:relevant_referral_information)
                 %tr
@@ -463,6 +466,15 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
+
+              - Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
+                - if policy(@client).show?(field.to_sym)
+                  %tr
+                    %td.spacing-first-col
+                      = t("clients.form.#{field}")
+                    %td
+                      %strong
+                        = @client.public_send(field.to_sym)
 
         - if @client.phone_counselling_summary.present?
           .row

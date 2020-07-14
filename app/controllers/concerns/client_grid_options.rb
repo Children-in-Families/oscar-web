@@ -223,11 +223,11 @@ module ClientGridOptions
     end
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
       end
     else
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         date_filter(eval(records).most_recents, "#{column}").map{ |a| a.created_at.to_date.to_formatted_s }.join(', ') if eval(records).any?
       end
     end
@@ -238,11 +238,11 @@ module ClientGridOptions
     column = 'assessment_completed_date'
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         eval(records).latest_record.try(:created_at).to_date.to_formatted_s if eval(records).any?
       end
     else
-      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}")) do |client|
+      @client_grid.column(column.to_sym, header: I18n.t("datagrid.columns.clients.#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         assessments = []
         if $param_rules
           basic_rules = $param_rules['basic_rules']
@@ -279,12 +279,12 @@ module ClientGridOptions
     end
 
     if params[:data].presence == 'recent'
-      @client_grid.column(column.to_sym, header: t(".#{column}")) do |client|
+      @client_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         recent_assessment = eval(records).latest_record
         "#{recent_assessment.created_at} => #{recent_assessment.assessment_domains_score}" if recent_assessment.present?
       end
     else
-      @client_grid.column(column.to_sym, header: t(".#{column}")) do |client|
+      @client_grid.column(column.to_sym, header: t(".#{column}", assessment: I18n.t('clients.show.assessment'))) do |client|
         eval(records).map(&:basic_info).join("\x0D\x0A")
       end
     end
