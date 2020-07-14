@@ -632,12 +632,12 @@ my:
       set_goal: သင်တစ်ဦးရည်မှန်းချက်သတ်မှတ်ထားဖို့လိုပါသလား
       tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
     index:
-      assessment_completed_on: အကဲဖြတ်အပေါ်ပြီးစီး
-      assessment_created_on: အကဲဖြတ်အပေါ်ဖန်တီးဖို့
+      assessment_completed_on: "%{assessment}ါ်ပြီးစီး"
+      assessment_created_on: "%{assessment}ါ်ဖန်တီးဖို့"
       assessment_history: စိစစ္မႈသမိုင္းေၾကာင္း
       back: ေနာက္သို႔
       begin_now: ယခုစမည္
-      initial_assessment: ကနဦး အကဲျဖတ္ခ်က္
+      initial_assessment: "ကနဦး %{assessment}"
       next_review: သုံးလစဉ်ပြန်လည်သုံးသပ်ချက်
       no_custom_domains_available: ရရှိနိုင်သောအဘယ်သူမျှမစိတ်ကြိုက်ဒိုမိန်း
       please_add_custom_domains: သငျသညျဤ action လုပ်ဆောင်နိုင်မီအချို့ကိုသင်စိတ်ကြိုက်ဒိုမိန်းထည့်သွင်းဖို့လိုပေမည်
@@ -2077,7 +2077,7 @@ my:
           other: "%{count} နှစ်ပေါင်း"
       time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
       time_in_ngo: Time in NGO
-      view_assessments: စိစစ္အကဲျဖတ္ခ်က္မ်ား
+      assessment: စိစစ္အကဲျဖတ္ခ်က္မ်ား
       view_case_notes: အမႈမွတ္စုမ်ား
       view_ec_history_btn_link: ECသမုိင္းေၾကာင္း
       view_fc_history_btn_link: FC သမုိင္း
@@ -2329,6 +2329,7 @@ my:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
+      assessment_completed_date: "%{assessment} Completed Date"
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
       calls:
         answered_call: Answer Call

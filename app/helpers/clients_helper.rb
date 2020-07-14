@@ -170,7 +170,7 @@ module ClientsHelper
       any_assessments:               t('datagrid.columns.clients.assessments'),
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
-      date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
+      date_of_assessments:           t('datagrid.columns.clients.date_of_assessments', assessment: t('clients.show.assessment')),
       date_of_referral:              t('datagrid.columns.clients.date_of_referral'),
       date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments'),
       changelog:                     t('datagrid.columns.clients.changelog'),
@@ -468,7 +468,7 @@ module ClientsHelper
       family_id_: t('datagrid.columns.families.code'),
       case_note_date_: t('datagrid.columns.clients.case_note_date'),
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
-      date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
+      date_of_assessments_: t('datagrid.columns.clients.date_of_assessments', assessment: t('clients.show.assessment')),
       date_of_referral_: t('datagrid.columns.clients.date_of_referral'),
       all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
       date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments'),
@@ -494,7 +494,7 @@ module ClientsHelper
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
-      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date'),
+      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       hotline_call_: t('datagrid.columns.calls.hotline_call')
     }
 
