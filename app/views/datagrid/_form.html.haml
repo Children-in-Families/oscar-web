@@ -250,7 +250,7 @@
                 - if current_organization.try(:aht) == true
                   = label_tag 'all_result_framework_assessments_', t('datagrid.columns.all_result_framework_assessment')
                 - else
-                  = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
+                  = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments', assessment: t('clients.show.assessment'))
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.csi_domains.order_by_identity, as: :domain
           - if enable_custom_assessment?
             %li.csi-header

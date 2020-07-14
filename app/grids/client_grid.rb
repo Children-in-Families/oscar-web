@@ -1217,7 +1217,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     if enable_default_assessment?
-      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
+      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
       Domain.csi_domains.order_by_identity.each do |domain|
