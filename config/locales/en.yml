@@ -368,7 +368,7 @@ en:
       agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
-      assessment_completed_date: Assessment Completed Date
+      assessment_completed_date: "%{assessment} Completed Date"
       assessment_number: Assessment#
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
@@ -397,7 +397,7 @@ en:
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
       custom_form: Custom Form
-      date_of_assessments: Date of Assessments
+      date_of_assessments: "Date of %{assessment}"
       date_of_birth: Date of Birth
       date_of_referral: Date of Referral
       description_house_landmark: Description of the house and a landmark
@@ -635,16 +635,16 @@ en:
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
-      assessment_completed_on: Assessment completed on
-      assessment_created_on: Assessment created on
-      assessment_history: Assessment History
+      assessment_completed_on: "%{assessment} completed on"
+      assessment_created_on: "%{assessment} created on"
+      assessment_history: "%{assessment} History"
       back: Back
       begin_now: Add New
-      initial_assessment: Initial Assessment on
+      initial_assessment: "Initial %{assessment} on"
       next_review: Next Review on
       no_custom_domains_available: No Custom Domains Available
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
-      three_month_assessment: 3 Monthly Assessment
+      three_month_assessment: "3 Monthly %{assessment}"
       view_report: View Report
     show:
       are_you_sure: Are you sure you want to delete?
@@ -1134,11 +1134,11 @@ en:
       quantitative: Custom Referral Data
       tracking: Tracking
     index:
-      add_custom_group: Add Assessment Filter
+      add_custom_group: "Add %{assessment} Filter"
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
-      assessment_data: Assessment Data
+      assessment_data: "%{assessment} Data"
       assessments: Assessments
       client_column: Client General Information
       client_name: Client Name
@@ -1786,7 +1786,7 @@ en:
       advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       all_custom_csi_assessments: All Custom Assessments
-      assessment_data: Assessment Data
+      assessment_data: "%{assessment} Data"
       assessment_number: Assessment#
       assessments: Assessments
       case_statistics: Case Statistics
@@ -1797,7 +1797,7 @@ en:
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
       date_of_assessment: Date of Assessment
-      date_of_assessments: Date of Assessments
+      date_of_assessments: "Date of %{assessment}"
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
@@ -2090,7 +2090,8 @@ en:
           other: "%{count} years"
       time_in_cps: Time in Custom Program Stream
       time_in_ngo: Time in NGO
-      view_assessments: Assessments
+      assessment: Assessments
+      custom_assessment: "Custom %{assessment}"
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
       view_fc_history_btn_link: FC History
@@ -2350,9 +2351,10 @@ en:
       show: Show
   datagrid:
     columns:
-      all_csi_assessments: All CSI Assessments
-      all_custom_csi_assessments: All Custom Assessments
+      all_csi_assessments: All CSI %{assessment}
+      all_custom_csi_assessments: "All Custom %{assessment}"
       all_result_framework_assessment: All Result Framework Assessment
+      assessment_completed_date: "%{assessment} Completed Date"
       calls:
         answered_call: Answer Call
         brief_note_summary: Brief Note Summary
@@ -2474,7 +2476,7 @@ en:
         all_csi_assessments: All CSI Assessments
         all_custom_csi_assessments: All Custom Assessments
         any_assessments: Has Assessments
-        assessment_completed_date: Assessment Completed Date
+        assessment_completed_date: "%{assessment} Completed Date"
         assessments: Assessments
         assessments_due_to: Assessments Due To
         birth_province: Client Birth Province
@@ -2645,7 +2647,7 @@ en:
         village_en: Address - Village (English)
         village_kh: Address - Village (Khmer)
         what3words: What3words
-      date_of_assessments: Date of Assessments
+      date_of_assessments: "Date of %{assessment}"
       date_of_custom_assessments: Date of Custom Assessment
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
@@ -2847,7 +2849,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       custom_csi_domain_scores: Custom Domain Scores
       filter_domains: Filter Domains
-      has_overdue_assessment: Has Overdue Assessment
+      has_overdue_assessment: "Has Overdue %{assessment}"
       has_overdue_forms: Has Overdue Form
       has_overdue_task: Has Overdue Task
       no_case_note: Overdue for Case Note

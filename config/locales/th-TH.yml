@@ -1767,7 +1767,7 @@ th-TH:
       time_in_care_around:
       time_in_cps:
       time_in_ngo:
-      view_assessments:
+      assessment:
       view_case_notes:
       view_ec_history_btn_link:
       view_fc_history_btn_link:
