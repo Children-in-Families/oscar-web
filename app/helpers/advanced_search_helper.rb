@@ -192,7 +192,7 @@ module AdvancedSearchHelper
       # time_in_care: I18n.t('advanced_search.fields.time_in_care'),
       time_in_cps: I18n.t('advanced_search.fields.time_in_cps'),
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
-      assessment_number: I18n.t('advanced_search.fields.assessment_number'),
+      assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
       assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),

@@ -1789,8 +1789,10 @@ my:
       custom_assessment: ထုံးစံအကဲဖြတ်
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_csi_group: At
-      date_of_assessment:
-      date_of_assessments: Date of Assessments
+      date_of_assessment: "Date of %{assessment}"
+      assessment_completed: "%{assessment} Completed"
+      date_of_custom_assessment: "Date of Custom %{assessment}"
+      date_of_assessments: "Date of %{assessment}"
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
       export_to_xls: XLS အျဖစ္ ထုတ္သည္

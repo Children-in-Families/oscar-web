@@ -101,7 +101,8 @@ module AssessmentHelper
   def assess_header_mapping(default=true)
     domains = default ? Domain.csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] } : Domain.custom_csi_domains.map{ |domain| ["domain_#{domain.id}", domain.name] }
     domain_ids, domain_headers = domains.map(&:first), domains.map(&:last)
-    assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number'), t('.assessment_date')]
+
+    assessment_headers = [t('.client_id'), t('.client_name'), t('.assessment_number', assessment: t('clients.show.assessment')), t('.assessment_date', assessment: t('clients.show.assessment'))]
 
     assessment_domain_headers = ['slug', 'name', 'assessment-number', 'date']
     classNames = ['client-id', 'client-name', 'ssessment-number text-center', 'assessment-date', 'assessment-score text-center']
