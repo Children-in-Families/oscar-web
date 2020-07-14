@@ -29,8 +29,13 @@ module Api
       client_saved = false
       client = Client.new(client_params)
       client.transaction do
-        referee = Referee.find_or_initialize_by(referee_params)
-        referee.save
+        if params.dig(:referee, :id)
+          referee = Referee.find(params.dig(:referee, :id))
+          referee.update(referee_params)
+        else
+          referee = Referee.find_or_initialize_by(referee_params)
+          referee.save
+        end
 
         carer = Carer.find_or_initialize_by(carer_params)
         carer.save
