@@ -29,7 +29,7 @@
 
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
-        = link_to t('.reset'), clients_path, class: 'btn btn-default'
+        = link_to t('.reset'), clients_path, class: 'btn btn-default', data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.reset')}", placement: "right" }
 
 = simple_form_for :client_advanced_search, url: :ad_search_clients, method: 'POST', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected

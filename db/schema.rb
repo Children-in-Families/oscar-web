@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200611041442) do
+ActiveRecord::Schema.define(version: 20200629053513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,22 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   end
 
   add_index "action_results", ["government_form_id"], name: "index_action_results_on_government_form_id", using: :btree
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "token"
+    t.string   "first_name"
+    t.string   "last_name"
+  end
+
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "advanced_searches", force: :cascade do |t|
     t.string   "name"
@@ -80,12 +96,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -253,9 +263,9 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.integer  "client_id"
     t.string   "interaction_type",             default: ""
     t.boolean  "custom",                       default: false
+    t.string   "selected_domain_group_ids",    default: [],    array: true
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
-    t.string   "selected_domain_group_ids",    default: [],    array: true
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -596,6 +606,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
+    t.string   "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -603,6 +614,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",             default: false
     t.string   "preferred_language",               default: "English"
+    t.boolean  "referred_external",                default: false
     t.boolean  "national_id",                      default: false,      null: false
     t.boolean  "birth_cert",                       default: false,      null: false
     t.boolean  "family_book",                      default: false,      null: false
@@ -621,8 +633,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "local_consent_files",              default: [],                      array: true
     t.string   "police_interview_files",           default: [],                      array: true
     t.string   "other_legal_doc_files",            default: [],                      array: true
-    t.string   "global_id"
-    t.boolean  "referred_external",                default: false
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -776,15 +786,12 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",                   default: ""
-    t.text     "description",            default: ""
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "code",                   default: ""
-    t.string   "global_id",   limit: 32, default: "", null: false
+    t.string   "name",        default: ""
+    t.text     "description", default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "code",        default: ""
   end
-
-  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -860,7 +867,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
-    t.datetime "deleted_at"
     t.integer  "children",                        default: [],        array: true
     t.string   "status",                          default: ""
     t.integer  "district_id"
@@ -871,6 +877,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.integer  "commune_id"
     t.integer  "village_id"
     t.integer  "user_id"
+    t.datetime "deleted_at"
   end
 
   add_index "families", ["commune_id"], name: "index_families_on_commune_id", using: :btree
@@ -954,9 +961,11 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
-    t.string  "global_id"
-    t.integer "organization_id"
-    t.integer "client_id"
+    t.string   "global_id"
+    t.integer  "organization_id"
+    t.integer  "client_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
@@ -1221,16 +1230,6 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.datetime "updated_at"
   end
 
-  create_table "meta_fields", force: :cascade do |t|
-    t.string   "field_name"
-    t.string   "field_type"
-    t.boolean  "hidden",     default: true
-    t.boolean  "required",   default: false
-    t.string   "label"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
   create_table "necessities", force: :cascade do |t|
     t.string   "content",    default: ""
     t.datetime "created_at",              null: false
@@ -1295,12 +1294,17 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.string   "full_name"
     t.string   "short_name"
     t.string   "logo"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "fcf_ngo",    default: false
-    t.string   "country",    default: ""
-    t.boolean  "aht",        default: false
-    t.boolean  "integrated", default: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.boolean  "fcf_ngo",             default: false
+    t.string   "country",             default: ""
+    t.boolean  "aht",                 default: false
+    t.boolean  "integrated",          default: false
+    t.integer  "clients_count",       default: 0
+    t.integer  "active_client",       default: 0
+    t.integer  "accepted_client",     default: 0
+    t.boolean  "demo",                default: false
+    t.string   "supported_languages", default: ["km", "en", "my"],              array: true
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1557,15 +1561,16 @@ ActiveRecord::Schema.define(version: 20200611041442) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
-    t.integer  "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
     t.string   "external_case_worker_name"
     t.string   "external_case_worker_id"
+    t.string   "services"
     t.string   "client_gender",             default: ""
     t.date     "client_date_of_birth"
     t.string   "village_code",              default: ""
+    t.string   "client_global_id"
   end
 
   add_index "referrals", ["client_global_id"], name: "index_referrals_on_client_global_id", using: :btree
@@ -2149,6 +2154,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_foreign_key "families", "users"
   add_foreign_key "families", "villages"
   add_foreign_key "family_members", "families"
+  add_foreign_key "global_identity_organizations", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "global_identity_organizations", "organizations"
   add_foreign_key "government_form_children_plans", "children_plans"
   add_foreign_key "government_form_children_plans", "government_forms"
@@ -2201,7 +2207,7 @@ ActiveRecord::Schema.define(version: 20200611041442) do
   add_foreign_key "sponsors", "donors"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
-  add_foreign_key "tasks", "clients"
+  add_foreign_key "tasks", "clients", on_delete: :nullify
   add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"

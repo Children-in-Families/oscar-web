@@ -5,21 +5,21 @@
   - if controller_name == 'clients'
     %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
       %li.dropdown
-        %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
+        %a.dropdown-toggle.btn.btn-default{ href: '#', data: { toggle: 'dropdown', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.select_columns')}", placement: "right" } }
           = t('datagrid.columns.select_columns')
           %span.caret
         .float-right
-          %span.p-xs.b-r-sm.btn.btn-sm.btn-default
+          %span.p-xs.b-r-sm.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
             = check_box_tag 'no_case_note_check_box', 'no_case_note_check_box', checked = check_params_no_case_note, class: 'i-checks'
             %label=t('.no_case_note')
-          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
             = check_box_tag 'overdue-forms', 'overdue-forms', checked = check_params_has_over_forms, class: 'i-checks'
             %label=t('.has_overdue_forms')
           - if enable_any_csi_tools?
-            %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+            %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
               = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
               %label=t('.has_overdue_assessment')
-          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default{ data: { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.overdue_filter_checkboxes')}", placement: "auto" } }
             = check_box_tag 'overdue-task', 'overdue-task', checked = check_params_has_overdue_task, class: 'i-checks'
             %label=t('.has_overdue_task')
 
@@ -269,7 +269,7 @@
                 = label_tag 'all_custom_csi_assessments_', t('datagrid.columns.all_custom_csi_assessments')
             = render partial: 'datagrid/domain_score_columns_picker', collection: Domain.custom_csi_domains.order_by_identity, as: :domain
 
-          - if Service.count == 63
+          - if Service.count > 0
             %li.type-of-service-header
               %strong= t('.type_of_service')
             %li
@@ -391,4 +391,4 @@
           = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit', id: 'client-grid-search-btn'
           - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
           - grid_path = grid.to_param == 'client_grid' ? clients_url : url_for(grid.to_param => empty_parameter)
-          = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-default btn-outline datagrid-reset'
+          = link_to I18n.t('datagrid.form.reset').html_safe, grid_path, :class => 'btn btn-default btn-outline datagrid-reset', data: controller_name == 'clients' && { toggle: 'popover', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.reset')}", placement: "right" }

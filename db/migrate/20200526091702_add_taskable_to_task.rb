@@ -4,7 +4,7 @@ class AddTaskableToTask < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
-        Task.by_case_note.each do |task|
+        Task.with_deleted.by_case_note.each do |task|
           next if task.case_note_id.blank?
           task.taskable_id = task.case_note_id&.to_i
           task.taskable_type = 'CaseNote'

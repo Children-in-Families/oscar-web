@@ -17,6 +17,9 @@ namespace :communes_and_villages do
       pname = province_name.split('/').last.squish.downcase
       gazetteer_short_name = province_hash[pname]
       path  = files.find{|filename| filename[/#{gazetteer_short_name}/] }
+
+      next if path.blank?
+
       data = Importer::Data.new(id, path)
       data.import
     end

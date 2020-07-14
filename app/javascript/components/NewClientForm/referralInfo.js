@@ -13,7 +13,7 @@ import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs } } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, hintText, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs  } } = props
   const callerRelationship = callerRelationships.map(relationship => ({ label: T.translate("callerRelationship."+relationship.label), value: relationship.value }))
   const brcPresentedIdList = brc_presented_ids.map(presented_id => ({ label: presented_id, value: presented_id }))
   const preferLanguages = brc_prefered_langs.map(lang => ({ label: lang, value: lang }))
@@ -198,16 +198,40 @@ export default props => {
       </legend>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={t(translation, 'clients.form.given_name')} onChange={onChange('client', 'given_name')} value={client.given_name} />
+          <TextInput
+            label={t(translation, 'clients.form.given_name')}
+            onChange={onChange('client', 'given_name')}
+            value={client.given_name}
+            inlineClassName="given-name"
+            hintText={hintText.referral.given_name}
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={t(translation, 'clients.form.family_name')} onChange={onChange('client', 'family_name')} value={client.family_name} />
+          <TextInput
+            label={t(translation, 'clients.form.family_name')}
+            onChange={onChange('client', 'family_name')}
+            value={client.family_name}
+            inlineClassName="family-name"
+            hintText={hintText.referral.family_name}
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={t(translation, 'clients.form.local_given_name')} onChange={onChange('client', 'local_given_name')} value={client.local_given_name} />
+          <TextInput
+            label={t(translation, 'clients.form.local_given_name')}
+            onChange={onChange('client', 'local_given_name')}
+            value={client.local_given_name}
+            inlineClassName="local-given-name"
+            hintText={hintText.referral.local_given_name}
+          />
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={t(translation, 'clients.form.local_family_name')} onChange={onChange('client', 'local_family_name')} value={client.local_family_name}  />
+          <TextInput
+            label={t(translation, 'clients.form.local_family_name')}
+            onChange={onChange('client', 'local_family_name')}
+            value={client.local_family_name}
+            inlineClassName="local-family-name"
+            hintText={hintText.referral.local_family_name}
+          />
         </div>
       </div>
       <div className="row">
@@ -220,11 +244,18 @@ export default props => {
             options={genderLists}
             value={client.gender}
             onChange={onChange('client', 'gender')}
+            inlineClassName="client-gender"
+            hintText={hintText.referral.client_gender}
           />
         </div>
 
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <DateInput getCurrentDate label={T.translate("referralInfo.date_of_birth")} onChange={onChange('client', 'date_of_birth')} value={client.date_of_birth} />
+          <DateInput
+            getCurrentDate label={T.translate("referralInfo.date_of_birth")}
+            onChange={onChange('client', 'date_of_birth')}
+            value={client.date_of_birth}
+            hintText={hintText.referral.client_dat_of_birth}
+          />
         </div>
 
         {
@@ -236,7 +267,8 @@ export default props => {
               options={birthProvincesLists}
               value={client.birth_province_id}
               onChange={onChange('client', 'birth_province_id')}
-              />
+              hintText={hintText.referral.client_birth_province}
+            />
           </div>
         }
 
@@ -247,6 +279,7 @@ export default props => {
             options={callerRelationship}
             value={client.referee_relationship}
             onChange={onRelationshipChange}
+            hintText={hintText.referral.client_relationship}
           />
         </div>
 
@@ -327,7 +360,10 @@ export default props => {
               {
                 client.referee_relationship !== 'self' &&
                 <div className="col-xs-12 col-md-6 col-lg-6">
-                  <Checkbox label={T.translate("referralInfo.client_is_outside")} checked={client.outside || false} onChange={onChange('client', 'outside')}/>
+                  <Checkbox
+                    label={T.translate("referralInfo.client_is_outside")}
+                    checked={client.outside || false} onChange={onChange('client', 'outside')}
+                  />
                 </div>
               }
             </div>
@@ -351,12 +387,23 @@ export default props => {
         {
           fieldsVisibility.what3words == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput label={t(translation, 'clients.form.what_3_word')} onChange={onChange('client', 'what3words')} value={client.what3words} />
+            <TextInput
+              label={t(translation, 'clients.form.what_3_word')}
+              onChange={onChange('client', 'what3words')}
+              value={client.what3words}
+              inlineClassName="what-3-word"
+              hintText={hintText.referral.what_3_word}
+            />
           </div>
         }
 
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={t(translation, 'clients.form.client_phone')} type="text" onChange={onChange('client', 'client_phone')} value={client.client_phone} />
+          <TextInput
+            label={t(translation, 'clients.form.client_phone')}
+            type="text" onChange={onChange('client', 'client_phone')}
+            value={client.client_phone}
+            hintText={hintText.referral.client_phone}
+          />
         </div>
 
         {
@@ -395,14 +442,24 @@ export default props => {
         {
           fieldsVisibility.phone_owner == true &&
           <div className="col-xs-12 col-md-6 col-lg-3">
-            <SelectInput label={t(translation, 'clients.form.phone_owner')}  options={phoneOwner} onChange={onChange('client', 'phone_owner')} value={client.phone_owner}/>
+            <SelectInput
+              label={t(translation, 'clients.form.phone_owner')}
+              options={phoneOwner} onChange={onChange('client', 'phone_owner')}
+              value={client.phone_owner}
+              hintText={hintText.referral.phone_owner}
+            />
           </div>
         }
       </div>
 
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput label={T.translate("referralInfo.client_email")} onChange={onChange('client', 'client_email')} value={client.client_email} />
+          <TextInput
+            label={T.translate("referralInfo.client_email")}
+            onChange={onChange('client', 'client_email')}
+            value={client.client_email}
+            hintText={hintText.referral.client_email}
+          />
         </div>
 
         {

@@ -1,5 +1,10 @@
 .row
   .col-xs-12
+    .alert.alert-warning.alert-dismissible{ :role => "alert" }
+      %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        %span{"aria-hidden" => "true"} ×
+      %ul
+        %li= I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
       %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
         %table.table.small.m-b-xs#main-info
@@ -13,10 +18,14 @@
                 = @client.name
               - if @client.status
                 %td
+                  %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.clients.show.status')}" } }
+                    = fa_icon "info-circle", class: 'text-info m-xs'
                   = "#{t('.status')} :"
                   %span.show-status= status_style(@client.status)
             %tr
               %td
+                %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.show.id')}" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
                 = "#{t('.id')} :"
                 %strong= @client.slug
               %td
@@ -45,12 +54,14 @@
               .row
                 .col-xs-12
                   - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
-                    %button.btn.btn-success.agree-btn{ disabled: 'disabled' }= t('.accept')
+                    %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
+                      = t('.accept')
                   - else
-                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal' } }= t('.accept')
+                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
+
                     = render 'clients/accept_client'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{ "data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } } #{t('.reject')}
 
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
@@ -58,10 +69,10 @@
         - elsif @client.status == 'Exited'
           .row
             .col-xs-12
-              %button.btn.btn-success.mini-margin.enter-ngo-for-client{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
+              %button.btn.btn-success.mini-margin.enter-ngo-for-client{ class: 'agree-btn', data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#enter-ngo-form", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } } #{t('.accept')}
               = render 'client/enter_ngos/form', client: @client
             .col-xs-12
-              %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
+              %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } }= t('.reject')
 
     - if @client.status != 'Referred'
       - if Organization.current.short_name == 'demo' || Organization.current.short_name == 'tutorials'
@@ -72,7 +83,7 @@
       .row
         .col-xs-12
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-client{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
+            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit.exit-ngo-for-client{ data: { toggle: "dropdown", trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.exit_ngo')}", placement: "auto" }, id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
               = t('.exit_ngo_btn')
               %span.caret
             %ul.dropdown-menu.btn-fit
@@ -86,20 +97,20 @@
           - if current_organization.available_for_referral?
             %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @client.referrals.empty?) }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.referral_form')}", placement: "auto" }, class: ('disabled' if @client.referrals.empty?) }
                 = t('.referral_forms')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
                 %li= link_to t('.referred_to'), client_referrals_path(@client, referral_type: 'referred_to')
                 %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ 'data-toggle' => 'dropdown' }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ data: { toggle: "dropdown", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.refer_client')}", placement: "auto" } }
                 = t('.refer_client')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
                 - ngos.each do |value, key|
                   %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-          = link_to client_books_path(@client) do
+          = link_to client_books_path(@client), data:{ toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               = t('.book')
           - if @client.client_enrollments.active.count > 0
@@ -108,18 +119,17 @@
             = render 'client/exit_ngos/form', client: @client
           -# - if @client.cases.exclude_referred.current.present?
           -#   = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
-
-          = link_to client_tasks_path(@client) do
+          = link_to client_tasks_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.tasks')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
           - if enable_any_csi_tools?
-            = link_to client_assessments_path(@client) do
+            = link_to client_assessments_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.button')}", placement: "auto" } do
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
                 = t('.view_assessments')
           - if can? :manage, CaseNote
-            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?) }
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
@@ -147,7 +157,7 @@
           -#   = link_to client_progress_notes_path(@client) do
           -#     %span.btn-sm.btn.btn-warning.small-btn-margin.btn-fit= t('.progress_note')
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
+            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ class: ('disabled' if @group_client_custom_fields.empty?), data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" } }
               = t('.additional_forms')
               %span.caret
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
@@ -156,7 +166,7 @@
                   %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ data: { toggle: "dropdown", trigger: 'hover', html: 'true', content: "#{I18n.t('inline_help.clients.show.active_form')}", placement: "auto" }, class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
                 = t('.add_form')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
@@ -164,12 +174,13 @@
                   %li
                     %p= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           - if @client.client_enrollments.active.count > 0
-            = link_to client_client_enrolled_programs_path(@client) do
+            = link_to client_client_enrolled_programs_path(@client), data: { toggle: "popover", html: 'true', trigger: 'hover', content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } do
               .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
           - else
-            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit= t('.enrolled_program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit{ data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.active_program')}", placement: "auto" } }
+              = t('.enrolled_program_streams')
 
-          = link_to client_client_enrollments_path(@client) do
+          = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
           - if government_forms_visible? && policy(@client).show?(:government_forms)
@@ -207,12 +218,12 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
-              = link_to edit_client_path(@client) do
+              = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
           - if can? :destroy, Client
             %small
-              = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
+              = link_to @client, method: 'delete', data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.delete')}", placement: "auto", confirm: t('.are_you_sure') } do
                 .btn.btn-outline.btn-danger
                   %i.fa.fa-trash
       .ibox-content

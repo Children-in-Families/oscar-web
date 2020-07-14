@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, disabled, current_organization, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [], T } } = props
+  const { onChange, disabled, current_organization, hintText, outside, data: { client, currentProvinces, objectKey, objectData, addressTypes, currentCommunes = [], currentDistricts = [], currentVillages = [], T, inlineClassName, ...others  } } = props
 
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
@@ -83,6 +83,8 @@ export default props => {
               isDisabled={disabled}
               value={objectData.province_id}
               onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: objectKey, field: 'province_id'})}
+              inlineClassName="referree-province"
+              hintText={hintText.referee.referral_province}
             />
           </div>
 
@@ -93,6 +95,8 @@ export default props => {
               options={districts}
               value={objectData.district_id}
               onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
+              inlineClassName="referree-districs"
+              hintText={hintText.referee.referral_province}
             />
           </div>
 
@@ -103,6 +107,8 @@ export default props => {
               options={communes}
               value={objectData.commune_id}
               onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
+              inlineClassName="referree-commune"
+              hintText={hintText.referee.referral_districs}
             />
           </div>
 
@@ -113,6 +119,8 @@ export default props => {
               options={villages}
               value={objectData.village_id}
               onChange={onChangeParent({parent: 'villages', child: 'villages', obj: objectKey, field: 'village_id'})}
+              inlineClassName="village"
+              hintText={hintText.referee.referral_village}
             />
           </div>
         </div>
@@ -124,6 +132,7 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'street_number')}
               value={objectData.street_number}
+
             />
           </div>
 

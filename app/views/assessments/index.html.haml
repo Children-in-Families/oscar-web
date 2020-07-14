@@ -40,11 +40,11 @@
                     = date_format(Date.today)
             .col-xs-12.col-sm-4
               - if policy(@default_assessment).create?()
-                = link_to new_client_assessment_path(@client, default: true) do
+                = link_to new_client_assessment_path(@client, default: true), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button')}", placement: "auto" } do
                   .btn.btn-block.btn-primary.button
                     = "#{t('.begin_now')} #{@current_setting.default_assessment}"
               - else
-                .btn.btn-block.btn-default.button.disabled
+                .btn.btn-block.btn-default.button.disabled{ data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button')}", placement: "auto" } }
                   = "#{t('.begin_now')} #{@current_setting.default_assessment}"
 
         - if @current_setting.enable_custom_assessment && completed_initial_assessment?('customs')
@@ -68,13 +68,13 @@
               .col-xs-12.col-sm-4.m-b-sm
                 - if css.domains.any?
                   - if policy(@custom_assessment).create?(css.id, css)
-                    = link_to new_client_assessment_path(@client, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button' do
+                    = link_to new_client_assessment_path(@client, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button')}", placement: "auto" } do
                       = "#{t('.begin_now')} #{css.custom_assessment_name}"
                   - else
                     .btn.btn-block.btn-default.button.disabled
                       = "#{t('.begin_now')} #{css.custom_assessment_name}"
                 - else
-                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button' do
+                  = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button')}", placement: "auto" } do
                     = "#{t('.begin_now')} #{css.custom_assessment_name}"
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}

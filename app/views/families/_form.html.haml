@@ -3,14 +3,46 @@
     = error_notification(f)
     .form-inputs
       .row
-        .col-xs-12.col-sm-6.col-md-4= f.input :name, label: t('.name')
-        .col-xs-12.col-sm-6.col-md-4= f.input :code, label: t('.code')
+        .col-xs-12.col-sm-6.col-md-4
+          .form-group.string.optional.family_name
+            %label.string.optional.control-label{:for => "family_name"}
+              = t('.name')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.families.name')}", placement: "right" } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
+            = f.input :name, wrapper: false, label: false
+        .col-xs-12.col-sm-6.col-md-4
+          .form-group.string.optional.family_code
+            %label.string.optional.control-label{:for => "family_code"}
+              = t('.code')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.families.family_id')}", placement: "auto" } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
+            = f.input :code, label: false, wrapper: false
 
         - if policy(@family).show?(:family_type)
-          .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :second, value_method: :first, label: t('.family_type')
+          .col-xs-12.col-sm-6.col-md-4
+            .form-group.select.required.family_family_type
+              .form-group.select.required.family_status
+                %label.select.required.control-label{:for => "family_family_type"}
+                  %abbr{:title => "required"} *
+                  = t('.family_type')
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", html: 'true', content: "#{I18n.t('inline_help.families.family_type')}", placement: "auto" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
+              = f.input :family_type, collection: Family.mapping_family_type_translation, label_method: :second, value_method: :first, label: false, wrapper: false
 
-        .col-xs-12.col-sm-6.col-md-4= f.input :status, collection: Family::STATUSES, label: t('.status')
-        .col-xs-12.col-sm-6.col-md-4= f.input :case_history, label: t('.case_history')
+        .col-xs-12.col-sm-6.col-md-4
+          %label.select.required.control-label{:for => "family_status"}
+            %abbr{:title => "required"} *
+            = t('.status')
+          %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", html: 'true', content: "#{I18n.t('inline_help.families.status')}", placement: "right" } }
+            = fa_icon "info-circle", class: 'text-info m-xs'
+          = f.input :status, collection: Family::STATUSES, label: false
+        .col-xs-12.col-sm-6.col-md-4
+          .form-group.string.optional.family_case_history
+            %label.string.optional.control-label{:for => "family_case_history"}
+              = t('.case_history')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", html: 'true', content: "#{I18n.t('inline_help.families.case_history')}", placement: "auto" } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
+            = f.input :case_history, label: false
         -# .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address'), readonly: true
 
         - if policy(@family).show?(:province_id)
@@ -63,14 +95,22 @@
               %label= t('.dependable_income')
               = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :caregiver_information, input_html: { rows: 5 }, label: t('.caregiver_information')
+          .form-group.text.optional.family_caregiver_information
+            %label.text.optional.control-label{:for => "family_caregiver_information"}
+              = t('.caregiver_information')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", html: 'true', content: "#{I18n.t('inline_help.families.caregiver_info')}", placement: "right" } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
+            = f.input :caregiver_information, input_html: { rows: 5 }, label: false
 
       .row
         .col-xs-12
           #family-members
             .panel.panel-default
               .panel-heading
-                %h5= t('.family_members')
+                %h5
+                  = t('.family_members')
+                  %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", html: 'true', content: "#{I18n.t('inline_help.families.family_member')}", placement: "right" } }
+                    = fa_icon "info-circle", class: 'text-info m-xs'
               .panel-body
                 = f.simple_fields_for :family_members do |member|
                   = render 'family_member_fields', f: member

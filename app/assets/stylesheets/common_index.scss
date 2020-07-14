@@ -239,3 +239,7 @@ body:not(#clients-index) .btn-custom-group {
 span.input-group-addon {
   pointer-events: none;
 }
+
+.popover {
+  z-index: 9999;
+}

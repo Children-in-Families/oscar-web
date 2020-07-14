@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import objectToFormData from 'object-to-formdata'
 import Loading from '../Commons/Loading'
 import Modal from '../Commons/Modal'
@@ -39,7 +39,7 @@ const Forms = props => {
       current_organization,
       client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
-      refereeTownships, carerTownships, customId1, customId2,
+      refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
       brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids
     }
@@ -160,6 +160,12 @@ const Forms = props => {
         checkClientExist()(() => setStep(goingToStep))
       else
         setStep(goingToStep)
+
+      $('.alert').hide();
+      $('#save-btn-help-text').hide()
+      $(`#step-${goingToStep}`).show();
+      if (goingToStep === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+        $('#save-btn-help-text').show()
   }
 
   const buttonNext = () => {
@@ -168,7 +174,14 @@ const Forms = props => {
         checkClientExist()(() => setStep(step + 1))
       else
         setStep(step + 1)
+
+      $('.alert').hide();
+      $(`#step-${step + 1}`).show();
+      $('#save-btn-help-text').hide()
+      if ((step + 1) === (fieldsVisibility.show_legal_doc == true ? 5 : 4))
+        $('#save-btn-help-text').show()
     }
+
   }
 
   const checkClientExist = () => callback => {
@@ -307,6 +320,9 @@ const Forms = props => {
 
   const buttonPrevious = () => {
     setStep(step - 1)
+    $('.alert').hide();
+    $(`#step-${step - 1}`).show();
+    $('#save-btn-help-text').hide()
   }
 
   const renderAddressSwitch = (objectData, objectKey, disabled) => {
@@ -323,12 +339,12 @@ const Forms = props => {
         break;
       default:
         if(objectKey == 'referee'){
-          return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, objectKey, objectData, T}} />
+          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, objectKey, objectData, T}} />
         }
         if(objectKey == 'carer'){
-          return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
+          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
         } else{
-          return <Address disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
+          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
         }
 
     }
@@ -364,24 +380,24 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={adminTabData} onChange={onChange} translation={translation} />
+          <AdministrativeInfo data={adminTabData} onChange={onChange} translation={translation} hintText={inlineHelpTranslation}/>
         </div>
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility}/>
+            <RefereeInfo data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
-            <ReferralInfo data={referralTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility}/>
+            <ReferralInfo data={referralTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
           </div>
 
           <div style={{ display: step === 3 ? 'block' : 'none' }}>
-            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} />
+            <ReferralMoreInfo translation={translation} renderAddressSwitch={renderAddressSwitch} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={moreReferralTabData} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
-            <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} />
+            <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           {
@@ -401,8 +417,18 @@ const Forms = props => {
         <div className='rightWrapper'>
           <span className={step === 1 && 'clientButton preventButton' || 'clientButton allowButton'} onClick={buttonPrevious}>{T.translate("index.previous")}</span>
           { step !== (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={'clientButton allowButton'} onClick={buttonNext}>{T.translate("index.next")}</span> }
-
-          { step === (fieldsVisibility.show_legal_doc == true ? 5 : 4) && <span className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' } onClick={() => handleSave()()}>{T.translate("index.save")}</span>}
+          <span
+            id="save-btn-help-text"
+            data-toggle="popover"
+            title="Help text"
+            role="button"
+            data-html={true}
+            data-placement="auto"
+            data-trigger="hover"
+            data-content={ inlineHelpTranslation.clients.buttons.save }
+            className={onSave && errorFields.length === 0 ? 'clientButton preventButton': 'clientButton saveButton' }
+            onClick={() => handleSave()()}>{T.translate("index.save")}
+          </span>
         </div>
       </div>
     </div>

@@ -16,12 +16,27 @@
               = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'partner[start_date]', id: 'partner_start_date'
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
-          = f.input :engagement, label: t('.engagement')
+          .form-group.string.optional.partner_engagement
+            %label.string.optional.control-label{:for => "partner_engagement"}
+            = t('.engagement')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.partner.engagement')}", placement: "auto" } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
+            = f.input :engagement, label: false
         .col-xs-12.col-sm-6.col-md-4
-          = f.association :organization_type, collection: @organization_types, label: t('.organization_type')
+          .form-group.select.optional.partner_organization_type
+            %label.select.optional.control-label{:for => "partner_organization_type_id"}
+            = t('.organization_type')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.partner.organization_type')}", placement: "auto" } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
+            = f.association :organization_type, collection: @organization_types, label: false
           -# = f.input :affiliation, label: t('.affiliation')
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :background, input_html: { style: 'height: 107px;' }, label: t('.background')
+          .form-group.text.optional.partner_background
+            %label.text.optional.control-label{:for => "partner_background"}
+            = t('.background')
+            %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.partner.background')}", placement: "auto" } }
+              = fa_icon "info-circle", class: 'text-info m-xs'
+            = f.input :background, input_html: { style: 'height: 107px;' }, label: false
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', data: { disable_with: t('saving') }
     - if @partner.persisted?

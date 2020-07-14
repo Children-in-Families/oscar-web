@@ -15,7 +15,7 @@ Apartment.configure do |config|
   # Add any models that you do not want to be multi-tenanted, but remain in the global (public) namespace.
   # A typical example would be a Customer or Tenant model that stores each Tenant's information.
   # config.excluded_models = %w{ Tenant }
-  config.excluded_models = %w{ Organization DonorOrganization GlobalIdentity GlobalIdentityOrganization ExternalSystem ExternalSystemGlobalIdentity GlobalService }
+  config.excluded_models = %w{ Organization DonorOrganization GlobalIdentity GlobalIdentityOrganization ExternalSystem ExternalSystemGlobalIdentity GlobalService AdminUser }
 
   # In order to migrate all of your Tenants you need to provide a list of Tenant names to Apartment.
   # You can make this dynamic by providing a Proc object to be called on migrations.
@@ -55,7 +55,7 @@ Apartment.configure do |config|
   # The default behaviour is true.
   #
   # config.use_schemas = true
-
+  config.persistent_schemas = ['shared_extensions']
   # Apartment can be forced to use raw SQL dumps instead of schema.rb for creating new schemas.
   # Use this when you are using some extra features in PostgreSQL that can't be respresented in
   # schema.rb, like materialized views etc. (only applies with use_schemas set to true).

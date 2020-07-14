@@ -2,7 +2,7 @@ import React from 'react'
 import Checkbox from 'react-simple-checkbox'
 
 export default props => {
-  const { onChange, disabled = false, objectKey, ...others } = props
+  const { onChange, disabled = false, objectKey,inlineClassName, ...others } = props
 
   const handleLabelStyle = () => {
     return objectKey == 'referee' ? styles.fontBold : styles.font
@@ -20,6 +20,7 @@ export default props => {
         {...others}
       />
       <label style={disabled ? styles.disabled : handleLabelStyle() }> {props.label} </label>
+      { inlineClassName && <i className={`fa fa-info-circle text-info m-xs ${inlineClassName}`}></i> }
     </>
   )
 }

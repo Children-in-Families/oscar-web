@@ -6,7 +6,7 @@ import {
 } from '../Commons/inputs'
 
 export default props => {
-  const { onChange, translation, data: { users, client, errorFields, T } } = props
+  const { onChange, translation, hintText, data: { users, client, errorFields, T } } = props
   const userLists = users.map(user => ({label: user[0], value: user[1], isFixed: user[2] === 'locked' ? true : false }))
 
   return (
@@ -28,7 +28,10 @@ export default props => {
             label={T.translate("admin.receiving_staff")}
             options={userLists}
             value={client.received_by_id}
-            onChange={onChange('client', 'received_by_id')} />
+            onChange={onChange('client', 'received_by_id')}
+            inlineClassName="admin-receiving-staff"
+            hintText={hintText.admin.admin_receiving_staff}
+            />
         </div>
       </div>
 
@@ -40,7 +43,10 @@ export default props => {
             isError={errorFields.includes('initial_referral_date')}
             label={t(translation, 'clients.form.initial_referral_date')}
             value={client.initial_referral_date}
-            onChange={onChange('client', 'initial_referral_date')} />
+            onChange={onChange('client', 'initial_referral_date')}
+            inlineClassName="admin-referral-date"
+            hintText={hintText.admin.admin_referral_date}
+          />
         </div>
       </div>
 
@@ -55,19 +61,35 @@ export default props => {
             isMulti
             options={userLists}
             value={client.user_ids}
-            onChange={onChange('client','user_ids')} />
+            onChange={onChange('client','user_ids')}
+            inlineClassName="case-worker"
+            hintText={hintText.admin.case_worker}
+          />
         </div>
       </div>
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <SelectInput label={T.translate("admin.first_follow_by")} options={userLists} onChange={onChange('client', 'followed_up_by_id')} value={client.followed_up_by_id} />
+          <SelectInput
+          label={T.translate("admin.first_follow_by")}
+          options={userLists}
+          onChange={onChange('client', 'followed_up_by_id')}
+          value={client.followed_up_by_id}
+          inlineClassName="first-follow-by"
+          hintText={hintText.admin.first_follow_by}
+        />
         </div>
       </div>
 
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
-          <DateInput label={T.translate("admin.first_follow_date")} onChange={onChange('client','follow_up_date')} value={client.follow_up_date} />
+          <DateInput
+          label={T.translate("admin.first_follow_date")}
+          onChange={onChange('client','follow_up_date')}
+          value={client.follow_up_date}
+          inlineClassName="first-follow-date"
+          hintText={hintText.admin.first_follow_date}
+        />
         </div>
       </div>
     </>

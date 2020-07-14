@@ -339,6 +339,14 @@ module ApplicationHelper
     end
   end
 
+  def supported_languages_data
+    {
+      en: { label: t('.english'), flag_file_name: 'United-Kingdom.png' },
+      km: { label: t('.khmer'), flag_file_name: 'Cambodia.png' },
+      my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' }
+    }
+  end
+
   def referral_source_name(referral_source)
     if I18n.locale == :km
       referral_source.map{|ref| [ref.name, ref.id] }

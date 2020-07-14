@@ -31,6 +31,62 @@ namespace :field_settings do
           group: sheet.row(row_index)[headers['group']]
         )
       end
+
+      create_government_form_setting
+      create_assessment_setting
+      create_legal_doc_settting
+    end
+  end
+
+  private
+
+  def create_government_form_setting
+    field_setting = FieldSetting.find_or_initialize_by(name: :government_forms)
+    field_setting.update!(
+      label: 'Government Forms',
+      current_label: 'Government Forms',
+      klass_name: :client,
+      required: false,
+      visible: %w(brc ratanak).exclude?(Apartment::Tenant.current_tenant),
+      group: :client
+    )
+  end
+
+  def create_assessment_setting
+    field_setting = FieldSetting.find_or_initialize_by(name: :reason)
+    field_setting.update!(
+      current_label: 'Observation',
+      klass_name: :assessment,
+      required: true,
+      visible: true,
+      group: :assessment
+    )
+
+    field_setting.update!(label: 'Review current need') if Apartment::Tenant.current_tenant == 'ratanak'
+  end
+
+  def create_legal_doc_settting
+    fields = {
+      :national_id => 'National ID',
+      :birth_cert => 'Birth Certificate',
+      :family_book => 'Family Book',
+      :passport => 'Passport',
+      :travel_doc => 'Temporary Travel Document',
+      :referral_doc => 'Referral Documents',
+      :local_consent => 'Legal consent',
+      :police_interview => 'Police interview',
+      :other_legal_doc => 'Others'
+    }
+
+    fields.each do |name, label|
+      field_setting = FieldSetting.find_or_initialize_by(name: name, klass_name: :client)
+      field_setting.update!(
+        current_label: label,
+        label: label,
+        required: false,
+        visible: (Apartment::Tenant.current_tenant == 'ratanak'),
+        group: :client
+      )
     end
   end
 end
