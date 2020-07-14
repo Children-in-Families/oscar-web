@@ -147,6 +147,12 @@ module Api
             render json: { external_id: clients_params[:external_id], message: 'Record saved.' }
           end
         end
+
+        def authenticate_admin_user!
+          authenticate_or_request_with_http_token do |token, _options|
+            @current_user = AdminUser.find_by(token: token)
+          end
+        end
     end
   end
 end
