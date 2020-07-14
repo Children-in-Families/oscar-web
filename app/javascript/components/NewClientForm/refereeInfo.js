@@ -81,7 +81,7 @@ export default props => {
       setDistricts([])
       setCommunes([])
       setVillages([])
-      
+
       const refereeFields = {
         id: null,
         outside: false,
@@ -145,6 +145,7 @@ export default props => {
           disabled={referee.anonymous}
           isError={errorFields.includes('name')}
           value={referee.id}
+          inlineClassName="referee-name"
           hintText={hintText.referee.name}
         />
       )
