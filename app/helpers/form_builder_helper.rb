@@ -77,7 +77,11 @@ module FormBuilderHelper
       if class_name == 'program_streams'
         sql = "#{class_name}.id = #{value} OR #{class_name}.id IS NULL"
         client_ids = Client.joins(:program_streams).where(sql).distinct.ids
-        "clients.id NOT IN (#{client_ids.join(',')}) OR #{class_name}.id IS NULL"
+        if client_ids.present?
+          "clients.id NOT IN (#{client_ids.join(',')}) OR #{class_name}.id IS NULL"
+        else
+          "#{class_name}.id != #{value} OR #{class_name}.id IS NULL"
+        end
       else
         "#{class_name}.id != #{value} OR #{class_name}.id IS NULL"
       end
@@ -243,7 +247,7 @@ module FormBuilderHelper
   end
 
   def map_type_of_services(object)
-    if $param_rules.nil? || controller_name != 'clients'
+    if $param_rules.nil?
       return_default_client_type_of_services(object)
     else
       basic_rules = $param_rules['basic_rules']

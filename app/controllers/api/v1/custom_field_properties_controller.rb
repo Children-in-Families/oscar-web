@@ -2,7 +2,6 @@ module Api
   module V1
     class CustomFieldPropertiesController < Api::V1::BaseApiController
       include FormBuilderAttachments
-
       before_action :find_entity
       before_action :find_custom_field_property, only: [:update, :destroy]
 

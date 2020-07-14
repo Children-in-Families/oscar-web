@@ -1664,6 +1664,7 @@ km:
       school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
       settlement2: City/Settlement
+      shared_service_enabled: តើអ្នកចង់ចែករំលែកសេវាកម្មអតិថិជនជាមួយប្រព័ន្ធខាងក្រៅទេ?
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
@@ -4928,6 +4929,7 @@ km:
       referred_to: បញ្ជូនទៅអង្គការដទៃ
       save: រក្សាទុក
       save_and_download: រក្សាទុក & ទាញយក
+      type_of_service: ប្រភេទសេវាកម្ម
     index:
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
@@ -4970,6 +4972,7 @@ km:
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
+      type_of_service: ប្រភេទសេវាកម្ម
     update:
       successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   reports:

@@ -127,7 +127,6 @@ CIF.ClientsShow = do ->
         type: 'GET'
         url: '/api/referrals/compare'
         data: data
-
         success: (response) ->
           modalTitle = $('#hidden_title').val()
           modalTextFirst  = $('#body_first').val()

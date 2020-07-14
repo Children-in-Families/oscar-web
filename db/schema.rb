@@ -972,6 +972,18 @@ ActiveRecord::Schema.define(version: 20200629053513) do
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
+  create_table "global_identity_tmp", force: :cascade do |t|
+    t.binary  "ulid"
+    t.string  "ngo_name"
+    t.integer "client_id"
+  end
+
+  create_table "global_services", id: false, force: :cascade do |t|
+    t.uuid "uuid", default: "uuid_generate_v4()"
+  end
+
+  add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
+
   create_table "government_form_children_plans", force: :cascade do |t|
     t.text     "goal",               default: ""
     t.text     "action",             default: ""
@@ -2187,6 +2199,7 @@ ActiveRecord::Schema.define(version: 20200629053513) do
   add_foreign_key "referees", "townships"
   add_foreign_key "referees", "villages"
   add_foreign_key "referrals", "clients"
+  add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
