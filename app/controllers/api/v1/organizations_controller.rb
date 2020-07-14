@@ -1,6 +1,6 @@
 module Api
   module V1
-    class OrganizationsController < Api::V1::Oauth2Controller
+    class OrganizationsController < Api::V1::BaseApiController
       skip_before_action :authenticate_user!, only: [:index, :create]
       before_action :authenticate_admin_user!, only: [:create]
 
