@@ -110,7 +110,7 @@
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
                 - ngos.each do |value, key|
                   %li= link_to value, new_client_referral_url(@client, ngo: key, external_ngo_name: key == 'external referral' && value), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-          = link_to client_books_path(@client), data:{ toggle: "popover", trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
+          = link_to client_books_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.client_book')}", placement: "auto" } do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               = t('.book')
           - if @client.client_enrollments.active.count > 0
