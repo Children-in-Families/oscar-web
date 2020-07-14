@@ -4,6 +4,8 @@ class CreateGlobalIdentityOrganizations < ActiveRecord::Migration
       t.string :global_id
       t.references :organization, index: true, foreign_key: true
       t.integer :client_id, index: true
+
+      t.timestamps null: false
     end
     add_foreign_key :global_identity_organizations, "public.global_identities", column: :global_id, primary_key: :ulid
     add_index :global_identity_organizations, :global_id

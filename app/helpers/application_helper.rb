@@ -364,4 +364,15 @@ module ApplicationHelper
   def ref_cat_name(referral_source_cat)
     ReferralSource.find_by(id: referral_source_cat).try(:name)
   end
+
+  def mapping_ngos(ngos)
+    if controller_name == 'clients'
+      ExternalSystem.all.each.map{ |external_system| ngos << [external_system.name, "external referral"] }
+      ngos << ["I don't see the NGO I'm looking for...", "external referral"]
+    else
+      ngos << ["MoSVY External System", "MoSVY External System", disabled: @referral&.referred_to != 'external referral']
+      ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral&.referred_to != 'external referral']
+    end
+    ngos
+  end
 end

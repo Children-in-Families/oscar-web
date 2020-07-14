@@ -4,6 +4,10 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
+  use_doorkeeper do
+    skip_controllers :applications, :authorized_applications
+  end
+
   get '/robots.txt' => 'organizations#robots'
 
   %w(404 500).each do |code|
@@ -263,6 +267,9 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index, :create] do
         collection do
           get :clients
+          post 'clients/upsert' => 'organizations#upsert'
+          get 'transactions/:tx_id' => 'organizations#transaction'
+          put 'clients/update_links' => 'organizations#update_link'
         end
       end
 
@@ -351,6 +358,7 @@ Rails.application.routes.draw do
       get 'research_module' => 'settings#research_module'
       get 'custom_labels' => 'settings#custom_labels'
       get 'client_forms' => 'settings#client_forms'
+      get 'integration' => 'settings#integration'
 
       resources :field_settings, only: [:index] do
         collection do

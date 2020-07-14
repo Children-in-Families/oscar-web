@@ -2,7 +2,7 @@
   - ngos = Organization.test_ngos.exclude_current.order(:full_name).map{|org| [org.full_name, org.short_name, disabled: @referral.referred_to != org.short_name] }
 - else
   - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name, disabled: @referral.referred_to != org.short_name] }
-- ngos << ["I don't see the NGO I'm looking for...", "external referral", disabled: @referral.referred_to != 'external referral']
+- ngos = mapping_ngos(ngos)
 = simple_form_for [@client, @referral || @client.referrals.build] do |f|
   = f.hidden_field :slug, value: @client.archived_slug
   = f.hidden_field :client_global_id, value: @client.global_id
@@ -37,7 +37,7 @@
           .col-xs-12
             = f.hidden_field :referred_to, as: :select, collection: ngos, label: t('.referred_to'), disabled: f.object.persisted?
           .col-xs-12
-            = f.input :ngo_name, label: t('.ngo_name')
+            = f.input :ngo_name, label: t('.ngo_name'), readonly: f.object.ngo_name.present?
         - else
           .col-xs-12
             = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to'), disabled: f.object.persisted?
@@ -49,6 +49,9 @@
           = f.input :referral_phone, input_html: { value: referee_phone(f.object) }, label: t('.referral_phone')
         .col-xs-12
           = f.input :referral_reason, as: :text, label: t('.referral_reason')
+        .col-xs-12.hide
+          #type-of-service{ data: {custom: services.to_json } }
+            = f.association :services, collection: services(false), multiple: true, label: t('.type_of_service')
         .col-xs-12
           = render 'referrals/consent_form_fields', f: f
         .col-xs-12

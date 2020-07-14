@@ -1674,6 +1674,7 @@ en:
       school_grade: School Grade
       school_name: School Name
       settlement2: City/Settlement
+      shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
       state: Accept/Reject
       status: Status
@@ -4952,6 +4953,7 @@ en:
       referred_to: Referred to
       save: Save
       save_and_download: Save & Download
+      type_of_service: Type of Service
     index:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
@@ -4994,6 +4996,7 @@ en:
       referral_reason: What is the reason for this referral?
       referred_from: Reffered From
       referred_to: Referred To
+      type_of_service: Type of Service
     update:
       successfully_updated: Referral has been successfully updated.
   reports:
