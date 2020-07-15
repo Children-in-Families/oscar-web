@@ -19,7 +19,7 @@ class AddStackHolderDataToFieldSettings < ActiveRecord::Migration
   ]
 
   def up
-    return if Apartment::Tenant.current_tenant != 'shared'
+    return if Apartment::Tenant.current_tenant == 'shared'
 
     FIELDS.each do |name|
       field_setting = FieldSetting.create!(
