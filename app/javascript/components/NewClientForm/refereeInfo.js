@@ -177,6 +177,12 @@ export default props => {
       </legend>
 
       <div className="row">
+        <div className="col-xs-12 col-sm-6 col-md-3">
+          <Checkbox label={T.translate("refereeInfo.anonymous_referee")} checked={referee.anonymous || false} objectKey="referee" onChange={onChange('referee', 'anonymous')} />
+        </div>
+      </div>
+
+      <div className="row">
         <div className="col-xs-12">
           <RadioGroup
             inline
@@ -188,12 +194,7 @@ export default props => {
           />
         </div>
       </div>
-
-      <div className="row">
-        <div className="col-xs-12 col-sm-6 col-md-3">
-          <Checkbox label={T.translate("refereeInfo.anonymous_referee")} checked={referee.anonymous || false} objectKey="referee" onChange={onChange('referee', 'anonymous')} />
-        </div>
-      </div>
+      
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
