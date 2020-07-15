@@ -80,7 +80,7 @@
             - when 'referrals'
               %tr
                 %td= t('.client_id')
-                %td= object.slug
+                %td= object.slug.presence || object.client&.slug
               %tr
                 %td= t('.client')
                 %td= object.client_name

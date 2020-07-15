@@ -39,7 +39,7 @@ class Referral < ActiveRecord::Base
   end
 
   def referred_from_ngo
-    Organization.find_by(short_name: self.referred_from).try(:full_name)
+    Organization.find_by(short_name: self.referred_from).try(:full_name) || self.referred_from
   end
 
   def making_referral?
