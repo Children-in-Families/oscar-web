@@ -802,7 +802,7 @@ class Client < ActiveRecord::Base
     if external_id.present?
       referral = Referral.find_by(external_id: external_id, saved: false)
     else
-      referral = Referral.find_by(slug: archived_slug, saved: false)
+      referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
     end
   end
 end
