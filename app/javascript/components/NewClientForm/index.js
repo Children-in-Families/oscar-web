@@ -13,10 +13,13 @@ import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
 import ThailandAddress   from '../Addresses/thailandAddress'
 import LesothoAddress   from '../Addresses/lesothoAddress'
+import toastr from 'toastr/toastr'
+
 import T from 'i18n-react'
 import en from '../../utils/locales/en.json'
 import km from '../../utils/locales/km.json'
 import my from '../../utils/locales/my.json'
+import 'toastr/toastr.scss'
 import './styles.scss'
 import { t } from '../../utils/i18n'
 
@@ -45,6 +48,23 @@ const Forms = props => {
     }
   } = props
 
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-center",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
   const [step, setStep]               = useState(1)
   const [loading, setLoading]                           = useState(false)
   const [onSave, setOnSave]                             = useState(false)
@@ -304,10 +324,17 @@ const Forms = props => {
           if (error.statusText == "Request Entity Too Large") {
             alert("Your data is too large, try upload your attachments part by part.");
           } else {
+            let errorMessage = ''
             const errorFields = JSON.parse(error.responseText)
+
             setErrorFields(Object.keys(errorFields))
             if(errorFields.kid_id)
               setErrorSteps([3])
+
+            for (const errorKey in errorFields) {
+              errorMessage = `${errorKey.toLowerCase().split("_").join(" ").toUpperCase()} ${errorFields[errorKey].join(" ")}`
+              toastr.error(errorMessage)
+            }
           }
         })
       }
