@@ -102,8 +102,10 @@ class Client < ActiveRecord::Base
 
   validates :current_resident_own_or_rent, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
   validates :resident_own_or_rent2, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
+  validates :global_id, presence: true
+  validates_uniqueness_of :global_id, on: :create, message: 'ID has already been taken!'
 
-  before_save :assign_global_id
+  before_validation :assign_global_id, on: :create
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
@@ -802,7 +804,7 @@ class Client < ActiveRecord::Base
     if external_id.present?
       referral = Referral.find_by(external_id: external_id, saved: false)
     else
-      referral = Referral.find_by(slug: archived_slug, saved: false)
+      referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
     end
   end
 end
