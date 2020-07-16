@@ -103,7 +103,7 @@ class Client < ActiveRecord::Base
   validates :current_resident_own_or_rent, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
   validates :resident_own_or_rent2, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
   validates :global_id, presence: true
-  validates_uniqueness_of :global_id, on: :create, message: 'ID has already been taken!'
+  validates_uniqueness_of :global_id, on: :create
 
   before_validation :assign_global_id, on: :create
   before_create :set_country_origin
