@@ -447,7 +447,6 @@ const Forms = props => {
           <span
             id="save-btn-help-text"
             data-toggle="popover"
-            title="Help text"
             role="button"
             data-html={true}
             data-placement="auto"
