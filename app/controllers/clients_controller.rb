@@ -407,12 +407,7 @@ class ClientsController < AdminController
   end
 
   def exited_clients(user_ids)
-    sql = user_ids.map do |user_id|
-      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
-    end.join(" OR ")
-    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
-      client_id = version.changeset[:client_id].last
-    end
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map{|a| YAML::load a }.map{|a| (a['client_id'] || [])[1] }
     Client.where(id: client_ids, status: 'Exited').ids
   end
 end

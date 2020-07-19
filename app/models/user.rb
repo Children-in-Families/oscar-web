@@ -324,6 +324,10 @@ class User < ActiveRecord::Base
   def detach_manager
     if roles.in?(['strategic overviewer', 'admin'])
       User.where(manager_id: self.id).update_all(manager_id: nil, manager_ids: [])
+      User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: self.id }).each do |user|
+        user.manager_ids = find_manager_manager(user.manager_id, user.manager_ids)
+        user.save
+      end
     end
   end
 
@@ -334,20 +338,21 @@ class User < ActiveRecord::Base
       return if manager_id_was == self.id
       update_manager_ids(self)
     else
-      the_manager_ids = User.find(self.manager_id).manager_ids
+      self.update_column(:manager_id, self.manager_id)
+      the_manager_ids = User.find_by(id: self.manager_id)&.manager_ids || []
       update_manager_ids(self, the_manager_ids.push(self.manager_id).flatten.compact.uniq)
     end
   end
 
   def update_manager_ids(user, the_manager_ids = [])
-    user.manager_ids = the_manager_ids
+    user.update_column(:manager_ids, find_manager_manager(user.manager_id, the_manager_ids), )
     user.save unless user.id == id
     return if user.case_worker?
-    case_workers = User.where(manager_id: user.id)
-    if case_workers.present?
-      case_workers.each do |case_worker|
-        next if case_worker.id == self.id
-        update_manager_ids(case_worker, the_manager_ids.push(user.id).flatten.compact.uniq)
+    subordinators = User.where(manager_id: user.id)
+    if subordinators.present?
+      subordinators.each do |subordinator|
+        next if subordinator.id == self.id
+        update_manager_ids(subordinator, the_manager_ids.push(user.id).flatten.compact.uniq)
       end
     end
   end
@@ -391,14 +396,18 @@ class User < ActiveRecord::Base
     self.update_columns(referral_notification: true)
   end
 
-  def exited_clients(user_ids)
-    sql = user_ids.map do |user_id|
-      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
-    end.join(" OR ")
-    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
-      client_id = version.changeset[:client_id].last
+  def find_manager_manager(the_manager_id, manager_manager_ids=[])
+    if manager_manager_ids.present?
+      subordinators = User.where(id: manager_manager_ids)
+    else
+      subordinators = User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: self.id })
     end
+    managers_ids = subordinators.pluck(:manager_ids)
+    manager_manager_ids & (managers_ids << the_manager_id).flatten.compact.uniq
+  end
 
+  def exited_clients(user_ids)
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map{|a| YAML::load a }.map{|a| (a['client_id'] || [])[1] }
     Client.where(id: client_ids, status: 'Exited').ids
   end
 end
