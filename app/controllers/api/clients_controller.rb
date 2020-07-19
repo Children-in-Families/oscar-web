@@ -28,7 +28,7 @@ module Api
     def create
       client = Client.new(client_params)
 
-      if params.dig(:referee, :id)
+      if params.dig(:referee, :id).present?
         referee = Referee.find(params.dig(:referee, :id))
         referee.update(referee_params)
       else
