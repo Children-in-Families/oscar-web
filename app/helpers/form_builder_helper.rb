@@ -189,8 +189,8 @@ module FormBuilderHelper
     value      = !value.is_a?(Array) && type == 'string'  ? value.downcase : value
 
     lower_field_name      = string_field(type, field_name, value) ? "LOWER(#{class_name}.#{field_name})" : "#{class_name}.#{field_name}"
-    table_name_field_name = ['start_datetime'].include?(id) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
-    table_name_field_name = ['date_of_call', 'meeting_date'].include?(id) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
+    table_name_field_name = ['start_datetime'].include?(field_name) ? "DATE_PART('hour', #{class_name}.#{field_name})" : lower_field_name
+    table_name_field_name = ['date_of_call', 'meeting_date'].include?(field_name) ? "DATE(#{class_name}.#{field_name})" : table_name_field_name
 
     case operator
     when 'equal'
