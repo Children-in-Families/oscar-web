@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200714092201) do
+ActiveRecord::Schema.define(version: 20200719232917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1664,6 +1664,8 @@ ActiveRecord::Schema.define(version: 20200714092201) do
     t.boolean  "never_delete_incomplete_assessment",   default: false,               null: false
     t.integer  "delete_incomplete_after_period_value", default: 7
     t.string   "delete_incomplete_after_period_unit",  default: "days"
+    t.boolean  "use_screening_assessment",             default: false
+    t.integer  "screening_assessment_form_id"
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree
