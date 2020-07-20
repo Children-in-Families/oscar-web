@@ -353,7 +353,7 @@ const Forms = props => {
     $('#save-btn-help-text').hide()
   }
 
-  const renderAddressSwitch = (objectData, objectKey, disabled) => {
+  const renderAddressSwitch = (objectData, objectKey, disabled, addresses={}) => {
     const country_name = current_organization.country
     switch (country_name) {
       case 'myanmar':
@@ -375,9 +375,9 @@ const Forms = props => {
                   current_organization={current_organization}
                   data={{
                     addressTypes,
-                    currentDistricts: refereeDistricts,
-                    currentCommunes: refereeCommunes,
-                    currentVillages: refereeVillages,
+                    currentDistricts: addresses.districts || refereeDistricts,
+                    currentCommunes: addresses.communes || refereeCommunes,
+                    currentVillages: addresses.villages || refereeVillages,
                     currentProvinces,
                     objectKey,
                     objectData,
