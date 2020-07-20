@@ -51,16 +51,22 @@
           .row
             .col-xs-12
               .row
+                - if @client.require_screening_assessment?(current_setting)
+                  .col-xs-12
+                    = link_to 'Complete Screening Assessment', new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
                 .col-xs-12
-                  - if @client.calls.any? && @client.calls.most_recents.first.case_action_not_required?
-                    %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
+                  - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
+                    %button.btn.btn-success.agree-btn.mini-margin{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
                     %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
 
                     = render 'clients/accept_client'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } } #{t('.reject')}
+                  - if @client.require_screening_assessment?(current_setting)
+                    %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } } #{t('.reject')}
+                  - else
+                    %button.btn.btn-danger.mini-margin{ class: 'agree-btn', data: { target: '#exitFromNgo', toggle: "modal", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.reject')}", placement: "auto" } } #{t('.reject')}
 
             .col-xs-12
               = render 'client/exit_ngos/form', client: @client
