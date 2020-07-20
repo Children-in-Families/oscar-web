@@ -27,7 +27,7 @@ class AddStackHolderDataToFieldSettings < ActiveRecord::Migration
         current_label: I18n.t("clients.form.#{name}"),
         klass_name: :client,
         visible: Apartment::Tenant.current_tenant == 'ratanak',
-        group: :stackholder_contacts
+        group: :stakeholder_contacts
       )
     end
   end
