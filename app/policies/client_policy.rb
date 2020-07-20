@@ -19,6 +19,16 @@ class ClientPolicy < ApplicationPolicy
     field_settings.where(name: fields).any? && fields.any?{ |field| show?(field) }
   end
 
+  def brc_client_address?
+    fields = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type)
+    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+  end
+
+  def brc_client_other_address?
+    fields = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2)
+    field_settings.where(name: fields).any? && fields.any?{ |field| show?(field.to_sym) }
+  end
+
   def client_stackholder_contacts?
     field_settings.where(name: Client::STACKHOLDER_CONTACTS_FIELDS).any? &&
     Client::STACKHOLDER_CONTACTS_FIELDS.any?{ |field| show?(field) }
