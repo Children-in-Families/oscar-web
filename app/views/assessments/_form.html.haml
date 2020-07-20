@@ -35,10 +35,10 @@
                 %label.text.required.control-label{"aria-required" => "true" }
                   %abbr{:title => "required"} *
                   = t('.reason')
-                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.observation').html_safe}", placement: "right" } }
-                  = fa_icon "info-circle", class: 'text-info m-xs'
                 = ad.input :reason, label: false, placeholder: t('.reason_placeholder'), required: !current_setting.disable_required_fields?, input_html: { class: 'reason' }
                 %label= t('.score_label')
+                %a{:role => "button", :tabIndex => "0",  data: { toggle: "popover", trigger: "focus", content: "#{I18n.t('inline_help.clients.assessments.observation').html_safe}", placement: "right" } }
+                  = fa_icon "info-circle", class: 'text-info m-xs'
                 - random = [1,2,3,4]
                 - rd = current_setting.random_order? ? random.shuffle : random
                 #score-required

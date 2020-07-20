@@ -1,5 +1,5 @@
 class SettingsController < AdminController
-  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms]
+  before_action :find_setting, only: [:index, :default_columns, :research_module, :custom_labels, :client_forms, :integration]
   before_action :country_address_fields, only: [:edit, :update]
 
   def index
@@ -72,6 +72,16 @@ class SettingsController < AdminController
 
   def client_forms
     authorize @current_setting
+  end
+
+  def integration
+    authorize @current_setting
+    attribute = params[:setting]
+    if attribute && current_organization.update_attributes(integrated: attribute[:integrated])
+      redirect_to integration_settings_path, notice: t('.successfully_updated')
+    else
+      render :integration
+    end
   end
 
   private

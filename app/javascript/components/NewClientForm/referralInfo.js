@@ -4,6 +4,7 @@ import {
   DateInput,
   TextInput,
   Checkbox,
+  RadioGroup,
   UploadInput,
   TextArea
 }                   from '../Commons/inputs'
@@ -38,6 +39,10 @@ export default props => {
   const [states, setStates]               = useState(currentStates)
   const [townships, setTownships]         = useState(currentTownships)
   const [subdistricts, setSubdistricts]   = useState(subDistricts)
+  const yesNoOpts = [
+    { label: T.translate("newCall.refereeInfo.yes"), value: true },
+    { label: T.translate("newCall.refereeInfo.no"), value: false }
+  ];
 
   let urlParams                           = window.location.search
   let pattern                             = new RegExp(/type=call/gi)
@@ -182,6 +187,12 @@ export default props => {
     onChange('client', { ...fields, 'concern_same_as_client': data.data })({type: 'select'})
   }
 
+  const onCheckSharedServiceEnable = data => {
+    const sharedServices = data.data
+    const sharedServiceField = { shared_service_enabled: sharedServices }
+    onChange("client", { ...sharedServiceField })({ type: "radio" });
+  }
+
   return (
     <div className="containerClass">
       <legend>
@@ -191,7 +202,6 @@ export default props => {
           </div>
         </div>
       </legend>
-
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput

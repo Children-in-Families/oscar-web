@@ -22,4 +22,13 @@ class Commune < ActiveRecord::Base
   def code_format
     "#{name_kh} / #{name_en} (#{code})"
   end
+
+  def self.get_commune(commune_code)
+    commune = find_by(code: commune_code)
+    if commune
+      { village_id: nil, commune_id: commune.id, district_id: commune.district&.id, province_id: commune.district.province&.id }
+    else
+      { commune_id: nil }
+    end
+  end
 end

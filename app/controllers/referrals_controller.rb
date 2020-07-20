@@ -14,7 +14,7 @@ class ReferralsController < AdminController
 
   def new
     if params[:ngo].present?
-      @referral = @client.referrals.new({referred_to: params[:ngo]})
+      @referral = @client.referrals.new({ referred_to: params[:ngo], ngo_name: find_external_system(params[:external_ngo_name]) })
     else
       @referral = @client.referrals.new
     end
@@ -23,6 +23,7 @@ class ReferralsController < AdminController
   def create
     @referral = @client.referrals.new(referral_params)
     if @referral.save
+      @client.update_attributes(referred_external: true)
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
     else
       render :new
@@ -76,6 +77,10 @@ class ReferralsController < AdminController
   end
 
   def referral_params
-    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, :ngo_name, :client_global_id, consent_form: [])
+    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, :ngo_name, :client_global_id, consent_form: [], service_ids: [])
+  end
+
+  def find_external_system(external_name)
+    ExternalSystem.find_by(name: external_name)&.name || ''
   end
 end

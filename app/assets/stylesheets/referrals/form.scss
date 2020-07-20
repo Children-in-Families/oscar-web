@@ -10,4 +10,17 @@ body[id='referrals-update'] {
   label.disabled, input.disabled {
     color: #333 !important;
   }
+
+  #select2-drop {
+    height: 349px;
+    .select2-results {
+      max-height: 340px;
+      height: 374px;
+      overflow-x: scroll;
+      overflow-y: scroll;
+    }
+    .select2-results table tbody tr td {
+      cursor: pointer;
+    }
+  }
 }

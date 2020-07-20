@@ -4274,6 +4274,7 @@ th-TH:
       referred_to:
       save:
       save_and_download:
+      type_of_service:
     index:
       cannot_edit_referral:
       client_id:
@@ -4316,6 +4317,7 @@ th-TH:
       referral_reason:
       referred_from:
       referred_to:
+      type_of_service:
     update:
       successfully_updated:
   reports:
