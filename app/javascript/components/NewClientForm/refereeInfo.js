@@ -144,9 +144,6 @@ export default props => {
     if(state_id !== null)
       fetchData('states', state_id, 'townships')
 
-    console.log('districts', districts)
-    console.log('communes', communes)
-    console.log('villages', villages)
     onChange("referee", {
       id,
       name,
