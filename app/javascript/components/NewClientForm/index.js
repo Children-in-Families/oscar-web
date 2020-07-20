@@ -83,7 +83,7 @@ const Forms = props => {
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, addressTypes, T, translation, current_organization }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, currentStates, refereeSubdistricts, addressTypes, T, translation, current_organization }
   const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
@@ -369,7 +369,23 @@ const Forms = props => {
         break;
       default:
         if(objectKey == 'referee'){
-          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, objectKey, objectData, T}} />
+          return <Address
+                  hintText={inlineHelpTranslation}
+                  disabled={disabled}
+                  outside={objectData.outside || false}
+                  onChange={onChange}
+                  current_organization={current_organization}
+                  data={{
+                    addressTypes,
+                    currentDistricts: refereeDistricts,
+                    currentCommunes: refereeCommunes,
+                    currentVillages: refereeVillages,
+                    currentProvinces,
+                    objectKey,
+                    objectData,
+                    T
+                  }}
+                />
         }
         if(objectKey == 'carer'){
           return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
@@ -415,7 +431,7 @@ const Forms = props => {
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
+            <RefereeInfo current_organization={current_organization} data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>

@@ -1,4 +1,4 @@
-import React, { useEffect }       from 'react'
+import React, { useEffect, useState }       from 'react'
 import {
   SelectInput,
   TextInput,
@@ -9,7 +9,13 @@ import { t } from '../../utils/i18n'
 
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, hintText, data: { referees, refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, hintText, data: { referees, refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, currentStates, refereeTownships, refereeSubdistricts, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
+
+  const [districts, setDistricts]         = useState(refereeDistricts)
+  const [communes, setCommunes]           = useState(refereeCommunes)
+  const [villages, setVillages]           = useState(refereeVillages)
+  const [townships, setTownships]         = useState(refereeTownships)
+  const [subdistricts, setSubdistricts]   = useState(refereeSubdistricts)
 
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -81,7 +87,8 @@ export default props => {
       setDistricts([])
       setCommunes([])
       setVillages([])
-
+      setTownships([])
+      setSubdistricts([])
       const refereeFields = {
         id: null,
         outside: false,
@@ -111,8 +118,31 @@ export default props => {
     return newList
   }
 
+  const fetchData = (parent, data, child) => {
+    $.ajax({
+      type: 'GET',
+      url: `/api/${parent}/${data}/${child}`,
+    }).success(res => {
+      const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages, townships: setTownships, subdistricts: setSubdistricts }
+      dataState[child](res.data)
+    })
+  }
+
   const onRefereeNameChange = evt => {
-    let {email, id, name, gender, phone, province_id, district_id, commune_id, village_id, street_number, house_number, address_type, current_address, outside, outside_address, adult} = referees.filter(r => r.id == evt.data)[0] || {}
+    let {email, id, name, gender, phone, province_id, district_id, commune_id, village_id, street_number, state_id, township_id, house_number, address_type, current_address, outside, outside_address, adult} = referees.filter(r => r.id == evt.data)[0] || {}
+    if(province_id !== null)
+      fetchData('provinces', province_id, 'districts')
+    if(district_id !== null)
+      if(current_organization.country == 'thailand'){
+        fetchData('districts', district_id, 'subdistricts')
+      } else{
+        fetchData('districts', district_id, 'communes')
+      }
+    if(commune_id !== null)
+      fetchData('communes', commune_id, 'villages')
+    if(state_id !== null)
+      fetchData('states', state_id, 'townships')
+
     onChange("referee", {
       id,
       name,
@@ -123,6 +153,8 @@ export default props => {
       district_id,
       commune_id,
       village_id,
+      state_id,
+      township_id,
       street_number,
       house_number,
       address_type,
@@ -194,7 +226,7 @@ export default props => {
           />
         </div>
       </div>
-      
+
       <br/>
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
