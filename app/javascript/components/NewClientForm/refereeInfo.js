@@ -119,13 +119,14 @@ export default props => {
   }
 
   const fetchData = (parent, data, child) => {
-    $.ajax({
-      type: 'GET',
-      url: `/api/${parent}/${data}/${child}`,
-    }).success(res => {
-      const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages, townships: setTownships, subdistricts: setSubdistricts }
-      dataState[child](res.data)
-    })
+    if(data)
+      $.ajax({
+        type: 'GET',
+        url: `/api/${parent}/${data}/${child}`,
+      }).success(res => {
+        const dataState = { districts: setDistricts, communes: setCommunes, villages: setVillages, townships: setTownships, subdistricts: setSubdistricts }
+        dataState[child](res.data)
+      })
   }
 
   const onRefereeNameChange = evt => {
@@ -143,6 +144,9 @@ export default props => {
     if(state_id !== null)
       fetchData('states', state_id, 'townships')
 
+    console.log('districts', districts)
+    console.log('communes', communes)
+    console.log('villages', villages)
     onChange("referee", {
       id,
       name,
@@ -301,7 +305,7 @@ export default props => {
           }
         </div>
       </legend>
-      { renderAddressSwitch(referee, 'referee', referee.anonymous) }
+      { renderAddressSwitch(referee, 'referee', referee.anonymous, { districts, communes, villages }) }
     </div>
   )
 }
