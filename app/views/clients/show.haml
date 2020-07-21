@@ -51,12 +51,16 @@
           .row
             .col-xs-12
               .row
-                - if @client.require_screening_assessment?(current_setting)
+                - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
-                    = link_to 'Complete Screening Assessment', new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
-                .col-xs-12
+                    - if @client.require_screening_assessment?(current_setting)
+                      = link_to 'Complete Screening Assessment', new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+                    - elsif @client.custom_fields.include?(current_setting.screening_assessment_form)
+                      = link_to 'View Screening Assessment', client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+
+                .col-xs-12{ class: "#{'mini-margin' if current_setting.use_screening_assessment? && @client.referred? }" }
                   - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
-                    %button.btn.btn-success.agree-btn.mini-margin{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
+                    %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
                     %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
