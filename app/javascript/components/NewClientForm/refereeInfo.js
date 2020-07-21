@@ -89,6 +89,7 @@ export default props => {
       setVillages([])
       setTownships([])
       setSubdistricts([])
+
       const refereeFields = {
         id: null,
         outside: false,
@@ -223,7 +224,7 @@ export default props => {
             label={'Has the Referee already referred a client to this NGO through OSCaR in the past?'}
             options={yesNoOpts}
             onChange={onChangeExistingReferree}
-            value={referee.existing_referree || false }
+            value={referee.existing_referree }
           />
         </div>
       </div>
