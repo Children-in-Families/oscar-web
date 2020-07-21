@@ -334,7 +334,7 @@ export default props => {
              label={ t(translation, 'clients.form.ethnicity') }
              options={ethnicityOptions}
              onChange={onChange('client', 'ethnicity')}
-             value={client.nationality}
+             value={client.ethnicity}
            />
          </div>
         }
@@ -346,7 +346,7 @@ export default props => {
              label={ t(translation, 'clients.form.type_of_trafficking') }
              options={traffickingTypeOptions}
              onChange={onChange('client', 'type_of_trafficking')}
-             value={client.nationality}
+             value={client.type_of_trafficking}
            />
          </div>
         }
