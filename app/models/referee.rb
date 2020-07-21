@@ -15,4 +15,12 @@ class Referee < ActiveRecord::Base
   has_many :calls, dependent: :restrict_with_error
 
   validates :name, presence: true
+
+  after_initialize :init_existing_referree, if: :persisted?
+
+  private
+
+  def init_existing_referree
+    self.existing_referree = true
+  end
 end
