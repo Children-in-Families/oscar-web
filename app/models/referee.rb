@@ -16,11 +16,11 @@ class Referee < ActiveRecord::Base
 
   validates :name, presence: true
 
-  after_initialize :init_existing_referree, if: :persisted?
+  after_initialize :init_existing_referree
 
   private
 
   def init_existing_referree
-    self.existing_referree = true
+    self.existing_referree = self.persisted?
   end
 end
