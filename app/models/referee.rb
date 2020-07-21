@@ -21,6 +21,6 @@ class Referee < ActiveRecord::Base
   private
 
   def init_existing_referree
-    @existing_referree = self.persisted?
+    @existing_referree = !self.anonymous? && self.persisted?
   end
 end
