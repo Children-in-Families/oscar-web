@@ -391,13 +391,12 @@
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
-              - unless Rails.env.production?
-                %tr
-                  %td.spacing-first-col
-                    = "#{t('.client_global_identity')}"
-                  %td
-                    %strong
-                      = fa_icon 'envelope', class: 'text-success', data: { toggle: 'popover', placement: 'top', content: @client.global_id }
+              %tr
+                %td.spacing-first-col
+                  = "#{t('.client_global_identity')}"
+                %td
+                  %strong
+                    = fa_icon 'envelope', class: 'text-success', data: { toggle: 'popover', placement: 'top', content: @client.global_id }
 
               %tr
                 %td.spacing-first-col
