@@ -47,6 +47,7 @@ class NgoUsageReport
 
   def import_usage_report(date_time)
     ngo_columns    = ['Organization', 'On-board Date', 'FCF', 'Country']
+    ngo_columns    = ['Organization', 'New this month', 'Stopped this month', 'Total']
     user_columns   = ['Organization', 'No. of Users', 'No. of Users Added', 'No. of Users Deleted', 'No. of Logins/Month']
     client_columns = ['Organization', 'No. of Clients', 'No. of Clients Added', 'No. of Clients Deleted', 'No. of Clients Transferred']
 
@@ -78,6 +79,7 @@ class NgoUsageReport
     ngo_worksheet      = book.create_worksheet(name: "NGO Records-#{previous_month}")
     user_worksheet     = book.create_worksheet(name: "User Report-#{previous_month}")
     client_worksheet   = book.create_worksheet(name: "Client Report-#{previous_month}")
+    learning_worksheet = book.create_worksheet(name: "OSCaR Leaning Report-#{previous_month}")
 
     ngo_worksheet.insert_row(0, ngo_columns)
     user_worksheet.insert_row(0, user_columns)
