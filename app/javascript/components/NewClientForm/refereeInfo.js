@@ -79,11 +79,12 @@ export default props => {
   }
 
   const onChangeExistingReferree = data => {
-    const newData = { existing_referree: data.data }
+    const value = data.data;
+    const newData = { existing_referree: value }
 
     onChange("referee", { ...newData })({ type: "radio" });
 
-    if(!data.data && referee.id !== null) {
+    if(value == true) {
       setDistricts([])
       setCommunes([])
       setVillages([])
@@ -97,6 +98,7 @@ export default props => {
         district_id: null,
         commune_id: null,
         village_id: null,
+        existing_referree: value,
         name: '',
         gender: '',
         adult: null,
