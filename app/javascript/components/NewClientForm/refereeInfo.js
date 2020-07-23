@@ -165,6 +165,8 @@ export default props => {
       outside_address,
       adult
     })({ type: "select" });
+
+    onChange('client', { referral_source_category_id: null, referral_source_id: null })({type: 'select'}) 
   }
 
   const renderNameField = () => {
