@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def field_settings
-    @field_settings ||= FieldSetting.all
+    @field_settings ||= FieldSetting.where('for_instances IS NULL OR for_instances iLIKE ?', "#{current_organization.short_name}")
   end
 
   def pundit_user

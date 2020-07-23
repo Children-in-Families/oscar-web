@@ -102,9 +102,15 @@ en:
           successfully_updated: Successfully updated
   activerecord:
     attributes:
+      carer:
+        name: Primary Carer Name
+        phone: Primary Carer Phone Number
+        carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
         gender: Gender
+      referee:
+        referee_address: Address
     default:
       blank: can't be blank
     errors:
@@ -362,8 +368,8 @@ en:
       agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
-      assessment_completed_date: Assessment Completed Date
-      assessment_number: Assessment#
+      assessment_completed_date: "%{assessment} Completed Date"
+      assessment_number: "%{assessment}#"
       basic_fields: Client Basic Fields
       birth_province: Client Birth Province
       birth_province_id: Birth Province
@@ -391,7 +397,7 @@ en:
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
       custom_form: Custom Form
-      date_of_assessments: Date of Assessments
+      date_of_assessments: "Date of %{assessment}"
       date_of_birth: Date of Birth
       date_of_referral: Date of Referral
       description_house_landmark: Description of the house and a landmark
@@ -629,16 +635,16 @@ en:
       set_goal: Would you like to set a goal?
       tasks_arising: 'Tasks arising:'
     index:
-      assessment_completed_on: Assessment completed on
-      assessment_created_on: Assessment created on
-      assessment_history: Assessment History
+      assessment_completed_on: "%{assessment} completed on"
+      assessment_created_on: "%{assessment} created on"
+      assessment_history: "%{assessment} History"
       back: Back
       begin_now: Add New
-      initial_assessment: Initial Assessment on
+      initial_assessment: "Initial %{assessment} on"
       next_review: Next Review on
       no_custom_domains_available: No Custom Domains Available
       please_add_custom_domains: You may want to add some Custom Domains before you can perform this action.
-      three_month_assessment: 3 Monthly Assessment
+      three_month_assessment: "3 Monthly %{assessment}"
       view_report: View Report
     show:
       are_you_sure: Are you sure you want to delete?
@@ -1128,11 +1134,11 @@ en:
       quantitative: Custom Referral Data
       tracking: Tracking
     index:
-      add_custom_group: Add Assessment Filter
+      add_custom_group: "Add %{assessment} Filter"
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Report Builder
-      assessment_data: Assessment Data
+      assessment_data: "%{assessment} Data"
       assessments: Assessments
       client_column: Client General Information
       client_name: Client Name
@@ -1385,9 +1391,9 @@ en:
       answer: Answer
       yes_no: Yes/No
     assessment_domain_score:
-      assessment_data: Assessment Score Data
-      assessment_date: Assessment Date
-      assessment_number: 'Assessment #'
+      assessment_data: "%{assessment} Score Data"
+      assessment_date: "%{assessment} Date"
+      assessment_number: "%{assessment} #"
       client_id: Client ID
       client_name: Client Name
       close: Close
@@ -1493,9 +1499,9 @@ en:
     create:
       successfully_created: Client has been successfully created.
     custom_assessment_domain_score:
-      assessment_data: Assessment Score Data
-      assessment_date: Assessment Date
-      assessment_number: 'Assessment #'
+      assessment_data: "%{assessment} Score Data"
+      assessment_date: "%{assessment} Date"
+      assessment_number: "%{assessment} #"
       client_id: Client ID
       client_name: Client Name
       close: Close
@@ -1561,6 +1567,31 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
+      neighbor_name: "Neighbor/Friend: Name"
+      neighbor_phone: Phone Number
+      dosavy_name: "DoSAVY: Name"
+      dosavy_phone: Phone Number
+      chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+      chief_commune_phone: Phone Number
+      chief_village_name: "Chief of Village: Name"
+      chief_village_phone: Phone Number
+      ccwc_name: "CCWC: Name"
+      ccwc_phone: Phone Number
+      legal_team_name: "Legal Team: Name of Agency"
+      legal_representative_name: Name of Legal Representative
+      legal_team_phone: Phone Number
+      other_agency_name: "Others: Name of Agency"
+      other_representative_name: Name of Representative
+      other_agency_phone: Phone Number
+      case_note: Case Notes
+      referral_info: Client / Referral Information
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       legal_documents: Legal Documentations
       able: Able
       able_state: Able State
@@ -1598,6 +1629,8 @@ en:
       family_book: 'Family Book'
       family_name: Family Name (Latin)
       finish: Finish
+      followed_up_by_id: First Follow Up by
+      follow_up_date: Date of First Follow Up
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
@@ -1673,6 +1706,7 @@ en:
       resident_own_or_rent2: Acc. type
       school_grade: School Grade
       school_name: School Name
+      main_school_contact: Main School Contact
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
@@ -1750,20 +1784,22 @@ en:
       active_programs: Active Programs
       add_new_client: Add New Client
       advanced_search: Advanced Search
-      all_csi_assessments: All CSI Assessments
-      all_custom_csi_assessments: All Custom Assessments
-      assessment_data: Assessment Data
-      assessment_number: Assessment#
+      all_csi_assessments: "All CSI %{assessment}"
+      all_custom_csi_assessments: "All Custom %{assessment}"
+      assessment_data: "%{assessment} Data"
+      assessment_number: "%{assessment}#"
       assessments: Assessments
       case_statistics: Case Statistics
       client_amount: Clients
-      csi_assessment: CSI Assessment
+      csi_assessment: "CSI %{assessment}"
       csi_domain_scores: CSI Domain Scores
-      custom_assessment: Custom Assessment
+      custom_assessment: "Custom %{assessment}"
       custom_csi_domain_scores: Custom Domain Scores
       custom_csi_group: At
-      date_of_assessment: Date of Assessment
-      date_of_assessments: Date of Assessments
+      date_of_assessment: "Date of %{assessment}"
+      assessment_completed: "%{assessment} Completed"
+      date_of_custom_assessment: "Date of Custom %{assessment}"
+      date_of_assessments: "Date of %{assessment}"
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
@@ -1857,6 +1893,13 @@ en:
       close: Close
       warning: Warning
     show:
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       able: Able
       able_screening_questions: Able Screening Questions
       able_state: Able State
@@ -2049,7 +2092,8 @@ en:
           other: "%{count} years"
       time_in_cps: Time in Custom Program Stream
       time_in_ngo: Time in NGO
-      view_assessments: Assessments
+      assessment: Assessments
+      custom_assessment: "Custom %{assessment}"
       view_case_notes: Case Notes
       view_ec_history_btn_link: EC History
       view_fc_history_btn_link: FC History
@@ -2309,9 +2353,10 @@ en:
       show: Show
   datagrid:
     columns:
-      all_csi_assessments: All CSI Assessments
-      all_custom_csi_assessments: All Custom Assessments
+      all_csi_assessments: All CSI %{assessment}
+      all_custom_csi_assessments: "All Custom %{assessment}"
       all_result_framework_assessment: All Result Framework Assessment
+      assessment_completed_date: "%{assessment} Completed Date"
       calls:
         answered_call: Answer Call
         brief_note_summary: Brief Note Summary
@@ -2374,6 +2419,29 @@ en:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        neighbor_name: "Neighbor/Friend: Name"
+        neighbor_phone: Phone Number
+        dosavy_name: "DoSAVY: Name"
+        dosavy_phone: Phone Number
+        chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+        chief_commune_phone: Phone Number
+        chief_village_name: "Chief of Village: Name"
+        chief_village_phone: Phone Number
+        ccwc_name: "CCWC: Name"
+        ccwc_phone: Phone Number
+        legal_team_name: "Legal Team: Name of Agency"
+        legal_representative_name: Name of Legal Representative
+        legal_team_phone: Phone Number
+        other_agency_name: "Others: Name of Agency"
+        other_representative_name: Name of Representative
+        other_agency_phone: Phone Number
+        marital_status: Marital Status
+        nationality: Nationality
+        ethnicity: Ethnicity
+        location_of_concern: Location of concern
+        type_of_trafficking: Type of Trafficking
+        education_background: Education Background
+        department: Ratanak Team
         national_id: 'National ID'
         birth_cert: 'Birth Certificate'
         family_book: 'Family Book'
@@ -2407,10 +2475,10 @@ en:
         age: Age
         agencies_involved: Other Agencies Involved
         agency_names: Agency Name
-        all_csi_assessments: All CSI Assessments
-        all_custom_csi_assessments: All Custom Assessments
+        all_csi_assessments: "All CSI %{assessment}"
+        all_custom_csi_assessments: "All Custom %{assessment}"
         any_assessments: Has Assessments
-        assessment_completed_date: Assessment Completed Date
+        assessment_completed_date: "%{assessment} Completed Date"
         assessments: Assessments
         assessments_due_to: Assessments Due To
         birth_province: Client Birth Province
@@ -2454,9 +2522,9 @@ en:
         current_province: Current Province
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
-        date_of_assessments: Date of Assessments
+        date_of_assessments: "Date of %{assessment}"
         date_of_birth: Date of Birth
-        date_of_custom_assessments: Date of Custom Assessment
+        date_of_custom_assessments: "Date of Custom %{assessment}"
         date_of_referral: Date of Referral
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -2581,8 +2649,8 @@ en:
         village_en: Address - Village (English)
         village_kh: Address - Village (Khmer)
         what3words: What3words
-      date_of_assessments: Date of Assessments
-      date_of_custom_assessments: Date of Custom Assessment
+      date_of_assessments: "Date of %{assessment}"
+      date_of_custom_assessments: "Date of Custom %{assessment}"
       exit_circumstance: Exit Circumstance
       exit_note: NGO Exit Note
       exit_reasons: Reason For Exit
@@ -2783,7 +2851,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       custom_csi_domain_scores: Custom Domain Scores
       filter_domains: Filter Domains
-      has_overdue_assessment: Has Overdue Assessment
+      has_overdue_assessment: "Has Overdue %{assessment}"
       has_overdue_forms: Has Overdue Form
       has_overdue_task: Has Overdue Task
       no_case_note: Overdue for Case Note
@@ -5096,6 +5164,10 @@ en:
     update:
       successfully_updated: Setting have been successfully updated.
   shared:
+    x_lists_of: "%{x} lists of"
+    new_x: "New %{x}"
+    max_x: "Max %{x}"
+    x_on: "%{x} on"
     form_builder:
       file_field:
         allow_file_size: Allowed file types

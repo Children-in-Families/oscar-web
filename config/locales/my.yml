@@ -100,9 +100,15 @@ my:
           successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
   activerecord:
     attributes:
+      carer:
+        name: မူလတန်းစောင့်ရှောက်သူအမည်အား
+        phone: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
+        carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
         gender: Gender
+      referee:
+        referee_address: Address
     default:
       blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
     errors:
@@ -626,12 +632,12 @@ my:
       set_goal: သင်တစ်ဦးရည်မှန်းချက်သတ်မှတ်ထားဖို့လိုပါသလား
       tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
     index:
-      assessment_completed_on: အကဲဖြတ်အပေါ်ပြီးစီး
-      assessment_created_on: အကဲဖြတ်အပေါ်ဖန်တီးဖို့
+      assessment_completed_on: "%{assessment}ါ်ပြီးစီး"
+      assessment_created_on: "%{assessment}ါ်ဖန်တီးဖို့"
       assessment_history: စိစစ္မႈသမိုင္းေၾကာင္း
       back: ေနာက္သို႔
       begin_now: ယခုစမည္
-      initial_assessment: ကနဦး အကဲျဖတ္ခ်က္
+      initial_assessment: "ကနဦး %{assessment}"
       next_review: သုံးလစဉ်ပြန်လည်သုံးသပ်ချက်
       no_custom_domains_available: ရရှိနိုင်သောအဘယ်သူမျှမစိတ်ကြိုက်ဒိုမိန်း
       please_add_custom_domains: သငျသညျဤ action လုပ်ဆောင်နိုင်မီအချို့ကိုသင်စိတ်ကြိုက်ဒိုမိန်းထည့်သွင်းဖို့လိုပေမည်
@@ -1556,6 +1562,31 @@ my:
       reject_client: client ကိုငြင်းပယ်
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
+      neighbor_name: "Neighbor/Friend: Name"
+      neighbor_phone: Phone Number
+      dosavy_name: "DoSAVY: Name"
+      dosavy_phone: Phone Number
+      chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+      chief_commune_phone: Phone Number
+      chief_village_name: "Chief of Village: Name"
+      chief_village_phone: Phone Number
+      ccwc_name: "CCWC: Name"
+      ccwc_phone: Phone Number
+      legal_team_name: "Legal Team: Name of Agency"
+      legal_representative_name: Name of Legal Representative
+      legal_team_phone: Phone Number
+      other_agency_name: "Others: Name of Agency"
+      other_representative_name: Name of Representative
+      other_agency_phone: Phone Number
+      case_note: အမႈမွတ္စု
+      referral_info: Client / Referral Information
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'Family Book'
@@ -1603,6 +1634,8 @@ my:
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
+      followed_up_by_id: First Follow Up by
+      follow_up_date: Date of First Follow Up
       from: မွ
       gender: က်ား မ
       general_question: အေထြေထြ ေမးခြန္း
@@ -1668,6 +1701,7 @@ my:
       resident_own_or_rent2: Acc. type
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
+      main_school_contact: Main School Contact
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: အဆင့္ေမးခြန္း
@@ -1756,8 +1790,10 @@ my:
       custom_assessment: ထုံးစံအကဲဖြတ်
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_csi_group: At
-      date_of_assessment:
-      date_of_assessments: Date of Assessments
+      date_of_assessment: "Date of %{assessment}"
+      assessment_completed: "%{assessment} Completed"
+      date_of_custom_assessment: "Date of Custom %{assessment}"
+      date_of_assessments: "Date of %{assessment}"
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
       end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
@@ -1851,6 +1887,13 @@ my:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
     show:
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       able: Able
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
       able_state: Able State
@@ -2037,7 +2080,7 @@ my:
           other: "%{count} နှစ်ပေါင်း"
       time_in_cps: ထုံးစံအစီအစဉ်ကိုစီးအတွက်အချိန်
       time_in_ngo: Time in NGO
-      view_assessments: စိစစ္အကဲျဖတ္ခ်က္မ်ား
+      assessment: စိစစ္အကဲျဖတ္ခ်က္မ်ား
       view_case_notes: အမႈမွတ္စုမ်ား
       view_ec_history_btn_link: ECသမုိင္းေၾကာင္း
       view_fc_history_btn_link: FC သမုိင္း
@@ -2289,6 +2332,7 @@ my:
       all_csi_assessments: အားလုံးအကဲဖြတ်
       all_custom_csi_assessments: Custom စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
       all_result_framework_assessment: All Result Framework Assessment
+      assessment_completed_date: "%{assessment} Completed Date"
       assessment_completed_date: ျပဳလုပ္သည့္ ရက္စြဲ အကဲဖြတ်အပေါ်ပြီးစီး
       calls:
         answered_call: Answer Call
@@ -2347,6 +2391,29 @@ my:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        neighbor_name: "Neighbor/Friend: Name"
+        neighbor_phone: Phone Number
+        dosavy_name: "DoSAVY: Name"
+        dosavy_phone: Phone Number
+        chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+        chief_commune_phone: Phone Number
+        chief_village_name: "Chief of Village: Name"
+        chief_village_phone: Phone Number
+        ccwc_name: "CCWC: Name"
+        ccwc_phone: Phone Number
+        legal_team_name: "Legal Team: Name of Agency"
+        legal_representative_name: Name of Legal Representative
+        legal_team_phone: Phone Number
+        other_agency_name: "Others: Name of Agency"
+        other_representative_name: Name of Representative
+        other_agency_phone: Phone Number
+        marital_status: Marital Status
+        nationality: Nationality
+        ethnicity: Ethnicity
+        location_of_concern: Location of concern
+        type_of_trafficking: Type of Trafficking
+        education_background: Education Background
+        department: Ratanak Team
         national_id: 'National ID'
         birth_cert: 'Birth Certificate'
         family_book: 'Family Book'
@@ -5104,6 +5171,10 @@ my:
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
+    x_lists_of: "%{x}စာရင်း"
+    new_x: "အသစ်%{x}"
+    max_x: "အများဆုံး%{x}"
+    x_on: "အပေါ်%{x}"
     form_builder:
       file_field:
         allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစားမ်ား
