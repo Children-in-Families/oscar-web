@@ -30,7 +30,16 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def services
-    service_types = object.program_streams.joins(:services).distinct.map{ |ps| ps.services.map{ |service| { uuid: service.uuid, name: service.name } } }.compact.flatten.uniq
+    service_types = object.program_streams.joins(:services).distinct.map do |ps|
+      enrollment_date = object.client_enrollments.where(program_stream_id: ps.id).first&.enrollment_date&.to_s
+      ps.services.map do |service|
+        {
+          enrollment_date: enrollment_date,
+          uuid: service.uuid,
+          name: service.name
+        }
+      end
+    end.compact.flatten.uniq
   end
 
   def case_worker_name
