@@ -103,8 +103,8 @@ en:
   activerecord:
     attributes:
       carer:
-        name: Primary Carer Name
-        phone: Primary Carer Phone Number
+        name: Carer Name
+        phone: Carer Phone Number
         carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
