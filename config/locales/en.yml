@@ -5088,7 +5088,7 @@ en:
       bad_credentials_supplied: Bad Credentials Supplied.
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
   settings:
-    assessment:
+    assessment_setting:
       age: age
       assessment: Customized Assessment Frequency Settings
       custom_assessment: Name
