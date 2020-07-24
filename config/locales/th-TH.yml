@@ -4341,7 +4341,7 @@ th-TH:
       bad_credentials_supplied:
       your_account_needs_to_supply_a_verification_code:
   settings:
-    assessment:
+    assessment_setting:
       age:
       assessment:
       custom_assessment:

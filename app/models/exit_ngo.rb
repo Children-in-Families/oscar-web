@@ -23,6 +23,6 @@ class ExitNgo < ActiveRecord::Base
   end
 
   def create_exit_ngo_history
-    # ExitNgoHistory.initial(self)
+    ExitNgoHistory.initial(self)
   end
 end

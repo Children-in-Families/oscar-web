@@ -5095,7 +5095,7 @@ my:
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
-    assessment:
+    assessment_setting:
       age: အသက္
       assessment: အကဲဖြတ်
       custom_assessment: နာမတျောကို

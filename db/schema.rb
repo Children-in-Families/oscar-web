@@ -98,12 +98,6 @@ ActiveRecord::Schema.define(version: 20200719232917) do
     t.datetime "updated_at"
   end
 
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",               default: ""
     t.integer  "previous_score"
@@ -612,7 +606,7 @@ ActiveRecord::Schema.define(version: 20200719232917) do
     t.string   "household_type2"
     t.string   "legacy_brcs_id"
     t.boolean  "whatsapp",                         default: false
-    t.string   "global_id"
+    t.integer  "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -815,12 +809,15 @@ ActiveRecord::Schema.define(version: 20200719232917) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: "", null: false
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enter_ngo_users", force: :cascade do |t|
     t.integer "user_id"
@@ -867,7 +864,6 @@ ActiveRecord::Schema.define(version: 20200719232917) do
   end
 
   add_index "external_system_global_identities", ["external_system_id"], name: "index_external_system_global_identities_on_external_system_id", using: :btree
-  add_index "external_system_global_identities", ["global_id"], name: "index_external_system_global_identities_on_global_id", using: :btree
 
   create_table "external_systems", force: :cascade do |t|
     t.string   "name"
@@ -984,11 +980,9 @@ ActiveRecord::Schema.define(version: 20200719232917) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "global_identities", id: false, force: :cascade do |t|
-    t.string "ulid"
+  create_table "global_identities", force: :cascade do |t|
+    t.binary "ulid"
   end
-
-  add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
     t.string   "global_id"
@@ -1003,7 +997,7 @@ ActiveRecord::Schema.define(version: 20200719232917) do
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
   create_table "global_services", id: false, force: :cascade do |t|
-    t.uuid "uuid", default: "uuid_generate_v4()"
+    t.uuid "uuid"
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
@@ -1585,7 +1579,7 @@ ActiveRecord::Schema.define(version: 20200719232917) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
-    t.string   "client_global_id"
+    t.integer  "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -1688,7 +1682,7 @@ ActiveRecord::Schema.define(version: 20200719232917) do
     t.string   "country_origin",            default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
-    t.string   "global_id"
+    t.integer  "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -2173,7 +2167,6 @@ ActiveRecord::Schema.define(version: 20200719232917) do
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "external_system_global_identities", "external_systems"
-  add_foreign_key "external_system_global_identities", "global_identities", column: "global_id", primary_key: "ulid"
   add_foreign_key "families", "communes"
   add_foreign_key "families", "districts"
   add_foreign_key "families", "users"
