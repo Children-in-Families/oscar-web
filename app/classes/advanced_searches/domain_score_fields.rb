@@ -5,7 +5,7 @@ module AdvancedSearches
     def self.render
       domain_score_group  = format_header('csi_domain_scores')
       csi_domain_options  = domain_options.map { |item| number_filter_type(item, domain_score_format(item), domain_score_group) }
-      date_of_assessments = ['Date of Assessments'].map{ |item| date_picker_options(item.downcase.gsub(' ', '_'), item, domain_score_group) }
+      date_of_assessments = [['date_of_assessments', I18n.t('clients.index.date_of_assessment', assessment: I18n.t('clients.show.assessment'))]].map{ |item| date_picker_options(item[0], item[1], domain_score_group) }
       all_domains         = ['All Domains'].map { |item| number_filter_type(item.downcase.gsub(' ', '_'), domain_score_format(item), domain_score_group) }
       csi_domain_options + date_of_assessments + all_domains
     end

@@ -239,6 +239,12 @@ class Client < ActiveRecord::Base
     status == 'Referred'
   end
 
+  def require_screening_assessment?(setting)
+    setting.use_screening_assessment? &&
+    referred? &&
+    custom_fields.exclude?(setting.screening_assessment_form)
+  end
+
   def self.age_between(min_age, max_age)
     min = (min_age * 12).to_i.months.ago.to_date
     max = (max_age * 12).to_i.months.ago.to_date
@@ -704,7 +710,7 @@ class Client < ActiveRecord::Base
   private
 
   def create_client_history
-    # ClientHistory.initial(self)
+    ClientHistory.initial(self)
   end
 
   def notify_managers

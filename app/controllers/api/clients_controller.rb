@@ -27,8 +27,14 @@ module Api
 
     def create
       client = Client.new(client_params)
-      referee = Referee.find_or_initialize_by(referee_params)
-      referee.save
+
+      if params.dig(:referee, :id).present?
+        referee = Referee.find(params.dig(:referee, :id))
+        referee.update(referee_params)
+      else
+        referee = Referee.find_or_initialize_by(referee_params)
+        referee.save
+      end
 
       carer = Carer.find_or_initialize_by(carer_params)
       carer.save
@@ -94,6 +100,29 @@ module Api
             :national_id, :reason_for_referral,
             :birth_cert,
             :family_book,
+            :marital_status,
+            :nationality,
+            :ethnicity,
+            :location_of_concern,
+            :neighbor_name,
+            :neighbor_phone,
+            :dosavy_name,
+            :dosavy_phone,
+            :chief_commune_name,
+            :chief_commune_phone,
+            :chief_village_name,
+            :chief_village_phone,
+            :ccwc_name,
+            :ccwc_phone,
+            :legal_team_name,
+            :legal_representative_name,
+            :legal_team_phone,
+            :other_agency_name,
+            :other_representative_name,
+            :other_agency_phone,
+            :type_of_trafficking,
+            :education_background,
+            :department,
             :passport,
             :travel_doc,
             :referral_doc,

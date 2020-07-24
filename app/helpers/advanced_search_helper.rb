@@ -65,6 +65,13 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
+      marital_status: I18n.t('datagrid.columns.clients.marital_status'),
+      nationality: I18n.t('datagrid.columns.clients.nationality'),
+      ethnicity: I18n.t('datagrid.columns.clients.ethnicity'),
+      location_of_concern: I18n.t('datagrid.columns.clients.location_of_concern'),
+      type_of_trafficking: I18n.t('datagrid.columns.clients.type_of_trafficking'),
+      education_background: I18n.t('datagrid.columns.clients.education_background'),
+      department: I18n.t('datagrid.columns.clients.department'),
       presented_id: I18n.t('datagrid.columns.clients.presented_id'),
       id_number: I18n.t('datagrid.columns.clients.id_number'),
       legacy_brcs_id: I18n.t('datagrid.columns.clients.legacy_brcs_id'),
@@ -162,7 +169,7 @@ module AdvancedSearchHelper
       custom_csi_domain_scores: I18n.t('advanced_search.fields.custom_csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
-      date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments'),
+      date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments', assessment: I18n.t('clients.show.assessment')),
       date_of_referral: I18n.t('advanced_search.fields.date_of_referral'),
       telephone_number: I18n.t('advanced_search.fields.telephone_number'),
       exit_circumstance: I18n.t('advanced_search.fields.exit_circumstance'),
@@ -185,14 +192,19 @@ module AdvancedSearchHelper
       # time_in_care: I18n.t('advanced_search.fields.time_in_care'),
       time_in_cps: I18n.t('advanced_search.fields.time_in_cps'),
       time_in_ngo: I18n.t('advanced_search.fields.time_in_ngo'),
-      assessment_number: I18n.t('advanced_search.fields.assessment_number'),
-      assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date'),
+      assessment_number: I18n.t('advanced_search.fields.assessment_number', assessment: I18n.t('clients.show.assessment')),
+      assessment_completed_date: I18n.t('advanced_search.fields.assessment_completed_date', assessment: I18n.t('clients.show.assessment')),
       month_number: I18n.t('advanced_search.fields.month_number'),
       custom_csi_group: I18n.t('advanced_search.fields.custom_csi_group'),
       referral_source_category_id: I18n.t('advanced_search.fields.referral_source_category_id'),
       type_of_service:  I18n.t('advanced_search.fields.type_of_service'),
       hotline: I18n.t('datagrid.columns.calls.hotline')
     }
+
+    Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
+      translations[field] = I18n.t("datagrid.columns.clients.#{field}")
+    end
+
     translations[key.to_sym] || ''
   end
 

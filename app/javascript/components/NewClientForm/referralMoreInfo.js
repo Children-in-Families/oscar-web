@@ -3,6 +3,8 @@ import CareInfo from './carerInfo'
 import SchoolInfo from './schoolInfo'
 import DonorInfo from './donorInfo'
 import CustomInfo from './customInfo'
+import StackHolderInfo from './stackHolderInfo'
+import { t } from '../../utils/i18n'
 
 export default props => {
   const { onChange, renderAddressSwitch, translation, fieldsVisibility, current_organization, hintText,
@@ -33,7 +35,7 @@ export default props => {
         <div className="careInfo collapsed" data-toggle="collapse" data-target="#careInfo">
           <div style={styles.sectionHead}>
             <div className="col-xs-4">
-              <label>{T.translate("referralMoreInfo.carer_info")}</label>
+              <label>{ t(translation, 'activerecord.attributes.carer.carer_information') }</label>
             </div>
             <div className="col-xs-8">
               <span className="pointer">
@@ -45,7 +47,7 @@ export default props => {
         </div>
       </div>
 
-      <CareInfo id="careInfo" current_organization={current_organization} data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, carerSubdistricts, currentCommunes, currentVillages, currentStates, currentTownships, families, addressTypes, T }} onChange={onChange} renderAddressSwitch={renderAddressSwitch} hintText={hintText} />
+      <CareInfo id="careInfo"  translation={translation} fieldsVisibility={fieldsVisibility} current_organization={current_organization} data={{ carer, client, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentProvinces, currentDistricts, carerSubdistricts, currentCommunes, currentVillages, currentStates, currentTownships, families, addressTypes, T }} onChange={onChange} renderAddressSwitch={renderAddressSwitch} hintText={hintText} />
 
       {
         fieldsVisibility.client_school_information == true &&
@@ -66,7 +68,30 @@ export default props => {
             </div>
           </div>
 
-          <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} hintText={hintText} />
+          <SchoolInfo id="schoolInfo" data={{ client, schoolGrade, T }} onChange={onChange} translation={translation} fieldsVisibility={fieldsVisibility} hintText={hintText} />
+        </>
+      }
+
+      {
+        fieldsVisibility.stackholder_contacts == true &&
+        <>
+          <div className="row">
+            <div className="schoolInfo collapsed" data-toggle="collapse" data-target="#stackHolderInfo">
+              <div style={styles.sectionHead}>
+                <div className="col-xs-4" >
+                  <label>Stakeholder Contacts</label>
+                </div>
+                <div className="col-xs-8">
+                  <span className="pointer">
+                    <i className="fa fa-chevron-up"></i>
+                    <i className="fa fa-chevron-down"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <StackHolderInfo id="stackHolderInfo" data={{ client, T }} onChange={onChange} translation={translation} fieldsVisibility={fieldsVisibility} hintText={hintText} />
         </>
       }
 

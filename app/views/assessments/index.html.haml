@@ -4,16 +4,16 @@
       .ibox-title
         %h5
           %strong= link_to_client_show(@client)
-        %h5.margin-title= t('.assessment_history')
+        %h5.margin-title= t('.assessment_history', assessment: t('clients.show.assessment'))
       .ibox-content
         - @assessmets.each_with_index do |assessment, index|
           .row.margin-row
             .col-xs-12.col-sm-8
               %h5
                 - if assessment.initial?(assessment.domains.last && assessment.domains.last.custom_assessment_setting_id)
-                  = t('.initial_assessment')
+                  = t('.initial_assessment', assessment: t('clients.show.assessment'))
                 - else
-                  = t('.assessment_created_on')
+                  = t('.assessment_created_on', assessment: t('clients.show.assessment'))
                 %b
                   = date_format(assessment.created_at)
                 = "(#{assessment.domains.last.custom_assessment_setting.custom_assessment_name})" if assessment.domains.last&.custom_assessment_setting.present?
@@ -35,17 +35,23 @@
                   %b
                     = date_format(@client.next_assessment_date)
                 - else
-                  = t('.initial_assessment')
+                  = t('.initial_assessment', assessment: t('clients.show.assessment'))
                   %b
                     = date_format(Date.today)
             .col-xs-12.col-sm-4
               - if policy(@default_assessment).create?()
-                = link_to new_client_assessment_path(@client, default: true), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button')}", placement: "auto" } do
+                = link_to new_client_assessment_path(@client, default: true), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('clients.show.assessment'))}", placement: "auto" } do
                   .btn.btn-block.btn-primary.button
-                    = "#{t('.begin_now')} #{@current_setting.default_assessment}"
+                    - if Organization.ratanak?
+                      = "#{t('.begin_now')} #{t('clients.show.assessment')}"
+                    - else
+                      = "#{t('.begin_now')} #{@current_setting.default_assessment}"
               - else
-                .btn.btn-block.btn-default.button.disabled{ data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button')}", placement: "auto" } }
-                  = "#{t('.begin_now')} #{@current_setting.default_assessment}"
+                .btn.btn-block.btn-default.button.disabled{ data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.default_button', assessment: t('clients.show.assessment'))}", placement: "auto" } }
+                  - if Organization.ratanak?
+                    = "#{t('.begin_now')} #{t('clients.show.assessment')}"
+                  - else
+                    = "#{t('.begin_now')} #{@current_setting.default_assessment}"
 
         - if @current_setting.enable_custom_assessment && completed_initial_assessment?('customs')
           .row.margin-row
@@ -53,7 +59,7 @@
               .col-xs-12.col-sm-8
                 %h5
                   - if current_organization.try(:aht) == true
-                    = t('.initial_assessment')
+                    = t('.initial_assessment', assessment: t('clients.show.assessment'))
                     %b
                       = date_format(Date.today)
                   - else
@@ -62,20 +68,29 @@
                       %b
                         = date_format(@client.custom_next_assessment_date(nil, css.id))
                     - else
-                      = t('.initial_assessment')
+                      = t('.initial_assessment', assessment: t('clients.show.assessment'))
                       %b
                         = date_format(Date.today)
               .col-xs-12.col-sm-4.m-b-sm
                 - if css.domains.any?
                   - if policy(@custom_assessment).create?(css.id, css)
                     = link_to new_client_assessment_path(@client, default: false, custom_name: css.custom_assessment_name), class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button')}", placement: "auto" } do
-                      = "#{t('.begin_now')} #{css.custom_assessment_name}"
+                      - if Organization.ratanak?
+                        = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                      - else
+                        = "#{t('.begin_now')} #{css.custom_assessment_name}"
                   - else
                     .btn.btn-block.btn-default.button.disabled
-                      = "#{t('.begin_now')} #{css.custom_assessment_name}"
+                      - if Organization.ratanak?
+                        = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                      - else
+                        = "#{t('.begin_now')} #{css.custom_assessment_name}"
                 - else
                   = link_to '#', data: { toggle: 'modal', target: '#customDomainsModal' }, class: 'btn btn-block btn-primary button', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.assessments.index.custom_button')}", placement: "auto" } do
-                    = "#{t('.begin_now')} #{css.custom_assessment_name}"
+                    - if Organization.ratanak?
+                      = "#{t('.begin_now')} #{t('clients.show.custom_assessment', assessment: t('clients.show.assessment'))}"
+                    - else
+                      = "#{t('.begin_now')} #{css.custom_assessment_name}"
 
                 #customDomainsModal.modal.fade{"aria-labelledby" => "customDomainsModalLabel", :role => "dialog", :tabindex => "-1"}
                   .modal-dialog{:role => "document"}
