@@ -98,12 +98,6 @@ ActiveRecord::Schema.define(version: 20200723075102) do
     t.datetime "updated_at"
   end
 
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",               default: ""
     t.integer  "previous_score"
@@ -870,7 +864,6 @@ ActiveRecord::Schema.define(version: 20200723075102) do
   end
 
   add_index "external_system_global_identities", ["external_system_id"], name: "index_external_system_global_identities_on_external_system_id", using: :btree
-  add_index "external_system_global_identities", ["global_id"], name: "index_external_system_global_identities_on_global_id", using: :btree
 
   create_table "external_systems", force: :cascade do |t|
     t.string   "name"
@@ -987,11 +980,9 @@ ActiveRecord::Schema.define(version: 20200723075102) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
-  create_table "global_identities", id: false, force: :cascade do |t|
-    t.string "ulid"
+  create_table "global_identities", force: :cascade do |t|
+    t.binary "ulid"
   end
-
-  add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
     t.string  "global_id"
@@ -1596,7 +1587,7 @@ ActiveRecord::Schema.define(version: 20200723075102) do
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
     t.string   "ngo_name",                  default: ""
-    t.string   "client_global_id"
+    t.integer  "client_global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
@@ -1699,7 +1690,7 @@ ActiveRecord::Schema.define(version: 20200723075102) do
     t.string   "country_origin",            default: ""
     t.string   "duplicate_checker"
     t.string   "archived_slug"
-    t.string   "global_id"
+    t.integer  "global_id"
     t.string   "external_id"
     t.string   "external_id_display"
     t.string   "mosvy_number"
