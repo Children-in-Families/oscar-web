@@ -28,6 +28,6 @@ class EnterNgo < ActiveRecord::Base
   end
 
   def create_enter_ngo_history
-    # EnterNgoHistory.initial(self)
+    EnterNgoHistory.initial(self)
   end
 end

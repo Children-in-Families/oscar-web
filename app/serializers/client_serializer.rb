@@ -248,7 +248,7 @@ class ClientSerializer < ActiveModel::Serializer
         tracking.form_builder_attachments.map do |c|
           tracking.properties = tracking.properties.merge({c.name => c.file})
         end
-        tracking.as_json.merge(tracking_field: tracking.tracking.fields)
+        tracking.as_json.merge(tracking_field: tracking.tracking&.fields || [])
       end
       if enrollment.leave_program.present?
         leave_program = enrollment.leave_program

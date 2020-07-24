@@ -103,8 +103,8 @@ km:
   activerecord:
     attributes:
       carer:
-        name: ឈ្មោះអ្នកថែទាំចម្បង
-        phone: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
+        name: ឈ្មោះអ្នកថែទាំ
+        phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_information: ព័ត៌មានអ្នកថែទាំ?
       family_member:
         adult_name: Name of Adult Member
@@ -5064,7 +5064,7 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
-    assessment:
+    assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_assessment: ឈ្មោះ

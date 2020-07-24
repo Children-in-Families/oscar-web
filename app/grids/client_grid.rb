@@ -161,9 +161,9 @@ class ClientGrid < BaseGrid
     Province.has_clients.map { |p| [p.name, p.id] }
   end
 
-  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
+  # filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
 
-  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
+  # filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
   # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
@@ -586,21 +586,21 @@ class ClientGrid < BaseGrid
     end
   end
 
-  column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    telephone_number = SharedClient.find_by(slug: object.slug).telephone_number
-    Organization.switch_to current_org.short_name
-    telephone_number
-  end
+  # column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }) do |object|
+  #   current_org = Organization.current
+  #   Organization.switch_to 'shared'
+  #   telephone_number = SharedClient.find_by(slug: object.slug).telephone_number
+  #   Organization.switch_to current_org.short_name
+  #   telephone_number
+  # end
 
-  column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    live_with = SharedClient.find_by(slug: object.slug).live_with
-    Organization.switch_to current_org.short_name
-    live_with
-  end
+  # column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') }) do |object|
+  #   current_org = Organization.current
+  #   Organization.switch_to 'shared'
+  #   live_with = SharedClient.find_by(slug: object.slug).live_with
+  #   Organization.switch_to current_org.short_name
+  #   live_with
+  # end
 
   def client_hotline_fields
     Client::HOTLINE_FIELDS

@@ -41,6 +41,6 @@ class CustomFieldProperty < ActiveRecord::Base
   private
 
   def create_client_history
-    # ClientHistory.initial(custom_formable)
+    ClientHistory.initial(custom_formable)
   end
 end
