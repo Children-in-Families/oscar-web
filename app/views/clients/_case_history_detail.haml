@@ -1,5 +1,5 @@
 .modal.fade{ role: 'dialog', tabindex: '-1', id: "case_history_#{index}", class: 'case-history-detail'}
-  .modal-dialog{ role: 'document'}
+  .modal-dialog.modal-lg{ role: 'document'}
     .modal-content
       .modal-header
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
@@ -32,7 +32,7 @@
                 %td= object.other_info_of_exit
               %tr
                 %td= t('.exit_reasons')
-                %td= translate_exit_reasons(object.exit_reasons) if object.exit_reasons.any?
+                %td.exit-reason-label= translate_exit_reasons(object.exit_reasons) if object.exit_reasons.any?
               %tr
                 %td= t('.exit_note')
                 %td= object.exit_note
@@ -51,7 +51,7 @@
                       %tr
                         %td
                           = key.html_safe
-                        %td
+                        %td.exit-reason-label
                           - key = convert_bracket(key)
                           - if type == 'file'
                             = render 'shared/form_builder/list_attachment', label: key, resource: object
@@ -71,7 +71,7 @@
                     %tr
                       %td
                         = key.html_safe
-                      %td
+                      %td.exit-reason-label
                         - key = convert_bracket(key)
                         - if type == 'file'
                           = render 'shared/form_builder/list_attachment', label: key, resource: object
@@ -101,7 +101,7 @@
                 %td= object.referral_phone
               %tr
                 %td= t('.referral_reasons')
-                %td= object.referral_reason
+                %td.exit-reason-label= object.referral_reason
               - if object.consent_form.first&.url
                 %tr
                   %td= t('.consent_form')
