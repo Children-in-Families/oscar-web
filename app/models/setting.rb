@@ -41,6 +41,19 @@ class Setting < ActiveRecord::Base
     delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
   end
 
+  def start_sharing_this_month(date_time)
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).order(created_at: :desc).limit(1).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data']&.last == true }
+  end
+
+  def stop_sharing_this_month(date_time)
+    versions.where("to_char(created_at, 'YYYY-MM') = ?", date_time.to_date.strftime("%Y-%m")).order(created_at: :desc).limit(1).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data']&.last == false }
+  end
+
+  def current_sharing_with_research_module
+    return [] unless sharing_data
+    versions.order(created_at: :asc).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data'] }
+  end
+
   private
 
   def custom_assessment_name

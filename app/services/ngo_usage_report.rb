@@ -10,6 +10,7 @@ class NgoUsageReport
     country = Setting.first.present? ? Setting.first.country_name.downcase : ''
     {
       ngo_name: org.full_name,
+      ngo_short_name: org.short_name,
       ngo_on_board: org.created_at.strftime("%d %B %Y"),
       fcf: org.fcf_ngo? ? 'Yes' : 'No',
       ngo_country: country.titleize
@@ -47,9 +48,10 @@ class NgoUsageReport
 
   def import_usage_report(date_time)
     ngo_columns    = ['Organization', 'On-board Date', 'FCF', 'Country']
-    ngo_columns    = ['Organization', 'New this month', 'Stopped this month', 'Total']
     user_columns   = ['Organization', 'No. of Users', 'No. of Users Added', 'No. of Users Deleted', 'No. of Logins/Month']
     client_columns = ['Organization', 'No. of Clients', 'No. of Clients Added', 'No. of Clients Deleted', 'No. of Clients Transferred']
+    learning_columns = ['Onboarding Date', '', '', '', '', '', 'Number of Logins', '', '']
+    sub_learning_columns = ['Started Sharing This Month', '', 'Started Sharing This Month', '', 'Currently Sharing (All Time)', '', 'User', 'Organization Name', 'Login Count']
 
     book           = Spreadsheet::Workbook.new
 
@@ -85,6 +87,24 @@ class NgoUsageReport
     user_worksheet.insert_row(0, user_columns)
     client_worksheet.insert_row(0, client_columns)
 
+    #learning worksheet
+    learning_worksheet.insert_row(0, learning_columns)
+    learning_worksheet.insert_row(1, sub_learning_columns)
+    sub_learning_columns.length.times do |i|
+      learning_worksheet.row(0).set_format(i, header_format)
+      learning_worksheet.row(1).set_format(i, header_format)
+    end
+    # merge_cells(start_row, start_col, end_row, end_col)
+    learning_worksheet.merge_cells(0, 0, 0, 5)
+    learning_worksheet.merge_cells(0, 6, 0, 8)
+    learning_worksheet.merge_cells(1, 0, 1, 1)
+    learning_worksheet.merge_cells(1, 2, 1, 3)
+    learning_worksheet.merge_cells(1, 4, 1, 5)
+
+    (0..(sub_learning_columns.size - 1)).each {|index| learning_worksheet.column(index).width = 20 }
+
+
+
     ngo_length_of_column    = ngo_columns.length
     user_length_of_column   = user_columns.length
     client_length_of_column = client_columns.length
@@ -106,11 +126,7 @@ class NgoUsageReport
     end
 
     user_worksheet.row(0).height   = 30
-    user_worksheet.column(0).width = 30
-    user_worksheet.column(1).width = 30
-    user_worksheet.column(2).width = 30
-    user_worksheet.column(3).width = 30
-    user_worksheet.column(4).width = 30
+    (0..4).each {|index| user_worksheet.column(index).width = 30 }
 
     #client_sheet
     client_length_of_column.times do |i|
@@ -118,15 +134,13 @@ class NgoUsageReport
     end
 
     client_worksheet.row(0).height   = 30
-    client_worksheet.column(0).width = 30
-    client_worksheet.column(1).width = 30
-    client_worksheet.column(2).width = 30
-    client_worksheet.column(3).width = 30
-    client_worksheet.column(4).width = 30
+    (0..4).each {|index| client_worksheet.column(index).width = 30 }
 
+    learning_data = []
     Organization.order(:created_at).without_shared.each_with_index do |org, index|
       Organization.switch_to org.short_name
 
+      learning_data          = []
       setting                = ngo_info(org)
       ngo_users              = ngo_users_info(beginning_of_month, end_of_month)
       ngo_clients            = ngo_clients_info(beginning_of_month, end_of_month)
@@ -136,9 +150,18 @@ class NgoUsageReport
       user_values            = [setting[:ngo_name], ngo_users[:user_count], ngo_users[:user_added_count], ngo_users[:user_deleted_count], ngo_users[:login_per_month]]
       client_values          = [setting[:ngo_name], ngo_clients[:client_count], ngo_clients[:client_added_count], ngo_clients[:client_deleted_count], ngo_referrals[:tranferred_client_count]]
 
+      start_sharing_data     = Setting.first.start_sharing_this_month(date_time)
+      stop_sharing_data      = Setting.first.stop_sharing_this_month(date_time)
+      current_sharing_data   = Setting.first.current_sharing_with_research_module
+
+      learning_data << mapping_learning_module_date(setting, start_sharing_data)
+      learning_data << mapping_learning_module_date(setting, stop_sharing_data)
+      learning_data << mapping_learning_module_date(setting, current_sharing_data)
+
       ngo_worksheet.insert_row(index += 1, ngo_values)
       user_worksheet.insert_row(index, user_values)
       client_worksheet.insert_row(index, client_values)
+      learning_worksheet.insert_row(index + 2, learning_data.flatten)
 
       ngo_length_of_column.times do |i|
         ngo_worksheet.row(index).set_format(i, column_date_format) if i == 1
@@ -153,13 +176,28 @@ class NgoUsageReport
       client_length_of_column.times do |i|
         client_worksheet.row(index).set_format(i, column_format)
       end
+
+      (0..(sub_learning_columns.size - 1)).each do |i|
+        learning_worksheet.row(index + 3).set_format(i, column_format)
+      end
     end
 
     book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
     generate(date_time, previous_month)
   end
 
+
+  private
+
   def generate(date_time, previous_month)
     NgoUsageReportWorker.perform_async(date_time, previous_month)
+  end
+
+  def mapping_learning_module_date(setting, data)
+    if data.present?
+      [setting[:ngo_short_name].titleize, data.last['updated_at']&.last&.strftime("%d-%m-%Y")]
+    else
+      ['', '']
+    end
   end
 end
