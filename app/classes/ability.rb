@@ -86,11 +86,24 @@ class Ability
       can :manage, Family, id: family_ids.compact.uniq
 
     elsif user.hotline_officer?
-      can [:read, :create, :edit, :update], :all
-      cannot :destroy, :all
+      can :manage, User
+      can :manage, Attachment
+      can :manage, Case, exited: false
+      can :manage, CaseNote
+      can :manage, Client
+      can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Family'
+      can :manage, ClientEnrollment
+      can :manage, ClientEnrollmentTracking
+      can :manage, LeaveProgram
+      can :manage, GovernmentForm
       can [:read, :create, :update], Partner
+      can :manage, Referral
+      can :create, Task
+      can :read, Task
       cannot [:edit, :update], ReferralSource
-      can :manage, User, id: user.id
+      cannot :destroy, Client
+      can :manage, Family
     end
 
     cannot :read, Partner if FieldSetting.hidden_group?('partner')
