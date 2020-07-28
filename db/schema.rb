@@ -994,6 +994,12 @@ ActiveRecord::Schema.define(version: 20200723075102) do
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
+  create_table "global_identity_tmp", force: :cascade do |t|
+    t.binary  "ulid"
+    t.string  "ngo_name"
+    t.integer "client_id"
+  end
+
   create_table "global_services", id: false, force: :cascade do |t|
     t.uuid "uuid", default: "uuid_generate_v4()"
   end
