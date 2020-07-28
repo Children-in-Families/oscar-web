@@ -51,7 +51,7 @@ class NgoUsageReport
     user_columns   = ['Organization', 'No. of Users', 'No. of Users Added', 'No. of Users Deleted', 'No. of Logins/Month']
     client_columns = ['Organization', 'No. of Clients', 'No. of Clients Added', 'No. of Clients Deleted', 'No. of Clients Transferred']
     learning_columns = ['Onboarding Date', '', '', '', '', '', 'Number of Logins', '', '']
-    sub_learning_columns = ['Started Sharing This Month', '', 'Started Sharing This Month', '', 'Currently Sharing (All Time)', '', 'User', 'Organization Name', 'Login Count']
+    sub_learning_columns = ['Started Sharing This Month', '', 'Stopped Sharing This Month', '', 'Currently Sharing (All Time)', '', 'User', 'Organization Name', 'Login Count']
 
     book           = Spreadsheet::Workbook.new
 
@@ -101,6 +101,8 @@ class NgoUsageReport
     learning_worksheet.merge_cells(1, 2, 1, 3)
     learning_worksheet.merge_cells(1, 4, 1, 5)
 
+    learning_worksheet.row(0).height   = 30
+    learning_worksheet.row(1).height   = 30
     (0..(sub_learning_columns.size - 1)).each {|index| learning_worksheet.column(index).width = 20 }
 
 
@@ -187,6 +189,26 @@ class NgoUsageReport
 
     user_data = User.where.not(organization_name: nil).map do |user|
       [user.name, user.organization_name, user.sign_in_count]
+    end
+
+    learning_index = 0
+    (0..(Organization.count)).each do |i|
+      start_data = shared_data.compact.presence || [['', '']]
+      stop_data  = stop_sharing_date.compact.presence || [['', '']]
+      all_data   = all_learning_data.compact.presence || [['', '']]
+      login_data = user_data.compact.presence || [['', '', '']]
+      learning_data = [start_data[i] || ['', ''], stop_data[i] || ['', ''], all_data[i] || ['', ''], login_data[i] || ['', '', '']]
+      next if learning_data.flatten.reject(&:blank?).blank?
+      learning_index = i + 2
+      learning_worksheet.insert_row(learning_index, learning_data.flatten)
+      sub_learning_columns.length.times.each do |ii|
+        learning_worksheet.row(learning_index).set_format(ii, column_format)
+      end
+    end
+    learning_worksheet.insert_row(learning_index + 1, ['TOTAL', shared_data.compact.count, '', stop_sharing_date.compact.count, '', all_learning_data.compact.count, '', '', user_data.compact.map(&:third).sum])
+    learning_worksheet.row(learning_index + 1).height = 21
+    sub_learning_columns.length.times.each do |i|
+      learning_worksheet.row(learning_index + 1).set_format(i, column_format)
     end
 
     book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
