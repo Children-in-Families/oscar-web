@@ -136,11 +136,13 @@ class NgoUsageReport
     client_worksheet.row(0).height   = 30
     (0..4).each {|index| client_worksheet.column(index).width = 30 }
 
-    learning_data = []
+    shared_data       = []
+    stop_sharing_date = []
+    all_learning_data = []
+
     Organization.order(:created_at).without_shared.each_with_index do |org, index|
       Organization.switch_to org.short_name
 
-      learning_data          = []
       setting                = ngo_info(org)
       ngo_users              = ngo_users_info(beginning_of_month, end_of_month)
       ngo_clients            = ngo_clients_info(beginning_of_month, end_of_month)
@@ -154,14 +156,14 @@ class NgoUsageReport
       stop_sharing_data      = Setting.first.stop_sharing_this_month(date_time)
       current_sharing_data   = Setting.first.current_sharing_with_research_module
 
-      learning_data << mapping_learning_module_date(setting, start_sharing_data)
-      learning_data << mapping_learning_module_date(setting, stop_sharing_data)
-      learning_data << mapping_learning_module_date(setting, current_sharing_data)
+      shared_data << mapping_learning_module_date(setting, start_sharing_data)
+      stop_sharing_date << mapping_learning_module_date(setting, stop_sharing_data)
+      all_learning_data << mapping_learning_module_date(setting, current_sharing_data)
 
       ngo_worksheet.insert_row(index += 1, ngo_values)
       user_worksheet.insert_row(index, user_values)
       client_worksheet.insert_row(index, client_values)
-      learning_worksheet.insert_row(index + 2, learning_data.flatten)
+      # learning_worksheet.insert_row(index + 2, learning_data.flatten)
 
       ngo_length_of_column.times do |i|
         ngo_worksheet.row(index).set_format(i, column_date_format) if i == 1
@@ -181,6 +183,11 @@ class NgoUsageReport
         learning_worksheet.row(index + 3).set_format(i, column_format)
       end
     end
+    Organization.switch_to 'public'
+
+    user_data = User.where.not(organization_name: nil).map do |user|
+      [user.name, user.organization_name, user.sign_in_count]
+    end
 
     book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
     generate(date_time, previous_month)
@@ -194,10 +201,6 @@ class NgoUsageReport
   end
 
   def mapping_learning_module_date(setting, data)
-    if data.present?
-      [setting[:ngo_short_name].titleize, data.last['updated_at']&.last&.strftime("%d-%m-%Y")]
-    else
-      ['', '']
-    end
+    [setting[:ngo_short_name].upcase, data.last['updated_at']&.last&.strftime("%d-%m-%Y")] if data.present?
   end
 end
