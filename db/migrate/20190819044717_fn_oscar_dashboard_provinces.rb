@@ -2,7 +2,7 @@ class FnOscarDashboardProvinces < ActiveRecord::Migration
   def change
     reversible do |dir|
       dir.up do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
 
             CREATE OR REPLACE FUNCTION "public"."get_country_name"(schema_name varchar)
@@ -56,7 +56,7 @@ class FnOscarDashboardProvinces < ActiveRecord::Migration
       end
 
       dir.down do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_provinces"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
             DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_provinces"(varchar) CASCADE;

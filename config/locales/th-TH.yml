@@ -1767,7 +1767,7 @@ th-TH:
       time_in_care_around:
       time_in_cps:
       time_in_ngo:
-      view_assessments:
+      assessment:
       view_case_notes:
       view_ec_history_btn_link:
       view_fc_history_btn_link:
@@ -4341,7 +4341,7 @@ th-TH:
       bad_credentials_supplied:
       your_account_needs_to_supply_a_verification_code:
   settings:
-    assessment:
+    assessment_setting:
       age:
       assessment:
       custom_assessment:

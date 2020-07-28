@@ -6,6 +6,7 @@ class Setting < ActiveRecord::Base
   belongs_to :province
   belongs_to :district
   belongs_to :commune
+  belongs_to :screening_assessment_form, class_name: 'CustomField'
 
   enumerize :assessment_score_order, in: ['random_order', 'ascending_order'], scope: true, predicates: true
 
@@ -30,6 +31,7 @@ class Setting < ActiveRecord::Base
   validates :custom_assessment_frequency, presence: true, if: -> { enable_custom_assessment.present? }
   validates :max_custom_assessment, presence: true, if: -> { enable_custom_assessment.present? }
   validates :custom_age, presence: true, if: -> { enable_custom_assessment.present? }
+  validates :screening_assessment_form, presence: true, if: :use_screening_assessment?
 
   validates :delete_incomplete_after_period_unit, presence: true, inclusion: { in: %w(days weeks months) }, unless: :never_delete_incomplete_assessment?
   validates :delete_incomplete_after_period_value, presence: true, numericality: { only_integer: true, greater_than: 0 }, unless: :never_delete_incomplete_assessment?
