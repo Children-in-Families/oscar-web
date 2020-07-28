@@ -18,13 +18,21 @@ CIF.SettingsIndex = CIF.SettingsEdit = CIF.SettingsUpdate = CIF.SettingsCreate =
       radioClass: 'iradio_square-green'
     ).on('ifChecked', ->
       currentSettingId = $(this).data('current-setting')
-      $.ajax
-        type: 'PUT'
-        url: "settings/#{currentSettingId}"
-        data: { setting: { enable_custom_assessment: true } }
-        dataType: 'JSON'
-        success: (json) ->
-          return
+
+      if currentSettingId
+        $.ajax
+          type: 'PUT'
+          url: "settings/#{currentSettingId}"
+          data: { setting: { enable_custom_assessment: true } }
+          dataType: 'JSON'
+          success: (json) ->
+            return
+
+      if $(this).attr("id") == "setting_use_screening_assessment"
+        $(".screening-assessment-form").removeClass("hidden")
+    ).on('ifUnchecked', ->
+      if $(this).attr("id") == "setting_use_screening_assessment"
+        $(".screening-assessment-form").addClass("hidden")
     )
 
   _toggleDeleteIncomplete = ->

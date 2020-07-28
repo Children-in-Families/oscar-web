@@ -143,4 +143,11 @@ body[id='clients-edit'], body[id='clients-update'] {
   #save-btn-help-text {
     display: none;
   }
+
+  #toast-container > .toast-error {
+    &:before {
+      content: "\f071";
+    }
+    background-image: none !important;
+  }
 }

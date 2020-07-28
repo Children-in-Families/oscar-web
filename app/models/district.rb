@@ -18,4 +18,13 @@ class District < ActiveRecord::Base
   def name_kh
     name.split(' / ').first
   end
+
+  def self.get_district(district_code)
+    distinct = find_by(code: district_code)
+    if distinct
+      { village_id: nil, commune_id: nil, district_id: district.id, province_id: distinct.province&.id }
+    else
+      { district_id: nil }
+    end
+  end
 end

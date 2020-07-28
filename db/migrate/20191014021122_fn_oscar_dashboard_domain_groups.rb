@@ -2,7 +2,7 @@ class FnOscarDashboardDomainGroups < ActiveRecord::Migration
   def change
     reversible do |dir|
       dir.up do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_domain_groups"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "name" varchar,"description" text, "domains_count" int4) AS $BODY$
@@ -44,7 +44,7 @@ class FnOscarDashboardDomainGroups < ActiveRecord::Migration
       end
 
       dir.down do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_domain_groups"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
             DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_domain_groups"(varchar) CASCADE;

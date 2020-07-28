@@ -12,7 +12,7 @@ class CreateGlobalIdentities < ActiveRecord::Migration
         end
     end
 
-    # if schema_search_path == "\"public\""
+    # if schema_search_path =~ /^\"public\"/
     #   execute <<-SQL.squish
     #     insert into public.global_identities select encode(public.global_identity_tmp.ulid, 'escape') ulid from public.global_identity_tmp;
     #   SQL

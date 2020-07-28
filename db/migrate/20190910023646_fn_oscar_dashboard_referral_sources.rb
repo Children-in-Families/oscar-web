@@ -2,7 +2,7 @@ class FnOscarDashboardReferralSources < ActiveRecord::Migration
   def change
     reversible do |dir|
       dir.up do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_referral_sources"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "name" varchar, "clients_count" int4, "name_en" varchar, "description" text, "ancestry" varchar) AS $BODY$
@@ -45,7 +45,7 @@ class FnOscarDashboardReferralSources < ActiveRecord::Migration
       end
 
       dir.down do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_referral_sources"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
             DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_referral_sources"(varchar) CASCADE;

@@ -117,6 +117,14 @@ class ClientsController < AdminController
         attributes
       end
       Organization.switch_to current_org.short_name
+      if @referral
+        client_name = @referral.client_name.split(' ')
+        client_attr = { given_name: client_name.first, family_name: client_name.last,
+                        gender: @referral.client_gender, reason_for_referral: @referral.referral_reason,
+                        date_of_birth: @referral.client_date_of_birth
+                      }
+        attributes = Client.get_client_attribute(@referral.attributes.merge(client_attr)) if attributes.nil?
+      end
       @client = Client.new(attributes)
     else
       @client = Client.new
@@ -221,11 +229,11 @@ class ClientsController < AdminController
             :slug, :archived_slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status, :country_origin,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
-            :referral_phone, :received_by_id, :followed_up_by_id, :global_id,
+            :referral_phone, :received_by_id, :followed_up_by_id, :global_id, :shared_service_enabled,
             :follow_up_date, :school_grade, :school_name, :current_address,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
-            :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :province_id, :current_family_id,
+            :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
+            :relevant_referral_information, :province_id, :current_family_id, :reason_for_referral,
             :state_id, :township_id, :rejected_note, :live_with, :profile, :remove_profile,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
@@ -374,8 +382,12 @@ class ClientsController < AdminController
   end
 
   def find_referral_source_by_referral
-    referral_source_org = Organization.find_by(short_name: @referral.referred_from).full_name
-    ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+    referral_source_org = Organization.find_by(short_name: @referral.referred_from)&.full_name
+    if referral_source_org
+      ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+    else
+      ReferralSource.find_by(name: @referral.referred_from)&.id
+    end
   end
 
   def fetch_referral_attibutes(attributes, referral_source_id)
@@ -395,12 +407,7 @@ class ClientsController < AdminController
   end
 
   def exited_clients(user_ids)
-    sql = user_ids.map do |user_id|
-      "versions.object_changes ILIKE '%user_id:\n- \n- #{user_id}\n%'"
-    end.join(" OR ")
-    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').where(sql).map do |version|
-      client_id = version.changeset[:client_id].last
-    end
+    client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map{|a| YAML::load a }.map{|a| (a['client_id'] || [])[1] }
     Client.where(id: client_ids, status: 'Exited').ids
   end
 end

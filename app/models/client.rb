@@ -102,12 +102,14 @@ class Client < ActiveRecord::Base
 
   validates :current_resident_own_or_rent, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
   validates :resident_own_or_rent2, inclusion: { in: BRC_RESIDENT_TYPES }, allow_blank: true
+  validates :global_id, presence: true
+  validates_uniqueness_of :global_id, on: :create
 
-  before_save :assign_global_id
+  before_validation :assign_global_id, on: :create
   before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
-  after_create :set_slug_as_alias
-  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client, :save_client_global_organization
+  after_create :set_slug_as_alias, :save_client_global_organization, :save_external_system_global
+  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
 
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%"}) }
   scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%"}) }
@@ -237,6 +239,12 @@ class Client < ActiveRecord::Base
     status == 'Referred'
   end
 
+  def require_screening_assessment?(setting)
+    setting.use_screening_assessment? &&
+    referred? &&
+    custom_fields.exclude?(setting.screening_assessment_form)
+  end
+
   def self.age_between(min_age, max_age)
     min = (min_age * 12).to_i.months.ago.to_date
     max = (max_age * 12).to_i.months.ago.to_date
@@ -330,30 +338,6 @@ class Client < ActiveRecord::Base
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
   end
-
-  # def has_no_ec_or_any_cases?
-  #   cases.emergencies.blank? || cases.active.blank?
-  # end
-
-  # def has_no_active_kc_and_fc?
-  #   cases.kinships.active.blank? && cases.fosters.active.blank?
-  # end
-
-  # def has_kc_and_fc?
-  #   cases.kinships.present? && cases.fosters.present?
-  # end
-
-  # def has_no_kc_and_fc?
-  #   !has_kc_or_fc?
-  # end
-
-  # def has_exited_kc_and_fc?
-  #   cases.latest_kinship.exited && cases.latest_foster.exited
-  # end
-
-  # def has_kc_or_fc?
-  #   cases.kinships.present? || cases.fosters.present?
-  # end
 
   def has_no_latest_kc_and_fc?
     !latest_case
@@ -540,58 +524,6 @@ class Client < ActiveRecord::Base
     detail_cps
   end
 
-
-  # def time_in_care
-  #   date_time_in_care = { years: 0, months: 0, weeks: 0, days: 0 }
-  #   return date_time_in_care unless client_enrollments.any?
-  #   first_multi_enrolled_program_date = ''
-  #   last_multi_leave_program_date = ''
-  #   ordered_enrollments = client_enrollments.order(:enrollment_date)
-  #   ordered_enrollments.each_with_index do |enrollment, index|
-  #     current_enrollment_date = enrollment.enrollment_date
-  #     current_program_exit_date = enrollment.leave_program.try(:exit_date) || Date.today
-
-  #     next_program_enrollment = ordered_enrollments[index + 1].nil? ? ordered_enrollments[index - 1] : ordered_enrollments[index + 1]
-  #     next_program_enrollment_date = next_program_enrollment.enrollment_date
-  #     next_program_exit_date = next_program_enrollment.leave_program.try(:exit_date) || Date.today
-
-  #     if current_program_exit_date <= next_program_enrollment_date
-  #       if first_multi_enrolled_program_date.present? && last_multi_leave_program_date.present?
-  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
-
-  #         first_multi_enrolled_program_date = ''
-  #         last_multi_leave_program_date = ''
-  #       end
-  #       date_time_in_care = calculate_time_in_care(date_time_in_care, current_enrollment_date, current_program_exit_date)
-  #     else
-  #       first_multi_enrolled_program_date = current_enrollment_date if first_multi_enrolled_program_date == ''
-  #       last_multi_leave_program_date = current_program_exit_date > next_program_exit_date ? current_program_exit_date : next_program_exit_date
-
-  #       if index == ordered_enrollments.length - 1
-  #         date_time_in_care = calculate_time_in_care(date_time_in_care, first_multi_enrolled_program_date, last_multi_leave_program_date)
-  #       end
-  #     end
-  #   end
-  #   date_time_in_care.store(:years, 0) unless date_time_in_care[:years].present?
-  #   date_time_in_care.store(:months, 0) unless date_time_in_care[:months].present?
-  #   date_time_in_care.store(:weeks, 0) unless date_time_in_care[:weeks].present?
-  #   date_time_in_care.store(:days, 0) unless date_time_in_care[:days].present?
-
-  #   if date_time_in_care[:days] > 0
-  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] + 1
-  #     date_time_in_care[:days] = 0
-  #   end
-  #   if date_time_in_care[:weeks] >= 4
-  #     date_time_in_care[:weeks] = date_time_in_care[:weeks] - 4
-  #     date_time_in_care[:months] = date_time_in_care[:months] + 1
-  #   end
-  #   if date_time_in_care[:months] >= 12
-  #     date_time_in_care[:months] = date_time_in_care[:months] - 12
-  #     date_time_in_care[:years] = date_time_in_care[:years] + 1
-  #   end
-  #   date_time_in_care
-  # end
-
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
     active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
@@ -722,7 +654,7 @@ class Client < ActiveRecord::Base
     current_org = Organization.current
     client_commune = "#{self.try(&:commune_name_kh)} / #{self.try(&:commune_name_en)}"
     client_village = "#{self.try(&:village_name_kh)} / #{self.try(&:village_name_en)}"
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin, :global_id)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :archived_slug, :birth_province_id, :country_origin, :global_id, :external_id, :external_id_display, :mosvy_number, :external_case_worker_name, :external_case_worker_id)
     suburb = self.suburb
     state_name = self.state_name
 
@@ -742,6 +674,37 @@ class Client < ActiveRecord::Base
     shared_client = SharedClient.find_by(archived_slug: client['archived_slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
+  end
+
+  def self.get_client_attribute(attributes, referral_source_category_id=nil)
+    attribute = attributes.with_indifferent_access
+    client_attributes = {
+      external_id:            attribute[:external_id],
+      external_id_display:    attribute[:external_id_display],
+      mosvy_number:           attribute[:mosvy_number],
+      given_name:             attribute[:given_name],
+      family_name:            attribute[:family_name],
+      gender:                 attribute[:gender],
+      date_of_birth:          attribute[:date_of_birth],
+      reason_for_referral:    attribute[:referral_reason],
+      relevant_referral_information:    attribute[:referral_reason],
+      referral_source_category_id: ReferralSource.find_by(name: attribute[:referred_from])&.id || referral_source_category_id,
+      external_case_worker_id:   attribute[:external_case_worker_id],
+      external_case_worker_name: attribute[:external_case_worker_name],
+      **get_address_by_code(attribute[:address_current_village_code] || attribute[:village_code])
+    }
+  end
+
+  def self.get_address_by_code(the_address_code)
+    char_size = the_address_code&.length
+    case char_size
+    when 4
+      District.get_district(the_address_code)
+    when 6
+      Commune.get_commune(the_address_code)
+    else
+      Village.get_village(the_address_code)
+    end
   end
 
   private
@@ -782,7 +745,7 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = Referral.find_by(slug: archived_slug, saved: false)
+    referral = find_referral
     referral.update_attributes(client_id: id, saved: true) if referral.present?
   end
 
@@ -826,12 +789,28 @@ class Client < ActiveRecord::Base
 
   def assign_global_id
     if global_id.blank?
-      self.global_id = GlobalIdentity.create(ulid: ULID.generate).ulid
+      referral = find_referral
+      self.global_id = referral ? referral.client_global_id : GlobalIdentity.create(ulid: ULID.generate).ulid
     end
   end
 
   def save_client_global_organization
-    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id)
+    global_identity_organizations.create(global_id: global_id, organization_id: Organization.current&.id) if global_identity_organizations.blank?
   end
 
+  def save_external_system_global
+    if persisted? && external_id.present?
+      external_system_global = global_identity.external_system_global_identities.find_by(external_id: external_id)
+      external_system_global && external_system_global.update_attributes(client_slug: slug)
+    end
+  end
+
+  def find_referral
+    referral = nil
+    if external_id.present?
+      referral = Referral.find_by(external_id: external_id, saved: false)
+    else
+      referral = Referral.find_by(slug: archived_slug, saved: false) if archived_slug.present?
+    end
+  end
 end

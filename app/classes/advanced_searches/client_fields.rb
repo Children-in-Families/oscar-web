@@ -36,6 +36,25 @@ module AdvancedSearches
 
     def text_type_list
       [
+        'neighbor_name',
+        'neighbor_phone',
+        'dosavy_name',
+        'dosavy_phone',
+        'chief_commune_name',
+        'chief_commune_phone',
+        'chief_village_name',
+        'chief_village_phone',
+        'ccwc_name',
+        'ccwc_phone',
+        'legal_team_name',
+        'legal_representative_name',
+        'legal_team_phone',
+        'other_agency_name',
+        'other_representative_name',
+        'other_agency_phone',
+        'department',
+        'education_background',
+        'location_of_concern',
         'id_number',
         'legacy_brcs_id',
         'other_phone_number',
@@ -62,6 +81,10 @@ module AdvancedSearches
 
     def drop_down_type_list
       [
+        ['nationality', Client::NATIONALITIES.map{ |a| { a => a }}],
+        ['ethnicity', Client::ETHNICITY.map{ |a| { a => a }}],
+        ['type_of_trafficking', Client::TRAFFICKING_TYPES.map{ |a| { a => a }}],
+        ['marital_status', Client::MARITAL_STATUSES.map{ |a| { a => a }}],
         ['presented_id', Client::BRC_PRESENTED_IDS.map{ |pi| { pi => pi }}],
         ['preferred_language', Client::BRC_PREFERED_LANGS.map{ |pi| { pi => pi }}],
         ['current_resident_own_or_rent', Client::BRC_RESIDENT_TYPES.map{ |rt| { rt => rt }}],

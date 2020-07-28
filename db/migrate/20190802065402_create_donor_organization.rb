@@ -7,7 +7,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             DO
             $$
@@ -86,7 +86,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
                     IF (SELECT name FROM public.donors WHERE public.donors.global_id = donor_global_id) = '#{ENV['STC_DONOR_NAME']}' THEN
                       donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L OR LOWER(%1$I.donors.name) = %3$L)', sch.short_name, 'fcf', 'react');
                     ELSE
-                      donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L)', sch.short_name, '3pc');
+                      donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) IN (%2$L, %3$L, %4$L))', sch.short_name, '3pc unicef', '3pc react', '3pc global fund');
                     END IF;
 
                     sql := sql || format(
@@ -126,7 +126,7 @@ class CreateDonorOrganization < ActiveRecord::Migration
       end
 
       dir.down do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             -- DROP INDEX IF EXISTS index_donors_on_global_id CASCADE;
             -- ALTER TABLE donors DROP COLUMN IF EXISTS global_id;

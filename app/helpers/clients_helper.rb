@@ -36,6 +36,7 @@ module ClientsHelper
     # Change slice inputs to adapt your need
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
+      :activerecord,
       :default_client_fields
     )
 
@@ -47,14 +48,18 @@ module ClientsHelper
     translations
   end
 
+  # Add klass_name_name for readability
   def fields_visibility
     result = field_settings.each_with_object({}) do |field_setting, output|
-      output[field_setting.name] = policy(Client).show?(field_setting.name)
+      output[field_setting.name] = output["#{field_setting.klass_name}_#{field_setting.name}"] = policy(Client).show?(field_setting.name)
     end
 
-    result[:brc_client_address] = %w(current_island current_street current_po_box current_settlement current_resident_own_or_rent current_household_type).any?{ |field_name| policy(Client).show?(field_name) }
-    result[:brc_client_other_address] = %w(island2 street2 po_box2 settlement2 resident_own_or_rent2 household_type2).any?{ |field_name| policy(Client).show?(field_name) }
-    result[:show_legal_doc] = policy(Client).show_legal_doc?
+    result[:brc_client_address] = result[:client_brc_client_address] = policy(Client).brc_client_address?
+    result[:brc_client_other_address] = result[:client_brc_client_other_address] = policy(Client).brc_client_other_address?
+    result[:show_legal_doc] = result[:client_show_legal_doc] = policy(Client).show_legal_doc?
+    result[:school_information] = result[:client_school_information] = policy(Client).client_school_information?
+    result[:stackholder_contacts] = result[:client_stackholder_contacts] = policy(Client).client_stackholder_contacts?
+
     result
   end
 
@@ -90,6 +95,13 @@ module ClientsHelper
 
   def columns_visibility(column)
     label_column = {
+      marital_status: t('datagrid.columns.clients.marital_status'),
+      nationality: t('datagrid.columns.clients.nationality'),
+      ethnicity: t('datagrid.columns.clients.ethnicity'),
+      location_of_concern: t('datagrid.columns.clients.location_of_concern'),
+      type_of_trafficking: t('datagrid.columns.clients.type_of_trafficking'),
+      education_background: t('datagrid.columns.clients.education_background'),
+      department: t('datagrid.columns.clients.department'),
       slug:                          t('datagrid.columns.clients.id'),
       kid_id:                        custom_id_translation('custom_id2'),
       code:                          custom_id_translation('custom_id1'),
@@ -158,9 +170,9 @@ module ClientsHelper
       any_assessments:               t('datagrid.columns.clients.assessments'),
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
-      date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
+      date_of_assessments:           t('datagrid.columns.clients.date_of_assessments', assessment: t('clients.show.assessment')),
       date_of_referral:              t('datagrid.columns.clients.date_of_referral'),
-      date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments'),
+      date_of_custom_assessments:    t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment')),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
       # id_poor:                       t('datagrid.columns.clients.id_poor'),
@@ -179,6 +191,11 @@ module ClientsHelper
       hotline:                       t('datagrid.columns.calls.hotline'),
       **Client::HOTLINE_FIELDS.map{ |field| [field.to_sym, I18n.t("datagrid.columns.clients.#{field}")] }.to_h
     }
+
+    Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
+      label_column[field] = t("datagrid.columns.clients.#{field}")
+    end
+
     label_tag "#{column}_", label_column[column.to_sym]
   end
 
@@ -451,11 +468,11 @@ module ClientsHelper
       family_id_: t('datagrid.columns.families.code'),
       case_note_date_: t('datagrid.columns.clients.case_note_date'),
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
-      date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
+      date_of_assessments_: t('datagrid.columns.clients.date_of_assessments', assessment: t('clients.show.assessment')),
       date_of_referral_: t('datagrid.columns.clients.date_of_referral'),
       all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
-      date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments'),
-      all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments'),
+      date_of_custom_assessments_: t('datagrid.columns.clients.date_of_custom_assessments', assessment: t('clients.show.assessment')),
+      all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments', assessment: t('clients.show.assessment')),
       manage_: t('datagrid.columns.clients.manage'),
       changelog_: t('datagrid.columns.changelog'),
       telephone_number_: t('datagrid.columns.clients.telephone_number'),
@@ -477,7 +494,7 @@ module ClientsHelper
       time_in_cps_: t('datagrid.columns.clients.time_in_cps'),
       referral_source_category_id_: t('datagrid.columns.clients.referral_source_category'),
       type_of_service_: t('datagrid.columns.type_of_service'),
-      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date'),
+      assessment_completed_date_: t('datagrid.columns.calls.assessment_completed_date', assessment: t('clients.show.assessment')),
       hotline_call_: t('datagrid.columns.calls.hotline_call')
     }
 
@@ -928,10 +945,14 @@ module ClientsHelper
   def case_note_count(client)
     results = []
     @basic_rules  = $param_rules.present? && $param_rules[:basic_rules] ? $param_rules[:basic_rules] : $param_rules
-    basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
-    results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
-    query_string  = get_any_query_string(results, 'case_notes')
-    client.case_notes.where(query_string)
+    if @basic_rules.present?
+      basic_rules   = @basic_rules.is_a?(Hash) ? @basic_rules : JSON.parse(@basic_rules).with_indifferent_access
+      results       = mapping_allowed_param_value(basic_rules, ['case_note_date', 'case_note_type'], data_mapping=[])
+      query_string  = get_any_query_string(results, 'case_notes')
+      client.case_notes.where(query_string)
+    else
+      client.case_notes
+    end
   end
 
   def case_history_label(value)
