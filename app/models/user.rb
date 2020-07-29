@@ -80,7 +80,7 @@ class User < ActiveRecord::Base
   scope :referral_notification_email,    -> { where(referral_notification: true) }
 
   before_save :assign_as_admin
-  before_save :set_manager_ids
+  after_commit :set_manager_ids
   after_save :detach_manager, if: 'roles_changed?'
   after_save :toggle_referral_notification
   after_create :build_permission
@@ -338,14 +338,14 @@ class User < ActiveRecord::Base
       return if manager_id_was == self.id
       update_manager_ids(self)
     else
-      self.update_column(:manager_id, self.manager_id)
+      self.update_column(:manager_id, self.manager_id) if self.persisted?
       the_manager_ids = User.find_by(id: self.manager_id)&.manager_ids || []
       update_manager_ids(self, the_manager_ids.push(self.manager_id).flatten.compact.uniq)
     end
   end
 
   def update_manager_ids(user, the_manager_ids = [])
-    user.update_column(:manager_ids, find_manager_manager(user.manager_id, the_manager_ids), )
+    user.update_column(:manager_ids, find_manager_manager(user.manager_id, the_manager_ids)) if user.persisted?
     user.save unless user.id == id
     return if user.case_worker?
     subordinators = User.where(manager_id: user.id)
