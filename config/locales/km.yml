@@ -103,8 +103,8 @@ km:
   activerecord:
     attributes:
       carer:
-        name: ឈ្មោះអ្នកថែទាំចម្បង
-        phone: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
+        name: ឈ្មោះអ្នកថែទាំ
+        phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_information: ព័ត៌មានអ្នកថែទាំ?
       family_member:
         adult_name: Name of Adult Member
