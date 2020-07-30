@@ -40,11 +40,11 @@ const Forms = props => {
   const {
     data: {
       current_organization,
-      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id }, referee, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
+      client: { client, user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, national_id_files, current_family_id }, referee, referees, carer, users, birthProvinces, referralSource, referralSourceCategory, selectedCountry, internationalReferredClient,
       currentProvinces, districts, communes, villages, donors, agencies, schoolGrade, quantitativeType, quantitativeCase, ratePoor, families, clientRelationships, refereeRelationships, addressTypes, phoneOwners, refereeDistricts,
       refereeTownships, carerTownships, customId1, customId2, inlineHelpTranslation,
       refereeCommunes, refereeSubdistricts, carerSubdistricts, refereeVillages, carerDistricts, carerCommunes, carerVillages, callerRelationships, currentStates, currentTownships, subDistricts, translation, fieldsVisibility,
-      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids
+      brc_address, brc_islands, brc_resident_types, brc_prefered_langs, brc_presented_ids, maritalStatuses, nationalities, ethnicities, traffickingTypes
     }
   } = props
 
@@ -78,19 +78,20 @@ const Forms = props => {
   const [clientData, setClientData]   = useState({ user_ids, quantitative_case_ids, agency_ids, donor_ids, family_ids, current_family_id, ...client })
   const [clientProfile, setClientProfile] = useState({})
   const [refereeData, setRefereeData] = useState(referee)
+  const [refereesData, setRefereesData] = useState(referees)
   const [carerData, setCarerData]     = useState(carer)
 
   const address = { currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, subDistricts, currentStates, currentTownships, current_organization, addressTypes, T }
   const adminTabData = { users, client: clientData, errorFields, T }
-  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, addressTypes, T, translation, current_organization }
-  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs }
+  const refereeTabData = { errorFields, client: clientData, referee: refereeData, referees: refereesData, referralSourceCategory, referralSource, refereeDistricts, refereeCommunes, refereeVillages, currentProvinces, refereeTownships, currentStates, refereeSubdistricts, addressTypes, T, translation, current_organization }
+  const referralTabData = { errorFields, client: clientData, referee: refereeData, birthProvinces, phoneOwners, callerRelationships, ...address, T, translation, current_organization, brc_address, brc_islands, brc_presented_ids, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes }
   const moreReferralTabData = { errorFields, ratePoor, carer: carerData, schoolGrade, donors, agencies, families, clientRelationships, carerDistricts, carerCommunes, carerVillages, currentStates, currentTownships, carerSubdistricts, ...referralTabData, T, customId1, customId2 }
   const referralVulnerabilityTabData = { client: clientData, quantitativeType, quantitativeCase, T }
   const legalDocument = { client: clientData, T }
 
   const tabs = [
     {text: T.translate("index.referee_info"), step: 1},
-    {text: T.translate("index.referral_info"), step: 2},
+    {text: t(translation, 'clients.form.referral_info'), step: 2},
     {text: T.translate("index.referral_more_info"), step: 3},
     {text: T.translate("index.referral_vulnerability"), step: 4},
     {text: t(translation, 'clients.form.legal_documents'), step: 5}
@@ -352,7 +353,7 @@ const Forms = props => {
     $('#save-btn-help-text').hide()
   }
 
-  const renderAddressSwitch = (objectData, objectKey, disabled) => {
+  const renderAddressSwitch = (objectData, objectKey, disabled, addresses={}) => {
     const country_name = current_organization.country
     switch (country_name) {
       case 'myanmar':
@@ -366,7 +367,23 @@ const Forms = props => {
         break;
       default:
         if(objectKey == 'referee'){
-          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: refereeDistricts, currentCommunes: refereeCommunes, currentVillages: refereeVillages, currentProvinces, objectKey, objectData, T}} />
+          return <Address
+                  hintText={inlineHelpTranslation}
+                  disabled={disabled}
+                  outside={objectData.outside || false}
+                  onChange={onChange}
+                  current_organization={current_organization}
+                  data={{
+                    addressTypes,
+                    currentDistricts: addresses.districts || refereeDistricts,
+                    currentCommunes: addresses.communes || refereeCommunes,
+                    currentVillages: addresses.villages || refereeVillages,
+                    currentProvinces,
+                    objectKey,
+                    objectData,
+                    T
+                  }}
+                />
         }
         if(objectKey == 'carer'){
           return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
@@ -407,12 +424,12 @@ const Forms = props => {
 
       <div className='contentWrapper'>
         <div className='leftComponent'>
-          <AdministrativeInfo data={adminTabData} onChange={onChange} translation={translation} hintText={inlineHelpTranslation}/>
+          <AdministrativeInfo data={adminTabData} onChange={onChange} fieldsVisibility={fieldsVisibility} translation={translation} hintText={inlineHelpTranslation}/>
         </div>
 
         <div className='rightComponent'>
           <div style={{display: step === 1 ? 'block' : 'none'}}>
-            <RefereeInfo data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
+            <RefereeInfo current_organization={current_organization} data={refereeTabData} onChange={onChange} renderAddressSwitch={renderAddressSwitch} translation={translation} fieldsVisibility={fieldsVisibility} hintText={inlineHelpTranslation}/>
           </div>
 
           <div style={{display: step === 2 ? 'block' : 'none'}}>
@@ -447,7 +464,6 @@ const Forms = props => {
           <span
             id="save-btn-help-text"
             data-toggle="popover"
-            title="Help text"
             role="button"
             data-html={true}
             data-placement="auto"

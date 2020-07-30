@@ -10,8 +10,8 @@ en:
       first_follow_date: Enter the date when a Case Worker/Staff followed up with the client for the first time.
     assessments:
       index:
-        custom_button: Add a new custom Assessment.
-        default_button: Add a new (CSI) Assessment.
+        custom_button: "Add a new custom %{assessment}."
+        default_button: "Add a new (CSI) %{assessment}."
       notes:
         lists:
           list1: |+
@@ -32,8 +32,14 @@ en:
     clients:
       assessments:
         add_task: At least one task is mandatory for each domain. The task can be optional only when the client’s situation does not require any interventions.
-        button: Add a new (CSI) or custom Assessment.
-        case_plan: "Each domain is given a score from 1 to 4 and is color-coded. <strong>Red</strong> – Highly vulnerable. Need to act <strong>urgently<strong> and immediately. <strong>Yellow</strong> – Action needs to be taken soon, but not immediately. <strong>Blue</strong> – Observe the situation. If it gets worse or doesn’t improve on its own, action may be necessary. <strong>Green</strong> – No immediate concerns. The client is not vulnerable in this situation."
+        button: "Add a new (CSI) or custom %{assessment}."
+        case_plan:
+          lists:
+            list1: Each domain is given a score from 1 to 4 and is color-coded.
+            list2: "<strong class='text-danger'>Red</strong> – Highly vulnerable. Need to act <strong>urgently</strong> and immediately."
+            list3: "<strong class='text-warning'>Yellow</strong> – Action needs to be taken soon, but not immediately."
+            list4: "<strong class='text-success'>Blue</strong> – Observe the situation. If it gets worse or doesn’t improve on its own, action may be necessary."
+            list5: "<strong class='text-info'>Green</strong> – No immediate concerns. The client is not vulnerable in this situation."
         goal: 'A goal should be <strong>SMART</strong>: <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>ttainable before the next assessment begins, <strong>R</strong>ealistic and <strong>T</strong>ime based (three or six months according to your organization assessment timeline). Discuss with your client’s family and/or caregiver to set a goal(s). Ensure you engage and involve the client in this discussion as much as you can. The goal can be optional if the client’s situation is not vulnerable.'
         observation: Read each option carefully. First, consider the client’s situation, ask questions and observe the situation. Choose an option based on these considerations.
         task_arising: You can either add task here or at the end of the assessment. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> If you prefer to add a task at the end of the assessment, you can’t save assessment in between.
@@ -61,7 +67,7 @@ en:
               list1: "This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through <strong>Manage >> Custom Referral Data</strong>."
       index:
         buttons:
-          assessment_data: View and compare the CSI assessment scores of all the clients that appear in your search. The pop-up window will show you the assessment scores only for clients whose assessment was completed.
+          assessment_data: "View and compare the CSI %{assessment} scores of all the clients that appear in your search. The pop-up window will show you the %{assessment} scores only for clients whose %{assessment} was completed."
           export_to_xls: |+
             Export your report in an MS Excel spreadsheet file(.xls). Follow the prompts in your browser to download and save the file on your computer.<br />
             All the headers are the same as the column selection you made while building the report.<br />
@@ -171,6 +177,3 @@ en:
       school_info: N/A
       school_grade: N/A
       school_contact: The main contact can be either the class teacher or anyone who can monitor the client’s progress at school.
-
-
-

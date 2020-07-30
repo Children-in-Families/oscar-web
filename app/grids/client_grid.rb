@@ -45,6 +45,22 @@ class ClientGrid < BaseGrid
   end
 
   %w(
+      neighbor_name
+      neighbor_phone
+      dosavy_name
+      dosavy_phone
+      chief_commune_name
+      chief_commune_phone
+      chief_village_name
+      chief_village_phone
+      ccwc_name
+      ccwc_phone
+      legal_team_name
+      legal_representative_name
+      legal_team_phone
+      other_agency_name
+      other_representative_name
+      other_agency_phone
       presented_id
       id_number
       legacy_brcs_id
@@ -74,6 +90,13 @@ class ClientGrid < BaseGrid
       local_consent
       police_interview
       other_legal_doc
+      marital_status
+      nationality
+      ethnicity
+      location_of_concern
+      type_of_trafficking
+      education_background
+      department
     ).each do |field_name|
 
     header = I18n.t("datagrid.columns.clients.#{field_name}")
@@ -1130,11 +1153,11 @@ class ClientGrid < BaseGrid
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
-  column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
+  column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object.assessments.defaults }
   end
 
-  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date') }, html: true) do |object|
+  column(:assessment_completed_date, header: -> { I18n.t('datagrid.columns.clients.assessment_completed_date', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
     if $param_rules
       basic_rules = $param_rules['basic_rules']
       basic_rules =  basic_rules.is_a?(Hash) ? basic_rules : JSON.parse(basic_rules).with_indifferent_access
@@ -1194,7 +1217,7 @@ class ClientGrid < BaseGrid
 
   dynamic do
     if enable_default_assessment?
-      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments') }, html: true) do |object|
+      column(:all_csi_assessments, header: -> { I18n.t('datagrid.columns.clients.all_csi_assessments', assessment: I18n.t('clients.show.assessment')) }, html: true) do |object|
         render partial: 'clients/all_csi_assessments', locals: { object: object.assessments.defaults }
       end
       Domain.csi_domains.order_by_identity.each do |domain|

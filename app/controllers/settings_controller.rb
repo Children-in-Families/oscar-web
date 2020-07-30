@@ -97,7 +97,7 @@ class SettingsController < AdminController
                                     :max_assessment, :enable_custom_assessment, :enable_default_assessment, :age,
                                     :custom_age, :default_assessment, :custom_assessment, :max_case_note,
                                     :case_note_frequency, :org_name, :province_id, :district_id, :commune_id,
-                                    :delete_incomplete_after_period_unit,
+                                    :delete_incomplete_after_period_unit, :use_screening_assessment, :screening_assessment_form_id,
                                     :delete_incomplete_after_period_value,
                                     :never_delete_incomplete_assessment,
                                     :sharing_data, :custom_id1_latin, :custom_id1_local, :custom_id2_latin, :custom_id2_local,

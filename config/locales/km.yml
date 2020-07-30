@@ -102,9 +102,15 @@ km:
           successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
     attributes:
+      carer:
+        name: ឈ្មោះអ្នកថែទាំចម្បង
+        phone: លេខទូរស័ព្ទអ្នកថែទាំចម្បង
+        carer_information: ព័ត៌មានអ្នកថែទាំ?
       family_member:
         adult_name: Name of Adult Member
         gender: Gender
+      referee:
+        referee_address: ឣាសយដ្ឋាន
     default:
       blank: មិនអាចរំលង
     errors:
@@ -628,16 +634,16 @@ km:
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     index:
-      assessment_completed_on: ការប៉ាន់ប្រមាណដែលបានបំពេញ
-      assessment_created_on: ការប៉ាន់ប្រមាណដែលបានបង្កើត
-      assessment_history: ការប៉ាន់ប្រមាណចាស់ៗ
+      assessment_completed_on: "%{assessment}ដែលបានបំពេញ"
+      assessment_created_on: "%{assessment}ដែលបានបង្កើត"
+      assessment_history: "%{assessment}ចាស់ៗ"
       back: ត្រលប់ក្រោយ
       begin_now: បង្កើតថ្មី
-      initial_assessment: ការប៉ាន់ប្រមាណដំបូង
+      initial_assessment: "%{assessment}ដំបូង"
       next_review: ការប៉ាន់ប្រមាណទៀងទាត់ពេលក្រោយ
       no_custom_domains_available: មិនមានកត្តាផ្ទាល់ខ្លួន
       please_add_custom_domains: អ្នកគួរតែបង្កើតកត្តាផ្ទាល់ខ្លួនមួយចំនួនមុននឹងអ្នកអាចធ្វើប្រតិបត្តិការនេះ
-      three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
+      three_month_assessment: "%{assessment}ទៀងទាត់"
       view_report: ពិនិត្យរបាយការណ៍
     show:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -1123,11 +1129,11 @@ km:
       quantitative: ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
       tracking: តាមដាន
     index:
-      add_custom_group: បន្ថែមការស្វែងរកការប៉ាន់ប្រមាណ
+      add_custom_group: "បន្ថែមការស្វែងរក%{assessment}"
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
       add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
       advanced_search: ការបង្កើតរបាយការណ៍
-      assessment_data: ទិន្នន័យការប៉ាន់ប្រមាណ
+      assessment_data: "ទិន្នន័យ%{assessment}"
       assessments: ការប៉ាន់ប្រមាណ
       client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
       client_name: ឈ្មោះកុមារ
@@ -1551,6 +1557,31 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      neighbor_name: "Neighbor/Friend: Name"
+      neighbor_phone: Phone Number
+      dosavy_name: "DoSAVY: Name"
+      dosavy_phone: Phone Number
+      chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+      chief_commune_phone: Phone Number
+      chief_village_name: "Chief of Village: Name"
+      chief_village_phone: Phone Number
+      ccwc_name: "CCWC: Name"
+      ccwc_phone: Phone Number
+      legal_team_name: "Legal Team: Name of Agency"
+      legal_representative_name: Name of Legal Representative
+      legal_team_phone: Phone Number
+      other_agency_name: "Others: Name of Agency"
+      other_representative_name: Name of Representative
+      other_agency_phone: Phone Number
+      case_note: កំណត់ត្រាករណី
+      referral_info: អតិថិជន / ការបញ្ជូន
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'Family Book'
@@ -1598,6 +1629,8 @@ km:
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
+      followed_up_by_id: First Follow Up by
+      follow_up_date: Date of First Follow Up
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូរទៅ
@@ -1663,6 +1696,7 @@ km:
       resident_own_or_rent2: Acc. type
       school_grade: កម្រិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
+      main_school_contact: Main School Contact
       settlement2: City/Settlement
       shared_service_enabled: តើអ្នកចង់ចែករំលែកសេវាកម្មអតិថិជនជាមួយប្រព័ន្ធខាងក្រៅទេ?
       stage: សំនួរ តំណាក់កាល
@@ -1741,8 +1775,8 @@ km:
       advanced_search: ការស្វែងរកដែលឆ្លាតវៃ
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
-      assessment_completed_date: កាលបរិច្ឆេទ ការប៉ាន់ប្រមាណដែលបានបំពេញ
-      assessment_data: ទិន្នន័យពិន្ទុនៃការប៉ាន់ប្រមាណ
+      assessment_completed_date: "កាលបរិច្ឆេទ %{assessment}ដែលបានបំពេញ"
+      assessment_data: "ទិន្នន័យពិន្ទុនៃ%{assessment}"
       assessment_number: ការប៉ាន់ប្រមាណ#
       assessments: ការប៉ាន់ប្រមាណ
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
@@ -1752,8 +1786,10 @@ km:
       custom_assessment: ការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_csi_group: នៅ
-      date_of_assessment: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
-      date_of_assessments: Date of Assessments
+      date_of_assessment: "កាលបរិច្ឆេទ%{assessment}"
+      assessment_completed: "%{assessment} Completed"
+      date_of_custom_assessment: "Date of Custom %{assessment}"
+      date_of_assessments: "Date of %{assessment}"
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
@@ -1847,6 +1883,13 @@ km:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
     show:
+      marital_status: Marital Status
+      nationality: Nationality
+      ethnicity: Ethnicity
+      location_of_concern: Location of concern
+      type_of_trafficking: Type of Trafficking
+      education_background: Education Background
+      department: Ratanak Team
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
       able_screening_questions: សំនួរ Able
       able_state: ស្ថានភាព Able
@@ -2039,7 +2082,8 @@ km:
           other: "%{count} ឆ្នាំ"
       time_in_cps: រយៈពេលស្ថិតនៅក្នុងកម្មវិធីចម្បង
       time_in_ngo: រយៈពេលនៅក្នុងអង្គការ
-      view_assessments: ការប៉ាន់ប្រមាណ
+      assessment: ការប៉ាន់ប្រមាណ
+      custom_assessment: "%{assessment}ផ្ទាល់ខ្លួន"
       view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
       view_fc_history_btn_link: មើលប្រវត្តិនៃ FC
@@ -2297,8 +2341,9 @@ km:
       show: បង្ហាញ
   datagrid:
     columns:
-      all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      all_custom_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
+      all_csi_assessments: "ពិន្ទុកត្តា%{assessment}CSI"
+      all_custom_csi_assessments: "ពិន្ទុកត្តា%{assessment}ផ្ទាល់ខ្លួន"
+      assessment_completed_date: "%{assessment} Completed Date"
       all_result_framework_assessment: All Result Framework Assessment
       calls:
         answered_call: ឆ្លើយការហៅទូរស័ព្ទ
@@ -2363,6 +2408,29 @@ km:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        neighbor_name: "Neighbor/Friend: Name"
+        neighbor_phone: Phone Number
+        dosavy_name: "DoSAVY: Name"
+        dosavy_phone: Phone Number
+        chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+        chief_commune_phone: Phone Number
+        chief_village_name: "Chief of Village: Name"
+        chief_village_phone: Phone Number
+        ccwc_name: "CCWC: Name"
+        ccwc_phone: Phone Number
+        legal_team_name: "Legal Team: Name of Agency"
+        legal_representative_name: Name of Legal Representative
+        legal_team_phone: Phone Number
+        other_agency_name: "Others: Name of Agency"
+        other_representative_name: Name of Representative
+        other_agency_phone: Phone Number
+        marital_status: Marital Status
+        nationality: Nationality
+        ethnicity: Ethnicity
+        location_of_concern: Location of concern
+        type_of_trafficking: Type of Trafficking
+        education_background: Education Background
+        department: Ratanak Team
         national_id: 'National ID'
         birth_cert: 'Birth Certificate'
         family_book: 'Family Book'
@@ -2770,7 +2838,7 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       custom_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       filter_domains: កត្តា
-      has_overdue_assessment: ការប៉ាន់ប្រមាណហួសកំណត់
+      has_overdue_assessment: "%{assessment}ហួសកំណត់"
       has_overdue_forms: ទម្រង់បែបបទហួសកំណត់
       has_overdue_task: ភារកិច្ចហួសកំណត់
       no_case_note: កំណត់ត្រាករណីហួសកំណត់
@@ -4996,7 +5064,7 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
-    assessment:
+    assessment_setting:
       age: អាយុ
       assessment: ការកំណត់ប្រេកង់នៃការប៉ាន់ប្រមាណផ្ទាល់ខ្លួន
       custom_assessment: ឈ្មោះ
@@ -5072,6 +5140,10 @@ km:
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
+    x_lists_of: "បញ្ជី%{x}"
+    new_x: "%{x}ថ្មី"
+    max_x: "%{x}អតិបរមា"
+    x_on: "%{x}នៅថ្ងៃ"
     form_builder:
       file_field:
         allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត

@@ -2,7 +2,7 @@ class FnOscarDashboardLeavePrograms < ActiveRecord::Migration
   def change
     reversible do |dir|
       dir.up do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             CREATE OR REPLACE FUNCTION "public"."fn_oscar_dashboard_leave_programs"(donor_global_id varchar DEFAULT '')
               RETURNS TABLE("id" int4, "organization_name" varchar, "program_stream_id" int4, "client_enrollment_id" int4, "exit_date" varchar, "properties" jsonb, "deleted_at" varchar, "created_at" varchar, "updated_at" varchar) AS $BODY$
@@ -21,7 +21,7 @@ class FnOscarDashboardLeavePrograms < ActiveRecord::Migration
                   IF (SELECT name FROM public.donors WHERE public.donors.global_id = donor_global_id) = '#{ENV['STC_DONOR_NAME']}' THEN
                     donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L OR LOWER(%1$I.donors.name) = %3$L)', sch.short_name, 'fcf', 'react');
                   ELSE
-                    donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) = %2$L)', sch.short_name, '3pc');
+                    donor_sql := format('SELECT %1$I.donors.id FROM donors WHERE (LOWER(%1$I.donors.name) IN (%2$L, %3$L, %4$L))', sch.short_name, '3pc unicef', '3pc react', '3pc global fund');
                   END IF;
                   sql := sql || format(
                                   'SELECT %2$s.id, %1$L organization_name, %2$s.properties, %2$s.program_stream_id,
@@ -58,7 +58,7 @@ class FnOscarDashboardLeavePrograms < ActiveRecord::Migration
       end
 
       dir.down do
-        if schema_search_path == "\"public\""
+        if schema_search_path =~ /^\"public\"/
           execute <<-SQL.squish
             REVOKE EXECUTE ON FUNCTION "public"."fn_oscar_dashboard_leave_programs"(varchar) FROM "#{ENV['POWER_BI_GROUP']}";
             DROP FUNCTION IF EXISTS "public"."fn_oscar_dashboard_leave_programs"(varchar) CASCADE;
