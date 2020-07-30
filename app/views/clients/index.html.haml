@@ -36,11 +36,11 @@
           = render 'assessment_domain_score'
           = render 'custom_assessment_domain_score'
       - elsif enable_default_assessment?
-        = link_to '#', class: 'btn btn-primary', data: { target: "#assessment-domain-score", toggle: 'modal' } do
+        = link_to '#', class: 'btn btn-primary', data: { target: "#assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
           = t('.assessment_data', assessment: t('clients.show.assessment'))
         = render 'assessment_domain_score'
       - elsif enable_custom_assessment?
-        = link_to '#', class: 'btn btn-primary', 'data-target': "#custom-assessment-domain-score", 'data-toggle': 'modal' do
+        = link_to '#', class: 'btn btn-primary', data: { target: "#custom-assessment-domain-score", toggle: 'modal', trigger: "hover", html: 'true', content: "#{I18n.t('inline_help.clients.index.buttons.assessment_data', assessment: t('clients.show.assessment'))}", placement: "auto" } do
           = t('.assessment_data', assessment: t('clients.show.assessment'))
         = render 'custom_assessment_domain_score'
 
