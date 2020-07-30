@@ -35,7 +35,7 @@ class DashboardsController < AdminController
 
   def find_tasks
     @clients = find_clients
-    @users = find_users.order(:first_name, :last_name) unless current_user.case_worker?
+    @users = find_users&.order(:first_name, :last_name) || [] unless current_user.case_worker?
   end
 
   def find_users
