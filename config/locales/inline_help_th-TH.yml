@@ -34,7 +34,13 @@ th-TH:
       assessments:
         add_task: At least one task is mandatory for each domain. The task can be optional only when the client’s situation does not require any interventions.
         button: Add a new (CSI) or custom Assessment.
-        case_plan: "Each domain is given a score from 1 to 4 and is color-coded. <strong>Red</strong> – Highly vulnerable. Need to act <strong>urgently<strong> and immediately. <strong>Yellow</strong> – Action needs to be taken soon, but not immediately. <strong>Blue</strong> – Observe the situation. If it gets worse or doesn’t improve on its own, action may be necessary. <strong>Green</strong> – No immediate concerns. The client is not vulnerable in this situation."
+        case_plan:
+          lists:
+            list1: Each domain is given a score from 1 to 4 and is color-coded.
+            list2: "<strong class='text-danger'>Red</strong> – Highly vulnerable. Need to act <strong>urgently</strong> and immediately."
+            list3: "<strong class='text-warning'>Yellow</strong> – Action needs to be taken soon, but not immediately."
+            list4: "<strong class='text-success'>Blue</strong> – Observe the situation. If it gets worse or doesn’t improve on its own, action may be necessary."
+            list5: "<strong class='text-info'>Green</strong> – No immediate concerns. The client is not vulnerable in this situation."
         goal: 'A goal should be <strong>SMART</strong>: <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>ttainable before the next assessment begins, <strong>R</strong>ealistic and <strong>T</strong>ime based (three or six months according to your organization assessment timeline). Discuss with your client’s family and/or caregiver to set a goal(s). Ensure you engage and involve the client in this discussion as much as you can. The goal can be optional if the client’s situation is not vulnerable.'
         observation: Read each option carefully. First, consider the client’s situation, ask questions and observe the situation. Choose an option based on these considerations.
         task_arising: You can either add task here or at the end of the assessment.
