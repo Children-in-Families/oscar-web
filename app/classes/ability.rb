@@ -86,7 +86,6 @@ class Ability
       can :manage, Family, id: family_ids.compact.uniq
 
     elsif user.hotline_officer?
-      can :manage, User, id: user.id
       can :manage, Attachment
       can :manage, Case, exited: false
       can :manage, CaseNote
