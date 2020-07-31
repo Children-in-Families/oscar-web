@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200723075102) do
+ActiveRecord::Schema.define(version: 20200731034640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -686,12 +686,13 @@ ActiveRecord::Schema.define(version: 20200723075102) do
   end
 
   create_table "communes", force: :cascade do |t|
-    t.string   "code",        default: ""
-    t.string   "name_kh",     default: ""
-    t.string   "name_en",     default: ""
+    t.string   "code",          default: ""
+    t.string   "name_kh",       default: ""
+    t.string   "name_en",       default: ""
     t.integer  "district_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "district_type"
   end
 
   add_index "communes", ["district_id"], name: "index_communes_on_district_id", using: :btree
