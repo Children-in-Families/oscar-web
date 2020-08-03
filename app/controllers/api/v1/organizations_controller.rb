@@ -11,16 +11,13 @@ module Api
       def clients
         bulk_clients = []
         date_time_param = Time.parse(params[:since_date]) if params[:since_date].present?
+        external_system_name = ExternalSystem.find_by(token: @current_user.email)&.name || ''
         Organization.only_integrated.pluck(:short_name).each do |short_name|
           Organization.switch_to short_name
-          if params.dig(:since_date).present? && params.dig(:referred_external).present?
-            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.order(updated_at: :desc).where("created_at >= ? OR updated_at >= ? AND referred_external = ?", date_time_param, date_time_param, true).limit(10).to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
-          elsif params.dig(:since_date).present?
-            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.order(updated_at: :desc).where("created_at >= ? OR updated_at >= ?", date_time_param, date_time_param).limit(10).to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
-          elsif params.dig(:referred_external).present?
-            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.order(updated_at: :desc).where(referred_external: true).limit(10).to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
+          if params.dig(:since_date).present?
+            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.referred_external(external_system_name).where("clients.created_at >= ? OR clients.updated_at >= ?", date_time_param, date_time_param).order("clients.updated_at DESC").to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           else
-            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.order(updated_at: :desc).limit(10).to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
+            clients = JSON.parse ActiveModel::ArraySerializer.new(Client.referred_external(external_system_name).order("clients.updated_at DESC").to_a, each_serializer: OrganizationClientSerializer, context: current_user).to_json
           end
 
           bulk_clients << clients

@@ -28,6 +28,7 @@ class Referral < ActiveRecord::Base
   scope :received_and_saved, -> { received.saved }
   scope :most_recents, -> { order(created_at: :desc) }
   scope :externals, -> { where(referred_to: 'external referral') }
+  scope :get_external_systems, -> (external_system_name){ where("referrals.ngo_name = ?", external_system_name) }
 
   def non_oscar_ngo?
     referred_to == 'external referral'
