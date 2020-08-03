@@ -2,9 +2,33 @@ module Api
   module V1
     class BaseApiController < ApplicationController
       include DeviseTokenAuth::Concerns::SetUserByToken
+      before_action :switch_to_public!
       before_action :authenticate_user!
+      before_action :doorkeeper_authorize!, if: :doorkeeper_controller?
+      before_action :current_resource_owner
 
       private
+
+      def switch_to_public!
+        Organization.switch_to 'public'
+      end
+
+      def current_resource_owner
+        @current_user ||= if doorkeeper_token
+                            User.find(doorkeeper_token.resource_owner_id)
+                          else
+                            current_user
+                          end
+
+      end
+
+      def doorkeeper_controller?
+        doorkeeper_token.present?
+      end
+
+      def user_authenticated?
+        doorkeeper_token.nil?
+      end
 
       def find_client
         @client = Client.accessible_by(current_ability).find(params[:client_id])
