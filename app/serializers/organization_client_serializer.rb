@@ -15,18 +15,22 @@ class OrganizationClientSerializer < ActiveModel::Serializer
   end
 
   def is_referred
-    return false if object.referrals.externals.last.nil?
-    referral        = object.referrals.externals.last
+    return false if object.referrals.get_external_systems(external_system_name).last.nil?
+    referral        = object.referrals.get_external_systems(external_system_name).last
     external_system = referral.external_system
     external_system&.token == context.uid
   end
 
   def referral_consent_form
-    return [] unless object.referrals.externals.last.present? || is_referred
-    referral = object.referrals.externals.last
+    return [] unless object.referrals.get_external_systems(external_system_name).last.present? || is_referred
+    referral = object.referrals.get_external_systems(external_system_name).last
     referral.consent_form.map do |attachment|
       asset_path(attachment.url)
     end
+  end
+
+  def reason_for_referral
+    object.referrals.get_external_systems(external_system_name).last&.referral_reason || object.reason_for_referral || ''
   end
 
   def services
@@ -68,5 +72,11 @@ class OrganizationClientSerializer < ActiveModel::Serializer
 
   def address_current_village_code
     object.village&.code || ""
+  end
+
+  private
+
+  def external_system_name
+    ExternalSystem.find_by(token: context.email)&.name || ''
   end
 end
