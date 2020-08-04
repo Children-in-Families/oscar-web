@@ -27,6 +27,7 @@ tmp
 .env.test
 .env.development
 dump.rdb
+vendor/data
 # For Mac OS only
 .DS_Store
 dump.rdb
