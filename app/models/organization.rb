@@ -61,10 +61,10 @@ class Organization < ActiveRecord::Base
         ImportStaticService::DateService.new('Services', org.short_name, service_data_file).import
         Importer::Import.new('Agency', general_data_file).agencies
         Importer::Import.new('Department', general_data_file).departments
-        Importer::Import.new('Province', general_data_file).provinces
 
+        Rake::Task['provinces:import'].invoke
         Rake::Task['communes_and_villages:import'].invoke
-        Rake::Task['communes_and_villages:import'].reenable
+
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         Rake::Task["field_settings:import"].invoke(org.short_name)
@@ -83,7 +83,7 @@ class Organization < ActiveRecord::Base
       current&.short_name == 'ratanak'
     end
   end
-
+  
   def demo?
     short_name == 'demo'
   end
