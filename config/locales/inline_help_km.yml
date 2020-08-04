@@ -232,6 +232,8 @@ km:
         សូមចូលទៅកាន់ https://what3words.com ដើម្បីស្វែងរកកូដភូមិសាស្ត្រអាសយដ្ឋានរបស់អតិថិជន។
 
         ប្រយ័ត្ន! ព័ត៌មាននេះនៅក្នុងដៃមិនត្រឹមត្រូវអាចបង្កគ្រោះថ្នាក់ដល់អតិថិជនរបស់អ្នកក្នុងស្ថានភាពរសើប។ សូមប្រើវាដោយប្រុងប្រយ័ត្ន។
+    setting:
+      external_system_integration: This creates a connection between your organisation’s instance of OSCaR, and the Cambodian Government’s Primero Case Management System. The connection allows for cross-referral between the systems; it does not copy records from one system to the other without a referral being explicitly made.
     school:
       school_contact: ជនបង្គោលសំខាន់សម្រាប់ទំនាក់ទំនងអាចជាគ្រូប្រចាំថ្នាក់ ឬអាចជានរណាម្នាក់ដែលជាអ្នកតាមដានការរីកចម្រើនរបស់អតិថិជននៅសាលារៀន។
       school_grade: N/A
