@@ -611,10 +611,10 @@ km:
       set_goal: តើអ្នកចង់កំណត់គោលដៅទេ?
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     incomplete_detail:
-      goal: Goal
-      reason: Observation
-      score: Score
-      task: Tasks
+      goal: គោលដៅ
+      reason: ការសង្កេត
+      score:  ពិន្ទុ
+      task: កាតព្វកិច្ច
     unrestricted_form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       add_task_confirm: តើអ្នកចង់បន្ថែមភារកិច្ចនៅជំហានចុងក្រោយនៃការវាយតម្លៃនេះទេ?
