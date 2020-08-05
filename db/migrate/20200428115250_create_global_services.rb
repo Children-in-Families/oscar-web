@@ -7,7 +7,7 @@ class CreateGlobalServices < ActiveRecord::Migration
         :primary_key  => :uuid,
         force: :cascade
       } do |t|
-        t.uuid :uuid, index: { unique: true }, default: "gen_random_uuid()"
+        t.uuid :uuid, index: { unique: true }, default: "uuid_generate_v4()"
       end
     reversible do |dir|
       dir.up do
