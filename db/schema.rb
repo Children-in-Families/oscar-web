@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20200805063814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "pgcrypto"
   enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
@@ -1006,7 +1007,7 @@ ActiveRecord::Schema.define(version: 20200805063814) do
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
 
   create_table "global_services", id: false, force: :cascade do |t|
-    t.uuid "uuid", default: "uuid_generate_v4()"
+    t.uuid "uuid", default: "gen_random_uuid()"
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
