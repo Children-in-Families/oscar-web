@@ -24,7 +24,7 @@
           = f.input :max_assessment, label: false
       .col-xs-12.col-sm-3
         .form-group
-          = f.input :assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
+          = f.input :assessment_frequency, collection: %w(day week month year).map{ |freq| [freq.titleize, freq] }, input_html: { class: 'select2' }, label: false
 #assessment-setting.panel.panel-default
   .panel-heading
     %h3= t('.assessment')
