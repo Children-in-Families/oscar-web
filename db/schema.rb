@@ -99,6 +99,12 @@ ActiveRecord::Schema.define(version: 20200803082706) do
     t.datetime "updated_at"
   end
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",               default: ""
     t.integer  "previous_score"

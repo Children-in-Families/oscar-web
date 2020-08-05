@@ -4352,6 +4352,7 @@ th-TH:
       min_assessment:
       name:
       noted:
+      show_prev_assessment: Show previous assessment while completing new assessment
     case_note:
       case_note:
       max_case_note:

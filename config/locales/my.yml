@@ -5107,6 +5107,7 @@ my:
       min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
       name: နာမတျောကို
       noted: 'မှတ်ချက်: USAID ကဟူသောဝေါဟာရကို CSI စိတ်ကြိုက်အကဲဖြတ်အတွက်အသုံးပြုမရကြောင်းမေတ္တာရပ်ခံခဲ့သည်။'
+      show_prev_assessment: Show previous assessment while completing new assessment
     case_note:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
       max_case_note: အများဆုံး

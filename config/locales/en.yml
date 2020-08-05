@@ -5100,6 +5100,7 @@ en:
       min_assessment: Minimum time between 1st and 2nd assessment
       name: Name
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
+      show_prev_assessment: Show previous assessment while completing new assessment
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum
