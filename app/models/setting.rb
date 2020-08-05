@@ -14,8 +14,10 @@ class Setting < ActiveRecord::Base
 
   accepts_nested_attributes_for :custom_assessment_settings, allow_destroy: true
 
-  validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 0, if: -> { enable_custom_assessment.present? && max_custom_assessment.present? }
-  validates_numericality_of :max_assessment, only_integer: true, greater_than: 0, if: -> { enable_default_assessment.present? && max_assessment.present? }
+  validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 3, if: -> { enable_custom_assessment.present? && max_custom_assessment.present? && custom_assessment_frequency == 'month' }
+  validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 0, if: -> { enable_custom_assessment.present? && max_custom_assessment.present? && custom_assessment_frequency == 'year' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 3, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'month' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 0, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'year' }
   validates_numericality_of :max_case_note, only_integer: true, greater_than: 0, if: -> { max_case_note.present? }
   validates_numericality_of :age, only_integer: true, greater_than: 0, less_than_or_equal_to: 100, if: -> { age.present? }
   validates_numericality_of :custom_age, only_integer: true, greater_than: 0, less_than_or_equal_to: 100, if: -> { age.present? }
