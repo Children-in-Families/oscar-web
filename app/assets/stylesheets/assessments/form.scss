@@ -1,7 +1,17 @@
+.wizard, .tabcontrol {
+  overflow: initial;
+}
+
 body[id='assessments-new'],
 body[id='assessments-create'],
 body[id='assessments-edit'],
 body[id='assessments-update'] {
+  #readonly-rootwizard {
+    textarea.disabled, textarea:disabled {
+      color: black !important;
+    }
+  }
+
   .assessment-form.unrestricted_form {
     .wizard {
       .steps {

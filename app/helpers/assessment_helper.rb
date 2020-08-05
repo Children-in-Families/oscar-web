@@ -31,10 +31,8 @@ module AssessmentHelper
     end
   end
 
-  def order_assessment
-    if action_name == 'edit'
-      @assessment.assessment_domains_in_order
-    end
+  def order_assessment(assessment)
+    assessment.assessment_domains_in_order if assessment.persisted?
   end
 
   def assessment_readable?

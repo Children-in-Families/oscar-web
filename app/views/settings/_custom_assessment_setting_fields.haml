@@ -22,7 +22,7 @@
         = f.input :max_custom_assessment, label: false
     .col-xs-12.col-sm-3
       .form-group
-        = f.input :custom_assessment_frequency, collection: [['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
+        = f.input :custom_assessment_frequency, collection: %w(day week month year).map{ |freq| [freq.titleize, freq] }, input_html: { class: 'select2' }, label: false
     .col-xs-12.col-sm-2
       .form-group
         = f.input :custom_age, placeholder: 'Age', label: false

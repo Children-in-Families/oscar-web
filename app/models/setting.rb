@@ -14,10 +14,11 @@ class Setting < ActiveRecord::Base
 
   accepts_nested_attributes_for :custom_assessment_settings, allow_destroy: true
 
-  validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 3, if: -> { enable_custom_assessment.present? && max_custom_assessment.present? && custom_assessment_frequency == 'month' }
-  validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 0, if: -> { enable_custom_assessment.present? && max_custom_assessment.present? && custom_assessment_frequency == 'year' }
-  validates_numericality_of :max_assessment, only_integer: true, greater_than: 3, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'month' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 14, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'day' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 2, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'week' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 0, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'month' }
   validates_numericality_of :max_assessment, only_integer: true, greater_than: 0, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'year' }
+
   validates_numericality_of :max_case_note, only_integer: true, greater_than: 0, if: -> { max_case_note.present? }
   validates_numericality_of :age, only_integer: true, greater_than: 0, less_than_or_equal_to: 100, if: -> { age.present? }
   validates_numericality_of :custom_age, only_integer: true, greater_than: 0, less_than_or_equal_to: 100, if: -> { age.present? }
@@ -54,6 +55,14 @@ class Setting < ActiveRecord::Base
   def current_sharing_with_research_module
     return [] unless sharing_data
     versions.order(created_at: :asc).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data'] }
+  end
+
+  def max_assessment_duration(default_assessment: true)
+    if default_assessment
+      max_assessment.send(assessment_frequency.to_sym)
+    else
+      max_custom_assessment.send(custom_assessment_frequency.to_sym)
+    end
   end
 
   private

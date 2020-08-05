@@ -1,22 +1,20 @@
-.alert.alert-warning.alert-dismissible{ :role => "alert" }
-  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-    %span{"aria-hidden" => "true"} ×
-  %ul
-    %li= I18n.t('inline_help.assessments.notes.lists.list1').html_safe
 = simple_form_for([@assessment.client, @assessment], html: { class: 'assessment-form', data: { disable_required_fields: current_setting.disable_required_fields? } }) do |f|
   = hidden_field_tag :current_user, current_user.roles
   = hidden_field_tag :default, params[:default] if params[:default]
   = hidden_field_tag :from_controller, @from_controller
   .row.assessment-domains
     .col-xs-12
-      #rootwizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
-        = f.simple_fields_for 'assessment_domains', order_assessment do |ad|
+      #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] } }
+        = f.simple_fields_for 'assessment_domains', order_assessment(@assessment) do |ad|
           - domain = ad.object.domain
           %h4= domain_name_translate(@assessment, domain)
           %div{ class: "assessment-domain-item domain-#{domain.id}" }
             .ibox
               .ibox-title
                 %h5= "#{@assessment.client.name}"
+                - if current_setting.show_prev_assessment? && @prev_assessment.present?
+                  %span= " (Current Assessment)"
+
                 - if current_organization.try(:aht) == true
                   %label.label.label-success
                     = domain_name_translate(@assessment, domain)
@@ -67,7 +65,7 @@
                 = ad.input :goal, label: false, required: (ad.object.goal_required? && !current_setting.disable_required_fields?), input_html: { class: 'goal', id: "goal-text-area-#{domain.name.downcase.split.join('-')}" }
                 .row
                   .col-sm-12.col-md-12
-                    = render 'attachment_fields', ad: ad
+                    = render 'attachment_fields', ad: ad, readonly: false
                 .row
                   .col-sm-12.col-md-12
                     .form-group
@@ -85,7 +83,7 @@
                               %label= t('.add_task_confirm')
                               = ad.input :required_task_last, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false, input_html: { 'data-task-name': domain.name }
                         %ol.tasks-list{ type: '1'}
-                          - @client.tasks.by_domain_id(domain).incomplete.each do |task|
+                          - @client.tasks.by_domain_id(domain).where(taskable: @assessment).incomplete.each do |task|
                             %li.list-group-item{style: 'padding-bottom: 11px'}
                               = task.name
                               - if can? :destroy, Task

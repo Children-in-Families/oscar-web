@@ -17,7 +17,9 @@ class AssessmentsController < AdminController
 
   def new
     @from_controller = params[:from]
+    @prev_assessment = @client.assessments.last
     @assessment = @client.assessments.new(default: default?)
+
     css = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
     if current_organization.try(:aht) == false
       authorize @assessment
