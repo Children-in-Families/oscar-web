@@ -72,7 +72,7 @@ class Client < ActiveRecord::Base
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :client_enrollments, dependent: :destroy
   has_many :program_streams, through: :client_enrollments
-  has_many :case_worker_clients, dependent: :destroy
+  has_many :case_worker_clients, dependent: :destroy, after_remove: :remove_family_from_case_worker
   has_many :users, through: :case_worker_clients, validate: false
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
@@ -720,6 +720,12 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     case_worker_clients.destroy_all
+  end
+
+  def remove_family_from_case_worker(case_worker_client)
+    unless case_worker_client.user.families.any?{|family| family.clients.joins(:case_worker_clients).where(case_worker_clients: {user_id: user.id}).exists?
+      case_worker_client.user.families.update(user_id: nil)
+    end
   end
 
   def assessment_duration(duration, default = true, custom_assessment_setting_id=nil)
