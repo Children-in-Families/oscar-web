@@ -5077,6 +5077,7 @@ km:
       name: ឈ្មោះ
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណតាមតម្រូវការ។'
       show_prev_assessment: Show previous assessment while completing new assessment
+      two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_note:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា

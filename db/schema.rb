@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200803082706) do
+ActiveRecord::Schema.define(version: 20200805063814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1671,6 +1671,7 @@ ActiveRecord::Schema.define(version: 20200803082706) do
     t.boolean  "use_screening_assessment",             default: false
     t.integer  "screening_assessment_form_id"
     t.boolean  "show_prev_assessment",                 default: false
+    t.boolean  "two_weeks_assessment_reminder",        default: false
   end
 
   add_index "settings", ["commune_id"], name: "index_settings_on_commune_id", using: :btree

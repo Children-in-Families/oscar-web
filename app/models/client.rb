@@ -552,19 +552,24 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+
       next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment?)
       clients = joins(:assessments).active_accepted_status
+
       clients.each do |client|
         if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.count > 1
-          repeat_notifications = client.repeat_notifications_schedule
+          repeat_notifications = client.assessment_notification_dates
+
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
           end
         end
+
         if Setting.first.enable_custom_assessment && client.assessments.customs.count > 1
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            repeat_notifications = client.repeat_notifications_schedule(false)
+            repeat_notifications = client.assessment_notification_dates(default_assessment: false)
             if(repeat_notifications.include?(Date.today)) && client.eligible_custom_csi?(custom_assessment_setting)
               CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
             end
@@ -612,24 +617,13 @@ class Client < ActiveRecord::Base
     assessments.customs.most_recents.first.created_at.to_date
   end
 
-  def repeat_notifications_schedule(default = true)
-    if default
-      most_recent_csi   = most_recent_csi_assessment
-    else
-      most_recent_csi   = most_recent_custom_csi_assessment
-    end
+  def assessment_notification_dates(default_assessment: true)
+    setting = Setting.first
 
-    notification_date = most_recent_csi + 5.months + 15.days
-    next_one_week     = notification_date + 1.week
-    next_two_weeks    = notification_date + 2.weeks
-    next_three_weeks  = notification_date + 3.weeks
-    next_four_weeks   = notification_date + 4.weeks
-    next_five_weeks   = notification_date + 5.weeks
-    next_six_weeks    = notification_date + 6.weeks
-    next_seven_weeks  = notification_date + 7.weeks
-    next_eight_weeks  = notification_date + 8.weeks
+    recent_assessment_date = default_assessment ? most_recent_csi_assessment : most_recent_custom_csi_assessment
+    next_assessment_date = recent_assessment_date + setting.max_assessment_duration(default_assessment: default_assessment)
 
-    [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
+    setting.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
   end
 
   def eligible_default_csi?

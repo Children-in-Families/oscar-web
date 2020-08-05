@@ -27,7 +27,7 @@ class UserNotification
     clients.each do |client|
       if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
         if client_ids.exclude?(client.id)
-          repeat_notifications = client.repeat_notifications_schedule
+          repeat_notifications = client.assessment_notification_dates
           if(repeat_notifications.include?(Date.today))
             client_ids << client.id
           end
@@ -38,7 +38,7 @@ class UserNotification
         CustomAssessmentSetting.all.each do |custom_assessment|
           if client.eligible_custom_csi?(custom_assessment) && client.assessments.customs.any?
             if custom_client_ids.exclude?(client.id)
-              repeat_notifications = client.repeat_notifications_schedule(false)
+              repeat_notifications = client.assessment_notification_dates(default_assessment: false)
               if(repeat_notifications.include?(Date.today))
                 custom_client_ids << client.id
               end

@@ -41,6 +41,14 @@ class Setting < ActiveRecord::Base
     delete_incomplete_after_period_value.send(delete_incomplete_after_period_unit.to_sym)
   end
 
+  def max_assessment_duration(default_assessment: true)
+    if default_assessment
+      max_assessment.send(assessment_frequency.to_sym)
+    else
+      max_custom_assessment.send(custom_assessment_frequency.to_sym)
+    end
+  end
+
   private
 
   def custom_assessment_name

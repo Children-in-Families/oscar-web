@@ -5101,6 +5101,7 @@ en:
       name: Name
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
       show_prev_assessment: Show previous assessment while completing new assessment
+      two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum
