@@ -16,11 +16,11 @@ class Commune < ActiveRecord::Base
 
 
   def name
-    "#{name_kh} / #{name_en}"
+    district_type ? name_en : "#{name_kh} / #{name_en}"
   end
 
   def code_format
-    "#{name_kh} / #{name_en} (#{code})"
+    district_type ? "#{name_en} (#{code})" : "#{name_kh} / #{name_en} (#{code})"
   end
 
   def self.get_commune(commune_code)

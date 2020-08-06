@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import _ from 'lodash'
 import {
   TextInput,
   SelectInput,
@@ -10,11 +11,20 @@ export default props => {
 
   const [provinces, setprovinces] = useState(currentProvinces.map(province => ({label: province.name, value: province.id})))
   const [districts, setdistricts] = useState(currentDistricts.map(district => ({label: district.name, value: district.id})))
-  const [communes, setcommunes] = useState(currentCommunes.map(commune => ({ label: commune.name_kh + ' / ' + commune.name_en, value: commune.id})))
+
+  const groupCommune = data => {
+    const communeGroup = _.groupBy(data, (n) => (n.district_type) );
+    return Object.keys(communeGroup).map(key => ({
+      label: key,
+      options: communeGroup[key].map(value => ({ label: value.name || value.name_en, value: value.id }))
+    }));
+  }
+
+  const [communes, setcommunes] = useState(groupCommune(currentCommunes))
   const typeOfAddress = addressTypes.map(type => ({ label: T.translate("addressType."+type.label), value: type.value }))
   useEffect(() => {
     setdistricts(currentDistricts.map(district => ({label: district.name, value: district.id})))
-    setcommunes(currentCommunes.map(commune => ({ label: commune.name && commune.name || `${commune.name_kh} / ${commune.name_en}`, value: commune.id})))
+    setcommunes(groupCommune(currentCommunes))
 
     // if(outside) {
     //   onChange(objectKey, { province_id: null, district_id: null, commune_id: null, village_id: null, house_number: '', street_number: '', current_address: '', address_type: '' })({type: 'select'})
@@ -29,16 +39,16 @@ export default props => {
     const parentConditions = {
       'provinces': {
         fieldsTobeUpdate: { district_id: null, commune_id: null, village_id: null, [field]: data },
-        optionsTobeResets: [setdistricts, setcommunes, setvillages]
+        optionsTobeResets: [setdistricts, setcommunes]
       },
       'districts': {
         fieldsTobeUpdate: { commune_id: null, village_id: null, [field]: data },
-        optionsTobeResets: [setcommunes, setvillages]
+        optionsTobeResets: [setcommunes]
       },
       'communes': {
-        fieldsTobeUpdate: { village_id: null, [field]: data },
-        optionsTobeResets: [setvillages]
-      }
+        fieldsTobeUpdate: { [field]: data },
+        optionsTobeResets: []
+      },
     }
 
     onChange(obj, parentConditions[parent].fieldsTobeUpdate)({type: 'select'})
@@ -57,9 +67,14 @@ export default props => {
         type: 'GET',
         url: `/api/${parent}/${data}/${child}`,
       }).success(res => {
-        const formatedData = res.data.map(data => ({ label: data.name, value: data.id }))
-        const dataState = { districts: setdistricts, communes: setcommunes, villages: setvillages }
-        dataState[child](formatedData)
+        let formatedData = undefined;
+        if(parent === 'districts')
+          formatedData = groupCommune(res.data)
+        else
+          formatedData = res.data.map(data => ({ label: data.name || data.name_en, value: data.id }))
+
+        const dataState = { districts: setdistricts, communes: setcommunes }
+        dataState[child] && dataState[child](formatedData)
       })
     }
   }
@@ -72,7 +87,7 @@ export default props => {
         <div className="row">
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
-              label={T.translate("address.provicne")}
+              label={T.translate("address.nepal.province")}
               options={provinces}
               isDisabled={disabled}
               value={objectData.province_id}
@@ -84,7 +99,7 @@ export default props => {
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
-              label={T.translate("address.district")}
+              label={T.translate("address.nepal.district")}
               isDisabled={disabled}
               options={districts}
               value={objectData.district_id}
@@ -96,7 +111,8 @@ export default props => {
 
           <div className="col-xs-12 col-md-6 col-lg-3">
             <SelectInput
-              label={T.translate("address.commune")}
+              asGroup
+              label={T.translate("address.nepal.municipality")}
               isDisabled={disabled}
               options={communes}
               value={objectData.commune_id}

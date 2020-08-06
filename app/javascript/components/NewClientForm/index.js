@@ -13,6 +13,7 @@ import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
 import ThailandAddress   from '../Addresses/thailandAddress'
 import LesothoAddress   from '../Addresses/lesothoAddress'
+import NepalAddress   from '../Addresses/nepalAddress'
 import toastr from 'toastr/toastr'
 
 import T from 'i18n-react'
@@ -364,6 +365,24 @@ const Forms = props => {
         break;
       case 'lesotho':
         return <LesothoAddress disabled={disabled} outside={objectData.outside || false} onChange={onChange} data={{addressTypes, objectKey, objectData, T}} />
+        break;
+      case 'nepal':
+        return <NepalAddress
+                  hintText={inlineHelpTranslation}
+                  disabled={disabled}
+                  outside={objectData.outside || false}
+                  onChange={onChange}
+                  current_organization={current_organization}
+                  data={{
+                    addressTypes,
+                    currentDistricts: addresses.districts || refereeDistricts,
+                    currentCommunes: addresses.communes || refereeCommunes,
+                    currentProvinces,
+                    objectKey,
+                    objectData,
+                    T
+                  }}
+                />
         break;
       default:
         if(objectKey == 'referee'){
