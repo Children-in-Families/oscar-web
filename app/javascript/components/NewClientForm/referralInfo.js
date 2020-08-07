@@ -11,6 +11,7 @@ import {
 import BrcAddress   from './brcAddress'
 import ConcernAddress from "./concernAddress";
 import { t } from '../../utils/i18n'
+import countryList from 'react-select-country-list'
 
 export default props => {
   const { onChange, renderAddressSwitch, fieldsVisibility, translation, hintText, data: { client, referee, currentDistricts, subDistricts, currentCommunes, currentVillages, birthProvinces, currentProvinces, currentStates, currentTownships, errorFields, callerRelationships, addressTypes, phoneOwners, T, current_organization, brc_presented_ids, brc_islands, brc_resident_types, brc_prefered_langs, maritalStatuses, nationalities, ethnicities, traffickingTypes  } } = props
@@ -23,6 +24,7 @@ export default props => {
   const nationalityOptions = nationalities.map(a => ({ label: a, value: a }))
   const ethnicityOptions = ethnicities.map(a => ({ label: a, value: a }))
   const traffickingTypeOptions = traffickingTypes.map(a => ({ label: a, value: a }))
+  const locationOfConcernOptions = countryList().getData().map(a => ({ label: a.label, value: a.label }))
 
   const genderLists = [
     { label: T.translate("refereeInfo.female"), value: 'female' },
@@ -356,12 +358,13 @@ export default props => {
         {
          fieldsVisibility.location_of_concern == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
-           <TextInput
-             label={ t(translation, 'clients.form.location_of_concern') }
-             onChange={onChange('client', 'location_of_concern')}
-             value={client.location_of_concern}
-           />
-         </div>
+             <SelectInput
+               label={ t(translation, 'clients.form.location_of_concern') }
+               options={locationOfConcernOptions}
+               onChange={onChange('client', 'location_of_concern')}
+               value={client.location_of_concern}
+             />
+           </div>
         }
       </div>
 
