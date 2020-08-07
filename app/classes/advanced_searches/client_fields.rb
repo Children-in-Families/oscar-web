@@ -54,7 +54,6 @@ module AdvancedSearches
         'other_agency_phone',
         'department',
         'education_background',
-        'location_of_concern',
         'id_number',
         'legacy_brcs_id',
         'other_phone_number',
@@ -81,6 +80,7 @@ module AdvancedSearches
 
     def drop_down_type_list
       [
+        ['location_of_concern', Client.distinct.pluck(:location_of_concern).map{ |a| { a => a }}],
         ['nationality', Client::NATIONALITIES.map{ |a| { a => a }}],
         ['ethnicity', Client::ETHNICITY.map{ |a| { a => a }}],
         ['type_of_trafficking', Client::TRAFFICKING_TYPES.map{ |a| { a => a }}],
