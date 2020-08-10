@@ -9,7 +9,7 @@
     "house_number": "House Number",
     "address_name": "Address Name",
     "address_type": "Address Type",
-
+    "locality": "Locality",
     "lesotho": {
       "description_house_landmark": "Description of the house and a landmark",
       "directions": "Directions",

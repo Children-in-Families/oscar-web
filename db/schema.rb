@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200731034640) do
+ActiveRecord::Schema.define(version: 20200810071821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -227,6 +227,7 @@ ActiveRecord::Schema.define(version: 20200731034640) do
     t.integer  "state_id"
     t.integer  "township_id"
     t.integer  "subdistrict_id"
+    t.string   "locality"
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
@@ -663,6 +664,7 @@ ActiveRecord::Schema.define(version: 20200731034640) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
+    t.string   "locality"
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -1012,7 +1014,7 @@ ActiveRecord::Schema.define(version: 20200731034640) do
   end
 
   create_table "global_services", id: false, force: :cascade do |t|
-    t.uuid "uuid", default: "uuid_generate_v4()"
+    t.uuid "uuid", default: "gen_random_uuid()"
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
@@ -1566,6 +1568,7 @@ ActiveRecord::Schema.define(version: 20200731034640) do
     t.integer  "state_id"
     t.integer  "township_id"
     t.integer  "subdistrict_id"
+    t.string   "locality"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree

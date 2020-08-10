@@ -1571,7 +1571,7 @@ en:
       neighbor_phone: Phone Number
       dosavy_name: "DoSAVY: Name"
       dosavy_phone: Phone Number
-      chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+      chief_commune_name: "Chief of Municipality/Municipality Council Member: Name"
       chief_commune_phone: Phone Number
       chief_village_name: "Chief of Village: Name"
       chief_village_phone: Phone Number
@@ -2423,7 +2423,7 @@ en:
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"
         dosavy_phone: Phone Number
-        chief_commune_name: "Chief of Commune/Commune Council Member: Name"
+        chief_commune_name: "Chief of Municipality/Municipality Council Member: Name"
         chief_commune_phone: Phone Number
         chief_village_name: "Chief of Village: Name"
         chief_village_phone: Phone Number
@@ -2498,7 +2498,7 @@ en:
         code: Custom ID Number1
         concern_address: Address Name
         concern_address_type: Address Type
-        concern_commune_id: Commune / Sangkat
+        concern_commune_id: Municipality
         concern_district_id: District / Khan
         concern_email: Relevant Email Contact
         concern_email_owner: Email Owner
@@ -2663,7 +2663,7 @@ en:
         client: Client
         clients: Clients
         code: Family ID
-        commune: Commune
+        commune: Municipality
         contract_date: Contract Date
         date_of_birth: Date of Birth
         dependable_income: Dependable Income
@@ -2775,7 +2775,7 @@ en:
         anonymous: Anonymous
         answered_call: Answered Call
         called_before: Called Before
-        commune_id: Commune
+        commune_id: Municipality
         created_at: Created At
         current_address: Current Address
         district_id: District
@@ -3048,7 +3048,7 @@ en:
     client_name: Child's Name
     clothes: clothes
     code: Form
-    commune: Commune
+    commune: Municipality
     communication_in_family: Family relationships
     communication_in_society: Community Relationships
     copy: Copyright
@@ -3085,7 +3085,7 @@ en:
     if_exist: 'If yes:'
     initial_capital: Capital
     initial_city: District
-    initial_commune: Commune
+    initial_commune: Municipality
     initial_date: Date
     intervention_plan: Intervention Plan
     kingdom_of_cambodia: Kingdom of Cambodia
@@ -3655,7 +3655,7 @@ en:
       children: Clients
       clients: Clients
       code: Family ID
-      commune: Commune
+      commune: Municipality
       contract_date: Contract Date
       custom_forms: Custom Forms
       dependable_income: Dependable Income
@@ -3879,7 +3879,7 @@ en:
       client_name: Child's Name
       clothes: clothes
       code: Form
-      commune: Commune
+      commune: Municipality
       communication_in_family: Family relationships
       communication_in_society: Community Relationships
       copy: Copyright
@@ -3923,7 +3923,7 @@ en:
       if_exist: 'If yes:'
       initial_capital: Capital
       initial_city: District
-      initial_commune: Commune
+      initial_commune: Municipality
       initial_date: Date
       intervention_plan: Intervention Plan
       kingdom_of_cambodia: Kingdom of Cambodia
@@ -4029,7 +4029,7 @@ en:
           client_name: Child's Name
           clothes: clothes
           code: Form
-          commune: Commune
+          commune: Municipality
           communication_in_family: Family relationships
           communication_in_society: Community Relationships
           copy: Copyright
@@ -4067,7 +4067,7 @@ en:
           information: Information
           initial_capital: Capital
           initial_city: District
-          initial_commune: Commune
+          initial_commune: Municipality
           initial_date: Date
           intervention_plan: Intervention Plan
           kingdom_of_cambodia: Kingdom of Cambodia
@@ -4932,7 +4932,7 @@ en:
     anonymous: Anonymous
     answered_call: Answered Call
     called_before: Called Before
-    commune_id: Commune
+    commune_id: Municipality
     created_at: Created At
     current_address: Current Address
     district_id: District

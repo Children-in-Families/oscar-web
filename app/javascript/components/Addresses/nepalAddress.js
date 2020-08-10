@@ -78,7 +78,6 @@ export default props => {
       })
     }
   }
-
   return (
     outside == true ?
       <TextArea label={T.translate("address.outside_address")} disabled={disabled} value={objectData.outside_address} onChange={onChange(objectKey, 'outside_address')} />
@@ -149,6 +148,15 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'current_address')}
               value={objectData.current_address}
+            />
+          </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate("address.locality")}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'locality')}
+              value={objectData.locality}
             />
           </div>
 

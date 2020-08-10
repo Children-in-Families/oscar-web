@@ -1085,6 +1085,7 @@ module ClientsHelper
 
 
   def country_scope_label_translation
+    return '' if Setting.first.try(:country_name) == 'nepal'
     if I18n.locale.to_s == 'en'
       country_name = Setting.first.try(:country_name)
       case country_name
