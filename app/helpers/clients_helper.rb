@@ -95,6 +95,8 @@ module ClientsHelper
 
   def columns_visibility(column)
     label_column = {
+      passport_number: t('datagrid.columns.clients.passport_number'),
+      national_id_number: t('datagrid.columns.clients.national_id_number'),
       marital_status: t('datagrid.columns.clients.marital_status'),
       nationality: t('datagrid.columns.clients.nationality'),
       ethnicity: t('datagrid.columns.clients.ethnicity'),

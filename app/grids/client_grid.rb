@@ -97,6 +97,8 @@ class ClientGrid < BaseGrid
       type_of_trafficking
       education_background
       department
+      national_id_number
+      passport_number
     ).each do |field_name|
 
     header = I18n.t("datagrid.columns.clients.#{field_name}")
@@ -840,6 +842,8 @@ class ClientGrid < BaseGrid
       settlement2
       resident_own_or_rent2
       household_type2
+      national_id_number
+      passport_number
     ).each do |field_name|
     header = I18n.t("datagrid.columns.clients.#{field_name}")
     header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')
