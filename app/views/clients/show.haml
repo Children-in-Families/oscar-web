@@ -192,7 +192,7 @@
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
-          - if government_forms_visible? && policy(@client).show?(:government_forms)
+          - if government_forms_visible? && policy(@client).show?(:government_forms) && current_organization&.country != 'nepal'
             .btn-group.small-btn-margin
               %button.btn.btn-sm.btn-success.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
                 = t('.government_forms')
