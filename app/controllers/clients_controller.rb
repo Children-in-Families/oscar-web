@@ -4,21 +4,28 @@ class ClientsController < AdminController
   include ClientAdvancedSearchesConcern
   include ClientGridOptions
 
-  before_action :format_search_params, only: :index
-  before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index]
-  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
-  before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index]
-  before_action :basic_params, if: :has_params?, only: [:index]
-  before_action :build_advanced_search, only: [:index]
-  before_action :fetch_advanced_search_queries, only: [:index]
+  before_action :assign_active_client_prams, only: :active
+  before_action :format_search_params, only: [:index, :active]
+  before_action :get_quantitative_fields, :get_hotline_fields, :hotline_call_column, only: [:index, :active]
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index, :active]
+  before_action :get_custom_form_fields, :program_stream_fields, :custom_form_fields, :client_builder_fields, only: [:index, :active]
+  before_action :basic_params, if: :has_params?, only: [:index, :active]
+  before_action :build_advanced_search, only: [:index, :active]
+  before_action :fetch_advanced_search_queries, only: [:index, :active]
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :assign_client_attributes, only: [:show, :edit]
-  before_action :set_association, except: [:index, :destroy, :version]
-  before_action :choose_grid, only: :index
+  before_action :set_association, except: [:index, :destroy, :version, :active]
+  before_action :choose_grid, only: [:index, :active]
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
   before_action :validate_referral, only: [:new, :edit]
+
+
+  def active
+    index
+    render :index
+  end
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -409,5 +416,12 @@ class ClientsController < AdminController
   def exited_clients(user_ids)
     client_ids = PaperTrail::Version.where(item_type: 'CaseWorkerClient', event: 'create').joins(:version_associations).where(version_associations: { foreign_key_name: 'user_id', foreign_key_id: user_ids }).distinct.map(&:object_changes).map{|a| YAML::load a }.map{|a| (a['client_id'] || [])[1] }
     Client.where(id: client_ids, status: 'Exited').ids
+  end
+
+  def assign_active_client_prams
+    params[:client_advanced_search] = {
+      action_report_builder: '#builder',
+      basic_rules: "{\"condition\":\"AND\",\"rules\":[{\"id\":\"status\",\"field\":\"Status\",\"type\":\"string\",\"input\":\"select\",\"operator\":\"equal\",\"value\":\"Active\",\"data\":{\"values\":[{\"Accepted\":\"Accepted\"},{\"Active\":\"Active\"},{\"Exited\":\"Exited\"},{\"Referred\":\"Referred\"}],\"isAssociation\":false}}],\"valid\":true}"
+    }
   end
 end
