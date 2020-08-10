@@ -157,7 +157,7 @@ export default props => {
               onChange={onChange('carer', 'name')}
               value={carer.name}
               inlineClassName="carer-name"
-              hintText={hintText.carer.carer_name}
+              hintText={current_organization.short_name == 'ratanak' ? hintText.carer.ratanak.carer_name : hintText.carer.carer_name}
             />
           </div>
         }
