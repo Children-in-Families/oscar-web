@@ -559,7 +559,7 @@ CIF.ClientsIndex = do ->
     report.lineChart()
 
   _enableSelect2 = ->
-    $('#clients-index select, #clients-active select').select2
+    $('#clients-index select').select2
       minimumInputLength: 0,
       allowClear: true
 
