@@ -101,6 +101,7 @@ my:
   activerecord:
     attributes:
       carer:
+        email: Carer Email Address
         name: မူလတန်းစောင့်ရှောက်သူအမည်အား
         phone: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
         carer_information: Carer Information?

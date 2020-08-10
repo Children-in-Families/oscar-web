@@ -105,6 +105,7 @@ en:
       carer:
         name: Carer Name
         phone: Carer Phone Number
+        email: Carer Email Address
         carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
