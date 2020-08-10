@@ -1,4 +1,4 @@
-body[id='clients-index'] {
+body[id='clients-index'], body[id='clients-active'] {
   @import 'iCheck/custom';
   @import 'clients/client_grid';
 
