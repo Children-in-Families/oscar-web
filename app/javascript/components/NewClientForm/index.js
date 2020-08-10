@@ -443,7 +443,7 @@ const Forms = props => {
           </div>
 
           <div style={{ display: step === 4 ? 'block' : 'none' }}>
-            <ReferralVulnerability data={referralVulnerabilityTabData} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} hintText={inlineHelpTranslation} />
+            <ReferralVulnerability data={referralVulnerabilityTabData} current_organization={current_organization} translation={translation} fieldsVisibility={fieldsVisibility} onChange={onChange} hintText={inlineHelpTranslation} />
           </div>
 
           {

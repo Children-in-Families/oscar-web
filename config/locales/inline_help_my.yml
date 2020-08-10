@@ -3,7 +3,7 @@ my:
     address:
       village: N/A
     admin:
-      admin_receiving_staff: Select the Case Worker who first received the client case. Referral means a case, or a client reported to your organization.
+      admin_receiving_staff: Select the Case Worker(s)/Staff who first received the client case. Referral means a case, or a client reported to your organization.
       admin_referral_date: Enter the actual date when the case was reported to your organization. Type the date using yyyy-mm-dd format OR select the date using the calendar in this field.
         Enter the actual date when the case was reported to your organization. Type the date using yyyy-mm-dd format OR select the date using the calendar in this field.
       case_worker: Select the Case Worker(s)/Staff who will manage this case. You can choose more than one name. This information can be edited after the case is saved. The client profile will be visible to the Case Worker(s)/Staff you choose here.
@@ -19,6 +19,7 @@ my:
             <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Once you start the assessment, you have <strong>one week</strong> to complete it. You can save the assessment at any point but ensure to finish it within a week. However, you won’t be allowed to save half-way if you choose to add Task at the end of the assessment.<br />
             Email reminders will be sent for incomplete assessments. After one week, the assessment will be auto-deleted. You will have to restart the assessment if you do not complete it within one week.
     carer:
+      referral_province: Select the province where the caregiver is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the caregiver moves to a different province.
       carer_name: Depending on the client’s situation, a primary carer can be anyone who is the first immediate person responsible for the client’s wellbeing. It can be a parent, foster parent, hospital staff, NGO staff, etc. You will need to update this when the client’s living situation changes.
       carer_gender: Other - if the client’s gender is something other than male or female. Unknown - if the client’s gender is not known. This can be edited later after you find out the gender.
       carer_phone: N/A
@@ -27,9 +28,13 @@ my:
       carer_family_record: N/A
       carer_same_as_client: N/A
       carer_international: N/A
+      ratanak:
+        carer_name: Depending on the client’s situation, a Caregiver can be anyone who is the first immediate person responsible for the client’s wellbeing. It can be a parent, foster parent, hospital staff, NGO staff, etc. You will need to update this when the client’s living situation changes.
     case_notes:
       index:
         new_button: Document any communication or updates related to the client here.
+    client:
+      referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
     clients:
       assessments:
         add_task: At least one task is mandatory for each domain. The task can be optional only when the client’s situation does not require any interventions.
@@ -48,7 +53,7 @@ my:
         button: Document any communication or updates related to the client here.
         date: The actual date when the Case Worker interacted, communicated, and talked about or with the client.
         note: Case notes should provide accurate and objective descriptions of all the work you did with or for a client. Enter detailed notes summarizing each client interaction. Include things like what the client said or did, major topics of conversation; any interventions completed with or for the client. Do not include subjective statements or assessments which you are not qualified to make. For example, Case Worker should not make medical diagnoses, as they do not have medical degrees.
-        type: Choose how you interacted the client":" Visit – Met client in person. Non-face to face – Contacted client without meeting in person. [For example phone, video call, email, message, Facebook, etc.] 3rd Party – Gathered information through another person. [For example teacher, NGO staff, doctor, neighbor, friend, etc.] Other – Any other way in which you tracked or contacted the client.
+        type: Choose how you interacted with the client":" Visit – Met client in person. Non-face to face – Contacted client without meeting in person. [For example phone, video call, email, message, Facebook, etc.] 3rd Party – Gathered information through another person. [For example teacher, NGO staff, doctor, neighbor, friend, etc.] Other – Any other way in which you tracked or contacted the client.
         who: Details of the person(s) present during the visit or the conversation.
       buttons:
         save: The client’s information will be created/saved. The Duplicate Checker feature will check for any duplicate entries and warn you if any are found.
@@ -96,6 +101,8 @@ my:
             <span class="text-info"><u>Admin:</u></span> The default columns can be customized based on your organization preference. To make the change, going to Manage >>Setting>>Default Columns
       show:
         accepted: Accept indicates your organization will work with the client. The next step is to perform client assessment and enroll in the program stream(s).
+        ratanak:
+          accepted: Accept indicates your organization will work with the client. The next step is to enroll client in the program stream(s) and perform client assessment.
         active_form: Add/View/Edit the custom forms already applied to the client.
         active_program:  View/Edit/Delete the enrollment information, add new tracking form(s), or exit client from the program(s).
         add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the client.
@@ -108,6 +115,8 @@ my:
         notes:
           lists:
             list1: Some information such as schooling, living details, primary carer, etc. can change with time. Please ensure you update such information when it changes.
+            ratanak:    
+              list1: Some information such as schooling, living details, caregiver, etc. can change with time. Please ensure you update such information when it changes.
         referral_form: View all referral forms under the following Referred to External Organization – If you sent the client to another organization. Referred From External Organization – If the client came to you through another organization.
         refer_client: When sending a client to another organization, select a name from the list. If the name is not in the list, select I don’t see the NGO I’m looking for to print the form and send it to the target organization.
         reject: Reject indicates your organization cannot work with the client for some reason. The case will remain in the database and show Exited status with exit circumstance as Reject Referral.
@@ -118,6 +127,8 @@ my:
       custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to Manage >> Setting >> Custom Labels.
       custom_id_poor: N/A
       relevant_info: It is recommended to document all the information here, including some information that MAY be already covered in the form. This will help a Case Worker/Supervisor quickly understand the background of why the referral was made. Give a brief summary of the referral circumstances such as who referred the client and why. Give any relevant information about the client’s health, living situation, vulnerability, etc. You can add any other details as required.
+      ratanak:
+        relevant_info: Use this field to record any additional, relevant information, not requested elsewhere on this form, to help a Case Worker/Supervisor quickly understand the background of why the referral was made.
     donor:
       donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from Manage &gt;&gt; Agencies.
       donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from Manage &gt;&gt; Donors.
@@ -151,7 +162,7 @@ my:
         Select the type of organization who referred the client to your organization.
         The Referral Source field will show the list of applicable organizations only AFTER a category is selected here.
       referral_source: The list in this field will change based on the Referral Source Category you chose. Admin/Manager/Case Worker, If a name is not on the list, add a new source from Manage >> Referral Sources.
-      referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
+      referral_province: Select the province where the referee is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the referee moves to a different province.
       referral_districs: To view the list, first select Current Province.
       referral_commune: To view the list, first select Address - District/Khan.
       referral_village: To view the list, first select Address - Commune/Sangkat
