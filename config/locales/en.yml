@@ -1567,6 +1567,8 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
+      national_id_number: National ID Number
+      passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
       neighbor_phone: Phone Number
       dosavy_name: "DoSAVY: Name"
@@ -2419,6 +2421,8 @@ en:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id_number: National ID Number
+        passport_number: Passport Number
         neighbor_name: "Neighbor/Friend: Name"
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"

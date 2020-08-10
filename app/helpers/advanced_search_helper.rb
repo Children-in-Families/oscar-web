@@ -65,6 +65,8 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
+      national_id_number: I18n.t('datagrid.columns.clients.national_id_number'),
+      passport_number: I18n.t('datagrid.columns.clients.passport_number'),
       marital_status: I18n.t('datagrid.columns.clients.marital_status'),
       nationality: I18n.t('datagrid.columns.clients.nationality'),
       ethnicity: I18n.t('datagrid.columns.clients.ethnicity'),

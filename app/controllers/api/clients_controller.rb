@@ -132,6 +132,8 @@ module Api
             :education_background,
             :department,
             :passport,
+            :passport_number,
+            :national_id_number,
             :travel_doc,
             :referral_doc,
             :local_consent,

@@ -260,7 +260,7 @@
                   %td
                     = @client.nickname
 
-              - %w(marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
+              - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
                 - if policy(@client).show?(field.to_sym)
                   %tr
                     %td.spacing-first-col= t(".#{field}")
