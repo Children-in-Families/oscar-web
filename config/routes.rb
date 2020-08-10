@@ -108,8 +108,6 @@ Rails.application.routes.draw do
     collection do
       post '/ad_search', to: 'clients#index'
       get :advanced_search
-
-      get :active
     end
 
     scope module: 'client' do
