@@ -721,15 +721,15 @@ class ClientGrid < BaseGrid
     object.referee && object.referee.email
   end
 
-  column(:carer_name, header: -> { I18n.t('datagrid.columns.clients.carer_name') }) do |object|
+  column(:carer_name, header: -> { I18n.t('activerecord.attributes.carer.name') }) do |object|
     object.carer && object.carer.name
   end
 
-  column(:carer_phone, header: -> { I18n.t('datagrid.columns.clients.carer_phone') }) do |object|
+  column(:carer_phone, header: -> { I18n.t('activerecord.attributes.carer.phone') }) do |object|
     object.carer && object.carer.phone
   end
 
-  column(:carer_email, header: -> { I18n.t('datagrid.columns.clients.carer_email') }) do |object|
+  column(:carer_email, header: -> { I18n.t('activerecord.attributes.carer.email') }) do |object|
     object.carer && object.carer.email
   end
 
