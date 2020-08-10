@@ -816,7 +816,13 @@ class ClientGrid < BaseGrid
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  %w(
+  %w( marital_status
+      nationality
+      ethnicity
+      location_of_concern
+      type_of_trafficking
+      education_background
+      department
       presented_id
       id_number
       legacy_brcs_id

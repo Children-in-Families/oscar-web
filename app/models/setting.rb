@@ -14,9 +14,9 @@ class Setting < ActiveRecord::Base
 
   accepts_nested_attributes_for :custom_assessment_settings, allow_destroy: true
 
-  validates_numericality_of :max_assessment, only_integer: true, greater_than: 14, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'day' }
-  validates_numericality_of :max_assessment, only_integer: true, greater_than: 2, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'week' }
-  validates_numericality_of :max_assessment, only_integer: true, greater_than: 0, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'month' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 30, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'day' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 4, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'week' }
+  validates_numericality_of :max_assessment, only_integer: true, greater_than: 1, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'month' }
   validates_numericality_of :max_assessment, only_integer: true, greater_than: 0, if: -> { enable_default_assessment.present? && max_assessment.present? && assessment_frequency == 'year' }
 
   validates_numericality_of :max_case_note, only_integer: true, greater_than: 0, if: -> { max_case_note.present? }
