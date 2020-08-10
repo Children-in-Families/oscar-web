@@ -1,4 +1,4 @@
-CIF.ClientsActive = CIF.ClientsIndex = do ->
+CIF.ClientsIndex = do ->
   _init = ->
     window.customGroup = {}
     content = $('#content').val()
