@@ -32,7 +32,7 @@ namespace :nepali_provinces do
               district.communes.find_or_create_by(name_kh: urban_commune_name, name_en: urban_commune_name, district_type: district_types[4], code: urban_postal_code.to_i.to_s) if urban_commune_name
             else
               if rural_commune_name
-                district.communes.find_or_initialize_by(name_kh: urban_commune_name, name_en: urban_commune_name, district_type: district_types[1]) do |commune|
+                district.communes.find_or_initialize_by(name_kh: urban_commune_name, name_en: urban_commune_name, district_type: district_types[3]) do |commune|
                   commune.save(validate: false)
                 end
               end

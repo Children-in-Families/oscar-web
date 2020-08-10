@@ -120,6 +120,15 @@ export default props => {
               hintText={hintText.referee.referral_districs}
             />
           </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={T.translate("address.locality")}
+              disabled={disabled}
+              onChange={onChange(objectKey, 'locality')}
+              value={objectData.locality}
+            />
+          </div>
         </div>
 
         <div className="row">
@@ -148,15 +157,6 @@ export default props => {
               disabled={disabled}
               onChange={onChange(objectKey, 'current_address')}
               value={objectData.current_address}
-            />
-          </div>
-
-          <div className="col-xs-12 col-md-6 col-lg-3">
-            <TextInput
-              label={T.translate("address.locality")}
-              disabled={disabled}
-              onChange={onChange(objectKey, 'locality')}
-              value={objectData.locality}
             />
           </div>
 

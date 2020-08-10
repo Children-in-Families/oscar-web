@@ -1014,7 +1014,7 @@ ActiveRecord::Schema.define(version: 20200810071821) do
   end
 
   create_table "global_services", id: false, force: :cascade do |t|
-    t.uuid "uuid", default: "gen_random_uuid()"
+    t.uuid "uuid", default: "uuid_generate_v4()"
   end
 
   add_index "global_services", ["uuid"], name: "index_global_services_on_uuid", unique: true, using: :btree
