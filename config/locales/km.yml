@@ -103,6 +103,7 @@ km:
   activerecord:
     attributes:
       carer:
+        email: អ៊ុីម៉ែលរបស់អ្នកថែទាំ
         name: ឈ្មោះអ្នកថែទាំ
         phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_information: ព័ត៌មានអ្នកថែទាំ?
