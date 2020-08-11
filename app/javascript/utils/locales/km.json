@@ -9,6 +9,7 @@
     "house_number": "អាសយដ្ឋាន - លេខផ្ទះ",
     "address_name": "អាសយដ្ឋាន - ឈ្មោះ",
     "address_type": "អាសយដ្ឋាន - ប្រភេទ",
+    "locality": "Locality",
     "lesotho": {
       "description_house_landmark": "Description of the house and a landmark",
       "directions": "Directions",

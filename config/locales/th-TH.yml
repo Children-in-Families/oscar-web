@@ -1717,6 +1717,7 @@ th-TH:
       live_with:
       local_family_name:
       local_given_name:
+      locality: Locality
       main_school_contact:
       manage:
       name:

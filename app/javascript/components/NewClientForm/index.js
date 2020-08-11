@@ -13,6 +13,7 @@ import Address      from './address'
 import MyanmarAddress   from '../Addresses/myanmarAddress'
 import ThailandAddress   from '../Addresses/thailandAddress'
 import LesothoAddress   from '../Addresses/lesothoAddress'
+import NepalAddress   from '../Addresses/nepalAddress'
 import toastr from 'toastr/toastr'
 
 import T from 'i18n-react'
@@ -282,6 +283,7 @@ const Forms = props => {
       object.current_address = ''
       object.address_type = ''
       object.house_number = ''
+      object.locality = ''
     } else {
       object.outside_address = ''
     }
@@ -369,28 +371,37 @@ const Forms = props => {
         break;
       default:
         if(objectKey == 'referee'){
-          return <Address
-                  hintText={inlineHelpTranslation}
-                  disabled={disabled}
-                  outside={objectData.outside || false}
-                  onChange={onChange}
-                  current_organization={current_organization}
-                  data={{
-                    addressTypes,
-                    currentDistricts: addresses.districts || refereeDistricts,
-                    currentCommunes: addresses.communes || refereeCommunes,
-                    currentVillages: addresses.villages || refereeVillages,
-                    currentProvinces,
-                    objectKey,
-                    objectData,
-                    T
-                  }}
-                />
+          if(country_name === 'nepal')
+            return <NepalAddress hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{ addressTypes, currentDistricts: addresses.districts || refereeDistricts, currentCommunes: addresses.communes || refereeCommunes, currentProvinces, objectKey, objectData, T }} />
+          else
+            return <Address
+                    hintText={inlineHelpTranslation}
+                    disabled={disabled}
+                    outside={objectData.outside || false}
+                    onChange={onChange}
+                    current_organization={current_organization}
+                    data={{
+                      addressTypes,
+                      currentDistricts: addresses.districts || refereeDistricts,
+                      currentCommunes: addresses.communes || refereeCommunes,
+                      currentVillages: addresses.villages || refereeVillages,
+                      currentProvinces,
+                      objectKey,
+                      objectData,
+                      T
+                    }}
+                  />
         }
         if(objectKey == 'carer'){
-          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
+          if(country_name === 'nepal')
+            return <NepalAddress hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
+          else
+            return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
         } else{
-          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
+          if(country_name === 'nepal')
+            return <NepalAddress hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
+          else
+            return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
         }
 
     }
