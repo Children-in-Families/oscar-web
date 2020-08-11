@@ -5,9 +5,10 @@
         .ibox-title
           %h5.text-center= t('.client_forms')
         .ibox-content
-          .i-checks.client-forms
-            %label= t('.hotline')
-            = f.input :enable_hotline, as: :radio_buttons, collection: [[I18n.t('settings.client_forms.yes'), true],[I18n.t('settings.client_forms.no'), false]], label: false
+          - if current_setting.country_name != 'nepal'
+            .i-checks.client-forms
+              %label= t('.hotline')
+              = f.input :enable_hotline, as: :radio_buttons, collection: [[I18n.t('settings.client_forms.yes'), true],[I18n.t('settings.client_forms.no'), false]], label: false
           .i-checks.client-forms.hide
             %label= t('.client_forms')
             = f.input :enable_client_form, as: :radio_buttons, collection: [[I18n.t('settings.client_forms.yes'), true],[I18n.t('settings.client_forms.no'), false]], label: false

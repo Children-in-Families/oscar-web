@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200810070640) do
+ActiveRecord::Schema.define(version: 20200810071821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -227,6 +227,7 @@ ActiveRecord::Schema.define(version: 20200810070640) do
     t.integer  "state_id"
     t.integer  "township_id"
     t.integer  "subdistrict_id"
+    t.string   "locality"
   end
 
   add_index "carers", ["commune_id"], name: "index_carers_on_commune_id", using: :btree
@@ -663,8 +664,12 @@ ActiveRecord::Schema.define(version: 20200810070640) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
+<<<<<<< HEAD
     t.string   "national_id_number"
     t.string   "passport_number"
+=======
+    t.string   "locality"
+>>>>>>> 2020072905-nepal-instance
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
@@ -688,12 +693,13 @@ ActiveRecord::Schema.define(version: 20200810070640) do
   end
 
   create_table "communes", force: :cascade do |t|
-    t.string   "code",        default: ""
-    t.string   "name_kh",     default: ""
-    t.string   "name_en",     default: ""
+    t.string   "code",          default: ""
+    t.string   "name_kh",       default: ""
+    t.string   "name_en",       default: ""
     t.integer  "district_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "district_type"
   end
 
   add_index "communes", ["district_id"], name: "index_communes_on_district_id", using: :btree
@@ -1553,6 +1559,7 @@ ActiveRecord::Schema.define(version: 20200810070640) do
     t.integer  "state_id"
     t.integer  "township_id"
     t.integer  "subdistrict_id"
+    t.string   "locality"
   end
 
   add_index "referees", ["commune_id"], name: "index_referees_on_commune_id", using: :btree
