@@ -12,6 +12,12 @@ body[id='assessments-update'] {
     }
   }
 
+  #prev-assessment-container {
+    .assessment-domains .ibox-title {
+      height: 58px;
+    }
+  }
+
   .assessment-form.unrestricted_form {
     .wizard {
       .steps {
@@ -81,8 +87,7 @@ body[id='assessments-update'] {
   }
   #rootwizard{
     .content{
-      padding-bottom: 270px;
-      margin-bottom: -275px;
+      height: auto;
     }
   }
   .tasks-list{
