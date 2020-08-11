@@ -664,12 +664,9 @@ ActiveRecord::Schema.define(version: 20200810071821) do
     t.string   "other_agency_name"
     t.string   "other_representative_name"
     t.string   "other_agency_phone"
-<<<<<<< HEAD
     t.string   "national_id_number"
     t.string   "passport_number"
-=======
     t.string   "locality"
->>>>>>> 2020072905-nepal-instance
   end
 
   add_index "clients", ["commune_id"], name: "index_clients_on_commune_id", using: :btree
