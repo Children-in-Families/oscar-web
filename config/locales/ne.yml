@@ -2016,6 +2016,7 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name
       local_given_name: Given Name
+      locality: Locality
       main_school_contact: Main School Contact
       manage: Manage
       name: Name

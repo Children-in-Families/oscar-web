@@ -305,6 +305,13 @@
                   %td.address
                     %strong
                       = country_address_field(@client)
+              - if @client.locality.present?
+                %tr
+                  %td.spacing-first-col
+                    = t('.locality')
+                  %td.address
+                    %strong
+                      = @client.locality
               - if current_setting.try(:enable_hotline) == true
                 %tr
                   %td.spacing-first-col
