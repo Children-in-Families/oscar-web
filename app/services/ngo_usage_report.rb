@@ -187,7 +187,7 @@ class NgoUsageReport
     end
     Organization.switch_to 'public'
 
-    user_data = User.where.not(organization_name: nil).map do |user|
+    user_data = User.where.not("email ILIKE ?", "api.user@%").map do |user|
       [user.name, user.organization_name, user.sign_in_count]
     end
 
