@@ -12,6 +12,7 @@ namespace :holt do
     Rake::Task['quantitative_types:import'].invoke
     Rake::Task['quantitative_cases:import'].invoke
     Setting.first.update(country_name: 'nepal')
+    Rake::Task["field_settings:import"].invoke('nepal')
     # import = HoltImporter::Import.new('Family')
     # import.families
 
