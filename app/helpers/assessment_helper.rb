@@ -32,7 +32,7 @@ module AssessmentHelper
   end
 
   def order_assessment(assessment)
-    assessment.assessment_domains_in_order if assessment.persisted?
+    assessment.domains.sort_by(&:name)
   end
 
   def assessment_readable?
