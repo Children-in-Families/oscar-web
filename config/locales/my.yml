@@ -651,6 +651,7 @@ my:
       back_to_assessment_history: စိစစ္မႈသမုိင္းေၾကာင္းသို႔ ျပန္ထြက္၇န္
       based_on: ခန့်မှန်းအရေအတွက်ပေါ်မှာအခြေခံပြီး
       case_plan: စီမံကိန်း၏အမှု
+      dimensions: Dimensions
       domain: ဒိုမိန္း
       due_date: ရက္စြဲတြင္
       edit: ျပင္ဆင္ရန္
@@ -1705,6 +1706,7 @@ my:
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: အဆင့္ေမးခြန္း
+      stakeholder_contacts: Stakeholder Contacts
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
       street2: Street
