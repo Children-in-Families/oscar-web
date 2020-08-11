@@ -103,6 +103,7 @@ km:
   activerecord:
     attributes:
       carer:
+        email: អ៊ុីម៉ែលរបស់អ្នកថែទាំ
         name: ឈ្មោះអ្នកថែទាំ
         phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_information: ព័ត៌មានអ្នកថែទាំ?
@@ -1557,6 +1558,8 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      national_id_number: National ID Number
+      passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
       neighbor_phone: Phone Number
       dosavy_name: "DoSAVY: Name"
@@ -2408,6 +2411,8 @@ km:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id_number: National ID Number
+        passport_number: Passport Number
         neighbor_name: "Neighbor/Friend: Name"
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"

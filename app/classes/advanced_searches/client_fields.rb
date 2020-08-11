@@ -36,6 +36,8 @@ module AdvancedSearches
 
     def text_type_list
       [
+        'national_id_number',
+        'passport_number',
         'neighbor_name',
         'neighbor_phone',
         'dosavy_name',

@@ -318,6 +318,28 @@ export default props => {
         }
 
         {
+           fieldsVisibility.national_id_number == true &&
+           <div className="col-xs-12 col-md-6 col-lg-3">
+             <TextInput
+               label={ t(translation, 'clients.form.national_id_number') }
+               onChange={onChange('client', 'national_id_number')}
+               value={client.national_id_number}
+             />
+           </div>
+         }
+
+         {
+           fieldsVisibility.passport_number == true &&
+           <div className="col-xs-12 col-md-6 col-lg-3">
+             <TextInput
+               label={ t(translation, 'clients.form.passport_number') }
+               onChange={onChange('client', 'passport_number')}
+               value={client.passport_number}
+             />
+           </div>
+         }
+
+        {
          fieldsVisibility.nationality == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <SelectInput
@@ -328,8 +350,11 @@ export default props => {
            />
          </div>
         }
+      </div>
 
-        {
+      <div className="row">
+      
+         {
          fieldsVisibility.ethnicity == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">
            <SelectInput
@@ -352,9 +377,7 @@ export default props => {
            />
          </div>
         }
-      </div>
 
-      <div className="row">
         {
          fieldsVisibility.location_of_concern == true &&
          <div className="col-xs-12 col-md-6 col-lg-3">

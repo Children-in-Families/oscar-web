@@ -4,7 +4,7 @@
       %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
         %span{"aria-hidden" => "true"} ×
       %ul
-        %li= I18n.t('inline_help.clients.show.notes.lists.list1')
+        %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
       %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
         %table.table.small.m-b-xs#main-info
@@ -63,7 +63,7 @@
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
-                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
+                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{Organization.ratanak? ? I18n.t('inline_help.clients.show.ratanak.accepted') : I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
 
                     = render 'clients/accept_client'
                 .col-xs-12
@@ -260,7 +260,7 @@
                   %td
                     = @client.nickname
 
-              - %w(marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
+              - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
                 - if policy(@client).show?(field.to_sym)
                   %tr
                     %td.spacing-first-col= t(".#{field}")
