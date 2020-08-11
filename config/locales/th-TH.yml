@@ -597,6 +597,7 @@ th-TH:
       back_to_assessment_history:
       based_on:
       case_plan:
+      dimensions:
       domain:
       due_date:
       edit:
@@ -1460,6 +1461,7 @@ th-TH:
       school_grade:
       school_name:
       stage:
+      stakeholder_contacts:
       state:
       status:
       street_number:

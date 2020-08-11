@@ -79,7 +79,7 @@ export default props => {
             <div className="schoolInfo collapsed" data-toggle="collapse" data-target="#stackHolderInfo">
               <div style={styles.sectionHead}>
                 <div className="col-xs-4" >
-                  <label>Stakeholder Contacts</label>
+                  <label>{t(translation, 'clients.form.stakeholder_contacts')}</label>
                 </div>
                 <div className="col-xs-8">
                   <span className="pointer">

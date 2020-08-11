@@ -654,10 +654,8 @@ en:
       assessment_created_by: Completed by
       back_to_assessment_history: Back to assessment history
       based_on: Based on Assessment Number
-
-
-
       case_plan: Case Plan for
+      dimensions: Dimensions
       domain: Domain
       due_date: Due Date
       edit: Edit
@@ -1713,6 +1711,7 @@ en:
       settlement2: City/Settlement
       shared_service_enabled: Do you want to share client services with external system?
       stage: Stage Question
+      stakeholder_contacts: Stakeholder Contacts
       state: Accept/Reject
       status: Status
       street2: Street
@@ -1943,6 +1942,7 @@ en:
         wrong_number: Wrong Number
       cambodia: Cambodia
       case_histories: Case Histories
+      complete_screening_assessment: Complete Screening Assessment
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
