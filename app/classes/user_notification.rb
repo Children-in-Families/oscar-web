@@ -7,7 +7,7 @@ class UserNotification
     @user                                            = user
     @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today
-    @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
+    @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager? || @user.hotline_officer?
     @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
