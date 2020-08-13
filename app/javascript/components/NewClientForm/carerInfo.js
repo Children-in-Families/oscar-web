@@ -242,7 +242,7 @@ export default props => {
           }
         </div>
       </legend>
-      { renderAddressSwitch(carer, 'carer', carer.same_as_client) }
+      { renderAddressSwitch(carer, 'carer', carer.same_as_client, { districts, communes, villages }) }
     </div>
   )
 }
