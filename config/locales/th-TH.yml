@@ -597,6 +597,7 @@ th-TH:
       back_to_assessment_history:
       based_on:
       case_plan:
+      dimensions:
       domain:
       due_date:
       edit:
@@ -1460,6 +1461,7 @@ th-TH:
       school_grade:
       school_name:
       stage:
+      stakeholder_contacts:
       state:
       status:
       street_number:
@@ -1667,6 +1669,7 @@ th-TH:
       code:
       commune:
       completed:
+      complete_screening_assessment:
       current_address:
       current_province:
       custom_id_number1:
@@ -1747,6 +1750,7 @@ th-TH:
       province:
       received_by:
       refer_client:
+      referee_called_before:
       referee_phone_number:
       referral_forms:
       referral_phone:
@@ -1776,6 +1780,7 @@ th-TH:
       view_fc_history_btn_link:
       view_kc_history_btn_link:
       view_legacy_quarterly_reports:
+      view_screening_assessment:
       view_tasks:
       village:
       what3words:

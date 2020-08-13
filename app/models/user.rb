@@ -232,7 +232,7 @@ class User < ActiveRecord::Base
         end
       end
     end
-    { overdue_count: overdue.count, due_today_count: due_today.count, custom_overdue_count: customized_overdue.count, custom_due_today_count: customized_due_today.count }
+    { overdue_count: overdue.count, due_today_count: due_today.count, custom_overdue_count: customized_overdue.flatten.uniq.count, custom_due_today_count: customized_due_today.flatten.uniq.count }
   end
 
   def client_custom_field_frequency_overdue_or_due_today
