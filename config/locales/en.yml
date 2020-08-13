@@ -1698,6 +1698,7 @@ en:
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
       referral_doc: 'Referral Documents'
       referral_phone: Referee Phone Number
       referral_source: Referral Source
