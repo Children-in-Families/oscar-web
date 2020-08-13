@@ -5,7 +5,7 @@
         .ibox-title
           %h5.text-center= t('.client_forms')
         .ibox-content
-          - if current_setting.country_name != 'nepal'
+          - if current_organization.country != 'nepal'
             .i-checks.client-forms
               %label= t('.hotline')
               = f.input :enable_hotline, as: :radio_buttons, collection: [[I18n.t('settings.client_forms.yes'), true],[I18n.t('settings.client_forms.no'), false]], label: false
