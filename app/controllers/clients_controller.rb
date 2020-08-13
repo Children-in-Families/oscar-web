@@ -280,7 +280,7 @@ class ClientsController < AdminController
     @problems        = Problem.order(:created_at)
 
     subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: current_user.id }).map(&:id)
-    if current_user.admin?
+    if current_user.admin? || current_user.hotline_officer?
       @families        = Family.order(:name)
     elsif current_user.manager?
       family_ids = current_user.families.ids
