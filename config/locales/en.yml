@@ -1940,7 +1940,6 @@ en:
         wrong_number: Wrong Number
       cambodia: Cambodia
       case_histories: Case Histories
-      complete_screening_assessment: Complete Screening Assessment
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
@@ -1963,6 +1962,7 @@ en:
       code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
+      complete_screening_assessment: Complete Screening Assessment
       concern_location: Location of Concern
       created_date: Created Date
       current_address: Current Address

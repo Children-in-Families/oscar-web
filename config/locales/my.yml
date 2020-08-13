@@ -1959,6 +1959,7 @@ my:
       code: ကုတ္
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ျပည့္ပါၿပီ
+      complete_screening_assessment: Complete Screening Assessment
       concern_location: Location of Concern
       created_date: Created Date
       current_address: လက္ရွိ လိပ္စာ
