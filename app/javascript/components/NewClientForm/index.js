@@ -386,7 +386,16 @@ const Forms = props => {
                 />
         }
         if(objectKey == 'carer'){
-          return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: carerDistricts, currentCommunes: carerCommunes, currentVillages: carerVillages, currentProvinces, objectKey, objectData, T}} />
+          return <Address hintText={inlineHelpTranslation} disabled={disabled}
+                          outside={objectData.outside || false} onChange={onChange}
+                          current_organization={current_organization}
+                          data={{
+                            addressTypes,
+                            currentDistricts: addresses.districts || carerDistricts,
+                            currentCommunes: addresses.communes || carerCommunes,
+                            currentVillages: addresses.villages || carerVillages,
+                            currentProvinces, objectKey, objectData, T
+                          }} />
         } else{
           return <Address hintText={inlineHelpTranslation} disabled={disabled} outside={objectData.outside || false} onChange={onChange} current_organization={current_organization} data={{addressTypes, currentDistricts: districts, currentCommunes: communes, currentVillages: villages, currentProvinces, objectKey, objectData, T}} />
         }
