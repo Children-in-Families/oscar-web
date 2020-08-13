@@ -225,7 +225,7 @@ export default props => {
           <RadioGroup
             inline
             required
-            label={'Has the Referee already referred a client to this NGO through OSCaR in the past?'}
+            label={t(translation, 'clients.form.referee_called_before')}
             options={yesNoOpts}
             onChange={onChangeExistingReferree}
             value={referee.existing_referree }

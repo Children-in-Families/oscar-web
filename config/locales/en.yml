@@ -1696,6 +1696,7 @@ en:
       province: Birth Province
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: Referral Received By
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
       referral_doc: 'Referral Documents'
       referral_phone: Referee Phone Number
       referral_source: Referral Source
@@ -2099,6 +2100,7 @@ en:
       view_fc_history_btn_link: FC History
       view_kc_history_btn_link: KC History
       view_legacy_quarterly_reports: Legacy Quarterly Reports
+      view_screening_assessment: View Screening Assessment
       view_tasks: Tasks
       village: Village
       what3words: What3words

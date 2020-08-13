@@ -1695,6 +1695,7 @@ my:
       province: ေမြးဖြားရာ ခ႐ိုင္
       rated_for_id_poor: Is client rated for ID Poor?
       received_by: မွ လက္ခံသည္။
+      referee_called_before: Has the referee called the Childsafe Hotline Before?
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
       reject_note: ျငင္းပယ္သည့္မွတ္စု
@@ -2088,6 +2089,7 @@ my:
       view_fc_history_btn_link: FC သမုိင္း
       view_kc_history_btn_link: KC သမုိင္း
       view_legacy_quarterly_reports: သံုးလပတ္ ဥပေဒအစီရင္ခံစာ
+      view_screening_assessment: View Screening Assessment
       view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
       village: ေက်းရြာ
       what3words: What3words

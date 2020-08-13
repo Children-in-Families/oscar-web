@@ -1746,6 +1746,7 @@ th-TH:
       province:
       received_by:
       refer_client:
+      referee_called_before:
       referee_phone_number:
       referral_forms:
       referral_phone:
@@ -1775,6 +1776,7 @@ th-TH:
       view_fc_history_btn_link:
       view_kc_history_btn_link:
       view_legacy_quarterly_reports:
+      view_screening_assessment:
       view_tasks:
       village:
       what3words:
