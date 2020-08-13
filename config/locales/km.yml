@@ -1958,6 +1958,7 @@ km:
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
+      complete_screening_assessment: Complete Screening Assessment
       concern_location: ទីកន្លែងកើតហេតុ
       created_date: កាលបរិច្ឆេទនៃការបង្កើត
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
@@ -2096,6 +2097,7 @@ km:
       view_fc_history_btn_link: មើលប្រវត្តិនៃ FC
       view_kc_history_btn_link: មើលប្រវត្តិនៃ KC
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
+      view_screening_assessment: View Screening Assessment
       view_tasks: កាតព្វកិច្ច
       village: ភូមិ
       what3words: What3words
