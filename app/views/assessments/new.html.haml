@@ -7,13 +7,13 @@
 
 .row
   - if current_setting.show_prev_assessment? && @prev_assessment.present?
+    .col-md-6#prev-assessment-container
+      = render 'unrestricted_form', assessment: @prev_assessment, readonly: true
     .col-md-6
       - if current_setting.disable_required_fields?
         = render 'unrestricted_form', assessment: @assessment, readonly: false
       - else
         = render 'form'
-    .col-md-6#prev-assessment-container
-      = render 'unrestricted_form', assessment: @prev_assessment, readonly: true
   - else
     .col-md-12
       - if current_setting.disable_required_fields?
