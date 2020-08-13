@@ -15,6 +15,7 @@ CIF.ClientsShow = do ->
     _globalIDToolTip()
     _buttonHelpTextPophover()
 
+
     $('table.families').dataTable
       'bPaginate': false
       'bFilter': false
@@ -23,6 +24,23 @@ CIF.ClientsShow = do ->
       'sScrollY': 'auto'
       'bAutoWidth': true
       'sScrollX': '100%'
+
+    $.fn.editable.defaults.ajaxOptions = {type: "put"}
+    $('.editable').editable
+      ajaxOptions:
+        dataType: 'json'
+        success: (data, textStatus, request) ->
+            console.log request.responseText
+            return
+          error: (request, textStatus, errorThrown) ->
+            console.log request.responseText
+            return
+      error: (response, newValue) ->
+        if response.status == 500
+          'Service unavailable. Please try later.'
+        else
+          response.responseText
+
 
   _initICheckBox = ->
     $('.i-checks').iCheck

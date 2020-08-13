@@ -1,4 +1,9 @@
 module ClientsHelper
+
+  def xeditable? object = nil
+    can?(:edit, object) ? true : false
+  end
+
   def user(user)
     if can? :read, User
       link_to user.name, user_path(user) if user.present?
