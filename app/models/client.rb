@@ -627,7 +627,7 @@ class Client < ActiveRecord::Base
 
     next_assessment_date = recent_assessment_date + setting.max_assessment_duration
 
-    setting.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
+    Setting.first.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
   rescue
     []
   end
