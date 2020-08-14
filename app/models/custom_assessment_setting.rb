@@ -15,4 +15,8 @@ class CustomAssessmentSetting < ActiveRecord::Base
 
   scope :any_custom_assessment_enable?, -> { all.present? }
   scope :only_enable_custom_assessment, -> { where(enable_custom_assessment: true) }
+
+  def max_assessment_duration
+    max_custom_assessment.send(custom_assessment_frequency.to_sym)
+  end
 end
