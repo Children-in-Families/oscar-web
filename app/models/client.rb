@@ -558,7 +558,7 @@ class Client < ActiveRecord::Base
       clients = joins(:assessments).active_accepted_status
 
       clients.each do |client|
-        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.count > 1
+        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
           repeat_notifications = client.assessment_notification_dates(Setting.first)
 
           if(repeat_notifications.include?(Date.today))
@@ -566,7 +566,7 @@ class Client < ActiveRecord::Base
           end
         end
 
-        if Setting.first.enable_custom_assessment && client.assessments.customs.count > 1
+        if Setting.first.enable_custom_assessment && client.assessments.customs.any?
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
 
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
