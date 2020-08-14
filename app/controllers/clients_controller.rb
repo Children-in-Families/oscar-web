@@ -319,7 +319,7 @@ class ClientsController < AdminController
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []
-    ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
+    Organization.pluck(:country).uniq.reject(&:blank?).map{ |country| @birth_provinces << [country.titleize, Province.country_is(country).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
 
     if selected_country&.downcase == 'thailand'
