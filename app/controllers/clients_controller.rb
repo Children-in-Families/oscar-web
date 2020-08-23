@@ -56,6 +56,7 @@ class ClientsController < AdminController
   def show
     respond_to do |format|
       format.html do
+        @current_provinces          = Province.pluck(:id, :name).map{|id, name| { value: id, text: name } }
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all

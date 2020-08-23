@@ -30,11 +30,11 @@
                 %strong= @client.slug
               %td
                 = "#{t('.gender')} :"
-                %strong= @client.gender.try(:capitalize)
+                %strong= editable @client, :gender, type: :select, source: [Client::GENDER_OPTIONS, I18n.t('default_client_fields.gender_list').values].transpose.to_h, value: @client.gender, url: api_client_path(@client.id), pk: @client.id
             %tr
               %td
                 = "#{t('.date_of_birth')} :"
-                %strong= @client.date_of_birth_format
+                %strong= editable @client, :date_of_birth_format, type: :date, url: api_client_path(@client.id), pk: @client.id, placement: 'bottom'
               %td
                 = "#{t('created_by')} #{whodunnit('Client', @client.id)} #{t('at')} #{ date_format @client.created_at }"
             %tr
@@ -45,7 +45,7 @@
               %td
                 - if policy(@client).show?(:province)
                   = "#{t('.current_province')} :"
-                  %strong= @client.current_province
+                  %strong= editable @client, :province_id, type: :select2, source: @current_provinces, value: @client.province.name, url: api_client_path(@client.id), pk: @client.id
       .col-md-3
         - if @client.status == 'Referred'
           .row
@@ -258,7 +258,7 @@
                   %td.spacing-first-col
                     = t('.nickname')
                   %td
-                    = @client.nickname
+                    = editable @client, :nickname, url: api_client_path(@client.id), pk: @client.id
 
               - %w(marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
                 - if policy(@client).show?(field.to_sym)
@@ -271,9 +271,8 @@
                   %td.spacing-first-col
                     = t('.donor')
                   %td
-                    - client_donors.each do|donor|
-                      %strong.label.label-default.donor
-                        = donor.name
+                    %strong#clientDonors
+                      = editable @client, :donor_ids, data: { type: :select2, source: Donor.pluck(:id, :name).map{|id, name| { id: id, text: name } }, url: api_client_path(@client.id), pk: @client.id, selected: client_donors.map(&:name) }, classes: 'label-default donor control-group', class: "label"
 
               - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
                 - if policy(@client).show?(field_name.to_sym)

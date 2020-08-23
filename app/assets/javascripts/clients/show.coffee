@@ -27,6 +27,12 @@ CIF.ClientsShow = do ->
 
     $.fn.editable.defaults.ajaxOptions = {type: "put"}
     $('.editable').editable
+      select2:
+        width: '250px'
+        dropdownAutoWidth: true
+        allowClear: true
+        viewseparator: ','
+        multiple: true
       ajaxOptions:
         dataType: 'json'
       error: (response, newValue) ->
@@ -34,6 +40,7 @@ CIF.ClientsShow = do ->
           'Service unavailable. Please try later.'
         else
           response.responseText
+
 
   _initICheckBox = ->
     $('.i-checks').iCheck
