@@ -18,6 +18,8 @@ class Referee < ActiveRecord::Base
 
   after_initialize :init_existing_referree
 
+  scope :none_anonymouse, -> { where(anonymous: false) }
+
   private
 
   def init_existing_referree
