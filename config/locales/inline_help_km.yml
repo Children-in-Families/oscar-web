@@ -12,8 +12,8 @@ km:
       first_follow_date: បញ្ចូលកាលបរិច្ឆេទ ដែលបុគ្គលិកគ្រប់គ្រងករណី តាមដានអតិថិជនជាលើកដំបូង។
     assessments:
       index:
-        custom_button: "បន្ថែម%{assessment}ថ្មី"
-        default_button: "បន្ថែម%{assessment} CSI ថ្មី"
+        custom_button: បន្ថែម%{assessment}ថ្មី
+        default_button: បន្ថែម%{assessment} CSI ថ្មី
       notes:
         lists:
           list1: |-
@@ -44,7 +44,7 @@ km:
         add_task: |-
           យ៉ាងហោចណាស់មានកាត្វកិច្ចចាំបាច់មួយសម្រាប់ កត្តានីមួយៗ។
           កាតព្វកិច្ចអាចជាជម្រើស នៅពេលស្ថានភាពអតិថិជនមិនតម្រូវឱ្យមានអន្តរាគមន៍ណាមួយ។
-        button: "បន្ថែម%{assessment}ថ្មី"
+        button: បន្ថែម%{assessment}ថ្មី
         case_plan:
           lists:
             list1: កត្តានីមួយៗត្រូវបានធ្វើការប៉ានប្រមាណពី ១ ទៅ ៤ ព្រមទាំងមានពណ៌សំគាល់ផងដែរ។
@@ -92,7 +92,7 @@ km:
                 Admin: បន្ថែមចំណុចទិន្នន័យផ្សេងៗតាមរយៈ គ្រប់គ្រង >>ព័ត៌មានចំណុចជាក់លាក់នៃការបញ្ជូនបន្ថែម
       index:
         buttons:
-          assessment_data: "មើល និងប្រៀបធៀប ពិន្ទុកត្ត%{assessment} CSI របស់អតិថិជនទាំងអស់ដែលបង្ហាញនៅលើការស្វែងរករបស់អ្នក។ ផ្ទាំងលេចមកនេះ នឹងបង្ហាញអ្នកតែពិន្ទុនៃ%{assessment} សម្រាប់អតិថិជនទាំងឡាយណា ដែល%{assessment}របស់គាត់បានបញ្ចប់។"
+          assessment_data: មើល និងប្រៀបធៀប ពិន្ទុកត្ត%{assessment} CSI របស់អតិថិជនទាំងអស់ដែលបង្ហាញនៅលើការស្វែងរករបស់អ្នក។ ផ្ទាំងលេចមកនេះ នឹងបង្ហាញអ្នកតែពិន្ទុនៃ%{assessment} សម្រាប់អតិថិជនទាំងឡាយណា ដែល%{assessment}របស់គាត់បានបញ្ចប់។
           export_to_xls: |
             ទាញយករបាយការណ៍របស់អ្នកចេញជាឯកសារ Microsoft Excel។ ដោយអនុវត្តតាមការណែនាំនៅក្នុងកម្មវិធីរុករករបស់អ្នក (Browser) ដើម្បីទាញយក ហើយរក្សាទុកឯកសារនោះនៅលើកំុព្យូទ័ររបស់អ្នក។<br />
             បឋមកថា (Headers) ទាំងអស់ដូចគ្នានឹងជួរឈរដែលអ្នកបាន ជ្រើសរើស នៅពេលដែលអ្នកបង្កើតរបាយការណ៍។ <br />
@@ -243,9 +243,9 @@ km:
         សូមចូលទៅកាន់ https://what3words.com ដើម្បីស្វែងរកកូដភូមិសាស្ត្រអាសយដ្ឋានរបស់អតិថិជន។
 
         ប្រយ័ត្ន! ព័ត៌មាននេះនៅក្នុងដៃមិនត្រឹមត្រូវអាចបង្កគ្រោះថ្នាក់ដល់អតិថិជនរបស់អ្នកក្នុងស្ថានភាពរសើប។ សូមប្រើវាដោយប្រុងប្រយ័ត្ន។
-    setting:
-      external_system_integration: This creates a connection between your organisation’s instance of OSCaR, and the Cambodian Government’s Primero Case Management System. The connection allows for cross-referral between the systems; it does not copy records from one system to the other without a referral being explicitly made.
     school:
       school_contact: ជនបង្គោលសំខាន់សម្រាប់ទំនាក់ទំនងអាចជាគ្រូប្រចាំថ្នាក់ ឬអាចជានរណាម្នាក់ដែលជាអ្នកតាមដានការរីកចម្រើនរបស់អតិថិជននៅសាលារៀន។
       school_grade: N/A
       school_info: N/A
+    setting:
+      external_system_integration: ឧបករណ៍នេះប្រើសម្រាប់បង្កើតឱ្យមានការតភ្ជាប់រវាងប្រព័ន្ធ​ OSCaR របស់អង្គការរបស់អ្នក និងប្រព័ន្ធគ្រប់គ្រងករណី Primero របស់រដ្ឋាភិបាលកម្ពុជា។ ការតភ្ជាប់នេះអនុញ្ញាតឱ្យប្រព័ន្ធទាំងពីរអាចធ្វើការបញ្ជូនករណីទៅគ្នាទៅវីញទៅមកបាន។ ប៉ុន្តែវាមិនចម្លងពត៌មានឬ កំណត់ត្រាពីប្រព័ន្ធមួយទៅប្រព័ន្ធមួយទៀតដោយគ្មានការបញ្ជូនច្បាស់លាស់នោះទេ
