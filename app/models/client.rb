@@ -558,19 +558,19 @@ class Client < ActiveRecord::Base
       clients = joins(:assessments).active_accepted_status
 
       clients.each do |client|
-        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.count > 1
-          repeat_notifications = client.assessment_notification_dates
+        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
+          repeat_notifications = client.assessment_notification_dates(Setting.first)
 
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
           end
         end
 
-        if Setting.first.enable_custom_assessment && client.assessments.customs.count > 1
+        if Setting.first.enable_custom_assessment && client.assessments.customs.any?
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
 
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            repeat_notifications = client.assessment_notification_dates(default_assessment: false)
+            repeat_notifications = client.assessment_notification_dates(custom_assessment_setting)
             if(repeat_notifications.include?(Date.today)) && client.eligible_custom_csi?(custom_assessment_setting)
               CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
             end
@@ -618,13 +618,18 @@ class Client < ActiveRecord::Base
     assessments.customs.most_recents.first.created_at.to_date
   end
 
-  def assessment_notification_dates(default_assessment: true)
-    setting = Setting.first
+  def assessment_notification_dates(setting)
+    recent_assessment_date = most_recent_csi_assessment
 
-    recent_assessment_date = default_assessment ? most_recent_csi_assessment : most_recent_custom_csi_assessment
-    next_assessment_date = recent_assessment_date + setting.max_assessment_duration(default_assessment: default_assessment)
+    unless setting.instance_of?(Setting)
+      recent_assessment_date = assessments.customs.most_recents.joins(:domains).where(custom_assessment_setting_id: setting.id).first.created_at.to_date
+    end
 
-    setting.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
+    next_assessment_date = recent_assessment_date + setting.max_assessment_duration
+
+    Setting.first.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
+  rescue
+    []
   end
 
   def eligible_default_csi?

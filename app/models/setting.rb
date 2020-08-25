@@ -57,12 +57,8 @@ class Setting < ActiveRecord::Base
     versions.order(created_at: :asc).map(&:object_changes).map{|a| YAML::load a}.select{|a| a['sharing_data'] }
   end
 
-  def max_assessment_duration(default_assessment: true)
-    if default_assessment
-      max_assessment.send(assessment_frequency.to_sym)
-    else
-      max_custom_assessment.send(custom_assessment_frequency.to_sym)
-    end
+  def max_assessment_duration
+    max_assessment.send(assessment_frequency.to_sym)
   end
 
   private
