@@ -32,7 +32,6 @@ CIF.ClientsShow = do ->
         dropdownAutoWidth: true
         allowClear: true
         viewseparator: ','
-        multiple: true
       ajaxOptions:
         dataType: 'json'
       error: (response, newValue) ->
@@ -41,6 +40,38 @@ CIF.ClientsShow = do ->
         else
           response.responseText
 
+  # $('#client-donors .editable').editable
+  #     select2:
+  #       width: '250px'
+  #       dropdownAutoWidth: true
+  #       allowClear: true
+  #       viewseparator: ','
+  #       multiple: true
+  #       formatResult: (item) ->
+  #         return item.text
+  #       formatSelection: (item) ->
+  #         return item.text
+  #       initSelection: (element, callback) ->
+  #         data = $('#client-donors .editable').data('selected')
+  #         return callback(data)
+  #     ajaxOptions:
+  #       dataType: 'json'
+  #     display: (values, sourceData) ->
+  #       html = []
+  #       if values.length
+  #         $.each values, (i, value) ->
+  #           html.push $.fn.editableutils.escape(value)
+  #           return
+  #         $(this).html html.join(', ')
+  #       else
+  #         $(this).empty()
+
+  #     error: (response, newValue) ->
+  #       debugger;
+  #       if response.status == 500
+  #         'Service unavailable. Please try later.'
+  #       else
+  #         response.responseText
 
   _initICheckBox = ->
     $('.i-checks').iCheck

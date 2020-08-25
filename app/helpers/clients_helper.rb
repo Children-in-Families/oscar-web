@@ -4,11 +4,19 @@ module ClientsHelper
     can?(:edit, object) ? true : false
   end
 
-  def user(user)
-    if can? :read, User
-      link_to user.name, user_path(user) if user.present?
-    elsif user.present?
-      user.name
+  def user(user, editable_input=false)
+    if !editable_input
+      if can? :read, User
+        link_to user.name, user_path(user) if user.present?
+      elsif user.present?
+        user.name
+      end
+    else
+      if user.present? && can?(:read, User)
+        link_to user_path(user) do
+          fa_icon 'external-link'
+        end
+      end
     end
   end
 
@@ -1046,13 +1054,21 @@ module ClientsHelper
     rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
-  def case_workers_option(client_id)
+  def case_workers_option(client_id, editable_input=false)
     @users.map do |user|
       tasks = user.tasks.incomplete.where(client_id: client_id)
-      if tasks.any?
-        [user.name, user.id, { locked: 'locked'} ]
+      if !editable_input
+        if tasks.any?
+          [user.name, user.id, { locked: 'locked'} ]
+        else
+          [user.name, user.id]
+        end
       else
-        [user.name, user.id]
+        if tasks.any?
+          { text: user.name, value: user.id, locked: 'locked' }
+        else
+          { text: user.name, value: user.id }
+        end
       end
     end
   end
