@@ -193,7 +193,7 @@ export default props => {
             <TextInput
               label={ t(translation, 'activerecord.attributes.carer.email')}
               type="text" onChange={onChange('carer', 'email')}
-              value={carer.phone}
+              value={carer.email}
               hintText={hintText.carer.carer_email}
             />
           </div>
