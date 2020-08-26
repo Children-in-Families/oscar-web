@@ -105,6 +105,7 @@ en:
       carer:
         name: Carer Name
         phone: Carer Phone Number
+        email: Carer Email Address
         carer_information: Carer Information?
       family_member:
         adult_name: Name of Adult Member
@@ -1567,6 +1568,8 @@ en:
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
+      national_id_number: National ID Number
+      passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
       neighbor_phone: Phone Number
       dosavy_name: "DoSAVY: Name"
@@ -2419,6 +2422,8 @@ en:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id_number: National ID Number
+        passport_number: Passport Number
         neighbor_name: "Neighbor/Friend: Name"
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"
@@ -5100,6 +5105,8 @@ en:
       min_assessment: Minimum time between 1st and 2nd assessment
       name: Name
       noted: 'Note: USAID has requested that the term CSI not be used for customized assessments.'
+      show_prev_assessment: Show previous assessment while completing new assessment
+      two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_note:
       case_note: Maximum time between case notes for client
       max_case_note: Maximum

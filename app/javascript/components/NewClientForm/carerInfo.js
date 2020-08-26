@@ -157,7 +157,7 @@ export default props => {
               onChange={onChange('carer', 'name')}
               value={carer.name}
               inlineClassName="carer-name"
-              hintText={hintText.carer.carer_name}
+              hintText={current_organization.short_name == 'ratanak' ? hintText.carer.ratanak.carer_name : hintText.carer.carer_name}
             />
           </div>
         }
@@ -185,14 +185,18 @@ export default props => {
           </div>
         }
 
-        <div className="col-xs-12 col-md-6 col-lg-3">
-          <TextInput
-            label={T.translate("carerInfo.carer_email")}
-            onChange={onChange('carer', 'email')}
-            value={carer.email}
-            hintText={hintText.carer.carer_email}
-          />
-        </div>
+        {
+          fieldsVisibility.carer_email == true &&
+          <div className="col-xs-12 col-md-6 col-lg-3">
+            <TextInput
+              label={ t(translation, 'activerecord.attributes.carer.email')}
+              type="text" onChange={onChange('carer', 'email')}
+              value={carer.email}
+              hintText={hintText.carer.carer_email}
+            />
+          </div>
+        }
+
         <div className="col-xs-12 col-md-6 col-lg-3">
           <SelectInput
             label={T.translate("carerInfo.client_relationship")}

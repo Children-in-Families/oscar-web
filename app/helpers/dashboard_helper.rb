@@ -24,7 +24,7 @@ module DashboardHelper
   end
 
   def tasks_empty?(tasks)
-    tasks.empty?
+    tasks&.empty?
   end
 
   def overdue_forms_empty?(forms)
