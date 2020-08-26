@@ -41,6 +41,7 @@ export default props => {
           <DateInput
             T={T}
             required
+            getCurrentDate
             isError={errorFields.includes('initial_referral_date')}
             label={t(translation, 'clients.form.initial_referral_date')}
             value={client.initial_referral_date}
@@ -85,6 +86,7 @@ export default props => {
       <div className='row'>
         <div className='col-md-12 col-lg-9'>
           <DateInput
+          getCurrentDate
           label={t(translation, 'clients.form.follow_up_date')}
           onChange={onChange('client','follow_up_date')}
           value={client.follow_up_date}
