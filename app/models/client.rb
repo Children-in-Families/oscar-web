@@ -313,7 +313,7 @@ class Client < ActiveRecord::Base
       #   return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
       # elsif assessments.defaults.count >= 2
       # end
-      return assessments.defaults.latest_record.completed?
+      return assessments.defaults.count == 0 || assessments.defaults.latest_record.completed?
     else
       if latest_assessment.count == 1
         return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
