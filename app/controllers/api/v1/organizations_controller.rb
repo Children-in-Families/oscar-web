@@ -101,6 +101,23 @@ module Api
         render json: e.message, status: :unprocessable_entity
       end
 
+      def check_duplication
+        shared_clients = []
+        return shared_clients unless ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'address_current_village_code', 'birth_province_id'].any?{|key| params.has_key?(key) }
+        current_org    = Apartment::Tenant.current
+        Organization.switch_to 'shared'
+        skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
+        if skip_orgs_percentage.any?
+          shared_clients = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
+        else
+          shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
+        end
+        Organization.switch_to current_org
+        result = Client.check_for_duplication(params, shared_clients)
+
+        render json: { similar_fields: result ? 'Record was Found' : 'Record was not found' }
+      end
+
       private
 
         def clients_params

@@ -154,11 +154,10 @@ class Client < ActiveRecord::Base
 
     Organization.switch_to current_org
 
-    shared_clients.compact.each do |client|
+    shared_clients.compact.bsearch do |client|
       client = client.split('&')
       input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
       client_name_field    = client[0].squish
-
       field_name = compare_matching(input_name_field, client_name_field)
       dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
 
@@ -178,20 +177,52 @@ class Client < ActiveRecord::Base
       bp                  = birth_province_matching(birth_province_name, client[5].squish)
 
       match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
-      if match_percentages.compact.present?
-        if match_percentages.compact.inject(:*) * 100 >= 75
-          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
-          similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
-          similar_fields << '#hidden_province' if match_percentages[2].present?
-          similar_fields << '#hidden_district' if match_percentages[3].present?
-          similar_fields << '#hidden_commune' if match_percentages[4].present?
-          similar_fields << '#hidden_village' if match_percentages[5].present?
-          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
-        end
+      if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
+        similar_fields << '#hidden_name_fields' if match_percentages[0].present?
+        similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
+        similar_fields << '#hidden_province' if match_percentages[2].present?
+        similar_fields << '#hidden_district' if match_percentages[3].present?
+        similar_fields << '#hidden_commune' if match_percentages[4].present?
+        similar_fields << '#hidden_village' if match_percentages[5].present?
+        similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+        return similar_fields.uniq
       end
     end
 
     similar_fields.uniq
+  end
+
+  def self.check_for_duplication(options, shared_clients)
+    result = shared_clients.compact.bsearch do |client|
+      client = client.split('&')
+      input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+      client_name_field    = client[0].squish
+      field_name = compare_matching(input_name_field, client_name_field)
+      dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
+
+      # province_name = Province.find_by(id: options[:current_province_id]).try(:name)
+      # cp            = Client.client_address_matching(province_name, client[4].squish)
+
+      # district_name = District.find_by(id: options[:district_id]).try(:name)
+      # cd            = Client.client_address_matching(district_name, client[3].squish)
+
+      # commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
+      # cc            = Client.client_address_matching(commune_name, client[2].squish)
+
+      # village_name  = Village.find_by(id: options[:village_id]).try(:name)
+      # cv            = Client.client_address_matching(village_name, client[1].squish)
+
+      # birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
+      # bp                  = Client.birth_province_matching(birth_province_name, client[5].squish)
+
+      match_percentages = [field_name, dob]
+
+      if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
+        binding.pry
+        return true
+      end
+    end
+    return false
   end
 
   def family
