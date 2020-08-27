@@ -97,6 +97,8 @@ class ClientGrid < BaseGrid
       type_of_trafficking
       education_background
       department
+      national_id_number
+      passport_number
     ).each do |field_name|
 
     header = I18n.t("datagrid.columns.clients.#{field_name}")
@@ -719,15 +721,15 @@ class ClientGrid < BaseGrid
     object.referee && object.referee.email
   end
 
-  column(:carer_name, header: -> { I18n.t('datagrid.columns.clients.carer_name') }) do |object|
+  column(:carer_name, header: -> { I18n.t('activerecord.attributes.carer.name') }) do |object|
     object.carer && object.carer.name
   end
 
-  column(:carer_phone, header: -> { I18n.t('datagrid.columns.clients.carer_phone') }) do |object|
+  column(:carer_phone, header: -> { I18n.t('activerecord.attributes.carer.phone') }) do |object|
     object.carer && object.carer.phone
   end
 
-  column(:carer_email, header: -> { I18n.t('datagrid.columns.clients.carer_email') }) do |object|
+  column(:carer_email, header: -> { I18n.t('activerecord.attributes.carer.email') }) do |object|
     object.carer && object.carer.email
   end
 
@@ -816,7 +818,13 @@ class ClientGrid < BaseGrid
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  %w(
+  %w( marital_status
+      nationality
+      ethnicity
+      location_of_concern
+      type_of_trafficking
+      education_background
+      department
       presented_id
       id_number
       legacy_brcs_id
@@ -834,6 +842,8 @@ class ClientGrid < BaseGrid
       settlement2
       resident_own_or_rent2
       household_type2
+      national_id_number
+      passport_number
     ).each do |field_name|
     header = I18n.t("datagrid.columns.clients.#{field_name}")
     header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')

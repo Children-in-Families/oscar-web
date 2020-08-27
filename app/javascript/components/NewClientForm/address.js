@@ -84,7 +84,7 @@ export default props => {
               value={objectData.province_id}
               onChange={onChangeParent({parent: 'provinces', child: 'districts', obj: objectKey, field: 'province_id'})}
               inlineClassName="referree-province"
-              hintText={hintText.referee.referral_province}
+              hintText={hintText[objectKey].referral_province}
             />
           </div>
 
@@ -96,7 +96,7 @@ export default props => {
               value={objectData.district_id}
               onChange={onChangeParent({parent: 'districts', child: 'communes', obj: objectKey, field: 'district_id'})}
               inlineClassName="referree-districs"
-              hintText={hintText.referee.referral_province}
+              hintText={hintText.referee.referral_districs}
             />
           </div>
 
@@ -108,7 +108,7 @@ export default props => {
               value={objectData.commune_id}
               onChange={onChangeParent({parent: 'communes', child: 'villages', obj: objectKey, field: 'commune_id'})}
               inlineClassName="referree-commune"
-              hintText={hintText.referee.referral_districs}
+              hintText={hintText.referee.referral_commune}
             />
           </div>
 
