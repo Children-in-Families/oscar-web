@@ -29,15 +29,6 @@
                   %td.col-xs-3= @setting.default_assessment
                   %td.col-xs-6.task-name.border-left-right
                   %td.col-xs-3= date_format(client_overdue_default_assessment)
-              - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id) && client.assessments.customs.present?
-                - custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
-                - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-                  - next unless client.eligible_custom_csi?(custom_assessment_setting) && overdue_custom_assessments_any?(client, custom_assessment_setting=nil)
-                  - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting.id)
-                  %tr
-                    %td.col-xs-3= custom_assessment_setting.custom_assessment_name
-                    %td.col-xs-6.task-name.border-left-right
-                    %td.col-xs-3= date_format(client_overdue_custom_assessment)
 
               - if @form_params
                 - custom_field_index = 0
@@ -64,3 +55,20 @@
                     - elsif @user.activated_at? && next_client_enrollment_tracking_date > @user.activated_at
                       %td.col-xs-6.task-name.border-left-right= tracking.name
                       %td.col-xs-3= date_format(next_client_enrollment_tracking_date)
+
+      - if @setting.enable_custom_assessment? && @assessment_params && client.user_ids.include?(@user.id) && client.assessments.customs.present?
+
+        - custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+        .ibox.border-left-right.border-bottom
+          .ibox-title
+            %h5
+              = link_to client.name, client_path(client), target: :_blank
+          .ibox-content.no-padding
+            %table.table.table-striped.active_tasks
+              - CustomAssessmentSetting.only_enable_custom_assessment.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
+                - next unless client.eligible_custom_csi?(custom_assessment_setting) && overdue_custom_assessments_any?(client, custom_assessment_setting=nil)
+                - client_overdue_custom_assessment = client.custom_next_assessment_date(@user.activated_at, custom_assessment_setting.id)
+                %tr
+                  %td.col-xs-3= custom_assessment_setting.custom_assessment_name
+                  %td.col-xs-6.task-name.border-left-right
+                  %td.col-xs-3= date_format(client_overdue_custom_assessment)
