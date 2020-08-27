@@ -142,13 +142,14 @@ class Client < ActiveRecord::Base
   def self.find_shared_client(options)
     similar_fields = []
     shared_clients = []
+    return shared_clients unless ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'current_province_id', 'district_id', 'commune_id', 'village_id', 'birth_province_id'].any?{|key| options.has_key?(key) }
     current_org    = Organization.current.short_name
     Organization.switch_to 'shared'
     skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
     if skip_orgs_percentage.any?
-      shared_clients       = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] )', skip_orgs_percentage).pluck(:duplicate_checker)
+      shared_clients = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
     else
-      shared_clients       = SharedClient.all.pluck(:duplicate_checker)
+      shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
     end
 
     Organization.switch_to current_org
