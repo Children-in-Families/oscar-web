@@ -19,7 +19,6 @@ my:
             <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Once you start the assessment, you have <strong>one week</strong> to complete it. You can save the assessment at any point but ensure to finish it within a week. However, you won’t be allowed to save half-way if you choose to add Task at the end of the assessment.<br />
             Email reminders will be sent for incomplete assessments. After one week, the assessment will be auto-deleted. You will have to restart the assessment if you do not complete it within one week.
     carer:
-      carer_name: Depending on the client’s situation, a primary carer can be anyone who is the first immediate person responsible for the client’s wellbeing. It can be a parent, foster parent, hospital staff, NGO staff, etc. You will need to update this when the client’s living situation changes.
       carer_email: N/A
       carer_family_record: N/A
       carer_gender: Other - if the client’s gender is something other than male or female. Unknown - if the client’s gender is not known. This can be edited later after you find out the gender.

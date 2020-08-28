@@ -690,7 +690,7 @@ module ClientsHelper
     if form_type == 'formbuilder'
       properties_result = object.where(query_string.reject(&:blank?).join(" AND "))
     else
-      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" AND "))
     end
   end
 
