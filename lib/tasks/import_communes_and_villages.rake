@@ -13,7 +13,7 @@ namespace :communes_and_villages do
     # end
     province_hash = { "pursat" => "Gazetteer_PUR", "siemreap" => "Gazetteer_SRP", "oddar meanchey" => "Gazetteer_OMC", "pailin" => "Gazetteer_PLN", "preah vihear" => "Gazetteer_PVR", "stung treng" => "Gazetteer_STG", "kampong thom" => "Gazetteer_KPT", "tboung khmum" => "Gazetteer_TKM", "kep" => "Gazetteer_KEP", "preah sihanouk" => "Gazetteer_SHV", "ratanak kiri" => "Gazetteer_RAT", "kampong speu" => "Gazetteer_KSP", "kandal" => "Gazetteer_KDL", "prey veng" => "Gazetteer_PVG", "banteay meanchey" => "Gazetteer_BMC", "kampong cham" => "Gazetteer_KPC", "koh kong" => "Gazetteer_KKG", "svay rieng" => "Gazetteer_SVR", "battambang" => "Gazetteer_BAT", "kampot" => "Gazetteer_KAM", "takeo" => "Gazetteer_TAK", "phnom penh" => "Gazetteer_PNP", "kratie" => "Gazetteer_KRT", "kampong chhnang" => "Gazetteer_KCH", "mondul kiri" => "Gazetteer_MKR" }
 
-    Province.pluck(:id, :name).each do |id, province_name|
+    Province.where(country: 'cambodia').where.not(name: "Kampong Cham/Prey Chhor/Communex").pluck(:id, :name).each do |id, province_name|
       pname = province_name.split('/').last.squish.downcase
       gazetteer_short_name = province_hash[pname]
       path  = files.find{|filename| filename[/#{gazetteer_short_name}/] }

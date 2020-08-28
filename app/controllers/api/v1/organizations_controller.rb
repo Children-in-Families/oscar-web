@@ -112,9 +112,9 @@ module Api
         else
           shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
         end
-        Organization.switch_to current_org
         result = Client.check_for_duplication(params, shared_clients)
 
+        Organization.switch_to current_org
         render json: { similar_fields: result ? 'Record was Found' : 'Record was not found' }
       end
 

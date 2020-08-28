@@ -139,90 +139,85 @@ class Client < ActiveRecord::Base
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
   scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
 
-  def self.find_shared_client(options)
-    similar_fields = []
-    shared_clients = []
-    return shared_clients unless ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'current_province_id', 'district_id', 'commune_id', 'village_id', 'birth_province_id'].any?{|key| options.has_key?(key) }
-    current_org    = Organization.current.short_name
-    Organization.switch_to 'shared'
-    skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
-    if skip_orgs_percentage.any?
-      shared_clients = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
-    else
-      shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
-    end
+  class << self
+    def find_shared_client(options)
+      similar_fields = []
+      shared_clients = []
+      return shared_clients unless ['given_name', 'family_name', 'local_family_name', 'local_given_name', 'date_of_birth', 'current_province_id', 'district_id', 'commune_id', 'village_id', 'birth_province_id'].any?{|key| options.has_key?(key) }
+      current_org    = Organization.current.short_name
+      Organization.switch_to 'shared'
+      skip_orgs_percentage = Organization.skip_dup_checking_orgs.map {|val| "%#{val.short_name}%" }
+      if skip_orgs_percentage.any?
+        shared_clients = SharedClient.where.not('archived_slug ILIKE ANY ( array[?] ) AND duplicate_checker IS NOT NULL', skip_orgs_percentage).select(:duplicate_checker).pluck(:duplicate_checker)
+      else
+        shared_clients = SharedClient.where('duplicate_checker IS NOT NULL').select(:duplicate_checker).pluck(:duplicate_checker)
+      end
 
-    Organization.switch_to current_org
-
-    shared_clients.compact.bsearch do |client|
-      client = client.split('&')
-      input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
-      client_name_field    = client[0].squish
-      field_name = compare_matching(input_name_field, client_name_field)
-      dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
-
+      Organization.switch_to current_org
       province_name = Province.find_by(id: options[:current_province_id]).try(:name)
-      cp            = client_address_matching(province_name, client[4].squish)
-
       district_name = District.find_by(id: options[:district_id]).try(:name)
-      cd            = client_address_matching(district_name, client[3].squish)
-
       commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
-      cc            = client_address_matching(commune_name, client[2].squish)
-
       village_name  = Village.find_by(id: options[:village_id]).try(:name)
-      cv            = client_address_matching(village_name, client[1].squish)
-
       birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
-      bp                  = birth_province_matching(birth_province_name, client[5].squish)
+      addresses_hash = { cp: province_name, cd: district_name, cc: commune_name, cv: village_name, bp: birth_province_name }
+      address_hash   = { cv: 1, cc: 2, cd: 3, cp: 4, bp: 5 }
 
-      match_percentages = [field_name, dob, cp, cd, cc, cv, bp]
-      if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
-        similar_fields << '#hidden_name_fields' if match_percentages[0].present?
-        similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
-        similar_fields << '#hidden_province' if match_percentages[2].present?
-        similar_fields << '#hidden_district' if match_percentages[3].present?
-        similar_fields << '#hidden_commune' if match_percentages[4].present?
-        similar_fields << '#hidden_village' if match_percentages[5].present?
-        similar_fields << '#hidden_birth_province' if match_percentages[6].present?
-        return similar_fields.uniq
+      shared_clients.compact.bsearch do |client|
+        client = client.split('&')
+        input_name_field  = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+        client_name_field = client[0].squish
+        field_name = compare_matching(input_name_field, client_name_field)
+        dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
+        addresses  = mapping_address(address_hash, addresses_hash, client)
+        match_percentages = [field_name, dob, *addresses]
+        if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
+          similar_fields << '#hidden_name_fields' if match_percentages[0].present?
+          similar_fields << '#hidden_date_of_birth' if match_percentages[1].present?
+          similar_fields << '#hidden_province' if match_percentages[2].present?
+          similar_fields << '#hidden_district' if match_percentages[3].present?
+          similar_fields << '#hidden_commune' if match_percentages[4].present?
+          similar_fields << '#hidden_village' if match_percentages[5].present?
+          similar_fields << '#hidden_birth_province' if match_percentages[6].present?
+          return similar_fields.uniq
+        end
       end
+      similar_fields.uniq
     end
 
-    similar_fields.uniq
-  end
+    def check_for_duplication(options, shared_clients)
+      the_address_code = options[:address_current_village_code]
+      case the_address_code&.size
+      when 4
+        results = District.get_district_name_by_code(the_address_code)
+      when 6
+        results = Commune.get_commune_name_by_code(the_address_code)
+      when 8
+        results = Village.get_village_name_by_code(the_address_code)
+      end
 
-  def self.check_for_duplication(options, shared_clients)
-    result = shared_clients.compact.bsearch do |client|
-      client = client.split('&')
-      input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
-      client_name_field    = client[0].squish
-      field_name = compare_matching(input_name_field, client_name_field)
-      dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
+      birth_province_name = Province.find_by_code(options[:birth_province_code])
+      address_hash = { cv: 1, cc: 2, cd: 3, cp: 4 }
+      result = shared_clients.compact.bsearch do |client|
+        client = client.split('&')
+        input_name_field     = "#{options[:given_name]} #{options[:family_name]} #{options[:local_family_name]} #{options[:local_given_name]}".squish
+        client_name_field    = client[0].squish
+        field_name = compare_matching(input_name_field, client_name_field)
+        dob        = date_of_birth_matching(options[:date_of_birth], client.last.squish)
+        addresses  = mapping_address(address_hash, results, client)
+        bp         = birth_province_matching(birth_province_name, client[5].squish)
+        match_percentages = [field_name, dob, *addresses, bp]
+        if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
+          return true
+        end
+      end
+      return false
+    end
 
-      # province_name = Province.find_by(id: options[:current_province_id]).try(:name)
-      # cp            = Client.client_address_matching(province_name, client[4].squish)
-
-      # district_name = District.find_by(id: options[:district_id]).try(:name)
-      # cd            = Client.client_address_matching(district_name, client[3].squish)
-
-      # commune_name  = Commune.find_by(id: options[:commune_id]).try(:name)
-      # cc            = Client.client_address_matching(commune_name, client[2].squish)
-
-      # village_name  = Village.find_by(id: options[:village_id]).try(:name)
-      # cv            = Client.client_address_matching(village_name, client[1].squish)
-
-      # birth_province_name = Province.find_by(id: options[:birth_province_id]).try(:name)
-      # bp                  = Client.birth_province_matching(birth_province_name, client[5].squish)
-
-      match_percentages = [field_name, dob]
-
-      if match_percentages.compact.present? && (match_percentages.compact.inject(:*) * 100) >= 75
-        binding.pry
-        return true
+    def mapping_address(address_hash, results, client)
+      address_hash.map do |k, v|
+        client_address_matching(results[k], client[v].squish) if results[k]
       end
     end
-    return false
   end
 
   def family
