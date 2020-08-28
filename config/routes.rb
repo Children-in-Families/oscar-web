@@ -269,6 +269,7 @@ Rails.application.routes.draw do
         collection do
           get :clients
           post 'clients/upsert' => 'organizations#upsert'
+          get 'clients/check_duplication' => 'organizations#check_duplication'
           get 'transactions/:tx_id' => 'organizations#transaction'
           put 'clients/update_links' => 'organizations#update_link'
         end
@@ -281,7 +282,6 @@ Rails.application.routes.draw do
       end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
-        get :compare, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
         resources :case_notes, only: [:create, :update, :delete, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]

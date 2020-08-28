@@ -31,4 +31,9 @@ class Commune < ActiveRecord::Base
       { commune_id: nil }
     end
   end
+
+  def self.get_commune_name_by_code(commune_code)
+    result = find_by(code: commune_code)
+    { cp: result.district&.province&.name, cd: result.district&.name, cc: result&.name }
+  end
 end
