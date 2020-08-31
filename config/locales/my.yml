@@ -372,6 +372,7 @@ my:
       birth_province: ေမြးရပ္ျပည္နယ္
       birth_province_id: ေမြးရပ္ျပည္နယ္
       cambodia: ကေမာၻဒီးယား
+      carer: Carer
       carer_name: Carer Name
       carer_phone: Carer Phone Number
       carer_email: Carer Email Address
@@ -461,6 +462,7 @@ my:
       referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
       referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
+      referee: Referee
       referee_relationship: Referee Relationship to Client
       referee_name: Referee Name
       referee_phone: Referee Phone Number

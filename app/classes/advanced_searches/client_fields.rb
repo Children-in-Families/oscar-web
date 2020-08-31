@@ -12,8 +12,12 @@ module AdvancedSearches
 
     def render
       group                 = format_header('basic_fields')
+      referee_group         = format_header('referee')
+      carer_group           = format_header('carer')
       number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
       text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
+      text_fields           << referee_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), referee_group) }
+      text_fields           << carer_text_fields.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), carer_group) }
       date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       csi_options           = AdvancedSearches::CsiFields.render
@@ -21,7 +25,7 @@ module AdvancedSearches
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
       custom_domain_scores_options  = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
 
-      search_fields = text_fields + drop_list_fields + number_fields + date_picker_fields
+      search_fields = text_fields.flatten + drop_list_fields + number_fields + date_picker_fields
 
       (search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options).select do |field|
         policy(Client).show?(field[:id].to_sym)
@@ -64,9 +68,16 @@ module AdvancedSearches
         'given_name', 'family_name',
         'local_given_name', 'local_family_name', 'family', 'slug', 'school_name',
         'other_info_of_exit', 'exit_note', 'main_school_contact', 'what3words', 'kid_id', 'code',
-        'referee_name', 'referee_phone', 'referee_email', 'carer_name', 'carer_phone', 'carer_email',
         'client_contact_phone', 'client_email_address', *setting_country_fields[:text_fields]
       ].compact
+    end
+
+    def referee_text_fields
+      ['referee_name', 'referee_phone', 'referee_email']
+    end
+
+    def carer_text_fields
+      ['carer_name', 'carer_phone', 'carer_email']
     end
 
     def current_user

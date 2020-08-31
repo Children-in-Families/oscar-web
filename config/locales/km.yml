@@ -374,6 +374,7 @@ km:
       birth_province: ស្រុកកំណើត
       birth_province_id: ស្រុកកំណើត
       cambodia: កម្ពុជា
+      carer: អ្នកថែទាំ
       carer_name: ឈ្មោះអ្នកថែទាំ
       carer_phone: លេខទូរស័ព្ទអ្នកថែទាំ
       carer_email: អ៊ីមែលអ្នកថែទាំ
@@ -463,6 +464,7 @@ km:
       referred_to_ec: បញ្ជួនទៅករណី EC
       referred_to_fc: បញ្ជួនទៅករណី FC
       referred_to_kc: បញ្ជួនទៅករណី KC
+      referee: អ្នកបញ្ជូន
       referee_relationship: ទំនាក់ទំនងរវាងអ្នកបញ្ជូននឹងអតិថិជន
       referee_name: ឈ្មោះអ្នកបញ្ជូន
       referee_phone: លេខទូរស័ព្ទអ្នកបញ្ជូន
