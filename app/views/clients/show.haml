@@ -262,7 +262,7 @@
                     = editable @client, :nickname, url: api_client_path(@client.id), pk: @client.id
 
               - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
-                - if policy(@client).show?(field.to_sym)
+                - if policy(@client).show?(field.to_sym) && current_organization.short_name == 'brc'
                   %tr
                     %td.spacing-first-col= t(".#{field}")
                     %td= @client.public_send(field.to_sym)
