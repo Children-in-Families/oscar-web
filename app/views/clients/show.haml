@@ -261,7 +261,7 @@
                     = @client.nickname
 
               - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
-                - if policy(@client).show?(field.to_sym)
+                - if policy(@client).show?(field.to_sym) && current_organization.short_name == 'brc'
                   %tr
                     %td.spacing-first-col= t(".#{field}")
                     %td= @client.public_send(field.to_sym)
@@ -276,7 +276,7 @@
                         = donor.name
 
               - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
-                - if policy(@client).show?(field_name.to_sym)
+                - if policy(@client).show?(field_name.to_sym) && current_organization.short_name == 'brc'
                   %tr
                     %td.spacing-first-col
                       = t("clients.form.#{field_name}")
