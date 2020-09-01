@@ -4,7 +4,7 @@
       %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
         %span{"aria-hidden" => "true"} ×
       %ul
-        %li= I18n.t('inline_help.clients.show.notes.lists.list1')
+        %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
       %div{ class: "col-md-#{ @client.referred? || @client.exit_ngo? ? '9' : '12' }"}
         %table.table.small.m-b-xs#main-info
@@ -63,7 +63,7 @@
                     %button.btn.btn-success.agree-btn{ disabled: 'disabled', data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }
                       = t('.accept')
                   - else
-                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
+                    %button.btn.btn-success.agree-btn{ data: { class_name: 'accept-client', disable_with: t('.accepting'), 'target' => "#accept-client", 'toggle' => 'modal', trigger: "hover", content: "#{Organization.ratanak? ? I18n.t('inline_help.clients.show.ratanak.accepted') : I18n.t('inline_help.clients.show.accepted')}", placement: "auto" } }= t('.accept')
 
                     = render 'clients/accept_client'
                 .col-xs-12
@@ -136,8 +136,8 @@
             = link_to client_assessments_path(@client), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.assessments.button', assessment: t('clients.show.assessment') )}", placement: "auto" } do
               %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
-                = t('.assessment')
-          - if can? :manage, CaseNote
+                = t('.asessment')
+          - if (can? :manage, CaseNote) || (can? :edit, CaseNote)
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?), data: { toggle: "popover", trigger: "hover", content: "#{I18n.t('inline_help.clients.case_notes.button')}", placement: "auto" } }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('clients.form.case_note')}", client_case_notes_path(@client)
           - if @client.has_any_quarterly_reports?
@@ -225,7 +225,7 @@
           %a.collapse-link
             .btn.btn-outline.btn-primary
               %i.fa.fa-chevron-up
-          - if (can? :manage, Client) || (can? :rud, Client)
+          - if (can? :manage, Client) || (can? :rud, Client) || (can? :edit, Client)
             %small
               = link_to edit_client_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.edit')}", placement: "auto" } do
                 .btn.btn-outline.btn-success
@@ -260,7 +260,7 @@
                   %td
                     = @client.nickname
 
-              - %w(marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
+              - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
                 - if policy(@client).show?(field.to_sym)
                   %tr
                     %td.spacing-first-col= t(".#{field}")

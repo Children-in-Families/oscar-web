@@ -1364,6 +1364,8 @@ th-TH:
       reject_client:
       rejected_note:
     form:
+      national_id_number: National ID Number
+      passport_number: Passport Number
       national_id: 'National ID'
       birth_cert: 'Birth Certificate'
       family_book: 'Family Book'
@@ -1973,6 +1975,8 @@ th-TH:
         report:
         status:
       clients:
+        national_id_number: National ID Number
+        passport_number: Passport Number
         national_id: 'National ID'
         birth_cert: 'Birth Certificate'
         family_book: 'Family Book'
@@ -4354,6 +4358,8 @@ th-TH:
       min_assessment:
       name:
       noted:
+      show_prev_assessment: Show previous assessment while completing new assessment
+      two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_note:
       case_note:
       max_case_note:

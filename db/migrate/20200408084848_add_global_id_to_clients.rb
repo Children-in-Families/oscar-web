@@ -1,11 +1,19 @@
 class AddGlobalIdToClients < ActiveRecord::Migration
   def up
-    change_column :clients, :global_id, :string
+    if column_exists?(:clients, :global_id)
+      change_column :clients, :global_id, :string
+    else
+      add_column :clients, :global_id, :string
+    end
+
     add_index :clients, :global_id if !index_exists?(:clients, :global_id)
 
-    execute <<-SQL.squish
-      UPDATE clients AS c SET global_id = encode(g.ulid, 'escape') FROM public.global_identity_tmp AS g WHERE g.client_id = c.id AND CAST(g.id as varchar) = c.global_id;
-    SQL
+
+    if table_exists?(:global_identity_tmp)
+      execute <<-SQL.squish
+        UPDATE clients AS c SET global_id = encode(g.ulid, 'escape') FROM public.global_identity_tmp AS g WHERE g.client_id = c.id AND CAST(g.id as varchar) = c.global_id;
+      SQL
+    end
   end
 
   def down

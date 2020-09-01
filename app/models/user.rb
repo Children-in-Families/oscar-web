@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientOverdueAndDueTodayForms
 
-  ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
+  ROLES = ['admin', 'manager', 'case worker', 'hotline officer', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
   LANGUAGES = { en: :english, km: :khmer, my: :burmese }.freeze
 
@@ -67,6 +67,7 @@ class User < ActiveRecord::Base
   scope :job_title_are,   ->        { where.not(job_title: '').pluck(:job_title).uniq }
   scope :department_are,  ->        { joins(:department).pluck('departments.name', 'departments.id').uniq }
   scope :case_workers,    ->        { where(roles: 'case worker') }
+  scope :hotline_officer,    ->        { where(roles: 'hotline officer') }
   scope :admins,          ->        { where(roles: 'admin') }
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
@@ -231,7 +232,7 @@ class User < ActiveRecord::Base
         end
       end
     end
-    { overdue_count: overdue.count, due_today_count: due_today.count, custom_overdue_count: customized_overdue.count, custom_due_today_count: customized_due_today.count }
+    { overdue_count: overdue.count, due_today_count: due_today.count, custom_overdue_count: customized_overdue.flatten.uniq.count, custom_due_today_count: customized_due_today.flatten.uniq.count }
   end
 
   def client_custom_field_frequency_overdue_or_due_today
@@ -241,19 +242,21 @@ class User < ActiveRecord::Base
   def user_custom_field_frequency_overdue_or_due_today
     if self.manager?
       entity_type_custom_field_notification(User.where('manager_ids && ARRAY[?]', self.id))
+    elsif self.hotline_officer?
+      entity_type_custom_field_notification(User.where(id: self.id))
     elsif self.admin?
       entity_type_custom_field_notification(User.all)
     end
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
-    if self.admin? || self.manager?
+    if self.admin? || self.manager? || self.hotline_officer?
       entity_type_custom_field_notification(Partner.all)
     end
   end
 
   def family_custom_field_frequency_overdue_or_due_today
-    if self.admin?
+    if self.admin? || self.hotline_officer?
       entity_type_custom_field_notification(Family.all)
     elsif self.manager?
       subordinate_users = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: self.id }).map(&:id)
@@ -316,6 +319,8 @@ class User < ActiveRecord::Base
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
       User.all
+    elsif user.hotline_officer?
+      User.where(id: user.id)
     elsif user.manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     end

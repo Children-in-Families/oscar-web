@@ -103,6 +103,7 @@ km:
   activerecord:
     attributes:
       carer:
+        email: អ៊ុីម៉ែលរបស់អ្នកថែទាំ
         name: ឈ្មោះអ្នកថែទាំ
         phone: លេខទូរស័ព្ទអ្នកថែទាំ
         carer_information: ព័ត៌មានអ្នកថែទាំ?
@@ -1557,6 +1558,8 @@ km:
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
     form:
+      national_id_number: National ID Number
+      passport_number: Passport Number
       neighbor_name: "Neighbor/Friend: Name"
       neighbor_phone: Phone Number
       dosavy_name: "DoSAVY: Name"
@@ -2410,6 +2413,8 @@ km:
       current_address: "%{column} - Current Address"
       other_address: "%{column} - Other Address"
       clients:
+        national_id_number: National ID Number
+        passport_number: Passport Number
         neighbor_name: "Neighbor/Friend: Name"
         neighbor_phone: Phone Number
         dosavy_name: "DoSAVY: Name"
@@ -5078,6 +5083,8 @@ km:
       min_assessment: រយៈពេលអប្បបរមារវាងការប៉ាន់ប្រមាណទី 1 និងទី 2
       name: ឈ្មោះ
       noted: 'ចំណាំ: ទីភ្នាក់ងារ USAID បានស្នើថា CSI មិនត្រូវបានប្រើសម្រាប់ការប៉ាន់ប្រមាណតាមតម្រូវការ។'
+      show_prev_assessment: Show previous assessment while completing new assessment
+      two_weeks_assessment_reminder: Send 2 notification at both 2 and 1 week prior to assessment
     case_note:
       case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា
