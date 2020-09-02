@@ -3,7 +3,7 @@ namespace :wtmy_data do
     task import: :environment do
       exit unless Rails.env.development?
       tenant_name = 'wtmy'
-      general_data_file = 'lib/devdata/general.xlsx'
+      general_data_file = 'lib/devdata/general_en.xlsx'
       service_data_file = 'lib/devdata/services/service.xlsx'
       begin
         # Organization.create_and_build_tenant(full_name: 'Shared', short_name: 'shared')
@@ -25,6 +25,7 @@ namespace :wtmy_data do
         Importer::Import.new('Quantitative Type', general_data_file).quantitative_types
         Importer::Import.new('Quantitative Case', general_data_file).quantitative_cases
         Rake::Task['client_importer:import'].invoke(tenant_name)
+        Setting.first.update(country_name: 'nepal')
         Rake::Task["field_settings:import"].invoke(tenant_name)
       rescue Apartment::TenantExists => e
         puts "Development environment tenant #{tenant_name} already exisits. If you want to delete this tenant then run `rake db:drop && rake db:setup` and run this rake task agin."
