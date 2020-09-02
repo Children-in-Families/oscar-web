@@ -148,8 +148,10 @@ module HoltImporter
         email      = workbook.row(row)[headers['*Email']]
         roles      = workbook.row(row)[headers['*Permission Level']].downcase
         password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
+        manager_first_name = workbook.row(row)[headers['Manager']]
+        manager_id = User.find_by(first_name: manager_first_name).try(:id)
 
-        User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: roles)
+        User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: roles, manager_id: manager_id)
       end
     end
   end
