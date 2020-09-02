@@ -6,6 +6,8 @@ class ClientColumnsVisibility
 
   def columns_collection
     {
+      national_id_number_: :national_id_number,
+      passport_number_: :passport_number,
       neighbor_name_: :neighbor_name,
       neighbor_phone_: :neighbor_phone,
       dosavy_name_: :dosavy_name,

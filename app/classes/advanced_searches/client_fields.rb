@@ -36,6 +36,8 @@ module AdvancedSearches
 
     def text_type_list
       [
+        'national_id_number',
+        'passport_number',
         'neighbor_name',
         'neighbor_phone',
         'dosavy_name',
@@ -54,7 +56,6 @@ module AdvancedSearches
         'other_agency_phone',
         'department',
         'education_background',
-        'location_of_concern',
         'id_number',
         'legacy_brcs_id',
         'other_phone_number',
@@ -81,6 +82,7 @@ module AdvancedSearches
 
     def drop_down_type_list
       [
+        ['location_of_concern', Client.where.not(location_of_concern: [nil, '']).distinct.pluck(:location_of_concern).map{ |a| { a => a }}],
         ['nationality', Client::NATIONALITIES.map{ |a| { a => a }}],
         ['ethnicity', Client::ETHNICITY.map{ |a| { a => a }}],
         ['type_of_trafficking', Client::TRAFFICKING_TYPES.map{ |a| { a => a }}],
