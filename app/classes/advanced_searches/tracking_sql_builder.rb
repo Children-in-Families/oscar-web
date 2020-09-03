@@ -26,7 +26,7 @@ module AdvancedSearches
 
       query_string  = get_query_string(results, 'tracking', properties_field)
 
-      properties_result = client_enrollment_trackings.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = client_enrollment_trackings.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
 
       client_ids = properties_result.pluck('client_enrollments.client_id').uniq
       {id: sql_string, values: client_ids}
