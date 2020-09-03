@@ -95,6 +95,8 @@ module ClientsHelper
 
   def columns_visibility(column)
     label_column = {
+      passport_number: t('datagrid.columns.clients.passport_number'),
+      national_id_number: t('datagrid.columns.clients.national_id_number'),
       marital_status: t('datagrid.columns.clients.marital_status'),
       nationality: t('datagrid.columns.clients.nationality'),
       ethnicity: t('datagrid.columns.clients.ethnicity'),
@@ -394,6 +396,13 @@ module ClientsHelper
 
   def default_columns_visibility(column)
     label_column = {
+      marital_status: t('datagrid.columns.clients.marital_status'),
+      nationality: t('datagrid.columns.clients.nationality'),
+      ethnicity: t('datagrid.columns.clients.ethnicity'),
+      location_of_concern: t('datagrid.columns.clients.location_of_concern'),
+      type_of_trafficking: t('datagrid.columns.clients.type_of_trafficking'),
+      education_background: t('datagrid.columns.clients.education_background'),
+      department: t('datagrid.columns.clients.department'),
       presented_id_:                  t('datagrid.columns.clients.presented_id'),
       id_number_:                     t('datagrid.columns.clients.id_number'),
       legacy_brcs_id_:                t('datagrid.columns.clients.legacy_brcs_id'),
@@ -413,7 +422,6 @@ module ClientsHelper
       settlement2_:                   t('datagrid.columns.other_address', column: t('datagrid.columns.clients.settlement2')),
       resident_own_or_rent2_:         t('datagrid.columns.other_address', column: t('datagrid.columns.clients.resident_own_or_rent2')),
       household_type2_:               t('datagrid.columns.other_address', column: t('datagrid.columns.clients.household_type2')),
-      live_with_: t('datagrid.columns.clients.live_with'),
       exit_reasons_: t('datagrid.columns.clients.exit_reasons'),
       exit_circumstance_: t('datagrid.columns.clients.exit_circumstance'),
       other_info_of_exit_: t('datagrid.columns.clients.other_info_of_exit'),
@@ -475,7 +483,6 @@ module ClientsHelper
       all_custom_csi_assessments_: t('datagrid.columns.clients.all_custom_csi_assessments', assessment: t('clients.show.assessment')),
       manage_: t('datagrid.columns.clients.manage'),
       changelog_: t('datagrid.columns.changelog'),
-      telephone_number_: t('datagrid.columns.clients.telephone_number'),
       subdistrict_: t('datagrid.columns.clients.subdistrict'),
       township_: t('datagrid.columns.clients.township'),
       postal_code_: t('datagrid.columns.clients.postal_code'),

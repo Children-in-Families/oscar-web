@@ -7,7 +7,7 @@ class UserNotification
     @user                                            = user
     @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today
-    @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
+    @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager? || @user.hotline_officer?
     @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
@@ -27,7 +27,7 @@ class UserNotification
     clients.each do |client|
       if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
         if client_ids.exclude?(client.id)
-          repeat_notifications = client.repeat_notifications_schedule
+          repeat_notifications = client.assessment_notification_dates(Setting.first)
           if(repeat_notifications.include?(Date.today))
             client_ids << client.id
           end
@@ -38,7 +38,7 @@ class UserNotification
         CustomAssessmentSetting.all.each do |custom_assessment|
           if client.eligible_custom_csi?(custom_assessment) && client.assessments.customs.any?
             if custom_client_ids.exclude?(client.id)
-              repeat_notifications = client.repeat_notifications_schedule(false)
+              repeat_notifications = client.assessment_notification_dates(custom_assessment)
               if(repeat_notifications.include?(Date.today))
                 custom_client_ids << client.id
               end

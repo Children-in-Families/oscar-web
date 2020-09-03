@@ -23,7 +23,7 @@ class ReferralsController < AdminController
   def create
     @referral = @client.referrals.new(referral_params)
     if @referral.save
-      @client.update_attributes(referred_external: true)
+      @client.update_attributes(referred_external: true) if find_external_system(@referral.referred_to)
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
     else
       render :new

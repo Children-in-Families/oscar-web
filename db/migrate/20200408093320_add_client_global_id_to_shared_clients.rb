@@ -1,5 +1,6 @@
 class AddClientGlobalIdToSharedClients < ActiveRecord::Migration
   def up
+    add_column :shared_clients, :global_id, :string unless column_exists?(:shared_clients, :global_id)
     change_column :shared_clients, :global_id, :string
     add_index :shared_clients, :global_id if !index_exists?(:shared_clients, :global_id)
     if schema_search_path == "\"shared\"" && column_exists?(:shared_clients, :global_id)

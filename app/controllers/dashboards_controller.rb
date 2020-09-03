@@ -35,7 +35,7 @@ class DashboardsController < AdminController
 
   def find_tasks
     @clients = find_clients
-    @users = find_users.order(:first_name, :last_name) unless current_user.case_worker?
+    @users = find_users&.order(:first_name, :last_name) || [] unless current_user.case_worker?
   end
 
   def find_users
@@ -47,7 +47,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    @user.clients.active_accepted_status.each do |client|
+    @user.clients.active_accepted_status.distinct.each do |client|
       overdue_tasks = []
       today_tasks = []
       upcoming_tasks = []

@@ -137,6 +137,7 @@ class Client < ActiveRecord::Base
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
   scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :active_accepted_status,                   ->        { where(status: ['Active', 'Accepted']) }
+  scope :referred_external,                        -> (external_system_name)       { joins(:referrals).where("clients.referred_external = ? AND referrals.ngo_name = ?", true, external_system_name) }
 
   def self.find_shared_client(options)
     similar_fields = []
@@ -308,11 +309,11 @@ class Client < ActiveRecord::Base
   def can_create_assessment?(default, value='')
     latest_assessment = assessments.customs.joins(:domains).where(domains: {custom_assessment_setting_id: value}).distinct
     if default
-      if assessments.defaults.count == 1
-        return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
-      elsif assessments.defaults.count >= 2
-        return assessments.defaults.latest_record.completed?
-      end
+      # if assessments.defaults.count == 1
+      #   return (Date.today >= (assessments.defaults.latest_record.created_at + assessment_duration('min')).to_date) && assessments.defaults.latest_record.completed?
+      # elsif assessments.defaults.count >= 2
+      # end
+      return assessments.defaults.count == 0 || assessments.defaults.latest_record.completed?
     else
       if latest_assessment.count == 1
         return (Date.today >= (latest_assessment.latest_record.created_at + assessment_duration('min', false)).to_date) && latest_assessment.latest_record.completed?
@@ -552,19 +553,24 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+
       next if !(Setting.first.enable_default_assessment) && !(Setting.first.enable_custom_assessment?)
       clients = joins(:assessments).active_accepted_status
+
       clients.each do |client|
-        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.count > 1
-          repeat_notifications = client.repeat_notifications_schedule
+        if Setting.first.enable_default_assessment && client.eligible_default_csi? && client.assessments.defaults.any?
+          repeat_notifications = client.assessment_notification_dates(Setting.first)
+
           if(repeat_notifications.include?(Date.today))
             CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
           end
         end
-        if Setting.first.enable_custom_assessment && client.assessments.customs.count > 1
+
+        if Setting.first.enable_custom_assessment && client.assessments.customs.any?
           custom_assessment_setting_ids = client.assessments.customs.map{|ca| ca.domains.pluck(:custom_assessment_setting_id ) }.flatten.uniq
+
           CustomAssessmentSetting.where(id: custom_assessment_setting_ids).each do |custom_assessment_setting|
-            repeat_notifications = client.repeat_notifications_schedule(false)
+            repeat_notifications = client.assessment_notification_dates(custom_assessment_setting)
             if(repeat_notifications.include?(Date.today)) && client.eligible_custom_csi?(custom_assessment_setting)
               CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
             end
@@ -612,24 +618,18 @@ class Client < ActiveRecord::Base
     assessments.customs.most_recents.first.created_at.to_date
   end
 
-  def repeat_notifications_schedule(default = true)
-    if default
-      most_recent_csi   = most_recent_csi_assessment
-    else
-      most_recent_csi   = most_recent_custom_csi_assessment
+  def assessment_notification_dates(setting)
+    recent_assessment_date = most_recent_csi_assessment
+
+    unless setting.instance_of?(Setting)
+      recent_assessment_date = assessments.customs.most_recents.joins(:domains).where(custom_assessment_setting_id: setting.id).first.created_at.to_date
     end
 
-    notification_date = most_recent_csi + 5.months + 15.days
-    next_one_week     = notification_date + 1.week
-    next_two_weeks    = notification_date + 2.weeks
-    next_three_weeks  = notification_date + 3.weeks
-    next_four_weeks   = notification_date + 4.weeks
-    next_five_weeks   = notification_date + 5.weeks
-    next_six_weeks    = notification_date + 6.weeks
-    next_seven_weeks  = notification_date + 7.weeks
-    next_eight_weeks  = notification_date + 8.weeks
+    next_assessment_date = recent_assessment_date + setting.max_assessment_duration
 
-    [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
+    Setting.first.two_weeks_assessment_reminder? ? [(next_assessment_date - 2.weeks), (next_assessment_date - 1.week)] : [next_assessment_date - 1.week]
+  rescue
+    []
   end
 
   def eligible_default_csi?

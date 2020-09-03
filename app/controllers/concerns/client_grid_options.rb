@@ -6,7 +6,7 @@ module ClientGridOptions
   def choose_grid
     if current_user.admin? || current_user.strategic_overviewer?
       admin_client_grid
-    elsif current_user.case_worker? || current_user.any_manager?
+    elsif current_user.case_worker? || current_user.any_manager? || current_user.hotline_officer?
       non_admin_client_grid
     end
   end

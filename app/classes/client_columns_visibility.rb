@@ -6,6 +6,8 @@ class ClientColumnsVisibility
 
   def columns_collection
     {
+      national_id_number_: :national_id_number,
+      passport_number_: :passport_number,
       neighbor_name_: :neighbor_name,
       neighbor_phone_: :neighbor_phone,
       dosavy_name_: :dosavy_name,
@@ -22,7 +24,6 @@ class ClientColumnsVisibility
       other_agency_name_: :other_agency_name,
       other_representative_name_: :other_representative_name,
       other_agency_phone_: :other_agency_phone,
-      live_with_: :live_with,
       exit_reasons_: :exit_reasons,
       exit_circumstance_: :exit_circumstance,
       other_info_of_exit_: :other_info_of_exit,
@@ -134,7 +135,6 @@ class ClientColumnsVisibility
       all_result_framework_assessments_: :all_result_framework_assessments,
       manage_: :manage,
       changelog_: :changelog,
-      telephone_number_: :telephone_number,
       commune_: :commune,
       village_: :village,
       created_at_: :created_at,

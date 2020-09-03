@@ -97,6 +97,8 @@ class ClientGrid < BaseGrid
       type_of_trafficking
       education_background
       department
+      national_id_number
+      passport_number
     ).each do |field_name|
 
     header = I18n.t("datagrid.columns.clients.#{field_name}")
@@ -161,9 +163,9 @@ class ClientGrid < BaseGrid
     Province.has_clients.map { |p| [p.name, p.id] }
   end
 
-  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
+  # filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') })
 
-  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
+  # filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
   # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
@@ -586,21 +588,21 @@ class ClientGrid < BaseGrid
     end
   end
 
-  column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    telephone_number = SharedClient.find_by(slug: object.slug).telephone_number
-    Organization.switch_to current_org.short_name
-    telephone_number
-  end
+  # column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }) do |object|
+  #   current_org = Organization.current
+  #   Organization.switch_to 'shared'
+  #   telephone_number = SharedClient.find_by(slug: object.slug).telephone_number
+  #   Organization.switch_to current_org.short_name
+  #   telephone_number
+  # end
 
-  column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') }) do |object|
-    current_org = Organization.current
-    Organization.switch_to 'shared'
-    live_with = SharedClient.find_by(slug: object.slug).live_with
-    Organization.switch_to current_org.short_name
-    live_with
-  end
+  # column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') }) do |object|
+  #   current_org = Organization.current
+  #   Organization.switch_to 'shared'
+  #   live_with = SharedClient.find_by(slug: object.slug).live_with
+  #   Organization.switch_to current_org.short_name
+  #   live_with
+  # end
 
   def client_hotline_fields
     Client::HOTLINE_FIELDS
@@ -719,15 +721,15 @@ class ClientGrid < BaseGrid
     object.referee && object.referee.email
   end
 
-  column(:carer_name, header: -> { I18n.t('datagrid.columns.clients.carer_name') }) do |object|
+  column(:carer_name, header: -> { I18n.t('activerecord.attributes.carer.name') }) do |object|
     object.carer && object.carer.name
   end
 
-  column(:carer_phone, header: -> { I18n.t('datagrid.columns.clients.carer_phone') }) do |object|
+  column(:carer_phone, header: -> { I18n.t('activerecord.attributes.carer.phone') }) do |object|
     object.carer && object.carer.phone
   end
 
-  column(:carer_email, header: -> { I18n.t('datagrid.columns.clients.carer_email') }) do |object|
+  column(:carer_email, header: -> { I18n.t('activerecord.attributes.carer.email') }) do |object|
     object.carer && object.carer.email
   end
 
@@ -816,7 +818,13 @@ class ClientGrid < BaseGrid
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  %w(
+  %w( marital_status
+      nationality
+      ethnicity
+      location_of_concern
+      type_of_trafficking
+      education_background
+      department
       presented_id
       id_number
       legacy_brcs_id
@@ -834,6 +842,8 @@ class ClientGrid < BaseGrid
       settlement2
       resident_own_or_rent2
       household_type2
+      national_id_number
+      passport_number
     ).each do |field_name|
     header = I18n.t("datagrid.columns.clients.#{field_name}")
     header = I18n.t('datagrid.columns.current_address', column: I18n.t("datagrid.columns.clients.#{field_name}")) if field_name.start_with?('current_')

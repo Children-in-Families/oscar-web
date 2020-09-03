@@ -1,10 +1,11 @@
 CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.AssessmentsUpdate = do ->
   _init = ->
-    formid = $('form.assessment-form').attr('id')
-    form   = $('#'+formid)
+    forms = $('form.assessment-form')
 
-    _formValidate(form)
-    _loadSteps(form)
+    for form in forms
+      _formValidate($(form))
+      _loadSteps($(form))
+
     _addTasks()
     _postTask()
     _addElement()
@@ -63,10 +64,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreColor = undefined
     domainId   = undefined
 
+    rootId = $(form).find(".root-wizard").attr("id")
+
+    return true if rootId == 'readonly-rootwizard'
+
     $('.score_option .btn-option').attr('required','required')
+
 
     # score with def
     $('.col-xs-12').on 'click', '.score_option .btn-option', ->
+      return if $(@).closest(".root-wizard").attr("id") == 'readonly-rootwizard'
+
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       currentTab  = "#rootwizard-p-#{currentIndex}"
       select = $(currentTab).find('textarea.goal')
@@ -118,6 +126,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
     $('.score_option input').attr('required','required')
     $('.col-xs-12').on 'click', '.score_option label', ->
+      return if $(@).closest(".root-wizard").attr("id") == 'readonly-rootwizard'
+
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       currentTab  = "#rootwizard-p-#{currentIndex}"
       select = $(currentTab).find('textarea.goal')
@@ -181,8 +191,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _loadSteps = (form) ->
     bodyTag = 'div'
     bodyTag = '.assessment-wizard-domain-item' if _disableRequiredFields()
+    rootId = "##{$(form).find(".root-wizard").attr("id")}"
 
-    $("#rootwizard").steps
+    $(rootId).steps
       headerTag: 'h4'
       bodyTag: bodyTag
       enableAllSteps: true
@@ -192,9 +203,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       labels:
         finish: 'Done'
       onInit: (event, currentIndex) ->
-        currentTab  = "#rootwizard-p-#{currentIndex}"
+        currentTab  = "#{rootId}-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
-        _formEdit(currentIndex)
+        _formEdit(rootId, currentIndex)
         _appendSaveCancel()
         _appendSaveButton()
         _handleAppendAddTaskBtn()
@@ -208,10 +219,11 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onStepChanging: (event, currentIndex, newIndex) ->
         console.log 'onStepChanging'
-        currentTab  = "#rootwizard-p-#{currentIndex}"
+        currentTab  = "#{rootId}-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
 
-        return true if _disableRequiredFields()
+        return true if _disableRequiredFields() || rootId == '#readonly-rootwizard'
+
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
 
@@ -219,21 +231,21 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _taskRequiredAtEnd(currentIndex)
         _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
 
-        if $("#rootwizard-p-" + currentIndex).hasClass('domain-last')
+        if $("#{rootId}-p-" + currentIndex).hasClass('domain-last')
           return true
         else
           console.log 'invalid'
-          _formEdit(currentIndex)
+          _formEdit(rootId, currentIndex)
           _filedsValidator(currentIndex, newIndex)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
         console.log 'onStepChanged'
-        currentTab  = "#rootwizard-p-#{currentIndex}"
+        currentTab  = "#{rootId}-p-#{currentIndex}"
         domainId = $("#{currentTab}").find('.score_option').data('domain-id')
-        currentStep = $("#rootwizard-p-" + currentIndex)
+        currentStep = $("#{rootId}-p-" + currentIndex)
 
         unless currentStep.hasClass('domain-last')
-          _formEdit(currentIndex)
+          _formEdit(rootId, currentIndex)
           $('a#btn-save').show()
 
         _handleAppendAddTaskBtn()
@@ -242,26 +254,26 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         _initTaskRequire()
         _handleDisplayTaskWarningMessage("#{currentTab}", domainId)
 
-        if currentStep.hasClass('domain-last') or $('#rootwizard').find('a[href="#finish"]:visible').length
-          if $('#rootwizard').find('a[href="#finish"]:visible').length
+        if currentStep.hasClass('domain-last') or $(rootId).find('a[href="#finish"]:visible').length
+          if $(rootId).find('a[href="#finish"]:visible').length
             console.log 'hiding save button'
-            $("#rootwizard a[href='#save']").hide()
+            $("#{rootId} a[href='#save']").hide()
           _toggleEndOfAssessmentMsg()
           _liveGoal()
 
-
       onFinishing: (event, currentIndex, newIndex) ->
         return true if _disableRequiredFields()
+        return false if rootId == '#readonly-rootwizard'
 
         form.validate().settings.ignore = ':disabled'
         form.valid()
 
         _taskRequiredAtEnd(currentIndex)
-        currentStep = $("#rootwizard-p-" + currentIndex)
+        currentStep = $("#{rootId}-p-" + currentIndex)
 
         if newIndex == undefined && currentStep.hasClass('domain-last')
           isTaskRequred = true
-          $.each $("#rootwizard-p-#{currentIndex} [id^='domain-task-section']"), (index, item) ->
+          $.each $("#{rootId}-p-#{currentIndex} [id^='domain-task-section']"), (index, item) ->
             if $(item).find('ol.tasks-list li').length
               $(item).find('.task_required').hide()
             else
@@ -273,13 +285,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
           _filedsValidator(currentIndex,newIndex)
 
       onFinished: ->
-        btnSaving = $('#rootwizard').data('saving')
+        return if rootId == '#readonly-rootwizard'
+
+        btnSaving = $(rootId).data('saving')
         $('a[href="#finish"]').addClass('btn disabled').css('font-size', '96%').text(btnSaving)
         $('.actions a:contains("Done")').removeAttr('href')
         form.submit()
 
   _appendSaveButton = ->
-    unless $('#rootwizard').find('a[href="#finish"]:visible').length
+    if $('#rootwizard').find('a[href="#finish"]:visible').length == 0 && $("#btn-save").length == 0
       $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
   _appendSaveCancel = ->
     unless $('#rootwizard').find('a[id="btn-cancel"]:visible').length
@@ -303,8 +317,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
               $("a[href='#save']").addClass('disabled').text(btnSaving)
         form.submit()
 
-  _formEdit = (currentIndex) ->
-    currentTab  = "#rootwizard-p-#{currentIndex}"
+  _formEdit = (rootId, currentIndex) ->
+    currentTab  = "#{rootId}-p-#{currentIndex}"
 
     if $("#{currentTab} .score_option.with-def").length > 0
       scoreOption = $("#{currentTab} .score_option.with-def")
@@ -391,6 +405,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
+      console.log 'post task'
+
       $('.task_required').hide()
       $('.add-task-btn').attr('disabled','disabled')
       e.preventDefault()
