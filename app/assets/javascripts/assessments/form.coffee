@@ -304,18 +304,17 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $(document).on 'click', "#rootwizard a[href='#save']", ->
       currentIndex = $("#rootwizard").steps("getCurrentIndex")
       newIndex = currentIndex + 1
-
-      if !_disableRequiredFields() && (!form.valid() || !_validateScore(form) || !_filedsValidator(currentIndex, newIndex))
+      if !_disableRequiredFields() && (!$(form).valid() || !_validateScore(form) || !_filedsValidator(currentIndex, newIndex))
         _filedsValidator(currentIndex, newIndex)
         _scrollToError(form)
         return false
       else
         unless _disableRequiredFields()
           form.submit (e) ->
-            if form.valid()
+            if $(form).valid()
               btnSaving = $('#rootwizard').data('saving')
               $("a[href='#save']").addClass('disabled').text(btnSaving)
-        form.submit()
+        $(form).submit()
 
   _formEdit = (rootId, currentIndex) ->
     currentTab  = "#{rootId}-p-#{currentIndex}"
