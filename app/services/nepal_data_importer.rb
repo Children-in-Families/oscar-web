@@ -156,6 +156,7 @@ module NepalDataImporter
         new_client['house_number']        = workbook.row(row_index)[headers['Address - House Number']]
         new_client['street_number']       = workbook.row(row_index)[headers['Address - Street']]
         new_client['code']                = workbook.row(row_index)[headers['Custom ID Number 1']]
+        new_client['kid_id']              = workbook.row(row_index)[headers['Custom ID Number 2']]
         case_worker_name                  = workbook.row(row_index)[headers['* Case Worker / Staff']]
         case_worker_name                  = case_worker_name[/WTMY/] ? case_worker_name : case_worker_name.split(' ').first
         new_client['user_id']             = User.find_by(first_name: case_worker_name).try(:id)
