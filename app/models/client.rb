@@ -750,7 +750,7 @@ class Client < ActiveRecord::Base
 
   def remove_family_from_case_worker(case_worker_client)
     unless case_worker_client.user.families.any?{ |family| family.clients.joins(:case_worker_clients).where(case_worker_clients: {user_id: user.id}).exists? }
-      case_worker_client.user.families.update(user_id: nil)
+      case_worker_client.user.families.update_all(user_id: nil)
     end
   end
 
