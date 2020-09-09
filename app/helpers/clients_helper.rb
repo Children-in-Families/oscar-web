@@ -1,7 +1,7 @@
 module ClientsHelper
 
-  def xeditable? object = nil
-    can?(:edit, object) ? true : false
+  def xeditable? client = nil
+    (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
   end
 
   def user(user, editable_input=false)
