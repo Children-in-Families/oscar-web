@@ -26,7 +26,6 @@ module Api
         date_time_param = Time.parse(params[:since_date]) if params[:since_date].present?
         Organization.only_integrated.pluck(:short_name).map do |short_name|
           Organization.switch_to short_name
-          puts "=============================#{short_name}==============================="
           sql = "
                   SELECT clients.*, districts.code district_code, communes.code commune_code, villages.code village_code
                   FROM clients
