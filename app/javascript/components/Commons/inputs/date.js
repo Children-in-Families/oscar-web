@@ -32,7 +32,7 @@ export default props => {
     if(date && date.getFullYear() > 1900){
       onChange({data: formatDateToString(date), type: 'date'})
       setDate(date)
-    } else if(date){
+    } else if(value && new Date(value).getFullYear() > 1970){
       onChange({data: formatDateToString(new Date(value)), type: 'date'})
       setDate(value)
     } else {
