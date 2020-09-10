@@ -72,6 +72,7 @@ export default props => {
       street_number: same ? client.street_number : '',
       house_number: same ? client.house_number : '',
       current_address: same ? client.current_address : '',
+      locality: same ? client.locality : '',
       address_type: same ? client.address_type : '',
       outside_address: same ? client.outside_address : ''
     }
@@ -112,6 +113,7 @@ export default props => {
       current_address: object.current_address,
       address_type: object.address_type,
       outside_address: object.outside_address,
+      locality: object.locality,
       street_line1: object.street_line1,
       street_line2: object.street_line2,
       plot: object.plot,

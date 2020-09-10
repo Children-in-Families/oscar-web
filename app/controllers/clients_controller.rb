@@ -158,6 +158,7 @@ class ClientsController < AdminController
 
   def update
     new_params = @client.current_family_id ? client_params : client_params.except(:family_ids)
+    binding.pry
     if @client.update_attributes(client_params.except(:family_ids))
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
@@ -231,7 +232,7 @@ class ClientsController < AdminController
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id, :global_id, :shared_service_enabled,
-            :follow_up_date, :school_grade, :school_name, :current_address,
+            :follow_up_date, :school_grade, :school_name, :current_address, :locality,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care, :external_id, :external_id_display, :mosvy_number,
             :relevant_referral_information, :province_id, :current_family_id, :reason_for_referral,
@@ -318,7 +319,7 @@ class ClientsController < AdminController
     current_org = Organization.current.short_name
     Organization.switch_to 'shared'
     @birth_provinces = []
-    ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
+    Organization.pluck(:country).uniq.reject(&:blank?).map{ |country| @birth_provinces << [country.titleize, Province.country_is(country).map{|p| [p.name, p.id] }] }
     Organization.switch_to current_org
 
     if selected_country&.downcase == 'thailand'

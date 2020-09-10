@@ -169,7 +169,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      Organization.pluck(:country).uniq.reject(&:blank?).each{ |country| provinces << Province.country_is(country).map{|p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } } }
       Organization.switch_to current_org
       provinces.flatten
     end
@@ -179,7 +179,7 @@ module AdvancedSearches
     end
 
     def communes
-      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name_kh} / #{commune.name_en} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
+      Commune.joins(:clients, district: :province).distinct.map{|commune| ["#{commune.name} (#{commune.code})", commune.id]}.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def villages
@@ -252,17 +252,6 @@ module AdvancedSearches
     def setting_country_fields
       country = Setting.first.try(:country_name) || 'cambodia'
       case country
-      when 'cambodia'
-        {
-          text_fields: ['house_number', 'street_number'],
-          drop_down_fields: [
-            ['province_id', provinces],
-            ['district_id', districts],
-            ['birth_province_id', birth_provinces],
-            ['commune_id', communes],
-            ['village_id', villages]
-          ]
-        }
       when 'lesotho'
         {
           text_fields: ['suburb', 'directions', 'description_house_landmark'],
@@ -283,7 +272,19 @@ module AdvancedSearches
           text_fields: ['house_number', 'street_number'],
           drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces], ['commune_id', communes], ['village_id', villages] ]
         }
+      else
+        {
+          text_fields: ['house_number', 'street_number'],
+          drop_down_fields: [
+            ['province_id', provinces],
+            ['district_id', districts],
+            ['birth_province_id', birth_provinces],
+            ['commune_id', communes],
+            ['village_id', villages]
+          ]
+        }
       end
+
     end
 
     def rated_id_poor

@@ -2,7 +2,7 @@ namespace :gazetteer_address do
   desc "Download address spreasheet from gazetteer database"
   task download: :environment do
     page = MetaInspector.new("http://db.ncdd.gov.kh/gazetteer/view/index.castle")
-    binding.pry
+
     page.images.each do |image_url|
       image_url = image_url.gsub("http://thumbs.nonameporn.com/", "http://pics.nonameporn.com/")
       open(image_url) {|f|

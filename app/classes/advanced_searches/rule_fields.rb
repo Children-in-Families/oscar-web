@@ -85,7 +85,7 @@ module AdvancedSearches
       current_org = Organization.current.short_name
       provinces = []
       Organization.switch_to 'shared'
-      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar', 'Uganda'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
+      Organization.pluck(:country).uniq.reject(&:blank?).each{ |country| provinces << Province.country_is(country).map{|p| { value: p.id.to_s, label: p.name, optgroup: country.titleize } } }
       Organization.switch_to current_org
       provinces.flatten
     end

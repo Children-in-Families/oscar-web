@@ -1717,6 +1717,7 @@ th-TH:
       live_with:
       local_family_name:
       local_given_name:
+      locality: Locality
       main_school_contact:
       manage:
       name:
@@ -1746,6 +1747,7 @@ th-TH:
       province:
       received_by:
       refer_client:
+      referee_called_before:
       referee_phone_number:
       referral_forms:
       referral_phone:

@@ -90,7 +90,7 @@ module Api
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id, :current_family_id,
-            :follow_up_date, :school_grade, :school_name, :current_address,
+            :follow_up_date, :school_grade, :school_name, :current_address, :locality,
             :house_number, :street_number, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care, :shared_service_enabled,
             :relevant_referral_information, :province_id, :global_id, :external_id, :external_id_display, :mosvy_number,
@@ -193,14 +193,14 @@ module Api
     def referee_params
       params.require(:referee).permit(
         :name, :phone, :outside, :address_type, :commune_id, :current_address, :district_id, :email, :gender, :house_number, :outside_address, :province_id, :street_number, :village_id, :anonymous,
-        :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions
+        :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions, :locality
       )
     end
 
     def carer_params
       params.require(:carer).permit(
         :name, :phone, :outside, :address_type, :current_address, :email, :gender, :house_number, :street_number, :outside_address, :commune_id, :district_id, :province_id,  :village_id, :client_relationship, :same_as_client,
-        :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions
+        :state_id, :township_id, :subdistrict_id, :street_line1, :street_line2, :plot, :road, :postal_code, :suburb, :description_house_landmark, :directions, :locality
       )
     end
 
