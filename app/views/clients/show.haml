@@ -15,7 +15,8 @@
                   = image_tag @client.profile.photo, alt: @client.profile.file.filename, id: 'client_photo'
               %td
                 = "#{t('.name')} :"
-                = @client.name
+                = editable @client, :given_name, value: @client.given_name, url: api_client_path(@client.id), pk: @client.id
+                = editable @client, :family_name, value: @client.family_name, url: api_client_path(@client.id), pk: @client.id
               - if @client.status
                 %td
                   %a{:role => "button", :tabIndex => "0",  data:{ toggle: "popover", html: 'true', trigger: "focus", content: "#{I18n.t('inline_help.clients.show.status')}" } }
@@ -30,11 +31,11 @@
                 %strong= @client.slug
               %td
                 = "#{t('.gender')} :"
-                %strong= @client.gender.try(:capitalize)
+                %strong= editable @client, :gender, type: :select, source: [Client::GENDER_OPTIONS, I18n.t('default_client_fields.gender_list').values].transpose.to_h, value: @client.gender, url: api_client_path(@client.id), pk: @client.id
             %tr
               %td
                 = "#{t('.date_of_birth')} :"
-                %strong= @client.date_of_birth_format
+                %strong= editable @client, :date_of_birth, type: :date, value: @client.date_of_birth_format, url: api_client_path(@client.id), pk: @client.id, placement: 'bottom'
               %td
                 = "#{t('created_by')} #{whodunnit('Client', @client.id)} #{t('at')} #{ date_format @client.created_at }"
             %tr
@@ -45,7 +46,7 @@
               %td
                 - if policy(@client).show?(:province)
                   = "#{t('.current_province')} :"
-                  %strong= @client.current_province
+                  %strong= editable @client, :province_id, type: :select2, source: @current_provinces, value: @client.province&.name, url: api_client_path(@client.id), pk: @client.id
       .col-md-3
         - if @client.status == 'Referred'
           .row
@@ -54,9 +55,9 @@
                 - if current_setting.use_screening_assessment? && @client.referred?
                   .col-xs-12
                     - if @client.require_screening_assessment?(current_setting)
-                      = link_to 'Complete Screening Assessment', new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+                      = link_to t('.complete_screening_assessment'), new_client_custom_field_property_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
                     - elsif @client.custom_fields.include?(current_setting.screening_assessment_form)
-                      = link_to 'View Screening Assessment', client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
+                      = link_to t('.view_screening_assessment'), client_custom_field_properties_path(@client, custom_field_id: current_setting.screening_assessment_form), class: 'btn btn-success'
 
                 .col-xs-12{ class: "#{'mini-margin' if current_setting.use_screening_assessment? && @client.referred? }" }
                   - if @client.require_screening_assessment?(current_setting) || (@client.calls.any? && @client.calls.most_recents.first.case_action_not_required?)
@@ -192,7 +193,7 @@
           = link_to client_client_enrollments_path(@client), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.clients.show.enroll_program')}", placement: "auto" } do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
-          - if government_forms_visible? && policy(@client).show?(:government_forms)
+          - if government_forms_visible? && policy(@client).show?(:government_forms) && current_organization&.country != 'nepal'
             .btn-group.small-btn-margin
               %button.btn.btn-sm.btn-success.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
                 = t('.government_forms')
@@ -245,23 +246,23 @@
                     = current_organization.short_name == 'brc' ? t('clients.form.local_given_name') : "#{t('clients.form.local_given_name')} #{country_scope_label_translation}"
                   %td
                     %strong
-                      = @client.local_given_name
+                      = editable @client, :local_given_name, url: api_client_path(@client.id), pk: @client.id
               - if policy(@client).show?(:local_family_name)
                 %tr
                   %td.spacing-first-col
                     = current_organization.short_name == 'brc' ? t('clients.form.local_family_name') : "#{t('clients.form.local_family_name')} #{country_scope_label_translation}"
                   %td
                     %strong
-                      = @client.local_family_name
+                      = editable @client, :local_family_name, url: api_client_path(@client.id), pk: @client.id
               - if current_setting.try(:enable_hotline) == true
                 %tr
                   %td.spacing-first-col
                     = t('.nickname')
                   %td
-                    = @client.nickname
+                    = editable @client, :nickname, url: api_client_path(@client.id), pk: @client.id
 
               - %w(national_id_number passport_number marital_status nationality ethnicity location_of_concern type_of_trafficking).each do |field|
-                - if policy(@client).show?(field.to_sym)
+                - if policy(@client).show?(field.to_sym) && current_organization.short_name == 'brc'
                   %tr
                     %td.spacing-first-col= t(".#{field}")
                     %td= @client.public_send(field.to_sym)
@@ -271,20 +272,19 @@
                   %td.spacing-first-col
                     = t('.donor')
                   %td
-                    - client_donors.each do|donor|
-                      %strong.label.label-default.donor
-                        = donor.name
-
-              - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
-                - if policy(@client).show?(field_name.to_sym)
-                  %tr
-                    %td.spacing-first-col
-                      = t("clients.form.#{field_name}")
-                    %td.address
-                      %strong
-                        = @client.public_send(field_name.to_sym)
-
-
+                    %strong
+                      - client_donors.each do|donor|
+                        %strong.label.label-default.donor
+                          = donor.name
+              - if current_organization.short_name == 'brc'
+                - %w(presented_id id_number legacy_brcs_id brsc_branch client_phone whatsapp other_phone_number other_phone_whatsapp).each do |field_name|
+                  - if policy(@client).show?(field_name.to_sym)
+                    %tr
+                      %td.spacing-first-col
+                        = t("clients.form.#{field_name}")
+                      %td.address
+                        %strong
+                          = editable @client, field_name.to_sym, value: @client.public_send(field_name.to_sym), url: api_client_path(@client.id), pk: @client.id
               - if current_organization.short_name == 'brc'
                 %tr
                   %td.spacing-first-col
@@ -305,6 +305,13 @@
                   %td.address
                     %strong
                       = country_address_field(@client)
+              - if @client.locality.present?
+                %tr
+                  %td.spacing-first-col
+                    = t('.locality')
+                  %td.address
+                    %strong
+                      = @client.locality
               - if current_setting.try(:enable_hotline) == true
                 %tr
                   %td.spacing-first-col
@@ -328,7 +335,8 @@
                     = t(".province.#{@client.country_origin_label}")
                   %td
                     %strong
-                      = @client.birth_province
+                      %strong= editable @client, :birth_province_id, type: :select2, source: @birth_provinces, value: @client.birth_province, url: api_client_path(@client.id), pk: @client.id
+
               %tr
                 %td.spacing-first-col
                   = t('.name_of_referee')
@@ -361,7 +369,7 @@
                     = t('.is_the_client_rated_for_id_poor')
                   %td
                     %strong
-                      = @client.rated_for_id_poor
+                      = editable @client, :rated_for_id_poor, type: :select, source: [Client::CLIENT_LEVELS, t('clients.level').values].transpose.to_h, value: @client.rated_for_id_poor, url: api_client_path(@client.id), pk: @client.id
 
               - if policy(@client).show?(:custom_ids)
                 %tr
@@ -369,13 +377,13 @@
                     = custom_id_translation('custom_id1')
                   %td
                     %strong
-                      = @client.code
+                      = editable @client, :code, value: @client.code, url: api_client_path(@client.id), pk: @client.id
                 %tr
                   %td.spacing-first-col
                     = custom_id_translation('custom_id2')
                   %td
                     %strong
-                      = @client.kid_id
+                      = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
               %tr
                 %td.spacing-first-col
                   = t('.time_in_ngo')
@@ -415,13 +423,15 @@
                   = t('.received_by')
                 %td
                   %strong
-                    = user @client.received_by
+                    = editable @client, :received_by_id, type: :select2, source: case_workers_option(@client.id, true), value: @client.received_by&.name, url: api_client_path(@client.id), pk: @client.id
+                    = user @client.received_by, true
               %tr
                 %td.spacing-first-col
                   = t('.followed_up_by')
                 %td
                   %strong
-                    = user @client.followed_up_by
+                    = editable @client, :followed_up_by_id, type: :select2, source: case_workers_option(@client.id, true), value: @client.followed_up_by&.name, url: api_client_path(@client.id), pk: @client.id
+                    = user @client.followed_up_by, true
 
               - if policy(@client).show?(:department)
                 %tr
@@ -444,13 +454,13 @@
                   = t('.initial_referral_date')
                 %td
                   %strong
-                    = @client.referral_date
+                    = editable @client, :initial_referral_date, type: :date, value: date_format(@client.initial_referral_date), url: api_client_path(@client.id), pk: @client.id
               %tr
                 %td.spacing-first-col
                   = t('.follow_up_date')
                 %td
                   %strong
-                    = date_format(@client.follow_up_date)
+                    = editable @client, :follow_up_date, type: :date, value: date_format(@client.follow_up_date), url: api_client_path(@client.id), pk: @client.id
 
               - %w(school_name school_grade main_school_contact education_background).each do |field|
                 - if policy(@client).show?(field.to_sym)
@@ -459,7 +469,11 @@
                       = t("clients.form.#{field}")
                     %td
                       %strong
-                        = @client.public_send(field.to_sym)
+                        - if field == 'school_grade'
+                          = editable @client, :school_grade, type: :select2, source: [Client::GRADES, t('advanced_search.fields.school_grade_list').values].transpose.map{|v, t| { text: t.to_s, value: v.to_s } }, value: @client.school_grade, url: api_client_path(@client.id), pk: @client.id
+                        - else
+                          = editable @client, field.to_sym, value: @client.public_send(field.to_sym), url: api_client_path(@client.id), pk: @client.id
+
 
               - if policy(@client).show?(:relevant_referral_information)
                 %tr
@@ -467,7 +481,7 @@
                     = t('.relevant_referral_information')
                   %td
                     %strong
-                      = @client.relevant_referral_information
+                      = editable @client, :relevant_referral_information, type: :textarea, value: @client.relevant_referral_information, url: api_client_path(@client.id), pk: @client.id
               %tr
                 %td.spacing-first-col
                   = t('.agencies_involved')
@@ -494,7 +508,7 @@
                     = t('.phone_counselling_summary')
                   %td
                     %strong
-                      = @client.phone_counselling_summary
+                      = editable @client, :phone_counselling_summary, value: @client.phone_counselling_summary, url: api_client_path(@client.id), pk: @client.id
 
         - if @client.quantitative_cases.any?
           .row

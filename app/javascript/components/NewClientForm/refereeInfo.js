@@ -9,7 +9,7 @@ import { t } from '../../utils/i18n'
 
 
 export default props => {
-  const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, hintText, data: { referees, refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, currentStates, refereeTownships, refereeSubdistricts, referralSourceCategory, referralSource, errorFields, addressTypes, T} } = props
+  const { onChange, renderAddressSwitch, fieldsVisibility, translation, current_organization, hintText, data: { referees, refereeDistricts, refereeCommunes, refereeVillages, referee, client, currentProvinces, currentStates, refereeTownships, refereeSubdistricts, referralSourceCategory, referralSource, errorFields, addressTypes, locality, T} } = props
 
   const [districts, setDistricts]         = useState(refereeDistricts)
   const [communes, setCommunes]           = useState(refereeCommunes)
@@ -44,6 +44,7 @@ export default props => {
         street_number: '',
         house_number: '',
         current_address: '',
+        locality: '',
         outside_address: '',
         address_type: '',
         province_id: null,
@@ -108,6 +109,7 @@ export default props => {
         house_number: '',
         current_address: '',
         address_type: '',
+        locality: '',
         outside_address: ''
       }
 
@@ -168,7 +170,7 @@ export default props => {
       adult
     })({ type: "select" });
 
-    onChange('client', { referral_source_category_id: null, referral_source_id: null })({type: 'select'}) 
+    onChange('client', { referral_source_category_id: null, referral_source_id: null })({type: 'select'})
   }
 
   const renderNameField = () => {
@@ -225,7 +227,7 @@ export default props => {
           <RadioGroup
             inline
             required
-            label={'Has the Referee already referred a client to this NGO through OSCaR in the past?'}
+            label={t(translation, 'clients.form.referee_called_before')}
             options={yesNoOpts}
             onChange={onChangeExistingReferree}
             value={referee.existing_referree }

@@ -1,0 +1,19 @@
+# More informations you can find here: https://github.com/werein/x-editable-rails
+class_options:
+  MailingList:
+    name: Mailing list name
+    enabled:
+      type: select
+      source:
+        - Active
+        - Disabled
+    reply_email:
+      type: email
+      title: Reply-to email
+  User:
+    email:
+      type: email
+    password:
+      type: password
+    mailing_lists:
+      type: select

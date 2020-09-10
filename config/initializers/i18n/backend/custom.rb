@@ -25,7 +25,7 @@ module I18n::Backend::Custom
   def load_translations(*filenames)
     filenames = I18n.load_path if filenames.empty?
     filenames.flatten.each { |filename| load_file(filename) }
-
+    nepal_commune_mapping if Setting.first&.country_name == 'nepal'
     load_custom_labels if ActiveRecord::Base.connection.table_exists? 'field_settings'
   end
 
@@ -36,10 +36,8 @@ module I18n::Backend::Custom
 
       next if field_setting.label.blank?
       next if data.blank?
-
       paths = data.full_paths(field_setting.name)
       next if paths.blank?
-
       paths.each do |path|
         next if path.count > 1 && !field_setting.possible_key_match?(path)
         data = translations[I18n.locale]
@@ -60,6 +58,34 @@ module I18n::Backend::Custom
     end
   end
 
+  def nepal_commune_mapping
+    commune_fields = %w[chief_commune_name concern_commune_id commune initial_commune commune_id commune_en commune_kh concern_district_id district district_en district_kh current_province_en].freeze
+    commune_fields.each do |locale_key|
+      data = translations[I18n.locale]
+      data.extend(HashDeepTraverse)
+
+      next if data.blank?
+      paths = data.full_paths(locale_key)
+      next if paths.blank?
+      paths.each do |path|
+        next unless path.include?(locale_key.to_sym)
+        data = translations[I18n.locale]
+        path.each do |k|
+          if k == path.last
+            if k =~ /province/
+              data[k] = data[k].gsub(/province\s\(.*\)/i, 'Province')
+            elsif k =~ /district/
+              data[k] = data[k].gsub(/district.*khan/i, 'District')
+            else
+              data[k] = data[k].gsub(/commune.*sangkat|commune|commune\s\(.*\)/i, 'Municipality')
+            end
+          else
+            data = data[k]
+          end
+        end
+      end
+    end
+  end
   alias_method :override_translation, :load_custom_labels
 end
 

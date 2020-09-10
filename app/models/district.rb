@@ -27,4 +27,9 @@ class District < ActiveRecord::Base
       { district_id: nil }
     end
   end
+
+  def self.get_district_name_by_code(district_code)
+    result = find_by(code: district_code)
+    { cp: result.province&.name, cd: result&.name }
+  end
 end

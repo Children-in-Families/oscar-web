@@ -1,9 +1,22 @@
 module ClientsHelper
-  def user(user)
-    if can? :read, User
-      link_to user.name, user_path(user) if user.present?
-    elsif user.present?
-      user.name
+
+  def xeditable? client = nil
+    (can?(:manage, client&.object) || can?(:edit, client&.object) || can?(:rud, client&.object)) ? true : false
+  end
+
+  def user(user, editable_input=false)
+    if !editable_input
+      if can? :read, User
+        link_to user.name, user_path(user) if user.present?
+      elsif user.present?
+        user.name
+      end
+    else
+      if user.present? && can?(:read, User)
+        link_to user_path(user) do
+          fa_icon 'external-link'
+        end
+      end
     end
   end
 
@@ -677,7 +690,7 @@ module ClientsHelper
     if form_type == 'formbuilder'
       properties_result = object.where(query_string.reject(&:blank?).join(" AND "))
     else
-      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream, status: 'Active' }).where(query_string.reject(&:blank?).join(" AND "))
+      properties_result = object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" AND "))
     end
   end
 
@@ -1050,13 +1063,21 @@ module ClientsHelper
     rule[/^(#{params['all_values']})/i].present? || object.blank? || results.blank? || results.class.name[/activerecord/i].present?
   end
 
-  def case_workers_option(client_id)
+  def case_workers_option(client_id, editable_input=false)
     @users.map do |user|
       tasks = user.tasks.incomplete.where(client_id: client_id)
-      if tasks.any?
-        [user.name, user.id, { locked: 'locked'} ]
+      if !editable_input
+        if tasks.any?
+          [user.name, user.id, { locked: 'locked'} ]
+        else
+          [user.name, user.id]
+        end
       else
-        [user.name, user.id]
+        if tasks.any?
+          { text: user.name, value: user.id, locked: 'locked' }
+        else
+          { text: user.name, value: user.id }
+        end
       end
     end
   end
@@ -1094,6 +1115,7 @@ module ClientsHelper
 
 
   def country_scope_label_translation
+    return '' if Setting.first.try(:country_name) == 'nepal'
     if I18n.locale.to_s == 'en'
       country_name = Setting.first.try(:country_name)
       case country_name
